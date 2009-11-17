@@ -366,11 +366,13 @@ class DatabaseRightsDataManager extends RightsDataManager
         {
             throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
         }
+
         $defaultProp = array();
         foreach (RightsTemplateRightLocation :: get_default_property_names() as $prop)
         {
             $defaultProp[$prop] = $record[$prop];
         }
+
         return new RightsTemplateRightLocation($defaultProp);
     }
 
