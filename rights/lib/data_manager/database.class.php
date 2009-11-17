@@ -911,11 +911,13 @@ class DatabaseRightsDataManager extends RightsDataManager
     function update_rights_template($rights_template)
     {
         $where = $this->escape_column_name(RightsTemplate :: PROPERTY_ID) . '=' . $rights_template->get_id();
+
         $props = array();
         foreach ($rights_template->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
         }
+
         $this->connection->loadModule('Extended');
         $this->connection->extended->autoExecute($this->get_table_name('rights_template'), $props, MDB2_AUTOQUERY_UPDATE, $where);
         return true;
@@ -965,6 +967,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $query = 'DELETE FROM ' . $this->escape_table_name('rights_template_right_location') . ' WHERE ';
         $query .= $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID) . ' NOT IN (SELECT ' . $this->escape_column_name(Location :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name('location') . ') OR ';
         $query .= $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID) . ' NOT IN (SELECT ' . $this->escape_column_name(RightsTemplate :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name('rights_template') . ')';
+
         $res = $this->database->query($query);
         return $res;
     }
