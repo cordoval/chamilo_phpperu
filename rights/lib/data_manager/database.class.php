@@ -154,9 +154,17 @@ class DatabaseRightsDataManager extends RightsDataManager
 
     function delete_rights_template_right_location($rights_templaterightlocation)
     {
-        $query = 'DELETE FROM ' . $this->escape_table_name('rights_template_right_location') . ' WHERE ' . $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHT_ID) . ' = ' . $this->database->quote($rights_templaterightlocation->get_right_id()) . ' AND ' . $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID) . '= '. $this->database->quote($rights_templaterightlocation->get_rights_template_id()) .' AND ' . $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID) . ' = '. $this->database->quote($rights_templaterightlocation->get_location_id());
+        $query = 'DELETE FROM ' . $this->escape_table_name('rights_template_right_location') . ' WHERE ' . $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHT_ID) . ' = ' . $this->database->quote($rights_templaterightlocation->get_right_id()) . ' AND ' . $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID) . '= ' . $this->database->quote($rights_templaterightlocation->get_rights_template_id()) . ' AND ' . $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID) . ' = ' . $this->database->quote($rights_templaterightlocation->get_location_id());
         $res = $this->database->query($query);
-        return true;
+
+        if (MDB2 :: isError($res))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     function delete_rights_template_right_locations($condition)
@@ -560,6 +568,7 @@ class DatabaseRightsDataManager extends RightsDataManager
     function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name('location'); // . ' AS ' . $this->database->get_alias('location');
+
 
         if (isset($condition))
         {
