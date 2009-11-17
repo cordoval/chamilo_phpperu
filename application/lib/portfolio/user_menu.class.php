@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: user_menu.class.php 206 2009-11-13 13:08:01Z chellee $
+ * $Id: user_menu.class.php 240 2009-11-16 14:34:39Z vanpouckesven $
  * @package application.portfolio.portfolio_manager.component
  */
 require_once 'HTML/Menu.php';
@@ -33,7 +33,7 @@ class UserMenu extends HTML_Menu
      *                           root.
      */
     function UserMenu($firstletter, $url_format = '?application=portfolio&go=browse&firstletter=%s')
-    {
+    { 
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
         parent :: __construct($menu);

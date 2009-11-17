@@ -1,11 +1,12 @@
 <?php
 /**
- * $Id: browser.class.php 206 2009-11-13 13:08:01Z chellee $
+ * $Id: browser.class.php 240 2009-11-16 14:34:39Z vanpouckesven $
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
 require_once dirname(__FILE__) . '/../portfolio_manager_component.class.php';
 require_once dirname(__FILE__) . '/user_browser/user_browser_table.class.php';
+require_once dirname(__FILE__) . '/../../user_menu.class.php';
 
 /**
  * Portfolio component which allows the user to browse the portfolio application
@@ -19,7 +20,7 @@ class PortfolioManagerBrowserComponent extends PortfolioManagerComponent
     {
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowsePortfolio')));
-        
+       
         $this->display_header($trail);
         
         $firstletter = Request :: get('firstletter');
