@@ -178,7 +178,15 @@ class DatabaseRightsDataManager extends RightsDataManager
         }
 
         $res = $this->database->query($query);
-        return true;
+
+        if (MDB2 :: isError($res))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     //Inherited.
@@ -606,7 +614,6 @@ class DatabaseRightsDataManager extends RightsDataManager
         {
             $translator = new ConditionTranslator($this->database);
             $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
         }
 
         $res = $this->database->query($query);
@@ -677,8 +684,14 @@ class DatabaseRightsDataManager extends RightsDataManager
 
         $res = $this->database->query($query);
 
-        // TODO: For now we just return true ...
-        return true;
+        if (MDB2 :: isError($res))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     function delete_location_nodes($location)
@@ -699,8 +712,14 @@ class DatabaseRightsDataManager extends RightsDataManager
 
         $res = $this->database->query($query);
 
-        // TODO: For now we just return true ...
-        return true;
+        if (MDB2 :: isError($res))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     function delete_nested_values($location)
@@ -742,10 +761,16 @@ class DatabaseRightsDataManager extends RightsDataManager
             $query .= $translator->render_query($condition);
         }
 
-        // TODO: Some error-handling please !
         $res = $this->database->query($query);
 
-        return true;
+        if (MDB2 :: isError($res))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     function move_location($location, $new_parent_id, $new_previous_id = 0)
@@ -860,6 +885,15 @@ class DatabaseRightsDataManager extends RightsDataManager
         // TODO: Some error-handling please !
         $res = $this->database->query($query);
 
+        if (MDB2 :: isError($res))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
         // Remove the subtree where the location was before
         if (! $this->delete_nested_values($location))
         {
@@ -906,7 +940,14 @@ class DatabaseRightsDataManager extends RightsDataManager
         $query = 'DELETE FROM ' . $this->escape_table_name('rights_template') . ' WHERE ' . $this->escape_column_name(RightsTemplate :: PROPERTY_ID) . '=' . $this->database->quote($rights_template->get_id());
         $res = $this->database->query($query);
 
-        return true;
+        if (MDB2 :: isError($res))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     function delete_locations($condition = null)
