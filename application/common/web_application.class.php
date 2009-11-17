@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: web_application.class.php 209 2009-11-13 13:16:34Z vanpouckesven $
+ * $Id: web_application.class.php 237 2009-11-16 13:04:53Z vanpouckesven $
  * @package application
  */
 
@@ -109,7 +109,7 @@ abstract class WebApplication extends Application
         $applications = array();
         $path = dirname(__FILE__) . '/../lib/';
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
-        foreach ($directories as $index => $directory)
+        foreach ($directories as $directory)
         {
             $application_name = basename($directory);
             if (Application :: is_application_name($application_name))
@@ -118,7 +118,7 @@ abstract class WebApplication extends Application
                 {
                     if ($include_application_classes)
                     {
-                        require_once ($directory . '/' . $application_name . '_manager/' . $application_name . '_manager.class.php');
+                        require_once ($path . $directory . '/' . $application_name . '_manager/' . $application_name . '_manager.class.php');
                     }
                     $applications[] = $application_name;
                 }
