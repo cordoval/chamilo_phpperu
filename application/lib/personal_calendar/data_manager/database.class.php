@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: database.class.php 230 2009-11-16 09:29:45Z vanpouckesven $
+ * $Id: database.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.personal_calendar.data_manager
  */
 require_once dirname(__FILE__) . '/../personal_calendar_data_manager.class.php';
@@ -60,43 +60,62 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     /**
      * @see Application::get_content_object_publication_attributes()
      */
-    public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null)
     {
         if (isset($type))
         {
             if ($type == 'user')
             {
-                $query = 'SELECT * FROM ' . $this->database->get_table_name(CalendarEventPublication :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(CalendarEventPublication :: PROPERTY_PUBLISHER) . '=' . $this->quote(Session :: get_user_id());
+            	$rdm = RepositoryDataManager :: get_instance();
+                $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
+                $pub_alias = $this->database->get_alias(CalendarEventPublication :: get_table_name());
+                
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . 
+                		 $this->database->escape_table_name(CalendarEventPublication :: get_table_name()) . ' AS ' . $pub_alias . 
+                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . 
+                		 ' ON ' . $this->database->escape_column_name(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT, $pub_alias) . '=' . 
+                		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
+                
+                $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
+                $translator = new ConditionTranslator($this->database);
+                $query .= $translator->render_query($condition);
 
                 $order = array();
-                for($i = 0; $i < count($order_property); $i ++)
-                {
-                    if ($order_property[$i] == 'application')
+                foreach($order_properties as $order_property)
+                { 
+                    if ($order_property->get_property() == 'application')
                     {
+                    	
                     }
-                    elseif ($order_property[$i] == 'location')
+                    elseif ($order_property->get_property() == 'location')
                     {
+                    	
                     }
-                    elseif ($order_property[$i] == 'title')
+                    elseif ($order_property->get_property() == 'title')
                     {
+                        $order[] = 'co.' . $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
-                    {
+                    { 
+                        $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
-                if (count($order))
-                {
-                    $query .= ' ORDER BY ' . implode(', ', $order);
-                }
-
-                $res = $this->query($query);
+                
+                if(count($order) > 0)
+                	$query .= ' ORDER BY ' . implode(', ', $order);
             }
         }
         else
         {
-            $query = 'SELECT * FROM ' . $this->database->get_table_name(CalendarEventPublication :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT) . '=' . $this->quote($object_id);
-            $res = $this->query($query);
+            $query = 'SELECT * FROM ' . $this->database->escape_table_name(CalendarEventPublication :: get_table_name());
+           	$condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT, $object_id);
+           	$translator = new ConditionTranslator($this->database);
+           	$query .= $translator->render_query($condition);
         }
+        
+        $this->database->set_limit($offset, $count);
+		$res = $this->query($query);
+        
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {

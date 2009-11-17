@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: database.class.php 234 2009-11-16 11:34:07Z vanpouckesven $
+ * $Id: database.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.profiler.data_manager
  */
 require_once Path :: get_application_path() . 'lib/profiler/profiler_data_manager.class.php';
@@ -159,49 +159,62 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     }
 
     //Inherited
-    function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_properties = null)
     {
         if (isset($type))
         {
             if ($type == 'user')
             {
-                $query = 'SELECT ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.*, ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' FROM ' . $this->database->escape_table_name('publication') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('content_object') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE . ' ON ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.`profile_id` = ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.`id`';
-                $query .= ' WHERE ' . self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) . '=' . $this->quote($user->get_id());
+                $rdm = RepositoryDataManager :: get_instance();
+                $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
+                $pub_alias = $this->database->get_alias(ProfilePublication :: get_table_name());
                 
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . 
+                		 $this->database->escape_table_name(ProfilePublication :: get_table_name()) . ' AS ' . $pub_alias . 
+                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . 
+                		 ' ON ' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PROFILE, $pub_alias) . '=' . 
+                		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
+                
+                $condition = new EqualityCondition(ProfilePublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
+                $translator = new ConditionTranslator($this->database);
+                $query .= $translator->render_query($condition);
+
                 $order = array();
-                for($i = 0; $i < count($order_property); $i ++)
-                {
-                    if ($order_property[$i] == 'application')
+                foreach($order_properties as $order_property)
+                { 
+                    if ($order_property->get_property() == 'application')
                     {
+                    	
                     }
-                    elseif ($order_property[$i] == 'location')
+                    elseif ($order_property->get_property() == 'location')
                     {
-                        $order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_COURSE_ID) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-                        $order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_TOOL) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                    	
                     }
-                    elseif ($order_property[$i] == 'title')
+                    elseif ($order_property->get_property() == 'title')
                     {
-                        $order[] = self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = 'co.' . $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
-                    {
-                        //$order[] = self :: ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE . '.' . $this->database->escape_column_name($order_property[$i], true) . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
-                        $order[] = self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name('title') . ' ' . ($order_direction[$i] == SORT_DESC ? 'DESC' : 'ASC');
+                    { 
+                        $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
-                if (count($order))
-                {
-                    $query .= ' ORDER BY ' . implode(', ', $order);
-                }
+                
+                if(count($order) > 0)
+                	$query .= ' ORDER BY ' . implode(', ', $order);
                 
             }
         }
         else
         {
-            $query = 'SELECT * FROM ' . $this->database->escape_table_name('publication') . ' WHERE ' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PROFILE) . '=' . $this->quote($object_id);
+             $query = 'SELECT * FROM ' . $this->database->escape_table_name(ProfilePublication :: get_table_name());
+           	$condition = new EqualityCondition(ProfilePublication :: PROPERTY_PROFILE, $object_id);
+           	$translator = new ConditionTranslator($this->database);
+           	$query .= $translator->render_query($condition);
         }
         
-        $res = $this->query($query);
+        $this->database->set_limit($offset, $count);
+		$res = $this->query($query);
         
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
