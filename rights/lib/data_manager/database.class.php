@@ -669,9 +669,16 @@ class DatabaseRightsDataManager extends RightsDataManager
             $translator = new ConditionTranslator($this->database);
             $query .= $translator->render_query($condition);
         }
-
-        // TODO: Some error-handling please !
+        
         $res = $this->database->query($query);
+        if (MDB2 :: isError($res))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
 
         // Update all necessary right-values
         $conditions = array();
@@ -746,9 +753,17 @@ class DatabaseRightsDataManager extends RightsDataManager
             $translator = new ConditionTranslator($this->database);
             $query .= $translator->render_query($condition);
         }
-
-        // TODO: Some error-handling please !
+        
         $res = $this->database->query($query);
+    
+        if (MDB2 :: isError($res))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
 
         // Update some more nested-values
         $conditions = array();
@@ -886,8 +901,7 @@ class DatabaseRightsDataManager extends RightsDataManager
             $translator = new ConditionTranslator($this->database);
             $query .= $translator->render_query($condition);
         }
-
-        // TODO: Some error-handling please !
+        
         $res = $this->database->query($query);
 
         if (MDB2 :: isError($res))
