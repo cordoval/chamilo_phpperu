@@ -1,0 +1,42 @@
+<?php
+/**
+ * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
+ */
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
+require_once dirname(__FILE__).'/../../forms/{L_OBJECT_CLASS}_form.class.php';
+
+/**
+ * Component to create a new {L_OBJECT_CLASS} object
+ * @author Sven Vanpoucke
+ * @author {AUTHOR}
+ */
+class {APPLICATION_NAME}Manager{OBJECT_CLASS}CreatorComponent extends {APPLICATION_NAME}ManagerComponent
+{
+	/**
+	 * Runs this component and displays its output.
+	 */
+	function run()
+	{		
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE)), Translation :: get('Browse{APPLICATION_NAME}')));
+		$trail->add(new Breadcrumb($this->get_url(array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES})), Translation :: get('Browse{OBJECT_CLASSES}')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create{OBJECT_CLASS}')));
+
+		${L_OBJECT_CLASS} = new {OBJECT_CLASS}();
+		$form = new {OBJECT_CLASS}Form({OBJECT_CLASS}Form :: TYPE_CREATE, ${L_OBJECT_CLASS}, $this->get_url(), $this->get_user());
+		
+		if($form->validate())
+		{
+			$success = $form->create_{L_OBJECT_CLASS}();
+			$this->redirect($success ? Translation :: get('{OBJECT_CLASS}Created') : Translation :: get('{OBJECT_CLASS}NotCreated'), !$success, array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}));
+		}
+		else
+		{
+			$this->display_header($trail);
+			$form->display();
+			$this->display_footer();
+		}
+	}
+}
+?>

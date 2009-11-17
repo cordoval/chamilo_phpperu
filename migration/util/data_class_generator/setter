@@ -1,0 +1,8 @@
+	/**
+	 * Sets the {PROPERTY.PROPERTY_NAME} of this {CLASSNAME}.
+	 * @param {PROPERTY.PROPERTY_NAME}
+	 */
+	function set_{PROPERTY.PROPERTY_NAME}(${PROPERTY.PROPERTY_NAME})
+	{
+		$this->set_default_property(self :: {PROPERTY.PROPERTY_CONST}, ${PROPERTY.PROPERTY_NAME});
+	}

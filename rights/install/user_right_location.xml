@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="user_right_location">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="user_id" type="integer" unsigned="1" notnull="1" />
+		<property name="right_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="location_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="value" type="integer" length="1" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="user_right_location" type="unique">
+		<indexproperty name="user_id" />
+		<indexproperty name="right_id" />
+		<indexproperty name="location_id" />
+	</index>
+	<index name="user_id">
+		<indexproperty name="user_id" />
+	</index>
+	<index name="right_id">
+		<indexproperty name="right_id" />
+	</index>
+	<index name="location_id">
+		<indexproperty name="location_id" />
+	</index>
+</object>

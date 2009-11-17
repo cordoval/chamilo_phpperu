@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="quota_box_rel_category_rel_group">
+	<properties>
+		<property name="quota_box_rel_category_id" type="integer"
+			unsigned="1" notnull="1" />
+		<property name="group_id" type="integer" unsigned="1"
+			notnull="1" default="0" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="quota_box_rel_category_id" />
+		<indexproperty name="group_id" />
+	</index>
+</object>

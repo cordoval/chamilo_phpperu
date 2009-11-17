@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packages>
+	<package>
+		<name>Personal Messenger</name>
+		<code>personal_messenger</code>
+		<section>application</section>
+		<author>Alexander Graham Bell &lt;alexander.graham@bell.co.uk&gt;</author>
+		<version>1.0.0</version>
+		<filename>pool/main/p/personal_messenger/personal_messenger-1.0.0.zip</filename>
+		<size>38602</size>
+		<md5>30a43ed0f7e0be9bc7cafb4601254148</md5>
+		<sha1>84fc463a7ad2b1731fd7c1e0ba5f7020d403288e</sha1>
+		<sha256>f743def30d4bc1cf9d5bc7f346dea19832aaaf0f0c48061aaebce7e2ac67bb27</sha256>
+		<sha512>bc1b85606168494506b1544c32bf2c32b302df7134a499dcd49e1444ff31e57fa3bb14e2e84f8badf65c6f57b7ed63b83d3e83b1e4ef54aadd0a92b8759950f6</sha512>
+		<tagline>From Wikipedia, the free encyclopedia</tagline>
+		<description>Electronic mail, often abbreviated as email or e-mail, is a method of exchanging digital messages, designed primarily for human use. E-mail systems are based on a store-and-forward model in which e-mail computer server systems accept, forward, deliver and store messages on behalf of users, who only need to connect to the e-mail infrastructure, typically an e-mail server, with a network-enabled device (e.g., a personal computer) for the duration of message submission or retrieval. Rarely is e-mail transmitted directly from one user's device to another's.</description>
+		<homepage>http://www.chamilo.org/</homepage>
+		<dependencies>
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.2.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+			<settings>
+				<dependency>
+					<id>memory_limit</id>
+					<value type="4">128M</value>
+					<severity>3</severity>
+				</dependency>
+				<dependency>
+					<id>display_errors</id>
+					<value type="1">0</value>
+					<severity>4</severity>
+				</dependency>
+			</settings>
+			<extensions>
+				<dependency>
+					<id>gd</id>
+					<severity>3</severity>
+				</dependency>
+				<dependency>
+					<id>mysql</id>
+					<severity>1</severity>
+				</dependency>
+			</extensions>
+			<content_objects>
+				<dependency>
+		  			<id>personal_message</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>4</severity>
+				</dependency>
+			</content_objects>
+			<applications>
+				<dependency>
+		  			<id>personal_calendar</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</applications>
+		</dependencies>
+	</package>
+	<package>
+		<name>Personal Calendar</name>
+		<code>personal_calendar</code>
+		<section>application</section>
+		<author>Gaius Julius Caesar &lt;gaius.julius@caesar.it&gt;</author>
+		<version>1.0.0</version>
+		<filename>pool/main/p/personal_calendar/personal_calendar-1.0.0.zip</filename>
+		<size>38602</size>
+		<md5>c14e12d36c816fa36525d0e68912c367</md5>
+		<sha1>5bbb15d1178a3cf0c43b67b0c3aa7115eb495728</sha1>
+		<sha256>ae52426a7ecd4ff96275c70ac9765f2397b1d4772acf1bc91356ce4663521228</sha256>
+		<sha512>9b667e0420d1ecd05a70d343218262e38526d8bdb87ea07224baf8cc69286cc46d7688acdd3171dfa4e0faee41cae8089de895cb43916e07f9d927911de776fc</sha512>
+		<tagline>From Wikipedia, the free encyclopedia</tagline>
+		<description>A calendar is a system of organizing days for social, religious, commercial, or administrative purposes. This is done by giving names to periods of time, typically days, weeks, months, and years. The name given to each day is known as a date. Periods in a calendar (such as years and months) are usually, though not necessarily, synchronized with the cycles of some astronomical phenomenon, such as the cycle of the sun or the moon. Many civilizations and societies have devised a calendar, usually derived from other calendars on which they model their systems, suited to their particular needs.</description>
+		<homepage>http://www.chamilo.org/</homepage>
+		<dependencies>
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.2.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+			<content_objects>
+				<dependency>
+		  			<id>calendar_event</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>4</severity>
+				</dependency>
+			</content_objects>
+			<applications>
+				<dependency>
+		  			<id>weblcms</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>5</severity>
+				</dependency>
+			</applications>
+		</dependencies>
+	</package>
+</packages>

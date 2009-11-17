@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="course">
+	<properties>
+		<property name="id" type="integer" notnull="1" />
+		<property name="course_language" type="text" length="20"
+			fixed="true" />
+		<property name="title" type="text" length="250" fixed="true" />
+		<property name="category_id" type="integer" notnull="1" />
+		<property name="visibility" type="boolean" default="0" />
+		<property name="show_score" type="integer" notnull="1"
+			default="1" />
+		<property name="titular_id" type="integer" />
+		<property name="visual_code" type="text" length="40" fixed="true"
+			notnull="1" />
+		<property name="department_name" type="text" length="30"
+			fixed="true" />
+		<property name="department_url" type="text" length="180"
+			fixed="true" />
+		<property name="disk_quota" type="integer" unsigned="1" />
+		<property name="last_visit" type="timestamp" />
+		<property name="last_edit" type="timestamp" />
+		<property name="creation_date" type="timestamp" />
+		<property name="expiration_date" type="timestamp" />
+		<property name="subscribe" type="boolean" default="1" />
+		<property name="unsubscribe" type="boolean" default="1" />
+		<property name="theme" type="text" length="50" fixed="true" />
+		<property name="layout" type="boolean" default="1" />
+		<property name="tool_shortcut" type="boolean" default="1" />
+		<property name="menu" type="boolean" default="1" />
+		<property name="breadcrumb" type="boolean" default="1" />
+		<property name="allow_feedback" type="boolean" default="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="visual_code" type="unique">
+		<indexproperty name="visual_code" />
+	</index>
+	<index name="category_id">
+		<indexproperty name="category_id" />
+	</index>
+	<index name="titular_id">
+		<indexproperty name="titular_id" />
+	</index>
+</object>

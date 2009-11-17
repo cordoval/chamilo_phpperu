@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="assessment">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="assessment_type" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="max_attempts" type="integer" unsigned="1"
+			notnull="1" default="0" />
+		<property name="questions_per_page" type="integer" unsigned="1"
+			notnull="1" default="0" />
+		<property name="max_time" type="integer" unsigned="1"
+			notnull="1" default="0" />
+		<property name="random_questions" type="integer" unsigned="1"
+			notnull="1" default="0" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="assessment_type">
+		<indexproperty name="assessment_type" />
+	</index>
+</object>

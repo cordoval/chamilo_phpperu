@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="profile">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="competences" type="text" notnull="0" />
+		<property name="diplomas" type="text" notnull="0" />
+		<property name="teaching" type="text" notnull="0" />
+		<property name="open" type="text" length="1000" notnull="0" />
+		<property name="phone" type="text" length="20" fixed="true"
+			notnull="0" />
+		<property name="fax" type="text" length="20" fixed="true"
+			notnull="0" />
+		<property name="address" type="text" length="255" fixed="true"
+			notnull="0" />
+		<property name="mail" type="text" length="255" fixed="true"
+			notnull="0" />
+		<property name="skype" type="text" length="255" fixed="true"
+			notnull="0" />
+		<property name="msn" type="text" length="255" fixed="true"
+			notnull="0" />
+		<property name="yim" type="text" length="255" fixed="true"
+			notnull="0" />
+		<property name="aim" type="text" length="255" fixed="true"
+			notnull="0" />
+		<property name="icq" type="text" length="255" fixed="true"
+			notnull="0" />
+		<property name="picture" type="integer" unsigned="1" notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+</object>

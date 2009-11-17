@@ -1,0 +1,56 @@
+<?php
+/**
+ *	This is a skeleton for a data manager for the {APPLICATION_NAME} Application.
+ *	Data managers must extend this class and implement its abstract methods.
+ *
+ *  @author Sven Vanpoucke
+ *	@author {AUTHOR}
+ */
+abstract class {APPLICATION_NAME}DataManager
+{
+	/**
+	 * Instance of this class for the singleton pattern.
+	 */
+	private static $instance;
+
+	/**
+	 * Constructor.
+	 */
+	protected function {APPLICATION_NAME}DataManager()
+	{
+		$this->initialize();
+	}
+
+	/**
+	 * Uses a singleton pattern and a factory pattern to return the data
+	 * manager. The configuration determines which data manager class is to
+	 * be instantiated.
+	 * @return {APPLICATION_NAME}DataManager The data manager.
+	 */
+	static function get_instance()
+	{
+		if (!isset (self :: $instance))
+		{
+			$type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
+			require_once dirname(__FILE__).'/data_manager/'.Utilities :: camelcase_to_underscores($type).'.class.php';
+			$class = $type.'{APPLICATION_NAME}DataManager';
+			self :: $instance = new $class ();
+		}
+		return self :: $instance;
+	}
+	
+	abstract function initialize();
+	abstract function create_storage_unit($name,$properties,$indexes);
+	
+	<!-- BEGIN OBJECTS -->
+	abstract function get_next_{OBJECTS.L_OBJECT_CLASS}_id();
+	abstract function create_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS});
+	abstract function update_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS});
+	abstract function delete_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS});
+	abstract function count_{OBJECTS.L_OBJECT_CLASSES}($conditions = null);
+	abstract function retrieve_{OBJECTS.L_OBJECT_CLASS}($id);
+	abstract function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null);
+	
+	<!-- END OBJECTS -->
+}
+?>

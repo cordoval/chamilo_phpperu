@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="publication">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="personal_message_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="status" type="integer" length="1" unsigned="1"
+			notnull="1" />
+		<property name="user_id" type="integer" unsigned="1" notnull="1" />
+		<property name="sender_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="recipient_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="published" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="personal_message_id">
+		<indexproperty name="personal_message_id" />
+	</index>
+	<index name="status">
+		<indexproperty name="status" />
+	</index>
+	<index name="user_id">
+		<indexproperty name="user_id" />
+	</index>
+	<index name="sender_id">
+		<indexproperty name="sender_id" />
+	</index>
+	<index name="recipient_id">
+		<indexproperty name="recipient_id" />
+	</index>
+</object>

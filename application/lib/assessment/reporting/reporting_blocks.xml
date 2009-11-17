@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="assessment">
+	<reporting_block name="AssessmentAttempts" application="assessment"
+		function="getAssessmentAttempts" displaymode="Table"
+		exclude_displaymodes="Charts, Text" width="500px" height="500px" />
+	<reporting_block name="AssessmentAttemptsSummary"
+		application="assessment" function="getSummaryAssessmentAttempts"
+		displaymode="Table" exclude_displaymodes="Charts, Text" width="500px"
+		height="500px" />
+</application>

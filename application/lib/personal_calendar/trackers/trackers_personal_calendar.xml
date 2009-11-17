@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="personal_calendar">
+	<event name="create_publication">
+		<tracker name="personal_calendar_publication_changes" />
+	</event>
+	<event name="update_publication">
+		<tracker name="personal_calendar_publication_changes" />
+	</event>
+	<event name="delete_publication">
+		<tracker name="personal_calendar_publication_changes" />
+	</event>
+</application>

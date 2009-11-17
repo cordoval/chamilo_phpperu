@@ -1,0 +1,16 @@
+<xml>
+	<category name="manage reporting">
+		<webservice name="GetUserCourses"
+			description="ThisWebserviceAllowsYouToGetAllCoursesForAUser" />
+		<webservice name="GetCourseUsers"
+			description="ThisWebserviceAllowsYouToGetAllUsersForACourse" />
+		<webservice name="GetNewPublicationsInCourse"
+			description="ThisWebserviceAllowsYouToGetNewPublicationsMadeInACourse" />
+		<webservice name="GetNewPublicationsInCourseTool"
+			description="ThisWebserviceAllowsYouToGetNewPublicationsMadeInACourseTool" />
+		<webservice name="GetPublicationsForUser"
+			description="ThisWebserviceAllowsYouToGetAllPublicationsForAUser" />
+		<webservice name="GetPublicationsForCourse"
+			description="ThisWebserviceAllowsYouToGetAllPublicationsForACourse" />
+	</category>
+</xml>

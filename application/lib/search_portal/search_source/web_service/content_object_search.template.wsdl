@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<definitions name="ContentObjectSearch"
+targetNamespace="urn:ContentObjectSearch"
+xmlns:tns="urn:ContentObjectSearch"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types>
+		<xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:ContentObjectSearch">
+			<xsd:complexType name="ContentObject">
+				<xsd:all>
+					<xsd:element name="Type" type="xsd:string" />
+					<xsd:element name="Title" type="xsd:string" />
+					<xsd:element name="Description" type="xsd:string" />
+					<xsd:element name="Created" type="xsd:dateTime" />
+					<xsd:element name="Modified" type="xsd:dateTime" />
+					<xsd:element name="URL" type="xsd:string" />
+				</xsd:all>
+			</xsd:complexType>
+			<xsd:complexType name="ContentObjects">
+				<xsd:complexContent>
+					<xsd:restriction base="soapenc:Array">
+						<xsd:attribute ref="soapenc:arrayType" wsdl:arrayType="tns:ContentObject[]"/>
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+		</xsd:schema>
+	</types> 
+	
+	<message name="getQuery">
+		<part name="Query" type="xsd:string"/>
+	</message>
+	<message name="getResults">
+		<part name="RepositoryTitle" type="xsd:string"/>
+		<part name="RepositoryURL" type="xsd:string"/>
+		<part name="Results" type="tns:ContentObjects"/>
+		<part name="ActualResultCount" type="xsd:integer"/>
+	</message>
+	
+	<portType name="ContentObjectSearchPort">
+		<operation name="search">
+			<input message="tns:getQuery"/>
+			<output message="tns:getResults"/>
+		</operation>
+	</portType>
+
+	<binding name="ContentObjectSearchBinding" type="tns:ContentObjectSearchPort">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="search">
+			<soap:operation soapAction="urn:ContentObjectSearchAction"/>
+			<input>
+				<soap:body use="encoded" namespace="urn:ContentObjectSearch" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:ContentObjectSearch" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</output>
+		</operation>
+	</binding>
+	
+	<service name="ContentObjectSearchService">
+		<port name="ContentObjectSearchPort" binding="ContentObjectSearchBinding">
+			<soap:address location="%url%/soap_server.php"/>
+		</port>
+	</service>
+</definitions>

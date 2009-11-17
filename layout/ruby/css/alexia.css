@@ -1,0 +1,30 @@
+@CHARSET "ISO-8859-1";
+
+div.introduction
+{
+	-moz-border-radius-bottomright:	15px;
+	-moz-border-radius-topleft:	15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-webkit-border-top-left-radius: 15px;
+	padding: 10px 10px 10px 44px;
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+	background-color: #F6F6F6;
+	color: #000000;
+}
+
+div.introduction div.title
+{
+	border-bottom:	1px dotted #CCCCCC;
+	font-weight: bold;
+	width: 100%;
+	padding-bottom: 0.4em;
+	color: #000066;
+	font-size: 120%;
+	float: left;
+}
+
+div.introduction div.description
+{
+	clear: both;
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="user">
+	<reporting_block name="ActiveInactive" application="user"
+		function="getActiveInactive" displaymode="Chart:Pie" width="500px"
+		height="240px" />
+	<reporting_block name="UserNoOfUsers" application="user"
+		function="getNoOfUsers" displaymode="Text" exclude_displaymodes="Charts"
+		width="500px" height="100px" />
+	<reporting_block name="UserNoOfLogins" application="user"
+		function="getNoOfLogins" displaymode="Text" exclude_displaymodes="Charts"
+		width="500px" height="100px" />
+	<reporting_block name="UserNoOfLoginsMonth"
+		application="user" function="getNoOfLoginsMonth" displaymode="Table"
+		width="500px" height="500px" />
+	<reporting_block name="UserNoOfLoginsDay" application="user"
+		function="getNoOfLoginsDay" displaymode="Table" width="500px" height="500px" />
+	<reporting_block name="UserNoOfLoginsHour" application="user"
+		function="getNoOfLoginsHour" displaymode="Table" width="500px" height="500px" />
+	<reporting_block name="UserNoOfUsersPicture"
+		application="user" function="getNoOfUsersPicture" displaymode="Table"
+		width="500px" height="500px" />
+	<reporting_block name="UserNoOfUsersSubscribedCourse"
+		application="user" function="getNoOfUsersSubscribedCourse"
+		displaymode="Table" width="500px" height="500px" />
+	<reporting_block name="UserInformation" application="user"
+		function="getUserInformation" displaymode="Table"
+		exclude_displaymodes="Charts" width="500px" height="500px" />
+	<reporting_block name="UserPlatformStatistics"
+		application="user" function="getUserPlatformStatistics" displaymode="Table"
+		exclude_displaymodes="Charts" width="500px" height="500px" />
+	<reporting_block name="UserCourseStatistics"
+		application="user" function="getUserCourseStatistics" displaymode="Table"
+		exclude_displaymodes="Charts" width="500px" height="500px" />
+	<reporting_block name="Browsers" application="user"
+		function="getBrowsers" displaymode="Chart:Pie" width="500px" height="240px" />
+	<reporting_block name="Countries" application="user"
+		function="getCountries" displaymode="Table" width="500px" height="500px" />
+	<reporting_block name="Os" application="user" function="getOs"
+		displaymode="Chart:Pie" width="500px" height="500px" />
+	<reporting_block name="Providers" application="user"
+		function="getProviders" displaymode="Text" width="500px" height="500px" />
+	<reporting_block name="Referers" application="user"
+		function="getReferers" displaymode="Table" width="500px" height="500px" />
+	<reporting_block name="UserTracking" application="user"
+		function="getUserTracking" displaymode="Table" exclude_displaymodes="Charts"
+		width="500px" height="500px" />
+</application>

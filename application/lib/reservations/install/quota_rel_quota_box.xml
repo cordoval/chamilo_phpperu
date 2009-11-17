@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="quota_rel_quota_box">
+	<properties>
+		<property name="quota_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="quota_box_id" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="quota_box_id" />
+		<indexproperty name="quota_id" />
+	</index>
+</object>

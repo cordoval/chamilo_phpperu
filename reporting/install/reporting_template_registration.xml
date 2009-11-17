@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="reporting_template_registration">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="title" type="text" fixed="true" length="50"
+			notnull="1" />
+		<property name="application" length="50" type="text" fixed="true"
+			unsigned="1" notnull="1" />
+		<property name="class" length="50" type="text" fixed="true"
+			unsigned="1" notnull="1" />
+		<property name="platform" type="integer" unsigned="1"
+			notnull="1" default="1" />
+		<property name="description" length="500" type="text"
+			unsigned="1" notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="title">
+		<indexproperty name="title" />
+	</index>
+	<index name="application">
+		<indexproperty name="application" />
+	</index>
+</object>

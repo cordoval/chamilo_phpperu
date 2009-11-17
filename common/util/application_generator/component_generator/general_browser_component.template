@@ -1,0 +1,31 @@
+<?php
+/**
+ * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
+ */
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
+
+/**
+ * {APPLICATION_NAME} component which allows the user to browse the {L_APPLICATION_NAME} application
+ * @author Sven Vanpoucke
+ * @author {AUTHOR}
+ */
+class {APPLICATION_NAME}ManagerBrowserComponent extends {APPLICATION_NAME}ManagerComponent
+{
+	
+	function run()
+	{
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Browse{APPLICATION_NAME}')));
+
+		$this->display_header($trail);
+		
+		<!-- BEGIN OBJECTS -->
+		echo '<br /><a href="' . $this->get_browse_{OBJECTS.L_OBJECT_CLASSES}_url() . '">' . Translation :: get('Browse{OBJECTS.OBJECT_CLASSES}') . '</a>'; 
+		<!-- END OBJECTS -->
+		
+		$this->display_footer();
+	}
+
+}
+?>

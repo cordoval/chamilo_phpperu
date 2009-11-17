@@ -1,0 +1,30 @@
+<xml>
+	<category name="manage courses">
+		<webservice name="GetCourse" description="ThisWebserviceAllowsYouToGetACourse" />
+		<webservice name="UpdateCourse" description="ThisWebserviceAllowsYouToUpdateACourse" />
+		<webservice name="UpdateCourses"
+			description="ThisWebserviceAllowsYouToUpdateMultipleCourses" />
+		<webservice name="DeleteCourse" description="ThisWebserviceAllowsYouToDeleteACourse" />
+		<webservice name="DeleteCourses"
+			description="ThisWebserviceAllowsYouToDeleteMultipleCourses" />
+		<webservice name="CreateCourse" description="ThisWebserviceAllowsYouToCreateACourse" />
+		<webservice name="CreateCourses"
+			description="ThisWebserviceAllowsYouToCreateMultipleCourses" />
+		<webservice name="SubscribeUser"
+			description="ThisWebserviceAllowsYouToSubscribeAUserToACourse" />
+		<webservice name="SubscribeUsers"
+			description="ThisWebserviceAllowsYouToSubscribeMultipleUserToACourse" />
+		<webservice name="UnsubscribeUser"
+			description="ThisWebserviceAllowsYouToUnsubscribeAUserFromACourse" />
+		<webservice name="UnsubscribeUsers"
+			description="ThisWebserviceAllowsYouToUnsubscribeMultipleUsersFromACourse" />
+		<webservice name="SubscribeGroup"
+			description="ThisWebserviceAllowsYouToSubscribeAGroupToACourse" />
+		<webservice name="SubscribeGroups"
+			description="ThisWebserviceAllowsYouToSubscribeMultipleGroupsToACourse" />
+		<webservice name="UnsubscribeGroup"
+			description="ThisWebserviceAllowsYouToUnsubscribeAGroupFromACourse" />
+		<webservice name="UnsubscribeGroups"
+			description="ThisWebserviceAllowsYouToUnsubscribeMultipleGroupsFromACourse" />
+	</category>
+</xml>

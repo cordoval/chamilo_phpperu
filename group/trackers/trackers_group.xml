@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="group">
+	<event name="create">
+		<tracker name="group_changes" />
+	</event>
+	<event name="update">
+		<tracker name="group_changes" />
+	</event>
+	<event name="delete">
+		<tracker name="group_changes" />
+	</event>
+	<event name="move">
+		<tracker name="group_changes" />
+	</event>
+	<event name="empty">
+		<tracker name="group_changes" />
+	</event>
+	<event name="subscribe_user">
+		<tracker name="group_changes" />
+	</event>
+	<event name="unsubscribe_user">
+		<tracker name="group_changes" />
+	</event>
+</application>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="reporting_block">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="name" type="text" length="50" notnull="1" />
+		<property name="application" length="50" type="text" fixed="true"
+			unsigned="1" notnull="1" />
+		<property name="function" type="text" fixed="true" length="50"
+			notnull="1" />
+		<property name="displaymode" type="text" length="50" fixed="true"
+			notnull="1" default="Table" />
+		<property name="exclude_displaymodes" type="text" length="500"
+			notnull="0" default="" />
+		<property name="width" type="text" length="10" notnull="1"
+			default="500px" />
+		<property name="height" type="text" length="10" notnull="1"
+			default="300px" />
+		<property name="sortable" type="boolean" default="0" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="name">
+		<indexproperty name="name" />
+	</index>
+	<index name="application">
+		<indexproperty name="application" />
+	</index>
+</object>

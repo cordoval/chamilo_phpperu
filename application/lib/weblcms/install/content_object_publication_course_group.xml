@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="content_object_publication_course_group">
+	<properties>
+		<property name="publication_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="course_group_id" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="id">
+		<indexproperty name="publication_id" />
+		<indexproperty name="course_group_id" />
+	</index>
+</object>

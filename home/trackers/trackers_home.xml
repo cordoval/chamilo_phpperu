@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="home">
+	<event name="create">
+		<tracker name="home_changes" />
+	</event>
+	<event name="update">
+		<tracker name="home_changes" />
+	</event>
+	<event name="delete">
+		<tracker name="home_changes" />
+	</event>
+	<event name="move">
+		<tracker name="home_changes" />
+	</event>
+</application>

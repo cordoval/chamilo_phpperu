@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="reservations">
+	<event name="create_category">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="update_category">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="delete_category">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="move_category">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="create_item">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="update_item">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="delete_item">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="create_reservation">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="update_reservation">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="delete_reservation">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="create_subscription">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="delete_subscription">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="approve_subscription">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="create_quota">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="update_quota">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="delete_quota">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="create_quota_box">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="update_quota_box">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="delete_quota_box">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="create_quota_box_category">
+		<tracker name="reservations_changes" />
+	</event>
+	<event name="delete_quota_box_category">
+		<tracker name="reservations_changes" />
+	</event>
+</application>

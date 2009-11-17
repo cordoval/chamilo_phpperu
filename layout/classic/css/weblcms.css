@@ -1,0 +1,249 @@
+@CHARSET "ISO-8859-1";
+
+/*****************************************************
+ *  WEBLCMS STYLES                                   *
+ *****************************************************/
+	/* for content section in weblcms home course list file */
+.maincontent {
+	float: left;
+	width: 78%;
+	padding: 4px;
+	background-color: #fff;
+}
+
+.user_course_category {
+	background-color: #efefef;
+	border: 1px solid #666;
+	font-weight: bold;
+	color: #666;
+	list-style-type: none;
+	margin: 5px;
+	padding: 5px;
+}
+
+/* TOOL MENU */
+div.tool_bar {
+	background-color: #E5EDF9;
+	border: 1px solid #4271B5;
+	padding: 10px;
+	position: fixed;
+	text-align: left;
+}
+
+div.tool_bar div.divider {
+	background-color: #4271B5;
+	margin: 10px 0px 10px 0px;
+	line-height: 1px;
+	height: 1px;
+	font-size: 1px;
+}
+
+div.tool_bar #tool_bar_hide_container {
+	display: none;
+	text-align: center;
+	width: 18px;
+	height: 36px;
+	position: absolute;
+	top: 50%;
+	margin-top: -18px;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+#tool_bar_show {
+	display: none;
+}
+
+#tool_bar_hide img {
+	margin: 10px 5px 11px 5px;
+}
+
+#tool_bar_show img {
+	margin: 10px 5px 11px 5px;
+}
+
+/* TOOL MENU in LEFT modus */
+div.tool_bar_left {
+	width: 160px;
+	border-left: 0px;
+	left: 0px;
+}
+
+#tool_browser_left {
+	margin-left: 180px;
+}
+
+/* TOOL MENU in RIGHT MODUS */
+div.tool_bar_right {
+	width: 142px;
+	padding-left: 28px;
+	border-right: 0px;
+	right: 0px;
+}
+
+#tool_browser_right {
+	margin-right: 180px;
+}
+
+/* TOOL MENU in LEFT ICON modus */
+div.tool_bar_icon_left {
+	width: 34px;
+	border-left: 0px;
+	left: 0px;
+}
+
+#tool_browser_icon_left {
+	margin-left: 54px;
+}
+
+/* TOOL MENU in RIGHT ICON modus */
+div.tool_bar_icon_right {
+	width: 16px;
+	padding-left: 28px;
+	border-right: 0px;
+	right: 0px;
+}
+
+#tool_browser_icon_right {
+	margin-right: 54px;
+}
+
+/* TOOL MENU in LEFT or ICON LEFT modus */
+div.tool_bar_left #tool_bar_hide_container.hide,div.tool_bar_icon_left #tool_bar_hide_container.hide
+	{
+	right: 0px;
+	margin-right: -1px;
+	background-image:
+		url(../img/common/action_action_bar_left_hide_background.png);
+}
+
+div.tool_bar_left #tool_bar_hide_container.show,div.tool_bar_icon_left #tool_bar_hide_container.show
+	{
+	right: -18px;
+	margin-left: 0px;
+	background-image:
+		url(../img/common/action_action_bar_left_show_background.png);
+}
+
+/* TOOL MENU in RIGHT or ICON RIGHT modus */
+div.tool_bar_right #tool_bar_hide_container.hide,div.tool_bar_icon_right #tool_bar_hide_container.hide
+	{
+	left: 0px;
+	margin-left: -1px;
+	background-image:
+		url(../img/common/action_action_bar_right_hide_background.png);
+}
+
+div.tool_bar_right #tool_bar_hide_container.show,div.tool_bar_icon_right #tool_bar_hide_container.show
+	{
+	left: -18px;
+	margin-right: 0px;
+	background-image:
+		url(../img/common/action_action_bar_right_show_background.png);
+}
+
+/* TOOL MENU list options */
+div.tool_menu ul {
+	padding: 0px;
+	margin: 0px;
+}
+
+div.tool_menu ul li.tool_list_menu {
+	padding: 0px 0px 2px 0px;
+	margin: 0px;
+	list-style: none;
+}
+
+div.feedback_block {
+	background-color: #f8f8f8;
+	text-align: justify;
+	margin: 0px 0px 10px 0px;
+	padding: 15px;
+	clear: both;
+}
+
+div.feedback_block form {
+	margin: 0px;
+	padding: 0px;
+}
+
+div.feedback_block div.configuration_form {
+	clear: both;
+	margin: 0px;
+	padding: 0px;
+	border: 0px solid #f8f8f8;
+}
+
+div.feedback_block div.configuration_form span.category {
+	position: relative;
+	top: -20px;
+	background-color: #F6F6F6;
+	font-weight: bold;
+	padding: 0px 5px 0px 5px;
+	font-size: 0px;
+}
+
+div.feedback {
+	background-color: white;
+	margin: -1px 0 0 0;
+	padding: 10px 10px 10px 44px;
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+	border: 1px solid #CCCCCC;
+	border-top: 1px dotted #CCCCCC;
+	border-bottom: 1px dotted #CCCCCC;
+}
+
+div.feedback div.title {
+	font-weight: bold;
+	border-bottom: 1px solid #CCCCCC;
+	width: 60%;
+	margin-bottom: 1em;
+}
+
+div.feedback span.publication_info {
+	font-weight: normal;
+	font-style: italic;
+	text-align: right;
+}
+
+div.feedback div.publication_actions {
+	text-align: right;
+}
+
+div.mini_calendar {
+	float: left;
+	width: 19%;
+	padding-right: 1%;
+}
+
+div.normal_calendar {
+	float: left;
+	width: 80%;
+}
+
+/*****************************************************
+ *  Wiki head styles                                *
+ *****************************************************/
+.head1 {
+	font-size: 21px;
+}
+
+.head2 {
+	font-size: 18px;
+}
+
+.head3 {
+	font-size: 15px;
+	margin-top: 0px;
+	padding-top: 0px;
+	margin-bottom: 5px;
+}
+
+.head4 {
+	font-size: 12px;
+}
+
+.head5,.head6 {
+	font-family: verdana, arial, helvetica, sans-serif;
+}

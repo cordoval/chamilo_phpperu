@@ -1,0 +1,206 @@
+<?php
+/**
+ * @package application.lib.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}_manager
+ */
+require_once dirname(__FILE__).'/{L_APPLICATION_NAME}_manager_component.class.php';
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_data_manager.class.php';
+require_once dirname(__FILE__).'/../../web_application.class.php';
+<!-- BEGIN OBJECTS -->
+require_once dirname(__FILE__).'/component/{OBJECTS.L_OBJECT_CLASS}_browser/{OBJECTS.L_OBJECT_CLASS}_browser_table.class.php';
+<!-- END OBJECTS -->
+
+/**
+ * A {L_APPLICATION_NAME} manager
+ *
+ * @author Sven Vanpoucke
+ * @author {AUTHOR}
+ */
+ class {APPLICATION_NAME}Manager extends WebApplication
+ {
+ 	const APPLICATION_NAME = '{L_APPLICATION_NAME}';
+
+	<!-- BEGIN OBJECTS -->
+	const PARAM_{OBJECTS.U_OBJECT_CLASS} = '{OBJECTS.L_OBJECT_CLASS}';
+	const PARAM_DELETE_SELECTED_{OBJECTS.U_OBJECT_CLASSES} = 'delete_selected_{OBJECTS.L_OBJECT_CLASSES}';
+	
+	const ACTION_DELETE_{OBJECTS.U_OBJECT_CLASS} = 'delete_{OBJECTS.L_OBJECT_CLASS}';
+	const ACTION_EDIT_{OBJECTS.U_OBJECT_CLASS} = 'edit_{OBJECTS.L_OBJECT_CLASS}';
+	const ACTION_CREATE_{OBJECTS.U_OBJECT_CLASS} = 'create_{OBJECTS.L_OBJECT_CLASS}';
+	const ACTION_BROWSE_{OBJECTS.U_OBJECT_CLASSES} = 'browse_{OBJECTS.L_OBJECT_CLASSES}';
+	
+	<!-- END OBJECTS -->
+
+	const ACTION_BROWSE = 'browse';
+
+	/**
+	 * Constructor
+	 * @param User $user The current user
+	 */
+    function {APPLICATION_NAME}Manager($user = null)
+    {
+    	parent :: __construct($user);
+    	$this->parse_input_from_table();
+    }
+
+    /**
+	 * Run this {L_APPLICATION_NAME} manager
+	 */
+	function run()
+	{
+		$action = $this->get_action();
+		$component = null;
+		switch ($action)
+		{
+			<!-- BEGIN OBJECTS -->
+			case self :: ACTION_BROWSE_{OBJECTS.U_OBJECT_CLASSES} :
+				$component = {APPLICATION_NAME}ManagerComponent :: factory('{OBJECTS.OBJECT_CLASSES}Browser', $this);
+				break;
+			case self :: ACTION_DELETE_{OBJECTS.U_OBJECT_CLASS} :
+				$component = {APPLICATION_NAME}ManagerComponent :: factory('{OBJECTS.OBJECT_CLASS}Deleter', $this);
+				break;
+			case self :: ACTION_EDIT_{OBJECTS.U_OBJECT_CLASS} :
+				$component = {APPLICATION_NAME}ManagerComponent :: factory('{OBJECTS.OBJECT_CLASS}Updater', $this);
+				break;
+			case self :: ACTION_CREATE_{OBJECTS.U_OBJECT_CLASS} :
+				$component = {APPLICATION_NAME}ManagerComponent :: factory('{OBJECTS.OBJECT_CLASS}Creator', $this);
+				break;
+			<!-- END OBJECTS -->
+			case self :: ACTION_BROWSE:
+				$component = {APPLICATION_NAME}ManagerComponent :: factory('Browser', $this);
+				break;
+			default :
+				$this->set_action(self :: ACTION_BROWSE);
+				$component = {APPLICATION_NAME}ManagerComponent :: factory('Browser', $this);
+			
+		}
+		$component->run();
+	}
+	
+	private function parse_input_from_table()
+	{
+		if (isset ($_POST['action']))
+		{
+			switch ($_POST['action'])
+			{
+				<!-- BEGIN OBJECTS -->
+				case self :: PARAM_DELETE_SELECTED_{OBJECTS.U_OBJECT_CLASSES} :
+					
+					$selected_ids = $_POST[{OBJECTS.OBJECT_CLASS}BrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+
+					if (empty ($selected_ids))
+					{
+						$selected_ids = array ();
+					}
+					elseif (!is_array($selected_ids))
+					{
+						$selected_ids = array ($selected_ids);
+					}
+					
+					$this->set_action(self :: ACTION_DELETE_{OBJECTS.U_OBJECT_CLASS});
+					$_GET[self :: PARAM_{OBJECTS.U_OBJECT_CLASS}] = $selected_ids;
+					break;
+				<!-- END OBJECTS -->
+			}
+
+		}
+	}
+	
+	function get_application_name()
+	{
+		return self :: APPLICATION_NAME;
+	}
+	
+	// Data Retrieving
+	
+	<!-- BEGIN OBJECTS -->
+	function count_{OBJECTS.L_OBJECT_CLASSES}($condition)
+	{
+		return {APPLICATION_NAME}DataManager :: get_instance()->count_{OBJECTS.L_OBJECT_CLASSES}($condition);
+	}
+	
+	function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return {APPLICATION_NAME}DataManager :: get_instance()->retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition, $offset, $count, $order_property);
+	}
+	
+ 	function retrieve_{OBJECTS.L_OBJECT_CLASS}($id)
+	{
+		return {APPLICATION_NAME}DataManager :: get_instance()->retrieve_{OBJECTS.L_OBJECT_CLASS}($id);
+	}
+	
+	<!-- END OBJECTS -->
+	// Url Creation
+	
+	<!-- BEGIN OBJECTS -->
+	function get_create_{OBJECTS.L_OBJECT_CLASS}_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_{OBJECTS.U_OBJECT_CLASS}));
+	}
+	
+	function get_update_{OBJECTS.L_OBJECT_CLASS}_url(${OBJECTS.L_OBJECT_CLASS})
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_{OBJECTS.U_OBJECT_CLASS},
+								    self :: PARAM_{OBJECTS.U_OBJECT_CLASS} => ${OBJECTS.L_OBJECT_CLASS}->get_id()));
+	}
+	
+ 	function get_delete_{OBJECTS.L_OBJECT_CLASS}_url(${OBJECTS.L_OBJECT_CLASS})
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_{OBJECTS.U_OBJECT_CLASS},
+								    self :: PARAM_{OBJECTS.U_OBJECT_CLASS} => ${OBJECTS.L_OBJECT_CLASS}->get_id()));
+	}
+	
+	function get_browse_{OBJECTS.L_OBJECT_CLASSES}_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_{OBJECTS.U_OBJECT_CLASSES}));
+	}
+	
+	<!-- END OBJECTS -->
+	function get_browse_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+	}
+	
+	// Dummy Methods which are needed because we don't work with learning objects
+	function content_object_is_published($object_id)
+	{
+	}
+
+	function any_content_object_is_published($object_ids)
+	{
+	}
+
+	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+	{
+	}
+
+	function get_content_object_publication_attribute($object_id)
+	{
+		
+	}
+
+	function count_publication_attributes($type = null, $condition = null)
+	{
+		
+	}
+
+	function delete_content_object_publications($object_id)
+	{
+		
+	}
+
+	function update_content_object_publication_id($publication_attr)
+	{
+		
+	}
+		
+	function get_content_object_publication_locations($content_object)
+	{
+		
+	}
+	
+	function publish_content_object($content_object, $location)
+	{
+		
+	}
+}
+?>

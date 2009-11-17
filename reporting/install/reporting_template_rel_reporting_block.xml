@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="reporting_template_registration_rel_reporting_block">
+	<properties>
+		<property name="reporting_template_registration_id" type="integer"
+			unsigned="1" notnull="1" />
+		<property name="reporting_block_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="active" type="boolean" default="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="reporting_template_registration_id" />
+		<indexproperty name="reporting_block_id" />
+	</index>
+	<index name="active">
+		<indexproperty name="active" />
+	</index>
+</object>

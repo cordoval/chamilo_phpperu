@@ -1,0 +1,24 @@
+<xml>
+	<category name="manageGroups">
+		<webservice name="GetGroup" description="ThisWebserviceAllowsYouToGetAGroup" />
+		<webservice name="GetGroups"
+			description="ThisWebserviceAllowsYouToGetMultipleGroups" />
+		<webservice name="UpdateGroup" description="ThisWebserviceAllowsYouToUpdateAGroup" />
+		<webservice name="UpdateGroups"
+			description="ThisWebserviceAllowsYouToUpdateMultipleGroups" />
+		<webservice name="DeleteGroup" description="ThisWebserviceAllowsYouToDeleteAGroup" />
+		<webservice name="DeleteGroups"
+			description="ThisWebserviceAllowsYouToDeleteMultipleGroups" />
+		<webservice name="CreateGroup" description="ThisWebserviceAllowsYouToCreateAGroup" />
+		<webservice name="CreateGroups"
+			description="ThisWebserviceAllowsYouToCreateMultipleGroups" />
+		<webservice name="SubscribeUser"
+			description="ThisWebserviceAllowsYouToSubscribeAUserToAGroup" />
+		<webservice name="SubscribeUsers"
+			description="ThisWebserviceAllowsYouToSubscribeMultipleUsersToAgroup" />
+		<webservice name="UnsubscribeUser"
+			description="ThisWebserviceAllowsYouToUnsubscribeAUserToAGroup" />
+		<webservice name="UnsubscribeUsers"
+			description="ThisWebserviceAllowsYouToUnsubscribeMultipleUsersToAgroup" />
+	</category>
+</xml>

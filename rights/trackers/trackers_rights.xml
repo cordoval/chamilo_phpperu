@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="rights">
+	<event name="rights_template_create">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="right_create">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="location_create">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="rights_template_right_location_create">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="rights_template_update">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="right_update">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="location_update">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="rights_template_right_location_update">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="rights_template_delete">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="right_delete">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="location_delete">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+	<event name="rights_template_right_location_delete">
+		<tracker name="rights_templates_right_changes" />
+	</event>
+</application>

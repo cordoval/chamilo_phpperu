@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="external_export">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="title" notnull="1" type="text" length="50"
+			fixed="true" />
+		<property name="description" type="text" />
+		<property name="type" notnull="1" type="text" length="50"
+			fixed="true" />
+		<property name="catalog_name" notnull="1" type="text" length="50"
+			fixed="true" />
+		<property name="metadata_xsl_filename" type="text" length="50"
+			fixed="true" />
+		<property name="typed_external_export_id" notnull="1" type="integer"
+			unsigned="1" />
+		<property name="enabled" notnull="1" type="integer" unsigned="1" />
+		<property name="created" type="timestamp" />
+		<property name="modified" type="timestamp" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="unique_export" type="unique">
+		<indexproperty name="title" />
+		<indexproperty name="type" />
+	</index>
+</object>

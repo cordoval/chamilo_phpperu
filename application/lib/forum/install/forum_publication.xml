@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="forum_publication">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="forum_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="author_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="date" type="integer" unsigned="1" notnull="1" />
+		<property name="hidden" type="boolean" />
+		<property name="display_order" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="category_id" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="forum_id">
+		<indexproperty name="forum_id" />
+	</index>
+	<index name="author_id">
+		<indexproperty name="author_id" />
+	</index>
+	<index name="display_order">
+		<indexproperty name="display_order" />
+	</index>
+	<index name="category_id">
+		<indexproperty name="category_id" />
+	</index>
+</object>

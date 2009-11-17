@@ -1,0 +1,15 @@
+<xml>
+	<category name="manage users">
+		<webservice name="UpdateUser" description="ThisWebserviceAllowsYouToUpdateAUser" />
+		<webservice name="UpdateUsers"
+			description="ThisWebserviceAllowsYouToUpdateMultipleUsers" />
+		<webservice name="DeleteUser" description="ThisWebserviceAllowsYouToDeleteeAUser" />
+		<webservice name="DeleteUsers"
+			description="ThisWebserviceAllowsYouToDeleteMultipleUsers" />
+		<webservice name="CreateUser" description="ThisWebserviceAllowsYouToCreateAUser" />
+		<webservice name="CreateUsers"
+			description="ThisWebserviceAllowsYouToCreateMultipleUsers" />
+		<webservice name="GetUser" description="ThisWebserviceAllowsYouToGetAUser" />
+		<webservice name="GetAllUsers" description="ThisWebserviceAllowsYouToGetAllUsers" />
+	</category>
+</xml>

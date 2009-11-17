@@ -1,0 +1,39 @@
+<?php
+/**
+ * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
+ */
+ 
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
+require_once dirname(__FILE__).'/{L_OBJECT_CLASS}_browser/{L_OBJECT_CLASS}_browser_table.class.php';
+
+/**
+ * {L_APPLICATION_NAME} component which allows the user to browse his {L_OBJECT_CLASSES}
+ * @author Sven Vanpoucke
+ * @author {AUTHOR}
+ */
+class {APPLICATION_NAME}Manager{OBJECT_CLASSES}BrowserComponent extends {APPLICATION_NAME}ManagerComponent
+{
+	
+	function run()
+	{
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE)), Translation :: get('Browse{APPLICATION_NAME}')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Browse{OBJECT_CLASSES}')));
+
+		$this->display_header($trail);
+
+		echo '<a href="' . $this->get_create_{L_OBJECT_CLASS}_url() . '">' . Translation :: get('Create{OBJECT_CLASS}') . '</a>'; 
+		echo '<br /><br />';
+		echo $this->get_table();
+		$this->display_footer();
+	}
+	
+	function get_table()
+	{
+		$table = new {OBJECT_CLASS}BrowserTable($this, array(Application :: PARAM_APPLICATION => '{L_APPLICATION_NAME}', Application :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}), null);
+		return $table->as_html();
+	}
+
+}
+?>

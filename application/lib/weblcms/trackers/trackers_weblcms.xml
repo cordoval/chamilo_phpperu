@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="weblcms">
+	<event name="create_publication">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="update_publication">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="delete_publication">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="create_publication_category">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="update_publication_category">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="delete_publication_category">
+		<tracker name="weblcms_publication_changes" />
+	</event>
+	<event name="create_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="update_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="delete_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="subscribe_user_to_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="subscribe_class_to_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="unsubscribe_user_to_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="unsubscribe_class_to_course">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="create_course_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="update_course_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="delete_course_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="create_course_user_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="update_course_user_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="delete_course_user_category">
+		<tracker name="weblcms_course_changes" />
+	</event>
+	<event name="attempt_assessment">
+		<tracker name="weblcms_assessment_attempts" />
+	</event>
+	<event name="attempt_question">
+		<tracker name="weblcms_question_attempts" />
+	</event>
+	<event name="attempt_learning_path_question">
+		<tracker name="weblcms_learning_path_question_attempts" />
+	</event>
+	<event name="view_forum_topic">
+		<tracker name="weblcms_forum_topic_views" />
+	</event>
+	<event name="attempt_learning_path">
+		<tracker name="weblcms_lp_attempt" />
+	</event>
+	<event name="attempt_learning_path_item">
+		<tracker name="weblcms_lpi_attempt" />
+	</event>
+	<event name="attempt_learning_path_item_interaction">
+		<tracker name="weblcms_lpi_attempt_interaction" />
+	</event>
+	<event name="attempt_learning_path_item_objective">
+		<tracker name="weblcms_lpi_attempt_objective" />
+	</event>
+</application>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="rights_template">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="name" type="text" length="250" fixed="true"
+			unsigned="1" notnull="1" />
+		<property name="type" type="text" length="40" fixed="true"
+			unsigned="1" notnull="1" default="" />
+		<property name="user_id" type="integer" unsigned="1" notnull="1"
+			default="" />
+		<property name="description" type="text" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="user_id">
+		<indexproperty name="user_id" />
+	</index>
+	<index name="type">
+		<indexproperty name="type" />
+	</index>
+</object>

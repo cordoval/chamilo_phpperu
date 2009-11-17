@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="scorm_item">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="path" type="text" length="255" fixed="true"
+			notnull="1" />
+		<property name="visible" type="integer" unsigned="1" notnull="1"
+			default="1" />
+		<property name="parameters" type="text" length="1000" />
+		<property name="time_limit_action" type="text" length="500" />
+		<property name="data_from_lms" type="text" length="4000" />
+		<property name="completion_treshold" type="decimal" />
+		<property name="hide_lms_ui" type="text" length="255" fixed="true"
+			default="" />
+		<property name="control_mode" type="text" length="255" fixed="true"
+			default="" />
+		<property name="time_limit" type="text" length="100" fixed="true"
+			default="" />
+		<property name="objectives" type="text" />
+		<property name="condition_rules" type="text" />
+		<property name="completion_set_by_content" type="integer"
+			unsigned="1" lenght="1" default="0" />
+		<property name="objective_set_by_content" type="integer"
+			unsigned="1" lenght="1" default="0" />
+		<property name="identifier" type="text" lenght="500" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+</object>

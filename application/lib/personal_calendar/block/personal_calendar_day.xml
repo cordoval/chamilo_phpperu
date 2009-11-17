@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block name="personal_calendar_day">
+	<settings>
+		<category name="time">
+			<setting name="hour_step" field="text" default="1" />
+			<setting name="time_start" field="text" default="9" />
+			<setting name="time_end" field="text" default="17" />
+		</category>
+	</settings>
+</block>

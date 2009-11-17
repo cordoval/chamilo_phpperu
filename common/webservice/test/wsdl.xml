@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.chamilo.org"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.chamilo.org">
+	<types>
+		<xsd:schema targetNamespace="http://www.chamilo.org">
+			<xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+			<xsd:complexType name="OutputUser">
+				<xsd:all>
+					<xsd:element name="name" type="xsd:string" />
+					<xsd:element name="email" type="xsd:string" />
+					<xsd:element name="gender" type="xsd:string" />
+
+				</xsd:all>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>
+	<message name="TestProvideWebserviceHandler.get_userRequest">
+		<part name="id" type="xsd:string" />
+	</message>
+	<message name="TestProvideWebserviceHandler.get_userResponse">
+		<part name="return" type="tns:OutputUser" />
+	</message>
+	<portType name="ChamiloPortType">
+		<operation name="TestProvideWebserviceHandler.get_user">
+			<input message="tns:TestProvideWebserviceHandler.get_userRequest" />
+
+			<output message="tns:TestProvideWebserviceHandler.get_userResponse" />
+		</operation>
+	</portType>
+	<binding name="ChamiloBinding" type="tns:ChamiloPortType">
+		<soap:binding style="rpc"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="TestProvideWebserviceHandler.get_user">
+			<soap:operation soapAction="http://www.chamilo.org#get_user"
+				style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="http://www.chamilo.org"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="http://www.chamilo.org"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+
+	</binding>
+	<service name="Chamilo">
+		<port name="ChamiloPort" binding="tns:ChamiloBinding">
+			<soap:address
+				location="http://localhost/lcms/common/webservices/test/test_provide_webservice_handler.class.php" />
+		</port>
+	</service>
+</definitions>

@@ -1,0 +1,44 @@
+<?php
+/**
+ * $Id: course_group_creator.class.php 216 2009-11-13 14:08:06Z kariboe $
+ * @package application.lib.weblcms.tool.course_group.component
+ */
+require_once dirname(__FILE__) . '/../course_group_tool.class.php';
+require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
+require_once dirname(__FILE__) . '/../../../course_group/course_group_form.class.php';
+
+class CourseGroupToolCreatorComponent extends CourseGroupToolComponent
+{
+    private $action_bar;
+
+    function run()
+    {
+        if (! $this->is_allowed(VIEW_RIGHT))
+        {
+            Display :: not_allowed();
+            return;
+        }
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_ADD_COURSE_GROUP)), Translation :: get('Create')));
+        $trail->add_help('courses group');
+        
+        $course = $this->get_course();
+        $course_group = new CourseGroup(null, $course->get_id());
+        $param_add_course_group[Tool :: PARAM_ACTION] = CourseGroupTool :: ACTION_ADD_COURSE_GROUP;
+        $form = new CourseGroupForm(CourseGroupForm :: TYPE_CREATE, $course_group, $this->get_url($param_add_course_group));
+        if ($form->validate())
+        {
+            $form->create_course_group();
+            $this->get_parent()->redirect(Translation :: get('CourseGroupCreated'), false, array('tool_action' => null));
+        }
+        else
+        {
+            $this->display_header($trail, true);
+            $form->display();
+            $this->display_footer();
+        }
+    
+    }
+
+}
+?>

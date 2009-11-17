@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="user">
+	<event name="login">
+		<tracker name="login_logout" />
+		<tracker name="browsers" />
+		<tracker name="countries" />
+		<tracker name="os" />
+		<tracker name="providers" />
+		<tracker name="referrers" />
+	</event>
+	<event name="logout">
+		<tracker name="login_logout" />
+	</event>
+	<event name="create">
+		<tracker name="user_changes" />
+	</event>
+	<event name="update">
+		<tracker name="user_changes" />
+	</event>
+	<event name="delete">
+		<tracker name="user_changes" />
+	</event>
+	<event name="register">
+		<tracker name="user_changes" />
+	</event>
+	<event name="import">
+		<tracker name="user_changes" />
+	</event>
+	<event name="export">
+		<tracker name="user_changes" />
+	</event>
+	<event name="reset_password">
+		<tracker name="user_changes" />
+	</event>
+	<event name="quota">
+		<tracker name="user_changes" />
+	</event>
+	<event name="enter">
+		<tracker name="visit" />
+	</event>
+	<event name="leave">
+		<tracker name="visit" />
+	</event>
+</application>

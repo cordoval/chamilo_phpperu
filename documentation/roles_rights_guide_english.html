@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<title>Using roles and rights</title>
+
+		<link rel="stylesheet" href="../claroline/css/default.css" type="text/css" media="screen,projection" />
+		<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+	</head>
+
+	<body>
+		<div id="header1">
+			<h1>Using roles and rights</h1>
+		</div>
+
+		<div id="outerframe">
+			<div id="main">
+			
+				<p>
+					<em>Are you interested in translating this guide to your own language? The best way to proceed is to ask us on the <a href="http://www.chamilo.org/forum/">Chamilo forum</a> for the latest version &ndash; there may be updates to the guide since this version was released &ndash; and send new translations off to the <a href="mailto:&#116;&#114;&#097;&#110;&#115;&#108;&#097;&#116;&#105;&#111;&#110;&#064;&#100;&#111;&#107;&#101;&#111;&#115;&#046;&#099;&#111;&#109;">&#116;&#114;&#097;&#110;&#115;&#108;&#097;&#116;&#105;&#111;&#110;&#064;&#100;&#111;&#107;&#101;&#111;&#115;&#046;&#099;&#111;&#109;</a> email address.
+					</em>
+				</p>
+				<hr/>
+				<p>
+					One of the big new developments in Chamilo community release 2.0 is the user roles and rights system. This guide explains how to make the most of it.
+				</p>
+				<p>
+				The roles and rights system is new since this version. It is a first basic implementation of such a system, and we plan to continually improve this system for many months to come. We look forward to hearing from you and receiving feedback, suggestions, and bug reports. You can reach us through the <a href="http://www.chamilo.org/forum/">Chamilo forum</a>.
+				</p>
+			
+				<h2>1. What is it?</h2>
+				<p>
+					The roles and rights system gives Chamilo much more flexibility when it comes to defining <em>who is allowed to do what in which place</em>. The basic concepts are <em>roles, rights and locations</em>.
+				</p>
+				<h3>1.1 Roles</h3>
+				<p>
+					There are five local roles inside Chamilo. As course admin you can assign these roles to users inside your course. Roles are like a hat your users wear, they indicate users are of a certain type or belong to a certain group. In the future we will add the ability to define new roles.
+					<ul>
+					<li><b>Anonymous course visitor</b>: this could be anyone in any place of the world, who just opens a browser and tries to visit your course. By default these users have no rights at all and can't even view your course.</li>
+					<li><b>Registered course visitor</b>: this is someone who is registered in the Chamilo platform, and visits your course without being enrolled in it.</li>
+					<li><b>Normal course member</b>: this is the default role for users who enroll into your course. Typically, the majority of users keeps this role, and course admins assign the role of teaching assistant to some users so they can help develop the course.</li>
+					<li><b>Teaching assistant</b>: this assistant role has many permissions. In most tools, the assistant can view, add and edit content, but not delete it. The teaching assistant also cannot edit the course settings or course rights by default.</li>
+					<li><b>Course admin</b>: the course admin has all rights in the course and can do everything. The creator of a course automatically gets this role.</li>
+					</ul>
+				</p>
+				<h3>1.2 Rights</h3>
+				<p>
+					There are four basic rights inside Chamilo:
+					<ul>
+					<li><b>View</b>: the right to see a tool and its contents</li>
+					<li><b>Add</b>: the right to add new content in a tool, e.g. add hyperlinks, categories, documents, folders, student publications, forum messages...</li>
+					<li><b>Edit</b>: the right to edit existing content in a tool, e.g. edit the url of a hyperlinks, the name of a folder, the title and keywords of a document...</li>
+					<li><b>Delete</b>: the right to delete existing content in a tool, e.g. delete hyperlinks, student publications, forum messages, documents...</li>
+					</ul>
+				</p>
+				<h3>1.3 Locations</h3>
+				<p>
+					Every course and every course tool for every course is a separate location in Chamilo. A few example locations are
+					<ul>
+					<li>The course TEST_COURSE</li>
+					<li>The documents tool of course TEST_COURSE</li>
+					<li>The agenda tool of course Psychology101</li>
+					</ul>
+				</p>
+				<h3>1.4 Setting permissions</h3>
+				<p>
+					As course admin, you specify who can do what in which location. For every role and location combination the four rights can be set. So you can set the view right for the teaching assistant in the documents tool, the add right for the normal course members in the links tool, etc.
+				</p>
+				<h2>2. For whom is it useful?</h2>	
+				<p>
+					<strong>Platform admins</strong> could in earlier versions not do much more than give users teacher or student status. Now, there are several more roles and the platform admin can define exactly what users can see, edit, add or delete in courses. They can define default rights for newly created courses, they can specify exactly what rights teaching assistants have, or normal course members, or anonymous visitors...
+				</p>
+				<p>
+					Some organisations connect an external database with users and courses to Chamilo. These can also benefit from this new system, e.g. by giving students who officially follow a course different rights than other students who just enroll into a course out of interest.
+					
+					Official students might get enrolled as normal course members, while students who just follow a course out of interest might get enrolled as guest course members.
+				</p>
+				<p>	
+					<strong>Course admins</strong> can assign a variety of roles to users enrolled in their course. They can make people teaching assistant to reduce their workload. They can define exactly what the teaching assistant is and is not allowed to do. They can give the students/trainees (more generally we call these normal course members) more or less rights, in every tool separately. If you want to let students add new links and documents to your course, or create new forums themselves, you can. If you want to remove their right to upload student publications, you can do this too.
+				</p>
+				<p>	
+					<strong>Students / trainees</strong> can be empowered with this design. They can get more rights to manage some parts of courses, add links they think are interesting for the course, help moderate the forums,... They can also maintain a (supervised or not) student course, etcetera.
+				</p>
+				
+				<h2>3. How to keep it simple</h2>
+				<p>
+					Perhaps you want to keep Chamilo as simple as possible. You don't want to deal with a complex new development like roles and rights system. Or you just don't have any need for it at the moment.
+				</p>
+				<p>
+					We have worked hard to keep the user interface of Chamilo as simple as possible. It's possible for teachers and course administrators to manage their courses just like in earlier versions of Chamilo, without paying any attention to the roles and rights system. It just does its work behind the scenes. And if at any time you want more options than the old system could give you, the system is easy to reach when you need it.
+				</p>
+				<p>
+					Many different uses are possible. In some organisations, teachers won't use it much but the platform admin will. In others, the teachers might experiment with detailed new settings.
+				</p>
+				
+				<h2>4. How to use it</h2>
+				<p>
+					The good news is: if you manage a course, you're already using the new system without knowing it, each time you click a link or visit a page of the course.
+					
+					So how do you make the most of it?
+				</p>
+				<p>
+					The basic concept is that for every course tool, you can specify who can view the contents of that tool, add new items and folders, edit existing information, or delete content. However, you do not have to specify this for every individual user. Users have roles inside your course, like guest visitor, normal course member, teaching assistant, and course admin. For each of these roles, you can specify the permissions for every tool. You can say all users can access the forum, but guests cannot post there - only registered users. You can say that the teaching assistant can add documents to your course, but not delete them. And so on.
+				</p>
+				<p>
+					In the <em>Users tool</em> of your course, you can see the roles of users and edit them (just use the edit button in the list of users).
+				</p>
+				<p>
+					In the <em>Roles &amp; rights overview page</em> of your course, you can see the roles of users and edit them (just use the edit button in the list of users).
+				</p>
+				<h2>5. Limitations of the current implementation</h2>
+				<p>
+					These are features not present in the current implementation for Chamilo community 2.0, we plan to add these in future versions (2.1, 2.2 ...)
+				</p>
+				<ul>
+					<li>it is not possible to create new local roles and/or modify the names of roles</li>
+					<li>global roles are not used. These will be activated later.
+					<li>locations are currently restricted to the courses and their tools
+					<li>multiple local roles for a user in the same course
+					<li>restrictions on what rights course admins can modify: they will be able to edit all rights for all local roles <em>except their own</em> in their course in Chamilo 2.0. The platform admin cannot, for example, set restrictions the course admin cannot change.
+				</ul>
+			</div>
+		</div>
+		<hr/>
+	</body>
+</html>

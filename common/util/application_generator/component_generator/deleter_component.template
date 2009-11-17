@@ -1,0 +1,71 @@
+<?php
+/**
+ * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
+ */
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
+
+/**
+ * Component to delete {L_OBJECT_CLASSES} objects
+ * @author Sven Vanpoucke
+ * @author {AUTHOR}
+ */
+class {APPLICATION_NAME}Manager{OBJECT_CLASS}DeleterComponent extends {APPLICATION_NAME}ManagerComponent
+{
+	/**
+	 * Runs this component and displays its output.
+	 */
+	function run()
+	{
+		$ids = $_GET[{APPLICATION_NAME}Manager :: PARAM_{U_OBJECT_CLASS}];
+		$failures = 0;
+		
+		if (!empty ($ids))
+		{
+			if (!is_array($ids))
+			{
+				$ids = array ($ids);
+			}
+			
+			foreach ($ids as $id)
+			{
+				${L_OBJECT_CLASS} = $this->retrieve_{L_OBJECT_CLASS}($id);
+				
+				if (!${L_OBJECT_CLASS}->delete())
+				{
+					$failures++;
+				}
+			}
+			
+			if ($failures)
+			{
+				if (count($ids) == 1)
+				{
+					$message = 'Selected{OBJECT_CLASS}Deleted';
+				}
+				else
+				{
+					$message = 'Selected{OBJECT_CLASS}Deleted';
+				}
+			}
+			else
+			{
+				if (count($ids) == 1)
+				{
+					$message = 'Selected{OBJECT_CLASSES}Deleted';
+				}
+				else
+				{
+					$message = 'Selected{OBJECT_CLASSES}Deleted';
+				}
+			}
+			
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}));
+		}
+		else
+		{
+			$this->display_error_page(htmlentities(Translation :: get('No{OBJECT_CLASSES}Selected')));
+		}
+	}
+}
+?>

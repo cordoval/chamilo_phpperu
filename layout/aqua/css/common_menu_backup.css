@@ -1,0 +1,203 @@
+/*************************************************************/
+	/*   Design:   Multiflex-3 Update-7 / Drop-Down Menu         */
+	/*-----------------------------------------------------------*/
+	/*   Author:   Wolfgang, based on Stu Nichols ingenious      */
+	/*             designs over at www.cssplay.co.uk             */
+	/*   Date:     January 15, 2007                              */
+	/*   Homepage: wwww.1-2-3-4.info                             */
+	/*-----------------------------------------------------------*/
+	/*   License:  Public domain.                                */
+	/*************************************************************/
+	/*Basic Setup*/ /*Color navigation bar normal mode*/
+#header1 div.applications {
+	display: inline;
+	/*overflow: hidden;*/
+	float: right;
+	margin: 38px 0px 0px 0px;
+	padding: 0px;
+	height: 24px;
+	color: white;
+	text-decoration: none;
+	font-size: 98%;
+	font-weight: bold;
+	background-color: #264269;
+	background-image: url('../img/common/background_header_menu.png');
+	background-repeat: repeat-x;
+	/*
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+	*/
+}
+
+#header1 ul.bracket_left li,#header1 ul.bracket_right li {
+	display: inline-block;
+	height: 24px;
+	width: 4px;
+	padding: 0px;
+	margin: 0px;
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+#header1 ul.bracket_left li {
+	margin-right: 9px;
+	background-image: url('../img/common/background_header_left.png');
+}
+
+#header1 ul.bracket_right li {
+	margin-left: 9px;
+	background-image: url('../img/common/background_header_right.png');
+}
+
+#header1 div.applications ul {
+	display: inline;
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+
+#header1 div.applications ul li {
+	display: inline;
+	float: left;
+	position: relative;
+	z-index: auto !important /*Non-IE6*/;
+	z-index: 1000 /*IE6*/;
+	white-space: nowrap;
+}
+
+#header1 div.applications ul li.bullet {
+	height: 16px;
+	padding: 4px 9px 4px 9px;
+}
+
+#header1 div.applications ul li form {
+	float: left;
+	height: 16px;
+	line-height: 16px;
+	text-decoration: none;
+}
+
+#header1 div.applications ul li input {
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 16px;
+	padding: 0px;
+	text-decoration: none;
+	font-weight: bold;
+	color: white;
+	background-color: transparent;
+	border: 0px;
+	font-family: arial, verdana, helvetica, sans-serif;
+	font-size: 10px;
+}
+
+#header1 div.applications ul li a {
+	float: none !important /*Non-IE6*/;
+	float: left /*IE-6*/;
+	display: block;
+	height: auto;
+	line-height: 16px;
+	height: 16px;
+	padding: 4px 0px 4px 0px;
+	text-decoration: none;
+	font-weight: bold;
+	color: white;
+}
+
+#header1 div.applications ul li ul {
+	display: none;
+	border: none;
+}
+
+/*Color main cells hovering mode*/
+#header1 div.applications ul li:hover a {
+	color: #88a8d4;
+	text-decoration: none;
+}
+
+#header1 div.applications ul li a.current {
+	color: #88a8d4;
+	text-decoration: none;
+}
+
+#header1 div.applications ul li:hover a.current {
+	color: #88a8d4;
+	text-decoration: none;
+}
+
+#header1 div.applications ul li:hover ul {
+	display: block;
+	position: absolute;
+	z-index: 999;
+	top: 23px;
+	margin-top: 1px;
+	left: 0px;
+	background-color: #264269;
+	background-image: url('../img/common/background_header_submenu.png');
+	background-repeat: repeat-x;
+	background-position: bottom left;
+	clear: both;
+	/*border: 2px solid #15243B;*/
+	border-top: none;
+}
+
+/*Color subcells normal mode*/
+#header1 div.applications ul li:hover ul li img {
+	vertical-align: middle;
+	margin: 0px 9px 0px 0px;
+}
+
+#header1 div.applications ul li:hover ul li a {
+	display: block;
+	width: 12.0em;
+	height: 16px;
+	line-height: 16px;
+	padding: 4px 9px 4px 9px;
+	border-bottom: 1px dotted #E5EDF9;
+	color: #E5EDF9;
+}
+
+/*Color subcells hovering mode*/
+#header1 div.applications ul li:hover ul li a:hover {
+	background-color: #15243B;
+	text-decoration: none;
+}
+
+/*Color main cells hovering mode*/
+#header1 div.applications ul li a:hover {
+	color: #88a8d4;
+	text-decoration: none;
+	outline: none;
+}
+
+#header1 div.applications ul li a:active {
+	color: #fa8500;
+	outline: none;
+}
+
+#header1 div.applications ul li a:hover ul {
+	display: block;
+	width: 12.0em;
+	position: absolute;
+	z-index: 999;
+	top: 24px;
+	t\op: 23px;
+	left: 0px;
+	marg\in-top: 0.1em;
+}
+
+/*Color subcells normal mode*/
+#header1 div.applications ul li a:hover ul li a {
+	display: block;
+	w\idth: 12.0em;
+	height: 1px;
+	line-height: 1.3em;
+	padding: 4px 9px 4px 9px;
+	border-bottom: 1px dotted #E5EDF9;
+}
+
+/*Color subcells hovering mode*/
+#header1 div.applications ul li a:hover ul li a:hover {
+	text-decoration: none;
+}

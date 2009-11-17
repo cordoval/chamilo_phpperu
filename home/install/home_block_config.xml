@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="block_config">
+	<properties>
+		<property name="block_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="variable" type="text" length="255" unsigned="1"
+			notnull="1" fixed="true" />
+		<property name="value" type="text" length="255" unsigned="1"
+			notnull="1" fixed="true" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="block_id" />
+		<indexproperty name="variable" />
+	</index>
+</object>

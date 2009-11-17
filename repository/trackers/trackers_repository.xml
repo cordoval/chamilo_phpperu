@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="repository">
+	<event name="create">
+		<tracker name="repository_changes" />
+	</event>
+	<event name="update">
+		<tracker name="repository_changes" />
+	</event>
+	<event name="delete">
+		<tracker name="repository_changes" />
+	</event>
+	<event name="move">
+		<tracker name="repository_changes" />
+	</event>
+	<event name="metadata">
+		<tracker name="repository_changes" />
+	</event>
+	<event name="publication_update">
+		<tracker name="repository_changes" />
+	</event>
+	<event name="publication_delete">
+		<tracker name="repository_changes" />
+	</event>
+	<event name="version">
+		<tracker name="repository_changes" />
+	</event>
+	<event name="restore">
+		<tracker name="repository_changes" />
+	</event>
+	<event name="revert">
+		<tracker name="repository_changes" />
+	</event>
+</application>

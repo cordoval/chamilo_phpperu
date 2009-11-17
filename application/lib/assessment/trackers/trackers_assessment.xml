@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="assessment">
+	<event name="create_publication">
+		<tracker name="assessment_publication_changes" />
+	</event>
+	<event name="update_publication">
+		<tracker name="assessment_publication_changes" />
+	</event>
+	<event name="delete_publication">
+		<tracker name="assessment_publication_changes" />
+	</event>
+	<event name="create_publication_category">
+		<tracker name="assessment_publication_changes" />
+	</event>
+	<event name="update_publication_category">
+		<tracker name="assessment_publication_changes" />
+	</event>
+	<event name="delete_publication_category">
+		<tracker name="assessment_publication_changes" />
+	</event>
+	<event name="attempt_assessment">
+		<tracker name="assessment_assessment_attempts" />
+	</event>
+	<event name="attempt_question">
+		<tracker name="assessment_question_attempts" />
+	</event>
+</application>

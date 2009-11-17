@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<authentication>
+
+	<attribute_mapping>
+		<attribute name="Shib-SwissEP-UniqueID" mapped_to="external_uid"
+			default_value="" update_at_login="false" />
+		<attribute name="Shib-InetOrgPerson-givenName" mapped_to="firstname"
+			default_value="" update_at_login="true" />
+		<attribute name="Shib-Person-surname" mapped_to="lastname"
+			default_value="" update_at_login="true" />
+		<attribute name="Shib-InetOrgPerson-mail" mapped_to="email"
+			default_value="" update_at_login="true" />
+		<attribute name="Shib-EP-Affiliation" mapped_to="affiliation"
+			default_value="student" update_at_login="false" />
+	</attribute_mapping>
+
+	<role_mapping name_separator=";"
+		display_request_form_when_unclear="true">
+		<value name="faculty" precedence="0" group_id="" role_id="" />
+
+		<value name="student" precedence="1" group_id="" role_id="" />
+		<value name="member" precedence="1" group_id="" role_id="" />
+		<value name="staff" precedence="1" group_id="" role_id="" />
+		<value name="alum" precedence="1" group_id="" role_id="" />
+		<value name="affiliate" precedence="1" group_id="" role_id="" />
+	</role_mapping>
+
+</authentication>

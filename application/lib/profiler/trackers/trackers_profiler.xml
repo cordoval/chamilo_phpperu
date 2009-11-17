@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="profiler">
+	<event name="create_publication">
+		<tracker name="profiler_publication_changes" />
+	</event>
+	<event name="update_publication">
+		<tracker name="profiler_publication_changes" />
+	</event>
+	<event name="delete_publication">
+		<tracker name="profiler_publication_changes" />
+	</event>
+</application>

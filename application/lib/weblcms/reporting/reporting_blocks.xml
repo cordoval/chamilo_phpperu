@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="weblcms">
+	<reporting_block name="CourseInformation" application="weblcms"
+		function="getCourseInformation" displaymode="Text"
+		exclude_displaymodes="Charts" width="500px" height="500px" />
+	<reporting_block name="CourseUserLearningpathInformation"
+		application="weblcms" function="getCourseUserLearningpathInformation"
+		displaymode="Table" exclude_displaymodes="Charts" width="500px"
+		height="500px" />
+	<reporting_block name="CourseUserExerciseInformation"
+		application="weblcms" function="getCourseUserExcerciseInformation"
+		displaymode="Table" exclude_displaymodes="Charts" width="500px"
+		height="500px" />
+	<reporting_block name="WeblcmsNoOfCourses" application="weblcms"
+		function="getNoOfCourses" displaymode="Table" width="500px" height="500px" />
+	<reporting_block name="WeblcmsLastAccessToTools"
+		application="weblcms" function="getLastAccessToTools" displaymode="Table"
+		exclude_displaymodes="Charts" width="500px" height="500px" />
+	<reporting_block name="WeblcmsLatestAccess"
+		application="weblcms" function="getLatestAccess" displaymode="Table"
+		exclude_displaymodes="Charts" width="500px" height="300px" />
+	<reporting_block name="WeblcmsNoOfCoursesByLanguage"
+		application="weblcms" function="getNoOfCoursesByLanguage" displaymode="Table"
+		width="500px" height="500px" />
+	<reporting_block name="WeblcmsMostActiveInactiveLastVisit"
+		application="weblcms" function="getMostActiveInactiveLastVisit"
+		displaymode="Table" exclude_displaymodes="Charts" width="500px"
+		height="500px" />
+	<reporting_block name="WeblcmsMostActiveInactiveLastPublication"
+		application="weblcms" function="getMostActiveInactiveLastPublication"
+		displaymode="Table" exclude_displaymodes="Charts" width="500px"
+		height="500px" />
+	<reporting_block name="WeblcmsMostActiveInactiveDetail"
+		application="weblcms" function="getMostActiveInactiveDetail"
+		displaymode="Table" exclude_displaymodes="Charts" width="500px"
+		height="500px" />
+	<reporting_block name="WeblcmsNoOfPublishedObjectsPerType"
+		application="weblcms" function="getNoOfPublishedObjectsPerType"
+		displaymode="Table" width="500px" height="500px" />
+	<reporting_block name="WeblcmsNoOfObjectsPerType"
+		application="weblcms" function="getNoOfObjectsPerType" displaymode="Table"
+		width="500px" height="500px" />
+	<reporting_block name="WeblcmsAverageLearningpathScore"
+		application="weblcms" function="getAverageLearningpathScore"
+		displaymode="Table" exclude_displaymodes="Charts" width="500px"
+		height="500px" />
+	<reporting_block name="WeblcmsAverageExerciseScore"
+		application="weblcms" function="getAverageExcerciseScore" displaymode="Table"
+		exclude_displaymodes="Charts" width="500px" height="500px" />
+	<reporting_block name="WeblcmsWikiPageMostActiveUser"
+		application="weblcms" function="getWikiPageMostActiveUser"
+		displaymode="Table" exclude_displaymodes="Charts" width="500px"
+		height="500px" />
+	<reporting_block name="WeblcmsWikiPageUsersContributions"
+		application="weblcms" function="getWikiPageUsersContributions"
+		displaymode="Table" exclude_displaymodes="Charts" width="500px"
+		height="500px" />
+	<reporting_block name="WeblcmsWikiMostVisitedPage"
+		application="weblcms" function="getWikiMostVisitedPage" displaymode="Table"
+		exclude_displaymodes="Charts" width="500px" height="500px" />
+	<reporting_block name="WeblcmsWikiMostEditedPage"
+		application="weblcms" function="getWikiMostEditedPage" displaymode="Table"
+		exclude_displaymodes="Charts" width="500px" height="500px" />
+	<reporting_block name="WeblcmsToolPublicationsDetail"
+		application="weblcms" function="getToolPublicationsDetail"
+		displaymode="Table" exclude_displaymodes="Charts" width="500px"
+		height="500px" />
+	<reporting_block name="WeblcmsPublicationDetail"
+		application="weblcms" function="getPublicationDetail" displaymode="Table"
+		exclude_displaymodes="Charts" width="600px" height="300px" />
+	<reporting_block name="WeblcmsPublicationAccess"
+		application="weblcms" function="getPublicationAccess" displaymode="Table"
+		exclude_displaymodes="Charts" width="500px" height="500px" />
+	<reporting_block name="WeblcmsPublicationUserAccess"
+		application="weblcms" function="getPublicationUserAccess" displaymode="Table"
+		exclude_displaymodes="Charts" width="500px" height="500px" />
+	<reporting_block name="WeblcmsCoursesPerCategory"
+		application="weblcms" function="getCoursesPerCategory" displaymode="Table"
+		width="500px" height="500px" />
+	<reporting_block name="WeblcmsLastAccessToToolsPlatform"
+		application="weblcms" function="getLastAccessToToolsPlatform"
+		displaymode="Table" exclude_displaymodes="Charts" width="500px"
+		height="500px" />
+	<reporting_block name="WeblcmsLearningPathProgress"
+		application="weblcms" function="getLearningPathProgress" displaymode="Table"
+		exclude_displaymodes="Charts,Text" width="500px" height="500px" />
+	<reporting_block name="WeblcmsLearningPathAttempts"
+		application="weblcms" function="getLearningPathAttempts" displaymode="Table"
+		exclude_displaymodes="Charts,Text" width="500px" height="500px" />
+</application>

@@ -1,0 +1,12 @@
+@CHARSET "ISO-8859-1";
+
+div.mini_calendar {
+	float: left;
+	width: 19%;
+	padding-right: 1%;
+}
+
+div.normal_calendar {
+	float: left;
+	width: 80%;
+}

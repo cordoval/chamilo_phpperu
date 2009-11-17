@@ -1,0 +1,42 @@
+<?php
+/**
+ * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
+ */
+ 
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
+
+/**
+ * {L_APPLICATION_NAME} component which allows the user to browse his {L_OBJECT_CLASSES}
+ * @author Sven Vanpoucke
+ * @author {AUTHOR}
+ */
+class {APPLICATION_NAME}Manager{OBJECT_CLASSES}BrowserComponent extends {APPLICATION_NAME}ManagerComponent
+{
+	
+	function run()
+	{
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE)), Translation :: get('Browse{APPLICATION_NAME}')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Browse{OBJECT_CLASSES}')));
+
+		$this->display_header($trail);
+
+		echo '<a href="' . $this->get_create_{L_OBJECT_CLASS}_url() . '">' . Translation :: get('Create{OBJECT_CLASS}') . '</a>'; 
+		echo '<br /><br />';
+		
+		${L_OBJECT_CLASSES} = $this->retrieve_{L_OBJECT_CLASSES}();
+		while(${L_OBJECT_CLASS} = ${L_OBJECT_CLASSES}->next_result())
+		{
+			echo '<div style="border: 1px solid grey; padding: 5px;">';
+			dump(${L_OBJECT_CLASS});
+			echo '<br /><a href="' . $this->get_update_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}). '">' . Translation :: get('Update{OBJECT_CLASS}') . '</a>'; 
+			echo ' | <a href="' . $this->get_delete_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}) . '">' . Translation :: get('Delete{OBJECT_CLASS}') . '</a>'; 
+			echo '</div><br /><br />'; 
+		}
+		
+		$this->display_footer();
+	}
+
+}
+?>

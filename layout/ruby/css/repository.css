@@ -1,0 +1,78 @@
+@CHARSET "ISO-8859-1";
+
+div.select_complex_element
+{
+	clear: both;
+	margin: 0px;
+	padding: 0px 0px 0px 10px;
+	border: 1px solid #ebebeb;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+}
+
+div.select_complex_element span.title
+{
+	position: relative;
+	top: -11px;
+	background-color: #FFFFFF;
+	font-weight: bold;
+	color: #d90223;
+	padding: 0px 5px 0px 5px;
+	height: 22px;
+	line-height: 22px;
+	overflow: hidden;
+}
+
+div.select_complex_element span.title img
+{
+	vertical-align: middle;
+	margin-right: 5px;
+}
+
+div.select_complex_element div#content_object_selection
+{
+	margin-top: 0px;
+}
+
+div.complex_browser_display
+{
+	margin-top: 10px;
+}
+
+div.complex_browser_display div.content_object div.title
+{
+	color: #d90223;
+}
+
+div.create_block
+{
+	background-repeat: no-repeat;
+	background-position: center 10px;
+	background-color: #F6F6F6;
+
+	float: left;
+	margin: 0px 10px 10px 0px;
+	padding: 68px 10px 10px 10px;
+	-moz-border-radius: 5px;
+	-webkit-border--radius: 5px;
+	overflow: hidden;
+	width: 100px;
+	
+	text-align: center;
+	font-weight: bold;
+	color: #565656;
+	font-size: 11px;
+}
+
+.content_object_selection
+{
+	clear: both;
+	margin-top: 10px;
+}
+
+#repository_tree_container
+{
+	overflow: auto;
+}

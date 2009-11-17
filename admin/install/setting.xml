@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="setting">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="application" type="text" length="255" fixed="true" />
+		<property name="variable" type="text" length="255" fixed="true" />
+		<property name="value" type="text" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+</object>

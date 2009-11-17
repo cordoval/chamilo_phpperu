@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="validation">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="application" type="text" length="30" fixed="true" />
+		<property name="publication_id" type="integer" length="10"
+			unsigned="1" />
+		<property name="complex_id" type="integer" length="10"
+			unsigned="1" />
+		<property name="validated" type="boolean" />
+		<property name="owner_id" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="validation">
+		<indexproperty name="application" />
+		<indexproperty name="publication_id" />
+		<indexproperty name="complex_id" />
+	</index>
+	<index name="owner_id">
+		<indexproperty name="owner_id" />
+	</index>
+</object>

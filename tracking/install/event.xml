@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="event">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="name" type="text" length="50" fixed="true"
+			notnull="1" />
+		<property name="active" type="boolean" notnull="1" default="1" />
+		<property name="block" type="text" length="50" fixed="true"
+			notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="name">
+		<indexproperty name="name" />
+	</index>
+	<index name="active">
+		<indexproperty name="active" />
+	</index>
+	<index name="block">
+		<indexproperty name="block" />
+	</index>
+</object>

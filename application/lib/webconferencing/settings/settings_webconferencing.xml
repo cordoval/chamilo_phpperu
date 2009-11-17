@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="webconferencing">
+	<settings>
+		<category name="DimDimServerSettings">
+			<setting name="dimdim_server_url" field="text" default="www1.dimdim.com" />
+			<setting name="dimdim_server_port" field="text" default="80" />
+		</category>
+		<category name="general">
+			<setting name="allow_network_quality_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_duration_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_mikes_selection" field="radio" default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_moderatorpasscode_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_attendeepasscode_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_presenterpwd_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_attendeepwd_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_audiovideo_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_waitingarea_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_featurewhiteboard_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_featurepublisher_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_featureprivatechat_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_featurepublicchat_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_featuredocshare_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_featurecobshare_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_featurerecording_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_feedback_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_participantlist_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_assignmikeonjoin_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_handsfreeonload_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="allow_allowattendeeinvites_selection" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+		</category>
+		<category name="defaults">
+			<setting name="default_webconference_duration" field="text"
+				default="60" />
+			<setting name="default_network_quality" field="select"
+				default="0">
+				<options type="dynamic" source="get_network_options" />
+			</setting>
+			<setting name="default_mikes" field="select" default="0">
+				<options type="dynamic" source="get_mikes_options" />
+			</setting>
+			<setting name="default_audio_video" field="select" default="0">
+				<options type="dynamic" source="get_audio_video_options" />
+			</setting>
+			<setting name="default_moderatorpasscode" field="text"
+				default="1" />
+			<setting name="default_attendeepasscode" field="text"
+				default="1" />
+			<setting name="default_presenterpwd" field="text" default="1" />
+			<setting name="default_attendeepwd" field="text" default="1" />
+			<setting name="default_waitingarea" field="radio" default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_featurewhiteboard" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_featurepublisher" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_featureprivatechat" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_featurepublicchat" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_featuredocshare" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_featurecobshare" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_featurerecording" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_feedback" field="radio" default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_participantlist" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_assignmikeonjoin" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_handsfreeonload" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="default_allowattendeeinvites" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+		</category>
+	</settings>
+</application>

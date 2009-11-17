@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="webservice_registration">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="name" type="text" length="255" />
+		<property name="description" type="text" fixed="true" />
+		<property name="parent_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="active" type="boolean" notnull="1" default="1" />
+		<property name="application" type="text" length="50" fixed="true"
+			notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="parent_id">
+		<indexproperty name="parent_id" />
+	</index>
+	<index name="application">
+		<indexproperty name="application" />
+	</index>
+</object>

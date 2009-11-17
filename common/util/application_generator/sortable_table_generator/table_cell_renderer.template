@@ -1,0 +1,70 @@
+<?php
+/**
+ * @package {L_APPLICATION_NAME}.tables.{L_OBJECT_CLASS}_table
+ */
+require_once dirname(__FILE__).'/{L_OBJECT_CLASS}_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../tables/{L_OBJECT_CLASS}_table/default_{L_OBJECT_CLASS}_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/../../../{L_OBJECT_CLASS}.class.php';
+require_once dirname(__FILE__).'/../../{L_APPLICATION_NAME}_manager.class.php';
+
+/**
+ * Cell rendere for the learning object browser table
+ *
+ * @author Sven Vanpoucke
+ * @author {AUTHOR}
+ */
+ 
+class {OBJECT_CLASS}BrowserTableCellRenderer extends Default{OBJECT_CLASS}TableCellRenderer
+{
+	/**
+	 * The browser component
+	 */
+	private $browser;
+	
+	/**
+	 * Constructor
+	 * @param ApplicationComponent $browser
+	 */
+	function {OBJECT_CLASS}BrowserTableCellRenderer($browser)
+	{
+		parent :: __construct();
+		$this->browser = $browser;
+	}
+	
+	// Inherited
+	function render_cell($column, ${L_OBJECT_CLASS})
+	{
+		if ($column === {OBJECT_CLASS}BrowserTableColumnModel :: get_modification_column())
+		{
+			return $this->get_modification_links(${L_OBJECT_CLASS});
+		}
+		
+		return parent :: render_cell($column, ${L_OBJECT_CLASS});
+	}
+	
+	/**
+	 * Gets the action links to display
+	 * @param ContentObject $content_object The learning object for which the
+	 * action links should be returned
+	 * @return string A HTML representation of the action links
+	 */
+	private function get_modification_links(${L_OBJECT_CLASS})
+	{
+		$toolbar_data = array();
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_update_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}),
+			'label' => Translation :: get('Edit'),
+			'img' => Theme :: get_common_image_path().'action_edit.png'
+		);
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_delete_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}),
+			'label' => Translation :: get('Delete'),
+			'img' => Theme :: get_common_image_path().'action_delete.png',
+		);
+		
+		return Utilities :: build_toolbar($toolbar_data);
+	}
+}
+?>

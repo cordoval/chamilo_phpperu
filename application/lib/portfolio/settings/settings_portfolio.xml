@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="portfolio">
+	<settings>
+		<category name="general">
+			<setting name="display_user_picture" field="radio" default="1">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="first_page" field="radio" default="0">
+				<options type="static">
+					<option name="browse_portfolio" value="0" />
+					<option name="myportfolio" value="1" />
+				</options>
+			</setting>
+		</category>
+	</settings>
+</application>

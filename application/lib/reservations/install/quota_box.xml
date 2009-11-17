@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="quota_box">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="name" type="text" length="250" fixed="true"
+			notnull="1" />
+		<property name="description" type="text" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+</object>

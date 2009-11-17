@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="admin">
+	<settings>
+		<category name="administrator">
+			<setting name="show_administrator_data" field="radio"
+				default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
+			<setting name="administrator_firstname" field="text" default="Chamilo" />
+			<setting name="administrator_surname" field="text" default="Administrator" />
+			<setting name="administrator_email" field="text"
+				default="chamilo.admin@mychamilo.com" />
+			<setting name="administrator_telephone" field="text" default="000/1234567" />
+		</category>
+		<category name="whoisonline">
+			<setting name="whoisonlineaccess" field="radio" default="2">
+				<options type="static">
+					<option name="disabled" value="0" />
+					<option name="world" value="1" />
+					<option name="registered" value="2" />
+				</options>
+			</setting>
+			<setting name="timelimit" field="text" default="30" />
+		</category>
+		<category name="platform">
+			<setting name="site_name" field="text" default="Chamilo" />
+			<setting name="institution" field="text" default="Chamilo" />
+			<setting name="institution_url" field="text"
+				default="http://www.chamilo.org" />
+			<setting name="no_reply_email" field="text" default="" />
+			<setting name="page_after_login" field="radio" default="home">
+				<options type="static">
+					<option name="homepage" value="home" />
+					<option name="courses" value="weblcms" />
+				</options>
+			</setting>
+			<setting name="public_pages_compliance_to_wai" field="radio"
+				default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="hide_dcda_markup" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="show_variable_in_translation" field="checkbox"
+				default="0">
+				<options type="static">
+					<option name="show_variable_in_translation" value="1" />
+				</options>
+			</setting>
+		</category>
+		<category name="visual">
+			<setting name="platform_language" field="select" default="english">
+				<options type="dynamic" source="get_languages" />
+			</setting>
+			<setting name="theme" field="select" default="aqua">
+				<options type="dynamic" source="get_themes" />
+			</setting>
+			<setting name="portal_home" field="html_editor" default="" />
+		</category>
+		<category name="various">
+			<setting name="server_type" field="radio" default="production">
+				<options type="static">
+					<option name="production" value="production" />
+					<option name="test" value="test" />
+				</options>
+			</setting>
+			<setting name="first_day_of_week" field="radio" default="monday">
+				<options type="static">
+					<option name="sunday" value="sunday" />
+					<option name="monday" value="monday" />
+				</options>
+			</setting>
+			<setting name="version" field="text" default="2.0" locked="true" />
+			<setting name="show_version_data" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+		</category>
+		<category name="security">
+			<setting name="type_of_filtering" field="radio" default="blacklist">
+				<options type="static">
+					<option name="blacklist" value="blacklist" />
+					<option name="whitelist" value="whitelist" />
+				</options>
+			</setting>
+			<setting name="blacklist" field="text" default="" />
+			<setting name="whitelist" field="text" default="" />
+			<setting name="rename_instead_of_disallow" field="checkbox">
+				<options type="static">
+					<option name="rename_instead_of_disallow" value="1" />
+				</options>
+			</setting>
+			<setting name="replacement_extension" field="text" default="" />
+			<setting name="permissions_new_files" field="text" default="0660" />
+		</category>
+		<category name="authentication">
+			<setting name="enable_external_authentication" field="checkbox">
+				<options type="static">
+					<option name="enable_external_authentication" value="1" />
+				</options>
+			</setting>
+		</category>
+		<category name="external_authentication">
+			<setting name="enable_ldap_authentication" field="checkbox">
+				<options type="static">
+					<option name="enable_ldap_authentication" value="1" />
+				</options>
+			</setting>
+			<setting name="enable_cas_authentication" field="checkbox">
+				<options type="static">
+					<option name="enable_cas_authentication" value="1" />
+				</options>
+			</setting>
+		</category>
+		<category name="ldap_authentication">
+			<setting name="ldap_host" field="text" default="" />
+			<setting name="ldap_port" field="text" default="" />
+			<setting name="ldap_password" field="text" default="" />
+			<setting name="ldap_remote_dn" field="text" default="" />
+			<setting name="ldap_search_dn" field="text" default="" />
+		</category>
+		<category name="cas_authentication">
+			<setting name="cas_host" field="text" default="" />
+			<setting name="cas_port" field="text" default="" />
+			<setting name="cas_uri" field="text" default="" />
+			<setting name="cas_certificate" field="text" default="" />
+			<setting name="cas_enable_log" field="checkbox">
+				<options type="static">
+					<option name="cas_enable_log" value="1" />
+				</options>
+			</setting>
+			<setting name="cas_log" field="text" default="" />
+		</category>
+		<category name="logfiles">
+			<setting name="php_error_location" field="text" default="" />
+			<setting name="httpd_error_location" field="text" default="" />
+			<setting name="mysql_error_location" field="text" default="" />
+		</category>
+	</settings>
+</application>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="user_view_rel_content_object">
+	<properties>
+		<property name="view_id" type="integer" notnull="1" default="0" />
+		<property name="content_object_type" type="text" length="100"
+			fixed="true" notnull="1" default="" />
+		<property name="visibility" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="view_id" />
+		<indexproperty name="content_object_type" />
+	</index>
+	<index name="view_id">
+		<indexproperty name="view_id" />
+	</index>
+	<index name="content_object_type">
+		<indexproperty name="content_object_type" />
+	</index>
+	<index name="visibility">
+		<indexproperty name="visibility" />
+	</index>
+</object>

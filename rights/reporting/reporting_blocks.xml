@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="rights">
+	<reporting_block name="RightsUsersPerRightsTemplate"
+		application="rights" function="getUsersPerRightsTemplate" displaymode="Table"
+		width="500px" height="500px" />
+	<reporting_block name="RightsGroupsPerRightsTemplate"
+		application="rights" function="getGroupsPerRightsTemplate"
+		displaymode="Table" width="500px" height="500px" />
+	<reporting_block name="RightsNoOfRightsTemplates"
+		application="rights" function="getNoOfRightsTemplates" displaymode="Table"
+		width="500px" height="500px" />
+	<reporting_block name="RightRightsTemplates"
+		application="rights" function="getRightsTemplates" displaymode="Table"
+		width="500px" height="500px" />
+</application>

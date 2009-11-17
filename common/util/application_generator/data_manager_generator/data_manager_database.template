@@ -1,0 +1,79 @@
+<?php
+/**
+ * @package {L_APPLICATION_NAME}.datamanager
+ */
+<!-- BEGIN OBJECTS -->
+require_once dirname(__FILE__).'/../{OBJECTS.L_OBJECT_CLASS}.class.php';
+<!-- END OBJECTS -->
+require_once 'MDB2.php';
+
+/**
+ *	This is a data manager that uses a database for storage. It was written
+ *	for MySQL, but should be compatible with most SQL flavors.
+ *
+ *  @author Sven Vanpoucke
+ *  @author {AUTHOR}
+ */
+
+class Database{APPLICATION_NAME}DataManager extends {APPLICATION_NAME}DataManager
+{
+	private $database;
+
+	function initialize()
+	{
+		$aliases = array();
+		<!-- BEGIN OBJECTS -->
+		$aliases[{OBJECTS.OBJECT_CLASS} :: get_table_name()] = '{OBJECTS.OBJECT_ALIAS}';
+		<!-- END OBJECTS -->
+		
+		$this->database = new Database($aliases);
+		$this->database->set_prefix('{L_APPLICATION_NAME}_');
+	}
+	
+	function create_storage_unit($name, $properties, $indexes)
+	{
+		return $this->database->create_storage_unit($name, $properties, $indexes);
+	}
+
+	<!-- BEGIN OBJECTS -->
+	function get_next_{OBJECTS.L_OBJECT_CLASS}_id()
+	{
+		return $this->database->get_next_id({OBJECTS.OBJECT_CLASS} :: get_table_name());
+	}
+	
+	function create_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS})
+	{
+		return $this->database->create(${OBJECTS.L_OBJECT_CLASS});
+	}
+	
+	function update_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS})
+	{
+		$condition = new EqualityCondition({OBJECTS.OBJECT_CLASS} :: PROPERTY_ID, ${OBJECTS.L_OBJECT_CLASS}->get_id());
+		return $this->database->update(${OBJECTS.L_OBJECT_CLASS}, $condition);
+	}
+	
+	function delete_{OBJECTS.L_OBJECT_CLASS}(${OBJECTS.L_OBJECT_CLASS})
+	{
+		$condition = new EqualityCondition({OBJECTS.OBJECT_CLASS} :: PROPERTY_ID, ${OBJECTS.L_OBJECT_CLASS}->get_id());
+		return $this->database->delete(${OBJECTS.L_OBJECT_CLASS}->get_table_name(), $condition);
+	}
+
+	function count_{OBJECTS.L_OBJECT_CLASSES}($condition = null)
+	{
+		return $this->database->count_objects({OBJECTS.OBJECT_CLASS} :: get_table_name(), $condition);
+	}
+
+	function retrieve_{OBJECTS.L_OBJECT_CLASS}($id)
+	{
+		$condition = new EqualityCondition({OBJECTS.OBJECT_CLASS} :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object({OBJECTS.OBJECT_CLASS} :: get_table_name(), $condition);
+	}
+
+	function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return $this->database->retrieve_objects({OBJECTS.OBJECT_CLASS} :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+	}
+	
+	<!-- END OBJECTS -->
+}
+?>

@@ -1,0 +1,333 @@
+@CHARSET "ISO-8859-1";
+
+/*****************************************************
+ *  HOME STYLES                                      *
+ *****************************************************/
+div.manage
+{
+	text-align: center;
+	clear: both;
+	width: 100%;
+	padding-bottom: 10px;
+}
+
+div.manage ul.toolbar, div.manage ul.toolbar_horizontal
+{
+	float: none;
+}
+
+div.manage ul.toolbar li, div.manage ul.toolbar_horizontal li
+{
+	float: none;
+	display: inline;
+}
+
+div.row
+{
+	text-align: justify;
+	clear: both;
+	min-height: 5px;
+}
+
+div.column
+{
+	/*padding:15px;*/
+	text-align: justify;
+	float: left;
+	min-height: 5px;
+}
+
+div.block
+{
+	background-color: #f6f6f6;
+	text-align: justify;
+	/*margin-bottom: 35px;*/
+	
+	margin: 0px 0px 1em 0px;
+	padding: 15px 15px 15px 60px;
+	background-position: 15px 15px;
+	background-repeat: no-repeat;
+	clear: both;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border: 1px solid white;
+}
+
+div.block div.title
+{
+	font-family: verdana, sans-serif;
+	font-weight: bold;
+	font-size: 140%;
+	border-bottom: 1px dotted #D3D3D3;
+	width: 100%;
+	padding-bottom: 0.3em;
+	margin-bottom: 0.3em;
+	color: #b1071c;
+	clear: both;
+	position: relative;
+	cursor: move;
+}
+
+div.block div.title a
+{
+	float: right;
+	font-weight: normal;
+	font-size: 11px;
+	text-decoration: none;
+	color: #000066;
+	cursor: pointer;
+	margin-left: 4px;
+}
+
+div.block div.description
+{
+	width: 100%;
+	clear: both;
+}
+
+div.block div.description_contains
+{
+	width: 100%;
+	border-bottom: 1px dotted #D3D3D3;
+	padding-bottom: 0.3em;
+	margin-bottom: 0.3em;
+	clear: both;
+}
+
+div.block div.extra
+{
+	width: 100%;
+	clear: both;
+}
+
+div.block div.extra div.more
+{
+	float: left;
+}
+
+div.block div.extra div.forum
+{
+	float: right;
+}
+
+div.empty_column
+{
+	background-color: #faf1e3;	
+	margin: 0px 0px 1em 0px;
+	padding: 15px 15px 15px 15px;
+	clear: both;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+#homeOverlay
+{
+	background-color: #efefef;
+	cursor: wait;
+}
+
+#homeContainer
+{
+	position: fixed;
+	width: 175px;
+	height: 175px;
+	background-color: #FFFFFF;
+	border: 2px solid #efefef;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+#homeMessageContainer
+{
+	position: fixed;
+	width: 625px;
+	height: 400px;
+	background-color: #FFFFFF;
+	border: 2px solid #efefef;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+a.modalCloseImg
+{
+	background: url(../img/home/background_modal_close.png) no-repeat;
+	width: 34px;
+	height: 34px;
+	display: inline;
+	z-index: 3200;
+	position: absolute;
+	top: -12px;
+	right: -12px;
+	cursor: pointer;
+}
+
+.loadingBox
+{
+	margin: 30px 0px 30px 0px;
+	text-align: center;
+	clear: both;
+}
+
+#tab_menu
+{
+	position: relative;
+	top: 0px;
+	padding: 10px 1% 0px 1%;
+	background-color: #f2f2f2;
+	color: #444444;
+	border-top: 1px solid #dcdcdc;
+	border-bottom: 1px solid #dcdcdc;
+	margin-left: -1%;
+	margin-right: -1%;
+	margin-top: 0px;
+	left: 0px;
+	right: 0px; 
+	margin-bottom: 10px;
+	height: 15px;
+}
+
+#tab_menu ul
+{
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 0px;
+	margin: 0px;
+	list-style-type: none;
+	display: inline;
+}
+
+#tab_menu li
+{
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-topleft: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	float: left;
+	margin: -1px 0px 0px 0px;
+	padding: 0px 9px 0px 9px;
+}
+
+#tab_menu a
+{
+	color: #444444;
+}
+
+#tab_menu li.normal
+{
+	border: 1px solid #aeaeae;
+	background-color: #c7c7c7;
+	border-bottom: 0px solid black;
+}
+
+#tab_menu li.normal:hover
+{
+	background-color: #efefef;
+	border: 1px solid #d90223;
+	border-bottom: 0px solid black;
+}
+
+#tab_menu li.current
+{
+	background-color: white;
+	border: 1px solid white;
+}
+
+#tab_actions
+{
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	right: 1%;
+}
+
+#tab_actions img
+{
+	vertical-align: middle;
+}
+
+a.deleteTab
+{
+	width: 10px;
+	height: 10px;
+	padding: 0px 0px 0px 4px;
+	margin: 0px 0px 0px 9px;
+	display: none;
+	cursor: pointer;
+	border-left: 1px solid #d90223;
+}
+
+a.deleteTab img
+{
+	margin: 0px -5px 0px 0px;
+	vertical-align: middle;
+}
+
+div.deleteColumn
+{
+	width: 32px;
+	height: 32px;
+	background: url(../img/home/block_delete_column.png) no-repeat;
+	cursor: pointer;
+	clear: both;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#homeEditContainer
+{
+	background-color: #FFFFFF;
+	border: 2px solid #efefef;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+#editTab
+{
+	text-align: center;
+	padding: 10px;
+	margin: 0px;
+}
+
+#editTab input.button
+{
+	padding: 0px;
+	margin: 0px;
+	font-size: 10px;
+}
+
+/*****************************************************
+ *  STYLES NEEDED FOR JQUERY FUNCTIONALITY           *
+ *****************************************************/
+.blockSortHelper
+{
+	border: 1px dashed #c0c0c0;
+	background-color: #F2F2F2;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	margin: 0px 0px 1em 0px;
+}
+
+.tabSortHelper
+{
+	border: 1px dashed #c0c0c0;
+	background-color: #F2F2F2;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-topleft: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+}
+
+.droppable-active
+{
+	opacity: 1.0;
+}
+.droppable-hover
+{
+	outline: 1px dotted black;
+}
+
+.ui-state-highlight
+{
+	border: 1px dashed #c0c0c0;
+	background-color: #F2F2F2;
+}

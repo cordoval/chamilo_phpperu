@@ -1,0 +1,133 @@
+/*****************************************************
+ *  TREEMENU STYLES                                  *
+ *****************************************************/ /*
+ * General treemenu styles
+ */
+ul.tree-menu,ul.tree-menu ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	clear: both;
+}
+
+ul.tree-menu ul {
+	background-repeat: repeat-y;
+	background-image: url(../img/common/treemenu/tree-branch.png);
+	padding-left: 18px;
+	clear: both;
+}
+
+ul.tree-menu li {
+	margin: 0px;
+	padding: 0px;
+	clear: both;
+}
+
+ul.tree-menu li div,ul.tree-menu li div.last,ul.tree-menu li div.collapse,ul.tree-menu li div.lastCollapse,ul.tree-menu li div.expand,ul.tree-menu li div.lastExpand
+	{
+	padding-left: 18px;
+	background-repeat: no-repeat;
+	height: 18px;
+	clear: both;
+}
+
+ul.tree-menu li div {
+	background-image: url(../img/common/treemenu/tree-leaf.png);
+}
+
+ul.tree-menu li div.last {
+	background-image: url(../img/common/treemenu/tree-leaf-end.png);
+}
+
+ul.tree-menu li div.collapse {
+	background-image: url(../img/common/treemenu/tree-node-open.png);
+}
+
+ul.tree-menu li div.lastCollapse {
+	background-image: url(../img/common/treemenu/tree-node-open-end.png);
+}
+
+ul.tree-menu li div.expand {
+	background-image: url(../img/common/treemenu/tree-node.png);
+}
+
+ul.tree-menu li div.lastExpand {
+	background-image: url(../img/common/treemenu/tree-node-end.png);
+}
+
+ul.tree-menu li div a {
+	clear: both;
+	display: block;
+	height: 16px;
+	padding-left: 21px;
+	background-repeat: no-repeat;
+	background-image: url(../img/common/treemenu/tree-document.png);
+	white-space: nowrap;
+}
+
+ul.tree-menu li div img {
+	height: 16px;
+	margin-left: 2px;
+	position: relative;
+	margin-top: -1px;
+	vertical-align: middle;
+}
+
+/*
+ * Special treemenu icons
+ */
+ul.tree-menu li div a.home {
+	background-image: url(../img/common/treemenu/home.png);
+}
+
+ul.tree-menu li div a.trash {
+	background-image: url(../img/common/treemenu/trash.png);
+}
+
+ul.tree-menu li div a.trash_full {
+	background-image: url(../img/common/treemenu/trash_full.png);
+}
+
+ul.tree-menu li div a.quota {
+	background-image: url(../img/common/treemenu/quota.png);
+}
+
+ul.tree-menu li div a.userview {
+	background-image: url(../img/common/treemenu/userview.png);
+}
+
+ul.tree-menu li div a.publication {
+	background-image: url(../img/common/treemenu/publication.png);
+}
+
+ul.tree-menu li div a.create {
+	background-image: url(../img/common/treemenu/create.png);
+}
+
+ul.tree-menu li div a.import {
+	background-image: url(../img/common/treemenu/import.png);
+}
+
+ul.tree-menu li div a.search_results {
+	background-image: url(../img/common/treemenu/search.png);
+}
+
+ul.tree-menu li div a.category {
+	background-image: url(../img/common/treemenu/tree-folder-closed.png);
+}
+
+ul.tree-menu li.current_path>div a.category,ul.tree-menu li.current>div a.category
+	{
+	background-image: url(../img/common/treemenu/tree-folder-open.png);
+}
+/*
+ul.tree-menu li.current_path ul li div a.category
+{
+	background-image: url(../img/common/treemenu/tree-folder-closed.png);
+}
+
+ul.tree-menu li.current_path ul li.current_path div a.category
+{
+	background-image: url(../img/common/treemenu/tree-folder-open.png);
+}
+*/

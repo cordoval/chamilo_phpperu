@@ -1,0 +1,42 @@
+@CHARSET "ISO-8859-1";
+th.graph_header
+{
+	padding: 0px;
+	text-align: center;
+}
+
+#laikaOverlay
+{
+	background-color: #efefef;
+	cursor: wait;
+}
+
+#laikaContainer
+{
+	position: fixed;
+	width: 400px;
+	background-color: #FFFFFF;
+	border: 2px solid #efefef;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+a.modalCloseImg
+{
+	background: url(../img/home/background_modal_close.png) no-repeat;
+	width: 34px;
+	height: 34px;
+	display: inline;
+	z-index: 3200;
+	position: absolute;
+	top: -12px;
+	right: -12px;
+	cursor: pointer;
+}
+
+.scaleInformationBox
+{
+	margin: 30px 30px 30px 30px;
+	text-align: justify;
+	clear: both;
+}

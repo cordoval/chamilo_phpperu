@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="course_category">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="name" type="text" length="100" fixed="true"
+			notnull="1" default="" />
+		<property name="parent_id" type="integer" notnull="1"
+			default="0" />
+		<property name="display_order" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="tree_pos" type="integer" unsigned="1" />
+		<property name="children_count" type="integer" length="2" />
+		<property name="auth_course_child" type="integer" length="1"
+			default="1" />
+		<property name="auth_cat_child" type="integer" length="1"
+			default="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="parent_id">
+		<indexproperty name="parent_id" />
+	</index>
+	<index name="tree_pos">
+		<indexproperty name="tree_pos" />
+	</index>
+	<index name="display_order">
+		<indexproperty name="display_order" />
+	</index>
+</object>

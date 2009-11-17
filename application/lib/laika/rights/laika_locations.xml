@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<location name="laika" type="root" identifier="0">
+	<children>
+		<location name="Analyzer" type="laika_component" identifier="analyzer" />
+		<location name="Browser" type="laika_component" identifier="browser" />
+		<location name="Grapher" type="laika_component" identifier="grapher" />
+		<location name="Home" type="laika_component" identifier="home" />
+		<location name="Mailer" type="laika_component" identifier="mailer" />
+		<location name="Taker" type="laika_component" identifier="taker" />
+		<location name="User" type="laika_component" identifier="user" />
+		<location name="Viewer" type="laika_component" identifier="viewer" />
+		<location name="Informer" type="laika_component" identifier="informer" />
+	</children>
+</location>

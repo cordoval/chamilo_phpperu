@@ -1,0 +1,38 @@
+<?php
+/**
+ * @package {L_APPLICATION_NAME}.tables.{L_OBJECT_CLASS}_table
+ */
+require_once dirname(__FILE__).'/../../{L_OBJECT_CLASS}.class.php';
+
+/**
+ * Default column model for the {L_OBJECT_CLASS} table
+ *
+ * @author Sven Vanpoucke
+ * @author {AUTHOR}
+ */
+class Default{OBJECT_CLASS}TableColumnModel extends ObjectTableColumnModel
+{
+	/**
+	 * Constructor
+	 */
+	function Default{OBJECT_CLASS}TableColumnModel()
+	{
+		parent :: __construct(self :: get_default_columns(), 1);
+	}
+	
+	/**
+	 * Gets the default columns for this model
+	 * @return Array(ObjectTableColumn)
+	 */
+	private static function get_default_columns()
+	{
+		$columns = array();
+		
+		<!-- BEGIN PROPERTIES -->
+		$columns[] = new ObjectTableColumn({OBJECT_CLASS} :: PROPERTY_{PROPERTIES.U_PROPERTY});
+		<!-- END PROPERTIES -->
+		
+		return $columns;
+	}
+}
+?>

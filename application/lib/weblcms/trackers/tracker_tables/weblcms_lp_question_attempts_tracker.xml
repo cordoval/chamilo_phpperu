@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="weblcms_learning_path_question_attempts_tracker">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="lpi_attempt_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="question_cid" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="answer" type="text" />
+		<property name="feedback" type="text" />
+		<property name="score" type="integer" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="lpi_attempt_id">
+		<indexproperty name="lpi_attempt_id" />
+	</index>
+	<index name="question_cid">
+		<indexproperty name="question_cid" />
+	</index>
+</object>

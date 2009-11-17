@@ -1,0 +1,24 @@
+cd command_line_migration
+
+@C:\wamp\bin\php\php5.2.5\php.exe users_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe personal_agendas_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe system_settings_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe classes_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe courses_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe meta_data_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe groups_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe announcements_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe calendar_events_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe documents_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe links_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe dropboxes_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe forums_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe learning_paths_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe quizzes_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe student_publications_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe surveys_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe scorms_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe assignments_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe user_infos_command_line_migration.php
+@C:\wamp\bin\php\php5.2.5\php.exe trackers_command_line_migration.php
+cd ..

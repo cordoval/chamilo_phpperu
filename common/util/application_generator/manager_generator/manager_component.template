@@ -1,0 +1,73 @@
+<?php
+
+require_once Path :: get_application_path() . 'lib/web_application_component.class.php';
+
+/**
+ * @package application.lib.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}_manager
+ * Basic functionality of a component to talk with the {L_APPLICATION_NAME} application
+ *
+ * @author Sven Vanpoucke
+ * @author {AUTHOR}
+ */
+abstract class {APPLICATION_NAME}ManagerComponent extends WebApplicationComponent
+{
+	/**
+	 * Constructor
+	 * @param {APPLICATION_NAME} ${L_APPLICATION_NAME} The {L_APPLICATION_NAME} which
+	 * provides this component
+	 */
+	function {APPLICATION_NAME}ManagerComponent(${L_APPLICATION_NAME}) 
+	{
+		parent :: __construct(${L_APPLICATION_NAME});
+	}
+	
+	//Data Retrieval
+	
+	<!-- BEGIN OBJECTS -->
+	function count_{OBJECTS.L_OBJECT_CLASSES}($condition)
+	{
+		return $this->get_parent()->count_{OBJECTS.L_OBJECT_CLASSES}($condition);
+	}
+	
+	function retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return $this->get_parent()->retrieve_{OBJECTS.L_OBJECT_CLASSES}($condition, $offset, $count, $order_property);
+	}
+	
+ 	function retrieve_{OBJECTS.L_OBJECT_CLASS}($id)
+	{
+		return $this->get_parent()->retrieve_{OBJECTS.L_OBJECT_CLASS}($id);
+	}
+	
+	<!-- END OBJECTS -->
+	// Url Creation
+	
+	<!-- BEGIN OBJECTS -->
+	function get_create_{OBJECTS.L_OBJECT_CLASS}_url()
+	{
+		return $this->get_parent()->get_create_{OBJECTS.L_OBJECT_CLASS}_url();
+	}
+	
+	function get_update_{OBJECTS.L_OBJECT_CLASS}_url(${OBJECTS.L_OBJECT_CLASS})
+	{
+		return $this->get_parent()->get_update_{OBJECTS.L_OBJECT_CLASS}_url(${OBJECTS.L_OBJECT_CLASS});
+	}
+	
+ 	function get_delete_{OBJECTS.L_OBJECT_CLASS}_url(${OBJECTS.L_OBJECT_CLASS})
+	{
+		return $this->get_parent()->get_delete_{OBJECTS.L_OBJECT_CLASS}_url(${OBJECTS.L_OBJECT_CLASS});
+	}
+	
+	function get_browse_{OBJECTS.L_OBJECT_CLASSES}_url()
+	{
+		return $this->get_parent()->get_browse_{OBJECTS.L_OBJECT_CLASSES}_url();
+	}
+	
+	<!-- END OBJECTS -->
+	
+	function get_browse_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+	}
+}
+?>

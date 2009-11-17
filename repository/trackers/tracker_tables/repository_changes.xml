@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="repository_changes">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="user_id" type="integer" unsigned="1" notnull="1" />
+		<property name="reference_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="action" type="text" length="50" fixed="true"
+			notnull="1" default="create" />
+		<property name="date" type="timestamp" notnull="1" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="user_id">
+		<indexproperty name="user_id" />
+	</index>
+	<index name="reference_id">
+		<indexproperty name="reference_id" />
+	</index>
+</object>

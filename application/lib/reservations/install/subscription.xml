@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="subscription">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="user_id" type="integer" unsigned="1" notnull="1" />
+		<property name="reservation_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="start_time" type="timestamp" />
+		<property name="stop_time" type="timestamp" />
+		<property name="accepted" type="boolean" default="0" />
+		<property name="status" type="integer" unsigned="1" default="0" />
+		<property name="weight" type="decimal" default="0" />
+		<property name="quota_box" type="integer" unsigned="1"
+			default="0" />
+	</properties>
+	<index name="id" type="primary">
+		<indexproperty name="id" />
+	</index>
+	<index name="status">
+		<indexproperty name="status" />
+	</index>
+	<index name="reservation_id">
+		<indexproperty name="reservation_id" />
+	</index>
+	<index name="start_time">
+		<indexproperty name="start_time" />
+	</index>
+	<index name="stop_time">
+		<indexproperty name="stop_time" />
+	</index>
+	<index name="user_id">
+		<indexproperty name="user_id" />
+	</index>
+	<index name="quota_box">
+		<indexproperty name="quota_box" />
+	</index>
+</object>
