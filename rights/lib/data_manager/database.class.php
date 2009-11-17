@@ -260,6 +260,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $props[$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHT_ID)] = $rights_templaterightlocation->get_right_id();
         $props[$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID)] = $rights_templaterightlocation->get_rights_template_id();
         $props[$this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID)] = $rights_templaterightlocation->get_location_id();
+
         $this->connection->loadModule('Extended');
         if ($this->connection->extended->autoExecute($this->get_table_name('rights_template_right_location'), $props, MDB2_AUTOQUERY_INSERT))
         {
@@ -401,11 +402,13 @@ class DatabaseRightsDataManager extends RightsDataManager
         {
             throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
         }
+
         $defaultProp = array();
         foreach (Location :: get_default_property_names() as $prop)
         {
             $defaultProp[$prop] = $record[$prop];
         }
+
         return new Location($defaultProp);
     }
 
