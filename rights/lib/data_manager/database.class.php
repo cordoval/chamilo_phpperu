@@ -275,29 +275,29 @@ class DatabaseRightsDataManager extends RightsDataManager
     //Inherited.
     function get_next_rights_template_id()
     {
-        return $this->connection->nextID($this->get_table_name('rights_template'));
+        return $this->connection->nextID($this->get_table_name(RightsTemplate :: get_table_name()));
     }
 
     function get_next_user_right_location_id()
     {
-        return $this->connection->nextID($this->get_table_name('user_right_location'));
+        return $this->connection->nextID($this->get_table_name(UserRightLocation :: get_table_name()));
     }
 
     function get_next_group_right_location_id()
     {
-        return $this->connection->nextID($this->get_table_name('group_right_location'));
+        return $this->connection->nextID($this->get_table_name(GroupRightLocation :: get_table_name()));
     }
 
     //Inherited.
     function get_next_right_id()
     {
-        return $this->connection->nextID($this->get_table_name('right'));
+        return $this->connection->nextID($this->get_table_name(Right :: get_table_name()));
     }
 
     //Inherited.
     function get_next_location_id()
     {
-        return $this->connection->nextID($this->get_table_name('location'));
+        return $this->connection->nextID($this->get_table_name(Location :: get_table_name()));
     }
 
     function create_storage_unit($name, $properties, $indexes)
@@ -669,7 +669,7 @@ class DatabaseRightsDataManager extends RightsDataManager
             $translator = new ConditionTranslator($this->database);
             $query .= $translator->render_query($condition);
         }
-        
+
         $res = $this->database->query($query);
         if (MDB2 :: isError($res))
         {
@@ -753,9 +753,9 @@ class DatabaseRightsDataManager extends RightsDataManager
             $translator = new ConditionTranslator($this->database);
             $query .= $translator->render_query($condition);
         }
-        
+
         $res = $this->database->query($query);
-    
+
         if (MDB2 :: isError($res))
         {
             return false;
@@ -901,7 +901,7 @@ class DatabaseRightsDataManager extends RightsDataManager
             $translator = new ConditionTranslator($this->database);
             $query .= $translator->render_query($condition);
         }
-        
+
         $res = $this->database->query($query);
 
         if (MDB2 :: isError($res))
