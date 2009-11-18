@@ -3,8 +3,8 @@
  * $Id: metadata_mapper.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.metadata
  */
-require_once Path :: get_common_path() . 'xml/xml_tool.class.php';
-require_once Path :: get_common_path() . 'string/string_tool.class.php';
+require_once Path :: get_common_path() . 'xml/xml_utilities.class.php';
+require_once Path :: get_common_path() . 'string/string_utilities.class.php';
 
 abstract class MetadataMapper
 {

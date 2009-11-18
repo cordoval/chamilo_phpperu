@@ -3,7 +3,7 @@
  * $Id: metadata_component.class.php 207 2009-11-13 13:09:14Z vanpouckesven $
  * @package repository.lib.repository_manager.component
  */
-require_once Path :: get_common_path() . 'debug/debug_tool.class.php';
+require_once Path :: get_common_path() . 'debug/debug_utilities.class.php';
 require_once dirname(__FILE__) . '/../../metadata/ieee_lom/ieee_lom_mapper.class.php';
 require_once dirname(__FILE__) . '/../../metadata/ieee_lom/ieee_lom_langstring_mapper.class.php';
 
