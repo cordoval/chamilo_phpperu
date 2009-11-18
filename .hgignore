@@ -1,1 +1,4 @@
 relre:.project
+
+syntax: regexp
+^common/configuration/configuration\.php$
