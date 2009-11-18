@@ -156,5 +156,22 @@ class Dokeos185GroupRelTutor extends ImportGroupRelTutor
         $array['table'] = 'group_rel_tutor';
         return $array;
     }
+    
+	/**
+	 * @param unknown_type $array
+	 */
+	function is_valid($array)
+	{
+		
+	}
+
+	/**
+	 * @param unknown_type $array
+	 */
+	function convert_to_lcms($array)
+	{
+		
+	}
+
 }
 ?>

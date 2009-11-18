@@ -13,5 +13,11 @@ class PackageInstallerArchiveSource extends PackageInstallerSource
     {
         return 'archive';
     }
+
+	function get_archive()
+	{
+		
+	}
+
 }
 ?>

@@ -245,5 +245,22 @@ class Dokeos185GroupCategory extends ImportGroupCategory
         $array['table'] = 'group_category';
         return $array;
     }
+    
+	/**
+	 * @param unknown_type $array
+	 */
+	function is_valid($array)
+	{
+		
+	}
+
+	/**
+	 * @param unknown_type $array
+	 */
+	function convert_to_lcms($array)
+	{
+		
+	}
+
 }
 ?>

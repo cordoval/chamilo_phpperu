@@ -44,5 +44,14 @@ class PearSoapWebservice extends Webservice
         //$this->debug($result, $client);
         }
     }
+    
+	/**
+	 * @param unknown_type $message
+	 */
+	function raise_message($message)
+	{
+		
+	}
+
 }
 ?>

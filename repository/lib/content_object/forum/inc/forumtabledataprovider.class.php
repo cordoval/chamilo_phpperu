@@ -26,7 +26,7 @@ class ForumTableDataProvider implements ContentObjectTableDataProvider
         return $dm->count_content_objects($this->get_condition());
     }
 
-    private function get_condition()
+    function get_condition()
     {
         return new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $this->forum->get_id());
     }

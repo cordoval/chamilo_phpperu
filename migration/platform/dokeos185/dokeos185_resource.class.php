@@ -177,5 +177,22 @@ class Dokeos185CalendarEvent extends ImportResource
         $array['table'] = 'resource';
         return $array;
     }
+    
+	/**
+	 * @param unknown_type $course
+	 */
+	function is_valid_resource($course)
+	{
+		
+	}
+
+	/**
+	 * @param unknown_type $course
+	 */
+	function convert_to_new_resource($course)
+	{
+		
+	}
+
 }
 ?>
