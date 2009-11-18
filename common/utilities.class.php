@@ -17,7 +17,7 @@ class Utilities
     const TOOLBAR_DISPLAY_ICON = 1;
     const TOOLBAR_DISPLAY_LABEL = 2;
     const TOOLBAR_DISPLAY_ICON_AND_LABEL = 3;
-    
+
     private static $us_camel_map = array();
     private static $us_camel_map_with_spaces = array();
     private static $camel_us_map = array();
@@ -180,7 +180,7 @@ class Utilities
     {
         if (! isset(self :: $us_camel_map[$string]))
         {
-            self :: $us_camel_map[$string] = ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $string));
+            self :: $us_camel_map[$string] = ucfirst(preg_replace('/_([a-z])/e', 'strtoupper("\1")', $string));
         }
         return self :: $us_camel_map[$string];
     }
@@ -272,13 +272,13 @@ class Utilities
                 $id = isset($elmt['id']) ? 'id="' . $elmt['id'] . '" ' : '';
                 $button = '<a ' . $id . $class . 'href="' . htmlentities($elmt['href']) . '" title="' . $label . '"' . ($elmt['confirm'] ? ' onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"' : '') . '>' . $button . '</a>';
             }
-            
+
             $classes = array();
             if ($index == 0)
             {
                 $classes[] = 'first';
             }
-            
+
             if ($index == count($toolbar_data) - 1)
             {
                 $classes[] = 'last';
@@ -340,14 +340,14 @@ class Utilities
             $html[] = '</li>';
         }
         $html[] = '</ul>';
-        
+
         return implode($html);
     }
 
     function add_block_hider()
     {
         $html = array();
-        
+
         $html[] = '<script language="JavaScript" type="text/javascript">';
         $html[] .= 'function showElement(item)';
         $html[] .= '{';
@@ -366,24 +366,24 @@ class Utilities
         $html[] .= '	}';
         $html[] .= '}';
         $html[] .= '</script>';
-        
+
         return implode("\n", $html);
     }
 
     function build_block_hider($id = null, $message = null)
     {
         $html = array();
-        
+
         if (isset($id))
         {
             if (! isset($message))
             {
                 $message = self :: underscores_to_camelcase($id);
             }
-            
+
             $show_message = 'Show' . $message;
             $hide_message = 'Hide' . $message;
-            
+
             $html[] = '<div id="plus-' . $id . '"><a href="javascript:showElement(\'' . $id . '\')">' . Translation :: get('Show' . $message) . '</a></div>';
             $html[] = '<div id="minus-' . $id . '" style="display: none;"><a href="javascript:showElement(\'' . $id . '\')">' . Translation :: get('Hide' . $message) . '</a></div>';
             $html[] = '<div id="' . $id . '" style="display: none;">';
@@ -392,7 +392,7 @@ class Utilities
         {
             $html[] = '</div>';
         }
-        
+
         return implode("\n", $html);
     }
 
@@ -465,20 +465,20 @@ class Utilities
     {
         $hours = floor($seconds / 3600);
         $rest = $seconds % 3600;
-        
+
         $minutes = floor($rest / 60);
         $seconds = $rest % 60;
-        
+
         if ($minutes < 10)
         {
             $minutes = '0' . $minutes;
         }
-        
+
         if ($seconds < 10)
         {
             $seconds = '0' . $seconds;
         }
-        
+
         return $hours . ':' . $minutes . ':' . $seconds;
     }
 
@@ -498,14 +498,14 @@ class Utilities
         {
             $string = strip_tags($string);
         }
-        
+
         $decoded_string = html_entity_decode($string);
         if (strlen($decoded_string) >= $length)
         {
             mb_internal_encoding("UTF-8");
             $string = mb_substr($string, 0, $length - 3) . $char;
         }
-        
+
         return $string;
     }
 
@@ -518,10 +518,10 @@ class Utilities
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-            
+
             foreach ($extra_options as $op => $value)
                 $unserializer->setOption($op, $value);
-                
+
             // userialize the document
             $status = $unserializer->unserialize($file, true);
             if (PEAR :: isError($status))
