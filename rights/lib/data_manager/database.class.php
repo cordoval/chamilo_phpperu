@@ -23,11 +23,6 @@ class DatabaseRightsDataManager extends RightsDataManager
 {
     const ALIAS_USER_TABLE = 'u';
 
-    /**
-     * The database connection.
-     */
-    private $connection;
-
     private $database;
 
     /**
@@ -39,12 +34,6 @@ class DatabaseRightsDataManager extends RightsDataManager
     {
         $this->database = new Database();
         $this->database->set_prefix('rights_');
-
-        $this->connection = Connection :: get_instance()->get_connection();
-        $this->connection->setOption('debug_handler', array(get_class($this), 'debug'));
-
-        $this->prefix = 'rights_';
-        $this->connection->query('SET NAMES utf8');
     }
 
     function get_database()
@@ -130,34 +119,29 @@ class DatabaseRightsDataManager extends RightsDataManager
     //Inherited.
     function get_next_rights_template_id()
     {
-        //return $this->connection->nextID($this->get_table_name(RightsTemplate :: get_table_name()));
-        return $this->connection->nextID(RightsTemplate :: get_table_name());
+        return $this->database->get_next_id(RightsTemplate :: get_table_name());
     }
 
     function get_next_user_right_location_id()
     {
-        //return $this->connection->nextID($this->get_table_name(UserRightLocation :: get_table_name()));
-        return $this->connection->nextID(UserRightLocation :: get_table_name());
+        return $this->database->get_next_id(UserRightLocation :: get_table_name());
     }
 
     function get_next_group_right_location_id()
     {
-        //return $this->connection->nextID($this->get_table_name(GroupRightLocation :: get_table_name()));
-        return $this->connection->nextID(GroupRightLocation :: get_table_name());
+        return $this->database->get_next_id(GroupRightLocation :: get_table_name());
     }
 
     //Inherited.
     function get_next_right_id()
     {
-      	//return $this->connection->nextID($this->get_table_name(Right :: get_table_name()));
-      	return $this->connection->nextID(Right :: get_table_name());
+      	return $this->database->get_next_id(Right :: get_table_name());
     }
 
     //Inherited.
     function get_next_location_id()
     {
-        //return $this->connection->nextID($this->get_table_name(Location :: get_table_name()));
-        return $this->connection->nextID(Location :: get_table_name());
+        return $this->database->get_next_id(Location :: get_table_name());
     }
 
     function create_storage_unit($name, $properties, $indexes)
@@ -281,7 +265,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $condition = new AndCondition($conditions);
 
-        $query = 'UPDATE ' . $this->escape_table_name('location') . ' SET ' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->database->quote($number_of_elements * 2);
+        $query = 'UPDATE ' . $this->database->escape_table_name('location') . ' SET ' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->database->quote($number_of_elements * 2);
 
         if (isset($condition))
         {
@@ -301,7 +285,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $condition = new AndCondition($conditions);
 
-        $query = 'UPDATE ' . $this->escape_table_name('location') . ' SET ' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->database->quote($number_of_elements * 2);
+        $query = 'UPDATE ' . $this->database->escape_table_name('location') . ' SET ' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->database->quote($number_of_elements * 2);
 
         if (isset($condition))
         {
@@ -342,9 +326,9 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_left_value());
         $condition = new AndCondition($conditions);
 
-        $query = 'UPDATE ' . $this->escape_table_name('location');
-        $query .= ' SET ' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' - ' . $this->database->quote($delta) . ',';
-        $query .= $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->database->quote($delta);
+        $query = 'UPDATE ' . $this->database->escape_table_name('location');
+        $query .= ' SET ' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' - ' . $this->database->quote($delta) . ',';
+        $query .= $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->database->quote($delta);
 
         if (isset($condition))
         {
@@ -366,8 +350,8 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_right_value());
         $condition = new AndCondition($conditions);
 
-        $query = 'UPDATE ' . $this->escape_table_name('location');
-        $query .= ' SET ' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->database->quote($delta);
+        $query = 'UPDATE ' . $this->database->escape_table_name('location');
+        $query .= ' SET ' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->database->quote($delta);
 
         if (isset($condition))
         {
@@ -486,9 +470,9 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, ($location->get_right_value() + 1));
         $condition = new AndCondition($conditions);
 
-        $query = 'UPDATE ' . $this->escape_table_name('location');
-        $query .= ' SET ' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->database->quote($offset) . ',';
-        $query .= $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->database->quote($offset);
+        $query = 'UPDATE ' . $this->database->escape_table_name('location');
+        $query .= ' SET ' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->database->quote($offset) . ',';
+        $query .= $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->database->quote($offset);
 
         if (isset($condition))
         {
@@ -551,18 +535,18 @@ class DatabaseRightsDataManager extends RightsDataManager
 
     function delete_orphaned_rights_template_right_locations()
     {
-        $query = 'DELETE FROM ' . $this->escape_table_name('rights_template_right_location') . ' WHERE ';
-        $query .= $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID) . ' NOT IN (SELECT ' . $this->escape_column_name(Location :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name('location') . ') OR ';
-        $query .= $this->escape_column_name(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID) . ' NOT IN (SELECT ' . $this->escape_column_name(RightsTemplate :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name('rights_template') . ')';
+        $conditions = array();
+        $conditions[] = new NotCondition(new SubSelectcondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->database->escape_table_name(Location :: get_table_name())));
+        $conditions[] = new NotCondition(SubSelectcondition(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID, RightsTemplate :: PROPERTY_ID, $this->database->escape_table_name(RightsTemplate :: get_table_name())));
+        $condition = new OrCondition($conditions);
 
-        $res = $this->database->query($query);
-        return $res;
+        return $this->database->delete_objects(RightsTemplateRightLocation :: get_table_name(), $condition);
     }
 
     function retrieve_shared_content_objects_for_user($user_id, $rights)
     {
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
-        $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->escape_table_name('location'), $subcondition);
+        $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->database->escape_table_name('location'), $subcondition);
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user_id);
         $conditions[] = new InCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $rights);
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_VALUE, 1);
@@ -574,7 +558,7 @@ class DatabaseRightsDataManager extends RightsDataManager
     function retrieve_shared_content_objects_for_groups($group_ids, $rights)
     {
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
-        $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->escape_table_name('location'), $subcondition);
+        $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->database->escape_table_name('location'), $subcondition);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group_ids);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_RIGHT_ID, $rights);
         $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_VALUE, 1);
@@ -647,16 +631,6 @@ class DatabaseRightsDataManager extends RightsDataManager
     function retrieve_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->database->retrieve_objects(GroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-    }
-    
-    function escape_table_name($table_name)
-    {
-    	return $this->database->escape_table_name($table_name);
-    }
-    
-	function escape_column_name($column_name)
-    {
-    	return $this->database->escape_column_name($column_name);
     }
 }
 ?>
