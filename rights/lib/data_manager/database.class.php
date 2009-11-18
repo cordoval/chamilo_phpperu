@@ -130,29 +130,34 @@ class DatabaseRightsDataManager extends RightsDataManager
     //Inherited.
     function get_next_rights_template_id()
     {
-        return $this->connection->nextID($this->get_table_name(RightsTemplate :: get_table_name()));
+        //return $this->connection->nextID($this->get_table_name(RightsTemplate :: get_table_name()));
+        return $this->connection->nextID(RightsTemplate :: get_table_name());
     }
 
     function get_next_user_right_location_id()
     {
-        return $this->connection->nextID($this->get_table_name(UserRightLocation :: get_table_name()));
+        //return $this->connection->nextID($this->get_table_name(UserRightLocation :: get_table_name()));
+        return $this->connection->nextID(UserRightLocation :: get_table_name());
     }
 
     function get_next_group_right_location_id()
     {
-        return $this->connection->nextID($this->get_table_name(GroupRightLocation :: get_table_name()));
+        //return $this->connection->nextID($this->get_table_name(GroupRightLocation :: get_table_name()));
+        return $this->connection->nextID(GroupRightLocation :: get_table_name());
     }
 
     //Inherited.
     function get_next_right_id()
     {
-        return $this->connection->nextID($this->get_table_name(Right :: get_table_name()));
+      	//return $this->connection->nextID($this->get_table_name(Right :: get_table_name()));
+      	return $this->connection->nextID(Right :: get_table_name());
     }
 
     //Inherited.
     function get_next_location_id()
     {
-        return $this->connection->nextID($this->get_table_name(Location :: get_table_name()));
+        //return $this->connection->nextID($this->get_table_name(Location :: get_table_name()));
+        return $this->connection->nextID(Location :: get_table_name());
     }
 
     function create_storage_unit($name, $properties, $indexes)
@@ -642,6 +647,16 @@ class DatabaseRightsDataManager extends RightsDataManager
     function retrieve_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->database->retrieve_objects(GroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+    
+    function escape_table_name($table_name)
+    {
+    	return $this->database->escape_table_name($table_name);
+    }
+    
+	function escape_column_name($column_name)
+    {
+    	return $this->database->escape_column_name($column_name);
     }
 }
 ?>
