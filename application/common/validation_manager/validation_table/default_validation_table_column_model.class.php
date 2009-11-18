@@ -27,10 +27,10 @@ class DefaultValidationTableColumnMod extends ObjectTableColumnModel
         $columns = array();
         
         // TODO: Make this work by refactoring JOIN statements.
-        $columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, false, $user_alias);
-        $columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, false, $user_alias);
-        $columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, false, $user_alias);
-        $columns[] = new ObjectTableColumn(Validation :: PROPERTY_VALIDATED, false);
+        $columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true, User :: get_table_name());
+        $columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true, User :: get_table_name());
+        $columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true, User :: get_table_name());
+        $columns[] = new ObjectTableColumn(Validation :: PROPERTY_VALIDATED, true);
         return $columns;
     }
 }

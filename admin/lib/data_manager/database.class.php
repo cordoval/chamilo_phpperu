@@ -542,7 +542,16 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     function retrieve_validations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-    	return $this->database->retrieve_objects(Validation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    	$val_table = $this->database->escape_table_name(Validation :: get_table_name());
+    	$val_table_alias = $this->database->get_alias(Validation :: get_table_name());
+    	$udm = UserDataManager :: get_instance()->get_database();
+    	$user_table = $udm->escape_table_name(User :: get_table_name());
+    	$user_table_alias = $this->database->get_alias(User :: get_table_name());
+    	
+    	$query = 'SELECT * FROM ' . $val_table . ' AS ' . $val_table_alias .
+    			 ' JOIN ' . $user_table . ' AS ' . $user_table_alias;
+    	
+    	return $this->database->retrieve_object_set($query, Validation :: get_table_name(), $condition = null, $offset, $max_objects, $order_by);
     }
 
     function count_validations($condition = null)
