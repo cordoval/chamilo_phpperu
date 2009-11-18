@@ -542,14 +542,11 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     function retrieve_validations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        
-        return $this->database->retrieve_objects(Validation :: get_table_name(), $condition, $order_by, $offset, $max_objects);
-    
+    	return $this->database->retrieve_objects(Validation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function count_validations($condition = null)
     {
-        
         return $this->database->count_objects(Validation :: get_table_name(), $condition);
     }
 
