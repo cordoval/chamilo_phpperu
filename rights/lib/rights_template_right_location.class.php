@@ -74,7 +74,7 @@ class RightsTemplateRightLocation extends DataClass
     function create()
     {
         $rdm = RightsDataManager :: get_instance();
-        return $rdm->create_rights_templaterightlocation($this);
+        return $rdm->create_rights_template_right_location($this);
     }
 
     function invert()

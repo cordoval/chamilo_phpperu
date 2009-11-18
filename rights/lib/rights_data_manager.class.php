@@ -49,7 +49,7 @@ abstract class RightsDataManager
         return self :: $instance;
     }
 
-    abstract function create_rights_templaterightlocation($rights_templaterightlocation);
+    abstract function create_rights_template_right_location($rights_template_right_location);
 
     /**
      * Creates a storage unit
@@ -101,7 +101,7 @@ abstract class RightsDataManager
     abstract function delete_orphaned_rights_template_right_locations();
 
     //abstract function retrieve_shared_content_objects($rights_templates,$rights);
-    
+
 
     abstract function retrieve_user_right_location($right_id, $user_id, $location_id);
 
