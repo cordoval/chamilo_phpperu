@@ -9,8 +9,8 @@
 $configuration = array();
 $configuration['general']['data_manager'] = 'Database';
 $configuration['database']['connection_string'] = 'mysqli://root:@localhost/chamilo';
-$configuration['general']['root_web'] = 'http://localhost/CHAT/';
-$configuration['general']['url_append'] = '/Chamilo';
-$configuration['general']['security_key'] = '7d65cb8092c58dcad4498ac275175e18';
+$configuration['general']['root_web'] = 'http://localhost/chamilo/';
+$configuration['general']['url_append'] = '/chamilo';
+$configuration['general']['security_key'] = '0ad30f12530011a1077275e9f66c498e';
 $configuration['general']['hashing_algorithm'] = 'sha1';
 ?>
