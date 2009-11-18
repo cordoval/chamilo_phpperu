@@ -302,44 +302,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 
     function create_storage_unit($name, $properties, $indexes)
     {
-        $name = $this->get_table_name($name);
-        $this->connection->loadModule('Manager');
-        $manager = $this->connection->manager;
-        // If table allready exists -> drop it
-        // @todo This should change: no automatic table drop but warning to user
-        $tables = $manager->listTables();
-        if (in_array($name, $tables))
-        {
-            $manager->dropTable($name);
-        }
-        $options['charset'] = 'utf8';
-        $options['collate'] = 'utf8_unicode_ci';
-        if (! MDB2 :: isError($manager->createTable($name, $properties, $options)))
-        {
-            foreach ($indexes as $index_name => $index_info)
-            {
-                if ($index_info['type'] == 'primary')
-                {
-                    $index_info['primary'] = 1;
-                    if (MDB2 :: isError($manager->createConstraint($name, $index_name, $index_info)))
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    if (MDB2 :: isError($manager->createIndex($name, $index_name, $index_info)))
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return $this->database->create_storage_unit($name, $properties, $indexes);
     }
 
     /**
@@ -490,32 +453,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 
     function retrieve_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $query = 'SELECT * FROM ' . $this->escape_table_name('rights_template');
-
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database);
-            $query .= $translator->render_query($condition);
-        }
-
-        $orders = array();
-        foreach ($order_by as $order)
-        {
-            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
-        }
-        if (count($orders))
-        {
-            $query .= ' ORDER BY ' . implode(', ', $orders);
-        }
-
-        if ($max_objects < 0)
-        {
-            $max_objects = null;
-        }
-
-        $this->connection->setLimit(intval($max_objects), intval($offset));
-        $res = $this->database->query($query);
-        return new DatabaseRightsTemplateResultSet($this, $res);
+        return $this->database->retrieve_objects(RightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by, RightsTemplate :: CLASS_NAME);
     }
 
     function retrieve_location($id)
@@ -550,65 +488,12 @@ class DatabaseRightsDataManager extends RightsDataManager
 
     function retrieve_rights($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $query = 'SELECT * FROM ' . $this->escape_table_name('right');
-
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database);
-            $query .= $translator->render_query($condition);
-        }
-
-        $orders = array();
-        foreach ($order_by as $order)
-        {
-            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
-        }
-        if (count($orders))
-        {
-            $query .= ' ORDER BY ' . implode(', ', $orders);
-        }
-
-        if ($max_objects < 0)
-        {
-            $max_objects = null;
-        }
-
-        $this->connection->setLimit(intval($max_objects), intval($offset));
-        $res = $this->database->query($query);
-        return new DatabaseRightResultSet($this, $res);
+        return $this->database->retrieve_objects(Right :: get_table_name(), $condition, $offset, $max_objects, $order_by, Right :: CLASS_NAME);
     }
 
     function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $query = 'SELECT * FROM ' . $this->escape_table_name('location'); // . ' AS ' . $this->database->get_alias('location');
-
-
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database);
-            $query .= $translator->render_query($condition);
-        }
-
-        $order_by[] = new ObjectTableOrder(Location :: PROPERTY_LOCATION);
-
-        $orders = array();
-        foreach ($order_by as $order)
-        {
-            $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
-        }
-        if (count($orders))
-        {
-            $query .= ' ORDER BY ' . implode(', ', $orders);
-        }
-
-        if ($max_objects < 0)
-        {
-            $max_objects = null;
-        }
-
-        $this->connection->setLimit(intval($max_objects), intval($offset));
-        $res = $this->database->query($query);
-        return new DatabaseLocationResultSet($this, $res);
+        return $this->database->retrieve_objects(Location :: get_table_name(), $condition, $offset, $max_objects, $order_by, Location :: CLASS_NAME);
     }
 
     function count_locations($condition = null)
