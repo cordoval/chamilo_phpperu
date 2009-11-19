@@ -97,7 +97,7 @@ class RepositoryAutoloader
 					  'repository_category_manager' => 'category_manager/repository_category_manager.class.php',
 					  'content_object_export' => 'export/content_object_export.class.php',
 					  'content_object_import' => 'import/content_object_import.class.php',
-					  'metadata_mapper' => 'includes/metadata_mapper.class.php',
+					  'metadata_mapper' => 'metadata/metadata_mapper.class.php',
 					  'repository_manager' => 'repository_manager/repository_manager.class.php',
 					  'repository_manager_component' => 'repository_manager/repository_manager_component.class.php',
 					  'repository_search_form' => 'repository_manager/repository_search_form.class.php',

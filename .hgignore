@@ -2,6 +2,7 @@ relre:.project
 
 syntax: regexp
 ^common/configuration/configuration\.php$
+^files/
 
 syntax: glob
 .settings*
