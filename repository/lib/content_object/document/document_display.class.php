@@ -18,7 +18,9 @@ class DocumentDisplay extends ContentObjectDisplay
         
         $url = RepositoryManager :: get_document_downloader_url($object->get_id());
         
-        if (strtolower(substr($name, - 3)) == 'jpg' || strtolower(substr($name, - 4)) == 'jpeg' || strtolower(substr($name, - 3)) == 'bmp' || strtolower(substr($name, - 3)) == 'png')
+        $img_extensions = array('jpg', 'jpeg', 'bmp', 'png', 'gif');
+        $extension = strtolower(substr($name, strrpos($name, '.') + 1));
+        if(in_array($extension, $img_extensions))
         {
             $html = preg_replace('|</div>\s*$|s', '<br /><a href="' . htmlentities($url) . '"><img style="max-width: 100%" src="' . $url . '" /></a></div>', $html);
         }
