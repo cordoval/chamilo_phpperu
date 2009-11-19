@@ -45,7 +45,7 @@ class TrackingAutoloader
 
 	static function check_for_tables($classname)
 	{
-		$list = array('event_browser_table' => 'admin_event_browser_table/event_browser_table.class.php');
+		$list = array('event_browser_table' => 'admin_event_browser/event_browser_table.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
