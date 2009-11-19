@@ -9,22 +9,22 @@ class Translation
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
-    
+
     /**
      * Language strings defined in the language-files. Stored as an associative array.
      */
     private $strings;
-    
+
     /**
      * The language we're currently translating too
      */
     private $language;
-    
+
     /**
      * The application we're currently translating
      */
     private $application;
-    
+
     /**
      * To determine wether we should show the variable in a tooltip window or not (used for translation purposes)
      */
@@ -40,7 +40,9 @@ class Translation
             global $language_interface;
             $this->language = $language_interface;
             if (file_exists(dirname(__FILE__) . '/../configuration/configuration.php'))
+            {
                 $this->show_variable_in_translation = PlatformSetting :: get('show_variable_in_translation');
+            }
         }
         else
         {
@@ -102,10 +104,10 @@ class Translation
     function translate($variable)
     {
         $instance = self :: get_instance();
-        
+
         $language = $instance->language;
         $strings = $instance->strings;
-        
+
         if (! isset($strings[$language]))
         {
             $instance->add_language_file_to_array($language, 'common');
@@ -114,21 +116,21 @@ class Translation
         {
             $instance->add_language_file_to_array($language, 'common');
         }
-        
+
         $application = $instance->get_application();
-        
+
         if (! isset($application))
         {
             $application = 'common';
         }
-        
+
         if (! isset($strings[$language][$application]))
         {
             $instance->add_language_file_to_array($language, $application);
         }
-        
+
         $strings = $instance->strings;
-        
+
         if (isset($strings[$language][$application][$variable]))
         {
             $value = $strings[$language][$application][$variable];
@@ -148,12 +150,12 @@ class Translation
                 return '[=' . self :: application_to_class($application) . '=' . $variable . '=]';
             }
         }
-        
+
         if ($this->show_variable_in_translation)
         {
             return '<span title="' . $application . ' - ' . $variable . '">' . $value . '</span>';
         }
-        
+
         return $value;
     }
 

@@ -103,18 +103,16 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         }
         else
         {
+            $connection->loadModule('Manager');
             $database_exists = $connection->databaseExists($values['database_name']);
-            echo $database_exists;
-            if ($database_exists)
+//            echo 'DB Exists = ' . $database_exists . '<br />';
+            if ($database_exists == true)
             {
-                $connection->loadModule('Manager');
                 $drop_result = $connection->dropDatabase($values['database_name']);
-
-                dump($drop_result);
-                exit;
 
                 if (! MDB2 :: isError($drop_result))
                 {
+//                    print_r($drop_result);
                     return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBDropError') . ' ' . $drop_result->getMessage()));
                 }
             }
