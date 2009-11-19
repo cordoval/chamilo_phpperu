@@ -67,7 +67,7 @@ class AdminAutoloader
 					  'admin_manager_component' => 'admin_manager/admin_manager_component.class.php',
 					  'admin_search_form' => 'admin_manager/admin_search_form.class.php',
 					  'system_announcer_multipublisher' => 'announcer/system_announcement_multipublisher.class.php',
-					  'category_manager' => 'admin_category_manager.class.php',
+					  'admin_category_manager' => 'category_manager/admin_category_manager.class.php',
 					  'package_installer' => 'package_installer/package_installer.class.php',
 					  'package_manager' => 'package_manager/package_manager.class.php',
 					  'package_remover' => 'package_remover/package_remover.class.php');
