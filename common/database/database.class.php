@@ -203,7 +203,10 @@ class Database
         }
         $options['charset'] = 'utf8';
         $options['collate'] = 'utf8_unicode_ci';
-        if (! MDB2 :: isError($manager->createTable($name, $properties, $options)))
+
+        $result = $manager->createTable($name, $properties, $options);
+
+        if (! MDB2 :: isError($result))
         {
             foreach ($indexes as $index_name => $index_info)
             {

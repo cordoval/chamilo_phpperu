@@ -54,10 +54,10 @@ Translation :: set_language('english');
 function create_database()
 {
     global $values;
-    
+
     $connection_string = $values['database_driver'] . '://' . $values['database_username'] . ':' . $values['database_password'] . '@' . $values['database_host'];
     $connection = MDB2 :: connect($connection_string);
-    
+
     if (MDB2 :: isError($connection))
     {
         return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBConnectError') . $connection->getMessage()));
@@ -89,7 +89,7 @@ function create_database()
 function create_folders()
 {
     $files_path = dirname(__FILE__) . '/../files/';
-    
+
     $directories = array('archive', 'fckeditor', 'garbage', 'repository', 'temp', 'userpictures');
     foreach ($directories as $directory)
     {
@@ -105,14 +105,14 @@ function create_folders()
 function write_config_file()
 {
     global $values;
-    
+
     $content = file_get_contents('../common/configuration/configuration.dist.php');
-    
+
     if ($content === false)
     {
         return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
     }
-    
+
     $config['{DATABASE_DRIVER}'] = $values['database_driver'];
     $config['{DATABASE_HOST}'] = $values['database_host'];
     $config['{DATABASE_USER}'] = $values['database_username'];
@@ -124,17 +124,17 @@ function write_config_file()
     $config['{SECURITY_KEY}'] = md5(uniqid(rand() . time()));
     $config['{URL_APPEND}'] = str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
     $config['{HASHING_ALGORITHM}'] = $values['hashing_algorithm'];
-    
+
     foreach ($config as $key => $value)
     {
         $content = str_replace($key, $value, $content);
     }
-    
+
     $fp = fopen('../common/configuration/configuration.php', 'w');
-    
+
     if ($fp !== false)
     {
-        
+
         if (fwrite($fp, $content))
         {
             fclose($fp);
@@ -154,7 +154,7 @@ function write_config_file()
 function install_applications()
 {
     global $core_applications, $applications, $values;
-    
+
     foreach ($core_applications as $core_application)
     {
         $installer = Installer :: factory($core_application, $values);
@@ -163,9 +163,9 @@ function install_applications()
         unset($installer);
         flush();
     }
-    
+
     //flush();
-    
+
 
     foreach ($applications as $application)
     {
@@ -208,22 +208,22 @@ function post_process()
     // 4. "Various"
     // Check the installer class for a comprehensive list.
     // Class located at: ./common/installer.class.php
-    
+
 
     global $core_applications, $applications, $values;
-    
+
     // Post-processing for core applications
     foreach ($core_applications as $core_application)
     {
         $installer = Installer :: factory($core_application, $values);
         $result = $installer->post_process();
-        
+
         process_result($core_application, $result, $installer->retrieve_message());
-        
+
         unset($installer);
         flush();
     }
-    
+
     // Post-processing for selected applications
     foreach ($applications as $application)
     {
@@ -236,7 +236,7 @@ function post_process()
                 $installer = Installer :: factory($application, $values);
                 $result = $installer->post_process();
                 process_result($application, $result, $installer->retrieve_message());
-                
+
                 unset($installer, $result);
                 flush();
             }
@@ -247,12 +247,12 @@ function post_process()
 
 function display_install_block_header($application)
 {
-    
+
     $html = array();
     $html[] = '';
     $html[] = Translation :: get(Application :: application_to_class($application));
     $html[] = '';
-    
+
     return implode("\n", $html);
 }
 
