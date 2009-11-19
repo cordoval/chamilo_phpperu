@@ -11,7 +11,7 @@ $this_section = 'install';
 
 ini_set("memory_limit", "-1"); // Geen php-beperkingen voor geheugengebruik
 ini_set("max_execution_time", "7200"); // Twee uur moet voldoende zijn...
-ini_set("error_reporting", "E_ALL & ~E_NOTICE");
+//ini_set("error_reporting", "E_ALL & ~E_NOTICE");
 
 require_once dirname(__FILE__) . '/../common/filesystem/path.class.php';
 require_once dirname(__FILE__) . '/../common/utilities.class.php';
@@ -40,10 +40,10 @@ function __autoload($classname)
 	}
 }
 
-require_once dirname(__FILE__) . '/lib/install_manager/install_manager.class.php';
+require_once dirname(__FILE__) . '/lib/install_manager/install_manager.class.php'; 
 require_once 'MDB2.php';
 
-require_once dirname(__FILE__) . '/command_line_configuration.inc.php';
+require_once dirname(__FILE__) . '/command_line_configuration.inc.php'; 
 
 Translation :: set_application($this_section);
 Translation :: set_language('english');
