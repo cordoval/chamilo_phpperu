@@ -1334,7 +1334,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         $object_reference = $record[ComplexContentObjectItem :: PROPERTY_REF];
         $object_type = $this->determine_content_object_type($object_reference);
 
-        return $this->record_to_complex_content_object_item($record, $object_type, true);
+        if($record)
+        	return $this->record_to_complex_content_object_item($record, $object_type, true);
     }
 
     function create_content_object_metadata($content_object_metadata)

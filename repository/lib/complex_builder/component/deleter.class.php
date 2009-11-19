@@ -32,7 +32,7 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
             foreach ($ids as $cloi_id)
             {
                 $cloi = $rdm->retrieve_complex_content_object_item($cloi_id);
-                
+
                 if ($cloi->get_user_id() == $this->get_user_id())
                 {
                     // TODO: check if deletion is allowed
@@ -45,14 +45,14 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
                     }
                 }
                 else
-                {
+                { 
                     $failures ++;
                 }
             }
-            
+  
             if ($parent == $root)
                 $parent = null;
-            
+         
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -75,7 +75,7 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
                     $message = 'AllSelectedObjectsDeleted';
                 }
             }
-            
+   
             $this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_CLOI_ID => $parent_cloi, ComplexBuilder :: PARAM_ROOT_LO => $root, 'publish' => Request :: get('publish')));
         }
         else

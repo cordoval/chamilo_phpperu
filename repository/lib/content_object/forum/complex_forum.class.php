@@ -26,15 +26,17 @@ class ComplexForum extends ComplexContentObjectItem
 
     function delete()
     {
-        parent :: delete();
+        $succes = parent :: delete();
         
         $rdm = RepositoryDataManager :: get_instance();
         $lo = $rdm->retrieve_content_object($this->get_ref());
         
         $parent = $rdm->retrieve_content_object($this->get_parent());
         $parent->remove_topic($lo->get_total_topics());
-        $parent->remove_post($lo->get_total_posts());
+        $parent->remove_post($lo->get_total_posts());  
         $parent->recalculate_last_post();
+        
+        return $succes;
     }
 }
 ?>
