@@ -46,12 +46,12 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 
 	function quote($value)
     {
-    	return $this->database->quote($value);
+    	return $this->db->quote($value);
     }
     
     function query($query)
     {
-    	return $this->database->query($query);
+    	return $this->db->query($query);
     }
     
     // Inherited.
