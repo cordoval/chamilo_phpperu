@@ -1,8 +1,6 @@
 <?php
-/**
- * $Id: fedora_test_external_export_form.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.export.external_export.fedora.custom
- */
+require_once Path :: get_repository_path() . '/lib/forms/external_export_export_form.class.php';
+
 class FedoraTestExternalExportForm extends ExternalExportExportForm
 {
 
