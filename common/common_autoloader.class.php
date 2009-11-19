@@ -64,6 +64,7 @@ class CommonAutoloader
 					  'toolbar_item' => 'toolbar/toolbar_item.class.php',
 					  'simple_table' => 'table/simple_table.class.php',
 					  'sortable_table' => 'table/sortable_table.class.php',
+					  'sortable_table_from_array' => 'table/sortable_table.class.php',
 					  'static_table_column' => 'table/static_table_column.class.php',
 					  'table_column' => 'table/table_column.class.php',
 					  'table_sort' => 'table/table_sort.class.php',
