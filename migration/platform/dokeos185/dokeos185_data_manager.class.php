@@ -9,7 +9,7 @@ require_once 'MDB2.php';
 
 /**
  * Class that connects to the old dokeos185 system
- * 
+ *
  * @author Sven Vanpoucke
  * @author David Van Wayenbergh
  */
@@ -17,7 +17,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 {
     /**
      * MDB2 instance
-     * @var MDB2Connection 
+     * @var MDB2Connection
      */
     private $db;
     private $_configuration;
@@ -36,7 +36,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
     function get_configuration($old_directory)
     {
         $old_directory = 'file://' . $old_directory;
-        
+
         if (file_exists($old_directory) && is_dir($old_directory))
         {
             $config_file = $old_directory . '/main/inc/conf/configuration.php';
@@ -56,17 +56,17 @@ class Dokeos185DataManager extends OldMigrationDataManager
     {
         if (mysql_connect($this->_configuration['db_host'], $this->_configuration['db_user'], $this->_configuration['db_password']))
         {
-            
+
             if (mysql_select_db($this->_configuration['main_database']) && mysql_select_db($this->_configuration['statistics_database']) && mysql_select_db($this->_configuration['user_personal_database']))
                 return true;
         }
-        
+
         return false;
     }
 
     /**
      * Connect to the dokeos185 database with login data from the $$this->_configuration
-     * @param String $dbname with databasename 
+     * @param String $dbname with databasename
      */
     function initialize()
     {
@@ -75,22 +75,22 @@ class Dokeos185DataManager extends OldMigrationDataManager
         $param = isset($this->_configuration[$dbname]) ? $this->_configuration[$dbname] : $dbname;
         $host = $this->_configuration['db_host'];
         $pos = strpos($host, ':');
-        
+
         if ($pos == ! false)
         {
             $array = split(':', $host);
             $socket = $array[count($array) - 1];
             $host = 'unix(' . $socket . ')';
         }
-        
+
         $dsn = 'mysql://' . $this->_configuration['db_user'] . ':' . $this->_configuration['db_password'] . '@' . $host . '/' . $param;
         $this->db = MDB2 :: connect($dsn, array('debug' => 3, 'debug_handler' => array('Dokeos185DataManager', 'debug')));
-        
+
         if (PEAR :: isError($this->db))
         {
             die($this->db->getMessage());
         }
-        $this->db->query('SET NAMES utf8');
+        $this->db->setCharset('utf8');
     }
 
     function set_database($dbname)
@@ -99,7 +99,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
         $this->db->setDatabase($param);
     }
 
-    /** 
+    /**
      * This function can be used to handle some debug info from MDB2
      */
     function debug()
@@ -138,23 +138,23 @@ class Dokeos185DataManager extends OldMigrationDataManager
         while ($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
             $users[] = $this->record_to_user($record);
-        
+
         }
         $result->free();
-        
+
         foreach ($users as $user)
         {
             $query_admin = 'SELECT * FROM ' . $this->get_table_name('admin') . ' WHERE user_id=' . $user->get_user_id();
             $result_admin = $this->db->query($query_admin);
-            
+
             if ($result_admin->numRows() == 1)
             {
                 $user->set_platformadmin(1);
             }
-            
+
             $result_admin->free();
         }
-        
+
         return $users;
     }
 
@@ -187,16 +187,16 @@ class Dokeos185DataManager extends OldMigrationDataManager
             throw new Exception(get_lang('InvalidDataRetrievedFromDatabase'));
         }
         $defaultProp = array();
-        
+
         $class = new $classname($defaultProp);
-        
+
         foreach ($class->get_default_property_names() as $prop)
         {
             $defaultProp[$prop] = $record[$prop];
         }
-        
+
         $class->set_default_properties($defaultProp);
-        
+
         return $class;
     }
 
@@ -211,24 +211,24 @@ class Dokeos185DataManager extends OldMigrationDataManager
     {
         $old_path = $this->append_full_path(false, $old_rel_path);
         $new_path = $this->append_full_path(true, $new_rel_path);
-        
+
         $old_file = $old_path . $filename;
         $new_file = $new_path . $filename;
-        
+
         if (! file_exists($old_file) || ! is_file($old_file))
             return null;
-        
+
         $new_filename = Filesystem :: copy_file_with_double_files_protection($old_path, $filename, $new_path, $filename, self :: $move_file);
         $mgdm = MigrationDataManager :: get_instance();
         $mgdm->add_recovery_element($old_file, $new_file);
-        
+
         return ($new_filename);
-        
+
     // Filesystem :: remove($old_file);
     }
 
     /**
-     * Create a directory 
+     * Create a directory
      * @param boolean $is_new_system Which system the directory has to be created on (true = LCMS)
      * @param String $rel_path Relative path on the chosen system
      */
@@ -249,11 +249,11 @@ class Dokeos185DataManager extends OldMigrationDataManager
             $path = Path :: get(SYS_PATH) . $rel_path;
         else
             $path = $this->_configuration['root_sys'] . $rel_path;
-        
+
         return $path;
     }
 
-    /** 
+    /**
      * Get all the current settings from the dokeos185 database
      * @return array of Dokeos185SettingCurrent
      */
@@ -261,19 +261,19 @@ class Dokeos185DataManager extends OldMigrationDataManager
     {
         $this->set_database('main_database');
         $query = 'SELECT * FROM ' . $this->get_table_name('settings_current') . ' WHERE category = \'Platform\'';
-        
+
         if ($limit != null)
             $this->db->setLimit($limit, $offset);
-        
+
         $result = $this->db->query($query);
         $settings_current = array();
         while ($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
             $settings_current[] = $this->record_to_classobject($record, 'Dokeos185SettingCurrent');
-        
+
         }
         $result->free();
-        
+
         return $settings_current;
     }
 
@@ -287,11 +287,11 @@ class Dokeos185DataManager extends OldMigrationDataManager
         $query = 'SELECT * FROM ' . $this->get_table_name('user') . ' WHERE EXISTS
 	(SELECT user_id FROM ' . $this->get_table_name('admin') . ' WHERE user.user_id = admin.user_id)';
         $result = $this->db->query($query);
-        
+
         $record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
         $id = $record['user_id'];
         $result->free();
-        
+
         return $id;
     }
 
@@ -305,9 +305,9 @@ class Dokeos185DataManager extends OldMigrationDataManager
     function get_item_property($db, $tool, $id)
     {
         $this->set_database($db);
-        
+
         $query = 'SELECT * FROM ' . $this->get_table_name('item_property') . ' WHERE tool = \'' . $tool . '\' AND ref = ' . $id;
-        
+
         $result = $this->db->query($query);
         $itemprops = $this->mapper($result, 'Dokeos185ItemProperty');
         $result->free();
@@ -323,14 +323,14 @@ class Dokeos185DataManager extends OldMigrationDataManager
     {
         $this->set_database($course->get_db_name());
         $query = 'SELECT * FROM ' . $this->get_table_name('document') . ' WHERE filetype <> \'folder\'';
-        
+
         if ($include_deleted_files != 1)
             $query = $query . ' AND id IN (SELECT ref FROM ' . $this->get_table_name('item_property') . ' WHERE tool=\'document\'' . ' AND visibility <> 2);';
         if ($limit != null)
             $this->db->setLimit($limit, $offset);
         $result = $this->db->query($query);
         $documents = $this->mapper($result, 'Dokeos185Document');
-        
+
         return $documents;
     }
 
@@ -356,14 +356,14 @@ class Dokeos185DataManager extends OldMigrationDataManager
         $query = 'SELECT * FROM ' . $this->get_table_name($tablename);
         if ($limit != null)
             $this->db->setLimit($limit, $offset);
-        
+
         if ($tool_name)
             $query = $query . ' WHERE id IN (SELECT ref FROM ' . $this->get_table_name('item_property') . ' WHERE ' . 'tool=\'' . $tool_name . '\' AND visibility <> 2);';
- 
+
         $result = $this->db->query($query);
         if (MDB2 :: isError($result))
             return false;
-        
+
         $list = $this->mapper($result, $classname);
         $result->free();
         return $list;
@@ -391,7 +391,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
         $result->free();
         if ($record)
             return $record['code'];
-        
+
         return null;
     }
 
@@ -409,25 +409,25 @@ class Dokeos185DataManager extends OldMigrationDataManager
             $list[] = $this->record_to_classobject($record, $class);
         }
         $result->free();
-        
+
         return $list;
     }
 
     /**
      * Gets all the answer of a question
      * @param String $database
-     * @param int $id 
+     * @param int $id
      * @return Array of Dokeos185QuizAnswers
      */
     function get_all_question_answer($database, $id)
     {
         $this->set_database($database);
-        
+
         $query = 'SELECT * FROM ' . $this->get_table_name('quiz_answer') . ' WHERE question_id = ' . $id;
         $result = $this->db->query($query);
-        
+
         return $this->mapper($result, 'Dokeos185QuizAnswer');
-    
+
     }
 
     function count_records($database, $table, $condition = null)
@@ -441,11 +441,11 @@ class Dokeos185DataManager extends OldMigrationDataManager
             return 0;
         }
         $result->free();*/
-        
+
         $query = 'SELECT COUNT(*) as number FROM ' . $this->get_table_name($table);
-        
+
         $params = array();
-        
+
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $params);
@@ -453,7 +453,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
             $params = $translator->get_parameters();
             unset($translator);
         }
-        
+
         $statement = $this->db->prepare($query);
         $result = $statement->execute($params);
         $statement->free();
@@ -484,9 +484,9 @@ class Dokeos185DataManager extends OldMigrationDataManager
         {
             list($table, $column) = explode('.', $name, 2);
         }
-        
+
         $prefix = '';
-        
+
         if (isset($column))
         {
             $prefix = $table . '.';

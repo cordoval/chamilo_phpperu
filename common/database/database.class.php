@@ -34,7 +34,7 @@ class Database
     {
         $this->connection = Connection :: get_instance()->get_connection();
         $this->connection->setOption('debug_handler', array(get_class($this), 'debug'));
-        $this->query('SET NAMES utf8');
+        $this->connection->setCharset('utf8');
     }
 
     /**
@@ -142,7 +142,8 @@ class Database
     function get_table_name($name)
     {
         $dsn = $this->connection->getDSN('array');
-        return $dsn['database'] . '.' . $this->prefix . $name;
+//        return $dsn['database'] . '.' . $this->prefix . $name;
+        return $this->prefix . $name;
     }
 
     /**
@@ -154,7 +155,8 @@ class Database
     {
         $dsn = $this->connection->getDSN('array');
         $database_name = $this->connection->quoteIdentifier($dsn['database']);
-        return $database_name . '.' . $this->connection->quoteIdentifier($this->prefix . $name);
+//        return $database_name . '.' . $this->connection->quoteIdentifier($this->prefix . $name);
+        return $this->connection->quoteIdentifier($this->prefix . $name);
     }
 
     /**
@@ -196,6 +198,7 @@ class Database
         $manager = $this->connection->manager;
         // If table allready exists -> drop it
         // @todo This should change: no automatic table drop but warning to user
+//        echo 'test';
         $tables = $manager->listTables();
         if (in_array($name, $tables))
         {
@@ -213,8 +216,11 @@ class Database
                 if ($index_info['type'] == 'primary')
                 {
                     $index_info['primary'] = 1;
-                    if (MDB2 :: isError($manager->createConstraint($name, $index_name, $index_info)))
+                    $primary_result = $manager->createConstraint($name, $index_name, $index_info);
+                    if (MDB2 :: isError($primary_result))
                     {
+                        print_r($primary_result);
+//                        echo 'primary';
                         return false;
                     }
                 }
@@ -223,6 +229,7 @@ class Database
                     $index_info['unique'] = 1;
                     if (MDB2 :: isError($manager->createConstraint($name, $index_name, $index_info)))
                     {
+//                        echo 'unique';
                         return false;
                     }
                 }
@@ -230,6 +237,7 @@ class Database
                 {
                     if (MDB2 :: isError($manager->createIndex($name, $index_name, $index_info)))
                     {
+//                        echo 'index';
                         return false;
                     }
                 }
@@ -238,6 +246,8 @@ class Database
         }
         else
         {
+            print_r($result);
+            echo 'table';
             return false;
         }
     }
