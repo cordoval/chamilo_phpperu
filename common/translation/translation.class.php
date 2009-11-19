@@ -39,7 +39,7 @@ class Translation
         {
             global $language_interface;
             $this->language = $language_interface;
-            if (file_exists(dirname(__FILE__) . '/../configuration/configuration.php'))
+            if (file_exists(dirname(__FILE__) . '/../configuration/configuration.php') || Request :: get('install_running') != 1)
             {
                 $this->show_variable_in_translation = PlatformSetting :: get('show_variable_in_translation');
             }

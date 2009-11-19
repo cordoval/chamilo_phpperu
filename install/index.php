@@ -42,6 +42,9 @@ function __autoload($classname)
 }
 
 require_once dirname(__FILE__) . '/lib/install_manager/install_manager.class.php';
+
+Request :: set_get('install_running', 1);
+
 Translation :: set_application($this_section);
 Translation :: set_language('english');
 

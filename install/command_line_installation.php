@@ -45,6 +45,8 @@ require_once 'MDB2.php';
 
 require_once dirname(__FILE__) . '/command_line_configuration.inc.php'; 
 
+Request :: set_get('install_running', 1);
+
 Translation :: set_application($this_section);
 Translation :: set_language('english');
 
