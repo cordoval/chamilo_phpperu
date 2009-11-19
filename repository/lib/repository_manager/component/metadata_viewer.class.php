@@ -28,7 +28,7 @@ class RepositoryManagerMetadataViewerComponent extends RepositoryManagerMetadata
             {
                 case self :: METADATA_FORMAT_LOM :
                     $mapper = new IeeeLomMapper($content_object);
-                    $form = new MetadataLOMExportForm($content_object, $mapper);
+                    $form = new MetadataLomExportForm($content_object, $mapper);
                     break;
                 
             /*

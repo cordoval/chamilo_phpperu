@@ -35,7 +35,7 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
                 case self :: METADATA_FORMAT_LOM :
                     
                     $mapper = new IeeeLomMapper($content_object);
-                    $form = new MetadataLOMEditForm($content_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), $this->get_catalogs());
+                    $form = new MetadataLomEditForm($content_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), $this->get_catalogs());
                     break;
                 
             /*

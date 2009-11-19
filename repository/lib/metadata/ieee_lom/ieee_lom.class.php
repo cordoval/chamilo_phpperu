@@ -70,7 +70,7 @@ class IeeeLom
 
     private function delete_nodes($query)
     {
-        XML :: delete_element_by_xpath($this->dom, $query);
+        XMLUtilities :: delete_element_by_xpath($this->dom, $query);
     }
 
     /**
@@ -889,7 +889,7 @@ class IeeeLom
 
     function get_copyright_and_other_restrictions($copyright_and_other_restrictions)
     {
-        return XML :: get_first_element_by_xpath($this->dom, '/lom/rights/copyrightAndOtherRestrictions');
+        return XMLUtilities :: get_first_element_by_xpath($this->dom, '/lom/rights/copyrightAndOtherRestrictions');
     }
 
     /**

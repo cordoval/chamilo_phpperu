@@ -25,7 +25,7 @@ class IeeeLomDateTime extends IeeeLomTime
         
         if (isset($this->day) && isset($this->month) && isset($this->year))
         {
-            $datetime_str = Datetime :: get_complete_year($this->year) . '-' . $this->get_month(true) . '-' . $this->get_day(true);
+            $datetime_str = DatetimeUtilities :: get_complete_year($this->year) . '-' . $this->get_month(true) . '-' . $this->get_day(true);
         }
         
         $hour = $this->get_hour(true);

@@ -37,7 +37,7 @@ class XMLUtilities
      */
     public static function get_first_element_value_by_tag_name($node, $subnode_name)
     {
-        $node = XML :: get_first_element_by_tag_name($node, $subnode_name);
+        $node = XMLUtilities :: get_first_element_by_tag_name($node, $subnode_name);
         if (isset($node))
         {
             return $node->nodeValue;

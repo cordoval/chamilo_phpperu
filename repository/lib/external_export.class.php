@@ -300,7 +300,7 @@ class ExternalExport extends RepositoryDataClass
      */
     function remove_trailing_slash($string)
     {
-        return String :: remove_trailing($string, '/');
+        return StringUtilities :: remove_trailing($string, '/');
     }
 
     /**
@@ -311,7 +311,7 @@ class ExternalExport extends RepositoryDataClass
      */
     function ensure_start_with_slash($string)
     {
-        return String :: ensure_start_with($string, '/');
+        return StringUtilities :: ensure_start_with($string, '/');
     }
 
     /**

@@ -3,7 +3,7 @@
  * $Id: metadata_lom_edit_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.forms
  */
-class MetadataLOMEditForm extends FormValidator
+class MetadataLomEditForm extends FormValidator
 {
     const FORM_ACTION = 'lom_form_action';
     const FORM_ACTION_VALUE = 'lom_form_action_value';
@@ -43,7 +43,7 @@ class MetadataLOMEditForm extends FormValidator
     private $skipped_indexes;
     private $info_messages;
 
-    public function MetadataLOMEditForm($content_object_id, $ieee_lom_mapper, $action, $catalogs)
+    public function MetadataLomEditForm($content_object_id, $ieee_lom_mapper, $action, $catalogs)
     {
         parent :: __construct('lom_metadata', 'post', $action);
         
@@ -535,7 +535,7 @@ class MetadataLOMEditForm extends FormValidator
         //debug($action);
         $result = false;
         
-        if (String :: start_with($action, self :: FORM_ACTION_REMOVE))
+        if (StringUtilities :: start_with($action, self :: FORM_ACTION_REMOVE))
         {
             $result = $this->manage_remove_action($action);
         }
@@ -657,7 +657,7 @@ class MetadataLOMEditForm extends FormValidator
     {
         $action_value = Request :: post(self :: FORM_ACTION_VALUE);
         
-        $title_index = String :: get_value_between_chars($action_value, 0);
+        $title_index = StringUtilities :: get_value_between_chars($action_value, 0);
         
         if (isset($title_index) && is_numeric($title_index))
         {
@@ -720,8 +720,8 @@ class MetadataLOMEditForm extends FormValidator
         //debug($action_value);
         
 
-        $description_index = String :: get_value_between_chars($action_value, 0);
-        $string_index = String :: get_value_between_chars($action_value, 1);
+        $description_index = StringUtilities :: get_value_between_chars($action_value, 0);
+        $string_index = StringUtilities :: get_value_between_chars($action_value, 1);
         
         if (isset($description_index) && is_numeric($description_index) && isset($string_index) && is_numeric($string_index))
         {
@@ -757,8 +757,8 @@ class MetadataLOMEditForm extends FormValidator
     {
         $action_value = Request :: post(self :: FORM_ACTION_VALUE);
         
-        $contribute_index = String :: get_value_between_chars($action_value, 0);
-        $entity_index = String :: get_value_between_chars($action_value, 1);
+        $contribute_index = StringUtilities :: get_value_between_chars($action_value, 0);
+        $entity_index = StringUtilities :: get_value_between_chars($action_value, 1);
         
         if (isset($contribute_index) && is_numeric($contribute_index) && isset($entity_index) && is_numeric($entity_index))
         {
@@ -789,7 +789,7 @@ class MetadataLOMEditForm extends FormValidator
     {
         $action_value = Request :: post(self :: FORM_ACTION_VALUE);
         
-        $rd_index = String :: get_value_between_chars($action_value, 0);
+        $rd_index = StringUtilities :: get_value_between_chars($action_value, 0);
         
         if (isset($rd_index) && is_numeric($rd_index))
         {

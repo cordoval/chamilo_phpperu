@@ -8,8 +8,15 @@ class CommonAutoloader
 	static function load($classname)
 	{
 		if(self :: load_files_with_same_directory_name($classname))
+		{
 			return true;
-
+		}
+		
+		if(self :: check_for_utilities_files($classname))
+		{
+		    return true;
+		}	
+		
 		if(self :: check_for_html_files($classname))
 		{
 			return true;
@@ -50,6 +57,23 @@ class CommonAutoloader
 		return false;
 	}
 
+	static function check_for_utilities_files($classname)
+	{
+	    $list = array('datetime_utilities' => 'datetime', 'debug_utilities' => 'debug', 'string_utilities' => 'string', 'xml_utilities' => 'xml');
+	    
+	    $lower_case = Utilities :: camelcase_to_underscores($classname);
+	    
+	    if(array_key_exists($lower_case, $list))
+	    {
+			require_once dirname(__FILE__) . '/' . $list[$lower_case] . '/' . $lower_case . '.class.php';
+			return true;
+	    }
+	    else
+	    {
+	        return false;
+	    }
+	}
+	
 	static function check_for_html_files($classname)
 	{
 		$list = array('bbcode_parser' => 'bbcode_parser.class.php',

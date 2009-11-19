@@ -625,7 +625,7 @@ class RestClient
                     {
                         $file_path = $values[0];
 
-                        if(String :: start_with($file_path, '@'))
+                        if(StringUtilities :: start_with($file_path, '@'))
                         {
                             $file_path = substr($file_path, 1);
                         }

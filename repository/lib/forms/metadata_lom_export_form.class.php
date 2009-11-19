@@ -3,12 +3,12 @@
  * $Id: metadata_lom_export_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.forms
  */
-class MetadataLOMExportForm extends FormValidator
+class MetadataLomExportForm extends FormValidator
 {
     private $content_object;
     private $ieee_lom_mapper;
 
-    public function MetadataLOMExportForm($content_object, $ieee_lom_mapper)
+    public function MetadataLomExportForm($content_object, $ieee_lom_mapper)
     {
         $this->content_object = $content_object;
         $this->ieee_lom_mapper = $ieee_lom_mapper;

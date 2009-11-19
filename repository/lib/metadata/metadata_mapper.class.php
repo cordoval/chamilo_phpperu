@@ -177,7 +177,7 @@ abstract class MetadataMapper
             
             foreach ($this->additional_metadata_array as $metadata)
             {
-                if (String :: start_with($metadata->get_property(), $filter))
+                if (StringUtilities :: start_with($metadata->get_property(), $filter))
                 {
                     $filtered_metadata[] = $metadata;
                 }

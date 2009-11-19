@@ -39,7 +39,7 @@ class StringUtilities
      */
     function ensure_start_with($string, $leading_string)
     {
-        if (String :: start_with($string, $leading_string))
+        if (StringUtilities :: start_with($string, $leading_string))
         {
             return $string;
         }
@@ -57,7 +57,7 @@ class StringUtilities
      */
     function remove_trailing($string, $trailing_string)
     {
-        if (String :: end_with($string, $trailing_string))
+        if (StringUtilities :: end_with($string, $trailing_string))
         {
             return substr($string, 0, strlen($string) - strlen($trailing_string));
         }
@@ -141,7 +141,7 @@ class StringUtilities
         
         foreach ($strings as $string => $value)
         {
-            String :: set_next_level_array($array, $string, $value, $opening_char, $closing_char);
+            StringUtilities :: set_next_level_array($array, $string, $value, $opening_char, $closing_char);
         }
         
         //debug($array);
@@ -152,7 +152,7 @@ class StringUtilities
 
     private static function set_next_level_array(&$container_array, $string, $value, $opening_char = '[', $closing_char = ']')
     {
-        $key = String :: get_value_between_chars($string, 0, $opening_char, $closing_char);
+        $key = StringUtilities :: get_value_between_chars($string, 0, $opening_char, $closing_char);
         $sub_string = substr($string, strpos($string, $closing_char) + 1);
         
         if (isset($sub_string) && strlen($sub_string) > 0)
@@ -166,7 +166,7 @@ class StringUtilities
                 $sub_array = array();
             }
             
-            String :: set_next_level_array($sub_array, $sub_string, $value, $opening_char, $closing_char);
+            StringUtilities :: set_next_level_array($sub_array, $sub_string, $value, $opening_char, $closing_char);
             
             $container_array[$key] = $sub_array;
         }

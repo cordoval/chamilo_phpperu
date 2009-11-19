@@ -29,7 +29,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
                 case self :: METADATA_FORMAT_LOM :
                     
                     $mapper = new IeeeLomMapper($content_object);
-                    $form = new MetadataLOMEditForm($content_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => Request :: get(RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID))), $this->get_catalogs());
+                    $form = new MetadataLomEditForm($content_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => Request :: get(RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID))), $this->get_catalogs());
                     break;
                 
             /*
@@ -114,7 +114,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
      * 
      * Note: to check what fields are missing, a session variable is used  
      * 
-     * @param $form MetadataLOMEditForm
+     * @param $form MetadataLomEditForm
      * @return void
      */
     private function add_missing_fields($form)

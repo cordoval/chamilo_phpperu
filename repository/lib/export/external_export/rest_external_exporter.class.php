@@ -54,21 +54,21 @@ abstract class RestExternalExporter extends BaseExternalExporter
             
             if (isset($client_certificate_file) && strlen($client_certificate_file) > 0)
             {
-                $client_certificate_file = Path :: get_repository_path() . 'lib/export/external_export/ssl' . String :: ensure_start_with($client_certificate_file, '/');
+                $client_certificate_file = Path :: get_repository_path() . 'lib/export/external_export/ssl' . StringUtilities :: ensure_start_with($client_certificate_file, '/');
                 
                 $this->rest_client->set_client_certificate_file($client_certificate_file);
             }
             
             if (isset($client_certificate_key_file) && strlen($client_certificate_key_file) > 0)
             {
-                $client_certificate_key_file = Path :: get_repository_path() . 'lib/export/external_export/ssl' . String :: ensure_start_with($client_certificate_key_file, '/');
+                $client_certificate_key_file = Path :: get_repository_path() . 'lib/export/external_export/ssl' . StringUtilities :: ensure_start_with($client_certificate_key_file, '/');
                 
                 $this->rest_client->set_client_certificate_key_file($client_certificate_key_file);
             }
             
             if (isset($target_ca_file) && strlen($target_ca_file) > 0)
             {
-                $target_ca_file = Path :: get_repository_path() . 'lib/export/external_export/ssl' . String :: ensure_start_with($target_ca_file, '/');
+                $target_ca_file = Path :: get_repository_path() . 'lib/export/external_export/ssl' . StringUtilities :: ensure_start_with($target_ca_file, '/');
                 
                 $this->rest_client->set_target_ca_file($target_ca_file);
             }
@@ -112,7 +112,7 @@ abstract class RestExternalExporter extends BaseExternalExporter
     	     */
             $document = new DOMDocument();
             
-            if (strlen($response_content) > 0 && String :: start_with($response_content, '<?xml'))
+            if (strlen($response_content) > 0 && StringUtilities :: start_with($response_content, '<?xml'))
             {
                 set_error_handler(array($this, 'handle_xml_error'));
                 $document->loadXML($response_content);
