@@ -722,7 +722,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
             $this->set_modification_date(time());
         }
         $dm = RepositoryDataManager :: get_instance();
-        $success = $dm->update_content_object($this);
+        $success = $dm->update_content_object($this); 
         if (! $success)
         {
             return false;

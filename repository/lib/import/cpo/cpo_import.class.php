@@ -199,8 +199,9 @@ class CpoImport extends ContentObjectImport
         if ($type == 'document')
         {
             $hash = $additionalProperties['hash'];
+            
             $additionalProperties['hash'] = $this->files[$hash]['hash'];
-            $additionalProperties['path'] = $this->files[$hash]['path'];
+            $additionalProperties['path'] = $this->files[$hash]['path']; 
         }
         
         if ($type == 'hotpotatoes')
@@ -279,7 +280,7 @@ class CpoImport extends ContentObjectImport
                 
                 foreach ($nodes as $node)
                 {
-                    if ($node->nodeName == "#text")
+                    if ($node->nodeName == "#text" || $node->nodeName == 'id')
                         continue;
                     $additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
                 }
@@ -288,7 +289,7 @@ class CpoImport extends ContentObjectImport
                 
                 $lo->set_additional_properties($additionalProperties);
             }
-            
+        
             $lo->create_all();
             
             if ($type == 'learning_path_item' || $type == 'portfolio_item')
@@ -330,7 +331,7 @@ class CpoImport extends ContentObjectImport
                 
                 $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
             }
-            
+           
             // Attachments
             $attachments = $content_object->getElementsByTagName('attachments')->item(0);
             $children = $attachments->childNodes;
@@ -344,7 +345,7 @@ class CpoImport extends ContentObjectImport
                 $this->lo_attachments[$id][] = $idref;
             
             }
-            
+             
             // Includes
             $includes = $content_object->getElementsByTagName('includes')->item(0);
             $children = $includes->childNodes;
@@ -361,7 +362,7 @@ class CpoImport extends ContentObjectImport
                 $idref = $include->getAttribute('idref');
                 $this->lo_includes[$id][] = $idref;
             
-            }
+            } 
         }
     }
 
