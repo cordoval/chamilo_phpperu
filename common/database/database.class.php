@@ -198,7 +198,6 @@ class Database
         $manager = $this->connection->manager;
         // If table allready exists -> drop it
         // @todo This should change: no automatic table drop but warning to user
-//        echo 'test';
         $tables = $manager->listTables();
         if (in_array($name, $tables))
         {
@@ -209,6 +208,8 @@ class Database
 
         $result = $manager->createTable($name, $properties, $options);
 
+        $constraint_table_alias = $this->get_constraint_name($name);
+
         if (! MDB2 :: isError($result))
         {
             foreach ($indexes as $index_name => $index_info)
@@ -216,28 +217,24 @@ class Database
                 if ($index_info['type'] == 'primary')
                 {
                     $index_info['primary'] = 1;
-                    $primary_result = $manager->createConstraint($name, $index_name, $index_info);
+                    $primary_result = $manager->createConstraint($name, $constraint_table_alias . '_' . $index_name . '_pk', $index_info);
                     if (MDB2 :: isError($primary_result))
                     {
-                        print_r($primary_result);
-//                        echo 'primary';
                         return false;
                     }
                 }
                 elseif ($index_info['type'] == 'unique')
                 {
                     $index_info['unique'] = 1;
-                    if (MDB2 :: isError($manager->createConstraint($name, $index_name, $index_info)))
+                    if (MDB2 :: isError($manager->createConstraint($name, $constraint_table_alias . '_' . $index_name . '_un', $index_info)))
                     {
-//                        echo 'unique';
                         return false;
                     }
                 }
                 else
                 {
-                    if (MDB2 :: isError($manager->createIndex($name, $index_name, $index_info)))
+                    if (MDB2 :: isError($manager->createIndex($name, $constraint_table_alias . '_' . $index_name . '_in', $index_info)))
                     {
-//                        echo 'index';
                         return false;
                     }
                 }
@@ -246,8 +243,6 @@ class Database
         }
         else
         {
-            print_r($result);
-            echo 'table';
             return false;
         }
     }
@@ -735,6 +730,18 @@ class Database
         }
 
         return $this->aliases[$table_name];
+    }
+
+    function get_constraint_name($name)
+    {
+        $possible_name = '';
+        $parts = explode('_', $name);
+        foreach($parts as $part)
+        {
+            $possible_name .= $part{0};
+        }
+
+        return $possible_name;
     }
 
     /**
