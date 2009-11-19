@@ -11,7 +11,7 @@ $this_section = 'install';
 
 ini_set("memory_limit", "-1"); // Geen php-beperkingen voor geheugengebruik
 ini_set("max_execution_time", "7200"); // Twee uur moet voldoende zijn...
-//ini_set("error_reporting", "E_ALL & ~E_NOTICE");
+ini_set("error_reporting", "E_ALL & ~E_NOTICE");
 
 require_once dirname(__FILE__) . '/../common/filesystem/path.class.php';
 require_once dirname(__FILE__) . '/../common/utilities.class.php';
@@ -45,6 +45,8 @@ require_once 'MDB2.php';
 
 require_once dirname(__FILE__) . '/command_line_configuration.inc.php'; 
 
+Request :: set_get('install_running', 1);
+
 Translation :: set_application($this_section);
 Translation :: set_language('english');
 
@@ -72,7 +74,7 @@ function create_database()
             $create_result = $connection->exec($create_query);
             if (! MDB2 :: isError($create_result))
             {
-                return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('DBCreated'));
+            	return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('DBCreated'));
             }
             else
             {
@@ -122,9 +124,9 @@ function write_config_file()
     $config['{ROOT_WEB}'] = $values['platform_url'];
     $config['{ROOT_SYS}'] = str_replace('\\', '/', realpath($values['platform_url']) . '/');
     $config['{SECURITY_KEY}'] = md5(uniqid(rand() . time()));
-    $config['{URL_APPEND}'] = str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
+    $config['{URL_APPEND}'] = $values['url_append'];
     $config['{HASHING_ALGORITHM}'] = $values['hashing_algorithm'];
-
+    
     foreach ($config as $key => $value)
     {
         $content = str_replace($key, $value, $content);
@@ -287,6 +289,8 @@ process_result('database', $db_creation['success'], $db_creation['message']);
 // 2. Write the configuration file
 $config_file = write_config_file();
 process_result('config', $config_file['success'], $config_file['message']);
+
+
 
 // 3. Installing the applications
 install_applications();
