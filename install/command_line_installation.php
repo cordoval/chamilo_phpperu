@@ -19,8 +19,25 @@ ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear'));
 
 function __autoload($classname)
 {
-	require_once dirname(__FILE__) . '/../common/common_autoloader.class.php';
-	CommonAutoLoader :: load($classname);
+	$autoloaders = array(Path :: get_common_path() . '/common_autoloader.class.php', Path :: get_repository_path() . 'repository_autoloader.class.php',
+						 Path :: get_user_path() . 'user_autoloader.class.php', Path :: get_admin_path() . 'admin_autoloader.class.php',
+					     Path :: get_group_path() . 'group_autoloader.class.php', Path :: get_help_path() . 'help_autoloader.class.php',
+					     Path :: get_home_path() . 'home_autoloader.class.php', Path :: get_menu_path() . 'menu_autoloader.class.php',
+					     Path :: get_reporting_path() . 'reporting_autoloader.class.php', Path :: get_rights_path() . 'rights_autoloader.class.php',
+					     Path :: get_tracking_path() . 'tracking_autoloader.class.php', Path :: get_webservice_path() . 'webservice_autoloader.class.php',
+					     Path :: get_application_library_path() . 'application_common_autoloader.class.php');
+	
+	foreach($autoloaders as $autoloader)
+	{
+		require_once $autoloader;
+		
+		$classn = substr(basename($autoloader), 0, -10);
+		$classname_upp = Utilities :: underscores_to_camelcase($classn);
+		$class = new $classname_upp;
+		
+		if($class->load($classname))
+			break;
+	}
 }
 
 require_once dirname(__FILE__) . '/lib/install_manager/install_manager.class.php';
