@@ -63,7 +63,7 @@ class TrackingAutoloader
 	{
 		$list = array('tracking_manager' => 'tracking_manager/tracking_manager.class.php',
 					  'tracking_manager_component' => 'tracking_manager/tracking_manager_component.class.php',
-					  'archive_wizard' => 'tracking_manager/component/archive_wizard.class.php');
+					  'archive_wizard' => 'tracking_manager/component/wizards/archive_wizard.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
