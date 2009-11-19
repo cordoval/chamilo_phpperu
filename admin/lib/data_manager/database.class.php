@@ -376,7 +376,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         else
         {
             $query = 'SELECT * FROM ' . $this->database->get_table_name('system_announcement_publication') . ' WHERE ' . $this->database->escape_column_name('content_object_id') . '=' . $this->quote($object_id);
-            $this->query($query);
+            $res = $this->query($query);
         }
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
