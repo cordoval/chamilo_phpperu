@@ -52,7 +52,7 @@ class WebserviceAutoloader
 		if(key_exists($lower_case, $list))
 		{
 			$url = $list[$lower_case];
-			require_once dirname(__FILE__) . '/lib/user_manager/component/' . $url;
+			require_once dirname(__FILE__) . '/lib/webservice_manager/component/' . $url;
 			return true;
 		}
 
