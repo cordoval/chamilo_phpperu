@@ -3,10 +3,6 @@
  * $Id: database.class.php 235 2009-11-16 12:08:00Z scaramanga $
  * @package rights.lib.data_manager
  */
-require_once dirname(__FILE__) . '/database/database_rights_template_result_set.class.php';
-require_once dirname(__FILE__) . '/database/database_right_result_set.class.php';
-require_once dirname(__FILE__) . '/database/database_location_result_set.class.php';
-require_once dirname(__FILE__) . '/database/database_rights_template_right_location_result_set.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -47,26 +43,10 @@ class DatabaseRightsDataManager extends RightsDataManager
         // Do something with the arguments
         if ($args[1] == 'query')
         {
-            //echo '<pre>';
-        //echo($args[2]);
-        //echo '</pre>';
+            echo '<pre>';
+            print_r($args[2]);
+            echo '</pre>';
         }
-    }
-
-    private static function is_user_column($name)
-    {
-        return User :: is_default_property_name($name); //|| $name == User :: PROPERTY_TYPE || $name == User :: PROPERTY_DISPLAY_ORDER_INDEX || $name == User :: PROPERTY_USER_ID;
-    }
-
-    /**
-     * Checks whether the given column name is the name of a column that
-     * contains a date value, and hence should be formatted as such.
-     * @param string $name The column name.
-     * @return boolean True if the column is a date column, false otherwise.
-     */
-    static function is_date_column($name)
-    {
-        return false;
     }
 
     function update_rights_template_right_location($rights_templaterightlocation)
@@ -147,22 +127,6 @@ class DatabaseRightsDataManager extends RightsDataManager
     function create_storage_unit($name, $properties, $indexes)
     {
         return $this->database->create_storage_unit($name, $properties, $indexes);
-    }
-
-    function record_to_rights_template_right_location($record)
-    {
-        if (! is_array($record) || ! count($record))
-        {
-            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
-        }
-
-        $defaultProp = array();
-        foreach (RightsTemplateRightLocation :: get_default_property_names() as $prop)
-        {
-            $defaultProp[$prop] = $record[$prop];
-        }
-
-        return new RightsTemplateRightLocation($defaultProp);
     }
 
     function retrieve_location_id_from_location_string($location)
@@ -265,16 +229,10 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $condition = new AndCondition($conditions);
 
-        $query = 'UPDATE ' . $this->database->escape_table_name('location') . ' SET ' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->database->quote($number_of_elements * 2);
+        $properties = array(Location :: PROPERTY_LEFT_VALUE => $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->database->quote($number_of_elements * 2));
+        $res = $this->database->update_objects(Location :: get_table_name(), $properties, $condition);
 
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database);
-            $query .= $translator->render_query($condition);
-        }
-
-        $res = $this->database->query($query);
-        if (MDB2 :: isError($res))
+        if (!$res)
         {
             return false;
         }
@@ -285,24 +243,15 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $condition = new AndCondition($conditions);
 
-        $query = 'UPDATE ' . $this->database->escape_table_name('location') . ' SET ' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->database->quote($number_of_elements * 2);
+        $properties = array(Location :: PROPERTY_RIGHT_VALUE => $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->database->quote($number_of_elements * 2));
+        $res = $this->database->update_objects(Location :: get_table_name(), $properties, $condition);
 
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database);
-            $query .= $translator->render_query($condition);
-        }
-
-        $res = $this->database->query($query);
-
-        if (MDB2 :: isError($res))
+        if (!$res)
         {
             return false;
         }
-        else
-        {
-            return true;
-        }
+
+        return true;
     }
 
     function delete_location_nodes($location)
@@ -326,19 +275,12 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_left_value());
         $condition = new AndCondition($conditions);
 
-        $query = 'UPDATE ' . $this->database->escape_table_name('location');
-        $query .= ' SET ' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' - ' . $this->database->quote($delta) . ',';
-        $query .= $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->database->quote($delta);
+        $properties = array();
+        $properties[Location :: PROPERTY_LEFT_VALUE] = $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' - ' . $this->database->quote($delta);
+        $properties[Location :: PROPERTY_RIGHT_VALUE] = $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->database->quote($delta);
+        $res = $this->database->update_objects(Location :: get_table_name(), $properties, $condition);
 
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database);
-            $query .= $translator->render_query($condition);
-        }
-
-        $res = $this->database->query($query);
-
-        if (MDB2 :: isError($res))
+        if (!$res)
         {
             return false;
         }
@@ -350,25 +292,15 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_right_value());
         $condition = new AndCondition($conditions);
 
-        $query = 'UPDATE ' . $this->database->escape_table_name('location');
-        $query .= ' SET ' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->database->quote($delta);
+        $properties = array(Location :: PROPERTY_RIGHT_VALUE => $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->database->quote($delta));
+        $res = $this->database->update_objects(Location :: get_table_name(), $properties, $condition);
 
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database);
-            $query .= $translator->render_query($condition);
-        }
-
-        $res = $this->database->query($query);
-
-        if (MDB2 :: isError($res))
+        if (!$res)
         {
             return false;
         }
-        else
-        {
-            return true;
-        }
+
+        return true;
     }
 
     function move_location($location, $new_parent_id, $new_previous_id = 0)
@@ -470,19 +402,12 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, ($location->get_right_value() + 1));
         $condition = new AndCondition($conditions);
 
-        $query = 'UPDATE ' . $this->database->escape_table_name('location');
-        $query .= ' SET ' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->database->quote($offset) . ',';
-        $query .= $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->database->quote($offset);
+        $properties = array();
+        $properties[Location :: PROPERTY_LEFT_VALUE] = $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->database->quote($offset);
+        $properties[Location :: PROPERTY_RIGHT_VALUE] = $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->database->quote($offset);
+        $res = $this->database->update_objects(Location :: get_table_name(), $properties, $condition);
 
-        if (isset($condition))
-        {
-            $translator = new ConditionTranslator($this->database);
-            $query .= $translator->render_query($condition);
-        }
-
-        $res = $this->database->query($query);
-
-        if (MDB2 :: isError($res))
+        if (!$res)
         {
             return false;
         }
@@ -546,7 +471,7 @@ class DatabaseRightsDataManager extends RightsDataManager
     function retrieve_shared_content_objects_for_user($user_id, $rights)
     {
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
-        $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->database->escape_table_name('location'), $subcondition);
+        $conditions[] = new SubSelectcondition(UserRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->database->escape_table_name(Location :: get_table_name()), $subcondition);
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user_id);
         $conditions[] = new InCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $rights);
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_VALUE, 1);
@@ -558,7 +483,7 @@ class DatabaseRightsDataManager extends RightsDataManager
     function retrieve_shared_content_objects_for_groups($group_ids, $rights)
     {
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
-        $conditions[] = new SubSelectcondition('location_id', Location :: PROPERTY_ID, $this->database->escape_table_name('location'), $subcondition);
+        $conditions[] = new SubSelectcondition(GroupRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->database->escape_table_name(Location :: get_table_name()), $subcondition);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group_ids);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_RIGHT_ID, $rights);
         $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_VALUE, 1);
