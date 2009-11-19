@@ -13,21 +13,36 @@ class StringUtilities
      * @param string $start
      * @return bool
      */
-    public static function start_with($string, $start)
+    public static function start_with($string, $start, $case_sensitive = true)
     {
-        return strpos($string, $start) === 0;
+        if($case_sensitive)
+        {
+            return strpos($string, $start) === 0;
+        }
+        else
+        {
+            return stripos($string, $start) === 0;
+        }
     }
 
     /**
      * Tests if a string ends with the given string
      *
-     * @param string
-     * @param string
+     * @param string $string
+     * @param string $end
+     * @param bool $case_sensitive
      * @return bool
      */
-    function end_with($string, $end)
+    public static function end_with($string, $end, $case_sensitive = true)
     {
-        return strrpos($string, $end) === strlen($string) - strlen($end);
+        if($case_sensitive)
+        {
+            return strrpos($string, $end) === strlen($string) - strlen($end);
+        }
+        else
+        {
+            return strripos($string, $end) === strlen($string) - strlen($end);
+        }
     }
 
     /**
@@ -37,7 +52,7 @@ class StringUtilities
      * @param $leading_string The string to add at the beginning of the main string if necessary 
      * @return string
      */
-    function ensure_start_with($string, $leading_string)
+    public static function ensure_start_with($string, $leading_string)
     {
         if (StringUtilities :: start_with($string, $leading_string))
         {
@@ -55,7 +70,7 @@ class StringUtilities
      * @param $trailing_string The trailing string
      * @return string
      */
-    function remove_trailing($string, $trailing_string)
+    public static function remove_trailing($string, $trailing_string)
     {
         if (StringUtilities :: end_with($string, $trailing_string))
         {
