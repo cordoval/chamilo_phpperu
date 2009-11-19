@@ -433,39 +433,6 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         return $this->db->count_objects('quota_box_rel_category', $condition);
     }
 
-    /*function retrieve_quota_boxes_from_category($condition = null, $offset = null, $count = null, $order_property = null)
-	{
-		$query = 'SELECT * FROM '. $this->db->escape_table_name('quota_box'). ' AS '. $this->db->get_alias('quota_box');
-
-		$params = array ();
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
-		}
-
-		$order = array ();
-
-		for ($i = 0; $i < count($orderBy); $i ++)
-		{
-			$order[] = $this->escape_column_name($orderBy[$i], $this->get_alias($table_name)).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
-		if ($maxObjects < 0)
-		{
-			$maxObjects = null;
-		}
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($params);
-		return new ObjectResultSet($this, $res, $classname);
-	}*/
-
     function create_quota_box_rel_category_rel_user($quota_box_rel_category_rel_user)
     {
         return $this->db->create($quota_box_rel_category_rel_user);

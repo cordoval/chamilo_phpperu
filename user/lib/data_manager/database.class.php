@@ -201,24 +201,6 @@ class DatabaseUserDataManager extends UserDataManager
 		{
 			return null;
 		}
-
-		/*
-		$query = 'SELECT * FROM '.$this->escape_table_name('user_quota').' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=? AND '.$this->escape_column_name('content_object_type').'=?';
-		$this->connection->setLimit(1);
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute(array($user->get_id(), $type));
-
-		if ($res->numRows() >= 1)
-		{
-			$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-			$res->free();
-			return $record['user_quota'];
-		}
-		else
-		{
-			return null;
-		}
-		*/
 	}
 
 	function retrieve_user_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
