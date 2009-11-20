@@ -93,11 +93,14 @@ function create_database()
 function create_folders()
 {
     $files_path = dirname(__FILE__) . '/../files/';
-
+    
     $directories = array('archive', 'fckeditor', 'garbage', 'repository', 'temp', 'userpictures');
     foreach ($directories as $directory)
     {
         $path = $files_path . $directory;
+        
+        Filesystem :: remove($path);
+        
         if (! Filesystem :: create_dir($path))
         {
             return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedFailed'));
