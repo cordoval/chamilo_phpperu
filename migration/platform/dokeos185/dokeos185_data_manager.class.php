@@ -207,22 +207,25 @@ class Dokeos185DataManager extends OldMigrationDataManager
      * @param String $new_rel_path Relative path on the LCMS system
      * @return String $new_filename
      */
-    function move_file($old_rel_path, $new_rel_path, $filename)
+    function move_file($old_rel_path, $new_rel_path, $filename, $new_filename = null)
     {
         $old_path = $this->append_full_path(false, $old_rel_path);
         $new_path = $this->append_full_path(true, $new_rel_path);
 
+        if(!$new_filename)
+        	$new_filename = $filename;
+        
         $old_file = $old_path . $filename;
-        $new_file = $new_path . $filename;
+        $new_file = $new_path . $new_filename;
 
         if (! file_exists($old_file) || ! is_file($old_file))
             return null;
 
-        $new_filename = Filesystem :: copy_file_with_double_files_protection($old_path, $filename, $new_path, $filename, self :: $move_file);
+        $secure_file = Filesystem :: copy_file_with_double_files_protection($old_path, $filename, $new_path, $new_filename, self :: $move_file);
         $mgdm = MigrationDataManager :: get_instance();
         $mgdm->add_recovery_element($old_file, $new_file);
 
-        return ($new_filename);
+        return ($secure_file);
 
     // Filesystem :: remove($old_file);
     }
@@ -444,28 +447,24 @@ class Dokeos185DataManager extends OldMigrationDataManager
 
         $query = 'SELECT COUNT(*) as number FROM ' . $this->get_table_name($table);
 
-        $params = array();
-
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this, $params);
+            $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
-            $params = $translator->get_parameters();
-            unset($translator);
         }
 
-        $statement = $this->db->prepare($query);
-        $result = $statement->execute($params);
-        $statement->free();
+        $result = $this->db->query($query);
         unset($query);
-        unset($statement);
-        $params = array();
-        unset($params);
         $record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
         $result->free();
         return $record['number'];
     }
 
+    function quote($value)
+    {
+    	return $this->db->quote($value);
+    }
+    
     static function is_date_column($name)
     {
         return false;

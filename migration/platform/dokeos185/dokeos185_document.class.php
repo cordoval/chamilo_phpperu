@@ -224,12 +224,15 @@ class Dokeos185Document extends ImportDocument
             $new_user_id = $mgdm->get_owner($new_course_code);
         }
         
-        $new_path = $new_user_id . '/';
+        $hash = md5($filename);
+        $new_path = $new_user_id . '/' . Text :: char_at($hash, 0) . '/';
+        $hash = FileSystem :: create_unique_name(Path :: get(SYS_REPO_PATH) . $new_path, $hash);
+        
+        $new_rel_path = 'files/repository/' . $new_path;
+        
         $old_rel_path = 'courses/' . $course->get_directory() . '/document/' . $old_path;
         
         unset($course);
-        
-        $new_rel_path = 'files/repository/' . $new_path;
         
         $lcms_document = null;
         
@@ -241,14 +244,14 @@ class Dokeos185Document extends ImportDocument
         
         if (! $document_id)
         {
-            $file = $old_mgdm->move_file($old_rel_path, $new_rel_path, $filename);
+            $file = $old_mgdm->move_file($old_rel_path, $new_rel_path, $filename, $hash);
             
             if ($file)
             {
                 //document parameters
                 $lcms_document = new Document();
                 
-                $lcms_document->set_filesize($old_mgdm->append_full_path(false, $old_rel_path . $filename));
+                $lcms_document->set_filesize(filesize(Path :: get(SYS_REPO_PATH) . $new_path . $hash));
                 if ($this->get_title())
                     $lcms_document->set_title($this->get_title());
                 else
@@ -259,8 +262,10 @@ class Dokeos185Document extends ImportDocument
                 $lcms_document->set_owner_id($new_user_id);
                 $lcms_document->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
                 $lcms_document->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-                $lcms_document->set_path($new_path . $file);
+                $lcms_document->set_path($new_path . $hash);
                 $lcms_document->set_filename($file);
+                $lcms_document->set_hash($hash);
+                
                 
                 // Category for announcements already exists?
                 $lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('documents'));

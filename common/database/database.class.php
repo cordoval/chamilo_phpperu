@@ -141,8 +141,12 @@ class Database
      */
     function get_table_name($name)
     {
-        $dsn = $this->connection->getDSN('array');
-//        return $dsn['database'] . '.' . $this->prefix . $name;
+        if(strpos($_SERVER['PHP_SELF'], '/migration/index.php') !== false || strpos($_SERVER['PHP_SELF'], '_command_line_migration.php') !== false)
+        { 
+        	$dsn = $this->connection->getDSN('array');
+        	return $dsn['database'] . '.' . $this->prefix . $name;
+        }
+        
         return $this->prefix . $name;
     }
 
@@ -153,9 +157,12 @@ class Database
      */
     function escape_table_name($name)
     {
-        $dsn = $this->connection->getDSN('array');
-        $database_name = $this->connection->quoteIdentifier($dsn['database']);
-//        return $database_name . '.' . $this->connection->quoteIdentifier($this->prefix . $name);
+    	if(strpos($_SERVER['PHP_SELF'], '/migration/index.php') !== false || strpos($_SERVER['PHP_SELF'], '_command_line_migration.php') !== false)
+        { 
+        	$dsn = $this->connection->getDSN('array');
+        	return $dsn['database'] . '.' . $this->prefix . $name;
+        }
+        
         return $this->connection->quoteIdentifier($this->prefix . $name);
     }
 
@@ -561,7 +568,7 @@ class Database
 
     function retrieve_max_sort_value($table_name, $column, $condition = null)
     {
-        $query = 'SELECT MAX(' . $this->escape_column_name($column) . ') as ' . self :: ALIAS_MAX_SORT . ' FROM' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
+        $query = 'SELECT MAX(' . $this->escape_column_name($column) . ') as ' . self :: ALIAS_MAX_SORT . ' FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
 
         if (isset($condition))
         {
