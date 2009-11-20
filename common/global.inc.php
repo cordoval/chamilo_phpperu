@@ -293,7 +293,7 @@ if (isset($_SESSION['_uid']))
     }
 }
 
-date_default_timezone_set($timezone); echo date('d:m:Y - H:i:s');
+date_default_timezone_set($timezone);
 
 /**
  * Dump functionality with decent output
