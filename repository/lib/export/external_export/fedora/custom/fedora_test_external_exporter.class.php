@@ -1,8 +1,4 @@
 <?php
-/**
- * $Id: fedora_test_external_exporter.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.export.external_export.fedora.custom
- */
 require_once Path :: get_repository_path() . '/lib/export/external_export/fedora/fedora_external_exporter.class.php';
 
 /**
