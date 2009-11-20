@@ -645,7 +645,7 @@ class Dokeos185User extends Import
      */
     static function get_all($parameters)
     {
-        $old_mgdm = $parameters['old_mgdm'];
+    	$old_mgdm = $parameters['old_mgdm'];
         return $old_mgdm->get_all_users($parameters['offset'], $parameters['limit']);
     }
 
