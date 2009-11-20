@@ -266,7 +266,11 @@ if (Request :: get('adminuser'))
 $user = Session :: get_user_id();
 if ($user)
 {
-    Events :: trigger_event('online', 'admin', array('user' => $user));
+	Events :: trigger_event('online', 'admin', array('user' => $user));
+}
+else
+{
+	$timezone = PlatformSetting :: get('platform_timezone');
 }
 
 $language_interface = PlatformSetting :: get('platform_language');
@@ -274,6 +278,8 @@ $language_interface = PlatformSetting :: get('platform_language');
 if (isset($_SESSION['_uid']))
 {
     $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+    
+    $timezone = $user->get_timezone();
     
     if ($user)
     {
@@ -286,6 +292,8 @@ if (isset($_SESSION['_uid']))
         $htmlHeadXtra[] = '<script language="JavaScript" type="text/javascript">var tracker=' . $return[0] . '</script>';
     }
 }
+
+date_default_timezone_set($timezone); echo date('d:m:Y - H:i:s');
 
 /**
  * Dump functionality with decent output

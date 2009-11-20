@@ -47,5 +47,21 @@ class SettingsAdminConnector
 
         return $options;
     }
+    
+    function get_time_zones()
+    {
+		$content = file_get_contents(dirname(__FILE__) . '/timezones.txt');
+		$content = explode("\n", $content);
+		
+		$timezones = array();
+		
+		foreach($content as $timezone)
+		{
+			$timezones[$timezone] = $timezone;
+		}
+		
+		return $timezones;
+    }
+    
 }
 ?>

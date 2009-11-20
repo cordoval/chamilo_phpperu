@@ -56,6 +56,7 @@ class User extends DataClass
     const PROPERTY_EXPIRATION_DATE = 'expiration_date';
     const PROPERTY_REGISTRATION_DATE = 'registration_date';
     const PROPERTY_ACTIVE = 'active';
+    const PROPERTY_TIMEZONE = 'timezone';
     
     const ACTION_CREATE_USER = 'create';
     
@@ -75,7 +76,7 @@ class User extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE);
+        return array(self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_TIMEZONE);
     }
 
     /**
@@ -558,6 +559,16 @@ class User extends DataClass
         $this->set_default_property(self :: PROPERTY_ACTIVATION_DATE, $activation_date);
     }
 
+    function get_timezone()
+    {
+    	return $this->get_default_property(self :: PROPERTY_TIMEZONE);
+    }
+    
+	function set_timezone($timezone)
+    {
+    	$this->set_default_property(self :: PROPERTY_TIMEZONE, $timezone);
+    }
+    
     /**
      * Sets the default theme for this user.
      * @param string $theme The theme.

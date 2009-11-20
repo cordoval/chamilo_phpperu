@@ -128,6 +128,8 @@ class AccountForm extends FormValidator
             $this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png', 'image/x-png'));
         }
         
+        $this->addElement('select', User :: PROPERTY_TIMEZONE, Translation :: get('Timezone'), $this->get_time_zones());
+    
         // Language
         $adm = AdminDataManager :: get_instance();
         $languages = $adm->retrieve_languages();
@@ -161,6 +163,21 @@ class AccountForm extends FormValidator
         }
     }
 
+	function get_time_zones()
+    {
+		$content = file_get_contents(Path :: get_admin_path() . 'settings/timezones.txt');
+		$content = explode("\n", $content);
+		
+		$timezones = array();
+		
+		foreach($content as $timezone)
+		{
+			$timezone = htmlspecialchars($timezone);
+			$timezones[$timezone] = $timezone;
+		}
+		return $timezones;
+    }
+    
     /**
      * Builds an editing form
      */
@@ -227,6 +244,9 @@ class AccountForm extends FormValidator
         {
             $user->set_theme($values[User :: PROPERTY_THEME]);
         }
+        dump($values); exit();
+        $user->set_timezone($values[User :: PROPERTY_TIMEZONE]);
+        
         $value = $user->update();
         
         if ($value)

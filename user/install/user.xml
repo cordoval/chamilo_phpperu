@@ -36,6 +36,7 @@
 		<property name="registration_date" type="integer" unsigned="1"
 			notnull="1" default="0" />
 		<property name="active" type="boolean" default="1" />
+		<property name="timezone" type="text" fixed="true" length="30" default="Europe/Brussels"/>
 	</properties>
 	<index name="username" type="unique">
 		<indexproperty name="username" />
