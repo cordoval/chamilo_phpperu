@@ -95,6 +95,7 @@ class RepositoryAutoloader
 		$list = array('complex_builder' => 'complex_builder/complex_builder.class.php',
 					  'complex_display' => 'complex_display/complex_display.class.php',
 					  'repository_category_manager' => 'category_manager/repository_category_manager.class.php',
+					  'repository_category' => 'category_manager/repository_category.class.php',
 					  'content_object_export' => 'export/content_object_export.class.php',
 					  'content_object_import' => 'import/content_object_import.class.php',
 					  'metadata_mapper' => 'metadata/metadata_mapper.class.php',
