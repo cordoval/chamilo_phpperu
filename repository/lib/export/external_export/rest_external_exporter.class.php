@@ -87,7 +87,8 @@ abstract class RestExternalExporter extends BaseExternalExporter
 	 * Send a request to a REST service and parse the response as an XML Document
 	 * @param $url string
 	 * @param $http_method string
-	 * @param $request_content string The content to send with the REST request
+	 * @param $data_to_send string The content to send with the REST request
+	 * @param $content_mimetype The mimetype of the content to send with the REST request
 	 * @return DOMDocument or null if the response is not well formed XML
 	 */
 	protected function get_rest_xml_response($url, $http_method, $data_to_send = null, $content_mimetype = null)

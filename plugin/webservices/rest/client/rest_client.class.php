@@ -69,6 +69,13 @@ class RestClient
     private $data_to_send = null;
     
     /**
+     * the mimetype of the data to send with the request. It is used to set the content-type header of the request
+     * 
+     * @var string
+     */
+    private $data_to_send_mimetype = null;
+    
+    /**
     * client certificate path to use. The file may contain the certificate and the key as well.
     * The certificate format must be PEM.
     *
@@ -280,11 +287,17 @@ class RestClient
     * Set the data to send with the request
     *
     * @var $data_to_send mixed
+    * @var $content_mimetype string The mimetype of the data to send with the request. It is used to set the content-type header of the request
     * @return void
     */
-    public function set_data_to_send($data_to_send)
+    public function set_data_to_send($data_to_send, $content_mimetype = null)
     {
     	$this->data_to_send = $data_to_send;
+    	
+    	if(isset($content_mimetype))
+    	{
+    	    $this->data_to_send_mimetype = $content_mimetype;
+    	}
     }
     
     
@@ -468,6 +481,8 @@ class RestClient
         
         $result->set_request_url($url);
         
+        $headers = array();
+        
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->http_method);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         
@@ -550,11 +565,19 @@ class RestClient
                  */
                 if(isset($this->data_to_send['mime']))
                 {
-                    $headers   = array();
-                    $headers[] = 'Content-type: ' . $this->data_to_send['mime'];
-                    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+                    $this->data_to_send_mimetype = $this->data_to_send['mime'];
                 }
             }
+        }
+        
+        if(isset($this->data_to_send_mimetype))
+        {
+            $headers[] = 'Content-type: ' . $this->data_to_send_mimetype;
+        }
+        
+        if(count($headers) > 0)
+        {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         }
         
         $response_content   = curl_exec($curl);

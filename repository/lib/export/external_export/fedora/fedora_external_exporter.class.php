@@ -633,17 +633,17 @@ class FedoraExternalExporter extends RestExternalExporter
 	protected function get_document_content($content_object)
 	{
 	    $data_to_send              = array();
-	    $data_to_send['content']      = $content_object->get_full_path();
+	    $data_to_send['content']   = file_get_contents($content_object->get_full_path());
 	    
 	    $mime_type = $this->get_file_mimetype($data_to_send['content']);
 	    
 	    if(!isset($mime_type))
 	    {
 	        /*
-	         * Get the file extension from the filename stored in datasource
-	         * and get the corresponding mime type
+	         * If the mimetype could not be found by the method above,
+	         * get it by using the filename stored in the datasource
 	         */
-	        $filename = $content_object->get_filename();
+	        $filename  = $content_object->get_filename();
 	        $path_info = pathinfo($filename);
 	        
 	        $mime_type = $this->get_mimetype_from_extension($path_info['extension']);
