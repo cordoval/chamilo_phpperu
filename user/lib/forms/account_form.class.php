@@ -172,9 +172,8 @@ class AccountForm extends FormValidator
 		
 		foreach($content as $timezone)
 		{
-			$timezone = htmlspecialchars($timezone);
 			$timezones[$timezone] = $timezone;
-		}
+		} 
 		return $timezones;
     }
     
@@ -244,8 +243,7 @@ class AccountForm extends FormValidator
         {
             $user->set_theme($values[User :: PROPERTY_THEME]);
         }
-        dump($values); exit();
-        $user->set_timezone($values[User :: PROPERTY_TIMEZONE]);
+        $user->set_timezone($_POST[User :: PROPERTY_TIMEZONE]);
         
         $value = $user->update();
         
@@ -269,6 +267,8 @@ class AccountForm extends FormValidator
         $defaults[User :: PROPERTY_USERNAME] = $user->get_username();
         $defaults[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
         $defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
+        $defaults[User :: PROPERTY_TIMEZONE] = $user->get_timezone();
+        dump($defaults);
         $defaults[User :: PROPERTY_THEME] = $user->get_theme() ? $user->get_theme() : '';
         parent :: setDefaults($defaults);
     }
