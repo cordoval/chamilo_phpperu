@@ -57,6 +57,7 @@ class SettingsAdminConnector
 		
 		foreach($content as $timezone)
 		{
+			$timezone = trim($timezone);
 			$timezones[$timezone] = $timezone;
 		}
 		

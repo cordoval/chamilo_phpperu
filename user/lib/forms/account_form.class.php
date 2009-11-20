@@ -165,13 +165,13 @@ class AccountForm extends FormValidator
 
 	function get_time_zones()
     {
-		$content = file_get_contents(Path :: get_admin_path() . 'settings/timezones.txt');
-		$content = explode("\n", $content);
+		$content = file(Path :: get_admin_path() . 'settings/timezones.txt');
 		
 		$timezones = array();
 		
 		foreach($content as $timezone)
 		{
+			$timezone = trim($timezone);
 			$timezones[$timezone] = $timezone;
 		} 
 		return $timezones;
@@ -243,7 +243,7 @@ class AccountForm extends FormValidator
         {
             $user->set_theme($values[User :: PROPERTY_THEME]);
         }
-        $user->set_timezone($_POST[User :: PROPERTY_TIMEZONE]);
+        $user->set_timezone($values[User :: PROPERTY_TIMEZONE]);
         
         $value = $user->update();
         
@@ -268,7 +268,7 @@ class AccountForm extends FormValidator
         $defaults[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
         $defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
         $defaults[User :: PROPERTY_TIMEZONE] = $user->get_timezone();
-        dump($defaults);
+        //dump($defaults);
         $defaults[User :: PROPERTY_THEME] = $user->get_theme() ? $user->get_theme() : '';
         parent :: setDefaults($defaults);
     }
