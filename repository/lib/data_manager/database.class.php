@@ -53,12 +53,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
     }
-    
+
     /**
      * This function can be used to handle some debug info from MDB2
      */
@@ -282,10 +282,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         $props[$this->database->escape_column_name(ContentObject :: PROPERTY_TYPE)] = $object->get_type();
         $props[$this->database->escape_column_name(ContentObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($object->get_creation_date());
         $props[$this->database->escape_column_name(ContentObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($object->get_modification_date());
-//        $props[$this->database->escape_column_name(ContentObject :: PROPERTY_ID)] = $this->database->get_better_next_id('content_object', 'id');
+        $props[$this->database->escape_column_name(ContentObject :: PROPERTY_ID)] = $this->database->get_better_next_id('content_object', 'id');
         $this->database->get_connection()->loadModule('Extended');
         $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('content_object'), $props, MDB2_AUTOQUERY_INSERT);
-//        $object->set_id($this->database->get_connection()->extended->getAfterID($props[$this->database->escape_column_name(ContentObject :: PROPERTY_ID)], 'content_object'));
+        $object->set_id($this->database->get_connection()->extended->getAfterID($props[$this->database->escape_column_name(ContentObject :: PROPERTY_ID)], 'content_object'));
         if ($object->is_extended())
         {
             $props = array();
@@ -504,9 +504,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     function retrieve_content_object_versions($object)
     {
         $object_number = $object->get_object_number();
-        $query = 'SELECT ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID) . ' FROM ' . 
-        		 $this->database->escape_table_name('content_object') . ' WHERE ' . 
-        		 $this->database->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . '=' . $this->quote($object_number) . ' AND ' . 
+        $query = 'SELECT ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID) . ' FROM ' .
+        		 $this->database->escape_table_name('content_object') . ' WHERE ' .
+        		 $this->database->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . '=' . $this->quote($object_number) . ' AND ' .
         		 $this->database->escape_column_name(ContentObject :: PROPERTY_STATE) . '=' . $this->quote($object->get_state());
         $res = $this->query($query);
         $versions = array();
@@ -538,8 +538,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     // Inherited.
     function detach_content_object($object, $attachment_id)
     {
-        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_attachment') . ' WHERE ' . 
-        		 $this->database->escape_column_name('content_object_id') . '=' . $this->quote($object->get_id()) . ' AND ' . 
+        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_attachment') . ' WHERE ' .
+        		 $this->database->escape_column_name('content_object_id') . '=' . $this->quote($object->get_id()) . ' AND ' .
         		 $this->database->escape_column_name('attachment_id') . '=' . $this->quote($attachment_id);
         $affectedRows = $this->query($query);
         return ($affectedRows > 0);
@@ -558,8 +558,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     // Inherited.
     function exclude_content_object($object, $include_id)
     {
-        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_include') . ' WHERE ' . 
-        		 $this->database->escape_column_name('content_object_id') . '=' . $this->quote($object->get_id()) . ' AND ' . 
+        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_include') . ' WHERE ' .
+        		 $this->database->escape_column_name('content_object_id') . '=' . $this->quote($object->get_id()) . ' AND ' .
         		 $this->database->escape_column_name('include_id') . '=' . $this->quote($include_id);
         $affectedRows = $this->query($query);
         return ($affectedRows > 0);
