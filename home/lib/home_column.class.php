@@ -8,7 +8,7 @@ class HomeColumn extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'column';
-    
+
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
     const PROPERTY_WIDTH = 'width';
@@ -85,30 +85,28 @@ class HomeColumn extends DataClass
     function create()
     {
         $hdm = $this->get_data_manager();
-        $id = $hdm->get_next_home_column_id();
-        $this->set_id($id);
-        
+
         $condition = new EqualityCondition(self :: PROPERTY_ROW, $this->get_row());
         $sort = $hdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
         $this->set_sort($sort + 1);
-        
+
         $success = $hdm->create_home_column($this);
         if (! $success)
         {
             return false;
         }
-        
+
         return true;
     }
 
     function is_empty()
     {
         $hdm = $this->get_data_manager();
-        
+
         $condition = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $this->get_id());
-        
+
         $blocks_count = $hdm->count_home_blocks($condition);
-        
+
         return ($blocks_count == 0);
     }
 

@@ -2,12 +2,9 @@
 <object name="content_object_version">
 	<properties>
 		<property name="object_number" type="integer" unsigned="1"
-			notnull="1" />
+			notnull="1" autoincrement="true" />
 		<property name="id" type="integer" unsigned="1" notnull="1" />
 	</properties>
-	<index name="object_number" type="primary">
-		<indexproperty name="object_number" />
-	</index>
 	<index name="id">
 		<indexproperty name="id" />
 	</index>

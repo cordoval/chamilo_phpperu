@@ -8,12 +8,12 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 class CourseSection extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const TYPE_DISABLED = '0';
     const TYPE_TOOL = '1';
     const TYPE_LINK = '2';
     const TYPE_ADMIN = '3';
-    
+
     const PROPERTY_COURSE_CODE = 'course_id';
     const PROPERTY_NAME = 'name';
     const PROPERTY_TYPE = 'type';
@@ -90,12 +90,11 @@ class CourseSection extends DataClass
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        $this->set_id($wdm->get_next_course_section_id());
-        
+
         $condition = new EqualityCondition(self :: PROPERTY_COURSE_CODE, $this->get_course_code());
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_DISPLAY_ORDER, $condition);
         $this->set_display_order($sort + 1);
-        
+
         return $wdm->create_course_section($this);
     }
 

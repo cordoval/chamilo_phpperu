@@ -6,12 +6,12 @@
 class ContentObjectMetadataCatalog extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_TYPE = 'type';
     const PROPERTY_VALUE = 'value';
     const PROPERTY_NAME = 'name';
     const PROPERTY_SORT = 'sort';
-    
+
     const CATALOG_LANGUAGE = 'language';
     const CATALOG_COPYRIGHT = 'copyright';
     const CATALOG_ROLE = 'role';
@@ -28,7 +28,7 @@ class ContentObjectMetadataCatalog extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_type($type)
     {
         if (isset($type) && strlen($type) > 0)
@@ -43,7 +43,7 @@ class ContentObjectMetadataCatalog extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_value($value)
     {
         if (isset($value))
@@ -58,7 +58,7 @@ class ContentObjectMetadataCatalog extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_name($value)
     {
         if (isset($value))
@@ -73,7 +73,7 @@ class ContentObjectMetadataCatalog extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     function set_sort($value)
     {
         if (isset($value))
@@ -88,14 +88,14 @@ class ContentObjectMetadataCatalog extends RepositoryDataClass
     }
 
     /*************************************************************************/
-    
+
     static function get_default_property_names($extended_property_names = array())
     {
         $extended_property_names[] = self :: PROPERTY_TYPE;
         $extended_property_names[] = self :: PROPERTY_VALUE;
         $extended_property_names[] = self :: PROPERTY_NAME;
         $extended_property_names[] = self :: PROPERTY_SORT;
-        
+
         return parent :: get_default_property_names($extended_property_names);
     }
 
@@ -107,15 +107,9 @@ class ContentObjectMetadataCatalog extends RepositoryDataClass
     function create()
     {
         $dm = RepositoryDataManager :: get_instance();
-        
-        //$id = $this->get_id();
-        if (! $this->is_identified())
-        {
-            $this->set_id($dm->get_next_content_object_metadata_catalog_id());
-        }
-        
+
         $this->set_creation_date(time());
-        
+
         return $dm->create_content_object_metadata_catalog($this);
     }
 
@@ -125,12 +119,12 @@ class ContentObjectMetadataCatalog extends RepositoryDataClass
         {
             throw new Exception('Learning object metadata catalog could not be saved as its identity is not set');
         }
-        
+
         $this->set_modification_date(time());
-        
+
         $dm = RepositoryDataManager :: get_instance();
         $result = $dm->update_content_object_metadata_catalog($this);
-        
+
         return $result;
     }
 
@@ -138,7 +132,7 @@ class ContentObjectMetadataCatalog extends RepositoryDataClass
     {
         $dm = RepositoryDataManager :: get_instance();
         $result = $dm->delete_content_object_metadata_catalog($this);
-        
+
         return $result;
     }
 

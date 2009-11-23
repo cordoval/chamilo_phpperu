@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="assessment_question_attempts_tracker">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="assessment_attempt_id" type="integer"
 			unsigned="1" notnull="1" />
 		<property name="question_cid" type="integer" unsigned="1"
@@ -10,9 +10,6 @@
 		<property name="feedback" type="text" />
 		<property name="score" type="integer" />
 	</properties>
-	<index name="id" type="primary">
-		<indexproperty name="id" />
-	</index>
 	<index name="question_cid">
 		<indexproperty name="question_cid" />
 	</index>

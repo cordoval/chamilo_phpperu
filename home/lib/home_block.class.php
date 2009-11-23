@@ -9,7 +9,7 @@ class HomeBlock extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'block';
-    
+
     const PROPERTY_COLUMN = 'column_id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
@@ -123,37 +123,35 @@ class HomeBlock extends DataClass
     function create()
     {
         $wdm = $this->get_data_manager();
-        $id = $wdm->get_next_home_block_id();
-        $this->set_id($id);
-        
+
         $condition = new EqualityCondition(self :: PROPERTY_COLUMN, $this->get_column());
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
         $this->set_sort($sort + 1);
-        
+
         $success_block = $wdm->create_home_block($this);
         if (! $success_block)
         {
             return false;
         }
-        
+
         $success_settings = $this->create_initial_settings();
         if (! $success_settings)
         {
             return false;
         }
-        
+
         return true;
     }
 
     function create_initial_settings()
     {
         $application = $this->get_application();
-        
+
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
         $file = $base_path . $application . '/block/' . $application . '_' . $this->get_component() . '.xml';
-        
+
         $result = array();
-        
+
         if (file_exists($file))
         {
             $unserializer = new XML_Unserializer();
@@ -162,10 +160,10 @@ class HomeBlock extends DataClass
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('category', 'setting'));
-            
+
             // userialize the document
             $status = $unserializer->unserialize($file, true);
-            
+
             if (PEAR :: isError($status))
             {
                 echo 'Error: ' . $status->getMessage();
@@ -173,7 +171,7 @@ class HomeBlock extends DataClass
             else
             {
                 $data = $unserializer->getUnserializedData();
-                
+
                 $setting_categories = $data['settings']['category'];
                 foreach ($setting_categories as $setting_category)
                 {
@@ -183,7 +181,7 @@ class HomeBlock extends DataClass
                         $block_config->set_block_id($this->get_id());
                         $block_config->set_variable($setting['name']);
                         $block_config->set_value($setting['default']);
-                        
+
                         if (! $block_config->create())
                         {
                             return false;
@@ -201,7 +199,7 @@ class HomeBlock extends DataClass
         $condition = new EqualityCondition(HomeBlockConfig :: PROPERTY_BLOCK_ID, $this->get_id());
         $configs = $hdm->retrieve_home_block_config($condition);
         $configuration = array();
-        
+
         while ($config = $configs->next_result())
         {
             $configuration[$config->get_variable()] = $config->get_value();
@@ -212,10 +210,10 @@ class HomeBlock extends DataClass
     function is_configurable()
     {
         $application = $this->get_application();
-        
+
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
         $file = $base_path . $application . '/block/' . $application . '_' . $this->get_component() . '.xml';
-        
+
         if (file_exists($file))
         {
             return true;

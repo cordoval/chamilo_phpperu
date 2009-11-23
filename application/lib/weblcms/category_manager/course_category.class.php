@@ -16,29 +16,28 @@ class CourseCategory extends PlatformCategory
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        $this->set_id($wdm->get_next_category_id());
-        
+
         $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $this->get_parent());
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
         $this->set_display_order($sort + 1);
-        
+
         if (! $wdm->create_category($this))
         {
             return false;
         }
-        
+
         $location = new Location();
         $location->set_location($this->get_name());
         $location->set_application(WeblcmsManager :: APPLICATION_NAME);
         $location->set_type_from_object($this);
         $location->set_identifier($this->get_id());
         $location->set_parent(WeblcmsRights :: get_root_id());
-        
+
         if (! $location->create())
         {
             return false;
         }
-        
+
         return true;
     }
 
