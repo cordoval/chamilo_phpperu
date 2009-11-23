@@ -23,18 +23,64 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
         //DebugUtilities :: show($objects_list);
         
         $table = '<table border="0" cellpadding="5" cellspacing="0">';
+        $table .= '<tr>';
+        $table .= '<th>' . Translation::translate('pid') . '</th>';
+        $table .= '<th>' . Translation::translate('title') . '</th>';
+        $table .= '<th>' . Translation::translate('last update') . '</th>';
+        $table .= '<th></th>';
+        $table .= '</tr>';
+        
         
         foreach($objects_list as $key => $object)
         {
             $table .= '<tr>';
+            
             $table .= '<td>';
             
-            if(isset($object['object']['title']))
+            if(isset($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]))
             {
-                $table .= $object['object']['title'];
+                $table .= $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID];
             }
             
             $table .= '</td>';
+            
+            $table .= '<td>';
+            
+            if(isset($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_TITLE]))
+            {
+                $table .= $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_TITLE];
+            }
+            
+            $table .= '</td>';
+            
+//            $table .= '<td>';
+//            
+//            if(isset($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_CREATION_DATE]))
+//            {
+//                $table .= $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_CREATION_DATE];
+//            }
+//            
+//            $table .= '</td>';
+            
+            $table .= '<td>';
+            
+            if(isset($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_MODIFICATION_DATE]))
+            {
+                $table .= $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_MODIFICATION_DATE];
+            }
+            
+            $table .= '</td>';
+            
+            $table .= '<td>';
+            
+            if(isset($object[BaseExternalExporter :: CHAMILO_OBJECT_KEY]))
+            {
+                $content_object_id = $object[BaseExternalExporter :: CHAMILO_OBJECT_KEY]->get_id();
+                $table .= $content_object_id;
+            }
+            
+            $table .= '</td>';
+            
             $table .= '</tr>';
         }
         

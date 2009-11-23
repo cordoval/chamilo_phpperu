@@ -21,6 +21,7 @@ class RepositoryManagerExternalRepositoryExportListObjectsComponent extends Repo
         try
         {
             $objects_list = $this->get_external_repository_objects_list();
+            $objects_list = $this->add_chamilo_infos($export, $objects_list);
             
             $this->display_header($trail, false, true);
             $form = new ExternalRepositoryObjectBrowserForm($objects_list);
@@ -50,6 +51,38 @@ class RepositoryManagerExternalRepositoryExportListObjectsComponent extends Repo
         {
             return null;
         }
+    }
+    
+    /**
+     * Add the eventual metadata on each object if it exists already in Chamilo. 
+     * Note: an object already exists if an object with the same identifier exists in Chamilo and in the repository
+     * 
+     * @param ExternalExport $export
+     * @param array $objects_list
+     * @return array
+     */
+    public function add_chamilo_infos($export, $objects_list)
+    {
+        $catalog_name = $export->get_catalog_name();
+        
+        foreach($objects_list as $key => $object)
+        {
+            if(isset($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]))
+            {
+                $content_object = ContentObjectMetadata :: get_by_catalog_entry_values($catalog_name, $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]);
+                
+                if(isset($content_object))
+                {
+                    //DebugUtilities::show($content_object);
+                    
+                    $object['content_object'] = $content_object;
+                    
+                    $objects_list[$key] = $object;
+                }
+            }
+        }
+        
+        return $objects_list;
     }
     
 }

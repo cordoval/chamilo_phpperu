@@ -60,6 +60,9 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
         }
     }
 
+    /**
+     * @return ExternalExport
+     */
     function get_external_export_from_param()
     {
         $export_id = Request :: get(self :: PARAM_EXPORT_ID);

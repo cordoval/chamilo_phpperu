@@ -731,15 +731,22 @@ class FedoraExternalExporter extends RestExternalExporter
 //    	            DebugUtilities :: show($object_node);
     	            
     	            $object = array();
-    	            $object['pid']         = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'pid');
-    	            $object['state']       = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'state');
-    	            $object['ownerId']     = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'ownerId');
-    	            $object['cDate']       = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'cDate');
-    	            $object['mDate']       = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'mDate');
-    	            $object['title']       = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'title');
-    	            $object['description'] = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'description');
+    	            $object[BaseExternalExporter :: OBJECT_ID]                = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'pid');
+    	            $object[BaseExternalExporter :: OBJECT_OWNER_ID]          = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'ownerId');
+    	            $object[BaseExternalExporter :: OBJECT_CREATION_DATE]     = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'cDate');
+    	            $object[BaseExternalExporter :: OBJECT_MODIFICATION_DATE] = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'mDate');
+    	            $object[BaseExternalExporter :: OBJECT_TITLE]             = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'title');
+    	            $object[BaseExternalExporter :: OBJECT_DESCRIPTION]       = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'description');
     	            
-    	            $objects[]['object'] = $object;
+    	            /*
+    	             * Infos specific to Fedora 
+    	             */
+    	            $object['fedora_state']                                   = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'state');
+    	            
+    	            //TODO Calculate the BaseExternalExporter :: OBJECT_SYNC_STATE property
+    	            //$object[BaseExternalExporter :: OBJECT_SYNC_STATE]        = ...
+    	            
+    	            $objects[][BaseExternalExporter :: EXTERNAL_OBJECT_KEY] = $object;
     	        }
     	    }
 	    }

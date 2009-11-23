@@ -925,6 +925,8 @@ abstract class RepositoryDataManager
 
     abstract function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
+    abstract function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value);
+    
     abstract function get_next_content_object_metadata_id();
 
     //abstract function retrieve_content_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null);
