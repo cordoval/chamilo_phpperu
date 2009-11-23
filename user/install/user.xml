@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="user">
 	<properties>
-		<property name="user_id" type="integer" unsigned="1" notnull="1" />
+		<property name="user_id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="lastname" type="text" fixed="true" length="60" />
 		<property name="firstname" type="text" fixed="true" length="60" />
 		<property name="username" type="text" fixed="true" length="60"
@@ -45,8 +45,5 @@
 	</index>
 	<index name="official_code">
 		<indexproperty name="official_code" />
-	</index>
-	<index name="user_id" type="primary">
-		<indexproperty name="user_id" />
 	</index>
 </object>

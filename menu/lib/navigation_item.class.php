@@ -7,7 +7,7 @@
 class NavigationItem extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_CATEGORY = 'category_id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
@@ -117,18 +117,16 @@ class NavigationItem extends DataClass
     function create()
     {
         $mdm = $this->get_data_manager();
-        $id = $mdm->get_next_navigation_item_id();
         $condition = new EqualityCondition(self :: PROPERTY_CATEGORY, $this->get_category());
         $sort = $mdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
-        
+
         $this->set_sort($sort + 1);
-        $this->set_id($id);
         $success = $mdm->create_navigation_item($this);
         if (! $success)
         {
             return false;
         }
-        
+
         return true;
     }
 

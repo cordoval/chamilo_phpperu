@@ -220,21 +220,32 @@ class Database
                     $primary_result = $manager->createConstraint($name, $constraint_table_alias . '_' . $index_name . '_pk', $index_info);
                     if (MDB2 :: isError($primary_result))
                     {
+                        echo '<pre>';
+                        print_r($primary_result);
+                        echo '</pre>';
                         return false;
                     }
                 }
                 elseif ($index_info['type'] == 'unique')
                 {
                     $index_info['unique'] = 1;
-                    if (MDB2 :: isError($manager->createConstraint($name, $constraint_table_alias . '_' . $index_name . '_un', $index_info)))
+                    $unique_result = $manager->createConstraint($name, $constraint_table_alias . '_' . $index_name . '_un', $index_info);
+                    if (MDB2 :: isError($unique_result))
                     {
+                        echo '<pre>';
+                        print_r($unique_result);
+                        echo '</pre>';
                         return false;
                     }
                 }
                 else
                 {
-                    if (MDB2 :: isError($manager->createIndex($name, $constraint_table_alias . '_' . $index_name . '_in', $index_info)))
+                    $index_result = $manager->createIndex($name, $constraint_table_alias . '_' . $index_name . '_in', $index_info);
+                    if (MDB2 :: isError($index_result))
                     {
+                        echo '<pre>';
+                        print_r($index_result);
+                        echo '</pre>';
                         return false;
                     }
                 }
@@ -243,6 +254,9 @@ class Database
         }
         else
         {
+            echo '<pre>';
+            print_r($result);
+            echo '</pre>';
             return false;
         }
     }
@@ -261,7 +275,6 @@ class Database
     function get_better_next_id($table_name, $column)
     {
         $this->connection->loadModule('Extended');
-
         return $this->connection->extended->getBeforeID($this->get_table_name($table_name), $column, true, true);
     }
 
@@ -278,12 +291,18 @@ class Database
             $props[$this->escape_column_name($key)] = $value;
         }
 
-//        $props[$this->escape_column_name('id')] = $this->get_better_next_id($object_table, 'id');
+        if (in_array('id', $object->get_default_property_names()))
+        {
+            $props[$this->escape_column_name('id')] = $this->get_better_next_id($object_table, 'id');
+        }
         $this->connection->loadModule('Extended');
 
         if ($this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_INSERT))
         {
-//            $object->set_id($this->connection->extended->getAfterID($props[$this->escape_column_name('id')], $this->get_table_name($object_table)));
+            if (in_array('id', $object->get_default_property_names()))
+            {
+                $object->set_id($this->connection->extended->getAfterID($props[$this->escape_column_name('id')], $this->get_table_name($object_table)));
+            }
             return true;
         }
         else
@@ -499,6 +518,7 @@ class Database
     function retrieve_objects($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
+//        echo $query . '<br />';
         return $this->retrieve_object_set($query, $table_name, $condition, $offset, $max_objects, $order_by, $class_name);
     }
 

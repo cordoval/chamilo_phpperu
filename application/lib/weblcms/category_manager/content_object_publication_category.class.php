@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 class ContentObjectPublicationCategory extends PlatformCategory
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_COURSE = 'course_id';
     const PROPERTY_TOOL = 'tool';
     const PROPERTY_ALLOW_CHANGE = 'allow_change';
@@ -21,12 +21,11 @@ class ContentObjectPublicationCategory extends PlatformCategory
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        $this->set_id($wdm->get_next_content_object_publication_category_id());
-        
+
         $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $this->get_parent());
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
         $this->set_display_order($sort + 1);
-        
+
         return $wdm->create_content_object_publication_category($this);
     }
 
@@ -37,7 +36,7 @@ class ContentObjectPublicationCategory extends PlatformCategory
         $this->set_name(Translation :: get('Dropbox'));
         $this->set_parent(0);
         $this->set_allow_change(0);
-        
+
         $this->create();
     }
 

@@ -425,7 +425,6 @@ class Location extends DataClass
         // we have to set it's left and right value.
         $this->set_left_value($previous_visited + 1);
         $this->set_right_value($previous_visited + 2);
-        $this->set_id($rdm->get_next_location_id());
         if (! $rdm->create_location($this))
         {
             return false;

@@ -32,7 +32,7 @@ require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_g
 class Course extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_VISUAL = 'visual_code';
     const PROPERTY_NAME = 'title';
     const PROPERTY_TITULAR = 'titular_id';
@@ -51,21 +51,21 @@ class Course extends DataClass
     const PROPERTY_ALLOW_FEEDBACK = 'allow_feedback';
     const PROPERTY_SHOW_SCORE = 'show_score';
     const PROPERTY_DISK_QUOTA = 'disk_quota';
-    
+
     // Remnants from the old Chamilo system
     const PROPERTY_LAST_VISIT = 'last_visit';
     const PROPERTY_LAST_EDIT = 'last_edit';
     const PROPERTY_CREATION_DATE = 'creation_date';
     const PROPERTY_EXPIRATION_DATE = 'expiration_date';
-    
+
     const LAYOUT_2_COLUMNS = 1;
     const LAYOUT_3_COLUMNS = 2;
     const LAYOUT_2_COLUMNS_GROUP_INACTIVE = 3;
     const LAYOUT_3_COLUMNS_GROUP_INACTIVE = 4;
-    
+
     const TOOL_SHORTCUT_OFF = 1;
     const TOOL_SHORTCUT_ON = 2;
-    
+
     const MENU_OFF = 1;
     const MENU_LEFT_ICON = 2;
     const MENU_LEFT_ICON_TEXT = 3;
@@ -73,7 +73,7 @@ class Course extends DataClass
     const MENU_RIGHT_ICON = 5;
     const MENU_RIGHT_ICON_TEXT = 6;
     const MENU_RIGHT_TEXT = 7;
-    
+
     const BREADCRUMB_TITLE = 1;
     const BREADCRUMB_CODE = 2;
     const BREADCRUMB_COURSE_HOME = 3;
@@ -157,7 +157,7 @@ class Course extends DataClass
     function get_titular_string()
     {
         $titular_id = $this->get_titular();
-        
+
         if (! is_null($titular_id))
         {
             $udm = UserDataManager :: get_instance();
@@ -439,28 +439,25 @@ class Course extends DataClass
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        
-        $id = $wdm->get_next_course_id();
-        $this->set_id($id);
-        
+
         if (! $wdm->create_course($this))
         {
             return false;
         }
-        
+
         require_once (dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php');
         $dropbox = new ContentObjectPublicationCategory();
         $dropbox->create_dropbox($this->get_id());
-        
+
         $location = new Location();
         $location->set_location($this->get_name());
         $location->set_application(WeblcmsManager :: APPLICATION_NAME);
         $location->set_type_from_object($this);
         $location->set_identifier($this->get_id());
-        
+
         $parent = WeblcmsRights :: get_location_id_by_identifier('course_category', 1);
         //echo 'parent : ' . $parent;
-        
+
 
         if ($parent)
         {
@@ -470,17 +467,17 @@ class Course extends DataClass
         {
             $location->set_parent(0);
         }
-        
+
         if (! $location->create())
         {
             return false;
         }
-        
+
         if (! $this->initialize_course_sections())
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -521,11 +518,11 @@ class Course extends DataClass
     function get_subscribed_users()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        
+
         $relation_conditions = array();
         $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
         $relation_condition = new AndCondition($relation_conditions);
-        
+
         return $wdm->retrieve_course_user_relations($relation_condition)->as_array();
     }
 
@@ -548,7 +545,7 @@ class Course extends DataClass
         $shortcut = PlatformSetting :: get('allow_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
         $menu = PlatformSetting :: get('allow_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
         $breadcrumbs = PlatformSetting :: get('allow_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
-        
+
         if (! $theme && ! $layout && ! $shortcut && ! $menu && ! $breadcrumbs)
         {
             return false;
@@ -571,7 +568,7 @@ class Course extends DataClass
         $sections[] = array('name' => Translation :: get('Links'), 'type' => 2, 'order' => 2);
         $sections[] = array('name' => Translation :: get('Disabled'), 'type' => 0, 'order' => 3);
         $sections[] = array('name' => Translation :: get('CourseAdministration'), 'type' => 3, 'order' => 4);
-        
+
         foreach ($sections as $section)
         {
             $course_section = new CourseSection();
@@ -584,7 +581,7 @@ class Course extends DataClass
                 return false;
             }
         }
-        
+
         return true;
     }
 

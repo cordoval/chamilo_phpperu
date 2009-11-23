@@ -14,7 +14,7 @@
 class TrackerRegistration extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * Tracker properties
      */
@@ -80,7 +80,6 @@ class TrackerRegistration extends DataClass
     function create()
     {
         $trkdmg = TrackingDataManager :: get_instance();
-        $this->set_id($trkdmg->get_next_id(self :: get_table_name()));
         return $trkdmg->create_tracker_registration($this);
     }
 

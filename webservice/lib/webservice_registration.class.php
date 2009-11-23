@@ -7,7 +7,7 @@
 class WebserviceRegistration extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_NAME = 'name';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_PARENT = 'parent_id';
@@ -127,18 +127,15 @@ class WebserviceRegistration extends DataClass
     function create()
     {
         $wdm = WebserviceDataManager :: get_instance();
-        $this->set_id($wdm->get_next_webservice_id());
-        
         $wdm->create_webservice($this);
-        
+
         $location = new Location();
         $location->set_location($this->get_name());
         $location->set_application('webservice');
         $location->set_type('webservice');
         $location->set_identifier($this->get_id());
-        
+
         //echo $location->get_location();
-        
 
         if ($this->get_parent())
         {
@@ -147,15 +144,15 @@ class WebserviceRegistration extends DataClass
         }
         else
             $location->set_parent(WebserviceRights :: get_root_id());
-            
+
         //echo 'parent : ' . $location->get_parent();
-        
+
 
         if (! $location->create())
         {
             return false;
         }
-        
+
         return true;
     }
 

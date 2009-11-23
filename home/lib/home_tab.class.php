@@ -8,12 +8,12 @@ class HomeTab extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'tab';
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_SORT = 'sort';
     const PROPERTY_USER = 'user_id';
-    
+
     private $defaultProperties;
 
     function HomeTab($defaultProperties = array ())
@@ -91,19 +91,17 @@ class HomeTab extends DataClass
     function create()
     {
         $wdm = $this->get_data_manager();
-        $id = $wdm->get_next_home_tab_id();
-        $this->set_id($id);
-        
+
         $condition = new EqualityCondition(self :: PROPERTY_USER, $this->get_user());
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
         $this->set_sort($sort + 1);
-        
+
         $success = $wdm->create_home_tab($this);
         if (! $success)
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -111,7 +109,7 @@ class HomeTab extends DataClass
     {
         $hdm = $this->get_data_manager();
         $blocks = $hdm->retrieve_home_tab_blocks($this);
-        
+
         while ($block = $blocks->next_result())
         {
             $application = $block->get_application();
@@ -120,7 +118,7 @@ class HomeTab extends DataClass
                 return false;
             }
         }
-        
+
         return true;
     }
 

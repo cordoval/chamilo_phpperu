@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="publication">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1" />
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="personal_message_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="status" type="integer" length="1" unsigned="1"
@@ -14,9 +14,6 @@
 		<property name="published" type="integer" unsigned="1"
 			notnull="1" />
 	</properties>
-	<index name="id" type="primary">
-		<indexproperty name="id" />
-	</index>
 	<index name="personal_message_id">
 		<indexproperty name="personal_message_id" />
 	</index>

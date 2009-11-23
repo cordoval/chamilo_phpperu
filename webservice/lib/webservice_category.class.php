@@ -71,15 +71,14 @@ class WebserviceCategory extends DataClass
     function create()
     {
         $wdm = WebserviceDataManager :: get_instance();
-        $this->set_id($wdm->get_next_webservice_category_id());
         $wdm->create_webservice_category($this);
-        
+
         $location = new Location();
         $location->set_location($this->get_name());
         $location->set_application('webservice');
         $location->set_type('webservice_category');
         $location->set_identifier($this->get_id());
-        
+
         if ($this->get_parent())
         {
             $parent = WebserviceRights :: get_location_id_by_identifier('webservice_category', $this->get_parent());
@@ -87,12 +86,12 @@ class WebserviceCategory extends DataClass
         }
         else
             $location->set_parent(WebserviceRights :: get_root_id());
-        
+
         if (! $location->create())
         {
             return false;
         }
-        
+
         return true;
     }
 }
