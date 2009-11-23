@@ -29,13 +29,13 @@ class RepositoryManagerExternalRepositoryExportBrowserComponent extends Reposito
         /*
          * Header links
          */
-        $trail->add(new Breadcrumb(null, Translation :: translate('ExternalExport')));
+        $trail->add(new Breadcrumb(null, Translation :: translate('ExternalRepository')));
         $this->display_header($trail, false, true);
         
         /*
          * Page content
          */
-        $form = new ExternalExportBrowserForm(Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID), '', $this->get_catalogs());
+        $form = new ExternalExportBrowserForm($content_object, '', $this->get_catalogs());
         $form->display();
         
         $this->display_footer();

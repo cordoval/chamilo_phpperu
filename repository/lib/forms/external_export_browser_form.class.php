@@ -5,27 +5,49 @@
  */
 class ExternalExportBrowserForm extends FormValidator
 {
+    /**
+     * 
+     * @var array
+     */
     private $catalogs;
-    private $content_object_id;
+    
+    /**
+     * 
+     * @var ContentObject
+     */
+    private $content_object;
+    
+    /**
+     * 
+     * @var int
+     */
+    private $content_object_id = DataClass :: NO_UID;
 
-    public function ExternalExportBrowserForm($content_object_id, $action, $catalogs)
+    public function ExternalExportBrowserForm($content_object, $action, $catalogs)
     {
         parent :: __construct('external_export_browser', 'post', $action);
         
-        $this->content_object_id = (isset($content_object_id) && strlen($content_object_id) > 0) ? $content_object_id : DataClass :: NO_UID;
-        $this->catalogs = $catalogs;
+        $this->content_object = $content_object;
+        $this->catalogs       = $catalogs;
+        
+        if(isset($this->content_object))
+        {
+            $this->content_object_id = $this->content_object->get_id();
+        }
         
         $this->build_form();
-        
-    //debug($this->catalogs);
     }
 
     private function build_form()
     {
-        //echo '<div style="margin-left:auto;margin-right:auto;width:600px;background-color:yellow">';
         echo '<div>';
         
-        echo '<div>' . Translation :: translate('ExternalExportListDescription') . '</div>';
+        if( $this->content_object_id != DataClass :: NO_UID)
+        {
+            echo '<p>' . Translation :: translate('ExternalRepositoryListDescription1') . '</p>';
+        }
+        
+        echo '<p>' . Translation :: translate('ExternalRepositoryListDescription2') . '</p>';
         echo '<p>&nbsp;</p>';
         
         echo $this->format_export_list();
@@ -70,13 +92,22 @@ class ExternalExportBrowserForm extends FormValidator
             
             $list[] = '<p>' . $export->get_description() . '</p>';
             
-            $list[] = '<div style="float:right;width:50%;text-align:left">';
-            $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_import.png' . '" /> <a href="' . $url_list_repository_objects . '">' . Translation :: translate('ExternalExportAvailableObjects') . '</a>';
-            $list[] = '</div>';
-            
-            $list[] = '<div style="width:50%;text-align:left">';
-            $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_publish.png' . '" /> <a href="' . $url_export_to_repository . '">' . Translation :: translate('ExternalExportExport') . '</a>';
-            $list[] = '</div>';
+            if( $this->content_object_id != DataClass :: NO_UID)
+            {
+                $list[] = '<div style="float:right;width:50%;text-align:left">';
+                $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_import.png' . '" /> <a href="' . $url_list_repository_objects . '">' . Translation :: translate('ExternalRepositoryAvailableObjects') . '</a>';
+                $list[] = '</div>';
+                
+                $list[] = '<div style="width:50%;text-align:left">';
+                $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_publish.png' . '" /> <a href="' . $url_export_to_repository . '">' . Translation :: translate('ExternalRepositoryExport') . '</a>';
+                $list[] = '</div>';
+            }
+            else
+            {
+                $list[] = '<div style="text-align:left">';
+                $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_import.png' . '" /> <a href="' . $url_list_repository_objects . '">' . Translation :: translate('ExternalRepositoryAvailableObjects') . '</a>';
+                $list[] = '</div>';
+            }
             
             $list[] = '</fieldset><br/>';
             

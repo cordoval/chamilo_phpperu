@@ -85,6 +85,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     // Inherited.
     function retrieve_content_object($id, $type = null)
     {
+        if(!isset($id) || strlen($id) == 0 || $id == DataClass :: NO_UID)
+        {
+            return null;
+        }
+        
         if (is_null($type))
         {
             $type = $this->determine_content_object_type($id);

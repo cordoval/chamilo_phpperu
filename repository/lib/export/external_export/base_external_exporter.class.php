@@ -154,6 +154,14 @@ abstract class BaseExternalExporter
 	abstract public function export($content_object);
 	
 	/**
+	 * Return the list of objects existing in the repository. This list is specific to the logged in user.
+	 * The returned array should contain object properties (such as title, type, ...) and infos about its state compared to Chamilo (such as synchronized, newer in repository, ...)  
+	 * 
+	 * @return array
+	 */
+	abstract public function get_objects_list_from_repository();
+	
+	/**
 	 * Prepare the learning object for the export.
 	 * Ensure it has an UID valid for the repository
 	 * 
