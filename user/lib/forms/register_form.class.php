@@ -6,12 +6,12 @@
 
 class RegisterForm extends FormValidator
 {
-    
+
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
     const RESULT_SUCCESS = 'UserUpdated';
     const RESULT_ERROR = 'UserUpdateFailed';
-    
+
     private $parent;
     private $user;
     private $unencryptedpass;
@@ -24,7 +24,7 @@ class RegisterForm extends FormValidator
     function RegisterForm($user, $action)
     {
         parent :: __construct('user_settings', 'post', $action);
-        
+
         $this->adminDM = AdminDataManager :: get_instance();
         $this->user = $user;
         $this->build_creation_form();
@@ -77,7 +77,7 @@ class RegisterForm extends FormValidator
         $adm = AdminDataManager :: get_instance();
         $languages = $adm->retrieve_languages();
         $lang_options = array();
-        
+
         while ($language = $languages->next_result())
         {
             $lang_options[$language->get_folder()] = $language->get_english_name();
@@ -95,18 +95,18 @@ class RegisterForm extends FormValidator
             $status[1] = Translation :: get('CourseAdmin');
             $this->addElement('select', User :: PROPERTY_STATUS, Translation :: get('Status'), $status);
         }
-        //  Send email 
+        //  Send email
         $group = array();
         $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('Yes'), 1);
         $group[] = & $this->createElement('radio', 'send_mail', null, Translation :: get('No'), 0);
         $this->addGroup($group, 'mail', Translation :: get('SendMailToNewUser'), '&nbsp;');
         // Submit button
         //$this->addElement('submit', 'user_settings', 'OK');
-        
+
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Register'), array('class' => 'positive register'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -118,14 +118,14 @@ class RegisterForm extends FormValidator
         $this->build_basic_form();
     }
 
-    /** 
+    /**
      * Creates the user
      */
     function create_user()
     {
         $user = $this->user;
         $values = $this->exportValues();
-        
+
         $password = $values['pw']['pass'] == '1' ? Text :: generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
         if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
         {
@@ -137,9 +137,9 @@ class RegisterForm extends FormValidator
             move_uploaded_file($temp_picture_location, $picture_location);
         }
         $udm = UserDataManager :: get_instance();
-        if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
+        if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_ID]))
         {
-            $user->set_id($values[User :: PROPERTY_USER_ID]);
+            $user->set_id($values[User :: PROPERTY_ID]);
             $user->set_lastname($values[User :: PROPERTY_LASTNAME]);
             $user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
             $user->set_email($values[User :: PROPERTY_EMAIL]);
@@ -154,9 +154,9 @@ class RegisterForm extends FormValidator
             }
             $user->set_status(intval($values[User :: PROPERTY_STATUS]));
             $user->set_language($values[User :: PROPERTY_LANGUAGE]);
-            
+
             $code = PlatformSetting :: get('days_valid');
-            
+
             if ($code == 0)
             {
                 $user->set_active(1);
@@ -166,7 +166,7 @@ class RegisterForm extends FormValidator
                 $user->set_activation_date(time());
                 $user->set_expiration_date(strtotime('+' . $code . ' days', time()));
             }
-            
+
             $user->set_registration_date(time());
             $send_mail = intval($values['mail']['send_mail']);
             if ($send_mail)
@@ -188,11 +188,11 @@ class RegisterForm extends FormValidator
         {
             return - 1;
         }
-    
+
     }
 
     /**
-     * Sets default values. 
+     * Sets default values.
      * @param array $defaults Default values for this form's parameters.
      */
     function setDefaults($defaults = array ())
@@ -212,10 +212,10 @@ class RegisterForm extends FormValidator
             $defaults[User :: PROPERTY_DISK_QUOTA] = '209715200';
             $defaults[User :: PROPERTY_VERSION_QUOTA] = '20';
         }
-        
+
         $defaults['admin'][User :: PROPERTY_PLATFORMADMIN] = $user->get_platformadmin();
         $defaults['mail']['send_mail'] = 1;
-        $defaults[User :: PROPERTY_USER_ID] = $user->get_id();
+        $defaults[User :: PROPERTY_ID] = $user->get_id();
         $defaults[User :: PROPERTY_LASTNAME] = $user->get_lastname();
         $defaults[User :: PROPERTY_FIRSTNAME] = $user->get_firstname();
         $defaults[User :: PROPERTY_EMAIL] = $user->get_email();
@@ -243,15 +243,15 @@ class RegisterForm extends FormValidator
         $options['admin_surname'] = PlatformSetting :: get('administrator_surname');
         $options['admin_telephone'] = PlatformSetting :: get('administrator_telephone');
         $options['admin_email'] = PlatformSetting :: get('administrator_email');
-        
+
         $subject = Translation :: get('YourRegistrationOn') . $options['site_name'];
-        
+
         $body = PlatformSetting :: get('email_template', 'user');
         foreach ($options as $option => $value)
         {
             $body = str_replace('[' . $option . ']', $value, $body);
         }
-        
+
         $mail = Mail :: factory($subject, $body, $user->get_email());
         $mail->send();
     }

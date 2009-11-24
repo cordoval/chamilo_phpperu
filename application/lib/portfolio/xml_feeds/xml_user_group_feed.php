@@ -16,38 +16,38 @@ if (Authentication :: is_valid())
         {
             $exclude = array($exclude);
         }
-        
+
         $exclude_conditions = array();
         $exclude_conditions['user'] = array();
         $exclude_conditions['group'] = array();
-        
+
         foreach ($exclude as $id)
         {
             $id = explode('_', $id);
-            
+
             if ($id[0] == 'user')
             {
-                $condition = new NotCondition(new EqualityCondition(User :: PROPERTY_USER_ID, $id[1]));
+                $condition = new NotCondition(new EqualityCondition(User :: PROPERTY_ID, $id[1]));
             }
             elseif ($id[0] == 'group')
             {
-                $condition = new NotCondition(new EqualityCondition(Group :: PROPERTY_GROUP_ID, $id[1]));
+                $condition = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $id[1]));
             }
-            
+
             $exclude_conditions[$id[0]][] = $condition;
         }
-        
+
         if (count($exclude_conditions['user']) > 0)
         {
             $user_conditions[] = new AndCondition($exclude_conditions['user']);
         }
-        
+
         if (count($exclude_conditions['group']) > 0)
         {
             $group_conditions[] = new AndCondition($exclude_conditions['group']);
         }
     }
-    
+
     //if ($user_conditions)
     if (count($user_conditions) > 0)
     {
@@ -57,7 +57,7 @@ if (Authentication :: is_valid())
     {
         $user_condition = null;
     }
-    
+
     //if ($group_conditions)
     if (count($group_conditions) > 0)
     {
@@ -67,18 +67,18 @@ if (Authentication :: is_valid())
     {
         $group_condition = null;
     }
-    
+
     $udm = UserDataManager :: get_instance();
     $gdm = GroupDataManager :: get_instance();
-    
+
     $user_result_set = $udm->retrieve_users($user_condition);
-    
+
     $users = array();
     while ($user = $user_result_set->next_result())
     {
         $users[] = $user;
     }
-    
+
     $groups = array();
     $group_result_set = $gdm->retrieve_groups($group_condition);
     while ($group = $group_result_set->next_result())
@@ -108,7 +108,7 @@ function dump_tree($users, $groups)
             }
             echo '</node>', "\n";
         }
-        
+
         if (contains_results($groups))
         {
             echo '<node id="group" classes="type_category unlinked" title="Groups">', "\n";

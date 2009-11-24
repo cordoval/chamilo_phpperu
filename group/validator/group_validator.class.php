@@ -40,36 +40,36 @@ class GroupValidator extends Validator
     function validate_retrieve(&$groupProperties)
     {
         $this->errorSource = Translation :: get('ErrorRetrievingGroup');
-        
+
         if ($groupProperties[name] == null)
         {
             $this->errorMessage = Translation :: get('GroupnameIsRequired');
             return false;
         }
-        
+
         return true;
     }
 
     function validate_create(&$groupProperties)
     {
         $this->errorSource = Translation :: get('ErrorCreatingGroup') . ': ' . $groupProperties[Group :: PROPERTY_NAME];
-        
+
         if (! $this->validate_properties($groupProperties, $this->get_required_group_property_names()))
             return false;
-        
+
         if (! $this->validate_property_names($groupProperties, Group :: get_default_property_names()))
             return false;
-        
+
         if (! $this->gdm->is_groupname_available($groupProperties[Group :: PROPERTY_NAME]))
         {
             $this->errorMessage = Translation :: get('GroupnameIsAlreadyUsed');
             return false;
         }
-        
+
         /*
          * If the ID of the parent is 0, it's a root group and thus has no parent.
          */
-        
+
         if ($groupProperties[Group :: PROPERTY_PARENT] != '0')
         {
             $var = $this->get_group_id($groupProperties[Group :: PROPERTY_PARENT]);
@@ -81,20 +81,20 @@ class GroupValidator extends Validator
             else
                 $groupProperties[Group :: PROPERTY_PARENT] = $var;
         }
-        
+
         return true;
     }
 
     function validate_update(&$groupProperties)
     {
         $this->errorSource = Translation :: get('ErrorUpdatingGroup') . ': ' . $groupProperties[Group :: PROPERTY_NAME];
-        
+
         if (! $this->validate_properties($groupProperties, $this->get_required_group_property_names()))
             return false;
-        
+
         if (! $this->validate_property_names($groupProperties, Group :: get_default_property_names()))
             return false;
-        
+
         $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
         if (! $var)
         {
@@ -103,7 +103,7 @@ class GroupValidator extends Validator
         }
         else
             $groupProperties[Group :: PROPERTY_ID] = $var;
-        
+
         if ($groupProperties[Group :: PROPERTY_PARENT] != '0')
         {
             $var = $this->get_group_id($groupProperties[Group :: PROPERTY_PARENT]);
@@ -121,13 +121,13 @@ class GroupValidator extends Validator
     function validate_delete(&$groupProperties)
     {
         $this->errorSource = Translation :: get('ErrorDeletingGroup') . ': ' . $groupProperties[Group :: PROPERTY_NAME];
-        
+
         if (! $this->validate_properties($groupProperties, $this->get_required_group_property_names()))
             return false;
-        
+
         if (! $this->validate_property_names($groupProperties, Group :: get_default_property_names()))
             return false;
-        
+
         $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
         if (! $var)
         {
@@ -136,20 +136,20 @@ class GroupValidator extends Validator
         }
         else
             $groupProperties[Group :: PROPERTY_ID] = $var;
-        
+
         return true;
     }
 
     function validate_subscribe_or_unsubscribe(&$input_group_rel_user)
     {
         $this->errorSource = Translation :: get('ErrorSubscribingOrUnsubscribingUser') . ' ' . $input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID] . ' ' . Translation :: get('ToFrom') . ' ' . Translation :: get('Group') . ' ' . $input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID];
-        
+
         if (! $this->validate_properties($input_group_rel_user, $this->get_required_group_rel_user_property_names()))
             return false;
-        
+
         if (! $this->validate_property_names($input_group_rel_user, GroupRelUser :: get_default_property_names()))
             return false;
-        
+
         $var = $this->get_person_id($input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID]);
         if (! $var)
         {
@@ -158,7 +158,7 @@ class GroupValidator extends Validator
         }
         else
             $input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID] = $var;
-        
+
         $var = $this->get_group_id($input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID]);
         if (! $var)
         {
@@ -167,7 +167,7 @@ class GroupValidator extends Validator
         }
         else
             $input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID] = $var;
-        
+
         return true;
     }
 
@@ -204,7 +204,7 @@ class GroupValidator extends Validator
 
     private function does_user_exist($user_id)
     {
-        return $this->udm->count_users(new EqualityCondition(User :: PROPERTY_USER_ID, $user_id)) != 0;
+        return $this->udm->count_users(new EqualityCondition(User :: PROPERTY_ID, $user_id)) != 0;
     }
 }
 ?>

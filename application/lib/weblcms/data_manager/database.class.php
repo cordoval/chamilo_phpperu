@@ -1358,8 +1358,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
         $conditions = array();
         $conditions[] = $condition;
-        $conditions[] = new InCondition(User :: PROPERTY_USER_ID, $course_user_ids);
-        $conditions[] = new NotCondition(new InCondition(User :: PROPERTY_USER_ID, $group_user_ids));
+        $conditions[] = new InCondition(User :: PROPERTY_ID, $course_user_ids);
+        $conditions[] = new NotCondition(new InCondition(User :: PROPERTY_ID, $group_user_ids));
         $condition = new AndCondition($conditions);
 
         $udm = UserDataManager :: get_instance();
@@ -1378,9 +1378,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $res = $this->query($query);
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $course_user_ids[] = $record[User :: PROPERTY_USER_ID];
+            $course_user_ids[] = $record[User :: PROPERTY_ID];
         }
-        $conditions[] = new InCondition(User :: PROPERTY_USER_ID, $course_user_ids);
+        $conditions[] = new InCondition(User :: PROPERTY_ID, $course_user_ids);
         $user_ids = $this->retrieve_course_group_user_ids($course_group);
         if (count($user_ids) > 0)
         {

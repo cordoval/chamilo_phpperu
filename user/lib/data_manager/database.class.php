@@ -50,7 +50,7 @@ class DatabaseUserDataManager extends UserDataManager
 
 	function update_user($user)
 	{
-		$condition = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_id());
+		$condition = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
 		return $this->database->update($user, $condition);
 	}
 
@@ -73,7 +73,7 @@ class DatabaseUserDataManager extends UserDataManager
 	{
 		// @Todo: review the user's objects on deletion
 		// (currently: when the user is deleted, the user's objects remain, and refer to an invalid user)
-		$condition = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_id());
+		$condition = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
 		return $this->database->delete($user->get_table_name(), $condition);
 	}
 
@@ -127,7 +127,7 @@ class DatabaseUserDataManager extends UserDataManager
 
 	function retrieve_user($id)
 	{
-		$condition = new EqualityCondition(User :: PROPERTY_USER_ID, $id);
+		$condition = new EqualityCondition(User :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(User :: get_table_name(), $condition);
 	}
 
@@ -158,7 +158,7 @@ class DatabaseUserDataManager extends UserDataManager
 		{
 			$conditions = array();
 			$conditions[] = new EqualityCondition(User :: PROPERTY_USERNAME,$username);
-			$conditions = new EqualityCondition(User :: PROPERTY_USER_ID, $user_id);
+			$conditions = new EqualityCondition(User :: PROPERTY_ID, $user_id);
 			$condition = new AndCondition($conditions);
 		}
 		return !($this->database->count_objects(User :: get_table_name(), $condition) == 1);
@@ -184,7 +184,7 @@ class DatabaseUserDataManager extends UserDataManager
 	function retrieve_version_type_quota($user, $type)
 	{
 		$conditions = array();
-		$conditions[] = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_id());
+		$conditions[] = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
 		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_CONTENT_OBJECT_TYPE, $type);
 		$condition = new AndCondition($conditions);
 

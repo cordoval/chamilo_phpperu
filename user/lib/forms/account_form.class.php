@@ -6,11 +6,11 @@
 
 class AccountForm extends FormValidator
 {
-    
+
     const TYPE_EDIT = 2;
     const RESULT_SUCCESS = 'UserUpdated';
     const RESULT_ERROR = 'UserUpdateFailed';
-    
+
     private $parent;
     private $user;
     private $unencryptedpass;
@@ -22,16 +22,16 @@ class AccountForm extends FormValidator
     function AccountForm($form_type, $user, $action)
     {
         parent :: __construct('user_account', 'post', $action);
-        
+
         $this->user = $user;
         $this->adm = AdminDataManager :: get_instance();
-        
+
         $this->form_type = $form_type;
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
         }
-        
+
         $this->setDefaults();
     }
 
@@ -45,7 +45,7 @@ class AccountForm extends FormValidator
         // Name
         $this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'), array("size" => "50"));
         $this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'), array("size" => "50"));
-        
+
         if (PlatformSetting :: get('allow_change_firstname', UserManager :: APPLICATION_NAME) == 0)
         {
             $this->freeze(array(User :: PROPERTY_FIRSTNAME));
@@ -54,59 +54,59 @@ class AccountForm extends FormValidator
         {
             $this->freeze(array(User :: PROPERTY_LASTNAME));
         }
-        
+
         $this->applyFilter(array(User :: PROPERTY_LASTNAME, User :: PROPERTY_FIRSTNAME), 'stripslashes');
         $this->applyFilter(array(User :: PROPERTY_LASTNAME, User :: PROPERTY_FIRSTNAME), 'trim');
         $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
         $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
         // Official Code
         $this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'), array("size" => "50"));
-        
+
         if (PlatformSetting :: get('allow_change_official_code', UserManager :: APPLICATION_NAME) == 0)
         {
             $this->freeze(User :: PROPERTY_OFFICIAL_CODE);
         }
-        
+
         $this->applyFilter(User :: PROPERTY_OFFICIAL_CODE, 'stripslashes');
         $this->applyFilter(User :: PROPERTY_OFFICIAL_CODE, 'trim');
-        
+
         if (PlatformSetting :: get('require_official_code', UserManager :: APPLICATION_NAME))
         {
             $this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
         }
-        
+
         // Email
         $this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
-        
+
         if (PlatformSetting :: get('allow_change_email', UserManager :: APPLICATION_NAME) == 0)
         {
             $this->freeze(User :: PROPERTY_EMAIL);
         }
-        
+
         $this->applyFilter(User :: PROPERTY_EMAIL, 'stripslashes');
         $this->applyFilter(User :: PROPERTY_EMAIL, 'trim');
-        
+
         if (PlatformSetting :: get('require_email', UserManager :: APPLICATION_NAME))
         {
             $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
         }
-        
+
         $this->addRule(User :: PROPERTY_EMAIL, Translation :: get('EmailWrong'), 'email');
         // Username
         $this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'), array("size" => "50"));
-        
+
         if (PlatformSetting :: get('allow_change_username', UserManager :: APPLICATION_NAME) == 0)
         {
             $this->freeze(User :: PROPERTY_USERNAME);
         }
-        
+
         $this->applyFilter(User :: PROPERTY_USERNAME, 'stripslashes');
         $this->applyFilter(User :: PROPERTY_USERNAME, 'trim');
         $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
         $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('UsernameWrong'), 'username');
         //Todo: The rule to check unique username should be updated to the LCMS code api
         //$this->addRule(User :: PROPERTY_USERNAME, Translation :: get('UserTaken'), 'username_available', $user_data['username']);
-        
+
 
         // Password
         if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) == 1)
@@ -116,7 +116,7 @@ class AccountForm extends FormValidator
             $this->addElement('password', 'password2', Translation :: get('Confirmation'), array('size' => 40, 'autocomplete' => 'off'));
             $this->addRule(array(User :: PROPERTY_PASSWORD, 'password2'), Translation :: get('PassTwo'), 'compare');
         }
-        
+
         // Picture
         if (PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME) == 1)
         {
@@ -127,36 +127,36 @@ class AccountForm extends FormValidator
             }
             $this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png', 'image/x-png'));
         }
-        
+
         $this->addElement('select', User :: PROPERTY_TIMEZONE, Translation :: get('Timezone'), $this->get_time_zones());
-    
+
         // Language
         $adm = AdminDataManager :: get_instance();
         $languages = $adm->retrieve_languages();
         $lang_options = array();
-        
+
         while ($language = $languages->next_result())
         {
             $lang_options[$language->get_folder()] = $language->get_english_name();
         }
         $this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
-        
+
         if (PlatformSetting :: get('allow_user_language_selection', UserManager :: APPLICATION_NAME) == 0)
         {
             $this->freeze(User :: PROPERTY_LANGUAGE);
         }
-        
+
      	if (PlatformSetting :: get('require_language', 'user'))
         {
             $this->addRule(User :: PROPERTY_LANGUAGE, Translation :: get('ThisFieldIsRequired'), 'required');
         }
-        
+
         // Themes
         $theme_options = array();
         $theme_options[''] = '-- ' . Translation :: get('PlatformDefault') . ' --';
         $theme_options = array_merge($theme_options, Theme :: get_themes());
         $this->addElement('select', User :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
-        
+
         if (PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME) == 0)
         {
             $this->freeze(User :: PROPERTY_THEME);
@@ -166,29 +166,29 @@ class AccountForm extends FormValidator
 	function get_time_zones()
     {
 		$content = file(Path :: get_admin_path() . 'settings/timezones.txt');
-		
+
 		$timezones = array();
-		
+
 		foreach($content as $timezone)
 		{
 			$timezone = trim($timezone);
 			$timezones[$timezone] = $timezone;
-		} 
+		}
 		return $timezones;
     }
-    
+
     /**
      * Builds an editing form
      */
     function build_editing_form()
     {
         $this->build_basic_form();
-        
-        $this->addElement('hidden', User :: PROPERTY_USER_ID);
-        
+
+        $this->addElement('hidden', User :: PROPERTY_ID);
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -238,18 +238,18 @@ class AccountForm extends FormValidator
         {
             $user->set_language($values[User :: PROPERTY_LANGUAGE]);
         }
-        
+
         if (PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME))
         {
             $user->set_theme($values[User :: PROPERTY_THEME]);
         }
         $user->set_timezone($values[User :: PROPERTY_TIMEZONE]);
-        
+
         $value = $user->update();
-        
+
         if ($value)
             Events :: trigger_event('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
-        
+
         return $value;
     }
 
@@ -260,7 +260,7 @@ class AccountForm extends FormValidator
     function setDefaults($defaults = array ())
     {
         $user = $this->user;
-        $defaults[User :: PROPERTY_USER_ID] = $user->get_id();
+        $defaults[User :: PROPERTY_ID] = $user->get_id();
         $defaults[User :: PROPERTY_LASTNAME] = $user->get_lastname();
         $defaults[User :: PROPERTY_FIRSTNAME] = $user->get_firstname();
         $defaults[User :: PROPERTY_EMAIL] = $user->get_email();

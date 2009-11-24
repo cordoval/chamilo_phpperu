@@ -21,7 +21,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('LostPassword')));
         $trail->add_help('user general');
-        
+
         $user_id = $this->get_user_id();
         if ($this->get_platform_setting('allow_password_retrieval', 'admin') == false)
         {
@@ -36,7 +36,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
         }
         $this->display_header($trail);
         $request_key = Request :: get(self :: PARAM_RESET_KEY);
-        $request_user_id = Request :: get(User :: PROPERTY_USER_ID);
+        $request_user_id = Request :: get(User :: PROPERTY_ID);
         if (! is_null($request_key) && ! is_null($request_user_id))
         {
             $udm = UserDataManager :: get_instance();
@@ -124,7 +124,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
     private function send_reset_link($user)
     {
         $url_params[self :: PARAM_RESET_KEY] = $this->get_user_key($user);
-        $url_params[User :: PROPERTY_USER_ID] = $user->get_id();
+        $url_params[User :: PROPERTY_ID] = $user->get_id();
         $url = $this->get_url($url_params);
         $mail_subject = Translation :: get('LoginRequest');
         $mail_body[] = $user->get_fullname() . ',';

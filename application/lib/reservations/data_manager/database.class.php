@@ -244,7 +244,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         if ($subscription_user->get_subscription_id())
             $conditions[] = new EqualityCondition(SubscriptionUser :: PROPERTY_SUBSCRIPTION_ID, $subscription_user->get_subscription_id());
         if ($subscription_user->get_user_id())
-            $conditions[] = new EqualityCondition(SubscriptionUser :: PROPERTY_USER_ID, $subscription_user->get_user_id());
+            $conditions[] = new EqualityCondition(SubscriptionUser :: PROPERTY_ID, $subscription_user->get_user_id());
 
         $condition = new AndCondition($conditions);
         return $this->db->delete('subscription_user', $condition);

@@ -9,28 +9,28 @@ require_once dirname(__FILE__) . '/../laika_data_manager.class.php';
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
+
     if (isset($_GET['query']))
     {
         $q = '*' . $_GET['query'] . '*';
         $query_condition = new PatternMatchCondition(User :: PROPERTY_USERNAME, $q);
-        
+
         if (isset($query_condition))
         {
             $conditions[] = $query_condition;
         }
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
         foreach ($_GET['exclude'] as $id)
         {
-            $c[] = new EqualityCondition(User :: PROPERTY_USER_ID, $id);
+            $c[] = new EqualityCondition(User :: PROPERTY_ID, $id);
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (isset($_GET['query']) || is_array($_GET['exclude']))
     {
         $condition = new AndCondition($conditions);
@@ -39,10 +39,10 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-    
+
     $dm = UserDataManager :: get_instance();
     $objects = $dm->retrieve_users($condition);
-    
+
     while ($lo = $objects->next_result())
     {
         $users[] = $lo;

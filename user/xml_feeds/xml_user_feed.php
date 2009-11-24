@@ -10,23 +10,23 @@ Translation :: set_application('user');
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
+
     $query_condition = Utilities :: query_to_condition($_GET['query'], array(User :: PROPERTY_USERNAME, User :: PROPERTY_FIRSTNAME, User :: PROPERTY_LASTNAME));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
         foreach ($_GET['exclude'] as $id)
         {
-            $c[] = new EqualityCondition(User :: PROPERTY_USER_ID, $id);
+            $c[] = new EqualityCondition(User :: PROPERTY_ID, $id);
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
@@ -35,7 +35,7 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-    
+
     $udm = UserDataManager :: get_instance();
     $users = $udm->retrieve_users($condition, null, null, array(new ObjectTableOrder(User :: PROPERTY_LASTNAME), new ObjectTableOrder(User :: PROPERTY_FIRSTNAME)));
 }
@@ -60,14 +60,14 @@ function dump_tree($users)
     {
         return;
     }
-    
+
     echo '<node id="0" classes="type_category unlinked" title="' . Translation :: get('Users') . '">' . "\n";
-    
+
     while ($user = $users->next_result())
     {
         echo '<leaf id="' . $user->get_id() . '" classes="type type_user" title="' . htmlspecialchars($user->get_fullname()) . '" description="' . htmlspecialchars($user->get_username()) . '"/>' . "\n";
     }
-    
+
     echo '</node>' . "\n";
 }
 

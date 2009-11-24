@@ -74,15 +74,15 @@ class RightsTemplate extends DataClass
     {
         $udm = UserDataManager :: get_instance();
         $condition = new EqualityCondition(UserRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $this->get_id());
-        
+
         $user_rights_templates = $udm->retrieve_user_rights_templates($condition);
         $user_ids = array();
-        
+
         while ($user_rights_template = $user_rights_templates->next_result())
         {
             $user_ids[] = $user_rights_template->get_user_id();
         }
-        
+
         $groups = $this->get_groups();
         if (isset($groups))
         {
@@ -96,11 +96,11 @@ class RightsTemplate extends DataClass
                 }
             }
         }
-        
+
         if (count($user_ids) > 0)
         {
             $conditions = array();
-            $conditions[] = new InCondition(User :: PROPERTY_USER_ID, $user_ids);
+            $conditions[] = new InCondition(User :: PROPERTY_ID, $user_ids);
             if (isset($user_condition))
             {
                 $conditions[] = $user_condition;
@@ -118,15 +118,15 @@ class RightsTemplate extends DataClass
     {
         $gdm = GroupDataManager :: get_instance();
         $condition = new EqualityCondition(GroupRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $this->get_id());
-        
+
         $group_rights_templates = $gdm->retrieve_group_rights_templates($condition);
         $group_ids = array();
-        
+
         while ($group_rights_template = $group_rights_templates->next_result())
         {
             $group_ids[] = $group_rights_template->get_group_id();
         }
-        
+
         if (count($group_ids) > 0)
         {
             $condition = new InCondition(Group :: PROPERTY_ID, $group_ids);

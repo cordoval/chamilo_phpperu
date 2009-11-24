@@ -69,13 +69,13 @@ class ReportingValidator extends Validator
     function validate_get_user_courses(&$input_user)
     {
         $this->errorSource = Translation :: get('ErrorRetrievingUserCourses');
-        
+
         if (empty($input_user[USER :: PROPERTY_USERNAME]))
         {
             $this->errorMessage = Translation :: get('UsernameIsRequired');
             return false;
         }
-        
+
         $user = $this->get_person_id($input_user[USER :: PROPERTY_USERNAME]);
         if ($user === false)
         {
@@ -83,21 +83,21 @@ class ReportingValidator extends Validator
             return false;
         }
         else
-            $input_user[USER :: PROPERTY_USER_ID] = $user;
-        
+            $input_user[User :: PROPERTY_ID] = $user;
+
         return true;
     }
 
     function validate_get_course_users(&$input_course)
     {
         $this->errorSource = Translation :: get('ErrorRetrievingCourseUsers');
-        
+
         if (empty($input_course[Course :: PROPERTY_VISUAL]))
         {
             $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired');
             return false;
         }
-        
+
         $course = $this->get_course_id($input_course[Course :: PROPERTY_VISUAL]);
         if ($course === false)
         {
@@ -106,26 +106,26 @@ class ReportingValidator extends Validator
         }
         else
             $input_course[Course :: PROPERTY_ID] = $course;
-        
+
         return true;
     }
 
     function validate_get_new_course_publications(&$input_course)
     {
         $this->errorSource = Translation :: get('ErrorRetrievingNewCoursePublications');
-        
+
         if (empty($input_course[CourseUserRelation :: PROPERTY_COURSE]))
         {
             $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired');
             return false;
         }
-        
+
         if (empty($input_course[CourseUserRelation :: PROPERTY_USER]))
         {
             $this->errorMessage = Translation :: get('UsernameIsRequired');
             return false;
         }
-        
+
         $course = $this->get_course_id($input_course[CourseUserRelation :: PROPERTY_COURSE]);
         if ($course === false)
         {
@@ -134,7 +134,7 @@ class ReportingValidator extends Validator
         }
         else
             $input_course[CourseUserRelation :: PROPERTY_COURSE] = $course;
-        
+
         $user = $this->get_person_id($input_course[CourseUserRelation :: PROPERTY_USER]);
         if ($user === false)
         {
@@ -143,32 +143,32 @@ class ReportingValidator extends Validator
         }
         else
             $input_course[CourseUserRelation :: PROPERTY_USER] = $user;
-        
+
         return true;
     }
 
     function validate_get_new_publications_in_course_tool(&$input_course)
     {
         $this->errorSource = Translation :: get('ErrorRetrievingNewPublicationsInCourseTool');
-        
+
         if (empty($input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID]))
         {
             $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired');
             return false;
         }
-        
+
         if (empty($input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID]))
         {
             $this->errorMessage = Translation :: get('UsernameIsRequired');
             return false;
         }
-        
+
         if (empty($input_course[ContentObjectPublicationUser :: PROPERTY_TOOL]))
         {
             $this->errorMessage = Translation :: get('ToolNameIsRequired');
             return false;
         }
-        
+
         $course = $this->get_course_id($input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID]);
         if ($course === false)
         {
@@ -177,7 +177,7 @@ class ReportingValidator extends Validator
         }
         else
             $input_course[ContentObjectPublicationUser :: PROPERTY_COURSE_ID] = $course;
-        
+
         $user = $this->get_person_id($input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID]);
         if ($user === false)
         {
@@ -186,20 +186,20 @@ class ReportingValidator extends Validator
         }
         else
             $input_course[ContentObjectPublicationUser :: PROPERTY_USER_ID] = $user;
-        
+
         return true;
     }
 
     function validate_get_publications_for_user($user)
     {
         $this->errorSource = Translation :: get('ErrorRetrievingNewPublicationsInCourseTool');
-        
+
         if (empty($user[User :: PROPERTY_USERNAME]))
         {
             $this->errorMessage = Translation :: get('UsernameIsRequired');
             return false;
         }
-        
+
         $user = $this->get_person_id($user[User :: PROPERTY_USERNAME]);
         if ($user === false)
         {
@@ -207,21 +207,21 @@ class ReportingValidator extends Validator
             return false;
         }
         else
-            $user[User :: PROPERTY_USER_ID] = $user;
-        
+            $user[User :: PROPERTY_ID] = $user;
+
         return true;
     }
 
     function validate_get_publications_for_course($course)
     {
         $this->errorSource = Translation :: get('ErrorRetrievingNewPublicationsInCourseTool');
-        
+
         if (empty($course[Course :: PROPERTY_VISUAL]))
         {
             $this->errorMessage = Translation :: get('CourseVisualCodeIsRequired');
             return false;
         }
-        
+
         $course = $this->get_course_id($course[Course :: PROPERTY_VISUAL]);
         if ($course === false)
         {
@@ -230,7 +230,7 @@ class ReportingValidator extends Validator
         }
         else
             $course[Course :: PROPERTY_ID] = $course;
-        
+
         return true;
     }
 

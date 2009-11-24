@@ -26,7 +26,7 @@ class DefaultUserTableCellRenderer implements ObjectTableCellRenderer
     {
         switch ($column->get_name())
         {
-            case User :: PROPERTY_USER_ID :
+            case User :: PROPERTY_ID :
                 return $user->get_id();
             case User :: PROPERTY_LASTNAME :
                 return $user->get_lastname();

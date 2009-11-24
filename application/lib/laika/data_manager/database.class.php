@@ -214,7 +214,7 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
         $query = 'SELECT ' . $result_alias . '.* ';
         $query .= ' FROM ' . $database->escape_table_name(LaikaCalculatedResult :: get_table_name()) . ' AS ' . $result_alias;
         $query .= ' JOIN ' . $database->escape_table_name(LaikaAttempt :: get_table_name()) . ' AS ' . $attempt_alias . ' ON ' . $database->escape_column_name(LaikaCalculatedResult :: PROPERTY_ATTEMPT_ID, $result_alias) . ' = ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_ID, $attempt_alias);
-        $query .= ' JOIN ' . $udm_database->escape_table_name(User :: get_table_name()) . ' AS ' . $udm_database->get_alias(User :: get_table_name()) . ' ON ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID, $attempt_alias) . ' = ' . $udm_database->escape_column_name(User :: PROPERTY_USER_ID, $user_alias);
+        $query .= ' JOIN ' . $udm_database->escape_table_name(User :: get_table_name()) . ' AS ' . $udm_database->get_alias(User :: get_table_name()) . ' ON ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID, $attempt_alias) . ' = ' . $udm_database->escape_column_name(User :: PROPERTY_ID, $user_alias);
 
         return $this->database->retrieve_object_set($query, LaikaCalculatedResult :: get_table_name(), $condition, $offset, $max_objects, $order_by, LaikaCalculatedResult :: CLASS_NAME);
     }
@@ -230,7 +230,7 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 
         $query = 'SELECT COUNT(*)  FROM ' . $database->escape_table_name(LaikaCalculatedResult :: get_table_name()) . ' AS ' . $result_alias;
         $query .= ' JOIN ' . $database->escape_table_name(LaikaAttempt :: get_table_name()) . ' AS ' . $attempt_alias . ' ON ' . $database->escape_column_name(LaikaCalculatedResult :: PROPERTY_ATTEMPT_ID, $result_alias) . ' = ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_ID, $attempt_alias);
-        $query .= ' JOIN ' . $udm_database->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID, $attempt_alias) . ' = ' . $udm_database->escape_column_name(User :: PROPERTY_USER_ID, $user_alias);
+        $query .= ' JOIN ' . $udm_database->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID, $attempt_alias) . ' = ' . $udm_database->escape_column_name(User :: PROPERTY_ID, $user_alias);
 
         return $database->count_result_set($query, LaikaCalculatedResult :: get_table_name(), $condition);
     }
@@ -329,11 +329,11 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 
         if (count($users) > 0)
         {
-            $users_condition = new InCondition(User :: PROPERTY_USER_ID, $users);
+            $users_condition = new InCondition(User :: PROPERTY_ID, $users);
         }
         else
         {
-            $users_condition = new InCondition(User :: PROPERTY_USER_ID, array(0));
+            $users_condition = new InCondition(User :: PROPERTY_ID, array(0));
         }
 
         return $udm->retrieve_users($users_condition, $offset, $count, $order_property);

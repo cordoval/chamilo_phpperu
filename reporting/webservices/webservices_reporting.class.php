@@ -29,21 +29,21 @@ class WebServicesReporting
     function run()
     {
         $functions = array();
-        
+
         $functions['get_user_courses'] = array('input' => new User(), 'output' => array(new Course()), 'array_output' => true);
-        
+
         $functions['get_course_users'] = array('input' => new Course(), 'output' => array(new User()), 'array_output' => true);
-        
+
         $functions['get_new_publications_in_course'] = array('input' => new CourseUserRelation(), 'output' => array(new ContentObject()), 'array_output' => true);
-        
+
         $functions['get_new_publications_in_course_tool'] = array('input' => new ContentObjectPublicationUser(), 'output' => array(new ContentObject()), 'array_output' => true);
-        
+
         $functions['get_publications_for_user'] = array('input' => new User(), 'output' => array(new ContentObject()), 'array_output' => true);
-        
+
         $functions['get_publications_for_course'] = array('input' => new Course(), 'output' => array(new ContentObject()), 'array_output' => true);
-        
+
         $this->webservice->provide_webservice($functions);
-    
+
     }
 
     function get_user_courses(&$input_user)
@@ -53,7 +53,7 @@ class WebServicesReporting
             if ($this->validator->validate_get_user_courses($input_user[input]))
             {
                 $wdm = WeblcmsDataManager :: get_instance();
-                $courses = $wdm->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $input_user[input][User :: PROPERTY_USER_ID]));
+                $courses = $wdm->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $input_user[input][User :: PROPERTY_ID]));
                 $courses = $courses->as_array();
                 foreach ($courses as &$course)
                 {
@@ -189,7 +189,7 @@ class WebServicesReporting
             if ($this->validator->validate_get_publications_for_user($input_user[input]))
             {
                 $wdm = WeblcmsDataManager :: get_instance();
-                $pubs = $wdm->retrieve_content_object_publications(null, null, $input_user[input][User :: PROPERTY_USER_ID]);
+                $pubs = $wdm->retrieve_content_object_publications(null, null, $input_user[input][User :: PROPERTY_ID]);
                 $pubs = $pubs->as_array();
                 foreach ($pubs as &$pub)
                 {

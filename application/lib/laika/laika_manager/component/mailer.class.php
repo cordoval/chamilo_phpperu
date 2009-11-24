@@ -20,7 +20,7 @@ class LaikaManagerMailerComponent extends LaikaManagerComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SendMail')));
-        
+
         if (! LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'mailer', 'laika_component'))
         {
             $this->display_header($trail);
@@ -28,13 +28,13 @@ class LaikaManagerMailerComponent extends LaikaManagerComponent
             $this->display_footer();
             exit();
         }
-        
+
         $form = new LaikaMailerForm($this, $this->get_user(), $this->get_url());
-        
+
         if ($form->validate())
         {
             $success = $form->send_mails();
-            
+
             $this->redirect(($success ? Translation :: get('MailsSent') : Translation :: get('MailsNotSent')), ($success ? false : true), array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME));
         }
         else
@@ -49,18 +49,18 @@ class LaikaManagerMailerComponent extends LaikaManagerComponent
     {
         $selected_ids = $_GET[LaikaManager :: PARAM_RECIPIENTS];
         $recipients = array();
-        
+
         if (isset($selected_ids))
         {
             if (! is_array($selected_ids))
             {
                 $selected_ids = array($selected_ids);
             }
-            
+
             $udm = UserDataManager :: get_instance();
-            $condition = new InCondition(User :: PROPERTY_USER_ID, $selected_ids);
+            $condition = new InCondition(User :: PROPERTY_ID, $selected_ids);
             $users = $udm->retrieve_users($condition);
-            
+
             while ($user = $users->next_result())
             {
                 $recipient = array();
@@ -71,7 +71,7 @@ class LaikaManagerMailerComponent extends LaikaManagerComponent
                 $recipients[$recipient['id']] = $recipient;
             }
         }
-        
+
         return $recipients;
     }
 }
