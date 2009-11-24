@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="external_export_sync_infos">
+<object name="external_export_sync_info">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
 		<property name="content_object_id" type="integer" unsigned="1" notnull="1" />
+		<property name="external_repository_id" type="integer" unsigned="1" notnull="1" />
 		<property name="utc_synchronized" type="timestamp" />
 		<property name="created" type="timestamp" />
 		<property name="modified" type="timestamp" />

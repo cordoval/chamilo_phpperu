@@ -155,7 +155,7 @@ class FedoraExternalExporter extends RestExternalExporter
         	             */
         	            if(!$this->save_lom_datastream($content_object))
         	            {
-            	            throw new Exception('The object LOM metadata could not be updated in Fedora');
+        	                throw new Exception('The object LOM metadata could not be updated in Fedora');
         	            }
     	            }
     	            else
@@ -180,14 +180,20 @@ class FedoraExternalExporter extends RestExternalExporter
         	    /**************
 	             * CREATE or UPDATE the learning object datastream in Fedora
 	             */
-	            if($this->save_content_object_datastream($content_object))
-	            {
-	                return true;
-	            }
-	            else
+	            if(!$this->save_content_object_datastream($content_object))
 	            {
 	                throw new Exception('The object content datastream could not be saved in Fedora');
 	            }
+	            
+	            /**************
+	             * Get the last modif date of the Fedora object to store it in Chamilo for future comparison 
+	             */
+	            if(!$this->store_last_repository_update_datetime($content_object))
+	            {
+	                throw new Exception('The last modification date could not be stored in Chamilo');
+	            }
+	            
+	            return true;
 	        }
 	        else
 	        {	            
@@ -221,7 +227,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	    $response_document = $this->get_rest_xml_response($search_path, 'get');
 	    if(isset($response_document))
 	    {
-	        DebugUtilities :: show($response_document);
+	        //DebugUtilities :: show($response_document);
 	        
 	        /*
 	         * Check in the XML if the object exists
@@ -231,7 +237,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	        
     	    $node_list = $xpath->query('/fedora:result/fedora:resultList/fedora:objectFields/fedora:pid');
     	    
-    	    DebugUtilities :: show($node_list);
+    	    //DebugUtilities :: show($node_list);
     	    
     	    if($node_list->length > 0 && $node_list->item(0)->nodeValue == $object_id)
     	    {
@@ -695,6 +701,82 @@ class FedoraExternalExporter extends RestExternalExporter
 	    else
 	    {
 	        throw new Exception('A new uid could not be retrieved from the Fedora repository');
+	    }
+	}
+	
+	/**
+	 * Get the object modification date from Fedora, and store it in the Chamilo datasource
+	 * 
+	 * @param $content_object ContentObject
+	 * @return boolean
+	 */
+	public function store_last_repository_update_datetime($content_object)
+	{
+	    $object_id = $this->get_existing_repository_uid($content_object);
+	    
+	    $search_path = $this->get_full_find_object_rest_path();
+	    
+	    $search_path = str_replace('{pid}', $object_id, $search_path);
+	    $response_document = $this->get_rest_xml_response($search_path, 'get');
+	    if(isset($response_document))
+	    {
+	        //DebugUtilities :: show($response_document);
+	        
+	        /*
+	         * Check in the XML if the object exists
+	         */
+	        $xpath = new DOMXPath($response_document);
+	        $xpath->registerNamespace('fedora', 'http://www.fedora.info/definitions/1/0/types/');
+	        
+    	    $node_list = $xpath->query('/fedora:result/fedora:resultList/fedora:objectFields/fedora:pid');
+    	    
+    	    //DebugUtilities :: show($node_list);
+    	    
+    	    if($node_list->length > 0 && $node_list->item(0)->nodeValue == $object_id)
+    	    {
+    	        $node_list = $xpath->query('/fedora:result/fedora:resultList/fedora:objectFields/fedora:mDate');
+    	        if($node_list->length > 0)
+    	        {
+    	            $fedora_mDate = $node_list->item(0)->nodeValue;
+    	            
+    	            $eesi = ExternalExportSyncInfo :: get_by_content_object_id($content_object->get_id());
+    	            
+    	            if(!isset($eesi))
+    	            {
+    	                $eesi = new ExternalExportSyncInfo();
+    	                $eesi->set_content_object_id($content_object->get_id());
+    	                
+    	                $external_export = $this->get_external_export();
+    	                $eesi->set_external_repository_id($external_export->get_id());
+    	            }
+    	            
+    	            /*
+    	             * We store the UTC datetime -> remove the final 'Z' to get a GMT timestamp with strtotime()
+    	             */
+    	            if(StringUtilities :: end_with($fedora_mDate, 'z', false))
+    	            {
+    	                $fedora_mDate = substr($fedora_mDate, 0, strlen($fedora_mDate) - 1);
+    	            }
+    	            
+    	            $eesi->set_utc_synchronized(date('Y-m-d H:i:s', strtotime($fedora_mDate)));
+    	            
+    	            $eesi->save();
+    	            
+    	            return true;
+    	        }
+    	        else
+    	        {
+    	            throw new Exception('The last modification date could not be stored in Chamilo because Fedora did not return any datetime value');
+    	        }
+    	    }
+	        else
+	        {
+        	    throw new Exception('The last modification date could not be stored in Chamilo because the object does not exist in the Fedora Repository');
+	        }
+	    }
+	    else
+	    {
+	        throw new Exception('Unable to check if the object already exists in Fedora');
 	    }
 	}
 	

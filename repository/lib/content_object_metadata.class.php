@@ -115,13 +115,6 @@ class ContentObjectMetadata extends RepositoryDataClass
     {
         $dm = RepositoryDataManager :: get_instance();
         
-        //$id = $this->get_id();
-        //if(!isset($id) || $id == parent :: NO_UID)
-        if (! $this->is_identified())
-        {
-            $this->set_id($dm->get_next_content_object_metadata_id());
-        }
-        
         $this->set_creation_date(time());
         
         return $dm->create_content_object_metadata($this);

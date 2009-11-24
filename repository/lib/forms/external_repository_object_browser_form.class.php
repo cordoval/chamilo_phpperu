@@ -66,7 +66,18 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
             
             if(isset($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_MODIFICATION_DATE]))
             {
-                $table .= $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_MODIFICATION_DATE];
+                $utc_datetime = $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_MODIFICATION_DATE];
+                
+                $table .= 'Fedora time to store: ' . $utc_datetime;
+                $table .= '<br/>';
+                
+                $table .= 'Time to show to the user: ' . date('Y-m-d H:i:s', strtotime($utc_datetime));
+                $table .= '<br/>';
+                
+                $utc_datetime = substr($utc_datetime, 0, strlen($utc_datetime) - 1);
+                $table .= 'UTC time to store: ' . date('Y-m-d H:i:s', strtotime($utc_datetime));
+                
+                
             }
             
             $table .= '</td>';

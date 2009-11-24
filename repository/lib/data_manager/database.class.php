@@ -1447,5 +1447,70 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
         return $this->database->retrieve_object_set($query, $table_name, $condition, $offset, $max_objects, $order_by);
     }
+    
+    function create_external_export_sync_info($external_export_sync_info)
+    {
+        $created = $external_export_sync_info->get_creation_date();
+        if (is_numeric($created))
+        {
+            $external_export_sync_info->set_creation_date(self :: to_db_date($external_export_sync_info->get_creation_date()));
+        }
+        
+        return $this->database->create($external_export_sync_info);
+    }
+
+    function update_external_export_sync_info($external_export_sync_info)
+    {
+        $condition = new EqualityCondition(ExternalExportSyncInfo :: PROPERTY_ID, $external_export_sync_info->get_id());
+
+        $date = $external_export_sync_info->get_modification_date();
+        if (is_numeric($date))
+        {
+            $external_export_sync_info->set_modification_date(self :: to_db_date($external_export_sync_info->get_modification_date()));
+        }
+
+        return $this->database->update($external_export_sync_info, $condition);
+    }
+
+    function delete_external_export_sync_info($external_export_sync_info)
+    {
+        $condition = new EqualityCondition(ExternalExportSyncInfo :: PROPERTY_ID, $external_export_sync_info->get_id());
+        return $this->database->delete($external_export_sync_info->get_table_name(), $condition);
+    }
+    
+    function retrieve_external_export_sync_info($conditions)
+    {
+        $record = $this->database->retrieve_record(ExternalExportSyncInfo :: get_table_name(), $conditions);
+
+        return self :: record_to_object($record, 'ExternalExportSyncInfo');
+    }
+    
+    function record_to_object($record, $object_class_name)
+    {
+        //DebugUtilities::show($record);
+        
+        if($record !== false)
+        {
+            //$object = new $object_class_name;
+            
+            $properties = call_user_func(array($object_class_name, 'get_default_property_names'));
+            
+            $default_properties = array();
+            
+            foreach ($properties as $property)
+            {
+                if(array_key_exists($property, $record))
+                {
+                    $default_properties[$property] = $record[$property];
+                }
+            }
+            
+            return new $object_class_name($default_properties);
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
 ?>
