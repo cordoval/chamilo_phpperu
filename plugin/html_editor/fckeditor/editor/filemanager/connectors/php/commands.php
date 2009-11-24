@@ -30,15 +30,17 @@ function GetFolders( $resourceType, $currentFolder )
 	// Array that will hold the folders names.
 	$aFolders	= array() ;
 
-	$oCurrentFolder = opendir( $sServerDir ) ;
+	$oCurrentFolder = @opendir( $sServerDir ) ;
 
-	while ( $sFile = readdir( $oCurrentFolder ) )
+	if ($oCurrentFolder !== false)
 	{
-		if ( $sFile != '.' && $sFile != '..' && is_dir( $sServerDir . $sFile ) )
-			$aFolders[] = '<Folder name="' . ConvertToXmlAttribute( $sFile ) . '" />' ;
+		while ( $sFile = readdir( $oCurrentFolder ) )
+		{
+			if ( $sFile != '.' && $sFile != '..' && is_dir( $sServerDir . $sFile ) )
+				$aFolders[] = '<Folder name="' . ConvertToXmlAttribute( $sFile ) . '" />' ;
+		}
+		closedir( $oCurrentFolder ) ;
 	}
-
-	closedir( $oCurrentFolder ) ;
 
 	// Open the "Folders" node.
 	echo "<Folders>" ;
@@ -60,29 +62,34 @@ function GetFoldersAndFiles( $resourceType, $currentFolder )
 	$aFolders	= array() ;
 	$aFiles		= array() ;
 
-	$oCurrentFolder = opendir( $sServerDir ) ;
+	$oCurrentFolder = @opendir( $sServerDir ) ;
 
-	while ( $sFile = readdir( $oCurrentFolder ) )
+	if ($oCurrentFolder !== false)
 	{
-		if ( $sFile != '.' && $sFile != '..' )
+		while ( $sFile = readdir( $oCurrentFolder ) )
 		{
-			if ( is_dir( $sServerDir . $sFile ) )
-				$aFolders[] = '<Folder name="' . ConvertToXmlAttribute( $sFile ) . '" />' ;
-			else
+			if ( $sFile != '.' && $sFile != '..' )
 			{
-				$iFileSize = @filesize( $sServerDir . $sFile ) ;
-				if ( !$iFileSize ) {
-					$iFileSize = 0 ;
-				}
-				if ( $iFileSize > 0 )
+				if ( is_dir( $sServerDir . $sFile ) )
+					$aFolders[] = '<Folder name="' . ConvertToXmlAttribute( $sFile ) . '" />' ;
+				else
 				{
-					$iFileSize = round( $iFileSize / 1024 ) ;
-					if ( $iFileSize < 1 ) $iFileSize = 1 ;
-				}
+					$iFileSize = @filesize( $sServerDir . $sFile ) ;
+					if ( !$iFileSize ) {
+						$iFileSize = 0 ;
+					}
+					if ( $iFileSize > 0 )
+					{
+						$iFileSize = round( $iFileSize / 1024 ) ;
+						if ( $iFileSize < 1 )
+							$iFileSize = 1 ;
+					}
 
-				$aFiles[] = '<File name="' . ConvertToXmlAttribute( $sFile ) . '" size="' . $iFileSize . '" />' ;
+					$aFiles[] = '<File name="' . ConvertToXmlAttribute( $sFile ) . '" size="' . $iFileSize . '" />' ;
+				}
 			}
 		}
+		closedir( $oCurrentFolder ) ;
 	}
 
 	// Send the folders
@@ -152,7 +159,7 @@ function CreateFolder( $resourceType, $currentFolder )
 		$sErrorNumber = '102' ;
 
 	// Create the "Error" node.
-	echo '<Error number="' . $sErrorNumber . '" originalDescription="' . ConvertToXmlAttribute( $sErrorMsg ) . '" />' ;
+	echo '<Error number="' . $sErrorNumber . '" />' ;
 }
 
 function FileUpload( $resourceType, $currentFolder, $sCommand )
@@ -241,8 +248,6 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 				}
 			}
 
-				
-			
 			if ( file_exists( $sFilePath ) )
 			{
 				//previous checks failed, try once again
@@ -256,35 +261,6 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 					@unlink( $sFilePath ) ;
 					$sErrorNumber = '202' ;
 				}
-				else
-				{	
-					require_once(dirname(__FILE__).'/../../../../../../../common/global.inc.php');
-					require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
-					
-					$user = Session :: get_user_id();
-					$document = new Document();
-					
-					$filename = basename($sFilePath);
-					$hash = md5($filename);
-		
-					$path = $user . '/' . Text :: char_at($hash, 0);
-					$full_path =  Path :: get(SYS_REPO_PATH) . $path;
-					Filesystem :: create_dir($full_path);
-					$hash = Filesystem::create_unique_name($full_path, $hash);
-					$path .= '/' . $hash;
-					
-					Filesystem :: move_file($sFilePath, $full_path . '/' . $hash);
-					
-					$document->set_filename($filename);
-					$document->set_path($path);
-					$document->set_filesize(filesize($full_path . '/' . $hash));
-					$document->set_title($filename);
-					$document->set_description($filename);
-					$document->set_parent_id(0);
-					$document->set_owner_id($user);
-					$document->set_hash($hash);
-					$document->create();
-				}
 			}
 		}
 		else
@@ -293,10 +269,9 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 	else
 		$sErrorNumber = '202' ;
 
-	/*$sFileUrl = CombinePaths( GetResourceTypePath( $resourceType, $sCommand ) , $currentFolder ) ;
-	$sFileUrl = CombinePaths( $sFileUrl, $sFileName ) ;*/
-		
-	$sFileUrl = Path :: get(WEB_REPO_PATH) . $path;
+
+	$sFileUrl = CombinePaths( GetResourceTypePath( $resourceType, $sCommand ) , $currentFolder ) ;
+	$sFileUrl = CombinePaths( $sFileUrl, $sFileName ) ;
 
 	SendUploadResults( $sErrorNumber, $sFileUrl, $sFileName ) ;
 

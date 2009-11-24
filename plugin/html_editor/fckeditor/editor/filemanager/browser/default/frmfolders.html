@@ -34,7 +34,6 @@ var sActiveFolder ;
 
 var bIsLoaded = false ;
 var iIntervalId ;
-var sParentId = 0;
 
 var oListManager = new Object() ;
 
@@ -56,14 +55,14 @@ oListManager.Clear = function()
 	this.TableRows = new Object() ;
 }
 
-oListManager.AddItem = function( folderName, folderPath, folderId )
+oListManager.AddItem = function( folderName, folderPath )
 {
 	// Create the new row.
 	var oRow = this.Table.insertRow(-1) ;
 	oRow.className = 'FolderListFolder' ;
 
 	// Build the link to view the folder.
-	var sLink = '<a href="#" onclick="LoadFolders(\'' + folderPath + '\', \'' + folderId + '\');return false;">' ;
+	var sLink = '<a href="#" onclick="OpenFolder(\'' + folderPath + '\');return false;">' ;
 
 	// Add the folder icon cell.
 	var oCell = oRow.insertCell(-1) ;
@@ -86,7 +85,7 @@ oListManager.ShowUpFolder = function( upFolderPath )
 	{
 		document.getElementById('linkUpIcon').onclick = document.getElementById('linkUp').onclick = function()
 		{
-			LoadFolders( upFolderPath , sParentId) ;
+			LoadFolders( upFolderPath ) ;
 			return false ;
 		}
 	}
@@ -101,22 +100,41 @@ function CheckLoaded()
 	{
 		window.clearInterval( iIntervalId ) ;
 		bIsLoaded = true ;
-		LoadFolders( sActiveFolder, oConnector.CurrentCategoryId ) ;
+		OpenFolder( sActiveFolder ) ;
 	}
 }
 
 function OpenFolder( folderPath )
 {
+	sActiveFolder = folderPath ;
+
+	if ( ! bIsLoaded )
+	{
+		if ( ! iIntervalId )
+			iIntervalId = window.setInterval( CheckLoaded, 100 ) ;
+		return ;
+	}
+
+	// Change the style for the select row (to show the opened folder).
+	for ( var sFolderPath in oListManager.TableRows )
+	{
+		oListManager.TableRows[ sFolderPath ].className =
+			( sFolderPath == folderPath ? 'FolderListCurrentFolder' : 'FolderListFolder' ) ;
+	}
+
+	// Set the current folder in all frames.
+	window.parent.frames['frmActualFolder'].SetCurrentFolder( oConnector.ResourceType, folderPath ) ;
+	window.parent.frames['frmCreateFolder'].SetCurrentFolder( oConnector.ResourceType, folderPath ) ;
+	window.parent.frames['frmUpload'].SetCurrentFolder( oConnector.ResourceType, folderPath ) ;
+
 	// Load the resources list for this folder.
 	window.parent.frames['frmResourcesList'].LoadResources( oConnector.ResourceType, folderPath ) ;
 }
 
-function LoadFolders( folderPath, folderId  )
+function LoadFolders( folderPath )
 {
 	// Clear the folders list.
 	oListManager.Clear() ;
-
-	oConnector.CurrentCategoryId = folderId;
 
 	// Get the parent folder path.
 	var sParentFolderPath ;
@@ -128,16 +146,12 @@ function LoadFolders( folderPath, folderId  )
 
 	if ( folderPath != '/' )
 	{
+		sActiveFolder = folderPath ;
 		oConnector.CurrentFolder = sParentFolderPath ;
+		oConnector.SendCommand( 'GetFolders', null, GetFoldersCallBack ) ;
 	}
-
-	sActiveFolder = folderPath ;
-	
-	window.parent.frames['frmActualFolder'].SetCurrentFolder( oConnector.ResourceType, folderPath ) ;
-	window.parent.frames['frmCreateFolder'].SetCurrentFolder( oConnector.ResourceType, folderPath ) ;
-	window.parent.frames['frmUpload'].SetCurrentFolder( oConnector.ResourceType, folderPath ) ;
-	
-	oConnector.SendCommand( 'GetFolders', null, GetFoldersCallBack ) ;
+	else
+		OpenFolder( '/' ) ;
 }
 
 function GetFoldersCallBack( fckXml )
@@ -149,31 +163,27 @@ function GetFoldersCallBack( fckXml )
 	var oNode = fckXml.SelectSingleNode( 'Connector/CurrentFolder' ) ;
 	var sCurrentFolderPath = oNode.attributes.getNamedItem('path').value ;
 
-	var oNode = fckXml.SelectSingleNode( 'Connector/Parent' ) ;
-	sParentId = oNode.attributes.getNamedItem('id').value ;
-
 	var oNodes = fckXml.SelectNodes( 'Connector/Folders/Folder' ) ;
 
 	for ( var i = 0 ; i < oNodes.length ; i++ )
 	{
 		var sFolderName = oNodes[i].attributes.getNamedItem('name').value ;
-		var sFolderId = oNodes[i].attributes.getNamedItem('id').value ;
-		oListManager.AddItem( sFolderName, sCurrentFolderPath + sFolderName + '/' , sFolderId) ;
+		oListManager.AddItem( sFolderName, sCurrentFolderPath + sFolderName + '/' ) ;
 	}
 
-	OpenFolder( sActiveFolder, oConnector.CurrentCategoryId ) ;
+	OpenFolder( sActiveFolder ) ;
 }
 
 function SetResourceType( type )
 {
 	oConnector.ResourceType = type ;
-	LoadFolders( '/') ;
+	LoadFolders( '/' ) ;
 }
 
 window.onload = function()
 {
 	oListManager.Init() ;
-	LoadFolders( '/') ;
+	LoadFolders( '/' ) ;
 }
 		</script>
 	</head>

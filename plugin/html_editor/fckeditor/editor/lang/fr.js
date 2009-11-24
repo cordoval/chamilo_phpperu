@@ -308,11 +308,11 @@ DlgTableCellSpace	: "Espacement",
 DlgTableCellPad		: "Contour",
 DlgTableCaption		: "Titre",
 DlgTableSummary		: "Résumé",
-DlgTableHeaders		: "Headers",	//MISSING
-DlgTableHeadersNone		: "None",	//MISSING
-DlgTableHeadersColumn	: "First column",	//MISSING
-DlgTableHeadersRow		: "First Row",	//MISSING
-DlgTableHeadersBoth		: "Both",	//MISSING
+DlgTableHeaders		: "Entêtes",
+DlgTableHeadersNone		: "Sans",
+DlgTableHeadersColumn	: "Première colonne",
+DlgTableHeadersRow		: "Première Ligne",
+DlgTableHeadersBoth		: "Les 2",
 
 // Table Cell Dialog
 DlgCellTitle		: "Propriétés de la cellule",
@@ -335,9 +335,9 @@ DlgCellVerAlignTop	: "Haut",
 DlgCellVerAlignMiddle	: "Milieu",
 DlgCellVerAlignBottom	: "Bas",
 DlgCellVerAlignBaseline	: "Bas du texte",
-DlgCellType		: "Cell Type",	//MISSING
-DlgCellTypeData		: "Data",	//MISSING
-DlgCellTypeHeader	: "Header",	//MISSING
+DlgCellType		: "Type de Cellule",
+DlgCellTypeData		: "Données",
+DlgCellTypeHeader	: "Entête",
 DlgCellRowSpan		: "Lignes fusionnées",
 DlgCellCollSpan		: "Colonnes fusionnées",
 DlgCellBackColor	: "Fond",
@@ -530,5 +530,10 @@ DlgAboutInfo		: "Pour plus d'informations, aller à",
 DlgDivGeneralTab	: "Général",
 DlgDivAdvancedTab	: "Avancé",
 DlgDivStyle		: "Style",
-DlgDivInlineStyle	: "Attribut Style"
+DlgDivInlineStyle	: "Attribut Style",
+
+ScaytTitle			: "SCAYT",	//MISSING
+ScaytTitleOptions	: "Options",	//MISSING
+ScaytTitleLangs		: "Languages",	//MISSING
+ScaytTitleAbout		: "About"	//MISSING
 };

@@ -43,10 +43,10 @@ function ProtectPath(path)
 	return path ;
 }
 
-oListManager.GetFolderRowHtml = function( folderName, folderPath, folderId )
+oListManager.GetFolderRowHtml = function( folderName, folderPath )
 {
 	// Build the link to view the folder.
-	var sLink = '<a href="#" onclick="OpenFolder(\'' + ProtectPath( folderPath ) + '\', \'' + folderId + '\');return false;">' ;
+	var sLink = '<a href="#" onclick="OpenFolder(\'' + ProtectPath( folderPath ) + '\');return false;">' ;
 
 	return '<tr>' +
 			'<td width="16">' +
@@ -81,16 +81,15 @@ oListManager.GetFileRowHtml = function( fileName, fileUrl, fileSize )
 		'<\/td><\/tr>' ;
 }
 
-function OpenFolder( folderPath, folderId )
+function OpenFolder( folderPath )
 {
 	// Load the resources list for this folder.
-	oConnector.CurrentCategoryId = folderId; 
 	window.parent.frames['frmFolders'].LoadFolders( folderPath ) ;
 }
 
 function OpenFile( fileUrl )
 {
-	window.top.opener.SetUrl( encodeURI( fileUrl ).replace( '#', '%23' ) ) ;
+	window.top.opener.SetUrl( fileUrl ) ;
 	window.top.close() ;
 	window.top.opener.focus() ;
 }
@@ -133,9 +132,7 @@ function GetFoldersAndFilesCallBack( fckXml )
 	for ( var i = 0 ; i < oNodes.length ; i++ )
 	{
 		var sFolderName = oNodes[i].attributes.getNamedItem('name').value ;
-		var sFolderId = oNodes[i].attributes.getNamedItem('id').value ;
-		
-		oHtml.Append( oListManager.GetFolderRowHtml( sFolderName, sCurrentFolderPath + sFolderName + "/" , sFolderId) ) ;
+		oHtml.Append( oListManager.GetFolderRowHtml( sFolderName, sCurrentFolderPath + sFolderName + "/" ) ) ;
 	}
 
 	// Add the Files.
@@ -148,7 +145,7 @@ function GetFoldersAndFilesCallBack( fckXml )
 
 		// Get the optional "url" attribute. If not available, build the url.
 		var oFileUrlAtt = oNodes[j].attributes.getNamedItem('url') ;
-		var sFileUrl = oFileUrlAtt != null ? oFileUrlAtt.value : sCurrentFolderUrl + sFileName ;
+		var sFileUrl = oFileUrlAtt != null ? oFileUrlAtt.value : encodeURI( sCurrentFolderUrl + sFileName ).replace( /#/g, '%23' ) ;
 
 		oHtml.Append( oListManager.GetFileRowHtml( sFileName, sFileUrl, sFileSize ) ) ;
 	}
