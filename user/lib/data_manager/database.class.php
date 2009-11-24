@@ -184,7 +184,7 @@ class DatabaseUserDataManager extends UserDataManager
 	function retrieve_version_type_quota($user, $type)
 	{
 		$conditions = array();
-		$conditions[] = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
+		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_USER_ID, $user->get_id());
 		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_CONTENT_OBJECT_TYPE, $type);
 		$condition = new AndCondition($conditions);
 

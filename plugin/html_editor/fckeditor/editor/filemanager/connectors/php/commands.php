@@ -261,7 +261,38 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 					@unlink( $sFilePath ) ;
 					$sErrorNumber = '202' ;
 				}
+				else
+				{
+					require_once(dirname(__FILE__).'/../../../../../../../common/global.inc.php');
+					require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
+
+					$user = Session :: get_user_id();
+					$document = new Document();
+
+					$filename = basename($sFilePath);
+					$hash = md5($filename);
+
+					$path = $user . '/' . Text :: char_at($hash, 0);
+					$full_path =  Path :: get(SYS_REPO_PATH) . $path;
+					Filesystem :: create_dir($full_path);
+					$hash = Filesystem::create_unique_name($full_path, $hash);
+					$path .= '/' . $hash;
+
+					Filesystem :: move_file($sFilePath, $full_path . '/' . $hash);
+
+					$document->set_filename($filename);
+					$document->set_path($path);
+					$document->set_filesize(filesize($full_path . '/' . $hash));
+					$document->set_title($filename);
+					$document->set_description($filename);
+					$document->set_parent_id(0);
+					$document->set_owner_id($user);
+					$document->set_hash($hash);
+					$document->create();
+				}
+
 			}
+
 		}
 		else
 			$sErrorNumber = '202' ;
@@ -272,6 +303,7 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 
 	$sFileUrl = CombinePaths( GetResourceTypePath( $resourceType, $sCommand ) , $currentFolder ) ;
 	$sFileUrl = CombinePaths( $sFileUrl, $sFileName ) ;
+	$sFileUrl = Path :: get(WEB_REPO_PATH) . $path;
 
 	SendUploadResults( $sErrorNumber, $sFileUrl, $sFileName ) ;
 

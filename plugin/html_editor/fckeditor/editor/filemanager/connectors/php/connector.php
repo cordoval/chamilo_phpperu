@@ -30,6 +30,7 @@ require('./io.php') ;
 require('./basexml.php') ;
 require('./commands.php') ;
 require('./phpcompat.php') ;
+require_once(dirname(__FILE__) . '/repository_connector.php');
 
 if ( !$Config['Enabled'] )
 	SendError( 1, 'This connector is disabled. Please check the "editor/filemanager/connectors/php/config.php" file' ) ;
@@ -70,10 +71,12 @@ function DoResponse()
 	switch ( $sCommand )
 	{
 		case 'GetFolders' :
-			GetFolders( $sResourceType, $sCurrentFolder ) ;
+			//GetFolders( $sResourceType, $sCurrentFolder ) ;
+			GetRepositoryCategories();
 			break ;
 		case 'GetFoldersAndFiles' :
-			GetFoldersAndFiles( $sResourceType, $sCurrentFolder ) ;
+			//GetFoldersAndFiles( $sResourceType, $sCurrentFolder ) ;
+			GetRepositoryCategoriesAndDocuments($sResourceType);
 			break ;
 		case 'CreateFolder' :
 			CreateFolder( $sResourceType, $sCurrentFolder ) ;
