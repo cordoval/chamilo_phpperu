@@ -909,11 +909,6 @@ abstract class RepositoryDataManager
 
     abstract function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
-    abstract function get_next_content_object_metadata_id();
-
-    //abstract function retrieve_content_object_metadata_catalog($condition = null, $offset = null, $max_objects = null, $order_by = null);
-
-
     abstract function retrieve_external_export($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
     abstract function retrieve_external_export_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null);

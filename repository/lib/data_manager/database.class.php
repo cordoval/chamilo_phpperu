@@ -1344,16 +1344,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         return $this->database->retrieve_objects(ContentObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
-    function get_next_content_object_metadata_id()
-    {
-        return $this->database->get_connection()->nextID($this->database->get_table_name(ContentObjectMetadata :: get_table_name()));
-    }
-
-    function get_next_content_object_metadata_catalog_id()
-    {
-        return $this->database->get_connection()->nextID($this->database->get_table_name(ContentObjectMetadataCatalog :: get_table_name()));
-    }
-
     function create_content_object_metadata_catalog($content_object_metadata_catalog)
     {
         $created = $content_object_metadata_catalog->get_creation_date();

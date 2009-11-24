@@ -33,7 +33,6 @@ class User extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_LASTNAME = 'lastname';
     const PROPERTY_FIRSTNAME = 'firstname';
     const PROPERTY_USERNAME = 'username';
@@ -63,20 +62,13 @@ class User extends DataClass
     const NAME_FORMAT_FIRST = 0;
     const NAME_FORMAT_LAST = 1;
 
-    /**#@-*/
-
-    /**
-     * Numeric identifier of the user object.
-     */
-    private $user_id;
-
     /**
      * Get the default properties of all users.
      * @return array The property names.
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_TIMEZONE);
+        return parent :: get_default_property_names(array(self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_TIMEZONE));
     }
 
     /**
@@ -85,15 +77,6 @@ class User extends DataClass
     function get_data_manager()
     {
         return UserDataManager :: get_instance();
-    }
-
-    /**
-     * Returns the user_id of this user.
-     * @return int The user_id.
-     */
-    function get_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
 
     /**
@@ -303,15 +286,6 @@ class User extends DataClass
     function get_active()
     {
         return $this->get_default_property(self :: PROPERTY_ACTIVE);
-    }
-
-    /**
-     * Sets the user_id of this user.
-     * @param int $user_id The user_id.
-     */
-    function set_id($user_id)
-    {
-        $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
     }
 
     /**

@@ -11,12 +11,12 @@
 abstract class MainTracker
 {
     const PROPERTY_ID = 'id';
-    
+
     /**
      * The table where the tracker should write to
      */
     private $table;
-    
+
     /**
      * The properties of the tracker
      */
@@ -38,8 +38,6 @@ abstract class MainTracker
     function create($exclude_id = false)
     {
         $trkdmg = TrackingDataManager :: get_instance();
-        if (! $exclude_id)
-            $this->set_id($trkdmg->get_next_id($this->table));
         return $trkdmg->create_tracker_item($this->table, $this);
     }
 
@@ -200,19 +198,19 @@ abstract class MainTracker
     {
         $db_start_date = $this->to_db_date($start_date);
         $db_end_date = $this->to_db_date($end_date);
-        
+
         $conditions = array();
-        
+
         if ($start_date)
             $conditions[] = new InEqualityCondition('date', InEqualityCondition :: GREATER_THAN_OR_EQUAL, $db_start_date);
         if ($end_date)
             $conditions[] = new InEqualityCondition('date', InEqualityCondition :: LESS_THAN_OR_EQUAL, $db_end_date);
-        
+
         $conditions2 = array_merge($optional_conditions, $conditions);
-        
+
         if ($conditions2)
             $condition = new AndCondition($conditions2);
-        
+
         return $this->retrieve_tracker_items($condition);
     }
 
