@@ -37,6 +37,19 @@ class PlatformAuthentication extends Authentication
     {
         return true;
     }
+    
+    /**
+     * We're changing a local password, so just set the user's new
+     * password and it will be updated automatically when the form
+     * is processed.
+     * 
+     * @see Authentication :: change_password()
+     */
+    function change_password($user, $old_password, $new_password)
+    {
+    	$user->set_password($new_password);
+    	return true;
+    }
 
     public function is_username_changeable()
     {

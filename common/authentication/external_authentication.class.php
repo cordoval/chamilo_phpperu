@@ -660,5 +660,16 @@ abstract class ExternalAuthentication extends Authentication
     {
         return false;
     }
+    
+    /**
+     * Always returns false as the user's password
+     * is not stored in the Chamilo datasource.
+     *
+     * @return bool false
+     */
+    function change_password($user, $old_password, $new_password)
+    {
+    	return false;
+    }
 }
 ?>
