@@ -47,8 +47,6 @@ abstract class AssessmentDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function get_next_assessment_publication_id();
-
     abstract function create_assessment_publication($assessment_publication);
 
     abstract function update_assessment_publication($assessment_publication);
@@ -60,8 +58,6 @@ abstract class AssessmentDataManager
     abstract function retrieve_assessment_publication($id);
 
     abstract function retrieve_assessment_publications($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function get_next_assessment_publication_category_id();
 
     abstract function create_assessment_publication_category($assessment_category);
 
@@ -76,8 +72,6 @@ abstract class AssessmentDataManager
     abstract function retrieve_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function select_next_assessment_publication_category_display_order($parent);
-
-    abstract function get_next_survey_invitation_id();
 
     abstract function create_survey_invitation($survey_invitation);
 

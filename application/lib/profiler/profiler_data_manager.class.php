@@ -5,7 +5,7 @@
  */
 abstract class ProfilerDataManager
 {
-    
+
     private static $instance;
 
     protected function ProfilerDataManager()
@@ -66,12 +66,6 @@ abstract class ProfilerDataManager
      * @return int
      */
     abstract function count_publication_attributes($user, $type = null, $condition = null);
-
-    /**
-     * Get the next available profile publication ID
-     * @return int
-     */
-    abstract function get_next_profile_publication_id();
 
     abstract function initialize();
 
@@ -142,8 +136,6 @@ abstract class ProfilerDataManager
      * storage unit
      */
     abstract function create_storage_unit($name, $properties, $indexes);
-
-    abstract function get_next_category_id();
 
     abstract function select_next_category_display_order($parent_category_id);
 

@@ -12,7 +12,7 @@ class WikiPubFeedback extends ContentObject
     const PROPERTY_WIKI_PUBLICATION_ID = 'wiki_publication_id';
     const PROPERTY_CLOI_ID = 'complex_id';
     const PROPERTY_FEEDBACK_ID = 'feedback_id';
-    
+
     /**
      * Default properties of the content_object_feedback object, stored in an associative
      * array.
@@ -102,9 +102,7 @@ class WikiPubFeedback extends ContentObject
     function create()
     {
         $wdm = WikiDataManager :: get_instance();
-        $id = $wdm->get_next_wiki_pub_feedback_id();
-        $this->set_id($id);
-        
+
         return $wdm->create_wiki_pub_feedback($this);
     }
 
@@ -116,7 +114,7 @@ class WikiPubFeedback extends ContentObject
         {
             return false;
         }
-        
+
         return true;
     }
 

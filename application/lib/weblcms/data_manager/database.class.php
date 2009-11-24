@@ -51,12 +51,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         return $this->database;
     }
-    
+
 	function quote($value)
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
@@ -119,38 +119,38 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->database->get_alias(ContentObjectPublication :: get_table_name());
-                
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . 
-                		 $this->database->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $pub_alias . 
-                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . 
-                		 ' ON ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $pub_alias) . '=' . 
+
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
+                		 $this->database->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $pub_alias .
+                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
+                		 ' ON ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $pub_alias) . '=' .
                 		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
-                
+
                 $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_PUBLISHER_ID, Session :: get_user_id());
                 $translator = new ConditionTranslator($this->database);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
                 foreach($order_properties as $order_property)
-                { 
+                {
                     if ($order_property->get_property() == 'application')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'location')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
                         $order[] = 'co.' . $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
-                    { 
+                    {
                         $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
-                
+
                 if(count($order) > 0)
                 	$query .= ' ORDER BY ' . implode(', ', $order);
             }
@@ -165,7 +165,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
         $this->database->set_limit($offset, $count);
 		$res = $this->query($query);
-		
+
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -291,16 +291,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function count_course_user_relations($condition = null)
     {
         return $this->database->count_objects(CourseUserRelation :: get_table_name(), $condition);
-    }
-
-    function get_next_content_object_publication_id()
-    {
-        return $this->database->get_next_id(ContentObjectPublication :: get_table_name());
-    }
-
-    function get_next_course_id()
-    {
-        return $this->database->get_next_id(Course :: get_table_name());
     }
 
     function create_content_object_publication_user($publication_user)
@@ -873,16 +863,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->create($course_user_category);
     }
 
-    function get_next_course_user_category_id()
-    {
-        return $this->database->get_connection()->nextID($this->database->get_table_name('course_user_category'));
-    }
-
-    function get_next_course_category_id()
-    {
-        return $this->database->get_connection()->nextID($this->database->get_table_name('course_category'));
-    }
-
     function delete_course_user_category($course_user_category)
     {
         $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category->get_id());
@@ -1242,11 +1222,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->create($course_group_user_relation);
     }
 
-    function get_next_course_group_id()
-    {
-        return $this->database->get_next_id(CourseGroup :: get_table_name());
-    }
-
     // Inherited
     function update_course_group($course_group)
     {
@@ -1481,16 +1456,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return DatabaseRepositoryDataManager :: to_db_date($date);
     }
 
-    function get_next_category_id()
-    {
-        return $this->database->get_next_id(CourseCategory :: get_table_name());
-    }
-
-    function get_next_course_module_id()
-    {
-        return $this->database->get_next_id(CourseModule :: get_table_name());
-    }
-
     function delete_category($category)
     {
         $condition = new EqualityCondition(CourseCategory :: PROPERTY_ID, $category->get_id());
@@ -1525,11 +1490,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return $this->database->retrieve_objects(CourseCategory :: get_table_name(), $condition, $offset, $count, $order_property);
-    }
-
-    function get_next_content_object_publication_category_id()
-    {
-        return $this->database->get_next_id(ContentObjectPublicationCategory :: get_table_name());
     }
 
     function delete_content_object_publication_category($content_object_publication_category)
@@ -1605,11 +1565,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->create($survey_invitation);
     }
 
-    function get_next_survey_invitation_id()
-    {
-        return $this->database->get_next_id(SurveyInvitation :: get_table_name());
-    }
-
     function delete_survey_invitation($survey_invitation)
     {
         $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
@@ -1621,11 +1576,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
         return $this->database->update($survey_invitation, $condition);
 
-    }
-
-    function get_next_course_section_id()
-    {
-        return $this->database->get_next_id(CourseSection :: get_table_name());
     }
 
     function delete_course_section($course_section)

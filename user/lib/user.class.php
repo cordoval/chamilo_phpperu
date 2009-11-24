@@ -32,7 +32,7 @@
 class User extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_LASTNAME = 'lastname';
     const PROPERTY_FIRSTNAME = 'firstname';
@@ -57,14 +57,14 @@ class User extends DataClass
     const PROPERTY_REGISTRATION_DATE = 'registration_date';
     const PROPERTY_ACTIVE = 'active';
     const PROPERTY_TIMEZONE = 'timezone';
-    
+
     const ACTION_CREATE_USER = 'create';
-    
+
     const NAME_FORMAT_FIRST = 0;
     const NAME_FORMAT_LAST = 1;
-    
+
     /**#@-*/
-    
+
     /**
      * Numeric identifier of the user object.
      */
@@ -121,7 +121,7 @@ class User extends DataClass
     function get_fullname()
     {
         $format = PlatformSetting :: get('fullname_format', 'user');
-        
+
         switch ($format)
         {
             case self :: NAME_FORMAT_FIRST :
@@ -163,9 +163,9 @@ class User extends DataClass
     }
 
     /**
-     * Returns the external authentication system unique id for this user 
+     * Returns the external authentication system unique id for this user
      * (useful for instance with : Shibboleth, OpenID, LDAP, ...)
-     * 
+     *
      * @return String The external unique id
      */
     function get_external_uid()
@@ -361,9 +361,9 @@ class User extends DataClass
     }
 
     /**
-     * Sets the external authentication system unique id for this user 
+     * Sets the external authentication system unique id for this user
      * (useful for instance with : Shibboleth, OpenID, LDAP, ...)
-     * 
+     *
      * @param String $external_uid the external unique id
      */
     function set_external_uid($external_uid)
@@ -563,12 +563,12 @@ class User extends DataClass
     {
     	return $this->get_default_property(self :: PROPERTY_TIMEZONE);
     }
-    
+
 	function set_timezone($timezone)
     {
     	$this->set_default_property(self :: PROPERTY_TIMEZONE, $timezone);
     }
-    
+
     /**
      * Sets the default theme for this user.
      * @param string $theme The theme.
@@ -623,15 +623,14 @@ class User extends DataClass
     function create()
     {
         $udm = UserDataManager :: get_instance();
-        $this->set_id($udm->get_next_user_id());
         $this->set_registration_date(time());
         $succes = $udm->create_user($this);
-        
+
         $version_quota = $this->get_version_quota() ? $this->get_version_quota() : 20;
-        
+
         $rdm = RepositoryDataManager :: get_instance();
         $types = $rdm->get_registered_types();
-        
+
         foreach ($types as $type)
         {
             $userquota = new UserQuota();
@@ -640,7 +639,7 @@ class User extends DataClass
             $userquota->set_user_id($this->get_id());
             $userquota->create();
         }
-        
+
         return $succes;
     }
 
@@ -652,16 +651,16 @@ class User extends DataClass
     function get_groups($only_retrieve_ids = false)
     {
         $gdm = GroupDataManager :: get_instance();
-        
+
         $user_groups = $gdm->retrieve_user_groups($this->get_id());
-        
+
         $group_ids = array();
         while ($user_group = $user_groups->next_result())
         {
             $group_ids[] = $user_group->get_group_id();
             $group = $gdm->retrieve_group($user_group->get_group_id());
             $subgroups = $group->get_parents(false);
-            
+
             while ($subgroup = $subgroups->next_result())
             {
                 $subgroup_id = $subgroup->get_id();
@@ -671,12 +670,12 @@ class User extends DataClass
                 }
             }
         }
-        
+
         if ($only_retrieve_ids)
         {
             return $group_ids;
         }
-        
+
         if (count($group_ids) > 0)
         {
             $condition = new InCondition(Group :: PROPERTY_ID, $group_ids);
@@ -698,7 +697,7 @@ class User extends DataClass
     {
         $udm = UserDataManager :: get_instance();
         $condition = new EqualityCondition(UserRightsTemplate :: PROPERTY_USER_ID, $this->get_id());
-        
+
         return $udm->retrieve_user_rights_templates($condition);
     }
 

@@ -7,16 +7,16 @@ class LaikaAnswer
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'answer';
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_ATTEMPT_ID = 'attempt_id';
     const PROPERTY_QUESTION_ID = 'question_id';
     const PROPERTY_ANSWER = 'answer';
-    
+
     // Extra property, not reflected in the database
     const PROPERTY_ANSWER_TEXT = 'answer_text';
-    
+
     private $defaultProperties;
 
     function __construct($defaultProperties = array ())
@@ -65,7 +65,7 @@ class LaikaAnswer
     /**
      * Method to check whether a certain name is a default property name
      * @param String $name
-     * @return 
+     * @return
      */
     static function is_default_property_name($name)
     {
@@ -84,8 +84,6 @@ class LaikaAnswer
     function create()
     {
         $ldm = LaikaDataManager :: get_instance();
-        $id = $ldm->get_next_laika_answer_id();
-        $this->set_id($id);
         return $ldm->create_laika_answer($this);
     }
 

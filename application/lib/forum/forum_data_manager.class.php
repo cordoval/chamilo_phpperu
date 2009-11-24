@@ -46,8 +46,6 @@ abstract class ForumDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function get_next_forum_publication_id();
-
     abstract function create_forum_publication($forum_publication);
 
     abstract function update_forum_publication($forum_publication);
@@ -61,8 +59,6 @@ abstract class ForumDataManager
     abstract function retrieve_forum_publications($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function move_forum_publication($publication, $places);
-
-    abstract function get_next_forum_publication_category_id();
 
     abstract function create_forum_publication_category($forum_publication);
 

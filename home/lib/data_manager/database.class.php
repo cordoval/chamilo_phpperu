@@ -23,7 +23,7 @@ class DatabaseHomeDataManager extends HomeDataManager
     const ALIAS_BLOCK_TABLE = 'b';
     const ALIAS_BLOCK_CONFIG_TABLE = 'bc';
     const ALIAS_MAX_SORT = 'max_sort';
-    
+
     /**
      * The database connection.
      */
@@ -39,12 +39,12 @@ class DatabaseHomeDataManager extends HomeDataManager
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
     }
-    
+
     function get_database()
     {
         return $this->database;
@@ -63,26 +63,6 @@ class DatabaseHomeDataManager extends HomeDataManager
     private static function is_home_block_column($name)
     {
         return HomeBlock :: is_default_property_name($name); //|| $name == User :: PROPERTY_TYPE || $name == User :: PROPERTY_DISPLAY_ORDER_INDEX || $name == User :: PROPERTY_USER_ID;
-    }
-
-    function get_next_home_row_id()
-    {
-        return $this->database->get_next_id(HomeRow :: get_table_name());
-    }
-
-    function get_next_home_tab_id()
-    {
-        return $this->database->get_next_id(HomeTab :: get_table_name());
-    }
-
-    function get_next_home_column_id()
-    {
-        return $this->database->get_next_id(HomeColumn :: get_table_name());
-    }
-
-    function get_next_home_block_id()
-    {
-        return $this->database->get_next_id(HomeBlock :: get_table_name());
     }
 
     function create_storage_unit($name, $properties, $indexes)
@@ -193,31 +173,31 @@ class DatabaseHomeDataManager extends HomeDataManager
     function truncate_home($user_id)
     {
         $failures = 0;
-        
+
         $condition = new EqualityCondition(HomeBlock :: PROPERTY_USER, $user_id);
         if (! $this->database->delete(HomeBlock :: get_table_name(), $condition))
         {
             $failures ++;
         }
-        
+
         $condition = new EqualityCondition(HomeColumn :: PROPERTY_USER, $user_id);
         if (! $this->database->delete(HomeColumn :: get_table_name(), $condition))
         {
             $failures ++;
         }
-        
+
         $condition = new EqualityCondition(HomeRow :: PROPERTY_USER, $user_id);
         if (! $this->database->delete(HomeRow :: get_table_name(), $condition))
         {
             $failures ++;
         }
-        
+
         $condition = new EqualityCondition(HomeTab :: PROPERTY_USER, $user_id);
         if (! $this->database->delete(HomeTab :: get_table_name(), $condition))
         {
             $failures ++;
         }
-        
+
         if ($failures == 0)
         {
             return true;
@@ -231,26 +211,26 @@ class DatabaseHomeDataManager extends HomeDataManager
     function update_home_block($home_block)
     {
         $old_home_block = $this->retrieve_home_block($home_block->get_id());
-        
+
         if ($old_home_block->get_column() !== $home_block->get_column())
         {
             $condition = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $home_block->get_column());
             $sort = $this->retrieve_max_sort_value(HomeBlock :: get_table_name(), HomeBlock :: PROPERTY_SORT, $condition);
             $home_block->set_sort($sort + 1);
         }
-        
+
         $condition = new EqualityCondition(HomeBlock :: PROPERTY_ID, $home_block->get_id());
         $this->database->update($home_block, $condition);
-        
+
         if ($old_home_block->get_column() !== $home_block->get_column())
         {
-            $query = 'UPDATE ' . $this->database->escape_table_name(HomeBlock :: get_table_name()) . ' SET ' . $this->database->escape_column_name(HomeBlock :: PROPERTY_SORT) . ' = ' . $this->database->escape_column_name(HomeBlock :: PROPERTY_SORT) . ' - 1 WHERE ' . 
-            		 $this->database->escape_column_name(HomeBlock :: PROPERTY_SORT) . ' > ' . $this->quote($old_home_block->get_sort()) . ' AND ' . 
+            $query = 'UPDATE ' . $this->database->escape_table_name(HomeBlock :: get_table_name()) . ' SET ' . $this->database->escape_column_name(HomeBlock :: PROPERTY_SORT) . ' = ' . $this->database->escape_column_name(HomeBlock :: PROPERTY_SORT) . ' - 1 WHERE ' .
+            		 $this->database->escape_column_name(HomeBlock :: PROPERTY_SORT) . ' > ' . $this->quote($old_home_block->get_sort()) . ' AND ' .
             		 $this->database->escape_column_name(HomeBlock :: PROPERTY_COLUMN) . ' = ' . $this->quote($old_home_block->get_column());
-            
+
         	$this->query($query);
         }
-        
+
         return true;
     }
 
@@ -260,62 +240,62 @@ class DatabaseHomeDataManager extends HomeDataManager
         $conditions[] = new EqualityCondition(HomeBlockConfig :: PROPERTY_BLOCK_ID, $home_block_config->get_block_id());
         $conditions[] = new EqualityCondition(HomeBlockConfig :: PROPERTY_VARIABLE, $home_block_config->get_variable());
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->update($home_block_config, $condition);
     }
 
     function update_home_row($home_row)
     {
         $old_home_row = $this->retrieve_home_row($home_row->get_id());
-        
+
         if ($old_home_row->get_tab() !== $home_row->get_tab())
         {
             $condition = new EqualityCondition(HomeRow :: PROPERTY_TAB, $home_row->get_tab());
             $sort = $this->retrieve_max_sort_value(HomeRow :: get_table_name(), HomeRow :: PROPERTY_SORT, $condition);
             $home_row->set_sort($sort + 1);
         }
-        
+
         $condition = new EqualityCondition(HomeRow :: PROPERTY_ID, $home_row->get_id());
         $this->database->update($home_row, $condition);
-        
+
         if ($old_home_row->get_tab() !== $home_row->get_tab())
         {
-            $query = 'UPDATE ' . $this->database->escape_table_name(HomeRow :: get_table_name()) . ' SET ' . 
-            		 $this->database->escape_column_name(HomeRow :: PROPERTY_SORT) . ' = ' . 
-            		 $this->database->escape_column_name(HomeRow :: PROPERTY_SORT) . ' - 1 WHERE ' . 
-            	     $this->database->escape_column_name(HomeRow :: PROPERTY_SORT) . ' > ' . $this->quote($old_home_row->get_sort()) . ' AND ' . 
+            $query = 'UPDATE ' . $this->database->escape_table_name(HomeRow :: get_table_name()) . ' SET ' .
+            		 $this->database->escape_column_name(HomeRow :: PROPERTY_SORT) . ' = ' .
+            		 $this->database->escape_column_name(HomeRow :: PROPERTY_SORT) . ' - 1 WHERE ' .
+            	     $this->database->escape_column_name(HomeRow :: PROPERTY_SORT) . ' > ' . $this->quote($old_home_row->get_sort()) . ' AND ' .
             	     $this->database->escape_column_name(HomeRow :: PROPERTY_TAB) . ' = ' . $this->quote($old_home_row->get_tab());
             $this->query($query);
         }
-        
+
         return true;
     }
 
     function update_home_column($home_column)
     {
         $old_home_column = $this->retrieve_home_column($home_column->get_id());
-        
+
         if ($old_home_column->get_row() !== $home_column->get_row())
         {
             $condition = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $home_column->get_row());
             $sort = $this->retrieve_max_sort_value(HomeColumn :: get_table_name(), HomeColumn :: PROPERTY_SORT, $condition);
             $home_column->set_sort($sort + 1);
         }
-        
+
         $condition = new EqualityCondition(HomeColumn :: PROPERTY_ID, $home_column->get_id());
         $this->database->update($home_column, $condition);
-        
+
         if ($old_home_column->get_row() !== $home_column->get_row())
         {
-            $query = 'UPDATE ' . $this->database->escape_table_name(HomeColumn :: get_table_name()) . ' SET ' . 
-             	     $this->database->escape_column_name(HomeColumn :: PROPERTY_SORT) . ' = ' . 
-             	     $this->database->escape_column_name(HomeColumn :: PROPERTY_SORT) . ' - 1 WHERE ' . 
-             	     $this->database->escape_column_name(HomeColumn :: PROPERTY_SORT) . ' > ' . $this->quote($old_home_column->get_sort()) . ' AND ' . 
+            $query = 'UPDATE ' . $this->database->escape_table_name(HomeColumn :: get_table_name()) . ' SET ' .
+             	     $this->database->escape_column_name(HomeColumn :: PROPERTY_SORT) . ' = ' .
+             	     $this->database->escape_column_name(HomeColumn :: PROPERTY_SORT) . ' - 1 WHERE ' .
+             	     $this->database->escape_column_name(HomeColumn :: PROPERTY_SORT) . ' > ' . $this->quote($old_home_column->get_sort()) . ' AND ' .
              	     $this->database->escape_column_name(HomeColumn :: PROPERTY_ROW) . ' = ' . $this->quote($old_home_column->get_row());
-            
+
             $this->query($query);
         }
-        
+
         return true;
     }
 
@@ -329,7 +309,7 @@ class DatabaseHomeDataManager extends HomeDataManager
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $parent);
-        
+
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(HomeBlock :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
@@ -340,9 +320,9 @@ class DatabaseHomeDataManager extends HomeDataManager
             $conditions[] = new InequalityCondition(HomeBlock :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
             $order_direction = SORT_ASC;
         }
-        
+
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->retrieve_object(HomeBlock :: get_table_name(), $condition, array(new ObjectTableOrder(HomeBlock :: PROPERTY_SORT, $order_direction)), HomeBlock :: CLASS_NAME);
     }
 
@@ -350,7 +330,7 @@ class DatabaseHomeDataManager extends HomeDataManager
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $parent);
-        
+
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(HomeColumn :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
@@ -361,9 +341,9 @@ class DatabaseHomeDataManager extends HomeDataManager
             $conditions[] = new InequalityCondition(HomeColumn :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
             $order_direction = SORT_ASC;
         }
-        
+
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->retrieve_object(HomeColumn :: get_table_name(), $condition, array(new ObjectTableOrder(HomeColumn :: PROPERTY_SORT, $order_direction)), HomeColumn :: CLASS_NAME);
     }
 
@@ -371,7 +351,7 @@ class DatabaseHomeDataManager extends HomeDataManager
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(HomeRow :: PROPERTY_TAB, $parent);
-        
+
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(HomeRow :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
@@ -382,9 +362,9 @@ class DatabaseHomeDataManager extends HomeDataManager
             $conditions[] = new InequalityCondition(HomeRow :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
             $order_direction = SORT_ASC;
         }
-        
+
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->retrieve_object(HomeRow :: get_table_name(), $condition, array(new ObjectTableOrder(HomeRow :: PROPERTY_SORT, $order_direction)), HomeRow :: CLASS_NAME);
     }
 
@@ -392,7 +372,7 @@ class DatabaseHomeDataManager extends HomeDataManager
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(HomeTab :: PROPERTY_USER, $user);
-        
+
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(HomeTab :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
@@ -403,9 +383,9 @@ class DatabaseHomeDataManager extends HomeDataManager
             $conditions[] = new InequalityCondition(HomeTab :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
             $order_direction = SORT_ASC;
         }
-        
+
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->retrieve_object(HomeTab :: get_table_name(), $condition, array(new ObjectTableOrder(HomeTab :: PROPERTY_SORT, $order_direction)), HomeTab :: CLASS_NAME);
     }
 
@@ -413,12 +393,12 @@ class DatabaseHomeDataManager extends HomeDataManager
     {
         $condition = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $home_row->get_id());
         $columns = $this->retrieve_home_columns($condition);
-        
+
         while ($column = $columns->next_result())
         {
             $this->delete_home_column($column);
         }
-        
+
         $condition = new EqualityCondition(HomeRow :: PROPERTY_ID, $home_row->get_id());
         return $this->database->delete(HomeRow :: get_table_name(), $condition);
     }
@@ -427,12 +407,12 @@ class DatabaseHomeDataManager extends HomeDataManager
     {
         $condition = new EqualityCondition(HomeRow :: PROPERTY_TAB, $home_tab->get_id());
         $rows = $this->retrieve_home_rows($condition);
-        
+
         while ($row = $rows->next_result())
         {
             $this->delete_home_row($row);
         }
-        
+
         $condition = new EqualityCondition(HomeTab :: PROPERTY_ID, $home_tab->get_id());
         return $this->database->delete(HomeTab :: get_table_name(), $condition);
     }
@@ -441,12 +421,12 @@ class DatabaseHomeDataManager extends HomeDataManager
     {
         $condition = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $home_column->get_id());
         $blocks = $this->retrieve_home_blocks($condition);
-        
+
         while ($block = $blocks->next_result())
         {
             $this->delete_home_block($block);
         }
-        
+
         $condition = new EqualityCondition(HomeColumn :: PROPERTY_ID, $home_column->get_id());
         return $this->database->delete(HomeColumn :: get_table_name(), $condition);
     }
@@ -457,7 +437,7 @@ class DatabaseHomeDataManager extends HomeDataManager
         {
             return false;
         }
-        
+
         $condition = new EqualityCondition(HomeBlock :: PROPERTY_ID, $home_block->get_id());
         return $this->database->delete(HomeBlock :: get_table_name(), $condition);
     }
@@ -468,7 +448,7 @@ class DatabaseHomeDataManager extends HomeDataManager
         $conditions[] = new EqualityCondition(HomeBlockConfig :: PROPERTY_BLOCK_ID, $home_block_config->get_block_id());
         $conditions[] = new EqualityCondition(HomeBlockConfig :: PROPERTY_VARIABLE, $home_block_config->get_variable());
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->delete(HomeBlockConfig :: get_table_name(), $condition);
     }
 

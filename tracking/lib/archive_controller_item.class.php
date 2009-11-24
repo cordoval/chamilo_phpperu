@@ -116,7 +116,6 @@ class ArchiveControllerItem extends DataClass
     function create()
     {
         $trkdmg = TrackingDataManager :: get_instance();
-        $this->set_id($trkdmg->get_next_id(self :: get_table_name()));
         return $trkdmg->create_archive_controller_item($this);
     }
 

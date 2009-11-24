@@ -21,7 +21,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
     const ALIAS_TRACKER_TABLE = 'trk';
     const ALIAS_TRACKER_SETTINGS_TABLE = 'trs';
     const ALIAS_TRACKER_EVENT_TABLE = 'tre';
-    
+
     /**
      * The database connection.
      * @var Database
@@ -39,12 +39,12 @@ class DatabaseTrackingDataManager extends TrackingDataManager
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
     }
-    
+
     function get_database()
     {
         return $this->database;
@@ -63,11 +63,6 @@ class DatabaseTrackingDataManager extends TrackingDataManager
         $this->database->get_connection()->loadModule('Manager');
         $manager = $this->database->get_connection()->manager;
         return $manager->listTables();
-    }
-
-    function get_next_id($table_name)
-    {
-        return $this->database->get_next_id($table_name);
     }
 
     /**
@@ -126,7 +121,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
         $conditions[] = new EqualityCondition(EventRelTracker :: PROPERTY_EVENT_ID, $eventtrackerrelation->get_event_id());
         $conditions[] = new EqualityCondition(EventRelTracker :: PROPERTY_TRACKER_ID, $eventtrackerrelation->get_tracker_id());
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->update($event_tracker_relation, $condition);
     }
 
@@ -149,14 +144,14 @@ class DatabaseTrackingDataManager extends TrackingDataManager
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(Event :: PROPERTY_NAME, $event_name);
-        
+
         if ($block)
         {
             $conditions[] = new EqualityCondition(Event :: PROPERTY_BLOCK, $block);
         }
-        
+
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->retrieve_object(Event :: get_table_name(), $condition);
     }
 
@@ -174,17 +169,17 @@ class DatabaseTrackingDataManager extends TrackingDataManager
         {
             $conditions[] = new EqualityCondition('active', 1);
         }
-        
+
         $condition = new AndCondition($conditions);
-        
+
         $relations_result_set = $this->retrieve_event_tracker_relations($condition);
         $relations = $relations_result_set->as_array();
-        
+
         foreach ($relations as $relation)
         {
             $trackers[] = $this->retrieve_tracker_registration($relation->get_tracker_id(), $relation->get_active());
         }
-        
+
         return $trackers;
     }
 
@@ -205,7 +200,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
         $conditions[] = new EqualityCondition(EventRelTracker :: PROPERTY_TRACKER_ID, $tracker_id);
         $conditions[] = new EqualityCondition(EventRelTracker :: PROPERTY_EVENT_ID, $event_id);
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->retrieve_object(EventRelTracker :: get_table_name(), $condition);
     }
 

@@ -31,10 +31,6 @@ abstract class HomeDataManager
      */
     abstract function initialize();
 
-    abstract function get_next_home_column_id();
-
-    abstract function get_next_home_block_id();
-
     /**
      * Uses a singleton pattern and a factory pattern to return the data
      * manager. The configuration determines which data manager class is to
@@ -138,7 +134,7 @@ abstract class HomeDataManager
         {
             $path = dirname(__FILE__) . '/../../' . $application . '/block/' . $application . '_' . $component . '.xml';
         }
-        
+
         if (file_exists($path))
         {
             $doc = new DOMDocument();
@@ -150,7 +146,7 @@ abstract class HomeDataManager
             {
                 $properties[$property->getAttribute('name')] = $property->getAttribute('default');
             }
-            
+
             return $properties;
         }
         else
@@ -162,21 +158,21 @@ abstract class HomeDataManager
     function create_block_properties($block)
     {
         $homeblockconfigs = $this->retrieve_block_properties($block->get_application(), $block->get_component());
-        
+
         foreach ($homeblockconfigs as $variable => $value)
         {
             $homeblockconfig = new HomeBlockConfig($block->get_id());
             {
                 $homeblockconfig->set_variable($variable);
                 $homeblockconfig->set_value($value);
-                
+
                 if (! $homeblockconfig->create())
                 {
                     return false;
                 }
             }
         }
-        
+
         return true;
     }
 }

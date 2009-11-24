@@ -8,12 +8,12 @@ class LaikaScale
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'scale';
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_CLUSTER_ID = 'cluster_id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_DESCRIPTION = 'description';
-    
+
     private $defaultProperties;
 
     function __construct($defaultProperties = array ())
@@ -62,7 +62,7 @@ class LaikaScale
     /**
      * Method to check whether a certain name is a default property name
      * @param String $name
-     * @return 
+     * @return
      */
     static function is_default_property_name($name)
     {
@@ -81,8 +81,6 @@ class LaikaScale
     function create()
     {
         $ldm = LaikaDataManager :: get_instance();
-        $id = $ldm->get_next_laika_scale_id();
-        $this->set_id($id);
         return $ldm->create_laika_scale($this);
     }
 

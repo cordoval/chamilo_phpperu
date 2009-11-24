@@ -30,18 +30,6 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
         return $this->database;
     }
 
-    function get_next_webservice_id()
-    {
-        $id = $this->database->get_next_id(WebserviceRegistration :: get_table_name());
-        return $id;
-    }
-
-    function get_next_webservice_category_id()
-    {
-        $id = $this->database->get_next_id(WebserviceCategory :: get_table_name());
-        return $id;
-    }
-
     function count_webservices($conditions = null)
     {
         return $this->database->count_objects(WebserviceRegistration :: get_table_name(), $conditions);
@@ -122,16 +110,16 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
     {
         $condition = new EqualityCondition(WebserviceRegistration :: PROPERTY_ID, $webservice->get_id());
         $bool = $this->database->delete($webservice->get_table_name(), $condition);
-        
+
         $condition_subwebservices = new EqualityCondition(WebserviceRegistration :: PROPERTY_PARENT, $webservice->get_id());
         $webservices = $this->retrieve_webservices($condition_subwebservices);
         while ($ws = $webservices->next_result())
         {
             $bool = $bool & $this->delete_webservice($ws);
         }
-        
+
         $this->truncate_webservice($webservice);
-        
+
         return $bool;
     }
 
@@ -140,7 +128,7 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
         $condition = new EqualityCondition(WebserviceCategoryRegistration :: PROPERTY_ID, $webservice->get_id());
         $bool = $this->database->delete($webserviceCategory->get_table_name(), $condition);
         $this->truncate_webservice_category($webserviceCategory);
-        
+
         return $bool;
     }
 
@@ -182,7 +170,7 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
         $condition = new EqualityCondition(WebserviceCredential :: PROPERTY_USER_ID, $webserviceCredential->get_user_id());
         $bool = $this->database->delete($webserviceCredential->get_table_name(), $condition);
         $this->truncate_webservice_credential($webserviceCredential);
-        
+
         return $bool;
     }
 

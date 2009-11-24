@@ -37,12 +37,12 @@ class DatabaseUserDataManager extends UserDataManager
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
     }
-	
+
     function get_database()
     {
         return $this->database;
@@ -67,11 +67,6 @@ class DatabaseUserDataManager extends UserDataManager
 	function create_user_quota($user_quota)
 	{
 		return $this->database->create($user_quota);
-	}
-
-	function get_next_user_id()
-	{
-		return $this->database->get_next_id(User :: get_table_name());
 	}
 
 	function delete_user($user)
@@ -266,11 +261,6 @@ class DatabaseUserDataManager extends UserDataManager
 		return true;
 	}
 
-	function get_next_buddy_list_category_id()
-	{
-		return $this->database->get_next_id(BuddyListCategory :: get_table_name());
-	}
-
 	function create_buddy_list_category($buddy_list_category)
 	{
 		return $this->database->create($buddy_list_category);
@@ -290,7 +280,7 @@ class DatabaseUserDataManager extends UserDataManager
 		$query = 'UPDATE '.$this->database->escape_table_name('buddy_list_item').' SET '.
 				 $this->database->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=0 WHERE'.
 				 $this->database->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=' . $this->quote($buddy_list_category->get_id());
-		
+
 		$this->query($query);
         return $succes;
 	}
@@ -298,11 +288,6 @@ class DatabaseUserDataManager extends UserDataManager
 	function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		return $this->database->retrieve_objects(BuddyListCategory :: get_table_name(), $condition, $offset, $count, $order_property);
-	}
-
-	function get_next_buddy_list_item_id()
-	{
-		return $this->database->get_next_id(BuddyListItem :: get_table_name());
 	}
 
 	function create_buddy_list_item($buddy_list_item)
@@ -334,55 +319,50 @@ class DatabaseUserDataManager extends UserDataManager
 	{
 		return $this->database->retrieve_objects(BuddyListItem :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
-	
-	function get_next_chat_message_id()
-	{
-		return $this->database->get_next_id(ChatMessage :: get_table_name());
-	}
-	
+
 	function create_chat_message($chat_message)
 	{
 		return $this->database->create($chat_message);
 	}
-	
+
 	function update_chat_message($chat_message)
 	{
 		$condition = new EqualityCondition(ChatMessage :: PROPERTY_ID, $chat_message->get_id());
 		return $this->database->update($chat_message, $condition);
 	}
-	
+
 	function delete_chat_message($chat_message)
 	{
 		$condition = new EqualityCondition(ChatMessage :: PROPERTY_ID, $chat_message->get_id());
 		return $this->database->delete(ChatMessage :: get_table_name(), $condition);
 	}
-	
+
 	function retrieve_chat_messages($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		return $this->database->retrieve_objects(ChatMessage :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
-	
+
 	function retrieve_user_by_fullname($fullname)
 	{
 		$name = explode(' ', $fullname);
 		$firstname = $name[0];
 		$lastname = $name[1];
-		
+
 		$conditions = array();
 		$conditions1 = array();
 		$conditions2 = array();
-		
+
 		$conditions1[] = new EqualityCondition(User :: PROPERTY_FIRSTNAME, $firstname);
 		$conditions1[] = new EqualityCondition(User :: PROPERTY_LASTNAME, $lastname);
 		$conditions[] = new AndCondition($conditions1);
-		
+
 		$conditions2[] = new EqualityCondition(User :: PROPERTY_FIRSTNAME, $lastname);
 		$conditions2[] = new EqualityCondition(User :: PROPERTY_LASTNAME, $firstname);
 		$conditions[] = new AndCondition($conditions2);
-		
+
 		$condition = new OrCondition($conditions);
 		$object = $this->database->retrieve_object(User :: get_table_name(), $condition);
-		
+
 		return $object;
 	}
 }

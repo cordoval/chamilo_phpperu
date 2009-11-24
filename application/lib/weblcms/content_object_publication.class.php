@@ -12,7 +12,7 @@
 class ContentObjectPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**#@+
      * Constant defining a property of the publication
      */
@@ -30,10 +30,10 @@ class ContentObjectPublication extends DataClass
     const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
     const PROPERTY_EMAIL_SENT = 'email_sent';
     const PROPERTY_SHOW_ON_HOMEPAGE = 'show_on_homepage';
-    
+
     private $target_course_groups;
     private $target_users;
-    
+
     private $content_object;
     private $publisher;
 
@@ -108,7 +108,7 @@ class ContentObjectPublication extends DataClass
             $wdm = WeblcmsDataManager :: get_instance();
             $this->target_users = $wdm->retrieve_content_object_publication_target_users($this);
         }
-        
+
         return $this->target_users;
     }
 
@@ -124,7 +124,7 @@ class ContentObjectPublication extends DataClass
             $wdm = WeblcmsDataManager :: get_instance();
             $this->target_course_groups = $wdm->retrieve_content_object_publication_target_course_groups($this);
         }
-        
+
         return $this->target_course_groups;
     }
 
@@ -164,7 +164,7 @@ class ContentObjectPublication extends DataClass
             $rdm = RepositoryDataManager :: get_instance();
             $this->content_object = $rdm->retrieve_content_object($this->get_content_object_id());
         }
-        
+
         return $this->content_object;
     }
 
@@ -180,7 +180,7 @@ class ContentObjectPublication extends DataClass
             $udm = UserDataManager :: get_instance();
             $this->publisher = $udm->retrieve_user($this->get_publisher_id());
         }
-        
+
         return $this->publisher;
     }
 
@@ -348,12 +348,12 @@ class ContentObjectPublication extends DataClass
     function create()
     {
         $dm = WeblcmsDataManager :: get_instance();
-        $id = $dm->get_next_content_object_publication_id();
-        
+
         if (is_null($this->get_category_id()))
+        {
             $this->set_category_id(0);
-        
-        $this->set_id($id);
+        }
+
         return $dm->create_content_object_publication($this);
     }
 

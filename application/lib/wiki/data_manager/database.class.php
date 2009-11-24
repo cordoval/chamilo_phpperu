@@ -23,7 +23,7 @@ class DatabaseWikiDataManager extends WikiDataManager
         $aliases = array();
         $aliases[WikiPublication :: get_table_name()] = 'wion';
         $aliases[WikiPubFeedback :: get_table_name()] = 'wpf';
-        
+
         $this->database = new Database($aliases);
         $this->database->set_prefix('wiki_');
     }
@@ -36,11 +36,6 @@ class DatabaseWikiDataManager extends WikiDataManager
     function create_storage_unit($name, $properties, $indexes)
     {
         return $this->database->create_storage_unit($name, $properties, $indexes);
-    }
-
-    function get_next_wiki_publication_id()
-    {
-        return $this->database->get_next_id(WikiPublication :: get_table_name());
     }
 
     function create_wiki_publication($wiki_publication)
@@ -82,18 +77,13 @@ class DatabaseWikiDataManager extends WikiDataManager
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $id);
         $object = $this->database->retrieve_object(WikiPubFeedback :: get_table_name(), $condition);
-        
+
         return $object;
     }
 
     function retrieve_wiki_pub_feedbacks($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->database->retrieve_objects(WikiPubFeedback :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-    }
-
-    function get_next_wiki_pub_feedback_id()
-    {
-        return $this->database->get_next_id(WikiPubFeedback :: get_table_name());
     }
 
     function create_wiki_pub_feedback($feedback)
@@ -114,7 +104,7 @@ class DatabaseWikiDataManager extends WikiDataManager
     }
 
 	// Publication attributes
-    
+
 	function content_object_is_published($object_id)
     {
         return $this->any_content_object_is_published(array($object_id));
@@ -125,7 +115,7 @@ class DatabaseWikiDataManager extends WikiDataManager
         $condition = new InCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_ids);
         return $this->database->count_objects(WikiPublication :: get_table_name(), $condition) >= 1;
     }
-    
+
     function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null)
     {
         if (isset($type))
@@ -135,41 +125,41 @@ class DatabaseWikiDataManager extends WikiDataManager
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->database->get_alias(WikiPublication :: get_table_name());
-                
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . 
-                		 $this->database->escape_table_name(WikiPublication :: get_table_name()) . ' AS ' . $pub_alias . 
-                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . 
-                		 ' ON ' . $this->database->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' . 
+
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
+                		 $this->database->escape_table_name(WikiPublication :: get_table_name()) . ' AS ' . $pub_alias .
+                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
+                		 ' ON ' . $this->database->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' .
                 		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
-                
+
                 $condition = new EqualityCondition(WikiPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this->database);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
                 foreach($order_properties as $order_property)
-                { 
+                {
                     if ($order_property->get_property() == 'application')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'location')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
                         $order[] = 'co.' . $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
-                    { 
+                    {
                         $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
-                
+
                 if(count($order) > 0)
                 	$query .= ' ORDER BY ' . implode(', ', $order);
-                
+
             }
         }
         else
@@ -178,9 +168,9 @@ class DatabaseWikiDataManager extends WikiDataManager
            	$condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
            	$translator = new ConditionTranslator($this->database);
            	$query .= $translator->render_query($condition);
-           	
+
         }
-        
+
         $this->database->set_limit($offset, $count);
 		$res = $this->query($query);
         $publication_attr = array();
@@ -259,6 +249,6 @@ class DatabaseWikiDataManager extends WikiDataManager
             return false;
         }
     }
-    
+
 }
 ?>

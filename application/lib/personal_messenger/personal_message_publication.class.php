@@ -23,7 +23,7 @@ class PersonalMessagePublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
-    
+
     const PROPERTY_PERSONAL_MESSAGE = 'personal_message_id';
     const PROPERTY_STATUS = 'status';
     const PROPERTY_USER = 'user_id';
@@ -189,8 +189,6 @@ class PersonalMessagePublication extends DataClass
         $now = time();
         $this->set_published($now);
         $pmdm = PersonalMessengerDataManager :: get_instance();
-        $id = $pmdm->get_next_personal_message_publication_id();
-        $this->set_id($id);
         return $pmdm->create_personal_message_publication($this);
     }
 

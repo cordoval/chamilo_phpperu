@@ -21,7 +21,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
     {
         $aliases = array();
         $aliases[AnnouncementDistribution :: get_table_name()] = 'dion';
-        
+
         $this->database = new Database($aliases);
         $this->database->set_prefix('distribute_');
     }
@@ -34,11 +34,6 @@ class DatabaseDistributeDataManager extends DistributeDataManager
     function create_storage_unit($name, $properties, $indexes)
     {
         return $this->database->create_storage_unit($name, $properties, $indexes);
-    }
-
-    function get_next_announcement_distribution_id()
-    {
-        return $this->database->get_next_id(AnnouncementDistribution :: get_table_name());
     }
 
     function create_group_moderator($group_moderator)
@@ -58,7 +53,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
                 $props[$this->database->escape_column_name('user_id')] = $user_id;
                 $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('announcement_distribution_user'), $props, MDB2_AUTOQUERY_INSERT);
             }
-            
+
             $groups = $announcement_distribution->get_target_groups();
             foreach ($groups as $index => $group_id)
             {
@@ -67,7 +62,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
                 $props[$this->database->escape_column_name('group_id')] = $group_id;
                 $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('announcement_distribution_group'), $props, MDB2_AUTOQUERY_INSERT);
             }
-            
+
             return true;
         }
         else
@@ -113,9 +108,9 @@ class DatabaseDistributeDataManager extends DistributeDataManager
     {
         return array();
     }
-    
+
 	// Publication attributes
-    
+
 	function content_object_is_published($object_id)
     {
         return $this->any_content_object_is_published(array($object_id));
@@ -126,7 +121,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
         $condition = new InCondition(AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT, $object_ids);
         return $this->database->count_objects(AnnouncementDistribution :: get_table_name(), $condition) >= 1;
     }
-    
+
     function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null)
     {
         if (isset($type))
@@ -136,41 +131,41 @@ class DatabaseDistributeDataManager extends DistributeDataManager
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->database->get_alias(AnnouncementDistribution :: get_table_name());
-                
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . 
-                		 $this->database->escape_table_name(AnnouncementDistribution :: get_table_name()) . ' AS ' . $pub_alias . 
-                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . 
-                		 ' ON ' . $this->database->escape_column_name(AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT, $pub_alias) . '=' . 
+
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
+                		 $this->database->escape_table_name(AnnouncementDistribution :: get_table_name()) . ' AS ' . $pub_alias .
+                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
+                		 ' ON ' . $this->database->escape_column_name(AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT, $pub_alias) . '=' .
                 		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
-                
+
                 $condition = new EqualityCondition(AnnouncementDistribution :: PROPERTY_PUBLISHER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this->database);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
                 foreach($order_properties as $order_property)
-                { 
+                {
                     if ($order_property->get_property() == 'application')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'location')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
                         $order[] = 'co.' . $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
-                    { 
+                    {
                         $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
-                
+
                 if(count($order) > 0)
                 	$query .= ' ORDER BY ' . implode(', ', $order);
-                
+
             }
         }
         else
@@ -179,9 +174,9 @@ class DatabaseDistributeDataManager extends DistributeDataManager
            	$condition = new EqualityCondition(AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT, $object_id);
            	$translator = new ConditionTranslator($this->database);
            	$query .= $translator->render_query($condition);
-           	
+
         }
-        
+
         $this->database->set_limit($offset, $count);
 		$res = $this->query($query);
         $publication_attr = array();

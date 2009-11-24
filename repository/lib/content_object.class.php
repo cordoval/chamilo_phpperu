@@ -621,11 +621,6 @@ class ContentObject extends DataClass implements AccessibleContentObject
         $this->assign_display_order_index();
         $this->set_creation_date($now);
         $this->set_modification_date($now);
-
-//        echo $dm->get_next_content_object_id();
-//        exit;
-
-//        $this->set_id($dm->get_next_content_object_id());
         $this->set_object_number($dm->get_next_content_object_number());
 
         if (! $dm->create_content_object($this, 'new'))
@@ -666,8 +661,6 @@ class ContentObject extends DataClass implements AccessibleContentObject
 
         $this->assign_display_order_index();
         $dm = RepositoryDataManager :: get_instance();
-        $id = $dm->get_next_content_object_id();
-        $this->set_id($id);
         $object_number = $dm->get_next_content_object_number();
         $this->set_object_number($object_number);
 
@@ -748,8 +741,6 @@ class ContentObject extends DataClass implements AccessibleContentObject
 
         $this->set_creation_date($now);
         $this->set_modification_date($now);
-        $id = $dm->get_next_content_object_id();
-        $this->set_id($id);
 
         $success = $dm->create_content_object($this, 'version');
         if (! $success)

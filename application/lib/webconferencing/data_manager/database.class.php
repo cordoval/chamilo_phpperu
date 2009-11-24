@@ -32,12 +32,12 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
     {
         return $this->database;
     }
-    
+
 	function quote($value)
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
@@ -46,11 +46,6 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
     function create_storage_unit($name, $properties, $indexes)
     {
         return $this->database->create_storage_unit($name, $properties, $indexes);
-    }
-
-    function get_next_webconference_id()
-    {
-        return $this->database->get_next_id(Webconference :: get_table_name());
     }
 
     function create_webconference($webconference)
@@ -122,11 +117,6 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(WebconferenceGroup :: get_table_name()) . ' AS ' . $webconference_group_alias . ' ON ' . $this->database->escape_column_name(Webconference :: PROPERTY_ID, $webconference_alias) . '  = ' . $this->database->escape_column_name(WebconferenceGroup :: PROPERTY_WEBCONFERENCE, $webconference_group_alias);
 
         return $this->database->retrieve_object_set($query, Webconference :: get_table_name(), $condition, $offset, $max_objects, $order_by, Webconference :: CLASS_NAME);
-    }
-
-    function get_next_webconference_option_id()
-    {
-        return $this->database->get_next_id(WebconferenceOption :: get_table_name());
     }
 
     function create_webconference_option($webconference_option)

@@ -44,11 +44,6 @@ class DatabaseLinkerDataManager extends LinkerDataManager
         return $this->database->update($link, $condition);
     }
 
-    function get_next_link_id()
-    {
-        return $this->database->get_next_id(Link :: get_table_name());
-    }
-
     function delete_link($link)
     {
         $condition = new EqualityCondition(Link :: PROPERTY_ID, $link->get_id());

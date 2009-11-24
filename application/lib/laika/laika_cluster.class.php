@@ -8,11 +8,11 @@ class LaikaCluster
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'cluster';
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_DESCRIPTION = 'description';
-    
+
     private $defaultProperties;
 
     function __construct($defaultProperties = array ())
@@ -61,7 +61,7 @@ class LaikaCluster
     /**
      * Method to check whether a certain name is a default property name
      * @param String $name
-     * @return 
+     * @return
      */
     static function is_default_property_name($name)
     {
@@ -80,8 +80,6 @@ class LaikaCluster
     function create()
     {
         $ldm = LaikaDataManager :: get_instance();
-        $id = $ldm->get_next_laika_cluster_id();
-        $this->set_id($id);
         return $ldm->create_laika_cluster($this);
     }
 

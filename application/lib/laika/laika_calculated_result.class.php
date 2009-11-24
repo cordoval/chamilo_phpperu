@@ -9,18 +9,18 @@ class LaikaCalculatedResult
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'calculated_result';
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_ATTEMPT_ID = 'attempt_id';
     const PROPERTY_SCALE_ID = 'scale_id';
     const PROPERTY_RESULT = 'result';
     const PROPERTY_PERCENTILE = 'percentile';
     const PROPERTY_PERCENTILE_CODE = 'percentile_code';
-    
+
     private $defaultProperties;
-    
+
     private $user;
-    
+
     private $attempt;
 
     function __construct($defaultProperties = array ())
@@ -88,8 +88,6 @@ class LaikaCalculatedResult
     function create()
     {
         $ldm = LaikaDataManager :: get_instance();
-        $id = $ldm->get_next_laika_calculated_result_id();
-        $this->set_id($id);
         return $ldm->create_laika_calculated_result($this);
     }
 
@@ -178,7 +176,7 @@ class LaikaCalculatedResult
             $attempt_id = $this->get_attempt_id();
             $this->attempt = $ldm->retrieve_laika_attempt($attempt_id);
         }
-        
+
         return $this->attempt;
     }
 
@@ -190,7 +188,7 @@ class LaikaCalculatedResult
             $udm = UserDataManager :: get_instance();
             $this->user = $udm->retrieve_user($attempt->get_user_id());
         }
-        
+
         return $this->user;
     }
 }

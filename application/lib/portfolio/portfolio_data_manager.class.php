@@ -46,8 +46,6 @@ abstract class PortfolioDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function get_next_portfolio_publication_id();
-
     abstract function create_portfolio_publication($portfolio_publication);
 
     abstract function update_portfolio_publication($portfolio_publication);

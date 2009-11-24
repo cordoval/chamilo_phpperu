@@ -24,15 +24,15 @@ class Reservation extends DataClass
     const PROPERTY_TIMEPICKER_MAX = 'timepicker_max';
     const PROPERTY_AUTO_ACCEPT = 'auto_accept';
     const PROPERTY_STATUS = 'status';
-    
+
     const STATUS_NORMAL = 0;
     const STATUS_DELETED = 1;
-    
+
     const TYPE_TIMEPICKER = 1;
     const TYPE_BLOCK = 2;
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     private $subscriptions;
 
     /**
@@ -190,24 +190,23 @@ class Reservation extends DataClass
     function create()
     {
         $rdm = ReservationsDataManager :: get_instance();
-        $this->set_id($rdm->get_next_reservation_id());
         return $rdm->create_reservation($this);
     }
 
     function allow_create()
     {
         $rdm = ReservationsDataManager :: get_instance();
-        
+
         $stamp_start = Utilities :: time_from_datepicker($this->get_start_date());
         $stamp_end = Utilities :: time_from_datepicker($this->get_stop_date());
-        
+
         $stamp_start_date = date('Y-m-d', $stamp_start);
         $stamp_end_date = date('Y-m-d', $stamp_end);
-        
+
         // Reservation date is not free
         if (! $rdm->reservation_date_free($this))
             return 2;
-            
+
         // Subscription does not end before start of reservation
         if ($this->get_stop_subscription() != 0)
         {
@@ -215,22 +214,22 @@ class Reservation extends DataClass
             if ($stamp_until > $stamp_start)
                 return 3;
         }
-        
+
         //Start date of reservation must be after now
         if ($this->get_start_date() < (date('Y-m-d H:i:s', time())))
             return 4;
-        
+
         $timepicker = $this->get_type() == Reservation :: TYPE_TIMEPICKER;
-        
+
         // The start and end date is not the same when timepicker is chosen
         /*if (($stamp_start_date != $stamp_end_date) && $timepicker)
 			return 5;*/
-        
+
         if ($timepicker)
         {
             $max = $this->get_timepicker_max();
             $min = $this->get_timepicker_min();
-            
+
             if (! ($max == 0 && $min == 0))
             {
                 // Maximum must be lager then minimum
@@ -245,7 +244,7 @@ class Reservation extends DataClass
                 }
             }
         }
-        
+
         //Allow reservation to be added
         return 1;
     }
@@ -253,17 +252,17 @@ class Reservation extends DataClass
     function allow_update()
     {
         $rdm = ReservationsDataManager :: get_instance();
-        
+
         $stamp_start = Utilities :: time_from_datepicker($this->get_start_date());
         $stamp_end = Utilities :: time_from_datepicker($this->get_stop_date());
-        
+
         $stamp_start_date = date('Y-m-d', $stamp_start);
         $stamp_end_date = date('Y-m-d', $stamp_end);
-        
+
         // Reservation date is not free
         if (! $rdm->reservation_date_free($this))
             return 2;
-            
+
         // Subscription does not end before start of reservation
         if ($this->get_stop_subscription() != 0)
         {
@@ -271,20 +270,20 @@ class Reservation extends DataClass
             if ($stamp_until > $stamp_start)
                 return 3;
         }
-        
+
         $timepicker = $this->get_type() == Reservation :: TYPE_TIMEPICKER;
-        
+
         // The start and end date is not the same when timepicker is chosen
         if (($stamp_start_date != $stamp_end_date) && $timepicker)
             return 4;
-        
+
         return 1;
     }
 
     function update()
     {
         $rdm = ReservationsDataManager :: get_instance();
-        
+
         if ($this->get_auto_accept() == 1)
         {
             $subscriptions = $rdm->retrieve_subscriptions(new EqualityCondition(Subscription :: PROPERTY_RESERVATION_ID, $this->get_id()));
@@ -294,7 +293,7 @@ class Reservation extends DataClass
                 $subscription->update();
             }
         }
-        
+
         return $rdm->update_reservation($this);
     }
 

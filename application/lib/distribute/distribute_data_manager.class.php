@@ -46,8 +46,6 @@ abstract class DistributeDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function get_next_announcement_distribution_id();
-
     abstract function create_announcement_distribution($announcement_distribution);
 
     abstract function update_announcement_distribution($announcement_distribution);

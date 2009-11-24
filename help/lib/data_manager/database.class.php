@@ -63,20 +63,15 @@ class DatabaseHelpDataManager extends HelpDataManager
         $conditions = array();
         $conditions[] = new EqualityCondition(HelpItem :: PROPERTY_NAME, $name);
         $conditions[] = new EqualityCondition(HelpItem :: PROPERTY_LANGUAGE, $language);
-        
+
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->retrieve_object(HelpItem :: get_table_name(), $condition);
     }
 
     function create_storage_unit($name, $properties, $indexes)
     {
         return $this->database->create_storage_unit($name, $properties, $indexes);
-    }
-
-    function get_next_help_item_id()
-    {
-        return $this->database->get_next_id(HelpItem :: get_table_name());
     }
 }
 ?>

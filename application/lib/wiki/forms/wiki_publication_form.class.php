@@ -13,7 +13,7 @@ class WikiPublicationForm extends FormValidator
 {
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-    
+
     const PARAM_CATEGORY_ID = 'category';
     const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
@@ -23,18 +23,18 @@ class WikiPublicationForm extends FormValidator
     const PARAM_TO_DATE = 'to_date';
     const PARAM_HIDDEN = 'hidden';
     const PARAM_EMAIL = 'email';
-    
+
     private $wiki_publication;
     private $user;
 
     function WikiPublicationForm($form_type, $wiki_publication, $action, $user)
     {
         parent :: __construct('wiki_publication_settings', 'post', $action);
-        
+
         $this->wiki_publication = $wiki_publication;
         $this->user = $user;
         $this->form_type = $form_type;
-        
+
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -43,7 +43,7 @@ class WikiPublicationForm extends FormValidator
         {
             $this->build_creation_form();
         }
-        
+
         $this->setDefaults();
     }
 
@@ -59,9 +59,9 @@ class WikiPublicationForm extends FormValidator
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
-        
+
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
-        
+
         $this->add_forever_or_timewindow();
         $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
         if ($this->email_option)
@@ -73,20 +73,20 @@ class WikiPublicationForm extends FormValidator
     function build_editing_form()
     {
         $this->build_basic_form();
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     function build_creation_form()
     {
         $this->build_basic_form();
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -94,9 +94,9 @@ class WikiPublicationForm extends FormValidator
     {
         $wiki_publication = $this->wiki_publication;
         $wiki_publication->set_content_object($wiki_publication->get_content_object()->get_id());
-        
+
         $values = $this->exportValues();
-        
+
         if ($values[self :: PARAM_FOREVER] != 0)
         {
             $wiki_publication->set_from_date(0);
@@ -113,7 +113,7 @@ class WikiPublicationForm extends FormValidator
         $wiki_publication->set_modified(time());
         $wiki_publication->set_display_order(0);
         $wiki_publication->set_email_sent($values[WikiPublication :: PROPERTY_EMAIL_SENT] ? $values[WikiPublication :: PROPERTY_EMAIL_SENT] : 0);
-        
+
         if ($this->email_option && $values[self :: PARAM_EMAIL])
         {
             //			$content_object = $this->content_object;
@@ -138,7 +138,7 @@ class WikiPublicationForm extends FormValidator
         //				return false;
         //			}
         }
-        
+
         return $wiki_publication->update();
     }
 
@@ -146,9 +146,7 @@ class WikiPublicationForm extends FormValidator
     {
         $wiki_publication = $this->wiki_publication;
         $values = $this->exportValues();
-        
-        $wiki_publication->set_id(WikiDataManager :: get_instance()->get_next_wiki_publication_id());
-        
+
         if ($values[self :: PARAM_FOREVER] != 0)
         {
             $wiki_publication->set_from_date(0);
@@ -165,7 +163,7 @@ class WikiPublicationForm extends FormValidator
         $wiki_publication->set_modified(time());
         $wiki_publication->set_display_order(0);
         $wiki_publication->set_email_sent($values[WikiPublication :: PROPERTY_EMAIL_SENT] ? $values[WikiPublication :: PROPERTY_EMAIL_SENT] : 0);
-        
+
         if ($this->email_option && $values[self :: PARAM_EMAIL])
         {
             //			$content_object = $this->content_object;
@@ -190,7 +188,7 @@ class WikiPublicationForm extends FormValidator
         //				return false;
         //			}
         }
-        
+
         return $wiki_publication->create();
     }
 

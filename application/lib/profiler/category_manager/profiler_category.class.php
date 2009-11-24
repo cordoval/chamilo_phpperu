@@ -18,7 +18,6 @@ class ProfilerCategory extends PlatformCategory
     function create()
     {
         $wdm = ProfilerDataManager :: get_instance();
-        $this->set_id($wdm->get_next_category_id());
         $this->set_display_order($wdm->select_next_category_display_order($this->get_parent()));
         return $wdm->create_category($this);
     }

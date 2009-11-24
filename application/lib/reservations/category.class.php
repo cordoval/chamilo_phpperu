@@ -18,13 +18,13 @@ class Category extends DataClass
     const PROPERTY_DISPLAY_ORDER = 'display_order';
     const PROPERTY_POOL = 'pool';
     const PROPERTY_STATUS = 'status';
-    
+
     const STATUS_NORMAL = 0;
     const STATUS_DELETED = 1;
-    
+
     const USE_AS_POOL = 1;
     const DONT_USE_AS_POOL = 0;
-    
+
     const CLASS_NAME = __CLASS__;
 
     /**
@@ -99,17 +99,16 @@ class Category extends DataClass
     function create()
     {
         $rdm = ReservationsDataManager :: get_instance();
-        $this->set_id($rdm->get_next_category_id());
         $this->set_display_order($rdm->select_next_display_order($this->get_parent()));
         $succes = $rdm->create_category($this);
-        
+
         if ($this->get_parent() == 0)
             $parent_location = ReservationsRights :: get_root_id();
         else
             $parent_location = ReservationsRights :: get_location_id_by_identifier('category', $this->get_parent());
-        
+
         $succes &= ReservationsRights :: create_location($this->get_name(), 'category', $this->get_id(), true, $parent_location);
-        
+
         return $succes;
     }
 
@@ -126,29 +125,29 @@ class Category extends DataClass
         {
             $succes &= $category->delete();
         }
-        
+
         return $succes;
     }
 
     static function retrieve_sub_categories($category_id, $recursive = false)
     {
         $rdm = ReservationsDataManager :: get_instance();
-        
+
         $condition = new EqualityCondition(self :: PROPERTY_PARENT, $category_id);
         $categories = $rdm->retrieve_categories($condition);
-        
+
         $subcategories = array();
-        
+
         while ($category = $categories->next_result())
         {
             $subcategories[$category->get_id()] = $category;
-            
+
             if ($recursive)
             {
                 $subcategories += self :: retrieve_sub_categories($category->get_id(), $recursive);
             }
         }
-        
+
         return $subcategories;
     }
 

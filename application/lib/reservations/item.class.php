@@ -21,10 +21,10 @@ class Item extends DataClass
     const PROPERTY_STATUS = 'status';
     const PROPERTY_SALTO_ID = 'salto_id';
     const PROPERTY_CREATOR = 'creator_id';
-    
+
     const STATUS_NORMAL = 0;
     const STATUS_DELETED = 1;
-    
+
     const CLASS_NAME = __CLASS__;
 
     /**
@@ -134,16 +134,19 @@ class Item extends DataClass
     function create()
     {
         $rdm = ReservationsDataManager :: get_instance();
-        $this->set_id($rdm->get_next_item_id());
         $succes = $rdm->create_item($this);
-        
+
         if ($this->get_category() == 0)
+        {
             $parent_location = ReservationsRights :: get_root_id();
+        }
         else
+        {
             $parent_location = ReservationsRights :: get_location_id_by_identifier('category', $this->get_category());
-        
+        }
+
         $succes &= ReservationsRights :: create_location($this->get_name(), 'item', $this->get_id(), true, $parent_location);
-        
+
         return $succes;
     }
 

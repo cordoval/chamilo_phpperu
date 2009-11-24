@@ -534,12 +534,6 @@ abstract class RepositoryDataManager
     }
 
     /**
-     * Returns the next available learning object publication ID.
-     * @return int The ID.
-     */
-    abstract function get_next_content_object_id();
-
-    /**
      * Returns the next available learning object number.
      * @return int The ID.
      */
@@ -858,8 +852,6 @@ abstract class RepositoryDataManager
      */
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function get_next_category_id();
-
     abstract function select_next_category_display_order($parent_category_id, $user_id);
 
     abstract function delete_category($category);
@@ -871,8 +863,6 @@ abstract class RepositoryDataManager
     abstract function count_categories($conditions = null);
 
     abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function get_next_user_view_id();
 
     abstract function delete_user_view($user_view);
 

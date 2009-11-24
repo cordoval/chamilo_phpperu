@@ -46,8 +46,6 @@ abstract class LinkerDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function get_next_link_id();
-
     abstract function delete_link($link);
 
     abstract function update_link($link);

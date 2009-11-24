@@ -48,21 +48,16 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
     {
     	return $this->db->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->db->query($query);
     }
-    
+
     // Inherited.
     function create_storage_unit($name, $properties, $indexes)
     {
         return $this->db->create_storage_unit($name, $properties, $indexes);
-    }
-
-    function get_next_reservation_id()
-    {
-        return $this->db->get_next_id('reservation');
     }
 
     function escape_table_name($name)
@@ -105,11 +100,6 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         return $this->db->retrieve_objects('reservation', $condition, $offset, $count, $order_property);
     }
 
-    function get_next_category_id()
-    {
-        return $this->db->get_next_id('category');
-    }
-
     function delete_category($category)
     {
         $condition = new EqualityCondition(Category :: PROPERTY_ID, $category->get_id());
@@ -127,9 +117,9 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 
     function clean_display_order($category)
     {
-        $query = 'UPDATE ' . $this->db->escape_table_name('category') . ' SET ' . $this->db->escape_column_name(Category :: PROPERTY_DISPLAY_ORDER) . '=' . 
-        		  $this->db->escape_column_name(Category :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' . 
-        		  $this->db->escape_column_name(Category :: PROPERTY_DISPLAY_ORDER) . '>' . $this->quote($category->get_display_order()) . ' AND ' . 
+        $query = 'UPDATE ' . $this->db->escape_table_name('category') . ' SET ' . $this->db->escape_column_name(Category :: PROPERTY_DISPLAY_ORDER) . '=' .
+        		  $this->db->escape_column_name(Category :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' .
+        		  $this->db->escape_column_name(Category :: PROPERTY_DISPLAY_ORDER) . '>' . $this->quote($category->get_display_order()) . ' AND ' .
         		  $this->db->escape_column_name(Category :: PROPERTY_PARENT) . '=' . $this->quote($category->get_parent());
 		$this->query($query);
     }
@@ -153,11 +143,6 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return $this->db->retrieve_objects('category', $condition, $offset, $count, $order_property);
-    }
-
-    function get_next_item_id()
-    {
-        return $this->db->get_next_id('item');
     }
 
     function delete_item($item)
@@ -195,11 +180,6 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         return $this->db->retrieve_objects('item', $condition, $offset, $count, $order_property);
     }
 
-    function get_next_quota_id()
-    {
-        return $this->db->get_next_id('quota');
-    }
-
     function delete_quota($quota)
     {
         $condition = new EqualityCondition(Quota :: PROPERTY_ID, $quota->get_id());
@@ -225,11 +205,6 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
     function retrieve_quotas($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return $this->db->retrieve_objects('quota', $condition, $offset, $count, $order_property);
-    }
-
-    function get_next_subscription_id()
-    {
-        return $this->db->get_next_id('subscription');
     }
 
     function delete_subscription($subscription)
@@ -335,11 +310,6 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
 
     }
 
-    function get_next_quota_box_id()
-    {
-        return $this->db->get_next_id('quota_box');
-    }
-
     function delete_quota_box($quota_box)
     {
         $condition = new EqualityCondition(QuotaBox :: PROPERTY_ID, $quota_box->get_id());
@@ -392,11 +362,6 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
     function retrieve_quota_rel_quota_boxes($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return $this->db->retrieve_objects('quota_rel_quota_box', $condition, $offset, $count, $order_property);
-    }
-
-    function get_next_quota_box_rel_category_id()
-    {
-        return $this->db->get_next_id('quota_box_rel_category');
     }
 
     function create_quota_box_rel_category($quota_rel_quota_box)

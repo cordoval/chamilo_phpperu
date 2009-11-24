@@ -16,7 +16,7 @@ abstract class GroupDataManager
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
-    
+
     /**
      * Array which contains the registered applications running on top of this
      * repositorydatamanager
@@ -50,8 +50,6 @@ abstract class GroupDataManager
     }
 
     abstract function initialize();
-
-    abstract function get_next_group_id();
 
     abstract function delete_group($group);
 

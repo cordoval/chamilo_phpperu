@@ -169,14 +169,6 @@ abstract class WeblcmsDataManager
     abstract function count_course_user_categories($conditions = null);
 
     /**
-     * Returns the next available learning object publication ID.
-     * @return int The ID.
-     */
-    abstract function get_next_content_object_publication_id();
-
-    abstract function get_next_course_id();
-
-    /**
      * Creates a course object in persistent storage.
      * @param Course $course The course to make persistent.
      * @return boolean True if creation succceeded, false otherwise.
@@ -209,9 +201,9 @@ abstract class WeblcmsDataManager
         {
             $visibility = true;
         }
-        
+
         $subscription_allowed = ($course->get_subscribe_allowed() == 1 ? true : false);
-        
+
         if ($visibility && ! $already_subscribed && $subscription_allowed)
         {
             return true;
@@ -234,7 +226,7 @@ abstract class WeblcmsDataManager
         {
             return false;
         }
-        
+
         $already_subscribed = $this->is_subscribed($course, $user->get_id());
         $unsubscription_allowed = ($course->get_unsubscribe_allowed() == 1 ? true : false);
         if ($already_subscribed && $unsubscription_allowed)
@@ -314,7 +306,7 @@ abstract class WeblcmsDataManager
      * @param CourseUserRelation $courseuser The course user to make persistent.
      * @return boolean True if creation succceeded, false otherwise.
      */
-    
+
     abstract function delete_course_user($courseuser);
 
     /**
@@ -401,41 +393,6 @@ abstract class WeblcmsDataManager
     //	 *                                           could not be found.
     //	 */
     abstract function retrieve_content_object_publication_category($id);
-
-    //
-    //	/**
-    //	 * Returns the next available learning object publication category ID.
-    //	 * @return int The ID.
-    //	 */
-    //	abstract function get_next_content_object_publication_category_id();
-    //
-    //	/**
-    //	 * Creates a new learning object publication category in persistent
-    //	 * storage.
-    //	 * @param ContentObjectPublicationCategory $category The category to make
-    //	 *                                                    persistent.
-    //	 * @return boolean True if creation succceeded, false otherwise.
-    //	 */
-    //	abstract function create_content_object_publication_category($category);
-    //
-    //	/**
-    //	 * Updates a learning object publication category in persistent storage,
-    //	 * making any changes permanent.
-    //	 * @param ContentObjectPublicationCategory $category The category to
-    //	 *                                                    update.
-    //	 * @return boolean True if the update succceeded, false otherwise.
-    //	 */
-    //	abstract function update_content_object_publication_category($category);
-    //
-    //	/**
-    //	 * Removes a learning object publication category from persistent storage,
-    //	 * making it disappear forever. Also removes all child categories.
-    //	 * @param ContentObjectPublicationCategory $category The category to
-    //	 *                                                    delete.
-    //	 * @return boolean True if deletion succceeded, false otherwise.
-    //	 */
-    //	abstract function delete_content_object_publication_category($category);
-    
 
     /**
      * Gets the course modules in a given course
@@ -696,8 +653,6 @@ abstract class WeblcmsDataManager
      */
     abstract function is_course_group_member($course_group, $user);
 
-    abstract function get_next_category_id();
-
     abstract function delete_category($category);
 
     abstract function update_category($category);
@@ -708,8 +663,6 @@ abstract class WeblcmsDataManager
 
     abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
-    abstract function get_next_content_object_publication_category_id();
-
     abstract function delete_content_object_publication_category($content_object_publication_category);
 
     abstract function update_content_object_publication_category($content_object_publication_category);
@@ -719,8 +672,6 @@ abstract class WeblcmsDataManager
     abstract function count_content_object_publication_categories($conditions = null);
 
     abstract function retrieve_content_object_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function get_next_course_section_id();
 
     abstract function delete_course_section($course_section);
 

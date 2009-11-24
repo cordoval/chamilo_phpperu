@@ -253,18 +253,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         return $this->database->count_objects(ContentObject :: get_table_name(), $condition);
     }
 
-    // Inherited.
-    function get_next_content_object_id()
-    {
-//        return $this->database->get_better_next_id(ContentObject :: get_table_name(), ContentObject :: PROPERTY_ID);
-        return $this->database->get_next_id(ContentObject :: get_table_name());
-    }
-
-    function get_next_content_object_pub_feedback_id()
-    {
-        return $this->database->get_next_id(ContentObjectPubFeedback :: get_table_name());
-    }
-
     function get_next_content_object_number()
     {
         return $this->database->get_next_id(ContentObject :: get_table_name() . '_number');
@@ -1146,11 +1134,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         return $this->database->retrieve_next_sort_value(ComplexContentObjectItem :: get_table_name(), ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, $condition);
     }
 
-    function get_next_category_id()
-    {
-        return $this->database->get_next_id(RepositoryCategory :: get_table_name());
-    }
-
     function delete_category($category)
     {
         $condition = new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_id());
@@ -1214,11 +1197,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         $condition = new AndCondition($conditions);
 
         return $this->database->retrieve_next_sort_value(RepositoryCategory :: get_table_name(), RepositoryCategory :: PROPERTY_DISPLAY_ORDER, $condition);
-    }
-
-    function get_next_user_view_id()
-    {
-        return $this->database->get_next_id(UserView :: get_table_name());
     }
 
     function delete_user_view($user_view)

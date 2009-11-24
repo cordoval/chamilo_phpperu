@@ -20,7 +20,7 @@ class DatabaseMenuDataManager extends MenuDataManager
     const ALIAS_CATEGORY_TABLE = 'c';
     const ALIAS_ITEM_TABLE = 'i';
     const ALIAS_MAX_SORT = 'max_sort';
-    
+
     /**
      * The database connection.
      */
@@ -36,21 +36,15 @@ class DatabaseMenuDataManager extends MenuDataManager
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
     }
-    
+
     function get_database()
     {
         return $this->database;
-    }
-
-    function get_next_navigation_item_id()
-    {
-        $id = $this->database->get_next_id(NavigationItem :: get_table_name());
-        return $id;
     }
 
     function create_storage_unit($name, $properties, $indexes)
@@ -78,7 +72,7 @@ class DatabaseMenuDataManager extends MenuDataManager
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, $parent);
-        
+
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(NavigationItem :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
@@ -89,39 +83,39 @@ class DatabaseMenuDataManager extends MenuDataManager
             $conditions[] = new InequalityCondition(NavigationItem :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
             $order_direction = SORT_ASC;
         }
-        
+
         $condition = new AndCondition($conditions);
         $order[] = new ObjectTableOrder(NavigationItem :: PROPERTY_SORT, $order_direction);
-        
+
         return $this->database->retrieve_object(NavigationItem :: get_table_name(), $condition, $order);
     }
 
     function update_navigation_item($navigation_item)
     {
         $old_navigation_item = $this->retrieve_navigation_item($navigation_item->get_id());
-        
+
         if ($old_navigation_item->get_category() !== $navigation_item->get_category())
         {
             $condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, $navigation_item->get_category());
             $sort = $this->retrieve_max_sort_value(NavigationItem :: get_table_name(), NavigationItem :: PROPERTY_SORT, $condition);
-            
+
             $navigation_item->set_sort($sort + 1);
         }
-        
+
         $condition = new EqualityCondition(NavigationItem :: PROPERTY_ID, $navigation_item->get_id());
         $this->database->update($navigation_item, $condition);
-        
+
         if ($old_navigation_item->get_category() !== $navigation_item->get_category())
         {
-            $query = 'UPDATE ' . $this->database->escape_table_name(NavigationItem :: get_table_name()) . ' SET ' . 
-            		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' = ' . 
-            		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' - 1 WHERE ' . 
-            		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' > ' . $this->quote($old_navigation_item->get_sort()) . ' AND ' . 
+            $query = 'UPDATE ' . $this->database->escape_table_name(NavigationItem :: get_table_name()) . ' SET ' .
+            		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' = ' .
+            		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' - 1 WHERE ' .
+            		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' > ' . $this->quote($old_navigation_item->get_sort()) . ' AND ' .
             		 $this->database->escape_column_name(NavigationItem :: PROPERTY_CATEGORY) . ' = ' . $this->quote($old_navigation_item->get_category());
-            
+
             $this->query($query);
         }
-        
+
         return true;
     }
 

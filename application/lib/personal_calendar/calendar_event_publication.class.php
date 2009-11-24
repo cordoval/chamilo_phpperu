@@ -20,11 +20,11 @@ class CalendarEventPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
-    
+
     const PROPERTY_CALENDAR_EVENT = 'calendar_event_id';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
-    
+
     private $target_groups;
     private $target_users;
 
@@ -122,8 +122,6 @@ class CalendarEventPublication extends DataClass
         $now = time();
         $this->set_published($now);
         $pcdm = PersonalCalendarDataManager :: get_instance();
-        $id = $pcdm->get_next_calendar_event_publication_id();
-        $this->set_id($id);
         return $pcdm->create_calendar_event_publication($this);
     }
 
@@ -133,8 +131,6 @@ class CalendarEventPublication extends DataClass
     function create_all()
     {
         $pmdm = PersonalCalendarDataManager :: get_instance();
-        $id = $pmdm->get_next_calendar_event_publication_id();
-        $this->set_id($id);
         return $pmdm->create_calendar_event_publication($this);
     }
 
@@ -145,7 +141,7 @@ class CalendarEventPublication extends DataClass
             $pcdm = PersonalCalendarDataManager :: get_instance();
             $this->target_users = $pcdm->retrieve_calendar_event_publication_target_users($this);
         }
-        
+
         return $this->target_users;
     }
 
@@ -156,7 +152,7 @@ class CalendarEventPublication extends DataClass
             $pcdm = PersonalCalendarDataManager :: get_instance();
             $this->target_groups = $pcdm->retrieve_calendar_event_publication_target_groups($this);
         }
-        
+
         return $this->target_groups;
     }
 
@@ -181,14 +177,14 @@ class CalendarEventPublication extends DataClass
         {
             return false;
         }
-        
+
         $user_id = $user->get_id();
-        
+
         $target_users = $this->get_target_users();
         $target_groups = $this->get_target_groups();
-        
+
         $user_groups = $user->get_groups(true);
-        
+
         if (in_array($user_id, $target_users))
         {
             return true;
@@ -203,7 +199,7 @@ class CalendarEventPublication extends DataClass
                 }
             }
         }
-        
+
         return false;
     }
 

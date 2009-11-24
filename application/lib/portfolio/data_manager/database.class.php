@@ -26,7 +26,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         $aliases[PortfolioPublication :: get_table_name()] = 'poon';
         $aliases[PortfolioPublicationGroup :: get_table_name()] = 'poup';
         $aliases[PortfolioPublicationUser :: get_table_name()] = 'poer';
-        
+
         $this->database = new Database($aliases);
         $this->database->set_prefix('portfolio_');
     }
@@ -35,12 +35,12 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
     }
-    
+
     function get_database()
     {
         return $this->database;
@@ -51,15 +51,10 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         return $this->database->create_storage_unit($name, $properties, $indexes);
     }
 
-    function get_next_portfolio_publication_id()
-    {
-        return $this->database->get_next_id(PortfolioPublication :: get_table_name());
-    }
-
     function create_portfolio_publication($portfolio_publication)
     {
         $succes = $this->database->create($portfolio_publication);
-        
+
         foreach ($portfolio_publication->get_target_groups() as $group)
         {
             $pfpg = new PortfolioPublicationGroup();
@@ -67,7 +62,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
             $pfpg->set_group_id($group);
             $succes &= $pfpg->create();
         }
-        
+
         foreach ($portfolio_publication->get_target_users() as $user)
         {
             $pfpg = new PortfolioPublicationUser();
@@ -75,7 +70,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
             $pfpg->set_user($user);
             $succes &= $pfpg->create();
         }
-        
+
         return $succes;
     }
 
@@ -83,15 +78,15 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
     {
         $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $portfolio_publication->get_id());
         $succes = $this->database->update($portfolio_publication, $condition);
-        
+
         if ($delete_targets)
         {
             $condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_PORTFOLIO_PUBLICATION, $portfolio_publication->get_id());
             $succes &= $this->database->delete(PortfolioPublicationGroup :: get_table_name(), $condition);
-            
+
             $condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_PORTFOLIO_PUBLICATION, $portfolio_publication->get_id());
             $succes &= $this->database->delete(PortfolioPublicationUser :: get_table_name(), $condition);
-            
+
             foreach ($portfolio_publication->get_target_groups() as $group)
             {
                 $pfpg = new PortfolioPublicationGroup();
@@ -99,7 +94,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
                 $pfpg->set_group_id($group);
                 $succes &= $pfpg->create();
             }
-            
+
             foreach ($portfolio_publication->get_target_users() as $user)
             {
                 $pfpu = new PortfolioPublicationUser();
@@ -108,7 +103,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
                 $succes &= $pfpu->create();
             }
         }
-        
+
         return $succes;
     }
 
@@ -116,13 +111,13 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
     {
         $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $portfolio_publication->get_id());
         $succes = $this->database->delete($portfolio_publication->get_table_name(), $condition);
-        
+
         $condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_PORTFOLIO_PUBLICATION, $portfolio_publication->get_id());
         $succes &= $this->database->delete(PortfolioPublicationGroup :: get_table_name(), $condition);
-        
+
         $condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_PORTFOLIO_PUBLICATION, $portfolio_publication->get_id());
         $succes &= $this->database->delete(PortfolioPublicationUser :: get_table_name(), $condition);
-        
+
         return $succes;
     }
 
@@ -204,38 +199,38 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->database->get_alias(PortfolioPublication :: get_table_name());
-                
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . 
-                		 $this->database->escape_table_name(PortfolioPublication :: get_table_name()) . ' AS ' . $pub_alias . 
-                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . 
-                		 ' ON ' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' . 
+
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
+                		 $this->database->escape_table_name(PortfolioPublication :: get_table_name()) . ' AS ' . $pub_alias .
+                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
+                		 ' ON ' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' .
                 		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
-                
+
                 $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this->database);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
                 foreach($order_properties as $order_property)
-                { 
+                {
                     if ($order_property->get_property() == 'application')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'location')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
                         $order[] = 'co.' . $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
-                    { 
+                    {
                         $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
-                
+
                 if(count($order) > 0)
                 	$query .= ' ORDER BY ' . implode(', ', $order);
             }
@@ -246,12 +241,12 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
            	$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
            	$translator = new ConditionTranslator($this->database);
            	$query .= $translator->render_query($condition);
-           	
+
         }
-        
+
         $this->database->set_limit($offset, $count);
 		$res = $this->query($query);
-		
+
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -264,7 +259,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
             $info->set_location(Translation :: get('MyPortfolio'));
             $info->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
             $info->set_publication_object_id($record[PortfolioPublication :: PROPERTY_CONTENT_OBJECT]);
-            
+
             $publication_attr[] = $info;
         }
         return $publication_attr;
@@ -275,10 +270,10 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         $query = 'SELECT * FROM ' . $this->database->escape_table_name('portfolio_publication') . ' WHERE ' . $this->database->escape_column_name(PortfolioPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
         $this->database->get_connection()->setLimit(0, 1);
         $res = $this->query($query);
-        
+
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-        
+
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[PortfolioPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[PortfolioPublication :: PROPERTY_PUBLISHER]);
@@ -288,7 +283,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         $publication_attr->set_location(Translation :: get('MyPortfolio'));
         $publication_attr->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
         $publication_attr->set_publication_object_id($record[PortfolioPublication :: PROPERTY_CONTENT_OBJECT]);
-        
+
         return $publication_attr;
     }
 
@@ -302,14 +297,14 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
     {
         $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
         $publications = $this->retrieve_portfolio_publications($condition);
-        
+
         $succes = true;
-        
+
         while ($publication = $publications->next_result())
         {
             $succes &= $publication->delete();
         }
-        
+
         return $succes;
     }
 

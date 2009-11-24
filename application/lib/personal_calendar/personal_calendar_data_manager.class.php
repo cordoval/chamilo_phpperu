@@ -88,12 +88,6 @@ abstract class PersonalCalendarDataManager
     abstract function update_content_object_publication_id($publication_attr);
 
     /**
-     * Get the next available profile publication ID
-     * @return int
-     */
-    abstract function get_next_calendar_event_publication_id();
-
-    /**
      * Retrieve a profile publication
      * @param int $id
      * @return ProfilePublication

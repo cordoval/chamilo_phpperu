@@ -14,12 +14,12 @@ class DatabaseAdminDataManager extends AdminDataManager
         $this->database = new Database(array('admin_category' => 'cat', 'language' => 'lang', 'setting' => 'setting', 'registration' => 'reg', 'system_announcement_publication' => 'sa'));
         $this->database->set_prefix('admin_');
     }
-    
+
 	function quote($value)
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
@@ -59,7 +59,7 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
         $condition = new EqualityCondition(Registration :: PROPERTY_ID, $id);
         return $this->database->retrieve_object(Registration :: get_table_name(), $condition);
-    
+
     }
 
     function retrieve_registrations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
@@ -78,7 +78,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         $conditions[] = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application);
         $conditions[] = new EqualityCondition(Setting :: PROPERTY_VARIABLE, $variable);
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->retrieve_object(Setting :: get_table_name(), $condition);
     }
 
@@ -119,7 +119,7 @@ class DatabaseAdminDataManager extends AdminDataManager
             $props[$this->database->escape_column_name('group_id')] = $group_id;
             $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('system_announcement_publication_group'), $props, MDB2_AUTOQUERY_INSERT);
         }
-        
+
         $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $system_announcement_publication->get_id());
         return $this->database->update($system_announcement_publication, $condition);
     }
@@ -140,41 +140,6 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
         $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $system_announcement_publication->get_id());
         return $this->database->delete($system_announcement_publication->get_table_name(), $condition);
-    }
-
-    // Inherited.
-    function get_next_language_id()
-    {
-        return $this->database->get_next_id(Language :: get_table_name());
-    }
-
-    // inherted
-    function get_next_feedback_publication_id()
-    {
-        return $this->database->get_next_id(FeedbackPublication :: get_table_name());
-    }
-
-    // inherted
-    function get_next_validation_id()
-    {
-        return $this->database->get_next_id(Validation :: get_table_name());
-    }
-
-    // Inherited.
-    function get_next_registration_id()
-    {
-        return $this->database->get_next_id(Registration :: get_table_name());
-    }
-
-    // Inherited.
-    function get_next_setting_id()
-    {
-        return $this->database->get_next_id(Setting :: get_table_name());
-    }
-
-    function get_next_system_announcement_publication_id()
-    {
-        return $this->database->get_next_id(SystemAnnouncementPublication :: get_table_name());
     }
 
     function create_language($language)
@@ -212,7 +177,7 @@ class DatabaseAdminDataManager extends AdminDataManager
                 $props[$this->database->escape_column_name('group_id')] = $group_id;
                 $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('system_announcement_publication_group'), $props, MDB2_AUTOQUERY_INSERT);
             }
-            
+
             return true;
         }
         else
@@ -253,7 +218,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         }
 
         $res->free();
-        
+
         return $groups;
     }
 
@@ -266,25 +231,20 @@ class DatabaseAdminDataManager extends AdminDataManager
         {
             $users[] = $target_user['user'];
         }
-        
-        $res->free();
-        
-        return $users;
-    }
 
-    function get_next_category_id()
-    {
-        return $this->database->get_next_id('admin_category');
+        $res->free();
+
+        return $users;
     }
 
     function delete_category($category)
     {
         $condition = new EqualityCondition(AdminCategory :: PROPERTY_ID, $category->get_id());
         $succes = $this->database->delete('admin_category', $condition);
-        
-        $query = 'UPDATE ' . $this->database->escape_table_name('admin_category') . ' SET ' . 
-        		 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' . 
-        		 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '>' . $this->quote($category->get_display_order()) . ' AND ' . 
+
+        $query = 'UPDATE ' . $this->database->escape_table_name('admin_category') . ' SET ' .
+        		 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' .
+        		 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '>' . $this->quote($category->get_display_order()) . ' AND ' .
         		 $this->database->escape_column_name(AdminCategory :: PROPERTY_PARENT) . '=' . $this->quote($category->get_parent());
         $this->query($query);
         return $succes;
@@ -312,7 +272,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_CID, $cid);
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->count_objects('feedback_publication', $condition);
     }
 
@@ -324,20 +284,20 @@ class DatabaseAdminDataManager extends AdminDataManager
     function select_next_display_order($parent_category_id)
     {
         $query = 'SELECT MAX(' . AdminCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->database->escape_table_name('admin_category');
-        
+
         $condition = new EqualityCondition(AdminCategory :: PROPERTY_PARENT, $parent_category_id);
-        
+
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this->database);
             $query .= $translator->render_query($condition);
         }
-        
+
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 
         $res->free();
-        
+
         return $record[0] + 1;
     }
 
@@ -348,7 +308,7 @@ class DatabaseAdminDataManager extends AdminDataManager
             if ($type == 'user')
             {
                 $query = 'SELECT * FROM ' . $this->database->get_table_name('system_announcement_publication') . ' WHERE ' . $this->database->escape_column_name('publisher_id') . '=' . $this->quote(Session :: get_user_id());
-                
+
                 $order = array();
                 for($i = 0; $i < count($order_property); $i ++)
                 {
@@ -400,7 +360,7 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
         $condition = new EqualityCondition('id', $publication_id);
         $record = $this->database->next_result();
-        
+
         $info = new ContentObjectPublicationAttributes();
         $info->set_id($record->get_id());
         $info->set_publisher_user_id($record->get_publisher());
@@ -430,11 +390,6 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
         $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         $this->database->delete('system_announcement_publication', $condition);
-    }
-
-    function get_next_remote_package_id()
-    {
-        return $this->database->get_next_id(RemotePackage :: get_table_name());
     }
 
     function create_remote_package($remote_package)
@@ -477,7 +432,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
         $condition = new AndCondition($conditions);
         $order_by[] = new ObjectTableOrder(FeedbackPublication :: PROPERTY_ID, SORT_DESC);
-        
+
         return $this->database->retrieve_objects(FeedbackPublication :: get_table_name(), $condition, null, null, $order_by);
     }
 
@@ -492,7 +447,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
         return $this->database->retrieve_objects(Validation :: get_table_name(),$condition);
     }*/
-    
+
     function retrieve_feedback_publication($id)
     {
         $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $id);
@@ -536,7 +491,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     function create_validation($validation)
     {
-        
+
         return $this->database->create($validation);
     }
 
@@ -547,10 +502,10 @@ class DatabaseAdminDataManager extends AdminDataManager
     	$udm = UserDataManager :: get_instance()->get_database();
     	$user_table = $udm->escape_table_name(User :: get_table_name());
     	$user_table_alias = $this->database->get_alias(User :: get_table_name());
-    	
+
     	$query = 'SELECT * FROM ' . $val_table . ' AS ' . $val_table_alias .
     			 ' JOIN ' . $user_table . ' AS ' . $user_table_alias;
-    	
+
     	return $this->database->retrieve_object_set($query, Validation :: get_table_name(), $condition = null, $offset, $max_objects, $order_by);
     }
 

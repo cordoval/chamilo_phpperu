@@ -10,9 +10,9 @@ require_once 'MDB2.php';
 
 class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
 {
-    
+
     private $database;
-    
+
     const ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE = 'lop';
     const ALIAS_CONTENT_OBJECT_TABLE = 'lo';
 
@@ -21,12 +21,12 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
         $this->database = new Database(array());
         $this->database->set_prefix('personal_messenger_');
     }
-    
+
 	function quote($value)
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
@@ -35,12 +35,6 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
     function get_database()
     {
         return $this->database;
-    }
-
-    // Inherited.
-    function get_next_personal_message_publication_id()
-    {
-        return $this->database->get_next_id(PersonalMessagePublication :: get_table_name());
     }
 
     // Inherited.
@@ -56,7 +50,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
         $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $user);
         $conditions[] = new EqualityCondition(PersonalMessagePublication :: PROPERTY_STATUS, 1);
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->count_objects(PersonalMessagePublication :: get_table_name(), $condition);
     }
 
@@ -141,38 +135,38 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->database->get_alias(PersonalMessagePublication :: get_table_name());
-                
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . 
-                		 $this->database->escape_table_name(PersonalMessagePublication :: get_table_name()) . ' AS ' . $pub_alias . 
-                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . 
-                		 ' ON ' . $this->database->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $pub_alias) . '=' . 
+
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
+                		 $this->database->escape_table_name(PersonalMessagePublication :: get_table_name()) . ' AS ' . $pub_alias .
+                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
+                		 ' ON ' . $this->database->escape_column_name(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $pub_alias) . '=' .
                 		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
-                
+
                 $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_SENDER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this->database);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
                 foreach($order_properties as $order_property)
-                { 
+                {
                     if ($order_property->get_property() == 'application')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'location')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
                         $order[] = 'co.' . $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
-                    { 
+                    {
                         $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
-                
+
                 if(count($order) > 0)
                 	$query .= ' ORDER BY ' . implode(', ', $order);
             }
@@ -184,15 +178,15 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
            	$translator = new ConditionTranslator($this->database);
            	$query .= $translator->render_query($condition);
         }
-        
+
         $this->database->set_limit($offset, $count);
 		$res = $this->query($query);
-		
+
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
             $publication = $this->database->record_to_class_object($record, PersonalMessagePublication :: CLASS_NAME);
-            
+
             $info = new ContentObjectPublicationAttributes();
             $info->set_id($publication->get_id());
             $info->set_publisher_user_id($publication->get_sender());
@@ -213,13 +207,13 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
             {
                 $info->set_location(Translation :: get('UnknownLocation'));
             }
-            
+
             if ($publication->get_user() == $user->get_id())
             {
                 $info->set_url('index_personal_messenger.php?go=view&pm=' . $publication->get_id());
             }
             $info->set_publication_object_id($publication->get_personal_message());
-            
+
             $publication_attr[] = $info;
         }
         return $publication_attr;
@@ -229,7 +223,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
     function get_content_object_publication_attribute($publication_id)
     {
         $publication = $this->retrieve_personal_message_publication($publication_id);
-        
+
         $info = new ContentObjectPublicationAttributes();
         $info->set_id($publication->get_id());
         $info->set_publisher_user_id($publication->get_sender());
@@ -250,13 +244,13 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
         {
             $info->set_location(Translation :: get('UnknownLocation'));
         }
-        
+
         if ($publication->get_user() == Session :: get_user_id())
         {
             $info->set_url('index_personal_messenger.php?go=view&pm=' . $publication->get_id());
         }
         $info->set_publication_object_id($publication->get_personal_message());
-        
+
         return $info;
     }
 

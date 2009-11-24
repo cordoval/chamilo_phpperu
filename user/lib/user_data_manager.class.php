@@ -37,11 +37,6 @@ abstract class UserDataManager
 	abstract function initialize();
 
 	/**
-	 * retrieves the next user id.
-	 */
-	abstract function get_next_user_id();
-
-	/**
 	 * Uses a singleton pattern and a factory pattern to return the data
 	 * manager. The configuration determines which data manager class is to
 	 * be instantiated.
@@ -245,24 +240,21 @@ abstract class UserDataManager
 
 	abstract function get_database();
 
-	abstract function get_next_buddy_list_category_id();
 	abstract function create_buddy_list_category($buddy_list_category);
 	abstract function update_buddy_list_category($buddy_list_category);
 	abstract function delete_buddy_list_category($buddy_list_category);
 	abstract function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
-	abstract function get_next_buddy_list_item_id();
 	abstract function create_buddy_list_item($buddy_list_item);
 	abstract function update_buddy_list_item($buddy_list_item);
 	abstract function delete_buddy_list_item($buddy_list_item);
 	abstract function retrieve_buddy_list_items($condition = null, $offset = null, $count = null, $order_property = null);
-	
-	abstract function get_next_chat_message_id();
+
 	abstract function create_chat_message($chat_message);
 	abstract function update_chat_message($chat_message);
 	abstract function delete_chat_message($chat_message);
 	abstract function retrieve_chat_messages($condition = null, $offset = null, $count = null, $order_property = null);
-	
+
 	abstract function retrieve_user_by_fullname($fullname);
 }
 ?>

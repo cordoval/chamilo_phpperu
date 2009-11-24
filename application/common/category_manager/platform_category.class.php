@@ -56,25 +56,4 @@ abstract class PlatformCategory extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
     }
-    
-/*abstract function create();
-	abstract function update();
-	abstract function delete();*/
-/*function create()
-	{
-		$rdm = ReservationsDataManager :: get_instance();
-		$this->set_id($rdm->get_next_category_id());
-		$this->set_display_order($rdm->select_next_display_order($this->get_parent()));
-		return $rdm->create_category($this);
-	}
-	
-	function update()
-	{
-		return ReservationsDataManager :: get_instance()->update_category($this);
-	}
-	
-	function delete()
-	{
-		return ReservationsDataManager :: get_instance()->delete_category($this);
-	}*/
 }

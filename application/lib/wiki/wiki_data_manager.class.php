@@ -46,8 +46,6 @@ abstract class WikiDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function get_next_wiki_publication_id();
-
     abstract function create_wiki_publication($wiki_publication);
 
     abstract function update_wiki_publication($wiki_publication);

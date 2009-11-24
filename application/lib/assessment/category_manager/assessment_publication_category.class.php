@@ -19,7 +19,6 @@ class AssessmentPublicationCategory extends PlatformCategory
     function create()
     {
         $adm = AssessmentDataManager :: get_instance();
-        $this->set_id($adm->get_next_assessment_publication_category_id());
         $this->set_display_order($adm->select_next_assessment_publication_category_display_order($this->get_parent()));
         return $adm->create_assessment_publication_category($this);
     }

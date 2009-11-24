@@ -142,36 +142,6 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
         return $this->database->create($laika_calculated_result);
     }
 
-    function get_next_laika_attempt_id()
-    {
-        return $this->database->get_next_id(LaikaAttempt :: get_table_name());
-    }
-
-    function get_next_laika_answer_id()
-    {
-        return $this->database->get_next_id(LaikaAnswer :: get_table_name());
-    }
-
-    function get_next_laika_scale_id()
-    {
-        return $this->database->get_next_id(LaikaScale :: get_table_name());
-    }
-
-    function get_next_laika_result_id()
-    {
-        return $this->database->get_next_id(LaikaResult :: get_table_name());
-    }
-
-    function get_next_laika_cluster_id()
-    {
-        return $this->database->get_next_id(LaikaCluster :: get_table_name());
-    }
-
-    function get_next_laika_calculated_result_id()
-    {
-        return $this->database->get_next_id(LaikaCalculatedResult :: get_table_name());
-    }
-
     function retrieve_laika_scales($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->database->retrieve_objects(LaikaScale :: get_table_name(), $condition, $offset, $max_objects, $order_by, LaikaScale :: CLASS_NAME);
@@ -331,12 +301,12 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
         $res = $this->query($query);
         return new ObjectResultSet($database, $res, LaikaAttempt :: CLASS_NAME);
     }
-    
+
 	function quote($value)
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);

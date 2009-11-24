@@ -43,11 +43,6 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         return $this->database->create_storage_unit($name, $properties, $indexes);
     }
 
-    function get_next_assessment_publication_id()
-    {
-        return $this->database->get_next_id(AssessmentPublication :: get_table_name());
-    }
-
     function create_assessment_publication($assessment_publication)
     {
         $succes = $this->database->create($assessment_publication);
@@ -99,11 +94,6 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         return $this->database->count_result_set($query, AssessmentPublication :: get_table_name(), $condition);
     }
 
-    function get_next_assessment_publication_category_id()
-    {
-        return $this->database->get_next_id(AssessmentPublicationCategory :: get_table_name());
-    }
-
     function create_assessment_publication_category($assessment_category)
     {
         return $this->database->create($assessment_category);
@@ -148,7 +138,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
             $translator = new ConditionTranslator($this->database, $this->database->get_alias(AssessmentPublicationCategory :: get_table_name()));
             $query .= $translator->render_query($condition);
         }
-      
+
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 
@@ -175,11 +165,6 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AssessmentPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AssessmentPublicationGroup :: PROPERTY_ASSESSMENT_PUBLICATION, $publication_group_alias);
 
         return $this->database->retrieve_object_set($query, AssessmentPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, AssessmentPublication :: CLASS_NAME);
-    }
-
-    function get_next_assessment_publication_group_id()
-    {
-        return $this->database->get_next_id(AssessmentPublicationGroup :: get_table_name());
     }
 
     function create_assessment_publication_group($assessment_publication_group)
@@ -215,11 +200,6 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         return $this->database->retrieve_objects(AssessmentPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, AssessmentPublicationGroup :: CLASS_NAME);
     }
 
-    function get_next_assessment_publication_user_id()
-    {
-        return $this->database->get_next_id(AssessmentPublicationUser :: get_table_name());
-    }
-
     function create_assessment_publication_user($assessment_publication_user)
     {
         return $this->database->create($assessment_publication_user);
@@ -251,11 +231,6 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
     function retrieve_assessment_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->database->retrieve_objects(AssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, AssessmentPublicationUser :: CLASS_NAME);
-    }
-
-    function get_next_survey_invitation_id()
-    {
-        return $this->database->get_next_id(SurveyInvitation :: get_table_name());
     }
 
     function create_survey_invitation($survey_invitation)
@@ -301,7 +276,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         $condition = new InCondition(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, $object_ids);
         return $this->database->count_objects(AssessmentPublication :: get_table_name(), $condition) >= 1;
     }
-    
+
     function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null)
     {
         if (isset($type))
@@ -311,41 +286,41 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->database->get_alias(AssessmentPublication :: get_table_name());
-                
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . 
-                		 $this->database->escape_table_name(AssessmentPublication :: get_table_name()) . ' AS ' . $pub_alias . 
-                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . 
-                		 ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' . 
+
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
+                		 $this->database->escape_table_name(AssessmentPublication :: get_table_name()) . ' AS ' . $pub_alias .
+                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
+                		 ' ON ' . $this->database->escape_column_name(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' .
                 		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
-                
+
                 $condition = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this->database);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
                 foreach($order_properties as $order_property)
-                { 
+                {
                     if ($order_property->get_property() == 'application')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'location')
                     {
-                    	
+
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
                         $order[] = 'co.' . $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
-                    { 
+                    {
                         $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
-                
+
                 if(count($order) > 0)
                 	$query .= ' ORDER BY ' . implode(', ', $order);
-                
+
             }
         }
         else
@@ -354,9 +329,9 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
            	$condition = new EqualityCondition(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
            	$translator = new ConditionTranslator($this->database);
            	$query .= $translator->render_query($condition);
-           	
+
         }
-        
+
         $this->database->set_limit($offset, $count);
 		$res = $this->query($query);
         $publication_attr = array();
@@ -435,12 +410,12 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
             return false;
         }
     }
-    
+
 	function quote($value)
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);

@@ -10,7 +10,7 @@
 class UserView extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_NAME = 'name';
     const PROPERTY_DESCRIPTION = 'description';
@@ -82,30 +82,31 @@ class UserView extends DataClass
     {
         //dump($values);
         $gdm = RepositoryDataManager :: get_instance();
-        
+
         $condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
         $views = $gdm->count_user_views($condition);
         if ($views > 0)
+        {
             return false;
-        
-        $this->set_id($gdm->get_next_user_view_id());
+        }
+
         $success = $gdm->create_user_view($this);
-        
+
         $registrations = $gdm->get_registered_types();
         foreach ($registrations as $registration)
         {
             $uvrlo = new UserViewRelContentObject();
             $uvrlo->set_view_id($this->get_id());
             $uvrlo->set_content_object_type($registration);
-            
+
             if (in_array($registration, $values))
                 $uvrlo->set_visibility(1);
             else
                 $uvrlo->set_visibility(0);
-            
+
             $uvrlo->create();
         }
-        
+
         return $success;
     }
 

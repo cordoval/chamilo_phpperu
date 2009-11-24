@@ -11,7 +11,7 @@ class ContentObjectPubFeedback extends ContentObject
     const PROPERTY_PUBLICATION_ID = 'publication_id';
     const PROPERTY_CLOI_ID = 'complex_content_object_id';
     const PROPERTY_FEEDBACK_ID = 'feedback_id';
-    
+
     /**
      * Default properties of the content_object_feedback object, stored in an associative
      * array.
@@ -101,9 +101,7 @@ class ContentObjectPubFeedback extends ContentObject
     function create()
     {
         $gdm = RepositoryDataManager :: get_instance();
-        $id = $gdm->get_next_content_object_pub_feedback_id();
-        $this->set_id($id);
-        
+
         return $gdm->create_content_object_pub_feedback($this);
     }
 
@@ -115,7 +113,7 @@ class ContentObjectPubFeedback extends ContentObject
         {
             return false;
         }
-        
+
         return true;
     }
 

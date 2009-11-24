@@ -20,7 +20,7 @@ class ProfilePublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
-    
+
     const PROPERTY_PROFILE = 'profile_id';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
@@ -130,8 +130,6 @@ class ProfilePublication extends DataClass
         $now = time();
         $this->set_published($now);
         $pmdm = ProfilerDataManager :: get_instance();
-        $id = $pmdm->get_next_profile_publication_id();
-        $this->set_id($id);
         return $pmdm->create_profile_publication($this);
     }
 

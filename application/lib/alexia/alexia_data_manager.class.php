@@ -40,8 +40,6 @@ abstract class AlexiaDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function get_next_alexia_publication_id();
-
     abstract function create_alexia_publication($alexia_publication);
 
     abstract function update_alexia_publication($alexia_publication);

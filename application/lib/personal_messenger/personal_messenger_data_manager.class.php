@@ -7,7 +7,7 @@
  */
 abstract class PersonalMessengerDataManager
 {
-    
+
     private static $instance;
 
     protected function PersonalMessengerDataManager()
@@ -64,12 +64,6 @@ abstract class PersonalMessengerDataManager
      * @return int
      */
     abstract function count_publication_attributes($user, $type = null, $condition = null);
-
-    /**
-     * Get the next available personal message publication ID
-     * @return int
-     */
-    abstract function get_next_personal_message_publication_id();
 
     abstract function initialize();
 

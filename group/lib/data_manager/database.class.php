@@ -30,12 +30,12 @@ class DatabaseGroupDataManager extends GroupDataManager
     {
         return $this->database;
     }
-    
+
 	function quote($value)
     {
     	return $this->database->quote($value);
     }
-    
+
     function query($query)
     {
     	return $this->database->query($query);
@@ -47,28 +47,22 @@ class DatabaseGroupDataManager extends GroupDataManager
         return $this->database->update($group, $condition);
     }
 
-    function get_next_group_id()
-    {
-        $id = $this->database->get_next_id(Group :: get_table_name());
-        return $id;
-    }
-
     function delete_group($group)
     {
         $condition = new EqualityCondition(Group :: PROPERTY_ID, $group->get_id());
         $bool = $this->database->delete($group->get_table_name(), $condition);
-        
+
         $condition_subgroups = new EqualityCondition(Group :: PROPERTY_PARENT, $group->get_id());
         $groups = $this->retrieve_groups($condition_subgroups);
         while ($gr = $groups->next_result())
         {
             $bool = $bool & $this->delete_group($gr);
         }
-        
+
         $this->truncate_group($group);
-        
+
         return $bool;
-    
+
     }
 
     function truncate_group($group)
@@ -83,7 +77,7 @@ class DatabaseGroupDataManager extends GroupDataManager
         $conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $groupreluser->get_group_id());
         $conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $groupreluser->get_user_id());
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->delete($groupreluser->get_table_name(), $condition);
     }
 
@@ -123,7 +117,7 @@ class DatabaseGroupDataManager extends GroupDataManager
         $conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id);
         $conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group_id);
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->retrieve_object(GroupRelUser :: get_table_name(), $condition);
     }
 
@@ -175,7 +169,7 @@ class DatabaseGroupDataManager extends GroupDataManager
         $conditions = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $group->get_id());
         $conditions = new EqualityCondition(GroupRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_template_id);
         $condition = new AndCondition($conditions);
-        
+
         return $this->database->delete(GroupRightsTemplate :: get_table_name(), $condition);
     }
 
@@ -186,23 +180,23 @@ class DatabaseGroupDataManager extends GroupDataManager
         $conditions = new NotCondition(new InCondition(GroupRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_templates));
         $conditions = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $group->get_id());
         $condition = new AndCondition($conditions);
-        
+
         $success = $this->database->delete(GroupRightsTemplate :: get_table_name(), $condition);
         if (! $success)
         {
             return false;
         }
-        
+
         // Get the group's rights_templates
         $condition = new EqualityCondition(GroupRightsTemplate :: PROPERTY_GROUP_ID, $group->get_id());
         $group_rights_templates = $this->retrieve_group_rights_templates($condition);
         $existing_rights_templates = array();
-        
+
         while ($group_rights_template = $group_rights_templates->next_result())
         {
             $existing_rights_templates[] = $group_rights_template->get_rights_template_id();
         }
-        
+
         // Add the new links
         foreach ($rights_templates as $rights_template)
         {
@@ -214,14 +208,14 @@ class DatabaseGroupDataManager extends GroupDataManager
                 }
             }
         }
-        
+
         return true;
     }
 
     function is_groupname_available($groupname, $group_id = null)
     {
         $condition = new EqualityCondition(Group :: PROPERTY_NAME, $groupname);
-        
+
         if ($group_id)
         {
             $conditions = array();
@@ -229,7 +223,7 @@ class DatabaseGroupDataManager extends GroupDataManager
             $conditions = new EqualityCondition(Group :: PROPERTY_ID, $group_id);
             $condition = new AndCondition($conditions);
         }
-        
+
         return ! ($this->database->count_objects(Group :: get_table_name(), $condition) == 1);
     }
 
@@ -237,23 +231,23 @@ class DatabaseGroupDataManager extends GroupDataManager
     {
         // Update all necessary left-values
         $condition = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
-        
+
         $query = 'UPDATE ' . $this->database->escape_table_name('group') . ' SET ' . $this->database->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($number_of_elements * 2);
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this->database);
             $query .= $translator->render_query($condition);
         }
-        
+
 		$this->query($query);
-		
+
         // Update all necessary right-values
         $condition = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $query = 'UPDATE ' . $this->database->escape_table_name('group') . ' SET ' . $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($number_of_elements * 2);
-        
+
         $translator = new ConditionTranslator($this->database);
         $query .= $translator->render_query($condition);
-        
+
         $this->query($query);
         // TODO: For now we just return true ...
         return true;
@@ -262,31 +256,31 @@ class DatabaseGroupDataManager extends GroupDataManager
     function delete_nested_values($group)
     {
         $delta = $group->get_right_value() - $group->get_left_value() + 1;
-        
+
         // Update all necessary nested-values
         $condition = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $group->get_left_value());
-        
+
         $query = 'UPDATE ' . $this->database->escape_table_name('group');
         $query .= ' SET ' . $this->database->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' - ' . $this->quote($delta) . ', ';
         $query .= $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta);
-        
+
         $translator = new ConditionTranslator($this->database);
         $query .= $translator->render_query($condition);
-        
+
         $this->query($query);
-        
+
         // Update some more nested-values
         $conditions = array();
         $conditions[] = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $group->get_left_value());
         $conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $group->get_right_value());
         $condition = new AndCondition($conditions);
-        
+
         $query = 'UPDATE ' . $this->database->escape_table_name('group');
         $query .= ' SET ' . $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta);
-        
+
         $translator = new ConditionTranslator($this->database);
         $query .= $translator->render_query($condition);
-        
+
         $this->query($query);
         return true;
     }
@@ -302,7 +296,7 @@ class DatabaseGroupDataManager extends GroupDataManager
             {
                 return true;
             }
-            
+
             $new_previous = $this->retrieve_group($new_previous_id);
             // TODO: What if group $new_previous_id doesn't exist ? Return error.
             $new_parent_id = $new_previous->get_parent();
@@ -330,17 +324,17 @@ class DatabaseGroupDataManager extends GroupDataManager
             $new_parent = $this->retrieve_group($new_parent_id);
             // TODO: What if this is an invalid group ? Return error.
         }
-        
+
         $number_of_elements = ($group->get_right_value() - $group->get_left_value() + 1) / 2;
         $previous_visited = $new_previous_id ? $new_previous->get_right_value() : $new_parent->get_left_value();
-        
+
         // Update the nested values so we can actually add the element
         // Return false if this failed
         if (! $this->add_nested_values($previous_visited, $number_of_elements))
         {
             return false;
         }
-        
+
         // Now we can update the actual parent_id
         // Return false if this failed
         $group = $this->retrieve_group($group->get_id());
@@ -349,9 +343,9 @@ class DatabaseGroupDataManager extends GroupDataManager
         {
             return false;
         }
-        
+
         // Update the left/right values of those elements that are being moved
-        
+
 
         // First get the offset we need to add to the left/right values
         // if $newPrevId is given we need to get the right value,
@@ -370,10 +364,10 @@ class DatabaseGroupDataManager extends GroupDataManager
             // TODO: What if $temp doesn't exist ? Return error.
             $calculate_width = $temp->get_left_value();
         }
-        
+
         // Get the element that is being moved again, since the left and
         // right might have changed by the add-call
-        
+
 
         $group = $this->retrieve_group($group->get_id());
         // TODO: What if $group doesn't exist ? Return error.
@@ -381,28 +375,28 @@ class DatabaseGroupDataManager extends GroupDataManager
         // Calculate the offset of the element to to the spot where it should go
         // correct the offset by one, since it needs to go inbetween!
         $offset = $calculate_width - $group->get_left_value() + 1;
-        
+
         // Do the actual update
         $conditions = array();
         $conditions[] = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, ($group->get_left_value() - 1));
         $conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, ($group->get_right_value() + 1));
         $condition = new AndCondition($conditions);
-        
+
         $query = 'UPDATE ' . $this->database->escape_table_name('group');
         $query .= ' SET ' . $this->database->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($offset) . ', ';
         $query .= $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($offset);
-        
+
         $translator = new ConditionTranslator($this->database);
         $query .= $translator->render_query($condition);
-        
+
         $this->query($query);
-       
+
         // Remove the subtree where the group was before
         if (! $this->delete_nested_values($group))
         {
             return false;
         }
-        
+
         return true;
     }
 

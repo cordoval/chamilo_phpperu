@@ -46,8 +46,6 @@ abstract class WebconferencingDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function get_next_webconference_id();
-
     abstract function create_webconference($webconference);
 
     abstract function update_webconference($webconference);
@@ -59,8 +57,6 @@ abstract class WebconferencingDataManager
     abstract function retrieve_webconference($id);
 
     abstract function retrieve_webconferences($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function get_next_webconference_option_id();
 
     abstract function create_webconference_option($webconference_option);
 

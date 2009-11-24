@@ -14,7 +14,7 @@ class QuotaBoxRelCategory extends DataClass
 {
     const PROPERTY_QUOTA_BOX_ID = 'quota_box_id';
     const PROPERTY_CATEGORY_ID = 'category_id';
-    
+
     const CLASS_NAME = __CLASS__;
 
     /**
@@ -54,7 +54,6 @@ class QuotaBoxRelCategory extends DataClass
     function create()
     {
         $rdm = ReservationsDataManager :: get_instance();
-        $this->set_id($rdm->get_next_quota_box_rel_category_id());
         return $rdm->create_quota_box_rel_category($this);
     }
 

@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/portfolio_publication_group.class.php';
 class PortfolioPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     /**
      * PortfolioPublication properties
      */
@@ -25,7 +25,7 @@ class PortfolioPublication extends DataClass
     const PROPERTY_HIDDEN = 'hidden';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
-    
+
     private $target_groups;
     private $target_users;
 
@@ -170,13 +170,13 @@ class PortfolioPublication extends DataClass
         {
             $condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_PORTFOLIO_PUBLICATION, $this->get_id());
             $groups = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_groups($condition);
-            
+
             while ($group = $groups->next_result())
             {
                 $this->target_groups[] = $group->get_group_id();
             }
         }
-        
+
         return $this->target_groups;
     }
 
@@ -186,36 +186,36 @@ class PortfolioPublication extends DataClass
         {
             $condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_PORTFOLIO_PUBLICATION, $this->get_id());
             $users = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition);
-            
+
             while ($user = $users->next_result())
             {
                 $this->target_users[] = $user->get_user();
             }
         }
-        
+
         return $this->target_users;
     }
 
     function is_visible_for_target_user($user_id)
     {
         $user = UserDataManager :: get_instance()->retrieve_user($user_id);
-        
+
         if ($user->is_platform_admin() || $user_id == $this->get_publisher())
             return true;
-        
+
         if ($this->get_target_groups() || $this->get_target_users())
         {
             $allowed = false;
-            
+
             if (in_array($user_id, $this->get_target_users()))
             {
                 $allowed = true;
             }
-            
+
             if (! $allowed)
             {
                 $user_groups = $user->get_groups();
-                
+
                 while ($user_group = $user_groups->next_result())
                 {
                     if (in_array($user_group->get_id(), $this->get_target_groups()))
@@ -225,26 +225,25 @@ class PortfolioPublication extends DataClass
                     }
                 }
             }
-            
+
             if (! $allowed)
                 return false;
         }
-        
+
         if ($this->get_hidden())
             return false;
-        
+
         $time = time();
-        
+
         if ($time < $this->get_from_date() || $time > $this->get_to_date())
             return false;
-        
+
         return true;
     }
 
     function create()
     {
         $dm = PortfolioDataManager :: get_instance();
-        $this->set_id($dm->get_next_portfolio_publication_id());
         return $dm->create_portfolio_publication($this);
     }
 

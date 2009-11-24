@@ -41,18 +41,6 @@ abstract class AdminDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function get_next_setting_id();
-
-    abstract function get_next_language_id();
-
-    abstract function get_next_registration_id();
-
-    abstract function get_next_feedback_publication_id();
-
-    abstract function get_next_validation_id();
-
-    abstract function get_next_system_announcement_publication_id();
-
     abstract function create_language($language);
 
     abstract function create_registration($registration);
@@ -88,7 +76,7 @@ abstract class AdminDataManager
     abstract function retrieve_feedback_publication($id);
 
     //abstract function retrieve_validations($pid,$cid,$application);
-    
+
 
     abstract function retrieve_validation($id);
 
@@ -107,13 +95,13 @@ abstract class AdminDataManager
     function get_languages()
     {
         $options = array();
-        
+
         $languages = $this->retrieve_languages();
         while ($language = $languages->next_result())
         {
             $options[$language->get_folder()] = $language->get_original_name();
         }
-        
+
         return $options;
     }
 
@@ -144,8 +132,6 @@ abstract class AdminDataManager
     abstract function retrieve_system_announcement_publication_target_groups($system_announcement_publication);
 
     abstract function retrieve_system_announcement_publication_target_users($system_announcement_publication);
-
-    abstract function get_next_category_id();
 
     abstract function select_next_display_order($parent_category_id);
 

@@ -9,7 +9,7 @@ abstract class WebserviceDataManager
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
-    
+
     /**
      * Array which contains the registered applications running on top of this
      * repositorydatamanager
@@ -43,10 +43,6 @@ abstract class WebserviceDataManager
     }
 
     abstract function initialize();
-
-    abstract function get_next_webservice_id();
-
-    abstract function get_next_webservice_category_id();
 
     abstract function count_webservices($conditions = null);
 

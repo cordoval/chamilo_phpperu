@@ -96,34 +96,6 @@ class DatabaseRightsDataManager extends RightsDataManager
         return $this->database->create($rights_template_right_location);
     }
 
-    //Inherited.
-    function get_next_rights_template_id()
-    {
-        return $this->database->get_next_id(RightsTemplate :: get_table_name());
-    }
-
-    function get_next_user_right_location_id()
-    {
-        return $this->database->get_next_id(UserRightLocation :: get_table_name());
-    }
-
-    function get_next_group_right_location_id()
-    {
-        return $this->database->get_next_id(GroupRightLocation :: get_table_name());
-    }
-
-    //Inherited.
-    function get_next_right_id()
-    {
-      	return $this->database->get_next_id(Right :: get_table_name());
-    }
-
-    //Inherited.
-    function get_next_location_id()
-    {
-        return $this->database->get_next_id(Location :: get_table_name());
-    }
-
     function create_storage_unit($name, $properties, $indexes)
     {
         return $this->database->create_storage_unit($name, $properties, $indexes);

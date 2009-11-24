@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 class CourseGroup
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_COURSE_CODE = 'course_id';
     const PROPERTY_NAME = 'name';
@@ -24,7 +24,7 @@ class CourseGroup
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_SELF_UNREG = 'self_unreg_allowed';
     const PROPERTY_SELF_REG = 'self_reg_allowed';
-    
+
     /**
      * The default property values
      */
@@ -286,7 +286,6 @@ class CourseGroup
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        $this->set_id($wdm->get_next_course_group_id());
         return $wdm->create_course_group($this);
     }
 

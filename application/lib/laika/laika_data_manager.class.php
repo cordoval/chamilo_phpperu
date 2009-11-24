@@ -98,16 +98,6 @@ abstract class LaikaDataManager
 
     abstract function create_laika_calculated_result($laika_calculated_result);
 
-    abstract function get_next_laika_attempt_id();
-
-    abstract function get_next_laika_answer_id();
-
-    abstract function get_next_laika_scale_id();
-
-    abstract function get_next_laika_result_id();
-
-    abstract function get_next_laika_calculated_result_id();
-
     abstract function retrieve_laika_scale($id);
 
     abstract function retrieve_laika_scales($condition = null, $offset = null, $count = null, $order_property = null);

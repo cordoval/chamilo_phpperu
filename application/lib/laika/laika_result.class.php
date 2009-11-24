@@ -8,13 +8,13 @@ class LaikaResult
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'result';
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_SCALE_ID = 'scale_id';
     const PROPERTY_RESULT = 'result';
     const PROPERTY_PERCENTILE = 'percentile';
     const PROPERTY_PERCENTILE_CODE = 'percentile_code';
-    
+
     private $defaultProperties;
 
     function __construct($defaultProperties = array ())
@@ -63,7 +63,7 @@ class LaikaResult
     /**
      * Method to check whether a certain name is a default property name
      * @param String $name
-     * @return 
+     * @return
      */
     static function is_default_property_name($name)
     {
@@ -82,8 +82,6 @@ class LaikaResult
     function create()
     {
         $ldm = LaikaDataManager :: get_instance();
-        $id = $ldm->get_next_laika_result_id();
-        $this->set_id($id);
         return $ldm->create_laika_result($this);
     }
 

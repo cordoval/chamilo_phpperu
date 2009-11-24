@@ -8,13 +8,13 @@ class LaikaAttempt
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'attempt';
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_DATE = 'date';
-    
+
     private $defaultProperties;
-    
+
     private $user;
 
     function __construct($defaultProperties = array ())
@@ -63,7 +63,7 @@ class LaikaAttempt
     /**
      * Method to check whether a certain name is a default property name
      * @param String $name
-     * @return 
+     * @return
      */
     static function is_default_property_name($name)
     {
@@ -82,8 +82,6 @@ class LaikaAttempt
     function create()
     {
         $ldm = LaikaDataManager :: get_instance();
-        $id = $ldm->get_next_laika_attempt_id();
-        $this->set_id($id);
         $this->set_date(time());
         return $ldm->create_laika_attempt($this);
     }
@@ -143,7 +141,7 @@ class LaikaAttempt
             $udm = UserDataManager :: get_instance();
             $this->user = $udm->retrieve_user($user_id);
         }
-        
+
         return $this->user;
     }
 }
