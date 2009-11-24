@@ -109,9 +109,6 @@ class DatabaseUserDataManager extends UserDataManager
 	{
 		$this->database->create($user);
 
-		print_r($user);
-		exit;
-
 		// Create the user's root category for the repository
 		RepositoryRights :: create_user_root($user);
 
