@@ -5,6 +5,20 @@ abstract class BaseExternalExporter
     const GET_NEW_UID_NOT_IMPLEMENTED = 'GET_NEW_UID_NOT_IMPLEMENTED';
     const SESSION_MISSING_FIELDS      = 'SESSION_MISSING_FIELDS';
     
+    /*
+     * Constants used as properties names to describe an object stored in an external repository 
+     */
+    const OBJECT_ID                = 'object_id';
+    const OBJECT_TITLE             = 'object_title';
+    const OBJECT_SYNC_STATE        = 'object_sync_state';
+    const OBJECT_OWNER_ID          = 'object_owner_id';
+    const OBJECT_CREATION_DATE     = 'object_creation_date';
+    const OBJECT_MODIFICATION_DATE = 'object_modification_date';
+    const OBJECT_DESCRIPTION       = 'object_description';
+    
+    const EXTERNAL_OBJECT_KEY      = 'external_object';
+    const CHAMILO_OBJECT_KEY       = 'content_object';
+    
     protected $errors = array();
     
     /**
@@ -152,6 +166,14 @@ abstract class BaseExternalExporter
 	 * @return boolean Indicates wether the export succeeded
 	 */
 	abstract public function export($content_object);
+	
+	/**
+	 * Return the list of objects existing in the repository. This list is specific to the logged in user.
+	 * The returned array should contain object properties (such as title, type, ...) and infos about its state compared to Chamilo (such as synchronized, newer in repository, ...)  
+	 * 
+	 * @return array
+	 */
+	abstract public function get_objects_list_from_repository();
 	
 	/**
 	 * Prepare the learning object for the export.

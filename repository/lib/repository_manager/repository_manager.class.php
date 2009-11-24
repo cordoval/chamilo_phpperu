@@ -96,6 +96,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
     const ACTION_EXTERNAL_REPOSITORY_BROWSE = 'ext_rep_browse';
     const ACTION_EXTERNAL_REPOSITORY_EXPORT = 'ext_rep_export';
+    const ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS = 'ext_rep_list_objects';
     const ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW = 'ext_rep_metadata_review';
     const ACTION_EXTERNAL_REPOSITORY_CATALOG = 'ext_rep_catalog';
     const ACTION_BROWSE_TEMPLATES = 'templates';
@@ -274,6 +275,9 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_EXPORT :
                 $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportExport', $this);
+                break;
+            case self :: ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS :
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportListObjects', $this);
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW :
                 $component = RepositoryManagerComponent :: factory('ExternalRepositoryMetadataReviewer', $this);

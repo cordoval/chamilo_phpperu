@@ -85,6 +85,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     // Inherited.
     function retrieve_content_object($id, $type = null)
     {
+        if(!isset($id) || strlen($id) == 0 || $id == DataClass :: NO_UID)
+        {
+            return null;
+        }
+        
         if (is_null($type))
         {
             $type = $this->determine_content_object_type($id);
@@ -1342,6 +1347,22 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->database->retrieve_objects(ContentObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+    
+    function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value)
+    {
+        if(StringUtilities::has_value($catalog_name) && StringUtilities::has_value($entry_value))
+        {
+            $query = 'SELECT count(*) as total, content_object_id FROM repository_content_object_metadata
+                WHERE 
+                (property LIKE \'general_identifier[%][catalog]\' AND value = \'' . $catalog_name . '\')
+                OR
+                (property LIKE \'general_identifier[%][entry]\' AND value = \'' . $entry_value . '\')
+                GROUP BY content_object_id
+                HAVING total=2';
+            
+            return $this->database->retrieve_object_set($query, 'repository_content_object_metadata', null, null, null, null, 'ContentObjectMetadata');
+        }
     }
 
     function create_content_object_metadata_catalog($content_object_metadata_catalog)
