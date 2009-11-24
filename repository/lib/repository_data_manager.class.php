@@ -581,12 +581,6 @@ abstract class RepositoryDataManager
     abstract function delete_content_object($object);
 
     /**
-     * Returns the next available complex learning object ID.
-     * @return int The ID.
-     */
-    abstract function get_next_complex_content_object_item_id();
-
-    /**
      * Creates a new complex learning object in the database
      * @param ComplexContentObject $clo - The complex learning object
      * @return True if success

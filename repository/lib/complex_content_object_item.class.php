@@ -11,14 +11,14 @@
 
 class ComplexContentObjectItem extends DataClass
 {
-    
+
     const CLASS_NAME = __CLASS__;
     const PROPERTY_REF = 'ref_id';
     const PROPERTY_PARENT = 'parent_id';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_DISPLAY_ORDER = 'display_order';
     const PROPERTY_ADD_DATE = 'add_date';
-    
+
     private $additionalProperties;
 
     function ComplexContentObjectItem($defaultProperties = array (), $additionalProperties = array())
@@ -140,8 +140,6 @@ class ComplexContentObjectItem extends DataClass
     function create()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        $id = $rdm->get_next_complex_content_object_item_id();
-        $this->set_id($id);
         $this->set_add_date(Utilities :: to_db_date(time()));
         if(!$this->get_display_order())
         {

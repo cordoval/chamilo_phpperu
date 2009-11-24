@@ -843,15 +843,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     }
 
     /**
-     * Returns the next available complex learning object ID.
-     * @return int The ID.
-     */
-    function get_next_complex_content_object_item_id()
-    {
-        return $this->database->get_next_id(ComplexContentObjectItem :: get_table_name());
-    }
-
-    /**
      * Creates a new complex learning object in the database
      * @param ComplexContentObject $clo - The complex learning object
      * @return True if success
@@ -863,8 +854,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         {
             $props[$this->database->escape_column_name($key)] = $value;
         }
+        $props[$this->database->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID)] = $this->database->get_better_next_id(ComplexContentObjectItem :: get_table_name(), ComplexContentObjectItem :: PROPERTY_ID);
         $this->database->get_connection()->loadModule('Extended');
         $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(ComplexContentObjectItem :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
+        $clo_item->set_id($this->database->get_connection()->extended->getAfterID($props[$this->database->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID)], ComplexContentObjectItem :: get_table_name()));
 
         if ($clo_item->is_extended())
         {
