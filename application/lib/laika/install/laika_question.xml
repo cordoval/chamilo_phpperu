@@ -4,5 +4,8 @@
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="title" type="text" notnull="1" />
 		<property name="description" type="text" notnull="1" />
+		<property name="scale_id" type="integer" unsigned="1" notnull="1" />
+		<property name="weight" type="integer" unsigned="1" notnull="1" />
+		<property name="correction" type="integer" notnull="1" />
 	</properties>
 </object>
