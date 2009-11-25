@@ -17,6 +17,7 @@ class ExternalExportFedora extends ExternalExport
     const PROPERTY_GET_UID_REST_PATH = 'get_uid_rest_path';
     const PROPERTY_INGEST_REST_PATH = 'ingest_rest_path';
     const PROPERTY_FINDOBJECT_REST_PATH = 'find_object_rest_path';
+    const PROPERTY_FINDOBJECTS_REST_PATH = 'find_objects_rest_path';
     const PROPERTY_ADD_DATASTREAM_REST_PATH = 'add_datastream_rest_path';
     const PROPERTY_CLIENT_CERTIFICATE_FILE = 'client_certificate_file';
     const PROPERTY_CLIENT_CERTIFICATE_KEY_FILE = 'client_certificate_key_file';
@@ -136,6 +137,27 @@ class ExternalExportFedora extends ExternalExport
         return $this->ensure_start_with_slash($this->get_default_property(self :: PROPERTY_FINDOBJECT_REST_PATH));
     }
 
+	/*************************************************************************/
+    
+    /**
+     * @param $find_objects_rest_path string The path to search existing objects in the repository (relative to the root of the Fedora repository)
+     * @return void
+     */
+    function set_find_objects_rest_path($find_objects_rest_path)
+    {
+        if (isset($find_objects_rest_path))
+        {
+            $find_objects_rest_path = $this->ensure_start_with_slash($find_objects_rest_path);
+            
+            $this->set_default_property(self :: PROPERTY_FINDOBJECTS_REST_PATH, $find_objects_rest_path);
+        }
+    }
+
+    function get_find_objects_rest_path()
+    {
+        return $this->ensure_start_with_slash($this->get_default_property(self :: PROPERTY_FINDOBJECTS_REST_PATH));
+    }
+    
     /*************************************************************************/
     
     /**
@@ -281,6 +303,7 @@ class ExternalExportFedora extends ExternalExport
         $extended_property_names[] = self :: PROPERTY_BASE_URL;
         $extended_property_names[] = self :: PROPERTY_GET_UID_REST_PATH;
         $extended_property_names[] = self :: PROPERTY_FINDOBJECT_REST_PATH;
+        $extended_property_names[] = self :: PROPERTY_FINDOBJECTS_REST_PATH;
         $extended_property_names[] = self :: PROPERTY_INGEST_REST_PATH;
         $extended_property_names[] = self :: PROPERTY_ADD_DATASTREAM_REST_PATH;
         $extended_property_names[] = self :: PROPERTY_CLIENT_CERTIFICATE_FILE;
@@ -350,6 +373,25 @@ class ExternalExportFedora extends ExternalExport
         else
         {
             throw new Exception('Fedora repository \'full findObject path\' is not set');
+        }
+    }
+    
+	/**
+     * 
+     * @return string
+     */
+    public function get_full_find_objects_rest_path()
+    {
+        $base_url = $this->get_base_url();
+        $path = $this->get_find_objects_rest_path();
+        
+        if (isset($base_url) && isset($path))
+        {
+            return $base_url . $path;
+        }
+        else
+        {
+            throw new Exception('Fedora repository \'full findObjects path\' is not set');
         }
     }
 

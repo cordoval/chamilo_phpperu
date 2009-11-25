@@ -909,10 +909,19 @@ abstract class RepositoryDataManager
 
     abstract function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
+    abstract function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value);
+
     abstract function retrieve_external_export($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
     abstract function retrieve_external_export_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
     abstract function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null);
+    
+    abstract function create_external_export_sync_info($external_export_sync_info);
+
+    abstract function update_external_export_sync_info($external_export_sync_info);
+
+    abstract function delete_external_export_sync_info($external_export_sync_info);
+    
 }
 ?>

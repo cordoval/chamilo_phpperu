@@ -46,6 +46,40 @@ class StringUtilities
     }
 
     /**
+     * Indicates wether the given string has some value (meaning neither null nor empty)
+     * @param string $string
+     * @return boolean
+     */
+    public static function has_value($string)
+    {
+        return !StringUtilities :: is_null_or_empty($string);
+    }
+    
+    /**
+     * Indicates wether the given string is null or empty
+     * @param string $string
+     * @return boolean
+     */
+    public static function is_null_or_empty($string)
+    {
+        if(is_string($string))
+        {
+            if(!isset($string) || strlen($string) == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            throw new Exception('StringUtilities error: The given value is not a string');
+        }
+    } 
+    
+    /**
      * Ensure a string starts with another given string
      * 
      * @param $string The string that must start with a leading string

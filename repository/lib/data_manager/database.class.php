@@ -85,6 +85,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     // Inherited.
     function retrieve_content_object($id, $type = null)
     {
+        if(!isset($id) || strlen($id) == 0 || $id == DataClass :: NO_UID)
+        {
+            return null;
+        }
+        
         if (is_null($type))
         {
             $type = $this->determine_content_object_type($id);
@@ -1343,6 +1348,22 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     {
         return $this->database->retrieve_objects(ContentObjectMetadata :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
+    
+    function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value)
+    {
+        if(StringUtilities::has_value($catalog_name) && StringUtilities::has_value($entry_value))
+        {
+            $query = 'SELECT count(*) as total, content_object_id FROM repository_content_object_metadata
+                WHERE 
+                (property LIKE \'general_identifier[%][catalog]\' AND value = \'' . $catalog_name . '\')
+                OR
+                (property LIKE \'general_identifier[%][entry]\' AND value = \'' . $entry_value . '\')
+                GROUP BY content_object_id
+                HAVING total=2';
+            
+            return $this->database->retrieve_object_set($query, 'repository_content_object_metadata', null, null, null, null, 'ContentObjectMetadata');
+        }
+    }
 
     function create_content_object_metadata_catalog($content_object_metadata_catalog)
     {
@@ -1425,6 +1446,71 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         }
 
         return $this->database->retrieve_object_set($query, $table_name, $condition, $offset, $max_objects, $order_by);
+    }
+    
+    function create_external_export_sync_info($external_export_sync_info)
+    {
+        $created = $external_export_sync_info->get_creation_date();
+        if (is_numeric($created))
+        {
+            $external_export_sync_info->set_creation_date(self :: to_db_date($external_export_sync_info->get_creation_date()));
+        }
+        
+        return $this->database->create($external_export_sync_info);
+    }
+
+    function update_external_export_sync_info($external_export_sync_info)
+    {
+        $condition = new EqualityCondition(ExternalExportSyncInfo :: PROPERTY_ID, $external_export_sync_info->get_id());
+
+        $date = $external_export_sync_info->get_modification_date();
+        if (is_numeric($date))
+        {
+            $external_export_sync_info->set_modification_date(self :: to_db_date($external_export_sync_info->get_modification_date()));
+        }
+
+        return $this->database->update($external_export_sync_info, $condition);
+    }
+
+    function delete_external_export_sync_info($external_export_sync_info)
+    {
+        $condition = new EqualityCondition(ExternalExportSyncInfo :: PROPERTY_ID, $external_export_sync_info->get_id());
+        return $this->database->delete($external_export_sync_info->get_table_name(), $condition);
+    }
+    
+    function retrieve_external_export_sync_info($conditions)
+    {
+        $record = $this->database->retrieve_record(ExternalExportSyncInfo :: get_table_name(), $conditions);
+
+        return self :: record_to_object($record, 'ExternalExportSyncInfo');
+    }
+    
+    function record_to_object($record, $object_class_name)
+    {
+        //DebugUtilities::show($record);
+        
+        if($record !== false)
+        {
+            //$object = new $object_class_name;
+            
+            $properties = call_user_func(array($object_class_name, 'get_default_property_names'));
+            
+            $default_properties = array();
+            
+            foreach ($properties as $property)
+            {
+                if(array_key_exists($property, $record))
+                {
+                    $default_properties[$property] = $record[$property];
+                }
+            }
+            
+            return new $object_class_name($default_properties);
+        }
+        else
+        {
+            return null;
+        }
     }
 }
 ?>

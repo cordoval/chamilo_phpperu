@@ -5,6 +5,27 @@ abstract class BaseExternalExporter
     const GET_NEW_UID_NOT_IMPLEMENTED = 'GET_NEW_UID_NOT_IMPLEMENTED';
     const SESSION_MISSING_FIELDS      = 'SESSION_MISSING_FIELDS';
     
+    /*
+     * Constants used as properties names to describe an object stored in an external repository 
+     */
+    const OBJECT_ID                = 'object_id';
+    const OBJECT_TITLE             = 'object_title';
+    const OBJECT_SYNC_STATE        = 'object_sync_state';
+    const OBJECT_OWNER_ID          = 'object_owner_id';
+    const OBJECT_CREATION_DATE     = 'object_creation_date';
+    const OBJECT_MODIFICATION_DATE = 'object_modification_date';
+    const OBJECT_DESCRIPTION       = 'object_description';
+    
+    const EXTERNAL_OBJECT_KEY      = 'external_object';
+    const CHAMILO_OBJECT_KEY       = 'content_object';
+    const SYNC_INFO                = 'sync_info';
+    
+    const SYNC_STATE               = 'sync_state';
+    const SYNC_NEVER_SYNCHRONIZED  = 'never_synchronized';
+    const SYNC_IDENTICAL           = 'sync_synchronized';
+    const SYNC_NEWER_IN_CHAMILO    = 'newer_in_chamilo';
+    const SYNC_OLDER_IN_CHAMILO    = 'older_in_chamilo';
+    
     protected $errors = array();
     
     /**
@@ -154,6 +175,14 @@ abstract class BaseExternalExporter
 	abstract public function export($content_object);
 	
 	/**
+	 * Return the list of objects existing in the repository. This list is specific to the logged in user.
+	 * The returned array should contain object properties (such as title, type, ...) and infos about its state compared to Chamilo (such as synchronized, newer in repository, ...)  
+	 * 
+	 * @return array
+	 */
+	abstract public function get_objects_list_from_repository();
+	
+	/**
 	 * Prepare the learning object for the export.
 	 * Ensure it has an UID valid for the repository
 	 * 
@@ -300,6 +329,17 @@ abstract class BaseExternalExporter
 	{
 	    return self :: GET_NEW_UID_NOT_IMPLEMENTED;
 	}
+	
+	
+	/**
+	 * - Store the last modification of the object at the time it is exported
+	 * - If available, get the last modification date from the repository and store it
+	 * 
+	 * @param ContentObject $content_object
+	 * @return boolean
+	 */
+	abstract function store_last_repository_update_datetime($content_object);
+	
 	
 	/**
 	 * Create a new uid. This function should be called when the external repository 

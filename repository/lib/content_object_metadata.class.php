@@ -115,13 +115,6 @@ class ContentObjectMetadata extends RepositoryDataClass
     {
         $dm = RepositoryDataManager :: get_instance();
         
-        //$id = $this->get_id();
-        //if(!isset($id) || $id == parent :: NO_UID)
-        if (! $this->is_identified())
-        {
-            $this->set_id($dm->get_next_content_object_metadata_id());
-        }
-        
         $this->set_creation_date(time());
         
         return $dm->create_content_object_metadata($this);
@@ -150,6 +143,42 @@ class ContentObjectMetadata extends RepositoryDataClass
         return $result;
     }
 
-/*************************************************************************/
+	/*************************************************************************
+	* Fat model methods
+	*************************************************************************/
+    
+    /**
+     * Return a ContentObject having one of its identifier values equals to the given pair $catalog_name <--> $entry_name
+     * 
+     * @param string $catalog_name
+     * @param string $entry_value
+     * @return ContentObject
+     */
+    public static function get_by_catalog_entry_values($catalog_name, $entry_value)
+    {
+        $rdm = RepositoryDataManager :: get_instance();
+        $rs = $rdm->retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value);
+        
+        if(isset($rs))
+        {
+            $object = $rs->next_result();
+            
+            if(isset($object))
+            {
+                $content_object_id = $object->get_content_object_id();
+            
+                return $rdm->retrieve_content_object($content_object_id);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
 }
 ?>

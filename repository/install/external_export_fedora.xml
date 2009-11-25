@@ -10,10 +10,18 @@
 			length="255" fixed="true" />
 		<property name="find_object_rest_path" notnull="1" type="text"
 			length="255" fixed="true" />
+		<property name="find_objects_rest_path" type="text" length="255"
+			fixed="true" />
 		<property name="ingest_rest_path" notnull="1" type="text"
 			length="255" fixed="true" />
 		<property name="add_datastream_rest_path" type="text" length="255"
 			fixed="true" />
+		<property name="find_datastreams_rest_path" type="text" length="255"
+			fixed="true" />	
+		<property name="get_datastream_infos" type="text" length="255"
+			fixed="true" />
+		<property name="get_datastream_content" type="text" length="255"
+			fixed="true" />	
 		<property name="client_certificate_file" type="text" length="255"
 			fixed="true" />
 		<property name="client_certificate_key_file" type="text"
