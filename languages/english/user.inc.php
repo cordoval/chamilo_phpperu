@@ -40,4 +40,13 @@ $lang['user']['expiration_date'] = 'Expiration date';
 $lang['user']['UserProfileUpdated'] = 'User profile updated';
 $lang['user']['ExternalAuthentication'] = 'External authentication';
 $lang['user']['UserUpdated'] = 'User updated';
+$lang['user']['PersonalDetails'] = 'Personal details';
+$lang['user']['ChangePassword'] = 'Change password';
+$lang['user']['PlatformOptions'] = 'Platform options';
+$lang['user']['EnterCurrentPassword'] = 'Enter your current password';
+$lang['user']['EnterNewPasswordTwice'] = 'Confirm your new password in the second field';
+$lang['user']['Timezone'] = 'Timezone';
+$lang['user']['PasswordConfirmation'] = 'Confirm your new password';
+$lang['user']['NewPassword'] = 'New password';
+$lang['user']['CurrentPassword'] = 'Current password';
 ?>

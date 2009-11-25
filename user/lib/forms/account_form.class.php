@@ -42,7 +42,9 @@ class AccountForm extends FormValidator
     function build_basic_form()
     {
         // Show user picture
-        $this->addElement('html', '<img src="' . $this->user->get_full_picture_url() . '" alt="' . $this->user->get_fullname() . '" style="position:absolute; right: 40px; z-index:1; border:1px solid black; max-width: 150px;"/>');
+        $this->addElement('html', '<img src="' . $this->user->get_full_picture_url() . '" alt="' . $this->user->get_fullname() . '" style="position:absolute; right: 40px; z-index:1; border:1px solid black; max-width: 150px; margin-top: 10px"/>');
+
+        $this->addElement('category', Translation :: get('PersonalDetails'));
         // Name
         $this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'), array("size" => "50"));
         $this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'), array("size" => "50"));
@@ -107,18 +109,26 @@ class AccountForm extends FormValidator
         $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('UsernameWrong'), 'username');
         //Todo: The rule to check unique username should be updated to the LCMS code api
         //$this->addRule(User :: PROPERTY_USERNAME, Translation :: get('UserTaken'), 'username_available', $user_data['username']);
-
+        $this->addElement('category');
 
         // Password
+        $this->addElement('category', Translation :: get('ChangePassword'));
         if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) == 1 && Authentication :: factory($this->user->get_auth_source())->is_password_changeable())
         {
-            $this->addElement('static', null, null, '<em>' . Translation :: get('Enter2passToChange') . '</em>');
-            $this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get('Pass'), array('size' => 40, 'autocomplete' => 'off'));
-            $this->addElement('password', 'password2', Translation :: get('Confirmation'), array('size' => 40, 'autocomplete' => 'off'));
+            $this->addElement('static', null, null, '<em>' . Translation :: get('EnterCurrentPassword') . '</em>');
+            $this->addElement('password', self :: CURRENT_PASSWORD, Translation :: get('CurrentPassword'), array('size' => 40, 'autocomplete' => 'off'));
+            $this->addElement('static', null, null, '<em>' . Translation :: get('EnterNewPasswordTwice') . '</em>');
+            $this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get('NewPassword'), array('size' => 40, 'autocomplete' => 'off', 'id' => 'new_password'));
+            $this->addElement('password', 'password2', Translation :: get('PasswordConfirmation'), array('size' => 40, 'autocomplete' => 'off'));
             $this->addRule(array(User :: PROPERTY_PASSWORD, 'password2'), Translation :: get('PassTwo'), 'compare');
+
+            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/jquery/jquery.jpassword.js'));
+            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/password.js'));
         }
+        $this->addElement('category');
 
         // Picture
+        $this->addElement('category', Translation :: get('PlatformOptions'));
         if (PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME) == 1)
         {
             $this->addElement('file', User :: PROPERTY_PICTURE_URI, ($this->user->has_picture() ? Translation :: get('UpdateImage') : Translation :: get('AddImage')));
@@ -162,6 +172,7 @@ class AccountForm extends FormValidator
         {
             $this->freeze(User :: PROPERTY_THEME);
         }
+        $this->addElement('category');
     }
 
 	function get_time_zones()
@@ -204,26 +215,32 @@ class AccountForm extends FormValidator
         {
             $user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
         }
+
         if (PlatformSetting :: get('allow_change_lastname', UserManager :: APPLICATION_NAME))
         {
             $user->set_lastname($values[User :: PROPERTY_LASTNAME]);
         }
+
         if (PlatformSetting :: get('allow_change_official_code', UserManager :: APPLICATION_NAME))
         {
             $user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
         }
+
         if (PlatformSetting :: get('allow_change_email', UserManager :: APPLICATION_NAME))
         {
             $user->set_email($values[User :: PROPERTY_EMAIL]);
         }
+
         if (PlatformSetting :: get('allow_change_username', UserManager :: APPLICATION_NAME) && Authentication :: factory($this->user->get_auth_source())->is_username_changeable())
         {
             $user->set_username($values[User :: PROPERTY_USERNAME]);
         }
+
         if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) && strlen($values[User :: PROPERTY_PASSWORD]) && Authentication :: factory($this->user->get_auth_source())->is_password_changeable())
         {
             Authentication :: factory($this->user->get_auth_source())->change_password($user, $values[self :: CURRENT_PASSWORD], $values[User :: PROPERTY_PASSWORD]);
         }
+
         if (PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME))
         {
             if (isset($_FILES['picture_uri']) && strlen($_FILES['picture_uri']['name']) > 0)
@@ -235,6 +252,7 @@ class AccountForm extends FormValidator
                 $user->delete_picture();
             }
         }
+
         if (PlatformSetting :: get('allow_user_language_selection', UserManager :: APPLICATION_NAME))
         {
             $user->set_language($values[User :: PROPERTY_LANGUAGE]);
@@ -244,6 +262,7 @@ class AccountForm extends FormValidator
         {
             $user->set_theme($values[User :: PROPERTY_THEME]);
         }
+
         $user->set_timezone($values[User :: PROPERTY_TIMEZONE]);
 
         $value = $user->update();
