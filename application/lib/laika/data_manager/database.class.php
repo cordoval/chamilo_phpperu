@@ -275,18 +275,18 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
         switch ($type)
         {
             case SORT_ASC :
-                $query .= 'MIN(' . $database->escape_column_name(LaikaAttempt :: PROPERTY_ID) . ')';
+                $query .= 'MIN(' . $this->database->escape_column_name(LaikaAttempt :: PROPERTY_ID) . ')';
                 break;
             case SORT_DESC :
-                $query .= 'MAX(' . $database->escape_column_name(LaikaAttempt :: PROPERTY_ID) . ')';
+                $query .= 'MAX(' . $this->database->escape_column_name(LaikaAttempt :: PROPERTY_ID) . ')';
                 break;
         }
 
-        $query .= ' as id, user_id FROM ' . $database->escape_table_name(LaikaAttempt :: get_table_name()) . ' GROUP BY ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID);
+        $query .= ' as id, user_id FROM ' . $this->database->escape_table_name(LaikaAttempt :: get_table_name()) . ' GROUP BY ' . $this->database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID);
 
         if (count($users) > 0)
         {
-            $query .= 'HAVING ' . $database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID) . ' IN (';
+            $query .= 'HAVING ' . $this->database->escape_column_name(LaikaAttempt :: PROPERTY_USER_ID) . ' IN (';
 
             //			$values = $condition->get_values();
             $placeholders = array();
@@ -299,7 +299,7 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
         }
 
         $res = $this->query($query);
-        return new ObjectResultSet($database, $res, LaikaAttempt :: CLASS_NAME);
+        return new ObjectResultSet($this->database, $res, LaikaAttempt :: CLASS_NAME);
     }
 
 	function quote($value)

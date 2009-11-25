@@ -1298,7 +1298,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
         if (count($user_ids) > 0)
         {
-            $user_condition = new InCondition('user_id', $user_ids);
+            $user_condition = new InCondition(User :: PROPERTY_ID, $user_ids);
             if (is_null($condition))
             {
                 $condition = $user_condition;
@@ -1312,7 +1312,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         else
         {
             // TODO: We need a better fix for this !
-            $condition = new EqualityCondition('user_id', '-1000');
+            $condition = new EqualityCondition(User :: PROPERTY_ID, '-1000');
             return $udm->retrieve_users($condition, $offset, $count, $order_property);
         }
     }
@@ -1323,7 +1323,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $user_ids = $this->retrieve_course_group_user_ids($course_group);
         if (count($user_ids) > 0)
         {
-            $condition = new InCondition('user_id', $user_ids);
+            $condition = new InCondition(User :: PROPERTY_ID, $user_ids);
             if (is_null($conditions))
             {
                 $conditions = $condition;
@@ -1384,7 +1384,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $user_ids = $this->retrieve_course_group_user_ids($course_group);
         if (count($user_ids) > 0)
         {
-            $user_condition = new NotCondition(new InCondition('user_id', $user_ids));
+            $user_condition = new NotCondition(new InCondition(User :: PROPERTY_ID, $user_ids));
             $conditions[] = $user_condition;
         }
         $condition = new AndCondition($conditions);

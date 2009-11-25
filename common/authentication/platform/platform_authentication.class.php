@@ -19,7 +19,7 @@ class PlatformAuthentication extends Authentication
     {
         $user_expiration_date = $user->get_expiration_date();
         $user_activation_date = $user->get_activation_date();
-        
+
         if (($user_expiration_date != '0' && $user_expiration_date < time()) || ($user_activation_date != '0' && $user_activation_date > time()) || ! $user->get_active())
         {
             return Translation :: get("AccountNotActive");
@@ -28,7 +28,7 @@ class PlatformAuthentication extends Authentication
         {
             if ($user->get_username() == $username && $user->get_password() == Hashing :: hash($password))
                 return 'true';
-            
+
             return Translation :: get("UsernameOrPasswordIncorrect");
         }
     }
@@ -36,6 +36,31 @@ class PlatformAuthentication extends Authentication
     public function is_password_changeable()
     {
         return true;
+    }
+
+    /**
+     * We're changing a local password, so just set the user's new
+     * password and it will be updated automatically when the form
+     * is processed.
+     *
+     * @see Authentication :: change_password()
+     */
+    function change_password($user, $old_password, $new_password)
+    {
+        // Check whether we have an actual User object
+        if (!is_a($user, User :: CLASS_NAME))
+        {
+            return false;
+        }
+
+        // Check whether the current password is different from the new password
+        if ($old_password == $new_password)
+        {
+            return false;
+        }
+
+        $user->set_password(Hashing :: hash($new_password));
+    	return true;
     }
 
     public function is_username_changeable()

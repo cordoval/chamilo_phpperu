@@ -20,7 +20,7 @@ class LaikaManagerBrowserComponent extends LaikaManagerComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseResults')));
-        
+
         if (! LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'browser', 'laika_component'))
         {
             $this->display_header($trail);
@@ -28,7 +28,7 @@ class LaikaManagerBrowserComponent extends LaikaManagerComponent
             $this->display_footer();
             exit();
         }
-        
+
         $this->display_header($trail);
         echo $this->get_calculated_result_table();
         $this->display_footer();
@@ -37,10 +37,10 @@ class LaikaManagerBrowserComponent extends LaikaManagerComponent
     function get_calculated_result_table()
     {
         $html = array();
-        
+
         $this->form = new LaikaBrowserFilterForm($this, $this->get_url());
         $table = new LaikaCalculatedResultBrowserTable($this, $this->get_table_parameters(), $this->get_condition());
-        
+
         $html[] = $this->form->display();
         $html[] = $table->as_html();
         return implode("\n", $html);
@@ -49,7 +49,7 @@ class LaikaManagerBrowserComponent extends LaikaManagerComponent
     function get_condition()
     {
         $form = $this->form;
-        
+
         return $form->get_filter_conditions();
     }
 
@@ -58,7 +58,7 @@ class LaikaManagerBrowserComponent extends LaikaManagerComponent
         $form = $this->form;
         $form_parameters = $form->get_filter_parameters();
         $parameters = $this->get_parameters();
-        
+
         return array_merge($form_parameters, $parameters);
     }
 }

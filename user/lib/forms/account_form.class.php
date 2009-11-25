@@ -10,6 +10,7 @@ class AccountForm extends FormValidator
     const TYPE_EDIT = 2;
     const RESULT_SUCCESS = 'UserUpdated';
     const RESULT_ERROR = 'UserUpdateFailed';
+    const CURRENT_PASSWORD = 'current_password';
 
     private $parent;
     private $user;
@@ -95,7 +96,7 @@ class AccountForm extends FormValidator
         // Username
         $this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'), array("size" => "50"));
 
-        if (PlatformSetting :: get('allow_change_username', UserManager :: APPLICATION_NAME) == 0)
+        if (PlatformSetting :: get('allow_change_username', UserManager :: APPLICATION_NAME) == 0 || !Authentication :: factory($this->user->get_auth_source())->is_username_changeable())
         {
             $this->freeze(User :: PROPERTY_USERNAME);
         }
@@ -109,7 +110,7 @@ class AccountForm extends FormValidator
 
 
         // Password
-        if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) == 1)
+        if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) == 1 && Authentication :: factory($this->user->get_auth_source())->is_password_changeable())
         {
             $this->addElement('static', null, null, '<em>' . Translation :: get('Enter2passToChange') . '</em>');
             $this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get('Pass'), array('size' => 40, 'autocomplete' => 'off'));
@@ -215,13 +216,13 @@ class AccountForm extends FormValidator
         {
             $user->set_email($values[User :: PROPERTY_EMAIL]);
         }
-        if (PlatformSetting :: get('allow_change_username', UserManager :: APPLICATION_NAME))
+        if (PlatformSetting :: get('allow_change_username', UserManager :: APPLICATION_NAME) && Authentication :: factory($this->user->get_auth_source())->is_username_changeable())
         {
             $user->set_username($values[User :: PROPERTY_USERNAME]);
         }
-        if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) && strlen($values[User :: PROPERTY_PASSWORD]))
+        if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) && strlen($values[User :: PROPERTY_PASSWORD]) && Authentication :: factory($this->user->get_auth_source())->is_password_changeable())
         {
-            $user->set_password(Hashing :: hash($values[User :: PROPERTY_PASSWORD]));
+            Authentication :: factory($this->user->get_auth_source())->change_password($user, $values[self :: CURRENT_PASSWORD], $values[User :: PROPERTY_PASSWORD]);
         }
         if (PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME))
         {

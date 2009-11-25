@@ -128,7 +128,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         						  , '/files/repository/', '/files/temp', '/files/scorm', '/files/userpictures', 
         						  '/home', '/common/configuration');*/
         
-        $writable_folders = array('/files', '/home', '/common/configuration');
+        $writable_folders = array('/files', '/common/configuration');
         
         foreach ($writable_folders as $folder)
         {

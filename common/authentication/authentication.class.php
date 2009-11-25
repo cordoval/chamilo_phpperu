@@ -31,6 +31,15 @@ abstract class Authentication
      * @return boolean
      */
     abstract function is_password_changeable();
+    
+    /**
+     * Changes the user's password
+     * @param User The current user object
+     * @param string The user's current password
+     * @param string The desired new password
+     * @return boolean True if changed, false if not
+     */
+    abstract function change_password($user, $old_password, $new_password);
 
     /**
      * Checks if this authentication method allows the username to be changed.
