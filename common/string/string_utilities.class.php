@@ -75,7 +75,7 @@ class StringUtilities
         }
         else
         {
-            throw new Exception('The given value is not a string');
+            throw new Exception('StringUtilities error: The given value is not a string');
         }
     } 
     

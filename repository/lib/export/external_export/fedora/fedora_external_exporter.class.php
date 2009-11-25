@@ -187,6 +187,8 @@ class FedoraExternalExporter extends RestExternalExporter
 	            
 	            /**************
 	             * Get the last modif date of the Fedora object to store it in Chamilo for future comparison 
+	             * 
+	             * Note: if you override the export() function, do not forget to call the store_last_repository_update_datetime function again
 	             */
 	            if(!$this->store_last_repository_update_datetime($content_object))
 	            {
@@ -196,7 +198,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	            return true;
 	        }
 	        else
-	        {	            
+	        {
 	            Redirect :: url(array(Application :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW, RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $this->get_external_export()->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
 	        }
 	    }
@@ -705,7 +707,8 @@ class FedoraExternalExporter extends RestExternalExporter
 	}
 	
 	/**
-	 * Get the object modification date from Fedora, and store it in the Chamilo datasource
+	 * - Store the last modification of the object at the time it is exported
+	 * - Get the object modification date from Fedora, and store it in the Chamilo datasource
 	 * 
 	 * @param $content_object ContentObject
 	 * @return boolean
@@ -737,16 +740,20 @@ class FedoraExternalExporter extends RestExternalExporter
     	        $node_list = $xpath->query('/fedora:result/fedora:resultList/fedora:objectFields/fedora:mDate');
     	        if($node_list->length > 0)
     	        {
+    	            $external_export = $this->get_external_export();
+    	            
     	            $fedora_mDate = $node_list->item(0)->nodeValue;
     	            
-    	            $eesi = ExternalExportSyncInfo :: get_by_content_object_id($content_object->get_id());
+    	            DebugUtilities::show($fedora_mDate);
+    	            
+    	            $eesi = ExternalExportSyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $external_export->get_id());
     	            
     	            if(!isset($eesi))
     	            {
     	                $eesi = new ExternalExportSyncInfo();
     	                $eesi->set_content_object_id($content_object->get_id());
     	                
-    	                $external_export = $this->get_external_export();
+    	                
     	                $eesi->set_external_repository_id($external_export->get_id());
     	            }
     	            
@@ -759,6 +766,16 @@ class FedoraExternalExporter extends RestExternalExporter
     	            }
     	            
     	            $eesi->set_utc_synchronized(date('Y-m-d H:i:s', strtotime($fedora_mDate)));
+    	            
+    	            /*
+    	             * Store the last modification date of the chamilo object
+    	             */
+    	            $object_date = $content_object->get_modification_date();
+    	            if(!isset($object_date))
+    	            {
+    	                $object_date = $content_object->get_modification_date();
+    	            }
+    	            $eesi->set_synchronized_object_datetime($object_date);
     	            
     	            $eesi->save();
     	            
@@ -821,12 +838,10 @@ class FedoraExternalExporter extends RestExternalExporter
     	            $object[BaseExternalExporter :: OBJECT_DESCRIPTION]       = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'description');
     	            
     	            /*
-    	             * Infos specific to Fedora 
+    	             * Translate ISO 8601 date to local server time
     	             */
-    	            $object['fedora_state']                                   = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'state');
-    	            
-    	            //TODO Calculate the BaseExternalExporter :: OBJECT_SYNC_STATE property
-    	            //$object[BaseExternalExporter :: OBJECT_SYNC_STATE]        = ...
+    	            $object[BaseExternalExporter :: OBJECT_CREATION_DATE]     = date('Y-m-d H:i:s', strtotime($object[BaseExternalExporter :: OBJECT_CREATION_DATE]));
+    	            $object[BaseExternalExporter :: OBJECT_MODIFICATION_DATE] = date('Y-m-d H:i:s', strtotime($object[BaseExternalExporter :: OBJECT_MODIFICATION_DATE]));
     	            
     	            $objects[][BaseExternalExporter :: EXTERNAL_OBJECT_KEY] = $object;
     	        }

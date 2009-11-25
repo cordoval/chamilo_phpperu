@@ -56,7 +56,8 @@ class RepositoryManager extends CoreApplication
     const PARAM_DELETE_TEMPLATES = 'delete_templates';
     const PARAM_COPY_FROM_TEMPLATES = 'copy_template';
     const PARAM_COPY_TO_TEMPLATES = 'copy_to_template';
-
+    const PARAM_EXTERNAL_OBJECT_ID = 'external_id';
+    
     /**#@-*/
     /**#@+
      * Constant defining an action of the repository manager.
@@ -96,6 +97,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
     const ACTION_EXTERNAL_REPOSITORY_BROWSE = 'ext_rep_browse';
     const ACTION_EXTERNAL_REPOSITORY_EXPORT = 'ext_rep_export';
+    const ACTION_EXTERNAL_REPOSITORY_IMPORT = 'ext_rep_import';
     const ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS = 'ext_rep_list_objects';
     const ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW = 'ext_rep_metadata_review';
     const ACTION_EXTERNAL_REPOSITORY_CATALOG = 'ext_rep_catalog';

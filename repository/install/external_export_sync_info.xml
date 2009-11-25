@@ -4,7 +4,8 @@
 		<property name="id" type="integer" unsigned="1" notnull="1" />
 		<property name="content_object_id" type="integer" unsigned="1" notnull="1" />
 		<property name="external_repository_id" type="integer" unsigned="1" notnull="1" />
-		<property name="utc_synchronized" type="timestamp" />
+		<property name="utc_synchronized" type="timestamp" notnull="1" />
+		<property name="synchronized_object_datetime" type="timestamp" notnull="1" />
 		<property name="created" type="timestamp" />
 		<property name="modified" type="timestamp" />
 	</properties>

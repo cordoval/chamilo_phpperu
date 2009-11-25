@@ -18,6 +18,13 @@ abstract class BaseExternalExporter
     
     const EXTERNAL_OBJECT_KEY      = 'external_object';
     const CHAMILO_OBJECT_KEY       = 'content_object';
+    const SYNC_INFO                = 'sync_info';
+    
+    const SYNC_STATE               = 'sync_state';
+    const SYNC_NEVER_SYNCHRONIZED  = 'never_synchronized';
+    const SYNC_IDENTICAL           = 'sync_synchronized';
+    const SYNC_NEWER_IN_CHAMILO    = 'newer_in_chamilo';
+    const SYNC_OLDER_IN_CHAMILO    = 'older_in_chamilo';
     
     protected $errors = array();
     
@@ -322,6 +329,17 @@ abstract class BaseExternalExporter
 	{
 	    return self :: GET_NEW_UID_NOT_IMPLEMENTED;
 	}
+	
+	
+	/**
+	 * - Store the last modification of the object at the time it is exported
+	 * - If available, get the last modification date from the repository and store it
+	 * 
+	 * @param ContentObject $content_object
+	 * @return boolean
+	 */
+	abstract function store_last_repository_update_datetime($content_object);
+	
 	
 	/**
 	 * Create a new uid. This function should be called when the external repository 
