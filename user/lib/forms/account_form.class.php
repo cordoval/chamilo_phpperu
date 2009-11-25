@@ -10,7 +10,8 @@ class AccountForm extends FormValidator
     const TYPE_EDIT = 2;
     const RESULT_SUCCESS = 'UserUpdated';
     const RESULT_ERROR = 'UserUpdateFailed';
-    const CURRENT_PASSWORD = 'current_password';
+    const NEW_PASSWORD = 'new_password';
+    const NEW_PASSWORD_CONFIRMATION = 'new_password_confirmation';
 
     private $parent;
     private $user;
@@ -116,11 +117,11 @@ class AccountForm extends FormValidator
         if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) == 1 && Authentication :: factory($this->user->get_auth_source())->is_password_changeable())
         {
             $this->addElement('static', null, null, '<em>' . Translation :: get('EnterCurrentPassword') . '</em>');
-            $this->addElement('password', self :: CURRENT_PASSWORD, Translation :: get('CurrentPassword'), array('size' => 40, 'autocomplete' => 'off'));
+            $this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get('CurrentPassword'), array('size' => 40, 'autocomplete' => 'off'));
             $this->addElement('static', null, null, '<em>' . Translation :: get('EnterNewPasswordTwice') . '</em>');
-            $this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get('NewPassword'), array('size' => 40, 'autocomplete' => 'off', 'id' => 'new_password'));
-            $this->addElement('password', 'password2', Translation :: get('PasswordConfirmation'), array('size' => 40, 'autocomplete' => 'off'));
-            $this->addRule(array(User :: PROPERTY_PASSWORD, 'password2'), Translation :: get('PassTwo'), 'compare');
+            $this->addElement('password', self :: NEW_PASSWORD, Translation :: get('NewPassword'), array('size' => 40, 'autocomplete' => 'off', 'id' => 'new_password'));
+            $this->addElement('password', self :: NEW_PASSWORD_CONFIRMATION, Translation :: get('PasswordConfirmation'), array('size' => 40, 'autocomplete' => 'off'));
+            $this->addRule(array(self :: NEW_PASSWORD, self :: NEW_PASSWORD_CONFIRMATION), Translation :: get('PassTwo'), 'compare');
 
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/jquery/jquery.jpassword.js'));
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/password.js'));
@@ -238,7 +239,7 @@ class AccountForm extends FormValidator
 
         if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) && strlen($values[User :: PROPERTY_PASSWORD]) && Authentication :: factory($this->user->get_auth_source())->is_password_changeable())
         {
-            Authentication :: factory($this->user->get_auth_source())->change_password($user, $values[self :: CURRENT_PASSWORD], $values[User :: PROPERTY_PASSWORD]);
+            Authentication :: factory($this->user->get_auth_source())->change_password($user, $values[User :: PROPERTY_PASSWORD], $values[self :: NEW_PASSWORD]);
         }
 
         if (PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME))
@@ -288,7 +289,6 @@ class AccountForm extends FormValidator
         $defaults[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
         $defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
         $defaults[User :: PROPERTY_TIMEZONE] = $user->get_timezone();
-        //dump($defaults);
         $defaults[User :: PROPERTY_THEME] = $user->get_theme() ? $user->get_theme() : '';
         parent :: setDefaults($defaults);
     }

@@ -91,7 +91,7 @@ class CasAuthentication extends Authentication
 
     public function is_password_changeable()
     {
-        return true;
+        return false;
     }
 
     /**
