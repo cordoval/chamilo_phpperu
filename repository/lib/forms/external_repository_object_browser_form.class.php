@@ -25,8 +25,8 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
         
         $table = '<table class="data_table" border="0" cellpadding="5" cellspacing="0">';
         $table .= '<tr>';
-        $table .= '<th>' . Translation :: translate('ExternalRepositoryId') . '</th>';
-        $table .= '<th>' . Translation :: translate('ExternalRepositoryTitle') . '</th>';
+        $table .= '<th>' . Translation :: translate('ExternalRepositoryObjectId') . '</th>';
+        $table .= '<th>' . Translation :: translate('ExternalRepositoryObjectTitle') . '</th>';
         $table .= '<th>' . Translation :: translate('ExternalRepositoryLastUpdate') . '</th>';
         $table .= '<th>' . Translation :: translate('ExternalChamiloLastUpdate') . '</th>';
         $table .= '<th>' . Translation :: translate('ExternalRepositoryLastSynchronization') . '</th>';
@@ -136,7 +136,7 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
                     case BaseExternalExporter :: SYNC_NEVER_SYNCHRONIZED:
                         
                         $table .= Translation::translate('ExternalRepositoryNeverSync');
-                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_IMPORT, RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $this->export->get_id(), RepositoryManager :: PARAM_EXTERNAL_OBJECT_ID => $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]));
+                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_IMPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $this->export->get_id(), RepositoryManager :: PARAM_EXTERNAL_OBJECT_ID => $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]));
                         $buttons[] = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'import_from_repository.png' . '" />' . Translation :: translate('ExternalRepositoryImport') . '</a>';
                         break;
                         
@@ -149,7 +149,7 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
                     case BaseExternalExporter :: SYNC_OLDER_IN_CHAMILO:
 
                         $table .= Translation :: translate('ExternalRepositoryOlderInChamilo');
-                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_IMPORT, RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $this->export->get_id(), RepositoryManager :: PARAM_EXTERNAL_OBJECT_ID => $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]));
+                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_IMPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $this->export->get_id(), RepositoryManager :: PARAM_EXTERNAL_OBJECT_ID => $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]));
                         $buttons[] = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'import_from_repository.png' . '" />' . Translation :: translate('ExternalRepositoryImport') . '</a>';                        
                         
                         break;
@@ -157,7 +157,7 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
                     case BaseExternalExporter :: SYNC_NEWER_IN_CHAMILO:
                         
                         $table .= Translation :: translate('ExternalRepositoryNewerInChamilo');
-                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $this->export->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object[BaseExternalExporter :: CHAMILO_OBJECT_KEY]->get_id()));
+                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $this->export->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object[BaseExternalExporter :: CHAMILO_OBJECT_KEY]->get_id()));
                         $buttons[] = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'export_to_repository.png' . '" />' . Translation :: translate('ExternalRepositoryExport') . '</a>';
                         
                         break;

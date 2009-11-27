@@ -15,6 +15,8 @@ abstract class DataClass
      */
     private $defaultProperties;
 
+    private $errors;
+    
     /**
      * Creates a new data class object.
      * @param array $defaultProperties The default properties of the data class
@@ -31,7 +33,14 @@ abstract class DataClass
      */
     function get_default_property($name)
     {
-        return $this->defaultProperties[$name];
+        if(isset($this->defaultProperties) && array_key_exists($name, $this->defaultProperties))
+        {
+            return $this->defaultProperties[$name];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**
@@ -118,11 +127,25 @@ abstract class DataClass
     {
         if ($this->is_identified())
         {
-            return $this->update();
+            if($this->check_before_save())
+            {
+                return $this->update();
+            }
+            else
+            {
+                return false;
+            }
         }
         else
-        {
-            return $this->create();
+        {    
+            if($this->check_before_save())
+            {
+                return $this->create();
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
@@ -163,6 +186,59 @@ abstract class DataClass
         return call_user_func(array($dm, $func), $this);
     }
 
+	/**
+     * Check wether the object contains all mandatory properties to be saved in datasource
+     * This method should be overriden in classes inheriting from DataClass
+     * 
+     * @return boolean Return true if the object can be saved, false otherwise 
+     */
+    protected function check_before_save()
+    {
+        /*
+         * Example: object with mandatory title
+         * 
+         * if(StringUtilities :: is_null_or_empty($this->get_title()))
+         * {
+         *    $this->add_errors(Translation :: get_instance()->translate('Title is required'));
+         * }
+         *  
+         */
+        
+        return !$this->has_errors();
+    }
+    
+    public function add_errors($error_msg)
+    {
+        if(!isset($this->errors))
+        {
+            $this->errors = array();
+        }
+        
+        $this->errors[] = $error_msg;
+    }
+    
+    public function has_errors()
+    {
+        if(isset($this->errors) && count($this->errors) > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public function get_errors()
+    {
+        return isset($this->errors) ? $this->errors : array(); 
+    }
+    
+    public function clear_errors()
+    {
+        unset($this->errors);
+    }
+    
     abstract function get_data_manager();
 
     static function is_extended_type()

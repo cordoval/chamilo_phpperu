@@ -167,5 +167,68 @@ class Document extends ContentObject
     {
         return array(self :: PROPERTY_FILENAME, self :: PROPERTY_FILESIZE, self :: PROPERTY_PATH, self :: PROPERTY_HASH);
     }
+    
+    /**
+     * (non-PHPdoc)
+     * @see common/DataClass#check_before_save()
+     */
+    protected function check_before_save()
+    {
+        //Title
+        if(StringUtilities :: is_null_or_empty($this->get_title()))
+        {
+            $this->add_errors(Translation :: get_instance()->translate('Title is required'));
+        }
+        
+        //Description
+        if(StringUtilities :: is_null_or_empty($this->get_description()))
+        {
+            $this->add_errors(Translation :: get_instance()->translate('Description is required'));
+        }
+        
+        //OwnerId
+        $owner_id = $this->get_owner_id(); 
+        if(!isset($owner_id) || !is_numeric($owner_id))
+        {
+            $this->add_errors(Translation :: get_instance()->translate('The object owner is not defined'));
+        }
+        
+        //File
+        
+        
+        
+        
+        
+        return !$this->has_errors();
+    }
+    
+    /*************************************************************************/
+	/*** Active record functions *********************************************/
+	/*************************************************************************/
+    
+    /**
+     * (non-PHPdoc)
+     * @see repository/lib/ContentObject#create()
+     */
+    function create()
+    {
+        /*
+         * To do when the object is created:
+         * - check has title
+         * - check has description
+         * - check has owner
+         * - check has tmp file path ? OR file content in memory ? OR file url to retrieve ? 
+         * 
+         * - set parent type to 'document'
+         * - move file to the current owner id path
+         * - save properties in content_object table
+         * - get generated id from content_object table
+         * - save properties in document table
+         */
+        
+        parent :: create();
+        
+        
+    }
 }
 ?>

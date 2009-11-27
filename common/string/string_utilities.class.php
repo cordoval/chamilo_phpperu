@@ -62,20 +62,27 @@ class StringUtilities
      */
     public static function is_null_or_empty($string)
     {
-        if(is_string($string))
+        if(isset($string))
         {
-            if(!isset($string) || strlen($string) == 0)
+            if(is_string($string))
             {
-                return true;
+                if(strlen($string) == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
+                throw new Exception('StringUtilities error: The given value is not a string');
             }
         }
         else
         {
-            throw new Exception('StringUtilities error: The given value is not a string');
+            return true;
         }
     } 
     

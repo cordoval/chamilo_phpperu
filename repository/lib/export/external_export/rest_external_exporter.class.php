@@ -122,13 +122,13 @@ abstract class RestExternalExporter extends BaseExternalExporter
     	     */
     	    $document = new DOMDocument();
         
-    	    if(strlen($response_content) > 0 && StringUtilities :: start_with($response_content, '<?xml'))
-    	    {
+    	    //if(strlen($response_content) > 0 && StringUtilities :: start_with($response_content, '<?xml'))
+    	    if(StringUtilities :: has_value($response_content))
+    	    { 
         	    set_error_handler(array($this, 'handle_xml_error'));
         	    $document->loadXML($response_content);
         	    restore_error_handler();
     	    }
-    	    //debug($document);
     	    
     	    return $document;
 	    }
@@ -140,7 +140,7 @@ abstract class RestExternalExporter extends BaseExternalExporter
 	        }
 	        else
 	        {
-	            throw new Exception('<h3>Fedora reponse:</h3><p><strong>URL : </strong>' . $result->get_request_url() . '<p><strong>POST data : </strong>' . htmlentities($result->get_request_sent_data()) . '</p><p><strong>Response : </strong>' . $response_content . '</p>');
+	            throw new Exception('<h3>REST response:</h3><p><strong>URL : </strong>' . $result->get_request_url() . '<p><strong>POST data : </strong>' . htmlentities($result->get_request_sent_data()) . '</p><p><strong>Response : </strong>' . $response_content . '</p>');
 	        }
 	    }
 	} 
