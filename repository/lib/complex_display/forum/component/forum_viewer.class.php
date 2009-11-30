@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../forum_display.class.php';
 require_once dirname(__FILE__) . '/../forum_display_component.class.php';
+require_once 'HTML/Table.php';
 
 class ForumDisplayForumViewerComponent extends ForumDisplayComponent
 {
