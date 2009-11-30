@@ -136,38 +136,15 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         {
             $application = Application :: factory($application_name);
             $locations = $application->get_content_object_publication_locations($this->content_objects[0], $this->get_parent()->get_user());
-            if (count($locations) == 0)
-                continue;
-            
             $location_count += count($locations);
             
-            //$apps[] =
-            
-
-            //$this->addElement('html', '<br /><br /><h3 style="margin-left: 15%;">' . Translation :: get(Application::application_to_class($application_name)) . '</h3>');
-            
-
-            $this->addElement('html', '<div class="block" id="block_introduction" style="background-image: url(' . Theme :: get_image_path('home') . 'block_' . $application_name . '.png);">');
-            $this->addElement('html', '<div class="title"><div style="float:left;">' . Translation :: get(Application :: application_to_class($application_name)));
-            $this->addElement('html', '</div><div style="float:right;"><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png" /><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a></div><div class="clear">&nbsp;</div></div>');
-            $this->addElement('html', '<div class="description"><br />');
-            
-            $application_name = Utilities :: underscores_to_camelcase($application_name);
-            
-            $application->add_publication_attributes_elements($this);
-            
-            foreach ($locations as $id => $location)
-            {
-                $cbname = $application_name . '_' . $id;
-                $this->addElement('checkbox', $cbname, '', $location, array('style' => 'margin-left: 12px;'));
-                $appDefaults[$cbname] = '1';
-            }
-            
-            $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a>');
-            $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a>');
-            
-            $this->addElement('html', '<div style="clear: both;"></div></div></div><br />');
+            $this->add_locations($application, $application_name, $locations);
         }
+        
+        $admin = new AdminManager();
+        $locations = $admin->get_content_object_publication_locations($this->content_objects[0], $this->get_parent()->get_user());
+        $location_count += count($locations);
+        $this->add_locations($admin, 'admin', $locations);
         
         if ($location_count > 0)
         {
@@ -191,6 +168,33 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         
         $this->setDefaultAction('next');
         $this->setDefaults($appDefaults);
+    }
+    
+    function add_locations($application, $application_name, $locations)
+    {
+    	if (count($locations) == 0)
+        	return;
+                
+    	$this->addElement('html', '<div class="block" id="block_introduction" style="background-image: url(' . Theme :: get_image_path('home') . 'block_' . $application_name . '.png);">');
+        $this->addElement('html', '<div class="title"><div style="float:left;">' . Translation :: get(Application :: application_to_class($application_name)));
+        $this->addElement('html', '</div><div style="float:right;"><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png" /><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a></div><div class="clear">&nbsp;</div></div>');
+        $this->addElement('html', '<div class="description"><br />');
+            
+        $application_name = Utilities :: underscores_to_camelcase($application_name);
+            
+        $application->add_publication_attributes_elements($this);
+            
+        foreach ($locations as $id => $location)
+        {
+            $cbname = $application_name . '_' . $id;
+            $this->addElement('checkbox', $cbname, '', $location, array('style' => 'margin-left: 12px;'));
+            $appDefaults[$cbname] = '1';
+        }
+            
+        $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a>');
+        $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a>');
+            
+        $this->addElement('html', '<div style="clear: both;"></div></div></div><br />');
     }
 }
 ?>
