@@ -194,7 +194,6 @@ class UserImportForm extends FormValidator
 	            }
         	}
         }
-        exit();
         if ($failures > 0)
         {
             return false;
