@@ -38,7 +38,7 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManagerComponent
         if ($form->validate())
         {
             $success = $form->import_course_users();
-            $this->redirect(Translation :: get($success ? 'CourseUserCreatedCsv' : 'CourseUserNotCreatedCsv') . '<br />' . $form->get_failed_csv(), ($success ? false : true));
+            $this->redirect(Translation :: get($success ? 'CsvUsersProcessed' : 'CsvUsersNotProcessed') . '<br />' . $form->get_failed_csv(), ($success ? false : true));
         }
         else
         {
@@ -55,12 +55,20 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManagerComponent
         $html[] = '<p>' . Translation :: get('CSVMustLookLike') . ' (' . Translation :: get('MandatoryFields') . ')</p>';
         $html[] = '<blockquote>';
         $html[] = '<pre>';
-        $html[] = '<b>username</b>;<b>coursecode</b>;<b>status</b>';
-        $html[] = 'jdoe;course01;' . COURSEMANAGER;
-        $html[] = 'a.dam;course01;' . STUDENT;
-        $html[] = '</pre>';
-        $html[] = COURSEMANAGER . ': ' . Translation :: get('Teacher');
-        $html[] = STUDENT . ': ' . Translation :: get('Student');
+        $html[] = '<b>action</b>;<b>username</b>;<b>coursecode</b>;<b>status</b>';
+        $html[] = 'A;jdoe;course01;1';
+        $html[] = 'D;a.dam;course01;5';
+        $html[] = '</pre></blockquote>';
+        $html[] = '<p>' . Translation :: get('Details') . '</p>';
+        $html[] = '<blockquote>';
+        $html[] = '<u><b>' . Translation :: get('Action') . '</u></b>';
+        $html[] = '<br />A: ' . Translation :: get('Add');
+        $html[] = '<br />U: ' . Translation :: get('Update');
+        $html[] = '<br />D: ' . Translation :: get('Delete');
+        $html[] = '<br /><br />';
+        $html[] = '<u><b>' . Translation :: get('Status') . '</u></b>';
+        $html[] = '<br />1: ' . Translation :: get('Teacher');
+        $html[] = '<br />5: ' . Translation :: get('Student');
         $html[] = '</blockquote>';
         
         echo implode($html, "\n");

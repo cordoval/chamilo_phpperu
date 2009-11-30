@@ -51,7 +51,7 @@ class CourseUserImportForm extends FormValidator
             if (!$this->validate_data($csvcourse))
             {
             	$failures ++;
-                $this->failedcsv[] = implode($csvcourse, ';');
+                $this->failedcsv[] = Translation :: get('Invalid') . ': ' . implode($csvcourse, ';');
             }
         }
         
@@ -66,12 +66,30 @@ class CourseUserImportForm extends FormValidator
                 
             $code = $csvcourse['coursecode'];
             $course = WeblcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition('visual_code', $code))->next_result();
-                
+            $status = $csvcourse[CourseUserRelation :: PROPERTY_STATUS];
+            $tutor = ($csvcourse[CourseUserRelation :: PROPERTY_STATUS] == 1 ? 1 : 0);
+            $action = strtoupper($csvcourse['action']);
+            
             $wdm = WeblcmsDataManager :: get_instance();
-            if (! $wdm->subscribe_user_to_course($course, $csvcourse[CourseUserRelation :: PROPERTY_STATUS], ($csvcourse[CourseUserRelation :: PROPERTY_STATUS] == 1 ? 1 : 5), $user_info->get_id()))
+            
+            if($action == 'D' || $action == 'U')
             {
-                $failures ++;
-                $this->failedcsv[] = implode($csvcourse, ';');
+           	 	if (!$wdm->unsubscribe_user_from_course($course, $user_info->get_id()))
+	            {
+	                $failures ++;
+	                $this->failedcsv[] = Translation :: get('Failed') . ': ' . implode($csvcourse, ';');
+	                continue;
+	            }
+            }
+            
+            if($action == 'A' || $action == 'U')
+            {
+	            if (! $wdm->subscribe_user_to_course($course, $status, $tutor, $user_info->get_id()))
+	            {
+	                $failures ++;
+	                $this->failedcsv[] = Translation :: get('Failed') . ': ' . implode($csvcourse, ';');
+	                continue;
+	            }
             }
         }
         
@@ -131,6 +149,13 @@ class CourseUserImportForm extends FormValidator
         if ($csvcourse[CourseUserRelation :: PROPERTY_STATUS] != 1 && $csvcourse[CourseUserRelation :: PROPERTY_STATUS] != 5)
         {
             $failures ++;
+        }
+        
+        //4. Action valid ?
+        $action = strtoupper($csvcourse['action']);
+        if($action != 'A' && $action != 'D' && $action != 'U')
+        {
+        	$failures++;
         }
         
         if ($failures > 0)
