@@ -13,12 +13,22 @@ class Mdb2CasPassword extends CasPassword
      */
     function set_password($old_password, $new_password)
     {
-        return true;
+    	$connection = MDB2 :: connect('dbms://user:password@server:port/database', array('debug' => 3));
+    	$connection->setCharset('utf8');
+
+        $props = array();
+        $props['password'] = $new_password;
+        
+        $connection->loadModule('Extended');
+        $condition = new EqualityCondition('username', $this->get_user()->get_username());
+        $result = $connection->extended->autoExecute('password_table', $props, MDB2_AUTOQUERY_UPDATE, $condition);
+    	
+        return $result;
     }
 
     function is_password_changeable()
     {
-        return false;
+        return true;
     }
 }
 ?>
