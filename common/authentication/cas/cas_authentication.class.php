@@ -89,9 +89,26 @@ class CasAuthentication extends Authentication
 
     public function is_password_changeable($user)
     {
-        $cas_password_type = $this->determine_cas_password_type();
-        $cas_password = CasPassword :: factory($cas_password_type, $user);
-        return $cas_password->is_password_changeable();
+    	if (! $this->is_configured())
+        {
+            Display :: error_message(Translation :: get('CheckCASConfiguration'));
+            exit();
+        }
+        else
+        {
+        	$settings = $this->get_configuration();
+        	
+        	if ($settings['allow_change_password'] == true)
+        	{
+		        $cas_password_type = $this->determine_cas_password_type();
+		        $cas_password = CasPassword :: factory($cas_password_type, $user);
+		        return $cas_password->is_password_changeable();
+        	}
+        	else
+        	{
+        		return false;
+        	}
+        }
     }
 
     /**
@@ -223,6 +240,7 @@ class CasAuthentication extends Authentication
             $cas['certificate'] = PlatformSetting :: get('cas_certificate');
             $cas['log'] = PlatformSetting :: get('cas_log');
             $cas['enable_log'] = PlatformSetting :: get('cas_enable_log');
+            $cas['allow_change_password'] = PlatformSetting :: get('cas_allow_change_password');
 
             $this->cas_settings = $cas;
         }

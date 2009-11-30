@@ -144,6 +144,11 @@
 				</options>
 			</setting>
 			<setting name="cas_log" field="text" default="" />
+			<setting name="cas_allow_change_password" field="checkbox">
+				<options type="static">
+					<option name="cas_allow_change_password" value="1" />
+				</options>
+			</setting>
 		</category>
 		<category name="logfiles">
 			<setting name="php_error_location" field="text" default="" />
