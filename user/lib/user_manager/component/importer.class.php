@@ -30,7 +30,7 @@ class UserManagerImporterComponent extends UserManagerComponent
         if ($form->validate())
         {
             $success = $form->import_users();
-            $this->redirect(Translation :: get($success ? 'UserCreatedCsv' : 'UserNotCreatedCsv') . '<br />' . $form->get_failed_csv(), ($success ? false : true), array(Application :: PARAM_ACTION => $success ? UserManager :: ACTION_BROWSE_USERS : UserManager :: ACTION_IMPORT_USERS));
+            $this->redirect(Translation :: get($success ? 'CsvUsersProcessed' : 'CsvUsersNotProcessed') . '<br />' . $form->get_failed_csv(), ($success ? false : true), array(Application :: PARAM_ACTION => $success ? UserManager :: ACTION_BROWSE_USERS : UserManager :: ACTION_IMPORT_USERS));
         }
         else
         {
@@ -47,7 +47,7 @@ class UserManagerImporterComponent extends UserManagerComponent
         $html[] = '<p>' . Translation :: get('CSVMustLookLike') . ' (' . Translation :: get('MandatoryFields') . ')</p>';
         $html[] = '<blockquote>';
         $html[] = '<pre>';
-        $text = '<b>lastname</b>;<b>firstname</b>;';
+        $text = '<b>action</b>;<b>lastname</b>;<b>firstname</b>;';
         
         if (PlatformSetting :: get('require_email', UserManager :: APPLICATION_NAME))
         {
@@ -61,7 +61,7 @@ class UserManagerImporterComponent extends UserManagerComponent
         $text .= '<b>username</b>;password;auth_source;<b>official_code</b>;phone;status;language;active;activation_date;expiration_date';
         $html[] = $text;
         
-        $text = '<b>xxx</b>;<b>xxx</b>;';
+        $text = '<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;';
         
     	if (PlatformSetting :: get('require_email', UserManager :: APPLICATION_NAME))
         {
@@ -84,6 +84,7 @@ class UserManagerImporterComponent extends UserManagerComponent
         $html[] = '';
         $html[] = '&lt;Contacts&gt;';
         $html[] = '    &lt;Contact&gt;';
+        $html[] = '        <b>&lt;action&gt;A/U/D&lt;/action&gt;</b>';
         $html[] = '        <b>&lt;lastname&gt;xxx&lt;/lastname&gt;</b>';
         $html[] = '        <b>&lt;firstname&gt;xxx&lt;/firstname&gt;</b>';
         $html[] = '        <b>&lt;username&gt;xxx&lt;/username&gt;</b>';
@@ -115,6 +116,22 @@ class UserManagerImporterComponent extends UserManagerComponent
         $html[] = '    &lt;/Contact&gt;';
         $html[] = '&lt;/Contacts&gt;';
         $html[] = '</pre>';
+        $html[] = '</blockquote>';
+        
+        $html[] = '<p>' . Translation :: get('Details') . '</p>';
+        $html[] = '<blockquote>';
+        $html[] = '<u><b>' . Translation :: get('Action') . '</u></b>';
+        $html[] = '<br />A: ' . Translation :: get('Add');
+        $html[] = '<br />U: ' . Translation :: get('Update');
+        $html[] = '<br />D: ' . Translation :: get('Delete');
+        $html[] = '<br /><br />';
+        $html[] = '<u><b>' . Translation :: get('Status') . '</u></b>';
+        $html[] = '<br />1: ' . Translation :: get('Teacher');
+        $html[] = '<br />5: ' . Translation :: get('Student');
+        $html[] = '<br /><br />';
+        $html[] = '<u><b>' . Translation :: get('Date') . '</u></b>';
+        $html[] = '<br />0 ' . Translation :: get('NotTakenIntoAccount');
+        $html[] = '<br />YYYY-MM-DD HH:MM:SS';
         $html[] = '</blockquote>';
         
         echo implode($html, "\n");

@@ -49,7 +49,7 @@ class CourseImportForm extends FormValidator
             if (!$this->validate_data($csvcourse))
             {       
                 $failures ++;
-                $this->failedcsv[] = implode($csvcourse, ';');
+                $this->failedcsv[] = Translation :: get('Invalid') . ': ' . implode($csvcourse, ';');
             }
         }
         
@@ -58,40 +58,65 @@ class CourseImportForm extends FormValidator
             return false;
         }
         
+        $wdm = WeblcmsDataManager :: get_instance();
+        
         foreach($csvcourses as $csvcourse)
         {
         	$teacher_info = $this->get_teacher_info($csvcourse['teacher']);
-            $cat = WeblcmsDataManager :: get_instance()->retrieve_course_categories(new EqualityCondition('name', $csvcourse['category']))->next_result();
+            $cat = $wdm->retrieve_course_categories(new EqualityCondition('name', $csvcourse['category']))->next_result();
             $catid = $cat ? $cat->get_id() : 0;
+            $action = strtoupper($csvcourse['action']);
             
-            $course = new Course();
-            
-            //$course->set_id($csvcourse[Course :: PROPERTY_ID]);
-            $course->set_visual($csvcourse['code']);
-            $course->set_name($csvcourse[Course :: PROPERTY_NAME]);
-            $course->set_language('english');
-            $course->set_category($catid);
-            $course->set_titular($teacher_info->get_id());
-            
-            if ($course->create())
+            if($action == 'A')
             {
-                // TODO: Temporary function pending revamped roles&rights system
-                //add_course_role_right_location_values($course->get_id());
-                $wdm = WeblcmsDataManager :: get_instance();
-                if ($wdm->subscribe_user_to_course($course, '1', '1', $teacher_info->get_id()))
-                {
-                
-                }
-                else
-                {
-                    $failures ++;
-                    $this->failedcsv[] = implode($csvcourse, ';');
-                }
+           		$course = new Course();
+
+	            //$course->set_id($csvcourse[Course :: PROPERTY_ID]);
+	            $course->set_visual($csvcourse['code']);
+	            $course->set_name($csvcourse[Course :: PROPERTY_NAME]);
+	            $course->set_language('english');
+	            $course->set_category($catid);
+	            $course->set_titular($teacher_info->get_id());
+	            
+	            if ($course->create())
+	            {
+	                // TODO: Temporary function pending revamped roles&rights system
+	                //add_course_role_right_location_values($course->get_id());
+	                $wdm = WeblcmsDataManager :: get_instance();
+	                if (!$wdm->subscribe_user_to_course($course, '1', '1', $teacher_info->get_id()))
+	                {
+	                	$failures ++;
+	                    $this->failedcsv[] = Translation :: get('SubscriptionFailed') . ':' . implode($csvcourse, ';');
+	                }
+	            }
+	            else
+	            {
+	                $failures ++;
+	                $this->failedcsv[] = Translation :: get('CreationFailed') . ':' . implode($csvcourse, ';');
+	            }
             }
-            else
+            elseif($action == 'U')
             {
-                $failures ++;
-                $this->failedcsv[] = implode($csvcourse, ';');
+            	$course = $wdm->retrieve_courses(new EqualityCondition(Course :: PROPERTY_VISUAL, $csvcourse['code']))->next_result();;
+	            $course->set_name($csvcourse[Course :: PROPERTY_NAME]);
+	            $course->set_language('english');
+	            $course->set_category($catid);
+	            $course->set_titular($teacher_info->get_id());
+	            if (!$course->update())
+	            {
+	            	$failures ++;
+	                $this->failedcsv[] = Translation :: get('UpdateFailed') . ':' . implode($csvcourse, ';');
+	            }
+            }
+            elseif($action == 'D')
+            {
+            	$course = $wdm->retrieve_courses(new EqualityCondition(Course :: PROPERTY_VISUAL, $csvcourse['code']))->next_result();
+            
+           		if (!$wdm->delete_course($course->get_id()))
+	            {
+	            	$failures ++;
+	                $this->failedcsv[] = Translation :: get('DeleteFailed') . ':' . implode($csvcourse, ';');
+	            }
             }
         }
         
@@ -128,14 +153,19 @@ class CourseImportForm extends FormValidator
     {
         $failures = 0;
         
-        //1. check if mandatory fields are set
-        
+	    //1. Action valid ?
+	    $action = strtoupper($csvcourse['action']);
+        if($action != 'A' && $action != 'D' && $action != 'U')
+        {
+        	$failures++; 
+        }
 
-        //2. check if code isn't in use
-        /*if ($wdm->is_course($csvcourse[Course :: PROPERTY_ID]))
+        //2. check if code isn't in use for create and if code exists for update / delete
+        if ( ($action == 'A' && $this->is_course($csvcourse['code'])) || 
+        	 ($action != 'A' && !$this->is_course($csvcourse['code']) ))
 		{
 			$failures++;
-		}*/
+		}
         
         if ($csvcourse['teacher'])
         {
@@ -169,6 +199,15 @@ class CourseImportForm extends FormValidator
     {
         $cat = WeblcmsDataManager :: get_instance()->retrieve_course_categories(new EqualityCondition('name', $category_name))->next_result();
         if ($cat)
+            return true;
+        
+        return false;
+    }
+    
+    private function is_course($course_code)
+    {
+    	$course = WeblcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition(Course :: PROPERTY_VISUAL, $course_code))->next_result();
+        if ($course)
             return true;
         
         return false;

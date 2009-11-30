@@ -20,11 +20,9 @@ class IcalExport extends ContentObjectExport
     public function export_content_object()
     {
         $content_object = $this->get_content_object();
-        $file = Path :: get(SYS_TEMP_PATH) . $content_object->get_owner_id() . '/export_ical_' . $content_object->get_id() . '.ics';
-        
-        // TODO: Get language isocode for iCal export
-        //define('ICAL_LANG',api_get_language_isocode());
-        
+        $dir = Path :: get(SYS_TEMP_PATH) . $content_object->get_owner_id() . '/';
+        Filesystem :: create_dir($dir);
+        $file = $dir . 'export_ical_' . $content_object->get_id() . '.ics';
 
         $ical = new vcalendar();
         $ical->setConfig('unique_id', Path :: get(WEB_PATH));
@@ -37,7 +35,6 @@ class IcalExport extends ContentObjectExport
         $vevent->setProperty('dtstart', $this->get_date_in_ical_format($content_object->get_start_date()));
         $vevent->setProperty('dtend', $this->get_date_in_ical_format($content_object->get_end_date()));
         
-        //$vevent->setProperty('LOCATION', $content_object->get_location());
         $vevent->setProperty('description', mb_convert_encoding($content_object->get_description(), 'UTF-8'));
         
         $owner = UserDataManager :: get_instance()->retrieve_user($content_object->get_owner_id());
@@ -45,9 +42,6 @@ class IcalExport extends ContentObjectExport
         $vevent->setProperty('organizer', $owner->get_email());
         $vevent->setProperty('attendee', $owner->get_email());
         
-        //TODO: Add repetition
-        
-
         if ($content_object->repeats())
         {
             $vevent->setProperty('rrule', $this->get_rrule());

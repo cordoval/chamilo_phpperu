@@ -369,5 +369,41 @@ class AdminManager extends CoreApplication
     {
         return self :: APPLICATION_NAME;
     }
+    
+	/**
+     * Used to publish system announcements
+     */
+    function get_content_object_publication_locations($content_object)
+    {
+        $allowed_types = array('system_announcement');
+        
+        $type = $content_object->get_type();
+        if (in_array($type, $allowed_types))
+        {
+            $locations = array(Translation :: get('SystemAnnouncements'));
+            return $locations;
+        }
+        
+        return array();
+    }
+
+    /**
+     * Used to publish system announcements
+     */
+    function publish_content_object($content_object, $location)
+    {
+        require_once dirname(__FILE__) . '/../system_announcement_publication.class.php';
+        $pub = new SystemAnnouncementPublication();
+        $pub->set_content_object_id($content_object->get_id());
+        $pub->set_publisher($content_object->get_owner_id());
+        $pub->create();
+        
+        return Translation :: get('PublicationCreated');
+    }
+    
+    function add_publication_attributes_elements()
+    {
+    	
+    }
 }
 ?>
