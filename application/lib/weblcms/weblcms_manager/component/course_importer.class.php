@@ -41,7 +41,7 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManagerComponent
         if ($form->validate())
         {
             $success = $form->import_courses();
-            $this->redirect(Translation :: get($success ? 'CourseCreatedCsv' : 'CourseNotCreatedCsv') . '<br />' . $form->get_failed_csv(), ($success ? false : true));
+            $this->redirect(Translation :: get($success ? 'CsvCoursesProcessed' : 'CsvCoursesNotProcessed') . '<br />' . $form->get_failed_csv(), ($success ? false : true));
         }
         else
         {
@@ -59,9 +59,16 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManagerComponent
         $html[] = '<p>' . Translation :: get('CSVMustLookLike') . ' (' . Translation :: get('MandatoryFields') . ')</p>';
         $html[] = '<blockquote>';
         $html[] = '<pre>';
-        $html[] = '<b>code</b>;<b>title</b>;<b>category</b>;<b>teacher</b>';
-        $html[] = 'BIO0015;Biology;BIO;username';
+        $html[] = '<b>action</b>;<b>code</b>;<b>title</b>;<b>category</b>;<b>teacher</b>';
+        $html[] = 'A;BIO0015;Biology;BIO;username';
         $html[] = '</pre>';
+        $html[] = '</blockquote>';
+        $html[] = '<p>' . Translation :: get('Details') . '</p>';
+        $html[] = '<blockquote>';
+        $html[] = '<u><b>' . Translation :: get('Action') . '</u></b>';
+        $html[] = '<br />A: ' . Translation :: get('Add');
+        $html[] = '<br />U: ' . Translation :: get('Update');
+        $html[] = '<br />D: ' . Translation :: get('Delete');
         $html[] = '</blockquote>';
         
         echo implode($html, "\n");
