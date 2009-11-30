@@ -18,7 +18,7 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
         if ($form->validate())
         {
             $object = $this->import_ical($form);
-            $this->redirect(Translation :: get('QtiImported'), false, array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION, 'object' => $object));
+            $this->redirect(Translation :: get('IcalImported'), false, array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION, 'object' => $object));
         }
         else
         {
@@ -36,7 +36,7 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
     function build_importing_form()
     {
         $url = $this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_IMPORT_ICAL));
-        $form = new FormValidator('qti_import', 'post', $url);
+        $form = new FormValidator('ical_import', 'post', $url);
         
         $this->categories[0] = Translation :: get('MyRepository');
         $this->retrieve_categories(0, 1);
