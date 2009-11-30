@@ -33,7 +33,7 @@ class PlatformAuthentication extends Authentication
         }
     }
 
-    public function is_password_changeable()
+    public function is_password_changeable($user)
     {
         return true;
     }

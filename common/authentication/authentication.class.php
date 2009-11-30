@@ -30,8 +30,8 @@ abstract class Authentication
      * Checks if this authentication method allows the password to be changed.
      * @return boolean
      */
-    abstract function is_password_changeable();
-    
+    abstract function is_password_changeable($user);
+
     /**
      * Changes the user's password
      * @param User The current user object
@@ -85,16 +85,16 @@ abstract class Authentication
             // Check whether external authentication is enabled
             $allow_external_authentication = PlatformSetting :: get('enable_external_authentication');
             $no_external_authentication = Request :: get('noExtAuth');
-            
+
             if ($allow_external_authentication && ! isset($no_external_authentication))
             {
                 $external_authentication_types = self :: get_external_authentication_types();
-                
+
                 foreach ($external_authentication_types as $type)
                 {
                     $allow_authentication = PlatformSetting :: get('enable_' . $type . '_authentication');
                     $no_authentication = Request :: get('no' . Utilities :: underscores_to_camelcase($type) . 'Auth');
-                    
+
                     if ($allow_authentication)
                     {
                         $authentication = self :: factory($type);
@@ -104,7 +104,7 @@ abstract class Authentication
                         }
                     }
                 }
-                
+
                 return false;
             }
             else
@@ -155,7 +155,7 @@ abstract class Authentication
     function is_configured()
     {
         $settings = $this->get_configuration();
-        
+
         foreach ($settings as $setting => $value)
         {
             if (empty($value) || ! isset($value))
@@ -163,7 +163,7 @@ abstract class Authentication
                 return false;
             }
         }
-        
+
         return true;
     }
 }
