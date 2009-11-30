@@ -113,7 +113,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
                 $params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
                 $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
                 $unsubscribe_url = ReportingManager :: get_reporting_template_registration_url_content($this->browser, 'CourseStudentTrackerDetailReportingTemplate', $params);
-                $unsubscribe_url = str_replace('go=reporting', 'go=courseviewer', $unsubscribe_url) . '&tool_action=view_reporting_template';
+                $unsubscribe_url = str_replace('go=reporting', 'go=courseviewer', $unsubscribe_url) . '&tool_action=view_reporting_template&tool=reporting';
                 //$unsubscribe_url = $this->browser->get_url($parameters);
                 $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
             }
