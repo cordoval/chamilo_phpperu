@@ -75,7 +75,7 @@ class UserImportForm extends FormValidator
         	if (!$validuser)
             {
             	$failures ++;
-                $this->failedcsv[] = implode($csvuser, ';');
+                $this->failedcsv[] = Translation :: get('Invalid') . ': ' . implode($csvuser, ';');
             }
             else 
             {
@@ -88,58 +88,113 @@ class UserImportForm extends FormValidator
             return false;
         }
         
+        $udm = UserDataManager :: get_instance();
+        
         foreach($validusers as $csvuser)
         {
-        	$user = new User();
-                
-            $user->set_firstname($csvuser[User :: PROPERTY_FIRSTNAME]);
-            $user->set_lastname($csvuser[User :: PROPERTY_LASTNAME]);
-            $user->set_username($csvuser[User :: PROPERTY_USERNAME]);
-            
-            $pass = $csvuser[User :: PROPERTY_PASSWORD];
-            if (! $pass || $pass == "")
-                $pass = uniqid();
-            $pass = Hashing :: hash($pass);
-            
-            $user->set_password($pass);
-            $user->set_email($csvuser[User :: PROPERTY_EMAIL]);
-            $user->set_language($csvuser[User :: PROPERTY_LANGUAGE]);
-            $user->set_status($csvuser[User :: PROPERTY_STATUS]);
-            $user->set_active($csvuser[User :: PROPERTY_ACTIVE]);
-            $user->set_official_code($csvuser[User :: PROPERTY_OFFICIAL_CODE]);
-            $user->set_phone($csvuser[User :: PROPERTY_PHONE]);
-            $user->set_auth_source($csvuser[User :: PROPERTY_AUTH_SOURCE]);
-            
-            $act_date = $csvuser[User :: PROPERTY_ACTIVATION_DATE];
-            if ($act_date != 0)
-                $act_date = Utilities :: time_from_datepicker($act_date);
-            
-            $user->set_activation_date($act_date);
-            
-            $exp_date = $csvuser[User :: PROPERTY_EXPIRATION_DATE];
-            if ($exp_date != 0)
-                $exp_date = Utilities :: time_from_datepicker($exp_date);
-            
-            $user->set_expiration_date($exp_date);
-            
-            $user->set_platformadmin(0);
-            if (! $user->create())
-            {
-                $failures ++;
-                $this->failedcsv[] = implode($csvuser, ';');
-            }
-            else
-            {
-                $send_mail = intval($values['mail']['send_mail']);
-                if ($send_mail)
-                {
-                    $this->send_email($user);
-                }
-                
-                Events :: trigger_event('import', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
-            }
+        	$action = strtoupper($csvuser['action']);
+
+        	if($action == 'A')
+        	{
+	        	$user = new User();
+	                
+	            $user->set_firstname($csvuser[User :: PROPERTY_FIRSTNAME]);
+	            $user->set_lastname($csvuser[User :: PROPERTY_LASTNAME]);
+	            $user->set_username($csvuser[User :: PROPERTY_USERNAME]);
+	            
+	            $pass = $csvuser[User :: PROPERTY_PASSWORD];
+	            if (! $pass || $pass == "")
+	                $pass = uniqid();
+	            $pass = Hashing :: hash($pass);
+	            
+	            $user->set_password($pass);
+	            $user->set_email($csvuser[User :: PROPERTY_EMAIL]);
+	            $user->set_language($csvuser[User :: PROPERTY_LANGUAGE]);
+	            $user->set_status($csvuser[User :: PROPERTY_STATUS]);
+	            $user->set_active($csvuser[User :: PROPERTY_ACTIVE]);
+	            $user->set_official_code($csvuser[User :: PROPERTY_OFFICIAL_CODE]);
+	            $user->set_phone($csvuser[User :: PROPERTY_PHONE]);
+	            $user->set_auth_source($csvuser[User :: PROPERTY_AUTH_SOURCE]);
+	            
+	            $act_date = $csvuser[User :: PROPERTY_ACTIVATION_DATE];
+	            if ($act_date != 0)
+	                $act_date = Utilities :: time_from_datepicker($act_date);
+	            
+	            $user->set_activation_date($act_date);
+	            
+	            $exp_date = $csvuser[User :: PROPERTY_EXPIRATION_DATE];
+	            if ($exp_date != 0)
+	                $exp_date = Utilities :: time_from_datepicker($exp_date);
+	            
+	            $user->set_expiration_date($exp_date);
+	            
+	            $user->set_platformadmin(0);
+	            if (! $user->create())
+	            {
+	                $failures ++;
+	                $this->failedcsv[] = Translation :: get('CreateFailed') . ': ' . implode($csvuser, ';');
+	            }
+	            else
+	            {
+	                $send_mail = intval($values['mail']['send_mail']);
+	                if ($send_mail)
+	                {
+	                    $this->send_email($user);
+	                }
+	                
+	                Events :: trigger_event('import', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
+	            }
+        	}
+        	elseif($action == 'U')
+        	{
+        		$user = $udm->retrieve_user_by_username($csvuser[User :: PROPERTY_USERNAME]);
+        		$user->set_firstname($csvuser[User :: PROPERTY_FIRSTNAME]);
+	            $user->set_lastname($csvuser[User :: PROPERTY_LASTNAME]);
+	            
+	            $user->set_email($csvuser[User :: PROPERTY_EMAIL]);
+	            $user->set_language($csvuser[User :: PROPERTY_LANGUAGE]);
+	            $user->set_status($csvuser[User :: PROPERTY_STATUS]);
+	            $user->set_active($csvuser[User :: PROPERTY_ACTIVE]);
+	            $user->set_official_code($csvuser[User :: PROPERTY_OFFICIAL_CODE]);
+	            $user->set_phone($csvuser[User :: PROPERTY_PHONE]);
+	            $user->set_auth_source($csvuser[User :: PROPERTY_AUTH_SOURCE]);
+	            
+	            $act_date = $csvuser[User :: PROPERTY_ACTIVATION_DATE];
+	            if ($act_date != 0)
+	                $act_date = Utilities :: time_from_datepicker($act_date);
+	            
+	            $user->set_activation_date($act_date);
+	            
+	            $exp_date = $csvuser[User :: PROPERTY_EXPIRATION_DATE];
+	            if ($exp_date != 0)
+	                $exp_date = Utilities :: time_from_datepicker($exp_date);
+	            
+	            $user->set_expiration_date($exp_date);
+	            
+	            $pass = $csvuser[User :: PROPERTY_PASSWORD];
+	            if ($pass)
+	            {
+	            	$pass = Hashing :: hash($pass);
+	            	$user->set_password($pass);
+	            }
+	            
+        	 	if (!$user->update())
+	            {
+	                $failures ++;
+	                $this->failedcsv[] = Translation :: get('UpdateFailed') . ': ' . implode($csvuser, ';');
+	            }
+        	}
+        	elseif($action == 'D')
+        	{
+        		$user = $udm->retrieve_user_by_username($csvuser[User :: PROPERTY_USERNAME]);
+	        	if (!$user->delete())
+	            {
+	                $failures ++;
+	                $this->failedcsv[] = Translation :: get('DeleteFailed') . ': ' . implode($csvuser, ';');
+	            }
+        	}
         }
-        
+        exit();
         if ($failures > 0)
         {
             return false;
@@ -147,7 +202,7 @@ class UserImportForm extends FormValidator
         else
         {
             return true;
-        }
+        } 
     }
 
     function get_failed_csv()
@@ -163,9 +218,17 @@ class UserImportForm extends FormValidator
         if ($csvuser['user_name'])
             $csvuser[User :: PROPERTY_USERNAME] = $csvuser['user_name'];
             
-        //1. Check if username exists
-        if (! $udm->is_username_available($csvuser[User :: PROPERTY_USERNAME]))
+        //1. Action valid ?
+    	$action = strtoupper($csvuser['action']);
+        if($action != 'A' && $action != 'D' && $action != 'U')
         {
+        	$failures++; 
+        }
+
+        //1. Check if username exists
+        if ( ($action == 'A' && !$udm->is_username_available($csvuser[User :: PROPERTY_USERNAME]))  || 
+        	 ($action != 'A' && $udm->is_username_available($csvuser[User :: PROPERTY_USERNAME])  ))
+		{
             $failures ++;
         }
         
@@ -259,11 +322,11 @@ class UserImportForm extends FormValidator
             case 'Contact' :
                 if ($this->user['Status'] == '5')
                 {
-                    $this->user['Status'] = STUDENT;
+                    $this->user['Status'] = 5;
                 }
                 if ($this->user['Status'] == '1')
                 {
-                    $this->user['Status'] = COURSEMANAGER;
+                    $this->user['Status'] = 1;
                 }
                 $this->users[] = $this->user;
                 break;
