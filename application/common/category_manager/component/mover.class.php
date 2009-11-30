@@ -20,7 +20,7 @@ class CategoryManagerMoverComponent extends CategoryManagerComponent
         
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('Browse Categories')));
-        $trail->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('Create category')));
+        $trail->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('MoveCategory')));
         
         $user = $this->get_user();
         

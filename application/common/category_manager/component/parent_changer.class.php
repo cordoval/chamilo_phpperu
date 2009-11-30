@@ -17,8 +17,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
         $user = $this->get_user();
         
         $ids = Request :: get(CategoryManager :: PARAM_CATEGORY_ID);
-        
-        $this->get_breadcrumb_trail()->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $ids)), Translation :: get('Move')));
+        $this->get_breadcrumb_trail()->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $ids)), Translation :: get('MoveCategories')));
         
         if (! $user)
         {
@@ -42,12 +41,18 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
             
             $success = true;
             
+            $categories = array();
+            
+        	foreach ($ids as $id)
+            {
+                $categories[] = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $id))->next_result();
+            }
+            
             if ($form->validate())
             {
                 $new_parent = $form->exportValue('category');
-                foreach ($ids as $id)
+                foreach ($categories as $category)
                 {
-                    $category = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $id))->next_result();
                     $category->set_parent($new_parent);
                     $category->set_display_order($this->get_next_category_display_order($new_parent));
                     $success &= $category->update();
@@ -63,6 +68,20 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
             else
             {
                 $this->display_header($this->get_breadcrumb_trail());
+                
+                echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'action_category.png);">';
+                echo '<div class="title">' . Translation :: get('SelectedCategories');
+                echo '</div>';
+                echo '<div class="description">';
+                echo '<ul>';
+                
+                foreach ($categories as $category)
+                {
+                	echo '<li>' . $category->get_name() . '</li>';
+                }
+                
+                echo '</ul></div><div class="clear"></div></div>';
+                
                 $form->display();
                 $this->display_footer();
             }
