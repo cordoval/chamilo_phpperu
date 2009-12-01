@@ -25,12 +25,12 @@ class GroupManagerImporterComponent extends GroupManagerComponent
             exit();
         }
         
-        $form = new GroupImportForm($this->get_url(), $this->get_user());
+        $form = new GroupImportForm($this->get_url());
         
         if ($form->validate())
         {
             $success = $form->import_groups();
-            $this->redirect(Translation :: get($success ? 'GroupCSVProcessed' : 'GroupCSVNotProcessed') . '<br />' . $form->get_failed_elements(), ($success ? false : true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT));
+            $this->redirect(Translation :: get($success ? 'GroupXMLProcessed' : 'GroupXMLNotProcessed') . '<br />' . $form->get_failed_elements(), ($success ? false : true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT));
         }
         else
         {

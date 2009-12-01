@@ -50,7 +50,7 @@ class GroupAutoloader
 	static function check_for_form_files($classname)
 	{
 		$list = array('group_export_form', 'group_form', 'group_import_form', 'group_move_form', 'group_role_manager_form', 'group_search_form',
-				      'group_user_search_form');
+				      'group_user_search_form', 'group_user_import_form');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

@@ -6,7 +6,6 @@
 
 class GroupImportForm extends FormValidator
 {
-    private $form_group;
     private $doc;
     private $failed_elements;
 
@@ -14,11 +13,10 @@ class GroupImportForm extends FormValidator
      * Creates a new GroupImportForm 
      * Used to import groups from a file
      */
-    function GroupImportForm($action, $form_group)
+    function GroupImportForm($action)
     {
         parent :: __construct('group_import', 'post', $action);
         
-        $this->form_group = $form_group;
         $this->failed_elements = array();
         $this->build_importing_form();
     }
@@ -36,7 +34,7 @@ class GroupImportForm extends FormValidator
     function import_groups()
     {
         $values = $this->exportValues();
-        $groups = $this->parse_file($_FILES['file']['tmp_name'], $_FILES['file']['type']);
+        $groups = $this->parse_file($_FILES['file']['tmp_name']);
         
         foreach($groups as $group)
         {
