@@ -6,33 +6,19 @@
 
 class GroupImportForm extends FormValidator
 {
-    
-    const TYPE_IMPORT = 1;
-    
-    private $failedcsv;
-    private $current_tag;
-    private $current_value;
-    private $group;
-    private $form_group;
-    private $groups;
-    private $udm;
     private $doc;
+    private $failed_elements;
 
     /**
      * Creates a new GroupImportForm 
      * Used to import groups from a file
      */
-    function GroupImportForm($form_type, $action, $form_group)
+    function GroupImportForm($action)
     {
         parent :: __construct('group_import', 'post', $action);
         
-        $this->form_group = $form_group;
-        $this->form_type = $form_type;
-        $this->failedcsv = array();
-        if ($this->form_type == self :: TYPE_IMPORT)
-        {
-            $this->build_importing_form();
-        }
+        $this->failed_elements = array();
+        $this->build_importing_form();
     }
 
     function build_importing_form()
@@ -41,21 +27,31 @@ class GroupImportForm extends FormValidator
         $allowed_upload_types = array('xml');
         $this->addRule('file', Translation :: get('OnlyXMLAllowed'), 'filetype', $allowed_upload_types);
         
-        //$this->addElement('submit', 'group_import', Translation :: get('Ok'));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
-        //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
-
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     function import_groups()
     {
         $values = $this->exportValues();
-        $this->parse_file($_FILES['file']['tmp_name'], $_FILES['file']['type']);
+        $groups = $this->parse_file($_FILES['file']['tmp_name']);
+        
+        foreach($groups as $group)
+        {
+        	$this->validate_group($group);
+        }
+
+        if(count($this->failed_elements) > 0)
+        	return false;
+        
+        $this->process_groups($groups);
+        
+        if(count($this->failed_elements) > 0)
+        	return false;
+        
         return true;
     }
-
+    
     function parse_file($file)
     {
         $this->doc = new DOMDocument();
@@ -71,8 +67,7 @@ class GroupImportForm extends FormValidator
             $groups[] = $this->parse_group($node);
         }
         
-        //print_r($groups); echo "<br/><br/>";
-        $this->create_groups($groups, 0);
+        return $groups;
     }
 
     function parse_group($group)
@@ -81,8 +76,10 @@ class GroupImportForm extends FormValidator
         
         if ($group->hasChildNodes())
         {
-            $group_array['name'] = $group->getElementsByTagName('name')->item(0)->nodeValue;
+            $group_array['action'] = $group->getElementsByTagName('action')->item(0)->nodeValue;
+        	$group_array['name'] = $group->getElementsByTagName('name')->item(0)->nodeValue;
             $group_array['description'] = $group->getElementsByTagName('description')->item(0)->nodeValue;
+            $group_array['code'] = $group->getElementsByTagName('code')->item(0)->nodeValue;
             $children = $group->getElementsByTagName('children')->item(0);
             
             $group_nodes = $children->childNodes;
@@ -99,19 +96,131 @@ class GroupImportForm extends FormValidator
         return $group_array;
     }
 
-    function create_groups($groups, $parent_group)
+    function validate_group($group)
+    {
+    	//1. Check if action is valid
+    	$action = strtoupper($group['action']);
+    	if($action != 'A' && $action != 'U' && $action != 'D')
+    	{
+    		$this->failed_elements[] = Translation :: get('Invalid') . ': ' . $this->display_group($group);
+    		return $this->validate_children($group['children']);
+    	}
+    	
+    	//2. Check if name & code is filled in
+    	if(!$group['name'] || $group['name'] == '' || !$group['code'] || $group['code'] == '')
+    	{ 
+    		$this->failed_elements[] = Translation :: get('Invalid') . ': ' . $this->display_group($group);
+    		return $this->validate_children($group['children']);
+    	}
+    	
+    	//3. Check if action is valid
+    	if( ($action == 'A' && $this->group_code_exists($group['code'])) || 
+    		($action != 'A' && !$this->group_code_exists($group['code']) ))
+    	{
+    		$this->failed_elements[] = Translation :: get('Invalid') . ': ' . $this->display_group($group);
+    		return $this->validate_children($group['children']);
+    	}
+    	
+    	return $this->validate_children($group['children']);
+    }
+    
+    function validate_children($children)
+    {
+    	foreach($children as $child)
+    	{
+    		$this->validate_group($child);
+    	}
+    }
+    
+    function process_groups($groups, $parent_group = 1)
     {
         foreach ($groups as $gr)
         {
-            $group = new Group();
-            $group->set_name($gr['name']);
-            $group->set_description($gr['description']);
-            $group->set_parent($parent_group);
-            $group->create();
+        	$action = strtoupper($gr['action']);
             
-            $this->create_groups($gr['children'], $group->get_id());
+            switch($action)
+            {
+            	case 'A':
+            		$group = $this->create_group($gr, $parent_group);
+            		break;
+            	case 'U':
+            		$group = $this->update_group($gr, $parent_group);
+            		break;
+            	case 'D':
+            		$group = $this->delete_group($gr);
+            		break;	
+            }
+            
+            if(!$group)
+            {
+            	$this->failed_elements[] = Translation :: get('Failed') . ': ' . $this->display_group($group);
+            	return;
+            }
+            
+            $this->process_groups($gr['children'], $group->get_id());
         }
     }
+    
+    function display_group($group)
+    {
+    	return $group['code'] . ' - ' . $group['name'];
+    }
+    
+    function create_group($data, $parent_group)
+    {
+    	$group = new Group();
+    	$group->set_name($data['name']);
+        $group->set_description($data['description']);
+        $group->set_code($data['code']);
+        $group->set_parent($parent_group);
+        
+        if($group->create())
+        	return $group;
+    }
+    
+    function update_group($data, $parent_group)
+    {
+    	$group = $this->get_group($data['code']);
+    	$group->set_name($data['name']);
+        $group->set_description($data['description']);
+        $succes = $group->update();
+        
+        if($group->get_parent() != $parent_group)
+        {
+        	$succes &= $group->move($parent_group);
+        }
+        
+        if($succes)
+        	return $group;
+    }
+    
+    function delete_group($data)
+    {
+    	$group = $this->get_group($data['code']);
+    	
+    	//Group is already deleted by parent deletion
+    	if(!$group)
+    		return false;
+    	
+    	if($group->delete())
+        	return $group;
+    }
 
+   	function get_group($code)
+   	{
+   		$condition = new EqualityCondition(Group :: PROPERTY_CODE, $code);
+   		$groups = GroupDataManager :: get_instance()->retrieve_groups($condition);
+   		return $groups->next_result();
+   	}
+    
+   	function group_code_exists($code)
+   	{
+   		return !is_null($this->get_group($code));
+   	}
+   	
+   	function get_failed_elements()
+   	{
+   		return implode("<br />", $this->failed_elements);
+   	}
 }
 ?>

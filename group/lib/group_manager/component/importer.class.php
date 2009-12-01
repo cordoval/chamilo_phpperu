@@ -25,12 +25,12 @@ class GroupManagerImporterComponent extends GroupManagerComponent
             exit();
         }
         
-        $form = new GroupImportForm(GroupImportForm :: TYPE_IMPORT, $this->get_url(), $this->get_user());
+        $form = new GroupImportForm($this->get_url());
         
         if ($form->validate())
         {
             $success = $form->import_groups();
-            $this->redirect(Translation :: get($success ? 'GroupCreatedCsv' : 'GroupNotCreatedCsv'), ($success ? false : true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+            $this->redirect(Translation :: get($success ? 'GroupXMLProcessed' : 'GroupXMLNotProcessed') . '<br />' . $form->get_failed_elements(), ($success ? false : true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT));
         }
         else
         {
@@ -47,22 +47,32 @@ class GroupManagerImporterComponent extends GroupManagerComponent
         $html[] = '<p>' . Translation :: get('XMLMustLookLike') . ' (' . Translation :: get('MandatoryFields') . ')</p>';
         $html[] = '<blockquote>';
         $html[] = '<pre>';
-        $html[] = '&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;';
-        $html[] = '';
+        $html[] = '&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;';
         $html[] = '&lt;groups&gt;';
         $html[] = '    &lt;item&gt;';
+        $html[] = '        <b>&lt;action&gt;A/U/D&lt;/action&gt;</b>';
         $html[] = '        <b>&lt;name&gt;xxx&lt;/name&gt;</b>';
-        $html[] = '        <b>&lt;description&gt;xxx&lt;/description&gt;</b>';
-        $html[] = '        <b>&lt;children&gt;</b>';
+        $html[] = '        <b>&lt;code&gt;xxx&lt;/code&gt;</b>';
+        $html[] = '        &lt;description&gt;xxx&lt;/description&gt;';
+        $html[] = '        &lt;children&gt;';
         $html[] = '            &lt;item&gt;';
+        $html[] = '                <b>&lt;action&gt;A/U/D&lt;/action&gt;</b>';
         $html[] = '                <b>&lt;name&gt;xxx&lt;/name&gt;</b>';
-        $html[] = '                <b>&lt;description&gt;xxx&lt;/description&gt;</b>';
-        $html[] = '                <b>&lt;children&gt;xxx&lt;/children&gt;</b>';
+        $html[] = '                <b>&lt;code&gt;xxx&lt;/code&gt;</b>';
+        $html[] = '                &lt;description&gt;xxx&lt;/description&gt;';
+        $html[] = '                &lt;children&gt;xxx&lt;/children&gt;';
         $html[] = '            &lt;/item&gt;';
-        $html[] = '        <b>&lt;/children&gt;</b>';
+        $html[] = '        &lt;/children&gt;';
         $html[] = '    &lt;/item&gt;';
         $html[] = '&lt;/groups&gt;';
         $html[] = '</pre>';
+        $html[] = '</blockquote>';
+        $html[] = '<p>' . Translation :: get('Details') . '</p>';
+        $html[] = '<blockquote>';
+        $html[] = '<u><b>' . Translation :: get('Action') . '</u></b>';
+        $html[] = '<br />A: ' . Translation :: get('Add');
+        $html[] = '<br />U: ' . Translation :: get('Update');
+        $html[] = '<br />D: ' . Translation :: get('Delete');
         $html[] = '</blockquote>';
         
         echo implode($html, "\n");

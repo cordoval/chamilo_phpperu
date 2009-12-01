@@ -38,6 +38,7 @@ class GroupInstaller extends Installer
         $group = new Group();
         $group->set_name($values['organization_name']);
         $group->set_parent(0);
+        $group->set_code(strtolower($values['organization_name']));
         $group->create();
         
         return true;

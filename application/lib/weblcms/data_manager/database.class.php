@@ -143,7 +143,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
-                        $order[] = 'co.' . $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
                     {

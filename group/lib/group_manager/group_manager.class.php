@@ -31,6 +31,7 @@ class GroupManager extends CoreApplication
     const ACTION_VIEW_GROUP = 'view';
     const ACTION_EXPORT = 'export';
     const ACTION_IMPORT = 'import';
+    const ACTION_IMPORT_GROUP_USERS = 'import_group_users';
     const ACTION_SUBSCRIBE_USER_TO_GROUP = 'subscribe';
     const ACTION_SUBSCRIBE_USER_BROWSER = 'subscribe_browser';
     const ACTION_UNSUBSCRIBE_USER_FROM_GROUP = 'unsubscribe';
@@ -94,6 +95,9 @@ class GroupManager extends CoreApplication
                 break;
             case self :: ACTION_IMPORT :
                 $component = GroupManagerComponent :: factory('Importer', $this);
+                break;
+            case self :: ACTION_IMPORT_GROUP_USERS :
+                $component = GroupManagerComponent :: factory('GroupUserImporter', $this);
                 break;
             case self :: ACTION_BROWSE_GROUPS :
                 $component = GroupManagerComponent :: factory('Browser', $this);
@@ -291,6 +295,7 @@ class GroupManager extends CoreApplication
         $links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP, GroupManager :: PARAM_GROUP_ID => 0)));
         $links[] = array('name' => Translation :: get('Export'), 'description' => Translation :: get('ExportDescription'), 'action' => 'export', 'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_EXPORT)));
         $links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT)));
+        $links[] = array('name' => Translation :: get('ImportGroupUsers'), 'description' => Translation :: get('ImportGroupUsersDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT_GROUP_USERS)));
         
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
