@@ -120,7 +120,7 @@ class AccountForm extends FormValidator
         $this->addElement('category');
 
         // Password
-        if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) == 1 && Authentication :: factory($this->user->get_auth_source())->is_password_changeable())
+        if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) == 1 && Authentication :: factory($this->user->get_auth_source())->is_password_changeable($this->user))
         {
             $this->addElement('category', Translation :: get('ChangePassword'));
             $this->addElement('static', null, null, '<em>' . Translation :: get('EnterCurrentPassword') . '</em>');

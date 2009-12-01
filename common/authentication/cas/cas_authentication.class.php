@@ -97,7 +97,7 @@ class CasAuthentication extends Authentication
         else
         {
         	$settings = $this->get_configuration();
-        	
+
         	if ($settings['allow_change_password'] == true)
         	{
 		        $cas_password_type = $this->determine_cas_password_type();
