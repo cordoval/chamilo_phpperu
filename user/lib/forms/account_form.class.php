@@ -61,8 +61,15 @@ class AccountForm extends FormValidator
 
         $this->applyFilter(array(User :: PROPERTY_LASTNAME, User :: PROPERTY_FIRSTNAME), 'stripslashes');
         $this->applyFilter(array(User :: PROPERTY_LASTNAME, User :: PROPERTY_FIRSTNAME), 'trim');
-        $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
-        $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+
+        if (PlatformSetting :: get('allow_change_lastname', UserManager :: APPLICATION_NAME) == 1)
+        {
+            $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        }
+        if (PlatformSetting :: get('allow_change_firstname', UserManager :: APPLICATION_NAME) == 1)
+        {
+            $this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        }
         // Official Code
         $this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'), array("size" => "50"));
 
@@ -74,7 +81,7 @@ class AccountForm extends FormValidator
         $this->applyFilter(User :: PROPERTY_OFFICIAL_CODE, 'stripslashes');
         $this->applyFilter(User :: PROPERTY_OFFICIAL_CODE, 'trim');
 
-        if (PlatformSetting :: get('require_official_code', UserManager :: APPLICATION_NAME))
+        if (PlatformSetting :: get('require_official_code', UserManager :: APPLICATION_NAME) && PlatformSetting :: get('allow_change_official_code', UserManager :: APPLICATION_NAME) == 1)
         {
             $this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
         }
@@ -113,9 +120,9 @@ class AccountForm extends FormValidator
         $this->addElement('category');
 
         // Password
-        $this->addElement('category', Translation :: get('ChangePassword'));
         if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) == 1 && Authentication :: factory($this->user->get_auth_source())->is_password_changeable())
         {
+            $this->addElement('category', Translation :: get('ChangePassword'));
             $this->addElement('static', null, null, '<em>' . Translation :: get('EnterCurrentPassword') . '</em>');
             $this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get('CurrentPassword'), array('size' => 40, 'autocomplete' => 'off'));
             $this->addElement('static', null, null, '<em>' . Translation :: get('EnterNewPasswordTwice') . '</em>');
@@ -125,8 +132,8 @@ class AccountForm extends FormValidator
 
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'plugin/jquery/jquery.jpassword.js'));
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/password.js'));
+            $this->addElement('category');
         }
-        $this->addElement('category');
 
         // Picture
         $this->addElement('category', Translation :: get('PlatformOptions'));
@@ -239,7 +246,11 @@ class AccountForm extends FormValidator
 
         if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) && strlen($values[User :: PROPERTY_PASSWORD]) && Authentication :: factory($this->user->get_auth_source())->is_password_changeable())
         {
-            Authentication :: factory($this->user->get_auth_source())->change_password($user, $values[User :: PROPERTY_PASSWORD], $values[self :: NEW_PASSWORD]);
+            $result = Authentication :: factory($this->user->get_auth_source())->change_password($user, $values[User :: PROPERTY_PASSWORD], $values[self :: NEW_PASSWORD]);
+            if (!$result)
+            {
+                return false;
+            }
         }
 
         if (PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME))

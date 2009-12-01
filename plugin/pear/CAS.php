@@ -252,7 +252,7 @@ define('DEFAULT_DEBUG_DIR','/tmp/');
 $GLOBALS['PHPCAS_CLIENT']  = null;
 
 /**
- * This global variable is used to store where the initializer is called from 
+ * This global variable is used to store where the initializer is called from
  * (to print a comprehensive error in case of multiple calls).
  *
  * @hideinitializer
@@ -304,7 +304,7 @@ include_once(dirname(__FILE__).'/CAS/client.php');
  * @ingroup public
  * @author Pascal Aubry <pascal.aubry at univ-rennes1.fr>
  *
- * \internal All its methods access the same object ($PHPCAS_CLIENT, declared 
+ * \internal All its methods access the same object ($PHPCAS_CLIENT, declared
  * at the end of CAS/client.php).
  */
 
@@ -312,16 +312,22 @@ include_once(dirname(__FILE__).'/CAS/client.php');
 
 class phpCAS
 {
-	
+
 	// ########################################################################
 	//  INITIALIZATION
 	// ########################################################################
-	
+
 	/**
 	 * @addtogroup publicInit
 	 * @{
 	 */
-	
+
+    function has_already_been_called()
+    {
+        global $PHPCAS_CLIENT;
+        return ( is_object($PHPCAS_CLIENT) ? true : false );
+    }
+
 	/**
 	 * phpCAS client initializer.
 	 * @note Only one of the phpCAS::client() and phpCAS::proxy functions should be
@@ -343,7 +349,7 @@ class phpCAS
 					$start_session = true)
 		{
 		global $PHPCAS_CLIENT, $PHPCAS_INIT_CALL;
-		
+
 		phpCAS::traceBegin();
 		if ( is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error($PHPCAS_INIT_CALL['method'].'() has already been called (at '.$PHPCAS_INIT_CALL['file'].':'.$PHPCAS_INIT_CALL['line'].')');
@@ -360,19 +366,19 @@ class phpCAS
 		if ( gettype($server_uri) != 'string' ) {
 			phpCAS::error('type mismatched for parameter $server_uri (should be `string\')');
 		}
-		
+
 		// store where the initializer is called from
 		$dbg = phpCAS::backtrace();
 		$PHPCAS_INIT_CALL = array('done' => TRUE,
 			'file' => $dbg[0]['file'],
 			'line' => $dbg[0]['line'],
 			'method' => __CLASS__.'::'.__FUNCTION__);
-		
+
 		// initialize the global object $PHPCAS_CLIENT
 		$PHPCAS_CLIENT = new CASClient($server_version,FALSE/*proxy*/,$server_hostname,$server_port,$server_uri,$start_session);
 		phpCAS::traceEnd();
 		}
-	
+
 	/**
 	 * phpCAS proxy initializer.
 	 * @note Only one of the phpCAS::client() and phpCAS::proxy functions should be
@@ -394,7 +400,7 @@ class phpCAS
 				   $start_session = true)
 		{
 		global $PHPCAS_CLIENT, $PHPCAS_INIT_CALL;
-		
+
 		phpCAS::traceBegin();
 		if ( is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error($PHPCAS_INIT_CALL['method'].'() has already been called (at '.$PHPCAS_INIT_CALL['file'].':'.$PHPCAS_INIT_CALL['line'].')');
@@ -411,29 +417,29 @@ class phpCAS
 		if ( gettype($server_uri) != 'string' ) {
 			phpCAS::error('type mismatched for parameter $server_uri (should be `string\')');
 		}
-		
+
 		// store where the initialzer is called from
 		$dbg = phpCAS::backtrace();
 		$PHPCAS_INIT_CALL = array('done' => TRUE,
 			'file' => $dbg[0]['file'],
 			'line' => $dbg[0]['line'],
 			'method' => __CLASS__.'::'.__FUNCTION__);
-		
+
 		// initialize the global object $PHPCAS_CLIENT
 		$PHPCAS_CLIENT = new CASClient($server_version,TRUE/*proxy*/,$server_hostname,$server_port,$server_uri,$start_session);
 		phpCAS::traceEnd();
 		}
-	
+
 	/** @} */
 	// ########################################################################
 	//  DEBUGGING
 	// ########################################################################
-	
+
 	/**
 	 * @addtogroup publicDebug
 	 * @{
 	 */
-	
+
 	/**
 	 * Set/unset debug mode
 	 *
@@ -442,11 +448,11 @@ class phpCAS
 	function setDebug($filename='')
 		{
 		global $PHPCAS_DEBUG;
-		
+
 		if ( $filename != FALSE && gettype($filename) != 'string' ) {
 			phpCAS::error('type mismatched for parameter $dbg (should be FALSE or the name of the log file)');
 		}
-		
+
 		if ( empty($filename) ) {
 			if ( preg_match('/^Win.*/',getenv('OS')) ) {
 				if ( isset($_ENV['TMP']) ) {
@@ -461,24 +467,24 @@ class phpCAS
 			}
 			$filename = $debugDir . 'phpCAS.log';
 		}
-		
+
 		if ( empty($PHPCAS_DEBUG['unique_id']) ) {
 			$PHPCAS_DEBUG['unique_id'] = substr(strtoupper(md5(uniqid(''))),0,4);
 		}
-		
+
 		$PHPCAS_DEBUG['filename'] = $filename;
-		
+
 		phpCAS::trace('START ******************');
 		}
-	
+
 	/** @} */
 	/**
 	 * @addtogroup internalDebug
 	 * @{
 	 */
-	
+
 	/**
-	 * This method is a wrapper for debug_backtrace() that is not available 
+	 * This method is a wrapper for debug_backtrace() that is not available
 	 * in all PHP versions (>= 4.3.0 only)
 	 */
 	function backtrace()
@@ -490,7 +496,7 @@ class phpCAS
 			return array();
 		}
 		}
-	
+
 	/**
 	 * Logs a string in debug mode.
 	 *
@@ -502,16 +508,16 @@ class phpCAS
 		{
 		$indent_str = ".";
 		global $PHPCAS_DEBUG;
-		
+
 		if ( $PHPCAS_DEBUG['filename'] ) {
 			for ($i=0;$i<$PHPCAS_DEBUG['indent'];$i++) {
 				$indent_str .= '|    ';
 			}
 			error_log($PHPCAS_DEBUG['unique_id'].' '.$indent_str.$str."\n",3,$PHPCAS_DEBUG['filename']);
 		}
-		
+
 		}
-	
+
 	/**
 	 * This method is used by interface methods to print an error and where the function
 	 * was originally called from.
@@ -542,7 +548,7 @@ class phpCAS
 		phpCAS::traceExit();
 		exit();
 		}
-	
+
 	/**
 	 * This method is used to log something in debug mode.
 	 */
@@ -551,20 +557,20 @@ class phpCAS
 		$dbg = phpCAS::backtrace();
 		phpCAS::log($str.' ['.basename($dbg[1]['file']).':'.$dbg[1]['line'].']');
 		}
-	
+
 	/**
 	 * This method is used to indicate the start of the execution of a function in debug mode.
 	 */
 	function traceBegin()
 		{
 		global $PHPCAS_DEBUG;
-		
+
 		$dbg = phpCAS::backtrace();
 		$str = '=> ';
 		if ( !empty($dbg[2]['class']) ) {
 			$str .= $dbg[2]['class'].'::';
 		}
-		$str .= $dbg[2]['function'].'(';      
+		$str .= $dbg[2]['function'].'(';
 		if ( is_array($dbg[2]['args']) ) {
 			foreach ($dbg[2]['args'] as $index => $arg) {
 				if ( $index != 0 ) {
@@ -577,7 +583,7 @@ class phpCAS
 		phpCAS::log($str);
 		$PHPCAS_DEBUG['indent'] ++;
 		}
-	
+
 	/**
 	 * This method is used to indicate the end of the execution of a function in debug mode.
 	 *
@@ -586,28 +592,28 @@ class phpCAS
 	function traceEnd($res='')
 		{
 		global $PHPCAS_DEBUG;
-		
+
 		$PHPCAS_DEBUG['indent'] --;
 		$dbg = phpCAS::backtrace();
 		$str = '';
 		$str .= '<= '.str_replace("\n","",var_export($res,TRUE));
 		phpCAS::log($str);
 		}
-	
+
 	/**
 	 * This method is used to indicate the end of the execution of the program
 	 */
 	function traceExit()
 		{
 		global $PHPCAS_DEBUG;
-		
+
 		phpCAS::log('exit()');
 		while ( $PHPCAS_DEBUG['indent'] > 0 ) {
 			phpCAS::log('-');
 			$PHPCAS_DEBUG['indent'] --;
 		}
 		}
-	
+
 	/** @} */
 	// ########################################################################
 	//  INTERNATIONALIZATION
@@ -616,9 +622,9 @@ class phpCAS
 	 * @addtogroup publicLang
 	 * @{
 	 */
-	
+
 	/**
-	 * This method is used to set the language used by phpCAS. 
+	 * This method is used to set the language used by phpCAS.
 	 * @note Can be called only once.
 	 *
 	 * @param $lang a string representing the language.
@@ -636,7 +642,7 @@ class phpCAS
 		}
 		$PHPCAS_CLIENT->setLang($lang);
 		}
-	
+
 	/** @} */
 	// ########################################################################
 	//  VERSION
@@ -645,7 +651,7 @@ class phpCAS
 	 * @addtogroup public
 	 * @{
 	 */
-	
+
 	/**
 	 * This method returns the phpCAS version.
 	 *
@@ -655,7 +661,7 @@ class phpCAS
 		{
 		return PHPCAS_VERSION;
 		}
-	
+
 	/** @} */
 	// ########################################################################
 	//  HTML OUTPUT
@@ -664,7 +670,7 @@ class phpCAS
 	 * @addtogroup publicOutput
 	 * @{
 	 */
-	
+
 	/**
 	 * This method sets the HTML header used for all outputs.
 	 *
@@ -681,7 +687,7 @@ class phpCAS
 		}
 		$PHPCAS_CLIENT->setHTMLHeader($header);
 		}
-	
+
 	/**
 	 * This method sets the HTML footer used for all outputs.
 	 *
@@ -698,7 +704,7 @@ class phpCAS
 		}
 		$PHPCAS_CLIENT->setHTMLFooter($footer);
 		}
-	
+
 	/** @} */
 	// ########################################################################
 	//  PGT STORAGE
@@ -707,10 +713,10 @@ class phpCAS
 	 * @addtogroup publicPGTStorage
 	 * @{
 	 */
-	
+
 	/**
 	 * This method is used to tell phpCAS to store the response of the
-	 * CAS server to PGT requests onto the filesystem. 
+	 * CAS server to PGT requests onto the filesystem.
 	 *
 	 * @param $format the format used to store the PGT's (`plain' and `xml' allowed)
 	 * @param $path the path where the PGT's should be stored
@@ -719,7 +725,7 @@ class phpCAS
 		$path='')
 		{
 		global $PHPCAS_CLIENT,$PHPCAS_AUTH_CHECK_CALL;
-		
+
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should only be called after '.__CLASS__.'::proxy()');
@@ -739,12 +745,12 @@ class phpCAS
 		$PHPCAS_CLIENT->setPGTStorageFile($format,$path);
 		phpCAS::traceEnd();
 		}
-	
+
 	/**
 	 * This method is used to tell phpCAS to store the response of the
-	 * CAS server to PGT requests into a database. 
-	 * @note The connection to the database is done only when needed. 
-	 * As a consequence, bad parameters are detected only when 
+	 * CAS server to PGT requests into a database.
+	 * @note The connection to the database is done only when needed.
+	 * As a consequence, bad parameters are detected only when
 	 * initializing PGT storage, except in debug mode.
 	 *
 	 * @param $user the user to access the data with
@@ -764,7 +770,7 @@ class phpCAS
 											 $table='')
 		{
 		global $PHPCAS_CLIENT,$PHPCAS_AUTH_CHECK_CALL;
-		
+
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should only be called after '.__CLASS__.'::proxy()');
@@ -799,7 +805,7 @@ class phpCAS
 		$PHPCAS_CLIENT->setPGTStorageDB($this,$user,$password,$hostname,$port,$database,$table);
 		phpCAS::traceEnd();
 		}
-	
+
 	/** @} */
 	// ########################################################################
 	// ACCESS TO EXTERNAL SERVICES
@@ -808,10 +814,10 @@ class phpCAS
 	 * @addtogroup publicServices
 	 * @{
 	 */
-	
+
 	/**
 	 * This method is used to access an HTTP[S] service.
-	 * 
+	 *
 	 * @param $url the service to access.
 	 * @param $err_code an error code Possible values are PHPCAS_SERVICE_OK (on
 	 * success), PHPCAS_SERVICE_PT_NO_SERVER_RESPONSE, PHPCAS_SERVICE_PT_BAD_SERVER_RESPONSE,
@@ -825,7 +831,7 @@ class phpCAS
 	function serviceWeb($url,&$err_code,&$output)
 		{
 		global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
-		
+
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should only be called after '.__CLASS__.'::proxy()');
@@ -842,16 +848,16 @@ class phpCAS
 		if ( gettype($url) != 'string' ) {
 			phpCAS::error('type mismatched for parameter $url (should be `string\')');
 		}
-		
+
 		$res = $PHPCAS_CLIENT->serviceWeb($url,$err_code,$output);
-		
+
 		phpCAS::traceEnd($res);
 		return $res;
 		}
-	
+
 	/**
 	 * This method is used to access an IMAP/POP3/NNTP service.
-	 * 
+	 *
 	 * @param $url a string giving the URL of the service, including the mailing box
 	 * for IMAP URLs, as accepted by imap_open().
 	 * @param $service a string giving for CAS retrieve Proxy ticket
@@ -869,7 +875,7 @@ class phpCAS
 	function serviceMail($url,$service,$flags,&$err_code,&$err_msg,&$pt)
 		{
 		global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
-		
+
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should only be called after '.__CLASS__.'::proxy()');
@@ -886,17 +892,17 @@ class phpCAS
 		if ( gettype($url) != 'string' ) {
 			phpCAS::error('type mismatched for parameter $url (should be `string\')');
 		}
-		
+
 		if ( gettype($flags) != 'integer' ) {
 			phpCAS::error('type mismatched for parameter $flags (should be `integer\')');
 		}
-		
+
 		$res = $PHPCAS_CLIENT->serviceMail($url,$service,$flags,$err_code,$err_msg,$pt);
-		
+
 		phpCAS::traceEnd($res);
 		return $res;
 		}
-	
+
 	/** @} */
 	// ########################################################################
 	//  AUTHENTICATION
@@ -905,9 +911,9 @@ class phpCAS
 	 * @addtogroup publicAuth
 	 * @{
 	 */
-	
+
 	/**
-	 * Set the times authentication will be cached before really accessing the CAS server in gateway mode: 
+	 * Set the times authentication will be cached before really accessing the CAS server in gateway mode:
 	 * - -1: check only once, and then never again (until you pree login)
 	 * - 0: always check
 	 * - n: check every "n" time
@@ -925,7 +931,7 @@ class phpCAS
 		}
 		$PHPCAS_CLIENT->setCacheTimesForAuthRecheck($n);
 		}
-	
+
 	/**
 	 * This method is called to check if the user is authenticated (use the gateway feature).
 	 * @return TRUE when the user is authenticated; otherwise FALSE.
@@ -933,14 +939,14 @@ class phpCAS
 	function checkAuthentication()
 		{
 		global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
-		
+
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should not be called before '.__CLASS__.'::client() or '.__CLASS__.'::proxy()');
 		}
-		
+
 		$auth = $PHPCAS_CLIENT->checkAuthentication();
-		
+
 		// store where the authentication has been checked and the result
 		$dbg = phpCAS::backtrace();
 		$PHPCAS_AUTH_CHECK_CALL = array('done' => TRUE,
@@ -949,25 +955,25 @@ class phpCAS
 			'method' => __CLASS__.'::'.__FUNCTION__,
 			'result' => $auth );
 		phpCAS::traceEnd($auth);
-		return $auth; 
+		return $auth;
 		}
 
 	/**
-	 * This method is called to force authentication if the user was not already 
-	 * authenticated. If the user is not authenticated, halt by redirecting to 
+	 * This method is called to force authentication if the user was not already
+	 * authenticated. If the user is not authenticated, halt by redirecting to
 	 * the CAS server.
 	 */
 	function forceAuthentication()
 		{
 		global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
-		
+
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should not be called before '.__CLASS__.'::client() or '.__CLASS__.'::proxy()');
 		}
-		
+
 		$auth = $PHPCAS_CLIENT->forceAuthentication();
-		
+
 		// store where the authentication has been checked and the result
 		$dbg = phpCAS::backtrace();
 		$PHPCAS_AUTH_CHECK_CALL = array('done' => TRUE,
@@ -975,33 +981,33 @@ class phpCAS
 			'line' => $dbg[0]['line'],
 			'method' => __CLASS__.'::'.__FUNCTION__,
 			'result' => $auth );
-		
+
 		if ( !$auth ) {
 			phpCAS::trace('user is not authenticated, redirecting to the CAS server');
 			$PHPCAS_CLIENT->forceAuthentication();
 		} else {
 			phpCAS::trace('no need to authenticate (user `'.phpCAS::getUser().'\' is already authenticated)');
 		}
-		
+
 		phpCAS::traceEnd();
-		return $auth; 
+		return $auth;
 		}
-	
+
 	/**
 	 * This method is called to renew the authentication.
 	 **/
 	function renewAuthentication() {
 		global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
-		
+
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should not be called before'.__CLASS__.'::client() or '.__CLASS__.'::proxy()');
 		}
-		
+
 		// store where the authentication has been checked and the result
 		$dbg = phpCAS::backtrace();
 		$PHPCAS_AUTH_CHECK_CALL = array('done' => TRUE, 'file' => $dbg[0]['file'], 'line' => $dbg[0]['line'], 'method' => __CLASS__.'::'.__FUNCTION__, 'result' => $auth );
-		
+
 		$PHPCAS_CLIENT->renewAuthentication();
 		phpCAS::traceEnd();
 	}
@@ -1013,7 +1019,7 @@ class phpCAS
 		{
 		phpCAS::error('this method is deprecated. You should use '.__CLASS__.'::forceAuthentication() instead');
 		}
-	
+
 	/**
 	 * This method is called to check if the user is authenticated (previously or by
 	 * tickets given in the URL).
@@ -1023,15 +1029,15 @@ class phpCAS
 	function isAuthenticated()
 		{
 		global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
-		
+
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should not be called before '.__CLASS__.'::client() or '.__CLASS__.'::proxy()');
 		}
-		
+
 		// call the isAuthenticated method of the global $PHPCAS_CLIENT object
 		$auth = $PHPCAS_CLIENT->isAuthenticated();
-		
+
 		// store where the authentication has been checked and the result
 		$dbg = phpCAS::backtrace();
 		$PHPCAS_AUTH_CHECK_CALL = array('done' => TRUE,
@@ -1042,7 +1048,7 @@ class phpCAS
 		phpCAS::traceEnd($auth);
 		return $auth;
 		}
-	
+
 	/**
 	 * Checks whether authenticated based on $_SESSION. Useful to avoid
 	 * server calls.
@@ -1057,7 +1063,7 @@ class phpCAS
 		}
 		return($PHPCAS_CLIENT->isSessionAuthenticated());
 		}
-	
+
 	/**
 	 * This method returns the CAS user's login name.
 	 * @warning should not be called only after phpCAS::forceAuthentication()
@@ -1079,7 +1085,7 @@ class phpCAS
 		}
 		return $PHPCAS_CLIENT->getUser();
 		}
-	
+
 	/**
 	 * This method returns the CAS user's login name.
 	 * @warning should not be called only after phpCAS::forceAuthentication()
@@ -1112,7 +1118,7 @@ class phpCAS
             }
             return($PHPCAS_CLIENT->handleLogoutRequests($check_client, $allowed_clients));
         }
-   
+
 	/**
 	 * This method returns the URL to be used to login.
 	 * or phpCAS::isAuthenticated().
@@ -1127,7 +1133,7 @@ class phpCAS
 		}
 		return $PHPCAS_CLIENT->getServerLoginURL();
 		}
-	
+
 	/**
 	 * Set the login URL of the CAS server.
 	 * @param $url the login URL
@@ -1148,7 +1154,7 @@ class phpCAS
 		$PHPCAS_CLIENT->setServerLoginURL($url);
 		phpCAS::traceEnd();
 		}
-	
+
 	/**
 	 * This method returns the URL to be used to login.
 	 * or phpCAS::isAuthenticated().
@@ -1163,7 +1169,7 @@ class phpCAS
 		}
 		return $PHPCAS_CLIENT->getServerLogoutURL();
 		}
-	
+
 	/**
 	 * Set the logout URL of the CAS server.
 	 * @param $url the logout URL
@@ -1184,7 +1190,7 @@ class phpCAS
 		$PHPCAS_CLIENT->setServerLogoutURL($url);
 		phpCAS::traceEnd();
 		}
-	
+
 	/**
 	 * This method is used to logout from CAS.
 	 * @params $params an array that contains the optional url and service parameters that will be passed to the CAS server
@@ -1215,7 +1221,7 @@ class phpCAS
 		// never reached
 		phpCAS::traceEnd();
 	}
-	
+
 	/**
 	 * This method is used to logout from CAS. Halts by redirecting to the CAS server.
 	 * @param $service a URL that will be transmitted to the CAS server
@@ -1233,7 +1239,7 @@ class phpCAS
 		// never reached
 		phpCAS::traceEnd();
 	}
-	
+
 	/**
 	 * This method is used to logout from CAS. Halts by redirecting to the CAS server.
 	 * @param $url a URL that will be transmitted to the CAS server
@@ -1251,7 +1257,7 @@ class phpCAS
 		// never reached
 		phpCAS::traceEnd();
 	}
-	
+
 	/**
 	 * This method is used to logout from CAS. Halts by redirecting to the CAS server.
 	 * @param $service a URL that will be transmitted to the CAS server
@@ -1273,7 +1279,7 @@ class phpCAS
 		// never reached
 		phpCAS::traceEnd();
 	}
-	
+
 	/**
 	 * Set the fixed URL that will be used by the CAS server to transmit the PGT.
 	 * When this method is not called, a phpCAS script uses its own URL for the callback.
@@ -1296,7 +1302,7 @@ class phpCAS
 		$PHPCAS_CLIENT->setCallbackURL($url);
 		phpCAS::traceEnd();
 		}
-	
+
 	/**
 	 * Set the fixed URL that will be set as the CAS service parameter. When this
 	 * method is not called, a phpCAS script uses its own URL.
@@ -1309,14 +1315,14 @@ class phpCAS
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should only be called after '.__CLASS__.'::proxy()');
-		}  
+		}
 		if ( gettype($url) != 'string' ) {
 			phpCAS::error('type mismatched for parameter $url (should be `string\')');
 		}
 		$PHPCAS_CLIENT->setURL($url);
 		phpCAS::traceEnd();
 		}
-	
+
 	/**
 	 * Get the URL that is set as the CAS service parameter.
 	 */
@@ -1325,10 +1331,10 @@ class phpCAS
 		global $PHPCAS_CLIENT;
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should only be called after '.__CLASS__.'::proxy()');
-		}  
+		}
 		return($PHPCAS_CLIENT->getURL());
 		}
-	
+
 	/**
 	 * Retrieve a Proxy Ticket from the CAS server.
 	 */
@@ -1337,13 +1343,13 @@ class phpCAS
 		global $PHPCAS_CLIENT;
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should only be called after '.__CLASS__.'::proxy()');
-		}  
+		}
 		if ( gettype($target_service) != 'string' ) {
 			phpCAS::error('type mismatched for parameter $target_service(should be `string\')');
 		}
 		return($PHPCAS_CLIENT->retrievePT($target_service,$err_code,$err_msg));
 		}
-	
+
 	/**
 	 * Set the certificate of the CAS server.
 	 *
@@ -1355,14 +1361,14 @@ class phpCAS
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should only be called after '.__CLASS__.'::client() or'.__CLASS__.'::proxy()');
-		}  
+		}
 		if ( gettype($cert) != 'string' ) {
 			phpCAS::error('type mismatched for parameter $cert (should be `string\')');
 		}
 		$PHPCAS_CLIENT->setCasServerCert($cert);
 		phpCAS::traceEnd();
 		}
-	
+
 	/**
 	 * Set the certificate of the CAS server CA.
 	 *
@@ -1374,14 +1380,14 @@ class phpCAS
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should only be called after '.__CLASS__.'::client() or'.__CLASS__.'::proxy()');
-		}  
+		}
 		if ( gettype($cert) != 'string' ) {
 			phpCAS::error('type mismatched for parameter $cert (should be `string\')');
 		}
 		$PHPCAS_CLIENT->setCasServerCACert($cert);
 		phpCAS::traceEnd();
 		}
-	
+
 	/**
 	 * Set no SSL validation for the CAS server.
 	 */
@@ -1391,13 +1397,13 @@ class phpCAS
 		phpCAS::traceBegin();
 		if ( !is_object($PHPCAS_CLIENT) ) {
 			phpCAS::error('this method should only be called after '.__CLASS__.'::client() or'.__CLASS__.'::proxy()');
-		}  
+		}
 		$PHPCAS_CLIENT->setNoCasServerValidation();
 		phpCAS::traceEnd();
 		}
-	
+
 	/** @} */
-	
+
   /**
    * Change CURL options.
    * CURL is used to connect through HTTPS to CAS server
@@ -1410,7 +1416,7 @@ class phpCAS
 		  phpCAS::traceBegin();
 		  if ( !is_object($PHPCAS_CLIENT) ) {
 		  	phpCAS::error('this method should only be called after '.__CLASS__.'::client() or'.__CLASS__.'::proxy()');
-		  }  
+		  }
 		  $PHPCAS_CLIENT->setExtraCurlOption($key, $value);
 		  phpCAS::traceEnd();
 		}

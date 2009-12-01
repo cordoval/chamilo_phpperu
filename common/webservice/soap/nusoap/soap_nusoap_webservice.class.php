@@ -26,7 +26,7 @@
  * and a more detailed message of exactly what went wrong.
  *
  * The debug method prints out the request, respons and debug information for a webservice call.
- * 
+ *
  * Authors:
  * Stefan Billiet & Nick De Feyter
  * University College of Ghent
@@ -47,7 +47,7 @@ class SoapNusoapWebservice extends Webservice
     {
         $server = new soap_server();
         $server->configureWSDL('Chamilo', 'http://www.chamilo.org');
-        
+
         foreach ($functions as $name => $objects) //runs through all methods
         {
             //input field
@@ -61,22 +61,22 @@ class SoapNusoapWebservice extends Webservice
                 {
                     $in = $objects['input'];
                 }
-                
+
                 $input = array();
-                
+
                 foreach ($in->get_default_property_names() as $property)
                 {
                     $input[$property] = array('name' => $property, 'type' => 'xsd:string');
                 }
-                
+
                 $server->wsdl->addComplexType(get_class($in), 'complexType', 'struct', 'all', '', $input);
-                
+
                 if ($objects['array_input'])
                 {
                     $server->wsdl->addComplexType(get_class($in) . 's', 'complexType', 'array', '', 'SOAP-ENC:Array', array(), array(array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'tns:' . get_class($in) . '[]')), 'tns:' . get_class($in));
                 }
             }
-            
+
             //output
             if (isset($objects['output']))
             {
@@ -88,16 +88,16 @@ class SoapNusoapWebservice extends Webservice
                 {
                     $out = $objects['output'];
                 }
-                
+
                 $properties = array();
-                
+
                 foreach ($out->get_default_property_names() as $property)
                 {
                     $properties[$property] = array('name' => $property, 'type' => 'xsd:string');
                 }
-                
+
                 $server->wsdl->addComplexType(get_class($out), 'complexType', 'struct', 'all', '', $properties);
-                
+
                 if ($objects['array_output'])
                 {
                     $server->wsdl->addComplexType(get_class($out) . 's', 'complexType', 'array', '', 'SOAP-ENC:Array', array(), array(array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'tns:' . get_class($out) . '[]')), 'tns:' . get_class($out));
@@ -105,9 +105,9 @@ class SoapNusoapWebservice extends Webservice
             }
             // method name, input parameters, output parameters
             $server->register(get_class($this->webservice_handler) . '.' . $name, array('input' => 'tns:' . get_class($in) . ($objects['array_input'] ? 's' : ''), 'hash' => 'xsd:string'), array('return' => 'tns:' . get_class($out) . ($objects['array_output'] ? 's' : '')), 'http://www.chamilo.org', 'http://www.chamilo.org#' . $name, 'rpc', 'encoded', '', '', 'NusoapWebservice.handle_webservice');
-        
+
         }
-        
+
         if (! isset($HTTP_RAW_POST_DATA))
             $HTTP_RAW_POST_DATA = implode("\r\n", file('php://input'));
         $server->service($HTTP_RAW_POST_DATA);
@@ -132,11 +132,16 @@ class SoapNusoapWebservice extends Webservice
             $function_parameters = $function['parameters'];
             $handler_function = $function['handler'];
             $result = $client->call($function_name, $function_parameters);
-            $this->webservice_handler->{$handler_function}($result);
-            
-            $this->debug($client);
+            $handler_result = $this->webservice_handler->{$handler_function}($result);
+            if (!$handler_result)
+            {
+                return false;
+            }
+
+            // $this->debug($client);
         }
-    
+
+        return true;
     }
 
     function raise_message($message)

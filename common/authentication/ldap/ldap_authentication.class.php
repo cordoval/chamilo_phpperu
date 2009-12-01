@@ -35,7 +35,7 @@ class LdapAuthentication extends Authentication
         else
         {
             $settings = $this->get_configuration();
-            
+
             //include dirname(__FILE__).'/ldap_authentication_config.inc.php';
             $ldap_connect = ldap_connect($settings['host'], $settings['port']);
             if ($ldap_connect)
@@ -71,11 +71,11 @@ class LdapAuthentication extends Authentication
         }
     }
 
-    public function is_password_changeable()
+    public function is_password_changeable($user)
     {
         return false;
     }
-    
+
     /**
      * Always returns false as the user's password
      * is not stored in the Chamilo datasource.
@@ -102,7 +102,7 @@ class LdapAuthentication extends Authentication
         if ($this->check_login(null, $username, $password))
         {
             $settings = $this->get_configuration();
-            
+
             include dirname(__FILE__) . '/ldap_parser.class.php';
             $ldap_connect = ldap_connect($settings['host'], $settings['port']);
             if ($ldap_connect)
@@ -112,7 +112,7 @@ class LdapAuthentication extends Authentication
                 $filter = "(uid=$username)";
                 $search_result = ldap_search($ldap_connect, $settings['search_dn'], $filter);
                 $info = ldap_get_entries($ldap_connect, $search_result);
-                
+
                 $parser = new LdapParser();
                 return $parser->parse($info, $username);
             }
@@ -131,10 +131,10 @@ class LdapAuthentication extends Authentication
             $ldap['rdn'] = PlatformSetting :: get('ldap_remote_dn');
             $ldap['password'] = PlatformSetting :: get('ldap_password');
             $ldap['search_dn'] = PlatformSetting :: get('ldap_search_dn');
-            
+
             $this->ldap_settings = $ldap;
         }
-        
+
         return $this->ldap_settings;
     }
 }
