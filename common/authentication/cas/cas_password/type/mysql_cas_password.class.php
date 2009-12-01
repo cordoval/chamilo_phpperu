@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../cas_password.class.php';
 require_once Path :: get_library_path() . 'webservice/webservice.class.php';
 
-class Mdb2CasPassword extends CasPassword
+class MysqlCasPassword extends CasPassword
 {
     /**
      * Nothing is done with the password by default
@@ -14,18 +14,17 @@ class Mdb2CasPassword extends CasPassword
     function set_password($old_password, $new_password)
     {
         $configuration = array();
-        $configuration['dbms'] = 'mysqli';
-        $configuration['user'] = 'mysql_user';
-        $configuration['password'] = 'mysql_password';
-        $configuration['server'] = 'mysql_server';
+        $configuration['user'] = 'user';
+        $configuration['password'] = 'password';
+        $configuration['server'] = 'server';
         $configuration['port'] = '3306';
-        $configuration['database'] = 'user_database';
-        $configuration['table'] = 'user_table';
+        $configuration['database'] = 'database';
+        $configuration['table'] = 'table';
         $configuration['column_id'] = 'username';
         $configuration['column_password'] = 'password';
         $configuration['hashing'] = 'md5';
 
-    	$connection = MDB2 :: connect('dbms://user:password@server:port/database', array('debug' => 3));
+    	$connection = MDB2 :: connect('mysqli://'.$configuration['user'].':'.$configuration['password'].'@'.$configuration['server'].':'.$configuration['port'].'/'.$configuration['database'], array('debug' => 3));
     	$connection->setCharset('utf8');
 
     	// Retrieve the user AND check whether the passwords match
@@ -62,7 +61,7 @@ class Mdb2CasPassword extends CasPassword
 
     function is_password_changeable()
     {
-        return false;
+        return true;
     }
 }
 ?>
