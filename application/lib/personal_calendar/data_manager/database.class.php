@@ -93,7 +93,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
-                        $order[] = 'co.' . $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
                     {
@@ -128,7 +128,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
             $info->set_location('');
             //TODO: set correct URL
             $info->set_url('index_personal_calendar.php?pid=' . $record['id']);
-            $info->set_publication_object_id($record['calendar_event']);
+            $info->set_publication_object_id($record['calendar_event_id']);
             $publication_attr[] = $info;
         }
         return $publication_attr;
