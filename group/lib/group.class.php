@@ -82,9 +82,9 @@ class Group extends DataClass
         $this->set_default_property(self :: PROPERTY_NAME, $name);
     }
 
-    function set_code($name)
+    function set_code($code)
     {
-        $this->set_default_property(self :: PROPERTY_CODE, $name);
+        $this->set_default_property(self :: PROPERTY_CODE, $code);
     }
 
     /**
@@ -287,6 +287,8 @@ class Group extends DataClass
             // TODO: Some kind of general error handling framework would be nice: PEAR-ERROR maybe ?
             return false;
         }
+        
+        return true;
     }
 
     function truncate()
@@ -295,7 +297,7 @@ class Group extends DataClass
     }
 
     function create($previous_id = 0)
-    {
+    { 
         $gdm = $this->get_data_manager();
 
         $parent_id = $this->get_parent();
