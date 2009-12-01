@@ -37,8 +37,9 @@ class GroupManagerViewerComponent extends GroupManagerComponent
             echo $this->ab->as_html() . '<br />';
 
             echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_group.png);">';
-            echo '<div class="title">' . Translation :: get('Description') . '</div>';
-            echo $group->get_description();
+            echo '<div class="title">' . Translation :: get('Details') . '</div>';
+            echo '<b>' . Translation :: get('Code') . '</b>: ' . $group->get_code();
+            echo '<br /><b>' . Translation :: get('Description') . '</b>: ' . $group->get_description();
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
 

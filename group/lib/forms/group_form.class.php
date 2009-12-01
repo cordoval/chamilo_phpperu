@@ -42,11 +42,13 @@ class GroupForm extends FormValidator
         $this->addElement('text', Group :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
         $this->addRule(Group :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
         
+        $this->addElement('text', Group :: PROPERTY_CODE, Translation :: get('Code'), array("size" => "50"));
+        $this->addRule(Group :: PROPERTY_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
+        
         $this->addElement('select', Group :: PROPERTY_PARENT, Translation :: get('Location'), $this->get_groups());
         $this->addRule(Group :: PROPERTY_PARENT, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $this->add_html_editor(Group :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
-        $this->addRule(Group :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
         
         // RightsTemplates element finder
         $group = $this->group;
@@ -114,6 +116,7 @@ class GroupForm extends FormValidator
         
         $group->set_name($values[Group :: PROPERTY_NAME]);
         $group->set_description($values[Group :: PROPERTY_DESCRIPTION]);
+        $group->set_code($values[Group :: PROPERTY_CODE]);
         $value = $group->update();
         
         $new_parent = $values[Group :: PROPERTY_PARENT];
@@ -142,6 +145,7 @@ class GroupForm extends FormValidator
         
         $group->set_name($values[Group :: PROPERTY_NAME]);
         $group->set_description($values[Group :: PROPERTY_DESCRIPTION]);
+        $group->set_code($values[Group :: PROPERTY_CODE]);
         $group->set_parent($values[Group :: PROPERTY_PARENT]);
         
         $value = $group->create();
@@ -169,6 +173,7 @@ class GroupForm extends FormValidator
         $defaults[Group :: PROPERTY_ID] = $group->get_id();
         $defaults[Group :: PROPERTY_PARENT] = $group->get_parent();
         $defaults[Group :: PROPERTY_NAME] = $group->get_name();
+        $defaults[Group :: PROPERTY_CODE] = $group->get_code();
         $defaults[Group :: PROPERTY_DESCRIPTION] = $group->get_description();
         parent :: setDefaults($defaults);
     }

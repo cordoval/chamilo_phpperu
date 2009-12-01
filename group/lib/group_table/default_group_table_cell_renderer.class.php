@@ -33,6 +33,8 @@ class DefaultGroupTableCellRenderer implements ObjectTableCellRenderer
                 return $group->get_name();
             case Group :: PROPERTY_DESCRIPTION :
                 return $group->get_description();
+            case Group :: PROPERTY_CODE :
+                return $group->get_code();
             default :
                 return '&nbsp;';
         }
