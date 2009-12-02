@@ -47,7 +47,7 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
             $form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, $wp, $this->get_url(array('object' => $object, 'tool_action' => 'publish')), $this->get_user());
             if ($form->validate())
             {
-                $success = $form->create_wiki_publication();
+                $success = $form->create_wiki_publication(); 
                 $this->redirect($success ? Translation :: get('WikiPublicationCreated') : Translation :: get('WikiPublicationNotCreated'), (! $success ? true : false), array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
             }
             else

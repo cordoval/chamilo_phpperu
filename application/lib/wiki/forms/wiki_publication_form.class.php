@@ -158,13 +158,13 @@ class WikiPublicationForm extends FormValidator
             $wiki_publication->set_to_date(Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]));
         }
         $wiki_publication->set_hidden($values[self :: PARAM_HIDDEN] ? 1 : 0);
-        $wiki_publication->set_publisher($this->user->get_default_property('user_id'));
+        $wiki_publication->set_publisher($this->user->get_id());
         $wiki_publication->set_published(time());
         $wiki_publication->set_modified(time());
         $wiki_publication->set_display_order(0);
         $wiki_publication->set_email_sent($values[WikiPublication :: PROPERTY_EMAIL_SENT] ? $values[WikiPublication :: PROPERTY_EMAIL_SENT] : 0);
 
-        if ($this->email_option && $values[self :: PARAM_EMAIL])
+        /*if ($this->email_option && $values[self :: PARAM_EMAIL])
         {
             //			$content_object = $this->content_object;
         //			$display = ContentObjectDisplay::factory($content_object);
@@ -187,7 +187,7 @@ class WikiPublicationForm extends FormValidator
         //			{
         //				return false;
         //			}
-        }
+        }*/
 
         return $wiki_publication->create();
     }
