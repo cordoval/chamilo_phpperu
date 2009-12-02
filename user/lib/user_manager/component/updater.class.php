@@ -33,7 +33,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
                 exit();
             }
             
-            $form = new Userform(UserForm :: TYPE_EDIT, $user, $this->get_user(), $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)));
+            $form = new UserForm(UserForm :: TYPE_EDIT, $user, $this->get_user(), $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)));
             
             if ($form->validate())
             {
