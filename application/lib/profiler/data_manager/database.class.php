@@ -62,7 +62,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         $udm = UserDataManager :: get_instance();
         $publication_alias = $this->database->get_alias(ProfilePublication :: get_table_name());
 
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name(ProfilePublication :: get_table_name()) . ' AS ' . $publication_alias;
+        $query = 'SELECT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(ProfilePublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $udm->get_database()->escape_table_name(User :: get_table_name()) . ' AS ' . $this->database->get_alias(User :: get_table_name());
         $query .= ' ON ' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER, $publication_alias) . ' = ';
         $query .= $udm->get_database()->escape_column_name(User :: PROPERTY_ID, $this->database->get_alias(User :: get_table_name()));
