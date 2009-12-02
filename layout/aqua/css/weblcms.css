@@ -405,3 +405,12 @@ div.student_view
 	top: 5px;
 	/*float: right;*/
 }
+
+/************************
+ * Tool shortcut styles *
+ ************************/
+#tool_shortcuts
+{
+	float: right;
+	margin-bottom: 10px;
+}
