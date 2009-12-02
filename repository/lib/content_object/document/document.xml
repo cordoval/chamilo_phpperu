@@ -14,7 +14,7 @@
 	<index name="id" type="primary">
 		<indexproperty name="id" />
 	</index>
-	<index name="hash" type="unique">
+	<index name="hash">
 		<indexproperty name="hash" />
 	</index>
 </object>
