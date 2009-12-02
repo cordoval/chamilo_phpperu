@@ -109,6 +109,7 @@ class ContentObjectCategoryMenu extends HTML_Menu
             $conditions = array();
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category->get_id());
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
+            $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
             $condition = new AndCondition($conditions);
 
             $count = $this->data_manager->count_content_objects($condition);
