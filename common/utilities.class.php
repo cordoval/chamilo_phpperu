@@ -370,7 +370,7 @@ class Utilities
         return implode("\n", $html);
     }
 
-    function build_block_hider($id = null, $message = null)
+    function build_block_hider($id = null, $message = null, $display_block = false)
     {
         $html = array();
 
@@ -386,7 +386,7 @@ class Utilities
 
             $html[] = '<div id="plus-' . $id . '"><a href="javascript:showElement(\'' . $id . '\')">' . Translation :: get('Show' . $message) . '</a></div>';
             $html[] = '<div id="minus-' . $id . '" style="display: none;"><a href="javascript:showElement(\'' . $id . '\')">' . Translation :: get('Hide' . $message) . '</a></div>';
-            $html[] = '<div id="' . $id . '" style="display: none;">';
+            $html[] = '<div id="' . $id . '" style="display: ' . ($display_block ? 'block' : 'none') . ';">';
         }
         else
         {
