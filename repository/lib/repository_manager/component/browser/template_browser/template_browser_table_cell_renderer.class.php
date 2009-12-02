@@ -3,6 +3,9 @@
  * $Id: template_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser.template_browser
  */
+
+require_once dirname(__FILE__) . '/../../../../content_object_table/default_content_object_table_cell_renderer.class.php';
+
 /**
  * Cell rendere for the learning object browser table
  */
