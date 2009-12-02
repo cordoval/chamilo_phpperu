@@ -958,6 +958,8 @@ class FedoraExternalExporter extends RestExternalExporter
 
 	        $ds_list = $xpath->query('/objectDatastreams/datastream');
 	        
+	        //DebugUtilities :: show($ds_list);
+	        
 	        if($ds_list->length > 0 )
     	    {
     	        if($this->check_repository_object_is_importable($ds_list))
@@ -990,7 +992,7 @@ class FedoraExternalExporter extends RestExternalExporter
 
             	        //DebugUtilities :: show($content_object);
             	         
-            	        return $this->save_imported_content_document($content_object);
+            	        return $this->save_imported_content_object($content_object, $repository_object_id);
         	        }
         	        else
         	        {
@@ -1020,50 +1022,82 @@ class FedoraExternalExporter extends RestExternalExporter
 	
 	private function get_imported_object_instance($node_list, $owner_id)
 	{
+	    //DebugUtilities :: show($node_list);
+	     
 	    $object_node = XmlUtilities :: get_first_element_by_relative_xpath($node_list, '/datastream[@dsid=\'' . self :: DATASTREAM_LO_CONTENT_ID . '\']');
-	    $mime_type = XMLUtilities :: get_attribute($object_node, 'mimeType');
 	    
-	    $content_object = null;
-	    
-	    if(StringUtilities :: start_with($mime_type, 'image/', false)
-	         || StringUtilities :: start_with($mime_type, 'application/', false))
-	     {
-	         /*
-	          * Documents can be imported
-	          */
-	         $content_object = new Document();
-	     }
-	     
-	     if(isset($content_object))
-	     {
-	         $content_object->set_owner_id($owner_id);
-	     }
-	     
-	     return $content_object;
+	    if(isset($object_node))
+	    {
+    	    $mime_type   = XMLUtilities :: get_attribute($object_node, 'mimeType');
+    	    
+    	    $content_object = null;
+    	    
+    	    if(StringUtilities :: start_with($mime_type, 'image/', false)
+    	         || StringUtilities :: start_with($mime_type, 'application/', false))
+    	     {
+    	         /*
+    	          * Documents can be imported
+    	          */
+    	         $content_object = new Document();
+    	     }
+    	     
+    	     if(isset($content_object))
+    	     {
+    	         $content_object->set_owner_id($owner_id);
+    	     }
+    	     
+    	     return $content_object;
+	    }
+	    else
+	    {
+	        throw new Exception('No content to import could be found (The object does not have any \'' . self :: DATASTREAM_LO_CONTENT_ID . '\' datastream in Fedora)');
+	    }
 	}
 	
 	/**
 	 * 
-	 * @param mixed $content_object Any object inheriting from ContentDocument
+	 * @param ContentObject $content_object Any object inheriting from ContentObject
 	 * @return boolean
 	 */
-	private function save_imported_content_document($content_object)
+	private function save_imported_content_object($content_object, $repository_object_id)
 	{
+	    $content_object_new_id = DataClass :: NO_UID;
+	    
 	    switch(get_class($content_object))
 	    {
 	        case 'Document':
-	            return $this->save_imported_document($content_object);
+	            $content_object_new_id = $this->save_imported_document($content_object);
 	            break;
 	        default:
 	            throw new Exception('Objects of type \'' . get_class($content_object) . '\' can not be imported');
 	            break;
+	    }
+	    
+	    if($content_object_new_id != DataClass :: NO_UID)
+	    {
+    	    /*
+    	     * Save the external object id to be able to recognize the object between Chamilo and the Fedora repository  
+    	     */
+    	    $lom_mapper      = $this->get_lom_mapper($content_object);
+    	    $external_export = $this->get_external_export();
+    	    $lom_mapper->add_general_identifier($external_export->get_catalog_name(), $repository_object_id);
+    	    $lom_mapper->save_metadata();
+    	    
+    	    /*
+    	     * Save the sync informations
+    	     */
+    	    return $this->store_last_repository_update_datetime($content_object);
+	    }
+	    else
+	    {
+	        throw new Exception('The uid of the imported object is undefined');
 	    }
 	}
 	
 	/**
 	 * 
 	 * @param Document $content_object
-	 * @return boolean
+	 * @return integer The newly created content object id
 	 */
 	private function save_imported_document($document)
 	{
@@ -1075,7 +1109,8 @@ class FedoraExternalExporter extends RestExternalExporter
         }
         else
         {
-            return true;
+            //debug($document->get_id());
+            return $document->get_id();
         }
 	}
 	
@@ -1185,110 +1220,108 @@ class FedoraExternalExporter extends RestExternalExporter
 	    
 	    $content_object->set_in_memory_file($response_content);
 	    
+	    $filename = $repository_object_id;
+	    
 	    switch($mime_type)
 	    {
 	        case 'image/jpeg':
-	            $content_object->set_filename($repository_object_id . '.jpeg');
+	            $filename .= '.jpeg';
 	            break;
 	            
 	        case 'image/gif':
-	            $content_object->set_filename($repository_object_id . '.gif');
+	            $filename .= '.gif';
 	            break;
 	            
 	        case 'image/png':
-	            $content_object->set_filename($repository_object_id . '.png');
+	            $filename .= '.png';
 	            break;
 	            
 	        case 'image/tiff':
-	            $content_object->set_filename($repository_object_id . '.tiff');
+	            $filename .= '.tiff';
 	            break;
 	            
 	        case 'image/bmp':    
-	            $content_object->set_filename($repository_object_id . '.bmp');
+	            $filename .= '.bmp';
 	            break;
 	            
 	        case 'application/pdf':    
-	            $content_object->set_filename($repository_object_id . '.pdf');
+	            $filename .= '.pdf';
 	            break;
 	        
 	        case 'application/word':    
-	            $content_object->set_filename($repository_object_id . '.doc');
+	            $filename .= '.doc';
 	            break;
 	        
 	        case 'application/excel':    
-	            $content_object->set_filename($repository_object_id . '.xls');
+	            $filename .= '.xls';
 	            break;
 	        
 	        case 'application/powerpoint':    
-	            $content_object->set_filename($repository_object_id . '.ppt');
+	            $filename .= '.ppt';
 	            break;
 
 	        case 'application/vnd.oasis.opendocument.text':    
-	            $content_object->set_filename($repository_object_id . '.odt');
+	            $filename .= '.odt';
 	            break;
 	
             case 'application/vnd.oasis.opendocument.text-template':    
-	            $content_object->set_filename($repository_object_id . '.ott');
+	            $filename .= '.ott';
 	            break;
 	            
             case 'application/vnd.oasis.opendocument.text-web':    
-	            $content_object->set_filename($repository_object_id . '.oth');
+	            $filename .= '.oth';
 	            break;
             	
             case 'application/vnd.oasis.opendocument.text-master':    
-	            $content_object->set_filename($repository_object_id . '.odm');
+	            $filename .= '.odm';
 	            break;
             	
             case 'application/vnd.oasis.opendocument.graphics':    
-	            $content_object->set_filename($repository_object_id . '.odg');
+	            $filename .= '.odg';
 	            break;
             	
             case 'application/vnd.oasis.opendocument.graphics-template':    
-	            $content_object->set_filename($repository_object_id . '.otg');
+	            $filename .= '.otg';
 	            break;
             
             case 'application/vnd.oasis.opendocument.presentation':    
-	            $content_object->set_filename($repository_object_id . '.odp');
+	            $filename .= '.odp';
 	            break;
             	
             case 'application/vnd.oasis.opendocument.presentation-template':    
-	            $content_object->set_filename($repository_object_id . '.otp');
+	            $filename .= '.otp';
 	            break;
             	
             case 'application/vnd.oasis.opendocument.spreadsheet':    
-	            $content_object->set_filename($repository_object_id . '.ods');
+	            $filename .= '.ods';
 	            break;
             	
             case 'application/vnd.oasis.opendocument.spreadsheet-template':    
-	            $content_object->set_filename($repository_object_id . '.ots');
+	            $filename .= '.ots';
 	            break;
             	
             case 'application/vnd.oasis.opendocument.chart':    
-	            $content_object->set_filename($repository_object_id . '.odc');
+	            $filename .= '.odc';
 	            break;
             	
             case 'application/vnd.oasis.opendocument.formula':    
-	            $content_object->set_filename($repository_object_id . '.odf');
+	            $filename .= '.odf';
 	            break;
             	
             case 'application/vnd.oasis.opendocument.database':    
-	            $content_object->set_filename($repository_object_id . '.odb');
+	            $filename .= '.odb';
 	            break;
             	
             case 'application/vnd.oasis.opendocument.image':    
-	            $content_object->set_filename($repository_object_id . '.odi');
+	            $filename .= '.odi';
 	            break;
             	
             case 'application/vnd.openofficeorg.extension':    
-	            $content_object->set_filename($repository_object_id . '.oxt');
-	            break;
-	        
-            default:
-                $content_object->set_filename($repository_object_id);
+	            $filename .= '.oxt';
 	            break;
 	    }
 	    
-	    
+	    $content_object->set_filename(Filesystem :: create_safe_name($filename));
 	}
 	
 	private function set_lom_from_object_datastream(&$content_object, $ds_node, $repository_object_id)

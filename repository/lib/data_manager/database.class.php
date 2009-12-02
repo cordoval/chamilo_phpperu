@@ -381,6 +381,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
         $this->database->delete_objects(ContentObjectMetadata :: get_table_name(), $condition);
         
+        //Delete synchronization with external repositories infos
+        $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
+        $this->database->delete_objects(ExternalExportSyncInfo :: get_table_name(), $condition);
+        
         // Delete object
         $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
         $this->database->delete_objects(ContentObject :: get_table_name(), $condition);
@@ -1366,8 +1370,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     {
         if(StringUtilities :: has_value($catalog_name) && StringUtilities :: has_value($entry_value))
         {
-            $catalog_name = mysql_real_escape_string($catalog_name);
-            $entry_value  = mysql_real_escape_string($entry_value);
+            $catalog_name = StringUtilities :: escape_mysql($catalog_name);
+            $entry_value  = StringUtilities :: escape_mysql($entry_value);
             
             $query = 'SELECT count(*) as total, content_object_id FROM repository_content_object_metadata
                 WHERE 

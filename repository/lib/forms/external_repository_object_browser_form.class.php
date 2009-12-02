@@ -39,14 +39,33 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
         {
             $class_attribute = $binary_index == 0 ? '' : 'class="row_odd"';
             
-            if($binary_index == 0)
+            $object_state = null;
+            if(isset($object[BaseExternalExporter :: CHAMILO_OBJECT_KEY]))
             {
-                $table .= '<tr>';
+                $object_state = $object[BaseExternalExporter :: CHAMILO_OBJECT_KEY]->get_state();
+            }
+            
+            $classname = '';
+            
+            if($binary_index != 0)
+            {
+                $classname = 'row_odd';
+            }
+            
+            if(isset($object_state) && $object_state == ContentObject :: STATE_RECYCLED)
+            {
+                $classname .= strlen($classname) > 0 ? ' recycled' : 'recycled';
+            }
+            
+            if(StringUtilities :: has_value($classname))
+            {
+                $table .= '<tr class="' . $classname . '">';
             }
             else
             {
-                $table .= '<tr class="row_odd">';
+                $table .= '<tr>';
             }
+            
             
             $binary_index    = $binary_index == 0 ? 1 : 0;
             
@@ -167,7 +186,16 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
             $table .= '</td>';
             
             $table .= '<td>';
-            $table .= implode($buttons);
+            
+            if(isset($object_state) && $object_state == ContentObject :: STATE_RECYCLED)
+            {
+                $table .= Translation :: translate('ObjectIsRecycled');
+            }
+            else
+            {    
+                $table .= implode($buttons);
+            }
+                
             $table .= '</td>';
             
             $table .= '</tr>';

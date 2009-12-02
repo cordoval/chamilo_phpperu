@@ -1026,9 +1026,25 @@ class RepositoryManager extends CoreApplication
             $shared['url'] = $this->get_shared_content_objects_url();
             $shared['class'] = 'category';
 
+            $external_repositories = ExternalExport :: retrieve_external_export();
+            if (count($external_repositories) > 0)
+            {
+                $external_repository = array();
+                $external_repository['title'] = (count($external_repositories) > 1) ? Translation :: get('ExternalRepositories') : Translation :: get('ExternalRepository');
+                $external_repository['url']   = $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
+                $external_repository['class'] = 'external_repository';
+                
+                //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ExternalRepositoryBrowse'), Theme :: get_common_image_path() . 'external_repository.png', $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id))));
+            }
+            
             $extra_items[] = $shared;
             $extra_items[] = $pub;
 
+            if(isset($external_repository))
+            {
+                $extra_items[] = $external_repository;
+            }
+            
             $extra_items[] = $line;
 
             $extra_items[] = $create;

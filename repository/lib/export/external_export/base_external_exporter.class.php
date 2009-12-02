@@ -32,7 +32,11 @@ abstract class BaseExternalExporter
      * @var ExternalExport
      */
     private $external_export = null;
-    private $lom_mapper = null;
+    
+    /*
+     * List of LomMapper objects. Stored for any content_object id  
+     */
+    private $lom_mappers = null;
      
     /*************************************************************************/
     
@@ -137,20 +141,41 @@ abstract class BaseExternalExporter
 	 */
 	protected function get_lom_mapper($content_object = null)
 	{
-	    if(isset($this->lom_mapper))
+	    if(isset($this->lom_mappers))
 	    {
-	       return $this->lom_mapper;
+	        $this->lom_mappers = array();
+	    }
+	    
+	    if(isset($content_object) && isset($this->lom_mappers[$content_object->get_id()]))
+	    {
+	       return $this->lom_mappers[$content_object->get_id()];
 	    }
 	    elseif(isset($content_object))
 	    {
-	        $this->lom_mapper = new IeeeLomMapper($content_object);
-	        $this->lom_mapper->get_metadata();
-	        return $this->lom_mapper;
+	        $lom_mapper = new IeeeLomMapper($content_object);
+	        $lom_mapper->get_metadata();
+	        $this->lom_mappers[$content_object->get_id()] = $lom_mapper;
+	        return $lom_mapper;
 	    }
 	    else
 	    {
 	        throw new Exception('Metadata mapper is not set');
 	    }
+	    
+//	    if(isset($this->lom_mapper))
+//	    {
+//	       return $this->lom_mapper;
+//	    }
+//	    elseif(isset($content_object))
+//	    {
+//	        $this->lom_mapper = new IeeeLomMapper($content_object);
+//	        $this->lom_mapper->get_metadata();
+//	        return $this->lom_mapper;
+//	    }
+//	    else
+//	    {
+//	        throw new Exception('Metadata mapper is not set');
+//	    }
 	}
 	
 	

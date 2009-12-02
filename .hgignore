@@ -8,6 +8,7 @@ syntax: glob
 .settings*
 .buildpath
 *~
+*.orig
 
 syntax: regexp
 ^install/command_line_configuration\.inc\.php$
