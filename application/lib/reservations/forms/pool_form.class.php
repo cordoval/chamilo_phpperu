@@ -34,6 +34,7 @@ class PoolForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
         $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/pool.js' . '"></script>');
+        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/dates.js' . '"></script>');
         
         $this->addElement('html', '<div class="clear"></div>');
         $this->addElement('html', '</div>');

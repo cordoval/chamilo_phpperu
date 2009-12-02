@@ -151,7 +151,7 @@ function initCalendar() {
 			style = ''; 
 		} 
 		
-		str += "<td" + style + "><a href=\"javascript:returnDate(" + i +","+month+","+year + ");\">" + i + "</a></td>"; 
+		str += "<td" + style + "><a class=\"dateselector\" href=\"javascript:returnDate(" + i +","+month+","+year + ");\">" + i + "</a></td>"; 
 		dayInWeek++; 
 	} 
 	
