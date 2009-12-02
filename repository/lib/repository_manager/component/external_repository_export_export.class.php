@@ -9,8 +9,6 @@ require_once dirname(__FILE__) . '/../../export/external_export/base_external_ex
 class RepositoryManagerExternalRepositoryExportExportComponent extends RepositoryManagerExternalRepositoryExportComponent
 {
     const PARAM_FORCE_EXPORT = 'force_export';
-    
-    private $header_is_displayed = false;
 
     function run()
     {
@@ -32,7 +30,7 @@ class RepositoryManagerExternalRepositoryExportExportComponent extends Repositor
                     //$this->display_header($trail, false, true);
                     
 
-                    $form = ExternalExportExportForm :: get_instance($content_object, $export, $this->get_url(array(parent :: PARAM_EXPORT_ID => $export->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), null);
+                    $form = ExternalExportExportForm :: get_instance($content_object, $export, $this->get_url(array(RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $export->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), null);
                     
                     $force_export = Request :: get(self :: PARAM_FORCE_EXPORT);
                     if (! $form->isSubmitted() && ! isset($force_export))
@@ -84,15 +82,7 @@ class RepositoryManagerExternalRepositoryExportExportComponent extends Repositor
             throw new Exception('The object to export is undefined');
         }
     }
-
-    public function display_header($breadcrumbtrail, $display_search = false, $display_menu = true, $helpitem = null)
-    {
-        if ($this->header_is_displayed === false)
-        {
-            parent :: display_header($breadcrumbtrail, $display_search, $display_menu, $helpitem);
-            $this->header_is_displayed = true;
-        }
-    }
+    
 
 }
 ?>

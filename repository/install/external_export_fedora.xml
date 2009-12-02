@@ -18,9 +18,9 @@
 			fixed="true" />
 		<property name="find_datastreams_rest_path" type="text" length="255"
 			fixed="true" />	
-		<property name="get_datastream_infos" type="text" length="255"
+		<property name="get_datastream_infos_path" type="text" length="255"
 			fixed="true" />
-		<property name="get_datastream_content" type="text" length="255"
+		<property name="get_datastream_content_path" type="text" length="255"
 			fixed="true" />	
 		<property name="client_certificate_file" type="text" length="255"
 			fixed="true" />

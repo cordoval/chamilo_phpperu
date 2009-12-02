@@ -56,7 +56,8 @@ class RepositoryManager extends CoreApplication
     const PARAM_DELETE_TEMPLATES = 'delete_templates';
     const PARAM_COPY_FROM_TEMPLATES = 'copy_template';
     const PARAM_COPY_TO_TEMPLATES = 'copy_to_template';
-    const PARAM_EXTERNAL_OBJECT_ID = 'external_id';
+    const PARAM_EXTERNAL_OBJECT_ID = 'external_object_id';
+    const PARAM_EXTERNAL_REPOSITORY_ID = 'ext_rep_id';
     
     /**#@-*/
     /**#@+
@@ -278,6 +279,9 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_EXTERNAL_REPOSITORY_EXPORT :
                 $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportExport', $this);
                 break;
+            case self :: ACTION_EXTERNAL_REPOSITORY_IMPORT :
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportImport', $this);
+                break;    
             case self :: ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportListObjects', $this);
                 break;

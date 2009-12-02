@@ -175,6 +175,23 @@ abstract class BaseExternalExporter
 	abstract public function export($content_object);
 	
 	/**
+	 * Import an object from an external repository and create or update a ContentObject in the Chamilo datasource
+	 * 
+	 * @param integer $repository_object_id
+	 * @param integer $owner_id The user id that will be the owner id of the object after the import
+	 * @return boolean Indicates wether the import succeeded
+	 */
+	abstract public function import($repository_object_id, $owner_id);
+	
+	/**
+	 * Return an array of properties on an object stored in an external repository
+	 * 
+	 * @param mixed $repository_object_id
+	 * @return array
+	 */
+	abstract function get_repository_object_infos($repository_object_id);
+	
+	/**
 	 * Return the list of objects existing in the repository. This list is specific to the logged in user.
 	 * The returned array should contain object properties (such as title, type, ...) and infos about its state compared to Chamilo (such as synchronized, newer in repository, ...)  
 	 * 

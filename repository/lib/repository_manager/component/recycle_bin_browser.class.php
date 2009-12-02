@@ -51,7 +51,11 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
      */
     private function empty_recycle_bin()
     {
-        $trashed_objects = $this->retrieve_content_objects(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id()), array(), 0, - 1);
+        $condition_recycled = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED);
+        $condition_user     = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+        $condition          = new AndCondition($condition_recycled, $condition_user);
+        
+        $trashed_objects = $this->retrieve_content_objects($condition, array(), 0, - 1);
         $count = 0;
         while ($object = $trashed_objects->next_result())
         {

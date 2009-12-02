@@ -21,6 +21,8 @@ class DebugUtilities
         }
         elseif (is_a($object, 'DOMDocument'))
         {
+            echo 'DOMDocument:<br/><br/>';
+            
             $object->formatOutput = true;
             $xml_string = $object->saveXML();
             echo htmlentities($xml_string);
@@ -33,6 +35,8 @@ class DebugUtilities
             
             if (is_a($object, 'DOMNodeList'))
             {
+                echo 'DOMNodeList:<br/><br/>';
+                
                 foreach ($object as $node)
                 {
                     $node = $dom->importNode($node, true);
@@ -41,6 +45,8 @@ class DebugUtilities
             }
             elseif (is_a($object, 'DOMElement'))
             {
+                echo 'DOMElement:<br/><br/>';
+                
                 $node = $dom->importNode($object, true);
                 $debugElement->appendChild($node);
             }
