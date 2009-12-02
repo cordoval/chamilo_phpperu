@@ -127,25 +127,11 @@ abstract class DataClass
     {
         if ($this->is_identified())
         {
-            if($this->check_before_save())
-            {
-                return $this->update();
-            }
-            else
-            {
-                return false;
-            }
+            return $this->update();
         }
         else
         {    
-            if($this->check_before_save())
-            {
-                return $this->create();
-            }
-            else
-            {
-                return false;
-            }
+            return $this->create();
         }
     }
 
@@ -157,24 +143,38 @@ abstract class DataClass
 
     function create()
     {
-        $dm = $this->get_data_manager();
-        $class_name = $this->get_object_name();
-
-//        $func = 'get_next_' . $class_name . '_id';
-//        $id = call_user_func(array($dm, $func));
-//        $this->set_id($id);
-
-        $func = 'create_' . $class_name;
-        return call_user_func(array($dm, $func), $this);
+        if($this->check_before_save())
+        {
+            $dm = $this->get_data_manager();
+            $class_name = $this->get_object_name();
+    
+//          $func = 'get_next_' . $class_name . '_id';
+//          $id = call_user_func(array($dm, $func));
+//          $this->set_id($id);
+    
+            $func = 'create_' . $class_name;
+            return call_user_func(array($dm, $func), $this);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     function update()
     {
-        $dm = $this->get_data_manager();
-        $class_name = $this->get_object_name();
-
-        $func = 'update_' . $class_name;
-        return call_user_func(array($dm, $func), $this);
+        if($this->check_before_save())
+        {
+            $dm = $this->get_data_manager();
+            $class_name = $this->get_object_name();
+    
+            $func = 'update_' . $class_name;
+            return call_user_func(array($dm, $func), $this);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     function delete()

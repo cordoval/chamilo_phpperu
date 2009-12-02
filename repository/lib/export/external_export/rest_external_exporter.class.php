@@ -145,6 +145,56 @@ abstract class RestExternalExporter extends BaseExternalExporter
 	    }
 	} 
 	
+	/**
+	 * Send a request to a REST service and return the response
+	 * 
+	 * @param $url string
+	 * @param $http_method string
+	 * @param $data_to_send string The content to send with the REST request
+	 * @param $content_mimetype The mimetype of the content to send with the REST request
+	 * @return mixed
+	 */
+	protected function get_rest_response($url, $http_method, $data_to_send = null, $content_mimetype = null)
+	{
+	    //debug($url);
+	    
+	    $rest_client = $this->get_rest_client();
+	    $rest_client->set_url($url);
+	    $rest_client->set_http_method($http_method);
+	    
+	    if(isset($data_to_send))
+	    {
+	        if(file_exists($data_to_send) && !isset($content_mimetype))
+	        {
+	            $content_mimetype = $this->get_file_mimetype($data_to_send);
+	        }
+	        
+	        $rest_client->set_data_to_send($data_to_send, $content_mimetype);
+	    }
+	    
+	    $rest_client->set_check_target_certificate(false);
+	    
+	    $result = $rest_client->send_request();
+	    
+	    $response_content = $result->get_response_content();
+	    
+	    if(!$result->has_error() && stripos($response_content, 'Exception') === false)
+	    {
+    	    return $response_content;
+	    }
+	    else
+	    {
+	        if(stripos($response_content, 'Exception') === false)
+	        {
+	            throw new Exception(htmlentities($result->get_response_error()));
+	        }
+	        else
+	        {
+	            throw new Exception('<h3>REST response:</h3><p><strong>URL : </strong>' . $result->get_request_url() . '<p><strong>POST data : </strong>' . htmlentities($result->get_request_sent_data()) . '</p><p><strong>Response : </strong>' . $response_content . '</p>');
+	        }
+	    }
+	} 
+	
 	public function handle_xml_error($error_no, $error_str, $error_file, $error_line)
 	{
 	    if ($error_no == E_WARNING && substr_count($error_str,'DOMDocument') > 0)

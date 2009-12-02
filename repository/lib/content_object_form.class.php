@@ -437,6 +437,13 @@ EOT;
 
         $object->create();
 
+        if($object->has_errors())
+        {
+            //TODO: display errors
+            //DebugUtilities :: show($object->get_errors());
+            return null;
+        }
+        
         // Process includes
         ContentObjectIncludeParser :: parse_includes($this);
 
@@ -473,6 +480,7 @@ EOT;
         $values = $this->exportValues();
 
         $object->set_title($values[ContentObject :: PROPERTY_TITLE]);
+        
         $desc = $values[ContentObject :: PROPERTY_DESCRIPTION] ? $values[ContentObject :: PROPERTY_DESCRIPTION] : '';
         $object->set_description($desc ? $desc : '');
 
@@ -506,6 +514,13 @@ EOT;
         else
         {
             $result = $object->update();
+        }
+        
+        if($object->has_errors())
+        {
+            //TODO: display errors
+            //DebugUtilities :: show($object->get_errors());
+            return false;
         }
 
         // Process includes

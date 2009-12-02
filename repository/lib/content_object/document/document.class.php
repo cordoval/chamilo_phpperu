@@ -13,6 +13,29 @@ class Document extends ContentObject
     const PROPERTY_FILESIZE = 'filesize';
     const PROPERTY_HASH = 'hash';
 
+    /**
+    * In memory file content. Will be saved on disk if it doesn't exist yet. Mainly used to create a new Document.
+    *
+    * @var mixed
+    */ 
+    private $in_memory_file;
+    
+    /**
+    * Temporary file path. A path to a file that has to be moved and renamed when the Document is saved.
+    * Useful for instance when a file is uploaded to the server.
+    *
+    * @var string
+    */ 
+    private $temporary_file_path;
+    
+    /**
+    * Indicates wether the Document must be saved as a new version when its save() or update() method is called
+    *
+    * @var boolean
+    */ 
+    private $save_as_new_version = false;
+    
+    
     function get_path()
     {
         return $this->get_additional_property(self :: PROPERTY_PATH);
@@ -106,6 +129,93 @@ class Document extends ContentObject
     }
 
     /**
+    * Get In memory file content. Will be saved on disk if it doesn't exist yet. Mainly used to create a new Document.
+    *
+    * @return mixed
+    */
+    public function get_in_memory_file()
+    {
+    	return $this->in_memory_file;
+    }
+    
+    /**
+    * Set In memory file content. Will be saved on disk if it doesn't exist yet. Mainly used to create a new Document.
+    *
+    * @var $in_memory_file mixed
+    * @return void
+    */
+    public function set_in_memory_file($in_memory_file)
+    {
+        if(StringUtilities :: has_value($in_memory_file))
+        {
+            if(StringUtilities :: has_value($this->get_temporary_file_path()))
+            {
+                throw new Exception('A Document can not have a temporary file path and in memory content');
+            }
+            
+            $this->in_memory_file = $in_memory_file;
+        }
+    }
+    
+    /**
+    * Get a value indicating wether the Document must be saved as a new version if its save() or update() method is called
+    *
+    * @return boolean
+    */
+    public function get_save_as_new_version()
+    {
+    	return $this->save_as_new_version;
+    }
+    
+    /**
+    * Set a value indicating wether the Document must be saved as a new version if its save() or update() method is called
+    *
+    * @var $save_as_new_version boolean
+    * @return void
+    */
+    public function set_save_as_new_version($save_as_new_version)
+    {
+        if(is_bool($save_as_new_version))
+        {
+            $this->save_as_new_version = $save_as_new_version;
+        }
+    }
+    
+	/**
+    * Get temporary file path. A path to a file that has to be moved and renamed when the Document is saved 
+    *
+    * @return string
+    */
+    public function get_temporary_file_path()
+    {
+    	return $this->temporary_file_path;
+    }
+    
+    /**
+    * Set temporary file path. A path to a file that has to be moved and renamed when the Document is saved 
+    *
+    * @var $temporary_file_path string
+    * @return void
+    */
+    public function set_temporary_file_path($temporary_file_path)
+    {
+        if(StringUtilities :: has_value($temporary_file_path))
+        {
+            if(StringUtilities :: has_value($this->get_in_memory_file()))
+            {
+                throw new Exception('A Document can not have a temporary file path and in memory content');
+            }
+            
+            $this->temporary_file_path = $temporary_file_path;
+        }
+    }
+    
+    public function has_file_to_save()
+    {
+        return StringUtilities :: has_value($this->get_temporary_file_path()) || StringUtilities :: has_value($this->get_in_memory_file()); 
+    }
+    
+    /**
      * Determines if this document is an image
      * @return boolean True if the document is an image
      */
@@ -190,16 +300,170 @@ class Document extends ContentObject
         $owner_id = $this->get_owner_id(); 
         if(!isset($owner_id) || !is_numeric($owner_id))
         {
-            $this->add_errors(Translation :: get_instance()->translate('The object owner is not defined'));
+            $this->add_errors(Translation :: get_instance()->translate('The object\'s owner is not defined'));
         }
         
-        //File
+        /*
+         * Save file if needed
+         */
+        if($this->has_file_to_save())
+        {
+            $this->save_file();
+        }
+        else
+        {
+            /*
+             * Make a copy of the current file if the update has to create a new version, without saving a new content
+             */
+            if($this->save_as_new_version && !$this->has_file_to_save())
+            {
+                if(!$this->duplicate_current_file())
+                {
+                    $this->add_errors(Translation :: get_instance()->translate('Unable to duplicate the current document file to create a new version'));
+                }
+            }
         
+            $fullpath = $this->get_full_path();
+            
+            if(!isset($fullpath) || !file_exists($fullpath))
+            {
+                $this->add_errors(Translation :: get_instance()->translate('The document file content is not set'));
+            }
+        }
         
+        //Filename
+        if(StringUtilities :: is_null_or_empty($this->get_filename()))
+        {
+            $this->add_errors(Translation :: get_instance()->translate('The filename is required'));
+        }
+            
+        //Path
+        if(StringUtilities :: is_null_or_empty($this->get_path()))
+        {
+            $this->add_errors(Translation :: get_instance()->translate('The path of the document file is empty'));
+        }
         
-        
+        //Hash
+        if(StringUtilities :: is_null_or_empty($this->get_hash()))
+        {
+            $this->add_errors(Translation :: get_instance()->translate('The hash of the document is empty'));
+        }
         
         return !$this->has_errors();
+    }
+    
+    /**
+     * Save the in memory file or the temporary file to the current user disk space
+     * Return true if the file could be saved
+     * 
+     * @return boolean
+     */
+    private function save_file()
+    {
+        $save_success = false;
+        
+        if($this->has_file_to_save())
+        {
+            //DebugUtilities :: show($this->in_memory_file);
+            
+            $filename = $this->get_filename(); 
+            if(isset($filename))
+            {
+                /*
+                 * Delete current file before to create it again if the object is not saved as a new version
+                 */
+                $as_new_version = $this->get_save_as_new_version();
+                if(!$as_new_version)
+                {
+                    $current_path = $this->get_path();
+                    
+                    if(isset($current_path) && is_file(Path :: get(SYS_REPO_PATH) . $current_path))
+                    {
+                         Filesystem :: remove(Path :: get(SYS_REPO_PATH) . $current_path);
+                         //DebugUtilities :: show('delete : ' . Path :: get(SYS_REPO_PATH) . $current_path);
+                    }
+                }
+                
+                $filename_hash        = md5($filename);
+                $relative_folder_path = $this->get_owner_id() . '/' . Text :: char_at($filename_hash, 0);
+                $full_folder_path     = Path :: get(SYS_REPO_PATH) . $relative_folder_path;
+                
+                Filesystem :: create_dir($full_folder_path);
+                $unique_hash = Filesystem :: create_unique_name($full_folder_path, $filename_hash);
+                
+                $relative_path = $relative_folder_path . '/' . $unique_hash;
+                $path_to_save  = $full_folder_path . '/' . $unique_hash;
+                
+                //DebugUtilities :: show($full_path);
+                
+                $save_success = false;
+                if(StringUtilities :: has_value($this->temporary_file_path) && Filesystem :: move_file($this->temporary_file_path, $path_to_save, !$as_new_version))
+                {
+                    $save_success = true;
+                }
+                elseif(StringUtilities :: has_value($this->in_memory_file) && Filesystem :: write_to_file($path_to_save, $this->in_memory_file))
+                {
+                    $save_success = true;
+                }
+                
+                if($save_success)
+                {
+                    Filesystem :: chmod($path_to_save, PlatformSetting :: get('permissions_new_files'));
+                    
+                    $file_bytes = Filesystem :: get_disk_space($path_to_save);
+                    
+                    $this->set_filesize($file_bytes);
+                    $this->set_path($relative_path);
+                    $this->set_hash($unique_hash);
+                }
+                else
+                {
+                     $this->add_errors('Unable to store the document');
+                }
+            }
+            else
+            {
+                $this->add_errors('The document filename is not set');
+            }
+        }
+        
+        return $save_success;
+    }
+    
+    /**
+     * Copy the current file to a new unique filename. 
+     * Set the new values of path and hash of the current object.
+     * 
+     * Useful when a Document is updated as a new version, without replacing the content
+     * 
+     * Note: needed as when saving a new version of a Document, a new record is saved in the repository_document 
+     * 		 table, and the 'hash' field must be unique.
+     *  
+     * @return boolean
+     */
+    private function duplicate_current_file()
+    {
+        $full_current_file_path = $this->get_full_path();
+        
+        if(file_exists($full_current_file_path))
+        { 
+            $filename_hash        = md5($this->get_filename());
+            $relative_folder_path = $this->get_owner_id() . '/' . Text :: char_at($filename_hash, 0);
+            $full_folder_path     = Path :: get(SYS_REPO_PATH) . $relative_folder_path;
+            
+            $unique_filename_hash = Filesystem :: create_unique_name($full_folder_path, $filename_hash);
+            
+            $path_to_copied_file  = $full_folder_path . '/' . $unique_filename_hash;
+            
+            $this->set_path($relative_folder_path . '/' . $unique_filename_hash);
+            $this->set_hash($unique_filename_hash);
+            
+            return copy($full_current_file_path, $path_to_copied_file);
+        }
+        else
+        {
+            return false;
+        }
     }
     
     /*************************************************************************/
@@ -226,9 +490,57 @@ class Document extends ContentObject
          * - save properties in document table
          */
         
-        parent :: create();
+        $this->clear_errors();
         
-        
+        if($this->check_before_save()) //may be called twice in some situation (if the calling method is 'save() from the DataClass), but the create() method in the content_object class doesn't call it
+        {
+            return parent :: create();
+        }
+        else
+        {
+            return false;
+        }
     }
+    
+    /**
+     * (non-PHPdoc)
+     * @see repository/lib/ContentObject#update($trueUpdate)
+     */
+    function update($trueUpdate = true)
+    {
+        /*
+         * Force using version() instead of update() if the object is marked to be saved as a new version 
+         */
+        if($this->save_as_new_version)
+        {
+            return $this->version();
+        }
+        
+        $this->clear_errors();
+        
+        if($this->check_before_save()) //may be called twice in some situation (if the calling method is 'save() from the DataClass), but the create() method in the content_object class doesn't call it
+        {
+            return parent :: update($trueUpdate);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function version($trueUpdate = true)
+    {
+        $this->clear_errors();
+        
+        if($this->check_before_save())
+        {
+            return parent :: version($trueUpdate);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }
 ?>
