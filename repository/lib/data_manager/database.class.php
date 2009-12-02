@@ -1283,7 +1283,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         $condition = new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $user_view->get_id());
         $properties[UserViewRelContentObject :: PROPERTY_VISIBILITY] = '0';
 
-        return $this->database->update_objects(ContentObjectPublication :: get_table_name(), $properties, $condition);
+        return $this->database->update_objects(UserViewRelContentObject :: get_table_name(), $properties, $condition);
     }
 
     function retrieve_last_post($forum_id)
