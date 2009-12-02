@@ -16,12 +16,16 @@ class RightsEditorManager extends SubManager
     const PARAM_GROUP = 'group';
     
     private $location;
+    private $excluded_groups;
+    private $excluded_users;
 
     function RightsEditorManager($parent, $location)
     {
         parent :: __construct($parent);
         
         $this->location = $location;
+        $this->exclude_users = array();
+        $this->exclude_groups = array();
         
         $rights_editor_action = Request :: get(self :: PARAM_RIGHTS_EDITOR_ACTION);
         if ($rights_editor_action)
@@ -66,6 +70,26 @@ class RightsEditorManager extends SubManager
     function get_available_rights()
     {
         return $this->get_parent()->get_available_rights();
+    }
+    
+    function exclude_users($users)
+    {
+    	$this->excluded_users = $users;
+    }
+    
+ 	function exclude_groups($groups)
+    {
+    	$this->excluded_groups = $groups;
+    }
+    
+	function get_excluded_users()
+    {
+    	return $this->excluded_users;
+    }
+    
+	function get_excluded_groups()
+    {
+    	return $this->excluded_groups;
     }
 }
 ?>

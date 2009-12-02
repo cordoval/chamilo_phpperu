@@ -15,5 +15,15 @@ class RightsEditorManagerComponent extends SubManagerComponent
     {
         return $this->get_parent()->get_available_rights();
     }
+    
+    function get_excluded_users()
+    {
+    	return $this->get_parent()->get_excluded_users();
+    }
+    
+	function get_excluded_groups()
+    {
+    	return $this->get_parent()->get_excluded_groups();
+    }
 }
 ?>

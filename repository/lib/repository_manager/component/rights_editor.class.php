@@ -20,6 +20,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
         $location = RepositoryRights :: get_location_by_identifier('content_object', $object);
         
         $manager = new RightsEditorManager($this, $location);
+        $manager->exclude_users(array($this->get_user_id()));
         $manager->run();
     }
     

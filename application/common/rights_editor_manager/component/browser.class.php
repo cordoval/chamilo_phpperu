@@ -125,8 +125,33 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
             {
                 $condition = $parent_condition;
             }
+            
+        	if(count($this->get_excluded_groups()) > 0)
+        	{
+        		foreach($this->get_excluded_groups() as $group)
+        		{
+        			$conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $group));
+        		}
+        		
+        		$conditions[] = $condition;
+        		$condition = new AndCondition($conditions);
+        	}
+            
         }
-        
+        else
+        {
+        	if(count($this->get_excluded_users()) > 0)
+        	{
+        		foreach($this->get_excluded_users() as $user)
+        		{
+        			$conditions[] = new NotCondition(new EqualityCondition(User :: PROPERTY_ID, $user));
+        		}
+        		
+        		if($condition)
+        			$conditions[] = $condition;
+        		$condition = new AndCondition($conditions);
+        	}
+        }
         return $condition;
     }
 
