@@ -356,11 +356,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
             
             if ($studentview == 1)
             {
-                echo '<a href="' . $this->get_url(array('studentview' => '0')) . '">' . Translation :: get('TeacherView') . '</a>';
+                echo '<a href="' . $this->get_url(array('studentview' => '0', 'pid' => Request :: get('pid'))) . '">' . Translation :: get('TeacherView') . '</a>';
             }
             else
             {
-                echo '<a href="' . $this->get_url(array('studentview' => '1')) . '">' . Translation :: get('StudentView') . '</a>';
+                echo '<a href="' . $this->get_url(array('studentview' => '1', 'pid' => Request :: get('pid'))) . '">' . Translation :: get('StudentView') . '</a>';
             }
             
             echo '</div>';
