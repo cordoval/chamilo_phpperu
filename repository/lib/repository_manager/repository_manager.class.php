@@ -1007,7 +1007,7 @@ class RepositoryManager extends CoreApplication
             $trash = array();
             $trash['title'] = Translation :: get('RecycleBin');
             $trash['url'] = $this->get_recycle_bin_url();
-            if ($this->count_content_objects(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id()), ContentObject :: STATE_RECYCLED))
+            if($this->current_user_has_recycled_objects())
             {
                 $trash['class'] = 'trash_full';
             }
@@ -1063,6 +1063,26 @@ class RepositoryManager extends CoreApplication
         return $this->category_menu;
     }
 
+    /**
+     * Return a condition object that can be used to look for objects of the current logged user that are recycled
+     *   
+     * @return AndCondition
+     */
+    public function get_current_user_recycle_bin_conditions()
+    {
+        return new AndCondition(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id()), 
+                                new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED));
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function current_user_has_recycled_objects()
+    {
+        return $this->count_content_objects($this->get_current_user_recycle_bin_conditions()) > 0;
+    }
+    
     /**
      * Gets the search form.
      * @return RepositorySearchForm The search form.
