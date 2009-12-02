@@ -1221,7 +1221,7 @@ class RepositoryManager extends CoreApplication
 
     function get_shared_content_objects_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => null));
     }
 
     function create_user_view_url()
