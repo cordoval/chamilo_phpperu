@@ -199,7 +199,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	        }
 	        else
 	        {
-	            Redirect :: url(array(Application :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW, RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $this->get_external_export()->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+	            Redirect :: url(array(Application :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $this->get_external_export()->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
 	        }
 	    }
 	    else
@@ -218,14 +218,69 @@ class FedoraExternalExporter extends RestExternalExporter
 	 */
 	protected function check_object_exists($content_object)
 	{
-	    $object_id = $this->get_existing_repository_uid($content_object);
+	    $external_object_id = $this->get_existing_repository_uid($content_object);
 	    //debug($object_id);
 	    
-	    /*
+	    $external_object_infos = $this->get_repository_object_infos($external_object_id);
+	    
+	    if(isset($external_object_infos))
+	    {
+	        return true;
+	    }
+	    else
+	    {
+	        return false;
+	    }
+	    
+	    
+//	    /*
+//	     * Search the object
+//	     */
+//	    $search_path = $this->get_full_find_object_rest_path();
+//	    $search_path = str_replace('{pid}', $object_id, $search_path);
+//	    $response_document = $this->get_rest_xml_response($search_path, 'get');
+//	    if(isset($response_document))
+//	    {
+//	        //DebugUtilities :: show($response_document);
+//	        
+//	        /*
+//	         * Check in the XML if the object exists
+//	         */
+//	        $xpath = new DOMXPath($response_document);
+//	        $xpath->registerNamespace('fedora', 'http://www.fedora.info/definitions/1/0/types/');
+//	        
+//    	    $node_list = $xpath->query('/fedora:result/fedora:resultList/fedora:objectFields/fedora:pid');
+//    	    
+//    	    //DebugUtilities :: show($node_list);
+//    	    
+//    	    if($node_list->length > 0 && $node_list->item(0)->nodeValue == $object_id)
+//    	    {
+//    	        return true;
+//    	    }
+//	        else
+//	        {
+//	            return false;
+//	        }
+//	    }
+//	    else
+//	    {
+//	        throw new Exception('Unable to check if the object already exists in Fedora');
+//	    }
+	}
+	
+	
+	/**
+	 * 
+	 * @param string $external_object_id The object identifier in the repository 
+	 * @return unknown_type
+	 */
+	public function get_repository_object_infos($repository_object_id)
+	{
+		/*
 	     * Search the object
 	     */
 	    $search_path = $this->get_full_find_object_rest_path();
-	    $search_path = str_replace('{pid}', $object_id, $search_path);
+	    $search_path = str_replace('{pid}', $repository_object_id, $search_path);
 	    $response_document = $this->get_rest_xml_response($search_path, 'get');
 	    if(isset($response_document))
 	    {
@@ -237,21 +292,54 @@ class FedoraExternalExporter extends RestExternalExporter
 	        $xpath = new DOMXPath($response_document);
 	        $xpath->registerNamespace('fedora', 'http://www.fedora.info/definitions/1/0/types/');
 	        
-    	    $node_list = $xpath->query('/fedora:result/fedora:resultList/fedora:objectFields/fedora:pid');
+    	    $node_list = $xpath->query('/fedora:result/fedora:resultList/fedora:objectFields[fedora:pid=\'' . $repository_object_id . '\']');
     	    
     	    //DebugUtilities :: show($node_list);
     	    
-    	    if($node_list->length > 0 && $node_list->item(0)->nodeValue == $object_id)
+    	    if($node_list->length == 1)
     	    {
-    	        return true;
+	            $object_infos = array();
+	            
+	            foreach($node_list->item(0)->childNodes as $subnode)
+	            {
+	                if(is_a($subnode, 'DOMElement'))
+	                {
+	                    switch($subnode->nodeName)
+	                    {
+	                        case 'pid':
+	                            $object_infos[BaseExternalExporter :: OBJECT_ID] = $subnode->nodeValue;
+	                            break;
+	                        
+	                        case 'cDate':
+	                            $object_infos[BaseExternalExporter :: OBJECT_CREATION_DATE] = date('Y-m-d H:i:s', strtotime($subnode->nodeValue));
+	                            break;
+	                        
+	                        case 'mDate':
+	                            $object_infos[BaseExternalExporter :: OBJECT_MODIFICATION_DATE] = date('Y-m-d H:i:s', strtotime($subnode->nodeValue));
+	                            break;
+	                        
+	                        case 'title':
+	                            $object_infos[BaseExternalExporter :: OBJECT_TITLE] = $subnode->nodeValue;
+	                            break;
+	                        
+	                        case 'description':
+	                            $object_infos[BaseExternalExporter :: OBJECT_DESCRIPTION] = $subnode->nodeValue;
+	                            break;
+	                        
+	                        default:
+	                            $object_infos[$subnode->nodeName] = $subnode->nodeValue;
+	                            break;
+	                    }
+	                    
+	                   
+	                }
+	            }
+	            
+	            return $object_infos;
     	    }
 	        else
 	        {
-        	    /*
-        	     * Create the object
-        	     */
-	            //return $this->create_object_in_fedora($object_id, $ingest_path);
-	            return false;
+	            return null;
 	        }
 	    }
 	    else
@@ -259,7 +347,6 @@ class FedoraExternalExporter extends RestExternalExporter
 	        throw new Exception('Unable to check if the object already exists in Fedora');
 	    }
 	}
-	
 	
 	/*************************************************************************/
 	
@@ -392,7 +479,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	    
 	    $ingest_path = str_replace('{pid}', $object_id, $ingest_path);
 	    
-	    $response_document = $this->get_rest_xml_response($ingest_path, 'post', $foxml_doc->saveXML(), 'text/xml');
+	    $response_document = $this->get_rest_response($ingest_path, 'post', $foxml_doc->saveXML(), 'text/xml');
 	    
 	    if(isset($response_document))
 	    {
@@ -744,7 +831,7 @@ class FedoraExternalExporter extends RestExternalExporter
     	            
     	            $fedora_mDate = $node_list->item(0)->nodeValue;
     	            
-    	            DebugUtilities::show($fedora_mDate);
+    	            //DebugUtilities::show($fedora_mDate);
     	            
     	            $eesi = ExternalExportSyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $external_export->get_id());
     	            
@@ -851,6 +938,403 @@ class FedoraExternalExporter extends RestExternalExporter
 	    return $objects;
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see repository/lib/export/external_export/BaseExternalExporter#import($repository_object_id)
+	 */
+	public function import($repository_object_id, $owner_id)
+	{
+	    /*
+	     * Get object datastreams
+	     */
+	    $find_datastreams_rest_path = $this->get_full_find_datastreams_rest_path();
+	    $find_datastreams_rest_path = str_replace('{pid}', $repository_object_id, $find_datastreams_rest_path);
+
+	    $response_document = $this->get_rest_xml_response($find_datastreams_rest_path, 'get');
+	    
+	    if(isset($response_document))
+	    {	        
+	        $xpath = new DOMXPath($response_document);
+
+	        $ds_list = $xpath->query('/objectDatastreams/datastream');
+	        
+	        //DebugUtilities :: show($ds_list);
+	        
+	        if($ds_list->length > 0 )
+    	    {
+    	        if($this->check_repository_object_is_importable($ds_list))
+    	        {
+        	        $content_object = $this->get_imported_object_instance($ds_list, $owner_id);
+        	        
+        	        if(isset($content_object))
+        	        {
+            	        foreach ($ds_list as $ds_node)
+            	        {
+            	            $ds_name = XMLUtilities :: get_attribute($ds_node, 'dsid');
+            	            
+            	            //DebugUtilities :: show($ds_name);
+            	            
+            	            switch($ds_name)
+            	            {
+            	                case self :: DATASTREAM_DC_ID:
+            	                    $this->set_data_from_dublin_core_datastream($content_object, $ds_node, $repository_object_id);
+            	                    break;
+            	                    
+            	                case self :: DATASTREAM_LO_CONTENT_ID:
+            	                    $this->set_data_from_object_datastream($content_object, $ds_node, $repository_object_id);
+            	                    break;
+            	                    
+            	                case self :: DATASTREAM_LOM_ID:
+            	                    $this->set_lom_from_object_datastream($content_object, $ds_node, $repository_object_id);
+            	                    break;
+            	            }
+            	        }
+
+            	        //DebugUtilities :: show($content_object);
+            	         
+            	        return $this->save_imported_content_object($content_object, $repository_object_id);
+        	        }
+        	        else
+        	        {
+        	            return false;
+        	        }
+    	        }
+    	        else
+    	        {
+    	            //TODO: put object type in message
+    	            
+    	            throw new Exception('Objects of this type can not be imported');
+    	        }
+    	    }
+	    }
+	    else
+	    {
+	        return false;
+	    }
+	}
+	
+	private function check_repository_object_is_importable($node_list)
+	{
+	    $typed_content_object = $this->get_imported_object_instance($node_list);
+	    
+	    return isset($typed_content_object);
+	}
+	
+	private function get_imported_object_instance($node_list, $owner_id)
+	{
+	    //DebugUtilities :: show($node_list);
+	     
+	    $object_node = XmlUtilities :: get_first_element_by_relative_xpath($node_list, '/datastream[@dsid=\'' . self :: DATASTREAM_LO_CONTENT_ID . '\']');
+	    
+	    if(isset($object_node))
+	    {
+    	    $mime_type   = XMLUtilities :: get_attribute($object_node, 'mimeType');
+    	    
+    	    $content_object = null;
+    	    
+    	    if(StringUtilities :: start_with($mime_type, 'image/', false)
+    	         || StringUtilities :: start_with($mime_type, 'application/', false))
+    	     {
+    	         /*
+    	          * Documents can be imported
+    	          */
+    	         $content_object = new Document();
+    	     }
+    	     
+    	     if(isset($content_object))
+    	     {
+    	         $content_object->set_owner_id($owner_id);
+    	     }
+    	     
+    	     return $content_object;
+	    }
+	    else
+	    {
+	        throw new Exception('No content to import could be found (The object does not have any \'' . self :: DATASTREAM_LO_CONTENT_ID . '\' datastream in Fedora)');
+	    }
+	}
+	
+	/**
+	 * 
+	 * @param ContentObject $content_object Any object inheriting from ContentObject
+	 * @return boolean
+	 */
+	private function save_imported_content_object($content_object, $repository_object_id)
+	{
+	    $content_object_new_id = DataClass :: NO_UID;
+	    
+	    switch(get_class($content_object))
+	    {
+	        case 'Document':
+	            $content_object_new_id = $this->save_imported_document($content_object);
+	            break;
+	        default:
+	            throw new Exception('Objects of type \'' . get_class($content_object) . '\' can not be imported');
+	            break;
+	    }
+	    
+	    if($content_object_new_id != DataClass :: NO_UID)
+	    {
+    	    /*
+    	     * Save the external object id to be able to recognize the object between Chamilo and the Fedora repository  
+    	     */
+    	    $lom_mapper      = $this->get_lom_mapper($content_object);
+    	    $external_export = $this->get_external_export();
+    	    $lom_mapper->add_general_identifier($external_export->get_catalog_name(), $repository_object_id);
+    	    $lom_mapper->save_metadata();
+    	    
+    	    /*
+    	     * Save the sync informations
+    	     */
+    	    return $this->store_last_repository_update_datetime($content_object);
+	    }
+	    else
+	    {
+	        throw new Exception('The uid of the imported object is undefined');
+	    }
+	}
+	
+	/**
+	 * 
+	 * @param Document $content_object
+	 * @return integer The newly created content object id
+	 */
+	private function save_imported_document($document)
+	{
+	    if(!$document->save())
+        {
+            //DebugUtilities :: show($document->get_errors());
+            
+            throw new Exception($this->build_error_message($document->get_errors()));
+        }
+        else
+        {
+            //debug($document->get_id());
+            return $document->get_id();
+        }
+	}
+	
+	private function build_error_message($error_container)
+	{
+	    $error_str = '<ul>';
+	    
+	    if(is_array($error_container))
+	    {
+	        foreach($error_container as $error_msg)
+	        {
+	            $error_str .= '<li>' . $error_msg . '</li>';
+	        }
+	    }
+	    else
+	    {
+	        $error_str .= '<li>' . $error_container . '</li>';
+	    }
+	    
+	    $error_str .= '</ul>';
+	    
+	    return $error_str;
+	}
+	
+	/**
+	 * 
+	 * @param ContentObject $content_object
+	 * @param DOMNode $ds_node
+	 * @param string $repository_object_id
+	 * @return void
+	 */
+	private function set_data_from_dublin_core_datastream(&$content_object, $ds_node, $repository_object_id)
+	{
+	    $mime_type = XMLUtilities :: get_attribute($ds_node, 'mimeType');
+
+	    if($mime_type == 'text/xml')
+	    {
+	        $datastream_content_path = $this->get_full_get_datastream_content_path();
+	        $datastream_content_path = str_replace('{pid}', $repository_object_id, $datastream_content_path);
+	        $datastream_content_path = str_replace('{dsID}', self :: DATASTREAM_DC_ID, $datastream_content_path);
+	        
+	        $response_document = $this->get_rest_xml_response($datastream_content_path, 'get');
+	        if(isset($response_document))
+	        {
+	            $xpath = new DOMXPath($response_document);
+	            $xpath->registerNamespace('oai_dc', 'http://www.openarchives.org/OAI/2.0/oai_dc/');
+	            $xpath->registerNamespace('dc', 'http://purl.org/dc/elements/1.1/');
+	        
+	            /*
+	             * Title
+	             */
+    	        $title_node = $xpath->query('/oai_dc:dc/dc:title');
+    	        if($title_node->length == 1)
+    	        {
+    	            $content_object->set_title($title_node->item(0)->nodeValue);
+    	        }
+    	        
+	        	/*
+	             * Description
+	             */
+    	        $title_node = $xpath->query('/oai_dc:dc/dc:description');
+    	        if($title_node->length == 1)
+    	        {
+    	            $content_object->set_description($title_node->item(0)->nodeValue);
+    	        }
+	        }
+	        else
+	        {
+	            throw new Exception('Unable to get the Dublin Core metadata document from the reporisory');
+	        }
+	    }
+	}
+	
+	private function set_data_from_object_datastream(&$content_object, $ds_node, $repository_object_id)
+	{
+	    switch(get_class($content_object))
+	    {
+	        case 'Document':
+	            $this->set_document_data_from_object_datastream($content_object, $ds_node, $repository_object_id);
+	            break;
+	            
+	        default:
+	            throw new Exception('Objects of type \'' . get_class($content_object) . '\' can not be imported');
+	            break;
+	    }
+	}
+	
+	/**
+	 * 
+	 * @param Document $content_object
+	 * @param DOMNode $ds_node
+	 * @param string $repository_object_id
+	 * @return void
+	 */
+	private function set_document_data_from_object_datastream(&$content_object, $ds_node, $repository_object_id)
+	{
+	    $mime_type = XMLUtilities :: get_attribute($ds_node, 'mimeType');
+	    
+	    /*
+	     * Get the document file content from Fedora
+	     */
+	    $get_datastream_content_path = $this->get_full_get_datastream_content_path();
+	    $get_datastream_content_path = str_replace('{pid}', $repository_object_id, $get_datastream_content_path);
+	    $get_datastream_content_path = str_replace('{dsID}', self :: DATASTREAM_LO_CONTENT_ID, $get_datastream_content_path);
+	    
+	    $response_content = $this->get_rest_response($get_datastream_content_path, 'get');
+	    
+	    $content_object->set_in_memory_file($response_content);
+	    
+	    $filename = $repository_object_id;
+	    
+	    switch($mime_type)
+	    {
+	        case 'image/jpeg':
+	            $filename .= '.jpeg';
+	            break;
+	            
+	        case 'image/gif':
+	            $filename .= '.gif';
+	            break;
+	            
+	        case 'image/png':
+	            $filename .= '.png';
+	            break;
+	            
+	        case 'image/tiff':
+	            $filename .= '.tiff';
+	            break;
+	            
+	        case 'image/bmp':    
+	            $filename .= '.bmp';
+	            break;
+	            
+	        case 'application/pdf':    
+	            $filename .= '.pdf';
+	            break;
+	        
+	        case 'application/word':    
+	            $filename .= '.doc';
+	            break;
+	        
+	        case 'application/excel':    
+	            $filename .= '.xls';
+	            break;
+	        
+	        case 'application/powerpoint':    
+	            $filename .= '.ppt';
+	            break;
+
+	        case 'application/vnd.oasis.opendocument.text':    
+	            $filename .= '.odt';
+	            break;
+	
+            case 'application/vnd.oasis.opendocument.text-template':    
+	            $filename .= '.ott';
+	            break;
+	            
+            case 'application/vnd.oasis.opendocument.text-web':    
+	            $filename .= '.oth';
+	            break;
+            	
+            case 'application/vnd.oasis.opendocument.text-master':    
+	            $filename .= '.odm';
+	            break;
+            	
+            case 'application/vnd.oasis.opendocument.graphics':    
+	            $filename .= '.odg';
+	            break;
+            	
+            case 'application/vnd.oasis.opendocument.graphics-template':    
+	            $filename .= '.otg';
+	            break;
+            
+            case 'application/vnd.oasis.opendocument.presentation':    
+	            $filename .= '.odp';
+	            break;
+            	
+            case 'application/vnd.oasis.opendocument.presentation-template':    
+	            $filename .= '.otp';
+	            break;
+            	
+            case 'application/vnd.oasis.opendocument.spreadsheet':    
+	            $filename .= '.ods';
+	            break;
+            	
+            case 'application/vnd.oasis.opendocument.spreadsheet-template':    
+	            $filename .= '.ots';
+	            break;
+            	
+            case 'application/vnd.oasis.opendocument.chart':    
+	            $filename .= '.odc';
+	            break;
+            	
+            case 'application/vnd.oasis.opendocument.formula':    
+	            $filename .= '.odf';
+	            break;
+            	
+            case 'application/vnd.oasis.opendocument.database':    
+	            $filename .= '.odb';
+	            break;
+            	
+            case 'application/vnd.oasis.opendocument.image':    
+	            $filename .= '.odi';
+	            break;
+            	
+            case 'application/vnd.openofficeorg.extension':    
+	            $filename .= '.oxt';
+	            break;
+	    }
+	    
+	    $content_object->set_filename(Filesystem :: create_safe_name($filename));
+	}
+	
+	private function set_lom_from_object_datastream(&$content_object, $ds_node, $repository_object_id)
+	{
+	    $mime_type = XMLUtilities :: get_attribute($ds_node, 'mimeType');
+	    
+//	    DebugUtilities :: show($mime_type);
+
+	    
+	    
+	}
+	
+	
 	/*************************************************************************/
 	/*** HELPER functions ****************************************************/
 	/*************************************************************************/
@@ -946,6 +1430,48 @@ class FedoraExternalExporter extends RestExternalExporter
 	    if(isset($external_export) && is_a($external_export, 'ExternalExportFedora'))
 	    {
 	        return $external_export->get_full_find_objects_rest_path();
+	    }
+	    else
+	    {
+	        return null;
+	    }
+	}
+	
+	public function get_full_find_datastreams_rest_path()
+	{
+	    $external_export = $this->get_external_export();
+	    
+	    if(isset($external_export) && is_a($external_export, 'ExternalExportFedora'))
+	    {
+	        return $external_export->get_full_find_datastreams_rest_path();
+	    }
+	    else
+	    {
+	        return null;
+	    }
+	}
+	
+	public function get_full_get_datastream_infos_path()
+	{
+	    $external_export = $this->get_external_export();
+	    
+	    if(isset($external_export) && is_a($external_export, 'ExternalExportFedora'))
+	    {
+	        return $external_export->get_full_get_datastream_infos_path();
+	    }
+	    else
+	    {
+	        return null;
+	    }
+	}
+	
+	public function get_full_get_datastream_content_path()
+	{
+	    $external_export = $this->get_external_export();
+	    
+	    if(isset($external_export) && is_a($external_export, 'ExternalExportFedora'))
+	    {
+	        return $external_export->get_full_get_datastream_content_path();
 	    }
 	    else
 	    {

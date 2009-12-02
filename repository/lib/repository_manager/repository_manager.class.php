@@ -56,7 +56,8 @@ class RepositoryManager extends CoreApplication
     const PARAM_DELETE_TEMPLATES = 'delete_templates';
     const PARAM_COPY_FROM_TEMPLATES = 'copy_template';
     const PARAM_COPY_TO_TEMPLATES = 'copy_to_template';
-    const PARAM_EXTERNAL_OBJECT_ID = 'external_id';
+    const PARAM_EXTERNAL_OBJECT_ID = 'external_object_id';
+    const PARAM_EXTERNAL_REPOSITORY_ID = 'ext_rep_id';
     
     /**#@-*/
     /**#@+
@@ -278,6 +279,9 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_EXTERNAL_REPOSITORY_EXPORT :
                 $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportExport', $this);
                 break;
+            case self :: ACTION_EXTERNAL_REPOSITORY_IMPORT :
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportImport', $this);
+                break;    
             case self :: ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportListObjects', $this);
                 break;
@@ -1003,7 +1007,7 @@ class RepositoryManager extends CoreApplication
             $trash = array();
             $trash['title'] = Translation :: get('RecycleBin');
             $trash['url'] = $this->get_recycle_bin_url();
-            if ($this->count_content_objects(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id()), ContentObject :: STATE_RECYCLED))
+            if($this->current_user_has_recycled_objects())
             {
                 $trash['class'] = 'trash_full';
             }
@@ -1022,9 +1026,25 @@ class RepositoryManager extends CoreApplication
             $shared['url'] = $this->get_shared_content_objects_url();
             $shared['class'] = 'category';
 
+            $external_repositories = ExternalExport :: retrieve_external_export();
+            if (count($external_repositories) > 0)
+            {
+                $external_repository = array();
+                $external_repository['title'] = (count($external_repositories) > 1) ? Translation :: get('ExternalRepositories') : Translation :: get('ExternalRepository');
+                $external_repository['url']   = $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
+                $external_repository['class'] = 'external_repository';
+                
+                //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ExternalRepositoryBrowse'), Theme :: get_common_image_path() . 'external_repository.png', $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id))));
+            }
+            
             $extra_items[] = $shared;
             $extra_items[] = $pub;
 
+            if(isset($external_repository))
+            {
+                $extra_items[] = $external_repository;
+            }
+            
             $extra_items[] = $line;
 
             $extra_items[] = $create;
@@ -1059,6 +1079,26 @@ class RepositoryManager extends CoreApplication
         return $this->category_menu;
     }
 
+    /**
+     * Return a condition object that can be used to look for objects of the current logged user that are recycled
+     *   
+     * @return AndCondition
+     */
+    public function get_current_user_recycle_bin_conditions()
+    {
+        return new AndCondition(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id()), 
+                                new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED));
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function current_user_has_recycled_objects()
+    {
+        return $this->count_content_objects($this->get_current_user_recycle_bin_conditions()) > 0;
+    }
+    
     /**
      * Gets the search form.
      * @return RepositorySearchForm The search form.

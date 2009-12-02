@@ -62,20 +62,27 @@ class StringUtilities
      */
     public static function is_null_or_empty($string)
     {
-        if(is_string($string))
+        if(isset($string))
         {
-            if(!isset($string) || strlen($string) == 0)
+            if(is_string($string))
             {
-                return true;
+                if(strlen($string) == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
+                throw new Exception('StringUtilities error: The given value is not a string');
             }
         }
         else
         {
-            throw new Exception('StringUtilities error: The given value is not a string');
+            return true;
         }
     } 
     
@@ -232,5 +239,40 @@ class StringUtilities
         }
     }
 
+    /**
+     * Escape a string according to the mysql way of escaping. 
+     * 
+     * This function should only be used when it is not possible to use the mysql_real_escape_string()
+     * because you don't have any open connection to the database yet
+     * 
+     * @param string $string_to_escape
+     * @return string
+     */
+    public static function escape_mysql($string_to_escape, $quote_char = "'")
+    {
+        if($quote_char != '"' && $quote_char != "'")
+        {
+            throw new Exception('Unvalid quote char for MySQL query');
+        }
+        
+        $string_to_escape = str_ireplace("\\", "\\\\", $string_to_escape);
+        
+        if($quote_char == "'")
+        {
+            $string_to_escape = str_ireplace("'", "\'", $string_to_escape);
+        }
+        elseif($quote_char == '"')
+        {
+            $string_to_escape = str_ireplace('"', '\"', $string_to_escape);
+        }
+        
+        $string_to_escape = str_ireplace("\n", '\n', $string_to_escape);
+        $string_to_escape = str_ireplace("\r", '\r', $string_to_escape);
+        $string_to_escape = str_ireplace("\x00", '\\\\x00', $string_to_escape);
+        $string_to_escape = str_ireplace("\x1a", '\\\\x1a', $string_to_escape);
+        
+        return $string_to_escape;
+    }
+    
 }
 ?>

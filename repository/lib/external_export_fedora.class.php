@@ -19,6 +19,10 @@ class ExternalExportFedora extends ExternalExport
     const PROPERTY_FINDOBJECT_REST_PATH = 'find_object_rest_path';
     const PROPERTY_FINDOBJECTS_REST_PATH = 'find_objects_rest_path';
     const PROPERTY_ADD_DATASTREAM_REST_PATH = 'add_datastream_rest_path';
+    const PROPERTY_FIND_DATASTREAMS_REST_PATH = 'find_datastreams_rest_path';
+    const PROPERTY_GET_DATASTREAMS_INFOS_PATH = 'get_datastream_infos_path';
+    const PROPERTY_GET_DATASTREAM_CONTENT_PATH = 'get_datastream_content_path';
+    
     const PROPERTY_CLIENT_CERTIFICATE_FILE = 'client_certificate_file';
     const PROPERTY_CLIENT_CERTIFICATE_KEY_FILE = 'client_certificate_key_file';
     const PROPERTY_CLIENT_CERTIFICATE_KEY_PASSWORD = 'client_certificate_key_password';
@@ -199,6 +203,72 @@ class ExternalExportFedora extends ExternalExport
     {
         return $this->ensure_start_with_slash($this->get_default_property(self :: PROPERTY_ADD_DATASTREAM_REST_PATH));
     }
+    
+    
+	/*************************************************************************/
+    
+    /**
+     * @param $find_datastreams_rest_path string The path to find an object's datastreams list (relative to the root of the Fedora repository)
+     * @return void
+     */
+    function set_find_datastreams_rest_path($find_datastreams_rest_path)
+    {
+        if (isset($find_datastreams_rest_path))
+        {
+            $find_datastreams_rest_path = $this->ensure_start_with_slash($find_datastreams_rest_path);
+            
+            $this->set_default_property(self :: PROPERTY_FIND_DATASTREAMS_REST_PATH, $find_datastreams_rest_path);
+        }
+    }
+
+    function get_find_datastreams_rest_path()
+    {
+        return $this->ensure_start_with_slash($this->get_default_property(self :: PROPERTY_FIND_DATASTREAMS_REST_PATH));
+    }
+    
+    
+	/*************************************************************************/
+    
+    /**
+     * @param $get_datastream_infos_path string The path to get an object's datastream metadata from the repository (relative to the root of the Fedora repository)
+     * @return void
+     */
+    function set_get_datastream_infos_path($get_datastream_infos_path)
+    {
+        if (isset($get_datastream_infos_path))
+        {
+            $get_datastream_infos_path = $this->ensure_start_with_slash($get_datastream_infos_path);
+            
+            $this->set_default_property(self :: PROPERTY_GET_DATASTREAMS_INFOS_PATH, $get_datastream_infos_path);
+        }
+    }
+
+    function get_get_datastream_infos_path()
+    {
+        return $this->ensure_start_with_slash($this->get_default_property(self :: PROPERTY_GET_DATASTREAMS_INFOS_PATH));
+    }
+    
+    
+/*************************************************************************/
+    
+    /**
+     * @param $get_datastream_content_path string The path to get an object's datastream content from the repository (relative to the root of the Fedora repository)
+     * @return void
+     */
+    function set_get_datastream_content_path($get_datastream_content_path)
+    {
+        if (isset($get_datastream_content_path))
+        {
+            $get_datastream_content_path = $this->ensure_start_with_slash($get_datastream_content_path);
+            
+            $this->set_default_property(self :: PROPERTY_GET_DATASTREAM_CONTENT_PATH, $get_datastream_content_path);
+        }
+    }
+
+    function get_get_datastream_content_path()
+    {
+        return $this->ensure_start_with_slash($this->get_default_property(self :: PROPERTY_GET_DATASTREAM_CONTENT_PATH));
+    }
 
     /*************************************************************************/
     
@@ -306,6 +376,10 @@ class ExternalExportFedora extends ExternalExport
         $extended_property_names[] = self :: PROPERTY_FINDOBJECTS_REST_PATH;
         $extended_property_names[] = self :: PROPERTY_INGEST_REST_PATH;
         $extended_property_names[] = self :: PROPERTY_ADD_DATASTREAM_REST_PATH;
+        $extended_property_names[] = self :: PROPERTY_FIND_DATASTREAMS_REST_PATH;
+        $extended_property_names[] = self :: PROPERTY_GET_DATASTREAMS_INFOS_PATH;
+        $extended_property_names[] = self :: PROPERTY_GET_DATASTREAM_CONTENT_PATH;
+    
         $extended_property_names[] = self :: PROPERTY_CLIENT_CERTIFICATE_FILE;
         $extended_property_names[] = self :: PROPERTY_CLIENT_CERTIFICATE_KEY_FILE;
         $extended_property_names[] = self :: PROPERTY_CLIENT_CERTIFICATE_KEY_PASSWORD;
@@ -413,7 +487,64 @@ class ExternalExportFedora extends ExternalExport
             throw new Exception('Fedora repository \'full add datastream path\' is not set');
         }
     }
-
+    
+	/**
+     * 
+     * @return string
+     */
+    public function get_full_find_datastreams_rest_path()
+    {
+        $base_url = $this->get_base_url();
+        $path = $this->get_find_datastreams_rest_path();
+        
+        if (isset($base_url) && isset($path))
+        {
+            return $base_url . $path;
+        }
+        else
+        {
+            throw new Exception('Fedora repository \'full find datastreams path\' is not set');
+        }
+    }
+    
+	/**
+     *
+     * @return string
+     */
+    public function get_full_get_datastream_infos_path()
+    {
+        $base_url = $this->get_base_url();
+        $path = $this->get_get_datastream_infos_path();
+        
+        if (isset($base_url) && isset($path))
+        {
+            return $base_url . $path;
+        }
+        else
+        {
+            throw new Exception('Fedora repository \'full get datastream infos path\' is not set');
+        }
+    }
+    
+	/**
+     *
+     * @return string
+     */
+    public function get_full_get_datastream_content_path()
+    {
+        $base_url = $this->get_base_url();
+        $path = $this->get_get_datastream_content_path();
+        
+        if (isset($base_url) && isset($path))
+        {
+            return $base_url . $path;
+        }
+        else
+        {
+            throw new Exception('Fedora repository \'full get datastream content path\' is not set');
+        }
+    }
+    
     /*************************************************************************/
     
     function get()

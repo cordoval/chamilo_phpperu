@@ -32,7 +32,11 @@ abstract class BaseExternalExporter
      * @var ExternalExport
      */
     private $external_export = null;
-    private $lom_mapper = null;
+    
+    /*
+     * List of LomMapper objects. Stored for any content_object id  
+     */
+    private $lom_mappers = null;
      
     /*************************************************************************/
     
@@ -137,20 +141,41 @@ abstract class BaseExternalExporter
 	 */
 	protected function get_lom_mapper($content_object = null)
 	{
-	    if(isset($this->lom_mapper))
+	    if(isset($this->lom_mappers))
 	    {
-	       return $this->lom_mapper;
+	        $this->lom_mappers = array();
+	    }
+	    
+	    if(isset($content_object) && isset($this->lom_mappers[$content_object->get_id()]))
+	    {
+	       return $this->lom_mappers[$content_object->get_id()];
 	    }
 	    elseif(isset($content_object))
 	    {
-	        $this->lom_mapper = new IeeeLomMapper($content_object);
-	        $this->lom_mapper->get_metadata();
-	        return $this->lom_mapper;
+	        $lom_mapper = new IeeeLomMapper($content_object);
+	        $lom_mapper->get_metadata();
+	        $this->lom_mappers[$content_object->get_id()] = $lom_mapper;
+	        return $lom_mapper;
 	    }
 	    else
 	    {
 	        throw new Exception('Metadata mapper is not set');
 	    }
+	    
+//	    if(isset($this->lom_mapper))
+//	    {
+//	       return $this->lom_mapper;
+//	    }
+//	    elseif(isset($content_object))
+//	    {
+//	        $this->lom_mapper = new IeeeLomMapper($content_object);
+//	        $this->lom_mapper->get_metadata();
+//	        return $this->lom_mapper;
+//	    }
+//	    else
+//	    {
+//	        throw new Exception('Metadata mapper is not set');
+//	    }
 	}
 	
 	
@@ -173,6 +198,23 @@ abstract class BaseExternalExporter
 	 * @return boolean Indicates wether the export succeeded
 	 */
 	abstract public function export($content_object);
+	
+	/**
+	 * Import an object from an external repository and create or update a ContentObject in the Chamilo datasource
+	 * 
+	 * @param integer $repository_object_id
+	 * @param integer $owner_id The user id that will be the owner id of the object after the import
+	 * @return boolean Indicates wether the import succeeded
+	 */
+	abstract public function import($repository_object_id, $owner_id);
+	
+	/**
+	 * Return an array of properties on an object stored in an external repository
+	 * 
+	 * @param mixed $repository_object_id
+	 * @return array
+	 */
+	abstract function get_repository_object_infos($repository_object_id);
 	
 	/**
 	 * Return the list of objects existing in the repository. This list is specific to the logged in user.

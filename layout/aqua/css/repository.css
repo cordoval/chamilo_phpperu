@@ -1,1 +1,15 @@
 @CHARSET "ISO-8859-1";
+
+tr.recycled td
+{
+	/*text-decoration:line-through;*/
+	color:#cccccc;
+}
+tr.recycled td a
+{
+	color:#cccccc;
+}
+tr.recycled td a:hover
+{
+	color: #ff7777;
+}

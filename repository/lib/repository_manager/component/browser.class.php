@@ -85,12 +85,6 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
         //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        $external_repositories = ExternalExport :: retrieve_external_export();
-        if (count($external_repositories) > 0)
-        {
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ExternalRepositoryBrowse'), Theme :: get_common_image_path() . 'external_repository.png', $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id))));
-        }
-
         return $action_bar;
     }
 

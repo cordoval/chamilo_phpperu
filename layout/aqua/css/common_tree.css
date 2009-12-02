@@ -116,6 +116,10 @@ ul.tree-menu li div a.import {
 	background-image: url(../img/common/treemenu/import.png);
 }
 
+ul.tree-menu li div a.external_repository {
+	background-image: url(../img/common/treemenu/external_repository.png);
+}
+
 ul.tree-menu li div a.search_results {
 	background-image: url(../img/common/treemenu/search.png);
 }

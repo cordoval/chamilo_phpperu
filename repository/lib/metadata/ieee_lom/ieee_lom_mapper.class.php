@@ -1154,10 +1154,12 @@ class IeeeLomMapper extends MetadataMapper
     /****************************************************************************************/
     /****************************************************************************************/
     
-    /*
-	 * This section contains code allowing to save the content of the IeeeLom in the metadata table.
-	 * The goal is to be able to use a IeeeLomMapper instance as an active record 
-	 */
+    /**
+     * This section contains code allowing to save the content of the IeeeLom in the metadata table.
+     * The goal is to be able to use a IeeeLomMapper instance as an active record 
+     * 
+     * @return void
+     */
     public function save_metadata()
     {
         $this->save_general_identifier();
