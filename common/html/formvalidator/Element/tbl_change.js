@@ -187,4 +187,5 @@ function returnDate(d,m,y)
 	year = date.getFullYear()-1; 
 	datevalues[2].selectedIndex = (y-year);
 	window.close(); 
+	window.opener.start_time_changed();
 }
