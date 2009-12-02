@@ -346,25 +346,24 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
         {
             $title_short = substr($title_short, 0, 50) . '&hellip;';
         }
-        Display :: header($breadcrumbtrail);
         
         if ($this->is_teacher() && PlatformSetting :: get('allow_student_view', 'weblcms') == 1)
         {
-            echo '<div style="float: right;">';
-            
             $studentview = Session :: retrieve('studentview');
             
             if ($studentview == 1)
             {
-                echo '<a href="' . $this->get_url(array('studentview' => '0', 'pid' => Request :: get('pid'))) . '">' . Translation :: get('TeacherView') . '</a>';
+            	$breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array('studentview' => '0', 'pid' => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                //echo '<a href="' . $this->get_url(array('studentview' => '0', 'pid' => Request :: get('pid'))) . '">' . Translation :: get('TeacherView') . '</a>';
             }
             else
             {
-                echo '<a href="' . $this->get_url(array('studentview' => '1', 'pid' => Request :: get('pid'))) . '">' . Translation :: get('StudentView') . '</a>';
+            	$breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array('studentview' => '1', 'pid' => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                //echo '<a href="' . $this->get_url(array('studentview' => '1', 'pid' => Request :: get('pid'))) . '">' . Translation :: get('StudentView') . '</a>';
             }
-            
-            echo '</div>';
         }
+        
+        Display :: header($breadcrumbtrail);
         
         if (isset($tool_class))
         {
