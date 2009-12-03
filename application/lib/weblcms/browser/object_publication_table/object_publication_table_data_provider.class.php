@@ -111,7 +111,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
             $conditions[] = $this->condition;
         
         $condition = new AndCondition($conditions);
-        
+        //dump($condition);
         return $condition;
     }
 
