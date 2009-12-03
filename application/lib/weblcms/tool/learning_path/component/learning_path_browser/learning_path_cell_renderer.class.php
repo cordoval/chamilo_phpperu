@@ -25,13 +25,13 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         {
             return Utilities :: build_toolbar($this->get_actions($publication));
         }
-        
+
         switch ($column->get_name())
         {
             case 'progress' :
                 return $this->get_progress($publication);
         }
-        
+
         return parent :: render_cell($column, $publication);
     }
 
@@ -42,16 +42,20 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, $this->browser->get_user_id());
         //$conditions[] = new NotCondition(new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS, 100));
         $condition = new AndCondition($conditions);
-        
+
         $dummy = new WeblcmsLpAttemptTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         $lp_tracker = $trackers[0];
-        
+
         if ($lp_tracker)
+        {
             $progress = $lp_tracker->get_progress();
+        }
         else
+        {
             $progress = 0;
-        
+        }
+
         $bar = $this->get_progress_bar($progress);
         $url = $this->browser->get_url(array('tool_action' => 'view', 'pid' => $publication->get_id(), 'lp_action' => 'view_progress'));
         return Text :: create_link($url, $bar);
@@ -63,18 +67,22 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         $html[] = '<div style="background-color: lightblue; height: 14px; width:' . $progress . 'px; text-align: center;">';
         $html[] = '</div>';
         $html[] = '<div style="width: 100px; text-align: center; position: absolute; top: 0px;">' . round($progress) . '%</div></div>';
-        
+
         return implode("\n", $html);
     }
 
     function get_actions($publication)
     {
-        $actions = parent :: get_actions($publication);
-        
-        unset($actions['move']);
-        
+        $progress = $this->get_progress($publication);
+
+        $view_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
+        $actions['view'] = array('href' => $view_url, 'label' => Translation :: get(($progress > 0 ? 'ContinueLearningPath' : 'StartLearningPath')), 'img' => Theme :: get_image_path() . 'action_start.png');
+        $actions = $actions + parent :: get_actions($publication);
         $actions['reporting'] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Statistics'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
-        
+
+        unset($actions['move']);
+        unset($actions['feedback']);
+
         return $actions;
     }
 
