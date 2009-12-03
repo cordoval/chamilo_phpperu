@@ -20,7 +20,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
     {
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO)), Translation :: get('ViewPortfolio')));
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
         
         $object = Request :: get('object');
