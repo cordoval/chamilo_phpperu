@@ -91,7 +91,7 @@ class RepositoryInstaller extends Installer
         
         $this->add_metadata_catalog_type(Catalog :: CATALOG_LOM_ROLE, $roles);
         
-        $this->add_message(self :: TYPE_NORMAL, Translation :: translate('MetadataCatalogCreated'));
+        $this->add_message(self :: TYPE_NORMAL, Translation :: get('MetadataCatalogCreated'));
         
         return true;
     }
@@ -108,7 +108,7 @@ class RepositoryInstaller extends Installer
             
             if (! $catalogItem->save())
             {
-                $this->add_message(self :: TYPE_ERROR, Translation :: translate('MetadataUnableToAddCatalogItem'));
+                $this->add_message(self :: TYPE_ERROR, Translation :: get('MetadataUnableToAddCatalogItem'));
                 return false;
             }
         }

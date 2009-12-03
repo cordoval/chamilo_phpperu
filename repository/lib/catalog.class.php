@@ -196,7 +196,7 @@ class Catalog extends RepositoryDataClass
         {
             foreach ($catalog as $value => $title)
             {
-                $catalog[$value] = Translation :: translate($title);
+                $catalog[$value] = Translation :: get($title);
             }
         }
         

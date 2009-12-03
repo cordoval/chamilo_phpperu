@@ -23,7 +23,7 @@ class RepositoryManagerExternalRepositoryExportExportComponent extends Repositor
                     
                     $trail = new BreadcrumbTrail(false);
                     $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), $content_object->get_title()));
-                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), Translation :: translate('ExternalExport')));
+                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), Translation :: get('ExternalExport')));
                     $trail->add(new Breadcrumb(null, $export->get_title()));
                     
                     //do not put display_header(...) here, as it would block an eventual redirection made by the ->export() method

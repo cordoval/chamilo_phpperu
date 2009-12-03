@@ -113,7 +113,7 @@ class RepositoryManagerMetadataComponent extends RepositoryManagerComponent
     {
         foreach ($catalog as $value => $title)
         {
-            $catalog[$value] = Translation :: translate(self :: METADATA_TRANSLATION_PREFIX . $title);
+            $catalog[$value] = Translation :: get(self :: METADATA_TRANSLATION_PREFIX . $title);
         }
         
         return $catalog;

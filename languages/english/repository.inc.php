@@ -563,5 +563,14 @@ $lang['repository']['ExternalRepositoryImportObject'] = 'Import object from ';
 $lang['repository']['ExternalImportConfirmationText'] = 'The object was imported with success';
 $lang['repository']['ObjectIsRecycled'] = 'The object exists in Chamilo but is in recycle bin';
 
-
+$lang['repository']['DocumentTitleIsRequired'] = 'Title is required';
+$lang['repository']['DocumentDescriptionIsRequired'] = 'Description is required';
+$lang['repository']['ContentObjectOwnerIsRequired'] = 'The object\'s owner is not defined';
+$lang['repository']['DocumentDuplicateError'] = 'Unable to duplicate the current document file to create a new version';
+$lang['repository']['DocumentFileContentNotSet'] = 'The document file content is not set';
+$lang['repository']['DocumentFilenameIsRequired'] = 'The filename is required';
+$lang['repository']['DocumentFilenameNotSet'] = 'The document filename is not set';
+$lang['repository']['DocumentPathToFileNotSet'] = 'The path of the document file is empty';
+$lang['repository']['DocumentHashNotSet'] = 'The hash of the document is empty';
+$lang['repository']['DocumentStoreError'] = 'Unable to store the document';
 ?>

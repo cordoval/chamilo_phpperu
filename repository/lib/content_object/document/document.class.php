@@ -287,20 +287,20 @@ class Document extends ContentObject
         //Title
         if(StringUtilities :: is_null_or_empty($this->get_title()))
         {
-            $this->add_errors(Translation :: get_instance()->translate('Title is required'));
+            $this->add_error(Translation :: get('DocumentTitleIsRequired'));
         }
         
         //Description
         if(StringUtilities :: is_null_or_empty($this->get_description()))
         {
-            $this->add_errors(Translation :: get_instance()->translate('Description is required'));
+            $this->add_error(Translation :: get('DocumentDescriptionIsRequired'));
         }
         
         //OwnerId
         $owner_id = $this->get_owner_id(); 
         if(!isset($owner_id) || !is_numeric($owner_id))
         {
-            $this->add_errors(Translation :: get_instance()->translate('The object\'s owner is not defined'));
+            $this->add_error(Translation :: get('ContentObjectOwnerIsRequired'));
         }
         
         /*
@@ -319,7 +319,7 @@ class Document extends ContentObject
             {
                 if(!$this->duplicate_current_file())
                 {
-                    $this->add_errors(Translation :: get_instance()->translate('Unable to duplicate the current document file to create a new version'));
+                    $this->add_error(Translation :: get('DocumentDuplicateError'));
                 }
             }
         
@@ -327,26 +327,26 @@ class Document extends ContentObject
             
             if(!isset($fullpath) || !file_exists($fullpath))
             {
-                $this->add_errors(Translation :: get_instance()->translate('The document file content is not set'));
+                $this->add_error(Translation :: get('DocumentFileContentNotSet'));
             }
         }
         
         //Filename
         if(StringUtilities :: is_null_or_empty($this->get_filename()))
         {
-            $this->add_errors(Translation :: get_instance()->translate('The filename is required'));
+            $this->add_error(Translation :: get('DocumentFilenameIsRequired'));
         }
             
         //Path
         if(StringUtilities :: is_null_or_empty($this->get_path()))
         {
-            $this->add_errors(Translation :: get_instance()->translate('The path of the document file is empty'));
+            $this->add_error(Translation :: get('DocumentPathToFileNotSet'));
         }
         
         //Hash
         if(StringUtilities :: is_null_or_empty($this->get_hash()))
         {
-            $this->add_errors(Translation :: get_instance()->translate('The hash of the document is empty'));
+            $this->add_error(Translation :: get('DocumentHashNotSet'));
         }
         
         return !$this->has_errors();
@@ -418,12 +418,12 @@ class Document extends ContentObject
                 }
                 else
                 {
-                     $this->add_errors('Unable to store the document');
+                     $this->add_error(Translation :: get('DocumentStoreError'));
                 }
             }
             else
             {
-                $this->add_errors('The document filename is not set');
+                $this->add_error(Translation :: get('DocumentFilenameNotSet'));
             }
         }
         
