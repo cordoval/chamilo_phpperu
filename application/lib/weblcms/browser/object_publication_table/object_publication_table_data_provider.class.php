@@ -88,10 +88,14 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course);
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $this->parent->get_tool_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category);
-        
+
         $access = array();
-    	$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
-        $access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+        if($user_id)
+    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+    	
+    	if(count($course_groups) > 0)
+        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+        	
         if (! empty($user_id) || ! empty($course_groups))
         {
             $access[] = new AndCondition(array(
