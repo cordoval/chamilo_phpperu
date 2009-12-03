@@ -143,13 +143,11 @@ class PortfolioMenu extends HTML_Menu
             
             $item = array();
             
-            if ($lo->get_type() == 'portfolio_item')
+            $lo = $rdm->retrieve_content_object($lo->get_reference()); 
+            
+            if ($lo->get_type() == 'portfolio')
             {
-                $lo = $rdm->retrieve_content_object($lo->get_reference());
-            }
-            else
-            {
-                $items = $this->get_portfolio_items($child->get_ref(), $pub_id);
+                $items = $this->get_portfolio_items($lo->get_id(), $pub_id);
                 if (count($items) > 0)
                     $item['sub'] = $items;
             }
