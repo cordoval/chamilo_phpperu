@@ -33,7 +33,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         {
             return Utilities :: build_toolbar($this->get_actions($publication));
         }
-        
+
         switch ($column->get_name())
         {
             case ContentObjectPublication :: PROPERTY_PUBLICATION_DATE :
@@ -47,12 +47,12 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
             case 'published_for' :
                 $data = $this->render_publication_targets($publication);
                 break;
-        
+
         }
-        
+
         if (! $data)
             $data = parent :: render_cell($column, $publication->get_content_object());
-        
+
         if ($publication->is_hidden())
         {
             return '<span style="color: gray">' . $data . '</span>';
@@ -119,62 +119,62 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         if ($this->browser->is_allowed(EDIT_RIGHT))
         {
             $actions['delete'] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-            
+
             $actions['edit'] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-            
+
             if ($publication->get_content_object()->is_complex_content_object())
             {
                 $actions['build'] = array('href' => $this->browser->get_complex_builder_url($publication->get_id()), 'label' => Translation :: get('BuildComplex'), 'img' => Theme :: get_common_image_path() . 'action_bar.png');
             }
-            
+
             $img = 'action_visible.png';
             if ($publication->is_hidden())
             {
                 $img = 'action_visible_na.png';
             }
-            //			
+            //
             //			if($publication->get_display_order_index() > 1)
             //			{
             //				$actions[] = array(
-            //					'href' => $this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-            //					'label' => Translation :: get('Up'), 
+            //					'href' => $this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+            //					'label' => Translation :: get('Up'),
             //					'img' => Theme :: get_common_image_path() . 'action_up.png'
-            //				);	
+            //				);
             //			}
             //			else
             //			{
             //				$actions[] = array(
-            //					'label' => Translation :: get('UpNA'), 
+            //					'label' => Translation :: get('UpNA'),
             //					'img' => Theme :: get_common_image_path() . 'action_up_na.png'
-            //				);	
+            //				);
             //			}
-            //			
+            //
             //			if($publication->get_display_order_index() < $this->object_count)
             //			{
             //				$actions[] = array(
-            //					'href' => $this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-            //					'label' => Translation :: get('Down'), 
+            //					'href' => $this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+            //					'label' => Translation :: get('Down'),
             //					'img' => Theme :: get_common_image_path() . 'action_down.png'
-            //				);	
+            //				);
             //			}
-            //			else 
+            //			else
             //			{
             //				$actions[] = array(
-            //					'label' => Translation :: get('DownNA'), 
+            //					'label' => Translation :: get('DownNA'),
             //					'img' => Theme :: get_common_image_path() . 'action_down_na.png'
-            //				);	
+            //				);
             //			}
-            
+
 
             $actions['visible'] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Visible'), 'img' => Theme :: get_common_image_path() . $img);
-            
+
             $actions['move'] = array('href' => $this->browser->get_url(array(AssessmentTool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
-        
+
         }
-        
+
         $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
         $actions['feedback'] = array('href' => $feedback_url, 'label' => Translation :: get('Feedback'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-        
+
         return $actions;
     }
 }
