@@ -15,11 +15,11 @@ class RepositoryManagerExternalRepositoryExportListObjectsComponent extends Repo
         $export         = $this->get_external_export_from_param();
         
         $trail = new BreadcrumbTrail(false);
-        $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $co_id)), Translation :: translate('ExternalRepository')));
+        $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $co_id)), Translation :: get('ExternalRepository')));
         
         try
         {
-            $trail->add(new Breadcrumb(null, Translation :: translate('ExternalRepositoryBrowseObjects') . ' : ' . $export->get_title()));
+            $trail->add(new Breadcrumb(null, Translation :: get('ExternalRepositoryBrowseObjects') . ' : ' . $export->get_title()));
         
             $objects_list = $this->get_external_repository_objects_list();
             $objects_list = $this->add_chamilo_infos($export, $objects_list);

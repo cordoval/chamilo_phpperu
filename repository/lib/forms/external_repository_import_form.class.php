@@ -35,7 +35,7 @@ class ExternalRepositoryImportForm extends FormValidator
     {
         echo '<div>';
         
-        echo '<p>Import ' . Translation :: translate('ExternalImportConfirmationText') . '</p>';
+        echo '<p>Import ' . Translation :: get('ExternalImportConfirmationText') . '</p>';
         
         echo '</div>';
     }
@@ -63,7 +63,7 @@ class ExternalRepositoryImportForm extends FormValidator
         if(isset($external_object_infos[BaseExternalExporter :: OBJECT_ID]))
         {
             $html[] = '<tr>';
-            $html[] = '<td>' . Translation :: translate('ExternalRepositoryObjectId') . '</td>';
+            $html[] = '<td>' . Translation :: get('ExternalRepositoryObjectId') . '</td>';
             $html[] = '<td>:</td>';
             $html[] = '<td>' . $external_object_infos[BaseExternalExporter :: OBJECT_ID] . '</td>';
             $html[] = '</tr>';
@@ -72,7 +72,7 @@ class ExternalRepositoryImportForm extends FormValidator
         if(isset($external_object_infos[BaseExternalExporter :: OBJECT_TITLE]))
         {
             $html[] = '<tr>';
-            $html[] = '<td>' . Translation::translate('ExternalRepositoryObjectTitle') . '</td>';
+            $html[] = '<td>' . Translation :: get('ExternalRepositoryObjectTitle') . '</td>';
             $html[] = '<td>:</td>';
             $html[] = '<td>' . $external_object_infos[BaseExternalExporter :: OBJECT_TITLE] . '</td>';
             $html[] = '</tr>';
@@ -81,7 +81,7 @@ class ExternalRepositoryImportForm extends FormValidator
         if(isset($external_object_infos[BaseExternalExporter :: OBJECT_DESCRIPTION]))
         {
             $html[] = '<tr>';
-            $html[] = '<td>' . Translation::translate('ExternalRepositoryObjectDescription') . '</td>';
+            $html[] = '<td>' . Translation :: get('ExternalRepositoryObjectDescription') . '</td>';
             $html[] = '<td>:</td>';
             $html[] = '<td>' . $external_object_infos[BaseExternalExporter :: OBJECT_DESCRIPTION] . '</td>';
             $html[] = '</tr>';
@@ -91,7 +91,7 @@ class ExternalRepositoryImportForm extends FormValidator
         if(isset($external_object_date))
         {
             $html[] = '<tr>';
-            $html[] = '<td>' . Translation::translate('ExternalRepositoryLastUpdate') . '</td>';
+            $html[] = '<td>' . Translation :: get('ExternalRepositoryLastUpdate') . '</td>';
             $html[] = '<td>:</td>';    
             $html[] = '<td>' . $external_object_date . '</td>';
             $html[] = '</tr>';
@@ -116,19 +116,19 @@ class ExternalRepositoryImportForm extends FormValidator
             switch($this->repository_object_infos[BaseExternalExporter :: SYNC_STATE])
             {
                 case BaseExternalExporter :: SYNC_NEWER_IN_CHAMILO:
-                    $date_comparison_result_text = Translation :: translate('ExternalRepositoryNewerInChamilo');
+                    $date_comparison_result_text = Translation :: get('ExternalRepositoryNewerInChamilo');
                     break;
                     
                 case BaseExternalExporter :: SYNC_OLDER_IN_CHAMILO:
-                    $date_comparison_result_text = Translation :: translate('ExternalRepositoryOlderInChamilo');
+                    $date_comparison_result_text = Translation :: get('ExternalRepositoryOlderInChamilo');
                     break;
                     
                 case BaseExternalExporter :: SYNC_IDENTICAL:
-                    $date_comparison_result_text = Translation :: translate('ExternalRepositorySynchronized');
+                    $date_comparison_result_text = Translation :: get('ExternalRepositorySynchronized');
                     break;
                     
                 case BaseExternalExporter :: SYNC_NEVER_SYNCHRONIZED:
-                    $date_comparison_result_text = Translation :: translate('ExternalRepositoryNeverSync');
+                    $date_comparison_result_text = Translation :: get('ExternalRepositoryNeverSync');
                     break;
             }
             

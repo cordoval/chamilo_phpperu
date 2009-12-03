@@ -1079,5 +1079,16 @@ class ContentObject extends DataClass implements AccessibleContentObject
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+    /**
+     * 
+     * @param integer $content_object_id
+     * @return ContentObject An object inheriting from ContentObject
+     */
+    public static function get_by_id($content_object_id)
+    {
+        $rdm = RepositoryDataManager :: get_instance();
+        return $rdm->retrieve_content_object($content_object_id);
+    }
 }
 ?>

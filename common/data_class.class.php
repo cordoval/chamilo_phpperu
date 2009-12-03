@@ -199,7 +199,7 @@ abstract class DataClass
          * 
          * if(StringUtilities :: is_null_or_empty($this->get_title()))
          * {
-         *    $this->add_errors(Translation :: get_instance()->translate('Title is required'));
+         *    $this->add_error(Translation :: get('TitleIsRequired'));
          * }
          *  
          */
@@ -207,7 +207,7 @@ abstract class DataClass
         return !$this->has_errors();
     }
     
-    public function add_errors($error_msg)
+    public function add_error($error_msg)
     {
         if(!isset($this->errors))
         {

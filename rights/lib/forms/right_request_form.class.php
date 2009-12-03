@@ -52,12 +52,12 @@ class RightsTemplateRequestForm extends FormValidator
             $explanation = 'RightRequestExplanationCurrentRightsNewUser';
         }
         
-        echo '<p>' . Translation :: translate($explanation) . '</p>';
+        echo '<p>' . Translation :: get($explanation) . '</p>';
         
         $this->print_rights_templates_list();
         $this->print_groups_list();
         
-        echo '<p>' . Translation :: translate('RightRequestExplanationFillForm') . '</p>';
+        echo '<p>' . Translation :: get('RightRequestExplanationFillForm') . '</p>';
         
         echo '</div></div></div>';
     }
@@ -66,7 +66,7 @@ class RightsTemplateRequestForm extends FormValidator
     {
         if (isset($this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_RIGHTS_TEMPLATES]) && count($this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_RIGHTS_TEMPLATES]) > 0)
         {
-            echo '<h4>' . Translation :: translate('RightsTemplates') . '</h4>';
+            echo '<h4>' . Translation :: get('RightsTemplates') . '</h4>';
             
             $rights_templates = $this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_RIGHTS_TEMPLATES];
             
@@ -86,7 +86,7 @@ class RightsTemplateRequestForm extends FormValidator
     {
         if (isset($this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_GROUPS]) && count($this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_GROUPS]) > 0)
         {
-            echo '<h4>' . Translation :: translate('Groups') . '</h4>';
+            echo '<h4>' . Translation :: get('Groups') . '</h4>';
             
             $groups = $this->parameters[RightsManagerRightRequesterComponent :: USER_CURRENT_GROUPS];
             
@@ -109,7 +109,7 @@ class RightsTemplateRequestForm extends FormValidator
         echo '<div class="formw">';
         echo '<div style="width:500px;text-align:justify">';
         
-        echo '<p>' . Translation :: translate('RightRequestSuccessfullySent') . '</p>';
+        echo '<p>' . Translation :: get('RightRequestSuccessfullySent') . '</p>';
         
         echo '</div></div></div>';
     }
@@ -120,7 +120,7 @@ class RightsTemplateRequestForm extends FormValidator
         echo '<div class="formw">';
         echo '<div style="width:500px;text-align:justify">';
         
-        echo '<p>' . Translation :: translate('RightRequestSendingError') . '</p>';
+        echo '<p>' . Translation :: get('RightRequestSendingError') . '</p>';
         
         echo '</div></div></div>';
     }

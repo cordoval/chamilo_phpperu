@@ -93,7 +93,7 @@ class ExternalExportExportForm extends FormValidator
         if (method_exists($external_export, 'get_title'))
         {
             $table[] = '<tr>';
-            //$table[] = '<td><h3>' . Translation :: translate('Title') . '</h3></td>';
+            //$table[] = '<td><h3>' . Translation :: get('Title') . '</h3></td>';
             //$table[] = '<td></td>';
             $table[] = '<td colspan="2"><h3>' . $external_export->get_title() . '</h3></td>';
             $table[] = '</tr>';
@@ -102,7 +102,7 @@ class ExternalExportExportForm extends FormValidator
         if (method_exists($external_export, 'get_base_url'))
         {
             $table[] = '<tr>';
-            $table[] = '<td>' . Translation :: translate('BaseURL') . '</td>';
+            $table[] = '<td>' . Translation :: get('BaseURL') . '</td>';
             $table[] = '<td>' . $external_export->get_base_url() . '</td>';
             $table[] = '</tr>';
         }
@@ -116,7 +116,7 @@ class ExternalExportExportForm extends FormValidator
     {
         echo '<div>';
         
-        echo '<p>' . str_replace('{ContentObject.title}', $this->content_object->get_title(), Translation :: translate('ExternalExportConfirmationText')) . '</p>';
+        echo '<p>' . str_replace('{ContentObject.title}', $this->content_object->get_title(), Translation :: get('ExternalExportConfirmationText')) . '</p>';
         
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Confirm'), array('class' => 'positive update'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -133,7 +133,7 @@ class ExternalExportExportForm extends FormValidator
     {
         echo '<div>';
         
-        echo '<p>' . str_replace('{ExternalRepository.uid}', $repository_uid, Translation :: translate('ExternalExportSuccess')) . '</p>';
+        echo '<p>' . str_replace('{ExternalRepository.uid}', $repository_uid, Translation :: get('ExternalExportSuccess')) . '</p>';
         
         echo '</div>';
     }

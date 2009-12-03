@@ -139,7 +139,7 @@ class MetadataLomEditForm extends FormValidator
      */
     private function build_general_identifier($ieee_lom_mapper)
     {
-        $this->addElement('html', '<h3>' . Translation :: translate('MetadataLOMIdentifiers') . '</h3>');
+        $this->addElement('html', '<h3>' . Translation :: get('MetadataLOMIdentifiers') . '</h3>');
         
         $data = $ieee_lom_mapper->get_identifier();
         
@@ -161,8 +161,8 @@ class MetadataLomEditForm extends FormValidator
                 $override_id = $data[$index][IeeeLomMapper :: OVERRIDE_ID_ATTRIBUTE];
                 
                 $group_fields = array();
-                $group_fields[] = $this->create_textfield('catalog', Translation :: translate('MetadataLomCatalog'), array('style' => 'width:' . self :: FORM_WIDTH_LARGE . 'px'));
-                $group_fields[] = $this->create_textfield('entry', Translation :: translate('MetadataLomEntry'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
+                $group_fields[] = $this->create_textfield('catalog', Translation :: get('MetadataLomCatalog'), array('style' => 'width:' . self :: FORM_WIDTH_LARGE . 'px'));
+                $group_fields[] = $this->create_textfield('entry', Translation :: get('MetadataLomEntry'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
                 
                 $group_fields[] = $this->createElement('hidden', IeeeLomMapper :: METADATA_ID_CATALOG_ATTRIBUTE);
                 $group_fields[] = $this->createElement('hidden', IeeeLomMapper :: METADATA_ID_ENTRY_ATTRIBUTE);
@@ -181,8 +181,8 @@ class MetadataLomEditForm extends FormValidator
                 $this->addGroup($group_fields, self :: LOM_GENERAL_IDENTIFIER . '[' . $index . ']', null, '&nbsp;&nbsp;&nbsp;&nbsp;');
                 
                 $rule = array();
-                $rule['catalog'][] = array(Translation :: translate('MetadataLomCatalogEntryEmptyError'), 'required');
-                $rule['entry'][] = array(Translation :: translate('MetadataLomCatalogEntryEmptyError'), 'required');
+                $rule['catalog'][] = array(Translation :: get('MetadataLomCatalogEntryEmptyError'), 'required');
+                $rule['entry'][] = array(Translation :: get('MetadataLomCatalogEntryEmptyError'), 'required');
                 $this->addGroupRule(self :: LOM_GENERAL_IDENTIFIER . '[' . $index . ']', $rule);
                 
                 $this->set_current_value(self :: LOM_GENERAL_IDENTIFIER . '[' . $index . '][catalog]', $data[$index]['catalog']);
@@ -208,7 +208,7 @@ class MetadataLomEditForm extends FormValidator
      */
     private function build_general_title($ieee_lom_mapper)
     {
-        $this->addElement('html', '<h3>' . Translation :: translate('MetadataLOMTitles') . '</h3>');
+        $this->addElement('html', '<h3>' . Translation :: get('MetadataLOMTitles') . '</h3>');
         
         $titles = $ieee_lom_mapper->get_titles();
         $strings = $titles->get_strings();
@@ -230,7 +230,7 @@ class MetadataLomEditForm extends FormValidator
                 $string_original_id = $strings[$index][IeeeLomLangStringMapper :: STRING_ORIGINAL_ID];
                 $string_override_id = $strings[$index][IeeeLomLangStringMapper :: STRING_OVERRIDE_ID];
                 
-                $this->add_lang_string(self :: LOM_GENERAL_TITLE, $index, Translation :: translate('MetadataLOMTitle'), true, $show_remove_button);
+                $this->add_lang_string(self :: LOM_GENERAL_TITLE, $index, Translation :: get('MetadataLOMTitle'), true, $show_remove_button);
                 
                 $this->set_current_value(self :: LOM_GENERAL_TITLE . '[' . $index . '][string]', $strings[$index]['string']);
                 $this->set_current_value(self :: LOM_GENERAL_TITLE . '[' . $index . '][language]', $strings[$index]['language']);
@@ -255,7 +255,7 @@ class MetadataLomEditForm extends FormValidator
      */
     private function build_general_language($ieee_lom_mapper)
     {
-        $this->addElement('html', '<h3>' . Translation :: translate('MetadataLOMGeneralLanguage') . '</h3>');
+        $this->addElement('html', '<h3>' . Translation :: get('MetadataLOMGeneralLanguage') . '</h3>');
         
         $data = $ieee_lom_mapper->get_general_languages();
         
@@ -301,7 +301,7 @@ class MetadataLomEditForm extends FormValidator
         
         if ($showed_element_total == 0)
         {
-            $this->addElement('html', '<div class="row"><div class="formw">' . Translation :: translate('MetadataLOMGeneralLanguageNotDefined') . '</div></div>');
+            $this->addElement('html', '<div class="row"><div class="formw">' . Translation :: get('MetadataLOMGeneralLanguageNotDefined') . '</div></div>');
         }
         
         /*
@@ -318,7 +318,7 @@ class MetadataLomEditForm extends FormValidator
      */
     private function build_general_description($ieee_lom_mapper)
     {
-        $this->addElement('html', '<h3>' . Translation :: translate('MetadataLOMDescriptions') . '</h3>');
+        $this->addElement('html', '<h3>' . Translation :: get('MetadataLOMDescriptions') . '</h3>');
         
         $string_mappers = $ieee_lom_mapper->get_descriptions();
         
@@ -340,7 +340,7 @@ class MetadataLomEditForm extends FormValidator
                 {
                     $group_name = self :: LOM_GENERAL_DESCRIPTION . '[' . $index . ']';
                     
-                    $this->add_lang_string($group_name, $string_index, Translation :: translate('MetadataLOMDescription'), true, $show_remove_button, true);
+                    $this->add_lang_string($group_name, $string_index, Translation :: get('MetadataLOMDescription'), true, $show_remove_button, true);
                     
                     $this->set_current_value($group_name . '[' . $string_index . '][string]', $string_mapper->get_string($string_index));
                     $this->set_current_value($group_name . '[' . $string_index . '][language]', $string_mapper->get_language($string_index));
@@ -368,7 +368,7 @@ class MetadataLomEditForm extends FormValidator
      */
     private function build_lifeCycle_contribution($ieee_lom_mapper)
     {
-        $this->addElement('html', '<h3>' . Translation :: translate('MetadataLOMContribution') . '</h3>');
+        $this->addElement('html', '<h3>' . Translation :: get('MetadataLOMContribution') . '</h3>');
         
         $data = $ieee_lom_mapper->get_lifeCycle_contribution();
         //debug($data);
@@ -456,7 +456,7 @@ class MetadataLomEditForm extends FormValidator
      */
     private function build_rights_description($ieee_lom_mapper)
     {
-        $this->addElement('html', '<h3>' . Translation :: translate('MetadataLOMRights') . '</h3>');
+        $this->addElement('html', '<h3>' . Translation :: get('MetadataLOMRights') . '</h3>');
         
         $descriptions = $ieee_lom_mapper->get_rights_description();
         $strings = $descriptions->get_strings();
@@ -476,7 +476,7 @@ class MetadataLomEditForm extends FormValidator
                 //$string_original_id   = $strings[$index][IeeeLomLangStringMapper :: STRING_ORIGINAL_ID];
                 $string_override_id = $strings[$index][IeeeLomLangStringMapper :: STRING_OVERRIDE_ID];
                 
-                $this->add_lang_string(self :: LOM_RIGHTS_DESCRIPTION, $index, Translation :: translate('MetadataLOMRightsDescription'), true, true, true);
+                $this->add_lang_string(self :: LOM_RIGHTS_DESCRIPTION, $index, Translation :: get('MetadataLOMRightsDescription'), true, true, true);
                 
                 $this->set_current_value(self :: LOM_RIGHTS_DESCRIPTION . '[' . $index . '][string]', $strings[$index]['string']);
                 $this->set_current_value(self :: LOM_RIGHTS_DESCRIPTION . '[' . $index . '][language]', $strings[$index]['language']);
@@ -488,7 +488,7 @@ class MetadataLomEditForm extends FormValidator
         
         if ($showed_element_total == 0)
         {
-            $this->addElement('html', '<div class="row"><div class="formw">' . Translation :: translate('MetadataLOMRightsDescriptionNotDefined') . '</div></div>');
+            $this->addElement('html', '<div class="row"><div class="formw">' . Translation :: get('MetadataLOMRightsDescriptionNotDefined') . '</div></div>');
         }
         
         /*
@@ -862,16 +862,16 @@ class MetadataLomEditForm extends FormValidator
         $this->addElement('html', implode("\n", $table_footer));
         
         $rule = array();
-        $rule['string'][] = array(Translation :: translate('MetadataLOMTextEmptyError'), 'required');
+        $rule['string'][] = array(Translation :: get('MetadataLOMTextEmptyError'), 'required');
         $this->addGroupRule($group_name . '[' . $index . ']', $rule);
     }
 
     private function add_entity($group_name, $contribute_index, $entity_index, $show_remove_button)
     {
         $group_fields = array();
-        $group_fields[] = $this->create_textfield('name', Translation :: translate('MetadataLomContriName'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
-        $group_fields[] = $this->create_textfield('email', Translation :: translate('MetadataLomContriEmail'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
-        $group_fields[] = $this->create_textfield('organisation', Translation :: translate('MetadataLomContriOrg'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
+        $group_fields[] = $this->create_textfield('name', Translation :: get('MetadataLomContriName'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
+        $group_fields[] = $this->create_textfield('email', Translation :: get('MetadataLomContriEmail'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
+        $group_fields[] = $this->create_textfield('organisation', Translation :: get('MetadataLomContriOrg'), array('style' => 'width:' . self :: FORM_WIDTH_MEDIUM . 'px'));
         
         $group_fields[] = $this->createElement('hidden', 'name_metadata_id');
         $group_fields[] = $this->createElement('hidden', 'email_metadata_id');
@@ -890,7 +890,7 @@ class MetadataLomEditForm extends FormValidator
         $this->addGroup($group_fields, $group_name . '[' . $entity_index . ']', null, '&nbsp;&nbsp;&nbsp;&nbsp;');
         
         $rule = array();
-        $rule['name'][] = array(Translation :: translate('MetadataLomCatalogNameEmptyError'), 'required');
+        $rule['name'][] = array(Translation :: get('MetadataLomCatalogNameEmptyError'), 'required');
         $this->addGroupRule($group_name . '[' . $entity_index . ']', $rule);
     }
 
@@ -901,7 +901,7 @@ class MetadataLomEditForm extends FormValidator
 
         $group_fields = array();
         $group_fields[] = $this->createElement('html', '<div class="row"><div class="formw"><h5>Role</h5></div></div>');
-        $group_fields[] = $this->createElement('select', 'role', Translation :: translate('MetadataLomRole'), $this->get_catalog(Catalog :: CATALOG_LOM_ROLE, false));
+        $group_fields[] = $this->createElement('select', 'role', Translation :: get('MetadataLomRole'), $this->get_catalog(Catalog :: CATALOG_LOM_ROLE, false));
         
         $group_fields[] = $this->createElement('hidden', IeeeLomMapper :: METADATA_ID_ROLE_ATTRIBUTE);
         $group_fields[] = $this->createElement('hidden', 'role_original_id');
@@ -913,7 +913,7 @@ class MetadataLomEditForm extends FormValidator
         $this->addGroup($group_fields, $group_name . '[' . $index . ']', null, '&nbsp;&nbsp;&nbsp;&nbsp;');
         
         $rule = array();
-        $rule['role'][] = array(Translation :: translate('MetadataLomRoleEmptyError'), 'required');
+        $rule['role'][] = array(Translation :: get('MetadataLomRoleEmptyError'), 'required');
         $this->addGroupRule($group_name . '[' . $index . ']', $rule);
     }
 
@@ -921,12 +921,12 @@ class MetadataLomEditForm extends FormValidator
     {
         $group_fields = array();
         $group_fields[] = $this->createElement('html', '<div class="row"><div class="formw"><h5>Date</h5></div></div>');
-        $group_fields[] = $this->createElement('select', 'day', Translation :: translate('MetadataDay'), $this->get_catalog(Catalog :: CATALOG_DAY));
-        $group_fields[] = $this->createElement('select', 'month', Translation :: translate('MetadataMonth'), $this->get_catalog(Catalog :: CATALOG_MONTH));
-        $group_fields[] = $this->createElement('select', 'year', Translation :: translate('MetadataYear'), $this->get_catalog(Catalog :: CATALOG_YEAR));
-        $group_fields[] = $this->createElement('select', 'hour', Translation :: translate('MetadataHour'), $this->get_catalog(Catalog :: CATALOG_HOUR));
-        $group_fields[] = $this->createElement('select', 'min', Translation :: translate('MetadataMin'), $this->get_catalog(Catalog :: CATALOG_MIN));
-        $group_fields[] = $this->createElement('select', 'sec', Translation :: translate('MetadataSec'), $this->get_catalog(Catalog :: CATALOG_SEC));
+        $group_fields[] = $this->createElement('select', 'day', Translation :: get('MetadataDay'), $this->get_catalog(Catalog :: CATALOG_DAY));
+        $group_fields[] = $this->createElement('select', 'month', Translation :: get('MetadataMonth'), $this->get_catalog(Catalog :: CATALOG_MONTH));
+        $group_fields[] = $this->createElement('select', 'year', Translation :: get('MetadataYear'), $this->get_catalog(Catalog :: CATALOG_YEAR));
+        $group_fields[] = $this->createElement('select', 'hour', Translation :: get('MetadataHour'), $this->get_catalog(Catalog :: CATALOG_HOUR));
+        $group_fields[] = $this->createElement('select', 'min', Translation :: get('MetadataMin'), $this->get_catalog(Catalog :: CATALOG_MIN));
+        $group_fields[] = $this->createElement('select', 'sec', Translation :: get('MetadataSec'), $this->get_catalog(Catalog :: CATALOG_SEC));
         
         $group_fields[] = $this->createElement('hidden', IeeeLomMapper :: METADATA_ID_DATE_ATTRIBUTE);
         $group_fields[] = $this->createElement('hidden', 'date_original_id');
@@ -938,7 +938,7 @@ class MetadataLomEditForm extends FormValidator
         $this->addGroup($group_fields, $group_name . '[' . $index . '][date]', null, '&nbsp;&nbsp;&nbsp;&nbsp;');
         
         $this->registerRule('datetime', 'function', 'validate_date_time', __CLASS__);
-        $this->addRule(array($group_name . '[' . $index . '][date]'), Translation :: translate('MetadataLomDateInvalid'), 'datetime');
+        $this->addRule(array($group_name . '[' . $index . '][date]'), Translation :: get('MetadataLomDateInvalid'), 'datetime');
         
         $lom_dt = new IeeeLomDateTime();
         $lom_dt->set_datetime_from_string($date_value);
@@ -1154,7 +1154,7 @@ class MetadataLomEditForm extends FormValidator
             switch ($key)
             {
                 case self :: MSG_FORM_HAS_UPDATE :
-                    $this->info_messages[$key] = Translation :: translate('MetadataApplyWillBeDoneAfterClickUpdate');
+                    $this->info_messages[$key] = Translation :: get('MetadataApplyWillBeDoneAfterClickUpdate');
                     break;
                 
                 default :

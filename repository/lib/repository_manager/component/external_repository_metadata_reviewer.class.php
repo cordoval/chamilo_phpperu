@@ -18,7 +18,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
             
             $trail = new BreadcrumbTrail(false);
             $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), $content_object->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), Translation :: translate('ExternalExport')));
+            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), Translation :: get('ExternalExport')));
             
             $metadata_type = $this->get_metadata_type();
             
@@ -59,7 +59,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
                         }
                         else
                         {
-                            //$this->display_message(Translation :: translate('MetadataSaved'));
+                            //$this->display_message(Translation :: get('MetadataSaved'));
                             
 
                             /*
@@ -74,7 +74,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
                     else
                     {
                         $this->display_header($trail, false, true);
-                        $this->display_error_message(Translation :: translate('MetadataMapperNotFound'));
+                        $this->display_error_message(Translation :: get('MetadataMapperNotFound'));
                     }
                 }
                 else

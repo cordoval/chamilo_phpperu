@@ -190,7 +190,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	             * 
 	             * Note: if you override the export() function, do not forget to call the store_last_repository_update_datetime function again
 	             */
-	            if(!$this->store_last_repository_update_datetime($content_object))
+	            if(!$this->store_last_repository_update_datetime($content_object, $this->get_existing_repository_uid($content_object)))
 	            {
 	                throw new Exception('The last modification date could not be stored in Chamilo');
 	            }
@@ -798,15 +798,18 @@ class FedoraExternalExporter extends RestExternalExporter
 	 * - Get the object modification date from Fedora, and store it in the Chamilo datasource
 	 * 
 	 * @param $content_object ContentObject
+	 * @param $repository_object_id string Fedora object uid
 	 * @return boolean
 	 */
-	public function store_last_repository_update_datetime($content_object)
+	public function store_last_repository_update_datetime($content_object, $repository_object_id)
 	{
-	    $object_id = $this->get_existing_repository_uid($content_object);
+	    //$object_id = $this->get_existing_repository_uid($content_object);
 	    
 	    $search_path = $this->get_full_find_object_rest_path();
 	    
-	    $search_path = str_replace('{pid}', $object_id, $search_path);
+	    //$search_path = str_replace('{pid}', $object_id, $search_path);
+	    $search_path = str_replace('{pid}', $repository_object_id, $search_path);
+	    
 	    $response_document = $this->get_rest_xml_response($search_path, 'get');
 	    if(isset($response_document))
 	    {
@@ -822,7 +825,8 @@ class FedoraExternalExporter extends RestExternalExporter
     	    
     	    //DebugUtilities :: show($node_list);
     	    
-    	    if($node_list->length > 0 && $node_list->item(0)->nodeValue == $object_id)
+    	    //if($node_list->length > 0 && $node_list->item(0)->nodeValue == $object_id)
+    	    if($node_list->length > 0 && $node_list->item(0)->nodeValue == $repository_object_id)
     	    {
     	        $node_list = $xpath->query('/fedora:result/fedora:resultList/fedora:objectFields/fedora:mDate');
     	        if($node_list->length > 0)
@@ -840,9 +844,10 @@ class FedoraExternalExporter extends RestExternalExporter
     	                $eesi = new ExternalExportSyncInfo();
     	                $eesi->set_content_object_id($content_object->get_id());
     	                
-    	                
     	                $eesi->set_external_repository_id($external_export->get_id());
     	            }
+    	            
+    	            $eesi->set_external_object_uid($repository_object_id);
     	            
     	            /*
     	             * We store the UTC datetime -> remove the final 'Z' to get a GMT timestamp with strtotime()
@@ -930,7 +935,7 @@ class FedoraExternalExporter extends RestExternalExporter
     	            $object[BaseExternalExporter :: OBJECT_CREATION_DATE]     = date('Y-m-d H:i:s', strtotime($object[BaseExternalExporter :: OBJECT_CREATION_DATE]));
     	            $object[BaseExternalExporter :: OBJECT_MODIFICATION_DATE] = date('Y-m-d H:i:s', strtotime($object[BaseExternalExporter :: OBJECT_MODIFICATION_DATE]));
     	            
-    	            $objects[][BaseExternalExporter :: EXTERNAL_OBJECT_KEY] = $object;
+    	            $objects[][BaseExternalExporter :: EXTERNAL_OBJECT_KEY]   = $object;
     	        }
     	    }
 	    }
@@ -1057,6 +1062,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	/**
 	 * 
 	 * @param ContentObject $content_object Any object inheriting from ContentObject
+	 * @param $repository_object_id string Fedora object uid
 	 * @return boolean
 	 */
 	private function save_imported_content_object($content_object, $repository_object_id)
@@ -1086,7 +1092,7 @@ class FedoraExternalExporter extends RestExternalExporter
     	    /*
     	     * Save the sync informations
     	     */
-    	    return $this->store_last_repository_update_datetime($content_object);
+    	    return $this->store_last_repository_update_datetime($content_object, $repository_object_id);
 	    }
 	    else
 	    {

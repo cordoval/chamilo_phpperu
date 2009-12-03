@@ -44,10 +44,10 @@ class ExternalExportBrowserForm extends FormValidator
         
         if( $this->content_object_id != DataClass :: NO_UID)
         {
-            echo '<p>' . Translation :: translate('ExternalRepositoryListDescription1') . '</p>';
+            echo '<p>' . Translation :: get('ExternalRepositoryListDescription1') . '</p>';
         }
         
-        echo '<p>' . Translation :: translate('ExternalRepositoryListDescription2') . '</p>';
+        echo '<p>' . Translation :: get('ExternalRepositoryListDescription2') . '</p>';
         echo '<p>&nbsp;</p>';
         
         echo $this->format_export_list();
@@ -95,17 +95,17 @@ class ExternalExportBrowserForm extends FormValidator
             if( $this->content_object_id != DataClass :: NO_UID)
             {
                 $list[] = '<div style="float:right;width:50%;text-align:left">';
-                $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_import.png' . '" /> <a href="' . $url_list_repository_objects . '">' . Translation :: translate('ExternalRepositoryAvailableObjects') . '</a>';
+                $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_import.png' . '" /> <a href="' . $url_list_repository_objects . '">' . Translation :: get('ExternalRepositoryAvailableObjects') . '</a>';
                 $list[] = '</div>';
                 
                 $list[] = '<div style="width:50%;text-align:left">';
-                $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_publish.png' . '" /> <a href="' . $url_export_to_repository . '">' . Translation :: translate('ExternalRepositoryExport') . '</a>';
+                $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_publish.png' . '" /> <a href="' . $url_export_to_repository . '">' . Translation :: get('ExternalRepositoryExport') . '</a>';
                 $list[] = '</div>';
             }
             else
             {
                 $list[] = '<div style="text-align:left">';
-                $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_import.png' . '" /> <a href="' . $url_list_repository_objects . '">' . Translation :: translate('ExternalRepositoryAvailableObjects') . '</a>';
+                $list[] = '<img src="' . Theme :: get_common_image_path() . 'action_import.png' . '" /> <a href="' . $url_list_repository_objects . '">' . Translation :: get('ExternalRepositoryAvailableObjects') . '</a>';
                 $list[] = '</div>';
             }
             
