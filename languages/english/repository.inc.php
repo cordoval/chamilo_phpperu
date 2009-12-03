@@ -535,4 +535,33 @@ $lang['repository']['OrderingQuestionTypeName'] = 'Ordering question';
 $lang['repository']['PhysicalLocationTypeName'] = 'Physical location';
 $lang['repository']['PortfolioTypeName'] = 'Portfolio';
 $lang['repository']['SelectQuestionTypeName'] = 'Select question';
+
+$lang['repository']['ExternalExport'] = 'External export';
+$lang['repository']['ExternalRepository'] = 'External repository';
+$lang['repository']['ExternalRepositories'] = 'External repositories';
+$lang['repository']['ExternalRepositoryList'] = 'List of external repositories';
+$lang['repository']['ExternalRepositoryBrowse'] = 'Browse external repositories';
+$lang['repository']['ExternalRepositoryListDescription1'] = 'Please choose a repository below to export the object';
+$lang['repository']['ExternalRepositoryListDescription2'] = 'You can also browse the repositories to import available objects';
+$lang['repository']['ExternalRepositoryExport'] = 'Export';
+$lang['repository']['ExternalRepositoryImport'] = 'Import';
+$lang['repository']['ExternalRepositoryAvailableObjects'] = 'Available objects in repository';
+$lang['repository']['ExternalRepositoryBrowseObjects'] = 'Browse objects';
+$lang['repository']['ExternalExportSuccess'] = 'The object has been successfully exported';
+$lang['repository']['ExternalRepositoryObjectId'] = 'External identifier';
+$lang['repository']['ExternalRepositoryObjectTitle'] = 'Title';
+$lang['repository']['ExternalRepositoryObjectDescription'] = 'Description';
+$lang['repository']['ExternalRepositoryLastUpdate'] = 'Repository last update';
+$lang['repository']['ExternalChamiloLastUpdate'] = 'Chamilo last update';
+$lang['repository']['ExternalRepositoryLastSynchronization'] = 'Last synchronization';
+$lang['repository']['ExternalRepositorySyncStatus'] = 'Synchronization status';
+$lang['repository']['ExternalRepositoryNeverSync'] = 'Never synchronized';
+$lang['repository']['ExternalRepositoryOlderInChamilo'] = 'A more recent version of the object exists in the repository';
+$lang['repository']['ExternalRepositoryNewerInChamilo'] = 'The object is more recent in Chamilo than in the repository';
+$lang['repository']['ExternalRepositorySynchronized'] = 'The object in Chamilo and in the repository seem to be identical';
+$lang['repository']['ExternalRepositoryImportObject'] = 'Import object from ';
+$lang['repository']['ExternalImportConfirmationText'] = 'The object was imported with success';
+$lang['repository']['ObjectIsRecycled'] = 'The object exists in Chamilo but is in recycle bin';
+
+
 ?>

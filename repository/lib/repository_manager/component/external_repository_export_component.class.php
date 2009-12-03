@@ -138,21 +138,29 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
         {
             if(isset($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]))
             {
-                $content_object = ContentObjectMetadata :: get_by_catalog_entry_values($catalog_name, $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]);
+                //$content_object = ContentObjectMetadata :: get_by_catalog_entry_values($catalog_name, $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]);
                 
-                if(isset($content_object))
+                /*
+                 * Try to get the content object reference by looking in the synchronization table
+                 * if the external_uid has already been synchronized with the repository
+                 */
+                $eesi = ExternalExportSyncInfo :: get_by_external_uid_and_repository($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID], $export->get_id());
+                
+                if(isset($eesi))
                 {
                     //DebugUtilities::show($content_object);
                     
+                    $content_object = ContentObject :: get_by_id($eesi->get_content_object_id());
+                    
                     $object[BaseExternalExporter :: CHAMILO_OBJECT_KEY] = $content_object;
                     
-                    /*
-                     * Get the last synchronization date with the repository if exists
-                     */
-                    $eesi = ExternalExportSyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $export->get_id());
+//                    /*
+//                     * Get the last synchronization date with the repository if exists
+//                     */
+//                    $eesi = ExternalExportSyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $export->get_id());
     	            
-    	            if(isset($eesi))
-    	            {
+//    	            if(isset($eesi))
+//    	            {
     	                $object[BaseExternalExporter :: SYNC_INFO] = $eesi;
     	                
     	                /*
@@ -205,11 +213,11 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
     	                     */
     	                    throw new Exception('RepositoryManagerExternalRepositoryExportListObjectsComponent error: The current object date is smaller than its date of synchronization');
     	                }
-    	            }
-    	            else
-    	            {
-    	                $object[BaseExternalExporter :: SYNC_STATE] = BaseExternalExporter :: SYNC_NEVER_SYNCHRONIZED;
-    	            }
+//    	            }
+//    	            else
+//    	            {
+//    	                $object[BaseExternalExporter :: SYNC_STATE] = BaseExternalExporter :: SYNC_NEVER_SYNCHRONIZED;
+//    	            }
                 }
                 else
                 {

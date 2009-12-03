@@ -315,31 +315,51 @@ abstract class BaseExternalExporter
 	{
 	    if(isset($this->external_export))
 	    {
-    	    /*
-    	     * Basic metadata type is LOM
-    	     */
-    	    $lom_mapper  = $this->get_lom_mapper($content_object);
-    	    $lom_mapper->get_metadata();
-    	    $identifiers = $lom_mapper->get_identifier();
+    	    $sync_infos = ExternalExportSyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $this->external_export->get_id());
     	    
-    	    //debug($this->external_export->get_default_properties());
-    	    
-    	    foreach ($identifiers as $identifier)
+    	    if(isset($sync_infos))
     	    {
-    	    	//debug($identifier);
-    	    	
-    	    	if($identifier['catalog'] == $this->external_export->get_catalog_name())
-    	    	{
-    	    	    return $identifier['entry'];
-    	    	}
+    	        return $sync_infos->get_external_object_uid();
     	    }
-    	    
-    	    return null;
+    	    else
+    	    {
+    	        return null;
+    	    }
 	    }
 	    else
 	    {
 	        throw new Exception('External export not defined');
 	    }
+	    
+	    /*******************************************/
+	    
+//	    if(isset($this->external_export))
+//	    {
+//    	    /*
+//    	     * Basic metadata type is LOM
+//    	     */
+//    	    $lom_mapper  = $this->get_lom_mapper($content_object);
+//    	    $lom_mapper->get_metadata();
+//    	    $identifiers = $lom_mapper->get_identifier();
+//    	    
+//    	    //debug($this->external_export->get_default_properties());
+//    	    
+//    	    foreach ($identifiers as $identifier)
+//    	    {
+//    	    	//debug($identifier);
+//    	    	
+//    	    	if($identifier['catalog'] == $this->external_export->get_catalog_name())
+//    	    	{
+//    	    	    return $identifier['entry'];
+//    	    	}
+//    	    }
+//    	    
+//    	    return null;
+//	    }
+//	    else
+//	    {
+//	        throw new Exception('External export not defined');
+//	    }
 	}
 	
 	public function get_new_uid()
@@ -378,9 +398,10 @@ abstract class BaseExternalExporter
 	 * - If available, get the last modification date from the repository and store it
 	 * 
 	 * @param ContentObject $content_object
+	 * @param $repository_object_id string Fedora object uid
 	 * @return boolean
 	 */
-	abstract function store_last_repository_update_datetime($content_object);
+	abstract function store_last_repository_update_datetime($content_object, $repository_object_id);
 	
 	
 	/**

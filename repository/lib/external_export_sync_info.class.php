@@ -5,6 +5,7 @@ class ExternalExportSyncInfo extends RepositoryDataClass
     
     const PROPERTY_CONTENT_OBJECT               = 'content_object_id';
     const PROPERTY_EXTERNAL_REPOSITORY          = 'external_repository_id';
+    const PROPERTY_EXTERNAL_OBJECT_UID          = 'external_object_uid';
     const PROPERTY_UTC_SYNCHRONIZED             = 'utc_synchronized';
     const PROPERTY_SYNCHRONIZED_OBJECT_DATETIME = 'synchronized_object_datetime';
     
@@ -31,6 +32,20 @@ class ExternalExportSyncInfo extends RepositoryDataClass
         return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT);
     }
     
+	/*************************************************************************/
+    
+    function set_external_object_uid($external_uid)
+    {
+        if (StringUtilities :: has_value($external_uid))
+        {
+            $this->set_default_property(self :: PROPERTY_EXTERNAL_OBJECT_UID, $external_uid);
+        }
+    }
+
+    function get_external_object_uid()
+    {
+        return $this->get_default_property(self :: PROPERTY_EXTERNAL_OBJECT_UID);
+    }
     
     /*************************************************************************/
     
@@ -91,6 +106,7 @@ class ExternalExportSyncInfo extends RepositoryDataClass
     {
         $extended_property_names[] = self :: PROPERTY_CONTENT_OBJECT;
         $extended_property_names[] = self :: PROPERTY_EXTERNAL_REPOSITORY;
+        $extended_property_names[] = self :: PROPERTY_EXTERNAL_OBJECT_UID;
         $extended_property_names[] = self :: PROPERTY_UTC_SYNCHRONIZED;
         $extended_property_names[] = self :: PROPERTY_SYNCHRONIZED_OBJECT_DATETIME;
         
@@ -162,6 +178,24 @@ class ExternalExportSyncInfo extends RepositoryDataClass
         return $dm->retrieve_external_export_sync_info($conditions);
     }
     
+
+    /**
+     * 
+	 * @param integer $external_object_id
+	 * @param integer $repository_id
+     */
+    public static function get_by_external_uid_and_repository($external_object_id, $repository_id)
+    {
+        $dm = RepositoryDataManager :: get_instance();
+        
+        $condition_array = array();
+        $condition_array[] = new EqualityCondition(self :: PROPERTY_EXTERNAL_OBJECT_UID, $external_object_id);
+        $condition_array[] = new EqualityCondition(self :: PROPERTY_EXTERNAL_REPOSITORY, $repository_id);
+        
+        $conditions = new AndCondition($condition_array);
+        
+        return $dm->retrieve_external_export_sync_info($conditions);
+    }
     
 }
 ?>
