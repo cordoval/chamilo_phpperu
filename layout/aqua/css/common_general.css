@@ -347,7 +347,7 @@ img {
 	left: 50%;
 	right: 50%;
 	border-width: 1px;
-	border-style: solid;
+	border-style: dotted;
 	background-repeat: no-repeat;
 	background-position: 10px 10px;
 	padding: 10px;
@@ -368,7 +368,7 @@ img {
 
 .warning-message {
 	background-image: url('../img/common/status_warning.png');
-	background-color: #ffedd1;
+	background-color: #fff8aa;
 	border-color: #ffd89b;
 }
 
