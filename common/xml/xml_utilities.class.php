@@ -105,15 +105,26 @@ class XMLUtilities
      * NOTE: this function can not be used to retrieve a node that needs to be updated 
      *       as the returned node is a copy of the original one, and thus is not the same object reference  
      * 
-     * @param DOMNode $node
+     * @param mixed DOMNode or DOMNodeList $node
      * @param string $xpath_query
      * @return DOMNode
      */
     public static function get_first_element_by_relative_xpath($node, $xpath_query)
     {
         $dom = new DOMDocument();
-        $imported_node = $dom->importNode($node, true);
-        $dom->appendChild($imported_node);
+        if(is_a($node, 'DOMNode'))
+        {
+            $imported_node = $dom->importNode($node, true);
+            $dom->appendChild($imported_node);
+        }
+        elseif(is_a($node, 'DOMNodeList'))
+        {
+            foreach($node as $subnode)
+            {
+                $imported_node = $dom->importNode($subnode, true);
+                $dom->appendChild($imported_node);   
+            }
+        }
         
         $xpath = new DOMXPath($dom);
         $node_list = $xpath->query($xpath_query);

@@ -370,6 +370,21 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         $condition = new OrCondition($conditions);
         $this->database->delete_objects('content_object_include', $condition);
 
+        //Delete extended properties record
+        if ($this->is_extended_type(Utilities :: camelcase_to_underscores(get_class($object))))
+        {
+            $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
+            $this->database->delete_objects(Utilities :: camelcase_to_underscores(get_class($object)), $condition);
+        }
+        
+        //Delete associated metadata
+        $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
+        $this->database->delete_objects(ContentObjectMetadata :: get_table_name(), $condition);
+        
+        //Delete synchronization with external repositories infos
+        $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
+        $this->database->delete_objects(ExternalExportSyncInfo :: get_table_name(), $condition);
+        
         // Delete object
         $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
         $this->database->delete_objects(ContentObject :: get_table_name(), $condition);
@@ -383,6 +398,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
             $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
             $this->database->delete_objects('content_object_version', $condition);
         }
+        
+        
 
         return true;
     }
@@ -1351,8 +1368,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     
     function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value)
     {
-        if(StringUtilities::has_value($catalog_name) && StringUtilities::has_value($entry_value))
+        if(StringUtilities :: has_value($catalog_name) && StringUtilities :: has_value($entry_value))
         {
+            $catalog_name = StringUtilities :: escape_mysql($catalog_name);
+            $entry_value  = StringUtilities :: escape_mysql($entry_value);
+            
             $query = 'SELECT count(*) as total, content_object_id FROM repository_content_object_metadata
                 WHERE 
                 (property LIKE \'general_identifier[%][catalog]\' AND value = \'' . $catalog_name . '\')

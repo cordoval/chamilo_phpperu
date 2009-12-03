@@ -67,8 +67,8 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 
         if ($this->is_allowed(EDIT_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUPS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_image_path() . 'action_subscribe_user.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_image_path() . 'action_subscribe_group.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUPS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
             if (! $this->introduction_text)
             {

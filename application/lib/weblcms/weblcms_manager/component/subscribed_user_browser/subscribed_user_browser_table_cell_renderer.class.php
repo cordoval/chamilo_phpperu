@@ -77,14 +77,14 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $subscribe_url = $this->browser->get_url($parameters);
-            $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('SubscribeAsStudent'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
+            $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('SubscribeAsStudent'), 'img' => Theme :: get_image_path() . 'action_subscribe_student.png');
             
             $parameters = array();
             $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $parameters[WeblcmsManager :: PARAM_STATUS] = 1;
             $subscribe_url = $this->browser->get_url($parameters);
-            $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('SubscribeAsTeacher'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
+            $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('SubscribeAsTeacher'), 'img' => Theme :: get_image_path() . 'action_subscribe_teacher.png');
         }
         else
         {

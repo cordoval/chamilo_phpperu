@@ -84,8 +84,8 @@ class ExternalExportBrowserForm extends FormValidator
         
         foreach ($this->catalogs[ExternalExport :: CATALOG_EXPORT_LIST] as $export)
         {
-            $url_export_to_repository    = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $export->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->content_object_id));
-            $url_list_repository_objects = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS, RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => $export->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->content_object_id));
+            $url_export_to_repository    = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $export->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->content_object_id));
+            $url_list_repository_objects = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $export->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->content_object_id));
             
             $list[] = '<fieldset style="width:50%">';
             $list[] = '<legend>' . $export->get_title() . '</legend>';

@@ -29,7 +29,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
                 case self :: METADATA_FORMAT_LOM :
                     
                     $mapper = new IeeeLomMapper($content_object);
-                    $form = new MetadataLomEditForm($content_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => Request :: get(RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID))), $this->get_catalogs());
+                    $form = new MetadataLomEditForm($content_object->get_id(), $mapper, $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => Request :: get(RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID))), $this->get_catalogs());
                     break;
                 
             /*
@@ -65,7 +65,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
                             /*
                              * Redirect to the export page and force the export
                              */
-                            Redirect :: url(array(Application :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID => Request :: get(RepositoryManagerExternalRepositoryExportComponent :: PARAM_EXPORT_ID), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), RepositoryManagerExternalRepositoryExportExportComponent :: PARAM_FORCE_EXPORT => 1));
+                            Redirect :: url(array(Application :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => Request :: get(RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), RepositoryManagerExternalRepositoryExportExportComponent :: PARAM_FORCE_EXPORT => 1));
                             
                         //                        $form->set_constant_values($mapper->get_constant_values(), true);
                         //                        $form->display();

@@ -175,16 +175,17 @@ img {
 	outline: none;
 }
 
-#helpitem {
+#trailbox #help_item, #trailbox #extra_item {
 	float: right;
 	height: 26px;
 	line-height: 26px;
+	margin-left: 4px;
 }
 
 /*****************************************************
  *  FOOTER STYLES                                    *
  *****************************************************/
-#footer,#sitemap {
+#footer, #sitemap {
 	clear: both;
 	padding-left: 19px;
 	padding-right: 19px;
@@ -369,6 +370,12 @@ img {
 	background-image: url('../img/common/status_warning.png');
 	background-color: #ffedd1;
 	border-color: #ffd89b;
+}
+
+.debug {
+	background-color:#ffff55;
+	color: #000000;
+	padding: 5px;
 }
 
 /* Chatbox LO-style */

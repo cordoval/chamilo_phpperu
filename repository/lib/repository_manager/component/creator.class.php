@@ -213,7 +213,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
         if (count($unused_html) > 0)
         {
             $html[] = Utilities :: add_block_hider();
-            $html[] = Utilities :: build_block_hider('other_content_object_types');
+            $html[] = Utilities :: build_block_hider('other_content_object_types', null, true);
+            
             //$html[] = '<h3>'. Translation :: get('OtherObjectTypes') .'</h3>';
             $html[] = '<div class="content_object_selection">';
             $html[] = implode("\n", $unused_html);

@@ -29,7 +29,7 @@ class RepositoryManagerExternalRepositoryExportBrowserComponent extends Reposito
         /*
          * Header links
          */
-        $trail->add(new Breadcrumb(null, Translation :: translate('ExternalRepository')));
+        $trail->add(new Breadcrumb(null, Translation :: translate('ExternalRepositoryList')));
         $this->display_header($trail, false, true);
         
         /*

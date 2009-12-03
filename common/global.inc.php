@@ -306,6 +306,17 @@ function dump($variable)
 }
 
 /**
+ * Globaly available function that call the DebugUtilities :: show() static function
+ * 
+ * @param mixed $object The object to print in the page
+ * @return void
+ */
+function debug($object, $title = null)
+{
+    DebugUtilities :: show($object, $title, 1);
+}
+
+/**
  * Error handling function
  */
 function handle_error($errno, $errstr, $errfile, $errline)
