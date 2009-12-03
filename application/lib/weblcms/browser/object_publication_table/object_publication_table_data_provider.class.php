@@ -88,16 +88,19 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course);
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $this->parent->get_tool_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category);
-        
+
         $access = array();
-        if (! empty($user_id))
+        if($user_id)
+    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+    	
+    	if(count($course_groups) > 0)
+        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+        	
+        if (! empty($user_id) || ! empty($course_groups))
         {
-            $access[] = new EqualityCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
-        }
-        
-        if (! empty($course_groups) && count($course_groups) > 0)
-        {
-            $access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+            $access[] = new AndCondition(array(
+            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, $datamanager->get_database()->get_alias('content_object_publication_user')), 
+            			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
         }
         
         $conditions[] = new OrCondition($access);
@@ -111,7 +114,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
             $conditions[] = $this->condition;
         
         $condition = new AndCondition($conditions);
-        
+        //dump($condition);
         return $condition;
     }
 

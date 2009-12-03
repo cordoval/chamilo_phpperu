@@ -175,16 +175,17 @@ img {
 	outline: none;
 }
 
-#helpitem {
+#trailbox #help_item, #trailbox #extra_item {
 	float: right;
 	height: 26px;
 	line-height: 26px;
+	margin-left: 4px;
 }
 
 /*****************************************************
  *  FOOTER STYLES                                    *
  *****************************************************/
-#footer,#sitemap {
+#footer, #sitemap {
 	clear: both;
 	padding-left: 19px;
 	padding-right: 19px;
@@ -346,7 +347,7 @@ img {
 	left: 50%;
 	right: 50%;
 	border-width: 1px;
-	border-style: solid;
+	border-style: dotted;
 	background-repeat: no-repeat;
 	background-position: 10px 10px;
 	padding: 10px;
@@ -367,7 +368,7 @@ img {
 
 .warning-message {
 	background-image: url('../img/common/status_warning.png');
-	background-color: #ffedd1;
+	background-color: #fff8aa;
 	border-color: #ffd89b;
 }
 

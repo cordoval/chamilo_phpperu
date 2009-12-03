@@ -49,14 +49,14 @@ class Display
     public static function normal_message($message, $return = false)
     {
         $out = '';
-        if (! headers_sent())
-        {
-            $out .= '<style type="text/css" media="screen, projection">
-/*<![CDATA[*/
-@import "' . Path :: get(WEB_CSS_PATH) . 'default.css";
-/*]]>*/
-</style>';
-        }
+//        if (! headers_sent())
+//        {
+//            $out .= '<style type="text/css" media="screen, projection">
+///*<![CDATA[*/
+//@import "' . Path :: get(WEB_CSS_PATH) . 'default.css";
+///*]]>*/
+//</style>';
+//        }
         $out .= '<div class="normal-message">' . $message . '</div>';
         if ($return)
         {
@@ -80,14 +80,14 @@ class Display
     public static function error_message($message, $return = false)
     {
         $out = '';
-        if (! headers_sent())
-        {
-            $out .= '<style type="text/css" media="screen, projection">
-/*<![CDATA[*/
-@import "' . Theme :: get_common_css_path() . '";
-/*]]>*/
-</style>';
-        }
+//        if (! headers_sent())
+//        {
+//            $out .= '<style type="text/css" media="screen, projection">
+///*<![CDATA[*/
+//@import "' . Theme :: get_common_css_path() . '";
+///*]]>*/
+//</style>';
+//        }
         $out .= '<div class="error-message">' . $message . '</div>';
         if ($return)
         {
@@ -112,14 +112,14 @@ class Display
     public static function warning_message($message, $return = false)
     {
         $out = '';
-        if (! headers_sent())
-        {
-            $out .= '<style type="text/css" media="screen, projection">
-/*<![CDATA[*/
-@import "' . Path :: get(WEB_CSS_PATH) . 'default.css";
-/*]]>*/
-</style>';
-        }
+//        if (! headers_sent())
+//        {
+//            $out .= '<style type="text/css" media="screen, projection">
+///*<![CDATA[*/
+//@import "' . Path :: get(WEB_CSS_PATH) . 'default.css";
+///*]]>*/
+//</style>';
+//        }
         $out .= '<div class="warning-message">' . $message . '</div>';
         if ($return)
         {

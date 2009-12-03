@@ -12,6 +12,7 @@
 		});
 		
 		$("div.create_block").height(maxBlockHeight);
+		$("#other_content_object_types").hide();
 		
 		$(".search_query").jSuggest({
 			url: getPath('WEB_PATH') + 'repository/ajax/search_complete.php',

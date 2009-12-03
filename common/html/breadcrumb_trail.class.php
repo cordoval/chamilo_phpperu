@@ -9,11 +9,14 @@ class BreadcrumbTrail
     private $breadcrumbtrail;
     
     private $help_items;
+    
+    private $extra_items;
 
     function BreadcrumbTrail($include_main_index = true)
     {
         $this->breadcrumbtrail = array();
         $this->help_items = array();
+        $this->extra_items = array();
         if ($include_main_index)
         {
             $this->add(new Breadcrumb($this->get_path(WEB_PATH) . 'index.php', $this->get_setting('site_name', 'admin')));
@@ -28,6 +31,11 @@ class BreadcrumbTrail
     function add_help($help_item)
     {
         $this->help_items[] = $help_item;
+    }
+    
+    function add_extra($extra_item)
+    {
+        $this->extra_items[] = $extra_item;
     }
 
     function get_help_items()
@@ -68,6 +76,7 @@ class BreadcrumbTrail
         
         $html[] = $this->render_breadcrumbs();
         $html[] = $this->render_help();
+        $html[] = $this->render_extra();
         
         return implode("\n", $html);
     }
@@ -111,13 +120,31 @@ class BreadcrumbTrail
             
             if (count($items) > 0)
             {
-                $html[] = '<div id="helpitem">';
+                $html[] = '<div id="help_item">';
                 $toolbar = new Toolbar();
                 $toolbar->set_items($items);
                 $toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
                 $html[] = $toolbar->as_html();
                 $html[] = '</div>';
             }
+        }
+        
+        return implode("\n", $html);
+    }
+    
+    function render_extra()
+    {
+    	$html = array();
+        $extra_items = $this->extra_items;
+        
+        if (is_array($extra_items) && count($extra_items) > 0)
+        {
+			$html[] = '<div id="extra_item">';
+			$toolbar = new Toolbar();
+			$toolbar->set_items($extra_items);
+			$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
+			$html[] = $toolbar->as_html();
+			$html[] = '</div>';
         }
         
         return implode("\n", $html);

@@ -185,7 +185,7 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $publication = $this->database->record_to_class_object($record, PersonalMessagePublication :: CLASS_NAME);
+            $publication = $this->database->record_to_object($record, PersonalMessagePublication :: CLASS_NAME);
 
             $info = new ContentObjectPublicationAttributes();
             $info->set_id($publication->get_id());

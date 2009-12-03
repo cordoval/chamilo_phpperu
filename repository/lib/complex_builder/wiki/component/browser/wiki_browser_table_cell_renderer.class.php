@@ -26,15 +26,15 @@ class WikiBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         {
             return $this->get_modification_links($cloi);
         }
-        
+
         $content_object = $this->retrieve_content_object($cloi->get_ref());
-        
+
         switch ($column->get_name())
         {
             case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
                 return $content_object->get_title() . ($cloi->get_is_homepage() ? '(' . Translation :: get('HomePage') . ')' : '');
         }
-        
+
         return parent :: render_cell($column, $cloi);
     }
 
@@ -45,7 +45,11 @@ class WikiBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         {
             $toolbar_data[] = array('href' => $this->browser->get_select_homepage_url($this->browser->get_root_lo(), $cloi), 'label' => Translation :: get('SelectAsHomepage'), 'img' => Theme :: get_common_image_path() . 'action_home.png', 'confirm' => true);
         }
-        
+        else
+        {
+            $toolbar_data[] = array('label' => Translation :: get('SelectedIsHomepage'), 'img' => Theme :: get_common_image_path() . 'action_home_na.png', 'confirm' => true);
+        }
+
         return parent :: get_modification_links($cloi, $toolbar_data);
     }
 }

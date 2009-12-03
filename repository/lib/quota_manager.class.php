@@ -60,7 +60,7 @@ class QuotaManager
     {
         if (is_null($this->used_disk_space))
         {
-            $datamanager = RepositoryDatamanager :: get_instance();
+            $datamanager = RepositoryDataManager :: get_instance();
             $this->used_disk_space = $datamanager->get_used_disk_space($this->owner->get_id());
         }
         return $this->used_disk_space;
