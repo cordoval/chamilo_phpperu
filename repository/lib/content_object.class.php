@@ -717,9 +717,9 @@ class ContentObject extends DataClass implements AccessibleContentObject
         $dm = RepositoryDataManager :: get_instance();
         $success = $dm->update_content_object($this);
         if (! $success)
-        {
+        { 
             return false;
-        }
+        } 
         $state = $this->get_state();
         if ($state == $this->oldState)
         {

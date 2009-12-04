@@ -290,8 +290,11 @@ class CpoImport extends ContentObjectImport
                 $lo->set_additional_properties($additionalProperties);
             }
         
-            $lo->create_all();
-            
+            if($type == 'document' && !$lo->get_path())
+				return;
+
+			$lo->create_all();
+			
             if ($type == 'learning_path_item' || $type == 'portfolio_item')
             {
                 $this->references[$lo->get_id()] = $additionalProperties['reference_id'];
@@ -404,9 +407,16 @@ class CpoImport extends ContentObjectImport
         foreach ($this->lo_subitems as $parent_id => $children)
         {
             $real_parent_id = $this->content_object_reference[$parent_id];
+            
+            if(!$real_parent_id)
+            	continue;
+            
             foreach ($children as $child)
             {
                 $real_child_id = $this->content_object_reference[$child['idref']];
+                
+                if(!$real_child_id)
+            		continue;
                 
                 $childlo = $this->rdm->retrieve_content_object($real_child_id);
                 
@@ -434,6 +444,10 @@ class CpoImport extends ContentObjectImport
         foreach ($this->lo_attachments as $lo_id => $children)
         {
             $real_lo_id = $this->content_object_reference[$lo_id];
+            
+            if(!$real_lo_id)
+            	continue;
+            
             $lo = $this->rdm->retrieve_content_object($real_lo_id);
             
             foreach ($children as $child)
@@ -449,6 +463,10 @@ class CpoImport extends ContentObjectImport
         foreach ($this->lo_includes as $lo_id => $children)
         {
             $real_lo_id = $this->content_object_reference[$lo_id];
+            
+             if(!$real_lo_id)
+            	continue;
+            
             $lo = $this->rdm->retrieve_content_object($real_lo_id);
             
             foreach ($children as $child)
@@ -464,6 +482,10 @@ class CpoImport extends ContentObjectImport
         foreach ($this->references as $lo_id => $reference)
         {
             $real_reference = $this->content_object_reference[$reference];
+            
+             if(!$real_reference)
+            	continue;
+            
             $lo = $this->rdm->retrieve_content_object($lo_id);
             $lo->set_reference($real_reference);
             $lo->update();
