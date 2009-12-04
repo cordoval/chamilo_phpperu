@@ -733,6 +733,15 @@ class ContentObject extends DataClass implements AccessibleContentObject
 		 */
         return true;
     }
+    
+    function recycle()
+    {
+    	$this->set_modification_date(time());
+    	$this->set_state(self :: STATE_RECYCLED);
+    	
+    	$dm = RepositoryDataManager :: get_instance();
+        return $dm->update_content_object($this);
+    }
 
     function version($trueUpdate = true)
     {
