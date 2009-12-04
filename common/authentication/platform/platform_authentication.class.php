@@ -53,6 +53,12 @@ class PlatformAuthentication extends Authentication
             return false;
         }
 
+        // Check whether the current password matched the one in memory
+        if ($user->get_password() != Hashing :: hash($old_password))
+        {
+            return false;
+        }
+
         // Check whether the current password is different from the new password
         if ($old_password == $new_password)
         {
