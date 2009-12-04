@@ -4,6 +4,9 @@
  * $Id: log_viewer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
  * @package admin.lib.admin_manager.component
  */
+
+require_once 'HTML/Table.php';
+
 /**
  * Admin component
  */
