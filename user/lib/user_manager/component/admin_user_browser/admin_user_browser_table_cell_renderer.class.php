@@ -61,6 +61,15 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
                 {
                     return '';
                 }
+            case User :: PROPERTY_ACTIVE:
+            	if($user->get_active())
+            	{
+            		return Translation :: get('True');
+            	}
+            	else
+            	{
+            		return Translation :: get('False');
+            	}
         }
         return parent :: render_cell($column, $user);
     }

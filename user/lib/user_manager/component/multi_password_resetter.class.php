@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerDeleterComponent extends UserManagerComponent
+class UserManagerMultiPasswordResetterComponent extends UserManagerComponent
 {
 
     /**
@@ -37,14 +37,21 @@ class UserManagerDeleterComponent extends UserManagerComponent
 			{
 	            $user = $this->retrieve_user($id);
 	            
-	            if (!UserDataManager :: get_instance()->user_deletion_allowed($user))
-	            {
-	                continue;
-	            }
+	            $password = Text :: generate_password();
+		        $user->set_password(Hashing :: hash($password));
 	            
-	            if ($user->delete())
+	            if ($user->update())
 	            {
-	                Events :: trigger_event('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+	                $mail_subject = Translation :: get('LoginRequest');
+			        $mail_body[] = $user->get_fullname() . ',';
+			        $mail_body[] = Translation :: get('YourAccountParam') . ' ' . $this->get_path(WEB_PATH);
+			        $mail_body[] = Translation :: get('UserName') . ' :' . $user->get_username();
+			        $mail_body[] = Translation :: get('Pass') . ' :' . $password;
+			        $mail_body = implode("\n", $mail_body);
+			        $mail = Mail :: factory($mail_subject, $mail_body, $user->get_email());
+			        $mail->send();
+			        
+	            	Events :: trigger_event('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
 	            }
 	            else
 	            {
@@ -52,7 +59,7 @@ class UserManagerDeleterComponent extends UserManagerComponent
 	            }
 			}
             
-			$message = $this->get_result($failures, count($ids), 'UserNotDeleted' , 'UsersNotDeleted', 'UserDeleted', 'UsersDeleted');
+			$message = $this->get_result($failures, count($ids), 'UserPasswordNotResetted' , 'UserPasswordsNotResetted', 'UserPasswordResetted', 'UserPasswordsResetted');
 			
             $this->redirect($message, ($failures > 0), array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
         
