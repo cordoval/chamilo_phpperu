@@ -26,6 +26,7 @@ abstract class ComplexBuilder
     const PARAM_DIRECTION = 'direction';
     
     const ACTION_DELETE_CLOI = 'delete_cloi';
+    const ACTION_VIEW_CLOI = 'view_cloi';
     const ACTION_UPDATE_CLOI = 'update_cloi';
     const ACTION_CREATE_CLOI = 'create_cloi';
     const ACTION_MOVE_CLOI = 'move_cloi';
@@ -101,6 +102,9 @@ abstract class ComplexBuilder
                 break;
             case self :: ACTION_BROWSE_CLO :
                 $component = ComplexBuilderComponent :: factory(null, 'Browser', $this);
+                break;
+            case self :: ACTION_VIEW_CLOI :
+                $component = ComplexBuilderComponent :: factory(null, 'Viewer', $this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_CLO);
@@ -312,6 +316,11 @@ abstract class ComplexBuilder
     function get_complex_content_object_item_delete_url($cloi, $root_id)
     {
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_DELETE_CLOI, self :: PARAM_ROOT_LO => $root_id, self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
+    }
+    
+	function get_complex_content_object_item_view_url($cloi, $root_id)
+    {
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_VIEW_CLOI, self :: PARAM_ROOT_LO => $root_id, self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
     }
 
     function get_complex_content_object_item_move_url($cloi, $root_id, $direction)
