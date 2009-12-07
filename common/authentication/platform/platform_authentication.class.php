@@ -53,12 +53,6 @@ class PlatformAuthentication extends Authentication
             return false;
         }
 
-        // Check whether the current password matched the one in memory
-        if ($user->get_password() != Hashing :: hash($old_password))
-        {
-            return false;
-        }
-
         // Check whether the current password is different from the new password
         if ($old_password == $new_password)
         {
@@ -67,6 +61,11 @@ class PlatformAuthentication extends Authentication
 
         $user->set_password(Hashing :: hash($new_password));
     	return true;
+    }
+
+    function get_password_requirements()
+    {
+        return Translation :: get('GeneralPasswordRequirements');
     }
 
     public function is_username_changeable()

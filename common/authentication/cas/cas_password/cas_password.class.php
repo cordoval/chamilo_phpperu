@@ -29,6 +29,8 @@ abstract class CasPassword
 
     abstract function is_password_changeable();
 
+    abstract function get_password_requirements();
+
     function get_user()
     {
         return $this->user;

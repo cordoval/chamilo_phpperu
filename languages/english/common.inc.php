@@ -650,4 +650,5 @@ $lang['common']['CourseAdministration'] = 'Course administration';
 $lang['common']['Name'] = 'Name';
 $lang['common']['ThisFieldIsRequired'] = 'required field';
 $lang['common']['Application'] = 'Application';
+$lang['common']['GeneralPasswordRequirements']= 'The safest passwords are usually (seemingly) randomly generated. Additionaly they:<br /><br />&hellip; are at least 8 characters long, and longer if possible.<br />&hellip; contain a mix of upper and lower case letters.<br />&hellip; include numerals, special characters, and punctuation.<br />&hellip; are not based on any personal information.<br />&hellip; are not based on any dictionary word.';
 ?>

@@ -131,6 +131,20 @@ class CasAuthentication extends Authentication
         }
     }
 
+    function get_password_requirements()
+    {
+        if (!self :: is_password_changeable())
+        {
+            return false;
+        }
+        else
+        {
+            $cas_password_type = $this->determine_cas_password_type();
+            $cas_password = CasPassword :: factory($cas_password_type, null);
+            return $cas_password->get_password_requirements();
+        }
+    }
+
     /**
      * Determine the authentication handler type used by CAS for this user.
      *

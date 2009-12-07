@@ -661,6 +661,11 @@ abstract class ExternalAuthentication extends Authentication
         return false;
     }
 
+    function get_password_requirements()
+    {
+        return null;
+    }
+
     /**
      * Always returns false as the user's password
      * is not stored in the Chamilo datasource.

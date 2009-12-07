@@ -63,5 +63,10 @@ class MysqlCasPassword extends CasPassword
     {
         return true;
     }
+
+    function get_password_requirements()
+    {
+        return Translation :: get('GeneralPasswordRequirements');
+    }
 }
 ?>
