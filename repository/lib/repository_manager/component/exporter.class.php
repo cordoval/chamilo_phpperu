@@ -26,7 +26,9 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
             {
                 if ($ids[0] == 'all')
                 {
-                    $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+                    $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+                    $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
+                    $condition = new AndCondition($conditions);
                 }
                 else
                 {
