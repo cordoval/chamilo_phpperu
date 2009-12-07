@@ -742,6 +742,13 @@ class ContentObject extends DataClass implements AccessibleContentObject
     	$dm = RepositoryDataManager :: get_instance();
         return $dm->update_content_object($this);
     }
+    
+    function move($new_parent_id)
+    {
+    	$this->set_parent_id($new_parent_id);
+    	$dm = RepositoryDataManager :: get_instance();
+        return $dm->update_content_object($this);
+    }
 
     function version($trueUpdate = true)
     {

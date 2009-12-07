@@ -62,8 +62,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
                             }
                             else
                             {
-                                $object->set_parent_id($destination);
-                                $object->update(false);
+                                $object->move($destination);
                             }
                         }
                     }
