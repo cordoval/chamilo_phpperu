@@ -122,7 +122,17 @@ class DatabaseMenuDataManager extends MenuDataManager
     function delete_navigation_item($navigation_item)
     {
         $condition = new EqualityCondition(NavigationItem :: PROPERTY_ID, $navigation_item->get_id());
-        return $this->database->delete(NavigationItem :: get_table_name(), $condition);
+        $succes = $this->database->delete(NavigationItem :: get_table_name(), $condition);
+        
+        $query = 'UPDATE ' . $this->database->escape_table_name(NavigationItem :: get_table_name()) . ' SET ' .
+            		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' = ' .
+            		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' - 1 WHERE ' .
+            		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' > ' . $this->quote($navigation_item->get_sort()) . ' AND ' .
+            		 $this->database->escape_column_name(NavigationItem :: PROPERTY_CATEGORY) . ' = ' . $this->quote($navigation_item->get_category());
+
+        $this->query($query);
+        
+        return $succes;
     }
 
     function retrieve_max_sort_value($table, $column, $condition = null)
