@@ -650,4 +650,12 @@ $lang['common']['CourseAdministration'] = 'Course administration';
 $lang['common']['Name'] = 'Name';
 $lang['common']['ThisFieldIsRequired'] = 'required field';
 $lang['common']['Application'] = 'Application';
+$lang['common']['GeneralPasswordRequirements']= '<h2>Guidelines for a strong password</h2>
+<ol>
+<li>Eight characters long, and longer if possible.</li>
+<li>A mix of upper and lower case letters.</li>
+<li>Include numerals, special characters, and punctuation.</li>
+<li>Not based on any personal information.</li>
+<li>Not based on any dictionary word.</li>
+</ol>';
 ?>

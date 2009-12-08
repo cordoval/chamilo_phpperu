@@ -16,7 +16,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
         //$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
         $trail->merge($menu_trail);
         $trail->add_help('repository learnpath builder');
-        
+
         if ($this->get_cloi())
         {
             $lo = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_cloi()->get_ref());
@@ -25,18 +25,18 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
         {
             $lo = $this->get_root_lo();
         }
-        
+
         $this->display_header($trail);
         $action_bar = $this->get_action_bar($lo);
-        
+
         if ($action_bar)
         {
             echo '<br />';
             echo $action_bar->as_html();
         }
-        
+
         //echo $this->get_object_info();
-        
+
 
         if ($lo->get_version() == 'chamilo')
         {
@@ -45,26 +45,26 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
             echo $this->get_creation_links($lo, $types);
             echo '<div class="clear">&nbsp;</div><br />';
         }
-        
+
         echo '<div style="width: 18%; overflow: auto; float: left;">';
         echo $this->get_clo_menu();
         echo '</div><div style="width: 80%; float: right;">';
         echo $this->get_clo_table_html(false, null, new LearningPathBrowserTableCellRenderer($this->get_parent(), $this->get_clo_table_condition()));
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
-        
+
         $this->display_footer();
     }
 
     function get_object_info()
     {
         $html = array();
-        
+
         $content_object = $this->get_root_lo();
         $display = ContentObjectDisplay :: factory($content_object);
         $content_object_display = $display->get_full_html();
         $check_empty = trim(strip_tags($content_object_display));
-        
+
         if (! empty($check_empty) && $check_empty != $content_object->get_title())
         {
             $html[] = '<div class="complex_browser_display">';
@@ -72,16 +72,16 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div>';
         }
-        
+
         return implode("\n", $html);
     }
 
     function get_action_bar()
     {
         $pub = Request :: get('publish');
-        
+
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         /*$type = 'learning_path';
 		$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'content_object/' . $type . '.png', $url));
@@ -92,7 +92,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_CREATE_LP_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'content_object/' . $type . '.png', $url));
 		}*/
-        
+
         if ($pub && $pub != '')
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $_SESSION['redirect_url']));
@@ -103,14 +103,14 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
     function get_creation_links($lo, $types = array())
     {
         $html[] = '<div class="select_complex_element">';
-        $html[] = '<span class="title">' . Theme :: get_common_image('place_add') . Translation :: get('LearningPathAddContentObject') . '</span>';
+        $html[] = '<span class="title">' . Theme :: get_common_image('place_content_objects') . Translation :: get('LearningPathAddContentObject') . '</span>';
         $html[] = '<div id="content_object_selection">';
-        
+
         if (count($types) == 0)
         {
             $types = $lo->get_allowed_types();
         }
-        
+
         foreach ($types as $type)
         {
             if ($type == 'learning_path')
@@ -121,19 +121,19 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
             {
                 $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_CREATE_LP_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
             }
-            
+
             $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
             $html[] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div></a>';
         }
-        
+
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 }

@@ -119,7 +119,7 @@ class CasAuthentication extends Authentication
      */
     function change_password($user, $old_password, $new_password)
     {
-        if (!self :: is_password_changeable())
+        if (!self :: is_password_changeable($user))
         {
             return false;
         }
@@ -129,6 +129,13 @@ class CasAuthentication extends Authentication
             $cas_password = CasPassword :: factory($cas_password_type, $user);
             return $cas_password->set_password($old_password, $new_password);
         }
+    }
+
+    function get_password_requirements()
+    {
+        $cas_password_type = $this->determine_cas_password_type();
+        $cas_password = CasPassword :: factory($cas_password_type, null);
+        return $cas_password->get_password_requirements();
     }
 
     /**

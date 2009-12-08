@@ -68,6 +68,11 @@ class LdapCasPassword extends CasPassword
         return false;
     }
 
+    function get_password_requirements()
+    {
+        return Translation :: get('GeneralPasswordRequirements');
+    }
+
     function encode_ldap_password($pw)
     {
         $newpw = '';

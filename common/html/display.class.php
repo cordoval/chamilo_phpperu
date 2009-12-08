@@ -145,7 +145,7 @@ class Display
         //mailto already present?
         if (substr($email, 0, 7) != 'mailto:')
             $email = 'mailto:' . $email;
-            
+
         //class (stylesheet) defined?
         if ($style_class != '')
         {
@@ -155,12 +155,12 @@ class Display
         {
             $style_class = ' class="full_url_print"';
         }
-        
+
         //encrypt email
         $hmail = '';
         for($i = 0; $i < strlen($email); $i ++)
             $hmail .= '&#' . ord($email{$i}) . ';';
-            
+
         //encrypt clickable text if @ is present
         if (strpos($clickable_text, '@'))
         {
@@ -171,7 +171,7 @@ class Display
         {
             $hclickable_text = htmlspecialchars($clickable_text);
         }
-        
+
         //return encrypted mailto hyperlink
         return '<a href="' . $hmail . '"' . $style_class . '>' . $hclickable_text . '</a>';
     }
@@ -197,13 +197,13 @@ class Display
             //if there was no valid iso-code, use the english one
             $document_language = 'en';
         }
-        
+
         $header = new Header($document_language);
         $header->add_default_headers();
         $header->add_javascript_file_header(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/fckeditor/fckeditor.js');
         $header->set_page_title(PlatformSetting :: get('site_name'));
         $header->display();
-        
+
         echo '<style type="text/css">body {background-color:white; padding: 10px;}</style>';
     }
 
@@ -224,14 +224,14 @@ class Display
         }
         self :: header($trail);
         $home_url = Path :: get(WEB_PATH);
-        
+
         $html[] = Translation :: get('NotAllowed');
-        
+
         if ($show_login_form)
         {
             $html[] = self :: display_login_form();
         }
-        
+
         self :: error_message(implode("\n", $html));
         $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
         self :: footer();
