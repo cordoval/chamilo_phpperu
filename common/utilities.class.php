@@ -511,6 +511,7 @@ class Utilities
 
     static function extract_xml_file($file, $extra_options = array())
     {
+    	require_once 'XML/Unserializer.php';
         if (file_exists($file))
         {
             $unserializer = new XML_Unserializer();
