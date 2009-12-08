@@ -20,6 +20,13 @@ abstract class CasPassword
     function factory($password_type, $user)
     {
         $cas_password_class_file = dirname(__FILE__) . '/type/' . $password_type . '_cas_password.class.php';
+
+        if (!file_exists($cas_password_class_file))
+        {
+            $password_type = 'default';
+            $cas_password_class_file = dirname(__FILE__) . '/type/' . $password_type . '_cas_password.class.php';
+        }
+
         $cas_password_class = Utilities :: underscores_to_camelcase($password_type) . 'CasPassword';
         require_once $cas_password_class_file;
         return new $cas_password_class($user);
