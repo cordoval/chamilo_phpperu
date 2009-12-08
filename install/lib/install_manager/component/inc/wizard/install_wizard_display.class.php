@@ -81,12 +81,40 @@ EOT;
         
         echo '<div id="progressbox">';
         $all_pages = $current_page->controller->_pages;
-        $total_number_of_pages = count($all_pages);
+        $total_number_of_pages = count($all_pages) - 1;
+        
+    	if(get_class($current_page) == 'LanguageInstallWizardPage')
+        {
+            $total_number_of_pages = 1;
+        }
+        
+    	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
+        {
+            $total_number_of_pages = 2;
+        }
+        
         $current_page_number = 0;
         $page_number = 0;
         echo '<ul id="progresstrail">';
         foreach ($all_pages as $index => $page)
         {
+        	if(get_class($current_page) == 'LanguageInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            {
+            	continue;
+            }
+            
+        	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
+            {
+            	if(get_class($page) != 'PreconfiguredInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            		continue;
+            }
+            
+        	if(get_class($page) == 'PreconfiguredInstallWizardPage')
+            {
+            	if(get_class($current_page) != 'PreconfiguredInstallWizardPage')
+            		continue;
+            }
+            
         	$page_number ++;
             
             if ($page->get_title() == $current_page->get_title())
