@@ -106,9 +106,9 @@ class MyTemplate
 
     /**
      * Load the file for the handle, compile the file,
-     * and run the compiled code. This will return the output;
+     * and run the compiled code.
      */
-    function pparse_return($handle)
+    function pparse($handle)
     {
         if (! $this->loadfile($handle))
         {
@@ -123,11 +123,28 @@ class MyTemplate
         }
         
         // Run the compiled code.
-        ob_start();
         eval($this->compiled_code[$handle]);
-        $result = ob_get_contents();
-        ob_end_clean();
-        return $result;
+    }
+    
+	function pparse_return($handle)
+    {
+        if (! $this->loadfile($handle))
+        {
+            die("Template->pparse(): Couldn't load template file for handle $handle");
+        }
+        
+        $str = '';
+        
+        // actually compile the template now.
+        if (! isset($this->compiled_code[$handle]) || empty($this->compiled_code[$handle]))
+        {
+            // Actually compile the code now.
+            $this->compiled_code[$handle] = $this->compile($this->uncompiled_code[$handle], true, 'str');
+        }
+        
+        eval($this->compiled_code[$handle]);
+
+        return $str;
     }
 
     /**
