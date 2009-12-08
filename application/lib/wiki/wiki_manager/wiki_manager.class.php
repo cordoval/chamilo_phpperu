@@ -177,14 +177,32 @@ class WikiManager extends WebApplication
     
     }
 
-    function get_content_object_publication_locations($content_object)
+	function get_content_object_publication_locations($content_object)
     {
-    
+        $allowed_types = array('wiki');
+        
+        $type = $content_object->get_type();
+        if (in_array($type, $allowed_types))
+        {
+            $locations = array(Translation :: get('Wiki'));
+            return $locations;
+        }
+        
+        return array();
     }
 
     function publish_content_object($content_object, $location)
     {
-    
+        $publication = new WikiPublication();
+        $publication->set_content_object($content_object->get_id());
+        $publication->set_publisher(Session :: get_user_id());
+        $publication->set_published(time());
+        $publication->set_hidden(0);
+        $publication->set_from_date(0);
+        $publication->set_to_date(0);
+        
+        $publication->create();
+        return Translation :: get('PublicationCreated');
     }
 }
 ?>
