@@ -87,7 +87,7 @@ EOT;
         echo '<ul id="progresstrail">';
         foreach ($all_pages as $index => $page)
         {
-            $page_number ++;
+        	$page_number ++;
             
             if ($page->get_title() == $current_page->get_title())
             {
@@ -103,7 +103,24 @@ EOT;
         $page_number = 0;
         foreach ($all_pages as $index => $page)
         {
-            $page_number ++;
+        	if(get_class($current_page) == 'LanguageInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            {
+            	continue;
+            }
+            
+        	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
+            {
+            	if(get_class($page) != 'PreconfiguredInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            		continue;
+            }
+            
+        	if(get_class($page) == 'PreconfiguredInstallWizardPage')
+            {
+            	if(get_class($current_page) != 'PreconfiguredInstallWizardPage')
+            		continue;
+            }
+            
+        	$page_number ++;
             
             if ($page_number <= $current_page_number)
             {

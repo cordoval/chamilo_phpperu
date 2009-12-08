@@ -32,9 +32,18 @@ class InstallWizardProcess extends HTML_QuickForm_Action
     }
 
     function perform($page, $actionName)
-    {
-
-        $this->values = $page->controller->exportValues();
+    { 
+        if($_FILES['config_file'])
+        {
+        	$values = array();
+        	
+        	require_once($_FILES['config_file']['tmp_name']);
+        	$this->values = $values;
+        }
+        else
+        {
+    		$this->values = $page->controller->exportValues();
+        }
 
         $this->applications['core'] = array('webservice', 'admin', 'help', 'reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
         $this->applications['extra'] = Filesystem :: get_directory_content(Path :: get_application_path() . 'lib/', Filesystem :: LIST_DIRECTORIES, false);
