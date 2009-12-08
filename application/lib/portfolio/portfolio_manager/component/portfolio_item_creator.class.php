@@ -28,8 +28,9 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
         
         $types = array('portfolio', 'announcement', 'blog_item', 'calendar_event', 'description', 'document', 'link', 'note', 'rss_feed', 'profile', 'youtube');
         
-        $pub = new RepoViewer($this, $types, false, RepoViewer :: SELECT_MULTIPLE, array(), true, false);
+        $pub = new RepoViewer($this, $types, false, RepoViewer :: SELECT_MULTIPLE, array(), false, false);
         $pub->set_parameter('parent', $parent);
+        $pub->parse_input_from_table();
         
         if (! isset($object))
         {
