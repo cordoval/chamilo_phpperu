@@ -65,7 +65,7 @@ $error_message .= '			</div>
 			<div id="footer">
 				<div id="copyright">
 					<div class="logo">
-					<a href="http://www.chamilo.org"><img src="layout/aqua/img/common/chamilo_logo_small.png" /></a>
+					<a href="http://www.chamilo.org"><img src="layout/aqua/images/common/chamilo_logo_small.png" /></a>
 					</div>
 					<div class="links">
 						<a href="http://www.chamilo.org">http://www.chamilo.org</a>&nbsp;|&nbsp;&copy;&nbsp;2009

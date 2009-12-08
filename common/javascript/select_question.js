@@ -140,7 +140,7 @@ $(function ()
 		fieldAnswer = '<input type="text" name="option[' + numberOfOptions + ']" style="width: 300px;" />';
 		fieldComment = renderFckEditor(editorName, parameters);
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
-		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[' + numberOfOptions + ']" />';
+		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/images/common/action_delete.png" name="remove[' + numberOfOptions + ']" />';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
 				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';

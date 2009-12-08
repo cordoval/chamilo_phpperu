@@ -47,7 +47,7 @@ EOT;
         $element_template = array();
         $element_template[] = '<div class="row">';
         $element_template[] = '<div class="label">';
-        $element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="../layout/aqua/img/common/action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
+        $element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="../layout/aqua/images/common/action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
         $element_template[] = '</div>';
         $element_template[] = '<div class="formw">';
         $element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
@@ -66,7 +66,7 @@ EOT;
         $header_template = implode("\n", $header_template);
         
         $renderer->setHeaderTemplate($header_template);
-        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="../layout/aqua/img/common/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
+        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="../layout/aqua/images/common/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
         $required_note_template = <<<EOT
 	<div class="row">
 		<div class="label"></div>

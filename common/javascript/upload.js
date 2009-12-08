@@ -44,7 +44,7 @@ function upload(latency){
 	this.start = start;
 	this.stop = stop;
 	var __progress_bar_domid = '';
-	var __progress_bar_img = './layout/aqua/img/common/action_progress_bar.gif';
+	var __progress_bar_img = './layout/aqua/images/common/action_progress_bar.gif';
 	var __progress_bar_text = 'Uploading... Please wait';
 	var __progress_bar_interval = 1;
 	var __upload_form_domid = '';

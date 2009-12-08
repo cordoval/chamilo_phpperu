@@ -25,8 +25,8 @@
 	
 	var handle_visible_clicked = function(ev, ui)
 	{
-		var visible_img = 'layout/aqua/img/common/action_visible.png';
-		var invisible_img = 'layout/aqua/img/common/action_invisible.png';
+		var visible_img = 'layout/aqua/images/common/action_visible.png';
+		var invisible_img = 'layout/aqua/images/common/action_invisible.png';
 	
 		var parent = $(this).parent().parent();
 		var tool = parent.attr('id');

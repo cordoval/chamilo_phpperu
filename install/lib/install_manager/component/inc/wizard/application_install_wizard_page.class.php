@@ -101,7 +101,7 @@ class ApplicationInstallWizardPage extends InstallWizardPage
             
             $html[] = '<li><a href="#tabs-' . $index . '">';
             $html[] = '<span class="category">';
-            $html[] = '<img src="../layout/aqua/img/install/category_' . $category . '.png" border="0" style="vertical-align: middle;" alt="' . $category_name . '" title="' . $category_name . '"/>';
+            $html[] = '<img src="../layout/aqua/images/install/category_' . $category . '.png" border="0" style="vertical-align: middle;" alt="' . $category_name . '" title="' . $category_name . '"/>';
             $html[] = '<span class="title">' . $category_name . '</span>';
             $html[] = '</span>';
             $html[] = '</a></li>';
@@ -119,7 +119,7 @@ class ApplicationInstallWizardPage extends InstallWizardPage
             $index ++;
             
             $html = array();
-            $html[] = '<h2><img src="../layout/aqua/img/install/category_' . $category . '.png" border="0" style="vertical-align: middle;" alt="' . $category_name . '" title="' . $category_name . '"/>&nbsp;' . $category_name . '</h2>';
+            $html[] = '<h2><img src="../layout/aqua/images/install/category_' . $category . '.png" border="0" style="vertical-align: middle;" alt="' . $category_name . '" title="' . $category_name . '"/>&nbsp;' . $category_name . '</h2>';
             $html[] = '<div class="tab" id="tabs-' . $index . '">';
             $html[] = '<a class="prev"></a>';
             $html[] = '<div class="scrollable">';
@@ -135,7 +135,7 @@ class ApplicationInstallWizardPage extends InstallWizardPage
                 $html = array();
                 $html[] = '<div class="vertical_action"' . ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') . '>';
                 $html[] = '<div class="icon">';
-                $html[] = '<a href="#"><img src="../layout/aqua/img/install/application_' . $package['code'] . '.png" alt="' . $package['name'] . '" title="' . $package['name'] . '"/></a>';
+                $html[] = '<a href="#"><img src="../layout/aqua/images/install/application_' . $package['code'] . '.png" alt="' . $package['name'] . '" title="' . $package['name'] . '"/></a>';
                 $html[] = '</div>';
                 $html[] = '<div class="description">';
                 $html[] = '<h4>' . $package['name'] . '</h4>';

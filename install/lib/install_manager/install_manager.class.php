@@ -144,7 +144,7 @@ class InstallManager extends CoreApplication
         $output[] = '<div id="footer"> <!-- start of #footer section -->';
         $output[] = '<div id="copyright">';
         $output[] = '<div class="logo">';
-        $output[] = '<a href="http://www.chamilo.org"><img src="' . '../layout/aqua/img/common/chamilo_logo_small.png" /></a>';
+        $output[] = '<a href="http://www.chamilo.org"><img src="' . '../layout/aqua/images/common/chamilo_logo_small.png" /></a>';
         $output[] = '</div>';
         $output[] = '<div class="links">';
         

@@ -60,9 +60,9 @@ class Theme
         switch ($path_type)
         {
             case WEB_IMG_PATH :
-                return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/img/';
+                return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/images/';
             case SYS_IMG_PATH :
-                return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/img/';
+                return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/images/';
             case WEB_CSS_PATH :
                 return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/css/';
             case SYS_CSS_PATH :

@@ -122,7 +122,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         $urlAppendPath = str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
         $path = 'http://' . $_SERVER['HTTP_HOST'] . $urlAppendPath . '/';
         
-        $path .= '/layout/aqua/img/common/';
+        $path .= '/layout/aqua/images/common/';
         
         /*$writable_folders = array('/files', '/files/archive', '/files/fckeditor', '/files/garbage', '/files/logs' 
         						  , '/files/repository/', '/files/temp', '/files/scorm', '/files/userpictures', 
