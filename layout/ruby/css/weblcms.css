@@ -206,7 +206,7 @@ div.announcements
 div.questionform input[type=text], div.row div.questionform input[type=password], div.row div.questionform select
 {
 	/*
-	background-image: url(../img/common/buttons/button_link.png);
+	background-image: url(../images/common/buttons/button_link.png);
 	background-repeat: no-repeat;
 	background-position: 2px center;
 	padding-left: 20px;
@@ -250,7 +250,7 @@ table.forum .row2
 table.forum td.category
 {
  	background-color: #C7D0D7;
- 	background-image: url('../img/weblcms/forum/backgrounds/cellpic1.gif');
+ 	background-image: url('../images/weblcms/forum/backgrounds/cellpic1.gif');
  	height: 28px;
  	border: 0 none;
 	margin: 0;
@@ -260,7 +260,7 @@ table.forum td.category
 
 table.forum td.category_right
 {
- 	background-image: url('../img/weblcms/forum/backgrounds/cellpic2.jpg');
+ 	background-image: url('../images/weblcms/forum/backgrounds/cellpic2.jpg');
  	height: 28px;
 }
  
@@ -308,7 +308,7 @@ table.forum .row2
 table.forum td.category
 {
  	background-color: #aec7e4;
- 	/*background-image: url('../img/weblcms/forum/backgrounds/cellpic1.png');*/
+ 	/*background-image: url('../images/weblcms/forum/backgrounds/cellpic1.png');*/
  	background-image: none;
  	height: 28px;
  	border: 0 none;
@@ -319,14 +319,14 @@ table.forum td.category
 
 table.forum td.category_right
 {
- 	background-image: url('../img/weblcms/forum/backgrounds/cellpic2.png');
+ 	background-image: url('../images/weblcms/forum/backgrounds/cellpic2.png');
  	height: 28px;
 }
  
 table.forum th
 {
  	background-color: #6694cc;
- 	/*background-image:url('../img/weblcms/forum/backgrounds/cellpic3.png');*/
+ 	/*background-image:url('../images/weblcms/forum/backgrounds/cellpic3.png');*/
  	background-image: none;
  	color: #2b3f57;
 	font-weight: bold;

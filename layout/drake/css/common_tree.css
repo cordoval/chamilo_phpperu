@@ -12,7 +12,7 @@ ul.tree-menu,ul.tree-menu ul {
 
 ul.tree-menu ul {
 	background-repeat: repeat-y;
-	background-image: url(../img/common/treemenu/tree-branch.png);
+	background-image: url(../images/common/treemenu/tree-branch.png);
 	padding-left: 18px;
 	clear: both;
 }
@@ -32,27 +32,27 @@ ul.tree-menu li div,ul.tree-menu li div.last,ul.tree-menu li div.collapse,ul.tre
 }
 
 ul.tree-menu li div {
-	background-image: url(../img/common/treemenu/tree-leaf.png);
+	background-image: url(../images/common/treemenu/tree-leaf.png);
 }
 
 ul.tree-menu li div.last {
-	background-image: url(../img/common/treemenu/tree-leaf-end.png);
+	background-image: url(../images/common/treemenu/tree-leaf-end.png);
 }
 
 ul.tree-menu li div.collapse {
-	background-image: url(../img/common/treemenu/tree-node-open.png);
+	background-image: url(../images/common/treemenu/tree-node-open.png);
 }
 
 ul.tree-menu li div.lastCollapse {
-	background-image: url(../img/common/treemenu/tree-node-open-end.png);
+	background-image: url(../images/common/treemenu/tree-node-open-end.png);
 }
 
 ul.tree-menu li div.expand {
-	background-image: url(../img/common/treemenu/tree-node.png);
+	background-image: url(../images/common/treemenu/tree-node.png);
 }
 
 ul.tree-menu li div.lastExpand {
-	background-image: url(../img/common/treemenu/tree-node-end.png);
+	background-image: url(../images/common/treemenu/tree-node-end.png);
 }
 
 ul.tree-menu li div a {
@@ -61,7 +61,7 @@ ul.tree-menu li div a {
 	height: 16px;
 	padding-left: 21px;
 	background-repeat: no-repeat;
-	background-image: url(../img/common/treemenu/tree-document.png);
+	background-image: url(../images/common/treemenu/tree-document.png);
 	white-space: nowrap;
 }
 
@@ -77,57 +77,57 @@ ul.tree-menu li div img {
  * Special treemenu icons
  */
 ul.tree-menu li div a.home {
-	background-image: url(../img/common/treemenu/home.png);
+	background-image: url(../images/common/treemenu/home.png);
 }
 
 ul.tree-menu li div a.trash {
-	background-image: url(../img/common/treemenu/trash.png);
+	background-image: url(../images/common/treemenu/trash.png);
 }
 
 ul.tree-menu li div a.trash_full {
-	background-image: url(../img/common/treemenu/trash_full.png);
+	background-image: url(../images/common/treemenu/trash_full.png);
 }
 
 ul.tree-menu li div a.quota {
-	background-image: url(../img/common/treemenu/quota.png);
+	background-image: url(../images/common/treemenu/quota.png);
 }
 
 ul.tree-menu li div a.userview {
-	background-image: url(../img/common/treemenu/userview.png);
+	background-image: url(../images/common/treemenu/userview.png);
 }
 
 ul.tree-menu li div a.publication {
-	background-image: url(../img/common/treemenu/publication.png);
+	background-image: url(../images/common/treemenu/publication.png);
 }
 
 ul.tree-menu li div a.create {
-	background-image: url(../img/common/treemenu/create.png);
+	background-image: url(../images/common/treemenu/create.png);
 }
 
 ul.tree-menu li div a.import {
-	background-image: url(../img/common/treemenu/import.png);
+	background-image: url(../images/common/treemenu/import.png);
 }
 
 ul.tree-menu li div a.search_results {
-	background-image: url(../img/common/treemenu/search.png);
+	background-image: url(../images/common/treemenu/search.png);
 }
 
 ul.tree-menu li div a.category {
-	background-image: url(../img/common/treemenu/tree-folder-closed.png);
+	background-image: url(../images/common/treemenu/tree-folder-closed.png);
 }
 
 ul.tree-menu li.current_path>div a.category,ul.tree-menu li.current>div a.category
 	{
-	background-image: url(../img/common/treemenu/tree-folder-open.png);
+	background-image: url(../images/common/treemenu/tree-folder-open.png);
 }
 /*
 ul.tree-menu li.current_path ul li div a.category
 {
-	background-image: url(../img/common/treemenu/tree-folder-closed.png);
+	background-image: url(../images/common/treemenu/tree-folder-closed.png);
 }
 
 ul.tree-menu li.current_path ul li.current_path div a.category
 {
-	background-image: url(../img/common/treemenu/tree-folder-open.png);
+	background-image: url(../images/common/treemenu/tree-folder-open.png);
 }
 */

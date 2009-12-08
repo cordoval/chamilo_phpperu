@@ -21,7 +21,7 @@
 	text-transform: uppercase;
 	text-align: left;
 	padding: 6px 10px 6px 10px;
-	background: #d4e0f1 url(../img/common/background_table_header.png)
+	background: #d4e0f1 url(../images/common/background_table_header.png)
 		repeat-x;
 }
 
@@ -125,7 +125,7 @@
 	text-transform: uppercase;
 	text-align: center;
 	padding: 2px;
-	background: #d4e0f1 url(../img/common/background_table_header.png)
+	background: #d4e0f1 url(../images/common/background_table_header.png)
 		repeat-x;
 }
 

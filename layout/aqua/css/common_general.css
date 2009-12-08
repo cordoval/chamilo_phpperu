@@ -45,7 +45,7 @@ img {
 	color: #ffffff;
 	/*border-bottom: 1px solid white;*/
 	height: 80px;
-	background-image: url('../img/common/background_header.png');
+	background-image: url('../images/common/background_header.png');
 	background-repeat: repeat-x;
 	background-position: center left;
 }
@@ -68,7 +68,7 @@ img {
 }
 
 #header1 div.banner div.logo {
-	background-image: url('../img/common/logo_header.png');
+	background-image: url('../images/common/logo_header.png');
 	background-repeat: no-repeat;
 	height: 48px;
 	width: 160px;
@@ -161,7 +161,7 @@ img {
 #breadcrumbtrail li a {
 	display: block;
 	padding: 0 15px 0 0;
-	background: url(../img/common/background_breadcrumb.png) no-repeat right
+	background: url(../images/common/background_breadcrumb.png) no-repeat right
 		center;
 	color: #444444;
 }
@@ -198,7 +198,7 @@ img {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	background-color: #264269;
-	background-image: url('../img/common/background_footer.png');
+	background-image: url('../images/common/background_footer.png');
 	background-repeat: repeat-x;
 }
 
@@ -355,21 +355,21 @@ img {
 }
 
 .normal-message {
-	background-image: url('../img/common/status_confirmation_medium.png');
+	background-image: url('../images/common/status_confirmation_medium.png');
 	background-color: #E5EDF9;
 	border: 1px solid #b9d0ef;
 	color: #008;
 }
 
 .error-message {
-	background-image: url('../img/common/status_error.png');
+	background-image: url('../images/common/status_error.png');
 	background-color: #FFD1D1;
 	border: 1px solid #ff9b9d;
 	color: #b40404;
 }
 
 .warning-message {
-	background-image: url('../img/common/status_warning.png');
+	background-image: url('../images/common/status_warning.png');
 	border: 1px solid #ffd89b;
 	background-color: #fff8aa;
 	color: #996900;
@@ -600,7 +600,7 @@ div.attachments {
 	border: 1px solid #F6F6F6;
 	margin: 0 0 1em 0;
 	padding: 10px 10px 10px 44px;
-	background: url(../img/common/place_attachment.png) no-repeat 10px 10px;
+	background: url(../images/common/place_attachment.png) no-repeat 10px 10px;
 }
 
 div.attachments_title {
@@ -684,11 +684,11 @@ div.versions,div.versions_na {
 }
 
 div.versions {
-	background: url(../img/common/place_versions.png) no-repeat 10px 10px;
+	background: url(../images/common/place_versions.png) no-repeat 10px 10px;
 }
 
 div.versions_na {
-	background: url(../img/common/place_versions_na.png) no-repeat 10px 10px
+	background: url(../images/common/place_versions_na.png) no-repeat 10px 10px
 		;
 }
 
@@ -717,12 +717,12 @@ div.version_stats,div.version_stats_na {
 }
 
 div.version_stats {
-	background: url(../img/common/place_version_quota.png) no-repeat 10px
+	background: url(../images/common/place_version_quota.png) no-repeat 10px
 		10px;
 }
 
 div.version_stats_na {
-	background: url(../img/common/place_version_quota_na.png) no-repeat 10px
+	background: url(../images/common/place_version_quota_na.png) no-repeat 10px
 		10px;
 }
 
@@ -767,12 +767,12 @@ div.publications,div.publications_na {
 }
 
 div.publications {
-	background: url(../img/common/place_publications.png) no-repeat 10px
+	background: url(../images/common/place_publications.png) no-repeat 10px
 		10px;
 }
 
 div.publications_na {
-	background: url(../img/common/place_publications_na.png) no-repeat 10px
+	background: url(../images/common/place_publications_na.png) no-repeat 10px
 		10px;
 }
 
@@ -1121,7 +1121,7 @@ div.action_bar_text {
 	-moz-border-radius-bottomright: 15px;
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
-	background: #d4e0f1 url(../img/common/background_action_bar.png)
+	background: #d4e0f1 url(../images/common/background_action_bar.png)
 		no-repeat;
 }
 
@@ -1138,7 +1138,7 @@ div.action_bar {
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
 	height: 60px;
-	background: #d4e0f1 url(../img/common/background_action_bar.png)
+	background: #d4e0f1 url(../images/common/background_action_bar.png)
 		no-repeat;
 }
 
@@ -1191,7 +1191,7 @@ div.action_bar .action_bar_hide_container {
 	display: none;
 	text-align: center;
 	clear: both;
-	background-image: url(../img/common/background_ajax_hide.png);
+	background-image: url(../images/common/background_ajax_hide.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	height: 18px;
@@ -1263,7 +1263,7 @@ div.action_bar_left .action_bar_left_hide_container,div.action_bar_left .hide
 	right: 0px;
 	margin-right: -1px;
 	background-image:
-		url(../img/common/action_action_bar_hide_background.png);
+		url(../images/common/action_action_bar_hide_background.png);
 }
 
 div.action_bar_left .action_bar_left_hide_container,div.action_bar_left .show
@@ -1271,7 +1271,7 @@ div.action_bar_left .action_bar_left_hide_container,div.action_bar_left .show
 	right: -18px;
 	margin-left: 0px;
 	background-image:
-		url(../img/common/action_action_bar_show_background.png);
+		url(../images/common/action_action_bar_show_background.png);
 }
 
 .action_bar_left_show {
@@ -1368,7 +1368,7 @@ div.padding_10 {
 }
 
 a.modalCloseImg {
-	background: url(../img/home/background_modal_close.png) no-repeat;
+	background: url(../images/home/background_modal_close.png) no-repeat;
 	width: 34px;
 	height: 34px;
 	display: inline;
@@ -1420,7 +1420,7 @@ a.modalCloseImg {
 }
 
 .togglePlus {
-	background: url(../img/common/treemenu/bullet_toggle_plus.png) no-repeat
+	background: url(../images/common/treemenu/bullet_toggle_plus.png) no-repeat
 		;
 	height: 16px;
 	width: 13px;
@@ -1430,7 +1430,7 @@ a.modalCloseImg {
 }
 
 .toggleMinus {
-	background: url(../img/common/treemenu/bullet_toggle_minus.png)
+	background: url(../images/common/treemenu/bullet_toggle_minus.png)
 		no-repeat;
 	height: 16px;
 	width: 13px;
@@ -1451,7 +1451,7 @@ a.modalCloseImg {
  * AJAX loading... icons
  **********************************/
 .loadingMini {
-	background-image: url(../img/common/action_loading_mini.gif);
+	background-image: url(../images/common/action_loading_mini.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 16px;
@@ -1460,7 +1460,7 @@ a.modalCloseImg {
 }
 
 .loadingSmall {
-	background-image: url(../img/common/action_loading_small.gif);
+	background-image: url(../images/common/action_loading_small.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 22px;
@@ -1469,7 +1469,7 @@ a.modalCloseImg {
 }
 
 .loadingMedium {
-	background-image: url(../img/common/action_loading_medium.gif);
+	background-image: url(../images/common/action_loading_medium.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 32px;
@@ -1478,7 +1478,7 @@ a.modalCloseImg {
 }
 
 .loadingLarge {
-	background-image: url(../img/common/action_loading_large.gif);
+	background-image: url(../images/common/action_loading_large.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 48px;
@@ -1487,7 +1487,7 @@ a.modalCloseImg {
 }
 
 .loadingHuge {
-	background-image: url(../img/common/action_loading_huge.gif);
+	background-image: url(../images/common/action_loading_huge.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 64px;
@@ -1496,7 +1496,7 @@ a.modalCloseImg {
 }
 
 .statusConfirmation {
-	background-image: url(../img/common/status_confirmation_huge.png);
+	background-image: url(../images/common/status_confirmation_huge.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 64px;
@@ -1505,7 +1505,7 @@ a.modalCloseImg {
 }
 
 .statusError {
-	background-image: url(../img/common/status_error_huge.png);
+	background-image: url(../images/common/status_error_huge.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 64px;
@@ -1525,35 +1525,35 @@ a.modalCloseImg {
 }
 
 #closeNormalMessage {
-	background: url(../img/common/action_close_normal_message.png) no-repeat
+	background: url(../images/common/action_close_normal_message.png) no-repeat
 		;
 }
 
 #closeErrorMessage {
-	background: url(../img/common/action_close_error_message.png) no-repeat;
+	background: url(../images/common/action_close_error_message.png) no-repeat;
 }
 
 #closeWarningMessage {
-	background: url(../img/common/action_close_warning_message.png)
+	background: url(../images/common/action_close_warning_message.png)
 		no-repeat;
 }
 
 .rightTrue {
-	background: url(../img/common/action_setting_true.png) no-repeat;
+	background: url(../images/common/action_setting_true.png) no-repeat;
 	width: 16px;
 	height: 16px;
 	display: inline-block;
 }
 
 .rightFalse {
-	background: url(../img/common/action_setting_false.png) no-repeat;
+	background: url(../images/common/action_setting_false.png) no-repeat;
 	width: 16px;
 	height: 16px;
 	display: inline-block;
 }
 
 .rightInheritTrue {
-	background: url(../img/common/action_setting_true_inherit.png) no-repeat
+	background: url(../images/common/action_setting_true_inherit.png) no-repeat
 		;
 	width: 16px;
 	height: 16px;
@@ -1561,7 +1561,7 @@ a.modalCloseImg {
 }
 
 .rightInheritFalse {
-	background: url(../img/common/action_setting_false_inherit.png)
+	background: url(../images/common/action_setting_false_inherit.png)
 		no-repeat;
 	width: 16px;
 	height: 16px;
@@ -1794,7 +1794,7 @@ li.buddyDrop {
  * ADDITIONAL ELEMENT FINDER STYLES *
  ************************************/
 .element_finder_loading {
-	background-image: url(../img/common/action_loading_huge.gif);
+	background-image: url(../images/common/action_loading_huge.gif);
 	background-repeat: no-repeat;
 	background-position: center center;
 	width: 100%;
@@ -1845,7 +1845,7 @@ div.question div.title {
 
 div.question div.title div.number,div.question div.title div.text {
 	border: 1px solid #b5cae7;
-	background: #4171b5 url(../img/common/background_table_header.png)
+	background: #4171b5 url(../images/common/background_table_header.png)
 		repeat-x;
 }
 
