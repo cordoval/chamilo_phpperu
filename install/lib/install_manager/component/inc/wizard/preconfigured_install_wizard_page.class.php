@@ -26,7 +26,7 @@ class PreconfiguredInstallWizardPage extends InstallWizardPage
         
         $this->addElement('category', Translation :: get('ConfigurationFile'));
         $this->addElement('file', 'config_file', Translation :: get('ConfigurationFile'));
-        $this->addRule('config_file', Translation :: get('ThisFieldIsRequired'), 'required');
+        //$this->addRule('config_file', Translation :: get('ThisFieldIsRequired'), 'required');
         $this->addElement('category');
         
         $buttons = array();
