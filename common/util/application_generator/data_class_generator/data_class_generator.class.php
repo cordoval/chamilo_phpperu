@@ -26,7 +26,7 @@ class DataClassGenerator
      */
     function generate_data_class($location, $classname, $properties, $package, $description, $author, $application_name)
     {
-        $this->template = new MyTemplate();
+        $this->template = new Phpbb2Template();
         $this->template->set_rootdir(dirname(__FILE__));
         
         if (! is_dir($location))

@@ -13,7 +13,7 @@ class InstallGenerator
      */
     function InstallGenerator()
     {
-        $this->template = new MyTemplate();
+        $this->template = new Phpbb2Template();
         $this->template->set_rootdir(dirname(__FILE__));
     }
 

@@ -27,9 +27,9 @@
  *
  */
 
-class MyTemplate
+class Phpbb2Template
 {
-    var $classname = "Template";
+    var $classname = "Phpbb2Template";
     
     // variable that holds all the data we'll be substituting into
     // the compiled templates.
