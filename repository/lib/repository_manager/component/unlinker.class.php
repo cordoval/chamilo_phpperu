@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to delete a
  * learning object publication from the publication overview.
  */
-class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComponent
+class RepositoryManagerUnlinkerComponent extends RepositoryManagerComponent
 {
 
     /**
