@@ -255,6 +255,12 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         return $this->database->count_objects(ProfilePublication :: get_table_name(), $condition);
     }
 
+	function delete_content_object_publication($publication_id)
+    {
+        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_ID, $publication_id);
+        return $this->database->delete(ProfilePublication :: get_table_name(), $condition);
+    }
+    
     //Inherited.
     function create_profile_publication($publication)
     {

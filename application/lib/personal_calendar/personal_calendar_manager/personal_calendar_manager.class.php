@@ -282,6 +282,12 @@ class PersonalCalendarManager extends WebApplication
         $dm = PersonalCalendarDatamanager :: get_instance();
         return $dm->delete_content_object_publications($object_id);
     }
+    
+	function delete_content_object_publication($publication_id)
+    {
+    	$dm = PersonalCalendarDatamanager :: get_instance();
+        return $dm->delete_content_object_publication($publication_id);
+    }
 
     /**
      * @see Application::update_content_object_publication_id()

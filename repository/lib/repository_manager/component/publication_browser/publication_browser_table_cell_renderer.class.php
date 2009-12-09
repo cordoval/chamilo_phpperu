@@ -50,14 +50,18 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
      */
     private function get_modification_links($content_object)
     {
-        if (! $content_object->get_publication_object()->is_latest_version())
+        $toolbar_data = array();
+        
+        $delete_url = $this->browser->get_content_object_delete_publications_url($content_object);
+        $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        
+    	if (! $content_object->get_publication_object()->is_latest_version())
         {
-            $toolbar_data = array();
             $update_url = $this->browser->get_publication_update_url($content_object);
             $toolbar_data[] = array('href' => $update_url, 'label' => Translation :: get('Update'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_revert.png');
-            return Utilities :: build_toolbar($toolbar_data);
         }
-        return '';
+        
+        return Utilities :: build_toolbar($toolbar_data);
     }
 }
 ?>

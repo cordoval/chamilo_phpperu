@@ -394,6 +394,12 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 
         return $succes;
     }
+    
+	function delete_content_object_publication($publication_id)
+    {
+        $condition = new EqualityCondition(AssessmentPublication :: PROPERTY_ID, $publication_id);
+        return $this->database->delete(AssessmentPublication :: get_table_name(), $condition);
+    }
 
     function update_content_object_publication_id($publication_attr)
     {
