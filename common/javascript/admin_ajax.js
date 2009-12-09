@@ -75,8 +75,8 @@ $(function () {
 		$("#tabs ul").css('display', 'block');
 		$("#tabs h2").hide();
 		$("#tabs").tabs();
-		$('#tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
-		//placeFooter();
+		var tabs = $('#tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
+		tabs.tabs('select', tabnumber);
 	});
 
 });

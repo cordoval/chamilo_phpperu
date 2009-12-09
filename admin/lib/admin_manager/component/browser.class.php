@@ -15,7 +15,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
     function run()
     {
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PlatformAdmin')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Administration')));
         $trail->add_help('administration');
         
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
@@ -47,19 +47,28 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
         // Render the tabs
         $index = 0;
         
+        $selected_tab = 0;
+        
         foreach ($links as $application_links)
         {
-            $index ++;
-            
-            if (count($application_links['links']))
+        	if (!count($application_links['links']))
             {
-                $html[] = '<li><a href="#tabs-' . $index . '">';
-                $html[] = '<span class="category">';
-                $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
-                $html[] = '<span class="title">' . $application_links['application']['name'] . '</span>';
-                $html[] = '</span>';
-                $html[] = '</a></li>';
+            	continue;
             }
+            
+        	$index ++;
+            
+            if(Request :: get('selected') == $application_links['application']['class'])
+            {
+            	$selected_tab = $index - 1;
+            }
+
+            $html[] = '<li><a href="#tabs-' . $index . '">';
+            $html[] = '<span class="category">';
+            $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
+            $html[] = '<span class="title">' . $application_links['application']['name'] . '</span>';
+            $html[] = '</span>';
+            $html[] = '</a></li>';
         }
         
         $html[] = '</ul>';
@@ -67,10 +76,9 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
         $index = 0;
         foreach ($links as $application_links)
         {
-            $index ++;
-            
             if (count($application_links['links']))
-            {
+            { 
+            	$index ++;
                 $html[] = '<h2><img src="' . Theme :: get_image_path() . 'place_mini_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>&nbsp;' . $application_links['application']['name'] . '</h2>';
                 $html[] = '<div class="tab" id="tabs-' . $index . '">';
                 
@@ -136,6 +144,9 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
         }
         
         $html[] = '</div>';
+        $html[] = '<script language="Javascript">';
+        $html[] = '  var tabnumber = ' . $selected_tab . ';';
+        $html[] = '</script>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/admin_ajax.js');
         
         return implode("\n", $html);
