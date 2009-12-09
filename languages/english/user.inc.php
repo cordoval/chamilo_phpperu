@@ -49,4 +49,15 @@ $lang['user']['Timezone'] = 'Timezone';
 $lang['user']['PasswordConfirmation'] = 'Confirm your new password';
 $lang['user']['NewPassword'] = 'New password';
 $lang['user']['CurrentPassword'] = 'Current password';
+$lang['user']['AccountTitle'] = 'Account';
+$lang['user']['Email'] = 'Email';
+$lang['user']['Username'] = 'Username';
+$lang['user']['GeneralPasswordRequirements']= '<h2>Guidelines for a strong password</h2>
+<ol>
+<li>Eight characters long, and longer if possible.</li>
+<li>A mix of upper and lower case letters.</li>
+<li>Include numerals, special characters, and punctuation.</li>
+<li>Not based on any personal information.</li>
+<li>Not based on any dictionary word.</li>
+</ol>';
 ?>
