@@ -404,12 +404,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         if(is_numeric($publication))
         {
-        	$publication_id = $publication;	
+        	$publication = $this->retrieve_content_object_publication($publication);
         }
-        else
-        {
-        	$publication_id = $publication->get_id();
-        }
+        
+        $publication_id = $publication->get_id();
         
     	$query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_user') . ' WHERE publication_id = ' . $this->quote($publication_id);
         $this->query($query);
