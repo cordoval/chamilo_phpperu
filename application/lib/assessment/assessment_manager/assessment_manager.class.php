@@ -297,6 +297,11 @@ class AssessmentManager extends WebApplication
     {
         return AssessmentDataManager :: get_instance()->delete_content_object_publications($object_id);
     }
+    
+	function delete_content_object_publication($publication_id)
+    {
+    	 return AssessmentDataManager :: get_instance()->delete_content_object_publication($publication_id);
+    }
 
     function update_content_object_publication_id($publication_attr)
     {

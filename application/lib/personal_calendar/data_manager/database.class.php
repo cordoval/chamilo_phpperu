@@ -169,7 +169,13 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     public function delete_content_object_publications($object_id)
     {
         $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT, $object_id);
-        $this->database->delete(CalendarEventPublication :: get_table_name(), $condition);
+        return $this->database->delete(CalendarEventPublication :: get_table_name(), $condition);
+    }
+    
+	function delete_content_object_publication($publication_id)
+    {
+        $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_ID, $publication_id);
+        return $this->database->delete(CalendarEventPublication :: get_table_name(), $condition);
     }
 
     /**

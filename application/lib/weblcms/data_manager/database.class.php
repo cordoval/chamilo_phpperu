@@ -402,13 +402,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function delete_content_object_publication($publication)
     {
-        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_user') . ' WHERE publication_id = ' . $this->quote($publication->get_id());
+        if(is_numeric($publication))
+        {
+        	$publication_id = $publication;	
+        }
+        else
+        {
+        	$publication_id = $publication->get_id();
+        }
+        
+    	$query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_user') . ' WHERE publication_id = ' . $this->quote($publication_id);
         $this->query($query);
-        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_course_group') . ' WHERE publication_id = ' . $this->quote($publication->get_id());
+        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_course_group') . ' WHERE publication_id = ' . $this->quote($publication_id);
         $this->query($query);
         $query = 'UPDATE ' . $this->database->escape_table_name('content_object_publication') . ' SET ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '=' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '-1 WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '>' . $this->quote($publication->get_display_order_index());
         $this->query($query);
-        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication') . ' WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_ID) . '=' . $this->quote($publication->get_id());
+        $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication') . ' WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
         $this->database->get_connection()->setLimit(0, 1);
         $this->query($query);
         return true;

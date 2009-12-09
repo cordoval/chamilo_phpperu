@@ -115,6 +115,11 @@ class LaikaManager extends WebApplication
     {
         return true;
     }
+    
+	function delete_content_object_publication($publication_id)
+    {
+    	return true;
+    }
 
     /**
      * @see Application::update_content_object_publication_id()

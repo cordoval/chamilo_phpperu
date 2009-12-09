@@ -676,6 +676,12 @@ abstract class RepositoryDataManager
 
         return true;
     }
+    
+    function delete_content_object_publication($application, $publication_id)
+    {
+    	 $application = Application :: factory($application);
+         return $application->delete_content_object_publication($publication_id);
+    }
 
     abstract function delete_content_object_attachments($object);
 

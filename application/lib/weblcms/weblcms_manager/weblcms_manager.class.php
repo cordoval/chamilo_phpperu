@@ -561,6 +561,11 @@ class WeblcmsManager extends WebApplication
         return WeblcmsDataManager :: get_instance()->delete_content_object_publications($object_id);
     }
 
+	function delete_content_object_publication($publication_id)
+    {
+    	 return WeblcmsDataManager :: get_instance()->delete_content_object_publication($publication_id);
+    }
+    
     /*
 	 * Inherited
 	 */
