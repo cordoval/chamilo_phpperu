@@ -52,6 +52,13 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
+			<setting name="allow_buddy_management" field="radio"
+				default="1">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
 		</category>
 		<category name="registration">
 			<setting name="require_official_code" field="radio" default="1">
