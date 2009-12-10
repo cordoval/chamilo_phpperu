@@ -17,7 +17,7 @@ class SortableTableGenerator
 
     function generate_tables($default_location, $location, $application_name, $properties, $class, $author)
     {
-        $this->template = new Phpbb2Template();
+        $this->template = new MyTemplate();
         $this->template->set_rootdir(dirname(__FILE__));
         
         if (! is_dir($default_location))

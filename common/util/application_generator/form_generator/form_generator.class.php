@@ -24,7 +24,7 @@ class FormGenerator
      */
     function generate_form($location, $object_name, $properties, $author)
     {
-        $this->template = new Phpbb2Template();
+        $this->template = new MyTemplate();
         $this->template->set_rootdir(dirname(__FILE__));
         
         if (! is_dir($location))

@@ -13,7 +13,7 @@ class ComponentGenerator
      */
     function ComponentGenerator()
     {
-        $this->template = new Phpbb2Template();
+        $this->template = new MyTemplate();
         $this->template->set_rootdir(dirname(__FILE__));
     }
 

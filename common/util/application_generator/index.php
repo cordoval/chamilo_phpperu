@@ -2,7 +2,8 @@
 ini_set('include_path', realpath(dirname(__FILE__) . '/../../../plugin/pear'));
 require_once dirname(__FILE__) . '/../../global.inc.php';
 include (dirname(__FILE__) . '/settings.inc.php');
-include (Path :: get_plugin_path() . 'phpbb/phpbb2_template.class.php');
+include (dirname(__FILE__) . '/my_template.class.php');
+//include (Path :: get_plugin_path() . 'phpbb/phpbb2_template.class.php');
 include (dirname(__FILE__) . '/data_class_generator/data_class_generator.class.php');
 include (dirname(__FILE__) . '/form_generator/form_generator.class.php');
 include (dirname(__FILE__) . '/sortable_table_generator/sortable_table_generator.class.php');
