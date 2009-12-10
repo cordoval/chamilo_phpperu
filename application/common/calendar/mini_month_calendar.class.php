@@ -41,7 +41,7 @@ class MiniMonthCalendar extends MonthCalendar
     public function add_navigation_links($url_format)
     {
         $day = $this->get_start_time();
-        $row = 1;
+        $row = 0;
         $max_rows = $this->getRowCount();
         while ($row < $max_rows)
         {
@@ -65,9 +65,11 @@ class MiniMonthCalendar extends MonthCalendar
         $setting = PlatformSetting :: get('first_day_of_week');
         
         if ($setting == 'sunday')
-            return strtotime('Next Sunday', $first_day);
+        {
+            return strtotime('Next Sunday', strtotime('-1 Week', $first_day));
+        }
         
-        return strtotime('Next Monday', $first_day);
+        return strtotime('Next Monday', strtotime('-1 Week', $first_day));
     }
 
     public function mark_period($period)

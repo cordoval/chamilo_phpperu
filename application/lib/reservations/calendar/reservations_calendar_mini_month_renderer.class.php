@@ -23,7 +23,7 @@ class ReservationsCalendarMiniMonthRenderer extends ReservationsCalendarRenderer
         $db_to = Utilities :: to_db_date($to_date);
         
         $rdm = ReservationsDataManager :: get_instance();
-        
+       
         $conditions[] = $rdm->get_reservations_condition($db_from, $db_to, $_GET['item_id']);
         $conditions[] = new EqualityCondition(Reservation :: PROPERTY_STATUS, Reservation :: STATUS_NORMAL);
         $condition = new AndCondition($conditions);
