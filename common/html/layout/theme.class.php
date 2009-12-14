@@ -28,11 +28,27 @@ class Theme
      */
     private $application;
 
+    /**
+     * The template engine
+     * @var Phpbb2TemplateWrapper
+     */
+    private $template;
+    
     function Theme()
     {
         $this->theme = PlatformSetting :: get('theme');
+        $this->template = new Phpbb2TemplateWrapper($this->theme);
     }
 
+    /**
+     * Returns the template engine
+     * @return Phpbb2TemplateWrapper
+     */
+    static function get_template()
+    {
+    	return self :: get_instance()->template;
+    }
+    
     function get_theme()
     {
         return self :: get_instance()->theme;
