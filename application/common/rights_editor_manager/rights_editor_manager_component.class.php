@@ -6,9 +6,9 @@
 class RightsEditorManagerComponent extends SubManagerComponent
 {
 
-    function get_location()
+    function get_locations()
     {
-        return $this->get_parent()->get_location();
+        return $this->get_parent()->get_locations();
     }
 
     function get_available_rights()

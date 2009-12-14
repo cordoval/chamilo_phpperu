@@ -133,12 +133,12 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
     private function get_rights_column_value($column, $group)
     {
         $browser = $this->browser;
-        $location = $browser->get_location();
-        $locked_parent = $location->get_locked_parent();
+        $locations = $browser->get_locations();
+        $locked_parent = $locations[0]->get_locked_parent();
         $rights = $this->browser->get_available_rights();
         $group_id = $group->get_id();
         
-        $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
+        $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $locations[0]->get_id())));
         
         foreach ($rights as $right_name => $right_id)
         {
@@ -146,7 +146,7 @@ class LocationGroupBrowserTableCellRenderer extends DefaultGroupTableCellRendere
             if ($column->get_name() == $column_name)
             {
                 $rights_url = $browser->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_SET_GROUP_RIGHTS, 'group_id' => $group_id, 'right_id' => $right_id));
-                return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $group, $location);
+                return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $group, $locations[0]);
             }
         }
         return '&nbsp;';

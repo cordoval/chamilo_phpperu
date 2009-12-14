@@ -60,12 +60,12 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
     private function get_rights_column_value($column, $user)
     {
         $browser = $this->browser;
-        $location = $browser->get_location();
-        $locked_parent = $location->get_locked_parent();
+        $locations = $browser->get_locations();
+        $locked_parent = $locations[0]->get_locked_parent();
         $rights = $this->browser->get_available_rights();
         $user_id = $user->get_id();
         
-        $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $location->get_id())));
+        $location_url = $browser->get_url(array('application' => $this->application, 'location' => ($locked_parent ? $locked_parent->get_id() : $locations[0]->get_id())));
         
         foreach ($rights as $right_name => $right_id)
         {
@@ -73,7 +73,7 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
             if ($column->get_name() == $column_name)
             {
                 $rights_url = $browser->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_SET_USER_RIGHTS, 'user_id' => $user_id, 'right_id' => $right_id));
-                return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $user, $location);
+                return RightsUtilities :: get_rights_icon($location_url, $rights_url, $locked_parent, $right_id, $user, $locations[0]);
             }
         }
         return '&nbsp;';

@@ -14,11 +14,14 @@ class RightsEditorManagerUserRightsSetterComponent extends RightsEditorManagerCo
     {
         $user = Request :: get('user_id');
         $right = Request :: get('right_id');
-        $location = $this->get_location();
+        $locations = $this->get_locations();
         
-        if (isset($user) && isset($right) && isset($location))
+        if (isset($user) && isset($right) && isset($locations) &&  count($locations) > 0)
         {
-            $success = RightsUtilities :: invert_user_right_location($right, $user, $location->get_id());
+            foreach($locations as $location)
+            {
+        		$success = RightsUtilities :: invert_user_right_location($right, $user, $location->get_id());
+            }
             
             $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ! $success, array_merge($this->get_parameters(), array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS)));
         }

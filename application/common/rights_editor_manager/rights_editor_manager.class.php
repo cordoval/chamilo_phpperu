@@ -15,15 +15,15 @@ class RightsEditorManager extends SubManager
     
     const PARAM_GROUP = 'group';
     
-    private $location;
+    private $locations;
     private $excluded_groups;
     private $excluded_users;
 
-    function RightsEditorManager($parent, $location)
+    function RightsEditorManager($parent, $locations)
     {
         parent :: __construct($parent);
         
-        $this->location = $location;
+        $this->locations = $locations;
         $this->exclude_users = array();
         $this->exclude_groups = array();
         
@@ -62,9 +62,9 @@ class RightsEditorManager extends SubManager
         return Path :: get_application_library_path() . 'rights_editor_manager/component/';
     }
 
-    function get_location()
+    function get_locations()
     {
-        return $this->location;
+        return $this->locations;
     }
 
     function get_available_rights()

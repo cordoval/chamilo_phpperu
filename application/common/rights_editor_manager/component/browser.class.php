@@ -9,7 +9,6 @@ require_once dirname(__FILE__) . '/location_group_browser/location_group_browser
 class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
 {
     private $action_bar;
-    private $location;
     private $type;
     
     const PARAM_TYPE = 're_type';
@@ -21,7 +20,6 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
      */
     function run()
     {
-        $this->location = $this->get_location();
         $this->type = Request :: get(self :: PARAM_TYPE);
         if (! $this->type)
             $this->type = self :: TYPE_USER;

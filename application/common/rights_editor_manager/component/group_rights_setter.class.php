@@ -16,11 +16,16 @@ class RightsEditorManagerGroupRightsSetterComponent extends RightsEditorManagerC
         $group = Request :: get('group_id');
         $right = Request :: get('right_id');
         
-        $location = $this->get_location();
+        $locations = $this->get_locations();
         
-        if (isset($group) && isset($right) && isset($location))
+        if (isset($group) && isset($right) && isset($locations) && count($locations) > 0)
         {
-            $success = RightsUtilities :: invert_group_right_location($right, $group, $location->get_id());
+            $succes = true;
+            foreach($locations as $location)
+            {
+				$success = RightsUtilities :: invert_group_right_location($right, $group, $location->get_id());            	
+            }
+        	
             $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ! $success, array_merge($this->get_parameters(), array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS, RightsEditorManagerBrowserComponent :: PARAM_TYPE => RightsEditorManagerBrowserComponent :: TYPE_GROUP)));
         }
         else
