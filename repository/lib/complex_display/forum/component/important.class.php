@@ -32,7 +32,7 @@ class ForumDisplayImportantComponent extends ForumDisplayComponent
         if ( Request :: get('is_subforum'))
         	$params['forum'] = Request :: get('forum');
         
-        $this->redirect($message, '', $params);
+        $this->redirect(Translation :: get($message), '', $params);
     }
 }
 
