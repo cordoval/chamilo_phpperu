@@ -136,15 +136,15 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
         
         foreach($objects_list as $key => $object)
         {
-            if(isset($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]))
+            if(isset($object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_ID]))
             {
-                //$content_object = ContentObjectMetadata :: get_by_catalog_entry_values($catalog_name, $object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID]);
+                //$content_object = ContentObjectMetadata :: get_by_catalog_entry_values($catalog_name, $object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_ID]);
                 
                 /*
                  * Try to get the content object reference by looking in the synchronization table
                  * if the external_uid has already been synchronized with the repository
                  */
-                $eesi = ExternalExportSyncInfo :: get_by_external_uid_and_repository($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_ID], $export->get_id());
+                $eesi = ExternalRepositorySyncInfo :: get_by_external_uid_and_repository($object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_ID], $export->get_id());
                 
                 if(isset($eesi))
                 {
@@ -152,23 +152,23 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
                     
                     $content_object = ContentObject :: get_by_id($eesi->get_content_object_id());
                     
-                    $object[BaseExternalExporter :: CHAMILO_OBJECT_KEY] = $content_object;
+                    $object[BaseExternalRepository :: CHAMILO_OBJECT_KEY] = $content_object;
                     
 //                    /*
 //                     * Get the last synchronization date with the repository if exists
 //                     */
-//                    $eesi = ExternalExportSyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $export->get_id());
+//                    $eesi = ExternalRepositorySyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $export->get_id());
     	            
 //    	            if(isset($eesi))
 //    	            {
-    	                $object[BaseExternalExporter :: SYNC_INFO] = $eesi;
+    	                $object[BaseExternalRepository :: SYNC_INFO] = $eesi;
     	                
     	                /*
     	                 * Compare dates between the repository and Chamilo
     	                 */
-    	                $repository_datetime          = strtotime($object[BaseExternalExporter :: EXTERNAL_OBJECT_KEY][BaseExternalExporter :: OBJECT_MODIFICATION_DATE]);
-    	                $chamilo_synchronized         = strtotime(date('Y-m-d H:i:s', strtotime($object[BaseExternalExporter :: SYNC_INFO]->get_utc_synchronized() . 'z')));
-    	                $synchronized_object_datetime = strtotime($object[BaseExternalExporter :: SYNC_INFO]->get_synchronized_object_datetime());
+    	                $repository_datetime          = strtotime($object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_MODIFICATION_DATE]);
+    	                $chamilo_synchronized         = strtotime(date('Y-m-d H:i:s', strtotime($object[BaseExternalRepository :: SYNC_INFO]->get_utc_synchronized() . 'z')));
+    	                $synchronized_object_datetime = strtotime($object[BaseExternalRepository :: SYNC_INFO]->get_synchronized_object_datetime());
     	                
     	                //DebugUtilities::show($repository_utc_datetime . '==' . $chamilo_utc_synchronized);
     	                
@@ -187,21 +187,21 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
     	                    /*
     	                     * Object has been modified after last export
     	                     */
-    	                    $object[BaseExternalExporter :: SYNC_STATE] = BaseExternalExporter :: SYNC_NEWER_IN_CHAMILO;
+    	                    $object[BaseExternalRepository :: SYNC_STATE] = BaseExternalRepository :: SYNC_NEWER_IN_CHAMILO;
     	                }
     	                elseif($current_object_date == $synchronized_object_datetime)
     	                {
     	                    /*
     	                     * Object has not been modified after export
     	                     */
-    	                    $object[BaseExternalExporter :: SYNC_STATE] = BaseExternalExporter :: SYNC_IDENTICAL;
+    	                    $object[BaseExternalRepository :: SYNC_STATE] = BaseExternalRepository :: SYNC_IDENTICAL;
     	                    
     	                    /*
     	                     * Check if the object has been modified in the repository side
     	                     */
     	                    if($chamilo_synchronized < $repository_datetime)
     	                    {
-    	                        $object[BaseExternalExporter :: SYNC_STATE] = BaseExternalExporter :: SYNC_OLDER_IN_CHAMILO;
+    	                        $object[BaseExternalRepository :: SYNC_STATE] = BaseExternalRepository :: SYNC_OLDER_IN_CHAMILO;
     	                    }
     	                }
     	                else
@@ -216,12 +216,12 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
 //    	            }
 //    	            else
 //    	            {
-//    	                $object[BaseExternalExporter :: SYNC_STATE] = BaseExternalExporter :: SYNC_NEVER_SYNCHRONIZED;
+//    	                $object[BaseExternalRepository :: SYNC_STATE] = BaseExternalRepository :: SYNC_NEVER_SYNCHRONIZED;
 //    	            }
                 }
                 else
                 {
-                    $object[BaseExternalExporter :: SYNC_STATE] = BaseExternalExporter :: SYNC_NEVER_SYNCHRONIZED;
+                    $object[BaseExternalRepository :: SYNC_STATE] = BaseExternalRepository :: SYNC_NEVER_SYNCHRONIZED;
                 }
             }
             

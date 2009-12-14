@@ -100,15 +100,6 @@ require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.c
  */
 class FedoraExternalExporter extends RestExternalExporter
 {
-    const DATASTREAM_DC_ID            = 'DC';
-    const DATASTREAM_DC_LABEL         = 'Dublin%20Core%20Record%20for%20this%20object';
-    
-    const DATASTREAM_LOM_ID           = 'LOM';
-    const DATASTREAM_LOM_LABEL        = 'Learning%20Object%20Metadata%20XML';
-    
-    const DATASTREAM_LO_CONTENT_ID    = 'OBJECT';
-    const DATASTREAM_LO_CONTENT_LABEL = 'OBJECT';
-    
     private $base_url                = null;
     private $get_uid_rest_path       = null;
     private $post_rest_path          = null;
@@ -126,7 +117,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see chamilo/common/external_export/BaseExternalExporter#export($content_object)
+	 * @see chamilo/common/external_export/BaseExternalRepository#export($content_object)
 	 */
 	public function export($content_object)
 	{
@@ -307,23 +298,23 @@ class FedoraExternalExporter extends RestExternalExporter
 	                    switch($subnode->nodeName)
 	                    {
 	                        case 'pid':
-	                            $object_infos[BaseExternalExporter :: OBJECT_ID] = $subnode->nodeValue;
+	                            $object_infos[BaseExternalRepository :: OBJECT_ID] = $subnode->nodeValue;
 	                            break;
 	                        
 	                        case 'cDate':
-	                            $object_infos[BaseExternalExporter :: OBJECT_CREATION_DATE] = date('Y-m-d H:i:s', strtotime($subnode->nodeValue));
+	                            $object_infos[BaseExternalRepository :: OBJECT_CREATION_DATE] = date('Y-m-d H:i:s', strtotime($subnode->nodeValue));
 	                            break;
 	                        
 	                        case 'mDate':
-	                            $object_infos[BaseExternalExporter :: OBJECT_MODIFICATION_DATE] = date('Y-m-d H:i:s', strtotime($subnode->nodeValue));
+	                            $object_infos[BaseExternalRepository :: OBJECT_MODIFICATION_DATE] = date('Y-m-d H:i:s', strtotime($subnode->nodeValue));
 	                            break;
 	                        
 	                        case 'title':
-	                            $object_infos[BaseExternalExporter :: OBJECT_TITLE] = $subnode->nodeValue;
+	                            $object_infos[BaseExternalRepository :: OBJECT_TITLE] = $subnode->nodeValue;
 	                            break;
 	                        
 	                        case 'description':
-	                            $object_infos[BaseExternalExporter :: OBJECT_DESCRIPTION] = $subnode->nodeValue;
+	                            $object_infos[BaseExternalRepository :: OBJECT_DESCRIPTION] = $subnode->nodeValue;
 	                            break;
 	                        
 	                        default:
@@ -507,8 +498,8 @@ class FedoraExternalExporter extends RestExternalExporter
 	    
 	    $replacement_strings                   = array();
 	    $replacement_strings['{pid}']          = $object_id;
-	    $replacement_strings['{dsID}']         = self :: DATASTREAM_DC_ID;
-	    $replacement_strings['{dsLabel}']      = self :: DATASTREAM_DC_LABEL;
+	    $replacement_strings['{dsID}']         = $this->get_external_export()->get_dublin_core_datastream_name();
+	    $replacement_strings['{dsLabel}']      = urlencode($this->get_external_export()->get_dublin_core_datastream_label());
 	    $replacement_strings['{controlGroup}'] = 'X';
 	    $replacement_strings['{mimeType}']     = 'text/xml';
 	    
@@ -575,8 +566,8 @@ class FedoraExternalExporter extends RestExternalExporter
 	   
 	    $replacement_strings                   = array();
 	    $replacement_strings['{pid}']          = $object_id;
-	    $replacement_strings['{dsID}']         = self :: DATASTREAM_LOM_ID;
-	    $replacement_strings['{dsLabel}']      = self :: DATASTREAM_LOM_LABEL;
+	    $replacement_strings['{dsID}']         = $this->get_external_export()->get_extended_metadata_datastream_name();
+	    $replacement_strings['{dsLabel}']      = urlencode($this->get_external_export()->get_extended_metadata_datastream_label());
 	    $replacement_strings['{controlGroup}'] = 'X';
 	    $replacement_strings['{mimeType}']     = 'text/xml';
 	    
@@ -597,8 +588,8 @@ class FedoraExternalExporter extends RestExternalExporter
 	    
 	    $replacement_strings                   = array();
 	    $replacement_strings['{pid}']          = $object_id;
-	    $replacement_strings['{dsID}']         = self :: DATASTREAM_LO_CONTENT_ID;
-	    $replacement_strings['{dsLabel}']      = self :: DATASTREAM_LO_CONTENT_LABEL;
+	    $replacement_strings['{dsID}']         = $this->get_external_export()->get_object_datastream_name();
+	    $replacement_strings['{dsLabel}']      = urlencode($this->get_external_export()->get_object_datastream_label());
 	    $replacement_strings['{controlGroup}'] = 'M';
 	    
 	    if(is_array($data_to_send) && array_key_exists('mime_type', $data_to_send))
@@ -763,7 +754,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	 * Returns a new UID generated by a Fedora Repository by using an URL allowing to get it through REST
 	 * 
 	 * @return mixed A new UID generated by a Fedora repository or false if not URL to retrieve a new UID is set in the configuration
-	 * @see chamilo/common/external_export/BaseExternalExporter#get_repository_new_uid()
+	 * @see chamilo/common/external_export/BaseExternalRepository#get_repository_new_uid()
 	 */
 	public function get_repository_new_uid()
 	{ 
@@ -837,11 +828,11 @@ class FedoraExternalExporter extends RestExternalExporter
     	            
     	            //DebugUtilities::show($fedora_mDate);
     	            
-    	            $eesi = ExternalExportSyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $external_export->get_id());
+    	            $eesi = ExternalRepositorySyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $external_export->get_id());
     	            
     	            if(!isset($eesi))
     	            {
-    	                $eesi = new ExternalExportSyncInfo();
+    	                $eesi = new ExternalRepositorySyncInfo();
     	                $eesi->set_content_object_id($content_object->get_id());
     	                
     	                $eesi->set_external_repository_id($external_export->get_id());
@@ -895,7 +886,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see repository/lib/export/external_export/BaseExternalExporter#get_objects_list_from_repository()
+	 * @see repository/lib/export/external_export/BaseExternalRepository#get_objects_list_from_repository()
 	 */
 	public function get_objects_list_from_repository()
 	{
@@ -922,20 +913,20 @@ class FedoraExternalExporter extends RestExternalExporter
 //    	            DebugUtilities :: show($object_node);
     	            
     	            $object = array();
-    	            $object[BaseExternalExporter :: OBJECT_ID]                = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'pid');
-    	            $object[BaseExternalExporter :: OBJECT_OWNER_ID]          = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'ownerId');
-    	            $object[BaseExternalExporter :: OBJECT_CREATION_DATE]     = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'cDate');
-    	            $object[BaseExternalExporter :: OBJECT_MODIFICATION_DATE] = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'mDate');
-    	            $object[BaseExternalExporter :: OBJECT_TITLE]             = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'title');
-    	            $object[BaseExternalExporter :: OBJECT_DESCRIPTION]       = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'description');
+    	            $object[BaseExternalRepository :: OBJECT_ID]                = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'pid');
+    	            $object[BaseExternalRepository :: OBJECT_OWNER_ID]          = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'ownerId');
+    	            $object[BaseExternalRepository :: OBJECT_CREATION_DATE]     = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'cDate');
+    	            $object[BaseExternalRepository :: OBJECT_MODIFICATION_DATE] = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'mDate');
+    	            $object[BaseExternalRepository :: OBJECT_TITLE]             = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'title');
+    	            $object[BaseExternalRepository :: OBJECT_DESCRIPTION]       = XMLUtilities :: get_first_element_value_by_tag_name($object_node, 'description');
     	            
     	            /*
     	             * Translate ISO 8601 date to local server time
     	             */
-    	            $object[BaseExternalExporter :: OBJECT_CREATION_DATE]     = date('Y-m-d H:i:s', strtotime($object[BaseExternalExporter :: OBJECT_CREATION_DATE]));
-    	            $object[BaseExternalExporter :: OBJECT_MODIFICATION_DATE] = date('Y-m-d H:i:s', strtotime($object[BaseExternalExporter :: OBJECT_MODIFICATION_DATE]));
+    	            $object[BaseExternalRepository :: OBJECT_CREATION_DATE]     = date('Y-m-d H:i:s', strtotime($object[BaseExternalRepository :: OBJECT_CREATION_DATE]));
+    	            $object[BaseExternalRepository :: OBJECT_MODIFICATION_DATE] = date('Y-m-d H:i:s', strtotime($object[BaseExternalRepository :: OBJECT_MODIFICATION_DATE]));
     	            
-    	            $objects[][BaseExternalExporter :: EXTERNAL_OBJECT_KEY]   = $object;
+    	            $objects[][BaseExternalRepository :: EXTERNAL_OBJECT_KEY]   = $object;
     	        }
     	    }
 	    }
@@ -945,7 +936,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see repository/lib/export/external_export/BaseExternalExporter#import($repository_object_id)
+	 * @see repository/lib/export/external_export/BaseExternalRepository#import($repository_object_id)
 	 */
 	public function import($repository_object_id, $owner_id)
 	{
@@ -979,17 +970,21 @@ class FedoraExternalExporter extends RestExternalExporter
             	            
             	            //DebugUtilities :: show($ds_name);
             	            
+            	            $dc_datastream_name       = $this->get_external_export()->get_dublin_core_datastream_name();
+            	            $metadata_datastream_name = $this->get_external_export()->get_extended_metadata_datastream_name();
+            	            $object_datastream_name   = $this->get_external_export()->get_object_datastream_name();
+            	            
             	            switch($ds_name)
             	            {
-            	                case self :: DATASTREAM_DC_ID:
+            	                case $dc_datastream_name:
             	                    $this->set_data_from_dublin_core_datastream($content_object, $ds_node, $repository_object_id);
             	                    break;
             	                    
-            	                case self :: DATASTREAM_LO_CONTENT_ID:
+            	                case $object_datastream_name:
             	                    $this->set_data_from_object_datastream($content_object, $ds_node, $repository_object_id);
             	                    break;
             	                    
-            	                case self :: DATASTREAM_LOM_ID:
+            	                case $metadata_datastream_name:
             	                    $this->set_lom_from_object_datastream($content_object, $ds_node, $repository_object_id);
             	                    break;
             	            }
@@ -1029,7 +1024,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	{
 	    //DebugUtilities :: show($node_list);
 	     
-	    $object_node = XmlUtilities :: get_first_element_by_relative_xpath($node_list, '/datastream[@dsid=\'' . self :: DATASTREAM_LO_CONTENT_ID . '\']');
+	    $object_node = XmlUtilities :: get_first_element_by_relative_xpath($node_list, '/datastream[@dsid=\'' . $this->get_external_export()->get_object_datastream_name() . '\']');
 	    
 	    if(isset($object_node))
 	    {
@@ -1055,7 +1050,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	    }
 	    else
 	    {
-	        throw new Exception('No content to import could be found (The object does not have any \'' . self :: DATASTREAM_LO_CONTENT_ID . '\' datastream in Fedora)');
+	        throw new Exception('No content to import could be found (The object does not have any \'' . $this->get_external_export()->get_object_datastream_name() . '\' datastream in Fedora)');   
 	    }
 	}
 	
@@ -1067,19 +1062,29 @@ class FedoraExternalExporter extends RestExternalExporter
 	 */
 	private function save_imported_content_object($content_object, $repository_object_id)
 	{
-	    $content_object_new_id = DataClass :: NO_UID;
+	    $content_object_id = DataClass :: NO_UID;
+	    
+	    /*
+	     * Check if an object synchronized with the same repository id already exists in Chamilo
+	     */
+	    $sync_info = ExternalRepositorySyncInfo :: get_by_external_uid_and_repository($repository_object_id, $this->get_external_export()->get_id());
+	    if(isset($sync_info))
+	    {
+	        $content_object_id = $sync_info->get_content_object_id();
+	        $content_object->set_id($content_object_id);
+	    }
 	    
 	    switch(get_class($content_object))
 	    {
 	        case 'Document':
-	            $content_object_new_id = $this->save_imported_document($content_object);
+	            $content_object_id = $this->save_imported_document($content_object);
 	            break;
 	        default:
 	            throw new Exception('Objects of type \'' . get_class($content_object) . '\' can not be imported');
 	            break;
 	    }
 	    
-	    if($content_object_new_id != DataClass :: NO_UID)
+	    if($content_object_id != DataClass :: NO_UID)
 	    {
     	    /*
     	     * Save the external object id to be able to recognize the object between Chamilo and the Fedora repository  
@@ -1156,7 +1161,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	    {
 	        $datastream_content_path = $this->get_full_get_datastream_content_path();
 	        $datastream_content_path = str_replace('{pid}', $repository_object_id, $datastream_content_path);
-	        $datastream_content_path = str_replace('{dsID}', self :: DATASTREAM_DC_ID, $datastream_content_path);
+	        $datastream_content_path = str_replace('{dsID}', $this->get_external_export()->get_dublin_core_datastream_name(), $datastream_content_path);
 	        
 	        $response_document = $this->get_rest_xml_response($datastream_content_path, 'get');
 	        if(isset($response_document))
@@ -1220,7 +1225,7 @@ class FedoraExternalExporter extends RestExternalExporter
 	     */
 	    $get_datastream_content_path = $this->get_full_get_datastream_content_path();
 	    $get_datastream_content_path = str_replace('{pid}', $repository_object_id, $get_datastream_content_path);
-	    $get_datastream_content_path = str_replace('{dsID}', self :: DATASTREAM_LO_CONTENT_ID, $get_datastream_content_path);
+	    $get_datastream_content_path = str_replace('{dsID}', $this->get_external_export()->get_object_datastream_name(), $get_datastream_content_path);
 	    
 	    $response_content = $this->get_rest_response($get_datastream_content_path, 'get');
 	    

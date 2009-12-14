@@ -20,7 +20,7 @@ class RepositoryManagerExternalRepositoryExportImportComponent extends Repositor
             $this->display_header($trail, false, true);
             
             $repository_object_infos = $this->get_repository_object_infos($repository_object_id);
-            $list_of_one_object = $this->add_chamilo_infos($export, array(array(BaseExternalExporter :: EXTERNAL_OBJECT_KEY => $repository_object_infos)));
+            $list_of_one_object = $this->add_chamilo_infos($export, array(array(BaseExternalRepository :: EXTERNAL_OBJECT_KEY => $repository_object_infos)));
             
             //DebugUtilities::show($list_of_one_object);
             
@@ -32,7 +32,7 @@ class RepositoryManagerExternalRepositoryExportImportComponent extends Repositor
             }
             else
             {
-                $exporter = BaseExternalExporter :: get_instance($export);
+                $exporter = BaseExternalRepository :: get_instance($export);
                 
                 if($exporter->import($repository_object_id, $this->get_user_id()))
                 {
@@ -59,7 +59,7 @@ class RepositoryManagerExternalRepositoryExportImportComponent extends Repositor
         $export = $this->get_external_export_from_param();
         if (isset($export) && $export->get_enabled() == 1)
         {
-            $exporter = BaseExternalExporter :: get_instance($export);
+            $exporter = BaseExternalRepository :: get_instance($export);
             
             return $exporter->get_repository_object_infos($repository_object_id);
         }

@@ -42,7 +42,7 @@ class RepositoryManagerExternalRepositoryExportExportComponent extends Repositor
                     {
                         if ($form->validate())
                         {
-                            $exporter = BaseExternalExporter :: get_instance($export);
+                            $exporter = BaseExternalRepository :: get_instance($export);
                             
                             if ($exporter->export($content_object))
                             {

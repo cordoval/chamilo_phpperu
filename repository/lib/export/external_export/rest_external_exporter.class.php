@@ -1,7 +1,7 @@
 <?php
 require_once Path :: get_repository_path() . '/lib/export/external_export/base_external_exporter.class.php';
 
-abstract class RestExternalExporter extends BaseExternalExporter 
+abstract class RestExternalExporter extends BaseExternalRepository 
 {
     /**
      * @var RestClient
@@ -12,7 +12,7 @@ abstract class RestExternalExporter extends BaseExternalExporter
     
 	protected function RestExternalExporter($fedora_repository_id = DataClass :: NO_UID) 
 	{
-		parent :: BaseExternalExporter($fedora_repository_id);
+		parent :: BaseExternalRepository($fedora_repository_id);
 	}
 	
 	

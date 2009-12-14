@@ -1,6 +1,6 @@
 <?php
 
-abstract class BaseExternalExporter 
+abstract class BaseExternalRepository 
 {
     const GET_NEW_UID_NOT_IMPLEMENTED = 'GET_NEW_UID_NOT_IMPLEMENTED';
     const SESSION_MISSING_FIELDS      = 'SESSION_MISSING_FIELDS';
@@ -40,7 +40,7 @@ abstract class BaseExternalExporter
      
     /*************************************************************************/
     
-	protected function BaseExternalExporter($external_export_id = DataClass :: NO_UID) 
+	protected function BaseExternalRepository($external_export_id = DataClass :: NO_UID) 
 	{
 	    if($external_export_id != DataClass :: NO_UID)
 		{
@@ -52,13 +52,13 @@ abstract class BaseExternalExporter
 	/*************************************************************************/
 	
 	/**
-	 * Return an instance of a BaseExternalExporter subclass
+	 * Return an instance of a BaseExternalRepository subclass
      * 
      * If a specific class exists for the configured export, this one is instanciated and returned.
      * If it doesn't exist, an instance of the generic class for the repository type is returned.
      * 
 	 * @param $export ExternalExport
-	 * @return BaseExternalExporter A subclass of BaseExternalExporter
+	 * @return BaseExternalRepository A subclass of BaseExternalRepository
 	 */
 	public static function get_instance($export)
 	{
@@ -315,7 +315,7 @@ abstract class BaseExternalExporter
 	{
 	    if(isset($this->external_export))
 	    {
-    	    $sync_infos = ExternalExportSyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $this->external_export->get_id());
+    	    $sync_infos = ExternalRepositorySyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $this->external_export->get_id());
     	    
     	    if(isset($sync_infos))
     	    {

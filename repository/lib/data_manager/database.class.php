@@ -383,7 +383,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         
         //Delete synchronization with external repositories infos
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
-        $this->database->delete_objects(ExternalExportSyncInfo :: get_table_name(), $condition);
+        $this->database->delete_objects(ExternalRepositorySyncInfo :: get_table_name(), $condition);
         
         // Delete object
         $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
@@ -1481,7 +1481,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
     function update_external_export_sync_info($external_export_sync_info)
     {
-        $condition = new EqualityCondition(ExternalExportSyncInfo :: PROPERTY_ID, $external_export_sync_info->get_id());
+        $condition = new EqualityCondition(ExternalRepositorySyncInfo :: PROPERTY_ID, $external_export_sync_info->get_id());
 
         $date = $external_export_sync_info->get_modification_date();
         if (is_numeric($date))
@@ -1494,15 +1494,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
     function delete_external_export_sync_info($external_export_sync_info)
     {
-        $condition = new EqualityCondition(ExternalExportSyncInfo :: PROPERTY_ID, $external_export_sync_info->get_id());
+        $condition = new EqualityCondition(ExternalRepositorySyncInfo :: PROPERTY_ID, $external_export_sync_info->get_id());
         return $this->database->delete($external_export_sync_info->get_table_name(), $condition);
     }
     
     function retrieve_external_export_sync_info($conditions)
     {
-        $record = $this->database->retrieve_record(ExternalExportSyncInfo :: get_table_name(), $conditions);
+        $record = $this->database->retrieve_record(ExternalRepositorySyncInfo :: get_table_name(), $conditions);
 
-        return self :: record_to_object($record, 'ExternalExportSyncInfo');
+        return self :: record_to_object($record, 'ExternalRepositorySyncInfo');
     }
     
     function record_to_object($record, $object_class_name)

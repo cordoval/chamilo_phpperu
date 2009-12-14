@@ -119,7 +119,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
      */
     private function add_missing_fields($form)
     {
-        $missing_infos = Session :: retrieve(BaseExternalExporter :: SESSION_MISSING_FIELDS);
+        $missing_infos = Session :: retrieve(BaseExternalRepository :: SESSION_MISSING_FIELDS);
         foreach ($missing_infos as $fieldname => $field_info)
         {
             //debug($field_info);
@@ -161,7 +161,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
         /*
 	     * Destroy the missing fields session in order to be able to post back the form without adding new missing fields
 	     */
-        Session :: unregister(BaseExternalExporter :: SESSION_MISSING_FIELDS);
+        Session :: unregister(BaseExternalRepository :: SESSION_MISSING_FIELDS);
         
     //        $form->add_identifier('ta mère', 'en short');
     //        $form->add_title('ton père en français', 'fr');

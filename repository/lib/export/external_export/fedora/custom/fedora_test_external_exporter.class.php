@@ -5,11 +5,11 @@ require_once Path :: get_repository_path() . '/lib/export/external_export/fedora
  * This class is an example of a custom implementation of an export to an external Fedora repository.
  * Such a custom implementation is a way to write a class handling specific business logic that must be done during an export.
  * 
- * The class is returned by the BaseExternalExporter :: get_instance() method instead of the generic one (which would be FedoraExternalExporter in this case) if its name start with the 
+ * The class is returned by the BaseExternalRepository :: get_instance() method instead of the generic one (which would be FedoraExternalExporter in this case) if its name start with the 
  * camelized version of the catalog_name field value of the repository_external_export table in the datasource.
  * 
  * E.g: in order to have this specific example class called, set the value of the catalog_name field to 'fedora_test' and the type field to 'fedora'.
- * 		Then, instead of loading an instance of FedoraExternalExporter, an instance of FedoraTestExternalExporter is returned by BaseExternalExporter :: get_instance().
+ * 		Then, instead of loading an instance of FedoraExternalExporter, an instance of FedoraTestExternalExporter is returned by BaseExternalRepository :: get_instance().
  * 
  * 
  * In this test example, a datastream called 'ANIMAL' is created with the value choosed in the 'FedoraTestExternalExportForm' form, 
@@ -108,7 +108,7 @@ class FedoraTestExternalExporter extends FedoraExternalExporter
 
     /**
      * (non-PHPdoc)
-     * @see chamilo/common/external_export/BaseExternalExporter#check_required_metadata($content_object)
+     * @see chamilo/common/external_export/BaseExternalRepository#check_required_metadata($content_object)
      */
     public function check_required_metadata($content_object)
     {
@@ -137,12 +137,12 @@ class FedoraTestExternalExporter extends FedoraExternalExporter
 
     private function clear_missing_fields()
     {
-        Session :: unregister(BaseExternalExporter :: SESSION_MISSING_FIELDS);
+        Session :: unregister(BaseExternalRepository :: SESSION_MISSING_FIELDS);
     }
 
     private function store_missing_fields($content_object_id, $fieldname)
     {
-        $missing_infos = Session :: retrieve(BaseExternalExporter :: SESSION_MISSING_FIELDS);
+        $missing_infos = Session :: retrieve(BaseExternalRepository :: SESSION_MISSING_FIELDS);
         
         if (! isset($missing_infos))
         {
@@ -170,7 +170,7 @@ class FedoraTestExternalExporter extends FedoraExternalExporter
         
         $missing_infos[$fieldname]['fields'][] = '';
         
-        Session :: register(BaseExternalExporter :: SESSION_MISSING_FIELDS, $missing_infos);
+        Session :: register(BaseExternalRepository :: SESSION_MISSING_FIELDS, $missing_infos);
     }
 
 }

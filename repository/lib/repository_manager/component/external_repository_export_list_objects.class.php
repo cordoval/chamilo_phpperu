@@ -43,7 +43,7 @@ class RepositoryManagerExternalRepositoryExportListObjectsComponent extends Repo
         $export = $this->get_external_export_from_param();
         if (isset($export) && $export->get_enabled() == 1)
         {
-            $exporter = BaseExternalExporter :: get_instance($export);
+            $exporter = BaseExternalRepository :: get_instance($export);
             
             $existing_objects = $exporter->get_objects_list_from_repository();
             
