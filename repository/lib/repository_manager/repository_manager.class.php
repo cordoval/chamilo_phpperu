@@ -18,7 +18,7 @@
 class RepositoryManager extends CoreApplication
 {
     const APPLICATION_NAME = 'repository';
-
+      
     /**#@+
      * Constant defining a parameter of the repository manager.
      */
@@ -39,7 +39,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_PUBLISH_SELECTED = 'publish_selected';
     const PARAM_COMPARE_OBJECT = 'object';
     const PARAM_COMPARE_VERSION = 'compare';
-    const PARAM_PUBLICATION_APPLICATION = 'application';
+    const PARAM_PUBLICATION_APPLICATION = 'publication_application';
     const PARAM_PUBLICATION_ID = 'publication';
     const PARAM_CLOI_REF = 'cloi_ref';
     const PARAM_CLOI_ID = 'cloi_id';
@@ -72,6 +72,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_REVERT_CONTENT_OBJECTS = 'revert';
     const ACTION_DELETE_CONTENT_OBJECTS = 'delete';
     const ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS = 'deletepublications';
+    const ACTION_UNLINK_CONTENT_OBJECTS = 'unlink';
     const ACTION_RESTORE_CONTENT_OBJECTS = 'restore';
     const ACTION_MOVE_CONTENT_OBJECTS = 'move';
     const ACTION_EDIT_CONTENT_OBJECT_METADATA = 'metadata_edit';
@@ -302,6 +303,9 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_DELETE_TEMPLATE :
                 $component = RepositoryManagerComponent :: factory('TemplateDeleter', $this);
+                break;
+            case self :: ACTION_UNLINK_CONTENT_OBJECTS:
+            	$component = RepositoryManagerComponent :: factory('Unlinker', $this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_CONTENT_OBJECTS);
@@ -725,7 +729,12 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_delete_publications_url($content_object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS, self :: PARAM_PUBLICATION_ID => $content_object->get_id(), self :: PARAM_PUBLICATION_APPLICATION => $content_object->get_application()));
+    }
+    
+	function get_content_object_unlinker_url($content_object)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNLINK_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
     }
 
     /**

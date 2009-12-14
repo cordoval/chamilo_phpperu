@@ -57,13 +57,13 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
                                 }
                             }
                             elseif ($recycled)
-                            {
+                            { 
                                 $versions = $object->get_content_object_versions();
                                 foreach ($versions as $version)
                                 {
-                                    $version->set_state(ContentObject :: STATE_RECYCLED);
-                                    $version->update();
+                                    $version->recycle();
                                 }
+                                
                             }
                         }
                         else

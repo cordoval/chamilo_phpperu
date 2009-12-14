@@ -717,9 +717,9 @@ class ContentObject extends DataClass implements AccessibleContentObject
         $dm = RepositoryDataManager :: get_instance();
         $success = $dm->update_content_object($this);
         if (! $success)
-        {
+        { 
             return false;
-        }
+        } 
         $state = $this->get_state();
         if ($state == $this->oldState)
         {
@@ -732,6 +732,22 @@ class ContentObject extends DataClass implements AccessibleContentObject
 		 * since the object itself did get updated.
 		 */
         return true;
+    }
+    
+    function recycle()
+    {
+    	$this->set_modification_date(time());
+    	$this->set_state(self :: STATE_RECYCLED);
+    	
+    	$dm = RepositoryDataManager :: get_instance();
+        return $dm->update_content_object($this);
+    }
+    
+    function move($new_parent_id)
+    {
+    	$this->set_parent_id($new_parent_id);
+    	$dm = RepositoryDataManager :: get_instance();
+        return $dm->update_content_object($this);
     }
 
     function version($trueUpdate = true)

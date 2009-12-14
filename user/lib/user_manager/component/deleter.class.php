@@ -12,28 +12,49 @@ class UserManagerDeleterComponent extends UserManagerComponent
      */
     function run()
     {
-        $id = Request :: get(UserManager :: PARAM_USER_USER_ID);
-        if ($id)
+        $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
+        
+	    if (! $this->get_user()->is_platform_admin())
         {
-            $user = $this->retrieve_user($id);
+            $trail = new BreadcrumbTrail();
+            $trail->add_help('user general');
+            $this->display_header($trail);
+            Display :: error_message(Translation :: get("NotAllowed"));
+            $this->display_footer();
+            exit();
+        }
+        
+        if(!is_array($ids))
+        {
+        	$ids = array($ids);
+        }
+        
+        if (count($ids) > 0)
+        {
+        	$failures = 0;
+        	
+			foreach($ids as $id)
+			{
+	            $user = $this->retrieve_user($id);
+	            
+	            if (!UserDataManager :: get_instance()->user_deletion_allowed($user))
+	            {
+	                continue;
+	            }
+	            
+	            if ($user->delete())
+	            {
+	                Events :: trigger_event('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+	            }
+	            else
+	            {
+	            	$failures++;
+	            }
+			}
             
-            if (! $this->get_user()->is_platform_admin())
-            {
-                $trail = new BreadcrumbTrail();
-                $trail->add_help('user general');
-                $this->display_header($trail);
-                Display :: error_message(Translation :: get("NotAllowed"));
-                $this->display_footer();
-                exit();
-            }
-            
-            if (UserDataManager :: get_instance()->user_deletion_allowed($user))
-                $success = $user->delete();
-            
-            if ($success)
-                Events :: trigger_event('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
-            
-            $this->redirect(Translation :: get($success ? 'UserDeleted' : 'UserNotDeleted'), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+			$message = $this->get_result($failures, count($ids), 'UserNotDeleted' , 'UsersNotDeleted', 'UserDeleted', 'UsersDeleted');
+			
+            $this->redirect($message, ($failures > 0), array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
         
         }
         else

@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__) . '/../../wiki_publication.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
+//require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
 
 /**
  * Default cell renderer for the wiki_publication table

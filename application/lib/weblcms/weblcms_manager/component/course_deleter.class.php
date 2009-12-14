@@ -71,7 +71,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManagerComponent
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE => null));
         }
         else
         {

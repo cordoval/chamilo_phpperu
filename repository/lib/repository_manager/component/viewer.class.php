@@ -176,7 +176,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
                 
                 if (! $in_recycle_bin)
                 {
-                    $delete_link_url = $this->get_content_object_delete_publications_url($object);
+                    $delete_link_url = $this->get_content_object_unlinker_url($object);
                     
                     if (! isset($recycle_url))
                     {

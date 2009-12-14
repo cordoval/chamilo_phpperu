@@ -42,6 +42,14 @@ abstract class Authentication
     abstract function change_password($user, $old_password, $new_password);
 
     /**
+     * Get any and every kind of password requirements for the
+     * authentication method
+     *
+     * @return string Instructions for the password
+     */
+    abstract function get_password_requirements();
+
+    /**
      * Checks if this authentication method allows the username to be changed.
      */
     abstract function is_username_changeable();

@@ -44,7 +44,9 @@ class MonthCalendar extends CalendarTable
         $setting = PlatformSetting :: get('first_day_of_week');
         
         if ($setting == 'sunday')
+        {
             return strtotime('Next Sunday', strtotime('-1 Week', $first_day));
+        }
         
         return strtotime('Next Monday', strtotime('-1 Week', $first_day));
     }

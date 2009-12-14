@@ -561,6 +561,11 @@ class WeblcmsManager extends WebApplication
         return WeblcmsDataManager :: get_instance()->delete_content_object_publications($object_id);
     }
 
+	function delete_content_object_publication($publication_id)
+    {
+    	 return WeblcmsDataManager :: get_instance()->delete_content_object_publication($publication_id);
+    }
+    
     /*
 	 * Inherited
 	 */
@@ -948,6 +953,16 @@ class WeblcmsManager extends WebApplication
     function get_course_editing_url($course)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'course_settings', 'previous' => 'admin'));
+    }
+    
+	/**
+     * Returns the deleting url for the course
+     * @param Course $course
+     * @return String
+     */
+    function get_course_deleting_url($course)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COURSE, self :: PARAM_COURSE => $course->get_id()));
     }
 
     /**

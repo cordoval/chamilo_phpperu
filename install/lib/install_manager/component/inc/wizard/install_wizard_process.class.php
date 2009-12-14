@@ -32,9 +32,18 @@ class InstallWizardProcess extends HTML_QuickForm_Action
     }
 
     function perform($page, $actionName)
-    {
-
-        $this->values = $page->controller->exportValues();
+    { 
+        if($_FILES['config_file'])
+        {
+        	$values = array();
+        	
+        	require_once($_FILES['config_file']['tmp_name']);
+        	$this->values = $values;
+        }
+        else
+        {
+    		$this->values = $page->controller->exportValues();
+        }
 
         $this->applications['core'] = array('webservice', 'admin', 'help', 'reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
         $this->applications['extra'] = Filesystem :: get_directory_content(Path :: get_application_path() . 'lib/', Filesystem :: LIST_DIRECTORIES, false);
@@ -378,7 +387,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $counter = $this->counter;
 
         $html = array();
-        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/img/admin/place_' . $application . '.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
+        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/images/admin/place_' . $application . '.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
         $html[] = '<div class="title">' . Translation :: get(Application :: application_to_class($application)) . '</div>';
         $html[] = '<div class="description">';
 

@@ -296,16 +296,13 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
     function delete_content_object_publications($object_id)
     {
         $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
-        $publications = $this->retrieve_portfolio_publications($condition);
-
-        $succes = true;
-
-        while ($publication = $publications->next_result())
-        {
-            $succes &= $publication->delete();
-        }
-
-        return $succes;
+         return $this->database->delete(PortfolioPublication :: get_table_name(), $condition);
+    }
+    
+	function delete_content_object_publication($publication_id)
+    {
+        $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $publication_id);
+        return $this->database->delete(PortfolioPublication :: get_table_name(), $condition);
     }
 
     function update_content_object_publication_id($publication_attr)

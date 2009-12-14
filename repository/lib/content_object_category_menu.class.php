@@ -66,6 +66,8 @@ class ContentObjectCategoryMenu extends HTML_Menu
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
+        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'learning_path_item'));
+        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'portfolio_item'));
         $condition = new AndCondition($conditions);
         $count = $this->data_manager->count_content_objects($condition);
 
@@ -110,6 +112,8 @@ class ContentObjectCategoryMenu extends HTML_Menu
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category->get_id());
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
+            $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'learning_path_item'));
+        	$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'portfolio_item'));
             $condition = new AndCondition($conditions);
 
             $count = $this->data_manager->count_content_objects($condition);

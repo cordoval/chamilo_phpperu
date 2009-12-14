@@ -194,6 +194,11 @@ class PortfolioManager extends WebApplication
     {
         return PortfolioDataManager :: get_instance()->delete_content_object_publications($object_id);
     }
+    
+	function delete_content_object_publication($publication_id)
+    {
+    	 return PortfolioDataManager :: get_instance()->delete_content_object_publication($publication_id);
+    }
 
     function update_content_object_publication_id($publication_attr)
     {

@@ -150,7 +150,7 @@ div.empty_column
 
 a.modalCloseImg
 {
-	background: url(../img/home/background_modal_close.png) no-repeat;
+	background: url(../images/home/background_modal_close.png) no-repeat;
 	width: 34px;
 	height: 34px;
 	display: inline;
@@ -266,7 +266,7 @@ div.deleteColumn
 {
 	width: 32px;
 	height: 32px;
-	background: url(../img/home/block_delete_column.png) no-repeat;
+	background: url(../images/home/block_delete_column.png) no-repeat;
 	cursor: pointer;
 	clear: both;
 	margin-left: auto;

@@ -39,10 +39,10 @@ class Translation
         {
             global $language_interface;
             $this->language = $language_interface;
-//            if (Request :: get('install_running') != 1 || file_exists(dirname(__FILE__) . '/../configuration/configuration.php'))
-//            {
-//                $this->show_variable_in_translation = PlatformSetting :: get('show_variable_in_translation');
-//            }
+            if (Request :: get('install_running') != 1 && file_exists(dirname(__FILE__) . '/../configuration/configuration.php'))
+            {
+                $this->show_variable_in_translation = PlatformSetting :: get('show_variable_in_translation');
+            }
         }
         else
         {
@@ -141,7 +141,7 @@ class Translation
         }
         else
         {
-            if (class_exists('PlatformSetting') && PlatformSetting :: get('hide_dcda_markup'))
+            if ( (Request :: get('install_running') != 1 && file_exists(dirname(__FILE__) . '/../configuration/configuration.php')) && PlatformSetting :: get('hide_dcda_markup'))
             {
                 return $variable;
             }

@@ -87,6 +87,11 @@ class LdapAuthentication extends Authentication
     	return false;
     }
 
+    function get_password_requirements()
+    {
+        return null;
+    }
+
     public function is_username_changeable()
     {
         return false;

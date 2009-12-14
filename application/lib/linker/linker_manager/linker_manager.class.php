@@ -127,6 +127,11 @@ class LinkerManager extends WebApplication
     {
     
     }
+    
+	function delete_content_object_publication($publication_id)
+    {
+    
+    }
 
     function update_content_object_publication_id($publication_attr)
     {

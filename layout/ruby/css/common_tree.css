@@ -12,7 +12,7 @@ ul.tree-menu, ul.tree-menu ul
 ul.tree-menu ul
 {
 	background-repeat: repeat-y;
-	background-image: url(../img/common/treemenu/tree-branch.png);
+	background-image: url(../images/common/treemenu/tree-branch.png);
 	padding-left: 18px;
 	clear: both;
 }
@@ -39,32 +39,32 @@ ul.tree-menu li div.lastExpand
 
 ul.tree-menu li div
 {
-	background-image: url(../img/common/treemenu/tree-leaf.png);
+	background-image: url(../images/common/treemenu/tree-leaf.png);
 }
 
 ul.tree-menu li div.last 
 {
-	background-image: url(../img/common/treemenu/tree-leaf-end.png);
+	background-image: url(../images/common/treemenu/tree-leaf-end.png);
 }
 
 ul.tree-menu li div.collapse 
 {
-	background-image: url(../img/common/treemenu/tree-node-open.png);
+	background-image: url(../images/common/treemenu/tree-node-open.png);
 }
 
 ul.tree-menu li div.lastCollapse 
 {
-	background-image: url(../img/common/treemenu/tree-node-open-end.png);
+	background-image: url(../images/common/treemenu/tree-node-open-end.png);
 }
 
 ul.tree-menu li div.expand
 {
-	background-image: url(../img/common/treemenu/tree-node.png);
+	background-image: url(../images/common/treemenu/tree-node.png);
 }
 
 ul.tree-menu li div.lastExpand
 {
-	background-image: url(../img/common/treemenu/tree-node-end.png);
+	background-image: url(../images/common/treemenu/tree-node-end.png);
 }
 
 ul.tree-menu li div a
@@ -75,7 +75,7 @@ ul.tree-menu li div a
 	padding-left: 21px;
 	
 	background-repeat: no-repeat;
-	background-image: url(../img/common/treemenu/tree-document.png);
+	background-image: url(../images/common/treemenu/tree-document.png);
 	
 	white-space: nowrap;
 	font-weight: bold;
@@ -102,62 +102,62 @@ ul.tree-menu li div img
 
 ul.tree-menu li div a.home
 {
-	background-image: url(../img/common/treemenu/home.png);
+	background-image: url(../images/common/treemenu/home.png);
 }
 
 ul.tree-menu li div a.trash
 {
-	background-image: url(../img/common/treemenu/trash.png);
+	background-image: url(../images/common/treemenu/trash.png);
 }
 
 ul.tree-menu li div a.trash_full
 {
-	background-image: url(../img/common/treemenu/trash_full.png);
+	background-image: url(../images/common/treemenu/trash_full.png);
 }
 
 ul.tree-menu li div a.quota
 {
-	background-image: url(../img/common/treemenu/quota.png);
+	background-image: url(../images/common/treemenu/quota.png);
 }
 
 ul.tree-menu li div a.userview
 {
-	background-image: url(../img/common/treemenu/userview.png);
+	background-image: url(../images/common/treemenu/userview.png);
 }
 
 ul.tree-menu li div a.publication
 {
-	background-image: url(../img/common/treemenu/publication.png);
+	background-image: url(../images/common/treemenu/publication.png);
 }
 
 ul.tree-menu li div a.create
 {
-	background-image: url(../img/common/treemenu/create.png);
+	background-image: url(../images/common/treemenu/create.png);
 }
 
 ul.tree-menu li div a.rights
 {
-	background-image: url(../img/common/treemenu/rights.png);
+	background-image: url(../images/common/treemenu/rights.png);
 }
 
 ul.tree-menu li div a.import
 {
-	background-image: url(../img/common/treemenu/import.png);
+	background-image: url(../images/common/treemenu/import.png);
 }
 
 ul.tree-menu li div a.search_results
 {
-	background-image: url(../img/common/treemenu/search.png);
+	background-image: url(../images/common/treemenu/search.png);
 }
 
 ul.tree-menu li div a.category
 {
-	background-image: url(../img/common/treemenu/tree-folder-closed.png);
+	background-image: url(../images/common/treemenu/tree-folder-closed.png);
 }
 
 ul.tree-menu li div a.divider {
 	background-repeat: repeat-x;
-	background-image: url(../img/common/treemenu/tree-divider.png);
+	background-image: url(../images/common/treemenu/tree-divider.png);
 	margin-left: 0px;
 	margin-right: 0px;
 	cursor: default;
@@ -166,7 +166,7 @@ ul.tree-menu li div a.divider {
 ul.tree-menu li.current_path > div a.category,
 ul.tree-menu li.current > div a.category
 {
-	background-image: url(../img/common/treemenu/tree-folder-open.png);
+	background-image: url(../images/common/treemenu/tree-folder-open.png);
 }
 
 ul.tree-menu li.current > div a.category
@@ -177,18 +177,18 @@ ul.tree-menu li.current > div a.category
 /*
 ul.tree-menu li.current_path ul li div a.category
 {
-	background-image: url(../img/common/treemenu/tree-folder-closed.png);
+	background-image: url(../images/common/treemenu/tree-folder-closed.png);
 }
 
 ul.tree-menu li.current_path ul li.current_path div a.category
 {
-	background-image: url(../img/common/treemenu/tree-folder-open.png);
+	background-image: url(../images/common/treemenu/tree-folder-open.png);
 }
 */
 
 ul.tree-menu li div a.end_node
 {
-	background-image: url(../img/common/treemenu/end-node.png);
+	background-image: url(../images/common/treemenu/end-node.png);
 }
 
 ul.tree-menu li div a.no_link
@@ -203,167 +203,167 @@ ul.tree-menu li div a.no_link
  
 ul.tree-menu li div a.type_announcement
 {
-	background-image: url(../img/common/treemenu_types/announcement.png);
+	background-image: url(../images/common/treemenu_types/announcement.png);
 }
 
 ul.tree-menu li div a.type_assessment
 {
-	background-image: url(../img/common/treemenu_types/assessment.png);
+	background-image: url(../images/common/treemenu_types/assessment.png);
 }
 
 ul.tree-menu li div a.type_blog_item
 {
-	background-image: url(../img/common/treemenu_types/blog_item.png);
+	background-image: url(../images/common/treemenu_types/blog_item.png);
 }
 
 ul.tree-menu li div a.type_calendar_event
 {
-	background-image: url(../img/common/treemenu_types/calendar_event.png);
+	background-image: url(../images/common/treemenu_types/calendar_event.png);
 }
 
 ul.tree-menu li div a.type_description
 {
-	background-image: url(../img/common/treemenu_types/description.png);
+	background-image: url(../images/common/treemenu_types/description.png);
 }
 
 ul.tree-menu li div a.type_document
 {
-	background-image: url(../img/common/treemenu_types/document.png);
+	background-image: url(../images/common/treemenu_types/document.png);
 }
 
 ul.tree-menu li div a.type_feedback
 {
-	background-image: url(../img/common/treemenu_types/feedback.png);
+	background-image: url(../images/common/treemenu_types/feedback.png);
 }
 
 ul.tree-menu li div a.type_fill_in_blanks_question
 {
-	background-image: url(../img/common/treemenu_types/fill_in_blanks_question.png);
+	background-image: url(../images/common/treemenu_types/fill_in_blanks_question.png);
 }
 
 ul.tree-menu li div a.type_forum
 {
-	background-image: url(../img/common/treemenu_types/forum.png);
+	background-image: url(../images/common/treemenu_types/forum.png);
 }
 
 ul.tree-menu li div a.type_forum_post
 {
-	background-image: url(../img/common/treemenu_types/forum_post.png);
+	background-image: url(../images/common/treemenu_types/forum_post.png);
 }
 
 ul.tree-menu li div a.type_forum_topic
 {
-	background-image: url(../img/common/treemenu_types/forum_topic.png);
+	background-image: url(../images/common/treemenu_types/forum_topic.png);
 }
 
 ul.tree-menu li div a.type_glossary
 {
-	background-image: url(../img/common/treemenu_types/glossary.png);
+	background-image: url(../images/common/treemenu_types/glossary.png);
 }
 
 ul.tree-menu li div a.type_glossary_item
 {
-	background-image: url(../img/common/treemenu_types/glossary_item.png);
+	background-image: url(../images/common/treemenu_types/glossary_item.png);
 }
 
 ul.tree-menu li div a.type_hotpotatoes
 {
-	background-image: url(../img/common/treemenu_types/hotpotatoes.png);
+	background-image: url(../images/common/treemenu_types/hotpotatoes.png);
 }
 
 ul.tree-menu li div a.type_hotspot_question
 {
-	background-image: url(../img/common/treemenu_types/hotspot_question.png);
+	background-image: url(../images/common/treemenu_types/hotspot_question.png);
 }
 
 ul.tree-menu li div a.type_introduction
 {
-	background-image: url(../img/common/treemenu_types/introduction.png);
+	background-image: url(../images/common/treemenu_types/introduction.png);
 }
 
 ul.tree-menu li div a.type_learning_path
 {
-	background-image: url(../img/common/treemenu_types/learning_path.png);
+	background-image: url(../images/common/treemenu_types/learning_path.png);
 }
 
 ul.tree-menu li div a.type_learning_path_item
 {
-	background-image: url(../img/common/treemenu_types/learning_path_item.png);
+	background-image: url(../images/common/treemenu_types/learning_path_item.png);
 }
 
 ul.tree-menu li div a.type_link
 {
-	background-image: url(../img/common/treemenu_types/link.png);
+	background-image: url(../images/common/treemenu_types/link.png);
 }
 
 ul.tree-menu li div a.type_matching_question
 {
-	background-image: url(../img/common/treemenu_types/matching_question.png);
+	background-image: url(../images/common/treemenu_types/matching_question.png);
 }
 
 ul.tree-menu li div a.type_multiple_choice_question
 {
-	background-image: url(../img/common/treemenu_types/multiple_choice_question.png);
+	background-image: url(../images/common/treemenu_types/multiple_choice_question.png);
 }
 
 ul.tree-menu li div a.type_note
 {
-	background-image: url(../img/common/treemenu_types/note.png);
+	background-image: url(../images/common/treemenu_types/note.png);
 }
 
 ul.tree-menu li div a.type_open_question
 {
-	background-image: url(../img/common/treemenu_types/open_question.png);
+	background-image: url(../images/common/treemenu_types/open_question.png);
 }
 
 ul.tree-menu li div a.type_personal_message
 {
-	background-image: url(../img/common/treemenu_types/personal_message.png);
+	background-image: url(../images/common/treemenu_types/personal_message.png);
 }
 
 ul.tree-menu li div a.type_portfolio_item
 {
-	background-image: url(../img/common/treemenu_types/portfolio_item.png);
+	background-image: url(../images/common/treemenu_types/portfolio_item.png);
 }
 
 ul.tree-menu li div a.type_profile
 {
-	background-image: url(../img/common/treemenu_types/profile.png);
+	background-image: url(../images/common/treemenu_types/profile.png);
 }
 
 ul.tree-menu li div a.type_rss_feed
 {
-	background-image: url(../img/common/treemenu_types/rss_feed.png);
+	background-image: url(../images/common/treemenu_types/rss_feed.png);
 }
 
 ul.tree-menu li div a.type_rating_question
 {
-	background-image: url(../img/common/treemenu_types/rating_question.png);
+	background-image: url(../images/common/treemenu_types/rating_question.png);
 }
 
 ul.tree-menu li div a.type_survey
 {
-	background-image: url(../img/common/treemenu_types/survey.png);
+	background-image: url(../images/common/treemenu_types/survey.png);
 }
 
 ul.tree-menu li div a.type_template
 {
-	background-image: url(../img/common/treemenu_types/template.png);
+	background-image: url(../images/common/treemenu_types/template.png);
 }
 
 ul.tree-menu li div a.type_wiki
 {
-	background-image: url(../img/common/treemenu_types/wiki.png);
+	background-image: url(../images/common/treemenu_types/wiki.png);
 }
 
 ul.tree-menu li div a.type_user
 {
-	background-image: url(../img/common/treemenu/user.png);
+	background-image: url(../images/common/treemenu/user.png);
 }
 
 ul.tree-menu li div a.type_group
 {
-	background-image: url(../img/common/treemenu/group.png);
+	background-image: url(../images/common/treemenu/group.png);
 }
 
 /*************
@@ -494,14 +494,14 @@ div.tool_bar_left #tool_bar_hide_container.hide, div.tool_bar_icon_left #tool_ba
 {
 	right: 0px;
 	margin-right: -1px;
-	background-image: url(../img/common/action_action_bar_left_hide_background.png);
+	background-image: url(../images/common/action_action_bar_left_hide_background.png);
 }
 
 div.tool_bar_left #tool_bar_hide_container.show, div.tool_bar_icon_left #tool_bar_hide_container.show
 {
 	right: -18px;
 	margin-left: 0px;
-	background-image: url(../img/common/action_action_bar_left_show_background.png);
+	background-image: url(../images/common/action_action_bar_left_show_background.png);
 }
 
 /******************************************
@@ -511,14 +511,14 @@ div.tool_bar_right #tool_bar_hide_container.hide, div.tool_bar_icon_right #tool_
 {
 	left: 0px;
 	margin-left: -1px;
-	background-image: url(../img/common/action_action_bar_right_hide_background.png);
+	background-image: url(../images/common/action_action_bar_right_hide_background.png);
 }
 
 div.tool_bar_right #tool_bar_hide_container.show, div.tool_bar_icon_right #tool_bar_hide_container.show
 {
 	left: -18px;
 	margin-right: 0px;
-	background-image: url(../img/common/action_action_bar_right_show_background.png);
+	background-image: url(../images/common/action_action_bar_right_show_background.png);
 }
 
 /**************************

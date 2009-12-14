@@ -291,7 +291,7 @@ class Document extends ContentObject
         }
         
         //Description
-        if(StringUtilities :: is_null_or_empty($this->get_description()))
+        if(PlatformSetting :: get('description_required', 'repository') && StringUtilities :: is_null_or_empty($this->get_description()))
         {
             $this->add_error(Translation :: get('DocumentDescriptionIsRequired'));
         }
@@ -348,7 +348,7 @@ class Document extends ContentObject
         {
             $this->add_error(Translation :: get('DocumentHashNotSet'));
         }
-        
+    
         return !$this->has_errors();
     }
     

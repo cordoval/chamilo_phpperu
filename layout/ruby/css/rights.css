@@ -1,11 +1,11 @@
 @CHARSET "ISO-8859-1";
 .treeview-gray li {
-	background-image: url(../img/common/treemenu/treeview-gray-line.gif);
+	background-image: url(../images/common/treemenu/treeview-gray-line.gif);
 }
 
 .treeview-gray .hitarea,.treeview-gray li.lastCollapsable,.treeview-gray li.lastExpandable
 	{
-	background-image: url(../img/common/treemenu/treeview-gray.gif);
+	background-image: url(../images/common/treemenu/treeview-gray.gif);
 }
 
 .treeview,.treeview ul {
@@ -20,7 +20,7 @@
 }
 
 .treeview .hitarea {
-	background: url(../img/common/treemenu/treeview-default.gif) -64px -25px
+	background: url(../images/common/treemenu/treeview-default.gif) -64px -25px
 		no-repeat;
 	height: 16px;
 	width: 16px;
@@ -55,7 +55,7 @@
 }
 
 .treeview li {
-	background: url(../img/common/treemenu/treeview-default-line.gif) 0 0
+	background: url(../images/common/treemenu/treeview-default-line.gif) 0 0
 		no-repeat;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .treeview li.lastCollapsable,.treeview li.lastExpandable {
-	background-image: url(../img/common/treemenu/treeview-default.gif);
+	background-image: url(../images/common/treemenu/treeview-default.gif);
 }
 
 .treeview li.lastCollapsable {

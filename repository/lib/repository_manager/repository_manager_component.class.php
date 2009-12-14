@@ -215,6 +215,11 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
         return $this->get_parent()->get_content_object_delete_publications_url($content_object);
     }
 
+	function get_content_object_unlinker_url($content_object)
+    {
+    	return $this->get_parent()->get_content_object_unlinker_url($content_object);
+    }
+    
     /**
      * @see RepositoryManager::get_content_object_editing_url()
      */

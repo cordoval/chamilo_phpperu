@@ -487,6 +487,12 @@ class Course extends DataClass
         return $wdm->create_course_all($this);
     }
 
+ 	function delete()
+    {
+        $dm = $this->get_data_manager();
+        return $dm->delete_course($this->get_id());
+    }
+    
     /**
      * Checks whether the given user is a course admin in this course
      * @param int $user_id

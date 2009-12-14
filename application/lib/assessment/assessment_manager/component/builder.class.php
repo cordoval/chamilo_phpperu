@@ -21,5 +21,14 @@ class AssessmentManagerBuilderComponent extends AssessmentManagerComponent
     	$complex_builder = ComplexBuilder :: factory($this);
     	$complex_builder->run();
     }
+    
+    function display_header($trail)
+    {
+    	$new_trail = new BreadcrumbTrail();
+    	$new_trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
+    	
+    	$new_trail->merge($trail);
+    	parent :: display_header($new_trail);
+    }
 }
 ?>

@@ -13,7 +13,7 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
     function run()
     {
         $root_item_condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, 0);
-        $root_items = $this->retrieve_navigation_items($root_item_condition);
+        $root_items = $this->retrieve_navigation_items($root_item_condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
         
         $this_section = Header :: get_section();
         $html = array();
@@ -54,7 +54,7 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
             }
             
             $subitem_condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, $root_item->get_id());
-            $subitems = $this->retrieve_navigation_items($subitem_condition);
+            $subitems = $this->retrieve_navigation_items($subitem_condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
             $count = $subitems->size();
             if ($count > 0)
             {

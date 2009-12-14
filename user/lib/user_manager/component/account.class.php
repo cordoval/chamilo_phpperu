@@ -13,15 +13,15 @@ class UserManagerAccountComponent extends UserManagerComponent
     function run()
     {
         Header :: set_section('my_account');
-        
+
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAccount')));
         $trail->add_help('user general');
-        
+
         $user = $this->get_user();
-        
+
         $form = new AccountForm(AccountForm :: TYPE_EDIT, $user, $this->get_url());
-        
+
         if ($form->validate())
         {
             $success = $form->update_account();
@@ -30,22 +30,37 @@ class UserManagerAccountComponent extends UserManagerComponent
         else
         {
             $this->display_header($trail);
-            
-            echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-            $actions = array('account', 'buddy_view');
-            foreach ($actions as $action)
+
+            $actions = array();
+            $actions[] = 'account';
+
+            if (PlatformSetting :: get('allow_buddy_management', 'user'))
             {
-                echo '<li><a';
-                if ($action == 'account')
-                {
-                    echo ' class="current"';
-                }
-                echo ' href="' . $this->get_url(array(UserManager :: PARAM_ACTION => $action)) . '">' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($action) . 'Title')) . '</a></li>';
+                $actions[] = 'buddy_view';
             }
-            echo '</ul><div class="tabbed-pane-content"><br />';
-            
+
+            if (count($actions) > 1)
+            {
+                echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
+                foreach ($actions as $action)
+                {
+                    echo '<li><a';
+                    if ($action == 'account')
+                    {
+                        echo ' class="current"';
+                    }
+                    echo ' href="' . $this->get_url(array(UserManager :: PARAM_ACTION => $action)) . '">' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($action) . 'Title')) . '</a></li>';
+                }
+                echo '</ul><div class="tabbed-pane-content"><br />';
+            }
+
             $form->display();
-            echo '</div></div>';
+
+            if (count($actions) > 1)
+            {
+                echo '</div></div>';
+            }
+
             $this->display_footer();
         }
     }

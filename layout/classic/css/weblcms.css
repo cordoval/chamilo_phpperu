@@ -114,7 +114,7 @@ div.tool_bar_left #tool_bar_hide_container.hide,div.tool_bar_icon_left #tool_bar
 	right: 0px;
 	margin-right: -1px;
 	background-image:
-		url(../img/common/action_action_bar_left_hide_background.png);
+		url(../images/common/action_action_bar_left_hide_background.png);
 }
 
 div.tool_bar_left #tool_bar_hide_container.show,div.tool_bar_icon_left #tool_bar_hide_container.show
@@ -122,7 +122,7 @@ div.tool_bar_left #tool_bar_hide_container.show,div.tool_bar_icon_left #tool_bar
 	right: -18px;
 	margin-left: 0px;
 	background-image:
-		url(../img/common/action_action_bar_left_show_background.png);
+		url(../images/common/action_action_bar_left_show_background.png);
 }
 
 /* TOOL MENU in RIGHT or ICON RIGHT modus */
@@ -131,7 +131,7 @@ div.tool_bar_right #tool_bar_hide_container.hide,div.tool_bar_icon_right #tool_b
 	left: 0px;
 	margin-left: -1px;
 	background-image:
-		url(../img/common/action_action_bar_right_hide_background.png);
+		url(../images/common/action_action_bar_right_hide_background.png);
 }
 
 div.tool_bar_right #tool_bar_hide_container.show,div.tool_bar_icon_right #tool_bar_hide_container.show
@@ -139,7 +139,7 @@ div.tool_bar_right #tool_bar_hide_container.show,div.tool_bar_icon_right #tool_b
 	left: -18px;
 	margin-right: 0px;
 	background-image:
-		url(../img/common/action_action_bar_right_show_background.png);
+		url(../images/common/action_action_bar_right_show_background.png);
 }
 
 /* TOOL MENU list options */

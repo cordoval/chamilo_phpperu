@@ -428,7 +428,7 @@ class User extends DataClass
         }
         else
         {
-            return Path :: get(SYS_IMG_PATH) . 'img/unknown.jpg';
+            return Path :: get(SYS_IMG_PATH) . 'images/unknown.jpg';
         }
     }
 

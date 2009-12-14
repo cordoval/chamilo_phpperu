@@ -650,4 +650,6 @@ $lang['common']['CourseAdministration'] = 'Course administration';
 $lang['common']['Name'] = 'Name';
 $lang['common']['ThisFieldIsRequired'] = 'required field';
 $lang['common']['Application'] = 'Application';
+$lang['common']['MyAccount'] = 'My account';
+$lang['common']['Logout'] = 'Logout';
 ?>

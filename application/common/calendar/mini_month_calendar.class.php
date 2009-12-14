@@ -41,7 +41,7 @@ class MiniMonthCalendar extends MonthCalendar
     public function add_navigation_links($url_format)
     {
         $day = $this->get_start_time();
-        $row = 1;
+        $row = 0;
         $max_rows = $this->getRowCount();
         while ($row < $max_rows)
         {
@@ -65,9 +65,11 @@ class MiniMonthCalendar extends MonthCalendar
         $setting = PlatformSetting :: get('first_day_of_week');
         
         if ($setting == 'sunday')
-            return strtotime('Next Sunday', $first_day);
+        {
+            return strtotime('Next Sunday', strtotime('-1 Week', $first_day));
+        }
         
-        return strtotime('Next Monday', $first_day);
+        return strtotime('Next Monday', strtotime('-1 Week', $first_day));
     }
 
     public function mark_period($period)
@@ -99,10 +101,10 @@ class MiniMonthCalendar extends MonthCalendar
             case self :: PERIOD_WEEK :
                 $monday = strtotime(date('Y-m-d 00:00:00', $this->get_start_time()));
                 $this_week = strtotime(date('Y-m-d 00:00:00', strtotime('+1 Week', $this->get_display_time())));
-                $week_diff = floor(($this_week - $monday) / (60 * 60 * 24 * 7));
+                $week_diff = floor(($this_week - $monday) / (60 * 60 * 24 * 7)) - 1;
                 $row = $week_diff;
                 $this->updateRowAttributes($row, 'style="background-color: #ffdfb9;"', false);
-                $this->updateCellAttributes($row, date('N', $this->get_display_time()) - 1, 'style=""');
+                //$this->updateCellAttributes($row, date('N', $this->get_display_time()) - 1, 'style=""');
                 break;
             //			case self :: PERIOD_DAY :
         //				$day = strtotime(date('Y-m-d 00:00:00', $this->get_start_time()));

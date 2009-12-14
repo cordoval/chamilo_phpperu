@@ -20,5 +20,10 @@ class DefaultCasPassword extends CasPassword
     {
         return false;
     }
+
+    function get_password_requirements()
+    {
+        return null;
+    }
 }
 ?>

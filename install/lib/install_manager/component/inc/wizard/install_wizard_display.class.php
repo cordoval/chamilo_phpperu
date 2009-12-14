@@ -47,7 +47,7 @@ EOT;
         $element_template = array();
         $element_template[] = '<div class="row">';
         $element_template[] = '<div class="label">';
-        $element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="../layout/aqua/img/common/action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
+        $element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="../layout/aqua/images/common/action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
         $element_template[] = '</div>';
         $element_template[] = '<div class="formw">';
         $element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
@@ -66,7 +66,7 @@ EOT;
         $header_template = implode("\n", $header_template);
         
         $renderer->setHeaderTemplate($header_template);
-        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="../layout/aqua/img/common/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
+        HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="../layout/aqua/images/common/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
         $required_note_template = <<<EOT
 	<div class="row">
 		<div class="label"></div>
@@ -81,13 +81,41 @@ EOT;
         
         echo '<div id="progressbox">';
         $all_pages = $current_page->controller->_pages;
-        $total_number_of_pages = count($all_pages);
+        $total_number_of_pages = count($all_pages) - 1;
+        
+    	if(get_class($current_page) == 'LanguageInstallWizardPage')
+        {
+            $total_number_of_pages = 1;
+        }
+        
+    	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
+        {
+            $total_number_of_pages = 2;
+        }
+        
         $current_page_number = 0;
         $page_number = 0;
         echo '<ul id="progresstrail">';
         foreach ($all_pages as $index => $page)
         {
-            $page_number ++;
+        	if(get_class($current_page) == 'LanguageInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            {
+            	continue;
+            }
+            
+        	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
+            {
+            	if(get_class($page) != 'PreconfiguredInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            		continue;
+            }
+            
+        	if(get_class($page) == 'PreconfiguredInstallWizardPage')
+            {
+            	if(get_class($current_page) != 'PreconfiguredInstallWizardPage')
+            		continue;
+            }
+            
+        	$page_number ++;
             
             if ($page->get_title() == $current_page->get_title())
             {
@@ -103,7 +131,24 @@ EOT;
         $page_number = 0;
         foreach ($all_pages as $index => $page)
         {
-            $page_number ++;
+        	if(get_class($current_page) == 'LanguageInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            {
+            	continue;
+            }
+            
+        	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
+            {
+            	if(get_class($page) != 'PreconfiguredInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            		continue;
+            }
+            
+        	if(get_class($page) == 'PreconfiguredInstallWizardPage')
+            {
+            	if(get_class($current_page) != 'PreconfiguredInstallWizardPage')
+            		continue;
+            }
+            
+        	$page_number ++;
             
             if ($page_number <= $current_page_number)
             {

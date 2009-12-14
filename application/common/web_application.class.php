@@ -73,6 +73,11 @@ abstract class WebApplication extends Application
     {
         return true;
     }
+    
+    function delete_content_object_publication($publication_id)
+    {
+    	return true;
+    }
 
     function get_content_object_publication_locations($content_object)
     {

@@ -266,6 +266,11 @@ class ProfilerManager extends WebApplication
     {
         return ProfilerDataManager :: get_instance()->delete_profile_publications($object_id);
     }
+    
+	function delete_content_object_publication($publication_id)
+    {
+    	 return ProfilerDataManager :: get_instance()->delete_content_object_publication($publication_id);
+    }
 
     /**
      * Update the publication id

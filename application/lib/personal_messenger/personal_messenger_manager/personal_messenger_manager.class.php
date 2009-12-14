@@ -222,6 +222,11 @@ class PersonalMessengerManager extends WebApplication
     {
         return PersonalMessengerDataManager :: get_instance()->delete_personal_message_publications($object_id);
     }
+    
+	function delete_content_object_publication($publication_id)
+    {
+    	 return PersonalMessengerDataManager :: get_instance()->delete_content_object_publication($publication_id);
+    }
 
     /**
      * Update the publication id

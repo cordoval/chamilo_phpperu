@@ -50,7 +50,7 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
         echo ($html);
         
         echo '<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 15px;">';
-        echo '<img src="../layout/aqua/img/common/dokeos_logo_small.png" alt="logo"/>';
+        echo '<img src="../layout/aqua/images/common/dokeos_logo_small.png" alt="logo"/>';
         $all_pages = $current_page->controller->_pages;
         $total_number_of_pages = count($all_pages);
         $current_page_number = 0;

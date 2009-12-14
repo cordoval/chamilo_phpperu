@@ -63,6 +63,11 @@ class PlatformAuthentication extends Authentication
     	return true;
     }
 
+    function get_password_requirements()
+    {
+        return Translation :: get('GeneralPasswordRequirements');
+    }
+
     public function is_username_changeable()
     {
         return true;

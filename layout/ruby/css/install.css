@@ -37,7 +37,7 @@ div.admin_header span.category {
 	-moz-border-radius-topright: 10px;
 	-webkit-border-top-right-radius: 10px;
 	/*
-	background-image: url('../img/admin/background_tab.png');
+	background-image: url('../images/admin/background_tab.png');
 	background-repeat: repeat-x;
 	*/
 }
@@ -400,7 +400,7 @@ div.navi a.active
 {
 	display:block;
 	padding:0 15px 0 15px;
-	background-image: url(../img/common/background_breadcrumb.png);
+	background-image: url(../images/common/background_breadcrumb.png);
 	background-repeat: no-repeat;
 	background-position: right center;
 	color: #a8a8a8;

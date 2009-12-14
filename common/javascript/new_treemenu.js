@@ -152,7 +152,7 @@
 	    							oldParent = dropped.parentNode;
 									oldBranches = $('li', oldParent);
 									if (oldBranches.size() == 0) {
-										$('img.expandImage', oldParent.parentNode).attr('src', 'layout/aqua/img/common/treemenu/spacer.gif');
+										$('img.expandImage', oldParent.parentNode).attr('src', 'layout/aqua/images/common/treemenu/spacer.gif');
 										$(oldParent).remove();
 									}
 									

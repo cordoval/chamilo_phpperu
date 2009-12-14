@@ -50,5 +50,10 @@ class WebserviceCasPassword extends CasPassword
     {
         return true;
     }
+
+    function get_password_requirements()
+    {
+        return Translation :: get('GeneralPasswordRequirements');
+    }
 }
 ?>

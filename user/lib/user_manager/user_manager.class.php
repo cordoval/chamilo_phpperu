@@ -14,6 +14,10 @@ class UserManager extends CoreApplication
     const APPLICATION_NAME = 'user';
     
     const PARAM_USER_USER_ID = 'user_id';
+    const PARAM_ACTIVE = 'active';
+    const PARAM_DEACTIVATE_SELECTED = 'deactivate_selected';
+    const PARAM_ACTIVATE_SELECTED = 'activate_selected';
+    const PARAM_RESET_PASSWORD_SELECTED = 'reset_pass_selected';
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_FIRSTLETTER = 'firstletter';
     
@@ -32,6 +36,8 @@ class UserManager extends CoreApplication
     const ACTION_REPORTING = 'reporting';
     const ACTION_VIEW_QUOTA = 'view_quota';
     const ACTION_USER_DETAIL = 'user_detail';
+    const ACTION_CHANGE_ACTIVATION = 'change_activation';
+    const ACTION_RESET_PASSWORD_MULTI = 'reset_pass_multi';
     
     const ACTION_VIEW_BUDDYLIST = 'buddy_view';
     const ACTION_CREATE_BUDDYLIST_CATEGORY = 'buddy_create_category';
@@ -71,6 +77,46 @@ class UserManager extends CoreApplication
             }
         }
         $this->create_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_USER));
+        
+        $this->parse_input_from_table();
+    }
+    
+ 	private function parse_input_from_table()
+    {
+        if (isset($_POST['action']))
+        {
+            $selected_ids = $_POST[AdminUserBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+            if (empty($selected_ids))
+            {
+                $selected_ids = array();
+            }
+            elseif (! is_array($selected_ids))
+            {
+                $selected_ids = array($selected_ids);
+            }
+
+            switch ($_POST['action'])
+            {
+                case self :: PARAM_REMOVE_SELECTED :
+                    $this->set_action(self :: ACTION_DELETE_USER);
+                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
+                    break;
+                case self :: PARAM_DEACTIVATE_SELECTED :
+                    $this->set_action(self :: ACTION_CHANGE_ACTIVATION);
+                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
+                    Request :: set_get(self :: PARAM_ACTIVE, 0);
+                    break;
+                case self :: PARAM_ACTIVATE_SELECTED :
+                    $this->set_action(self :: ACTION_CHANGE_ACTIVATION);
+                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
+                    Request :: set_get(self :: PARAM_ACTIVE, 1);
+                    break;
+                case self :: PARAM_RESET_PASSWORD_SELECTED :
+                    $this->set_action(self :: ACTION_RESET_PASSWORD_MULTI);
+                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
+                    break;
+            }
+        }
     }
 
     /**
@@ -197,6 +243,12 @@ class UserManager extends CoreApplication
                 break;
             case self :: ACTION_USER_DETAIL:
             	$component = UserManagerComponent :: factory('UserDetail',$this);
+                break;
+            case self :: ACTION_CHANGE_ACTIVATION :
+                $component = UserManagerComponent :: factory('ActiveChanger', $this);
+                break;
+            case self :: ACTION_RESET_PASSWORD_MULTI:
+            	$component = UserManagerComponent :: factory('MultiPasswordResetter',$this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_USERS);

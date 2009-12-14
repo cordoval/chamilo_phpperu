@@ -15,49 +15,23 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComp
      */
     function run()
     {
-        $id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
-        if (! empty($id))
+        $id = Request :: get(RepositoryManager :: PARAM_PUBLICATION_ID);
+        $application = Request :: get(RepositoryManager :: PARAM_PUBLICATION_APPLICATION);
+        
+        if (! empty($id) && !empty($application))
         {
-            $failures = 0;
-            
-            $object = $this->get_parent()->retrieve_content_object($id);
-            // TODO: Roles & Rights.
-            if ($object->get_owner_id() == $this->get_user_id())
-            {
-                $versions = $object->get_content_object_versions();
-                
-                foreach ($versions as $version)
-                {
-                    if (! $version->delete_links())
-                    {
-                        $failures ++;
-                    }
-                }
-            }
-            else
-            {
-                $failures ++;
-            }
-            
-            // TODO: SCARA - Structurize + cleanup (possible) failures
-            
+            $succes = RepositoryDataManager :: get_instance()->delete_content_object_publication($application, $id);
 
-            if ($failures)
+            if ($succes)
             {
-                if ($failures >= 1)
-                {
-                    $message = 'SelectedObjectNotUnlinked';
-                }
-                else
-                {
-                    $message = 'NotAllVersionsUnlinked';
-                }
+             	$message =  'SelectedPublicationDeleted';  
             }
             else
             {
-                $message = 'SelectedObjectUnlinked';
+                $message = 'SelectedPublicationNotDeleted';
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
+            
+            $this->redirect(Translation :: get($message), !$succes, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS));
         }
         else
         {
