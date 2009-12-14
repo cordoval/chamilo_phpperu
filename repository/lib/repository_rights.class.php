@@ -8,8 +8,8 @@ class RepositoryRights
     const ADD_RIGHT = '1';
     const EDIT_RIGHT = '2';
     const DELETE_RIGHT = '3';
-    const VIEW_RIGHT = '4';
-    const SEARCH_RIGHT = '5';
+    const SEARCH_RIGHT = '4';
+    const VIEW_RIGHT = '5';
     const USE_RIGHT = '6';
     const REUSE_RIGHT = '7';
 
