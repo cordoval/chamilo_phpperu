@@ -2,55 +2,64 @@
 require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.class.php';
 
 /**
- * This class is a basic implementation of learning object export to a Fedora repository (http://www.fedora-commons.org)
- * The export configuration are stored in the 'repository_external_repository' and 'repository_external_repository_fedora' tables of the datasource.
+ * This class is a basic implementation of content object export and import to/from a Fedora repository (http://www.fedora-commons.org)
+ * The connection configuration is stored in the 'repository_external_repository' and 'repository_external_repository_fedora' tables of the datasource.
  * 
  * 
  * BASIC FEATURES
  * ==============
  * 
- * This export implements the following features (see the 'export' function):
+ * The export implements the following features (see the 'export' function):
  * 
  * - Check if the Learning Object has already been exported to the Fedora repository by checking if it already has an identifier for this external repository in its metadata
- * 		- if not, retrieve a new uid from the repository (through the REST API) and store it in the LO metadata
+ * 		- if not, retrieve a new uid from the repository (through the REST API) and store it in the LO metadata and in the 'repository_external_repository_sync_info' table
  * 		
  * 		Note: this Fedora uid will allow to differentiate NEW objects from objects to UPDATE in Fedora  
  * 
  * - Check if minimum required metadata are available.
  * 		- if some required metadata are missing, the metadata edition form is shown.
  * 
- * 		Note: 	By default, this check always returns true. If you need to implement you own check, create your own Fedora export class inheriting from 'FedoraExternalRepositoryConnector'
+ * 		Note: 	By default, this check always returns true. If you need to implement you own check for minimum metadata, create your own Fedora connector class inheriting from 'FedoraExternalRepositoryConnector'
  * 				and override the 'check_required_metadata' function
  * 
  * - Create a new object in the Fedora repository if it doesn't exist yet
- * - Create a datastream called 'LOM' containing the LOM-XML of the learning object
- * - Create a datastream called 'OBJECT' with the learning object content
+ * - Create a datastream (default datastream name is 'LOM') containing the LOM-XML of the content object
+ * - Create a datastream (default datastream name is 'OBJECT') with the content_object content
  * 
+ * The import implements the following features (see the 'import' function):
+ * 
+ * - Check if a content_object with the same fedora_uid already exists in the 'repository_external_repository_sync_info' table
+ * - Depending on the existence or not of such a record, it creates or update a content_object in Chamilo
+ * 
+ * Synchronization informations:
+ * 
+ * - During both import and export process, some data are stored in the 'repository_external_repository_sync_info' table.
+ *   These data are useful to determine if an object has already been synchronized with a repository, and if it has changed since last synchronization
  * 
  * ADDING SPECIFIC FEATURES
  * ========================
  * 
- * Exporter
+ * Connector
  * --------
- * If you need to implement specific business logic during the export to your Fedora repository, you can create your own export class inheriting from 'FedoraExternalRepositoryConnector' 
+ * If you need to implement specific business logic during the export or import to/from your Fedora repository, you can create your own connector class inheriting from 'FedoraExternalRepositoryConnector' 
  * and override the functions you need to customize.
  * 
  * In order to be called automatically, you own class name should start with the camelized version of the 'catalog_name' field value of the repository_external_repository table in the datasource.
  *  
  * For example, if the 'catalog_name' value is 'fedora_test' and the export 'type' field is 'fedora', the export logic will try to find a class called 'FedoraTestExternalRepositoryConnector'
- * in /chamilo/repository/lib/export/external_export/fedora/custom/fedora_test_external_repository.class.php. 
- * If such a class exists, it is used as exporter for the export.
- * If such a class doesn't exist, the basic 'FedoraExternalRepositoryConnector' class is used for the export 
+ * in /chamilo/repository/lib/export/external_export/fedora/custom/fedora_test_external_repository_connector.class.php. 
+ * If such a class exists, it is used as connector for the export.
+ * If such a class doesn't exist, the basic 'FedoraExternalRepositoryConnector' class is used as connector 
  * 
  * Form
  * ----
  * If you need to implement a specific form before running the export, you can create your own export form class inheriting from 'ExternalRepositoryExportForm' 
  * and override the functions you need to customize.
  * 
- * Similarly to the repository class, the form class name should start with the camelized version of the 'catalog_name' field value of the repository_external_repository table in the datasource.
+ * Similarly to the connector class, the form class name should start with the camelized version of the 'catalog_name' field value of the repository_external_repository table in the datasource.
  * 
- * For example, if the 'catalog_name' value is 'fedora_test' and the export 'type' field is 'fedora', the export logic will try to find a class called 'FedoraTestExternalExportForm'
- * in /chamilo/repository/lib/export/external_export/fedora/custom/fedora_test_external_export_form.class.php.
+ * For example, if the 'catalog_name' value is 'fedora_test' and the export 'type' field is 'fedora', the export logic will try to find a class called 'FedoraTestExternalRepositoryExportForm'
+ * in /chamilo/repository/lib/export/external_export/fedora/custom/fedora_test_external_repository_export_form.class.php.
  * If such a class exists, it is used as form for the export.
  * If such a class doesn't exist, the basic 'ExternalRepositoryExportForm' class is used for the export 
  * 
@@ -64,7 +73,7 @@ require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.c
  * AUTHENTIFICATION
  * ================
  * 
- * Some of the REST requests sent by the exporter need to provide credentials to Fedora. The login + password are retrieved from the 'repository_external_repository_fedora' table.
+ * Some of the REST requests sent by the connector may need to provide credentials to Fedora. The login + password are retrieved from the 'repository_external_repository_fedora' table.
  * 
  * Certificate based client authentification
  * -----------------------------------------
@@ -86,7 +95,7 @@ require_once Path :: get_plugin_path() . '/webservices/rest/client/rest_client.c
  * EXAMPLE
  * =======
  * 
- * These two SQL queries will store an example of export to a Fedora repository working with the test custom classes provided 
+ * These two SQL queries will store an example of connector to a Fedora repository working with the test custom classes provided 
  * 
  * INSERT INTO `repository_external_repository` (`id`, `title`, `description`, `type`, `catalog_name`, `metadata_xsl_filename`, `typed_external_repository_id`, `enabled`, `created`) 
  * VALUES
