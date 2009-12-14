@@ -1,9 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/external_repository_export_component.class.php';
-require_once dirname(__FILE__) . '/../../export/external_export/base_external_exporter.class.php';
-
-class RepositoryManagerExternalRepositoryExportListObjectsComponent extends RepositoryManagerExternalRepositoryExportComponent
+class RepositoryManagerExternalRepositoryListObjectsComponent extends RepositoryManagerExternalRepositoryComponent
 {
     
     public function run()
@@ -12,7 +9,7 @@ class RepositoryManagerExternalRepositoryExportListObjectsComponent extends Repo
         
         $content_object = $this->get_content_object_from_params();
         $co_id          = isset($content_object) ? $content_object->get_id() : null;
-        $export         = $this->get_external_export_from_param();
+        $export         = $this->get_external_repository_from_param();
         
         $trail = new BreadcrumbTrail(false);
         $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $co_id)), Translation :: get('ExternalRepository')));
@@ -40,10 +37,10 @@ class RepositoryManagerExternalRepositoryExportListObjectsComponent extends Repo
     
     public function get_external_repository_objects_list()
     {
-        $export = $this->get_external_export_from_param();
+        $export = $this->get_external_repository_from_param();
         if (isset($export) && $export->get_enabled() == 1)
         {
-            $exporter = BaseExternalRepository :: get_instance($export);
+            $exporter = BaseExternalRepositoryConnector :: get_instance($export);
             
             $existing_objects = $exporter->get_objects_list_from_repository();
             

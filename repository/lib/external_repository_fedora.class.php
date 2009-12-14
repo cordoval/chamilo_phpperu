@@ -1,13 +1,13 @@
 <?php
 /**
- * $Id: external_export_fedora.class.php 204 2009-11-13 12:51:30Z kariboe $
+ * $Id: external_repository_fedora.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
  */
 /**
  * @author rodn
  * 
  */
-class ExternalExportFedora extends ExternalExport
+class ExternalRepositoryFedora extends ExternalRepository
 {
     const CLASS_NAME = __CLASS__;
     
@@ -42,7 +42,7 @@ class ExternalExportFedora extends ExternalExport
     const DEFAULT_OBJECT_DATASTREAM_LABEL              = 'Object content';
     
     
-    function ExternalExportFedora($defaultProperties = array ())
+    function ExternalRepositoryFedora($defaultProperties = array ())
     {
         parent :: __construct($defaultProperties);
     }
@@ -727,7 +727,7 @@ class ExternalExportFedora extends ExternalExport
             
             $condition = new EqualityCondition(self :: PROPERTY_ID, $this->get_id());
             
-            $result_set = $dm->retrieve_external_export_fedora($condition);
+            $result_set = $dm->retrieve_external_repository_fedora($condition);
             $object = $result_set->next_result();
             
             if (isset($object))
@@ -735,19 +735,19 @@ class ExternalExportFedora extends ExternalExport
                 $this->set_default_properties($object->get_default_properties());
                 
                 /*
-	             * Add ExternalExport class properties values
+	             * Add ExternalRepository class properties values
 	             */
-                $external_export = new ExternalExport(array(ExternalExport :: PROPERTY_TYPED_EXTERNAL_EXPORT_ID => $this->get_id()));
-                if ($external_export->get_by_typed_external_export_id())
+                $external_repository = new ExternalRepository(array(ExternalRepository :: PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID => $this->get_id()));
+                if ($external_repository->get_by_typed_external_repository_id())
                 {
                     foreach (parent :: get_default_property_names() as $property_name)
                     {
-                        $this->set_default_property($property_name, $external_export->get_default_property($property_name));
+                        $this->set_default_property($property_name, $external_repository->get_default_property($property_name));
                     }
                 }
                 else
                 {
-                    throw new Exception('$external_export->get_by_typed_external_export_id() failed');
+                    throw new Exception('$external_repository->get_by_typed_external_repository_id() failed');
                 }
                 
                 return true;

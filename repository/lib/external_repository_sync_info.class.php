@@ -122,7 +122,7 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
     {
         $this->set_creation_date(time());
         
-        return $this->get_data_manager()->create_external_export_sync_info($this);
+        return $this->get_data_manager()->create_external_repository_sync_info($this);
     }
     
     function update()
@@ -134,12 +134,12 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
         
         $this->set_modification_date(time());
         
-        return $this->get_data_manager()->update_external_export_sync_info($this);
+        return $this->get_data_manager()->update_external_repository_sync_info($this);
     }
     
     function delete()
     {
-        return $this->get_data_manager()->delete_external_export_sync_info($this);
+        return $this->get_data_manager()->delete_external_repository_sync_info($this);
     }
     
     /*************************************************************************
@@ -157,7 +157,7 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
         
         $conditions = new EqualityCondition(self :: PROPERTY_CONTENT_OBJECT, $content_object_id);
         
-        return $dm->retrieve_external_export_sync_info($conditions);
+        return $dm->retrieve_external_repository_sync_info($conditions);
     }
     
 	/**
@@ -175,7 +175,7 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
         
         $conditions = new AndCondition($condition_array);
         
-        return $dm->retrieve_external_export_sync_info($conditions);
+        return $dm->retrieve_external_repository_sync_info($conditions);
     }
     
 
@@ -195,7 +195,7 @@ class ExternalRepositorySyncInfo extends RepositoryDataClass
         
         $conditions = new AndCondition($condition_array);
         
-        return $dm->retrieve_external_export_sync_info($conditions);
+        return $dm->retrieve_external_repository_sync_info($conditions);
     }
     
 }

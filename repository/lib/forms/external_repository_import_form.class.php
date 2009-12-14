@@ -52,7 +52,7 @@ class ExternalRepositoryImportForm extends FormValidator
     
     private function build_repository_object_info_zone()
     {
-        $external_object_infos = $this->repository_object_infos[BaseExternalRepository :: EXTERNAL_OBJECT_KEY];
+        $external_object_infos = $this->repository_object_infos[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY];
         
         $html = array();
         $html[] = '<div>';
@@ -60,30 +60,30 @@ class ExternalRepositoryImportForm extends FormValidator
         
         $html[] = '<table border="0" cellspacing="0" cellpadding="5">';
         
-        if(isset($external_object_infos[BaseExternalRepository :: OBJECT_ID]))
+        if(isset($external_object_infos[BaseExternalRepositoryConnector :: OBJECT_ID]))
         {
             $html[] = '<tr>';
             $html[] = '<td>' . Translation :: get('ExternalRepositoryObjectId') . '</td>';
             $html[] = '<td>:</td>';
-            $html[] = '<td>' . $external_object_infos[BaseExternalRepository :: OBJECT_ID] . '</td>';
+            $html[] = '<td>' . $external_object_infos[BaseExternalRepositoryConnector :: OBJECT_ID] . '</td>';
             $html[] = '</tr>';
         }
         
-        if(isset($external_object_infos[BaseExternalRepository :: OBJECT_TITLE]))
+        if(isset($external_object_infos[BaseExternalRepositoryConnector :: OBJECT_TITLE]))
         {
             $html[] = '<tr>';
             $html[] = '<td>' . Translation :: get('ExternalRepositoryObjectTitle') . '</td>';
             $html[] = '<td>:</td>';
-            $html[] = '<td>' . $external_object_infos[BaseExternalRepository :: OBJECT_TITLE] . '</td>';
+            $html[] = '<td>' . $external_object_infos[BaseExternalRepositoryConnector :: OBJECT_TITLE] . '</td>';
             $html[] = '</tr>';
         }
         
-        if(isset($external_object_infos[BaseExternalRepository :: OBJECT_DESCRIPTION]))
+        if(isset($external_object_infos[BaseExternalRepositoryConnector :: OBJECT_DESCRIPTION]))
         {
             $html[] = '<tr>';
             $html[] = '<td>' . Translation :: get('ExternalRepositoryObjectDescription') . '</td>';
             $html[] = '<td>:</td>';
-            $html[] = '<td>' . $external_object_infos[BaseExternalRepository :: OBJECT_DESCRIPTION] . '</td>';
+            $html[] = '<td>' . $external_object_infos[BaseExternalRepositoryConnector :: OBJECT_DESCRIPTION] . '</td>';
             $html[] = '</tr>';
         }
         
@@ -109,25 +109,25 @@ class ExternalRepositoryImportForm extends FormValidator
         $html = array();
         $html[] = '<div>';
         
-        if(isset($this->repository_object_infos[BaseExternalRepository :: CHAMILO_OBJECT_KEY]))
+        if(isset($this->repository_object_infos[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY]))
         {
             $date_comparison_result_text = null;
             
-            switch($this->repository_object_infos[BaseExternalRepository :: SYNC_STATE])
+            switch($this->repository_object_infos[BaseExternalRepositoryConnector :: SYNC_STATE])
             {
-                case BaseExternalRepository :: SYNC_NEWER_IN_CHAMILO:
+                case BaseExternalRepositoryConnector :: SYNC_NEWER_IN_CHAMILO:
                     $date_comparison_result_text = Translation :: get('ExternalRepositoryNewerInChamilo');
                     break;
                     
-                case BaseExternalRepository :: SYNC_OLDER_IN_CHAMILO:
+                case BaseExternalRepositoryConnector :: SYNC_OLDER_IN_CHAMILO:
                     $date_comparison_result_text = Translation :: get('ExternalRepositoryOlderInChamilo');
                     break;
                     
-                case BaseExternalRepository :: SYNC_IDENTICAL:
+                case BaseExternalRepositoryConnector :: SYNC_IDENTICAL:
                     $date_comparison_result_text = Translation :: get('ExternalRepositorySynchronized');
                     break;
                     
-                case BaseExternalRepository :: SYNC_NEVER_SYNCHRONIZED:
+                case BaseExternalRepositoryConnector :: SYNC_NEVER_SYNCHRONIZED:
                     $date_comparison_result_text = Translation :: get('ExternalRepositoryNeverSync');
                     break;
             }
@@ -160,18 +160,18 @@ class ExternalRepositoryImportForm extends FormValidator
     
     private function get_repository_last_modification_date()
     {
-        if(isset($this->repository_object_infos[BaseExternalRepository :: EXTERNAL_OBJECT_KEY]))
+        if(isset($this->repository_object_infos[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY]))
         {
-            $external_object_infos = $this->repository_object_infos[BaseExternalRepository :: EXTERNAL_OBJECT_KEY];
+            $external_object_infos = $this->repository_object_infos[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY];
             
             $external_object_date = null;
-            if(isset($external_object_infos[BaseExternalRepository :: OBJECT_MODIFICATION_DATE]))
+            if(isset($external_object_infos[BaseExternalRepositoryConnector :: OBJECT_MODIFICATION_DATE]))
             {
-                $external_object_date = date('Y-m-d H:i:s', strtotime($external_object_infos[BaseExternalRepository :: OBJECT_MODIFICATION_DATE]));
+                $external_object_date = date('Y-m-d H:i:s', strtotime($external_object_infos[BaseExternalRepositoryConnector :: OBJECT_MODIFICATION_DATE]));
             }
-            elseif(isset($external_object_infos[BaseExternalRepository :: OBJECT_CREATION_DATE]))
+            elseif(isset($external_object_infos[BaseExternalRepositoryConnector :: OBJECT_CREATION_DATE]))
             {
-                $external_object_date = date('Y-m-d H:i:s', strtotime($external_object_infos[BaseExternalRepository :: OBJECT_CREATION_DATE]));
+                $external_object_date = date('Y-m-d H:i:s', strtotime($external_object_infos[BaseExternalRepositoryConnector :: OBJECT_CREATION_DATE]));
             }
             
             return $external_object_date;
@@ -184,9 +184,9 @@ class ExternalRepositoryImportForm extends FormValidator
     
     private function get_chamilo_last_modification_date()
     {
-        if(isset($this->repository_object_infos[BaseExternalRepository :: CHAMILO_OBJECT_KEY]))
+        if(isset($this->repository_object_infos[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY]))
         {
-            $content_object = $this->repository_object_infos[BaseExternalRepository :: CHAMILO_OBJECT_KEY];
+            $content_object = $this->repository_object_infos[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY];
                 
             //DebugUtilities::show($content_object);
             

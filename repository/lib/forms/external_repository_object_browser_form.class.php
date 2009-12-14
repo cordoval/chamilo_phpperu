@@ -40,9 +40,9 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
             $class_attribute = $binary_index == 0 ? '' : 'class="row_odd"';
             
             $object_state = null;
-            if(isset($object[BaseExternalRepository :: CHAMILO_OBJECT_KEY]))
+            if(isset($object[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY]))
             {
-                $object_state = $object[BaseExternalRepository :: CHAMILO_OBJECT_KEY]->get_state();
+                $object_state = $object[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY]->get_state();
             }
             
             $classname = '';
@@ -73,18 +73,18 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
             
             $table .= '<td style="vertical-align:top">';
             
-            if(isset($object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_ID]))
+            if(isset($object[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY][BaseExternalRepositoryConnector :: OBJECT_ID]))
             {
                 $url_view_content_object = null;
-                if(isset($object[BaseExternalRepository :: CHAMILO_OBJECT_KEY]))
+                if(isset($object[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY]))
                 {
-                    $url_view_content_object = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object[BaseExternalRepository :: CHAMILO_OBJECT_KEY]->get_id()));
+                    $url_view_content_object = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY]->get_id()));
                     
-                    $table .= '<a href="' . $url_view_content_object . '">' . $object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_ID] . '</a>';
+                    $table .= '<a href="' . $url_view_content_object . '">' . $object[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY][BaseExternalRepositoryConnector :: OBJECT_ID] . '</a>';
                 }
                 else
                 {
-                    $table .= $object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_ID];
+                    $table .= $object[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY][BaseExternalRepositoryConnector :: OBJECT_ID];
                 }
             }
             
@@ -94,9 +94,9 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
             
             $table .= '<td style="vertical-align:top">';
             
-            if(isset($object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_TITLE]))
+            if(isset($object[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY][BaseExternalRepositoryConnector :: OBJECT_TITLE]))
             {
-                $table .= $object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_TITLE];
+                $table .= $object[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY][BaseExternalRepositoryConnector :: OBJECT_TITLE];
             }
             
             $table .= '</td>';
@@ -105,9 +105,9 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
             
             $table .= '<td style="vertical-align:top">';
             
-            if(isset($object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_MODIFICATION_DATE]))
+            if(isset($object[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY][BaseExternalRepositoryConnector :: OBJECT_MODIFICATION_DATE]))
             {
-                $repository_modif_datetime = $object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_MODIFICATION_DATE];
+                $repository_modif_datetime = $object[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY][BaseExternalRepositoryConnector :: OBJECT_MODIFICATION_DATE];
                 $table .= $repository_modif_datetime;
             }
             
@@ -117,12 +117,12 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
             
             $table .= '<td style="vertical-align:top">';
             
-            if(isset($object[BaseExternalRepository :: CHAMILO_OBJECT_KEY]))
+            if(isset($object[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY]))
             {
-                $chamilo_object_date = $object[BaseExternalRepository :: CHAMILO_OBJECT_KEY]->get_modification_date();
+                $chamilo_object_date = $object[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY]->get_modification_date();
                 if(!isset($chamilo_object_date))
                 {
-                    $chamilo_object_date = $object[BaseExternalRepository :: CHAMILO_OBJECT_KEY]->get_creation_date();
+                    $chamilo_object_date = $object[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY]->get_creation_date();
                 }
                 
                 $table .= date('Y-m-d H:i:s', $chamilo_object_date);
@@ -134,9 +134,9 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
             
             $table .= '<td style="vertical-align:top">';
             
-            if(isset($object[BaseExternalRepository :: SYNC_INFO]))
+            if(isset($object[BaseExternalRepositoryConnector :: SYNC_INFO]))
             {
-                $utc_synchronized = $object[BaseExternalRepository :: SYNC_INFO]->get_utc_synchronized();
+                $utc_synchronized = $object[BaseExternalRepositoryConnector :: SYNC_INFO]->get_utc_synchronized();
                 $table .= date('Y-m-d H:i:s', strtotime($utc_synchronized . 'z'));
             }
             
@@ -148,35 +148,35 @@ class ExternalRepositoryObjectBrowserForm extends FormValidator
             
             $buttons = array();
             
-            if(isset($object[BaseExternalRepository :: SYNC_STATE]))
+            if(isset($object[BaseExternalRepositoryConnector :: SYNC_STATE]))
             {
-                switch($object[BaseExternalRepository :: SYNC_STATE])
+                switch($object[BaseExternalRepositoryConnector :: SYNC_STATE])
                 {
-                    case BaseExternalRepository :: SYNC_NEVER_SYNCHRONIZED:
+                    case BaseExternalRepositoryConnector :: SYNC_NEVER_SYNCHRONIZED:
                         
                         $table .= Translation :: get('ExternalRepositoryNeverSync');
-                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_IMPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $this->export->get_id(), RepositoryManager :: PARAM_EXTERNAL_OBJECT_ID => $object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_ID]));
+                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_IMPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $this->export->get_id(), RepositoryManager :: PARAM_EXTERNAL_OBJECT_ID => $object[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY][BaseExternalRepositoryConnector :: OBJECT_ID]));
                         $buttons[] = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'import_from_repository.png' . '" />' . Translation :: get('ExternalRepositoryImport') . '</a>';
                         break;
                         
-                    case BaseExternalRepository :: SYNC_IDENTICAL:
+                    case BaseExternalRepositoryConnector :: SYNC_IDENTICAL:
                         
                         $table .= 'identical';
                         
                         break;
                         
-                    case BaseExternalRepository :: SYNC_OLDER_IN_CHAMILO:
+                    case BaseExternalRepositoryConnector :: SYNC_OLDER_IN_CHAMILO:
 
                         $table .= Translation :: get('ExternalRepositoryOlderInChamilo');
-                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_IMPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $this->export->get_id(), RepositoryManager :: PARAM_EXTERNAL_OBJECT_ID => $object[BaseExternalRepository :: EXTERNAL_OBJECT_KEY][BaseExternalRepository :: OBJECT_ID]));
+                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_IMPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $this->export->get_id(), RepositoryManager :: PARAM_EXTERNAL_OBJECT_ID => $object[BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY][BaseExternalRepositoryConnector :: OBJECT_ID]));
                         $buttons[] = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'import_from_repository.png' . '" />' . Translation :: get('ExternalRepositoryImport') . '</a>';                        
                         
                         break;
                         
-                    case BaseExternalRepository :: SYNC_NEWER_IN_CHAMILO:
+                    case BaseExternalRepositoryConnector :: SYNC_NEWER_IN_CHAMILO:
                         
                         $table .= Translation :: get('ExternalRepositoryNewerInChamilo');
-                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $this->export->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object[BaseExternalRepository :: CHAMILO_OBJECT_KEY]->get_id()));
+                        $url = Redirect :: get_url(array('application' => RepositoryManager :: APPLICATION_NAME, 'go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $this->export->get_id(), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object[BaseExternalRepositoryConnector :: CHAMILO_OBJECT_KEY]->get_id()));
                         $buttons[] = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'export_to_repository.png' . '" />' . Translation :: get('ExternalRepositoryExport') . '</a>';
                         
                         break;
