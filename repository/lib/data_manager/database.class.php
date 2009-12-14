@@ -383,7 +383,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         
         //Delete synchronization with external repositories infos
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
-        $this->database->delete_objects(ExternalExportSyncInfo :: get_table_name(), $condition);
+        $this->database->delete_objects(ExternalRepositorySyncInfo :: get_table_name(), $condition);
         
         // Delete object
         $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
@@ -1424,14 +1424,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(ComplexContentObjectItem :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $condition);
     }
 
-    function retrieve_external_export($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    function retrieve_external_repository($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(ExternalExport :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->database->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
-    function retrieve_external_export_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(ExternalExportFedora :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->database->retrieve_objects(ExternalRepositoryFedora :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -1468,41 +1468,41 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         return $this->database->retrieve_object_set($query, $table_name, $condition, $offset, $max_objects, $order_by);
     }
     
-    function create_external_export_sync_info($external_export_sync_info)
+    function create_external_repository_sync_info($external_repository_sync_info)
     {
-        $created = $external_export_sync_info->get_creation_date();
+        $created = $external_repository_sync_info->get_creation_date();
         if (is_numeric($created))
         {
-            $external_export_sync_info->set_creation_date(self :: to_db_date($external_export_sync_info->get_creation_date()));
+            $external_repository_sync_info->set_creation_date(self :: to_db_date($external_repository_sync_info->get_creation_date()));
         }
         
-        return $this->database->create($external_export_sync_info);
+        return $this->database->create($external_repository_sync_info);
     }
 
-    function update_external_export_sync_info($external_export_sync_info)
+    function update_external_repository_sync_info($external_repository_sync_info)
     {
-        $condition = new EqualityCondition(ExternalExportSyncInfo :: PROPERTY_ID, $external_export_sync_info->get_id());
+        $condition = new EqualityCondition(ExternalRepositorySyncInfo :: PROPERTY_ID, $external_repository_sync_info->get_id());
 
-        $date = $external_export_sync_info->get_modification_date();
+        $date = $external_repository_sync_info->get_modification_date();
         if (is_numeric($date))
         {
-            $external_export_sync_info->set_modification_date(self :: to_db_date($external_export_sync_info->get_modification_date()));
+            $external_repository_sync_info->set_modification_date(self :: to_db_date($external_repository_sync_info->get_modification_date()));
         }
 
-        return $this->database->update($external_export_sync_info, $condition);
+        return $this->database->update($external_repository_sync_info, $condition);
     }
 
-    function delete_external_export_sync_info($external_export_sync_info)
+    function delete_external_repository_sync_info($external_repository_sync_info)
     {
-        $condition = new EqualityCondition(ExternalExportSyncInfo :: PROPERTY_ID, $external_export_sync_info->get_id());
-        return $this->database->delete($external_export_sync_info->get_table_name(), $condition);
+        $condition = new EqualityCondition(ExternalRepositorySyncInfo :: PROPERTY_ID, $external_repository_sync_info->get_id());
+        return $this->database->delete($external_repository_sync_info->get_table_name(), $condition);
     }
     
-    function retrieve_external_export_sync_info($conditions)
+    function retrieve_external_repository_sync_info($conditions)
     {
-        $record = $this->database->retrieve_record(ExternalExportSyncInfo :: get_table_name(), $conditions);
+        $record = $this->database->retrieve_record(ExternalRepositorySyncInfo :: get_table_name(), $conditions);
 
-        return self :: record_to_object($record, 'ExternalExportSyncInfo');
+        return self :: record_to_object($record, 'ExternalRepositorySyncInfo');
     }
     
     function record_to_object($record, $object_class_name)

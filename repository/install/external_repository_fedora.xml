@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="external_repository_fedora">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="login" type="text" length="50" fixed="true" />
+		<property name="password" type="text" length="50" fixed="true" />
+		<property name="base_url" notnull="1" type="text" length="255" fixed="true" />
+		<property name="get_uid_rest_path" notnull="1" type="text" length="255" fixed="true" />
+		<property name="find_object_rest_path" notnull="1" type="text" length="255" fixed="true" />
+		<property name="find_objects_rest_path" type="text" length="255" fixed="true" />
+		<property name="ingest_rest_path" notnull="1" type="text" length="255" fixed="true" />
+		<property name="add_datastream_rest_path" type="text" length="255" fixed="true" />
+		<property name="find_datastreams_rest_path" type="text" length="255" fixed="true" />	
+		<property name="get_datastream_infos_path" type="text" length="255" fixed="true" />
+		<property name="get_datastream_content_path" type="text" length="255" fixed="true" />	
+		<property name="client_certificate_file" type="text" length="255" fixed="true" />
+		<property name="client_certificate_key_file" type="text" length="255" fixed="true" />
+		<property name="client_certificate_key_password" type="text" length="50" fixed="true" />
+		<property name="target_ca_file" type="text" length="255" fixed="true" />
+		<property name="dublin_core_datastream_name" type="text" length="50" />
+		<property name="dublin_core_datastream_label" type="text" length="100" />
+		<property name="extended_metadata_datastream_name" type="text" length="50" />
+		<property name="extended_metadata_datastream_label" type="text" length="100" />
+		<property name="object_datastream_name" type="text" length="50" />
+		<property name="object_datastream_label" type="text" length="100" />
+		<property name="created" type="timestamp" />
+		<property name="modified" type="timestamp" />
+	</properties>
+</object>

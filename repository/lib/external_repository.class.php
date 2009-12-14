@@ -1,9 +1,9 @@
 <?php
 /**
- * $Id: external_export.class.php 204 2009-11-13 12:51:30Z kariboe $
+ * $Id: external_repository.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
  */
-class ExternalExport extends RepositoryDataClass
+class ExternalRepository extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
     
@@ -12,10 +12,10 @@ class ExternalExport extends RepositoryDataClass
     const PROPERTY_TYPE = 'type';
     const PROPERTY_CATALOG_NAME = 'catalog_name';
     const PROPERTY_METADATA_XSL_FILENAME = 'metadata_xsl_filename';
-    const PROPERTY_TYPED_EXTERNAL_EXPORT_ID = 'typed_external_export_id';
+    const PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID = 'typed_external_repository_id';
     const PROPERTY_ENABLED = 'enabled';
     
-    const CATALOG_EXPORT_LIST = 'export_list';
+    const CATALOG_REPOSITORY_LIST = 'repository_list';
     
     /**
      * Contains a list of already required export types
@@ -25,7 +25,7 @@ class ExternalExport extends RepositoryDataClass
      */
     private static $already_required_types = array();
 
-    function ExternalExport($defaultProperties = array ())
+    function ExternalRepository($defaultProperties = array ())
     {
         parent :: __construct($defaultProperties);
     }
@@ -121,20 +121,20 @@ class ExternalExport extends RepositoryDataClass
 
     /*************************************************************************/
     
-    function set_typed_external_export_id($id)
+    function set_typed_external_repository_id($id)
     {
         if (isset($id) && strlen($id) > 0)
         {
-            $this->set_default_property(self :: PROPERTY_TYPED_EXTERNAL_EXPORT_ID, $id);
+            $this->set_default_property(self :: PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID, $id);
         }
     }
 
     /**
      * @return integer The typed export id (from the specific datasource table)
      */
-    function get_typed_external_export_id()
+    function get_typed_external_repository_id()
     {
-        return $this->get_default_property(self :: PROPERTY_TYPED_EXTERNAL_EXPORT_ID, DataClass :: NO_UID);
+        return $this->get_default_property(self :: PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID, DataClass :: NO_UID);
     }
 
     /*************************************************************************/
@@ -164,7 +164,7 @@ class ExternalExport extends RepositoryDataClass
         $extended_property_names[] = self :: PROPERTY_TYPE;
         $extended_property_names[] = self :: PROPERTY_CATALOG_NAME;
         $extended_property_names[] = self :: PROPERTY_METADATA_XSL_FILENAME;
-        $extended_property_names[] = self :: PROPERTY_TYPED_EXTERNAL_EXPORT_ID;
+        $extended_property_names[] = self :: PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID;
         $extended_property_names[] = self :: PROPERTY_ENABLED;
         
         return parent :: get_default_property_names($extended_property_names);
@@ -190,7 +190,7 @@ class ExternalExport extends RepositoryDataClass
             
             $condition = new EqualityCondition(self :: PROPERTY_ID, $this->get_id());
             
-            $result_set = $dm->retrieve_external_export($condition);
+            $result_set = $dm->retrieve_external_repository($condition);
             $object = $result_set->next_result();
             
             if (isset($object))
@@ -217,26 +217,26 @@ class ExternalExport extends RepositoryDataClass
     }
 
     /**
-     * Return an instance of an export to a external repository. The object returned is a subclass of ExternalExport. The exact class type depends on the export type.
+     * Return an instance of an export to a external repository. The object returned is a subclass of ExternalRepository. The exact class type depends on the export type.
      * 
      * @return mixed Instance of an export to a external repository 
      */
-    function get_typed_export_object()
+    function get_typed_repository_object()
     {
         if ($this->get())
         {
             $type = $this->get_type();
-            if (ExternalExport :: require_once_external_repository_class_file($type))
+            if (ExternalRepository :: require_once_external_repository_class_file($type))
             {
-                $class_name = 'ExternalExport' . ucfirst(strtolower($type));
+                $class_name = 'ExternalRepository' . ucfirst(strtolower($type));
                 
-                $typed_export = new $class_name();
+                $typed_repository = new $class_name();
                 
-                $typed_export->set_id($this->get_typed_external_export_id());
+                $typed_repository->set_id($this->get_typed_external_repository_id());
                 
-                if ($typed_export->get())
+                if ($typed_repository->get())
                 {
-                    return $typed_export;
+                    return $typed_repository;
                 }
                 else
                 {
@@ -255,22 +255,22 @@ class ExternalExport extends RepositoryDataClass
     }
 
     /**
-     * Set the properties of this ExternalExport instance by retrieving the property values from the datasource 
-     * if the typed_external_export_id property is set
+     * Set the properties of this ExternalRepository instance by retrieving the property values from the datasource 
+     * if the typed_external_repository_id property is set
      *  
      * @return boolean Indicates wether the object properties could be retrieved from the datasource 
      */
-    function get_by_typed_external_export_id()
+    function get_by_typed_external_repository_id()
     {
-        $typed_external_export_id = $this->get_typed_external_export_id();
+        $typed_external_repository_id = $this->get_typed_external_repository_id();
         
-        if (isset($typed_external_export_id) && $typed_external_export_id != DataClass :: NO_UID)
+        if (isset($typed_external_repository_id) && $typed_external_repository_id != DataClass :: NO_UID)
         {
             $dm = RepositoryDataManager :: get_instance();
             
-            $condition = new EqualityCondition(self :: PROPERTY_TYPED_EXTERNAL_EXPORT_ID, $typed_external_export_id);
+            $condition = new EqualityCondition(self :: PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID, $typed_external_repository_id);
             
-            $result_set = $dm->retrieve_external_export($condition);
+            $result_set = $dm->retrieve_external_repository($condition);
             $object = $result_set->next_result();
             
             if (isset($object))
@@ -315,7 +315,7 @@ class ExternalExport extends RepositoryDataClass
     }
 
     /**
-     * Ensure a subclass of ExternalExport will be found when creating an instance of the class
+     * Ensure a subclass of ExternalRepository will be found when creating an instance of the class
      * 
      * @param $type e.g 'Fedora'
      * @return unknown_type
@@ -325,7 +325,7 @@ class ExternalExport extends RepositoryDataClass
         if (isset($type) && strlen($type) > 0 && ! in_array($type, self :: $already_required_types))
         {
             $camel_type = ucfirst(strtolower($type));
-            $class_name = 'ExternalExport' . $camel_type;
+            $class_name = 'ExternalRepository' . $camel_type;
             $file_name = Utilities :: camelcase_to_underscores($class_name) . '.class.php';
             
             require_once dirname(__FILE__) . '/' . $file_name;
@@ -352,9 +352,9 @@ class ExternalExport extends RepositoryDataClass
      * Get the list of existing exports to external repositories, 
      * and require_once the needed model classes
      * 
-     * @return array Array of ExternalExport
+     * @return array Array of ExternalRepository
      */
-    public static function retrieve_external_export($condition = null)
+    public static function retrieve_external_repository($condition = null)
     {
         if (! isset($condition))
         {
@@ -365,14 +365,14 @@ class ExternalExport extends RepositoryDataClass
         }
         
         $dm = RepositoryDataManager :: get_instance();
-        $result_set = $dm->retrieve_external_export($condition);
+        $result_set = $dm->retrieve_external_repository($condition);
         
         $objects = array();
         while ($object = $result_set->next_result())
         {
-            $objects[] = $object->get_typed_export_object();
+            $objects[] = $object->get_typed_repository_object();
             
-            ExternalExport :: require_once_external_repository_class_file($object->get_type());
+            ExternalRepository :: require_once_external_repository_class_file($object->get_type());
         }
         
         return $objects;

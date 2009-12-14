@@ -3,9 +3,6 @@
  * $Id: external_repository_metadata_reviewer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
  */
-require_once dirname(__FILE__) . '/external_repository_export_component.class.php';
-require_once dirname(__FILE__) . '/external_repository_export_export.class.php';
-require_once Path :: get_repository_path() . '/lib/export/external_export/base_external_exporter.class.php';
 
 class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends RepositoryManagerMetadataComponent
 {
@@ -65,7 +62,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
                             /*
                              * Redirect to the export page and force the export
                              */
-                            Redirect :: url(array(Application :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => Request :: get(RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), RepositoryManagerExternalRepositoryExportExportComponent :: PARAM_FORCE_EXPORT => 1));
+                            Redirect :: url(array(Application :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_EXPORT, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => Request :: get(RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID), RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), RepositoryManagerExternalRepositoryExportComponent :: PARAM_FORCE_EXPORT => 1));
                             
                         //                        $form->set_constant_values($mapper->get_constant_values(), true);
                         //                        $form->display();
@@ -119,7 +116,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
      */
     private function add_missing_fields($form)
     {
-        $missing_infos = Session :: retrieve(BaseExternalExporter :: SESSION_MISSING_FIELDS);
+        $missing_infos = Session :: retrieve(BaseExternalRepositoryConnector :: SESSION_MISSING_FIELDS);
         foreach ($missing_infos as $fieldname => $field_info)
         {
             //debug($field_info);
@@ -161,7 +158,7 @@ class RepositoryManagerExternalRepositoryMetadataReviewerComponent extends Repos
         /*
 	     * Destroy the missing fields session in order to be able to post back the form without adding new missing fields
 	     */
-        Session :: unregister(BaseExternalExporter :: SESSION_MISSING_FIELDS);
+        Session :: unregister(BaseExternalRepositoryConnector :: SESSION_MISSING_FIELDS);
         
     //        $form->add_identifier('ta mère', 'en short');
     //        $form->add_title('ton père en français', 'fr');

@@ -1,34 +1,48 @@
 <?php
 /**
- * $Id: external_export_fedora.class.php 204 2009-11-13 12:51:30Z kariboe $
+ * $Id: external_repository_fedora.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
  */
 /**
  * @author rodn
  * 
  */
-class ExternalExportFedora extends ExternalExport
+class ExternalRepositoryFedora extends ExternalRepository
 {
     const CLASS_NAME = __CLASS__;
     
-    const PROPERTY_LOGIN = 'login';
-    const PROPERTY_PASSWORD = 'password';
-    const PROPERTY_BASE_URL = 'base_url';
-    const PROPERTY_GET_UID_REST_PATH = 'get_uid_rest_path';
-    const PROPERTY_INGEST_REST_PATH = 'ingest_rest_path';
-    const PROPERTY_FINDOBJECT_REST_PATH = 'find_object_rest_path';
-    const PROPERTY_FINDOBJECTS_REST_PATH = 'find_objects_rest_path';
-    const PROPERTY_ADD_DATASTREAM_REST_PATH = 'add_datastream_rest_path';
-    const PROPERTY_FIND_DATASTREAMS_REST_PATH = 'find_datastreams_rest_path';
-    const PROPERTY_GET_DATASTREAMS_INFOS_PATH = 'get_datastream_infos_path';
-    const PROPERTY_GET_DATASTREAM_CONTENT_PATH = 'get_datastream_content_path';
+    const PROPERTY_LOGIN                               = 'login';
+    const PROPERTY_PASSWORD                            = 'password';
+    const PROPERTY_BASE_URL                            = 'base_url';
+    const PROPERTY_GET_UID_REST_PATH                   = 'get_uid_rest_path';
+    const PROPERTY_INGEST_REST_PATH                    = 'ingest_rest_path';
+    const PROPERTY_FINDOBJECT_REST_PATH                = 'find_object_rest_path';
+    const PROPERTY_FINDOBJECTS_REST_PATH               = 'find_objects_rest_path';
+    const PROPERTY_ADD_DATASTREAM_REST_PATH            = 'add_datastream_rest_path';
+    const PROPERTY_FIND_DATASTREAMS_REST_PATH          = 'find_datastreams_rest_path';
+    const PROPERTY_GET_DATASTREAMS_INFOS_PATH          = 'get_datastream_infos_path';
+    const PROPERTY_GET_DATASTREAM_CONTENT_PATH         = 'get_datastream_content_path';
+    const PROPERTY_CLIENT_CERTIFICATE_FILE             = 'client_certificate_file';
+    const PROPERTY_CLIENT_CERTIFICATE_KEY_FILE         = 'client_certificate_key_file';
+    const PROPERTY_CLIENT_CERTIFICATE_KEY_PASSWORD     = 'client_certificate_key_password';
+    const PROPERTY_TARGET_CA_FILE                      = 'target_ca_file';
     
-    const PROPERTY_CLIENT_CERTIFICATE_FILE = 'client_certificate_file';
-    const PROPERTY_CLIENT_CERTIFICATE_KEY_FILE = 'client_certificate_key_file';
-    const PROPERTY_CLIENT_CERTIFICATE_KEY_PASSWORD = 'client_certificate_key_password';
-    const PROPERTY_TARGET_CA_FILE = 'target_ca_file';
-
-    function ExternalExportFedora($defaultProperties = array ())
+    const PROPERTY_DUBLIN_CORE_DATASTREAM_NAME         = 'dublin_core_datastream_name';
+    const PROPERTY_DUBLIN_CORE_DATASTREAM_LABEL        = 'dublin_core_datastream_label';
+    const PROPERTY_EXTENDED_METADATA_DATASTREAM_NAME   = 'extended_metadata_datastream_name';
+    const PROPERTY_EXTENDED_METADATA_DATASTREAM_LABEL  = 'extended_metadata_datastream_label';
+    const PROPERTY_OBJECT_DATASTREAM_NAME              = 'object_datastream_name';
+    const PROPERTY_OBJECT_DATASTREAM_LABEL             = 'object_datastream_label';
+    
+    const DEFAULT_DUBLIN_CORE_DATASTREAM_NAME          = 'DC';
+    const DEFAULT_DUBLIN_CORE_DATASTREAM_LABEL         = 'Dublin Core Record for this object';
+    const DEFAULT_EXTENDED_METADATA_DATASTREAM_NAME    = 'LOM';
+    const DEFAULT_EXTENDED_METADATA_DATASTREAM_LABEL   = 'Learning Object Metadata XML';
+    const DEFAULT_OBJECT_DATASTREAM_NAME               = 'OBJECT';
+    const DEFAULT_OBJECT_DATASTREAM_LABEL              = 'Object content';
+    
+    
+    function ExternalRepositoryFedora($defaultProperties = array ())
     {
         parent :: __construct($defaultProperties);
     }
@@ -363,6 +377,157 @@ class ExternalExportFedora extends ExternalExport
     {
         return $this->get_default_property(self :: PROPERTY_TARGET_CA_FILE);
     }
+    
+    
+	/*************************************************************************/
+    
+    /**
+     * Set the dublin core datastream name in the Fedora repository
+     * Note: if it is not set in the datasource, a default value is used
+     * 
+     * @param $dublin_core_datastream_name string
+     * @return void
+     */
+    function set_dublin_core_datastream_name($dublin_core_datastream_name)
+    {
+        if (StringUtilities :: has_value($dublin_core_datastream_name))
+        {
+            $this->set_default_property(self :: PROPERTY_DUBLIN_CORE_DATASTREAM_NAME, $dublin_core_datastream_name);
+        }
+    }
+
+    function get_dublin_core_datastream_name()
+    {
+        $value = $this->get_default_property(self :: PROPERTY_DUBLIN_CORE_DATASTREAM_NAME);
+        
+        return StringUtilities :: has_value($value) ? $value : self :: DEFAULT_DUBLIN_CORE_DATASTREAM_NAME;
+    }
+    
+    
+	/*************************************************************************/
+    
+    /**
+     * Set the dublin core datastream label in the Fedora repository
+     * Note: if it is not set in the datasource, a default value is used
+     * 
+     * @param $dublin_core_datastream_label string
+     * @return void
+     */
+    function set_dublin_core_datastream_label($dublin_core_datastream_label)
+    {
+        if (StringUtilities :: has_value($dublin_core_datastream_label))
+        {
+            $this->set_default_property(self :: PROPERTY_DUBLIN_CORE_DATASTREAM_LABEL, $dublin_core_datastream_label);
+        }
+    }
+
+    function get_dublin_core_datastream_label()
+    {
+        $value = $this->get_default_property(self :: PROPERTY_DUBLIN_CORE_DATASTREAM_LABEL);
+        
+        return StringUtilities :: has_value($value) ? $value : self :: DEFAULT_DUBLIN_CORE_DATASTREAM_LABEL;
+    }
+    
+    
+    /*************************************************************************/
+    
+    /**
+     * Set the metadata datastream name in the Fedora repository.
+     * Note: if it is not set in the datasource, a default value is used
+     *  
+     * @param $extended_metadata_datastream_name string
+     * @return void
+     */
+    function set_extended_metadata_datastream_name($extended_metadata_datastream_name)
+    {
+        if (StringUtilities :: has_value($extended_metadata_datastream_name))
+        {
+            $this->set_default_property(self :: PROPERTY_EXTENDED_METADATA_DATASTREAM_NAME, $extended_metadata_datastream_name);
+        }
+    }
+
+    function get_extended_metadata_datastream_name()
+    {
+        $value = $this->get_default_property(self :: PROPERTY_EXTENDED_METADATA_DATASTREAM_NAME);
+        
+        return StringUtilities :: has_value($value) ? $value : self :: DEFAULT_EXTENDED_METADATA_DATASTREAM_NAME;
+    }
+    
+    
+	/*************************************************************************/
+    
+    /**
+     * Set the metadata datastream label in the Fedora repository.
+     * Note: if it is not set in the datasource, a default value is used
+     *  
+     * @param $extended_metadata_datastream_label string
+     * @return void
+     */
+    function set_extended_metadata_datastream_label($extended_metadata_datastream_label)
+    {
+        if (StringUtilities :: has_value($extended_metadata_datastream_label))
+        {
+            $this->set_default_property(self :: PROPERTY_EXTENDED_METADATA_DATASTREAM_LABEL, $extended_metadata_datastream_label);
+        }
+    }
+
+    function get_extended_metadata_datastream_label()
+    {
+        $value = $this->get_default_property(self :: PROPERTY_EXTENDED_METADATA_DATASTREAM_LABEL);
+        
+        return StringUtilities :: has_value($value) ? $value : self :: DEFAULT_EXTENDED_METADATA_DATASTREAM_LABEL;
+    }
+    
+    
+	/*************************************************************************/
+    
+    /**
+     * Set the object datastream name in the Fedora repository
+     * Note: if it is not set in the datasource, a default value is used
+     * 
+     * @param $object_datastream_name string
+     * @return void
+     */
+    function set_object_datastream_name($object_datastream_name)
+    {
+        if (StringUtilities :: has_value($object_datastream_name))
+        {
+            $this->set_default_property(self :: PROPERTY_OBJECT_DATASTREAM_NAME, $object_datastream_name);
+        }
+    }
+
+    function get_object_datastream_name()
+    {
+        $value = $this->get_default_property(self :: PROPERTY_OBJECT_DATASTREAM_NAME);
+        
+        return StringUtilities :: has_value($value) ? $value : self :: DEFAULT_OBJECT_DATASTREAM_NAME;
+    }
+    
+    
+	/*************************************************************************/
+    
+    /**
+     * Set the object datastream label in the Fedora repository
+     * Note: if it is not set in the datasource, a default value is used
+     * 
+     * @param $object_datastream_label string
+     * @return void
+     */
+    function set_object_datastream_label($object_datastream_label)
+    {
+        if (StringUtilities :: has_value($object_datastream_label))
+        {
+            $this->set_default_property(self :: PROPERTY_OBJECT_DATASTREAM_LABEL, $object_datastream_label);
+        }
+    }
+
+    function get_object_datastream_label()
+    {
+        $value = $this->get_default_property(self :: PROPERTY_OBJECT_DATASTREAM_LABEL);
+        
+        return StringUtilities :: has_value($value) ? $value : self :: DEFAULT_OBJECT_DATASTREAM_LABEL;
+    }
+    
 
     /*************************************************************************/
     
@@ -384,6 +549,13 @@ class ExternalExportFedora extends ExternalExport
         $extended_property_names[] = self :: PROPERTY_CLIENT_CERTIFICATE_KEY_FILE;
         $extended_property_names[] = self :: PROPERTY_CLIENT_CERTIFICATE_KEY_PASSWORD;
         $extended_property_names[] = self :: PROPERTY_TARGET_CA_FILE;
+        
+        $extended_property_names[] = self :: PROPERTY_DUBLIN_CORE_DATASTREAM_NAME;
+        $extended_property_names[] = self :: PROPERTY_DUBLIN_CORE_DATASTREAM_LABEL;
+        $extended_property_names[] = self :: PROPERTY_EXTENDED_METADATA_DATASTREAM_NAME;
+        $extended_property_names[] = self :: PROPERTY_EXTENDED_METADATA_DATASTREAM_LABEL;
+        $extended_property_names[] = self :: PROPERTY_OBJECT_DATASTREAM_NAME;
+        $extended_property_names[] = self :: PROPERTY_OBJECT_DATASTREAM_LABEL;
         
         return parent :: get_default_property_names($extended_property_names);
     }
@@ -555,7 +727,7 @@ class ExternalExportFedora extends ExternalExport
             
             $condition = new EqualityCondition(self :: PROPERTY_ID, $this->get_id());
             
-            $result_set = $dm->retrieve_external_export_fedora($condition);
+            $result_set = $dm->retrieve_external_repository_fedora($condition);
             $object = $result_set->next_result();
             
             if (isset($object))
@@ -563,19 +735,19 @@ class ExternalExportFedora extends ExternalExport
                 $this->set_default_properties($object->get_default_properties());
                 
                 /*
-	             * Add ExternalExport class properties values
+	             * Add ExternalRepository class properties values
 	             */
-                $external_export = new ExternalExport(array(ExternalExport :: PROPERTY_TYPED_EXTERNAL_EXPORT_ID => $this->get_id()));
-                if ($external_export->get_by_typed_external_export_id())
+                $external_repository = new ExternalRepository(array(ExternalRepository :: PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID => $this->get_id()));
+                if ($external_repository->get_by_typed_external_repository_id())
                 {
                     foreach (parent :: get_default_property_names() as $property_name)
                     {
-                        $this->set_default_property($property_name, $external_export->get_default_property($property_name));
+                        $this->set_default_property($property_name, $external_repository->get_default_property($property_name));
                     }
                 }
                 else
                 {
-                    throw new Exception('$external_export->get_by_typed_external_export_id() failed');
+                    throw new Exception('$external_repository->get_by_typed_external_repository_id() failed');
                 }
                 
                 return true;

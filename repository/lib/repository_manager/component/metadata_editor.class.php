@@ -97,7 +97,7 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->add_common_action(new ToolbarItem('XML', Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array('go' => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECT_METADATA, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id))));
         
-        $external_repositories = ExternalExport :: retrieve_external_export();
+        $external_repositories = ExternalRepository :: retrieve_external_repository();
         if (count($external_repositories) > 0)
         {
             $action_bar->add_common_action(new ToolbarItem('ExternalRepository', Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id))));

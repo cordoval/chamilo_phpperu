@@ -38,7 +38,7 @@ class RepositoryAutoloader
 					  'complex_content_object_menu', 'content_object_category_menu', 'content_object_copier', 'content_object_difference_display',
 					  'content_object_difference', 'content_object_display', 'content_object_form', 'content_object_import_form', 'content_object_include_parser',
 					  'content_object_metadata_catalog', 'content_object_metadata', 'content_object_pub_feedback', 'content_object_publication_attributes',
-					  'content_object', 'difference_engine', 'external_export_fedora', 'external_export', 'external_export_sync_info', 'quota_manager', 'repository_block',
+					  'content_object', 'difference_engine', 'external_repository_fedora', 'external_repository', 'external_repository_sync_info', 'quota_manager', 'repository_block',
 					  'repository_data_class', 'repository_data_manager', 'repository_rights', 'user_view_rel_content_object', 'user_view');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
@@ -54,7 +54,7 @@ class RepositoryAutoloader
 
 	static function check_for_form_files($classname)
 	{
-		$list = array('external_export_browser_form', 'external_export_export_form', 'external_repository_object_browser_form', 'external_repository_import_form', 'metadata_lom_edit_form', 'metadata_lom_export_form',
+		$list = array('external_repository_browser_form', 'external_repository_export_form', 'external_repository_object_browser_form', 'external_repository_import_form', 'metadata_lom_edit_form', 'metadata_lom_export_form',
 					  'repository_filter_form', 'user_view_form');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
@@ -99,6 +99,17 @@ class RepositoryAutoloader
 					  'content_object_export' => 'export/content_object_export.class.php',
 					  'content_object_import' => 'import/content_object_import.class.php',
 					  'metadata_mapper' => 'metadata/metadata_mapper.class.php',
+		              'base_external_repository_connector' => 'export/external_export/base_external_repository_connector.class.php',
+					  'rest_external_repository_connector' => 'export/external_export/rest_external_repository_connector.class.php',
+				      'fedora_external_repository_connector' => 'export/external_export/fedora/fedora_external_repository_connector.class.php',
+				      
+				      'repository_manager_external_repository_component' => 'repository_manager/component/external_repository_component.class.php',
+            		  'repository_manager_external_repository_browser_component' => 'repository_manager/component/external_repository_browser.class.php',
+            		  'repository_manager_external_repository_export_component' => 'repository_manager/component/external_repository_export.class.php',
+            		  'repository_manager_external_repository_import_component' => 'repository_manager/component/external_repository_import.class.php',
+					  'repository_manager_external_repository_list_objects_component' => 'repository_manager/component/external_repository_list_objects.class.php',
+					  'repository_manager_metadata_component' => 'repository_manager/component/metadata_component.class.php',
+		
 					  'repository_manager' => 'repository_manager/repository_manager.class.php',
 					  'repository_manager_component' => 'repository_manager/repository_manager_component.class.php',
 					  'repository_search_form' => 'repository_manager/repository_search_form.class.php',

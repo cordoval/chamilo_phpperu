@@ -1,11 +1,10 @@
 <?php
 /**
- * $Id: external_repository_export_browser.class.php 204 2009-11-13 12:51:30Z kariboe $
+ * $Id: external_repository_repository_browser.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component
  */
-require_once dirname(__FILE__) . '/external_repository_export_component.class.php';
 
-class RepositoryManagerExternalRepositoryExportBrowserComponent extends RepositoryManagerExternalRepositoryExportComponent
+class RepositoryManagerExternalRepositoryBrowserComponent extends RepositoryManagerExternalRepositoryComponent
 {
 
     function run()
@@ -35,7 +34,7 @@ class RepositoryManagerExternalRepositoryExportBrowserComponent extends Reposito
         /*
          * Page content
          */
-        $form = new ExternalExportBrowserForm($content_object, '', $this->get_catalogs());
+        $form = new ExternalRepositoryBrowserForm($content_object, '', $this->get_catalogs());
         $form->display();
         
         $this->display_footer();
