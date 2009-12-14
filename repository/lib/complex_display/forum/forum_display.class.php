@@ -27,6 +27,9 @@ class ForumDisplay extends ComplexDisplay
     const ACTION_EDIT_SUBFORUM = 'edit_subforum';
     const ACTION_DELETE_SUBFORUM = 'delete_subforum';
     const ACTION_MOVE_SUBFORUM = 'move_subforum';
+    
+    const ACTION_MAKE_IMPORTANT = 'make_important';
+    const ACTION_MAKE_STICKY = 'make_sticky';
 
     function run()
     {
@@ -72,6 +75,12 @@ class ForumDisplay extends ComplexDisplay
                 break;
             case self :: ACTION_DELETE_SUBFORUM :
                 $component = ForumDisplayComponent :: factory('ForumSubforumDeleter', $this);
+                break;
+            case self :: ACTION_MAKE_IMPORTANT :
+                $component = ForumDisplayComponent :: factory('Important', $this);
+                break;
+            case self :: ACTION_MAKE_STICKY :
+                $component = ForumDisplayComponent :: factory('Sticky', $this);
                 break;
             default :
                 $this->set_action(self :: ACTION_VIEW_CLO);

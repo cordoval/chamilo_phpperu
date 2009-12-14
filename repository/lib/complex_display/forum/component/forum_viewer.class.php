@@ -166,7 +166,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         $table->setHeaderContents(1, 5, Translation :: get('LastPost'));
         $table->setCellAttributes(1, 5, array('width' => 140));
         $table->setHeaderContents(1, 6, '');
-        $table->setCellAttributes(1, 6, array('width' => 20));
+        $table->setCellAttributes(1, 6, array('width' => 60));
     }
 
     function create_topics_table_footer($table, $row)
@@ -248,6 +248,31 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
         {
             $actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+        }
+        
+        if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+        { 
+         	if ($topic->get_type() == 1)
+        	{
+	            $actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_STICKY, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id())), 'label' => Translation :: get('UnSticky'), 'img' => Theme :: get_common_image_path() . 'action_remove_sticky.png');
+	            $actions[] = array('label' => Translation :: get('ImportantNa'), 'img' => Theme :: get_common_image_path() . 'action_make_important_na.png');
+	        }
+	        else
+	        {
+	            if ($topic->get_type() == 2)
+	            {
+	                $actions[] = array('label' => Translation :: get('StickyNa'), 'img' => Theme :: get_common_image_path() . 'action_make_sticky_na.png');
+	                $actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_IMPORTANT, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id())), 'label' => Translation :: get('UnImportant'), 'img' => Theme :: get_common_image_path() . 'action_remove_important.png');
+	            }
+	            else
+	            {
+	                $actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_STICKY, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id())), 'label' => Translation :: get('MakeSticky'), 'img' => Theme :: get_common_image_path() . 'action_make_sticky.png');
+	                $actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_IMPORTANT, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id())), 'label' => Translation :: get('MakeImportant'), 'img' => Theme :: get_common_image_path() . 'action_make_important.png');
+	            }
+        	}
+        
+        	//$actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())), 'label' => Translation :: get('MakeSticky'), 'img' => Theme :: get_common_image_path() . 'action_make_sticky.png', 'confirm' => false);
+        	//$actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())), 'label' => Translation :: get('MakeImportant'), 'img' => Theme :: get_common_image_path() . 'action_make_important.png', 'confirm' => false);
         }
         
         return '<div style="float: right;">' . Utilities :: build_toolbar($actions) . '</div>';
