@@ -36,6 +36,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_MOVE_SELECTED = 'move_selected';
     const PARAM_RESTORE_SELECTED = 'restore_selected';
     const PARAM_DELETE_SELECTED = 'delete_selected';
+    const PARAM_EDIT_SELECTED_RIGHTS = 'rights_selected';
     const PARAM_PUBLISH_SELECTED = 'publish_selected';
     const PARAM_COMPARE_OBJECT = 'object';
     const PARAM_COMPARE_VERSION = 'compare';
@@ -393,6 +394,10 @@ class RepositoryManager extends CoreApplication
                     break;
                 case self :: PARAM_EXPORT_SELECTED :
                     $this->set_action(self :: ACTION_EXPORT_CONTENT_OBJECTS);
+                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
+                    break;
+                case self :: PARAM_EDIT_SELECTED_RIGHTS :
+                	$this->set_action(self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS);
                     Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
                     break;
             }

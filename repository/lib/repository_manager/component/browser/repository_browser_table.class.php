@@ -34,6 +34,7 @@ class RepositoryBrowserTable extends ObjectTable
             $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_MOVE_SELECTED, Translation :: get('MoveSelected'), false);
             $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_PUBLISH_SELECTED, Translation :: get('PublishSelected'), false);
             $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_EXPORT_SELECTED, Translation :: get('ExportSelected'), false);
+            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_EDIT_SELECTED_RIGHTS, Translation :: get('EditSelectedRights'), false);
             
             if ($browser->get_user()->is_platform_admin())
             {

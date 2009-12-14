@@ -16,10 +16,22 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
      */
     function run()
     {
-        $object = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
-        $location = RepositoryRights :: get_location_by_identifier('content_object', $object);
+        $object_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
         
-        $manager = new RightsEditorManager($this, array($location));
+    	if(!is_array($object_ids))
+        {
+        	$object_ids = array($object_ids);
+        }
+        
+        $locations = array();
+        
+        foreach($object_ids as $object_id)
+        {
+        	$locations[] = RepositoryRights :: get_location_by_identifier('content_object', $object_id);
+        }
+        
+        $manager = new RightsEditorManager($this, $locations);
+        
         $manager->exclude_users(array($this->get_user_id()));
         $manager->run();
     }
@@ -54,10 +66,11 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
         {
         	$object = $this->retrieve_content_object($object_id);
         	$html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($object->get_type()) . 'TypeName')) . '"/> ' . $object->get_title() . '</li>';
-            $html[] = '</ul>';
-            $html[] = '</div>';
-            $html[] = '</div>';
         }
+        
+        $html[] = '</ul>';
+        $html[] = '</div>';
+        $html[] = '</div>';
         
         echo implode("\n", $html);
     }
