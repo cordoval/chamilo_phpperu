@@ -3,7 +3,7 @@
  * $Id: wiki_manager_component.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager
  */
-abstract class WikiManagerComponent
+abstract class WikiManagerComponent extends ApplicationComponent
 {
     /**
      * The number of components allready instantiated

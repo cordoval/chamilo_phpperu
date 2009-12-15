@@ -108,88 +108,13 @@ class WikiPublicationForm extends FormValidator
             $wiki_publication->set_to_date(Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]));
         }
         $wiki_publication->set_hidden($values[self :: PARAM_HIDDEN] ? 1 : 0);
-        $wiki_publication->set_publisher($this->user->get_default_property('user_id'));
-        $wiki_publication->set_published(time());
-        $wiki_publication->set_modified(time());
-        $wiki_publication->set_display_order(0);
-        $wiki_publication->set_email_sent($values[WikiPublication :: PROPERTY_EMAIL_SENT] ? $values[WikiPublication :: PROPERTY_EMAIL_SENT] : 0);
-
-        if ($this->email_option && $values[self :: PARAM_EMAIL])
-        {
-            //			$content_object = $this->content_object;
-        //			$display = ContentObjectDisplay::factory($content_object);
-        //
-        //			$adm = AdminDataManager :: get_instance();
-        //			$site_name_setting = PlatformSetting :: get('site_name');
-        //
-        //			$subject = '['.$site_name_setting.'] '.$content_object->get_title();
-        //			$body = new html2text($display->get_full_html());
-        //			// TODO: send email to correct users/course_groups. For testing, the email is sent now to the repo_viewer.
-        //			$user = $this->user;
-        //			$mail = Mail :: factory($content_object->get_title(), $body->get_text(), $user->get_email());
-        //
-        //			if($mail->send())
-        //			{
-        //				$pub->set_email_sent(true);
-        //			}
-        //
-        //			if (!$pub->update())
-        //			{
-        //				return false;
-        //			}
-        }
-
-        return $wiki_publication->update();
-    }
-
-    function create_wiki_publication()
-    {
-        $wiki_publication = $this->wiki_publication;
-        $values = $this->exportValues();
-
-        if ($values[self :: PARAM_FOREVER] != 0)
-        {
-            $wiki_publication->set_from_date(0);
-            $wiki_publication->set_to_date(0);
-        }
-        else
-        {
-            $wiki_publication->set_from_date(Utilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]));
-            $wiki_publication->set_to_date(Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]));
-        }
-        $wiki_publication->set_hidden($values[self :: PARAM_HIDDEN] ? 1 : 0);
         $wiki_publication->set_publisher($this->user->get_id());
         $wiki_publication->set_published(time());
         $wiki_publication->set_modified(time());
         $wiki_publication->set_display_order(0);
         $wiki_publication->set_email_sent($values[WikiPublication :: PROPERTY_EMAIL_SENT] ? $values[WikiPublication :: PROPERTY_EMAIL_SENT] : 0);
 
-        /*if ($this->email_option && $values[self :: PARAM_EMAIL])
-        {
-            //			$content_object = $this->content_object;
-        //			$display = ContentObjectDisplay::factory($content_object);
-        //
-        //			$adm = AdminDataManager :: get_instance();
-        //			$site_name_setting = PlatformSetting :: get('site_name');
-        //
-        //			$subject = '['.$site_name_setting.'] '.$content_object->get_title();
-        //			$body = new html2text($display->get_full_html());
-        //			// TODO: send email to correct users/course_groups. For testing, the email is sent now to the repo_viewer.
-        //			$user = $this->user;
-        //			$mail = Mail :: factory($content_object->get_title(), $body->get_text(), $user->get_email());
-        //
-        //			if($mail->send())
-        //			{
-        //				$pub->set_email_sent(true);
-        //			}
-        //
-        //			if (!$pub->update())
-        //			{
-        //				return false;
-        //			}
-        }*/
-
-        return $wiki_publication->create();
+        return $wiki_publication->update();
     }
 
     /**
