@@ -282,6 +282,20 @@ $(function ()
 			}
 		});
 		
+		var value = $('input[name="image_object"]').val();
+		if(value != 'Image object')
+		{
+			imageProperties = doAjaxPost("./common/javascript/ajax/image_properties.php", { content_object: value });
+			imageProperties = eval('(' + imageProperties + ')');
+			
+			$('#hotspot_image').css('width', imageProperties.width + 'px');
+			$('#hotspot_image').css('height', imageProperties.height + 'px');
+			$('#hotspot_image').css('background-image', 'url(' + imageProperties.webPath + ')');
+			
+			$('#hotspot_select').hide();
+			$('#hotspot_options').show();
+		}
+		
 		// Initialize possible existing polygons
 		initializePolygons();
 		
