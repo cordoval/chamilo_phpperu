@@ -45,6 +45,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
     		$this->values = $page->controller->exportValues();
         }
 
+        Session :: unregister('normal_install');
+        
         $this->applications['core'] = array('webservice', 'admin', 'help', 'reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
         $this->applications['extra'] = Filesystem :: get_directory_content(Path :: get_application_path() . 'lib/', Filesystem :: LIST_DIRECTORIES, false);
 

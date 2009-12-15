@@ -6,7 +6,7 @@
 class Session
 {
 
-    function start($already_installed = true)
+    static function start($already_installed = true)
     {
         // TODO: This is not configurable during install, so why include it ?
         //global $storeSessionInDb;
@@ -41,39 +41,39 @@ class Session
         }
     }
 
-    function register($variable, $value)
+    static function register($variable, $value)
     {
         session_register($variable);
         $_SESSION[$variable] = $value;
     }
 
-    function unregister($variable)
+    static function unregister($variable)
     {
         session_unregister($variable);
         $_SESSION[$variable] = null;
         unset($GLOBALS[$variable]);
     }
 
-    function clear()
+    static function clear()
     {
         session_regenerate_id();
         session_unset();
         $_SESSION = array();
     }
 
-    function destroy()
+    static function destroy()
     {
         session_unset();
         $_SESSION = array();
         session_destroy();
     }
 
-    function retrieve($variable)
+    static function retrieve($variable)
     {
         return $_SESSION[$variable];
     }
 
-    function get_user_id()
+    static function get_user_id()
     {
         return self :: retrieve('_uid');
     }

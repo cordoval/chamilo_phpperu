@@ -44,7 +44,9 @@ class InstallWizard extends HTML_QuickForm_Controller
         $this->addPage(new DatabaseInstallWizardPage('page_database', $this->parent));
         $this->addPage(new ApplicationInstallWizardPage('page_application', $this->parent));
         $this->addPage(new SettingsInstallWizardPage('page_settings', $this->parent));
-        $this->addPage(new PreconfiguredInstallWizardPage('page_preconfigured', $this->parent));
+        
+        if(!Session :: retrieve('normal_install') == 1)
+        	$this->addPage(new PreconfiguredInstallWizardPage('page_preconfigured', $this->parent));
         
         $this->addAction('process', new InstallWizardProcess($this->parent));
         $this->addAction('display', new InstallWizardDisplay($this->parent));
