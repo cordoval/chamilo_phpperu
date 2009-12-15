@@ -1,9 +1,9 @@
 <?php
 /**
- * $Id: external_export_export_form.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * $Id: external_repository_export_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.forms
  */
-class ExternalExportExportForm extends FormValidator
+class ExternalRepositoryExportForm extends FormValidator
 {
     private $catalogs;
     
@@ -13,13 +13,13 @@ class ExternalExportExportForm extends FormValidator
     private $content_object;
     
     /**
-     * @var FedoraExternalExporter
+     * @var FedoraExternalRepository
      */
     private $export;
 
-    protected function ExternalExportExportForm($content_object, $export, $action, $catalogs)
+    protected function ExternalRepositoryExportForm($content_object, $export, $action, $catalogs)
     {
-        parent :: __construct('external_export_browser', 'post', $action);
+        parent :: __construct('external_repository_browser', 'post', $action);
         
         $this->content_object = $content_object;
         $this->export = $export;
@@ -32,13 +32,13 @@ class ExternalExportExportForm extends FormValidator
     }
 
     /**
-     * Return an instance of ExternalExportExportForm or a child of ExternalExportExportForm
+     * Return an instance of ExternalRepositoryExportForm or a child of ExternalRepositoryExportForm
      * 
      * @param $content_object ContentObject
-     * @param $export ExternalExport
+     * @param $export ExternalRepository
      * @param $action string
      * @param $catalogs	array 
-     * @return ExternalExportExportForm
+     * @return ExternalRepositoryExportForm
      */
     public function get_instance($content_object, $export, $action, $catalogs)
     {
@@ -46,14 +46,14 @@ class ExternalExportExportForm extends FormValidator
         $catalog_name = strtolower($export->get_catalog_name());
         
         $class_name = null;
-        if (file_exists(Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($export_type) . '/custom/' . strtolower($catalog_name) . '_external_export_form.class.php'))
+        if (file_exists(Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($export_type) . '/custom/' . strtolower($catalog_name) . '_external_repository_export_form.class.php'))
         {
-            require_once Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($export_type) . '/custom/' . strtolower($catalog_name) . '_external_export_form.class.php';
-            $class_name = Utilities :: underscores_to_camelcase($catalog_name) . 'ExternalExportForm';
+            require_once Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($export_type) . '/custom/' . strtolower($catalog_name) . '_external_repository_export_form.class.php';
+            $class_name = Utilities :: underscores_to_camelcase($catalog_name) . 'ExternalRepositoryExportForm';
         }
         else
         {
-            $class_name = 'ExternalExportExportForm';
+            $class_name = 'ExternalRepositoryExportForm';
         }
         
         if (isset($class_name))
@@ -82,7 +82,7 @@ class ExternalExportExportForm extends FormValidator
         parent :: display();
     }
 
-    public function display_repository_details($external_export)
+    public function display_repository_details($external_repository)
     {
         //debug(array($this->export));
         
@@ -90,20 +90,20 @@ class ExternalExportExportForm extends FormValidator
         $table = array();
         $table[] = '<table border="0" cellpadding="5" cellspacing="0">';
         
-        if (method_exists($external_export, 'get_title'))
+        if (method_exists($external_repository, 'get_title'))
         {
             $table[] = '<tr>';
             //$table[] = '<td><h3>' . Translation :: get('Title') . '</h3></td>';
             //$table[] = '<td></td>';
-            $table[] = '<td colspan="2"><h3>' . $external_export->get_title() . '</h3></td>';
+            $table[] = '<td colspan="2"><h3>' . $external_repository->get_title() . '</h3></td>';
             $table[] = '</tr>';
         }
         
-        if (method_exists($external_export, 'get_base_url'))
+        if (method_exists($external_repository, 'get_base_url'))
         {
             $table[] = '<tr>';
             $table[] = '<td>' . Translation :: get('BaseURL') . '</td>';
-            $table[] = '<td>' . $external_export->get_base_url() . '</td>';
+            $table[] = '<td>' . $external_repository->get_base_url() . '</td>';
             $table[] = '</tr>';
         }
         
@@ -116,7 +116,7 @@ class ExternalExportExportForm extends FormValidator
     {
         echo '<div>';
         
-        echo '<p>' . str_replace('{ContentObject.title}', $this->content_object->get_title(), Translation :: get('ExternalExportConfirmationText')) . '</p>';
+        echo '<p>' . str_replace('{ContentObject.title}', $this->content_object->get_title(), Translation :: get('ExternalRepositoryExportConfirmationText')) . '</p>';
         
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Confirm'), array('class' => 'positive update'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -133,7 +133,7 @@ class ExternalExportExportForm extends FormValidator
     {
         echo '<div>';
         
-        echo '<p>' . str_replace('{ExternalRepository.uid}', $repository_uid, Translation :: get('ExternalExportSuccess')) . '</p>';
+        echo '<p>' . str_replace('{ExternalRepository.uid}', $repository_uid, Translation :: get('ExternalRepositoryExportSuccess')) . '</p>';
         
         echo '</div>';
     }

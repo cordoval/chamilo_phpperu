@@ -1,6 +1,6 @@
 <?php
 
-abstract class BaseExternalExporter 
+abstract class BaseExternalRepositoryConnector
 {
     const GET_NEW_UID_NOT_IMPLEMENTED = 'GET_NEW_UID_NOT_IMPLEMENTED';
     const SESSION_MISSING_FIELDS      = 'SESSION_MISSING_FIELDS';
@@ -29,9 +29,9 @@ abstract class BaseExternalExporter
     protected $errors = array();
     
     /**
-     * @var ExternalExport
+     * @var ExternalRepository
      */
-    private $external_export = null;
+    private $external_repository = null;
     
     /*
      * List of LomMapper objects. Stored for any content_object id  
@@ -40,11 +40,11 @@ abstract class BaseExternalExporter
      
     /*************************************************************************/
     
-	protected function BaseExternalExporter($external_export_id = DataClass :: NO_UID) 
+	protected function BaseExternalRepositoryConnector($external_repository_id = DataClass :: NO_UID) 
 	{
-	    if($external_export_id != DataClass :: NO_UID)
+	    if($external_repository_id != DataClass :: NO_UID)
 		{
-		    $this->load_configuration($external_export_id);
+		    $this->load_configuration($external_repository_id);
 		}
 	}
 	
@@ -52,38 +52,38 @@ abstract class BaseExternalExporter
 	/*************************************************************************/
 	
 	/**
-	 * Return an instance of a BaseExternalExporter subclass
+	 * Return an instance of a BaseExternalRepositoryConnector subclass
      * 
      * If a specific class exists for the configured export, this one is instanciated and returned.
      * If it doesn't exist, an instance of the generic class for the repository type is returned.
      * 
-	 * @param $export ExternalExport
-	 * @return BaseExternalExporter A subclass of BaseExternalExporter
+	 * @param $external_repository ExternalRepository
+	 * @return BaseExternalRepositoryConnector A subclass of BaseExternalRepositoryConnector
 	 */
-	public static function get_instance($export)
+	public static function get_instance($external_repository)
 	{
-	    $export_type  = strtolower($export->get_type());
-	    $catalog_name = strtolower($export->get_catalog_name());
+	    $repository_type  = strtolower($external_repository->get_type());
+	    $catalog_name = strtolower($external_repository->get_catalog_name());
 	    
 	    $class_name = null;
-	    if(file_exists(Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($export_type) . '/custom/' . strtolower($catalog_name)  . '_external_exporter.class.php'))
+	    if(file_exists(Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($repository_type) . '/custom/' . strtolower($catalog_name)  . '_external_repository_connector.class.php'))
 	    {
-	        require_once Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($export_type) . '/custom/' . strtolower($catalog_name)  . '_external_exporter.class.php';
-	        $class_name = Utilities :: underscores_to_camelcase($catalog_name) . 'ExternalExporter';
+	        require_once Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($repository_type) . '/custom/' . strtolower($catalog_name)  . '_external_repository_connector.class.php';
+	        $class_name = Utilities :: underscores_to_camelcase($catalog_name) . 'ExternalRepositoryConnector';
 	    }
 	    else
 	    {
-	        require_once Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($export_type) . '/' . strtolower($export_type)  . '_external_exporter.class.php';
-	        $class_name = Utilities :: underscores_to_camelcase($export_type) . 'ExternalExporter';
+	        require_once Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($repository_type) . '/' . strtolower($export_type)  . '_external_repository_connector.class.php';
+	        $class_name = Utilities :: underscores_to_camelcase($repository_type) . 'ExternalRepositoryConnector';
 	    }
 	    
 	    if(isset($class_name))
 	    {
-	        return new $class_name($export->get_id());
+	        return new $class_name($external_repository->get_id());
 	    }
 	    else
 	    {
-	        throw new Exception('Export type \'' . $export_type . '\' not implemented');
+	        throw new Exception('Export type \'' . $repository_type . '\' not implemented');
 	    }
 	}
 	
@@ -95,42 +95,42 @@ abstract class BaseExternalExporter
 	 * 
 	 * @return void
 	 */
-	private function load_configuration($external_export_id)
+	private function load_configuration($external_repository_id)
 	{
-	    if(isset($external_export_id) && strlen($external_export_id) > 0 && $external_export_id != DataClass :: NO_UID)
+	    if(isset($external_repository_id) && strlen($external_repository_id) > 0 && $external_repository_id != DataClass :: NO_UID)
 	    {
-    	    $export = new ExternalExport();
-    	    $export->set_id($external_export_id);
-    	    $typed_export = $export->get_typed_export_object();
+    	    $export = new ExternalRepository();
+    	    $export->set_id($external_repository_id);
+    	    $typed_repository = $export->get_typed_repository_object();
     	    
-    	    if(isset($typed_export) && is_a($typed_export, 'ExternalExport'))
+    	    if(isset($typed_repository) && is_a($typed_repository, 'ExternalRepository'))
     	    {
-    	        $this->set_external_export($typed_export);
+    	        $this->set_external_repository($typed_repository);
     	    }
     	    else
     	    {
-    	        throw new Exception('Unable to load external export configuration');
+    	        throw new Exception('Unable to load external repository configuration');
     	    }
 	    }
 	    else
 	    {
-	        throw new Exception('Unable to load external export configuration');
+	        throw new Exception('Unable to load external repository configuration');
 	    }
 	}
 	
-	public function set_external_export($external_export)
+	public function set_external_repository($external_repository)
 	{
-	    $this->external_export = $external_export;
+	    $this->external_repository = $external_repository;
 	}
 	
 	
 	/**
 	 * 
-	 * @return ExternalExport
+	 * @return ExternalRepository
 	 */
-	public function get_external_export()
+	public function get_external_repository()
 	{
-	    return $this->external_export;
+	    return $this->external_repository;
 	}
 	
 	
@@ -249,7 +249,7 @@ abstract class BaseExternalExporter
 	         * 			to ensure that an object can not be exported without its external UID
 	         * 			saved in the datasource
 	         */
-	        $lom_mapper->add_general_identifier($this->external_export->get_catalog_name(), $this->get_new_uid());
+	        $lom_mapper->add_general_identifier($this->external_repository->get_catalog_name(), $this->get_new_uid());
 	        $lom_mapper->save_metadata();
 	    }
 	    
@@ -286,7 +286,7 @@ abstract class BaseExternalExporter
 	     * Apply an XSL transformation if any XSL filename is configured
 	     * Note: the XSL file must be placed in the 'xsl' repository 
 	     */
-	    $metadata_document = $this->process_metadata_xsl($lom_document, $this->get_external_export()->get_metadata_xsl_filename());
+	    $metadata_document = $this->process_metadata_xsl($lom_document, $this->get_external_repository()->get_metadata_xsl_filename());
 	    //debug($metadata_document);
 	    
 	    //return $metadata_document->saveXML();
@@ -313,9 +313,9 @@ abstract class BaseExternalExporter
 	 */
 	public function get_existing_repository_uid($content_object)
 	{
-	    if(isset($this->external_export))
+	    if(isset($this->external_repository))
 	    {
-    	    $sync_infos = ExternalExportSyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $this->external_export->get_id());
+    	    $sync_infos = ExternalRepositorySyncInfo :: get_by_content_object_and_repository($content_object->get_id(), $this->external_repository->get_id());
     	    
     	    if(isset($sync_infos))
     	    {
@@ -333,7 +333,7 @@ abstract class BaseExternalExporter
 	    
 	    /*******************************************/
 	    
-//	    if(isset($this->external_export))
+//	    if(isset($this->external_repository))
 //	    {
 //    	    /*
 //    	     * Basic metadata type is LOM
@@ -342,13 +342,13 @@ abstract class BaseExternalExporter
 //    	    $lom_mapper->get_metadata();
 //    	    $identifiers = $lom_mapper->get_identifier();
 //    	    
-//    	    //debug($this->external_export->get_default_properties());
+//    	    //debug($this->external_repository->get_default_properties());
 //    	    
 //    	    foreach ($identifiers as $identifier)
 //    	    {
 //    	    	//debug($identifier);
 //    	    	
-//    	    	if($identifier['catalog'] == $this->external_export->get_catalog_name())
+//    	    	if($identifier['catalog'] == $this->external_repository->get_catalog_name())
 //    	    	{
 //    	    	    return $identifier['entry'];
 //    	    	}

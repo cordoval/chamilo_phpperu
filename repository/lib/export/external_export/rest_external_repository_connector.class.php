@@ -1,7 +1,6 @@
 <?php
-require_once Path :: get_repository_path() . '/lib/export/external_export/base_external_exporter.class.php';
 
-abstract class RestExternalExporter extends BaseExternalExporter 
+abstract class RestExternalRepositoryConnector extends BaseExternalRepositoryConnector 
 {
     /**
      * @var RestClient
@@ -10,9 +9,9 @@ abstract class RestExternalExporter extends BaseExternalExporter
     
     /*************************************************************************/
     
-	protected function RestExternalExporter($fedora_repository_id = DataClass :: NO_UID) 
+	protected function RestExternalRepositoryConnector($fedora_repository_id = DataClass :: NO_UID) 
 	{
-		parent :: BaseExternalExporter($fedora_repository_id);
+		parent :: BaseExternalRepositoryConnector($fedora_repository_id);
 	}
 	
 	
@@ -31,13 +30,13 @@ abstract class RestExternalExporter extends BaseExternalExporter
 	    {
 	        $this->rest_client = new RestClient();
 	        
-	        $external_export = $this->get_external_export();
+	        $external_repository = $this->get_external_repository();
 	        
-	        $login                       = $external_export->get_login();
-	        $password                    = $external_export->get_password();
-	        $client_certificate_file     = $external_export->get_client_certificate_file();
-	        $client_certificate_key_file = $external_export->get_client_certificate_key_file();
-	        $target_ca_file              = $external_export->get_target_ca_file();
+	        $login                       = $external_repository->get_login();
+	        $password                    = $external_repository->get_password();
+	        $client_certificate_file     = $external_repository->get_client_certificate_file();
+	        $client_certificate_key_file = $external_repository->get_client_certificate_key_file();
+	        $target_ca_file              = $external_repository->get_target_ca_file();
 	        
 	        if(isset($login) && strlen($login) > 0)
 	        {

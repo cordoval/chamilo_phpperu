@@ -1,5 +1,5 @@
 <?php
-class ExternalExportSyncInfo extends RepositoryDataClass
+class ExternalRepositorySyncInfo extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
     
@@ -11,7 +11,7 @@ class ExternalExportSyncInfo extends RepositoryDataClass
     
     /*************************************************************************/
     
-    function ExternalExportSyncInfo($defaultProperties = array ())
+    function ExternalRepositorySyncInfo($defaultProperties = array ())
     {
         parent :: __construct($defaultProperties);
     }
@@ -122,24 +122,24 @@ class ExternalExportSyncInfo extends RepositoryDataClass
     {
         $this->set_creation_date(time());
         
-        return $this->get_data_manager()->create_external_export_sync_info($this);
+        return $this->get_data_manager()->create_external_repository_sync_info($this);
     }
     
     function update()
     {
         if (!$this->is_identified())
         {
-            throw new Exception('ExternalExportSyncInfo object could not be saved as its identity is not set');
+            throw new Exception('ExternalRepositorySyncInfo object could not be saved as its identity is not set');
         }
         
         $this->set_modification_date(time());
         
-        return $this->get_data_manager()->update_external_export_sync_info($this);
+        return $this->get_data_manager()->update_external_repository_sync_info($this);
     }
     
     function delete()
     {
-        return $this->get_data_manager()->delete_external_export_sync_info($this);
+        return $this->get_data_manager()->delete_external_repository_sync_info($this);
     }
     
     /*************************************************************************
@@ -149,7 +149,7 @@ class ExternalExportSyncInfo extends RepositoryDataClass
     /**
      * 
      * @param int $content_object_id
-     * @return ExternalExportSyncInfo
+     * @return ExternalRepositorySyncInfo
      */
     public static function get_by_content_object_id($content_object_id)
     {
@@ -157,13 +157,13 @@ class ExternalExportSyncInfo extends RepositoryDataClass
         
         $conditions = new EqualityCondition(self :: PROPERTY_CONTENT_OBJECT, $content_object_id);
         
-        return $dm->retrieve_external_export_sync_info($conditions);
+        return $dm->retrieve_external_repository_sync_info($conditions);
     }
     
 	/**
      * 
      * @param int $content_object_id
-     * @return ExternalExportSyncInfo
+     * @return ExternalRepositorySyncInfo
      */
     public static function get_by_content_object_and_repository($content_object_id, $repository_id)
     {
@@ -175,7 +175,7 @@ class ExternalExportSyncInfo extends RepositoryDataClass
         
         $conditions = new AndCondition($condition_array);
         
-        return $dm->retrieve_external_export_sync_info($conditions);
+        return $dm->retrieve_external_repository_sync_info($conditions);
     }
     
 
@@ -183,6 +183,7 @@ class ExternalExportSyncInfo extends RepositoryDataClass
      * 
 	 * @param integer $external_object_id
 	 * @param integer $repository_id
+	 * @return ExternalRepositorySyncInfo
      */
     public static function get_by_external_uid_and_repository($external_object_id, $repository_id)
     {
@@ -194,7 +195,7 @@ class ExternalExportSyncInfo extends RepositoryDataClass
         
         $conditions = new AndCondition($condition_array);
         
-        return $dm->retrieve_external_export_sync_info($conditions);
+        return $dm->retrieve_external_repository_sync_info($conditions);
     }
     
 }

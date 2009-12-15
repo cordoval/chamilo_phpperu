@@ -276,22 +276,22 @@ class RepositoryManager extends CoreApplication
                 $component = RepositoryManagerComponent :: factory('SharedContentObjectsBrowser', $this);
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_BROWSE :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportBrowser', $this);
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryBrowser', $this);
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_EXPORT :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportExport', $this);
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExport', $this);
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_IMPORT :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportImport', $this);
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryImport', $this);
                 break;    
             case self :: ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportListObjects', $this);
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryListObjects', $this);
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW :
                 $component = RepositoryManagerComponent :: factory('ExternalRepositoryMetadataReviewer', $this);
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_CATALOG :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExportCatalog', $this);
+                $component = RepositoryManagerComponent :: factory('ExternalRepositoryCatalog', $this);
                 break;
             case self :: ACTION_BROWSE_TEMPLATES :
                 $component = RepositoryManagerComponent :: factory('TemplateBrowser', $this);
@@ -1040,7 +1040,7 @@ class RepositoryManager extends CoreApplication
             $shared['url'] = $this->get_shared_content_objects_url();
             $shared['class'] = 'category';
 
-            $external_repositories = ExternalExport :: retrieve_external_export();
+            $external_repositories = ExternalRepository :: retrieve_external_repository();
             if (count($external_repositories) > 0)
             {
                 $external_repository = array();
@@ -1253,10 +1253,10 @@ class RepositoryManager extends CoreApplication
         return $rdm->retrieve_content_object_metadata_catalog($condition, $offset, $max_objects, $order_property);
     }
 
-    function retrieve_external_export($condition = null, $offset = null, $count = null, $order_property = null)
+    function retrieve_external_repository($condition = null, $offset = null, $count = null, $order_property = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_external_export($condition, $offset, $count, $order_property);
+        return $rdm->retrieve_external_repository($condition, $offset, $count, $order_property);
     }
 
     /**
