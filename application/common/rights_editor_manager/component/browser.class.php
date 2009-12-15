@@ -36,11 +36,23 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
         $html = array();
         $html[] = $this->action_bar->as_html() . '<br />';
         
+        $locations = array();
+        
+        foreach($this->get_locations() as $location)
+        {
+    		$locations[] = $location->get_id();
+        }
+        
+        $html[] = '<script language="JavaScript">';
+        //$html[] = '  var locations = \'{' . implode(',', $locations) . '}\';';
+        $html[] = '  var locations = \'' . json_encode($locations) . '\';';
+        $html[] = '</script>';
+        
         if ($this->type == self :: TYPE_USER)
         {
             $table = new LocationUserBrowserTable($this, $this->get_parameters(), $this->get_condition());
             $html[] = $table->as_html();
-            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_user.js');
+            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_user.js');
         }
         else
         {
@@ -56,7 +68,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
             $html[] = '<div style="float: right; width: 80%;">';
             $html[] = $table->as_html();
             $html[] = '</div>';
-            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_group.js');
+            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_group.js');
         }
         
         $html[] = RightsUtilities :: get_rights_legend();
