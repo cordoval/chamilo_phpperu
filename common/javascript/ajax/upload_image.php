@@ -31,13 +31,15 @@ if (! empty($_FILES))
     $document->set_path($path);
     $document->set_filename($filename);
     $document->set_filesize(Filesystem :: get_disk_space($full_path));
+    $document->set_hash($hash);
     
     $title_parts = explode('.', $filename);
     $extension = array_pop($title_parts);
     $title = Utilities :: underscores_to_camelcase_with_spaces(implode('_', $title_parts));
     $document->set_title($title);
+    $document->set_description($title);
     $document->create();
-    
+
     $dimensions = getimagesize($full_path);
     
     $properties = array();

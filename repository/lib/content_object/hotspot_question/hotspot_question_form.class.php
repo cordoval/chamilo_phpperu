@@ -93,17 +93,16 @@ class HotspotQuestionForm extends ContentObjectForm
                 $defaults['image_object'] = $object->get_image();
                 $this->set_session_answers($defaults);
             }
+	        else
+	        { 
+	            $number_of_options = intval($_SESSION['mc_number_of_options']);
+	            
+	            for($option_number = 0; $option_number < $number_of_options; $option_number ++)
+	            {
+	                $defaults['option_weight'][$option_number] = 1;
+	            }
+	        }
         }
-        else
-        {
-            $number_of_options = intval($_SESSION['mc_number_of_options']);
-            
-            for($option_number = 0; $option_number < $number_of_options; $option_number ++)
-            {
-                $defaults['option_weight'][$option_number] = 1;
-            }
-        }
-        
         parent :: setDefaults($defaults);
     }
 
