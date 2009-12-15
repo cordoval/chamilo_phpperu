@@ -14,7 +14,6 @@
 			locations: locations
 			}, function(result){
 
-				alert(result);	
 				if (result)
 					{
 						var newClass = $.ajax({
