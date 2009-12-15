@@ -147,39 +147,42 @@ class WikiManager extends WebApplication
     // Dummy Methods which are needed because we don't work with learning objects
     function content_object_is_published($object_id)
     {
+    	return WikiDataManager :: get_instance()->content_object_is_publish($object_id);
     }
 
     function any_content_object_is_published($object_ids)
     {
+    	return WikiDataManager :: get_instance()->any_content_object_is_published($object_ids);
     }
 
     function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
+    	return WikiDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
     }
 
     function get_content_object_publication_attribute($object_id)
     {
-    
+    	return WikiDataManager :: get_instance()->get_content_object_publication_attribute($object_id);
     }
 
     function count_publication_attributes($type = null, $condition = null)
     {
-    
+    	return WikiDataManager :: get_instance()->count_publication_attributes($type, $condition);
     }
 
     function delete_content_object_publications($object_id)
     {
-    
+    	return WikiDataManager :: get_instance()->delete_content_object_publications($object_id);
     }
     
 	function delete_content_object_publication($publication_id)
     {
-    
+    	return WikiDataManager :: get_instance()->delete_content_object_publication($publication_id);
     }
 
     function update_content_object_publication_id($publication_attr)
     {
-    
+    	return WikiDataManager :: get_instance()->update_content_object_publication_id($publication_attr);
     }
 
 	function get_content_object_publication_locations($content_object)

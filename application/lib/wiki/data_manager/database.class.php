@@ -180,7 +180,7 @@ class DatabaseWikiDataManager extends WikiDataManager
             $info->set_id($record[WikiPublication :: PROPERTY_ID]);
             $info->set_publisher_user_id($record[WikiPublication :: PROPERTY_PUBLISHER]);
             $info->set_publication_date($record[WikiPublication :: PROPERTY_PUBLISHED]);
-            $info->set_application('alexia');
+            $info->set_application('wiki');
             //TODO: i8n location string
             $info->set_location(Translation :: get('Wiki'));
             $info->set_url('run.php?application=alexia&go=browse');
@@ -204,7 +204,7 @@ class DatabaseWikiDataManager extends WikiDataManager
         $publication_attr->set_id($record[WikiPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[WikiPublication :: PROPERTY_PUBLISHER]);
         $publication_attr->set_publication_date($record[WikiPublication :: PROPERTY_PUBLISHED]);
-        $publication_attr->set_application('alexia');
+        $publication_attr->set_application('wiki');
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('Wiki'));
         $publication_attr->set_url('run.php?application=alexia&go=browse');
@@ -233,6 +233,12 @@ class DatabaseWikiDataManager extends WikiDataManager
 
         return $succes;
     }
+    
+	function delete_content_object_publication($publication_id)
+    {
+        $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $publication_id);
+        return $this->database->delete(WikiPublication :: get_table_name(), $condition);
+    }
 
     function update_content_object_publication_id($publication_attr)
     {
@@ -248,6 +254,11 @@ class DatabaseWikiDataManager extends WikiDataManager
         {
             return false;
         }
+    }
+    
+    function query($query)
+    {
+    	return $this->database->query($query);
     }
 
 }
