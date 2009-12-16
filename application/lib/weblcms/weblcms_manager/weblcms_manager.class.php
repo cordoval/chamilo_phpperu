@@ -1292,6 +1292,19 @@ class WeblcmsManager extends WebApplication
         $info['search'] = $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER));
         return $info;
     }
+    
+	/**
+     * Gets the available links to display in the platform admin
+     * @retun array of links and actions
+     */
+    public function get_application_platform_import_links()
+    {
+        $links = array();
+        $links[] = array('name' => Translation :: get('ImportCourses'), 'description' => Translation :: get('ImportCoursesDescription'), 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
+        $links[] = array('name' => Translation :: get('ImportCourseUsers'), 'description' => Translation :: get('ImportCourseUsersDescription'), 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
+        
+     	return $links;
+    }
 
     function get_reporting_url($classname, $params)
     {

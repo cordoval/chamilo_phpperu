@@ -1152,6 +1152,18 @@ class RepositoryManager extends CoreApplication
         $info['links'] = $links;
         return $info;
     }
+    
+	/**
+     * Gets the available links to display in the platform admin
+     * @retun array of links and actions
+     */
+    public function get_application_platform_import_links()
+    {
+        $links = array();
+        $links[] = array('name' => Translation :: get('ImportTemplates'), 'description' => Translation :: get('ImportTemplatesDescription'), 'url' => $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
+        
+     	return $links;
+    }
 
     static function get_document_downloader_url($document_id)
     {

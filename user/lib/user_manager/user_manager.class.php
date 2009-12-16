@@ -330,6 +330,18 @@ class UserManager extends CoreApplication
         
         return $info;
     }
+    
+	/**
+     * Gets the available links to display in the platform admin
+     * @retun array of links and actions
+     */
+    public function get_application_platform_import_links()
+    {
+        $links = array();
+        $links[] = array('name' => Translation :: get('ImportUsers'), 'description' => Translation :: get('ImportUsersDescription'), 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
+        
+     	return $links;
+    }
 
     /**
      * gets the user editing url

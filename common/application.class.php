@@ -380,6 +380,15 @@ abstract class Application
         
         return $info;
     }
+    
+	/**
+     * Returns a list of actions available to the admin.
+     * @return Array $info Contains all possible actions.
+     */
+    public function get_application_platform_import_links()
+    {
+    	return array();
+    }
 
     /**
      * Does the entire application have a leftside menu? False per default.
