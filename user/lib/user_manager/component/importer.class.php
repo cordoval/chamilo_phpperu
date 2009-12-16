@@ -31,7 +31,7 @@ class UserManagerImporterComponent extends UserManagerComponent
         if ($form->validate())
         {
             $success = $form->import_users();
-            $this->redirect(Translation :: get($success ? 'CsvUsersProcessed' : 'CsvUsersNotProcessed') . '<br />' . $form->get_failed_csv(), ($success ? false : true), array(Application :: PARAM_ACTION => $success ? UserManager :: ACTION_BROWSE_USERS : UserManager :: ACTION_IMPORT_USERS));
+            $this->redirect(Translation :: get($success ? 'CsvUsersProcessed' : 'CsvUsersNotProcessed') . '<br />' . $form->get_failed_csv(), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS));
         }
         else
         {
