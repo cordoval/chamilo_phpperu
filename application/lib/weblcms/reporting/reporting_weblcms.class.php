@@ -519,7 +519,7 @@ class ReportingWeblcms
         $users = array();
         foreach ($versions as $version)
         {
-            $users[$version->get_default_property('owner')] ++;
+            $users[$version->get_default_property(ContentObject :: PROPERTY_OWNER_ID)] ++;
         }
         arsort($users);
         $keys = array_keys($users);
@@ -539,7 +539,7 @@ class ReportingWeblcms
         $users = array();
         foreach ($versions as $version)
         {
-            $users[$version->get_default_property('owner')] ++;
+            $users[$version->get_default_property(ContentObject :: PROPERTY_OWNER_ID)] ++;
         }
         arsort($users);
         foreach ($users as $user => $number)
