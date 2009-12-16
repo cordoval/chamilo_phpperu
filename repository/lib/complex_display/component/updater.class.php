@@ -18,9 +18,9 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
             $datamanager = RepositoryDataManager :: get_instance();
             $cloi = $datamanager->retrieve_complex_content_object_item($selected_cloi);
             
-            $cloi->set_default_property('user_id', $this->get_user_id());
+            $cloi->set_default_property(ComplexContentObjectItem :: PROPERTY_USER_ID, $this->get_user_id());
             $content_object = $datamanager->retrieve_content_object($cloi->get_ref());
-            $content_object->set_default_property('owner', $this->get_user_id());
+            $content_object->set_default_property(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_cloi' => $selected_cloi, 'selected_cloi' => $cid, 'pid' => $pid)));
             
             if ($form->validate() || Request :: get('validated'))
