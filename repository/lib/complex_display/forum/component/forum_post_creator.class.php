@@ -28,12 +28,14 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
                 $reply_lo = $rdm->retrieve_content_object($reply_item->get_ref(), 'forum_post');
             }
             
-            $pub = new RepoViewer($this, 'forum_post', true);
+            $pub = new RepoViewer($this, 'forum_post', false, RepoViewer :: SELECT_MULTIPLE, array(), false);
             $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_FORUM_POST);
             $pub->set_parameter('pid', $pid);
             $pub->set_parameter('cid', $cid);
-            $pub->set_parameter('type', $type);
             $pub->set_parameter('reply', $reply);
+            
+            $pub->parse_input_from_table();
+            
             if ($reply_lo)
             {
                 if (substr($reply_lo->get_title(), 0, 3) == 'RE:')
@@ -44,30 +46,36 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
                 $pub->set_creation_defaults(array('title' => $reply));
             }
             
-            $object_id = Request :: get('object');
+            $object_ids = Request :: get('object');
             
-            if (! isset($object_id))
+            if (! isset($object_ids))
             {
-                $html[] = '<p><a href="' . $this->get_url(array('type' => $type, 'pid' => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();
                 echo implode("\n", $html);
             }
             else
             {
-                $cloi = ComplexContentObjectItem :: factory('forum_post');
-                
+                if(!is_array($object_ids))
+                	$object_ids = array($object_ids);
+                	
                 $item = $rdm->retrieve_complex_content_object_item($cid);
-                
-                $cloi->set_ref($object_id);
-                $cloi->set_user_id($this->get_user_id());
-                $cloi->set_parent($item->get_ref());
-                $cloi->set_display_order($rdm->select_next_display_order($item->get_ref()));
-                
-                if ($reply)
-                    $cloi->set_reply_on_post($reply);
-                
-                $cloi->create();
-                $this->my_redirect($pid, $cid);
+                	
+            	foreach($object_ids as $object_id)
+            	{
+	            	$cloi = ComplexContentObjectItem :: factory('forum_post');
+	                
+	                $cloi->set_ref($object_id);
+	                $cloi->set_user_id($this->get_user_id());
+	                $cloi->set_parent($item->get_ref());
+	                $cloi->set_display_order($rdm->select_next_display_order($item->get_ref()));
+	                
+	                if ($reply)
+	                    $cloi->set_reply_on_post($reply);
+	                
+	                $cloi->create();
+            	}
+            	
+            	$this->my_redirect($pid, $cid);
             }
         
         }
