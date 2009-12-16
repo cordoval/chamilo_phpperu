@@ -567,7 +567,7 @@ class ReportingWeblcms
             $parameter = 'pid';
         
         $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*display_action=view_item*&' . $parameter . '=' . $params['pid'] . '*');
-        $items = $tdm->retrieve_tracker_items('visit', 'VisitTracker', $condition);
+        $items = $tdm->retrieve_tracker_items('visit_tracker', 'VisitTracker', $condition);
         if (empty($items))
             return Reporting :: getSerieArray($arr);
         foreach ($items as $item)
@@ -624,7 +624,7 @@ class ReportingWeblcms
         require_once Path :: get_application_path() . 'lib/weblcms/data_manager/database.class.php';
         $wiki = RepositoryDataManager :: get_instance()->retrieve_content_object($params['pid']);
         
-        $clois = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $wiki->get_id()), $params['order_by'])->as_array();
+        $clois = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $wiki->get_id(), ComplexContentObjectItem :: get_table_name()), $params['order_by'])->as_array();
         
         if (empty($clois))
             return Reporting :: getSerieArray($arr);
