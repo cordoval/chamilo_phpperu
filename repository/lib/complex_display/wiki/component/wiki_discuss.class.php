@@ -9,7 +9,7 @@
  * Author: Nick De Feyter
  */
 
-require_once Path :: get_repository_path() . 'lib/complex_display/wiki/component/wiki_parser.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_parser.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
 
 class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
@@ -65,7 +65,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
          *  For more information about the parser, please read the information in the wiki_parser class.
          */
         
-        $parser = new WikiDisplayWikiParserComponent($this->get_root_lo()->get_id(), $display->get_full_html(), $this->cid);
+        $parser = new WikiParser($this, $this->get_root_lo()->get_id(), $display->get_full_html(), $this->cid);
         $parser->parse_wiki_text();
         
         $this->set_script();

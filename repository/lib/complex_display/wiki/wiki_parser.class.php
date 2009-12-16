@@ -18,21 +18,37 @@
  * Author: Stefan Billiet
  * Author: Nick De Feyter
  */
-require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display_component.class.php';
 
-class WikiDisplayWikiParserComponent extends WikiDisplayComponent
+class WikiParser
 {
     private $wiki_id;
     private $selected_cloi;
     private $wikiText;
+    private $parent;
 
-    function __construct($wikiId, $wikiText, $cId)
+    function WikiParser($parent, $wikiId, $wikiText, $cId)
     {
-        $this->wiki_id = $wikiId;
+        $this->parent = $parent;
+    	$this->wiki_id = $wikiId;
         $this->wikiText = $wikiText;
         $this->selected_cloi = $cId;
     }
 
+    function set_parent($parent)
+    {
+    	$this->parent = $parent;
+    }
+    
+    function get_parent()
+    {
+    	return $this->parent;
+    }
+    
+    function get_url($parameters = array())
+    {
+    	return $this->parent->get_url($parameters);
+    }
+    
     function set_wiki_id($value)
     {
         $this->wiki_id = $value;

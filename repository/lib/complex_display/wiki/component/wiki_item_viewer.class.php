@@ -13,7 +13,7 @@
 //require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 //require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__) . '/wiki_page_table/wiki_page_table.class.php';
-require_once dirname(__FILE__) . '/wiki_parser.class.php';
+require_once dirname(__FILE__) . '/../wiki_parser.class.php';
 
 class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
 {
@@ -52,7 +52,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
          *  Here we create the wiki_parser component.
          *  For more information about the parser, please read the information provided in the wiki_parser class
          */
-        $parser = new WikiDisplayWikiParserComponent($this->get_root_lo()->get_id(), $this->wiki_page->get_description(), $this->cid);
+        $parser = new WikiParser($this, $this->get_root_lo()->get_id(), $this->wiki_page->get_description(), $this->cid);
         echo $parser->parse_wiki_text();
         echo $parser->get_wiki_text();
         /*

@@ -203,7 +203,7 @@ class WikiDisplay extends ComplexDisplay
         //NAVIGATION
         if (! empty($links))
         {
-            $p = new WikiDisplayWikiParserComponent($pid, $links);
+            $p = new WikiParser($this, $pid, $links);
             $p->set_parent($this);
             $toolboxlinks = $p->handle_toolbox_links($links);
             $links = explode(';', $links);

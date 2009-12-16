@@ -12,7 +12,7 @@
  */
 
 require_once dirname(__FILE__) . '/wiki_page_table/wiki_page_table.class.php';
-require_once dirname(__FILE__) . '/wiki_parser.class.php';
+require_once dirname(__FILE__) . '/../wiki_parser.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
 
 class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
