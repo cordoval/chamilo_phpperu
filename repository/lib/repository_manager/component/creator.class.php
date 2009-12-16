@@ -85,7 +85,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
                 if (! Request :: get('publish'))
                 {
                     $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
-                    $trail->add(new Breadcrumb($this->get_url(), Translation :: get(ContentObject :: type_to_class($type) . 'CreationFormTitle')));
+                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)), Translation :: get(ContentObject :: type_to_class($type) . 'CreationFormTitle')));
                     $this->display_header($trail, false, true);
                 }
                 else

@@ -206,7 +206,7 @@ $(function ()
 		$('#mc_number_of_options').val(newNumber);
 		
 		parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
-		editorNameAnswer = 'option[' + numberOfOptions + ']';
+		editorNameAnswer = 'answer[' + numberOfOptions + ']';
 		editorNameComment = 'comment[' + numberOfOptions + ']';
 		
 		fieldColour = '<div class="colour_box" style="background-color: ' + colours[numberOfOptions] + ';"></div>';
