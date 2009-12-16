@@ -4,7 +4,7 @@
  * @package repository.lib.complex_display.wiki.component
  */
 
-require_once Path :: get_repository_path() . '/lib/complex_display/wiki/component/wiki_parser.class.php';
+require_once Path :: get_repository_path() . '/lib/complex_display/wiki/wiki_parser.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
 
 class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
