@@ -183,7 +183,7 @@ class DatabaseWikiDataManager extends WikiDataManager
             $info->set_application('wiki');
             //TODO: i8n location string
             $info->set_location(Translation :: get('Wiki'));
-            $info->set_url('run.php?application=alexia&go=browse');
+            $info->set_url('run.php?application=wiki&go=browse');
             $info->set_publication_object_id($record[WikiPublication :: PROPERTY_CONTENT_OBJECT]);
 
             $publication_attr[] = $info;
@@ -207,7 +207,7 @@ class DatabaseWikiDataManager extends WikiDataManager
         $publication_attr->set_application('wiki');
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('Wiki'));
-        $publication_attr->set_url('run.php?application=alexia&go=browse');
+        $publication_attr->set_url('run.php?application=wiki&go=browse');
         $publication_attr->set_publication_object_id($record[WikiPublication :: PROPERTY_CONTENT_OBJECT]);
 
         return $publication_attr;
@@ -222,7 +222,7 @@ class DatabaseWikiDataManager extends WikiDataManager
     function delete_content_object_publications($object_id)
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
-        $publications = $this->retrieve_alexia_publications($condition);
+        $publications = $this->retrieve_wiki_publications($condition);
 
         $succes = true;
 
