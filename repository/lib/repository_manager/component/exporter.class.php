@@ -42,7 +42,11 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
                 }
 
                 $exporter = ContentObjectExport :: factory('cpo', $content_objects);
-                $path = $exporter->export_content_object();
+                
+                if ($ids[0] == 'all')
+                	$path = $exporter->export_content_object(true);
+                else
+                	$path = $exporter->export_content_object(false);
 
                 /*Filesystem :: file_send_for_download($path, true, 'content_objects.cpo');
 				Filesystem :: remove($path);*/

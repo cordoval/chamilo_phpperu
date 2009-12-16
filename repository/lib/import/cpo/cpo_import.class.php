@@ -95,6 +95,12 @@ class CpoImport extends ContentObjectImport
     private $learning_path_item_wrappers;
 
     /**
+     * Used to determine the new category id
+     * @var $categories[$old_category_id] = id
+     */
+    private $categories;
+    
+    /**
      * Enter description here...
      *
      * @param unknown_type $content_object_file
@@ -120,15 +126,17 @@ class CpoImport extends ContentObjectImport
         
         $doc = $this->doc;
         $doc = new DOMDocument();
-        
+       
         $doc->load($path);
         $content_objects = $doc->getElementsByTagname('content_object');
+      
+        $this->create_categories($doc->getElementsByTagname('category'));
         
         foreach ($content_objects as $lo)
         {
             $this->create_content_object($lo);
         }
-        
+   
         $this->create_complex_wrappers();
         $this->create_attachments();
         $this->create_includes();
@@ -261,6 +269,7 @@ class CpoImport extends ContentObjectImport
             $comment = $general->getElementsByTagName('comment')->item(0)->nodeValue;
             $created = $general->getElementsByTagName('created')->item(0)->nodeValue;
             $modified = $general->getElementsByTagName('modified')->item(0)->nodeValue;
+            $category = $general->getElementsByTagName('parent')->item(0)->nodeValue;
             
             $lo = ContentObject :: factory($type);
             $lo->set_title($title);
@@ -269,7 +278,11 @@ class CpoImport extends ContentObjectImport
             $lo->set_creation_date($created);
             $lo->set_modification_date($modified);
             $lo->set_owner_id($this->get_user()->get_id());
-            $lo->set_parent_id($this->get_category());
+
+            if($category == 'category0')
+            	$lo->set_parent_id($this->get_category());
+           	else
+           		$lo->set_parent_id($this->categories[$category]);
             
             $extended = $content_object->getElementsByTagName('extended')->item(0);
             
@@ -280,7 +293,7 @@ class CpoImport extends ContentObjectImport
                 
                 foreach ($nodes as $node)
                 {
-                    if ($node->nodeName == "#text" || $node->nodeName == 'id')
+                    if ($node->nodeName == "#text" || $node->nodeName == 'id' || $node->nodeName == 'category')
                         continue;
                     $additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
                 }
@@ -515,6 +528,43 @@ class CpoImport extends ContentObjectImport
     function test_matches($matches)
     {
         return $this->wrapper_reference[$matches[0]];
+    }
+    
+    function create_categories($categories)
+    {
+    	foreach ($categories as $category)
+        { 
+            if ($category->hasAttributes())
+            { 
+        		$id = $category->getAttribute('id');
+        		$name = $category->getAttribute('name');
+        		$parent = $category->getAttribute('parent');
+        		
+            	// Check if categories exist
+            	/*$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_NAME, $name);
+            	$categories = RepositoryDataManager :: get_instance()->retrieve_categories($condition);
+            	if($categories->size() > 0)
+            	{
+            		$this->categories[$id] = $categories->next_result()->get_id(); 
+            	}
+            	else*/
+            	{
+            		$category = new RepositoryCategory();
+            		$category->set_name($name);
+            		
+            		if($parent == 'category0' || !$this->categories[$parent])
+            			$category->set_parent($this->get_category());
+            		else
+            			$category->set_parent($this->categories[$parent]);
+            			
+            		$category->set_user_id($this->get_user()->get_id());
+            		$category->create();
+            		
+            		$this->categories[$id] = $category->get_id(); 
+            	}
+            }
+            
+        }
     }
 }
 ?>

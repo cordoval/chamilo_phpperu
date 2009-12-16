@@ -35,14 +35,31 @@ class CpoExport extends ContentObjectExport
     private $scorm_files;
     
     /*
-	 * The <learnings_objects> tag in the xml file
+	 * The <content_objects> tag in the xml file
 	 */
     private $root;
+    
+    /**
+     * The <categories> tag in the xml file
+     */
+    private $cat_root;
     
     /**
      * Array of already exported learning objects to prevent doubles
      */
     private $exported_content_objects;
+    
+    /**
+     * Array of already exported categories to prevent doubles
+     * @var Array
+     */
+    private $exported_categories;
+    
+    /**
+     * Bool to determine wheter the categories should be exported
+     * @var bool
+     */
+    private $export_categories;
 
     function CpoExport($content_object)
     {
@@ -51,14 +68,25 @@ class CpoExport extends ContentObjectExport
         parent :: __construct($content_object);
     }
 
-    public function export_content_object()
+    public function export_content_object($export_categories = false)
     {
-        $content_objects = $this->get_content_object();
+        $this->export_categories = $export_categories;
+        
+    	$content_objects = $this->get_content_object();
         $this->doc = new DOMDocument('1.0', 'UTF-8');
         $this->doc->formatOutput = true;
         
+        $parent = $this->doc->createElement('export');
+        $this->doc->appendChild($parent);
+        
         $this->root = $this->doc->createElement('content_objects');
-        $this->doc->appendChild($this->root);
+        $parent->appendChild($this->root);
+        
+        if($this->export_categories)
+        {
+        	$this->cat_root = $this->doc->createElement('categories');
+        	$parent->appendChild($this->cat_root);
+        }
         
         $user = null;
         
@@ -136,6 +164,10 @@ class CpoExport extends ContentObjectExport
         }
     }
 
+    /**
+     * Render the contentobject
+     * @param ContentObject $content_object
+     */
     function render_content_object($content_object)
     {
         if (in_array($content_object->get_id(), $this->exported_content_objects))
@@ -167,6 +199,19 @@ class CpoExport extends ContentObjectExport
             
             $text = $doc->createTextNode($content_object->get_default_property($prop));
             $text = $property->appendChild($text);
+        }
+        
+        if($this->export_categories)
+        {
+        	$parent = $content_object->get_parent_id();
+        	if(!in_array($parent, $this->exported_categories) && $parent != 0)
+        		$this->export_category(RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $parent))->next_result());
+        		
+        	$parent_property = $doc->createElement('parent');
+            $general->appendChild($parent_property);
+            
+            $cat_id = $doc->createTextNode('category' . $parent);
+            $parent_property->appendChild($cat_id);
         }
         
         $this->export_additional_properties($content_object);
@@ -279,6 +324,33 @@ class CpoExport extends ContentObjectExport
                 $this->render_content_object($include);
             }
         }
+    }
+    
+    function export_category($category)
+    {
+    	$cat = $this->doc->createElement('category');
+    	
+    	$id = $this->doc->createAttribute('id');
+        $cat->appendChild($id);
+        $id_value = $this->doc->createTextNode('category' . $category->get_id());
+        $id->appendChild($id_value);
+        
+        $name = $this->doc->createAttribute('name');
+        $cat->appendChild($name);
+        $name_value = $this->doc->createTextNode($category->get_name());
+        $name->appendChild($name_value);
+        
+        if(!in_array($category->get_parent(), $this->exported_categories) && $category->get_parent() != 0)
+        		$this->export_category(RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_parent()))->next_result());
+        
+        $parent = $this->doc->createAttribute('parent');
+        $cat->appendChild($parent);
+        $parent_value = $this->doc->createTextNode('category' . $category->get_parent());
+        $parent->appendChild($parent_value);
+        
+        $this->cat_root->appendChild($cat);
+        
+        $this->exported_categories[] = $category->get_id();
     }
 }
 ?>
