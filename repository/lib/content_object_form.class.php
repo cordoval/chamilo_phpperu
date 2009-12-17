@@ -271,7 +271,6 @@ EOT;
         //$this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get('Title'), true, array('size' => '100'));
         $this->addElement('html', '<div id="message"></div>');
         $this->add_textfield(ContentObject :: PROPERTY_TITLE, Translation :: get(get_class($this) . 'Title'), true, array('size' => '100', 'id' => 'title', 'style' => 'width: 95%'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/content_object_form.js'));
         if ($this->allows_category_selection())
         {
             $select = $this->add_select(ContentObject :: PROPERTY_PARENT_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
@@ -294,7 +293,11 @@ EOT;
         if ($this->supports_attachments())
         {
 
-            if ($this->form_type != self :: TYPE_REPLY)
+            $html[] = '<script language="javascript">';
+            $html[] =   'var support_attachments = true';
+            $html[] = '</script>';
+        	$this->addElement('html', implode("\n", $html));
+        	if ($this->form_type != self :: TYPE_REPLY)
             {
                 $attached_objects = $object->get_attached_content_objects();
                 $attachments = Utilities :: content_objects_for_element_finder($attached_objects);
@@ -318,8 +321,10 @@ EOT;
             $locale['Error'] = Translation :: get('Error');
             $hidden = true;
 
+            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
             $this->addElement('category', Translation :: get('Attachments'), 'content_object_attachments');
-            $elem = $this->addElement('element_finder', 'attachments', null, $url, $locale, $attachments);
+            $this->addElement('static', 'uploadify', Translation :: get('UploadDocument'), '<div id="uploadify"></div>');
+            $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments);
             $this->addElement('category');
 
             $elem->setDefaults($defaults);
@@ -328,7 +333,7 @@ EOT;
             {
                 $elem->excludeElements(array($object->get_id()));
             }
-            $elem->setDefaultCollapsed(count($attachments) == 0);
+            //$elem->setDefaultCollapsed(count($attachments) == 0);
         }
 
         if (count($this->additional_elements) > 0)
@@ -351,6 +356,8 @@ EOT;
             }
         }
 
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/content_object_form.js'));
+        
         $buttons = array();
 
         switch ($this->form_type)

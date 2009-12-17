@@ -12,6 +12,11 @@ class HotspotQuestion extends ContentObject
     const PROPERTY_ANSWERS = 'answers';
     const PROPERTY_IMAGE = 'image';
 
+    public function supports_attachments()
+    {
+    	return false;
+    }
+    
     public function add_answer($answer)
     {
         $answers = $this->get_answers();

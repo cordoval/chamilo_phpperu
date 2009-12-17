@@ -295,7 +295,7 @@
 					});
 			}
 			
-			init();
+			return this.each(init());
     	}
 	});
 })(jQuery);
