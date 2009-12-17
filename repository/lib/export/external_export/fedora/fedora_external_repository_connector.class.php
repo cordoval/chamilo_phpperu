@@ -136,7 +136,7 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	            /*
 	             * Ensure the object has a external uid specific to the target Fedora repository
 	             */
-        	    $this->prepare_export($content_object);
+        	    $external_repository_uid = $this->prepare_export($content_object);
         	    
         	    /*
         	     * Check if the object already exists in Fedora
@@ -213,13 +213,12 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	 * If not, the object is created in Fedora  
 	 * 
 	 * @param $content_object ContentObject
+	 * @param $external_repository_uid string
 	 * @return boolean
 	 */
 	protected function check_object_exists($content_object)
 	{
 	    $external_object_id = $this->get_existing_repository_uid($content_object);
-	    //debug($object_id);
-	    
 	    $external_object_infos = $this->get_repository_object_infos($external_object_id);
 	    
 	    if(isset($external_object_infos))
@@ -352,7 +351,7 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	/**
 	 * Return a FOXML document that can be used to ingest a new object in Fedora
 	 * 
-	 * @param $content_object
+	 * @param $content_object ContentObject
 	 * @return DOMDocument A FOXML1-1 DOM document representing the ContentObject
 	 */
 	protected function get_foxml_document($content_object)
@@ -379,6 +378,11 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	     * Build LOM datastream
 	     */
 	    $this->set_lom_xml_data($content_object, $foxml_doc);
+	    
+	    /*
+	     * Build an eventual RELS-EXT datastream if the repository is configured for
+	     */
+	    $this->set_rels_ext_data($content_object, $foxml_doc);
 	    
 	    restore_error_handler();
 	    
@@ -458,6 +462,51 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	    //debug($foxml_doc);
 	}
 	
+	
+	protected function set_rels_ext_data($content_object, $foxml_doc)
+	{
+	    $relation_content_doc = $this->get_rels_ext_datastream_document($content_object);
+	    
+	    if(isset($relation_content_doc))
+	    {
+	        $rels_ext_str = '<foxml:datastream xmlns:foxml="info:fedora/fedora-system:def/foxml#" CONTROL_GROUP="M" ID="RELS-EXT" STATE="A">
+								<foxml:datastreamVersion ID="RELS-EXT.0" MIMETYPE="text/xml" LABEL="Object relationships">
+									<foxml:xmlContent>
+									</foxml:xmlContent>
+								</foxml:datastreamVersion>
+						 	 </foxml:datastream>';
+	    
+	        $rels_ext_doc = new DOMDocument();
+	        
+	        $rels_ext_doc->loadXML($rels_ext_str);
+
+	        $xpath = new DOMXPath($rels_ext_doc);
+	        $xml_content_node = $xpath->query('/foxml:datastream/foxml:datastreamVersion/foxml:xmlContent')->item(0);
+	        $relation_content_node = $rels_ext_doc->importNode($relation_content_doc->documentElement, true);
+	        $xml_content_node->appendChild($relation_content_node);
+	        
+	        $rels_ext_node = $foxml_doc->importNode($rels_ext_doc->documentElement, true);
+	        $foxml_doc->documentElement->appendChild($rels_ext_node);
+	    }
+	}
+	
+	
+	protected function get_rels_ext_datastream_document($content_object)
+	{
+	    $relations_datastream_template = $this->get_external_repository()->get_relations_datastream_template();
+	    
+	    if(StringUtilities :: has_value($relations_datastream_template))
+	    {
+	        $relations_datastream_template = str_replace('{pid}', $this->get_existing_repository_uid($content_object), $relations_datastream_template);
+	        $relation_doc = DOMDocument :: loadXML($relations_datastream_template);
+	        
+	        return $relation_doc;
+	    }
+	    else
+	    {
+	        return null;
+	    }
+	}
 	
 	/**
 	 * Ingest a new object in Fedora by using its FOXML representation
@@ -1094,13 +1143,18 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	    
 	    if($content_object_id != DataClass :: NO_UID)
 	    {
-    	    /*
-    	     * Save the external object id to be able to recognize the object between Chamilo and the Fedora repository  
-    	     */
-    	    $lom_mapper      = $this->get_lom_mapper($content_object);
-    	    $external_repository = $this->get_external_repository();
-    	    $lom_mapper->add_general_identifier($external_repository->get_catalog_name(), $repository_object_id);
-    	    $lom_mapper->save_metadata();
+//    	    /*
+//    	     * Save the external object id to be able to recognize the object between Chamilo and the Fedora repository  
+//    	     */
+//    	    $lom_mapper      = $this->get_lom_mapper($content_object);
+//    	    $external_repository = $this->get_external_repository();
+//    	    $lom_mapper->add_general_identifier($external_repository->get_catalog_name(), $repository_object_id);
+//    	    $lom_mapper->save_metadata();
+
+	        //TODO: do not save the repository_object_id each time an import is done. 
+	        //      If the object already exists in Chamilo, it may already exists in the metadata -> do not create it again
+	        //      Anyway, the best would be to parse the LOM datastream to import it with the object, so also for the other LOM fields
+	        
     	    
     	    /*
     	     * Save the sync informations

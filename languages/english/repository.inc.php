@@ -562,6 +562,7 @@ $lang['repository']['ExternalRepositorySynchronized'] = 'The object in Chamilo a
 $lang['repository']['ExternalRepositoryImportObject'] = 'Import object from ';
 $lang['repository']['ExternalImportConfirmationText'] = 'The object was imported with success';
 $lang['repository']['ObjectIsRecycled'] = 'The object exists in Chamilo but is in recycle bin';
+$lang['repository']['ExternalRepositoryNoObjects'] = 'There is no objects in the repository';
 
 $lang['repository']['DocumentTitleIsRequired'] = 'Title is required';
 $lang['repository']['DocumentDescriptionIsRequired'] = 'Description is required';
