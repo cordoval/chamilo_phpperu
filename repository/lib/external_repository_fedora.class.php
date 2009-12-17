@@ -34,6 +34,8 @@ class ExternalRepositoryFedora extends ExternalRepository
     const PROPERTY_OBJECT_DATASTREAM_NAME              = 'object_datastream_name';
     const PROPERTY_OBJECT_DATASTREAM_LABEL             = 'object_datastream_label';
     
+    const PROPERTY_RELATIONS_DATASTREAM_TEMPLATE       = 'relations_datastream_template';
+    
     const DEFAULT_DUBLIN_CORE_DATASTREAM_NAME          = 'DC';
     const DEFAULT_DUBLIN_CORE_DATASTREAM_LABEL         = 'Dublin Core Record for this object';
     const DEFAULT_EXTENDED_METADATA_DATASTREAM_NAME    = 'LOM';
@@ -529,6 +531,28 @@ class ExternalRepositoryFedora extends ExternalRepository
     }
     
 
+/*************************************************************************/
+    
+    /**
+     * Set an optional content template for the RELS-EXT datastream
+     * Note: if it is not set the RELS-EXT datastream is not created during export
+     * 
+     * @param $relations_datastream_template string
+     * @return void
+     */
+    function set_relations_datastream_template($relations_datastream_template)
+    {
+        if (StringUtilities :: has_value($relations_datastream_template))
+        {
+            $this->set_default_property(self :: PROPERTY_RELATIONS_DATASTREAM_TEMPLATE, $relations_datastream_template);
+        }
+    }
+
+    function get_relations_datastream_template()
+    {
+        return $this->get_default_property(self :: PROPERTY_RELATIONS_DATASTREAM_TEMPLATE);
+    }
+    
     /*************************************************************************/
     
     static function get_default_property_names($extended_property_names = array())
@@ -556,6 +580,8 @@ class ExternalRepositoryFedora extends ExternalRepository
         $extended_property_names[] = self :: PROPERTY_EXTENDED_METADATA_DATASTREAM_LABEL;
         $extended_property_names[] = self :: PROPERTY_OBJECT_DATASTREAM_NAME;
         $extended_property_names[] = self :: PROPERTY_OBJECT_DATASTREAM_LABEL;
+        
+        $extended_property_names[] = self :: PROPERTY_RELATIONS_DATASTREAM_TEMPLATE;
         
         return parent :: get_default_property_names($extended_property_names);
     }

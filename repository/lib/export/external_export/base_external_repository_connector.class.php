@@ -229,7 +229,7 @@ abstract class BaseExternalRepositoryConnector
 	 * Ensure it has an UID valid for the repository
 	 * 
 	 * @param $content_object ContentObject Learning object to export to the external repository
-	 * @return boolean Indicates wether the learning object could be prepared for export
+	 * @return string Returns the external uid for the repository
 	 */
 	protected function prepare_export($content_object)
 	{
@@ -239,7 +239,11 @@ abstract class BaseExternalRepositoryConnector
 	     * Get the different identifiers from the metadata 
 	     * and checks if a new UID for the external repository has to be assigned to the object
 	     */
-	    if(!$this->check_repository_uid($content_object))
+	    if($this->check_repository_uid($content_object))
+	    {
+	        return $this->get_existing_repository_uid($content_object);
+	    }
+	    else
 	    {
 	        /*
 	         * Get a new UID and assign to the object
@@ -249,21 +253,44 @@ abstract class BaseExternalRepositoryConnector
 	         * 			to ensure that an object can not be exported without its external UID
 	         * 			saved in the datasource
 	         */
-	        $lom_mapper->add_general_identifier($this->external_repository->get_catalog_name(), $this->get_new_uid());
+	        $new_external_uid = $this->get_new_uid();
+	        
+	        /*
+	         * Save the identifier in the metadata
+	         */
+	        $lom_mapper->add_general_identifier($this->external_repository->get_catalog_name(), $new_external_uid);
 	        $lom_mapper->save_metadata();
+	        
+	        /*
+	         * Save the identifier in the 'repository_external_repository_sync_info'
+	         * Note: 	The export won't be done yet, but it will allow to retrieve the object external identifier further during the export process
+	         *   		It will also allow to not ask the external repository to give a new unique identifier again in case of export error when exporting again
+	         */
+	        $external_repository = $this->get_external_repository();
+	        $eesi = new ExternalRepositorySyncInfo();
+	        $eesi->set_content_object_id($content_object->get_id());
+	        $eesi->set_external_repository_id($external_repository->get_id());
+	        $eesi->set_external_object_uid($new_external_uid);
+	        
+	        /*
+	         * We set the synchro date to an old date to be sure the object won't be considered as synchrone with the repository
+	         */
+	        $eesi->set_utc_synchronized('2000-01-01');
+	        
+	        /*
+	         * We set the object last modification to a fake date as it will be replaced further by the real date during the import process
+	         */
+	        $eesi->set_synchronized_object_datetime('2000-01-01');
+    	            
+	        if($eesi->save())
+	        {
+	            return $new_external_uid;
+	        }
+	        else
+	        {
+	            return null;
+	        }
 	    }
-	    
-	    return true;
-
-//	    /*
-//	     * Get the file to export
-//	     */ 
-//	    //$size = $content_object->get_size();
-//	    
-//	    $dlof = new DlofExport($content_object);
-//	    $zippath = $dlof->export_content_object();
-//	    
-//	    debug($zippath);
 	}
 	
 	
