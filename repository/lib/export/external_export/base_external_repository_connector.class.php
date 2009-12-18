@@ -73,7 +73,7 @@ abstract class BaseExternalRepositoryConnector
 	    }
 	    else
 	    {
-	        require_once Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($repository_type) . '/' . strtolower($export_type)  . '_external_repository_connector.class.php';
+	        require_once Path :: get_repository_path() . '/lib/export/external_export/' . strtolower($repository_type) . '/' . strtolower($repository_type)  . '_external_repository_connector.class.php';
 	        $class_name = Utilities :: underscores_to_camelcase($repository_type) . 'ExternalRepositoryConnector';
 	    }
 	    
