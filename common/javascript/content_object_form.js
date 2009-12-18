@@ -38,7 +38,7 @@ $(function ()
 				'scriptData': {'owner': getMemory('_uid')},
 				onComplete: function (evt, queueID, fileObj, response, data)
 				{
-					alert($('#tbl_attachments'));
+					$('#tbl_attachments').trigger('update_search');
 				}
 			});
 		}

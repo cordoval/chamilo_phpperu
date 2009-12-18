@@ -293,9 +293,11 @@
 						clearTimeout(timer);
 						timer = setTimeout(updateSearchResults, 750);
 					});
+				
+				$(this).bind('update_search', updateSearchResults);
 			}
 			
-			return this.each(init());
+			return this.each(init);
     	}
 	});
 })(jQuery);
