@@ -39,6 +39,8 @@ $(function ()
 				onComplete: function (evt, queueID, fileObj, response, data)
 				{
 					$('#tbl_attachments').trigger('update_search');
+					var properties = eval('(' + response + ')');
+					$('#lo_' + properties.id).trigger('activate');
 				}
 			});
 		}

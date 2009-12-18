@@ -279,10 +279,12 @@
 				if (settings.nodesSelectable)
 				{
 					$("a:not(.disabled)", inactiveBox).live("click", activateElement);
+					$("a:not(.disabled)", inactiveBox).live("activate", activateElement);
 				}
 				else
 				{
 					$("a:not(.disabled, .category)", inactiveBox).live("click", activateElement);
+					$("a:not(.disabled, .category)", inactiveBox).live("activate", activateElement);
 					$("a.category", inactiveBox).css("cursor", "default");
 				}
 				
