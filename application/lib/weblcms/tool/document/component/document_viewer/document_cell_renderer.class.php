@@ -25,7 +25,7 @@ class DocumentCellRenderer extends ObjectPublicationTableCellRenderer
             case ContentObject :: PROPERTY_TITLE :
                 $lo = $publication->get_content_object();
                 $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
-                $data = '<div style="float: left;"><a href="' . $feedback_url . '">' . $lo->get_title() . '</a></div> ';
+                $data = '<div style="float: left;"><a href="' . $feedback_url . '">' . Utilities :: truncate_string($lo->get_title(),50) . '</a></div> ';
                 $url = RepositoryManager :: get_document_downloader_url($lo->get_id());
                 $data .= '<div style="float: right;"><a href="' . $url . '">' . Theme :: get_common_image('action_export') . '</a></div>';
                 break;
