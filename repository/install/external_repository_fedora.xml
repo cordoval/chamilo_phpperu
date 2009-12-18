@@ -23,6 +23,7 @@
 		<property name="extended_metadata_datastream_label" type="text" length="100" />
 		<property name="object_datastream_name" type="text" length="50" />
 		<property name="object_datastream_label" type="text" length="100" />
+		<property name="relations_datastream_template" type="text" />
 		<property name="created" type="timestamp" />
 		<property name="modified" type="timestamp" />
 	</properties>
