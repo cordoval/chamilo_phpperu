@@ -40,7 +40,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
     function get_application_platform_admin_tabs($links)
     {
         $html = array();
-        
+        $html[] = '<a name="top"></a>';
         $html[] = '<div id="tabs">';
         $html[] = '<ul>';
         
@@ -144,6 +144,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
         }
         
         $html[] = '</div>';
+        $html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
         $html[] = '<script language="Javascript">';
         $html[] = '  var tabnumber = ' . $selected_tab . ';';
         $html[] = '</script>';
