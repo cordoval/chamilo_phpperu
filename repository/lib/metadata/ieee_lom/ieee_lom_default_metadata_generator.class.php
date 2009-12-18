@@ -76,7 +76,7 @@ class IeeeLomDefaultMetadataGenerator
             $vcard->addEmail($versionowner->get_email());
             $vcard->setFormattedName($versionowner->get_firstname() . ' ' . $versionowner->get_lastname());
             $vcard->setName($versionowner->get_lastname(), $versionowner->get_firstname(), null, null, null);
-            $this->ieeeLom->add_contribute(new IeeeLomVocabulary($versionowner == $owner ? 'author' : 'editor'), $vcard->fetch(), new IeeeLomDateTime($version->get_creation_date()));
+            $this->ieeeLom->add_contribute(new IeeeLomVocabulary($versionowner == $owner ? IeeeLom :: AUTHOR : IeeeLom :: EDITOR), $vcard->fetch(), new IeeeLomDateTime($version->get_creation_date()));
         }
     }
 

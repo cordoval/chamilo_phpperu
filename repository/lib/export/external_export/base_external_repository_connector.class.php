@@ -161,35 +161,40 @@ abstract class BaseExternalRepositoryConnector
 	    {
 	        throw new Exception('Metadata mapper is not set');
 	    }
-	    
-//	    if(isset($this->lom_mapper))
-//	    {
-//	       return $this->lom_mapper;
-//	    }
-//	    elseif(isset($content_object))
-//	    {
-//	        $this->lom_mapper = new IeeeLomMapper($content_object);
-//	        $this->lom_mapper->get_metadata();
-//	        return $this->lom_mapper;
-//	    }
-//	    else
-//	    {
-//	        throw new Exception('Metadata mapper is not set');
-//	    }
 	}
-	
 	
 	/**
 	 * Check if the minimum metadata required for the object to be exported are present 
+	 * 
+	 * Please override this method to do your own checks depending on your needs
 	 * 
 	 * @param $content_object ContentObject
 	 * @return boolean Indicates wether the required metadata are present or not.
 	 */
 	public function check_required_metadata($content_object)
 	{
-	    return true;
+	    $has_missing_fields = false;
+	    
+	    /*
+	     * Do your check here and save the missing fields in session in order to be able to show them on the metadata edit form
+	     */
+	    //Session :: register(BaseExternalRepositoryConnector :: SESSION_MISSING_FIELDS, $missing_infos);
+	    
+	    return !$has_missing_fields;
 	}
 	
+	/**
+	 * Clear the missing metadata eventually set in session by the 'check_required_metadata()' function
+	 * 
+	 * Note: the missing fields are set in session in order to be able to show them on the metadata edit form 
+	 * 		 where the user is redirected if some metadata are missing
+	 * 
+	 * @return void
+	 */
+	protected function clear_session_missing_fields()
+	{
+	    Session :: unregister(self :: SESSION_MISSING_FIELDS);
+	}
 	
 	/**
 	 * Export the learning object to the external repository

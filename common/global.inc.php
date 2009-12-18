@@ -311,9 +311,9 @@ function dump($variable)
  * @param mixed $object The object to print in the page
  * @return void
  */
-function debug($object, $title = null)
+function debug($object, $title = null, $backtrace_index = 1)
 {
-    DebugUtilities :: show($object, $title, 1);
+    DebugUtilities :: show($object, $title, $backtrace_index);
 }
 
 /**

@@ -1021,15 +1021,15 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
         	        
         	        if(isset($content_object))
         	        {
+        	            $dc_datastream_name       = $this->get_external_repository()->get_dublin_core_datastream_name();
+        	            $metadata_datastream_name = $this->get_external_repository()->get_extended_metadata_datastream_name();
+        	            $object_datastream_name   = $this->get_external_repository()->get_object_datastream_name();
+        	            
             	        foreach ($ds_list as $ds_node)
             	        {
             	            $ds_name = XMLUtilities :: get_attribute($ds_node, 'dsid');
             	            
             	            //DebugUtilities :: show($ds_name);
-            	            
-            	            $dc_datastream_name       = $this->get_external_repository()->get_dublin_core_datastream_name();
-            	            $metadata_datastream_name = $this->get_external_repository()->get_extended_metadata_datastream_name();
-            	            $object_datastream_name   = $this->get_external_repository()->get_object_datastream_name();
             	            
             	            switch($ds_name)
             	            {
@@ -1042,14 +1042,28 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
             	                    break;
             	                    
             	                case $metadata_datastream_name:
-            	                    $this->set_lom_from_object_datastream($content_object, $ds_node, $repository_object_id);
+            	                    $this->set_data_from_metadata_datastream($content_object, $ds_node, $repository_object_id);
             	                    break;
             	            }
             	        }
 
             	        //DebugUtilities :: show($content_object);
             	         
-            	        return $this->save_imported_content_object($content_object, $repository_object_id);
+            	        if($this->save_imported_content_object($content_object, $repository_object_id))
+            	        {
+            	            /*
+            	             * Save extended metadata
+            	             * Note: this can be done only after the object has been imported and saved, because we need its Chamilo id 
+            	             */
+            	            $this->save_metadata_from_metadata_datastream($content_object, $metadata_datastream_name, $repository_object_id);
+            	            
+            	            
+            	            return true;
+            	        }
+            	        else
+            	        {
+            	            return false;
+            	        }
         	        }
         	        else
         	        {
@@ -1117,7 +1131,7 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	 * @param $repository_object_id string Fedora object uid
 	 * @return boolean
 	 */
-	private function save_imported_content_object($content_object, $repository_object_id)
+	private function save_imported_content_object(&$content_object, $repository_object_id)
 	{
 	    $content_object_id = DataClass :: NO_UID;
 	    
@@ -1397,14 +1411,27 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	    $content_object->set_filename(Filesystem :: create_safe_name($filename));
 	}
 	
-	private function set_lom_from_object_datastream(&$content_object, $ds_node, $repository_object_id)
+	private function set_data_from_metadata_datastream(&$content_object, $ds_node, $repository_object_id)
 	{
-	    $mime_type = XMLUtilities :: get_attribute($ds_node, 'mimeType');
-	    
-//	    DebugUtilities :: show($mime_type);
-
-	    
-	    
+	    /*
+	     * So far, no content object property is set from the metadata_datastream (LOM datastream)
+	     * -> we do nothing here
+	     */
+	}
+	
+	private function save_metadata_from_metadata_datastream(&$content_object, $metadata_datastream_name, $repository_object_id)
+	{
+	    $datastream_content_path = $this->get_full_get_datastream_content_path();
+        $datastream_content_path = str_replace('{pid}', $repository_object_id, $datastream_content_path);
+        $datastream_content_path = str_replace('{dsID}', $metadata_datastream_name, $datastream_content_path);
+        
+        $lom_document = $this->get_rest_xml_response($datastream_content_path, 'get');
+        if(isset($lom_document))
+        {
+    	    $lom_mapper = $this->get_lom_mapper($content_object);
+    	    $lom_mapper->set_metadata_with_xml_document($lom_document);
+    	    $lom_mapper->save_metadata();
+        }
 	}
 	
 	
