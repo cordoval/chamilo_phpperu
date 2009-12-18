@@ -23,12 +23,13 @@ class IeeeLomLangString
      * @param string|null $string The text
      * @param string|null $language The language of the $string parameters
      */
-    public function IeeeLomLangString($string = null, $language = self :: NO_LANGUAGE)
+    public function IeeeLomLangString($string = null, $language = self :: NO_LANGUAGE, $strip_tag = true)
     {
         $this->strings = array();
         
         if (isset($string))
         {
+            $string = $strip_tag ? trim(strip_tags($string)) : $string;
             $this->add_string($string, $language);
         }
     }
@@ -38,8 +39,10 @@ class IeeeLomLangString
      * @param string|null $string The text
      * @param string|null $language The language of the $string parameters
      */
-    public function add_string($string = null, $language = self :: NO_LANGUAGE)
+    public function add_string($string = null, $language = self :: NO_LANGUAGE, $strip_tag = true)
     {
+        $string = (isset($string) && $strip_tag) ? trim(strip_tags($string)) : $string;
+        
         $new_string[self :: STRING] = $string;
         
         if (isset($language) && strlen($language) > 0)

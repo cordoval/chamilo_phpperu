@@ -17,6 +17,10 @@ class IeeeLomMapper extends MetadataMapper
     const METADATA_ID_ENTITY_ATTRIBUTE = 'entity_metadata_id';
     const METADATA_ID_DATE_ATTRIBUTE = 'date_metadata_id';
     
+    /**
+     * 
+     * @var IeeeLom
+     */
     private $ieeeLom;
     
     /*
@@ -116,6 +120,27 @@ class IeeeLomMapper extends MetadataMapper
         }
     }
 
+   /**
+    * Set the content of the LOM metadata with the content of a given LOM XML Document.
+    * The metadata is automatically decorated with the needed informations related the current content_object to allow further saving in the datasource
+    * 
+    * @param DOMDocument $lom_xml_document
+    * @return void
+    */
+    public function set_metadata_with_xml_document($lom_xml_document)
+    {
+        $this->ieeeLom = new IeeeLom();
+        $this->ieeeLom->set_dom($lom_xml_document);
+        
+        /*
+		 * Add technical datasource infos to the ieeeLom object to allow 
+		 * adding /merge of additional metadata  
+		 */
+        $this->decorate_document_with_content_object_id($this->ieeeLom, $this->content_object->get_id());
+        
+        //$this->debug_dom();
+    } 
+    
     /****************************************************************************************/
     /****************************************************************************************/
     /****************************************************************************************/
@@ -177,7 +202,10 @@ class IeeeLomMapper extends MetadataMapper
             {
                 foreach ($description->childNodes as $string)
                 {
-                    $string->setAttribute(IeeeLomLangStringMapper :: STRING_ORIGINAL_ID, $content_object_id);
+                    if(!is_a($string, 'DOMText'))
+                    {
+                        $string->setAttribute(IeeeLomLangStringMapper :: STRING_ORIGINAL_ID, $content_object_id);
+                    }
                 }
             }
         }

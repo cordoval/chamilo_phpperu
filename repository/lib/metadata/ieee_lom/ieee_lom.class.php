@@ -21,6 +21,11 @@ class IeeeLom
     const CATALOG = 'catalog';
     const ENTRY = 'entry';
     
+    const AUTHOR    = 'author';
+    const EDITOR    = 'editor';
+    const VALIDATOR = 'validator';
+    const PUBLISHER = 'publisher';
+    
     /**
      * The DOMDocument containing the metadata
      */
@@ -291,11 +296,30 @@ class IeeeLom
         echo htmlspecialchars($this->dom->saveXML());
     }
 
-    function get_dom()
+    /**
+     * 
+     * @return DOMDocument
+     */
+    public function get_dom()
     {
         return $this->dom;
     }
 
+    /**
+     * Replace the LOM metadata contained in this IeeLom instance by the content of the given LOM XML document
+     * @param $lom_xml_document DOMDocument
+     * @return void
+     */
+    public function set_dom($lom_xml_document)
+    {
+        if(is_a($lom_xml_document, 'DOMDocument'))
+        {
+            //TODO: the DOMDocument should be validated against a LOM schema before replacing the atual content by this new one 
+            
+            $this->dom = $lom_xml_document;
+        }
+    }
+    
     /**#@+
      * Implementation of IEEE LOM standard
      */

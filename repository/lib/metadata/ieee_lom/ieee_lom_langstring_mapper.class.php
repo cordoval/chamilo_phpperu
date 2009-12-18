@@ -14,9 +14,9 @@ class IeeeLomLangStringMapper extends IeeeLomLangString
     const LANGUAGE_OVERRIDE_ID = 'language_override_id';
     const LANGUAGE_ORIGINAL_ID = 'language_original_id';
 
-    public function IeeeLomLangStringMapper($string = null, $language = null, $string_metadata_id = null, $language_metadata_id = null, $string_override_id = null, $language_override_id = null, $string_original_id = null, $language_original_id = null)
+    public function IeeeLomLangStringMapper($string = null, $language = null, $string_metadata_id = null, $language_metadata_id = null, $string_override_id = null, $language_override_id = null, $string_original_id = null, $language_original_id = null, $strip_tag = true)
     {
-        parent :: IeeeLomLangString($string, $language);
+        parent :: IeeeLomLangString($string, $language, $strip_tag);
         
         if (isset($this->strings[0]))
         {
@@ -36,8 +36,10 @@ class IeeeLomLangStringMapper extends IeeeLomLangString
      * @param string|null $string The text
      * @param string|null $language The language of the $string parameters
      */
-    public function add_string($string = null, $language = null, $string_metadata_id = null, $language_metadata_id = null, $string_override_id = null, $language_override_id = null, $string_original_id = null, $language_original_id = null)
+    public function add_string($string = null, $language = null, $string_metadata_id = null, $language_metadata_id = null, $string_override_id = null, $language_override_id = null, $string_original_id = null, $language_original_id = null, $strip_tag = true)
     {
+        $string = (isset($string) && $strip_tag) ? trim(strip_tags($string)) : $string;
+        
         $new_string = array();
         $new_string[parent :: STRING] = $string;
         
