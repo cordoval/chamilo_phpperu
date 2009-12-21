@@ -7,9 +7,11 @@ class Catalog extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
     
+    const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_CATALOG_TYPE = 'type';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_ORDER = 'order';
+    
     
     const CATALOG_DAY = 'day';
     const CATALOG_MONTH = 'month';
@@ -28,6 +30,24 @@ class Catalog extends RepositoryDataClass
         parent :: __construct($defaultProperties);
     }
 
+	/*************************************************************************/
+    
+    public function set_parent_id($parent_id)
+    {
+        if (isset($parent_id) && is_numeric($parent_id) > 0)
+        {
+            $this->set_default_property(self :: PROPERTY_PARENT_ID, $parent_id);
+        }
+    }
+
+    /**
+     * @return string The catalog item parent id value
+     */
+    public function get_parent_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_PARENT_ID);
+    }
+    
     /*************************************************************************/
     
     public function set_type($type)
@@ -86,6 +106,7 @@ class Catalog extends RepositoryDataClass
     
     public static function get_default_property_names($extended_property_names = array())
     {
+        $extended_property_names[] = self :: PROPERTY_PARENT_ID;
         $extended_property_names[] = self :: PROPERTY_CATALOG_TYPE;
         $extended_property_names[] = self :: PROPERTY_TITLE;
         $extended_property_names[] = self :: PROPERTY_ORDER;

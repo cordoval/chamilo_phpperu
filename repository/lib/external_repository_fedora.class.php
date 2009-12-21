@@ -264,8 +264,7 @@ class ExternalRepositoryFedora extends ExternalRepository
         return $this->ensure_start_with_slash($this->get_default_property(self :: PROPERTY_GET_DATASTREAMS_INFOS_PATH));
     }
     
-    
-/*************************************************************************/
+	/*************************************************************************/
     
     /**
      * @param $get_datastream_content_path string The path to get an object's datastream content from the repository (relative to the root of the Fedora repository)
@@ -359,6 +358,7 @@ class ExternalRepositoryFedora extends ExternalRepository
         return $this->get_default_property(self :: PROPERTY_CLIENT_CERTIFICATE_KEY_PASSWORD);
     }
 
+    
     /*************************************************************************/
     
     /**

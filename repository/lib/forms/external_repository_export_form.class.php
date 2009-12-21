@@ -5,17 +5,17 @@
  */
 class ExternalRepositoryExportForm extends FormValidator
 {
-    private $catalogs;
+    protected $catalogs;
     
     /**
      * @var ContentObject
      */
-    private $content_object;
+    protected $content_object;
     
     /**
      * @var FedoraExternalRepository
      */
-    private $export;
+    protected $export;
 
     protected function ExternalRepositoryExportForm($content_object, $export, $action, $catalogs)
     {
