@@ -145,7 +145,16 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         
         $version = phpversion();
         $status = $version > '5.2' ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
+        if($status == Diagnoser :: STATUS_ERROR)
+        	$this->fatal = true;
         $array[] = $diagnoser->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.2', null, Translation :: get('PHPVersionInfo'), $path);
+        
+        $setting = ini_get('output_buffering');
+	    $req_setting = 1;
+	    $status = $setting == $req_setting ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
+	    if($status == Diagnoser :: STATUS_ERROR)
+        	$this->fatal = true;
+        $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('FileUploadsInfo'));
         
         $extensions = array('gd' => 'http://www.php.net/gd', 'mysql' => 'http://www.php.net/mysql', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://be2.php.net/xsl');
         
@@ -159,7 +168,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
             }
             
             $status = $loaded ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
-            $array[] = $diagnoser->build_setting($status, '[EXTENSION]', Translation :: get('ExtensionLoaded') . ': ' . $extension, $url, $loaded, 1, 'yes_no', Translation :: get('ExtensionMustBeLoaded'), $path);
+            $array[] = $diagnoser->build_setting($status, '[PHP-EXTENSION]', Translation :: get('ExtensionLoaded') . ': ' . $extension, $url, $loaded, 1, 'yes_no', Translation :: get('ExtensionMustBeLoaded'), $path);
         }
         
         return $array;

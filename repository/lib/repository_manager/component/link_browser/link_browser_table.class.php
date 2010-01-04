@@ -26,7 +26,7 @@ class LinkBrowserTable extends ObjectTable
      * @see ContentObjectTable::ContentObjectTable()
      */
     function LinkBrowserTable($browser, $parameters, $condition, $type)
-    {
+    { 
         $model = new LinkBrowserTableColumnModel($type);
         $renderer = new LinkBrowserTableCellRenderer($browser, $type);
         $data_provider = new LinkBrowserTableDataProvider($browser, $condition, $type);
