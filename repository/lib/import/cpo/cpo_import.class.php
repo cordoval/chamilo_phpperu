@@ -279,7 +279,7 @@ class CpoImport extends ContentObjectImport
             $lo->set_modification_date($modified);
             $lo->set_owner_id($this->get_user()->get_id());
 
-            if($category == 'category0')
+            if($category == 'category0' || !$category)
             	$lo->set_parent_id($this->get_category());
            	else
            		$lo->set_parent_id($this->categories[$category]);
