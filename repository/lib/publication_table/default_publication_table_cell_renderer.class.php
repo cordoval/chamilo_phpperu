@@ -73,7 +73,7 @@ class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
                 $url = '<a href="' . $url . '">';
                 
                 $co = $content_object_publication->get_publication_object();
-                return $url . $co->get_title() . '</a>';
+                return $url . '<span title="' . $co->get_title() . '">' . Utilities :: truncate_string($co->get_title(), 50) . '</span></a>';
             case ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :
                 return date('Y-m-d, H:i', $content_object_publication->get_publication_date());
             default :
