@@ -137,6 +137,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
                 echo Utilities :: build_block_hider();
             }
             
+            echo $this->display_links_to_content_object($object);
+            
             $this->display_footer();
         }
         else
@@ -240,133 +242,18 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
     
     }
     
-/* $edit_url = $this->get_content_object_editing_url($object);
-			if (isset($edit_url))
-			{
-				$toolbar_data = array();
-				$recycle_url = $this->get_content_object_recycling_url($object);
-				$in_recycle_bin = false;
-				if (isset($recycle_url))
-				{
-					$recycle_bin_button = array(
-						'href' => $recycle_url,
-						'img' => Theme :: get_common_image_path().'action_recycle_bin.png',
-						'label' => Translation :: get('Remove'),
-						'confirm' => true,
-						'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-					);
-				}
-				else
-				{
-					$delete_url = $this->get_content_object_deletion_url($object);
-					if (isset($delete_url))
-					{
-						$recycle_bin_button = array(
-							'href' => $delete_url,
-							'img' => Theme :: get_common_image_path().'action_delete.png',
-							'label' => Translation :: get('Delete'),
-							'confirm' => true,
-							'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-						);
-						$in_recycle_bin = true;
-					}
-					else
-					{
-						$recycle_bin_button = array(
-							'img' => Theme :: get_common_image_path().'action_recycle_bin_na.png',
-							'label' => Translation :: get('Remove'),
-							'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-						);
-					}
-				}
-
-				if(!$in_recycle_bin)
-				{
-
-					$delete_link_url = $this->get_content_object_delete_publications_url($object);
-
-					if (!isset($recycle_url))
-					{
-						$force_delete_button = array(
-							'href' => $delete_link_url,
-							'img' => Theme :: get_common_image_path().'action_unlink.png',
-							'label' => Translation :: get('Unlink'),
-							'confirm' => true,
-							'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-						);
-					}
-
-					$edit_url = $this->get_content_object_editing_url($object);
-					if (isset($edit_url))
-					{
-						$toolbar_data[] = array(
-							'href' => $edit_url,
-							'img' => Theme :: get_common_image_path().'action_edit.png',
-							'label' => Translation :: get('Edit'),
-							'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-						);
-					}
-					else
-					{
-						$toolbar_data[] = array(
-							'img' => Theme :: get_common_image_path().'action_edit_na.png',
-							'label' => Translation :: get('Edit'),
-							'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-						);
-					}
-
-					$toolbar_data[] = $recycle_bin_button;
-
-
-					if (isset($force_delete_button))
-					{
-						$toolbar_data[] = $force_delete_button;
-					}
-					$dm = RepositoryDataManager::get_instance();
-					if($dm->get_number_of_categories($this->get_user_id()) > 1)
-					{
-						$toolbar_data[] = array(
-							'href' =>  $this->get_content_object_moving_url($object),
-							'img' => Theme :: get_common_image_path().'action_move.png',
-							'label' => Translation :: get('Move'),
-							'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-						);
-					}
-					$toolbar_data[] = array(
-						'href' => $this->get_content_object_metadata_editing_url($object),
-						'label' => Translation :: get('Metadata'),
-						'img' => Theme :: get_common_image_path().'action_metadata.png',
-						'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-					);
-					$toolbar_data[] = array(
-						'href' => $this->get_content_object_rights_editing_url($object),
-						'label' => Translation :: get('Rights'),
-						'img' => Theme :: get_common_image_path().'action_rights.png',
-						'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-					);
-					if($object->is_complex_content_object())
-					{
-						$toolbar_data[] = array(
-							'href' => $this->get_browse_complex_content_object_url($object),
-							'img' => Theme :: get_common_image_path().'action_browser.png',
-							'label' => Translation :: get('BrowseComplex'),
-							'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-						);
-					}
-				}
-				else
-				{
-					$toolbar_data[] = array(
-						'href' => $this->get_content_object_restoring_url($object),
-						'label' => Translation :: get('Restore'),
-						'img' => Theme :: get_common_image_path().'action_restore.png',
-						'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-					);
-					$toolbar_data[] = $recycle_bin_button;
-				}
-
-				echo Utilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
-			}
-	 */
+	function display_links_to_content_object($content_object)
+	{
+		$html = array();
+		
+		$html[] = '<h3>' . Translation :: get('Links') . '</h3>';
+		$html[] = '<h4>' . Translation :: get('Publications') . '</h4>';
+		$html[] = '<h4>' . Translation :: get('Parents') . '</h4>';
+		$html[] = '<h4>' . Translation :: get('Children') . '</h4>';
+		$html[] = '<h4>' . Translation :: get('AttachedTo') . '</h4>';
+		$html[] = '<h4>' . Translation :: get('IncludedIn') . '</h4>';
+		
+		return implode("\n", $html);
+	}
 }
 ?>

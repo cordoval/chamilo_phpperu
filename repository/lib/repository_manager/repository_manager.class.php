@@ -59,6 +59,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_COPY_TO_TEMPLATES = 'copy_to_template';
     const PARAM_EXTERNAL_OBJECT_ID = 'external_object_id';
     const PARAM_EXTERNAL_REPOSITORY_ID = 'ext_rep_id';
+    const PARAM_LINK_ID = 'link_id';
     
     /**#@-*/
     /**#@+
@@ -108,6 +109,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_COPY_CONTENT_OBJECT = 'lo_copy';
     const ACTION_IMPORT_TEMPLATE = 'import_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
+    const ACTION_DELETE_LINK = 'delete_link';
 
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
@@ -217,6 +219,9 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION :
                 $component = RepositoryManagerComponent :: factory('PublicationUpdater', $this);
                 break;
+            case self :: ACTION_DELETE_LINK :
+            	$component = RepositoryManagerComponent :: factory('LinkDeleter', $this);
+            	break;
             case self :: ACTION_VIEW_QUOTA :
                 $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
                 $this->force_menu_url($this->quota_url, true);
@@ -1320,6 +1325,16 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_CONTENT_OBJECT_ID => $template_id));
     }
 
+    function get_delete_link_url($type, $link_id, $extra_parameters = array())
+    {
+    	$parameters = array();
+    	$parameters[self :: PARAM_ACTION] = self :: ACTION_DELETE_LINK;
+    	$parameters[LinkBrowserTable :: PARAM_TYPE] = $type;
+    	$parameters[self :: PARAM_LINK_ID] = $link_id;
+    	
+    	return $this->get_url(array_merge($parameters, $extra_parameters));
+    }
+    
     /**
      * Helper function for the Application class,
      * pending access to class constants via variables in PHP 5.3
