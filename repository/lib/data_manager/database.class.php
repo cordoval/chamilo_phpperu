@@ -496,12 +496,40 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         return $this->retrieve_content_objects($condition)->as_array();
     }
 
+	function count_objects_to_which_object_is_attached($object)
+    {
+    	$subselect_condition = new EqualityCondition('attachment_id', $object->get_id());
+        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', $this->database->escape_table_name('content_object_attachment'), $subselect_condition, $this->database->get_alias(ContentObject :: get_table_name()));
+        return $this->count_content_objects($condition);
+    }
+    
+    function retrieve_objects_to_which_object_is_attached($object)
+    {
+    	$subselect_condition = new EqualityCondition('attachment_id', $object->get_id());
+        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', $this->database->escape_table_name('content_object_attachment'), $subselect_condition, $this->database->get_alias(ContentObject :: get_table_name()));
+        return $this->retrieve_content_objects($condition);
+    }
+    
+	function count_objects_in_which_object_is_included($object)
+    {
+    	$subselect_condition = new EqualityCondition('include_id', $object->get_id());
+        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', $this->database->escape_table_name('content_object_include'), $subselect_condition, $this->database->get_alias(ContentObject :: get_table_name()));
+        return $this->count_content_objects($condition);
+    }
+    
+ 	function retrieve_objects_in_which_object_is_included($object)
+    {
+    	$subselect_condition = new EqualityCondition('include_id', $object->get_id());
+        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', $this->database->escape_table_name('content_object_include'), $subselect_condition, $this->database->get_alias(ContentObject :: get_table_name()));
+        return $this->retrieve_content_objects($condition);
+    }
+    
     // Inherited.
     function retrieve_included_content_objects($object)
     {
         $subselect_condition = new EqualityCondition('content_object_id', $object->get_id());
         $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'include_id', $this->database->escape_table_name('content_object_include'), $subselect_condition, $this->database->get_alias(ContentObject :: get_table_name()));
-        return $this->retrieve_content_objects($condition)->as_array();
+        return $this->retrieve_content_objects($condition)->as_array();;
     }
 
     function is_content_object_included($object)

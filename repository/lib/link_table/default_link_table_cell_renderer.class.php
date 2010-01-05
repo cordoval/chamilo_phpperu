@@ -26,20 +26,18 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
      * @param Learning Object $content_object The learning object to render
      * @return string A HTML representation of the rendered table cell
      */
-    function render_cell($column, $content_object_publication)
+    function render_cell($column, $object)
     {
         switch ($column->get_name())
         {
-            case ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_OBJECT :
-                return $content_object_publication->get_publication_object_id();
             case ContentObjectPublicationAttributes :: PROPERTY_APPLICATION :
-                return Utilities :: underscores_to_camelcase_with_spaces($content_object_publication->get_application());
+                return Utilities :: underscores_to_camelcase_with_spaces($object->get_application());
             case ContentObjectPublicationAttributes :: PROPERTY_LOCATION :
-                $application = $content_object_publication->get_application();
+                $application = $object->get_application();
                 
                 if ($application == 'weblcms')
                 {
-                    $location = $content_object_publication->get_location();
+                    $location = $object->get_location();
                     $codes = explode("&gt;", $location);
                     $course_id = trim($codes[0]);
                     $tool = trim($codes[1]);
@@ -49,15 +47,33 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
                     return $course->get_name() . ' > ' . $tool;
                 }
                 
-                return $content_object_publication->get_location();
-            case ContentObject :: PROPERTY_TITLE :
-				$url = $content_object_publication->get_url();
-                $url = '<a href="' . $url . '">';
-                
-                $co = $content_object_publication->get_publication_object();
-                return $url . '<span title="' . $co->get_title() . '">' . Utilities :: truncate_string($co->get_title(), 50) . '</span></a>';
+                return $object->get_location();
             case ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :
-                return date('Y-m-d, H:i', $content_object_publication->get_publication_date());
+                return date('Y-m-d, H:i', $object->get_publication_date());
+            case ContentObject:: PROPERTY_DESCRIPTION :
+            	if($this->type == LinkBrowserTable :: TYPE_PARENTS)
+            	{
+            		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_parent()); 	
+            	}
+            	
+            	if($this->type == LinkBrowserTable :: TYPE_CHILDREN)
+            	{
+            		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_ref()); 
+            	}
+            	
+            	return Utilities :: truncate_string($object->get_description(), 50);
+            case ContentObject:: PROPERTY_TITLE :
+        		if($this->type == LinkBrowserTable :: TYPE_PARENTS)
+            	{
+            		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_parent()); 	
+            	}
+            	
+            	if($this->type == LinkBrowserTable :: TYPE_CHILDREN)
+            	{
+            		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_ref()); 
+            	}
+            	
+            	return Utilities :: truncate_string($object->get_title(), 50);
             default :
                 return '&nbsp;';
         }

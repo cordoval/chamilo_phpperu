@@ -725,6 +725,22 @@ abstract class RepositoryDataManager
     abstract function retrieve_attached_content_objects($object);
 
     /**
+     * Counts the content objects to which the selected content object are attached to
+     * 
+     * @param ContentObject $object The content object
+     * @return int The count
+     */
+    abstract function count_objects_to_which_object_is_attached($object);
+    
+    /**
+     * Returns the content objects to which the selected content object are attached to
+     * 
+     * @param ContentObject $object The content object
+     * @return array The the content objects to which the selected content object are attached to
+     */
+    abstract function retrieve_objects_to_which_object_is_attached($object);
+    
+    /**
      * Returns the learning objects that are included into the learning object
      * with the given ID.
      * @param ContentObject $object The learning object for which to retrieve
@@ -733,6 +749,22 @@ abstract class RepositoryDataManager
      */
     abstract function retrieve_included_content_objects($object);
 
+    /**
+     * Returns the content objects in which the selected content object are included
+     * 
+     * @param ContentObject $object The content object
+     * @return array The the content objects in which the selected content object are included
+     */
+    abstract function retrieve_objects_in_which_object_is_included($object);
+    
+    /**
+     * Counts the content objects in which the selected content object are included
+     * 
+     * @param ContentObject $object The content object
+     * @return int The count
+     */
+    abstract function count_objects_in_which_object_is_included($object);
+    
     abstract function retrieve_content_object_versions($object);
 
     abstract function get_latest_version_id($object);

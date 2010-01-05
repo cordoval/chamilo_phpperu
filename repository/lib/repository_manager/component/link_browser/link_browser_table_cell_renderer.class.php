@@ -26,14 +26,14 @@ class LinkBrowserTableCellRenderer extends DefaultLinkTableCellRenderer
     }
 
     // Inherited
-    function render_cell($column, $content_object)
+    function render_cell($column, $object)
     {
         if ($column === LinkBrowserTableColumnModel :: get_modification_column())
         {
-            return $this->get_modification_links($content_object);
+            return $this->get_modification_links($object);
         }
         
-        return parent :: render_cell($column, $content_object);
+        return parent :: render_cell($column, $object);
     }
 
     /**
@@ -42,7 +42,7 @@ class LinkBrowserTableCellRenderer extends DefaultLinkTableCellRenderer
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($content_object)
+    private function get_modification_links($object)
     {
         $toolbar_data = array();
         

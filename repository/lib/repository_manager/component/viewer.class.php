@@ -255,13 +255,44 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 		$html[] = '<h3>' . Translation :: get('Links') . '</h3>';
 		$html[] = '<h4>' . Translation :: get('Publications') . '</h4>';
 		
-		$browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id()), null, LinkBrowserTable :: TYPE_PUBLICATIONS);
+		$browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, 
+													 RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(),
+													 RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS),
+										null, LinkBrowserTable :: TYPE_PUBLICATIONS);
 		$html[] = $browser->as_html();
 		
 		$html[] = '<h4>' . Translation :: get('Parents') . '</h4>';
+		
+		$browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, 
+													 RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(),
+													 RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS),
+										null, LinkBrowserTable :: TYPE_PARENTS);
+		$html[] = $browser->as_html();
+		
 		$html[] = '<h4>' . Translation :: get('Children') . '</h4>';
+		
+		$browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, 
+													 RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(),
+													 RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS),
+										null, LinkBrowserTable :: TYPE_CHILDREN);
+		$html[] = $browser->as_html();
+		
 		$html[] = '<h4>' . Translation :: get('AttachedTo') . '</h4>';
+		
+		$browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, 
+													 RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(),
+													 RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS),
+										null, LinkBrowserTable :: TYPE_ATTACHMENTS);
+		$html[] = $browser->as_html();
+		
 		$html[] = '<h4>' . Translation :: get('IncludedIn') . '</h4>';
+		
+		$browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, 
+													 RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(),
+													 RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS),
+										null, LinkBrowserTable :: TYPE_INCLUDES);
+		$html[] = $browser->as_html();
+		
 		$html[] = '</div></div><div class="clear"></div><br />';
 		
 		return implode("\n", $html);

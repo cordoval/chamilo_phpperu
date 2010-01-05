@@ -17,19 +17,30 @@ class DefaultLinkTableColumnModel extends ObjectTableColumnModel
      */
     function DefaultLinkTableColumnModel($type)
     {
-        parent :: __construct(self :: get_default_columns(), 3);
+        parent :: __construct(self :: get_default_columns($type), 3);
+        $this->type = $type;
     }
 
     /**
      * Gets the default columns for this model
      * @return ContentObjectTableColumn[]
      */
-    private static function get_default_columns()
+    private static function get_default_columns($type)
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_APPLICATION);
-        $columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_LOCATION);
-        $columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE);
+        
+        if($type == LinkBrowserTable :: TYPE_PUBLICATIONS)
+        {
+        	$columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_APPLICATION);
+        	$columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_LOCATION);
+        	$columns[] = new ObjectTableColumn(ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE);
+        }
+        else
+        {
+        	$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
+        	$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
+        }
+        
         return $columns;
     }
 }
