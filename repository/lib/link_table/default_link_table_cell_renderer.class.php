@@ -23,12 +23,26 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
      * Renders a table cell
      * @param ContentObjectTableColumnModel $column The column which should be
      * rendered
-     * @param Learning Object $content_object The learning object to render
+     * @param ContentObject $content_object The learning object to render
      * @return string A HTML representation of the rendered table cell
      */
     function render_cell($column, $object)
     {
-        switch ($column->get_name())
+    	if($this->type == LinkBrowserTable :: TYPE_PARENTS)
+       	{
+       		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_parent()); 	
+       	}
+            
+        if($this->type == LinkBrowserTable :: TYPE_CHILDREN)
+        {
+            $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_ref());
+            if($object->get_type() == 'portfolio_item' || $object->get_type() == 'learning_path_item')
+            {
+            	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_reference());
+            } 
+        }
+            	
+    	switch ($column->get_name())
         {
             case ContentObjectPublicationAttributes :: PROPERTY_APPLICATION :
                 return Utilities :: underscores_to_camelcase_with_spaces($object->get_application());
@@ -50,30 +64,12 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
                 return $object->get_location();
             case ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :
                 return date('Y-m-d, H:i', $object->get_publication_date());
-            case ContentObject:: PROPERTY_DESCRIPTION :
-            	if($this->type == LinkBrowserTable :: TYPE_PARENTS)
-            	{
-            		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_parent()); 	
-            	}
-            	
-            	if($this->type == LinkBrowserTable :: TYPE_CHILDREN)
-            	{
-            		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_ref()); 
-            	}
-            	
+            case ContentObject :: PROPERTY_DESCRIPTION :
             	return Utilities :: truncate_string($object->get_description(), 50);
-            case ContentObject:: PROPERTY_TITLE :
-        		if($this->type == LinkBrowserTable :: TYPE_PARENTS)
-            	{
-            		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_parent()); 	
-            	}
-            	
-            	if($this->type == LinkBrowserTable :: TYPE_CHILDREN)
-            	{
-            		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_ref()); 
-            	}
-            	
+            case ContentObject :: PROPERTY_TITLE :
             	return Utilities :: truncate_string($object->get_title(), 50);
+            case ContentObject :: PROPERTY_TYPE :
+            	return $object->get_icon();
             default :
                 return '&nbsp;';
         }

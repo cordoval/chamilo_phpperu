@@ -46,7 +46,17 @@ class LinkBrowserTableDataProvider extends ObjectTableDataProvider
 		
 		if($this->type == LinkBrowserTable :: TYPE_PARENTS)
 		{
-			$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_browser()->get_object()->get_id(), ComplexContentObjectItem :: get_table_name());
+			$conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_browser()->get_object()->get_id(), ComplexContentObjectItem :: get_table_name());
+			
+			$subselect_condition = new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $this->get_browser()->get_object()->get_id());
+			$conditions[] = new SubSelectCondition(ComplexContentObjectItem :: PROPERTY_REF, PortfolioItem :: PROPERTY_ID, 'repository_portfolio_item',
+												   $subselect_condition);
+												   
+			$subselect_condition = new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $this->get_browser()->get_object()->get_id());
+			$conditions[] = new SubSelectCondition(ComplexContentObjectItem :: PROPERTY_REF, LearningPathItem :: PROPERTY_ID, 'repository_learning_path_item',
+												   $subselect_condition);
+												   
+			$condition = new OrCondition($conditions);
 			return RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition, array($order_property), $offset, $count);
 		}
 		
@@ -80,7 +90,18 @@ class LinkBrowserTableDataProvider extends ObjectTableDataProvider
 		
     	if($this->type == LinkBrowserTable :: TYPE_PARENTS)
 		{
-			$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_browser()->get_object()->get_id(), ComplexContentObjectItem :: get_table_name());
+			$conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_browser()->get_object()->get_id(), ComplexContentObjectItem :: get_table_name());
+			
+			$subselect_condition = new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $this->get_browser()->get_object()->get_id());
+			$conditions[] = new SubSelectCondition(ComplexContentObjectItem :: PROPERTY_REF, PortfolioItem :: PROPERTY_ID, 'repository_portfolio_item',
+												   $subselect_condition);
+												   
+			$subselect_condition = new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $this->get_browser()->get_object()->get_id());
+			$conditions[] = new SubSelectCondition(ComplexContentObjectItem :: PROPERTY_REF, LearningPathItem :: PROPERTY_ID, 'repository_learning_path_item',
+												   $subselect_condition);
+												   
+			$condition = new OrCondition($conditions);
+			
 			return RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
 		}
 		

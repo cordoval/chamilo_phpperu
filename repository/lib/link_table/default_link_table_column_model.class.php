@@ -37,6 +37,7 @@ class DefaultLinkTableColumnModel extends ObjectTableColumnModel
         }
         else
         {
+			$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TYPE);
         	$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
         	$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
         }
