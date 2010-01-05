@@ -240,7 +240,7 @@ class Utilities
      *                    element's "style" attribute, but please don't.
      * @return string The HTML.
      */
-    function build_toolbar($toolbar_data, $class_names = array (), $css = null)
+    static function build_toolbar($toolbar_data, $class_names = array (), $css = null)
     {
         if (! is_array($class_names))
         {
@@ -310,12 +310,12 @@ class Utilities
      * Checks if a file is an HTML document.
      */
     // TODO: SCARA - MOVED / FROM: document_form_class / TO: Utilities or some other relevant class.
-    function is_html_document($path)
+    static function is_html_document($path)
     {
         return (preg_match('/\.x?html?$/', $path) === 1);
     }
 
-    function build_uses($publication_attr)
+    static function build_uses($publication_attr)
     {
         $rdm = RepositoryDataManager :: get_instance();
         $udm = UserDataManager :: get_instance();
@@ -344,7 +344,7 @@ class Utilities
         return implode($html);
     }
 
-    function add_block_hider()
+    static function add_block_hider()
     {
         $html = array();
 
@@ -370,7 +370,7 @@ class Utilities
         return implode("\n", $html);
     }
 
-    function build_block_hider($id = null, $message = null, $display_block = false)
+    static function build_block_hider($id = null, $message = null, $display_block = false)
     {
         $html = array();
 
@@ -399,7 +399,7 @@ class Utilities
     // 2 simple functions to display an array, a bit prettier as print_r
     // for testing purposes only!
     // @author Dieter De Neef
-    function DisplayArray($array)
+    static function DisplayArray($array)
     {
         $depth = 0;
         if (is_array($array))
@@ -426,7 +426,7 @@ class Utilities
         }
     }
 
-    function DisplayInlineArray($inlinearray, $depth, $element)
+    static function DisplayInlineArray($inlinearray, $depth, $element)
     {
         $spaces = null;
         for($j = 0; $j < $depth - 1; $j ++)

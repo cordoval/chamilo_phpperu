@@ -161,9 +161,9 @@ class ForumManager extends WebApplication
     
     }
 
-    function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-    
+        return ForumDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
 
     function delete_content_object_publications($object_id)

@@ -260,10 +260,16 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
         return $this->database->delete(PersonalMessagePublication :: get_table_name(), $condition);
     }
     
-    // Inherited.
-    function count_publication_attributes($user, $type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        $condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, Session :: get_user_id());
+        if(!$object_id)
+        {
+    		$condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $user->get_id());
+        }
+        else
+        {
+        	$condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE, $object_id);
+        }
         return $this->database->count_objects(PersonalMessagePublication :: get_table_name(), $condition);
     }
 

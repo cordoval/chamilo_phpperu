@@ -374,9 +374,16 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         return $publication_attr;
     }
 
-    function count_publication_attributes($type = null, $condition = null)
+    function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        $condition = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
+        if(!$object_id)
+        {
+    		$condition = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, $user->get_id());
+        }
+        else
+        {
+        	$condition = new EqualityCondition(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+        }
         return $this->database->count_objects(AssessmentPublication :: get_table_name(), $condition);
     }
 

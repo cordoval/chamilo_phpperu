@@ -82,7 +82,7 @@ abstract class PortfolioDataManager
 
     abstract function get_content_object_publication_attribute($publication_id);
 
-    abstract function count_publication_attributes($type = null, $condition = null);
+    abstract function count_publication_attributes($user = null, $object_id = null, $condition = null);
 
     abstract function delete_content_object_publications($object_id);
 

@@ -265,13 +265,9 @@ class PersonalCalendarManager extends WebApplication
         return $dm->get_content_object_publication_attribute($publication_id);
     }
 
-    /**
-     * @see Application::count_publication_attributes()
-     */
-    public function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        $dm = PersonalCalendarDatamanager :: get_instance();
-        return $dm->count_publication_attributes($type, $condition);
+        return PersonalCalendarDatamanager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
 
     /**

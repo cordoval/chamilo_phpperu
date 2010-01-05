@@ -65,7 +65,7 @@ abstract class ProfilerDataManager
      * @param Condition $conditions
      * @return int
      */
-    abstract function count_publication_attributes($user, $type = null, $condition = null);
+    abstract function count_publication_attributes($user = null, $object_id = null, $condition = null);
 
     abstract function initialize();
 

@@ -9,6 +9,7 @@
 class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 {
     private $action_bar;
+    private $object;
 
     /**
      * Runs this component and displays its output.
@@ -19,6 +20,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
         if ($id)
         {
             $object = $this->retrieve_content_object($id);
+            $this->object = $object;
             // TODO: Use Roles & Rights here.
             if ($object->get_owner_id() != $this->get_user_id() && ! $this->get_parent()->has_right($object, $this->get_user_id(), RepositoryRights :: VIEW_RIGHT))
             {
@@ -113,8 +115,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
                     echo '<br />' . $this->action_bar->as_html();
                 
                 echo $display->get_full_html();
-                echo Utilities :: add_block_hider();
-                echo Utilities :: build_block_hider('content_object_extras');
+                /*echo Utilities :: add_block_hider();
+                echo Utilities :: build_block_hider('content_object_extras');*/
             }
             else
             {
@@ -126,7 +128,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
                 echo $display->get_full_html();
             }
             
-            if (count($publication_attr) > 0)
+            /*if (count($publication_attr) > 0)
             {
                 echo $display->get_publications_as_html($publication_attr);
                 //echo Utilities :: build_uses($publication_attr);
@@ -135,7 +137,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
             if (count($versions) >= 2 || count($publication_attr) > 0)
             {
                 echo Utilities :: build_block_hider();
-            }
+            }*/
             
             echo $this->display_links_to_content_object($object);
             
@@ -246,14 +248,28 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 	{
 		$html = array();
 		
+		$html[] = Utilities :: add_block_hider();
+		$html[] = Utilities :: build_block_hider('links', 'Links');
+		
+		$html[] = '<br />';
 		$html[] = '<h3>' . Translation :: get('Links') . '</h3>';
 		$html[] = '<h4>' . Translation :: get('Publications') . '</h4>';
+		
+		$browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id()), null, LinkBrowserTable :: TYPE_PUBLICATIONS);
+		$html[] = $browser->as_html();
+		
 		$html[] = '<h4>' . Translation :: get('Parents') . '</h4>';
 		$html[] = '<h4>' . Translation :: get('Children') . '</h4>';
 		$html[] = '<h4>' . Translation :: get('AttachedTo') . '</h4>';
 		$html[] = '<h4>' . Translation :: get('IncludedIn') . '</h4>';
+		$html[] = '</div></div><div class="clear"></div><br />';
 		
 		return implode("\n", $html);
+	}
+	
+	function get_object()
+	{
+		return $this->object;
 	}
 }
 ?>

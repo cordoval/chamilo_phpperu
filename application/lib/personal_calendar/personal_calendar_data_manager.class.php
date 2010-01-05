@@ -75,7 +75,7 @@ abstract class PersonalCalendarDataManager
     /**
      * @see Application::count_publication_attributes()
      */
-    abstract function count_publication_attributes($type = null, $condition = null);
+    abstract function count_publication_attributes($user = null, $object_id = null, $condition = null);
 
     /**
      * @see Application::delete_content_object_publications()

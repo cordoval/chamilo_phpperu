@@ -577,11 +577,11 @@ class WeblcmsManager extends WebApplication
     /**
      * Inherited
      */
-    function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        return WeblcmsDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
+        return WeblcmsDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
-
+    
     /**
      * Inherited
      */

@@ -251,9 +251,9 @@ class ProfilerManager extends WebApplication
      * @param Condition $conditions
      * @return int
      */
-    function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        return ProfilerDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
+        return ProfilerDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
 
     /**

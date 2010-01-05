@@ -517,18 +517,18 @@ abstract class RepositoryDataManager
      *                   by default.
      * @return int The number of matching learning objects.
      */
-    function count_publication_attributes($user, $type = null, $condition = null)
+    function count_publication_attributes($user, $object_id, $condition = null)
     {
         $applications = $this->get_registered_applications();
         $info = 0;
         foreach ($applications as $index => $application_name)
         {
             $application = Application :: factory($application_name, $user);
-            $info += $application->count_publication_attributes($type, $condition);
+            $info += $application->count_publication_attributes($user, $object_id, $condition);
         }
 
         $admin = new AdminManager($user);
-        $info += $admin->count_publication_attributes($type, $condition);
+        $info += $admin->count_publication_attributes($user, $object_id, $condition);
 
         return $info;
     }

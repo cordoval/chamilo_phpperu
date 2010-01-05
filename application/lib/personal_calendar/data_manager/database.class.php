@@ -154,12 +154,16 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         return $info;
     }
 
-    /**
-     * @see Application::count_publication_attributes()
-     */
-    public function count_publication_attributes($type = null, $condition = null)
+    function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
+        if(!$object_id)
+        {
+    		$condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_PUBLISHER, $user->get_id());
+        }
+        else
+        {
+        	$condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT, $object_id);
+        }
         return $this->database->count_objects(CalendarEventPublication :: get_table_name(), $condition);
     }
 

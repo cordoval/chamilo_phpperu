@@ -207,9 +207,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $publication_attr;
     }
 
-    function count_publication_attributes($user, $type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_PUBLISHER_ID, Session :: get_user_id());
+        if(!$object_id)
+        {
+    		$condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_PUBLISHER_ID, $user->get_id());
+        }
+        else
+        {
+        	$condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
+        }
         return $this->database->count_objects(ContentObjectPublication :: get_table_name(), $condition);
     }
 

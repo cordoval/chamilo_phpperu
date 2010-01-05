@@ -60,7 +60,7 @@ abstract class WebApplication extends Application
      * @param Condition $condition
      * @return int
      */
-    function count_publication_attributes($type = null, $condition = null)
+    function count_publication_attributes($user = null, $object_id, $condition = null)
     {
         return 0;
     }

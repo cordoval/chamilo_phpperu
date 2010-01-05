@@ -213,9 +213,16 @@ class DatabaseWikiDataManager extends WikiDataManager
         return $publication_attr;
     }
 
-    function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        $condition = new EqualityCondition(WikiPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
+        if(!$object_id)
+        {
+    		$condition = new EqualityCondition(WikiPublication :: PROPERTY_PUBLISHER, $user->get_id());
+        }
+        else
+        {
+        	$condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+        }
         return $this->database->count_objects(WikiPublication :: get_table_name(), $condition);
     }
 

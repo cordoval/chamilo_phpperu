@@ -244,9 +244,16 @@ class DatabaseForumDataManager extends ForumDataManager
         return $publication_attr;
     }
 
-    function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        $condition = new EqualityCondition(ForumPublication :: PROPERTY_AUTHOR, Session :: get_user_id());
+        if(!$object_id)
+        {
+    		$condition = new EqualityCondition(ForumPublication :: PROPERTY_AUTHOR, $user->get_id());
+        }
+        else
+        {
+        	$condition = new EqualityCondition(ForumPublication :: PROPERTY_FORUM_ID, $object_id);
+        }
         return $this->database->count_objects(ForumPublication :: get_table_name(), $condition);
     }
 

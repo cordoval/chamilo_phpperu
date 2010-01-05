@@ -248,10 +248,16 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         return $info;
     }
 
-    //Inherited.
-    function count_publication_attributes($user, $type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        $condition = new EqualityCondition(ProfilePublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
+        if(!$object_id)
+        {
+    		$condition = new EqualityCondition(ProfilePublication :: PROPERTY_PUBLISHER, $user->get_id());
+        }
+        else
+        {
+        	$condition = new EqualityCondition(ProfilePublication :: PROPERTY_PROFILE, $object_id);
+        }
         return $this->database->count_objects(ProfilePublication :: get_table_name(), $condition);
     }
 

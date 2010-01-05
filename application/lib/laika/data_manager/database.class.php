@@ -86,7 +86,7 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
     /**
      * @see Application::count_publication_attributes()
      */
-    public function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
         return 0;
     }

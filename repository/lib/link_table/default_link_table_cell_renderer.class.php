@@ -1,20 +1,20 @@
 <?php
 /**
- * $Id: default_publication_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
- * @package repository.lib.publication_table
+ * $Id: default_link_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
+ * @package repository.lib.link_table
  */
 
 /**
  * TODO: Add comment
  */
-class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
 {
 	private $type;
 	
     /**
      * Constructor
      */
-    function DefaultPublicationTableCellRenderer($type)
+    function DefaultLinkTableCellRenderer($type)
     {
     	$this->type = $type;
     }

@@ -37,7 +37,9 @@ class LinkBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
-
+		$order_property = $this->get_order_property($order_property);
+        $publication_attributes = $this->get_browser()->get_content_object_publication_attributes($this->get_browser()->get_user(), $this->get_browser()->get_object()->get_id(), null, $offset, $count, $order_property);
+        return $publication_attributes = array_splice($publication_attributes, $offset, $count);
     }
 
     /**
@@ -46,7 +48,7 @@ class LinkBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        
+         return $this->get_browser()->count_publication_attributes($this->get_browser()->get_user(), $this->get_browser()->get_object()->get_id(), $this->get_condition());
     }
 }
 ?>

@@ -218,10 +218,17 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 
         return $publication_attr;
     }
-
-    function count_publication_attributes($type = null, $condition = null)
+    
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        $condition = new EqualityCondition(AnnouncementDistribution :: PROPERTY_PUBLISHER, Session :: get_user_id());
+        if(!$object_id)
+        {
+    		$condition = new EqualityCondition(AnnouncementDistribution :: PROPERTY_PUBLISHER, $user->get_id());
+        }
+        else
+        {
+        	$condition = new EqualityCondition(AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT, $object_id);
+        }
         return $this->database->count_objects(AnnouncementDistribution :: get_table_name(), $condition);
     }
 

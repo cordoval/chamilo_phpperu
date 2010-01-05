@@ -380,10 +380,17 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->count_objects('system_announcement_publication', $condition) >= 1;
     }
 
-    public function count_publication_attributes($type = null, $condition = null)
+	function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        $condition = new EqualityCondition('publisher_id', Session :: get_user_id());
-        return $this->database->count_objects('system_announcement_publication', $condition);
+        if(!$object_id)
+        {
+    		$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_PUBLISHER, $user->get_id());
+        }
+        else
+        {
+        	$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
+        }
+        return $this->database->count_objects(SystemAnnouncementPublication :: get_table_name(), $condition);
     }
 
     public function delete_content_object_publications($object_id)
