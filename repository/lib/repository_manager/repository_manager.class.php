@@ -59,6 +59,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_COPY_TO_TEMPLATES = 'copy_to_template';
     const PARAM_EXTERNAL_OBJECT_ID = 'external_object_id';
     const PARAM_EXTERNAL_REPOSITORY_ID = 'ext_rep_id';
+    const PARAM_LINK_TYPE = 'link_type';
     const PARAM_LINK_ID = 'link_id';
     
     /**#@-*/
@@ -1325,14 +1326,15 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_CONTENT_OBJECT_ID => $template_id));
     }
 
-    function get_delete_link_url($type, $link_id, $extra_parameters = array())
+    function get_delete_link_url($type, $object_id, $link_id)
     {
     	$parameters = array();
     	$parameters[self :: PARAM_ACTION] = self :: ACTION_DELETE_LINK;
-    	$parameters[LinkBrowserTable :: PARAM_TYPE] = $type;
+    	$parameters[self :: PARAM_LINK_TYPE] = $type;
+    	$parameters[self :: PARAM_CONTENT_OBJECT_ID] = $object_id;
     	$parameters[self :: PARAM_LINK_ID] = $link_id;
     	
-    	return $this->get_url(array_merge($parameters, $extra_parameters));
+    	return $this->get_url($parameters);
     }
     
     /**

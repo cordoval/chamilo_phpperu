@@ -9,7 +9,7 @@
  */
 class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
 {
-	private $type;
+	protected $type;
 	
     /**
      * Constructor
@@ -77,7 +77,16 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
 
     function render_id_cell($object)
     {
-        return $object->get_id();
+     	if($this->type == LinkBrowserTable :: TYPE_PUBLICATIONS)
+        {
+        	$link_id = $object->get_application() . '|' . $object->get_publication_object_id();
+        }
+        else
+        {
+        	$link_id = $object->get_id();
+        }
+        
+        return $link_id;
     }
 }
 ?>

@@ -434,9 +434,9 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
         return $this->get_parent()->get_delete_template_url($template_id);
     }
     
-	function get_delete_link_url($type, $link_id, $extra_parameters = array())
+	function get_delete_link_url($type, $object_id, $link_id)
     {
-    	return $this->get_parent()->get_delete_template_url($type, $link_id, $extra_parameters);
+    	return $this->get_parent()->get_delete_link_url($type, $object_id, $link_id);
     }
 }
 

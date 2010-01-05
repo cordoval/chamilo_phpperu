@@ -46,16 +46,18 @@ class LinkBrowserTableCellRenderer extends DefaultLinkTableCellRenderer
     {
         $toolbar_data = array();
         
-//        $delete_url = $this->browser->get_content_object_delete_links_url($content_object);
-//        $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-//        
-//    	if (! $content_object->get_link_object()->is_latest_version())
-//        {
-//            $update_url = $this->browser->get_link_update_url($content_object);
-//            $toolbar_data[] = array('href' => $update_url, 'label' => Translation :: get('Update'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_revert.png');
-//        }
-//        
-//        return Utilities :: build_toolbar($toolbar_data);
+        if($this->type == LinkBrowserTable :: TYPE_PUBLICATIONS)
+        {
+        	$link_id = $object->get_application() . '|' . $object->get_publication_object_id();
+        }
+        else
+        {
+        	$link_id = $object->get_id();
+        }
+        
+        $delete_url = $this->browser->get_delete_link_url($this->type, $this->browser->get_object()->get_id(), $link_id);
+        $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        return Utilities :: build_toolbar($toolbar_data);
     }
 }
 ?>
