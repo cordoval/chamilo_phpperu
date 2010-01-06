@@ -36,7 +36,7 @@ class UserManagerAccountComponent extends UserManagerComponent
 
             if (PlatformSetting :: get('allow_buddy_management', 'user'))
             {
-                $actions[] = 'buddy_view';
+                //$actions[] = 'buddy_view';
             }
 
             if (count($actions) > 1)
