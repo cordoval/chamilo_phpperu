@@ -34,6 +34,7 @@ class UserManagerQuotaViewerComponent extends UserManagerComponent
             $this->selected_user = UserDataManager :: get_instance()->retrieve_user($selected_user_id);
         
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users')));
         $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
         $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_DETAIL, UserManager :: PARAM_USER_USER_ID => $selected_user_id)), Translation :: get('DetailsOf') . ': ' . $this->selected_user->get_fullname()));
         $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $selected_user_id)), Translation :: get('Quota')));
