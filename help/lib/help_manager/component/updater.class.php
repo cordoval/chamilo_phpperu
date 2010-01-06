@@ -14,6 +14,7 @@ class HelpManagerUpdaterComponent extends HelpManagerComponent
     {
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => HelpManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Help')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)), Translation :: get('HelpItemList')));
         $trail->add_help('help general');
         

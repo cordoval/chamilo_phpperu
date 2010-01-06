@@ -42,6 +42,7 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
         
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => TrackingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Tracking')));
         $trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)), Translation :: get('Archiver')));
         
         $this->parent->display_header($trail, false);

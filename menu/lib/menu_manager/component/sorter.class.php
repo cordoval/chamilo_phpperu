@@ -19,6 +19,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
         
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => MenuManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Menu')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MenuSort')));
         $trail->add_help('menu general');
