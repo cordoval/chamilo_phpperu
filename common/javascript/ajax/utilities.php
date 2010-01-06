@@ -57,6 +57,11 @@ switch ($type)
                 break;
         }
         break;
+    case 'platform_setting' :
+    	$variable = Request :: post('variable');
+		$application = Request :: post('application');
+		$output['platform_setting'] = PlatformSetting :: get($variable, $application);
+		break;
 }
 
 $output = (object) $output;

@@ -34,9 +34,34 @@ if (isset($right_user) && isset($right) && isset($locations) && count($locations
 {
     $success = true;
     
-    foreach($locations as $location)
+    $rdm = RightsDataManager :: get_instance();
+    
+    foreach($locations as $location_id)
     {
-    	$success &= RightsUtilities :: invert_user_right_location($right, $right_user, $location);
+    	$success &= RightsUtilities :: invert_user_right_location($right, $right_user, $location_id);
+    	
+    	if(PlatformSetting :: get('use_cumulative_rights', 'repository'))
+    	{
+	    	$location = $rdm->retrieve_location($location_id);
+	    	if($location->get_application() == 'repository' && $right >= RepositoryRights :: SEARCH_RIGHT)
+	    	{
+	    		$value = RightsUtilities :: get_user_right_location($right, $right_user, $location_id);
+	    		if($value == 1)
+	    		{
+	    			for($i = RepositoryRights :: SEARCH_RIGHT; $i < $right; $i++)
+	    			{
+	    				RightsUtilities :: set_user_right_location_value($i, $right_user, $location_id, 1);
+	    			}
+	    		}
+	    		else
+	    		{
+	    			for($i = $right + 1; $i <= RepositoryRights :: REUSE_RIGHT; $i++)
+	    			{
+	    				RightsUtilities :: set_user_right_location_value($i, $right_user, $location_id, 0);
+	    			}
+	    		}
+	    	}
+    	}
     }
     
     if (! $success)

@@ -45,6 +45,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
         
         $html[] = '<script language="JavaScript">';
         //$html[] = '  var locations = \'{' . implode(',', $locations) . '}\';';
+        $html[] = '  var application = \'' . Request :: get('application') . '\';';
         $html[] = '  var locations = \'' . json_encode($locations) . '\';';
         $html[] = '</script>';
         

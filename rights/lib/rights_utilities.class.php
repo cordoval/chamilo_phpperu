@@ -464,6 +464,90 @@ class RightsUtilities
         }
     }
 
+	function set_rights_template_right_location_value($right, $rights_template, $location, $value)
+    {
+        if (isset($rights_template) && isset($right) && isset($location) && isset($value))
+        {
+            $rdm = RightsDataManager :: get_instance();
+            $rights_template_right_location = $rdm->retrieve_rights_template_right_location($right, $rights_template, $location);
+            
+            if ($rights_template_right_location)
+            {
+                $rights_template_right_location->set_value($value);
+                return $rights_template_right_location->update();
+            }
+            else
+            {
+                $rights_template_right_location = new RightsTemplateRightLocation();
+                $rights_template_right_location->set_location_id($location);
+                $rights_template_right_location->set_right_id($right);
+                $rights_template_right_location->set_rights_template_id($rights_template);
+                $rights_template_right_location->set_value($value);
+                return $rights_template_right_location->create();
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function set_user_right_location_value($right, $user, $location, $value)
+    {
+        if (isset($user) && isset($right) && isset($location) && isset($value))
+        {
+            $rdm = RightsDataManager :: get_instance();
+            $user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
+            
+            if ($user_right_location)
+            {
+                $user_right_location->set_value($value);
+                return $user_right_location->update();
+            }
+            else
+            {
+                $user_right_location = new UserRightLocation();
+                $user_right_location->set_location_id($location);
+                $user_right_location->set_right_id($right);
+                $user_right_location->set_user_id($user);
+                $user_right_location->set_value($value);
+                return $user_right_location->create();
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function set_group_right_location_value($right, $group, $location, $value)
+    {
+        if (isset($group) && isset($right) && isset($location) && isset($value))
+        {
+            $rdm = RightsDataManager :: get_instance();
+            $group_right_location = $rdm->retrieve_group_right_location($right, $group, $location);
+            
+            if ($group_right_location)
+            {
+                $group_right_location->set_value($value);
+                return $group_right_location->update();
+            }
+            else
+            {
+                $group_right_location = new GroupRightLocation();
+                $group_right_location->set_location_id($location);
+                $group_right_location->set_right_id($right);
+                $group_right_location->set_group_id($group);
+                $group_right_location->set_value($value);
+                return $group_right_location->create();
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     function switch_location_lock($location)
     {
         $location->switch_lock();

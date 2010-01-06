@@ -1,3 +1,9 @@
+// Get a platform setting
+function getPlatformSetting(variable, application)
+{
+	return getUtilities('platform_setting', { variable: variable, application: application }).platform_setting;
+}
+
 // Get a translation
 function getTranslation(string, application)
 {

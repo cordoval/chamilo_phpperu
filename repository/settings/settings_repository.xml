@@ -261,5 +261,12 @@
 				</options>
 			</setting>
 		</category>
+		<category name="rights">
+			<setting name="use_cumulative_rights" field="checkbox" default="0">
+				<options type="static">
+					<option name="use_cumulative_rights" value="1" />
+				</options>
+			</setting>
+		</category>
 	</settings>
 </application>

@@ -23,7 +23,7 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManagerCompon
         
         $location = ReservationsRights :: get_location_by_identifier($type, $id);
         
-        $manager = new RightsEditorManager($this, $location);
+        $manager = new RightsEditorManager($this, array($location));
         $manager->run();
     }
 
