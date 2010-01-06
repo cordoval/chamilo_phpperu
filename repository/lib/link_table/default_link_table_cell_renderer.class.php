@@ -79,7 +79,7 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
     {
      	if($this->type == LinkBrowserTable :: TYPE_PUBLICATIONS)
         {
-        	$link_id = $object->get_application() . '|' . $object->get_publication_object_id();
+        	$link_id = $object->get_application() . '|' . $object->get_id();
         }
         else
         {

@@ -46,13 +46,11 @@ class LinkBrowserTableCellRenderer extends DefaultLinkTableCellRenderer
     {
         $toolbar_data = array();
         
-        if($this->type == LinkBrowserTable :: TYPE_PUBLICATIONS)
+        $link_id = $this->render_id_cell($object);
+        
+        if($this->type == LinkBrowserTable :: TYPE_INCLUDES)
         {
-        	$link_id = $object->get_application() . '|' . $object->get_publication_object_id();
-        }
-        else
-        {
-        	$link_id = $object->get_id();
+        	return '&nbsp';
         }
         
         $delete_url = $this->browser->get_delete_link_url($this->type, $this->browser->get_object()->get_id(), $link_id);
