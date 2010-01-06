@@ -32,7 +32,7 @@ class LinkBrowserTable extends ObjectTable
     	$model = new LinkBrowserTableColumnModel($type);
         $renderer = new LinkBrowserTableCellRenderer($browser, $type);
         $data_provider = new LinkBrowserTableDataProvider($browser, $condition, $type);
-        parent :: __construct($data_provider, LinkBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, LinkBrowserTable :: DEFAULT_NAME . '_' . $type, $model, $renderer);
         
         $this->set_additional_parameters($parameters);
         $this->set_default_row_count(20);
