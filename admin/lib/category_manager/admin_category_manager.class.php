@@ -4,6 +4,8 @@
  * @package admin.lib.category_manager
  */
 
+require_once(dirname(__FILE__) . '/admin_category.class.php');
+
 class AdminCategoryManager extends CategoryManager
 {
 
