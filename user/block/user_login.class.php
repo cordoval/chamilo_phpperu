@@ -19,11 +19,11 @@ class UserLogin extends UserBlock
     function as_html()
     {
         $html = array();
-        
+
         $html[] = $this->display_header();
         $html[] = $this->display_anonymous_right_menu();
         $html[] = $this->display_footer();
-        
+
         return implode("\n", $html);
     }
 
@@ -31,13 +31,13 @@ class UserLogin extends UserBlock
     {
         global $loginFailed, $plugins;
         $html = array();
-        
+
         if (! Authentication :: is_valid())
         {
             // TODO: New languageform
             //api_display_language_form();
             $html[] = $this->display_login_form();
-            
+
             if ($loginFailed)
             {
                 $html[] = $this->handle_login_failed();
@@ -55,7 +55,7 @@ class UserLogin extends UserBlock
                     //display_lost_password_info();
                     $links[] = '<a href="index_user.php?go=reset_password">' . Translation :: get('ResetPassword') . '</a>';
                 }
-                
+
                 $html[] = implode(' - ', $links);
                 //$html[] = '</ul></div>';
             }
@@ -63,28 +63,28 @@ class UserLogin extends UserBlock
         else
         {
             $user = $this->get_user();
-            
-            $html[] = '<br /><img src="' . $user->get_full_picture_url() . '" style="max-width:200px";/>';
+
+            $html[] = '<br /><img src="' . $user->get_full_picture_url() . '" style="max-width:200px" />';
             $html[] = '<br />';
             $html[] = '<br />';
             $html[] = $user->get_fullname() . '<br />';
             $html[] = $user->get_email() . '<br />';
             $html[] = '<br />';
             $html[] = '<a href="index.php?logout=true">Logout</a>';
-            
+
         /*if(PlatformSetting :: get('page_after_login') == 'weblcms')
 			{
 				//header('Location: run.php?application=weblcms');
 				header('Location: index_repository_manager.php');
 			}*/
         }
-        
+
         //		$html[] = '<div class="note">';
         //		$html[] = '</div>';
-        
+
 
         return implode("\n", $html);
-    
+
     }
 
     function handle_login_failed()
