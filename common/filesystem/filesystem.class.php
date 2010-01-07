@@ -357,7 +357,7 @@ class Filesystem
      */
     public static function remove($path)
     {
-        if($path == '/')
+        if(realpath($path) == '/')
         	return false;
         	
     	if (is_file($path))
