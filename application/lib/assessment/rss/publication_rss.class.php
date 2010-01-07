@@ -14,6 +14,26 @@ class AssessmentPublicationRSS extends PublicationRSS
 		}
 		return $publications;
 	}
+	
+	function get_channel_title()
+	{
+		return 'Chamilo assessments';
+	}
+	
+	function get_channel_link()
+	{
+		return 'http://localhost';
+	}
+	
+	function get_channel_description()
+	{
+		return 'Assessments';
+	}
+	
+	function get_channel_source()
+	{
+		return 'http://localhost';
+	}
 }
 
 ?>
