@@ -14,6 +14,26 @@ class WeblcmsPublicationRSS extends PublicationRSS
 		}
 		return $publications;
 	}
+	
+	function get_channel_title()
+	{
+		return 'Chamilo weblcms';
+	}
+	
+	function get_channel_link()
+	{
+		return 'http://localhost';
+	}
+	
+	function get_channel_description()
+	{
+		return 'Weblcms publications';
+	}
+	
+	function get_channel_source()
+	{
+		return 'http://localhost';
+	}
 }
 
 ?>
