@@ -357,7 +357,10 @@ class Filesystem
      */
     public static function remove($path)
     {
-        if (is_file($path))
+        if($path == '/')
+        	return false;
+        	
+    	if (is_file($path))
         {
             return @unlink($path);
         }
