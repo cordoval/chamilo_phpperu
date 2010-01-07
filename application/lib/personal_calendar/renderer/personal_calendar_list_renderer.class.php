@@ -58,9 +58,18 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         $html[] = $event->get_content();
         $html[] = $this->render_attachments($event);
         $html[] = '</div>';
-        $html[] = '<div style="float: right;">';
-        $html[] = $this->get_publication_actions($event);
-        $html[] = '</div><div class="clear">&nbsp;</div>';
+        if($event->get_source() == 'personal_calendar')
+        {
+        	$html[] = '<div style="float: right;">';
+        	$html[] = $this->get_publication_actions($event);
+        	$html[] = '</div><div class="clear">&nbsp;</div>';
+        }
+        else
+        {
+        	$html[] = '<div style="float: right;">';
+        	$html[] = $this->get_external_publication_actions($event);
+        	$html[] = '</div><div class="clear">&nbsp;</div>';
+        }
         $html[] = '</div>';
         
         return implode("\n", $html);
@@ -72,6 +81,13 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         
         $toolbar_data[] = array('href' => $this->get_parent()->get_publication_editing_url($event), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         $toolbar_data[] = array('href' => $this->get_parent()->get_publication_deleting_url($event), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+        
+        return Utilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+    }
+    
+ 	function get_external_publication_actions($event)
+    {
+        $toolbar_data[] = array('href' => html_entity_decode($event->get_url()), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
         
         return Utilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
     }
