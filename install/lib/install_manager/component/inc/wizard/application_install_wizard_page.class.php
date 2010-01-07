@@ -88,6 +88,13 @@ class ApplicationInstallWizardPage extends InstallWizardPage
         $html = array();
         
         $html[] = '<div class="clear"></div>';
+        
+        $html[] = '<div id="selectbuttons" style="padding-left: 10px; display: none;"><br />';
+        $html[] = '<a href="#" id="selectall">' . Translation :: get('SelectAll') . '</a>';
+        $html[] = ' - ';
+        $html[] = '<a href="#" id="unselectall">' . Translation :: get('UnSelectAll') . '</a>'; 
+        $html[] = '</div><br />';
+        
         $html[] = '<div id="tabs">';
         $html[] = '<ul>';
         
@@ -144,7 +151,7 @@ class ApplicationInstallWizardPage extends InstallWizardPage
                 $this->addElement('html', implode("\n", $html));
                 
                 $checkbox_name = 'install_' . $package['code'];
-                $this->addElement('checkbox', $checkbox_name);
+                $this->addElement('checkbox', $checkbox_name, '', '', array('class' => 'application_check'));
                 $renderer->setElementTemplate('{element}', $checkbox_name);
                 
                 $this->addElement('html', '</div></div>');
