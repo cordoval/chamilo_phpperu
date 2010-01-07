@@ -37,6 +37,7 @@
 			notnull="1" default="0" />
 		<property name="active" type="boolean" default="1" />
 		<property name="timezone" type="text" fixed="true" length="30" default="Europe/Brussels"/>
+		<property name="security_token" type="text" fixed="true" length="40" default="" />
 	</properties>
 	<index name="username" type="unique">
 		<indexproperty name="username" />

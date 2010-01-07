@@ -107,6 +107,8 @@ class DatabaseUserDataManager extends UserDataManager
 
 	function create_user($user)
 	{
+		//add rss id to user
+		$user->set_security_token(sha1(time().uniqid()));
 		$this->database->create($user);
 
 		// Create the user's root category for the repository
@@ -137,6 +139,12 @@ class DatabaseUserDataManager extends UserDataManager
 	function retrieve_user_by_external_uid($external_uid)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_EXTERNAL_UID, $external_uid);
+		return $this->database->retrieve_object(User :: get_table_name(), $condition);
+	}
+	
+	function retrieve_user_by_security_token($security_token)
+	{
+		$condition = new EqualityCondition(User :: PROPERTY_SECURITY_TOKEN, $security_token);
 		return $this->database->retrieve_object(User :: get_table_name(), $condition);
 	}
 
