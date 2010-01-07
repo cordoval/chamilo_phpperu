@@ -1336,6 +1336,12 @@ div.block div.description_contains {
 	clear: both;
 }
 
+div.block div.description img,
+div.block div.description_contains img
+{
+	max-width: 100%;
+}
+
 div.padding_10 {
 	padding: 10px;
 }

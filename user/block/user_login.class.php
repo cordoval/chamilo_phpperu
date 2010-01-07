@@ -64,7 +64,7 @@ class UserLogin extends UserBlock
         {
             $user = $this->get_user();
 
-            $html[] = '<br /><img src="' . $user->get_full_picture_url() . '" style="max-width:200px" />';
+            $html[] = '<br /><img src="' . $user->get_full_picture_url() . '" style="max-width: 100%;" />';
             $html[] = '<br />';
             $html[] = '<br />';
             $html[] = $user->get_fullname() . '<br />';
