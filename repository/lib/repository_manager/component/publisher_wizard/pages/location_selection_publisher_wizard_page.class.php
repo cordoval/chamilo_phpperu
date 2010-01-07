@@ -167,7 +167,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>');
         
         $this->setDefaultAction('next');
-        $this->setDefaults($appDefaults);
+        //$this->setDefaults($appDefaults);
     }
     
     function add_locations($application, $application_name, $locations)
@@ -186,7 +186,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
             
         foreach ($locations as $id => $location)
         {
-            $cbname = $application_name . '_' . $id;
+            $cbname = $application_name . '|' . $id;
             $this->addElement('checkbox', $cbname, '', $location, array('style' => 'margin-left: 12px;'));
             $appDefaults[$cbname] = '1';
         }

@@ -64,7 +64,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
         {
             if ($value == 1)
             {
-                $split = split('_', $location);
+                $split = explode('|', $location);
                 $application_name = $split[0];
                 $location_id = $split[1];
                 
@@ -76,8 +76,8 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
                     $previous_application = $application_name;
                 }
                 
-                unset($split[0]);
-                $location = implode('_', $split);
+                dump($application_name);
+                //$location = implode('_', $split);
                 $application = Application :: factory($application_name);
                 foreach ($los as $lo)
                     $message .= $application->publish_content_object($lo, $location_id, $options[Utilities :: camelcase_to_underscores($application_name)]) . '<br />';
