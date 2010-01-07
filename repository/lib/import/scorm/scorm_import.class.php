@@ -23,7 +23,7 @@ class ScormImport extends ContentObjectImport
      */
     private function extract_xml_file($file)
     {
-        $options = array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => array('item', 'organization', 'resource', 'file', 'dependency', 'adlnav:hideLMSUI', 'imsss:preConditionRule', 'imsss:postConditionRule', 'imsss:exitConditionRule', 'imsss:ruleCondition', 'imsss:objective', 'imsss:sequencing'));
+        $options = array('forceEnum' => array('item', 'organization', 'resource', 'file', 'dependency', 'adlnav:hideLMSUI', 'imsss:preConditionRule', 'imsss:postConditionRule', 'imsss:exitConditionRule', 'imsss:ruleCondition', 'imsss:objective', 'imsss:sequencing'));
         return Utilities :: extract_xml_file($file, $options);
     }
 
@@ -40,7 +40,7 @@ class ScormImport extends ContentObjectImport
         // Extract the xml file to an array
         $manifest_file = $extracted_files_dir . '/imsmanifest.xml';
         $xml_data = $this->extract_xml_file($manifest_file);
-        
+        dump($xml_data);
         // Move content from zip file to files/scorm/{user_id}/{scorm_package_identifier}/
         $scorm_path = Path :: get(SYS_SCORM_PATH) . $this->get_user()->get_id() . '/' . $xml_data['identifier'] . '/';
         Filesystem :: move_file($extracted_files_dir, $scorm_path);
@@ -53,7 +53,13 @@ class ScormImport extends ContentObjectImport
         
         $sequencing_collections = $xml_data['imsss:sequencingCollection'];
         
-        $version = 'SCORM' . $xml_data['version'];
+        $version = $xml_data['version'];
+        if(!$version)
+        {
+        	$version = $xml_data['metadata']['schemaversion'];	
+        }
+        
+        $version = 'SCORM' . $version;
         
         // Build the organizations tree
         $learning_paths = $this->build_organizations($xml_data['organizations']['organization'], $resources_list, $sequencing_collections, $version, $xml_data['identifier']);
