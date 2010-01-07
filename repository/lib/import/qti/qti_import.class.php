@@ -34,7 +34,12 @@ class QtiImport extends ContentObjectImport
                 }
             }
         }
-        Filesystem :: remove($dir);
+        
+        if($temp)
+        {
+        	Filesystem :: remove($temp);
+        }
+        
         return $returnvalue;
     }
 
