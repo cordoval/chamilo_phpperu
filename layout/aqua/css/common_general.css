@@ -137,6 +137,7 @@ img {
 	background-color: #f2f2f2;
 	border-top: 1px solid white;
 	border-bottom: 1px solid #dcdcdc;
+	height: 26px;
 }
 
 #trailbox ul,#breadcrumbtrail li {
@@ -1333,6 +1334,12 @@ div.block div.description_contains {
 	padding-bottom: 0.3em;
 	margin-bottom: 0.3em;
 	clear: both;
+}
+
+div.block div.description img,
+div.block div.description_contains img
+{
+	max-width: 100%;
 }
 
 div.padding_10 {

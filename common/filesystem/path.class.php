@@ -82,7 +82,7 @@ class Path
                     self :: $rel_path = (substr($url_append, - 1) === '/' ? $url_append : $url_append . '/');
                 }
                 return self :: $rel_path;
-            
+
             // Platform-level paths
             case WEB_LIB_PATH :
                 return self :: get(WEB_PATH) . 'common/';
@@ -106,7 +106,7 @@ class Path
                 return self :: get(WEB_PATH) . 'languages/';
             case SYS_LANG_PATH :
                 return self :: get(SYS_PATH) . 'languages/';
-            
+
             // Some paths for the LCMS applications
             case SYS_APP_PATH :
                 return self :: get(SYS_PATH) . 'application/';
@@ -138,11 +138,11 @@ class Path
                 return self :: get(SYS_PATH) . 'reporting/';
             case SYS_APP_WEBSERVICE_PATH :
                 return self :: get(SYS_PATH) . 'webservice/';
-            
+
             // Application-paths
             case SYS_APP_LIB_PATH :
                 return self :: get(SYS_APP_PATH) . 'common/';
-            
+
             // Files-paths
             case WEB_ARCHIVE_PATH :
                 return self :: get(WEB_FILE_PATH) . 'archive/';
