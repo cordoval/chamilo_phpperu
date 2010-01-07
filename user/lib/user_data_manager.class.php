@@ -171,6 +171,13 @@ abstract class UserDataManager
 	abstract function retrieve_user_by_username($username);
 
 	/**
+	 * Retrieves a user by his or her security token.
+	 * @param $security_token the security token to retrieve the info from
+	 * @return User|null
+	 */
+	abstract function retrieve_user_by_security_token($security_token);
+	
+	/**
 	 * Retrieves users by their email-address.
 	 * @param $email the email to retrieve the info from
 	 * @return array Array of users which have the given email-address

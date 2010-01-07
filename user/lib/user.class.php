@@ -56,6 +56,7 @@ class User extends DataClass
     const PROPERTY_REGISTRATION_DATE = 'registration_date';
     const PROPERTY_ACTIVE = 'active';
     const PROPERTY_TIMEZONE = 'timezone';
+    const PROPERTY_SECURITY_TOKEN = 'security_token';
 
     const ACTION_CREATE_USER = 'create';
 
@@ -68,7 +69,7 @@ class User extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_TIMEZONE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_TIMEZONE, self :: PROPERTY_SECURITY_TOKEN));
     }
 
     /**
@@ -287,6 +288,11 @@ class User extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_ACTIVE);
     }
+    
+    function get_security_token()
+    {
+        return $this->get_default_property(self :: PROPERTY_SECURITY_TOKEN);
+    }
 
     /**
      * Sets the lastname of this user.
@@ -397,6 +403,11 @@ class User extends DataClass
     function set_picture_uri($picture_uri)
     {
         $this->set_default_property(self :: PROPERTY_PICTURE_URI, $picture_uri);
+    }
+    
+    function set_security_token($security_token)
+    {
+        $this->set_default_property(self :: PROPERTY_SECURITY_TOKEN, $security_token);
     }
 
     /**
