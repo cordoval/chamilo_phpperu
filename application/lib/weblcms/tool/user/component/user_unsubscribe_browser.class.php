@@ -37,7 +37,7 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 
         $this->display_header($trail, true);
 
-        echo '<br /><a name="top"></a>';
+        //echo '<br /><a name="top"></a>';
         //echo $this->perform_requested_actions();
         if (PlatformSetting :: get('enable_introduction', 'weblcms'))
         {

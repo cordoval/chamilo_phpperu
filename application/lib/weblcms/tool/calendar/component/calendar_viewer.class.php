@@ -19,28 +19,28 @@ class CalendarToolViewerComponent extends CalendarToolComponent
             Display :: not_allowed();
             return;
         }
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'calendar');
-        
+
         $subselect_condition = new EqualityCondition('type', 'introduction');
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         $condition = new AndCondition($conditions);
-        
+
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
         $this->introduction_text = $publications->next_result();
         $this->action_bar = $this->get_action_bar();
-        
+
         $time = Request :: get('time') ? intval(Request :: get('time')) : time();
         $view = Request :: get('view') ? Request :: get('view') : 'month';
         $this->set_parameter('time', $time);
         $this->set_parameter('view', $view);
         $browser = new CalendarBrowser($this);
-        
+
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses calendar tool');
-        
+
         if (Request :: get('view') != null)
         {
             if (Request :: get('today') == 1)
@@ -54,14 +54,14 @@ class CalendarToolViewerComponent extends CalendarToolComponent
                 $trail->add(new Breadcrumb($this->get_url(), $title));
             }
         }
-        
+
         if (Request :: get('pid') != null)
         {
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
         }
-        
+
         $this->display_header($trail, true);
-        echo '<br /><a name="top"></a>';
+        //echo '<br /><a name="top"></a>';
         if (! Request :: get('pid'))
         {
             if (PlatformSetting :: get('enable_introduction', 'weblcms'))
@@ -74,7 +74,7 @@ class CalendarToolViewerComponent extends CalendarToolComponent
         echo '<div id="action_bar_browser">';
         echo $html;
         echo '</div>';
-        
+
         $this->display_footer();
     }
 
@@ -86,27 +86,27 @@ class CalendarToolViewerComponent extends CalendarToolComponent
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         if (! Request :: get('pid'))
         {
             $action_bar->set_search_url((Request :: get('view') == 'list') ? $this->get_url(array('view' => Request :: get('view'))) : null);
-            
+
             if ($this->is_allowed(ADD_RIGHT))
             {
                 $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }
-        
+
         if (Request :: get('view') == 'list')
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('view' => 'list', Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        
+
         if (! $this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms') && $this->is_allowed(EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        
+
         if (! Request :: get('pid'))
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_image_path() . 'tool_calendar_down.png', $this->get_url(array('view' => 'list', 'time' => Request :: get('time'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -115,12 +115,12 @@ class CalendarToolViewerComponent extends CalendarToolComponent
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array('view' => 'day', 'time' => Request :: get('time'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array('view' => (Request :: get('view') ? Request :: get('view') : 'month'), 'time' => time(), 'today' => true)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        
+
         if ($this->is_allowed(EDIT_RIGHT))
         {
             $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
         }
-        
+
         return $action_bar;
     }
 
@@ -133,10 +133,10 @@ class CalendarToolViewerComponent extends CalendarToolComponent
             $conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
             return new OrCondition($conditions);
         }
-        
+
         return null;
     }
-    
+
 /*function display_introduction_text()
 	{
 		$html = array();

@@ -103,9 +103,9 @@ class UserLogin extends UserBlock
         $renderer->setElementTemplate('<div class="row">{label}<br />{element}</div>');
         //$renderer->setElementTemplate('<div>{element}</div>','submitAuth');
         $form->setRequiredNote(null);
-        $form->addElement('text', 'login', Translation :: get('UserName'), array('size' => 20, 'onclick' => 'this.value=\'\';'));
+        $form->addElement('text', 'login', Translation :: get('UserName'), array('style' => 'width: 90%;', 'onclick' => 'this.value=\'\';'));
         $form->addRule('login', Translation :: get('ThisFieldIsRequired'), 'required');
-        $form->addElement('password', 'password', Translation :: get('Password'), array('size' => 20, 'onclick' => 'this.value=\'\';'));
+        $form->addElement('password', 'password', Translation :: get('Password'), array('style' => 'width: 90%;', 'onclick' => 'this.value=\'\';'));
         $form->addRule('password', Translation :: get('ThisFieldIsRequired'), 'required');
         $form->addElement('style_submit_button', 'submitAuth', Translation :: get('Login'), array('class' => 'positive login'));
         $form->setDefaults(array('login' => Translation :: get('EnterUsername'), 'password' => '*******'));

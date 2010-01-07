@@ -9,7 +9,6 @@ require_once (dirname(__FILE__) . '/banner.class.php');
 // The error ignorance is due to the non compatibility of function_exists()
 // with the object syntax of Database::get_language_isocode()
 
-
 $document_language = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
 if (empty($document_language))
 {

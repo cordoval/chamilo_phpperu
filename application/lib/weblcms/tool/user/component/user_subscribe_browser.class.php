@@ -26,7 +26,7 @@ class UserToolSubscribeBrowserComponent extends UserToolComponent
 
         $this->display_header($trail, true);
 
-        echo '<br /><a name="top"></a>';
+        //echo '<br /><a name="top"></a>';
         //echo $this->perform_requested_actions();
         echo $this->action_bar->as_html();
         echo $this->get_user_subscribe_html();

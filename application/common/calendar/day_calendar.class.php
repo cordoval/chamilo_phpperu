@@ -75,18 +75,21 @@ class DayCalendar extends CalendarTable
      */
     protected function build_table()
     {
+        $year_day = date('z', $this->get_display_time()) + 1;
+        $year_week = date('W', $this->get_display_time());
+
         $header = $this->getHeader();
-        $header->addRow(array(Translation :: get('Day') . ' ' . date('z', $this->get_display_time())));
+        $header->addRow(array(Translation :: get('Day') . ' ' . $year_day . ', ' . Translation :: get('Week') . ' ' . $year_week));
         $header->setRowType(0, 'th');
-        
+
         for($hour = 0; $hour < 24; $hour += $this->get_hour_step())
         {
             $table_start_date = mktime($hour, 0, 0, date('m', $this->get_display_time()), date('d', $this->get_display_time()), date('Y', $this->get_display_time()));
             $table_end_date = strtotime('+' . $this->get_hour_step() . ' hours', $table_start_date);
             $cell_contents = $hour . 'u - ' . ($hour + $this->get_hour_step()) . 'u';
-            
+
             $row = $hour / $this->get_hour_step();
-            
+
             $this->setCellContents($row, 0, $cell_contents);
             // Highlight current hour
             if (date('Y-m-d') == date('Y-m-d', $this->get_display_time()))
@@ -96,10 +99,10 @@ class DayCalendar extends CalendarTable
                     $this->updateCellAttributes($row, 0, 'class="highlight"');
                 }
             }
-            
+
             $working_start = PlatformSetting :: get('working_hours_start');
             $working_end = PlatformSetting :: get('working_hours_end');
-            
+
             $working_start = '8';
             $working_end = '18';
             // Is current table hour during working hours?
@@ -130,7 +133,7 @@ class DayCalendar extends CalendarTable
                 $this->setCellContents($row, 0, $cell_content);
             }
         }
-    
+
     }
 
     /**

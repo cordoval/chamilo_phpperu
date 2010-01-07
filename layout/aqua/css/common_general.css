@@ -67,14 +67,15 @@ img {
 	width: 160px;
 }
 
-#header1 div.banner div.logo {
+#header1 div.banner span.logo {
 	background-image: url('../images/common/logo_header.png');
 	background-repeat: no-repeat;
 	height: 48px;
 	width: 160px;
+	display: block;
 }
 
-#header1 div.banner div.text {
+#header1 div.banner span.text {
 	display: none;
 }
 

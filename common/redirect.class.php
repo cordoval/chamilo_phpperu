@@ -8,7 +8,7 @@ class Redirect
     // Different redirect types
     const TYPE_LINK = 'link';
     const TYPE_URL = 'url';
-    
+
     // Different link types
     const TYPE_CORE = 'core';
     const TYPE_APPLICATION = 'application';
@@ -36,9 +36,9 @@ class Redirect
                 $link = 'index';
                 break;
         }
-        
+
         $link .= '.php';
-        
+
         if (count($filter) > 0)
         {
             foreach ($parameters as $key => $value)
@@ -48,20 +48,20 @@ class Redirect
                     $url_parameters[$key] = $value;
                 }
             }
-            
+
             $parameters = $url_parameters;
         }
-        
+
         if (count($parameters))
         {
             $link .= '?' . http_build_query($parameters);
         }
-        
+
         if ($encode_entities)
         {
             $link = htmlentities($link);
         }
-        
+
         return $link;
     }
 
@@ -74,7 +74,7 @@ class Redirect
     static function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
         $url = $_SERVER['PHP_SELF'];
-        
+
         if (count($filter) > 0)
         {
             foreach ($parameters as $key => $value)
@@ -84,20 +84,20 @@ class Redirect
                     $url_parameters[$key] = $value;
                 }
             }
-            
+
             $parameters = $url_parameters;
         }
-        
+
         if (count($parameters))
         {
             $url .= '?' . http_build_query($parameters);
         }
-        
+
         if ($encode_entities)
         {
             $url = htmlentities($url);
         }
-        
+
         return $url;
     }
 
