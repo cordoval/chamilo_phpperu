@@ -40,7 +40,7 @@ class ScormImport extends ContentObjectImport
         // Extract the xml file to an array
         $manifest_file = $extracted_files_dir . '/imsmanifest.xml';
         $xml_data = $this->extract_xml_file($manifest_file);
-        dump($xml_data);
+        
         // Move content from zip file to files/scorm/{user_id}/{scorm_package_identifier}/
         $scorm_path = Path :: get(SYS_SCORM_PATH) . $this->get_user()->get_id() . '/' . $xml_data['identifier'] . '/';
         Filesystem :: move_file($extracted_files_dir, $scorm_path);
