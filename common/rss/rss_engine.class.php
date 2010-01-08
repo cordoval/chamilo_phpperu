@@ -19,19 +19,10 @@ class RSSEngine
 	function render_rss_stream($stream)
 	{
 		$xml[] = $this->create_header();
-		
-		//foreach ($stream->get_channel() as $channel)
-		//{
-			$xml[] = $this->render_channel($stream->get_channel());
-		//}
-		
+		$xml[] = $this->render_channel($stream->get_channel());
 		$xml[] = '</rss>';
 		return implode($xml, '');
 	}
-	
-	//private $items = array();
-	
-	//private $rss_xml;
 	
 	function create_header()
 	{
@@ -50,18 +41,6 @@ class RSSEngine
     	return implode($xml, '');
 	}
 	
-	/*function add_rss_xml($xml)
-	{
-		$this->rss_xml .= $xml;
-	}
-	
-	function create_footer()
-	{
-		$xml[] = '</channel>';
-		$xml[] = '</rss>';
-		return implode($xml, '');
-	}*/
-	
 	function render_item($item_info)
 	{
 		$xml[] = '<item>';
@@ -71,32 +50,6 @@ class RSSEngine
     	$xml[] = '</item>';
     	return implode($xml, '');
 	}
-	
-	/*function create_rss($headers = true)
-	{
-		if ($headers)
-			$rss[] = $this->create_header();
-		
-		$this->create_channel();
-		foreach ($this->items as $key => $value)
-		{
-			$rss[] = $this->create_item($value);
-		}
-		$rss[] = $this->rss_xml;
-		
-		if ($headers)
-			$rss[] = $this->create_footer();
-			
-		return implode ($rss, '');
-	}
-	
-	function add_item($title, $description, $url)
-	{
-		$item['title'] = $title;
-		$item['description'] = $description;
-		$item['url'] = $url;
-		$this->items[] = $item;
-	}*/
 	
 	static function get_user()
 	{

@@ -4,6 +4,11 @@ require_once dirname(__FILE__).'/../data_manager/database.class.php';
 
 class WeblcmsPublicationRSS extends PublicationRSS
 {
+	function WeblcmsPublicationRSS()
+	{
+		parent :: PublicationRSS('Chamilo weblcms', 'http://localhost', 'Weblcms publications', 'http://localhost');
+	}
+	
 	function retrieve_items($user, $min_date = '')
 	{
 		$pubs = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new(null, array(), 0, 20);//, array('id', SORT_DESC));
@@ -15,7 +20,7 @@ class WeblcmsPublicationRSS extends PublicationRSS
 		return $publications;
 	}
 	
-	function get_channel_title()
+	/*function get_channel_title()
 	{
 		return 'Chamilo weblcms';
 	}
@@ -33,7 +38,7 @@ class WeblcmsPublicationRSS extends PublicationRSS
 	function get_channel_source()
 	{
 		return 'http://localhost';
-	}
+	}*/
 }
 
 ?>

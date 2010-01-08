@@ -7,6 +7,13 @@ abstract class BasicRSS
 {
 	private $rss_stream;
 	
+	function BasicRSS($title, $link, $description, $source = '')
+	{
+		$this->rss_stream = new RSSStream();
+		$this->set_channel_properties($title, $link, $description, $source);
+		$this->get_data();
+	}
+	
 	function build_rss()
 	{
 		$engine = new RSSEngine();
@@ -41,25 +48,22 @@ abstract class BasicRSS
 		//$this->rss_stream->add_channel($channel);
 	}
 	
-	function set_channel_properties()
+	function set_channel_properties($title, $link, $description, $source = '')
 	{
 		$channel = $this->rss_stream->get_channel();
-		$channel->set_title($this->get_channel_title());
+		/*$channel->set_title($this->get_channel_title());
 		$channel->set_link($this->get_channel_link());
 		$channel->set_description($this->get_channel_description());
-		$channel->set_source($this->get_channel_source());
+		$channel->set_source($this->get_channel_source());*/
+		$channel->set_title($title);
+		$channel->set_link($link);
+		$channel->set_description($description);
+		$channel->set_source($source);
 	}
 	
 	function get_user()
 	{
 		return RSSEngine :: get_user();
-	}
-	
-	function BasicRSS()
-	{
-		$this->rss_stream = new RSSStream();
-		$this->set_channel_properties();
-		$this->get_data();
 	}
 	
 	function get_data()
@@ -75,10 +79,10 @@ abstract class BasicRSS
 	
 	abstract function add_item($object, $channel);
 	
-	abstract function get_channel_title();
+	/*abstract function get_channel_title();
 	abstract function get_channel_link();
 	abstract function get_channel_description();
-	abstract function get_channel_source();
+	abstract function get_channel_source();*/
 	
 }
 ?>
