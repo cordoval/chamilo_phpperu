@@ -8,7 +8,6 @@
  */
 class Footer
 {
-
     /**
      * Create a new Footer
      */
@@ -140,11 +139,6 @@ class Footer
         {
             $links[] = Translation :: get('Version') . ' ' . $this->get_setting('version', 'admin');
         }
-
-        //        $links[] = Translation :: get('License');
-        //        $links[] = Translation :: get('PrivacyPolicy');
-        //        $links[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
-
 
         $world = PlatformSetting :: get('whoisonlineaccess');
 

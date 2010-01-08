@@ -10,6 +10,8 @@ define('WEB_IMG_PATH', 'WEB_IMG_PATH');
 define('SYS_IMG_PATH', 'SYS_IMG_PATH');
 define('WEB_CSS_PATH', 'WEB_CSS_PATH');
 define('SYS_CSS_PATH', 'SYS_CSS_PATH');
+define('WEB_TPL_PATH', 'WEB_TPL_PATH');
+define('SYS_TPL_PATH', 'SYS_TPL_PATH');
 
 class Theme
 {
@@ -17,12 +19,12 @@ class Theme
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
-    
+
     /**
      * The theme we're currently using
      */
     private $theme;
-    
+
     /**
      * The application we're currently rendering
      */
@@ -33,11 +35,12 @@ class Theme
      * @var Phpbb2TemplateWrapper
      */
     private $template;
-    
+
     function Theme()
     {
         $this->theme = PlatformSetting :: get('theme');
         $this->template = new Phpbb2TemplateWrapper($this->theme);
+        //$this->template = new ChamiloTemplateWrapper($this->theme);
     }
 
     /**
@@ -48,7 +51,7 @@ class Theme
     {
     	return self :: get_instance()->template;
     }
-    
+
     function get_theme()
     {
         return self :: get_instance()->theme;
@@ -75,6 +78,10 @@ class Theme
     {
         switch ($path_type)
         {
+            case WEB_IMG_PATH :
+                return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/template/';
+            case SYS_IMG_PATH :
+                return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/template/';
             case WEB_IMG_PATH :
                 return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/images/';
             case SYS_IMG_PATH :
@@ -136,6 +143,15 @@ class Theme
         return $instance->get_path(WEB_IMG_PATH) . 'common/';
     }
 
+    /**
+     * Get the path to the theme's template folder.
+     */
+    function get_template_path()
+    {
+        $instance = self :: get_instance();
+        return $instance->get_path(SYS_TPL_PATH);
+    }
+
     static function get_instance()
     {
         if (! isset(self :: $instance))
@@ -148,10 +164,10 @@ class Theme
     function get_themes()
     {
         $options = array();
-        
+
         $path = Path :: get(SYS_LAYOUT_PATH);
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
-        
+
         foreach ($directories as $index => $directory)
         {
             if (substr($directory, 0, 1) != '.')
@@ -159,14 +175,14 @@ class Theme
                 $options[$directory] = Utilities :: underscores_to_camelcase($directory);
             }
         }
-        
+
         return $options;
     }
 
     function get_common_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
         $image = self :: get_common_image_path() . $image . '.' . $extension;
-        
+
         $icon = new ToolbarItem($label, $image, $href, $display, $confirmation);
         return $icon->as_html();
     }
@@ -174,7 +190,7 @@ class Theme
     function get_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
         $image = self :: get_image_path() . $image . '.' . $extension;
-        
+
         $icon = new ToolbarItem($label, $image, $href, $display, $confirmation);
         return $icon->as_html();
     }

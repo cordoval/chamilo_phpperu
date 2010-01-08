@@ -280,5 +280,10 @@ class Path
     {
         return self :: get_web_application_path($application_name) . '/lib/' . $application_name . '_manager/component/';
     }
+
+    public static function get_temp_path()
+    {
+        return self :: get(SYS_TEMP_PATH);
+    }
 }
 ?>

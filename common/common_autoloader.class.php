@@ -11,12 +11,12 @@ class CommonAutoloader
 		{
 			return true;
 		}
-		
+
 		if(self :: check_for_utilities_files($classname))
 		{
 		    return true;
-		}	
-		
+		}
+
 		if(self :: check_for_html_files($classname))
 		{
 			return true;
@@ -60,9 +60,9 @@ class CommonAutoloader
 	static function check_for_utilities_files($classname)
 	{
 	    $list = array('datetime_utilities' => 'datetime', 'debug_utilities' => 'debug', 'string_utilities' => 'string', 'xml_utilities' => 'xml');
-	    
+
 	    $lower_case = Utilities :: camelcase_to_underscores($classname);
-	    
+
 	    if(array_key_exists($lower_case, $list))
 	    {
 			require_once dirname(__FILE__) . '/' . $list[$lower_case] . '/' . $lower_case . '.class.php';
@@ -73,7 +73,7 @@ class CommonAutoloader
 	        return false;
 	    }
 	}
-	
+
 	static function check_for_html_files($classname)
 	{
 		$list = array('bbcode_parser' => 'bbcode_parser.class.php',
@@ -85,6 +85,7 @@ class CommonAutoloader
 					  'text' => 'text.class.php',
 					  'theme' => 'layout/theme.class.php',
 					  'phpbb2_template_wrapper' => 'layout/phpbb2_template_wrapper.class.php',
+					  'chamilo_template' => 'layout/chamilo_template.class.php',
 					  'toolbar' => 'toolbar/toolbar.class.php',
 					  'toolbar_item' => 'toolbar/toolbar_item.class.php',
 					  'simple_table' => 'table/simple_table.class.php',
