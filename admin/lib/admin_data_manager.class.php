@@ -172,5 +172,52 @@ abstract class AdminDataManager
     abstract function retrieve_validations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
     abstract function count_validations($condition = null);
+    
+    // Dynamic Forms
+    
+    abstract function delete_dynamic_form($dynamic_form);
+
+    abstract function update_dynamic_form($dynamic_form);
+
+    abstract function create_dynamic_form($dynamic_form);
+
+    abstract function count_dynamic_forms($conditions = null);
+
+    abstract function retrieve_dynamic_forms($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    
+    abstract function delete_dynamic_form_element($dynamic_form_element);
+
+    abstract function update_dynamic_form_element($dynamic_form_element);
+
+    abstract function create_dynamic_form_element($dynamic_form_element);
+
+    abstract function count_dynamic_form_elements($conditions = null);
+
+    abstract function retrieve_dynamic_form_elements($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    
+    abstract function delete_dynamic_form_element_option($dynamic_form_element_option);
+
+    abstract function update_dynamic_form_element_option($dynamic_form_element_option);
+
+    abstract function create_dynamic_form_element_option($dynamic_form_element_option);
+
+    abstract function count_dynamic_form_element_options($conditions = null);
+
+    abstract function retrieve_dynamic_form_element_options($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    abstract function select_next_dynamic_form_element_option_order($dynamic_form_element);
+    
+    
+    abstract function delete_dynamic_form_element_value($dynamic_form_element_value);
+
+    abstract function update_dynamic_form_element_value($dynamic_form_element_value);
+
+    abstract function create_dynamic_form_element_value($dynamic_form_element_value);
+
+    abstract function count_dynamic_form_element_values($conditions = null);
+
+    abstract function retrieve_dynamic_form_element_values($condition = null, $offset = null, $count = null, $order_property = null);
 }
 ?>

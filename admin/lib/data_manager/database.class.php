@@ -498,7 +498,6 @@ class DatabaseAdminDataManager extends AdminDataManager
 
     function create_validation($validation)
     {
-
         return $this->database->create($validation);
     }
 
@@ -521,5 +520,124 @@ class DatabaseAdminDataManager extends AdminDataManager
         return $this->database->count_objects(Validation :: get_table_name(), $condition);
     }
 
+    // Dynamic Forms
+    
+    function delete_dynamic_form($dynamic_form)
+    {
+    	$condition = new EqualityCondition(DynamicForm :: PROPERTY_ID, $dynamic_form->get_id());
+        return $this->database->delete($dynamic_form->get_table_name(), $condition);
+    }
+
+    function update_dynamic_form($dynamic_form)
+    {
+    	$condition = new EqualityCondition(DynamicForm :: PROPERTY_ID, $dynamic_form->get_id());
+        return $this->database->update($dynamic_form, $condition);
+    }
+
+    function create_dynamic_form($dynamic_form)
+    {
+    	return $this->database->create($dynamic_form);
+    }
+
+    function count_dynamic_forms($conditions = null)
+    {
+    	 return $this->database->count_objects(DynamicForm :: get_table_name(), $conditions);
+    }
+
+    function retrieve_dynamic_forms($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+    	 return $this->database->retrieve_objects(DynamicForm :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+    
+    function delete_dynamic_form_element($dynamic_form_element)
+    {
+    	$condition = new EqualityCondition(DynamicFormElement :: PROPERTY_ID, $dynamic_form_element->get_id());
+        return $this->database->delete($dynamic_form_element->get_table_name(), $condition);
+    }
+
+    function update_dynamic_form_element($dynamic_form_element)
+    {
+    	$condition = new EqualityCondition(DynamicFormElement :: PROPERTY_ID, $dynamic_form_element->get_id());
+        return $this->database->update($dynamic_form_element, $condition);
+    }
+
+    function create_dynamic_form_element($dynamic_form_element)
+    {
+    	return $this->database->create($dynamic_form_element);
+    }
+
+    function count_dynamic_form_elements($conditions = null)
+    {
+    	 return $this->database->count_objects(DynamicFormElement :: get_table_name(), $conditions);
+    }
+
+    function retrieve_dynamic_form_elements($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+    	return $this->database->retrieve_objects(DynamicFormElement :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+    
+    function delete_dynamic_form_element_option($dynamic_form_element_option)
+    {
+    	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_ID, $dynamic_form_element_option->get_id());
+        return $this->database->delete($dynamic_form_element_option->get_table_name(), $condition);
+    }
+
+    function update_dynamic_form_element_option($dynamic_form_element_option)
+    {
+    	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_ID, $dynamic_form_element_option->get_id());
+        return $this->database->update($dynamic_form_element_option, $condition);
+    }
+
+    function create_dynamic_form_element_option($dynamic_form_element_option)
+    {
+    	return $this->database->create($dynamic_form_element_option);
+    }
+
+    function count_dynamic_form_element_options($conditions = null)
+    {
+    	 return $this->database->count_objects(DynamicFormElementOption :: get_table_name(), $conditions);
+    }
+
+    function retrieve_dynamic_form_element_options($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+    	return $this->database->retrieve_objects(DynamicFormElementOption :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+    function select_next_dynamic_form_element_option_order($dynamic_form_element)
+    {
+    	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, $dynamic_form_element->get_id());
+    	return $this->database->retrieve_next_sort_value(DynamicFormElementOption :: get_table_name(), DynamicFormElementOption :: PROPERTY_ORDER, $condition);
+    }
+    
+    
+    function delete_dynamic_form_element_value($dynamic_form_element_value)
+    {
+    	$condition = new EqualityCondition(DynamicFormElementValue :: PROPERTY_ID, $dynamic_form_element_value->get_id());
+        return $this->database->delete($dynamic_form_element_value->get_table_name(), $condition);
+    }
+
+    function update_dynamic_form_element_value($dynamic_form_element_value)
+    {
+    	$condition = new EqualityCondition(DynamicFormElementValue :: PROPERTY_ID, $dynamic_form_element_value->get_id());
+        return $this->database->update($dynamic_form_element_value, $condition);
+    }
+
+    function create_dynamic_form_element_value($dynamic_form_element_value)
+    {
+    	return $this->database->create($dynamic_form_element_value);
+    }
+
+    function count_dynamic_form_element_values($conditions = null)
+    {
+    	 return $this->database->count_objects(DynamicFormElementValue :: get_table_name(), $conditions);
+    }
+
+    function retrieve_dynamic_form_element_values($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+    	return $this->database->retrieve_objects(DynamicFormElementValue :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
 }
 ?>

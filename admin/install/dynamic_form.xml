@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="dynamic_form">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="name" type="text" length="100" fixed="true"
+			notnull="1" default="" />
+		<property name="application" type="text" length="100" fixed="true"
+			notnull="1" default="" />
+	</properties>
+	<index name="name">
+		<indexproperty name="name" />
+		<indexproperty name="application" />
+	</index>
+	<index name="id" = type="primary">
+		<indexproperty name="id" />
+	</index>
+</object>
