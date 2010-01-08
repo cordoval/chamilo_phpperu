@@ -91,7 +91,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
             exit();
         }
         
-        $compression = FileCompression :: factory();
+        $compression = Filecompression :: factory();
         $archive_file = $compression->create_archive($target_path);
         Filesystem :: remove($target_path);
         $archive_url = Path :: get(SYS_PATH) . str_replace(DIRECTORY_SEPARATOR, '/', str_replace(realpath($this->get_parent()->get_path(SYS_PATH)), '', $archive_file));
