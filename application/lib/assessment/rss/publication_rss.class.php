@@ -1,6 +1,7 @@
 <?php
 require_once Path :: get_common_path().'/rss/publication_rss.class.php';
 require_once dirname(__FILE__).'/../data_manager/database.class.php';
+require_once dirname(__FILE__).'/../assessment_manager/assessment_manager.class.php';
 
 class AssessmentPublicationRSS extends PublicationRSS
 {
@@ -15,30 +16,25 @@ class AssessmentPublicationRSS extends PublicationRSS
 		$publications = array();
 		while ($pub = $pubs->next_result())
 		{
-			$publications[] = $pub;
+			if ($this->is_visible_for_user($user, $pub))
+			{
+				$publications[] = $pub;
+			}
 		}
 		return $publications;
 	}
 	
-	/*function get_channel_title()
+	function get_url($pub)
 	{
-		return 'Chamilo assessments';
+		$params[Application :: PARAM_ACTION] = AssessmentManager :: ACTION_VIEW_ASSESSMENT_PUBLICATION;
+		$params[AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION] = $pub->get_id();
+		return Path :: get(WEB_PATH).Redirect :: get_link(AssessmentManager :: APPLICATION_NAME, $params);
 	}
 	
-	function get_channel_link()
+	function is_visible_for_user($user, $pub)
 	{
-		return 'http://localhost';
+		return $pub->is_visible_for_target_user($user);
 	}
-	
-	function get_channel_description()
-	{
-		return 'Assessments';
-	}
-	
-	function get_channel_source()
-	{
-		return 'http://localhost';
-	}*/
 }
 
 ?>

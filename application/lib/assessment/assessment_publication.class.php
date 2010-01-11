@@ -267,12 +267,17 @@ class AssessmentPublication extends DataClass
         
         $time = time();
         
-        if ($time < $this->get_from_date() || $time > $this->get_to_date())
+        if ($time < $this->get_from_date() || $time > $this->get_to_date() && !$this->is_forever())
         {
             return false;
         }
         
         return true;
+    }
+    
+    function is_forever()
+    {
+    	return ($this->get_from_date() == 0 && $this->get_to_date() == 0);
     }
 
     static function get_table_name()
