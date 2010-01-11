@@ -78,9 +78,9 @@ class Theme
     {
         switch ($path_type)
         {
-            case WEB_IMG_PATH :
+            case WEB_TPL_PATH :
                 return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/template/';
-            case SYS_IMG_PATH :
+            case SYS_TPL_PATH :
                 return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/template/';
             case WEB_IMG_PATH :
                 return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/images/';
