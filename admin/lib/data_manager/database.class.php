@@ -577,6 +577,12 @@ class DatabaseAdminDataManager extends AdminDataManager
     	return $this->database->retrieve_objects(DynamicFormElement :: get_table_name(), $condition, $offset, $count, $order_property);
     }
     
+	function select_next_dynamic_form_element_order($dynamic_form)
+    {
+    	$condition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $dynamic_form->get_id());
+    	return $this->database->retrieve_next_sort_value(DynamicFormElement :: get_table_name(), DynamicFormElement :: PROPERTY_DISPLAY_ORDER, $condition);
+    }
+    
     
     function delete_dynamic_form_element_option($dynamic_form_element_option)
     {
@@ -608,7 +614,7 @@ class DatabaseAdminDataManager extends AdminDataManager
     function select_next_dynamic_form_element_option_order($dynamic_form_element)
     {
     	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, $dynamic_form_element->get_id());
-    	return $this->database->retrieve_next_sort_value(DynamicFormElementOption :: get_table_name(), DynamicFormElementOption :: PROPERTY_ORDER, $condition);
+    	return $this->database->retrieve_next_sort_value(DynamicFormElementOption :: get_table_name(), DynamicFormElementOption :: PROPERTY_DISPLAY_ORDER, $condition);
     }
     
     

@@ -7,6 +7,7 @@
 		<property name="type" type="integer" length="1" unsigned="1" notnull="1"/>
 		<property name="required" type="integer" length="1" unsigned="1" notnull="1"/>
 		<property name="dynamic_form_id" type="integer" unsigned="1" notnull="1"/>
+		<property name="display_order" type="integer" unsigned="1" notnull="1"/>
 	</properties>
 	<index name="name">
 		<indexproperty name="name" />
@@ -16,8 +17,5 @@
 	</index>
 	<index name="dynamic_form_id">
 		<indexproperty name="dynamic_form_id" />
-	</index>
-	<index name="id" = type="primary">
-		<indexproperty name="id" />
 	</index>
 </object>

@@ -5,21 +5,32 @@
  * @author Sven Vanpoucke
  */
 
+require_once dirname(__FILE__) . '/dynamic_form_manager_component.class.php';
+require_once dirname(__FILE__) . '/dynamic_form.class.php';
+
 class DynamicFormManager extends SubManager
 {
     const PARAM_DYNAMIC_FORM_ACTION = 'dynfo_action';
     const PARAM_DYNAMIC_FORM_ID = 'dynfo_id';
     const PARAM_DYNAMIC_FORM_ELEMENT_ID = 'dynfo_el_id';
+    const PARAM_DYNAMIC_FORM_ELEMENT_TYPE = 'dynfo_el_type';
+    const PARAM_DELETE_FORM_ELEMENETS = 'delete_elements';
     
     const ACTION_BUILD_DYNAMIC_FORM = 'builder';
     const ACTION_VIEW_DYNAMIC_FORM = 'viewer';
+    const ACTION_EXECUTE_DYNAMIC_FORM = 'executer';
     const ACTION_ADD_FORM_ELEMENT = 'add_element';
     const ACTION_DELETE_FORM_ELEMENT = 'delete_element';
     const ACTION_UPDATE_FORM_ELEMENT = 'update_element';
 
-    private $form;
+    const TYPE_BUILDER = 0;
+    const TYPE_VIEWER = 1;
+    const TYPE_EXECUTER = 2;
     
-    function DynamicFormManager($parent, $application, $name)
+    private $form;
+    private $type;
+    
+    function DynamicFormManager($parent, $application, $name, $type)
     {
         parent :: __construct($parent);
         
@@ -29,7 +40,11 @@ class DynamicFormManager extends SubManager
             $this->set_parameter(self :: PARAM_DYNAMIC_FORM_ACTION, $dynamic_form_action);
         }
         
+        $this->type = $type;
+        
         $this->set_form($this->retrieve_form($application, $name));
+        
+        $this->parse_input_from_table();
     }
 
     function run()
@@ -53,14 +68,33 @@ class DynamicFormManager extends SubManager
             case self :: ACTION_DELETE_FORM_ELEMENT :
                 $component = DynamicFormManagerComponent :: factory('DeleteElement', $this);
                 break;
+            case self :: ACTION_EXECUTE_DYNAMIC_FORM :
+            	$component = DynamicFormManagerComponent :: factory('Executer', $this);
+                break;
             default :
-                $component = DynamicFormManagerComponent :: factory('Viewer', $this);
+            	switch($this->type)
+            	{
+            		case self :: TYPE_VIEWER:
+            			$component = DynamicFormManagerComponent :: factory('Viewer', $this);
+            			break;
+            		case self :: TYPE_BUILDER:
+            			$component = DynamicFormManagerComponent :: factory('Builder', $this);
+            			break;
+            		case self :: TYPE_EXECUTER:
+            			$component = DynamicFormManagerComponent :: factory('Executer', $this);
+            			break;
+            	}
                 break;
         }
         
         $component->run();
     }
-
+    
+    function parse_input_from_table()
+    {
+    	
+    }
+    
     function get_form()
     {
     	return $this->form;
@@ -110,6 +144,13 @@ class DynamicFormManager extends SubManager
     	}
     	
     	return $form;
+    }
+    
+    function display_header($trail)
+    {
+    	$normal_trail = $this->get_parent()->get_breadcrumb_trail();
+    	$normal_trail->merge($trail);
+    	return parent :: display_header($normal_trail);
     }
 }
 ?>

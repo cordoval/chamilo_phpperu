@@ -11,7 +11,4 @@
 		<indexproperty name="name" />
 		<indexproperty name="application" />
 	</index>
-	<index name="id" = type="primary">
-		<indexproperty name="id" />
-	</index>
 </object>

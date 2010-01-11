@@ -11,7 +11,7 @@ class DynamicFormElementOption extends DataClass
 
     const PROPERTY_DYNAMIC_FORM_ELEMENT_ID = 'dynamic_form_element_id';
     const PROPERTY_NAME = 'name';
-    const PROPERTY_ORDER = 'order';
+    const PROPERTY_DISPLAY_ORDER = 'display_order';
     
  	function get_dynamic_form_element_id()
     {
@@ -33,14 +33,14 @@ class DynamicFormElementOption extends DataClass
     	$this->set_default_property(self :: PROPERTY_NAME, $name);
     }
     
-	function get_order()
+	function get_display_order()
     {
-    	return $this->get_default_property(self :: PROPERTY_ORDER);
+    	return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER);
     }
     
-    function set_order($order)
+    function set_display_order($display_order)
     {
-    	$this->set_default_property(self :: PROPERTY_ORDER, $order);
+    	$this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
     }
 
     /**
@@ -50,7 +50,7 @@ class DynamicFormElementOption extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID,
-        		self :: PROPERTY_NAME, self :: PROPERTY_ORDER));
+        		self :: PROPERTY_NAME, self :: PROPERTY_DISPLAY_ORDER));
     }
 
     /**
@@ -63,7 +63,7 @@ class DynamicFormElementOption extends DataClass
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

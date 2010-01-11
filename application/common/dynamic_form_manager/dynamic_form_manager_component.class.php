@@ -21,5 +21,10 @@ class DynamicFormManagerComponent extends SubManagerComponent
     {
     	return $this->get_parent()->get_add_element_url();
     }
+    
+    function get_form()
+    {
+    	return $this->get_parent()->get_form();
+    }
 }
 ?>

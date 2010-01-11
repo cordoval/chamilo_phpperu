@@ -48,6 +48,8 @@ class UserManager extends CoreApplication
     const ACTION_CHANGE_BUDDYLIST_ITEM_STATUS = 'buddy_status_change';
     const ACTION_CHANGE_BUDDYLIST_ITEM_CATEGORY = 'buddy_category_change';
     
+    const ACTION_BUILD_USER_FIELDS = 'user_field_builder';
+    
     const PARAM_BUDDYLIST_CATEGORY = 'buddylist_category';
     const PARAM_BUDDYLIST_ITEM = 'buddylist_item';
     
@@ -250,6 +252,9 @@ class UserManager extends CoreApplication
             case self :: ACTION_RESET_PASSWORD_MULTI:
             	$component = UserManagerComponent :: factory('MultiPasswordResetter',$this);
                 break;
+            case self :: ACTION_BUILD_USER_FIELDS:
+            	$component = UserManagerComponent :: factory('UserFieldsBuilder',$this);
+                break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_USERS);
                 $component = UserManagerComponent :: factory('AdminUserBrowser', $this);
@@ -323,6 +328,7 @@ class UserManager extends CoreApplication
         $links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
         $links[] = array('name' => Translation :: get('Export'), 'description' => Translation :: get('ExportDescription'), 'action' => 'export', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
         $links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
+        $links[] = array('name' => Translation :: get('BuildUserFields'), 'description' => Translation :: get('BuildUserFieldsDescription'), 'action' => 'build', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BUILD_USER_FIELDS)));
         
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
