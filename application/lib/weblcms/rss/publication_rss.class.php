@@ -15,30 +15,72 @@ class WeblcmsPublicationRSS extends PublicationRSS
 		$publications = array();
 		while ($pub = $pubs->next_result())
 		{
-			$publications[] = $pub;
+			if ($this->is_visible_for_user($user, $pub))
+			{
+				$publications[] = $pub;
+			}
 		}
 		return $publications;
 	}
 	
-	/*function get_channel_title()
+	function get_url($pub)
 	{
-		return 'Chamilo weblcms';
+		$params[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_VIEW_COURSE;
+		$params[WeblcmsManager :: PARAM_COURSE_USER] = $pub->get_course_id();
+		$params[ContentObjectPublication :: PROPERTY_TOOL] = $pub->get_tool();
+		return Path :: get(WEB_PATH).Redirect :: get_link(WeblcmsManager :: APPLICATION_NAME, $params);
 	}
 	
-	function get_channel_link()
+	function is_visible_for_user($user, $pub)
 	{
-		return 'http://localhost';
+		if ($user->is_platform_admin() || $user->get_id() == $pub->get_publisher_id())
+        {
+            return true;
+        }
+        
+        if ($pub->get_target_course_groups() || $pub->get_target_users())
+        {
+            $allowed = false;
+            
+            if (in_array($user->get_id(), $pub->get_target_users()))
+            {
+                $allowed = true;
+            }
+            
+            if (! $allowed)
+            {
+                $user_groups = $user->get_groups();
+                
+                while ($user_group = $user_groups->next_result())
+                {
+                    if (in_array($user_group->get_id(), $pub->get_target_groups()))
+                    {
+                        $allowed = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (! $allowed)
+            {
+                return false;
+            }
+        }
+        
+        if ($pub->is_hidden())
+        {
+            return false;
+        }
+        
+        $time = time();
+        
+        if ($time < $pub->get_from_date() || $time > $pub->get_to_date())
+        {
+            return false;
+        }
+        
+        return true;
 	}
-	
-	function get_channel_description()
-	{
-		return 'Weblcms publications';
-	}
-	
-	function get_channel_source()
-	{
-		return 'http://localhost';
-	}*/
 }
 
 ?>
