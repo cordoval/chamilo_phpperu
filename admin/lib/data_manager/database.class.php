@@ -617,6 +617,11 @@ class DatabaseAdminDataManager extends AdminDataManager
     	return $this->database->retrieve_next_sort_value(DynamicFormElementOption :: get_table_name(), DynamicFormElementOption :: PROPERTY_DISPLAY_ORDER, $condition);
     }
     
+    function delete_all_options_from_form_element($dynamic_form_element_id)
+    {
+    	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, $dynamic_form_element_id);
+        return $this->database->delete(DynamicFormElementOption :: get_table_name(), $condition);
+    }
     
     function delete_dynamic_form_element_value($dynamic_form_element_value)
     {

@@ -17,8 +17,8 @@ class DynamicFormElement extends DataClass
     
     const TYPE_TEXTBOX = 1;
     const TYPE_HTMLEDITOR = 2;
-    const TYPE_RADIO_BUTTONS = 3;
-    const TYPE_CHECKBOX = 4;
+    const TYPE_CHECKBOX = 3;
+    const TYPE_RADIO_BUTTONS = 4;
     const TYPE_SELECT_BOX = 5;
     
     private $options;
@@ -26,7 +26,7 @@ class DynamicFormElement extends DataClass
 	function DynamicForm($defaultProperties)
     {
     	parent :: DataClass($defaultProperties);
-    	$this->options = array();
+    	//$this->options = array();
     }
     
  	function get_dynamic_form_id()
@@ -81,6 +81,9 @@ class DynamicFormElement extends DataClass
     
 	function get_options()
     {
+    	if(!$this->options)
+    		$this->load_options();
+    		
     	return $this->options;
     }
     
@@ -113,7 +116,7 @@ class DynamicFormElement extends DataClass
     	$options = AdminDataManager :: get_instance()->retrieve_dynamic_form_element_options($condition);
     	$this->set_options($options->as_array());
     	
-    	return $this->get_options();
+    	return $this->options;
     }
     
     /**
@@ -145,8 +148,8 @@ class DynamicFormElement extends DataClass
     	return array(
     		Translation :: get('Textbox') => self :: TYPE_TEXTBOX,
     		Translation :: get('HtmlEditor') => self :: TYPE_HTMLEDITOR,
-    		Translation :: get('RadioButtons') => self :: TYPE_RADIO_BUTTONS,
     		Translation :: get('Checkbox') => self :: TYPE_CHECKBOX,
+    		Translation :: get('RadioButtons') => self :: TYPE_RADIO_BUTTONS,
     		Translation :: get('SelectBox') => self :: TYPE_SELECT_BOX
     	);
     }

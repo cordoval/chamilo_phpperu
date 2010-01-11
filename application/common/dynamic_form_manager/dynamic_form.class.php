@@ -17,7 +17,7 @@ class DynamicForm extends DataClass
     function DynamicForm($defaultProperties)
     {
     	parent :: DataClass($defaultProperties);
-    	$this->elements = array();
+    	//$this->elements = array();
     }
     
     function get_name()
@@ -42,6 +42,9 @@ class DynamicForm extends DataClass
     
     function get_elements()
     {
+    	if(!$this->elements)
+    		$this->load_elements();
+    		
     	return $this->elements;
     }
     
@@ -74,7 +77,7 @@ class DynamicForm extends DataClass
     	$elements = AdminDataManager :: get_instance()->retrieve_dynamic_form_elements($condition);
     	$this->set_elements($elements->as_array());
     	
-    	return $this->get_elements();
+    	return $this->elements;
     }
 
     /**

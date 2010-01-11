@@ -5,7 +5,6 @@
  * @author Sven Vanpoucke
  */
 
-require_once (dirname(__FILE__) . '/../dynamic_form_element.class.php');
 require_once (dirname(__FILE__) . '/../dynamic_form_element_builder_form.class.php');
 
 class DynamicFormManagerUpdateElementComponent extends DynamicFormManagerComponent

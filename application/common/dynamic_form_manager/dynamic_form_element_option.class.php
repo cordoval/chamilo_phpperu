@@ -65,5 +65,11 @@ class DynamicFormElementOption extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+	function create()
+    {
+    	$this->set_display_order(AdminDataManager :: get_instance()->select_next_dynamic_form_element_option_order($this->get_dynamic_form_element_id()));
+    	return parent :: create();
+    }
 }
 ?>

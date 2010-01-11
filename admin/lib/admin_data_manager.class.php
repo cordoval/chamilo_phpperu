@@ -211,6 +211,8 @@ abstract class AdminDataManager
     
     abstract function select_next_dynamic_form_element_option_order($dynamic_form_element_id);
     
+    abstract function delete_all_options_from_form_element($dynamic_form_element_id);
+    
     
     abstract function delete_dynamic_form_element_value($dynamic_form_element_value);
 

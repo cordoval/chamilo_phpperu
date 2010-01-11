@@ -5,7 +5,6 @@
  * @author Sven Vanpoucke
  */
 
-require_once (dirname(__FILE__) . '/../dynamic_form_element.class.php');
 require_once (dirname(__FILE__) . '/../dynamic_form_element_builder_form.class.php');
 
 class DynamicFormManagerAddElementComponent extends DynamicFormManagerComponent
@@ -34,9 +33,6 @@ class DynamicFormManagerAddElementComponent extends DynamicFormManagerComponent
         else
         {
             $this->display_header($trail);
-            
-            echo '<br />' . $element->get_type_name($element->get_type()) . '<br />';
-            
             $form->display();
             $this->display_footer();
         }
