@@ -167,5 +167,11 @@ class DynamicFormElement extends DataClass
     			return Translation :: get('SelectBox');
     	}
     }
+    
+    function create()
+    {
+    	$this->set_display_order(AdminDataManager :: get_instance()->select_next_dynamic_form_element_order($this->get_dynamic_form_id()));
+    	return parent :: create();
+    }
 }
 ?>

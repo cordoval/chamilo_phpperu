@@ -14,12 +14,12 @@ class DynamicFormManagerComponent extends SubManagerComponent
     
     function get_update_element_url($element)
     {
-    	return $this->get_parent()->get_add_element_url();
+    	return $this->get_parent()->get_update_element_url($element);
     }
     
-    function delete_element_url($element)
+    function get_delete_element_url($element)
     {
-    	return $this->get_parent()->get_add_element_url();
+    	return $this->get_parent()->get_delete_element_url($element);
     }
     
     function get_form()

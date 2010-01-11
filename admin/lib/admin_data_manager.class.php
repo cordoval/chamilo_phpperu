@@ -196,6 +196,8 @@ abstract class AdminDataManager
 
     abstract function retrieve_dynamic_form_elements($condition = null, $offset = null, $count = null, $order_property = null);
     
+    abstract function select_next_dynamic_form_element_order($dynamic_form_id);
+    
     
     abstract function delete_dynamic_form_element_option($dynamic_form_element_option);
 
@@ -207,7 +209,7 @@ abstract class AdminDataManager
 
     abstract function retrieve_dynamic_form_element_options($condition = null, $offset = null, $count = null, $order_property = null);
     
-    abstract function select_next_dynamic_form_element_option_order($dynamic_form_element);
+    abstract function select_next_dynamic_form_element_option_order($dynamic_form_element_id);
     
     
     abstract function delete_dynamic_form_element_value($dynamic_form_element_value);

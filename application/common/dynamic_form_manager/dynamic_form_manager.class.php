@@ -7,6 +7,7 @@
 
 require_once dirname(__FILE__) . '/dynamic_form_manager_component.class.php';
 require_once dirname(__FILE__) . '/dynamic_form.class.php';
+require_once dirname(__FILE__) . '/component/dynamic_form_element_browser/dynamic_form_element_browser_table.class.php';
 
 class DynamicFormManager extends SubManager
 {
@@ -92,7 +93,26 @@ class DynamicFormManager extends SubManager
     
     function parse_input_from_table()
     {
-    	
+    	if (isset($_POST['action']))
+        {
+            $selected_ids = $_POST[DynamicFormElementBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+            if (empty($selected_ids))
+            {
+                $selected_ids = array();
+            }
+            elseif (! is_array($selected_ids))
+            {
+                $selected_ids = array($selected_ids);
+            }
+
+            switch ($_POST['action'])
+            {
+                case self :: PARAM_DELETE_FORM_ELEMENETS :
+                    $this->set_parameter(self :: PARAM_DYNAMIC_FORM_ACTION, self :: ACTION_DELETE_FORM_ELEMENT);
+                    Request :: set_get(self :: PARAM_DYNAMIC_FORM_ELEMENT_ID, $selected_ids);
+                    break;
+            }
+        }
     }
     
     function get_form()
@@ -121,7 +141,7 @@ class DynamicFormManager extends SubManager
     								self :: PARAM_DYNAMIC_FORM_ELEMENT_ID => $element->get_id()));
     }
     
-    function delete_element_url($element)
+    function get_delete_element_url($element)
     {
     	return $this->get_url(array(self :: PARAM_DYNAMIC_FORM_ACTION => self :: ACTION_DELETE_FORM_ELEMENT,
     								self :: PARAM_DYNAMIC_FORM_ELEMENT_ID => $element->get_id()));
