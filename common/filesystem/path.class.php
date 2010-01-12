@@ -56,6 +56,8 @@ define('WEB_SCORM_PATH', 'WEB_SCORM_PATH');
 define('SYS_SCORM_PATH', 'SYS_SCORM_PATH');
 define('WEB_HOTPOTATOES_PATH', 'WEB_HOTPOTATOES_PATH');
 define('SYS_HOTPOTATOES_PATH', 'SYS_HOTPOTATOES_PATH');
+define('WEB_CACHE_PATH', 'WEB_CACHE_PATH');
+define('SYS_CACHE_PATH', 'SYS_CACHE_PATH');
 
 class Path
 {
@@ -176,6 +178,10 @@ class Path
                 return self :: get(SYS_FILE_PATH) . 'hotpotatoes/';
             case WEB_HOTPOTATOES_PATH :
                 return self :: get(WEB_FILE_PATH) . 'hotpotatoes/';
+            case SYS_CACHE_PATH :
+                return self :: get(SYS_FILE_PATH) . 'cache/';
+            case WEB_CACHE_PATH :
+                return self :: get(WEB_FILE_PATH) . 'cache/';
             default :
                 return;
         }
@@ -279,6 +285,16 @@ class Path
     public static function get_web_application_component_path($application_name)
     {
         return self :: get_web_application_path($application_name) . '/lib/' . $application_name . '_manager/component/';
+    }
+
+    public static function get_temp_path()
+    {
+        return self :: get(SYS_TEMP_PATH);
+    }
+
+    public static function get_cache_path()
+    {
+        return self :: get(SYS_CACHE_PATH);
     }
 }
 ?>

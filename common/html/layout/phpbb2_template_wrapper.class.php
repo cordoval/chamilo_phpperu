@@ -34,7 +34,7 @@ class Phpbb2TemplateWrapper extends Phpbb2Template
 {
     // The caching engine
     var $cache;
-   
+
     /**
      * Constructor. Simply sets the root dir.
      *
@@ -43,6 +43,16 @@ class Phpbb2TemplateWrapper extends Phpbb2Template
     {
     	parent :: Template(Path :: get(SYS_PATH) .  'layout/' . $theme . '/templates/');
         $this->cache = TemplateCache :: factory($theme, 'file');
+    }
+
+    function set_theme($theme)
+    {
+        $this->root = Path :: get(SYS_PATH) .  'layout/' . $theme . '/templates/';
+        $this->cache = TemplateCache :: factory($theme, 'file');
+    }
+
+    function reset()
+    {
     }
 
     /**
@@ -55,7 +65,7 @@ class Phpbb2TemplateWrapper extends Phpbb2Template
         {
             die("Template->pparse(): Couldn't load template file for handle $handle");
         }
-        
+
         // actually compile the template now.
         if (!isset($this->compiled_code[$handle]) || empty($this->compiled_code[$handle]));
         {
@@ -73,14 +83,14 @@ class Phpbb2TemplateWrapper extends Phpbb2Template
 	        	{
 	        		$this->compiled_code[$handle] = $this->compile($this->uncompiled_code[$handle]);
 	        	}
-	        	
+
 	        	$this->cache->cache($handle, $this->uncompiled_code[$handle], $this->compiled_code[$handle]);
 			}
         }
         //echo '<pre>' . $this->compiled_code[$handle]; exit;
         // Run the compiled code.
         eval($this->compiled_code[$handle]);
-        
+
         if($return)
         {
         	return $str;
@@ -101,28 +111,38 @@ class Phpbb2TemplateWrapper extends Phpbb2Template
         {
             die("Template->assign_var_from_handle(): Couldn't load template file for handle $handle");
         }
-        
+
         $_str = "";
         $this->compiled_code[$handle] = $this->cache->retrieve_from_cache($handle, $this->uncompiled_code[$handle]);
-        
+
 		if(!$this->compiled_code[$handle])
 		{
 	        // Compile it, with the "no echo statements" option on.
 	        $code = $this->compile($this->uncompiled_code[$handle], true, '_str');
 	        $this->cache->cache($handle, $this->uncompiled_code[$handle], $code);
 		}
-        
+
         // evaluate the variable assignment.
         eval($code);
         // assign the value of the generated variable to the given varname.
         $this->assign_var($varname, $_str);
-        
+
         return true;
     }
 
     function add_filename($filename)
     {
     	$this->set_filenames(array(substr($filename, 0, -4) => $filename));
+    }
+
+    function render($handle, $return = true)
+    {
+        $result = $this->pparse($handle, $return);
+
+        if ($return)
+        {
+            return $result;
+        }
     }
 }
 ?>

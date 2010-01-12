@@ -8,8 +8,7 @@ $this_section = 'laika';
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once Path :: get_application_path() . 'lib/laika/laika_data_manager.class.php';
 
-Translation :: set_application('laika');
-Theme :: set_application($this_section);
+Utilities :: set_application($this_section);
 
 if (Authentication :: is_valid())
 {
@@ -17,7 +16,7 @@ if (Authentication :: is_valid())
     $scale_id = str_replace('scale_info_', '', $scale_id);
     $scale = LaikaDataManager :: get_instance()->retrieve_laika_scale($scale_id);
     $cluster = $scale->get_cluster();
-    
+
     $json_result['success'] = '1';
     $json_result['title'] = Translation :: get('Scale') . ': ' . $scale->get_title();
     $json_result['subtitle'] = Translation :: get('Cluster') . ': ' . $cluster->get_title();

@@ -7,8 +7,7 @@ $this_section = 'home';
 
 include_once ('common/global.inc.php');
 
-Translation :: set_application('home');
-Theme :: set_application('home');
+Utilities :: set_application($this_section);
 
 if (Session :: get_user_id())
 {

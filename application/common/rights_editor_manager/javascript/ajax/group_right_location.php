@@ -7,8 +7,7 @@ $this_section = 'rights';
 
 require_once dirname(__FILE__) . '/../../../../../common/global.inc.php';
 
-Translation :: set_application($this_section);
-Theme :: set_application($this_section);
+Utilities :: set_application($this_section);
 
 if (! Authentication :: is_valid())
 {
@@ -33,13 +32,13 @@ $right_group = $rights['2'];
 if (isset($right_group) && isset($right) && isset($locations) && count($locations) > 0)
 {
 	$success = true;
-    
+
 	$rdm = RightsDataManager :: get_instance();
-	
+
     foreach($locations as $location_id)
     {
     	$success &= RightsUtilities :: invert_group_right_location($right, $right_group, $location_id);
-    	
+
     	if(PlatformSetting :: get('use_cumulative_rights', 'repository'))
     	{
 	    	$location = $rdm->retrieve_location($location_id);
@@ -63,7 +62,7 @@ if (isset($right_group) && isset($right) && isset($locations) && count($location
 	    	}
     	}
     }
-    
+
     if (! $success)
     {
         echo 0;

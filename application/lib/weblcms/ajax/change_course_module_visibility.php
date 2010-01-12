@@ -9,8 +9,7 @@ require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 
-Translation :: set_application($this_section);
-Theme :: set_application($this_section);
+Utilities :: set_application($this_section);
 
 $module_id = $_POST['tool'];
 $visible = $_POST['visible'];

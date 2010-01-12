@@ -8,7 +8,6 @@
  */
 class Footer
 {
-
     /**
      * Create a new Footer
      */
@@ -106,7 +105,10 @@ class Footer
 //        return implode("\n", $output);
 
     	$template = Theme :: get_template();
-    	$template->add_filename('footer.tpl');
+    	//$template->add_filename('footer.tpl');
+        $template->set_filenames(array(
+        	'footer' => 'common/footer.tpl')
+        );
 
         $show_sitemap = $this->get_setting('show_sitemap', 'menu');
 
@@ -141,11 +143,6 @@ class Footer
             $links[] = Translation :: get('Version') . ' ' . $this->get_setting('version', 'admin');
         }
 
-        //        $links[] = Translation :: get('License');
-        //        $links[] = Translation :: get('PrivacyPolicy');
-        //        $links[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
-
-
         $world = PlatformSetting :: get('whoisonlineaccess');
 
         if ($world == "1" || $_SESSION['_uid'] && $world == "2")
@@ -159,7 +156,7 @@ class Footer
 
         $template->assign_var('LINKS' , $links );
 
-        return $template->pparse('footer');
+        return $template->render('footer');
     }
 }
 ?>

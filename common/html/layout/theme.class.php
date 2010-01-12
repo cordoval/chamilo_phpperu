@@ -17,12 +17,12 @@ class Theme
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
-    
+
     /**
      * The theme we're currently using
      */
     private $theme;
-    
+
     /**
      * The application we're currently rendering
      */
@@ -30,14 +30,15 @@ class Theme
 
     /**
      * The template engine
-     * @var Phpbb2TemplateWrapper
+     * @var ChamiloTemplate The chamilo templating object
      */
     private $template;
-    
+
     function Theme()
     {
         $this->theme = PlatformSetting :: get('theme');
         $this->template = new Phpbb2TemplateWrapper($this->theme);
+//        $this->template = ChamiloTemplate :: get_instance($this->theme);
     }
 
     /**
@@ -48,7 +49,7 @@ class Theme
     {
     	return self :: get_instance()->template;
     }
-    
+
     function get_theme()
     {
         return self :: get_instance()->theme;
@@ -58,6 +59,10 @@ class Theme
     {
         $instance = self :: get_instance();
         $instance->theme = $theme;
+
+        $template = $instance->get_template();
+        $template->set_theme($theme);
+        $template->reset();
     }
 
     function get_application()
@@ -148,10 +153,10 @@ class Theme
     function get_themes()
     {
         $options = array();
-        
+
         $path = Path :: get(SYS_LAYOUT_PATH);
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
-        
+
         foreach ($directories as $index => $directory)
         {
             if (substr($directory, 0, 1) != '.')
@@ -159,14 +164,14 @@ class Theme
                 $options[$directory] = Utilities :: underscores_to_camelcase($directory);
             }
         }
-        
+
         return $options;
     }
 
     function get_common_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
         $image = self :: get_common_image_path() . $image . '.' . $extension;
-        
+
         $icon = new ToolbarItem($label, $image, $href, $display, $confirmation);
         return $icon->as_html();
     }
@@ -174,7 +179,7 @@ class Theme
     function get_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
         $image = self :: get_image_path() . $image . '.' . $extension;
-        
+
         $icon = new ToolbarItem($label, $image, $href, $display, $confirmation);
         return $icon->as_html();
     }

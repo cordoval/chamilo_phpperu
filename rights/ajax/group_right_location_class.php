@@ -7,8 +7,7 @@ $this_section = 'rights';
 
 require_once dirname(__FILE__) . '/../../common/global.inc.php';
 
-Translation :: set_application($this_section);
-Theme :: set_application($this_section);
+Utilities :: set_application($this_section);
 
 if (! Authentication :: is_valid())
 {
@@ -34,7 +33,7 @@ if (isset($right_group) && isset($right) && isset($location))
     $rdm = RightsDataManager :: get_instance();
     $location = $rdm->retrieve_location($location);
     $locked_parent = $location->get_locked_parent();
-    
+
     if (isset($locked_parent))
     {
         // TODO: In theory this shouldn't happen, but what if someone else does lock a parent at the same time ? This affects the entire page ... not limited to this functionality.
@@ -44,13 +43,13 @@ if (isset($right_group) && isset($right) && isset($location))
     else
     {
         $value = RightsUtilities :: get_group_right_location($right, $right_group, $location->get_id());
-        
+
         if (! $value)
         {
             if ($location->inherits())
             {
                 $inherited_value = RightsUtilities :: is_allowed_for_group($right_group, $right, $location);
-                
+
                 if ($inherited_value)
                 {
                     echo 'rightInheritTrue';
