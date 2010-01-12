@@ -45,6 +45,16 @@ class Phpbb2TemplateWrapper extends Phpbb2Template
         $this->cache = TemplateCache :: factory($theme, 'file');
     }
 
+    function set_theme($theme)
+    {
+        $this->root = Path :: get(SYS_PATH) .  'layout/' . $theme . '/templates/';
+        $this->cache = TemplateCache :: factory($theme, 'file');
+    }
+
+    function reset()
+    {
+    }
+
     /**
      * Load the file for the handle, compile the file,
      * and run the compiled code.
