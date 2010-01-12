@@ -12,8 +12,7 @@ require_once dirname(__FILE__) . '/../../common/global.inc.php';
 //$this_section = 'reporting';
 $this_section = (Request :: get('application')) ? Request :: get('application') : 'reporting';
 
-Translation :: set_application($this_section);
-Theme :: set_application($this_section);
+Utilities :: set_application($this_section);
 
 $block_id = $_POST['block'];
 $type = $_POST['type'];

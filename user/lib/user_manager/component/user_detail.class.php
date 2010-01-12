@@ -53,6 +53,8 @@ class UserManagerUserDetailComponent extends UserManagerComponent
 				}
 			}
 			
+			$this->display_additional_information($id);
+			
 			$this->display_footer();
 			
 		}
@@ -86,7 +88,7 @@ class UserManagerUserDetailComponent extends UserManagerComponent
         foreach($attributes as $i => $attribute)
         {
         	$table->setCellContents(($i + 1), 0, Translation :: get(Utilities :: underscores_to_camelcase($attribute)));
-        	$table->setCellAttributes(($i + 1), 0, array('style' => 'width: 50px;'));
+        	$table->setCellAttributes(($i + 1), 0, array('style' => 'width: 150px;'));
         	
         	$value = $user->get_default_property($attribute);
         	$value = $this->format_property($attribute, $value);
@@ -136,6 +138,7 @@ class UserManagerUserDetailComponent extends UserManagerComponent
         $table->setCellAttributes(0, 0, array('colspan' => 2, 'style' => 'text-align: center;'));
         
         $table->setHeaderContents(1, 0, Translation :: get('GroupCode'));
+        $table->setCellAttributes(1, 0, array('style' => 'width: 150px;'));
         $table->setHeaderContents(1, 1, Translation :: get('GroupName'));
        
         $groups = $user->get_groups();
@@ -156,7 +159,7 @@ class UserManagerUserDetailComponent extends UserManagerComponent
 	        	$url = '<a href="' . $gm->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id())) . '">';
 	        	
 	        	$table->setCellContents($i, 0, $url . $group->get_code() . '</a>');
-	        	$table->setCellAttributes($i, 0, array('style' => 'width: 50px;'));
+	        	$table->setCellAttributes($i, 0, array('style' => 'width: 150px;'));
 	        	$table->setCellContents($i, 1, $url . $group->get_name() . '</a>');
 				$i++;
 	        }
@@ -191,6 +194,18 @@ class UserManagerUserDetailComponent extends UserManagerComponent
 					$this->get_change_user_url($user), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 					
 		return $action_bar;
+	}
+	
+	function display_additional_information($user_id)
+	{
+		$form_builder = new DynamicFormManager($this, UserManager :: APPLICATION_NAME, 'account_fields', DynamicFormManager :: TYPE_VIEWER);
+		$form_builder->set_target_user_id($user_id);
+        $form_builder->run();
+	}
+	
+	function get_dynamic_form_title()
+	{
+		return Translation :: get('AdditionalUserInformation');
 	}
 }
 ?>

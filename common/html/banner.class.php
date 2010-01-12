@@ -70,7 +70,6 @@ class Banner
             $output[] = '</div>';
         }
 
-
         //not to let the header disappear if there's nothing on the left
         $output[] = '<div class="clear">&nbsp;</div>';
         $output[] = '</div> <!-- end of #header1 -->';

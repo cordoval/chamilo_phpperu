@@ -540,5 +540,11 @@ class Utilities
             return null;
         }
     }
+
+    static function set_application($application)
+    {
+        Translation :: set_application($application);
+        Theme :: set_application($application);
+    }
 }
 ?>
