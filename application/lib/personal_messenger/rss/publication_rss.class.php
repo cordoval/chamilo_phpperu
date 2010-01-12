@@ -7,7 +7,7 @@ class PersonalMessengerPublicationRSS extends PublicationRSS
 {
 	function PersonalMessengerPublicationRSS()
 	{
-		parent :: PublicationRSS('Chamilo Personal Messenger', 'http://localhost', 'Personal messenger publications', 'http://localhost');
+		parent :: PublicationRSS('Chamilo Personal Messenger', htmlspecialchars(Path :: get(WEB_PATH)), 'Personal messenger publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')
@@ -39,7 +39,6 @@ class PersonalMessengerPublicationRSS extends PublicationRSS
 		$params[Application :: PARAM_ACTION] = PersonalMessengerManager :: ACTION_VIEW_PUBLICATION;
 		$params[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID] = $pub->get_id();
 		$params[PersonalMessengerManager :: PARAM_FOLDER] = PersonalMessengerManager :: ACTION_FOLDER_INBOX;
-		//$params = array();
 		return Path :: get(WEB_PATH).Redirect :: get_link(PersonalMessengerManager :: APPLICATION_NAME, $params);
 	}
 	
