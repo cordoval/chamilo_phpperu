@@ -30,15 +30,15 @@ class Theme
 
     /**
      * The template engine
-     * @var Phpbb2TemplateWrapper
+     * @var ChamiloTemplate The chamilo templating object
      */
     private $template;
 
     function Theme()
     {
         $this->theme = PlatformSetting :: get('theme');
-        $this->template = new Phpbb2TemplateWrapper($this->theme);
-//        $this->template = ChamiloTemplate :: get_instance();
+//        $this->template = new Phpbb2TemplateWrapper($this->theme);
+        $this->template = ChamiloTemplate :: get_instance($this->theme);
     }
 
     /**
@@ -59,6 +59,10 @@ class Theme
     {
         $instance = self :: get_instance();
         $instance->theme = $theme;
+
+        $template = $instance->get_template();
+        $template->set_theme($theme);
+        $template->reset();
     }
 
     function get_application()

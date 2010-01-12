@@ -105,7 +105,10 @@ class Footer
 //        return implode("\n", $output);
 
     	$template = Theme :: get_template();
-    	$template->add_filename('footer.tpl');
+    	//$template->add_filename('footer.tpl');
+        $template->set_filenames(array(
+        	'footer' => 'common/footer.tpl')
+        );
 
         $show_sitemap = $this->get_setting('show_sitemap', 'menu');
 
@@ -153,7 +156,8 @@ class Footer
 
         $template->assign_var('LINKS' , $links );
 
-        return $template->pparse('footer');
+        $template->display('footer');
+        //return $template->pparse('footer');
     }
 }
 ?>

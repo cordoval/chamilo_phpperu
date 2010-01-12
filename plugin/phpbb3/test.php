@@ -20,7 +20,7 @@ ini_set('display_errors', '1');
 
 require_once Path :: get_library_path(). 'html/layout/chamilo_template.class.php';
 
-$template = ChamiloTemplate :: get_instance();
+$template = Theme :: get_template();
 
 // Assign index specific vars
 $template->assign_vars(array(
@@ -33,6 +33,4 @@ $template->set_filenames(array(
 );
 
 $template->display('body');
-
-//dump($template);
 ?>

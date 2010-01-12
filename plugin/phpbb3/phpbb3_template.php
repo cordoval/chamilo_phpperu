@@ -21,7 +21,7 @@
  * Base Template class.
  * @package phpBB3
  */
-class template
+class Phpbb3Template
 {
     /** variable that holds all the data we'll be substituting into
      * the compiled templates. Takes form:

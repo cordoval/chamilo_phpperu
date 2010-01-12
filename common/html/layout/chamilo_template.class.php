@@ -5,20 +5,23 @@ require_once Path :: get_library_path() . 'html/layout/chamilo_template_compiler
 define('WEB_TPL_PATH', 'WEB_TPL_PATH');
 define('SYS_TPL_PATH', 'SYS_TPL_PATH');
 
-class ChamiloTemplate extends template
+class ChamiloTemplate extends Phpbb3Template
 {
     private static $instance;
 
-    function __construct()
+    private $theme;
+
+    function __construct($theme)
     {
+        $this->set_theme($theme);
         $this->set_template();
     }
 
-    static function get_instance()
+    static function get_instance($theme)
     {
         if (! isset(self :: $instance))
         {
-            self :: $instance = new self();
+            self :: $instance = new self($theme);
         }
         return self :: $instance;
     }
@@ -35,8 +38,8 @@ class ChamiloTemplate extends template
     function set_template()
     {
         // TODO: What if these paths don't exist?
-        $this->root = self :: get_template_path();
-        $this->cachepath = self :: get_cache_path();
+        $this->root = $this->get_template_path();
+        $this->cachepath = $this->get_cache_path();
 
         if (! file_exists($this->root))
         {
@@ -189,9 +192,9 @@ class ChamiloTemplate extends template
         switch ($path_type)
         {
             case WEB_TPL_PATH :
-                return Path :: get(WEB_LAYOUT_PATH) . Theme :: get_theme() . '/templates/';
+                return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/templates/';
             case SYS_TPL_PATH :
-                return Path :: get(SYS_LAYOUT_PATH) . Theme :: get_theme() . '/templates/';
+                return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/templates/';
         }
     }
 
@@ -200,12 +203,27 @@ class ChamiloTemplate extends template
      */
     function get_template_path()
     {
-        return self :: get_path(SYS_TPL_PATH);
+        return $this->get_path(SYS_TPL_PATH);
     }
 
     function get_cache_path()
     {
-        return Path :: get_cache_path() . 'layout/' . Theme :: get_theme() . '/';
+        return Path :: get_cache_path() . 'layout/' . $this->get_theme() . '/';
+    }
+
+    function set_theme($theme)
+    {
+        $this->theme = $theme;
+    }
+
+    function get_theme()
+    {
+        return $this->theme;
+    }
+
+    function reset()
+    {
+        $this->set_template();
     }
 }
 ?>
