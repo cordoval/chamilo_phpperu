@@ -37,8 +37,8 @@ class Theme
     function Theme()
     {
         $this->theme = PlatformSetting :: get('theme');
-//        $this->template = new Phpbb2TemplateWrapper($this->theme);
-        $this->template = ChamiloTemplate :: get_instance($this->theme);
+        $this->template = new Phpbb2TemplateWrapper($this->theme);
+//        $this->template = ChamiloTemplate :: get_instance($this->theme);
     }
 
     /**

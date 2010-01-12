@@ -156,8 +156,7 @@ class Footer
 
         $template->assign_var('LINKS' , $links );
 
-        $template->display('footer');
-        //return $template->pparse('footer');
+        return $template->render('footer');
     }
 }
 ?>

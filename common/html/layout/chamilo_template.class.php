@@ -102,6 +102,18 @@ class ChamiloTemplate extends Phpbb3Template
         return true;
     }
 
+    function render($handle, $return = true)
+    {
+        if ($return)
+        {
+            return $this->assign_display($handle);
+        }
+        else
+        {
+            $this->display($handle);
+        }
+    }
+
     /**
      * Load a compiled template if possible, if not, recompile it
      * @access private
