@@ -76,5 +76,11 @@ class DynamicFormElementValue extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+    function create()
+    {
+    	$this->set_time(time());
+    	return parent :: create();
+    }
 }
 ?>

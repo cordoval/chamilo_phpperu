@@ -223,5 +223,8 @@ abstract class AdminDataManager
     abstract function count_dynamic_form_element_values($conditions = null);
 
     abstract function retrieve_dynamic_form_element_values($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    abstract function delete_dynamic_form_element_values_from_form($dynamic_form_id);
+    
 }
 ?>
