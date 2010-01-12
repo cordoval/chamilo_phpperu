@@ -73,6 +73,7 @@ class DynamicForm extends DataClass
     
     function load_elements()
     {
+    	require_once dirname(__FILE__) . '/dynamic_form_element.class.php';
     	$condition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $this->get_id());
     	$elements = AdminDataManager :: get_instance()->retrieve_dynamic_form_elements($condition);
     	$this->set_elements($elements->as_array());

@@ -49,6 +49,7 @@ class UserManager extends CoreApplication
     const ACTION_CHANGE_BUDDYLIST_ITEM_CATEGORY = 'buddy_category_change';
     
     const ACTION_BUILD_USER_FIELDS = 'user_field_builder';
+    const ACTION_ADDITIONAL_ACCOUNT_INFORMATION = 'account_extra';
     
     const PARAM_BUDDYLIST_CATEGORY = 'buddylist_category';
     const PARAM_BUDDYLIST_ITEM = 'buddylist_item';
@@ -254,6 +255,9 @@ class UserManager extends CoreApplication
                 break;
             case self :: ACTION_BUILD_USER_FIELDS:
             	$component = UserManagerComponent :: factory('UserFieldsBuilder',$this);
+                break;
+            case self :: ACTION_ADDITIONAL_ACCOUNT_INFORMATION:
+            	$component = UserManagerComponent :: factory('AdditionalAccountInformation',$this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_USERS);

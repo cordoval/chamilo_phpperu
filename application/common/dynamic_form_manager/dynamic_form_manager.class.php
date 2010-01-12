@@ -165,12 +165,5 @@ class DynamicFormManager extends SubManager
     	
     	return $form;
     }
-    
-    function display_header($trail)
-    {
-    	$normal_trail = $this->get_parent()->get_breadcrumb_trail();
-    	$normal_trail->merge($trail);
-    	return parent :: display_header($normal_trail);
-    }
 }
 ?>

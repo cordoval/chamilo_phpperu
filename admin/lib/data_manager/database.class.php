@@ -650,5 +650,13 @@ class DatabaseAdminDataManager extends AdminDataManager
     	return $this->database->retrieve_objects(DynamicFormElementValue :: get_table_name(), $condition, $offset, $count, $order_property);
     }
     
+    function delete_dynamic_form_element_values_from_form($dynamic_form_id)
+    {
+    	$subcondition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $dynamic_form_id);
+    	$subselect = new SubselectCondition(DynamicFormElementValue :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, DynamicFormElement :: PROPERTY_ID, 
+    										'admin_' . DynamicFormElement :: get_table_name(), $subcondition);
+
+		return $this->database->delete(DynamicFormElementValue :: get_table_name(), $subselect);
+    }
 }
 ?>

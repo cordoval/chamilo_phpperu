@@ -16,13 +16,16 @@ class UserManagerUserFieldsBuilderComponent extends UserManagerComponent
 		$form_builder->run();
 	}
 	
-	function get_breadcrumb_trail()
+	function display_header($new_trail)
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
 		$trail->add(new Breadcrumb($this->get_url(array(DynamicFormManager :: PARAM_DYNAMIC_FORM_ACTION => null)), Translation :: get('BuildUserFields')));
-		return $trail;
+		
+		$trail->merge($new_trail);
+		
+		return parent :: display_header($trail);
 	}
 }
 ?>
