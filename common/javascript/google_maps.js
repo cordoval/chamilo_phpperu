@@ -25,7 +25,7 @@ function codeAddress(address, title)
 				// You should always check that a result was returned, as it is
 				// possible to return an empty results object.
 				if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
-					map.set_center(results[0].geometry.location);
+					map.setCenter(results[0].geometry.location);
 					var marker = new google.maps.Marker({
 						position: results[0].geometry.location,
 						map: map,
