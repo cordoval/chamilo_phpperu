@@ -1,29 +1,26 @@
 <?php
+$this_section = 'home';
+
+include_once ('../../common/global.inc.php');
+
+Utilities :: set_application($this_section);
+
+if (Session :: get_user_id())
+{
+    $usermgr = new UserManager($_SESSION['_uid']);
+    $user = $usermgr->get_user();
+}
+else
+{
+    $user = null;
+}
 
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-function dump($var)
-{
-    echo '<pre>';
-    print_r($var);
-    echo '</pre>';
-}
+require_once Path :: get_library_path(). 'html/layout/chamilo_template.class.php';
 
-include 'phpbb3_template.php';
-
-$user->theme = array();
-$user->theme['template_path'] = 'aqua';
-$user->theme['template_storedb'] = false;
-$user->theme['template_inherits_id'] = false;
-$user->theme['template_inherit_path'] = '';
-$user->theme['template_id'] = '1';
-$phpEx = 'php';
-
-$phpbb_root_path = 'C:/wamp/www/chamilo/plugin/phpbb3/';
-
-$template	= new template();
-$template->set_template();
+$template = ChamiloTemplate :: get_instance();
 
 // Assign index specific vars
 $template->assign_vars(array(
@@ -32,12 +29,10 @@ $template->assign_vars(array(
 );
 
 $template->set_filenames(array(
-	'body' => 'test.html')
+	'body' => 'test.tpl')
 );
 
-//echo '<pre>';
-//print_r($template->_rootref);
-//echo '</pre>';
-
 $template->display('body');
+
+//dump($template);
 ?>

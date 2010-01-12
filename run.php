@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * $Id: run.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application
  *
@@ -18,8 +18,7 @@ if (! WebApplication :: is_active($application_name))
 
 require_once Path :: get_application_path() . 'lib/weblcms/tool/assessment/assessment_tool.class.php';
 
-Translation :: set_application($this_section);
-Theme :: set_application($this_section);
+Utilities :: set_application($this_section);
 
 if (! Authentication :: is_valid() && ! Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
 {

@@ -7,8 +7,7 @@ $this_section = 'rights';
 
 require_once dirname(__FILE__) . '/../../common/global.inc.php';
 
-Translation :: set_application($this_section);
-Theme :: set_application($this_section);
+Utilities :: set_application($this_section);
 
 if (! Authentication :: is_valid())
 {

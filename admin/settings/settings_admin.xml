@@ -67,6 +67,12 @@
 			<setting name="theme" field="select" default="aqua">
 				<options type="dynamic" source="get_themes" />
 			</setting>
+			<setting name="reload_templates" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
 			<setting name="portal_home" field="html_editor" default="" />
 		</category>
 		<category name="various">

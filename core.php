@@ -17,9 +17,7 @@ if (! CoreApplication :: is_active($application_name))
 
 //require_once Path ::get_application_path().'lib/weblcms/tool/assessment/assessment_tool.class.php';
 
-
-Translation :: set_application($this_section);
-Theme :: set_application($this_section);
+Utilities :: set_application($this_section);
 
 if (! Authentication :: is_valid() && ! (Request :: get('application') == 'user' && (Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_REGISTER_USER || Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_RESET_PASSWORD)) && ! (Request :: get('application') == 'admin' && (Request :: get(Application :: PARAM_ACTION) == AdminManager :: ACTION_WHOIS_ONLINE)))
 {

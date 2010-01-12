@@ -10,8 +10,6 @@ define('WEB_IMG_PATH', 'WEB_IMG_PATH');
 define('SYS_IMG_PATH', 'SYS_IMG_PATH');
 define('WEB_CSS_PATH', 'WEB_CSS_PATH');
 define('SYS_CSS_PATH', 'SYS_CSS_PATH');
-define('WEB_TPL_PATH', 'WEB_TPL_PATH');
-define('SYS_TPL_PATH', 'SYS_TPL_PATH');
 
 class Theme
 {
@@ -40,7 +38,7 @@ class Theme
     {
         $this->theme = PlatformSetting :: get('theme');
         $this->template = new Phpbb2TemplateWrapper($this->theme);
-        //$this->template = new ChamiloTemplateWrapper($this->theme);
+//        $this->template = ChamiloTemplate :: get_instance();
     }
 
     /**
@@ -78,10 +76,6 @@ class Theme
     {
         switch ($path_type)
         {
-            case WEB_TPL_PATH :
-                return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/template/';
-            case SYS_TPL_PATH :
-                return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/template/';
             case WEB_IMG_PATH :
                 return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/images/';
             case SYS_IMG_PATH :
@@ -141,15 +135,6 @@ class Theme
     {
         $instance = self :: get_instance();
         return $instance->get_path(WEB_IMG_PATH) . 'common/';
-    }
-
-    /**
-     * Get the path to the theme's template folder.
-     */
-    function get_template_path()
-    {
-        $instance = self :: get_instance();
-        return $instance->get_path(SYS_TPL_PATH);
     }
 
     static function get_instance()
