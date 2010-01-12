@@ -8,19 +8,21 @@ class DynamicFormExecuteForm extends FormValidator
 {
 	private $user;
 	private $form;
+	private $title;
 	
-	function DynamicFormExecuteForm($form, $action, $user)
+	function DynamicFormExecuteForm($form, $action, $user, $title)
 	{
-		parent :: FormValidator('dynamic_form_values', 'post', $action);
+		parent :: FormValidator('dynamic_form_values', 'post', $action, $title);
 		$this->user = $user;
 		$this->form = $form;
+		$this->title = $title;
 		
 		$this->build_basic_form();
 	}
 	
 	function build_basic_form()
 	{
-		//$this->addElement('category', ' ');
+		//$this->addElement('category', $this->title);
 		
 		$elements = $this->form->get_elements();
 		foreach($elements as $element)

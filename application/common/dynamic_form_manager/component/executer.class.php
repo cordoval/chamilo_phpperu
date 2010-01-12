@@ -14,7 +14,7 @@ class DynamicFormManagerExecuterComponent extends DynamicFormManagerComponent
     	$trail = new BreadcrumbTrail(false);
         $trail->add_help('dynamic form general');
  
-        $form = new DynamicFormExecuteForm($this->get_form(), $this->get_url(), $this->get_user());
+        $form = new DynamicFormExecuteForm($this->get_form(), $this->get_url(), $this->get_user(), $this->get_dynamic_form_title());
 
         if ($form->validate())
         {

@@ -48,5 +48,10 @@ class UserManagerAdditionalAccountInformationComponent extends UserManagerCompon
 		
 		parent :: display_footer();
 	}
+	
+	function get_dynamic_form_title()
+	{
+		return Translation :: get('AdditionalUserInformation');
+	}
 }
 ?>
