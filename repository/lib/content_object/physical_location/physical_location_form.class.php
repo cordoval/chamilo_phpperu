@@ -58,6 +58,10 @@ class PhysicalLocationForm extends ContentObjectForm
         {
             $defaults[PhysicalLocation :: PROPERTY_LOCATION] = $lo->get_location();
         }
+        else
+        {
+        	$defaults[PhysicalLocation :: PROPERTY_LOCATION] = 'grote markt, 1000, brussel, belgium';
+        }
         parent :: setDefaults($defaults);
     }
 }
