@@ -7,7 +7,7 @@ class PortfolioPublicationRSS extends PublicationRSS
 {
 	function PortfolioPublicationRSS()
 	{
-		parent :: PublicationRSS('Chamilo Portfolio', 'http://localhost', 'Portfolio publications', 'http://localhost');
+		parent :: PublicationRSS('Chamilo Portfolio', htmlspecialchars(Path :: get(WEB_PATH)), 'Portfolio publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')
@@ -29,7 +29,6 @@ class PortfolioPublicationRSS extends PublicationRSS
 		$params[Application :: PARAM_ACTION] = PortfolioManager :: ACTION_VIEW_PORTFOLIO;
 		$params[PortfolioManager :: PARAM_USER_ID] = $pub->get_publisher();
 		$params[PortfolioManager :: PARAM_PORTFOLIO_PUBLICATION] = $pub->get_id();
-		//$params = array();
 		return Path :: get(WEB_PATH).Redirect :: get_link(PortfolioManager :: APPLICATION_NAME, $params);
 	}
 	

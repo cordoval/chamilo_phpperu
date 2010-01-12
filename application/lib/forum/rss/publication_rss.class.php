@@ -8,7 +8,7 @@ class ForumPublicationRSS extends PublicationRSS
 {
 	function ForumPublicationRSS()
 	{
-		parent :: PublicationRSS('Chamilo forum', 'http://localhost', 'Forum publications', 'http://localhost');
+		parent :: PublicationRSS('Chamilo forum', htmlspecialchars(Path :: get(WEB_PATH)), 'Forum publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')
@@ -30,7 +30,6 @@ class ForumPublicationRSS extends PublicationRSS
 		$params[Application :: PARAM_ACTION] = ForumManager :: ACTION_VIEW;
 		$params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_VIEW_FORUM;
 		$params[ForumManager :: PARAM_PUBLICATION_ID] = $pub->get_forum_id();
-		//$params = array();
 		return Path :: get(WEB_PATH).Redirect :: get_link(ForumManager :: APPLICATION_NAME, $params);
 	}
 	
@@ -54,7 +53,6 @@ class ForumPublicationRSS extends PublicationRSS
 		$co = $publication->get_forum_id();
 		if (!is_object($co))
 		{
-			//echo $co;
 			$co = RepositoryDataManager :: get_instance()->retrieve_content_object($co);
 		}
 		$channel->add_item(htmlspecialchars($co->get_title()), htmlspecialchars($this->get_url($publication)), htmlspecialchars($co->get_description()));
