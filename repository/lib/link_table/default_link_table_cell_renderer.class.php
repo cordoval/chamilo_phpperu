@@ -10,13 +10,15 @@
 class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
 {
 	protected $type;
+	private $browser;
 	
     /**
      * Constructor
      */
-    function DefaultLinkTableCellRenderer($type)
+    function DefaultLinkTableCellRenderer($browser, $type)
     {
     	$this->type = $type;
+    	$this->browser = $browser;
     }
 
     /**
@@ -67,7 +69,9 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
             case ContentObject :: PROPERTY_DESCRIPTION :
             	return Utilities :: truncate_string($object->get_description(), 50);
             case ContentObject :: PROPERTY_TITLE :
-            	return Utilities :: truncate_string($object->get_title(), 50);
+            	$url = $this->browser->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS,
+            										 RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));	
+            	return '<a href="' . $url . '">' . Utilities :: truncate_string($object->get_title(), 50) . '</a>';
             case ContentObject :: PROPERTY_TYPE :
             	return $object->get_icon();
             default :
