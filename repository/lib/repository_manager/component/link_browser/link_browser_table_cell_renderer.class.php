@@ -21,7 +21,7 @@ class LinkBrowserTableCellRenderer extends DefaultLinkTableCellRenderer
      */
     function LinkBrowserTableCellRenderer($browser, $type)
     {
-        parent :: __construct($type);
+        parent :: __construct($browser, $type);
         $this->browser = $browser;
     }
 
@@ -32,7 +32,7 @@ class LinkBrowserTableCellRenderer extends DefaultLinkTableCellRenderer
         {
             return $this->get_modification_links($object);
         }
-        
+
         return parent :: render_cell($column, $object);
     }
 

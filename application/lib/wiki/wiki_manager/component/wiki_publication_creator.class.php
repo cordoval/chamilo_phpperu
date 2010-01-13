@@ -48,6 +48,10 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
                 $values = $form->exportValues();
                 
             	$failures = 0;
+            	
+            	if(!is_array($objects))
+            		$objects = array($objects);
+            	
                 foreach($objects as $object)
                 {
                 	if(!$this->create_wiki_publication($object, $values))

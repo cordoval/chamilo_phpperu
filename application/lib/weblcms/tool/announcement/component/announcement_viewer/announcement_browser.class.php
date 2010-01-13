@@ -79,6 +79,24 @@ class AnnouncementBrowser extends ContentObjectPublicationBrowser
             $subselect_condition = new AndCondition($subselect_conditions);
             
             $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+            
+            $filter = Request :: get(AnnouncementToolViewerComponent :: PARAM_FILTER);
+            switch($filter)
+            {
+            	case AnnouncementToolViewerComponent :: FILTER_TODAY:
+            		$time = mktime(0, 0, 0, date('m', time()), date('d', time()), date('Y', time()));
+            		$conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $time);
+            		break;
+            	case AnnouncementToolViewerComponent :: FILTER_THIS_WEEK:
+            		$time = strtotime('Next Monday', strtotime('-1 Week', time()));
+            		$conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $time);
+            		break;
+            	case AnnouncementToolViewerComponent :: FILTER_THIS_MONTH:
+            		$time = mktime(0, 0, 0, date('m', time()), 1, date('Y', time()));
+            		$conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $time);
+            		break;	
+            }
+            
             $condition = new AndCondition($conditions);
             
             $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));

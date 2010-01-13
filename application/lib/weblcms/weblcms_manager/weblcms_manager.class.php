@@ -1357,7 +1357,7 @@ class WeblcmsManager extends WebApplication
         {
         	$url = '<a href="' . $this->get_course_viewing_link($course) . '">';
         	$table->setCellContents($i, 0, $url . $course->get_visual() . '</a>');
-        	$table->setCellAttributes($i, 0, array('style' => 'width: 50px;'));
+        	$table->setCellAttributes($i, 0, array('style' => 'width: 150px;'));
         	$table->setCellContents($i, 1, $url . $course->get_name() . '</a>');
 			$i++;
         }

@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/user_view_browser_table_cell_renderer.class.p
  */
 class UserViewBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'user_view_browser_table';
+    const DEFAULT_NAME = 'repository_browser_table';
 
     /**
      * Constructor
@@ -24,10 +24,9 @@ class UserViewBrowserTable extends ObjectTable
         $data_provider = new UserViewBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, UserViewBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        //TODO: figure out why these actions don't work
-        /*$actions = array();
-		$actions[RepositoryManager :: PARAM_DELETE_SELECTED_USER_VIEW] = Translation :: get('DeleteSelected');
-		$this->set_form_actions($actions);*/
+        $actions = array();
+		$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_DELETE_SELECTED_USER_VIEW, Translation :: get('DeleteSelected'));
+		$this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
 }

@@ -30,6 +30,7 @@ class DynamicFormManager extends SubManager
     
     private $form;
     private $type;
+    private $target_user_id;
     
     function DynamicFormManager($parent, $application, $name, $type)
     {
@@ -125,6 +126,16 @@ class DynamicFormManager extends SubManager
     	$this->form = $form;
     }
     
+    function set_target_user_id($target_user_id)
+    {
+    	$this->target_user_id = $target_user_id;
+    }
+    
+    function get_target_user_id($target_user_id)
+    {
+    	return $this->target_user_id;
+    }
+    
     function get_application_component_path()
     {
         return Path :: get_application_library_path() . 'dynamic_form_manager/component/';
@@ -166,11 +177,9 @@ class DynamicFormManager extends SubManager
     	return $form;
     }
     
-    function display_header($trail)
-    {
-    	$normal_trail = $this->get_parent()->get_breadcrumb_trail();
-    	$normal_trail->merge($trail);
-    	return parent :: display_header($normal_trail);
-    }
+	function get_dynamic_form_title()
+	{
+		return $this->get_parent()->get_dynamic_form_title();
+	}
 }
 ?>

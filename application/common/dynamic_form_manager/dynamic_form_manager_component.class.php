@@ -26,5 +26,15 @@ class DynamicFormManagerComponent extends SubManagerComponent
     {
     	return $this->get_parent()->get_form();
     }
+    
+	function get_target_user_id($target_user_id)
+    {
+    	return $this->get_parent()->get_target_user_id($target_user_id);
+    }
+    
+	function get_dynamic_form_title()
+	{
+		return $this->get_parent()->get_dynamic_form_title();
+	}
 }
 ?>

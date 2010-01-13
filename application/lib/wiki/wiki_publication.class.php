@@ -108,6 +108,17 @@ class WikiPublication extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_FROM_DATE);
     }
+    
+    /**
+     * Determines whether this publication is available forever
+     * @return boolean True if the publication is available forever
+     * @see get_from_date()
+     * @see get_to_date()
+     */
+    function is_forever()
+    {
+        return $this->get_from_date() == 0 && $this->get_to_date() == 0;
+    }
 
     /**
      * Sets the from_date of this WikiPublication.

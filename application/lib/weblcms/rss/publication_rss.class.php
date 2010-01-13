@@ -6,7 +6,7 @@ class WeblcmsPublicationRSS extends PublicationRSS
 {
 	function WeblcmsPublicationRSS()
 	{
-		parent :: PublicationRSS('Chamilo weblcms', 'http://localhost', 'Weblcms publications', 'http://localhost');
+		parent :: PublicationRSS('Chamilo weblcms', htmlspecialchars(Path :: get(WEB_PATH)), 'Weblcms publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')
