@@ -102,7 +102,7 @@ class CalendarListRenderer extends ListContentObjectPublicationListRenderer
     function render_description($publication)
     {
         $event = $publication->get_content_object();
-        $html[] = '<em>';
+        $html[] = '<br /><em>';
         //TODO: date formatting
         $html[] = htmlentities(Translation :: get('From')) . ': ' . date('r', $event->get_start_date());
         $html[] = '<br />';
