@@ -11,6 +11,11 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 {
     private $action_bar;
     private $introduction_text;
+    
+    const PARAM_FILTER = 'filter';
+    const FILTER_TODAY = 'today';
+    const FILTER_THIS_WEEK = 'week';
+    const FILTER_THIS_MONTH = 'month';
 
     function run()
     {
@@ -81,7 +86,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
             }
         }
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         if (! $this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
         {
@@ -99,6 +104,10 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
         {
             $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
         }
+        
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowToday'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_TODAY)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowThisWeek'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_THIS_WEEK)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowThisMonth'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_THIS_MONTH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
     }
