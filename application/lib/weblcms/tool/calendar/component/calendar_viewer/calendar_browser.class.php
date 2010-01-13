@@ -87,6 +87,21 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
         {
             $user_id = array();
             $course_groups = array();
+            
+            $filter = Request :: post('filter');
+            
+            if($filter)
+            {
+            	if(strpos($filter, 'user') !== false)
+            	{
+            		$user_id = substr($filter, 5);
+            	}
+            	
+            	if(strpos($filter, 'group') !== false)
+            	{
+            		$course_groups = array(substr($filter, 6));
+            	}
+            }
         }
         else
         {
@@ -179,6 +194,22 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
             $html[] = $this->render_upcomming_events();
             $html[] = '</div>';
             $html[] = '<div class="normal_calendar">';
+            
+            if($this->get_parent()->is_allowed(EDIT_RIGHT) && get_class(parent :: get_publication_list_renderer()) == 'CalendarListRenderer')
+            {
+            	$html[] = '<div style="float: right;">';
+            	
+            	$form = new FormValidator('user_filter', 'post', $this->get_parent()->get_url());
+            	$renderer = $form->defaultRenderer();
+            	$renderer->setElementTemplate('{element}');
+            	$form->addElement('select', 'filter', Translation :: get('FilterTarget'), $this->get_filter_targets());
+            	$form->addElement('submit', 'submit', Translation :: get('Ok'));
+            	
+            	$html[] = $form->toHtml();
+            	$html[] = '<div class="clear"></div></div>';
+            	$html[] = '<br />';
+            }
+            
             $html[] = parent :: as_html();
             $html[] = '</div>';
         }
@@ -187,6 +218,36 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
             $html[] = parent :: as_html();
         }
         return implode("\n", $html);
+    }
+    
+    function get_filter_targets()
+    {
+    	$course = $this->get_parent()->get_course_id();
+    	
+    	$targets = array();
+        $targets[] = Translation :: get('Users');
+        $targets[] = '----------';
+        
+        $users =  WeblcmsDataManager :: get_instance()->retrieve_course_user_relations(new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course));
+    	while($user = $users->next_result())
+        {
+        	if($user->get_user() == $this->get_parent()->get_user_id())
+        		continue;		
+        
+        	$targets['user|' . $user->get_user()] = UserDataManager :: get_instance()->retrieve_user($user->get_user())->get_username();
+        }
+        
+        $targets[] = '';
+        $targets[] = Translation :: get('Groups');
+        $targets[] = '----------';
+
+        $groups = WeblcmsDataManager :: get_instance()->retrieve_course_groups(new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $course));
+        while($group = $groups->next_result())
+        {
+        	$targets['group|' . $group->get_id()] = $group->get_name();	
+        }
+
+        return $targets;
     }
     
     function get_upcomming_events($amount)
