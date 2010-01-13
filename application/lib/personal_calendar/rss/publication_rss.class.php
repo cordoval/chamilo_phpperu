@@ -7,7 +7,7 @@ class PersonalCalendarPublicationRSS extends PublicationRSS
 {
 	function PersonalCalendarPublicationRSS()
 	{
-		parent :: PublicationRSS('Chamilo Personal Calendar', 'http://localhost', 'Personal calendar publications', 'http://localhost');
+		parent :: PublicationRSS('Chamilo Personal Calendar', htmlspecialchars(Path :: get(WEB_PATH)), 'Personal calendar publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')
@@ -38,7 +38,6 @@ class PersonalCalendarPublicationRSS extends PublicationRSS
 	{
 		$params[Application :: PARAM_ACTION] = PersonalCalendarManager :: ACTION_VIEW_PUBLICATION;
 		$params[PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID] = $pub->get_id();
-		//$params = array();
 		return Path :: get(WEB_PATH).Redirect :: get_link(PersonalCalendarManager :: APPLICATION_NAME, $params);
 	}
 	

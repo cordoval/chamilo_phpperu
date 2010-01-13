@@ -7,7 +7,7 @@ class AssessmentPublicationRSS extends PublicationRSS
 {
 	function AssessmentPublicationRSS()
 	{
-		parent :: PublicationRSS('Chamilo assessments', 'http://localhost', 'Assessment publications', 'http://localhost');
+		parent :: PublicationRSS('Chamilo assessments', htmlspecialchars(Path :: get(WEB_PATH)), 'Assessment publications', htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')

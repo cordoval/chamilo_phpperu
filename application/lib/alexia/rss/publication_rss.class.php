@@ -5,6 +5,11 @@ require_once dirname(__FILE__).'/../alexia_data_manager.class.php';
 
 class AlexiaPublicationRSS extends PublicationRSS
 {
+	function AlexiaPublicationRSS()
+	{
+		parent :: PublicationRSS('Chamilo Alexia', htmlspecialchars(Path :: get(WEB_PATH)), 'Alexia publications', htmlspecialchars(Path :: get(WEB_PATH)));
+	}
+	
 	function retrieve_items($user, $min_date = '')
 	{
 		$pubs = AlexiaDataManager :: get_instance()->retrieve_alexia_publications(null, null, 20);
