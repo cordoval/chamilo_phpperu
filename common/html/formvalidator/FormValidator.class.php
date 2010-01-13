@@ -41,7 +41,7 @@ class FormValidator extends HTML_QuickForm
         {
             $attributes = array();
         }
-        $attributes['onreset'] = 'resetEditor()';
+        $attributes['onreset'] = 'resetElements()';
         
         $this->HTML_QuickForm($form_name, $method, $action, $target, $attributes, $trackSubmit);
         // Load some custom elements and rules
@@ -71,7 +71,7 @@ class FormValidator extends HTML_QuickForm
         $this->registerRule('disk_quota', null, 'HTML_QuickForm_Rule_DiskQuota', $dir . 'Rule/DiskQuota.php');
         $this->registerRule('max_value', null, 'HTML_QuickForm_Rule_MaxValue', $dir . 'Rule/MaxValue.php');
         
-        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reset_fckeditor.js"></script>');
+        $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reset.js"></script>');
         
         // Modify the default templates
         $renderer = $this->defaultRenderer();
