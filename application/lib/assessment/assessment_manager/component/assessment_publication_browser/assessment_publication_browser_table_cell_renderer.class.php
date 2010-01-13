@@ -84,7 +84,7 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
             
             if ($assessment->is_complex_content_object())
             {
-                $toolbar_data[] = array('href' => $this->browser->get_build_assessment_url($assessment_publication), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseComplex'));
+                $toolbar_data[] = array('href' => $this->browser->get_build_assessment_url($assessment_publication), 'img' => Theme :: get_common_image_path() . 'action_bar.png', 'label' => Translation :: get('BuildComplex'));
             }
         }
         
