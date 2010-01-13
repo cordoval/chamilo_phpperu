@@ -193,6 +193,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
             $html[] = '<br />';
             $html[] = $this->render_upcomming_events();
             $html[] = '</div>';
+            //style="margin-left: 0px; float: right; width: 70%;"
             $html[] = '<div class="normal_calendar">';
             
             if($this->get_parent()->is_allowed(EDIT_RIGHT) && get_class(parent :: get_publication_list_renderer()) == 'CalendarListRenderer')
