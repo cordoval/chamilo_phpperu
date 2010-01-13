@@ -205,7 +205,17 @@ class CpoExport extends ContentObjectExport
         {
         	$parent = $content_object->get_parent_id();
         	if(!in_array($parent, $this->exported_categories) && $parent != 0)
-        		$this->export_category(RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $parent))->next_result());
+        	{
+        		$category = RepositoryDataManager :: get_instance()->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $parent))->next_result();
+        		if(!$category)
+        		{
+        			$parent = 0;
+        		}
+        		else
+        		{
+        			$this->export_category($category);
+        		}
+        	}
         		
         	$parent_property = $doc->createElement('parent');
             $general->appendChild($parent_property);
