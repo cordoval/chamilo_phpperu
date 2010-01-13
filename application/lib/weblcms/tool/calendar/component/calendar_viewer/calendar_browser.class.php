@@ -118,7 +118,11 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         $condition = new AndCondition($conditions);
         
-        $this->publications = $datamanager->retrieve_content_object_publications_new($condition)->as_array();
+        if($column)
+        {
+        	$order = new ObjectTableOrder($column, $direction);
+        }
+        $this->publications = $datamanager->retrieve_content_object_publications_new($condition, $order)->as_array();
         return $this->publications;
     }
 
@@ -170,7 +174,9 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
             $minimonthcalendar = new MiniMonthCalendarContentObjectPublicationListRenderer($this);
             $minimonthcalendar->set_display_time($this->time);
             $html[] = '<div class="mini_calendar">';
-            $html[] = $minimonthcalendar->as_html();
+            $html[] = $minimonthcalendar->as_html(); 
+            $html[] = '<br />';
+            $html[] = $this->render_upcomming_events();
             $html[] = '</div>';
             $html[] = '<div class="normal_calendar">';
             $html[] = parent :: as_html();
@@ -182,5 +188,66 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
         }
         return implode("\n", $html);
     }
+    
+    function get_upcomming_events($amount)
+    {
+    	$from_time = time();
+    	$publications = $this->get_publications();
+        
+        $events = array();
+        foreach ($publications as $index => $publication)
+        {
+            $object = $publication->get_content_object();
+            
+            if ($object->repeats())
+            {
+                $repeats = $object->get_repeats($from_time, 9999999999);
+                
+                foreach ($repeats as $repeat)
+                {
+                    $the_publication = clone $publication;
+                    $the_publication->set_content_object($repeat);
+                    
+                    $events[] = $the_publication;
+                }
+            }
+            elseif ($from_time <= $object->get_start_date())
+            {
+                $events[] = $publication;
+            }
+            
+            if(count($events) > $amount)
+            	return $events;
+        }
+        
+        return $events;
+    }
+    
+    function render_upcomming_events()
+    {
+    	$html = array();
+    	$html[] = '<b>' . Translation :: get('UpcommingEvents') . '</b><br /><br />';
+    	
+    	$amount_to_show = 5;
+    	$publications = $this->get_upcomming_events($amount_to_show);
+    	$count = count($publications);						
+    	$total = $count < $amount_to_show ? $count : $amount_to_show;
+    
+    	for($i = 0; $i < $total; $i++)
+    	{
+    		$html[] = $this->render_small_publication($publications[$i]);
+    	}
+    	
+    	return implode("\n", $html);	
+    }
+    
+    function render_small_publication($publication)
+    {
+    	$feedback_url = $this->get_parent()->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), array(), true);
+    	
+    	return '<a href="' . $feedback_url . '">' . date('d/m/y H:i:s -', $publication->get_content_object()->get_start_date()) . ' ' . 
+    	 	   $publication->get_content_object()->get_title() . '</a><br />';
+    }
+    
 }
 ?>

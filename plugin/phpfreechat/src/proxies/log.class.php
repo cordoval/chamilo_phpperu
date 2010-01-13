@@ -50,11 +50,11 @@ class pfcProxyCommand_log extends pfcProxyCommand
       if (!file_exists($logpath)) @mkdir_r($logpath);
       if (file_exists($logpath) && is_writable($logpath))
       {
-        $logfile = $logpath."/chat.log";
+        $logfile = $logpath."/" . $recipient . ".log";
         if (is_writable($logpath))
         {
           // @todo write logs in a cleaner structured language (xml, html ... ?)
-          $log = $recipient."\t";
+          //$log = $recipient."\t";
           $log .= date("d/m/Y")."\t";
           $log .= date("H:i:s")."\t";
           $log .= $sender."\t";

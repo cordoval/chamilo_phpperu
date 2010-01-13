@@ -23,3 +23,14 @@ function resetEditor()
         }
     }
 } 
+
+function resetAdvancedMultiSelect()
+{
+	
+}
+
+function resetElements()
+{
+	resetEditor();
+	resetAdvancedMultiSelect();
+}
