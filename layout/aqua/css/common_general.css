@@ -552,6 +552,7 @@ div.content_object {
 	-moz-border-radius-bottomright: 10px;
 	-webkit-border-top-left-radius: 10px;
 	-webkit-border-bottom-right-radius: 10px;
+	overflow: auto;
 }
 
 div.content_object div.title {

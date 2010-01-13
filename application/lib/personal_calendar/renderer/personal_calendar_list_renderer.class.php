@@ -20,12 +20,12 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         $events = $this->get_events(0, strtotime('+10 Years', time()));
         $dm = RepositoryDataManager :: get_instance();
         $html = array();
-        
+
         if (count($events) == 0)
         {
             $this->get_parent()->display_message(Translation :: get('NoPublications'));
         }
-        
+
         foreach ($events as $index => $event)
         {
             $html[$event->get_start_date()][] = $this->render_event($event);
@@ -43,7 +43,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     {
         $html = array();
         $date_format = Translation :: get('dateTimeFormatLong');
-        
+
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/calendar_event.png);">';
         $html[] = '<div class="title">' . htmlentities($event->get_title()) . '</div>';
         $html[] = '<div class="description">';
@@ -62,33 +62,34 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         {
         	$html[] = '<div style="float: right;">';
         	$html[] = $this->get_publication_actions($event);
-        	$html[] = '</div><div class="clear">&nbsp;</div>';
+        	$html[] = '</div>';
         }
         else
         {
         	$html[] = '<div style="float: right;">';
         	$html[] = $this->get_external_publication_actions($event);
-        	$html[] = '</div><div class="clear">&nbsp;</div>';
+        	$html[] = '</div>';
         }
+//        $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 
     function get_publication_actions($event)
     {
         $toolbar_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $event->get_id())), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-        
+
         $toolbar_data[] = array('href' => $this->get_parent()->get_publication_editing_url($event), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         $toolbar_data[] = array('href' => $this->get_parent()->get_publication_deleting_url($event), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-        
+
         return Utilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
     }
-    
+
  	function get_external_publication_actions($event)
     {
         $toolbar_data[] = array('href' => html_entity_decode($event->get_url()), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-        
+
         return Utilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
     }
 
@@ -96,7 +97,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     {
         if (is_null($event->get_id()))
             return;
-        
+
         if ($event->get_source() == 'weblcms')
         {
             $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($event->get_id());
@@ -107,7 +108,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
             $publication = PersonalCalendarDataManager :: get_instance()->retrieve_calendar_event_publication($event->get_id());
             $object = $publication->get_publication_object();
         }
-        
+
         if ($object->supports_attachments())
         {
             $attachments = $object->get_attached_content_objects();

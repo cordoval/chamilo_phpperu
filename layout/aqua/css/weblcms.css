@@ -156,6 +156,7 @@ div.announcements {
 	padding: 10px 10px 10px 44px;
 	background-position: 10px 10px;
 	background-repeat: no-repeat;
+	overflow: auto;
 }
 
 .toolSortHelper {
