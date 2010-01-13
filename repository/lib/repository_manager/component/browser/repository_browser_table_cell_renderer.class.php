@@ -32,7 +32,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
         {
             return $this->get_modification_links($content_object);
         }
-        
+
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_TYPE :
@@ -59,7 +59,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
         {
             $toolbar_data = array();
             $toolbar_data[] = array('href' => $this->browser->get_content_object_editing_url($content_object), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-            
+
             if ($url = $this->browser->get_content_object_recycling_url($content_object))
             {
                 $toolbar_data[] = array('href' => $url, 'label' => Translation :: get('Remove'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png', 'confirm' => true);
@@ -76,24 +76,24 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
             $toolbar_data[] = array('href' => $this->browser->get_content_object_rights_editing_url($content_object), 'label' => Translation :: get('Rights'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
             $toolbar_data[] = array('href' => $this->browser->get_content_object_exporting_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_export.png', 'label' => Translation :: get('Export'));
             $toolbar_data[] = array('href' => $this->browser->get_publish_content_object_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
-            
+
             if ($this->browser->get_user()->is_platform_admin())
             {
                 $toolbar_data[] = array('href' => $this->browser->get_copy_content_object_url($content_object->get_id(), 0), 'img' => Theme :: get_common_image_path() . 'export_template.png', 'label' => Translation :: get('CopyToTemplates'));
             }
-            
+
             if ($content_object->is_complex_content_object())
             {
-                $toolbar_data[] = array('href' => $this->browser->get_browse_complex_content_object_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseComplex'));
+                $toolbar_data[] = array('href' => $this->browser->get_browse_complex_content_object_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_build.png', 'label' => Translation :: get('BrowseComplex'));
             }
-            
+
             return Utilities :: build_toolbar($toolbar_data);
         }
         elseif (get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')
         {
             $toolbar_data = array();
             $toolbar_data[] = array('href' => $this->browser->get_add_content_object_url($content_object, $this->browser->get_cloi_id(), $this->browser->get_root_id()), 'label' => Translation :: get('Add'), 'img' => Theme :: get_common_image_path() . 'action_add.png');
-            
+
             return Utilities :: build_toolbar($toolbar_data);
         }
         else
