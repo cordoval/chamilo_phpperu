@@ -93,13 +93,12 @@ div.feedback div.publication_actions {
 
 div.mini_calendar {
 	float: left;
-	width: 19%;
-	padding-right: 1%;
+	width: 250px;
+	padding-right: 10px;
 }
 
 div.normal_calendar {
-	float: left;
-	width: 80%;
+	margin-left: 260px;
 }
 
 div.level_1 {
@@ -157,6 +156,7 @@ div.announcements {
 	padding: 10px 10px 10px 44px;
 	background-position: 10px 10px;
 	background-repeat: no-repeat;
+	overflow: auto;
 }
 
 .toolSortHelper {
@@ -393,4 +393,24 @@ table.forum .quotecontent,.attachcontent {
 
 .link_iframe {
 	
+}
+
+/****************************
+ * Student view link styles *
+ ****************************/
+div.student_view
+{
+	position: fixed;
+	right: 19px;
+	top: 5px;
+	/*float: right;*/
+}
+
+/************************
+ * Tool shortcut styles *
+ ************************/
+#tool_shortcuts
+{
+	float: right;
+	margin-bottom: 10px;
 }

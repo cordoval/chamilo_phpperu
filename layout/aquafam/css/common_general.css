@@ -67,14 +67,15 @@ img {
 	width: 160px;
 }
 
-#header1 div.banner div.logo {
+#header1 div.banner span.logo {
 	background-image: url('../images/common/logo_header.png');
 	background-repeat: no-repeat;
 	height: 48px;
 	width: 160px;
+	display: block;
 }
 
-#header1 div.banner div.text {
+#header1 div.banner span.text {
 	display: none;
 }
 
@@ -137,6 +138,7 @@ img {
 	background-color: #f2f2f2;
 	border-top: 1px solid white;
 	border-bottom: 1px solid #dcdcdc;
+	height: 26px;
 }
 
 #trailbox ul,#breadcrumbtrail li {
@@ -175,16 +177,17 @@ img {
 	outline: none;
 }
 
-#helpitem {
+#trailbox #help_item, #trailbox #extra_item {
 	float: right;
 	height: 26px;
 	line-height: 26px;
+	margin-left: 4px;
 }
 
 /*****************************************************
  *  FOOTER STYLES                                    *
  *****************************************************/
-#footer,#sitemap {
+#footer, #sitemap {
 	clear: both;
 	padding-left: 19px;
 	padding-right: 19px;
@@ -346,7 +349,7 @@ img {
 	left: 50%;
 	right: 50%;
 	border-width: 1px;
-	border-style: solid;
+	border-style: dotted;
 	background-repeat: no-repeat;
 	background-position: 10px 10px;
 	padding: 10px;
@@ -356,19 +359,35 @@ img {
 .normal-message {
 	background-image: url('../images/common/status_confirmation_medium.png');
 	background-color: #E5EDF9;
-	border-color: #b9d0ef;
+	border: 1px solid #b9d0ef;
+	color: #008;
 }
 
 .error-message {
 	background-image: url('../images/common/status_error.png');
 	background-color: #FFD1D1;
-	border-color: #ff9b9d;
+	border: 1px solid #ff9b9d;
+	color: #b40404;
 }
 
 .warning-message {
 	background-image: url('../images/common/status_warning.png');
-	background-color: #ffedd1;
-	border-color: #ffd89b;
+	border: 1px solid #ffd89b;
+	background-color: #fff8aa;
+	color: #996900;
+}
+
+.normal-message h2,.warning-message h2,.error-message h2 {
+	padding: 0px 0px 5px 0px;
+	margin: 0px;
+	font-size: 120%;
+	font-weight: bold;
+}
+
+.debug {
+	background-color:#ffff55;
+	color: #000000;
+	padding: 5px;
 }
 
 /* Chatbox LO-style */
@@ -533,6 +552,7 @@ div.content_object {
 	-moz-border-radius-bottomright: 10px;
 	-webkit-border-top-left-radius: 10px;
 	-webkit-border-bottom-right-radius: 10px;
+	overflow: auto;
 }
 
 div.content_object div.title {
@@ -1316,6 +1336,12 @@ div.block div.description_contains {
 	padding-bottom: 0.3em;
 	margin-bottom: 0.3em;
 	clear: both;
+}
+
+div.block div.description img,
+div.block div.description_contains img
+{
+	max-width: 100%;
 }
 
 div.padding_10 {

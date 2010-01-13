@@ -50,24 +50,37 @@ div.row div.forme,div.row div.forme_no_margin {
 	margin-left: 20%;
 	border-width: 1px;
 	padding: 10px 10px 10px 50px;
+	padding-left: 10px;
 	border-style: solid;
 	background-repeat: no-repeat;
 	background-position: 10px 10px;
-	background-image: url('../images/common/status_warning.png');
-	background-color: #ffedd1;
-	border-color: #ffd89b;
+	/*background-image: url('../images/common/status_warning.png');*/
+	
+	border: 1px solid #ffd89b;
+	background-color: #fff8aa;
+	color: #996900;
 }
 
 div.row div.formc,div.row div.formc_no_margin {
 	margin-left: 20%;
 	border-width: 1px;
 	padding: 10px 10px 10px 50px;
+	padding-left: 10px;
 	border-style: solid;
 	background-repeat: no-repeat;
 	background-position: 10px 10px;
-	background-image: url('../images/common/status_confirmation_medium.png');
+	/*background-image: url('../images/common/status_confirmation_medium.png');*/
 	background-color: #E5EDF9;
-	border-color: #b9d0ef;
+	border: 1px solid #b9d0ef;
+	color: #008;
+}
+
+div.row div.forme h2,div.row div.forme_no_margin h2,
+div.row div.formc h2,div.row div.formc_no_margin h2 {
+	padding: 0px 0px 5px 0px;
+	margin: 0px;
+	font-size: 120%;
+	font-weight: bold;
 }
 
 div.row div.forme_no_margin,div.row div.formc_no_margin {
