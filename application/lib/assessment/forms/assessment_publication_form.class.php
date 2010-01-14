@@ -147,6 +147,7 @@ class AssessmentPublicationForm extends FormValidator
     function add_footer()
     {
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_submit_button', 'publish_and_build', Translation :: get('PublishAndBuild'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -229,6 +230,10 @@ class AssessmentPublicationForm extends FormValidator
             {
                 return false;
             }
+            else
+            {
+            	$this->publication = $pub;
+            }
         }
         return true;
     }
@@ -259,6 +264,11 @@ class AssessmentPublicationForm extends FormValidator
         return $pub->update();
     }
 
+    function get_publication()
+    {
+    	return $this->publication;
+    }
+    
     /**
      * Sets the default values of the form.
      *
