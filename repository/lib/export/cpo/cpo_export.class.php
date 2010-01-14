@@ -142,6 +142,11 @@ class CpoExport extends ContentObjectExport
             $this->render_content_object($this->rdm->retrieve_content_object($id));
             $content_object->set_reference('object' . $id);
         }
+        
+        if($content_object->get_type() == 'hotspot_question')
+        {
+        	$content_object->set_image('object' . $content_object->get_image());
+        }
     }
 
     function add_files($temp_dir)

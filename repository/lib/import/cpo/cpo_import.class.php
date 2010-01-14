@@ -87,6 +87,13 @@ class CpoImport extends ContentObjectImport
     private $references;
     
     /**
+     * Used to collect all hotspot questions to adapt the image
+     *
+     * @var $hotspot_questions[$content_object] = id;
+     */
+    private $hotspot_questions;
+    
+    /**
      * In this array we store the learning path item wrappers because we need to change the prerequisites after all the wrappers have been
      * created
      *
@@ -142,6 +149,7 @@ class CpoImport extends ContentObjectImport
         $this->create_includes();
         $this->update_references();
         $this->update_learning_path_prerequisites();
+		$this->update_hotspot_questions();        
         
         if ($temp)
         {
@@ -311,6 +319,11 @@ class CpoImport extends ContentObjectImport
             if ($type == 'learning_path_item' || $type == 'portfolio_item')
             {
                 $this->references[$lo->get_id()] = $additionalProperties['reference_id'];
+            }
+            
+            if($type == 'hotspot_question')
+            {
+            	$this->hotspot_questions[$lo->get_id()] = $lo->get_image();
             }
             
             $this->content_object_reference[$id] = $lo->get_id();
@@ -528,6 +541,21 @@ class CpoImport extends ContentObjectImport
     function test_matches($matches)
     {
         return $this->wrapper_reference[$matches[0]];
+    }
+    
+    function update_hotspot_questions()
+    {
+    	foreach($this->hotspot_questions as $question_id => $image_id)
+    	{
+    		$new_image_id = $this->content_object_reference[$image_id];
+    		
+    		if(!$new_image_id)
+            	continue;
+            
+            $co = $this->rdm->retrieve_content_object($question_id);
+            $co->set_image($new_image_id);
+            $co->update();
+    	}
     }
     
     function create_categories($categories)
