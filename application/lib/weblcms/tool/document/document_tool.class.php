@@ -14,6 +14,7 @@ class DocumentTool extends Tool
     const ACTION_DOWNLOAD = 'download';
     const ACTION_ZIP_AND_DOWNLOAD = 'zipanddownload';
     const ACTION_SLIDESHOW = 'slideshow';
+    const ACTION_SLIDESHOW_SETTINGS = 'slideshow_settings';
 
     /**
      * Inherited.
@@ -42,6 +43,9 @@ class DocumentTool extends Tool
                 break;
             case self :: ACTION_SLIDESHOW :
                 $component = DocumentToolComponent :: factory('Slideshow', $this);
+                break;
+            case self :: ACTION_SLIDESHOW_SETTINGS :
+                $component = DocumentToolComponent :: factory('SlideshowSettings', $this);
                 break;
             default :
                 $component = DocumentToolComponent :: factory('Viewer', $this);

@@ -45,6 +45,8 @@ class DocumentToolSlideshowComponent extends DocumentToolComponent
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Thumbnails'), Theme :: get_common_image_path() . 'action_slideshow_thumbnail.png', $this->get_url(array('tool_action' => 'slideshow', 'thumbnails' => 1)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('SlideshowSettings'), Theme :: get_common_image_path() . 'action_config.png', $this->get_url(array('tool_action' => DocumentTool :: ACTION_SLIDESHOW_SETTINGS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
         return $action_bar;
     }
 }
