@@ -20,6 +20,7 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         $type_options[] = $this->createElement('radio', FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE, null, Translation :: get('TextField'), FillInBlanksQuestion :: TYPE_TEXT);
         $this->addElement('group', null, Translation :: get('UseSelectBox'), $type_options, '<br />', false);
         
+        $this->addElement('html', '<div class="normal-message">' . Translation :: get('FillInTheblanksInfo') . '</div>');
         $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
         $this->addRule('answer', Translation :: get('ThisFieldIsRequired'), 'required');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
@@ -37,6 +38,7 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         $type_options[] = $this->createElement('radio', FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE, null, Translation :: get('TextField'), FillInBlanksQuestion :: TYPE_TEXT);
         $this->addElement('group', null, Translation :: get('UseSelectBox'), $type_options, '<br />', false);
         
+        $this->addElement('html', '<div class="information-message">' . Translation :: get('FillInTheblanksInfo') . '</div>');
         $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
         $this->addRule('answer', Translation :: get('ThisFieldIsRequired'), 'required');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
