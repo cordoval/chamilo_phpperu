@@ -87,6 +87,11 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
                 $toolbar_data[] = array('href' => $this->browser->get_browse_complex_content_object_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_build.png', 'label' => Translation :: get('BrowseComplex'));
             }
 
+            if($content_object->get_type() == 'document')
+            {
+            	$toolbar_data[] = array('href' => $this->browser->get_document_downloader_url($content_object->get_id()), 'img' => Theme :: get_common_image_path() . 'action_download.png', 'label' => Translation :: get('Export'));
+            }
+            
             return Utilities :: build_toolbar($toolbar_data);
         }
         elseif (get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')
