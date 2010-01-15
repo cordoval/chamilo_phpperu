@@ -33,7 +33,7 @@ class TemplateBrowserTableCellRenderer extends DefaultContentObjectTableCellRend
         {
             return $this->get_modification_links($content_object);
         }
-        
+
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_TITLE :
@@ -58,13 +58,13 @@ class TemplateBrowserTableCellRenderer extends DefaultContentObjectTableCellRend
      */
     private function get_modification_links($content_object)
     {
-        $toolbar_data[] = array('href' => $this->browser->get_copy_content_object_url($content_object->get_id(), $this->browser->get_user_id()), 'img' => Theme :: get_common_image_path() . 'export_unknown.png', 'label' => Translation :: get('CopyToRepository'));
-        
+        $toolbar_data[] = array('href' => $this->browser->get_copy_content_object_url($content_object->get_id(), $this->browser->get_user_id()), 'img' => Theme :: get_common_image_path() . 'action_copy.png', 'label' => Translation :: get('CopyToRepository'));
+
         if ($this->browser->get_user()->is_platform_admin())
         {
             $toolbar_data[] = array('href' => $this->browser->get_delete_template_url($content_object->get_id()), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'label' => Translation :: get('DeleteFromTemplates'));
         }
-        
+
         return Utilities :: build_toolbar($toolbar_data);
     }
 }

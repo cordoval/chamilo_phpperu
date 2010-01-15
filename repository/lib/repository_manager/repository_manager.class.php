@@ -18,7 +18,7 @@
 class RepositoryManager extends CoreApplication
 {
     const APPLICATION_NAME = 'repository';
-      
+
     /**#@+
      * Constant defining a parameter of the repository manager.
      */
@@ -61,7 +61,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_EXTERNAL_REPOSITORY_ID = 'ext_rep_id';
     const PARAM_LINK_TYPE = 'link_type';
     const PARAM_LINK_ID = 'link_id';
-    
+
     /**#@-*/
     /**#@+
      * Constant defining an action of the repository manager.
@@ -289,7 +289,7 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_IMPORT :
                 $component = RepositoryManagerComponent :: factory('ExternalRepositoryImport', $this);
-                break;    
+                break;
             case self :: ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS :
                 $component = RepositoryManagerComponent :: factory('ExternalRepositoryListObjects', $this);
                 break;
@@ -742,7 +742,7 @@ class RepositoryManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS, self :: PARAM_PUBLICATION_ID => $content_object->get_id(), self :: PARAM_PUBLICATION_APPLICATION => $content_object->get_application()));
     }
-    
+
 	function get_content_object_unlinker_url($content_object)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNLINK_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
@@ -1053,10 +1053,8 @@ class RepositoryManager extends CoreApplication
                 $external_repository['title'] = (count($external_repositories) > 1) ? Translation :: get('ExternalRepositories') : Translation :: get('ExternalRepository');
                 $external_repository['url']   = $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
                 $external_repository['class'] = 'external_repository';
-                
-                //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ExternalRepositoryBrowse'), Theme :: get_common_image_path() . 'external_repository.png', $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id))));
             }
-            
+
             $extra_items[] = $shared;
             $extra_items[] = $pub;
 
@@ -1064,7 +1062,7 @@ class RepositoryManager extends CoreApplication
             {
                 $extra_items[] = $external_repository;
             }
-            
+
             $extra_items[] = $line;
 
             $extra_items[] = $create;
@@ -1101,24 +1099,24 @@ class RepositoryManager extends CoreApplication
 
     /**
      * Return a condition object that can be used to look for objects of the current logged user that are recycled
-     *   
+     *
      * @return AndCondition
      */
     public function get_current_user_recycle_bin_conditions()
     {
-        return new AndCondition(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id()), 
+        return new AndCondition(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id()),
                                 new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED));
     }
-    
+
     /**
-     * 
+     *
      * @return boolean
      */
     public function current_user_has_recycled_objects()
     {
         return $this->count_content_objects($this->get_current_user_recycle_bin_conditions()) > 0;
     }
-    
+
     /**
      * Gets the search form.
      * @return RepositorySearchForm The search form.
@@ -1158,7 +1156,7 @@ class RepositoryManager extends CoreApplication
         $info['links'] = $links;
         return $info;
     }
-    
+
 	/**
      * Gets the available links to display in the platform admin
      * @retun array of links and actions
@@ -1167,7 +1165,7 @@ class RepositoryManager extends CoreApplication
     {
         $links = array();
         $links[] = array('name' => Translation :: get('ImportTemplates'), 'description' => Translation :: get('ImportTemplatesDescription'), 'url' => $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
-        
+
      	return $links;
     }
 
@@ -1333,10 +1331,10 @@ class RepositoryManager extends CoreApplication
     	$parameters[self :: PARAM_LINK_TYPE] = $type;
     	$parameters[self :: PARAM_CONTENT_OBJECT_ID] = $object_id;
     	$parameters[self :: PARAM_LINK_ID] = $link_id;
-    	
+
     	return $this->get_url($parameters);
     }
-    
+
     /**
      * Helper function for the Application class,
      * pending access to class constants via variables in PHP 5.3
