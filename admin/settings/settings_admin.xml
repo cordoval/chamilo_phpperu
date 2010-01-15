@@ -56,15 +56,15 @@
 					<option name="show_variable_in_translation" value="1" />
 				</options>
 			</setting>
-			<setting name="platform_timezone" field="select" default="Europe/Brussels">
+			<setting name="platform_timezone" field="select" default="Europe/Brussels" user_setting="1">
 				<options type="dynamic" source="get_time_zones" />
 			</setting>
 		</category>
 		<category name="visual">
-			<setting name="platform_language" field="select" default="english">
+			<setting name="platform_language" field="select" default="english" user_setting="1">
 				<options type="dynamic" source="get_languages" />
 			</setting>
-			<setting name="theme" field="select" default="aqua">
+			<setting name="theme" field="select" default="aqua" user_setting="1">
 				<options type="dynamic" source="get_themes" />
 			</setting>
 			<setting name="reload_templates" field="radio" default="0">

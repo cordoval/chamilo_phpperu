@@ -142,6 +142,7 @@ class CommonAutoloader
 	static function check_for_special_files($classname)
 	{
 		$list = array('platform_setting' =>  'configuration/platform_setting.class.php',
+					  'local_setting' =>  'configuration/local_setting.class.php',
 					  'array_result_set' => 'database/array_result_set.class.php',
 					  'connection' => 'database/connection.class.php',
 					  'object_result_set' => 'database/object_result_set.class.php',

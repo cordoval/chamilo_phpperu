@@ -14,6 +14,7 @@ class Setting extends DataClass
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_VARIABLE = 'variable';
     const PROPERTY_VALUE = 'value';
+    const PROPERTY_USER_SETTING = 'user_setting';
 
     /**
      * Get the default properties of all settings.
@@ -21,7 +22,8 @@ class Setting extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_VARIABLE, self :: PROPERTY_VALUE,
+        												  self :: PROPERTY_USER_SETTING));
     }
 
     /**
@@ -84,6 +86,24 @@ class Setting extends DataClass
     function set_value($value)
     {
         $this->set_default_property(self :: PROPERTY_VALUE, $value);
+    }
+    
+	/**
+     * Returns the user_setting of this setting object
+     * @return string the user_setting
+     */
+    function get_user_setting()
+    {
+        return $this->get_default_property(self :: PROPERTY_USER_SETTING);
+    }
+    
+	/**
+     * Sets the user_setting of this setting.
+     * @param string $user_setting the user_setting.
+     */
+    function set_user_setting($user_setting)
+    {
+        $this->set_default_property(self :: PROPERTY_USER_SETTING, $user_setting);
     }
 
     static function get_table_name()

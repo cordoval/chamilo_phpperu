@@ -5,5 +5,9 @@
 		<property name="application" type="text" length="255" fixed="true" />
 		<property name="variable" type="text" length="255" fixed="true" />
 		<property name="value" type="text" />
+		<property name="user_setting" type="integer" unsigned="1" length="1" notnull="1" default="0" />
 	</properties>
+	<index name="user_setting">
+		<indexproperty name="user_setting" />
+	</index>
 </object>

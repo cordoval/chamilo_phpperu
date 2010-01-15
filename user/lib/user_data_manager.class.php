@@ -263,5 +263,12 @@ abstract class UserDataManager
 	abstract function retrieve_chat_messages($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function retrieve_user_by_fullname($fullname);
+	
+	abstract function create_user_setting($user_setting);
+	abstract function update_user_setting($user_setting);
+	abstract function delete_user_setting($user_setting);
+	abstract function retrieve_user_settings($condition = null, $offset = null, $count = null, $order_property = null);
+	abstract function retrieve_user_setting($user_id, $setting_id);
+	abstract function count_user_settings($condition = null);
 }
 ?>

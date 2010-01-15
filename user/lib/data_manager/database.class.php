@@ -373,5 +373,41 @@ class DatabaseUserDataManager extends UserDataManager
 
 		return $object;
 	}
+	
+	function create_user_setting($user_setting)
+	{
+		return $this->database->create($user_setting);
+	}
+	
+	function update_user_setting($user_setting)
+	{
+		$condition = new EqualityCondition(UserSetting :: PROPERTY_ID, $user_setting->get_id());
+		return $this->database->update($user_setting, $condition);
+	}
+	
+	function delete_user_setting($user_setting)
+	{
+		$condition = new EqualityCondition(UserSetting :: PROPERTY_ID, $user_setting->get_id());
+		return $this->database->delete(UserSetting :: get_table_name(), $condition);
+	}
+	
+	function retrieve_user_settings($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return $this->database->retrieve_objects(UserSetting :: get_table_name(), $condition, $offset, $count, $order_property);
+	}
+	
+	function retrieve_user_setting($user_id, $setting_id)
+	{
+		$conditions[] = new EqualityCondition(UserSetting :: PROPERTY_SETTING_ID, $setting_id);
+		$conditions[] = new EqualityCondition(UserSetting :: PROPERTY_USER_ID, $user_id);
+		$condition = new AndCondition($conditions);
+		
+		return $this->database->retrieve_record(UserSetting :: get_table_name(), $condition);
+	}
+	
+	function count_user_settings($condition = null)
+	{
+		return $this->database->count_objects(UserSetting :: get_table_name(), $condition);
+	}
 }
 ?>

@@ -297,7 +297,8 @@ abstract class Installer
         
         foreach ($events as $index => $event)
         {
-            $settings[$event->getAttribute('name')] = $event->getAttribute('default');
+            $settings[$event->getAttribute('name')] = array('default' => $event->getAttribute('default'), 
+            												'user_setting' => $event->getAttribute('user_setting'));
         }
         
         return $settings;
@@ -528,14 +529,20 @@ abstract class Installer
         {
             $xml = $this->parse_application_settings($settings_file);
             
-            foreach ($xml as $name => $value)
+            foreach ($xml as $name => $parameters)
             {
                 $setting = new Setting();
                 $setting->set_application($application);
                 $setting->set_variable($name);
-                $setting->set_value($value);
+                $setting->set_value($parameters['default']);
                 
-                if (! $setting->create())
+                $user_setting = $parameters['user_setting'];
+                if($user_setting)
+                	$setting->set_user_setting($user_setting);
+                else
+                	$setting->set_user_setting(0);
+                
+                if (!$setting->create())
                 {
                     $message = Translation :: get('ApplicationConfigurationFailed');
                     $this->installation_failed($message);
