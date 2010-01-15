@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/../../../../common/global.inc.php';
 require_once Path :: get_common_path().'/rss/publication_rss.class.php';
 require_once dirname(__FILE__).'/../wiki_data_manager.class.php';
 
@@ -30,16 +31,6 @@ class WikiPublicationRSS extends PublicationRSS
 		$params[ContentObjectPublication :: PROPERTY_TOOL] = $pub->get_tool();
 		return Path :: get(WEB_PATH).Redirect :: get_link(WikiManager :: APPLICATION_NAME, $params);
 	}
-	
-	/*function add_item($publication, $channel)
-	{
-		$co = $publication->get_content_object();
-		if (!is_object($co))
-		{
-			$co = RepositoryDataManager :: get_instance()->retrieve_content_object($co);
-		}
-		$channel->add_item(htmlspecialchars($co->get_title()), htmlspecialchars($this->get_url($publication)), htmlspecialchars($co->get_description()));
-	}*/
 	
 	function is_visible_for_user($user, $pub)
 	{

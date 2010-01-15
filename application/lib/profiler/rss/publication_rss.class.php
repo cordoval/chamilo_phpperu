@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/../../../../common/global.inc.php';
 require_once Path :: get_common_path().'/rss/publication_rss.class.php';
 require_once dirname(__FILE__).'/../profiler_data_manager.class.php';
 require_once dirname(__FILE__).'/../profiler_manager/profiler_manager.class.php';
