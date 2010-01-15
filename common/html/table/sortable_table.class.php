@@ -128,11 +128,18 @@ class SortableTable extends HTML_Table
         $_SESSION[$this->param_prefix . 'direction'] = $this->direction;
         $_SESSION[$this->param_prefix . 'page_nr'] = $this->page_nr;
         $_SESSION[$this->param_prefix . 'column'] = $this->column;
+        
         $this->pager = null;
         $this->default_items_per_page = $default_items_per_page;
         $this->total_number_of_items = - 1;
         $this->get_total_number_function = $get_total_number_function;
+        $this->total_number_of_items = $this->get_total_number_of_items();
         $this->get_data_function = $get_data_function;
+        if($this->per_page == 'all')
+        {
+        	$this->per_page = $this->total_number_of_items;
+        }
+        
         $this->ajax_enabled = $ajax_enabled;
         $this->column_filters = array();
         $this->form_actions = array();
@@ -149,7 +156,7 @@ class SortableTable extends HTML_Table
     {
         if (is_null($this->pager))
         {
-            $total_number_of_items = $this->get_total_number_of_items();
+            $total_number_of_items = $this->total_number_of_items;
             $params['mode'] = 'Sliding';
             $params['perPage'] = $this->per_page;
             $params['totalItems'] = $total_number_of_items;
@@ -205,7 +212,7 @@ class SortableTable extends HTML_Table
      */
     function as_html($empty_table = false)
     {
-        if ($this->get_total_number_of_items() == 0)
+        if ($this->total_number_of_items == 0)
         {
             $cols = $this->getHeader()->getColCount();
             $this->setCellAttributes(0, 0, 'style="font-style: italic;text-align:center;" colspan=' . $cols);
@@ -376,7 +383,7 @@ class SortableTable extends HTML_Table
      */
     function get_page_select_form()
     {
-        $total_number_of_items = $this->get_total_number_of_items();
+        $total_number_of_items = $this->total_number_of_items;
         if ($total_number_of_items <= $this->default_items_per_page)
         {
             return '';
@@ -405,7 +412,8 @@ class SortableTable extends HTML_Table
         }
         if ($total_number_of_items < 500)
         {
-            $result[] = '<option value="' . $total_number_of_items . '" ' . ($total_number_of_items == $this->per_page ? 'selected="selected"' : '') . '>ALL</option>';
+            //$result[] = '<option value="' . $total_number_of_items . '" ' . ($total_number_of_items == $this->per_page ? 'selected="selected"' : '') . '>ALL</option>';
+            $result[] = '<option value="' . 'all' . '" ' . ($total_number_of_items == $this->per_page ? 'selected="selected"' : '') . '>ALL</option>';
         }
         $result[] = '</select>';
         $result[] = '<noscript>';
@@ -423,7 +431,7 @@ class SortableTable extends HTML_Table
     {
         $pager = $this->get_pager();
         $showed_items = $pager->getOffsetByPageId();
-        return $showed_items[0] . ' - ' . $showed_items[1] . ' / ' . $this->get_total_number_of_items();
+        return $showed_items[0] . ' - ' . $showed_items[1] . ' / ' . $this->total_number_of_items;
     }
 
     /**
