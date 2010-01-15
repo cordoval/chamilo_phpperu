@@ -18,7 +18,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
     {
         return Translation :: get("Requirements");
     }
-    
+
     /**
      * this function checks if a php extension exists or not
      *
@@ -37,7 +37,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 			return '<li><b>'.$extentionName.'</b> <font color="red">is missing (Chamilo can work without)</font> (<a href="http://www.php.net/'.$extentionName.'" target="_blank">'.$extentionName.'</a>)</li>';
 		}
 	}
-	
+
 	function get_not_writable_folders()
 	{
 		$writable_folders = array ('../files','../home','../common/configuration');
@@ -51,7 +51,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 		}
 		return $not_writable;
 	}
-	
+
 	function get_info()
 	{
 		$not_writable = $this->get_not_writable_folders();
@@ -94,23 +94,25 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 		$info[] = Translation :: get('MoreDetails').", <a href=\"../../documentation/installation_guide.html\" target=\"blank\">read the installation guide</a>.";
 		return implode("\n",$info);
 	}*/
-    
+
     private $fatal = false;
 
     function get_info()
     {
-        $table = new SimpleTable($this->get_data(), new DiagnoserCellRenderer(), null, 'diagnoser');
-        
-        $info[] = '<br />';
-        $info[] = '<b>' . Translation :: get("ReadThoroughly") . '</b>';
-        $info[] = '<br /><br />';
+//        $table = new SimpleTable($this->get_data(), new DiagnoserCellRenderer(), null, 'diagnoser');
+
+//        $info[] = '<br />';
+//        $info[] = '<b>' . Translation :: get("ReadThoroughly") . '</b>';
+//        $info[] = '<br /><br />';
         $info[] = Translation :: get("ChamiloNeedFollowingOnServer");
-        $info[] = '<br /><br />';
-        $info[] = $table->toHTML();
+//        $info[] = '<br /><br />';
+//        $info[] = $table->toHTML();
         $info[] = '<br />';
         $info[] = Translation :: get('MoreDetails') . ", <a href=\"../../documentation/installation_guide.html\" target=\"blank\">read the installation guide</a>.";
+        $info[] = '<br /><br />';
+        $info[] = '<b>' . Translation :: get("ReadThoroughly") . '</b>';
         $info[] = '<br />';
-        
+
         return implode("\n", $info);
     }
 
@@ -118,73 +120,78 @@ class RequirementsInstallWizardPage extends InstallWizardPage
     {
         $array = array();
         $diagnoser = new Diagnoser();
-        
+
         $urlAppendPath = str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
         $path = 'http://' . $_SERVER['HTTP_HOST'] . $urlAppendPath . '/';
-        
+
         $path .= '/layout/aqua/images/common/';
-        
-        /*$writable_folders = array('/files', '/files/archive', '/files/fckeditor', '/files/garbage', '/files/logs' 
-        						  , '/files/repository/', '/files/temp', '/files/scorm', '/files/userpictures', 
+
+        /*$writable_folders = array('/files', '/files/archive', '/files/fckeditor', '/files/garbage', '/files/logs'
+        						  , '/files/repository/', '/files/temp', '/files/scorm', '/files/userpictures',
         						  '/home', '/common/configuration');*/
-        
+
         $writable_folders = array('/files', '/common/configuration');
-        
+
         foreach ($writable_folders as $folder)
         {
             $writable = is_writable(Path :: get(SYS_PATH) . $folder);
-            
+
             if (! $writable)
             {
                 $this->fatal = true;
             }
-            
+
             $status = $writable ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
             $array[] = $diagnoser->build_setting($status, '[FILES]', Translation :: get('IsWritable') . ': ' . $folder, 'http://be2.php.net/manual/en/function.is-writable.php', $writable, 1, 'yes_no', Translation :: get('DirectoryMustBeWritable'), $path);
         }
-        
+
         $version = phpversion();
         $status = $version > '5.2' ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
         if($status == Diagnoser :: STATUS_ERROR)
         	$this->fatal = true;
         $array[] = $diagnoser->build_setting($status, '[PHP]', 'phpversion()', 'http://www.php.net/manual/en/function.phpversion.php', phpversion(), '>= 5.2', null, Translation :: get('PHPVersionInfo'), $path);
-        
+
         $setting = ini_get('output_buffering');
 	    $req_setting = 1;
 	    $status = $setting == $req_setting ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
 	    if($status == Diagnoser :: STATUS_ERROR)
         	$this->fatal = true;
         $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('FileUploadsInfo'), $path);
-        
+
         $extensions = array('gd' => 'http://www.php.net/gd', 'mysql' => 'http://www.php.net/mysql', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://be2.php.net/xsl');
-        
+
         foreach ($extensions as $extension => $url)
         {
             $loaded = extension_loaded($extension);
-            
+
             if (! $loaded)
             {
                 $this->fatal = true;
             }
-            
+
             $status = $loaded ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
             $array[] = $diagnoser->build_setting($status, '[PHP-EXTENSION]', Translation :: get('ExtensionLoaded') . ': ' . $extension, $url, $loaded, 1, 'yes_no', Translation :: get('ExtensionMustBeLoaded'), $path);
         }
-        
+
         return $array;
     }
 
     function buildForm()
     {
         Session :: register('normal_install', 1);
-        
+
     	$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
-        
+
         $this->_formBuilt = true;
-        
+
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+
+        $table = new SimpleTable($this->get_data(), new DiagnoserCellRenderer(), null, 'diagnoser');
+        $this->addElement('html', $table->toHTML());
+
+
         $this->get_data();
         if ($this->fatal)
         {

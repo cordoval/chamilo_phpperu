@@ -72,7 +72,7 @@ div.row div.formc,div.row div.formc_no_margin {
 	/*background-image: url('../images/common/status_confirmation_medium.png');*/
 	background-color: #E5EDF9;
 	border: 1px solid #b9d0ef;
-	color: #008;
+	color: #212467;
 }
 
 div.row div.forme h2,div.row div.forme_no_margin h2,
@@ -430,6 +430,10 @@ button.email_go,a.email_go_button {
 
 button.build,a.build_button {
 	background-image: url(../images/common/buttons/button_build.png);
+}
+
+button.quickstart,a.quickstart_button {
+	background-image: url(../images/common/buttons/button_quickstart.png);
 }
 
 /*IE-fix to avoid adding unwanted margins to the form*/

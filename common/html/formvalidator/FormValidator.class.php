@@ -19,7 +19,7 @@ define('TEACHER_HTML_FULLPAGE', 5);
 class FormValidator extends HTML_QuickForm
 {
     private $no_errors;
-    
+
     /**
      * The HTML-editors in this form
      */
@@ -42,7 +42,7 @@ class FormValidator extends HTML_QuickForm
             $attributes = array();
         }
         $attributes['onreset'] = 'resetElements()';
-        
+
         $this->HTML_QuickForm($form_name, $method, $action, $target, $attributes, $trackSubmit);
         // Load some custom elements and rules
         $dir = dirname(__FILE__) . '/';
@@ -61,7 +61,7 @@ class FormValidator extends HTML_QuickForm
         $this->registerElementType('style_button', $dir . 'Element/style_button.php', 'HTML_QuickForm_stylebutton');
         $this->registerElementType('style_submit_button', $dir . 'Element/style_submit_button.php', 'HTML_QuickForm_stylesubmitbutton');
         $this->registerElementType('style_reset_button', $dir . 'Element/style_reset_button.php', 'HTML_QuickForm_styleresetbutton');
-        
+
         $this->registerRule('date', null, 'HTML_QuickForm_Rule_Date', $dir . 'Rule/Date.php');
         $this->registerRule('date_compare', null, 'HTML_QuickForm_Rule_DateCompare', $dir . 'Rule/DateCompare.php');
         $this->registerRule('html', null, 'HTML_QuickForm_Rule_HTML', $dir . 'Rule/HTML.php');
@@ -70,9 +70,9 @@ class FormValidator extends HTML_QuickForm
         $this->registerRule('filetype', null, 'HTML_QuickForm_Rule_Filetype', $dir . 'Rule/Filetype.php');
         $this->registerRule('disk_quota', null, 'HTML_QuickForm_Rule_DiskQuota', $dir . 'Rule/DiskQuota.php');
         $this->registerRule('max_value', null, 'HTML_QuickForm_Rule_MaxValue', $dir . 'Rule/MaxValue.php');
-        
+
         $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reset.js"></script>');
-        
+
         // Modify the default templates
         $renderer = $this->defaultRenderer();
         $form_template = <<<EOT
@@ -86,7 +86,7 @@ class FormValidator extends HTML_QuickForm
 
 EOT;
         $renderer->setFormTemplate($form_template);
-        
+
         $element_template = array();
         $element_template[] = '<div class="row">';
         $element_template[] = '<div class="label">';
@@ -98,17 +98,17 @@ EOT;
         $element_template[] = '<div class="clear">&nbsp;</div>';
         $element_template[] = '</div>';
         $element_template = implode("\n", $element_template);
-        
+
         $renderer->setElementTemplate($element_template);
-        
+
         $header_template = array();
         $header_template[] = '<div class="row">';
         $header_template[] = '<div class="form_header">{header}</div>';
         $header_template[] = '</div>';
         $header_template = implode("\n", $header_template);
-        
+
         $renderer->setHeaderTemplate($header_template);
-        
+
         HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="' . Theme :: get_common_image_path() . '/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
         $required_note_template = <<<EOT
 	<div class="row">
@@ -117,7 +117,7 @@ EOT;
 	</div>
 EOT;
         $renderer->setRequiredNoteTemplate($required_note_template);
-        
+
         foreach ($this->_submitValues as $index => $value)
         {
             $this->_submitValues[$index] = Security :: remove_XSS($value);
@@ -197,7 +197,7 @@ EOT;
     {
         $type = 'fckeditor';
         $element = $this->addElement($type . '_html_editor', $name, $label, 'rows="15" cols="80"', $options);
-        
+
         $this->applyFilter($name, 'trim');
         $html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML : STUDENT_HTML;
         if ($options['full_page'] == true)
@@ -222,7 +222,7 @@ EOT;
         }
         //Add rule to check not-allowed HTML
         $this->addRule($name, Translation :: get('SomeHTMLNotAllowed'), 'html', $html_type);
-        
+
         // Register the html editor for possible post processing afterwards
         $this->html_editors[] = $name;
         return $element;
@@ -267,7 +267,7 @@ EOT;
         $elements[] = $this->add_datepicker($name_1, $label_1, $include_time_picker);
         $elements[] = $this->add_datepicker($name_2, $label_2, $include_time_picker);
         $this->addRule(array($name_1, $name_2), Translation :: get('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');
-        
+
         return $elements;
     }
 
@@ -279,7 +279,7 @@ EOT;
         $elementName = $element_name_prefix . 'forever';
         $fromName = $element_name_prefix . 'from_date';
         $toName = $element_name_prefix . 'to_date';
-        
+
         $choices[] = $this->createElement('radio', $elementName, '', Translation :: get('Forever'), 1, array('id' => 'forever', 'onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
         $choices[] = $this->createElement('radio', $elementName, '', Translation :: get('LimitedPeriod'), 0, array('id' => 'limited', 'onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get($element_label), '<br />', false);
@@ -342,7 +342,7 @@ EOT;
         $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'receivers_window\')'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="receivers_window">');
-        
+
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
@@ -411,13 +411,13 @@ EOT;
                         continue 2;
                     }
                 }
-                
+
                 if (! $result || (! empty($rule['howmany']) && $rule['howmany'] > (int) $result))
                 {
-                    
+
                     if (isset($rule['group']))
                     {
-                        
+
                         $this->_errors[$rule['group']] = $rule['message'];
                     }
                     else
@@ -524,7 +524,7 @@ EOT;
         {
             $html[] = '</div>';
         }
-        
+
         if (isset($html))
         {
             $this->addElement('html', implode("\n", $html));
