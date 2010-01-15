@@ -46,16 +46,13 @@ class User extends DataClass
     const PROPERTY_OFFICIAL_CODE = 'official_code';
     const PROPERTY_PICTURE_URI = 'picture_uri';
     const PROPERTY_CREATOR_ID = 'creator_id';
-    const PROPERTY_LANGUAGE = 'language';
     const PROPERTY_DISK_QUOTA = 'disk_quota';
     const PROPERTY_DATABASE_QUOTA = 'database_quota';
     const PROPERTY_VERSION_QUOTA = 'version_quota';
-    const PROPERTY_THEME = 'theme';
     const PROPERTY_ACTIVATION_DATE = 'activation_date';
     const PROPERTY_EXPIRATION_DATE = 'expiration_date';
     const PROPERTY_REGISTRATION_DATE = 'registration_date';
     const PROPERTY_ACTIVE = 'active';
-    const PROPERTY_TIMEZONE = 'timezone';
     const PROPERTY_SECURITY_TOKEN = 'security_token';
 
     const ACTION_CREATE_USER = 'create';
@@ -69,7 +66,12 @@ class User extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_TIMEZONE, self :: PROPERTY_SECURITY_TOKEN));
+        return parent :: get_default_property_names(array(self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, 
+        		self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, 
+        		self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, 
+        		self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, 
+        		self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, 
+        		self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_SECURITY_TOKEN));
     }
 
     /**
@@ -221,15 +223,6 @@ class User extends DataClass
     }
 
     /**
-     * Returns the language for this user.
-     * @return String the Language
-     */
-    function get_language()
-    {
-        return $this->get_default_property(self :: PROPERTY_LANGUAGE);
-    }
-
-    /**
      * Returns the disk quota for this user.
      * @return Int the disk quota
      */
@@ -254,15 +247,6 @@ class User extends DataClass
     function get_version_quota()
     {
         return $this->get_default_property(self :: PROPERTY_VERSION_QUOTA);
-    }
-
-    /**
-     * Returns the default theme for this user.
-     * @return string the theme
-     */
-    function get_theme()
-    {
-        return $this->get_default_property(self :: PROPERTY_THEME);
     }
 
     function get_activation_date()
@@ -444,15 +428,6 @@ class User extends DataClass
     }
 
     /**
-     * Determines if this user has set a theme
-     * @return boolean
-     */
-    function has_theme()
-    {
-        return (! is_null($this->get_theme()) ? true : false);
-    }
-
-    /**
      * Sets the picture file
      * @param array The information of the uploaded file (from the $_FILES-
      * array)
@@ -495,15 +470,6 @@ class User extends DataClass
     }
 
     /**
-     * Sets the language for this user.
-     * @param String $language The language.
-     */
-    function set_language($language)
-    {
-        $this->set_default_property(self :: PROPERTY_LANGUAGE, $language);
-    }
-
-    /**
      * Sets the disk quota for this user.
      * @param Int $disk_quota The disk quota.
      */
@@ -530,28 +496,9 @@ class User extends DataClass
         $this->set_default_property(self :: PROPERTY_VERSION_QUOTA, $version_quota);
     }
 
-    /**
-     * Sets the default theme for this user.
-     * @param string $theme The theme.
-     */
-    function set_theme($theme)
-    {
-        $this->set_default_property(self :: PROPERTY_THEME, $theme);
-    }
-
     function set_activation_date($activation_date)
     {
         $this->set_default_property(self :: PROPERTY_ACTIVATION_DATE, $activation_date);
-    }
-
-    function get_timezone()
-    {
-    	return $this->get_default_property(self :: PROPERTY_TIMEZONE);
-    }
-
-	function set_timezone($timezone)
-    {
-    	$this->set_default_property(self :: PROPERTY_TIMEZONE, $timezone);
     }
 
     /**

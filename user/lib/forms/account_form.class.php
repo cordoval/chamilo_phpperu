@@ -154,54 +154,7 @@ class AccountForm extends FormValidator
             $this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png', 'image/x-png'));
         }
 
-        $this->addElement('select', User :: PROPERTY_TIMEZONE, Translation :: get('Timezone'), $this->get_time_zones());
-
-        // Language
-        $adm = AdminDataManager :: get_instance();
-        $languages = $adm->retrieve_languages();
-        $lang_options = array();
-
-        while ($language = $languages->next_result())
-        {
-            $lang_options[$language->get_folder()] = $language->get_english_name();
-        }
-        $this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
-
-        if (PlatformSetting :: get('allow_user_language_selection', UserManager :: APPLICATION_NAME) == 0)
-        {
-            $this->freeze(User :: PROPERTY_LANGUAGE);
-        }
-
-     	if (PlatformSetting :: get('require_language', 'user'))
-        {
-            $this->addRule(User :: PROPERTY_LANGUAGE, Translation :: get('ThisFieldIsRequired'), 'required');
-        }
-
-        // Themes
-        $theme_options = array();
-        $theme_options[''] = '-- ' . Translation :: get('PlatformDefault') . ' --';
-        $theme_options = array_merge($theme_options, Theme :: get_themes());
-        $this->addElement('select', User :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
-
-        if (PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME) == 0)
-        {
-            $this->freeze(User :: PROPERTY_THEME);
-        }
         $this->addElement('category');
-    }
-
-	function get_time_zones()
-    {
-		$content = file(Path :: get_admin_path() . 'settings/timezones.txt');
-
-		$timezones = array();
-
-		foreach($content as $timezone)
-		{
-			$timezone = trim($timezone);
-			$timezones[$timezone] = $timezone;
-		}
-		return $timezones;
     }
 
     /**
@@ -272,18 +225,6 @@ class AccountForm extends FormValidator
             }
         }
 
-        if (PlatformSetting :: get('allow_user_language_selection', UserManager :: APPLICATION_NAME))
-        {
-            $user->set_language($values[User :: PROPERTY_LANGUAGE]);
-        }
-
-        if (PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME))
-        {
-            $user->set_theme($values[User :: PROPERTY_THEME]);
-        }
-
-        $user->set_timezone($values[User :: PROPERTY_TIMEZONE]);
-
         $value = $user->update();
 
         if ($value)
@@ -305,9 +246,6 @@ class AccountForm extends FormValidator
         $defaults[User :: PROPERTY_EMAIL] = $user->get_email();
         $defaults[User :: PROPERTY_USERNAME] = $user->get_username();
         $defaults[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
-        $defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
-        $defaults[User :: PROPERTY_TIMEZONE] = $user->get_timezone();
-        $defaults[User :: PROPERTY_THEME] = $user->get_theme() ? $user->get_theme() : '';
         parent :: setDefaults($defaults);
     }
 }

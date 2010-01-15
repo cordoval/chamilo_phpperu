@@ -97,14 +97,7 @@ class HelpManager extends CoreApplication
         $user_id = Session :: get_user_id();
         $user = UserDataManager :: get_instance()->retrieve_user($user_id);
         
-        if (! $user || ! $user->get_language())
-        {
-            $language = PlatformSetting :: get('platform_language');
-        }
-        else
-        {
-            $language = $user->get_language();
-        }
+        $language = LocalSetting :: get('platform_language');
         
         $help_item = HelpDataManager :: get_instance()->retrieve_help_item_by_name_and_language($name, $language);
         return $help_item;

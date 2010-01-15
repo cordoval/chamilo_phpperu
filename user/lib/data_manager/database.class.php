@@ -393,7 +393,7 @@ class DatabaseUserDataManager extends UserDataManager
 	
 	function retrieve_user_settings($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects(UserSetting :: get_table_name(), $condition, $offset, $count, $order_property);
+		return $this->database->retrieve_objects(UserSetting :: get_table_name(), $condition, $offset, $count, $order_property, UserSetting :: get_class_name());
 	}
 	
 	function retrieve_user_setting($user_id, $setting_id)
@@ -402,7 +402,7 @@ class DatabaseUserDataManager extends UserDataManager
 		$conditions[] = new EqualityCondition(UserSetting :: PROPERTY_USER_ID, $user_id);
 		$condition = new AndCondition($conditions);
 		
-		return $this->database->retrieve_record(UserSetting :: get_table_name(), $condition);
+		return $this->database->retrieve_object(UserSetting :: get_table_name(), $condition, null, UserSetting :: get_class_name());
 	}
 	
 	function count_user_settings($condition = null)

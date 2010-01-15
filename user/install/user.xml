@@ -21,14 +21,12 @@
 		<property name="phone" type="text" fixed="true" length="30" />
 		<property name="picture_uri" type="text" fixed="true" length="250" />
 		<property name="creator_id" type="integer" unsigned="1" />
-		<property name="language" type="text" fixed="true" length="40" />
 		<property name="disk_quota" type="integer" unsigned="1"
 			notnull="1" default="209715200" />
 		<property name="database_quota" type="integer" unsigned="1"
 			notnull="1" default="300" />
 		<property name="version_quota" type="integer" unsigned="1"
 			notnull="1" default="20" />
-		<property name="theme" type="text" fixed="true" length="50" />
 		<property name="activation_date" type="integer" unsigned="1"
 			notnull="1" default="0" />
 		<property name="expiration_date" type="integer" unsigned="1"
@@ -36,7 +34,6 @@
 		<property name="registration_date" type="integer" unsigned="1"
 			notnull="1" default="0" />
 		<property name="active" type="boolean" default="1" />
-		<property name="timezone" type="text" fixed="true" length="30" default="Europe/Brussels"/>
 		<property name="security_token" type="text" fixed="true" length="40" default="" />
 	</properties>
 	<index name="username" type="unique">

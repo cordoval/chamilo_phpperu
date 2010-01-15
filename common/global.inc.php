@@ -270,21 +270,14 @@ if ($user)
 }
 else
 {
-	$timezone = PlatformSetting :: get('platform_timezone');
+	$timezone = LocalSetting :: get('platform_timezone');
 }
 
-$language_interface = PlatformSetting :: get('platform_language');
+$language_interface = LocalSetting :: get('platform_language');
 
 if (isset($_SESSION['_uid']))
 {
     $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-    
-    $timezone = $user->get_timezone();
-    
-    if ($user)
-    {
-        $language_interface = $user->get_language();
-    }
     
     if (strpos($_SERVER['REQUEST_URI'], 'leave.php') === false && strpos($_SERVER['REQUEST_URI'], 'ajax') === false)
     {

@@ -15,6 +15,8 @@ class ConfigurationForm extends FormValidator
     private $base_path;
     
     private $configuration;
+    
+    private $is_user_setting_form;
 
     /**
      * Constructor.
@@ -23,10 +25,11 @@ class ConfigurationForm extends FormValidator
      * @param string $method The method to use ('post' or 'get').
      * @param string $action The URL to which the form should be submitted.
      */
-    function __construct($application, $form_name, $method = 'post', $action = null)
+    function __construct($application, $form_name, $method = 'post', $action = null, $is_user_setting_form = false)
     {
         parent :: __construct($form_name, $method, $action);
         
+        $this->is_user_setting_form = $is_user_setting_form;
         $this->application = $application;
         // TODO: It might be better to move this functionality to the Path-class
         $this->base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
@@ -53,11 +56,20 @@ class ConfigurationForm extends FormValidator
             
             foreach ($configuration['settings'] as $category_name => $settings)
             {
-                $this->addElement('html', '<div class="configuration_form">');
-                $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name)) . '</span>');
+                $has_settings = false;
                 
                 foreach ($settings as $name => $setting)
                 {
+                	if($this->is_user_setting_form && !$setting['user_setting'])
+                		continue;
+                		
+                	if(!$has_settings)
+                	{
+                		$this->addElement('html', '<div class="configuration_form">');
+                		$this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name)) . '</span>');
+                		$has_settings = true;
+                	}
+              
                     if ($setting['locked'] == 'true')
                     {
                         $this->addElement('static', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)));
@@ -107,8 +119,11 @@ class ConfigurationForm extends FormValidator
                     }
                 }
                 
-                $this->addElement('html', '<div style="clear: both;"></div>');
-                $this->addElement('html', '</div>');
+                if($has_settings)
+                {
+                	$this->addElement('html', '<div style="clear: both;"></div>');
+                	$this->addElement('html', '</div>');
+                }
             }
             
             $buttons = array();
@@ -148,7 +163,7 @@ class ConfigurationForm extends FormValidator
                 
                 // Get settings in category
                 $properties = $category->getElementsByTagname('setting');
-                $attributes = array('field', 'default', 'locked');
+                $attributes = array('field', 'default', 'locked', 'user_setting');
                 
                 foreach ($properties as $index => $property)
                 {
@@ -213,7 +228,15 @@ class ConfigurationForm extends FormValidator
         {
             foreach ($settings as $name => $setting)
             {
-                $configuration_value = PlatformSetting :: get($name, $application);
+                if($setting['user_setting'])
+                {
+                	$configuration_value = LocalSetting :: get($name, $application);
+                }
+                else
+                {
+            		$configuration_value = PlatformSetting :: get($name, $application);
+                }
+                
                 if (isset($configuration_value))
                 {
                     $defaults[$name] = $configuration_value;
@@ -271,6 +294,37 @@ class ConfigurationForm extends FormValidator
         {
             return true;
         }
+    }
+    
+    function update_user_settings()
+    {
+    	$values = $this->exportValues();
+    	$adm = AdminDataManager :: get_instance();
+    	$udm = UserDataManager :: get_instance();
+    	
+    	foreach($values as $key => $value)
+    	{
+    		if($key == 'submit')
+    			continue;
+    		
+            $setting = $adm->retrieve_setting_from_variable_name($key, $this->application);
+    		$user_setting = $udm->retrieve_user_setting(Session :: get_user_id(), $setting->get_id());
+    		if($user_setting)
+    		{ dump($user_setting);
+    			$user_setting->set_value($value);
+    			$user_setting->update();
+    		}
+    		else
+    		{
+    			$user_setting = new UserSetting();
+    			$user_setting->set_setting_id($setting->get_id());
+    			$user_setting->set_value($value);
+    			$user_setting->set_user_id(Session :: get_user_id());
+    			$user_setting->create();
+    		}
+    	}
+
+    	return true;
     }
 }
 ?>

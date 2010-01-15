@@ -50,6 +50,7 @@ class UserManager extends CoreApplication
     
     const ACTION_BUILD_USER_FIELDS = 'user_field_builder';
     const ACTION_ADDITIONAL_ACCOUNT_INFORMATION = 'account_extra';
+    const ACTION_USER_SETTINGS = 'user_settings';
     
     const PARAM_BUDDYLIST_CATEGORY = 'buddylist_category';
     const PARAM_BUDDYLIST_ITEM = 'buddylist_item';
@@ -74,9 +75,10 @@ class UserManager extends CoreApplication
         {
             $user_can_set_theme = $this->get_platform_setting('allow_user_theme_selection');
             
-            if ($user_can_set_theme && $user->has_theme())
+            if ($user_can_set_theme)
             {
-                Theme :: set_theme($user->get_theme());
+                $user_theme = LocalSetting :: get('theme');
+                Theme :: set_theme($user_theme);
             }
         }
         $this->create_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_USER));
@@ -158,11 +160,12 @@ class UserManager extends CoreApplication
         
         if (is_object($user))
         {
-            $user_can_set_theme = $this->get_platform_setting('allow_user_theme_selection');
+        	$user_can_set_theme = $this->get_platform_setting('allow_user_theme_selection');
             
-            if ($user_can_set_theme && $user->has_theme())
+            if ($user_can_set_theme)
             {
-                Theme :: set_theme($user->get_theme());
+                $user_theme = LocalSetting :: get('theme');
+                Theme :: set_theme($user_theme);
             }
         }
     }
@@ -258,6 +261,9 @@ class UserManager extends CoreApplication
                 break;
             case self :: ACTION_ADDITIONAL_ACCOUNT_INFORMATION:
             	$component = UserManagerComponent :: factory('AdditionalAccountInformation',$this);
+                break;
+            case self :: ACTION_USER_SETTINGS:
+            	$component = UserManagerComponent :: factory('UserSettings',$this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_USERS);

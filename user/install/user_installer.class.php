@@ -69,7 +69,6 @@ class UserInstaller extends Installer
         $user->set_platformadmin('1');
         $user->set_official_code('ADMIN');
         $user->set_phone($values['admin_phone']);
-        $user->set_language($values['install_language']);
         $user->set_disk_quota('209715200');
         $user->set_database_quota('300');
         $user->set_version_quota('20');
@@ -102,7 +101,6 @@ class UserInstaller extends Installer
         $user->set_platformadmin('0');
         $user->set_official_code('ANONYMOUS');
         $user->set_phone($values['admin_phone']);
-        $user->set_language($values['install_language']);
         $user->set_disk_quota('0');
         $user->set_database_quota('0');
         $user->set_version_quota('0');
@@ -142,7 +140,6 @@ class UserInstaller extends Installer
         $user->set_platformadmin('0');
         $user->set_official_code('TEST_USER');
         //$user->set_phone($values['admin_phone']);
-        $user->set_language($values['install_language']);
         $user->set_disk_quota('209715200');
         $user->set_database_quota('300');
         $user->set_version_quota('20');

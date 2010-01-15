@@ -70,7 +70,7 @@ class UserSetting extends DataClass
 
     static function get_class_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    	return self :: CLASS_NAME;
     }
 }
 ?>

@@ -27,6 +27,7 @@ class UserManagerAdditionalAccountInformationComponent extends UserManagerCompon
 		parent :: display_header($trail);
 		
 		$actions[] = 'account';
+		$actions[] = 'user_settings';
 		$actions[] = 'account_extra';
 		
 		echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';

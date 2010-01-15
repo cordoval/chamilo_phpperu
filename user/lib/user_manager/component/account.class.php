@@ -39,9 +39,11 @@ class UserManagerAccountComponent extends UserManagerComponent
                 //$actions[] = 'buddy_view';
             }
             
+            $actions[] = 'user_settings';
+            
             $form_builder = new DynamicFormManager($this, UserManager :: APPLICATION_NAME, 'account_fields', DynamicFormManager :: TYPE_EXECUTER);
             $dynamic_form = $form_builder->get_form();
-            if(count($dynamic_form->get_elements() > 0))
+            if(count($dynamic_form->get_elements()) > 0)
             {
             	$actions[] = 'account_extra';
             }

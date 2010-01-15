@@ -50,7 +50,7 @@ class LocalSetting
      * @param string $name The parameter name.
      * @return mixed The parameter value.
      */
-    function get($variable, $application = 'admin')
+    static function get($variable, $application = 'admin')
     {
         $instance = self :: get_instance();
         
@@ -61,10 +61,9 @@ class LocalSetting
         	return PlatformSetting :: get($variable, $application);
         }
         
-        if (isset($params[$application]))
+        if (isset($params[$application]) && isset($params[$application][$variable]))
         {
-            $value = $instance->params[$application][$variable];
-            return (isset($value) ? $value : null);
+           return $instance->params[$application][$variable];
         }
         else
         {
@@ -87,7 +86,7 @@ class LocalSetting
         while($user_setting = $user_settings->next_result())
         {
         	$condition = new EqualityCondition(Setting :: PROPERTY_ID, $user_setting->get_setting_id());
-        	$setting = AdminDataManager :: get_instance()->retrieve_settings($condition);
+        	$setting = AdminDataManager :: get_instance()->retrieve_settings($condition)->next_result();
         	$params[$setting->get_application()][$setting->get_variable()] = $user_setting->get_value();
         }
         
