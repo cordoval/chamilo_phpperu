@@ -14,10 +14,10 @@ class AnnouncementDistributionForm extends FormValidator
     /**#@+
      * Constant defining a form parameter
      */
-    
+
     const TYPE_SINGLE = 1;
     const TYPE_MULTI = 2;
-    
+
     /**#@-*/
     /**
      * The learning object that will be published
@@ -28,7 +28,7 @@ class AnnouncementDistributionForm extends FormValidator
      * publication)
      */
     private $form_user;
-    
+
     private $form_type;
 
     /**
@@ -44,7 +44,7 @@ class AnnouncementDistributionForm extends FormValidator
         $this->form_type = $form_type;
         $this->content_object = $content_object;
         $this->form_user = $form_user;
-        
+
         switch ($this->form_type)
         {
             case self :: TYPE_SINGLE :
@@ -87,7 +87,7 @@ class AnnouncementDistributionForm extends FormValidator
     function build_form()
     {
         $shares = array();
-        
+
         $url = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith');
@@ -102,9 +102,9 @@ class AnnouncementDistributionForm extends FormValidator
 
     function add_footer()
     {
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         //$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
@@ -117,14 +117,14 @@ class AnnouncementDistributionForm extends FormValidator
     {
         $values = $this->exportValues();
         $recipients = $values['recipients'];
-        
+
         $pub = new AnnouncementDistribution();
         $pub->set_announcement($this->content_object->get_id());
         $pub->set_publisher($this->form_user->get_id());
         $pub->set_published(time());
         $pub->set_target_users($recipients['user']);
         $pub->set_target_groups($recipients['group']);
-        
+
         if ($pub->create())
         {
             return true;
@@ -140,7 +140,7 @@ class AnnouncementDistributionForm extends FormValidator
         $values = $this->exportValues();
         $ids = unserialize($values['ids']);
         $recipients = $values['recipients'];
-        
+
         foreach ($ids as $id)
         {
             $pub = new AnnouncementDistribution();
@@ -149,7 +149,7 @@ class AnnouncementDistributionForm extends FormValidator
             $pub->set_published(time());
             $pub->set_target_users($recipients['user']);
             $pub->set_target_groups($recipients['group']);
-            
+
             if (! $pub->create())
             {
                 return false;
