@@ -49,7 +49,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         $course->set_unsubscribe_allowed(0);
         
         $user_info = $this->get_user();
-        $course->set_language($user_info->get_language());
+        $course->set_language(LocalSetting :: get('platform_language'));
         $course->set_titular($user_info->get_id());
         
         $form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url());
