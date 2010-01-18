@@ -28,7 +28,6 @@ $lang['reporting']['Edit'] = 'Bewerken';
 $lang['reporting']['NoReportingTemplateRegistrationSelected'] = 'U hebt geen reporting template geselecteerd.';
 $lang['reporting']['Logout'] = 'Uitloggen';
 $lang['reporting']['Administration'] = 'Administratie';
-$lang['reporting']['Repository'] = ' ';
 $lang['reporting']['MyAccount'] = 'Mijn account';
 $lang['reporting']['Chart:FilledCubic'] = 'Gevulde kubiek';
 $lang['reporting']['NotAvailable'] = 'niet beschikbaar';
@@ -240,5 +239,5 @@ $lang['reporting']['CourseVisualCodeIsRequired'] = 'Cursuscode is vereist';
 $lang['reporting']['ErrorRetrievingNewCoursePublications'] = 'Fout bij ophalen van nieuwe cursuspublicaties';
 $lang['reporting']['ErrorRetrievingNewPublicationsInCourseTool'] = 'Fout bij ophalen van nieuwe publicaties in cursus module';
 $lang['reporting']['ToolNameIsRequired'] = 'Module naam is vereist';
-$lang['reporting']['Client'] = 'Cliënt';
+$lang['reporting']['Client'] = 'Cliï¿½nt';
 ?>

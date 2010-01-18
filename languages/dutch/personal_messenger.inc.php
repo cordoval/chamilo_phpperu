@@ -46,7 +46,6 @@ $lang['personal_messenger']['Personal_message'] = 'Persoonlijk bericht';
 $lang['personal_messenger']['BrowserTitle'] = 'Verkenner';
 $lang['personal_messenger']['Reset'] = 'Herstart';
 $lang['personal_messenger']['MyAccount'] = 'Mijn account';
-$lang['personal_messenger']['Repository'] = ' ';
 $lang['personal_messenger']['Administration'] = 'Administratie';
 $lang['personal_messenger']['Logout'] = 'Meld af';
 $lang['personal_messenger']['Status'] = 'Statuut';

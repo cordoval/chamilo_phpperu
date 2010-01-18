@@ -74,7 +74,7 @@ $lang['common']['RegisteringApplication'] = 'Applicatie registreren';
 $lang['common']['ApplicationRegistrationFailed'] = 'Applicatieregistratie mislukt';
 $lang['common']['ApplicationInstallFailed'] = 'Applicatieinstallatie mislukt';
 $lang['common']['PlatformInstallFailed'] = 'Platforminstallatie mislukt';
-$lang['common']['ApplicationInstallSuccess'] = 'Applicatie succesvol geïnstalleerd';
+$lang['common']['ApplicationInstallSuccess'] = 'Applicatie succesvol geï¿½nstalleerd';
 $lang['common']['Find'] = 'Zoek';
 $lang['common']['ShowActionBar'] = 'Toon actiebar';
 $lang['common']['ActionBar'] = 'Actie balk';
@@ -177,4 +177,5 @@ $lang['common']['Search'] = 'Zoeken';
 $lang['common']['PageActions'] = 'Pagina acties';
 $lang['common']['Navigation'] = 'Navigatie';
 $lang['common']['Information'] = 'Informatie';
+$lang['common']['Repository'] = 'Bewaarplaats';
 ?>

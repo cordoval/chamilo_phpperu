@@ -56,7 +56,6 @@ $lang['profiler']['Icq'] = 'ICQ';
 $lang['profiler']['IncludeAccountPicture'] = ' ';
 $lang['profiler']['MyRepository'] = ' ';
 $lang['profiler']['MyAccount'] = 'Mijn account';
-$lang['profiler']['Repository'] = ' ';
 $lang['profiler']['Administration'] = 'Administratie';
 $lang['profiler']['Logout'] = 'Afmelden';
 $lang['profiler']['Username'] = 'Gebruikersnaam (\'log-in\')';
