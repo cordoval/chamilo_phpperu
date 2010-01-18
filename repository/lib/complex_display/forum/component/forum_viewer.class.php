@@ -71,7 +71,10 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         echo $topics_table->toHtml();
         echo '<br /><br />';
         
-        echo $forum_table->toHtml();
+        if (count($this->forums) > 0)
+        {
+        	echo $forum_table->toHtml();
+        }
     }
 
     private function retrieve_children_trail($forum)
