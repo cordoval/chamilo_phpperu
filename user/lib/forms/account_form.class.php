@@ -143,18 +143,17 @@ class AccountForm extends FormValidator
         }
 
         // Picture
-        $this->addElement('category', Translation :: get('PlatformOptions'));
         if (PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME) == 1)
         {
+            $this->addElement('category', Translation :: get('PlatformOptions'));
             $this->addElement('file', User :: PROPERTY_PICTURE_URI, ($this->user->has_picture() ? Translation :: get('UpdateImage') : Translation :: get('AddImage')));
             if ($this->form_type == self :: TYPE_EDIT && $this->user->has_picture())
             {
                 $this->addElement('checkbox', 'remove_picture', null, Translation :: get('DelImage'));
             }
             $this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png', 'image/x-png'));
+            $this->addElement('category');
         }
-
-        $this->addElement('category');
     }
 
     /**

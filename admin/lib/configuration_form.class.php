@@ -11,11 +11,11 @@
 class ConfigurationForm extends FormValidator
 {
     private $application;
-    
+
     private $base_path;
-    
+
     private $configuration;
-    
+
     private $is_user_setting_form;
 
     /**
@@ -28,7 +28,7 @@ class ConfigurationForm extends FormValidator
     function __construct($application, $form_name, $method = 'post', $action = null, $is_user_setting_form = false)
     {
         parent :: __construct($form_name, $method, $action);
-        
+
         $this->is_user_setting_form = $is_user_setting_form;
         $this->application = $application;
         // TODO: It might be better to move this functionality to the Path-class
@@ -49,27 +49,29 @@ class ConfigurationForm extends FormValidator
         $application = $this->application;
         $base_path = $this->base_path;
         $configuration = $this->configuration;
-        
+
         if (count($configuration['settings']) > 0)
         {
             require_once $base_path . $application . '/settings/settings_' . $application . '_connector.class.php';
-            
+
             foreach ($configuration['settings'] as $category_name => $settings)
             {
                 $has_settings = false;
-                
+
                 foreach ($settings as $name => $setting)
                 {
                 	if($this->is_user_setting_form && !$setting['user_setting'])
+                	{
                 		continue;
-                		
+                	}
+
                 	if(!$has_settings)
                 	{
                 		$this->addElement('html', '<div class="configuration_form">');
                 		$this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name)) . '</span>');
                 		$has_settings = true;
                 	}
-              
+
                     if ($setting['locked'] == 'true')
                     {
                         $this->addElement('static', $name, Translation :: get(Utilities :: underscores_to_camelcase($name)));
@@ -95,7 +97,7 @@ class ConfigurationForm extends FormValidator
                         {
                             $options = $setting['options']['values'];
                         }
-                        
+
                         if ($setting['field'] == 'radio' || $setting['field'] == 'checkbox')
                         {
                             $group = array();
@@ -118,14 +120,14 @@ class ConfigurationForm extends FormValidator
                         }
                     }
                 }
-                
+
                 if($has_settings)
                 {
                 	$this->addElement('html', '<div style="clear: both;"></div>');
                 	$this->addElement('html', '</div>');
                 }
             }
-            
+
             $buttons = array();
             $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
             $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -141,34 +143,34 @@ class ConfigurationForm extends FormValidator
     {
         $application = $this->application;
         $base_path = $this->base_path;
-        
+
         $file = $base_path . $application . '/settings/settings_' . $application . '.xml';
         $result = array();
-        
+
         if (file_exists($file))
         {
             $doc = new DOMDocument();
             $doc->load($file);
             $object = $doc->getElementsByTagname('application')->item(0);
             $name = $object->getAttribute('name');
-            
+
             // Get categories
             $categories = $doc->getElementsByTagname('category');
             $settings = array();
-            
+
             foreach ($categories as $index => $category)
             {
                 $category_name = $category->getAttribute('name');
                 $category_properties = array();
-                
+
                 // Get settings in category
                 $properties = $category->getElementsByTagname('setting');
                 $attributes = array('field', 'default', 'locked', 'user_setting');
-                
+
                 foreach ($properties as $index => $property)
                 {
                     $property_info = array();
-                    
+
                     foreach ($attributes as $index => $attribute)
                     {
                         if ($property->hasAttribute($attribute))
@@ -176,7 +178,7 @@ class ConfigurationForm extends FormValidator
                             $property_info[$attribute] = $property->getAttribute($attribute);
                         }
                     }
-                    
+
                     if ($property->hasChildNodes())
                     {
                         $property_options = $property->getElementsByTagname('options')->item(0);
@@ -188,7 +190,7 @@ class ConfigurationForm extends FormValidator
                                 $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
                             }
                         }
-                        
+
                         if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
                         {
                             $options = $property_options->getElementsByTagname('option');
@@ -202,14 +204,14 @@ class ConfigurationForm extends FormValidator
                     }
                     $category_properties[$property->getAttribute('name')] = $property_info;
                 }
-                
+
                 $settings[$category_name] = $category_properties;
             }
-            
+
             $result['name'] = $name;
             $result['settings'] = $settings;
         }
-        
+
         return $result;
     }
 
@@ -223,7 +225,7 @@ class ConfigurationForm extends FormValidator
     {
         $application = $this->application;
         $configuration = $this->configuration;
-        
+
         foreach ($configuration['settings'] as $category_name => $settings)
         {
             foreach ($settings as $name => $setting)
@@ -236,7 +238,7 @@ class ConfigurationForm extends FormValidator
                 {
             		$configuration_value = PlatformSetting :: get($name, $application);
                 }
-                
+
                 if (isset($configuration_value))
                 {
                     $defaults[$name] = $configuration_value;
@@ -247,7 +249,7 @@ class ConfigurationForm extends FormValidator
                 }
             }
         }
-        
+
         parent :: setDefaults($defaults);
     }
 
@@ -261,7 +263,7 @@ class ConfigurationForm extends FormValidator
         $configuration = $this->configuration;
         $application = $this->application;
         $problems = 0;
-        
+
         foreach ($configuration['settings'] as $category_name => $settings)
         {
             foreach ($settings as $name => $setting)
@@ -285,7 +287,7 @@ class ConfigurationForm extends FormValidator
                 }
             }
         }
-        
+
         if ($problems > 0)
         {
             return false;
@@ -295,18 +297,18 @@ class ConfigurationForm extends FormValidator
             return true;
         }
     }
-    
+
     function update_user_settings()
     {
     	$values = $this->exportValues();
     	$adm = AdminDataManager :: get_instance();
     	$udm = UserDataManager :: get_instance();
-    	
+
     	foreach($values as $key => $value)
     	{
     		if($key == 'submit')
     			continue;
-    		
+
             $setting = $adm->retrieve_setting_from_variable_name($key, $this->application);
     		$user_setting = $udm->retrieve_user_setting(Session :: get_user_id(), $setting->get_id());
     		if($user_setting)

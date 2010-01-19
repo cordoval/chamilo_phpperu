@@ -652,4 +652,7 @@ $lang['common']['ThisFieldIsRequired'] = 'required field';
 $lang['common']['Application'] = 'Application';
 $lang['common']['MyAccount'] = 'My account';
 $lang['common']['Logout'] = 'Logout';
+$lang['common']['NoResizing'] = 'Don\'t resize';
+$lang['common']['Resize'] = 'Resizing';
+$lang['common']['Dimensions'] = 'Dimensions (in pixels)';
 ?>

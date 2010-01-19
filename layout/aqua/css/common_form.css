@@ -687,3 +687,21 @@ div.search_form button.search img {
 	padding: 0px;
 	margin: 1px 2px 0px 2px;
 }
+
+input.visual_input
+{
+	background-image: url(../images/common/buttons/button_right.png);
+	background-repeat: no-repeat;
+	background-position: 4px 50%;
+	padding-left: 24px;
+}
+
+input.width
+{
+	background-image: url(../images/common/buttons/button_width.png);
+}
+
+input.height
+{
+	background-image: url(../images/common/buttons/button_height.png);
+}
