@@ -64,14 +64,14 @@ img {
 	float: left;
 	margin: 16px 19px 16px 19px;
 	height: 48px;
-	width: 160px;
+	width: 243px;
 }
 
 #header1 div.banner span.logo {
 	background-image: url('../images/common/logo_header.png');
 	background-repeat: no-repeat;
 	height: 48px;
-	width: 160px;
+	width: 243px;
 	display: block;
 }
 
@@ -81,7 +81,7 @@ img {
 
 #header1 div.menu_container {
 	position: relative;
-	margin-left: 198px;
+	margin-left: 281px;
 	right: 0px;
 	left: 0px;
 	margin-right: 19px;
