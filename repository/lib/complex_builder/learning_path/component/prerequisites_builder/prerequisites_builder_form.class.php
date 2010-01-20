@@ -26,12 +26,12 @@ class PrerequisitesBuilderForm extends FormValidator
         $this->build_basic_form();
     }
 
-    function build_basic_form()
-    {
-        $this->build_list();
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SavePrerequisites'), array('class' => 'positive save'));
-        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-    }
+//    function build_basic_form()
+//    {
+//        $this->build_list();
+//        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SavePrerequisites'), array('class' => 'positive save'));
+//        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+//    }
 
     function handle_session_values()
     {
@@ -93,22 +93,22 @@ class PrerequisitesBuilderForm extends FormValidator
         }
     }
 
-    function build_list()
+    function build_basic_form()
     {
         $renderer = &$this->defaultRenderer();
-        $renderer->setElementTemplate('<div style="margin: 10px 0px;">{element}<div class="clear"></div></div>', 'option_buttons');
-        $renderer->setGroupElementTemplate('<div style="text-align: center; margin-right: 10px;">{element}</div>', 'option_buttons');
+//        $renderer->setElementTemplate('<div style="margin: 10px 0px;">{element}<div class="clear"></div></div>', 'option_buttons');
+//        $renderer->setGroupElementTemplate('<div style="text-align: center; margin-right: 10px;">{element}</div>', 'option_buttons');
 
-        $gbuttons = array();
-        $gbuttons[] = $this->createElement('style_button', 'add_group[]', Translation :: get('AddPrerequisiteGroup'), array('class' => 'normal add', 'id' => 'add_group'));
-        $this->addGroup($gbuttons, 'option_buttons', null, '', false);
+//        $gbuttons = array();
+//        $gbuttons[] = $this->createElement('style_button', 'add_group[]', Translation :: get('AddPrerequisiteGroup'), array('class' => 'normal add', 'id' => 'add_group'));
+//        $this->addGroup($gbuttons, 'option_buttons', null, '', false);
 
         $operator = array('' => Translation :: get('Operator'), '&' => Translation :: get('And'), '|' => Translation :: get('Or'));
         $goperator = array('&' => Translation :: get('And'), '|' => Translation :: get('Or'));
         //$goperator = array('' => Translation :: get('GroupOperator'), '&' => Translation :: get('And'), '|' => Translation :: get('Or'));
 
         $not = array('' => '', '~' => Translation :: get('Not'));
-        $sibblings = $this->retrieve_sibblings();
+        $siblings = $this->retrieve_siblings();
 
         $number_of_groups = intval($_SESSION['number_of_groups']);
         $gcounter = 0;
@@ -168,10 +168,12 @@ class PrerequisitesBuilderForm extends FormValidator
                         }
 
                         $group[] = $this->createElement('select', 'not' . $identifier, '', $not);
-                        $group[] = $this->createElement('select', 'prerequisite' . $identifier, '', $sibblings);
+                        $group[] = $this->createElement('select', 'prerequisite' . $identifier, '', $siblings);
 
                         if ($_SESSION['number_of_items'][$group_number] - count($_SESSION['skip_items'][$group_number]) > 1)
+                        {
                             $group[] = & $this->createElement('image', 'remove_item[' . $group_number . '][' . $item_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('title' => Translation :: get('RemoveItem'), 'class' => 'remove_item', 'id' => $group_number . '_' . $item_number));
+                        }
 
                         $this->addGroup($group, 'item_' . $group_number . '_' . $item_number, null, '', false);
                         $renderer->setGroupElementTemplate('{element} &nbsp; ', 'item_' . $group_number . '_' . $item_number);
@@ -184,7 +186,11 @@ class PrerequisitesBuilderForm extends FormValidator
 
 //                $group = array();
                 //$group[] = &$this->createElement('image', 'create_item[' . $group_number . ']', Theme :: get_common_image_path() . 'action_add.png', array('title' => Translation :: get('AddItem'), 'class' => 'create_item', 'id' => $group_number));
+
+                $renderer->setElementTemplate('{element}', 'add_item[' . $group_number . ']');
+                $this->addElement('html', '<div style="border-top: 1px dotted #cecece; padding: 10px;">');
                 $this->addElement('image', 'add_item[' . $group_number . ']', Theme :: get_common_image_path() . 'action_add.png', array('title' => Translation :: get('AddItem'), 'class' => 'add_item', 'id' => $group_number));
+                $this->addElement('html', '</div>');
 
 //                if ($_SESSION['number_of_groups'] - count($_SESSION['skip_groups']) > 1)
 //                {
@@ -203,14 +209,15 @@ class PrerequisitesBuilderForm extends FormValidator
             }
         }
 
-        $gbuttons = array();
-        $gbuttons[] = $this->createElement('style_button', 'add_group[]', Translation :: get('AddPrerequisiteGroup'), array('class' => 'normal add', 'id' => 'add_group'));
-        $this->addGroup($gbuttons, 'option_buttons', null, '', false);
+        $form_buttons = array();
+        $form_buttons[] = $this->createElement('style_button', 'add_group[]', Translation :: get('AddPrerequisiteGroup'), array('class' => 'normal add', 'id' => 'add_group'));
+        $form_buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SavePrerequisites'), array('class' => 'positive save'));
+        $this->addGroup($form_buttons, 'option_buttons', null, '&nbsp;', false);
     }
 
-    private $sibblings;
+    private $siblings;
 
-    function retrieve_sibblings()
+    function retrieve_siblings()
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->clo_item->get_parent(), ComplexContentObjectItem :: get_table_name());
@@ -219,17 +226,17 @@ class PrerequisitesBuilderForm extends FormValidator
 
         $rdm = RepositoryDataManager :: get_instance();
 
-        $sibblings_list = $rdm->retrieve_complex_content_object_items($condition);
-        while ($sibbling = $sibblings_list->next_result())
+        $siblings_list = $rdm->retrieve_complex_content_object_items($condition);
+        while ($sibbling = $siblings_list->next_result())
         {
             $lo = $rdm->retrieve_content_object($sibbling->get_ref());
             if ($lo->get_type() == 'learning_path_item')
                 $lo = $rdm->retrieve_content_object($lo->get_reference());
 
-            $sibblings[$sibbling->get_id()] = $lo->get_title();
+            $siblings[$sibbling->get_id()] = $lo->get_title();
         }
 
-        return $sibblings;
+        return $siblings;
     }
 
     function validate()

@@ -12,7 +12,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class ComplexMenu extends HTML_Menu
 {
-    
+
     private $cloi;
     private $root;
     /**
@@ -23,18 +23,18 @@ class ComplexMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-    
+
     /**
      * Boolean to determine wheter the nodes of the tree which are not complex are shown in the tree or not
      */
     private $view_entire_structure;
-    
+
     /*
      * Boolean to determine wheter the url should be added or not
      * @var Bool
      */
-    private $show_url; 
-    
+    private $show_url;
+
     /**
      * The datamanger that is used
      * @var RepositoryDataManager
@@ -57,21 +57,21 @@ class ComplexMenu extends HTML_Menu
         $url_format .= '&cloi=%s&root_lo=%s';
         $this->view_entire_structure = $view_entire_structure;
         $extra = array('publish');
-        
+
         foreach ($extra as $item)
         {
             if (Request :: get($item))
                 $url_format .= '&' . $item . '=' . Request :: get($item);
         }
-        
+
         $this->show_url = $show_url;
         $this->cloi = $cloi;
         $this->root = $root;
         $this->urlFmt = $url_format;
         $this->dm = RepositoryDataManager :: get_instance();
-        
+
         $menu = $this->get_menu($root);
-        
+
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
         $this->forceCurrentUrl($this->get_cloi_url($cloi));
@@ -84,16 +84,16 @@ class ComplexMenu extends HTML_Menu
         $lo = $datamanager->retrieve_content_object($root->get_id());
         $menu_item = array();
         $menu_item['title'] = $lo->get_title();
-        
+
         if($this->show_url)
         	$menu_item['url'] = $this->get_cloi_url();
-        
+
         $sub_menu_items = $this->get_menu_items($root->get_id());
         if (count($sub_menu_items) > 0)
         {
             $menu_item['sub'] = $sub_menu_items;
         }
-        
+
         $menu_item['class'] = 'type_' . $lo->get_type();
         //$menu_item['class'] = 'type_category';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
@@ -114,37 +114,37 @@ class ComplexMenu extends HTML_Menu
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent_id, ComplexContentObjectItem :: get_table_name());
         $datamanager = $this->dm;
         $clois = $datamanager->retrieve_complex_content_object_items($condition);
-        
+
         while ($cloi = $clois->next_result())
         {
             if ($cloi->is_complex() || $this->view_entire_structure)
             {
                 $lo = $datamanager->retrieve_content_object($cloi->get_ref());
-                
+
                 if($lo->get_type() == 'learning_path_item')
                 {
                 	$lo = $datamanager->retrieve_content_object($lo->get_reference());
                 }
-                
+
                 $menu_item = array();
                 $menu_item['title'] = $lo->get_title();
-                
+
                 if($this->show_url)
                 	$menu_item['url'] = $this->get_cloi_url($cloi);
-                
+
                 $sub_menu_items = $this->get_menu_items($cloi->get_ref());
                 if (count($sub_menu_items) > 0)
                 {
                     $menu_item['sub'] = $sub_menu_items;
                 }
-                
+
                 $menu_item['class'] = 'type_' . $lo->get_type();
                 //$menu_item['class'] = 'type_category';
                 $menu_item[OptionsMenuRenderer :: KEY_ID] = $cloi->get_id();
                 $menu[$cloi->get_id()] = $menu_item;
             }
         }
-        
+
         return $menu;
     }
 
