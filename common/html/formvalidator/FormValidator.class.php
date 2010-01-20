@@ -153,6 +153,37 @@ EOT;
         return $element;
     }
 
+    function add_ckeditor($name, $label, $required = true, $attributes = array())
+    {
+        if (! array_key_exists('size', $attributes))
+        {
+            $attributes['size'] = 50;
+        }
+
+        $attributes['class'] = 'ckeditor';
+
+        $scripts = array();
+        $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/html_ckeditor.js');
+        $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/ckeditor.js');
+        $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/adapters/jquery.js');
+
+        foreach($scripts as $script)
+        {
+            if (!empty($script))
+            {
+                $this->addElement('html', $script);
+            }
+        }
+
+        $element = $this->addElement('textarea', $name, $label, $attributes);
+        $this->applyFilter($name, 'trim');
+        if ($required)
+        {
+            $this->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
+        }
+        return $element;
+    }
+
     function create_textfield($name, $label, $attributes = array())
     {
         if (! array_key_exists('size', $attributes))

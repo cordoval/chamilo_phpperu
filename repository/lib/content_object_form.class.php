@@ -278,7 +278,8 @@ EOT;
         }
         $value = PlatformSetting :: get('description_required', 'repository');
         $required = ($value == 1) ? true : false;
-        $this->add_html_editor(ContentObject :: PROPERTY_DESCRIPTION, Translation :: get(get_class($this) . 'Description'), $required, $htmleditor_options);
+        //$this->add_html_editor(ContentObject :: PROPERTY_DESCRIPTION, Translation :: get(get_class($this) . 'Description'), $required, $htmleditor_options);
+        $this->add_ckeditor(ContentObject :: PROPERTY_DESCRIPTION, Translation :: get(get_class($this) . 'Description'), $required);
     }
 
     /**
@@ -357,7 +358,7 @@ EOT;
         }
 
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/content_object_form.js'));
-        
+
         $buttons = array();
 
         switch ($this->form_type)
@@ -450,7 +451,7 @@ EOT;
             //DebugUtilities :: show($object->get_errors());
             return null;
         }
-        
+
         // Process includes
         ContentObjectIncludeParser :: parse_includes($this);
 
@@ -487,7 +488,7 @@ EOT;
         $values = $this->exportValues();
 
         $object->set_title($values[ContentObject :: PROPERTY_TITLE]);
-        
+
         $desc = $values[ContentObject :: PROPERTY_DESCRIPTION] ? $values[ContentObject :: PROPERTY_DESCRIPTION] : '';
         $object->set_description($desc ? $desc : '');
 
@@ -522,7 +523,7 @@ EOT;
         {
             $result = $object->update();
         }
-        
+
         if($object->has_errors())
         {
             //TODO: display errors
