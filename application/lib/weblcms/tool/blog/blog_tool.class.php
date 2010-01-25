@@ -41,7 +41,7 @@ class BlogTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('blog');
+        return array('blog_item');
     }
 }
 ?>

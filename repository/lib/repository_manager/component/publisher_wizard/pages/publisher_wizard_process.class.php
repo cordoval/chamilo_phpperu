@@ -76,7 +76,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
                     $previous_application = $application_name;
                 }
                 
-                dump($application_name);
+             
                 //$location = implode('_', $split);
                 $application = Application :: factory($application_name);
                 foreach ($los as $lo)
