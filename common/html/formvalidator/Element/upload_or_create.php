@@ -7,6 +7,7 @@ require_once 'HTML/QuickForm/group.php';
 require_once 'HTML/QuickForm/radio.php';
 require_once 'HTML/QuickForm/file.php';
 require_once 'HTML/QuickForm/checkbox.php';
+require_once dirname(__FILE__) . '/html_editor/fckeditor_html_editor.php';
 /**
  * Form element to upload or create a document
  * This element contains 2 radio-
