@@ -234,7 +234,7 @@ abstract class RepositoryDataManager
      */
     function get_content_object_publication_attribute($id, $application, $user)
     {
-        $application = Application :: factory($application);
+        $application = Application :: factory($application, $user, true);
         return $application->get_content_object_publication_attribute($id);
     }
 

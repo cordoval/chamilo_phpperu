@@ -449,9 +449,25 @@ abstract class Application
      * @return Application An instance of the application corresponding to the
      * given $application
      */
-    function factory($application, $user = null)
+    function factory($application, $user = null, $load = false)
     {
-        $class = Application :: application_to_class($application) . 'Manager';
+        if($load)
+        {
+        	if(WebApplication :: is_application($application))
+        	{
+        		$application_manager_path = Path :: get_application_path() . 'lib/' . $application . '/' . $application . 
+        							        '_manager' . '/' . $application . '_manager.class.php';
+        	}
+        	else
+        	{
+        		$application = Path :: get(WEB_PATH) . $application . '/lib/' . $application .
+        							        '_manager' . '/' . $application . '_manager.class.php';
+        	}
+        	
+        	require_once $application_manager_path;
+        }
+        
+    	$class = Application :: application_to_class($application) . 'Manager';
         return new $class($user);
     }
 
