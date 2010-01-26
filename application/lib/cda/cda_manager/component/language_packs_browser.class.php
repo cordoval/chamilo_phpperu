@@ -19,7 +19,7 @@ class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('BrowseLanguages')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseLanguagePacks')));
+		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(CdaManager :: PARAM_CDA_LANGUAGE))), Translation :: get('BrowseLanguagePacks')));
 
 		$this->display_header($trail);
 

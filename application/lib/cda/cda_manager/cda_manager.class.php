@@ -286,11 +286,16 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 		return CdaDataManager :: get_instance()->retrieve_variable_translations($condition, $offset, $count, $order_property);
 	}
 
- 	function retrieve_variable_translation($id)
+ 	function retrieve_variable_translation($language_id, $variable_id)
 	{
-		return CdaDataManager :: get_instance()->retrieve_variable_translation($id);
+		return CdaDataManager :: get_instance()->retrieve_variable_translation($language_id, $variable_id);
 	}
 
+ 	function retrieve_english_translation($variable_id)
+	{
+		return CdaDataManager :: get_instance()->retrieve_english_translation($variable_id);
+	}
+	
 	// Url Creation
 
 	function get_create_cda_language_url()

@@ -151,26 +151,12 @@ class DatabaseCdaDataManager extends CdaDataManager
 		return $this->database->retrieve_objects(Variable :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
-	function get_next_variable_translation_id()
-	{
-		return $this->database->get_next_id(VariableTranslation :: get_table_name());
-	}
-
-	function create_variable_translation($variable_translation)
-	{
-		return $this->database->create($variable_translation);
-	}
-
 	function update_variable_translation($variable_translation)
 	{
-		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_ID, $variable_translation->get_id());
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $variable_translation->get_language_id());
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_translation->get_variable_id());
+		$condition = new AndCondition($conditions);
 		return $this->database->update($variable_translation, $condition);
-	}
-
-	function delete_variable_translation($variable_translation)
-	{
-		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_ID, $variable_translation->get_id());
-		return $this->database->delete($variable_translation->get_table_name(), $condition);
 	}
 
 	function count_variable_translations($condition = null)
@@ -178,9 +164,12 @@ class DatabaseCdaDataManager extends CdaDataManager
 		return $this->database->count_objects(VariableTranslation :: get_table_name(), $condition);
 	}
 
-	function retrieve_variable_translation($id)
+	function retrieve_variable_translation($language_id, $variable_id)
 	{
-		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_ID, $id);
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_id);
+		$condition = new AndCondition($conditions);
+		
 		return $this->database->retrieve_object(VariableTranslation :: get_table_name(), $condition);
 	}
 
@@ -189,5 +178,14 @@ class DatabaseCdaDataManager extends CdaDataManager
 		return $this->database->retrieve_objects(VariableTranslation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
+	function retrieve_english_translation($variable_id)
+	{
+		$subcondition = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english');
+		$conditions[] = new SubSelectcondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, CdaLanguage :: PROPERTY_ID, 'cda_' . CdaLanguage :: get_table_name(), $subcondition);
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_id);
+		$condition = new AndCondition($conditions);
+		
+		return $this->database->retrieve_object(VariableTranslation :: get_table_name(), $condition);
+	}
 }
 ?>
