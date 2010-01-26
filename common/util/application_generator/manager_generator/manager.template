@@ -4,7 +4,6 @@
  */
 require_once dirname(__FILE__).'/{L_APPLICATION_NAME}_manager_component.class.php';
 require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_data_manager.class.php';
-require_once dirname(__FILE__).'/../../web_application.class.php';
 <!-- BEGIN OBJECTS -->
 require_once dirname(__FILE__).'/component/{OBJECTS.L_OBJECT_CLASS}_browser/{OBJECTS.L_OBJECT_CLASS}_browser_table.class.php';
 <!-- END OBJECTS -->

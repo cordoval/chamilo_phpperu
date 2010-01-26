@@ -1,7 +1,5 @@
 <?php
 
-require_once Path :: get_application_path() . 'lib/web_application_component.class.php';
-
 /**
  * @package application.lib.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}_manager
  * Basic functionality of a component to talk with the {L_APPLICATION_NAME} application
