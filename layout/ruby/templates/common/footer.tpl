@@ -15,7 +15,7 @@
 			
 				<div id="copyright">
 					<div class="logo">
-						<a href="http://www.chamilo.org"><img src="{WEB_PATH}layout/aqua/images/common/logo_footer.png" /></a>
+						<a href="http://www.chamilo.org"><img src="{WEB_PATH}layout/ruby/images/common/logo_footer.png" /></a>
 					</div>
 					<div class="links">
 						{LINKS}

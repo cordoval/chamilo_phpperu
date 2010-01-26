@@ -50,7 +50,7 @@ img
 	background-color: #c50c2e;
 	color: #ffffff;
 	/*border-bottom: 1px solid white;*/
-	height: 90px;
+	height: 80px;
 }
 #header1 a
 {
@@ -63,34 +63,31 @@ img
 	text-decoration: none;
 }
 
-#header1 div.banner
-{
+#header1 div.banner {
 	float: left;
-	margin: 16px 1% 16px 0px;
-	height: 58px;
-	width: 210px;
+	margin: 16px 19px 16px 19px;
+	height: 48px;
+	width: 243px;
 }
 
-#header1 div.banner div.logo
-{
+#header1 div.banner span.logo {
 	background-image: url('../images/common/logo_header.png');
 	background-repeat: no-repeat;
-	height: 58px;
-	width: 210px;
+	height: 48px;
+	width: 243px;
+	display: block;
 }
 
-#header1 div.banner div.text
-{
+#header1 div.banner span.text {
 	display: none;
 }
 
-#header1 div.menu_container
-{
+#header1 div.menu_container {
 	position: relative;
-	margin-left: 248px;
+	margin-left: 281px;
 	right: 0px;
 	left: 0px;
-	margin-right: 1%;
+	margin-right: 19px;
 	color: white;
 }
 

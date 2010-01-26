@@ -200,7 +200,7 @@ class CasAuthentication extends Authentication
         $user->set_status(5);
         $user->set_auth_source('cas');
         $user->set_platformadmin(0);
-        $user->set_language('english');
+//        $user->set_language('english');
         $user->set_email($user_attributes['email']);
         $user->set_lastname($user_attributes['last_name']);
         $user->set_firstname($user_attributes['first_name']);
