@@ -28,14 +28,10 @@ class DefaultVariableTranslationTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 
-		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_LANGUAGE_ID);
-		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_VARIABLE_ID);
+		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_VARIABLE_ID, false);
+		$columns[] = new ObjectTableColumn('EnglishTranslation', false);
 		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_TRANSLATION);
-		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_DATE);
-		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_USER_ID);
 		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_RATING);
-		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_RATED);
-		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_STATUS);
 
 		return $columns;
 	}

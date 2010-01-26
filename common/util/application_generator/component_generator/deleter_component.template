@@ -41,18 +41,18 @@ class {APPLICATION_NAME}Manager{OBJECT_CLASS}DeleterComponent extends {APPLICATI
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'Selected{OBJECT_CLASS}Deleted';
+					$message = 'Selected{OBJECT_CLASS}NotDeleted';
 				}
 				else
 				{
-					$message = 'Selected{OBJECT_CLASS}Deleted';
+					$message = 'Selected{{OBJECT_CLASSES}NotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'Selected{OBJECT_CLASSES}Deleted';
+					$message = 'Selected{OBJECT_CLASS}Deleted';
 				}
 				else
 				{

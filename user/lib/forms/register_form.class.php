@@ -73,20 +73,7 @@ class RegisterForm extends FormValidator
         $this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
         // Phone Number
         $this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'), array("size" => "50"));
-        // Language
-        $adm = AdminDataManager :: get_instance();
-        $languages = $adm->retrieve_languages();
-        $lang_options = array();
-
-        while ($language = $languages->next_result())
-        {
-            $lang_options[$language->get_folder()] = $language->get_english_name();
-        }
-        $this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
-        if (PlatformSetting :: get('require_language', 'user'))
-        {
-            $this->addRule(User :: PROPERTY_LANGUAGE, Translation :: get('ThisFieldIsRequired'), 'required');
-        }
+        
         // Status
         if (PlatformSetting :: get('allow_teacher_registration', 'user'))
         {
@@ -153,7 +140,6 @@ class RegisterForm extends FormValidator
                 $values[User :: PROPERTY_STATUS] = STUDENT;
             }
             $user->set_status(intval($values[User :: PROPERTY_STATUS]));
-            $user->set_language($values[User :: PROPERTY_LANGUAGE]);
 
             $code = PlatformSetting :: get('days_valid');
 
@@ -223,7 +209,6 @@ class RegisterForm extends FormValidator
         $defaults[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
         $defaults[User :: PROPERTY_PICTURE_URI] = $user->get_picture_uri();
         $defaults[User :: PROPERTY_PHONE] = $user->get_phone();
-        $defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
         parent :: setDefaults($defaults);
     }
 

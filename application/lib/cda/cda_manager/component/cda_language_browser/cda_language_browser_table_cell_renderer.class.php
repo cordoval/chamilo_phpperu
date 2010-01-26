@@ -39,6 +39,19 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 			return $this->get_modification_links($cda_language);
 		}
 
+		switch ($column->get_name())
+		{
+			case CdaLanguage :: PROPERTY_ORIGINAL_NAME :
+				
+				if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
+				{
+					$url = $this->browser->get_browse_language_packs_url($cda_language->get_id());
+					return '<a href="' . $url . '">' . $cda_language->get_original_name() . '</a>';
+				}
+				
+				return $cda_language->get_original_name();
+		}
+		
 		return parent :: render_cell($column, $cda_language);
 	}
 
@@ -52,18 +65,21 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 	{
 		$toolbar_data = array();
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_cda_language_url($cda_language),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-		);
+		if(get_class($this->browser) != 'CdaManagerCdaLanguagesBrowserComponent')
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_update_cda_language_url($cda_language),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_image_path().'action_edit.png'
+			);
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_cda_language_url($cda_language),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-		);
-
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_delete_cda_language_url($cda_language),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path().'action_delete.png',
+			);
+		}
+		
 		return Utilities :: build_toolbar($toolbar_data);
 	}
 }

@@ -77,9 +77,9 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->retrieve_variable_translations($condition, $offset, $count, $order_property);
 	}
 
- 	function retrieve_variable_translation($id)
+ 	function retrieve_variable_translation($language_id, $variable_id)
 	{
-		return $this->get_parent()->retrieve_variable_translation($id);
+		return $this->get_parent()->retrieve_variable_translation($language_id, $variable_id);
 	}
 
 	// Url Creation
@@ -104,6 +104,11 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->get_browse_cda_languages_url();
 	}
 
+	function get_admin_browse_cda_languages_url()
+	{
+		return $this->get_parent()->get_admin_browse_cda_languages_url();
+	}
+	
 	function get_create_language_pack_url()
 	{
 		return $this->get_parent()->get_create_language_pack_url();
@@ -119,14 +124,19 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->get_delete_language_pack_url($language_pack);
 	}
 
-	function get_browse_language_packs_url()
+	function get_browse_language_packs_url($language_id)
 	{
-		return $this->get_parent()->get_browse_language_packs_url();
+		return $this->get_parent()->get_browse_language_packs_url($language_id);
+	}
+	
+	function get_admin_browse_language_packs_url()
+	{
+		return $this->get_parent()->get_admin_browse_language_packs_url();
 	}
 
-	function get_create_variable_url()
+	function get_create_variable_url($language_pack_id)
 	{
-		return $this->get_parent()->get_create_variable_url();
+		return $this->get_parent()->get_create_variable_url($language_pack_id);
 	}
 
 	function get_update_variable_url($variable)
@@ -159,15 +169,19 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->get_delete_variable_translation_url($variable_translation);
 	}
 
-	function get_browse_variable_translations_url()
+	function get_browse_variable_translations_url($language_id, $language_pack_id)
 	{
-		return $this->get_parent()->get_browse_variable_translations_url();
+		return $this->get_parent()->get_browse_variable_translations_url($language_id, $language_pack_id);
 	}
 
-
-	function get_browse_url()
+	function get_admin_browse_variables_url($language_pack_id)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+		return $this->get_parent()->get_admin_browse_variables_url($language_pack_id);
+	}
+	
+	function retrieve_english_translation($variable_id)
+	{
+		return $this->get_parent()->retrieve_english_translation($variable_id);
 	}
 }
 ?>

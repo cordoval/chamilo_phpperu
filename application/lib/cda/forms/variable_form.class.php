@@ -36,15 +36,8 @@ class VariableForm extends FormValidator
 
     function build_basic_form()
     {
-		$this->addElement('text', Variable :: PROPERTY_ID, Translation :: get('Id'));
-		$this->addRule(Variable :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-
 		$this->addElement('text', Variable :: PROPERTY_VARIABLE, Translation :: get('Variable'));
 		$this->addRule(Variable :: PROPERTY_VARIABLE, Translation :: get('ThisFieldIsRequired'), 'required');
-
-		$this->addElement('text', Variable :: PROPERTY_LANGUAGE_PACK_ID, Translation :: get('LanguagePackId'));
-		$this->addRule(Variable :: PROPERTY_LANGUAGE_PACK_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-
     }
 
     function build_editing_form()
@@ -74,9 +67,7 @@ class VariableForm extends FormValidator
     	$variable = $this->variable;
     	$values = $this->exportValues();
 
-    	$variable->set_id($values[Variable :: PROPERTY_ID]);
     	$variable->set_variable($values[Variable :: PROPERTY_VARIABLE]);
-    	$variable->set_language_pack_id($values[Variable :: PROPERTY_LANGUAGE_PACK_ID]);
 
     	return $variable->update();
     }
@@ -86,9 +77,7 @@ class VariableForm extends FormValidator
     	$variable = $this->variable;
     	$values = $this->exportValues();
 
-    	$variable->set_id($values[Variable :: PROPERTY_ID]);
     	$variable->set_variable($values[Variable :: PROPERTY_VARIABLE]);
-    	$variable->set_language_pack_id($values[Variable :: PROPERTY_LANGUAGE_PACK_ID]);
 
    		return $variable->create();
     }
@@ -101,9 +90,7 @@ class VariableForm extends FormValidator
 	{
 		$variable = $this->variable;
 
-    	$defaults[Variable :: PROPERTY_ID] = $variable->get_id();
     	$defaults[Variable :: PROPERTY_VARIABLE] = $variable->get_variable();
-    	$defaults[Variable :: PROPERTY_LANGUAGE_PACK_ID] = $variable->get_language_pack_id();
 
 		parent :: setDefaults($defaults);
 	}

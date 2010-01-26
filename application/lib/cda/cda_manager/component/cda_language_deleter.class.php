@@ -41,18 +41,18 @@ class CdaManagerCdaLanguageDeleterComponent extends CdaManagerComponent
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedCdaLanguageDeleted';
+					$message = 'SelectedCdaLanguageNotDeleted';
 				}
 				else
 				{
-					$message = 'SelectedCdaLanguageDeleted';
+					$message = 'SelectedCdaLanguagesNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedCdaLanguagesDeleted';
+					$message = 'SelectedCdaLanguageDeleted';
 				}
 				else
 				{
@@ -60,7 +60,7 @@ class CdaManagerCdaLanguageDeleterComponent extends CdaManagerComponent
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_CDA_LANGUAGES));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
 		}
 		else
 		{

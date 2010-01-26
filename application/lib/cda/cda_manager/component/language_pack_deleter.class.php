@@ -41,26 +41,26 @@ class CdaManagerLanguagePackDeleterComponent extends CdaManagerComponent
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedLanguagePackDeleted';
+					$message = 'SelectedLanguagePackNotDeleted';
 				}
 				else
 				{
-					$message = 'SelectedLanguagePackDeleted';
+					$message = 'SelectedLanguagePacksNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedLanguagePacksDeleted';
+					$message = 'SelectedLanguagePackDeleted';
 				}
 				else
 				{
-					$message = 'SelectedLanguagePacksDeleted';
+					$message = 'SelectedLanguagePacksNotDeleted';
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS));
 		}
 		else
 		{

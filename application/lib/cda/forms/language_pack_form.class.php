@@ -36,15 +36,14 @@ class LanguagePackForm extends FormValidator
 
     function build_basic_form()
     {
-		$this->addElement('text', LanguagePack :: PROPERTY_ID, Translation :: get('Id'));
-		$this->addRule(LanguagePack :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-
 		$this->addElement('text', LanguagePack :: PROPERTY_NAME, Translation :: get('Name'));
 		$this->addRule(LanguagePack :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', LanguagePack :: PROPERTY_TYPE, Translation :: get('Type'));
-		$this->addRule(LanguagePack :: PROPERTY_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
-
+		$types = array();
+		$types[LanguagePack :: TYPE_APPLICATION] = 'Application';
+		$types[LanguagePack :: TYPE_CORE] = 'Core';
+    	$this->addElement('select',LanguagePack :: PROPERTY_TYPE, Translation :: get('Type'), $types);
+    	$this->addRule(LanguagePack :: PROPERTY_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
     }
 
     function build_editing_form()
@@ -74,7 +73,6 @@ class LanguagePackForm extends FormValidator
     	$language_pack = $this->language_pack;
     	$values = $this->exportValues();
 
-    	$language_pack->set_id($values[LanguagePack :: PROPERTY_ID]);
     	$language_pack->set_name($values[LanguagePack :: PROPERTY_NAME]);
     	$language_pack->set_type($values[LanguagePack :: PROPERTY_TYPE]);
 
@@ -86,7 +84,6 @@ class LanguagePackForm extends FormValidator
     	$language_pack = $this->language_pack;
     	$values = $this->exportValues();
 
-    	$language_pack->set_id($values[LanguagePack :: PROPERTY_ID]);
     	$language_pack->set_name($values[LanguagePack :: PROPERTY_NAME]);
     	$language_pack->set_type($values[LanguagePack :: PROPERTY_TYPE]);
 
@@ -101,7 +98,6 @@ class LanguagePackForm extends FormValidator
 	{
 		$language_pack = $this->language_pack;
 
-    	$defaults[LanguagePack :: PROPERTY_ID] = $language_pack->get_id();
     	$defaults[LanguagePack :: PROPERTY_NAME] = $language_pack->get_name();
     	$defaults[LanguagePack :: PROPERTY_TYPE] = $language_pack->get_type();
 

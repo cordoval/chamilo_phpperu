@@ -18,6 +18,9 @@ class LanguagePack extends DataClass
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_TYPE = 'type';
+	
+	const TYPE_CORE = 1;
+	const TYPE_APPLICATION = 2;
 
 	/**
 	 * Get the default properties
@@ -91,6 +94,17 @@ class LanguagePack extends DataClass
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
+	function get_type_name()
+	{
+		switch($this->get_type())
+		{
+			case LanguagePack :: TYPE_CORE:
+				return Translation :: get('Core');
+			default:
+				return Translation :: get('Application');	
+		}
 	}
 }
 

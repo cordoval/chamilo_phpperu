@@ -17,14 +17,17 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
 
 	function run()
 	{
+		$language_id = Request :: get(CdaManager :: PARAM_CDA_LANGUAGE);
+		$language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
+		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE)), Translation :: get('BrowseCda')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseVariableTranslations')));
+		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('BrowseLanguages')));
+		$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), Translation :: get('BrowseLanguagePacks')));
+		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => $language_id,
+														CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), 
+								   Translation :: get('BrowseVariableTranslations')));
 
 		$this->display_header($trail);
-
-		echo '<a href="' . $this->get_create_variable_translation_url() . '">' . Translation :: get('CreateVariableTranslation') . '</a>';
-		echo '<br /><br />';
 		echo $this->get_table();
 		$this->display_footer();
 	}

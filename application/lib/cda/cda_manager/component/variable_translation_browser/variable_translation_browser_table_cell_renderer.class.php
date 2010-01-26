@@ -38,7 +38,26 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 		{
 			return $this->get_modification_links($variable_translation);
 		}
-
+		
+		switch ($column->get_name())
+		{
+			case 'EnglishTranslation' :
+				
+			$translation = $this->browser->retrieve_english_translation($variable_translation->get_variable_id());
+			if($translation)
+			{
+				return $translation->get_translation();
+			}else
+			{
+				return '';
+			}
+				
+			case VariableTranslation :: PROPERTY_VARIABLE_ID :
+				$variable_id = $variable_translation->get_variable_id();
+				$variable = $this->browser->retrieve_variable($variable_id);
+				return $variable->get_variable();
+		}
+		
 		return parent :: render_cell($column, $variable_translation);
 	}
 
@@ -52,17 +71,20 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 	{
 		$toolbar_data = array();
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_variable_translation_url($variable_translation),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-		);
-
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_variable_translation_url($variable_translation),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-		);
+		if(get_class($this->browser) != 'CdaManagerVariableTranslationsBrowserComponent')
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_update_variable_translation_url($variable_translation),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_image_path().'action_edit.png'
+			);
+		
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_delete_variable_translation_url($variable_translation),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path().'action_delete.png',
+			);
+		}
 
 		return Utilities :: build_toolbar($toolbar_data);
 	}

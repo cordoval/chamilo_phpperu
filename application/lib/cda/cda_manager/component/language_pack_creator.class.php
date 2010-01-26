@@ -19,8 +19,7 @@ class CdaManagerLanguagePackCreatorComponent extends CdaManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE)), Translation :: get('BrowseCda')));
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
+		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateLanguagePack')));
 
 		$language_pack = new LanguagePack();
@@ -29,7 +28,8 @@ class CdaManagerLanguagePackCreatorComponent extends CdaManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_language_pack();
-			$this->redirect($success ? Translation :: get('LanguagePackCreated') : Translation :: get('LanguagePackNotCreated'), !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS));
+			$this->redirect($success ? Translation :: get('LanguagePackCreated') : Translation :: get('LanguagePackNotCreated'), !$success, 
+					array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS));
 		}
 		else
 		{

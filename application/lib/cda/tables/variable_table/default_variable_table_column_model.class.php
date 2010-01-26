@@ -28,9 +28,7 @@ class DefaultVariableTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 
-		$columns[] = new ObjectTableColumn(Variable :: PROPERTY_ID);
 		$columns[] = new ObjectTableColumn(Variable :: PROPERTY_VARIABLE);
-		$columns[] = new ObjectTableColumn(Variable :: PROPERTY_LANGUAGE_PACK_ID);
 
 		return $columns;
 	}
