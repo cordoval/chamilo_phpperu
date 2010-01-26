@@ -36,9 +36,6 @@ class CdaLanguageForm extends FormValidator
 
     function build_basic_form()
     {
-		$this->addElement('text', CdaLanguage :: PROPERTY_ID, Translation :: get('Id'));
-		$this->addRule(CdaLanguage :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-
 		$this->addElement('text', CdaLanguage :: PROPERTY_ORIGINAL_NAME, Translation :: get('OriginalName'));
 		$this->addRule(CdaLanguage :: PROPERTY_ORIGINAL_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
@@ -77,7 +74,6 @@ class CdaLanguageForm extends FormValidator
     	$cda_language = $this->cda_language;
     	$values = $this->exportValues();
 
-    	$cda_language->set_id($values[CdaLanguage :: PROPERTY_ID]);
     	$cda_language->set_original_name($values[CdaLanguage :: PROPERTY_ORIGINAL_NAME]);
     	$cda_language->set_english_name($values[CdaLanguage :: PROPERTY_ENGLISH_NAME]);
     	$cda_language->set_isocode($values[CdaLanguage :: PROPERTY_ISOCODE]);
@@ -90,7 +86,6 @@ class CdaLanguageForm extends FormValidator
     	$cda_language = $this->cda_language;
     	$values = $this->exportValues();
 
-    	$cda_language->set_id($values[CdaLanguage :: PROPERTY_ID]);
     	$cda_language->set_original_name($values[CdaLanguage :: PROPERTY_ORIGINAL_NAME]);
     	$cda_language->set_english_name($values[CdaLanguage :: PROPERTY_ENGLISH_NAME]);
     	$cda_language->set_isocode($values[CdaLanguage :: PROPERTY_ISOCODE]);
@@ -106,7 +101,6 @@ class CdaLanguageForm extends FormValidator
 	{
 		$cda_language = $this->cda_language;
 
-    	$defaults[CdaLanguage :: PROPERTY_ID] = $cda_language->get_id();
     	$defaults[CdaLanguage :: PROPERTY_ORIGINAL_NAME] = $cda_language->get_original_name();
     	$defaults[CdaLanguage :: PROPERTY_ENGLISH_NAME] = $cda_language->get_english_name();
     	$defaults[CdaLanguage :: PROPERTY_ISOCODE] = $cda_language->get_isocode();

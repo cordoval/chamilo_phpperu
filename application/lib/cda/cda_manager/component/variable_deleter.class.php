@@ -19,7 +19,8 @@ class CdaManagerVariableDeleterComponent extends CdaManagerComponent
 	{
 		$ids = $_GET[CdaManager :: PARAM_VARIABLE];
 		$failures = 0;
-
+		$language_pack_id = 0;
+		
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
@@ -31,6 +32,9 @@ class CdaManagerVariableDeleterComponent extends CdaManagerComponent
 			{
 				$variable = $this->retrieve_variable($id);
 
+				if(!$language_pack_id)
+					$language_pack_id = $variable->get_language_pack_id();
+				
 				if (!$variable->delete())
 				{
 					$failures++;
@@ -41,18 +45,18 @@ class CdaManagerVariableDeleterComponent extends CdaManagerComponent
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedVariableDeleted';
+					$message = 'SelectedVariableNotDeleted';
 				}
 				else
 				{
-					$message = 'SelectedVariableDeleted';
+					$message = 'SelectedVariablesNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedVariablesDeleted';
+					$message = 'SelectedVariableDeleted';
 				}
 				else
 				{
@@ -60,7 +64,8 @@ class CdaManagerVariableDeleterComponent extends CdaManagerComponent
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLES));
+			$this->redirect($message, $failures, 
+						    array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_VARIABLES, CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id));
 		}
 		else
 		{

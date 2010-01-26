@@ -52,17 +52,20 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 	{
 		$toolbar_data = array();
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_variable_translation_url($variable_translation),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-		);
-
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_variable_translation_url($variable_translation),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-		);
+		if(get_class($this->browser) != 'CdaManagerVariableTranslationsBrowserComponent')
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_update_variable_translation_url($variable_translation),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_image_path().'action_edit.png'
+			);
+		
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_delete_variable_translation_url($variable_translation),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path().'action_delete.png',
+			);
+		}
 
 		return Utilities :: build_toolbar($toolbar_data);
 	}

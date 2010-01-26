@@ -18,18 +18,24 @@ class CdaManagerVariableCreatorComponent extends CdaManagerComponent
 	 */
 	function run()
 	{
+		$language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
+		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE)), Translation :: get('BrowseCda')));
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLES)), Translation :: get('BrowseVariables')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateVariable')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => CdaManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Cda') ));
+		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
+		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_VARIABLES, CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), Translation :: get('BrowseVariables')));
+		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), Translation :: get('CreateVariable')));
 
 		$variable = new Variable();
-		$form = new VariableForm(VariableForm :: TYPE_CREATE, $variable, $this->get_url(), $this->get_user());
+		$variable->set_language_pack_id($language_pack_id);
+		$form = new VariableForm(VariableForm :: TYPE_CREATE, $variable, $this->get_url(array(CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), $this->get_user());
 
 		if($form->validate())
 		{
 			$success = $form->create_variable();
-			$this->redirect($success ? Translation :: get('VariableCreated') : Translation :: get('VariableNotCreated'), !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLES));
+			$this->redirect($success ? Translation :: get('VariableCreated') : Translation :: get('VariableNotCreated'), !$success, 
+				array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_VARIABLES, CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id));
 		}
 		else
 		{

@@ -41,18 +41,18 @@ class CdaManagerVariableTranslationDeleterComponent extends CdaManagerComponent
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedVariableTranslationDeleted';
+					$message = 'SelectedVariableTranslationNotDeleted';
 				}
 				else
 				{
-					$message = 'SelectedVariableTranslationDeleted';
+					$message = 'SelectedVariableTranslationsNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedVariableTranslationsDeleted';
+					$message = 'SelectedVariableTranslationDeleted';
 				}
 				else
 				{

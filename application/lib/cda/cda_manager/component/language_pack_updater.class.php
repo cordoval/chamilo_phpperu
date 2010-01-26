@@ -19,8 +19,7 @@ class CdaManagerLanguagePackUpdaterComponent extends CdaManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE)), Translation :: get('BrowseCda')));
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
+		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateLanguagePack')));
 
 		$language_pack = $this->retrieve_language_pack(Request :: get(CdaManager :: PARAM_LANGUAGE_PACK));
@@ -29,7 +28,7 @@ class CdaManagerLanguagePackUpdaterComponent extends CdaManagerComponent
 		if($form->validate())
 		{
 			$success = $form->update_language_pack();
-			$this->redirect($success ? Translation :: get('LanguagePackUpdated') : Translation :: get('LanguagePackNotUpdated'), !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS));
+			$this->redirect($success ? Translation :: get('LanguagePackUpdated') : Translation :: get('LanguagePackNotUpdated'), !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS));
 		}
 		else
 		{

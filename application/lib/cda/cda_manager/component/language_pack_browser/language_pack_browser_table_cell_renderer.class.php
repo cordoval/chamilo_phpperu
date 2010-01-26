@@ -39,6 +39,24 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 			return $this->get_modification_links($language_pack);
 		}
 
+		switch ($column->get_name())
+		{
+			case LanguagePack :: PROPERTY_NAME :
+				
+				if(get_class($this->browser) == 'CdaManagerLanguagePacksBrowserComponent')
+				{
+					$url = $this->browser->get_browse_variable_translations_url(Request :: get(CdaManager :: PARAM_CDA_LANGUAGE), $language_pack->get_id());
+				}
+				else
+				{
+					$url = $this->browser->get_admin_browse_variables_url($language_pack->get_id());	
+				}
+				
+				return '<a href="' . $url . '">' . $language_pack->get_name() . '</a>';
+			case LanguagePack :: PROPERTY_TYPE :
+				return $language_pack->get_type_name();
+		}
+		
 		return parent :: render_cell($column, $language_pack);
 	}
 
@@ -52,18 +70,21 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 	{
 		$toolbar_data = array();
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_language_pack_url($language_pack),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-		);
-
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_language_pack_url($language_pack),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-		);
-
+		if(get_class($this->browser) != 'CdaManagerLanguagePacksBrowserComponent')
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_update_language_pack_url($language_pack),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_image_path().'action_edit.png'
+			);
+	
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_delete_language_pack_url($language_pack),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path().'action_delete.png',
+			);
+		}
+		
 		return Utilities :: build_toolbar($toolbar_data);
 	}
 }

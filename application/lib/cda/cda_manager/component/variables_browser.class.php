@@ -18,7 +18,6 @@ class CdaManagerVariablesBrowserComponent extends CdaManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE)), Translation :: get('BrowseCda')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseVariables')));
 
 		$this->display_header($trail);

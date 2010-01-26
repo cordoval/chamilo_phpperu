@@ -26,6 +26,7 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 	const ACTION_EDIT_CDA_LANGUAGE = 'edit_cda_language';
 	const ACTION_CREATE_CDA_LANGUAGE = 'create_cda_language';
 	const ACTION_BROWSE_CDA_LANGUAGES = 'browse_cda_languages';
+	const ACTION_ADMIN_BROWSE_CDA_LANGUAGES = 'admin_browse_cda_languages';
 
 	const PARAM_LANGUAGE_PACK = 'language_pack';
 	const PARAM_DELETE_SELECTED_LANGUAGE_PACKS = 'delete_selected_language_packs';
@@ -34,6 +35,7 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 	const ACTION_EDIT_LANGUAGE_PACK = 'edit_language_pack';
 	const ACTION_CREATE_LANGUAGE_PACK = 'create_language_pack';
 	const ACTION_BROWSE_LANGUAGE_PACKS = 'browse_language_packs';
+	const ACTION_ADMIN_BROWSE_LANGUAGE_PACKS = 'admin_browse_language_packs';
 
 	const PARAM_VARIABLE = 'variable';
 	const PARAM_DELETE_SELECTED_VARIABLES = 'delete_selected_variables';
@@ -42,6 +44,7 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 	const ACTION_EDIT_VARIABLE = 'edit_variable';
 	const ACTION_CREATE_VARIABLE = 'create_variable';
 	const ACTION_BROWSE_VARIABLES = 'browse_variables';
+	const ACTION_ADMIN_BROWSE_VARIABLES = 'admin_browse_variables';
 
 	const PARAM_VARIABLE_TRANSLATION = 'variable_translation';
 	const PARAM_DELETE_SELECTED_VARIABLE_TRANSLATIONS = 'delete_selected_variable_translations';
@@ -50,9 +53,6 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 	const ACTION_EDIT_VARIABLE_TRANSLATION = 'edit_variable_translation';
 	const ACTION_CREATE_VARIABLE_TRANSLATION = 'create_variable_translation';
 	const ACTION_BROWSE_VARIABLE_TRANSLATIONS = 'browse_variable_translations';
-
-
-	const ACTION_BROWSE = 'browse';
 
 	/**
 	 * Constructor
@@ -76,6 +76,9 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 			case self :: ACTION_BROWSE_CDA_LANGUAGES :
 				$component = CdaManagerComponent :: factory('CdaLanguagesBrowser', $this);
 				break;
+			case self :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES :
+				$component = CdaManagerComponent :: factory('AdminCdaLanguagesBrowser', $this);
+				break;
 			case self :: ACTION_DELETE_CDA_LANGUAGE :
 				$component = CdaManagerComponent :: factory('CdaLanguageDeleter', $this);
 				break;
@@ -88,6 +91,9 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 			case self :: ACTION_BROWSE_LANGUAGE_PACKS :
 				$component = CdaManagerComponent :: factory('LanguagePacksBrowser', $this);
 				break;
+			case self :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS :
+				$component = CdaManagerComponent :: factory('AdminLanguagePacksBrowser', $this);
+				break;
 			case self :: ACTION_DELETE_LANGUAGE_PACK :
 				$component = CdaManagerComponent :: factory('LanguagePackDeleter', $this);
 				break;
@@ -99,6 +105,9 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 				break;
 			case self :: ACTION_BROWSE_VARIABLES :
 				$component = CdaManagerComponent :: factory('VariablesBrowser', $this);
+				break;
+			case self :: ACTION_ADMIN_BROWSE_VARIABLES :
+				$component = CdaManagerComponent :: factory('AdminVariablesBrowser', $this);
 				break;
 			case self :: ACTION_DELETE_VARIABLE :
 				$component = CdaManagerComponent :: factory('VariableDeleter', $this);
@@ -121,17 +130,25 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 			case self :: ACTION_CREATE_VARIABLE_TRANSLATION :
 				$component = CdaManagerComponent :: factory('VariableTranslationCreator', $this);
 				break;
-			case self :: ACTION_BROWSE:
-				$component = CdaManagerComponent :: factory('Browser', $this);
-				break;
 			default :
-				$this->set_action(self :: ACTION_BROWSE);
-				$component = CdaManagerComponent :: factory('Browser', $this);
+				$this->set_action(self :: ACTION_BROWSE_CDA_LANGUAGES);
+				$component = CdaManagerComponent :: factory('CdaLanguagesBrowser', $this);
 
 		}
 		$component->run();
 	}
 
+  	public function get_application_platform_admin_links()
+    {
+        $links = array();
+        $links[] = array('name' => Translation :: get('ManageLanguages'), 'description' => Translation :: get('ManageLanguagesDescription'), 'action' => 'list', 'url' => $this->get_admin_browse_cda_languages_link());
+        $links[] = array('name' => Translation :: get('ManageLanguagePacks'), 'description' => Translation :: get('ManageLanguagePacksDescription'), 'action' => 'add', 'url' => $this->get_admin_browse_language_packs_link());
+        
+        $info = parent :: get_application_platform_admin_links();
+        $info['links'] = $links;
+        return $info;
+    }
+	
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))
@@ -297,6 +314,16 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CDA_LANGUAGES));
 	}
+	
+ 	function get_admin_browse_cda_languages_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
+	}
+	
+ 	function get_admin_browse_cda_languages_link()
+	{
+		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
+	}
 
 	function get_create_language_pack_url()
 	{
@@ -315,14 +342,26 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 								    self :: PARAM_LANGUAGE_PACK => $language_pack->get_id()));
 	}
 
-	function get_browse_language_packs_url()
+	function get_browse_language_packs_url($language_id)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LANGUAGE_PACKS));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LANGUAGE_PACKS,
+									self :: PARAM_CDA_LANGUAGE => $language_id));
 	}
 
-	function get_create_variable_url()
+ 	function get_admin_browse_language_packs_url()
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_VARIABLE));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS));
+	}
+	
+ 	function get_admin_browse_language_packs_link()
+	{
+		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS));
+	}
+	
+	function get_create_variable_url($language_pack_id)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_VARIABLE,
+									self :: PARAM_LANGUAGE_PACK => $language_pack_id));
 	}
 
 	function get_update_variable_url($variable)
@@ -342,6 +381,12 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_VARIABLES));
 	}
 
+ 	function get_admin_browse_variables_url($language_pack_id)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_VARIABLES,
+								    self :: PARAM_LANGUAGE_PACK => $language_pack_id));
+	}
+	
 	function get_create_variable_translation_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_VARIABLE_TRANSLATION));
@@ -359,14 +404,11 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
 	}
 
-	function get_browse_variable_translations_url()
+	function get_browse_variable_translations_url($language_id, $language_pack_id)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_VARIABLE_TRANSLATIONS));
-	}
-
-	function get_browse_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_VARIABLE_TRANSLATIONS,
+									self :: PARAM_CDA_LANGUAGE => $language_id,
+									self :: PARAM_LANGUAGE_PACK => $language_pack_id));
 	}
 
 	// Dummy Methods which are needed because we don't work with learning objects
