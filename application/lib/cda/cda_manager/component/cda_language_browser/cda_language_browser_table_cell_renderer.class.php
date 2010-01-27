@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../cda_manager.class.php';
  * Cell rendere for the learning object browser table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author
  */
 
 class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRenderer
@@ -42,16 +42,25 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 		switch ($column->get_name())
 		{
 			case CdaLanguage :: PROPERTY_ENGLISH_NAME :
-				
+
 				if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
 				{
 					$url = $this->browser->get_browse_language_packs_url($cda_language->get_id());
 					return '<a href="' . $url . '">' . $cda_language->get_english_name() . '</a>';
 				}
-				
+
 				return $cda_language->get_english_name();
+			case CdaLanguage :: PROPERTY_ORIGINAL_NAME :
+
+				if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
+				{
+					$url = $this->browser->get_browse_language_packs_url($cda_language->get_id());
+					return '<a href="' . $url . '">' . $cda_language->get_original_name() . '</a>';
+				}
+
+				return $cda_language->get_original_name();
 		}
-		
+
 		return parent :: render_cell($column, $cda_language);
 	}
 
@@ -79,7 +88,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 				'img' => Theme :: get_common_image_path().'action_delete.png',
 			);
 		}
-		
+
 		return Utilities :: build_toolbar($toolbar_data);
 	}
 }

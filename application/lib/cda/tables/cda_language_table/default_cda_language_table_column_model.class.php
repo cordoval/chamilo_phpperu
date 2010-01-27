@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../cda_language.class.php';
  * Default column model for the cda_language table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author
  */
 class DefaultCdaLanguageTableColumnModel extends ObjectTableColumnModel
 {
@@ -28,6 +28,7 @@ class DefaultCdaLanguageTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 
+		$columns[] = new ObjectTableColumn(CdaLanguage :: PROPERTY_ORIGINAL_NAME);
 		$columns[] = new ObjectTableColumn(CdaLanguage :: PROPERTY_ENGLISH_NAME);
 		$columns[] = new ObjectTableColumn('TranslationProgress', false);
 		return $columns;
