@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/cda_language_browser/cda_language_browser_table
 /**
  * cda component which allows the user to browse his cda_languages
  * @author Sven Vanpoucke
- * @author 
+ * @author
  */
 class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
 {
@@ -21,8 +21,11 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseLanguages')));
 
 		$this->display_header($trail);
-
-		echo $this->get_table();
+        echo '<a name="top"></a>';
+        echo $this->get_action_bar_html() . '';
+        echo '<div id="action_bar_browser">';
+        echo $this->get_table();
+        echo '</div>';
 		$this->display_footer();
 	}
 
@@ -32,5 +35,11 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
 		return $table->as_html();
 	}
 
+    function get_action_bar_html()
+    {
+        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddCdaLanguage'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => CdaManager :: ACTION_CREATE_CDA_LANGUAGE))));
+        return $action_bar->as_html();
+    }
 }
 ?>

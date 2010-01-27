@@ -433,8 +433,8 @@ class DatabaseRightsDataManager extends RightsDataManager
     function delete_orphaned_rights_template_right_locations()
     {
         $conditions = array();
-        $conditions[] = new NotCondition(new SubSelectcondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->database->escape_table_name(Location :: get_table_name())));
-        $conditions[] = new NotCondition(SubSelectcondition(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID, RightsTemplate :: PROPERTY_ID, $this->database->escape_table_name(RightsTemplate :: get_table_name())));
+        $conditions[] = new NotCondition(new SubselectCondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->database->escape_table_name(Location :: get_table_name())));
+        $conditions[] = new NotCondition(new SubselectCondition(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID, RightsTemplate :: PROPERTY_ID, $this->database->escape_table_name(RightsTemplate :: get_table_name())));
         $condition = new OrCondition($conditions);
 
         return $this->database->delete_objects(RightsTemplateRightLocation :: get_table_name(), $condition);
