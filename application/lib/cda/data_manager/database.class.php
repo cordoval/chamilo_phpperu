@@ -257,24 +257,37 @@ class DatabaseCdaDataManager extends CdaDataManager
 		return (int)(($translated_variables / $total_languages) * 100);
 	}
 	
-	function get_progress_for_language_pack($language_pack, $language_id)
+	function get_progress_for_language_pack($language_pack, $language_id = null)
 	{
 		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
 		$conditions[] = new SubSelectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
-		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		if (!is_null($language_id))
+		{
+			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		}
 		$condition = new AndCondition($conditions);
 		
 		$total_languages = $this->count_variable_translations($condition);
 		
 		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
 		$conditions[] = new SubSelectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
-		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		if (!is_null($language_id))
+		{
+			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		}
 		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
 		$condition = new AndCondition($conditions);
 		
 		$translated_variables = $this->count_variable_translations($condition);
 		
-		return (int)(($translated_variables / $total_languages) * 100);
+		if($total_languages != 0 || $translated_variables != 0)
+		{
+			return (int)(($translated_variables / $total_languages) * 100);
+		}
+		else
+		{
+			return 100;
+		}
 	}
 }
 ?>

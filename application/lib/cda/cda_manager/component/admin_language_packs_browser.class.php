@@ -47,5 +47,9 @@ class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
         return $action_bar;
     }
 	
+    function get_cda_language()
+    {
+    	return null;
+    }
 }
 ?>

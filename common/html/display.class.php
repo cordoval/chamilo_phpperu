@@ -278,5 +278,27 @@ class Display
         }
         echo '</h3>';
     }
+    
+    public static function get_progress_bar($percent)
+    {
+        $html = '<div class="progress_information">';
+        $html .= '<div class="progress_bar">';
+        for($i = 0; $i < 100; $i ++)
+        {
+            if ($percent > $i)
+            {
+            	$class = 'done';
+            }
+            else
+            {
+                $class = '';
+            }
+            $html .= '<div class="' . $class . '"></div>';
+        }
+        $html .= '</div>';
+        $html .= '<div class="progress_status">' . round($percent, 2) . ' %</div>';
+        $html .= '</div>';
+        return $html;
+    }
 }
 ?>

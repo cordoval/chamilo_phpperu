@@ -17,10 +17,14 @@ class LanguagePack extends DataClass
 	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
+	const PROPERTY_BRANCH = 'branch';
 	const PROPERTY_TYPE = 'type';
 	
 	const TYPE_CORE = 1;
 	const TYPE_APPLICATION = 2;
+	
+	const BRANCH_CLASSIC = 1;
+	const BRANCH_LCMS = 2;
 
 	/**
 	 * Get the default properties
@@ -28,7 +32,7 @@ class LanguagePack extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_TYPE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_BRANCH, self :: PROPERTY_TYPE);
 	}
 
 	function get_data_manager()
@@ -71,6 +75,24 @@ class LanguagePack extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_NAME, $name);
 	}
+	
+	/**
+	 * Returns the branch of this LanguagePack.
+	 * @return the branch.
+	 */
+	function get_branch()
+	{
+		return $this->get_default_property(self :: PROPERTY_BRANCH);
+	}
+
+	/**
+	 * Sets the branch of this LanguagePack.
+	 * @param branch
+	 */
+	function set_branch($branch)
+	{
+		$this->set_default_property(self :: PROPERTY_BRANCH, $branch);
+	}
 
 	/**
 	 * Returns the type of this LanguagePack.
@@ -90,7 +112,6 @@ class LanguagePack extends DataClass
 		$this->set_default_property(self :: PROPERTY_TYPE, $type);
 	}
 
-
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
@@ -104,6 +125,19 @@ class LanguagePack extends DataClass
 				return Translation :: get('Core');
 			default:
 				return Translation :: get('Application');	
+		}
+	}
+	
+	function get_branch_name()
+	{
+		switch($this->get_branch())
+		{
+			case LanguagePack :: BRANCH_CLASSIC:
+				return Translation :: get('ChamiloClassic');
+			case LanguagePack :: BRANCH_LCMS:
+				return Translation :: get('ChamiloLCMS');
+			default:
+				return Translation :: get('ChamiloLCMS');
 		}
 	}
 	

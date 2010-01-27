@@ -38,10 +38,15 @@ class LanguagePackForm extends FormValidator
     {
 		$this->addElement('text', LanguagePack :: PROPERTY_NAME, Translation :: get('Name'));
 		$this->addRule(LanguagePack :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$branches = array();
+		$branches[LanguagePack :: BRANCH_CLASSIC] = Translation :: get('ChamiloClassic');
+		$branches[LanguagePack :: BRANCH_LCMS] = Translation :: get('ChamiloLCMS');
+    	$this->addElement('select',LanguagePack :: PROPERTY_BRANCH, Translation :: get('Branch'), $branches);
 
 		$types = array();
-		$types[LanguagePack :: TYPE_APPLICATION] = 'Application';
-		$types[LanguagePack :: TYPE_CORE] = 'Core';
+		$types[LanguagePack :: TYPE_APPLICATION] = Translation :: get('Application');
+		$types[LanguagePack :: TYPE_CORE] = Translation :: get('Core');
     	$this->addElement('select',LanguagePack :: PROPERTY_TYPE, Translation :: get('Type'), $types);
     	$this->addRule(LanguagePack :: PROPERTY_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
     }
@@ -74,6 +79,7 @@ class LanguagePackForm extends FormValidator
     	$values = $this->exportValues();
 
     	$language_pack->set_name($values[LanguagePack :: PROPERTY_NAME]);
+    	$language_pack->set_branch($values[LanguagePack :: PROPERTY_BRANCH]);
     	$language_pack->set_type($values[LanguagePack :: PROPERTY_TYPE]);
 
     	return $language_pack->update();
@@ -85,6 +91,7 @@ class LanguagePackForm extends FormValidator
     	$values = $this->exportValues();
 
     	$language_pack->set_name($values[LanguagePack :: PROPERTY_NAME]);
+    	$language_pack->set_branch($values[LanguagePack :: PROPERTY_BRANCH]);
     	$language_pack->set_type($values[LanguagePack :: PROPERTY_TYPE]);
 
    		return $language_pack->create();
@@ -99,6 +106,7 @@ class LanguagePackForm extends FormValidator
 		$language_pack = $this->language_pack;
 
     	$defaults[LanguagePack :: PROPERTY_NAME] = $language_pack->get_name();
+    	$defaults[LanguagePack :: PROPERTY_BRANCH] = $language_pack->get_branch();
     	$defaults[LanguagePack :: PROPERTY_TYPE] = $language_pack->get_type();
 
 		parent :: setDefaults($defaults);

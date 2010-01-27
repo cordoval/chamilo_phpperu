@@ -28,9 +28,10 @@ class DefaultLanguagePackTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 
+		$columns[] = new ObjectTableColumn(LanguagePack :: PROPERTY_BRANCH);
 		$columns[] = new ObjectTableColumn(LanguagePack :: PROPERTY_NAME);
 		$columns[] = new ObjectTableColumn(LanguagePack :: PROPERTY_TYPE);
-		$columns[] = new ObjectTableColumn('TranslationProgress', false);
+		$columns[] = new StaticTableColumn(Translation :: get('TranslationProgress'));
 
 		return $columns;
 	}

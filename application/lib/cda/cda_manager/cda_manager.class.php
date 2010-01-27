@@ -311,7 +311,7 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 		return CdaDataManager :: get_instance()->get_progress_for_language($language);
 	}
 	
-	function get_progress_for_language_pack($language_pack, $language_id)
+	function get_progress_for_language_pack($language_pack, $language_id = null)
 	{
 		return CdaDataManager :: get_instance()->get_progress_for_language_pack($language_pack, $language_id);
 	}

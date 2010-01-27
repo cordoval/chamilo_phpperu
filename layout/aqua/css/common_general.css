@@ -1013,7 +1013,7 @@ div.survey-categories-header,div.survey-outline-header,div.survey-result-header
 /*****************************************************
  *  SOME MORE GENERIC STYLES                         *
  *****************************************************/
-	/* Repository Quota */
+/* Repository Quota */
 .usage_bar {
 	width: 401px;
 	height: 24px;
@@ -1047,6 +1047,37 @@ div.survey-categories-header,div.survey-outline-header,div.survey-result-header
 
 .usage_status {
 	margin: 0.1em 0 0.1em 0;
+}
+
+/* Progress Bars */
+.progress_bar {
+	float: left;
+	width: 201px;
+	height: 12px;
+	border: 1px solid #999;
+}
+
+.progress_bar div {
+	float: left;
+	margin: 1px 0px 0px 1px;
+	padding: 0;
+	background: #CCC;
+	height: 10px;
+	width: 1px;
+}
+
+.progress_bar .done {
+	background: #66B6D6;
+}
+
+.progress_information {
+	height: 14px;
+	margin: 0px;
+}
+
+.progress_status {
+	float: left;
+	margin: 0px 0px 0px 10px;
 }
 
 /*

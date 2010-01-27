@@ -81,6 +81,6 @@ abstract class CdaDataManager
 	abstract function can_language_pack_be_unlocked($language_pack, $language_id);
 	
 	abstract function get_progress_for_language($language);
-	abstract function get_progress_for_language_pack($language_pack, $language_id);
+	abstract function get_progress_for_language_pack($language_pack, $language_id = null);
 }
 ?>

@@ -33,6 +33,8 @@ class DefaultLanguagePackTableCellRenderer implements ObjectTableCellRenderer
 		{
 			case LanguagePack :: PROPERTY_ID :
 				return $language_pack->get_id();
+			case LanguagePack :: PROPERTY_BRANCH :
+				return $language_pack->get_branch_name();
 			case LanguagePack :: PROPERTY_NAME :
 				return $language_pack->get_name();
 			case LanguagePack :: PROPERTY_TYPE :

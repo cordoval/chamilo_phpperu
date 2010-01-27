@@ -107,7 +107,7 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->get_progress_for_language($language);
 	}
 	
-	function get_progress_for_language_pack($language_pack, $language_id)
+	function get_progress_for_language_pack($language_pack, $language_id = null)
 	{
 		return $this->get_parent()->get_progress_for_language_pack($language_pack, $language_id);
 	}

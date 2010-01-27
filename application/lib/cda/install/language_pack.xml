@@ -3,6 +3,7 @@
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1" autoincrement="1"/>
   <property name="name" type="text" length="255" notnull="1" default="" />
+  <property name="branch" type="text" length="4" unsigned="1" notnull="1" />
   <property name="type" type="integer" unsigned="1" notnull="1" />
  </properties>
 </object>

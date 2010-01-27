@@ -73,24 +73,12 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 	{
 		$toolbar_data = array();
 		
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_rate_variable_translation_url($variable_translation),
-			'label' => Translation :: get('Rate'),
-			'img' => Theme :: get_common_image_path().'action_statistics.png'
-		);
-		
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_view_variable_translation_url($variable_translation),
-			'label' => Translation :: get('View'),
-			'img' => Theme :: get_common_image_path().'action_browser.png'
-		);
-		
 		if($variable_translation->get_status() == VariableTranslation :: STATUS_NORMAL)
         {
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_update_variable_translation_url($variable_translation),
 				'label' => Translation :: get('Translate'),
-				'img' => Theme :: get_common_image_path().'action_translate.png'
+				'img' => Theme :: get_image_path().'action_translate.png'
 			);
 			
         	$toolbar_data[] = array(
@@ -108,7 +96,7 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
         {
         	$toolbar_data[] = array(
 				'label' => Translation :: get('TranslateNa'),
-				'img' => Theme :: get_common_image_path().'action_translate_na.png'
+				'img' => Theme :: get_image_path().'action_translate_na.png'
 			);
 			
         	$toolbar_data[] = array(
@@ -122,6 +110,18 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 				'img' => Theme :: get_common_image_path().'action_unlock.png'
 			);
         }
+        
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_rate_variable_translation_url($variable_translation),
+			'label' => Translation :: get('Rate'),
+			'img' => Theme :: get_common_image_path().'action_statistics.png'
+		);
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_view_variable_translation_url($variable_translation),
+			'label' => Translation :: get('View'),
+			'img' => Theme :: get_common_image_path().'action_browser.png'
+		);
 		
 		return Utilities :: build_toolbar($toolbar_data);
 	}
