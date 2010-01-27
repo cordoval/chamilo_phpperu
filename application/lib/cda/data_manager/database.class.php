@@ -151,6 +151,19 @@ class DatabaseCdaDataManager extends CdaDataManager
 		return $this->database->retrieve_objects(Variable :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
+	function create_variable_translation($variable_translation)
+	{
+		return $this->database->create($variable_translation);
+	}
+	
+	function delete_variable_translation($variable_translation)
+	{
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $variable_translation->get_language_id());
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_translation->get_variable_id());
+		$condition = new AndCondition($conditions);
+		return $this->database->delete($variable_translation->get_table_name(), $condition);
+	}
+	
 	function update_variable_translation($variable_translation)
 	{
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $variable_translation->get_language_id());

@@ -111,6 +111,47 @@ class CdaLanguage extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+	function create()
+	{
+		$succes = parent :: create();
+		
+		$dm = $this->get_data_manager();
+		$variables = $dm->retrieve_variables();
+		
+		while($variable = $variables->next_result())
+		{
+			$translation = new VariableTranslation();
+			$translation->set_user_id(0);
+			$translation->set_language_id($this->get_id());
+			$translation->set_variable_id($variable->get_id());
+			$translation->set_date(Utilities :: to_db_date(time()));
+			$translation->set_rated(0);
+			$translation->set_rating(0);
+			$translation->set_translation(' ');
+			$translation->set_status(VariableTranslation :: STATUS_NORMAL);
+			$succes &= $translation->create();
+		}
+
+		return $succes;
+	}
+	
+	function delete()
+	{
+		$succes = parent :: delete();
+		$dm = $this->get_data_manager();
+		
+		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $this->get_id());
+		$translations = $dm->retrieve_variable_translations($condition);
+		
+		while($translation = $translations->next_result())
+		{
+			$succes &= $translation->delete();
+		}
+		
+		return $succes;
+		
+	} 
 }
 
 ?>

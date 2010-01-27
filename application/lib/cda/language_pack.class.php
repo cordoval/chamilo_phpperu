@@ -106,6 +106,23 @@ class LanguagePack extends DataClass
 				return Translation :: get('Application');	
 		}
 	}
+	
+	function delete()
+	{
+		$succes = parent :: delete();
+		$dm = $this->get_data_manager();
+		
+		$condition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $this->get_id());
+		$variables = $dm->retrieve_variables($condition);
+		
+		while($variable = $variables->next_result())
+		{
+			$succes &= $variable->delete();
+		}
+		
+		return $succes;
+		
+	} 
 }
 
 ?>

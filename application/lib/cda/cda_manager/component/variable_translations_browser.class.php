@@ -34,8 +34,23 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
 
 	function get_table()
 	{
-		$table = new VariableTranslationBrowserTable($this, array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS), null);
+		$table = new VariableTranslationBrowserTable($this, 
+			array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS), 
+			$this->get_condition());
+			
 		return $table->as_html();
+	}
+	
+	function get_condition()
+	{
+		$language_id = Request :: get(CdaManager :: PARAM_CDA_LANGUAGE);
+		$language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
+		
+		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack_id);
+		$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		
+		return new AndCondition($conditions);
 	}
 
 }

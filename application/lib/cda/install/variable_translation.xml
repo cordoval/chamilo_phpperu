@@ -8,7 +8,7 @@
   <property name="user_id" type="integer" unsigned="1" notnull="0" />
   <property name="rating" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="rated" type="integer" unsigned="1" notnull="1" default="0"/>
-  <property name="status" type="text" length="255" notnull="1" default="0" />
+  <property name="status" type="integer" length="1" unsigned="1" notnull="1" default="0"/>
  </properties>
  <index name="primary" type="primary">
 	<indexproperty name="language_id" />

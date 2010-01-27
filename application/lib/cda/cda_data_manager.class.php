@@ -66,6 +66,8 @@ abstract class CdaDataManager
 	abstract function retrieve_variable($id);
 	abstract function retrieve_variables($condition = null, $offset = null, $count = null, $order_property = null);
 
+	abstract function create_variable_translation($variable_translation);
+	abstract function delete_variable_translation($variable_translation);
 	abstract function update_variable_translation($variable_translation);
 	abstract function count_variable_translations($conditions = null);
 	abstract function retrieve_variable_translation($language_id, $variable_id);

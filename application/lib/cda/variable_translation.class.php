@@ -24,6 +24,9 @@ class VariableTranslation extends DataClass
 	const PROPERTY_RATED = 'rated';
 	const PROPERTY_STATUS = 'status';
 
+	const STATUS_NORMAL = 1;
+	const STATUS_BLOCKED = 2;
+	
 	/**
 	 * Get the default properties
 	 * @return array The property names.
