@@ -13,9 +13,11 @@ require_once dirname(__FILE__) . '/wizard/license_install_wizard_page.class.php'
 require_once dirname(__FILE__) . '/wizard/database_install_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/application_install_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/settings_install_wizard_page.class.php';
+require_once dirname(__FILE__) . '/wizard/overview_install_wizard_page.class.php';
+require_once dirname(__FILE__) . '/wizard/preconfigured_install_wizard_page.class.php';
+
 require_once dirname(__FILE__) . '/wizard/install_wizard_process.class.php';
 require_once dirname(__FILE__) . '/wizard/install_wizard_display.class.php';
-require_once dirname(__FILE__) . '/wizard/preconfigured_install_wizard_page.class.php';
 /**
  * A wizard which guides the user to several steps to complete a maintenance
  * action on a course.
@@ -44,6 +46,7 @@ class InstallWizard extends HTML_QuickForm_Controller
         $this->addPage(new DatabaseInstallWizardPage('page_database', $this->parent));
         $this->addPage(new ApplicationInstallWizardPage('page_application', $this->parent));
         $this->addPage(new SettingsInstallWizardPage('page_settings', $this->parent));
+        $this->addPage(new OverviewInstallWizardPage('page_overview', $this->parent));
 
         if(!Session :: retrieve('normal_install') == 1)
         {

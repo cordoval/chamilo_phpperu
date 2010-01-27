@@ -106,13 +106,17 @@ EOT;
         	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
             {
             	if(get_class($page) != 'PreconfiguredInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            	{
             		continue;
+            	}
             }
 
         	if(get_class($page) == 'PreconfiguredInstallWizardPage')
             {
             	if(get_class($current_page) != 'PreconfiguredInstallWizardPage')
+            	{
             		continue;
+            	}
             }
 
         	$page_number ++;
@@ -120,11 +124,6 @@ EOT;
             if ($page->get_title() == $current_page->get_title())
             {
                 $current_page_number = $page_number;
-                //				echo '<li class="active"><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
-            }
-            else
-            {
-                //				echo '<li><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
             }
         }
 
@@ -139,13 +138,17 @@ EOT;
         	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
             {
             	if(get_class($page) != 'PreconfiguredInstallWizardPage' && get_class($page) != 'LanguageInstallWizardPage')
+            	{
             		continue;
+            	}
             }
 
         	if(get_class($page) == 'PreconfiguredInstallWizardPage')
             {
             	if(get_class($current_page) != 'PreconfiguredInstallWizardPage')
+            	{
             		continue;
+            	}
             }
 
         	$page_number ++;

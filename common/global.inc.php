@@ -34,10 +34,10 @@ $error_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		<link rel="stylesheet" href="layout/aqua/css/common.css" type="text/css"/>
 	</head>
 	<body dir="ltr">
-		<div id="outerframe">
+		<div id="outerframe">		
 			<div id="header">
 				<div id="header1">
-					<div class="banner"><div class="logo"></div></div>
+					<div class="banner"><span class="logo"></span><span class="text">Chamilo</span></div>
 					<div class="clear">&nbsp;</div>
 				</div>
 				<div class="clear">&nbsp;</div>
@@ -65,7 +65,7 @@ $error_message .= '			</div>
 			<div id="footer">
 				<div id="copyright">
 					<div class="logo">
-					<a href="http://www.chamilo.org"><img src="layout/aqua/images/common/chamilo_logo_small.png" /></a>
+					<a href="http://www.chamilo.org"><img src="layout/aqua/images/common/logo_footer.png" /></a>
 					</div>
 					<div class="links">
 						<a href="http://www.chamilo.org">http://www.chamilo.org</a>&nbsp;|&nbsp;&copy;&nbsp;2009
