@@ -198,47 +198,14 @@ EOT;
      * @param boolean $required Is the form-element required (default=true)
      * @return HTML_QuickForm_html_editor The element.
      */
-    function add_html_editor($name, $label, $required = true, $options = array('full_page' => false))
+    function add_html_editor($name, $label, $required = true, $options = array())
     {
-        $type = 'fckeditor';
-        $element = $this->addElement($type . '_html_editor', $name, $label, 'rows="15" cols="80"', $options);
-
-        $this->applyFilter($name, 'trim');
-        $html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML : STUDENT_HTML;
-        if ($options['full_page'] == true)
-        {
-            $html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML_FULLPAGE : STUDENT_HTML_FULLPAGE;
-            //First *filter* the HTML (markup, indenting, ...)
-            $this->applyFilter($name, 'html_filter_teacher_fullpage');
-        }
-        else
-        {
-            //First *filter* the HTML (markup, indenting, ...)
-            $this->applyFilter($name, 'html_filter_teacher');
-        }
-        if ($required)
-        {
-            $this->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
-        }
-        if ($options['full_page'] == true)
-        {
-            $el = $this->getElement($name);
-            $el->fullPage = true;
-        }
-        //Add rule to check not-allowed HTML
-        $this->addRule($name, Translation :: get('SomeHTMLNotAllowed'), 'html', $html_type);
-
-        // Register the html editor for possible post processing afterwards
-        $this->html_editors[] = $name;
-        return $element;
+        FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $this, $name, $label, $required, $options)->add();
     }
 
-    function create_html_editor($name, $label, $options)
+    function create_html_editor($name, $label, $options = array())
     {
-        $type = 'fckeditor';
-        $element = $this->createElement($type . '_html_editor', $name, $label, 'rows="15" cols="80"', $options);
-        $this->html_editors[] = $name;
-        return $element;
+        return FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $this, $name, $label, false, $options)->create();
     }
 
     function get_html_editors()

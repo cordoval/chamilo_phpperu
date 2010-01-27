@@ -51,7 +51,7 @@ class SelectQuestionForm extends ContentObjectForm
             else
             {
                 $number_of_options = intval($_SESSION['select_number_of_options']);
-                
+
                 for($option_number = 0; $option_number < $number_of_options; $option_number ++)
                 {
                     $defaults['option_weight'][$option_number] = 1;
@@ -115,7 +115,7 @@ class SelectQuestionForm extends ContentObjectForm
     private function add_options()
     {
         $renderer = $this->defaultRenderer();
-        
+
         if (! $this->isSubmitted())
         {
             unset($_SESSION['select_number_of_options']);
@@ -154,7 +154,7 @@ class SelectQuestionForm extends ContentObjectForm
             $_SESSION['select_answer_type'] = $object->get_answer_type();
         }
         $number_of_options = intval($_SESSION['select_number_of_options']);
-        
+
         if ($_SESSION['select_answer_type'] == 'radio')
         {
             $switch_label = Translation :: get('SwitchToMultipleSelect');
@@ -163,23 +163,23 @@ class SelectQuestionForm extends ContentObjectForm
         {
             $switch_label = Translation :: get('SwitchToSingleSelect');
         }
-        
+
         $this->addElement('hidden', 'select_answer_type', $_SESSION['select_answer_type'], array('id' => 'select_answer_type'));
         $this->addElement('hidden', 'select_number_of_options', $_SESSION['select_number_of_options'], array('id' => 'select_number_of_options'));
-        
+
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch', 'id' => 'change_answer_type'));
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddSelectOption'), array('class' => 'normal add', 'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        
+
         $html_editor_options = array();
-        $html_editor_options['width'] = '100%';
-        $html_editor_options['height'] = '65';
-        $html_editor_options['show_toolbar'] = false;
-        $html_editor_options['show_tags'] = false;
-        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
-        
+        $html_editor_options['style'] = 'width: 100%; height: 65px;';
+//        $html_editor_options['show_toolbar'] = false;
+//        $html_editor_options['show_tags'] = false;
+//        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+        $html_editor_options['toolbar'] = 'RepositoryQuestion';
+
         $table_header = array();
         $table_header[] = '<table class="data_table">';
         $table_header[] = '<thead>';
@@ -193,13 +193,13 @@ class SelectQuestionForm extends ContentObjectForm
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
-        
+
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
             if (! in_array($option_number, $_SESSION['select_skip_options']))
             {
                 $group = array();
-                
+
                 if ($_SESSION['select_answer_type'] == 'checkbox')
                 {
                     $group[] = & $this->createElement('checkbox', 'correct[' . $option_number . ']', Translation :: get('Correct'), '', array('class' => 'option', 'id' => 'correct[' . $option_number . ']'));
@@ -208,12 +208,12 @@ class SelectQuestionForm extends ContentObjectForm
                 {
                     $group[] = & $this->createElement('radio', 'correct', Translation :: get('Correct'), '', $option_number, array('class' => 'option', 'id' => 'correct[' . $option_number . ']'));
                 }
-                
+
                 //$group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
                 $group[] = & $this->createElement('text', 'option[' . $option_number . ']', Translation :: get('Answer'), array('style' => 'width: 300px;'));
                 $group[] = & $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
                 $group[] = & $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
-                
+
                 if ($number_of_options - count($_SESSION['select_skip_options']) > 2)
                 {
                     $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
@@ -222,22 +222,22 @@ class SelectQuestionForm extends ContentObjectForm
                 {
                     $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
-                
+
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
-                
+
                 $this->addGroupRule('option_' . $option_number, array('option[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), 'option_weight[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
-                
+
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
             }
         }
-        
+
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->addElement('html', implode("\n", $table_footer));
-        
+
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        
+
         $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
     }

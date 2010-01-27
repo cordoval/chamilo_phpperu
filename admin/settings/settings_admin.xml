@@ -67,6 +67,12 @@
 			<setting name="theme" field="select" default="aqua" user_setting="1">
 				<options type="dynamic" source="get_themes" />
 			</setting>
+			<setting name="html_editor" field="radio" default="ckeditor" user_setting="1">
+				<options type="static">
+					<option name="CKEditor" value="ckeditor" />
+					<option name="TinyMCE" value="tinymce" />
+				</options>
+			</setting>
 			<setting name="reload_templates" field="radio" default="0">
 				<options type="static">
 					<option name="true" value="1" />

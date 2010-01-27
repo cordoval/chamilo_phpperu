@@ -26,18 +26,18 @@ class WikiPageForm extends ContentObjectForm
     function setDefaults($defaults = array ())
     {
         $defaults[ContentObject :: PROPERTY_TITLE] = Request :: get('title') == null ? NULL : Request :: get('title');
-        
+
         parent :: setDefaults($defaults);
     }
-    
+
     function build_creation_form()
     {
-    	parent :: build_creation_form(array('toolbar_set' => 'WikiPage'));
+    	parent :: build_creation_form(array('toolbar' => 'WikiPage'));
     }
-    
+
 	function build_editing_form()
     {
-    	parent :: build_editing_form(array('toolbar_set' => 'WikiPage'));
+    	parent :: build_editing_form(array('toolbar' => 'WikiPage'));
     }
 }
 ?>

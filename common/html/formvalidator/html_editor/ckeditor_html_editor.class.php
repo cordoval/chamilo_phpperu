@@ -3,12 +3,11 @@
 class FormValidatorCkeditorHtmlEditor extends FormValidatorHtmlEditor
 {
 
-    function __construct($form, $name, $label, $required = true, $attributes = array())
+    function create()
     {
-        parent :: __construct($form, $name, $label, $required, $attributes);
+        $form = $this->get_form();
 
         $scripts = array();
-        $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/html_editor/html_editor_ckeditor.js');
         $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/ckeditor.js');
         $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/adapters/jquery.js');
 
@@ -19,6 +18,25 @@ class FormValidatorCkeditorHtmlEditor extends FormValidatorHtmlEditor
                 $form->addElement('html', $script);
             }
         }
+
+        $attributes = $this->get_attributes();
+
+        $editor = array();
+        $editor[] = '<script type="text/javascript">';
+        $editor[] = '$(function ()';
+        $editor[] = '{';
+        $editor[] = '	$(document).ready(function ()';
+        $editor[] = '	{';
+        $editor[] = '		$("textarea.html_editor[name=\''. $this->get_name() .'\']").ckeditor({';
+        $editor[] = '			toolbar : \'' . $attributes['toolbar'] . '\'';
+        $editor[] = '		});';
+        $editor[] = '	});';
+        $editor[] = '});';
+        $editor[] = '</script>';
+
+        $form->addElement('html', implode("\n", $editor));
+
+        return parent :: create();
     }
 }
 
