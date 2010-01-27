@@ -118,7 +118,9 @@ class InstallManager extends CoreApplication
         $output[] = '<a name="top"></a>';
         $output[] = '<div id="header">  <!-- header section start -->';
         $output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
-        $output[] = '<div class="banner"><div class="logo"></div></div>';
+        $output[] = '<div class="banner"><span class="logo"></span><span class="text">Chamilo</span></div>';
+
+        //not to let the header disappear if there's nothing on the left
         $output[] = '<div class="clear">&nbsp;</div>';
         $output[] = '</div> <!-- end of #header1 -->';
         $output[] = '<div class="clear">&nbsp;</div>';
@@ -137,14 +139,13 @@ class InstallManager extends CoreApplication
     {
         $output = array();
         
-        //		$output[] = '</div>';
         $output[] = '<div class="clear">&nbsp;</div> <!-- "clearing" div to make sure that footer stays below the main and right column sections -->';
         $output[] = '</div> <!-- end of #main" started at the end of banner.inc.php -->';
         
         $output[] = '<div id="footer"> <!-- start of #footer section -->';
         $output[] = '<div id="copyright">';
         $output[] = '<div class="logo">';
-        $output[] = '<a href="http://www.chamilo.org"><img src="' . '../layout/aqua/images/common/chamilo_logo_small.png" /></a>';
+        $output[] = '<a href="http://www.chamilo.org"><img src="' . '../layout/aqua/images/common/logo_footer.png" /></a>';
         $output[] = '</div>';
         $output[] = '<div class="links">';
         
