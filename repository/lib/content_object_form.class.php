@@ -279,7 +279,7 @@ EOT;
         $value = PlatformSetting :: get('description_required', 'repository');
         $required = ($value == 1) ? true : false;
         //$this->add_html_editor(ContentObject :: PROPERTY_DESCRIPTION, Translation :: get(get_class($this) . 'Description'), $required, $htmleditor_options);
-        $this->add_ckeditor(ContentObject :: PROPERTY_DESCRIPTION, Translation :: get(get_class($this) . 'Description'), $required);
+        $this->add_editor(ContentObject :: PROPERTY_DESCRIPTION, Translation :: get(get_class($this) . 'Description'), $required);
     }
 
     /**
