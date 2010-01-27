@@ -36,7 +36,11 @@ class VariableTranslationForm extends FormValidator
 		$html[] = '<div class="formw"><div class="element">' . $this->variable->get_variable() . '</div></div>';
 		$html[] = '<div class="label">' . Translation :: get('EnglishTranslation') . '</div> '; 
 		$html[] = '<div class="formw"><div class="element">';
-		$html[] = CdaDataManager :: get_instance()->retrieve_english_translation($this->variable->get_id())->get_translation() . '</div></div>';
+		
+		$english = CdaDataManager :: get_instance()->retrieve_english_translation($this->variable->get_id());
+        $english_translation = ($english && $english->get_translation() != ' ') ? $english->get_translation() : Translation :: get('NoTranslation');
+		$html[] = $english_translation . '</div></div>';
+		
 		$html[] = '</div><br /><br />';
 		
 		$this->addElement('html', implode("\n", $html));
@@ -63,6 +67,7 @@ class VariableTranslationForm extends FormValidator
 
     	$variable_translation->set_translation($values[VariableTranslation :: PROPERTY_TRANSLATION]);
 		$variable_translation->set_date(Utilities :: to_db_date(time()));
+		$variable_translation->set_user_id($this->user->get_id());
     	
     	return $variable_translation->update();
     }

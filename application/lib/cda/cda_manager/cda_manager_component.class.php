@@ -81,6 +81,26 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->retrieve_variable_translation($language_id, $variable_id);
 	}
+	
+	function can_language_be_locked($language)
+	{
+		return $this->get_parent()->can_language_be_locked($language);
+	}
+	
+	function can_language_be_unlocked($language)
+	{
+		return $this->get_parent()->can_language_be_unlocked($language);
+	}
+	
+	function can_language_pack_be_locked($language_pack, $language_id)
+	{
+		return $this->get_parent()->can_language_pack_be_locked($language_pack, $language_id);
+	}
+	
+	function can_language_pack_be_unlocked($language_pack, $language_id)
+	{
+		return $this->get_parent()->can_language_pack_be_unlocked($language_pack, $language_id);
+	}
 
 	// Url Creation
 
@@ -172,6 +192,51 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	function retrieve_english_translation($variable_id)
 	{
 		return $this->get_parent()->retrieve_english_translation($variable_id);
+	}
+	
+	function get_lock_variable_translation_url($variable_translation)
+	{
+		return $this->get_parent()->get_lock_variable_translation_url($variable_translation);
+	}
+	
+	function get_lock_language_pack_url($language_pack, $language_id)
+	{
+		return $this->get_parent()->get_lock_language_pack_url($language_pack, $language_id);
+	}
+	
+ 	function get_lock_language_url($language)
+	{
+		return $this->get_parent()->get_lock_language_url($language);
+	}
+	
+	function get_unlock_variable_translation_url($variable_translation)
+	{
+		return $this->get_parent()->get_unlock_variable_translation_url($variable_translation);
+	}
+	
+	function get_unlock_language_pack_url($language_pack, $language_id)
+	{
+		return $this->get_parent()->get_unlock_language_pack_url($language_pack, $language_id);
+	}
+	
+ 	function get_unlock_language_url($language)
+	{
+		return $this->get_parent()->get_unlock_language_url($language);
+	}
+	
+ 	function get_view_variable_translation_url($variable_translation)
+	{
+		return $this->get_parent()->get_view_variable_translation_url($variable_translation);
+	}
+	
+ 	function get_rate_variable_translation_url($variable_translation)
+	{
+		return $this->get_parent()->get_rate_variable_translation_url($variable_translation);
+	}
+	
+ 	function get_export_translations_url()
+	{
+		return $this->get_parent()->get_export_translations_url();
 	}
 }
 ?>

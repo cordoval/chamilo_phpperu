@@ -32,15 +32,44 @@ class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
 
 	function get_table()
 	{
-		$table = new LanguagePackBrowserTable($this, array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS), null);
+		$table = new LanguagePackBrowserTable($this, array(Application :: PARAM_APPLICATION => 'cda', 
+					Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS,
+					CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(CdaManager :: PARAM_CDA_LANGUAGE)), null);
 		return $table->as_html();
 	}
 
     function get_action_bar_html()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddLanguagePack'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => CdaManager :: ACTION_CREATE_LANGUAGE_PACK))));
+        
+        $cda_language = $this->retrieve_cda_language(Request :: get(CdaManager :: PARAM_CDA_LANGUAGE));
+        
+    	if($this->can_language_be_locked($cda_language))
+        {
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png', 
+				$this->get_lock_language_url($cda_language)));
+        }
+        else
+        {
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('LockNa'), Theme :: get_common_image_path() . 'action_lock_na.png'));
+        }
+        
+        if($this->can_language_be_unlocked($cda_language))
+        {
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Unlock'), Theme :: get_common_image_path() . 'action_unlock.png', 
+				$this->get_unlock_language_url($cda_language)));
+        }
+        else
+        {
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('UnlockNa'), Theme :: get_common_image_path() . 'action_unlock_na.png'));
+        }
+        
         return $action_bar->as_html();
+    }
+    
+    function get_cda_language()
+    {
+    	return Request :: get(CdaManager :: PARAM_CDA_LANGUAGE);
     }
 }
 ?>

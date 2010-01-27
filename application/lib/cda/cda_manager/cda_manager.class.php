@@ -39,6 +39,7 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 
 	const PARAM_VARIABLE = 'variable';
 	const PARAM_DELETE_SELECTED_VARIABLES = 'delete_selected_variables';
+	const PARAM_VARIABLE_TRANSLATION_STATUS = 'translation_status';
 
 	const ACTION_DELETE_VARIABLE = 'delete_variable';
 	const ACTION_EDIT_VARIABLE = 'edit_variable';
@@ -48,6 +49,10 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 
 	const ACTION_EDIT_VARIABLE_TRANSLATION = 'edit_variable_translation';
 	const ACTION_BROWSE_VARIABLE_TRANSLATIONS = 'browse_variable_translations';
+	const ACTION_LOCK_VARIABLE_TRANSLATION = 'lock_variable_translation';
+	const ACTION_VIEW_VARIABLE_TRANSLATION = 'view_variable_translation';
+	const ACTION_EXPORT_TRANSLATIONS = 'export_translations';
+	const ACTION_RATE_VARIABLE_TRANSLATION = 'rate_variable_translation';
 
 	/**
 	 * Constructor
@@ -118,6 +123,18 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 				break;
 			case self :: ACTION_EDIT_VARIABLE_TRANSLATION :
 				$component = CdaManagerComponent :: factory('VariableTranslationUpdater', $this);
+				break;
+			case self :: ACTION_LOCK_VARIABLE_TRANSLATION :
+				$component = CdaManagerComponent :: factory('VariableTranslationLocker', $this);
+				break;
+			case self :: ACTION_VIEW_VARIABLE_TRANSLATION :
+				$component = CdaManagerComponent :: factory('VariableTranslationViewer', $this);
+				break;
+			case self :: ACTION_EXPORT_TRANSLATIONS :
+				$component = CdaManagerComponent :: factory('TranslationExporter', $this);
+				break;
+			case self :: ACTION_RATE_VARIABLE_TRANSLATION :
+				$component = CdaManagerComponent :: factory('VariableTranslationRater', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CDA_LANGUAGES);
@@ -269,6 +286,26 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 		return CdaDataManager :: get_instance()->retrieve_english_translation($variable_id);
 	}
 	
+	function can_language_be_locked($language)
+	{
+		return CdaDataManager :: get_instance()->can_language_be_locked($language);
+	}
+	
+	function can_language_be_unlocked($language)
+	{
+		return CdaDataManager :: get_instance()->can_language_be_unlocked($language);
+	}
+	
+	function can_language_pack_be_locked($language_pack, $language_id)
+	{
+		return CdaDataManager :: get_instance()->can_language_pack_be_locked($language_pack, $language_id);
+	}
+	
+	function can_language_pack_be_unlocked($language_pack, $language_id)
+	{ 
+		return CdaDataManager :: get_instance()->can_language_pack_be_unlocked($language_pack, $language_id);
+	}
+	
 	// Url Creation
 
 	function get_create_cda_language_url()
@@ -378,48 +415,71 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 									self :: PARAM_CDA_LANGUAGE => $language_id,
 									self :: PARAM_LANGUAGE_PACK => $language_pack_id));
 	}
-
-	// Dummy Methods which are needed because we don't work with learning objects
-	function content_object_is_published($object_id)
+	
+ 	function get_lock_variable_translation_url($variable_translation)
 	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
+								    self :: PARAM_CDA_LANGUAGE => $variable_translation->get_language_id(),
+								    self :: PARAM_VARIABLE => $variable_translation->get_variable_id(),
+								    self :: PARAM_VARIABLE_TRANSLATION_STATUS => VariableTranslation :: STATUS_BLOCKED));
 	}
-
-	function any_content_object_is_published($object_ids)
+	
+	function get_lock_language_pack_url($language_pack, $language_id)
 	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
+								    self :: PARAM_CDA_LANGUAGE => $language_id,
+								    self :: PARAM_LANGUAGE_PACK => $language_pack->get_id(),
+								    self :: PARAM_VARIABLE_TRANSLATION_STATUS => VariableTranslation :: STATUS_BLOCKED));
 	}
-
-	function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+	
+ 	function get_lock_language_url($language)
 	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
+								    self :: PARAM_CDA_LANGUAGE => $language->get_id(),
+								    self :: PARAM_VARIABLE_TRANSLATION_STATUS => VariableTranslation :: STATUS_BLOCKED));
 	}
-
-	function get_content_object_publication_attribute($object_id)
+	
+ 	function get_unlock_variable_translation_url($variable_translation)
 	{
-
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
+								    self :: PARAM_CDA_LANGUAGE => $variable_translation->get_language_id(),
+								    self :: PARAM_VARIABLE => $variable_translation->get_variable_id(),
+								    self :: PARAM_VARIABLE_TRANSLATION_STATUS => VariableTranslation :: STATUS_NORMAL));
 	}
-
-	function count_publication_attributes($type = null, $condition = null)
+	
+	function get_unlock_language_pack_url($language_pack, $language_id)
 	{
-
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
+									self :: PARAM_CDA_LANGUAGE => $language_id,
+								    self :: PARAM_LANGUAGE_PACK => $language_pack->get_id(),
+								    self :: PARAM_VARIABLE_TRANSLATION_STATUS => VariableTranslation :: STATUS_NORMAL));
 	}
-
-	function delete_content_object_publications($object_id)
+	
+ 	function get_unlock_language_url($language)
 	{
-
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
+								    self :: PARAM_CDA_LANGUAGE => $language->get_id(),
+								    self :: PARAM_VARIABLE_TRANSLATION_STATUS => VariableTranslation :: STATUS_NORMAL));
 	}
-
-	function update_content_object_publication_id($publication_attr)
+	
+ 	function get_view_variable_translation_url($variable_translation)
 	{
-
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_VARIABLE_TRANSLATION,
+								    self :: PARAM_CDA_LANGUAGE => $variable_translation->get_language_id(),
+								    self :: PARAM_VARIABLE => $variable_translation->get_variable_id()));
 	}
-
-	function get_content_object_publication_locations($content_object)
+	
+ 	function get_rate_variable_translation_url($variable_translation)
 	{
-
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_RATE_VARIABLE_TRANSLATION,
+								    self :: PARAM_CDA_LANGUAGE => $variable_translation->get_language_id(),
+								    self :: PARAM_VARIABLE => $variable_translation->get_variable_id()));
 	}
-
-	function publish_content_object($content_object, $location)
+	
+ 	function get_export_translations_url()
 	{
-
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_TRANSLATIONS));
 	}
+	
 }
 ?>

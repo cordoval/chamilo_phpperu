@@ -202,5 +202,45 @@ class DatabaseCdaDataManager extends CdaDataManager
 		
 		return $this->database->retrieve_object(VariableTranslation :: get_table_name(), $condition);
 	}
+	
+	function can_language_be_locked($language)
+	{
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_NORMAL);
+		$condition = new AndCondition($conditions);
+	
+		return ($this->count_variable_translations($condition) > 0);
+	}
+	
+	function can_language_be_unlocked($language)
+	{
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_BLOCKED);
+		$condition = new AndCondition($conditions);
+		
+		return ($this->count_variable_translations($condition) > 0);
+	}
+	
+	function can_language_pack_be_locked($language_pack, $language_id)
+	{
+		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
+		$conditions[] = new SubSelectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_NORMAL);
+		$condition = new AndCondition($conditions);
+		
+		return ($this->count_variable_translations($condition) > 0);
+	}
+	
+	function can_language_pack_be_unlocked($language_pack, $language_id)
+	{
+		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
+		$conditions[] = new SubSelectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_BLOCKED);
+		$condition = new AndCondition($conditions);
+		
+		return ($this->count_variable_translations($condition) > 0);
+	}
 }
 ?>

@@ -185,7 +185,26 @@ class VariableTranslation extends DataClass
 		$this->set_default_property(self :: PROPERTY_STATUS, $status);
 	}
 
-
+	function get_relative_rating()
+	{
+		return (int)($this->get_rating() / $this->get_rated());
+	}
+	
+	function get_status_icon()
+	{
+		switch($this->get_status())
+		{
+			case self :: STATUS_NORMAL:
+				$image = 'action_unlock';
+				break;
+			case self :: STATUS_BLOCKED:
+				$image = 'action_lock';
+				break;
+		}
+		
+		return Theme :: get_common_image($image);
+	}
+	
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
