@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../cda_manager.class.php';
  * Cell rendere for the learning object browser table
  *
  * @author Sven Vanpoucke
- * @author
+ * @author 
  */
 
 class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRenderer
@@ -42,25 +42,16 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 		switch ($column->get_name())
 		{
 			case CdaLanguage :: PROPERTY_ENGLISH_NAME :
-
+				
 				if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
 				{
 					$url = $this->browser->get_browse_language_packs_url($cda_language->get_id());
 					return '<a href="' . $url . '">' . $cda_language->get_english_name() . '</a>';
 				}
-
+				
 				return $cda_language->get_english_name();
-			case CdaLanguage :: PROPERTY_ORIGINAL_NAME :
-
-				if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
-				{
-					$url = $this->browser->get_browse_language_packs_url($cda_language->get_id());
-					return '<a href="' . $url . '">' . $cda_language->get_original_name() . '</a>';
-				}
-
-				return $cda_language->get_original_name();
 		}
-
+		
 		return parent :: render_cell($column, $cda_language);
 	}
 
@@ -88,7 +79,41 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 				'img' => Theme :: get_common_image_path().'action_delete.png',
 			);
 		}
-
+		else
+		{
+			if($this->browser->can_language_be_locked($cda_language))
+	        {
+	        	$toolbar_data[] = array(
+					'href' => $this->browser->get_lock_language_url($cda_language),
+					'label' => Translation :: get('Lock'),
+					'img' => Theme :: get_common_image_path().'action_lock.png'
+				);
+	        }
+	        else
+	        {
+	        	$toolbar_data[] = array(
+					'label' => Translation :: get('LockNa'),
+					'img' => Theme :: get_common_image_path().'action_lock_na.png'
+				);
+	        }
+	        
+	        if($this->browser->can_language_be_unlocked($cda_language))
+	        {
+	        	$toolbar_data[] = array(
+					'href' => $this->browser->get_unlock_language_url($cda_language),
+					'label' => Translation :: get('Unlock'),
+					'img' => Theme :: get_common_image_path().'action_unlock.png'
+				);
+	        }
+	        else
+	        {
+				$toolbar_data[] = array(
+					'label' => Translation :: get('UnlockNa'),
+					'img' => Theme :: get_common_image_path().'action_unlock_na.png'
+				);
+	        }
+		}
+		
 		return Utilities :: build_toolbar($toolbar_data);
 	}
 }
