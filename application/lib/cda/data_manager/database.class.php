@@ -193,7 +193,9 @@ class DatabaseCdaDataManager extends CdaDataManager
 
 	function retrieve_english_translation($variable_id)
 	{
-		$subcondition = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english');
+		$subconditions[] = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english');
+		$subconditions[] = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english_org');
+		$subcondition = new OrCondition($subconditions);
 		$conditions[] = new SubSelectcondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, CdaLanguage :: PROPERTY_ID, 'cda_' . CdaLanguage :: get_table_name(), $subcondition);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_id);
 		$condition = new AndCondition($conditions);

@@ -46,12 +46,7 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 	const ACTION_BROWSE_VARIABLES = 'browse_variables';
 	const ACTION_ADMIN_BROWSE_VARIABLES = 'admin_browse_variables';
 
-	const PARAM_VARIABLE_TRANSLATION = 'variable_translation';
-	const PARAM_DELETE_SELECTED_VARIABLE_TRANSLATIONS = 'delete_selected_variable_translations';
-
-	const ACTION_DELETE_VARIABLE_TRANSLATION = 'delete_variable_translation';
 	const ACTION_EDIT_VARIABLE_TRANSLATION = 'edit_variable_translation';
-	const ACTION_CREATE_VARIABLE_TRANSLATION = 'create_variable_translation';
 	const ACTION_BROWSE_VARIABLE_TRANSLATIONS = 'browse_variable_translations';
 
 	/**
@@ -121,14 +116,8 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 			case self :: ACTION_BROWSE_VARIABLE_TRANSLATIONS :
 				$component = CdaManagerComponent :: factory('VariableTranslationsBrowser', $this);
 				break;
-			case self :: ACTION_DELETE_VARIABLE_TRANSLATION :
-				$component = CdaManagerComponent :: factory('VariableTranslationDeleter', $this);
-				break;
 			case self :: ACTION_EDIT_VARIABLE_TRANSLATION :
 				$component = CdaManagerComponent :: factory('VariableTranslationUpdater', $this);
-				break;
-			case self :: ACTION_CREATE_VARIABLE_TRANSLATION :
-				$component = CdaManagerComponent :: factory('VariableTranslationCreator', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CDA_LANGUAGES);
@@ -202,22 +191,6 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 
 					$this->set_action(self :: ACTION_DELETE_VARIABLE);
 					$_GET[self :: PARAM_VARIABLE] = $selected_ids;
-					break;
-				case self :: PARAM_DELETE_SELECTED_VARIABLE_TRANSLATIONS :
-
-					$selected_ids = $_POST[VariableTranslationBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
-
-					if (empty ($selected_ids))
-					{
-						$selected_ids = array ();
-					}
-					elseif (!is_array($selected_ids))
-					{
-						$selected_ids = array ($selected_ids);
-					}
-
-					$this->set_action(self :: ACTION_DELETE_VARIABLE_TRANSLATION);
-					$_GET[self :: PARAM_VARIABLE_TRANSLATION] = $selected_ids;
 					break;
 			}
 
@@ -391,22 +364,12 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_VARIABLES,
 								    self :: PARAM_LANGUAGE_PACK => $language_pack_id));
 	}
-	
-	function get_create_variable_translation_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_VARIABLE_TRANSLATION));
-	}
 
 	function get_update_variable_translation_url($variable_translation)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_VARIABLE_TRANSLATION,
-								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
-	}
-
- 	function get_delete_variable_translation_url($variable_translation)
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_VARIABLE_TRANSLATION,
-								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
+								    self :: PARAM_CDA_LANGUAGE => $variable_translation->get_language_id(),
+								    self :: PARAM_VARIABLE => $variable_translation->get_variable_id()));
 	}
 
 	function get_browse_variable_translations_url($language_id, $language_pack_id)
