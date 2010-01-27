@@ -108,6 +108,7 @@ class CommonAutoloader
 					  'wizard_page_validator' => 'formvalidator/WizardPageValidator.class.php',
 					  'form_validator' => 'formvalidator/FormValidator.class.php',
 					  'form_validator_page' => 'formvalidator/form_validator_page.class.php',
+					  'form_validator_html_editor' => 'formvalidator/form_validator_html_editor.class.php',
 					  'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php'
 		);
 

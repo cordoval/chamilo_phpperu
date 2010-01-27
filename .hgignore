@@ -19,3 +19,5 @@ syntax: regexp
 ^test_users\.php$
 syntax: regexp
 ^plugin/phpfreechat/data/private$
+syntax: glob
+.cache*
