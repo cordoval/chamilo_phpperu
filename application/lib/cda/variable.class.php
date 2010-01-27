@@ -95,9 +95,16 @@ class Variable extends DataClass
 	
 	function create()
 	{
+		$dm = $this->get_data_manager();
+		
+    	$condition = new NotCondition(new EqualityCondition(Variable :: PROPERTY_ID, $this->get_id()));
+		$variables = $dm->retrieve_variables($condition);
+		while($var = $variables->next_result())
+			if($var->get_variable() == $this->get_variable())
+				return false;
+				
 		$succes = parent :: create();
 		
-		$dm = $this->get_data_manager();
 		$languages = $dm->retrieve_cda_languages();
 		
 		while($language = $languages->next_result())
@@ -115,6 +122,21 @@ class Variable extends DataClass
 		}
 
 		return $succes;
+	}
+	
+	function update()
+	{
+		$dm = $this->get_data_manager();
+		
+		$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $this->get_language_pack_id());
+    	$conditions[] = new NotCondition(new EqualityCondition(Variable :: PROPERTY_ID, $this->get_id()));
+    	$condition = new AndCondition($conditions);
+		$variables = $dm->retrieve_variables($condition);
+		while($var = $variables->next_result())
+			if($var->get_variable() == $this->get_variable())
+				return false;
+		
+		return parent :: update();
 	}
 	
 	function delete()

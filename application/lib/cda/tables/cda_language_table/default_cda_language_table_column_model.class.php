@@ -28,7 +28,7 @@ class DefaultCdaLanguageTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 
-		$columns[] = new ObjectTableColumn(CdaLanguage :: PROPERTY_ORIGINAL_NAME);
+		$columns[] = new ObjectTableColumn(CdaLanguage :: PROPERTY_ENGLISH_NAME);
 		$columns[] = new ObjectTableColumn('TranslationProgress', false);
 		return $columns;
 	}

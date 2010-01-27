@@ -77,6 +77,12 @@ class VariableForm extends FormValidator
     	$variable = $this->variable;
     	$values = $this->exportValues();
 
+    	$condition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $variable->get_language_pack_id());
+		$variables = CdaDataManager :: get_instance()->retrieve_variables($condition);
+		while($var = $variables->next_result())
+			if($var->get_variable() == $values[Variable :: PROPERTY_VARIABLE])
+				return false;
+    	
     	$variable->set_variable($values[Variable :: PROPERTY_VARIABLE]);
 
    		return $variable->create();

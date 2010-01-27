@@ -114,9 +114,15 @@ class CdaLanguage extends DataClass
 	
 	function create()
 	{
+		$dm = $this->get_data_manager();
+		
+		$languages = $dm->retrieve_cda_languages();
+		while($language = $languages->next_result())
+			if($language->get_english_name() == $this->get_english_name())
+				return false;
+		
 		$succes = parent :: create();
 		
-		$dm = $this->get_data_manager();
 		$variables = $dm->retrieve_variables();
 		
 		while($variable = $variables->next_result())
@@ -134,6 +140,19 @@ class CdaLanguage extends DataClass
 		}
 
 		return $succes;
+	}
+	
+	function update()
+	{
+		$dm = $this->get_data_manager();
+		
+		$condition = new NotCondition(new EqualityCondition(CdaLanguage :: PROPERTY_ID, $this->get_id()));
+    	$languages = $dm->retrieve_cda_languages($condition);
+		while($language = $languages->next_result())
+			if($language->get_english_name() == $this->get_english_name())
+				return false;
+		
+		return parent :: update();
 	}
 	
 	function delete()

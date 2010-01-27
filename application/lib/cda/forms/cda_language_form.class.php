@@ -73,7 +73,7 @@ class CdaLanguageForm extends FormValidator
     {
     	$cda_language = $this->cda_language;
     	$values = $this->exportValues();
-
+    	
     	$cda_language->set_original_name($values[CdaLanguage :: PROPERTY_ORIGINAL_NAME]);
     	$cda_language->set_english_name($values[CdaLanguage :: PROPERTY_ENGLISH_NAME]);
     	$cda_language->set_isocode($values[CdaLanguage :: PROPERTY_ISOCODE]);
@@ -85,7 +85,7 @@ class CdaLanguageForm extends FormValidator
     {
     	$cda_language = $this->cda_language;
     	$values = $this->exportValues();
-
+    	
     	$cda_language->set_original_name($values[CdaLanguage :: PROPERTY_ORIGINAL_NAME]);
     	$cda_language->set_english_name($values[CdaLanguage :: PROPERTY_ENGLISH_NAME]);
     	$cda_language->set_isocode($values[CdaLanguage :: PROPERTY_ISOCODE]);

@@ -123,6 +123,31 @@ class LanguagePack extends DataClass
 		return $succes;
 		
 	} 
+	
+	function update()
+	{
+		$dm = $this->get_data_manager();
+		
+		$condition = new NotCondition(new EqualityCondition(LanguagePack :: PROPERTY_ID, $this->get_id()));
+    	$language_packs = $dm->retrieve_language_packs($condition);
+		while($lp = $language_packs->next_result())
+			if($lp->get_name() == $this->get_name())
+				return false;
+				
+		return parent :: update();
+	}
+	
+	function create()
+	{
+		$dm = $this->get_data_manager();
+		
+    	$language_packs = $dm->retrieve_language_packs();
+		while($lp = $language_packs->next_result())
+			if($lp->get_name() == $this->get_name())
+				return false;
+			
+		return parent :: create();
+	}
 }
 
 ?>
