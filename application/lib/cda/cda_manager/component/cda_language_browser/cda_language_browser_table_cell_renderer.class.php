@@ -50,6 +50,11 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 				}
 				
 				return $cda_language->get_english_name();
+			case 'TranslationProgress':
+				$percentage = $this->browser->get_progress_for_language($cda_language);
+					return '<div style="border: 1px solid #264269;width: 150px;height: 10px;background-color: #E5EDF9;">
+							<div style="background-color: #4171b5;width: '.(1.5*$percentage).'px;height: 10px;Color: #fff;"></div></div>'.
+							$percentage.'%';
 		}
 		
 		return parent :: render_cell($column, $cda_language);

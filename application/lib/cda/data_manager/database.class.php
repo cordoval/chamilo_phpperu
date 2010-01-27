@@ -242,5 +242,39 @@ class DatabaseCdaDataManager extends CdaDataManager
 		
 		return ($this->count_variable_translations($condition) > 0);
 	}
+	
+	function get_progress_for_language($language)
+	{
+		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
+		$total_languages = $this->count_variable_translations($condition);
+		
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
+		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
+		$condition = new AndCondition($conditions);
+		
+		$translated_variables = $this->count_variable_translations($condition);
+		
+		return (int)(($translated_variables / $total_languages) * 100);
+	}
+	
+	function get_progress_for_language_pack($language_pack, $language_id)
+	{
+		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
+		$conditions[] = new SubSelectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		$condition = new AndCondition($conditions);
+		
+		$total_languages = $this->count_variable_translations($condition);
+		
+		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
+		$conditions[] = new SubSelectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
+		$condition = new AndCondition($conditions);
+		
+		$translated_variables = $this->count_variable_translations($condition);
+		
+		return (int)(($translated_variables / $total_languages) * 100);
+	}
 }
 ?>

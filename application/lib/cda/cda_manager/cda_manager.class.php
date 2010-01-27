@@ -306,6 +306,16 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 		return CdaDataManager :: get_instance()->can_language_pack_be_unlocked($language_pack, $language_id);
 	}
 	
+ 	function get_progress_for_language($language)
+	{
+		return CdaDataManager :: get_instance()->get_progress_for_language($language);
+	}
+	
+	function get_progress_for_language_pack($language_pack, $language_id)
+	{
+		return CdaDataManager :: get_instance()->get_progress_for_language_pack($language_pack, $language_id);
+	}
+	
 	// Url Creation
 
 	function get_create_cda_language_url()
