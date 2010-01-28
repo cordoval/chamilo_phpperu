@@ -119,7 +119,7 @@ class SortableTable extends HTML_Table
         $this->page_nr = isset($_SESSION[$this->param_prefix . 'page_nr']) ? $_SESSION[$this->param_prefix . 'page_nr'] : 1;
         $this->page_nr = Request :: get($this->param_prefix . 'page_nr') ? Request :: get($this->param_prefix . 'page_nr') : $this->page_nr;
         $this->column = isset($_SESSION[$this->param_prefix . 'column']) ? $_SESSION[$this->param_prefix . 'column'] : $default_column;
-        $this->column = Request :: get($this->param_prefix . 'column') ? Request :: get($this->param_prefix . 'column') : $this->column;
+        $this->column = !is_null(Request :: get($this->param_prefix . 'column')) ? Request :: get($this->param_prefix . 'column') : $this->column; dump($this->column);
         $this->direction = isset($_SESSION[$this->param_prefix . 'direction']) ? $_SESSION[$this->param_prefix . 'direction'] : $default_order_direction;
         $this->direction = Request :: get($this->param_prefix . 'direction') ? Request :: get($this->param_prefix . 'direction') : $this->direction;
         $this->per_page = isset($_SESSION[$this->param_prefix . 'per_page']) ? $_SESSION[$this->param_prefix . 'per_page'] : $default_items_per_page;

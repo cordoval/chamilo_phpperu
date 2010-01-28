@@ -28,7 +28,7 @@ class DefaultVariableTranslationTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 
-		$columns[] = new ObjectTableColumn(Variable :: PROPERTY_VARIABLE, true, Variable :: get_table_name());
+		$columns[] = new ObjectTableColumn(Variable :: PROPERTY_VARIABLE, true, CdaDataManager :: get_instance()->get_alias(Variable :: get_table_name()));
 		$columns[] = new ObjectTableColumn('EnglishTranslation', false);
 		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_TRANSLATION);
 		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_RATING);

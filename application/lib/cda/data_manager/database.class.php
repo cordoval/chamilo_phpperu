@@ -297,5 +297,10 @@ class DatabaseCdaDataManager extends CdaDataManager
 			return 100;
 		}
 	}
+	
+	function get_alias($table_name)
+	{
+		return $this->database->get_alias($table_name);
+	}
 }
 ?>
