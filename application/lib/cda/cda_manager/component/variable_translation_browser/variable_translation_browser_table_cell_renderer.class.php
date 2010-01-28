@@ -41,7 +41,7 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 		
 		switch ($column->get_name())
 		{
-			case 'EnglishTranslation' :
+			case Translation :: get('EnglishTranslation') :
 				
 			$translation = $this->browser->retrieve_english_translation($variable_translation->get_variable_id());
 			if($translation)
@@ -78,7 +78,7 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $variable_translation->get_language_id(), 'cda_language');
 		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $variable_translation->get_language_id(), 'cda_language');
 		
-		if (($can_translate && $status == VariableTranslation :: STATUS_NORMAL) || $can_lock) 
+		if (($can_translate && !$variable_translation->is_locked()) || $can_lock) 
 		{
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_update_variable_translation_url($variable_translation),
@@ -86,10 +86,17 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 				'img' => Theme :: get_image_path().'action_translate.png'
 			);
 		}
+		elseif($can_translate && $variable_translation->is_locked())
+		{
+        	$toolbar_data[] = array(
+				'label' => Translation :: get('Lock'),
+				'img' => Theme :: get_common_image_path().'action_lock.png'
+			);
+		}
 		
 		if ($can_lock)
 		{
-			if($status == VariableTranslation :: STATUS_NORMAL)
+			if(!$variable_translation->is_locked())
 	        {
 	        	$toolbar_data[] = array(
 					'href' => $this->browser->get_lock_variable_translation_url($variable_translation),

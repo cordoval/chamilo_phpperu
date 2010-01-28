@@ -1052,7 +1052,7 @@ div.survey-categories-header,div.survey-outline-header,div.survey-result-header
 /* Progress and rating bars */
 .progress_bar, .rating_bar {
 	float: left;
-	width: 201px;
+	width: 101px;
 	height: 12px;
 	border: 1px solid #999;
 }

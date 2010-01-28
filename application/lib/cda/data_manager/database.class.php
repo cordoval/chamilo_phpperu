@@ -70,6 +70,12 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$condition = new EqualityCondition(CdaLanguage :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(CdaLanguage :: get_table_name(), $condition);
 	}
+	
+	function retrieve_cda_language_english()
+	{
+		$condition = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english');
+		return $this->database->retrieve_objects(CdaLanguage :: get_table_name(), $condition, 0, 1)->next_result();
+	}
 
 	function retrieve_cda_languages($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{

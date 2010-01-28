@@ -48,6 +48,7 @@ abstract class CdaDataManager
 	abstract function delete_cda_language($cda_language);
 	abstract function count_cda_languages($conditions = null);
 	abstract function retrieve_cda_language($id);
+	abstract function retrieve_cda_language_english();
 	abstract function retrieve_cda_languages($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function get_next_language_pack_id();

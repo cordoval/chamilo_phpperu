@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/component/cda_language_browser/cda_language_bro
 require_once dirname(__FILE__).'/component/language_pack_browser/language_pack_browser_table.class.php';
 require_once dirname(__FILE__).'/component/variable_browser/variable_browser_table.class.php';
 require_once dirname(__FILE__).'/component/variable_translation_browser/variable_translation_browser_table.class.php';
+require_once dirname(__FILE__).'/../cda_rights.class.php';
 
 /**
  * A cda manager

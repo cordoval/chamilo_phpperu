@@ -279,11 +279,11 @@ class Display
         echo '</h3>';
     }
     
-    public static function get_progress_bar($percent)
-    {
+    public static function get_progress_bar($percent, $step = 2)
+    {    	
         $html = '<div class="progress_information">';
         $html .= '<div class="progress_bar">';
-        for($i = 0; $i < 100; $i ++)
+        for($i = 0; $i < 100; $i += $step)
         {
             if ($percent > $i)
             {
@@ -301,11 +301,11 @@ class Display
         return $html;
     }
     
-    public static function get_rating_bar($percent, $show_text = true)
+    public static function get_rating_bar($percent, $show_text = true, $step = 2)
     {
         $html = '<div class="rating_information">';
         $html .= '<div class="rating_bar">';
-        for($i = 0; $i < 100; $i ++)
+        for($i = 0; $i < 100; $i += $step)
         {
             if ($percent > $i)
             {
