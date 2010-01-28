@@ -24,7 +24,7 @@ class CdaManagerTranslationExporterComponent extends CdaManagerComponent
 	function display_header($extra_trail)
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES)), Translation :: get('BrowseLanguages')));
+		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_CDA_LANGUAGES)), Translation :: get('BrowseLanguages')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ExportTranslations')));
 		$trail->merge($extra_trail);
 		
