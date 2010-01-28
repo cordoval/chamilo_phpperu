@@ -32,15 +32,16 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
 		echo '<a name="top"></a>';
         echo $this->get_action_bar_html() . '';
         echo '<div id="action_bar_browser">';
-        echo $this->get_table();
+        echo $this->get_table($language_id, $language_pack_id);
         echo '</div>';
 		$this->display_footer();
 	}
 
-	function get_table()
+	function get_table($language_id, $language_pack_id)
 	{
 		$table = new VariableTranslationBrowserTable($this, 
-			array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS), 
+			array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS,
+				  CdaManager :: PARAM_CDA_LANGUAGE => $language_id, CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id), 
 			$this->get_condition());
 			
 		return $table->as_html();
