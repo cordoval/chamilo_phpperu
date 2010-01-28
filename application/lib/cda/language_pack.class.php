@@ -183,11 +183,16 @@ class LanguagePack extends DataClass
 	{
 		$dm = $this->get_data_manager();
 		
-		$condition = new NotCondition(new EqualityCondition(LanguagePack :: PROPERTY_ID, $this->get_id()));
+		$conditions[] = new NotCondition(new EqualityCondition(LanguagePack :: PROPERTY_ID, $this->get_id()));
+		$conditions[] = new EqualityCondition(LanguagePack :: PROPERTY_BRANCH, $this->get_branch());
+		$condition = new AndCondition($conditions);
+
     	$language_packs = $dm->retrieve_language_packs($condition);
 		while($lp = $language_packs->next_result())
+		{
 			if($lp->get_name() == $this->get_name())
 				return false;
+		}
 				
 		return parent :: update();
 	}
@@ -196,7 +201,8 @@ class LanguagePack extends DataClass
 	{
 		$dm = $this->get_data_manager();
 		
-    	$language_packs = $dm->retrieve_language_packs();
+		$condition = new EqualityCondition(LanguagePack :: PROPERTY_BRANCH, $this->get_branch());
+    	$language_packs = $dm->retrieve_language_packs($condition);
 		while($lp = $language_packs->next_result())
 			if($lp->get_name() == $this->get_name())
 				return false;
