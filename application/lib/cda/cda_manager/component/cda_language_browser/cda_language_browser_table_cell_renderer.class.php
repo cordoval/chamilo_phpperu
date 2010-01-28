@@ -43,13 +43,22 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 		{
 			case CdaLanguage :: PROPERTY_ORIGINAL_NAME :
 				
-				if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
+				/*if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
 				{
 					$url = $this->browser->get_browse_language_packs_url($cda_language->get_id());
 					return '<a href="' . $url . '">' . $cda_language->get_original_name() . '</a>';
-				}
+				}*/
 				
 				return $cda_language->get_original_name();
+			case CdaLanguage :: PROPERTY_ENGLISH_NAME :
+				
+				if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
+				{
+					$url = $this->browser->get_browse_language_packs_url($cda_language->get_id());
+					return '<a href="' . $url . '">' . $cda_language->get_english_name() . '</a>';
+				}
+				
+				return $cda_language->get_english_name();
 			case 'TranslationProgress':
 				$percentage = $this->browser->get_progress_for_language($cda_language);
 				return Display :: get_progress_bar($percentage);
