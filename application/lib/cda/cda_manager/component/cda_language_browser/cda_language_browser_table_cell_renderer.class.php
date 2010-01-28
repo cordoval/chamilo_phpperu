@@ -93,37 +93,42 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 		}
 		else
 		{
-			if($this->browser->can_language_be_locked($cda_language))
-	        {
-	        	$toolbar_data[] = array(
-					'href' => $this->browser->get_lock_language_url($cda_language),
-					'label' => Translation :: get('Lock'),
-					'img' => Theme :: get_common_image_path().'action_lock.png'
-				);
-	        }
-	        else
-	        {
-	        	$toolbar_data[] = array(
-					'label' => Translation :: get('LockNa'),
-					'img' => Theme :: get_common_image_path().'action_lock_na.png'
-				);
-	        }
-	        
-	        if($this->browser->can_language_be_unlocked($cda_language))
-	        {
-	        	$toolbar_data[] = array(
-					'href' => $this->browser->get_unlock_language_url($cda_language),
-					'label' => Translation :: get('Unlock'),
-					'img' => Theme :: get_common_image_path().'action_unlock.png'
-				);
-	        }
-	        else
-	        {
-				$toolbar_data[] = array(
-					'label' => Translation :: get('UnlockNa'),
-					'img' => Theme :: get_common_image_path().'action_unlock_na.png'
-				);
-	        }
+			$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language->get_id(), 'cda_language');
+			
+			if ($can_lock)
+			{
+				if($this->browser->can_language_be_locked($cda_language))
+		        {
+		        	$toolbar_data[] = array(
+						'href' => $this->browser->get_lock_language_url($cda_language),
+						'label' => Translation :: get('Lock'),
+						'img' => Theme :: get_common_image_path().'action_lock.png'
+					);
+		        }
+//		        else
+//		        {
+//		        	$toolbar_data[] = array(
+//						'label' => Translation :: get('LockNa'),
+//						'img' => Theme :: get_common_image_path().'action_lock_na.png'
+//					);
+//		        }
+		        
+		        if($this->browser->can_language_be_unlocked($cda_language))
+		        {
+		        	$toolbar_data[] = array(
+						'href' => $this->browser->get_unlock_language_url($cda_language),
+						'label' => Translation :: get('Unlock'),
+						'img' => Theme :: get_common_image_path().'action_unlock.png'
+					);
+		        }
+//		        else
+//		        {
+//					$toolbar_data[] = array(
+//						'label' => Translation :: get('UnlockNa'),
+//						'img' => Theme :: get_common_image_path().'action_unlock_na.png'
+//					);
+//		        }
+			}
 		}
 		
 		return Utilities :: build_toolbar($toolbar_data);

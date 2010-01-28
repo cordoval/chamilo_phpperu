@@ -38,8 +38,7 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
     function get_action_bar_html()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddCdaLanguage'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => CdaManager :: ACTION_CREATE_CDA_LANGUAGE))));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ApplyTranslator'), Theme :: get_image_path() . 'action_apply.png', $this->get_url(array(Application :: PARAM_ACTION => CdaManager :: ACTION_CREATE_TRANSLATOR_APPLICATION))));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('HelpTranslating'), Theme :: get_image_path() . 'action_apply.png', $this->get_url(array(Application :: PARAM_ACTION => CdaManager :: ACTION_CREATE_TRANSLATOR_APPLICATION))));
         return $action_bar->as_html();
     }
 }

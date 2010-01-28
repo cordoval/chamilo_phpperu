@@ -31,6 +31,7 @@ class DefaultVariableTranslationTableColumnModel extends ObjectTableColumnModel
 		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_VARIABLE_ID, false);
 		$columns[] = new ObjectTableColumn('EnglishTranslation', false);
 		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_TRANSLATION);
+		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_STATUS);
 		$columns[] = new ObjectTableColumn(VariableTranslation :: PROPERTY_RATING);
 
 		return $columns;

@@ -46,7 +46,7 @@ class DefaultVariableTranslationTableCellRenderer implements ObjectTableCellRend
 			case VariableTranslation :: PROPERTY_RATED :
 				return $variable_translation->get_rated();
 			case VariableTranslation :: PROPERTY_STATUS :
-				return $variable_translation->get_status();
+				return $variable_translation->get_status_icon();
 			default :
 				return '&nbsp;';
 		}

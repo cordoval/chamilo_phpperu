@@ -106,10 +106,10 @@ class RightsUtilities
         $user_id = $user_id ? $user_id : Session :: get_user_id();
         $user = $udm->retrieve_user($user_id);
         
-        if (is_object($user) && $user->is_platform_admin())
-        {
-            return true;
-        }
+//        if (is_object($user) && $user->is_platform_admin())
+//        {
+//            return true;
+//        }
         
         $conditions = array();
         $conditions[] = new EqualityCondition('identifier', $location);
