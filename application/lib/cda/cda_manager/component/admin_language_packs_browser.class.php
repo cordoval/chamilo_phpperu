@@ -44,11 +44,25 @@ class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
         return implode("\n", $html);
 	}
 	
-    function get_condition()
+	function get_condition()
     {
         $form = $this->form;
 
-        return $form->get_filter_conditions();
+        $condition = $form->get_filter_conditions();
+        
+    	$query = $this->actionbar->get_query();
+    	
+    	if($query && $query != '')
+    	{
+    		if($condition)
+    			$conditions[] = $condition;
+    			
+    		$conditions[] = new PatternMatchCondition(LanguagePack :: PROPERTY_NAME, '*' . $query . '*');
+    		$condition = new AndCondition($conditions);
+    	}
+    	
+    	return $condition;
+        
     }
 
 	function get_action_bar()
@@ -56,6 +70,9 @@ class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddLanguagePack'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_language_pack_url()));
+        $action_bar->set_search_url($this->get_admin_browse_language_packs_url());
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', 
+        	$this->get_admin_browse_language_packs_url()));
         
         return $action_bar;
     }

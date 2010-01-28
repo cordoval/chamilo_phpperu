@@ -41,10 +41,24 @@ class CdaManagerAdminCdaLanguagesBrowserComponent extends CdaManagerComponent
  	function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+        $action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddLanguage'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_cda_language_url()));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url()));
         
         return $action_bar;
+    }
+    
+	function get_condition()
+    {
+    	$query = $this->actionbar->get_query();
+    	
+    	if($query && $query != '')
+    	{
+    		$conditions[] = new PatternMatchCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, '*' . $query . '*');
+    		$conditions[] = new PatternMatchCondition(CdaLanguage :: PROPERTY_ORIGINAL_NAME, '*' . $query . '*');
+    	
+    		return new OrCondition($conditions);
+    	}
     }
 
 }

@@ -45,14 +45,27 @@ class CdaManagerAdminVariablesBrowserComponent extends CdaManagerComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
+        $language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
+        
+        $action_bar->set_search_url($this->get_admin_browse_variables_url($language_pack_id));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddVariable'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_variable_url(Request :: get(CdaManager :: PARAM_LANGUAGE_PACK))));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_admin_browse_variables_url($language_pack_id)));
         
         return $action_bar;
     }
     
     function get_condition()
     {
-    	return new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, Request :: get(CdaManager :: PARAM_LANGUAGE_PACK));
+    	$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, Request :: get(CdaManager :: PARAM_LANGUAGE_PACK));
+    	
+    	$query = $this->actionbar->get_query();
+    	
+    	if($query && $query != '')
+    	{
+    		$conditions[] = new PatternMatchCondition(Variable :: PROPERTY_VARIABLE, '*' . $query . '*');
+    	}
+    	
+    	return new AndCondition($conditions);
     }
 }
 ?>

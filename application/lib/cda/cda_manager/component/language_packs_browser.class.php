@@ -17,6 +17,7 @@ require_once dirname(__FILE__) . '/../../forms/language_pack_browser_filter_form
 class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
 {
 	private $form;
+	private $action_bar;
 
 	function run()
 	{
@@ -25,9 +26,11 @@ class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(CdaManager :: PARAM_CDA_LANGUAGE))), CdaDataManager :: get_instance()->retrieve_cda_language($this->get_cda_language())->get_original_name()));
 		$trail->add(new Breadcrumb('#', Translation :: get('BrowseLanguagePacks')));
 
+		$this->action_bar = $this->get_action_bar();
+		
 		$this->display_header($trail);
         echo '<a name="top"></a>';
-        echo $this->get_action_bar_html() . '';
+        echo $this->action_bar->as_html() . '';
         echo '<div id="action_bar_browser">';
         echo $this->get_table();
         echo '</div>';
@@ -40,17 +43,21 @@ class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
 		$table = new LanguagePackBrowserTable($this, array(Application :: PARAM_APPLICATION => 'cda', 
 					Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS,
 					CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(CdaManager :: PARAM_CDA_LANGUAGE)), $this->get_condition());
-
+	
 		$html[] = $this->form->display();
         $html[] = $table->as_html();
         return implode("\n", $html);
 	}
 
-    function get_action_bar_html()
+    function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         $cda_language = $this->retrieve_cda_language(Request :: get(CdaManager :: PARAM_CDA_LANGUAGE));
+        
+        $action_bar->set_search_url($this->get_browse_language_packs_url($cda_language->get_id()));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', 
+        	$this->get_browse_language_packs_url($cda_language->get_id())));
         
     	if($this->can_language_be_locked($cda_language))
         {
@@ -72,14 +79,28 @@ class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('UnlockNa'), Theme :: get_common_image_path() . 'action_unlock_na.png'));
         }
         
-        return $action_bar->as_html();
+        return $action_bar;
     }
     
     function get_condition()
     {
         $form = $this->form;
 
-        return $form->get_filter_conditions();
+        $condition = $form->get_filter_conditions();
+        
+    	$query = $this->action_bar->get_query();
+    	
+    	if($query && $query != '')
+    	{
+    		if($condition)
+    			$conditions[] = $condition;
+    			
+    		$conditions[] = new PatternMatchCondition(LanguagePack :: PROPERTY_NAME, '*' . $query . '*');
+    		$condition = new AndCondition($conditions);
+    	}
+    	
+    	return $condition;
+        
     }
     
     function get_cda_language()

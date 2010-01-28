@@ -188,7 +188,15 @@ class DatabaseCdaDataManager extends CdaDataManager
 
 	function retrieve_variable_translations($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(VariableTranslation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		$variable_translation_alias = $this->database->get_alias(VariableTranslation :: get_table_name());
+		$variable_translation_table = $this->database->escape_table_name(VariableTranslation :: get_table_name());
+		$variable_alias = $this->database->get_alias(Variable :: get_table_name());
+		$variable_table = $this->database->escape_table_name(Variable :: get_table_name());
+
+        $query = 'SELECT ' . $variable_translation_alias . '.* FROM ' . $variable_translation_table . ' AS ' . $variable_translation_alias;
+        $query .= ' JOIN ' . $variable_table . ' AS ' . $variable_alias . ' ON ' . $variable_translation_alias . '.variable_id = ' . $variable_alias . '.id';
+
+        return $this->database->retrieve_object_set($query, VariableTranslation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function retrieve_english_translation($variable_id)
