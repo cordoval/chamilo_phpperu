@@ -57,7 +57,8 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 				$variable = $this->browser->retrieve_variable($variable_id);
 				return $variable->get_variable();
 			case VariableTranslation :: PROPERTY_RATING :
-				return $variable_translation->get_relative_rating();
+				$percentage = $variable_translation->get_relative_rating() * 10;
+				return Display :: get_rating_bar($percentage, false);
 		}
 		
 		return parent :: render_cell($column, $variable_translation);

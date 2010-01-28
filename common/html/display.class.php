@@ -300,5 +300,41 @@ class Display
         $html .= '</div>';
         return $html;
     }
+    
+    public static function get_rating_bar($percent, $show_text = true)
+    {
+        $html = '<div class="rating_information">';
+        $html .= '<div class="rating_bar">';
+        for($i = 0; $i < 100; $i ++)
+        {
+            if ($percent > $i)
+            {
+                if ($percent <= 50)
+                {
+                    $class = 'bad';
+                }
+                elseif ($percent <= 75)
+                {
+                    $class = 'average';
+                }
+                else
+                {
+                    $class = 'good';
+                }
+            }
+            else
+            {
+                $class = '';
+            }
+            $html .= '<div class="' . $class . '"></div>';
+        }
+        $html .= '</div>';
+        if ($show_text)
+        {
+        	$html .= '<div class="rating_status">' . round($percent, 2) . ' %</div>';
+        }
+        $html .= '</div>';
+        return $html;
+    }
 }
 ?>
