@@ -16,14 +16,13 @@ class TranslatorApplication extends DataClass
 	 * TranslatorApplication properties
 	 */
 	const PROPERTY_USER_ID = 'user_id';
-	const PROPERTY_SOURCE_LANGUAGE = 'source_language_id';
-	const PROPERTY_DESTINATION_LANGUAGES = 'destination_languages';
+	const PROPERTY_SOURCE_LANGUAGE_ID = 'source_language_id';
+	const PROPERTY_DESTINATION_LANGUAGE_IDS = 'destination_language_ids';
 	const PROPERTY_DATE = 'date';
 	const PROPERTY_STATUS = 'status';
 
 	const STATUS_PENDING = 1;
 	const STATUS_ACCEPTED = 2;
-	const STATUS_REJECTED = 3;
 	
 	/**
 	 * Get the default properties
@@ -31,7 +30,7 @@ class TranslatorApplication extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_SOURCE_LANGUAGE, self :: PROPERTY_DESTINATION_LANGUAGES, self :: PROPERTY_DATE, self :: PROPERTY_STATUS);
+		return parent :: get_default_property_names(array (self :: PROPERTY_USER_ID, self :: PROPERTY_SOURCE_LANGUAGE_ID, self :: PROPERTY_DESTINATION_LANGUAGE_IDS, self :: PROPERTY_DATE, self :: PROPERTY_STATUS));
 	}
 
 	function get_data_manager()
@@ -49,24 +48,24 @@ class TranslatorApplication extends DataClass
 		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
 	}
 	
-	function get_source_language()
+	function get_source_language_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_SOURCE_LANGUAGE);
+		return $this->get_default_property(self :: PROPERTY_SOURCE_LANGUAGE_ID);
 	}
 	
-	function set_source_language($source_language)
+	function set_source_language_id($source_language)
 	{
-		$this->set_default_property(self :: PROPERTY_SOURCE_LANGUAGE, $source_language);
+		$this->set_default_property(self :: PROPERTY_SOURCE_LANGUAGE_ID, $source_language);
 	}
 	
-	function get_destination_languages()
+	function get_destination_language_ids()
 	{
-		return $this->get_default_property(self :: PROPERTY_DESTINATION_LANGUAGES);
+		return $this->get_default_property(self :: PROPERTY_DESTINATION_LANGUAGE_IDS);
 	}
 	
-	function set_destination_languages($destination_languages)
+	function set_destination_language_ids($destination_language_ids)
 	{
-		$this->set_default_property(self :: PROPERTY_DESTINATION_LANGUAGES, $destination_languages);
+		$this->set_default_property(self :: PROPERTY_DESTINATION_LANGUAGE_IDS, $destination_language_ids);
 	}
 	
 	function get_date()
@@ -99,9 +98,6 @@ class TranslatorApplication extends DataClass
 			case self :: STATUS_ACCEPTED:
 				$image = 'status_accepted';
 				break;
-			case self :: STATUS_REJECTED:
-				$image = 'status_rejected';
-				break;
 		}
 		
 		return Theme :: get_image($image);
@@ -111,6 +107,25 @@ class TranslatorApplication extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+    function get_user()
+    {
+        $udm = UserDataManager :: get_instance();
+        return $udm->retrieve_user($this->get_user_id());
+    }
+    
+    function get_source_language()
+    {
+    	$cdm = CdaDataManager :: get_instance();
+    	return $cdm->retrieve_cda_language($this->get_source_language_id());
+    }
+    
+    function get_destination_languages()
+    {
+    	$cdm = CdaDataManager :: get_instance();
+    	$condition = new InCondition(CdaLanguage :: PROPERTY_ID, unserialize($this->get_destination_language_ids()));
+    	return $cdm->retrieve_cda_languages($condition, null, null, array(new ObjectTableOrder(CdaLanguage :: PROPERTY_ENGLISH_NAME)));
+    }
 }
 
 ?>

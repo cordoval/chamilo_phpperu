@@ -28,7 +28,7 @@ class TranslatorApplicationForm extends FormValidator
     private function build_form()
     {  
     	$this->addElement('category', Translation :: get('LanguageSelections'));
-    	$this->addElement('select', TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE, Translation :: get('SourceLanguage'), $this->get_source_languages());
+    	$this->addElement('select', TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID, Translation :: get('SourceLanguage'), $this->get_source_languages());
     	
 //		$url = Path :: get(WEB_PATH) . 'application/lib/cda/xml_feeds/xml_cda_languages_feed.php';
 //		$locale = array();
@@ -38,11 +38,11 @@ class TranslatorApplicationForm extends FormValidator
 //		$locale['Error'] = Translation :: get('Error');
 //		$hidden = false;
 		
-//		$elem = $this->addElement('element_finder', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGES, Translation :: get('DestinationLanguages'), $url, $locale);
+//		$elem = $this->addElement('element_finder', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_IDS, Translation :: get('DestinationLanguages'), $url, $locale);
 //		$elem->setDefaults(array());
 //		$elem->excludeElements(array());
 
-    	$this->addElement('select', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGES, Translation :: get('DestinationLanguages'), $this->get_source_languages(), array('multiple'));
+    	$this->addElement('select', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_IDS, Translation :: get('DestinationLanguages'), $this->get_source_languages(), array('multiple'));
     	$this->addElement('category');
     	
         $this->addElement('style_submit_button', 'submit', Translation :: get('Apply'), array('class' => 'positive'));
@@ -63,7 +63,7 @@ class TranslatorApplicationForm extends FormValidator
 
     function setDefaults($defaults = array ())
     {
-    	$defaults[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE] = PlatformSetting :: get('source_language', CdaManager :: APPLICATION_NAME);
+    	$defaults[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID] = PlatformSetting :: get('source_language', CdaManager :: APPLICATION_NAME);
         parent :: setDefaults($defaults);
     }
     
@@ -78,17 +78,17 @@ class TranslatorApplicationForm extends FormValidator
 //    	{
 //    		$source_user_setting = new UserSetting();
 //    		$source_user_setting->set_setting_id($source_setting->get_id());
-//    		$source_user_setting->set_value($values[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE]);
+//    		$source_user_setting->set_value($values[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID]);
 //    		$source_user_setting->set_user_id(Session :: get_user_id());
 //    		$source_user_setting->create();
 //    	}
 //
-//    	foreach($values[TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGES] as $destination_language)
+//    	foreach($values[TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_IDS] as $destination_language)
 //    	{
 	   		$application = new TranslatorApplication();
 	   		$application->set_user_id(Session :: get_user_id());
-	   		$application->set_source_language($values[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE]);
-	   		$application->set_destination_languages(serialize($values[TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGES]));
+	   		$application->set_source_language_id($values[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID]);
+	   		$application->set_destination_language_ids(serialize($values[TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_IDS]));
 	   		$application->set_date(Utilities :: to_db_date(time()));
 	   		$application->set_status(TranslatorApplication :: STATUS_PENDING);
 	   		return $application->create();

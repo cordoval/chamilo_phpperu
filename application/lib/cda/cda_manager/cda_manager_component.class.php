@@ -253,5 +253,35 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_translator_application_url();
 	}
+	
+	function get_activate_translator_application_url($translator_application)
+	{
+		return $this->get_parent()->get_activate_translator_application_url($translator_application);
+	}
+	
+	function get_deactivate_translator_application_url($translator_application)
+	{
+		return $this->get_parent()->get_deactivate_translator_application_url($translator_application);
+	}
+	
+	function get_delete_translator_application_url($translator_application)
+	{
+		return $this->get_parent()->get_delete_translator_application_url($translator_application);
+	}
+	
+	function count_translator_applications($condition)
+	{
+		return $this->get_parent()->count_translator_applications($condition);
+	}
+
+	function retrieve_translator_applications($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return $this->get_parent()->retrieve_translator_applications($condition, $offset, $count, $order_property);
+	}
+
+ 	function retrieve_translator_application($id)
+	{
+		return $this->get_parent()->retrieve_translator_application($id);
+	}
 }
 ?>

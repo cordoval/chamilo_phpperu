@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../forms/translator_application_form.class.p
  * @author Sven Vanpoucke
  * @author 
  */
-class CdaManagerTranslatorApplicationComponent extends CdaManagerComponent
+class CdaManagerTranslatorApplicationCreatorComponent extends CdaManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -27,8 +27,8 @@ class CdaManagerTranslatorApplicationComponent extends CdaManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_application();
-//			$this->redirect($success ? Translation :: get('VariableCreated') : Translation :: get('VariableNotCreated'), !$success, 
-//				array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_VARIABLES, CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id));
+			$this->redirect($success ? Translation :: get('ranslatorApplicationCreated') : Translation :: get('ranslatorApplicationNotCreated'), !$success, 
+				array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_CDA_LANGUAGES));
 		}
 		else
 		{
