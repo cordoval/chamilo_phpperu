@@ -136,8 +136,23 @@ class CdaLanguage extends DataClass
 			$translation->set_rating(0);
 			$translation->set_translation(' ');
 			$translation->set_status(VariableTranslation :: STATUS_NORMAL);
-			$succes &= $translation->create();
+			if (! $translation->create())
+			{
+				return false;
+			}
 		}
+		
+	    $location = new Location();
+        $location->set_location($this->get_english_name());
+        $location->set_application(CdaManager :: APPLICATION_NAME);
+        $location->set_type('cda_language');
+        $location->set_identifier($this->get_id());
+		$parent = RepositoryRights :: get_location_id_by_identifier('manager', 'cda_language');
+        $location->set_parent($parent);
+        if (! $location->create())
+        {
+            return false;
+        }
 
 		return $succes;
 	}

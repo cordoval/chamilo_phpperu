@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/component/cda_language_browser/cda_language_bro
 require_once dirname(__FILE__).'/component/language_pack_browser/language_pack_browser_table.class.php';
 require_once dirname(__FILE__).'/component/variable_browser/variable_browser_table.class.php';
 require_once dirname(__FILE__).'/component/variable_translation_browser/variable_translation_browser_table.class.php';
+require_once dirname(__FILE__).'/../cda_rights.class.php';
 
 /**
  * A cda manager
@@ -53,6 +54,13 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 	const ACTION_VIEW_VARIABLE_TRANSLATION = 'view_variable_translation';
 	const ACTION_EXPORT_TRANSLATIONS = 'export_translations';
 	const ACTION_RATE_VARIABLE_TRANSLATION = 'rate_variable_translation';
+	
+	const ACTION_CREATE_TRANSLATOR_APPLICATION = 'create_translator_application';
+	const ACTION_BROWSE_TRANSLATOR_APPLICATIONS = 'browse_translator_applications';
+	const ACTION_ACTIVATE_TRANSLATOR_APPLICATION = 'activate_translator_application';
+	const ACTION_DEACTIVATE_TRANSLATOR_APPLICATION = 'deactivate_translator_application';
+	const ACTION_DELETE_TRANSLATOR_APPLICATION = 'delete_translator_application';
+	const PARAM_TRANSLATOR_APPLICATION = 'translator_application';
 
 	/**
 	 * Constructor
@@ -136,6 +144,21 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 			case self :: ACTION_RATE_VARIABLE_TRANSLATION :
 				$component = CdaManagerComponent :: factory('VariableTranslationRater', $this);
 				break;
+			case self :: ACTION_CREATE_TRANSLATOR_APPLICATION :
+				$component = CdaManagerComponent :: factory('TranslatorApplicationCreator', $this);
+				break;
+			case self :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS :
+				$component = CdaManagerComponent :: factory('TranslatorApplicationBrowser', $this);
+				break;
+			case self :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION :
+				$component = CdaManagerComponent :: factory('TranslatorApplicationActivator', $this);
+				break;
+			case self :: ACTION_DEACTIVATE_TRANSLATOR_APPLICATION :
+				$component = CdaManagerComponent :: factory('TranslatorApplicationDeactivator', $this);
+				break;
+			case self :: ACTION_DELETE_TRANSLATOR_APPLICATION :
+				$component = CdaManagerComponent :: factory('TranslatorApplicationDeleter', $this);
+				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CDA_LANGUAGES);
 				$component = CdaManagerComponent :: factory('CdaLanguagesBrowser', $this);
@@ -149,6 +172,7 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
         $links = array();
         $links[] = array('name' => Translation :: get('ManageLanguages'), 'description' => Translation :: get('ManageLanguagesDescription'), 'action' => 'list', 'url' => $this->get_admin_browse_cda_languages_link());
         $links[] = array('name' => Translation :: get('ManageLanguagePacks'), 'description' => Translation :: get('ManageLanguagePacksDescription'), 'action' => 'add', 'url' => $this->get_admin_browse_language_packs_link());
+        $links[] = array('name' => Translation :: get('ManageTranslatorApplications'), 'description' => Translation :: get('ManageTranslatorApplicationsDescription'), 'action' => 'list', 'url' => $this->get_browse_translator_applications_link());
         
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
@@ -491,5 +515,44 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_TRANSLATIONS));
 	}
 	
+ 	function get_translator_application_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_TRANSLATOR_APPLICATION));
+	}
+	
+ 	function get_activate_translator_application_url($translator_application)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION, self :: PARAM_TRANSLATOR_APPLICATION => $translator_application->get_id()));
+	}
+	
+	function get_deactivate_translator_application_url($translator_application)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DEACTIVATE_TRANSLATOR_APPLICATION, self :: PARAM_TRANSLATOR_APPLICATION => $translator_application->get_id()));
+	}
+	
+	function get_delete_translator_application_url($translator_application)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TRANSLATOR_APPLICATION, self :: PARAM_TRANSLATOR_APPLICATION => $translator_application->get_id()));
+	}
+	
+ 	function count_translator_applications($condition)
+	{
+		return CdaDataManager :: get_instance()->count_translator_applications($condition);
+	}
+
+	function retrieve_translator_applications($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return CdaDataManager :: get_instance()->retrieve_translator_applications($condition, $offset, $count, $order_property);
+	}
+
+ 	function retrieve_translator_application($id)
+	{
+		return CdaDataManager :: get_instance()->retrieve_translator_application($id);
+	}
+	
+  	function get_browse_translator_applications_link()
+	{
+		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS));
+	}	
 }
 ?>

@@ -312,7 +312,8 @@ class ConfigurationForm extends FormValidator
             $setting = $adm->retrieve_setting_from_variable_name($key, $this->application);
     		$user_setting = $udm->retrieve_user_setting(Session :: get_user_id(), $setting->get_id());
     		if($user_setting)
-    		{ dump($user_setting);
+    		{
+    			//dump($user_setting);
     			$user_setting->set_value($value);
     			$user_setting->update();
     		}

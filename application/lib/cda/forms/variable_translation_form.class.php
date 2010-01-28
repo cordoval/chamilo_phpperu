@@ -34,14 +34,37 @@ class VariableTranslationForm extends FormValidator
 		$html[] = '<div class="row">';
 		$html[] = '<div class="label">' . Translation :: get('Variable') . '</div> ';
 		$html[] = '<div class="formw"><div class="element">' . $this->variable->get_variable() . '</div></div>';
-		$html[] = '<div class="label">' . Translation :: get('EnglishTranslation') . '</div> '; 
-		$html[] = '<div class="formw"><div class="element">';
+		$html[] = '</div>';
 		
-		$english = CdaDataManager :: get_instance()->retrieve_english_translation($this->variable->get_id());
-        $english_translation = ($english && $english->get_translation() != ' ') ? $english->get_translation() : Translation :: get('NoTranslation');
-		$html[] = $english_translation . '</div></div>';
+    	$language_id = $this->variable_translation->get_language_id();		
+		$source_id = LocalSetting :: get('source_language', CdaManager :: APPLICATION_NAME);
+		$english_id = CdaDataManager :: get_instance()->retrieve_cda_language_english()->get_id();
 		
-		$html[] = '</div><br /><br />';
+		if ($english_id != $language_id)
+		{
+			$html[] = '<div class="row">';
+			$html[] = '<div class="label">' . Translation :: get('EnglishTranslation') . '</div> '; 
+			$html[] = '<div class="formw"><div class="element">';
+			
+			$english = CdaDataManager :: get_instance()->retrieve_english_translation($this->variable->get_id());
+	        $english_translation = ($english && $english->get_translation() != ' ') ? $english->get_translation() : Translation :: get('NoTranslation');
+			$html[] = $english_translation . '</div></div>';
+			
+			$html[] = '</div>';
+		}
+		
+		if($source_id != $english_id)
+		{
+			$html[] = '<div class="row">';
+			$html[] = '<div class="label">' . Translation :: get('SourceTranslation') . '</div> '; 
+			$html[] = '<div class="formw"><div class="element">';
+			
+			$source_translation = CdaDataManager :: get_instance()->retrieve_variable_translation($source_id, $this->variable->get_id());
+			$html[] = $source_translation->get_translation();
+			$html[] = '</div></div>';
+			
+			$html[] = '</div>';
+		}
 		
 		$this->addElement('html', implode("\n", $html));
 		

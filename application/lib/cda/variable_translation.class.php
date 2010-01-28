@@ -209,6 +209,11 @@ class VariableTranslation extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+	function is_locked()
+	{
+		return $this->get_status() == self :: STATUS_BLOCKED;
+	}
 }
 
 ?>

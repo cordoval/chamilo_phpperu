@@ -1,19 +1,19 @@
 <?php
 /**
- * @package cda.tables.variable_translation_table
+ * @package cda.tables.translator_application_table
  */
 
-require_once dirname(__FILE__).'/../../../tables/variable_translation_table/default_variable_translation_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../variable_translation.class.php';
+require_once dirname(__FILE__).'/../../../tables/translator_application_table/default_translator_application_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../translator_application.class.php';
 
 /**
- * Table column model for the variable_translation browser table
+ * Table column model for the translator_application browser table
  *
  * @author Sven Vanpoucke
  * @author 
  */
 
-class VariableTranslationBrowserTableColumnModel extends DefaultVariableTranslationTableColumnModel
+class TranslatorApplicationBrowserTableColumnModel extends DefaultTranslatorApplicationTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -23,10 +23,10 @@ class VariableTranslationBrowserTableColumnModel extends DefaultVariableTranslat
 	/**
 	 * Constructor
 	 */
-	function VariableTranslationBrowserTableColumnModel()
+	function TranslatorApplicationBrowserTableColumnModel()
 	{
 		parent :: __construct();
-		$this->set_default_order_column(1);		
+		$this->set_default_order_column(1);
 		$this->add_column(self :: get_modification_column());
 	}
 

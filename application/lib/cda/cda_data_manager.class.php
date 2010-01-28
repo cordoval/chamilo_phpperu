@@ -48,6 +48,7 @@ abstract class CdaDataManager
 	abstract function delete_cda_language($cda_language);
 	abstract function count_cda_languages($conditions = null);
 	abstract function retrieve_cda_language($id);
+	abstract function retrieve_cda_language_english();
 	abstract function retrieve_cda_languages($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function get_next_language_pack_id();
@@ -82,5 +83,13 @@ abstract class CdaDataManager
 	
 	abstract function get_progress_for_language($language);
 	abstract function get_progress_for_language_pack($language_pack, $language_id = null);
+	
+	abstract function get_next_translator_application_id();
+	abstract function create_translator_application($translator_application);
+	abstract function update_translator_application($translator_application);
+	abstract function delete_translator_application($translator_application);
+	abstract function count_translator_applications($conditions = null);
+	abstract function retrieve_translator_application($id);
+	abstract function retrieve_translator_applications($condition = null, $offset = null, $count = null, $order_property = null);
 }
 ?>

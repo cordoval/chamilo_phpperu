@@ -82,24 +82,31 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', 
         	$this->get_browse_variable_translations_url($cda_language_id, $language_pack->get_id())));
         
-    	if($this->can_language_pack_be_locked($language_pack, $cda_language_id))
-        {
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png', 
-				$this->get_lock_language_pack_url($language_pack, $cda_language_id)));
-        }
-        else
-        {
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('LockNa'), Theme :: get_common_image_path() . 'action_lock_na.png'));
-        }
+        $can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
         
-        if($this->can_language_pack_be_unlocked($language_pack, $cda_language_id))
+        if ($can_lock)
         {
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Unlock'), Theme :: get_common_image_path() . 'action_unlock.png', 
-				$this->get_unlock_language_pack_url($language_pack, $cda_language_id)));
-        }
-        else
-        {
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('UnlockNa'), Theme :: get_common_image_path() . 'action_unlock_na.png'));
+	        $language_pack = $this->retrieve_cda_language(Request :: get(CdaManager :: PARAM_LANGUAGE_PACK));
+	        
+	    	if($this->can_language_pack_be_locked($language_pack, $cda_language_id))
+	        {
+				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png', 
+					$this->get_lock_language_pack_url($language_pack, $cda_language_id)));
+	        }
+//	        else
+//	        {
+//				$action_bar->add_common_action(new ToolbarItem(Translation :: get('LockNa'), Theme :: get_common_image_path() . 'action_lock_na.png'));
+//	        }
+	        
+	        if($this->can_language_pack_be_unlocked($language_pack, $cda_language_id))
+	        {
+				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Unlock'), Theme :: get_common_image_path() . 'action_unlock.png', 
+					$this->get_unlock_language_pack_url($language_pack, $cda_language_id)));
+	        }
+//	        else
+//	        {
+//				$action_bar->add_common_action(new ToolbarItem(Translation :: get('UnlockNa'), Theme :: get_common_image_path() . 'action_unlock_na.png'));
+//	        }
         }
         
         return $action_bar;
