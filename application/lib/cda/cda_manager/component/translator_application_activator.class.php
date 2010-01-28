@@ -29,9 +29,9 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManagerCompon
 
 			foreach ($ids as $id)
 			{
-				$language_pack = $this->retrieve_translator_application($id);
+				$translator_application = $this->retrieve_translator_application($id);
 
-				if (!$language_pack->activate())
+				if (!$translator_application->activate())
 				{
 					$failures++;
 				}

@@ -30,7 +30,7 @@ class DefaultTranslatorApplicationTableColumnModel extends ObjectTableColumnMode
 
 		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_USER_ID);
 		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID);
-		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_IDS);
+		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID);
 		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_DATE);
 		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_STATUS);
 

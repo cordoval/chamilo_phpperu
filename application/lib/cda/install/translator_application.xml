@@ -4,7 +4,7 @@
   <property name="id" type="integer" unsigned="1" notnull="1" autoincrement="1"/>
   <property name="user_id" type="integer" unsigned="1" notnull="0" />
   <property name="source_language_id" type="integer" unsigned="1" notnull="1" />
-  <property name="destination_languages" type="text" notnull="1" />
+  <property name="destination_language_id" type="integer" unsigned="1" notnull="1" />
   <property name="date" type="timestamp" notnull="0" />
   <property name="status" type="integer" length="1" unsigned="1" notnull="1" default="0"/>
  </properties>

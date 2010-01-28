@@ -2,6 +2,7 @@
 /**
  * cda
  */
+require_once dirname(__FILE__) . '/cda_rights.class.php';
 
 /**
  * This class describes a TranslatorApplication data object
@@ -17,7 +18,7 @@ class TranslatorApplication extends DataClass
 	 */
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_SOURCE_LANGUAGE_ID = 'source_language_id';
-	const PROPERTY_DESTINATION_LANGUAGE_IDS = 'destination_language_ids';
+	const PROPERTY_DESTINATION_LANGUAGE_ID = 'destination_language_id';
 	const PROPERTY_DATE = 'date';
 	const PROPERTY_STATUS = 'status';
 
@@ -30,7 +31,7 @@ class TranslatorApplication extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return parent :: get_default_property_names(array (self :: PROPERTY_USER_ID, self :: PROPERTY_SOURCE_LANGUAGE_ID, self :: PROPERTY_DESTINATION_LANGUAGE_IDS, self :: PROPERTY_DATE, self :: PROPERTY_STATUS));
+		return parent :: get_default_property_names(array (self :: PROPERTY_USER_ID, self :: PROPERTY_SOURCE_LANGUAGE_ID, self :: PROPERTY_DESTINATION_LANGUAGE_ID, self :: PROPERTY_DATE, self :: PROPERTY_STATUS));
 	}
 
 	function get_data_manager()
@@ -58,14 +59,14 @@ class TranslatorApplication extends DataClass
 		$this->set_default_property(self :: PROPERTY_SOURCE_LANGUAGE_ID, $source_language);
 	}
 	
-	function get_destination_language_ids()
+	function get_destination_language_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_DESTINATION_LANGUAGE_IDS);
+		return $this->get_default_property(self :: PROPERTY_DESTINATION_LANGUAGE_ID);
 	}
 	
-	function set_destination_language_ids($destination_language_ids)
+	function set_destination_language_id($destination_language_id)
 	{
-		$this->set_default_property(self :: PROPERTY_DESTINATION_LANGUAGE_IDS, $destination_language_ids);
+		$this->set_default_property(self :: PROPERTY_DESTINATION_LANGUAGE_ID, $destination_language_id);
 	}
 	
 	function get_date()
@@ -120,11 +121,68 @@ class TranslatorApplication extends DataClass
     	return $cdm->retrieve_cda_language($this->get_source_language_id());
     }
     
-    function get_destination_languages()
+    function get_destination_language()
     {
     	$cdm = CdaDataManager :: get_instance();
-    	$condition = new InCondition(CdaLanguage :: PROPERTY_ID, unserialize($this->get_destination_language_ids()));
-    	return $cdm->retrieve_cda_languages($condition, null, null, array(new ObjectTableOrder(CdaLanguage :: PROPERTY_ENGLISH_NAME)));
+    	return $cdm->retrieve_cda_language($this->get_destination_language_id());
+    }
+    
+    function activate()
+    {
+    	$source_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name('source_language', CdaManager :: APPLICATION_NAME);
+    	$source_user_setting = UserDataManager :: get_instance()->retrieve_user_setting(Session :: get_user_id(), $source_setting->get_id());
+    	
+    	if(!$source_user_setting)
+    	{
+    		$source_user_setting = new UserSetting();
+    		$source_user_setting->set_setting_id($source_setting->get_id());
+    		$source_user_setting->set_value($this->get_source_language_id());
+    		$source_user_setting->set_user_id($this->get_user_id());
+    		$source_user_setting->create();
+    	}
+    	
+   		$location = CdaRights :: get_location_id_by_identifier('cda_language', $this->get_destination_language_id());
+    	$success = RightsUtilities :: set_user_right_location_value(CdaRights :: VIEW_RIGHT, $this->get_user_id(), $location, true);
+    		
+    	if (!$success)
+    	{
+    		return false;
+    	}
+    	
+    	$this->set_status(self :: STATUS_ACCEPTED);
+    	return $this->update();
+    }
+    
+    function deactivate()
+    {
+    	$source_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name('source_language', CdaManager :: APPLICATION_NAME);
+    	$source_user_setting = UserDataManager :: get_instance()->retrieve_user_setting(Session :: get_user_id(), $source_setting->get_id());
+    	
+    	if($source_user_setting)
+    	{
+    		$source_user_setting->delete();
+    	}
+    	
+    	$location = CdaRights :: get_location_id_by_identifier('cda_language', $this->get_destination_language_id());
+    	$success = RightsUtilities :: set_user_right_location_value(CdaRights :: VIEW_RIGHT, $this->get_user_id(), $location, false);
+    	
+    	if (!$success)
+    	{
+    		return false;
+    	}
+    	
+    	$this->set_status(self :: STATUS_PENDING);
+    	return $this->update();
+    }
+    
+    function delete()
+    {
+    	if (!$this->deactivate())
+    	{
+    		return false;
+    	}
+    	
+    	return parent :: delete();
     }
 }
 

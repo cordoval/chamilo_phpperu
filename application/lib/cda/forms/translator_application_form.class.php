@@ -23,7 +23,7 @@ class TranslatorApplicationForm extends FormValidator
     }
 
     /**
-     * Build the simple search form.
+     * Build the form.
      */
     private function build_form()
     {  
@@ -38,11 +38,11 @@ class TranslatorApplicationForm extends FormValidator
 //		$locale['Error'] = Translation :: get('Error');
 //		$hidden = false;
 		
-//		$elem = $this->addElement('element_finder', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_IDS, Translation :: get('DestinationLanguages'), $url, $locale);
+//		$elem = $this->addElement('element_finder', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID, Translation :: get('DestinationLanguages'), $url, $locale);
 //		$elem->setDefaults(array());
 //		$elem->excludeElements(array());
 
-    	$this->addElement('select', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_IDS, Translation :: get('DestinationLanguages'), $this->get_source_languages(), array('multiple'));
+    	$this->addElement('select', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID, Translation :: get('DestinationLanguages'), $this->get_source_languages(), array('multiple'));
     	$this->addElement('category');
     	
         $this->addElement('style_submit_button', 'submit', Translation :: get('Apply'), array('class' => 'positive'));
@@ -71,28 +71,24 @@ class TranslatorApplicationForm extends FormValidator
     {
     	$values = $this->exportValues();
     	
-//		$source_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name('source_language', CdaManager :: APPLICATION_NAME);
-//    	$source_user_setting = UserDataManager :: get_instance()->retrieve_user_setting(Session :: get_user_id(), $source_setting->get_id());
-//    	
-//    	if(!$source_user_setting)
-//    	{
-//    		$source_user_setting = new UserSetting();
-//    		$source_user_setting->set_setting_id($source_setting->get_id());
-//    		$source_user_setting->set_value($values[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID]);
-//    		$source_user_setting->set_user_id(Session :: get_user_id());
-//    		$source_user_setting->create();
-//    	}
-//
-//    	foreach($values[TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_IDS] as $destination_language)
-//    	{
+    	$languages = $values[TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID];
+    	
+    	foreach($languages as $language)
+    	{
 	   		$application = new TranslatorApplication();
 	   		$application->set_user_id(Session :: get_user_id());
 	   		$application->set_source_language_id($values[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID]);
-	   		$application->set_destination_language_ids(serialize($values[TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_IDS]));
+	   		$application->set_destination_language_id($language);
 	   		$application->set_date(Utilities :: to_db_date(time()));
 	   		$application->set_status(TranslatorApplication :: STATUS_PENDING);
-	   		return $application->create();
-//    	}
+	   		
+	   		if (!$application->create())
+	   		{
+	   			return false;
+	   		}
+    	}
+    	
+   		return true;
     }
 }
 ?>

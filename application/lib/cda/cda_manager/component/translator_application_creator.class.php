@@ -27,7 +27,7 @@ class CdaManagerTranslatorApplicationCreatorComponent extends CdaManagerComponen
 		if($form->validate())
 		{
 			$success = $form->create_application();
-			$this->redirect($success ? Translation :: get('ranslatorApplicationCreated') : Translation :: get('ranslatorApplicationNotCreated'), !$success, 
+			$this->redirect($success ? Translation :: get('TranslatorApplicationCreated') : Translation :: get('TranslatorApplicationNotCreated'), !$success, 
 				array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_CDA_LANGUAGES));
 		}
 		else

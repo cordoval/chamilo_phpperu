@@ -35,16 +35,8 @@ class DefaultTranslatorApplicationTableCellRenderer implements ObjectTableCellRe
 				return $translator_application->get_user()->get_fullname();
 			case TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID :
 				return $translator_application->get_source_language()->get_english_name();
-			case TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_IDS :
-				$destination_languages = $translator_application->get_destination_languages();
-				$result = array();
-				
-				while ($destination_language = $destination_languages->next_result())
-				{
-					$result[] = $destination_language->get_english_name();
-				}
-				
-				return implode(', ', $result);
+			case TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID :
+				return $translator_application->get_destination_language()->get_english_name();
 			case TranslatorApplication :: PROPERTY_DATE :
 				return $translator_application->get_date();
 			case TranslatorApplication :: PROPERTY_STATUS :
