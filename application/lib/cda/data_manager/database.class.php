@@ -289,5 +289,43 @@ class DatabaseCdaDataManager extends CdaDataManager
 			return 100;
 		}
 	}
+	
+	function get_next_translator_application_id()
+	{
+		return $this->database->get_next_id(TranslatorApplication :: get_table_name());
+	}
+
+	function create_translator_application($translator_application)
+	{
+		return $this->database->create($translator_application);
+	}
+
+	function update_translator_application($translator_application)
+	{
+		$condition = new EqualityCondition(TranslatorApplication :: PROPERTY_ID, $translator_application->get_id());
+		return $this->database->update($translator_application, $condition);
+	}
+
+	function delete_translator_application($translator_application)
+	{
+		$condition = new EqualityCondition(TranslatorApplication :: PROPERTY_ID, $translator_application->get_id());
+		return $this->database->delete($translator_application->get_table_name(), $condition);
+	}
+
+	function count_translator_applications($condition = null)
+	{
+		return $this->database->count_objects(TranslatorApplication :: get_table_name(), $condition);
+	}
+
+	function retrieve_translator_application($id)
+	{
+		$condition = new EqualityCondition(TranslatorApplication :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(TranslatorApplication :: get_table_name(), $condition);
+	}
+
+	function retrieve_translator_applications($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return $this->database->retrieve_objects(TranslatorApplication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+	}
 }
 ?>

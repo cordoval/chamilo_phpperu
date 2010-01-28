@@ -53,6 +53,8 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 	const ACTION_VIEW_VARIABLE_TRANSLATION = 'view_variable_translation';
 	const ACTION_EXPORT_TRANSLATIONS = 'export_translations';
 	const ACTION_RATE_VARIABLE_TRANSLATION = 'rate_variable_translation';
+	
+	const ACTION_TRANSLATOR_APPLICATION = 'translator_application';
 
 	/**
 	 * Constructor
@@ -135,6 +137,9 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
 				break;
 			case self :: ACTION_RATE_VARIABLE_TRANSLATION :
 				$component = CdaManagerComponent :: factory('VariableTranslationRater', $this);
+				break;
+			case self :: ACTION_TRANSLATOR_APPLICATION :
+				$component = CdaManagerComponent :: factory('TranslatorApplication', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CDA_LANGUAGES);
@@ -489,6 +494,11 @@ require_once dirname(__FILE__).'/component/variable_translation_browser/variable
  	function get_export_translations_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_TRANSLATIONS));
+	}
+	
+ 	function get_translator_application_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TRANSLATOR_APPLICATION));
 	}
 	
 }

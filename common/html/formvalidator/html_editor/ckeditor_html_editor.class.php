@@ -28,7 +28,12 @@ class FormValidatorCkeditorHtmlEditor extends FormValidatorHtmlEditor
         $editor[] = '	$(document).ready(function ()';
         $editor[] = '	{';
         $editor[] = '		$("textarea.html_editor[name=\''. $this->get_name() .'\']").ckeditor({';
-        $editor[] = '			toolbar : \'' . $attributes['toolbar'] . '\'';
+        
+        if (isset($attributes['toolbar']))
+        {
+        	$editor[] = '			toolbar : \'' . $attributes['toolbar'] . '\'';
+        }
+        
         $editor[] = '		});';
         $editor[] = '	});';
         $editor[] = '});';
