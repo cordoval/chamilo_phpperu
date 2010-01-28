@@ -8,7 +8,7 @@ class BranchSelectingExporterWizardPage extends ExporterWizardPage
 
     function get_title()
     {
-        return Translation :: get('');
+        return Translation :: get('SelectBranchTitle');
     }
 
     function get_info()

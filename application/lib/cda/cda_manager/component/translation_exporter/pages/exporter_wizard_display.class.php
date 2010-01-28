@@ -41,10 +41,50 @@ class ExporterWizardDisplay extends HTML_QuickForm_Action_Display
         
         $this->parent->display_header($trail);
         
-        echo '<div style="margin: 10px;">';
-        echo '<div>';
+        $all_pages = $current_page->controller->_pages;
+        $total_number_of_pages = count($all_pages);
+        
+    	$current_page_number = 0;
+        $page_number = 0;
+        foreach ($all_pages as $index => $page)
+        {
+        	$page_number ++;
+
+            if ($page->get_title() == $current_page->get_title())
+            {
+                $current_page_number = $page_number;
+            }
+        }
+        
+        echo '<div id="progressbox">';
+        echo '<ul id="progresstrail">';
+        $page_number = 0;
+        foreach ($all_pages as $index => $page)
+        {
+        	$page_number ++;
+
+            if ($page_number <= $current_page_number)
+            {
+                echo '<li class="active"><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
+            }
+            else
+            {
+                echo '<li><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
+            }
+        }
+
+        echo '</ul>';
+        echo '<div class="clear"></div>';
+        echo '</div>';
+        
+        echo '<div id="theForm" style="margin: 10px;">';
+        echo '<div id="select" class="row"><div class="formc formc_no_margin">';
+        echo '<b>' . Translation :: get('Step') . ' ' . $current_page_number . ' ' . Translation :: get('of') . ' ' . $total_number_of_pages . ' &ndash; ' . $current_page->get_title() . '</b><br />';
+
+        //		echo '<h2>'.Translation :: get('Step').' '.$current_page_number.' '.Translation :: get('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
         echo $current_page->get_info();
         echo '</div>';
+        echo '</div><br />';
         
         parent :: _renderForm($current_page);
         echo '</div>';

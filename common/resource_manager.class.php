@@ -54,6 +54,9 @@ class ResourceManager
         }
     }
 
+    /**
+     * @return ResourceManager
+     */
     static function get_instance()
     {
         if (! isset(self :: $instance))

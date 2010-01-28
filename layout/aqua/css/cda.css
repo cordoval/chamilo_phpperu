@@ -1,0 +1,46 @@
+@CHARSET "ISO-8859-1";
+
+#progressbox {
+	clear: both;
+	position: relative;
+	padding: 0px 1% 0px 1%;
+	margin: 10px;
+	color: #444444;
+	background-color: #f2f2f2;
+	border-top: 1px solid white;
+	border-bottom: 1px solid #dcdcdc;
+	background-color:#E5EDF9;
+	border:1px solid #B9D0EF;
+}
+
+#progressbox ul,#progresstrail li {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+#progresstrail {
+	float: left;
+	height: 26px;
+	overflow: hidden;
+}
+
+#progresstrail li {
+	float: left;
+	line-height: 26px;
+	/*padding-left: 10px;*/
+	color: #777;
+}
+
+#progresstrail li a {
+	display: block;
+	padding: 0 15px 0 15px;
+	background-repeat: no-repeat;
+	background-position: right center;
+	color: #a8a8a8;
+	cursor: default;
+}
+
+#progresstrail li.active a {
+	color: #444444;
+}

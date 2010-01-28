@@ -128,6 +128,17 @@ class LanguagePack extends DataClass
 		}
 	}
 	
+	function get_type_string()
+	{
+		switch($this->get_type())
+		{
+			case LanguagePack :: TYPE_CORE:
+				return 'core';
+			default:
+				return 'application';
+		}
+	}
+	
 	function get_branch_name()
 	{
 		switch($this->get_branch())
