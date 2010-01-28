@@ -141,6 +141,16 @@ class LanguagePack extends DataClass
 		}
 	}
 	
+	static function get_branch_options()
+	{
+		$options = array();
+		
+		$options[self :: BRANCH_CLASSIC] = Translation :: get('ChamiloClassic');
+		$options[self :: BRANCH_LCMS] = Translation :: get('ChamiloLCMS');
+		
+		return $options;
+	}
+	
 	function delete()
 	{
 		$succes = parent :: delete();

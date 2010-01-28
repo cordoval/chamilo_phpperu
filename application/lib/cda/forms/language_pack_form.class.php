@@ -39,10 +39,7 @@ class LanguagePackForm extends FormValidator
 		$this->addElement('text', LanguagePack :: PROPERTY_NAME, Translation :: get('Name'));
 		$this->addRule(LanguagePack :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$branches = array();
-		$branches[LanguagePack :: BRANCH_CLASSIC] = Translation :: get('ChamiloClassic');
-		$branches[LanguagePack :: BRANCH_LCMS] = Translation :: get('ChamiloLCMS');
-    	$this->addElement('select',LanguagePack :: PROPERTY_BRANCH, Translation :: get('Branch'), $branches);
+    	$this->addElement('select',LanguagePack :: PROPERTY_BRANCH, Translation :: get('Branch'), LanguagePack :: get_branch_options());
 
 		$types = array();
 		$types[LanguagePack :: TYPE_APPLICATION] = Translation :: get('Application');

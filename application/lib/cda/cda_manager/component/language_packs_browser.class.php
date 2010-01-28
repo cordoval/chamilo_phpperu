@@ -6,14 +6,17 @@
 require_once dirname(__FILE__).'/../cda_manager.class.php';
 require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/language_pack_browser/language_pack_browser_table.class.php';
+require_once dirname(__FILE__) . '/../../forms/language_pack_browser_filter_form.class.php';
 
 /**
  * cda component which allows the user to browse his language_packs
  * @author Sven Vanpoucke
  * @author
  */
+
 class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
 {
+	private $form;
 
 	function run()
 	{
@@ -33,10 +36,14 @@ class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
 
 	function get_table()
 	{
+		$this->form = new LanguagePackBrowserFilterForm($this, $this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(CdaManager :: PARAM_CDA_LANGUAGE))));
 		$table = new LanguagePackBrowserTable($this, array(Application :: PARAM_APPLICATION => 'cda', 
 					Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS,
-					CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(CdaManager :: PARAM_CDA_LANGUAGE)), null);
-		return $table->as_html();
+					CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(CdaManager :: PARAM_CDA_LANGUAGE)), $this->get_condition());
+
+		$html[] = $this->form->display();
+        $html[] = $table->as_html();
+        return implode("\n", $html);
 	}
 
     function get_action_bar_html()
@@ -66,6 +73,13 @@ class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
         }
         
         return $action_bar->as_html();
+    }
+    
+    function get_condition()
+    {
+        $form = $this->form;
+
+        return $form->get_filter_conditions();
     }
     
     function get_cda_language()

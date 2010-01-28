@@ -38,6 +38,11 @@ class ObjectResultSet extends RecordResultSet
 	 */
     function next_result()
     {
+    	$handle = $this->get_handle();
+    	if (MDB2 :: isError($handle))
+    	{
+    		dump($this->get_handle());
+    	}
         if ($record = $this->get_handle()->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
             $this->increment_current();
