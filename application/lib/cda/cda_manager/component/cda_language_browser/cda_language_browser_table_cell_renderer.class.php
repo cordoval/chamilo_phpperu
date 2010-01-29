@@ -49,9 +49,14 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 					return '<a href="' . $url . '">' . $cda_language->get_original_name() . '</a>';
 				}*/
 				
+				if(!$this->browser->get_user()->is_platform_admin() && 
+					CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language->get_id(), 'cda_language'))
+				{
+					return '<span style="color: green; font-weight: bold;">' . $cda_language->get_original_name() . '</span>'; 
+				}
+				
 				return $cda_language->get_original_name();
 			case CdaLanguage :: PROPERTY_ENGLISH_NAME :
-				
 				if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
 				{
 					$url = $this->browser->get_browse_language_packs_url($cda_language->get_id());
