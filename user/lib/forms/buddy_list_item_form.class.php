@@ -27,12 +27,13 @@ class BuddyListItemForm extends FormValidator
         $condition = new EqualityCondition(BuddyListCategory :: PROPERTY_USER_ID, $this->user->get_id());
         $categories = UserDataManager :: get_instance()->retrieve_buddy_list_categories($condition);
         while ($cat = $categories->next_result())
+        {
             $cats[$cat->get_id()] = $cat->get_title();
+        }
         
         $this->addElement('select', 'category', Translation :: get('Category'), $cats);
         
         $url = Path :: get(WEB_PATH) . 'user/xml_feeds/xml_user_feed.php';
-        ;
         
         $locale = array();
         $locale['Display'] = Translation :: get('AddUsers');
@@ -56,9 +57,13 @@ class BuddyListItemForm extends FormValidator
         while ($buddy = $buddies->next_result())
         {
             if ($buddy->get_buddy_id() != $this->user->get_id())
+            {
                 $exclude[] = $buddy->get_buddy_id();
+            }
             else
+            {
                 $exclude[] = $buddy->get_user_id();
+            }
         }
         
         $elem->excludeElements($exclude);
