@@ -126,6 +126,23 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 //					);
 //		        }
 			}
+			
+			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $this->browser->get_cda_language());
+			$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
+			$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID,
+												   'cda_' . Variable :: get_table_name(), $subcondition);
+			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+			$condition = new AndCondition($conditions);
+			$translation = $this->browser->retrieve_variable_translations($condition, 0, 1)->next_result();
+			
+			if($translation)
+			{
+				$toolbar_data[] = array(
+							'href' => $this->browser->get_update_variable_translation_url($translation),
+							'label' => Translation :: get('TranslateFirstEmptyTranslation'),
+							'img' => Theme :: get_image_path() . 'action_translate.png'
+						);
+			}
 		}
 		
 		return Utilities :: build_toolbar($toolbar_data);

@@ -134,6 +134,20 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 //					);
 //		        }
 			}
+
+			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $cda_language->get_id());
+			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+			$condition = new AndCondition($conditions);
+			$translation = $this->browser->retrieve_variable_translations($condition, 0, 1)->next_result();
+			
+			if($translation)
+			{
+				$toolbar_data[] = array(
+							'href' => $this->browser->get_update_variable_translation_url($translation),
+							'label' => Translation :: get('TranslateFirstEmptyTranslation'),
+							'img' => Theme :: get_image_path() . 'action_translate.png'
+						);
+			}
 		}
 		
 		return Utilities :: build_toolbar($toolbar_data);
