@@ -336,5 +336,38 @@ class Display
         $html .= '</div>';
         return $html;
     }
+    
+    static function form_category($title = null, $extra_classes = null)
+    {
+        $html = array();
+        
+        if ($title != null)
+        {
+            $html[] = '<div class="configuration_form' . ($extra_classes ? ' ' . $extra_classes : '') . '" >';
+            $html[] = '<span class="category">' . $title . '</span>';
+        }
+        else
+        {
+            $html[] = '<div style="clear: both;"></div>';
+            $html[] = '</div>';
+        }
+        
+        return implode("\n", $html);
+    }
+    
+    static function form_row($label = null, $value = null)
+    {
+        $html = array();
+        
+        $html[] = '<div class="row">';
+        $html[] = '<div class="label">'. $label .'</div>';
+        $html[] = '<div class="formw">';
+        $html[] = '<div class="element">'. $value .'</div>';
+        $html[] = '</div>';
+        $html[] = '<div class="clear">&nbsp;</div>';
+        $html[] = '</div>';
+        
+        return implode("\n", $html);
+    }
 }
 ?>
