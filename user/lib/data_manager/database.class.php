@@ -17,7 +17,7 @@ require_once 'MDB2.php';
 
 class DatabaseUserDataManager extends UserDataManager
 {
-	const ALIAS_USER = 'u';
+	const ALIAS_USER = 'user';
 
 	/**
 	 * @var Database

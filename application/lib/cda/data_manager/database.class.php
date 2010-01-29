@@ -345,7 +345,21 @@ class DatabaseCdaDataManager extends CdaDataManager
 
 	function retrieve_translator_applications($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(TranslatorApplication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		$translator_application_alias = $this->database->get_alias(TranslatorApplication :: get_table_name());
+		$translator_application_table = $this->database->escape_table_name(TranslatorApplication :: get_table_name());
+		$cda_language_alias = $this->database->get_alias(CdaLanguage :: get_table_name());
+		$cda_language_table = $this->database->escape_table_name(CdaLanguage :: get_table_name());
+		
+		$udm = UserDataMAnager :: get_instance();
+		$user_alias = $udm->get_database()->get_alias(User :: get_table_name());
+		$user_table = $udm->get_database()->escape_table_name(User :: get_table_name());
+		
+        $query = 'SELECT ' . $translator_application_alias . '.* FROM ' . $translator_application_table . ' AS ' . $translator_application_alias;
+        $query .= ' JOIN ' . $cda_language_table . ' AS ' . $cda_language_alias . ' ON ' . $translator_application_alias . '.source_language_id = ' . $cda_language_alias . '.id';
+        $query .= ' JOIN ' . $cda_language_table . ' AS ' . $cda_language_alias . '2 ON ' . $translator_application_alias . '.destination_language_id = ' . $cda_language_alias . '2.id';
+        $query .= ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $translator_application_alias . '.user_id = ' . $user_alias . '.id';
+
+        return $this->database->retrieve_object_set($query, TranslatorApplication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 }
 ?>

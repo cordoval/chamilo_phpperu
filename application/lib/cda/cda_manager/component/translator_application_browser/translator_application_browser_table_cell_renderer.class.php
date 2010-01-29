@@ -39,6 +39,27 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 			return $this->get_modification_links($translator_application);
 		}
 
+		switch($column->get_name())
+		{
+			case User :: PROPERTY_FIRSTNAME:
+				$user = UserDataManager :: get_instance()->retrieve_user($translator_application->get_user_id());
+				if($user)
+					return $user->get_fullname();
+				return Translation :: get('UserUnknown');
+			case CdaLanguage :: PROPERTY_ENGLISH_NAME:
+				$alias = CdaDataManager :: get_instance()->get_alias(CdaLanguage :: get_table_name());
+				if($column->get_storage_unit() == $alias)
+				{
+					$cda_language = CdaDataManager :: get_instance()->retrieve_cda_language($translator_application->get_source_language_id());
+				}
+				else
+				{
+					$cda_language = CdaDataManager :: get_instance()->retrieve_cda_language($translator_application->get_destination_language_id());
+				}
+				
+				return $cda_language->get_english_name();
+		}
+		
 		return parent :: render_cell($column, $translator_application);
 	}
 

@@ -28,9 +28,12 @@ class DefaultTranslatorApplicationTableColumnModel extends ObjectTableColumnMode
 	{
 		$columns = array();
 
-		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_USER_ID);
-		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID);
-		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID);
+		$alias = CdaDataManager :: get_instance()->get_alias(CdaLanguage :: get_table_name());
+		$usr_alias = UserDataManager :: get_instance()->get_database()->get_alias(User :: get_table_name());
+		
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true, $usr_alias);
+		$columns[] = new ObjectTableColumn(CdaLanguage :: PROPERTY_ENGLISH_NAME, true, $alias);
+		$columns[] = new ObjectTableColumn(CdaLanguage :: PROPERTY_ENGLISH_NAME, true, $alias . '2');
 		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_DATE);
 		$columns[] = new ObjectTableColumn(TranslatorApplication :: PROPERTY_STATUS);
 
