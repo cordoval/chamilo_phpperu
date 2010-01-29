@@ -11,6 +11,9 @@ class VariableTranslationForm extends FormValidator
 	private $variable_translation;
 	private $variable;
 	private $user;
+	
+	const SUBMIT_NEXT = 'next';
+	const SUBMIT_SAVE = 'save';
 
     function VariableTranslationForm($variable_translation, $variable, $action, $user)
     {
@@ -28,13 +31,9 @@ class VariableTranslationForm extends FormValidator
 
     function build_basic_form()
     {
-		$this->addElement('category', Translation :: get('Information'));
 		
-		$html = array();
-		$html[] = '<div class="row">';
-		$html[] = '<div class="label">' . Translation :: get('Variable') . '</div> ';
-		$html[] = '<div class="formw"><div class="element">' . $this->variable->get_variable() . '</div></div>';
-		$html[] = '</div>';
+    	$this->addElement('category', Translation :: get('Reference'));
+		$this->addElement('static', null, Translation :: get('Variable'), $this->variable->get_variable());
 		
     	$language_id = $this->variable_translation->get_language_id();		
 		$source_id = LocalSetting :: get('source_language', CdaManager :: APPLICATION_NAME);
@@ -42,42 +41,27 @@ class VariableTranslationForm extends FormValidator
 		
 		if ($english_id != $language_id)
 		{
-			$html[] = '<div class="row">';
-			$html[] = '<div class="label">' . Translation :: get('EnglishTranslation') . '</div> '; 
-			$html[] = '<div class="formw"><div class="element">';
-			
 			$english = CdaDataManager :: get_instance()->retrieve_english_translation($this->variable->get_id());
 	        $english_translation = ($english && $english->get_translation() != ' ') ? $english->get_translation() : Translation :: get('NoTranslation');
-			$html[] = $english_translation . '</div></div>';
-			
-			$html[] = '</div>';
+	        $this->addElement('static', null, Translation :: get('EnglishTranslation'), $english_translation);
 		}
 		
 		if($source_id != $english_id)
 		{
-			$html[] = '<div class="row">';
-			$html[] = '<div class="label">' . Translation :: get('SourceTranslation') . '</div> '; 
-			$html[] = '<div class="formw"><div class="element">';
 			
 			$source_translation = CdaDataManager :: get_instance()->retrieve_variable_translation($source_id, $this->variable->get_id());
-			$html[] = $source_translation->get_translation();
-			$html[] = '</div></div>';
-			
-			$html[] = '</div>';
+			$this->addElement('static', null, Translation :: get('SourceTranslation'), $source_translation->get_translation());
 		}
-		
-		$this->addElement('html', implode("\n", $html));
 		
     	$this->addElement('category');
     	
     	$this->addElement('category', Translation :: get('Translation'));
-		
     	$this->addElement('textarea', VariableTranslation :: PROPERTY_TRANSLATION, Translation :: get('Translation'), array('style' => 'width: 500px; height: 250px;'));
 		$this->addRule(VariableTranslation :: PROPERTY_TRANSLATION, Translation :: get('ThisFieldIsRequired'), 'required');
-		
 		$this->addElement('category');
 		
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Translate'), array('class' => 'positive update'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('TranslateNextVariable'), array('class' => 'normal continue'), self :: SUBMIT_NEXT);
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Translate'), array('class' => 'positive save'), self :: SUBMIT_SAVE);
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -106,6 +90,12 @@ class VariableTranslationForm extends FormValidator
     	$defaults[VariableTranslation :: PROPERTY_TRANSLATION] = $variable_translation->get_translation();
 
 		parent :: setDefaults($defaults);
+	}
+	
+	function get_submit_type()
+	{
+		$button_values = $this->exportValue('buttons');
+		return $button_values['submit'];
 	}
 }
 ?>

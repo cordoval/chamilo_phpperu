@@ -30,23 +30,15 @@ class RateForm extends FormValidator
      */
     function build_form()
     {	
-    	$this->addElement('category', Translation :: get('Information'));
-		
-		$html = array();
-		$html[] = '<div class="row">';
-		$html[] = '<div class="label">' . Translation :: get('Variable') . '</div> ';
-		$html[] = '<div class="formw"><div class="element">' . $this->variable->get_variable() . '</div></div>';
-		$html[] = '<div class="label">' . Translation :: get('EnglishTranslation') . '</div> '; 
-		$html[] = '<div class="formw"><div class="element">';
-		
+    	$this->addElement('category', Translation :: get('Reference'));
+		$this->addElement('static', null, Translation :: get('Variable'), $this->variable->get_variable());
 		$english = CdaDataManager :: get_instance()->retrieve_english_translation($this->variable->get_id());
         $english_translation = ($english && $english->get_translation() != ' ') ? $english->get_translation() : Translation :: get('NoTranslation');
-		$html[] = $english_translation . '</div></div>';
+        $this->addElement('static', null, Translation :: get('EnglishTranslation'), $english_translation);
+        $this->addElement('category');
 		
-		$html[] = '</div><br /><br />';
-		
-		$this->addElement('html', implode("\n", $html));
-		
+        $this->addElement('category', Translation :: get('Translation'));
+    	$this->addElement('static', null, Translation :: get('TargetLanguage'), $this->translation->get_translation());
     	$this->addElement('category');
     	
     	$this->addElement('category', Translation :: get('Rate'));

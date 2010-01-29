@@ -22,12 +22,13 @@ class CdaManagerVariableTranslationRaterComponent extends CdaManagerComponent
 		$variable_id = Request :: get(CdaManager :: PARAM_VARIABLE);
 		
 		$variable = $this->retrieve_variable($variable_id);
+		$language = $this->retrieve_cda_language($language_id);
+		$language_pack = $this->retrieve_language_pack($variable->get_language_pack_id());
 		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('BrowseLanguages')));
-		$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), Translation :: get('BrowseLanguagePacks')));
-		$trail->add(new Breadcrumb($this->get_browse_variable_translations_url($language_id, $variable->get_language_pack_id()), 
-								   Translation :: get('BrowseVariableTranslations')));
+		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
+		$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), $language->get_original_name()));
+		$trail->add(new Breadcrumb($this->get_browse_variable_translations_url($language_id, $variable->get_language_pack_id()), $language_pack->get_branch_name() . ' - ' . $language_pack->get_name()));
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => $language_id,
 														CdaManager :: PARAM_VARIABLE => $variable_id)), Translation :: get('RateVariableTranslation')));
 		
