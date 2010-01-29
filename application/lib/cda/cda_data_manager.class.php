@@ -91,5 +91,7 @@ abstract class CdaDataManager
 	abstract function count_translator_applications($conditions = null);
 	abstract function retrieve_translator_application($id);
 	abstract function retrieve_translator_applications($condition = null, $offset = null, $count = null, $order_property = null);
+	abstract function get_number_of_translations_for_user($user_id);
+	abstract function get_number_of_translations_by_user();
 }
 ?>
