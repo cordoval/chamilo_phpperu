@@ -102,13 +102,13 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 						'img' => Theme :: get_common_image_path().'action_lock.png'
 					);
 		        }
-//		        else
-//		        {
-//		        	$toolbar_data[] = array(
-//						'label' => Translation :: get('LockNa'),
-//						'img' => Theme :: get_common_image_path().'action_lock_na.png'
-//					);
-//		        }
+		        else
+		        {
+		        	$toolbar_data[] = array(
+						'label' => Translation :: get('LockNa'),
+						'img' => Theme :: get_common_image_path().'action_lock_na.png'
+					);
+		        }
 		        
 		        if($this->browser->can_language_pack_be_unlocked($language_pack, $this->browser->get_cda_language()))
 		        {
@@ -118,13 +118,13 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 						'img' => Theme :: get_common_image_path().'action_unlock.png'
 					);
 		        }
-//		        else
-//		        {
-//					$toolbar_data[] = array(
-//						'label' => Translation :: get('UnlockNa'),
-//						'img' => Theme :: get_common_image_path().'action_unlock_na.png'
-//					);
-//		        }
+		        else
+		        {
+					$toolbar_data[] = array(
+						'label' => Translation :: get('UnlockNa'),
+						'img' => Theme :: get_common_image_path().'action_unlock_na.png'
+					);
+		        }
 			}
 			
 			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $this->browser->get_cda_language());

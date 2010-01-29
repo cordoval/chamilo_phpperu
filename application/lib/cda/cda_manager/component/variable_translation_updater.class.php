@@ -54,6 +54,12 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 						$parameters = array();
 						
 						$conditions = array();
+						
+						if (!$can_lock)
+						{
+							$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_NORMAL);
+						}
+						
 						$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 						$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
 						$condition = new AndCondition($conditions);

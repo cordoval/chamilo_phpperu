@@ -98,6 +98,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 		}
 		else
 		{
+			$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language->get_id(), 'cda_language');
 			$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language->get_id(), 'cda_language');
 			
 			if ($can_lock)
@@ -110,13 +111,13 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 						'img' => Theme :: get_common_image_path().'action_lock.png'
 					);
 		        }
-//		        else
-//		        {
-//		        	$toolbar_data[] = array(
-//						'label' => Translation :: get('LockNa'),
-//						'img' => Theme :: get_common_image_path().'action_lock_na.png'
-//					);
-//		        }
+		        else
+		        {
+		        	$toolbar_data[] = array(
+						'label' => Translation :: get('LockNa'),
+						'img' => Theme :: get_common_image_path().'action_lock_na.png'
+					);
+		        }
 		        
 		        if($this->browser->can_language_be_unlocked($cda_language))
 		        {
@@ -126,27 +127,34 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 						'img' => Theme :: get_common_image_path().'action_unlock.png'
 					);
 		        }
-//		        else
-//		        {
-//					$toolbar_data[] = array(
-//						'label' => Translation :: get('UnlockNa'),
-//						'img' => Theme :: get_common_image_path().'action_unlock_na.png'
-//					);
-//		        }
+		        else
+		        {
+					$toolbar_data[] = array(
+						'label' => Translation :: get('UnlockNa'),
+						'img' => Theme :: get_common_image_path().'action_unlock_na.png'
+					);
+		        }
 			}
-
-			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $cda_language->get_id());
-			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
-			$condition = new AndCondition($conditions);
-			$translation = $this->browser->retrieve_variable_translations($condition, 0, 1)->next_result();
 			
-			if($translation)
+			if ($can_translate || $can_lock)
 			{
-				$toolbar_data[] = array(
-							'href' => $this->browser->get_update_variable_translation_url($translation),
-							'label' => Translation :: get('TranslateFirstEmptyTranslation'),
-							'img' => Theme :: get_image_path() . 'action_translate.png'
-						);
+				if (!$can_lock)
+				{
+					$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_NORMAL);
+				}
+				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $cda_language->get_id());
+				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+				$condition = new AndCondition($conditions);
+				$translation = $this->browser->retrieve_variable_translations($condition, 0, 1)->next_result();
+				
+				if($translation)
+				{
+					$toolbar_data[] = array(
+								'href' => $this->browser->get_update_variable_translation_url($translation),
+								'label' => Translation :: get('TranslateFirstEmptyTranslation'),
+								'img' => Theme :: get_image_path() . 'action_translate.png'
+							);
+				}
 			}
 		}
 		
