@@ -183,7 +183,7 @@ class DatabaseCdaDataManager extends CdaDataManager
 	}
 
 	function count_variable_translations($condition = null)
-	{ dump($condition);
+	{
 		return $this->database->count_objects(VariableTranslation :: get_table_name(), $condition);
 	}
 
