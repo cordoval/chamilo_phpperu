@@ -364,5 +364,31 @@ class DatabaseCdaDataManager extends CdaDataManager
 
         return $this->database->retrieve_object_set($query, TranslatorApplication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
+	
+	function get_number_of_translations_for_user($user_id)
+	{
+		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_USER_ID, $user_id);
+		return $this->count_variable_translations($condition);
+	}
+	
+	function get_number_of_translations_by_user()
+	{
+		$user_id_column = $this->database->escape_column_name(VariableTranslation :: PROPERTY_USER_ID);
+		$variable_translation_table = $this->database->escape_table_name(VariableTranslation :: get_table_name());
+		
+		$query = 'SELECT ' . $user_id_column . ', COUNT(*) AS count FROM ' . $variable_translation_table . ' GROUP BY ' . $user_id_column . ' ORDER BY count DESC;';
+		
+		$number_of_translations = array();
+		
+		$result = $this->database->query($query);
+		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+        {
+        	$user = $record[VariableTranslation :: PROPERTY_USER_ID];
+        	$user = $user ? $user : 0;
+        	$number_of_translations[$user] = $record['count'];
+        }
+        
+        return $number_of_translations;
+	}
 }
 ?>
