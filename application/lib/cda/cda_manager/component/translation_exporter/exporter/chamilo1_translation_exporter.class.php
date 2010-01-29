@@ -13,7 +13,7 @@ class Chamilo1TranslationExporter extends TranslationExporter
 	
 	function write_file_header($handle)
     {
-    	fwrite($handle, "<?php/*\nfor more information: see languages.txt in the lang folder.\n*/\n");
+    	fwrite($handle, "<?php\n/*\nfor more information: see languages.txt in the lang folder.\n*/\n");
     }
 }
 
