@@ -152,7 +152,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 					$toolbar_data[] = array(
 								'href' => $this->browser->get_update_variable_translation_url($translation),
 								'label' => Translation :: get('TranslateFirstEmptyTranslation'),
-								'img' => Theme :: get_image_path() . 'action_translate.png'
+								'img' => Theme :: get_image_path() . 'action_quickstart.png'
 							);
 				}
 			}
