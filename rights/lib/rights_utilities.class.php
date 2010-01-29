@@ -586,7 +586,7 @@ class RightsUtilities
     {
         $return = array();
         $return['id'] = $rights_template->get_id();
-        $return['class'] = 'type type_rights_template';
+        $return['classes'] = 'type type_rights_template';
         $return['title'] = $rights_template->get_name();
         $return['description'] = strip_tags($rights_template->get_description());
         return $return;
@@ -715,6 +715,43 @@ class RightsUtilities
         }
         
         return $rights;
+    }
+    
+    function get_allowed_users($right, $identifier, $type, $application = 'admin')
+    {
+        $rdm = RightsDataManager :: get_instance();
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition('identifier', $identifier);
+        $conditions[] = new EqualityCondition('type', $type);
+        $conditions[] = new EqualityCondition('application', $application);
+        $condition = new AndCondition($conditions);
+        
+        $location = $rdm->retrieve_locations($condition, 0, 1)->next_result();
+        
+        if(!is_null($location))
+        {
+        	$users = array();
+        	
+	        $conditions = array();
+	        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $right);
+	        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_LOCATION_ID, $location->get_id());
+	        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_VALUE, true);
+	        $condition = new AndCondition($conditions);
+	        
+	        $objects = $rdm->retrieve_user_right_locations($condition);
+	        
+	        while($object = $objects->next_result())
+	        {
+	        	$users[] = $object->get_user_id();
+	        }
+	        
+	        return $users;
+        }
+        else
+        {
+        	return array();
+        }
     }
 }
 ?>

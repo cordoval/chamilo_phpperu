@@ -45,5 +45,10 @@ class CdaRights
     {
         return RightsUtilities :: get_root(CdaManager :: APPLICATION_NAME);
     }
+    
+    function get_allowed_users($right, $identifier, $type)
+    {
+    	return RightsUtilities :: get_allowed_users($right, $identifier, $type, CdaManager :: APPLICATION_NAME);
+    }
 }
 ?>

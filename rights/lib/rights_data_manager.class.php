@@ -102,9 +102,10 @@ abstract class RightsDataManager
 
     //abstract function retrieve_shared_content_objects($rights_templates,$rights);
 
-
     abstract function retrieve_user_right_location($right_id, $user_id, $location_id);
+    abstract function retrieve_user_right_locations($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function retrieve_group_right_location($right_id, $group_id, $location_id);
+    abstract function retrieve_group_right_locations($condition = null, $offset = null, $count = null, $order_property = null);
 }
 ?>
