@@ -29,9 +29,14 @@ class CdaManagerTranslatorApplicationDeactivatorComponent extends CdaManagerComp
 
 			foreach ($ids as $id)
 			{
-				$language_pack = $this->retrieve_translator_application($id);
-
-				if (!$language_pack->deactivate())
+				$translator_application = $this->retrieve_translator_application($id);
+				$can_deactivate = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $translator_application->get_destination_language_id(), 'cda_language');
+				
+				if (!$can_deactivate)
+				{
+					$failures++;
+				}
+				elseif (!$translator_application->deactivate())
 				{
 					$failures++;
 				}

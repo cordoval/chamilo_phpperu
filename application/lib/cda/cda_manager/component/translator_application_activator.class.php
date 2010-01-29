@@ -30,8 +30,13 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManagerCompon
 			foreach ($ids as $id)
 			{
 				$translator_application = $this->retrieve_translator_application($id);
-
-				if (!$translator_application->activate())
+				$can_activate = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $translator_application->get_destination_language_id(), 'cda_language');
+				
+				if (!$can_activate)
+				{
+					$failures++;
+				}
+				elseif (!$translator_application->activate())
 				{
 					$failures++;
 				}
