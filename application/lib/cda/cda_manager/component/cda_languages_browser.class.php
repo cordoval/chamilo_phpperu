@@ -28,7 +28,7 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
         echo $this->action_bar->as_html() . '';
         echo '<div id="action_bar_browser">';
         echo $this->get_table();
-        echo '</div>'; dump(CdaDataManager :: get_instance()->get_number_of_translations_by_user());
+        echo '</div>';
 		$this->display_footer();
 	}
 
