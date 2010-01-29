@@ -27,9 +27,8 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
 		$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), CdaDataManager :: get_instance()->retrieve_cda_language($language_id)->get_original_name()));
-		
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => $language_id, CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), $language_pack->get_branch_name() . ' - ' . $language_pack->get_name()));
-		$trail->add(new Breadcrumb('#', Translation :: get('BrowseVariableTranslations')));
+//		$trail->add(new Breadcrumb('#', Translation :: get('BrowseVariableTranslations')));
 
 		$this->action_bar = $this->get_action_bar();
 		$this->form = new VariableTranslationBrowserFilterForm($this, $this->get_browse_variable_translations_url($language_id, $language_pack_id));

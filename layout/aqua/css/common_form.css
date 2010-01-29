@@ -436,6 +436,10 @@ button.quickstart,a.quickstart_button {
 	background-image: url(../images/common/buttons/button_quickstart.png);
 }
 
+button.continue,a.continue_button {
+	background-image: url(../images/common/buttons/button_continue.png);
+}
+
 /*IE-fix to avoid adding unwanted margins to the form*/
 div.simple_search form {
 	margin: 0;

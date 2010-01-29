@@ -51,10 +51,18 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_stylebutton($elementName = null, $elementLabel = null, $attributes = null)
+    function HTML_QuickForm_stylebutton($elementName = null, $elementLabel = null, $attributes = null, $value = null)
     {
         $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
-        $this->setValue($elementLabel);
+        
+        if (isset($value))
+        {
+        	$this->setValue($value);
+        }
+        else
+        {
+        	$this->setValue($elementLabel);
+        }
     } //end constructor
 
     
@@ -166,7 +174,7 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
         }
         else
         {
-            return $this->_getTabs() . '<button' . $this->_getAttrString($this->_attributes) . ' >' . $this->getValue() . '</button>';
+            return $this->_getTabs() . '<button' . $this->_getAttrString($this->_attributes) . ' >' . $this->getLabel() . '</button>';
         }
     } //end func toHtml
 
