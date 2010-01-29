@@ -4,6 +4,7 @@
  * $Id: action_bar_renderer.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  */
 require_once dirname(__FILE__) . '/action_bar_search_form.class.php';
+require_once dirname(__FILE__) . '/condition_property.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/wiki/component/wiki_actionbar.class.php';
 
 /**
@@ -262,6 +263,37 @@ class ActionBarRenderer extends WikiActionbar
             return null;
         }
     }
+    
+    function get_conditions($properties = array ())
+    {
+        if (! is_array($properties))
+        {
+            $properties = array($properties);
+        }
+        
+        $query = $this->get_query();
+        if($query && $query != '')
+        {
+	        $query = '*' . $query . '*';
+	        $pattern_conditions = array();
+	        
+	        foreach ($properties as $property)
+	        {
+	        	$pattern_conditions[] = new PatternMatchCondition($property->get_property(), $query, $property->get_storage_unit());
+	        }
+	        if (count($pattern_conditions) > 1)
+	        {
+	            $condition = new OrCondition($pattern_conditions);
+	        }
+	        else
+	        {
+	            $condition = $pattern_conditions[0];
+	        }
+	        
+	        return $condition;
+        }
+    }
+    
 }
 
 ?>

@@ -73,7 +73,10 @@ class DatabaseCdaDataManager extends CdaDataManager
 	
 	function retrieve_cda_language_english()
 	{
-		$condition = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english');
+		$conditions[] = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english');
+		$conditions[] = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english_org');
+		$condition = new OrCondition($conditions);
+		
 		return $this->database->retrieve_objects(CdaLanguage :: get_table_name(), $condition, 0, 1)->next_result();
 	}
 
@@ -180,7 +183,7 @@ class DatabaseCdaDataManager extends CdaDataManager
 	}
 
 	function count_variable_translations($condition = null)
-	{
+	{ dump($condition);
 		return $this->database->count_objects(VariableTranslation :: get_table_name(), $condition);
 	}
 

@@ -64,10 +64,11 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
     	if($query && $query != '')
     	{
     		$or_conditions[] = new PatternMatchCondition(VariableTranslation :: PROPERTY_TRANSLATION, '*' . $query . '*');
-    		
-    		$conditions[] = new PatternMatchCondition(Variable :: PROPERTY_VARIABLE, '*' . $query . '*', Variable :: get_table_name());
+    		$subcondition =  new PatternMatchCondition(Variable :: PROPERTY_VARIABLE, '*' . $query . '*', Variable :: get_table_name());
+			$or_conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
+    		$conditions[] = new OrCondition($or_conditions);
     	}
-		
+	
 		return new AndCondition($conditions);
 	}
 	

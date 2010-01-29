@@ -93,19 +93,16 @@ class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
         $form = $this->form;
 
         $condition = $form->get_filter_conditions();
-        
-    	$query = $this->action_bar->get_query();
+        if($condition)
+        	$conditions[] = $condition;
+
+        $properties[] = new ConditionProperty(LanguagePack :: PROPERTY_NAME);
+    	$ab_condition = $this->action_bar->get_conditions($properties);
+    	if($ab_condition)
+    		$conditions[] = $ab_condition;
     	
-    	if($query && $query != '')
-    	{
-    		if($condition)
-    			$conditions[] = $condition;
-    			
-    		$conditions[] = new PatternMatchCondition(LanguagePack :: PROPERTY_NAME, '*' . $query . '*');
-    		$condition = new AndCondition($conditions);
-    	}
-    	
-    	return $condition;
+    	if(count($conditions) > 0)
+    		return new AndCondition($conditions);
         
     }
     

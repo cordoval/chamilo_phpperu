@@ -57,13 +57,11 @@ class CdaManagerAdminVariablesBrowserComponent extends CdaManagerComponent
     function get_condition()
     {
     	$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, Request :: get(CdaManager :: PARAM_LANGUAGE_PACK));
-    	
-    	$query = $this->actionbar->get_query();
-    	
-    	if($query && $query != '')
-    	{
-    		$conditions[] = new PatternMatchCondition(Variable :: PROPERTY_VARIABLE, '*' . $query . '*');
-    	}
+
+    	$properties[] = new ConditionProperty(Variable :: PROPERTY_VARIABLE);
+    	$condition = $this->actionbar->get_conditions($properties);
+    	if($condition)
+    		$conditions[] = $condition;
     	
     	return new AndCondition($conditions);
     }

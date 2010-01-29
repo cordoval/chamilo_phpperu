@@ -50,15 +50,10 @@ class CdaManagerAdminCdaLanguagesBrowserComponent extends CdaManagerComponent
     
 	function get_condition()
     {
-    	$query = $this->actionbar->get_query();
+    	$properties[] = new ConditionProperty(CdaLanguage :: PROPERTY_ENGLISH_NAME);
+    	$properties[] = new ConditionProperty(CdaLanguage :: PROPERTY_ORIGINAL_NAME);
     	
-    	if($query && $query != '')
-    	{
-    		$conditions[] = new PatternMatchCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, '*' . $query . '*');
-    		$conditions[] = new PatternMatchCondition(CdaLanguage :: PROPERTY_ORIGINAL_NAME, '*' . $query . '*');
-    	
-    		return new OrCondition($conditions);
-    	}
+    	return $this->actionbar->get_conditions($properties);
     }
 
 }
