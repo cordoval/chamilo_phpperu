@@ -48,7 +48,8 @@ class LanguagePackSelectingExporterWizardPage extends ExporterWizardPage
     	}
     	
     	$buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+    	$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Download'), array('class' => 'normal save'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('next'));
     }

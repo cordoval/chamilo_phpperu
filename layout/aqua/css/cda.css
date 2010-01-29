@@ -3,14 +3,10 @@
 #progressbox {
 	clear: both;
 	position: relative;
-	padding: 0px 1% 0px 1%;
-	margin: 10px;
+	padding: 0px;
+	margin: 0px;
 	color: #444444;
 	background-color: #f2f2f2;
-	border-top: 1px solid white;
-	border-bottom: 1px solid #dcdcdc;
-	background-color:#E5EDF9;
-	border:1px solid #B9D0EF;
 }
 
 #progressbox ul,#progresstrail li {
@@ -25,23 +21,31 @@
 	overflow: hidden;
 }
 
-#progresstrail li {
+#progresstrail li, #progresstrail li.active {
 	float: left;
 	line-height: 26px;
-	/*padding-left: 10px;*/
 	color: #777;
+	padding: 0px 15px 0px 15px;
+	border-right: 1px solid white;
 }
 
-#progresstrail li a {
+#progresstrail li {
+	background-color: #f2f2f2;
+}
+
+#progresstrail li.active {
+	background-color: #E5EDF9;
+}
+
+#progresstrail li a, #progresstrail li.active a {
 	display: block;
-	padding: 0 15px 0 15px;
-	background-repeat: no-repeat;
-	background-position: right center;
-	background-image: url("../images/cda/background_breadcrumb.png");
-	color: #a8a8a8;
 	cursor: default;
 }
 
+#progresstrail li a {
+	color: #a8a8a8;
+}
+
 #progresstrail li.active a {
-	color: #444444;
+	color: #4171b5;
 }

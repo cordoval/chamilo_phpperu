@@ -38,6 +38,7 @@ class LanguageSelectingExporterWizardPage extends ExporterWizardPage
     	$this->addElement('html', '<br />' . implode("\n", $html));
     	
     	$buttons = array();
+    	$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $this->setDefaultAction($this->getButtonName('next'));

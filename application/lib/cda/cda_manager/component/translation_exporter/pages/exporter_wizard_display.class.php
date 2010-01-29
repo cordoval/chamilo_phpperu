@@ -77,7 +77,7 @@ class ExporterWizardDisplay extends HTML_QuickForm_Action_Display
         echo '<div class="clear"></div>';
         echo '</div>';
         
-        echo '<div id="theForm" style="margin: 10px;">';
+        echo '<div id="theForm">';
         echo '<div id="select" class="row"><div class="formc formc_no_margin">';
         echo '<b>' . Translation :: get('Step') . ' ' . $current_page_number . ' ' . Translation :: get('of') . ' ' . $total_number_of_pages . ' &ndash; ' . $current_page->get_title() . '</b><br />';
 

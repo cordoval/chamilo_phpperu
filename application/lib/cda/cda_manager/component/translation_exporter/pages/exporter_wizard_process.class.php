@@ -25,6 +25,23 @@ class ExporterWizardProcess extends HTML_QuickForm_Action
     	
     	$values = $page->controller->exportValues();
     	
+    	$pages = $page->get_parent()->get_pages();
+    	$page_number = 1;
+    	
+        echo '<div id="progressbox">';
+        echo '<ul id="progresstrail">';
+    	
+    	foreach($pages as $page)
+    	{
+    		 echo '<li class="active"><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
+    		 $page_number++;
+    	}
+    	
+    	echo '<li class="active"><a href="#">' . $page_number . '.&nbsp;&nbsp;' . Translation :: get('Download') . '</a></li>';
+        echo '</ul>';
+        echo '<div class="clear"></div>';
+        echo '</div>';
+    	
     	$language_ids = array_keys($values['language']);
     	$language_pack_ids = array_keys($values['language_packs']);
     	

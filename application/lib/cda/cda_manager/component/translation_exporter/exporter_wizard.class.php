@@ -44,5 +44,10 @@ class ExporterWizard extends HTML_QuickForm_Controller
     {
     	return $this->parent;
     }
+    
+    function get_pages()
+    {
+    	return $this->_pages;
+    }
 }
 ?>
