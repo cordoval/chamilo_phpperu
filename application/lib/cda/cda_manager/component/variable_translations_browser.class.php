@@ -4,6 +4,7 @@
  */
 
 require_once dirname(__FILE__).'/../cda_manager.class.php';
+require_once dirname(__FILE__).'/../../forms/variable_translation_browser_filter_form.class.php';
 require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/variable_translation_browser/variable_translation_browser_table.class.php';
 
@@ -15,6 +16,7 @@ require_once dirname(__FILE__).'/variable_translation_browser/variable_translati
 class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
 {
 	private $action_bar;
+	private $form;
 	
 	function run()
 	{
@@ -30,11 +32,13 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb('#', Translation :: get('BrowseVariableTranslations')));
 
 		$this->action_bar = $this->get_action_bar();
+		$this->form = new VariableTranslationBrowserFilterForm($this, $this->get_browse_variable_translations_url($language_id, $language_pack_id));
 		
 		$this->display_header($trail);
 		echo '<a name="top"></a>';
         echo $this->action_bar->as_html() . '';
         echo '<div id="action_bar_browser">';
+        echo $this->form->display();
         echo $this->get_table($language_id, $language_pack_id);
         echo '</div>';
 		$this->display_footer();
@@ -54,6 +58,12 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
 	{
 		$language_id = Request :: get(CdaManager :: PARAM_CDA_LANGUAGE);
 		$language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
+		
+		$form = $this->form;
+
+        $condition = $form->get_filter_conditions();
+        if($condition)
+        	$conditions[] = $condition;
 		
 		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack_id);
 		$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);

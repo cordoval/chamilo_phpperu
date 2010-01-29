@@ -60,7 +60,10 @@ class VariableTranslationForm extends FormValidator
 			$html[] = '<div class="formw"><div class="element">';
 			
 			$source_translation = CdaDataManager :: get_instance()->retrieve_variable_translation($source_id, $this->variable->get_id());
-			$html[] = $source_translation->get_translation();
+			if($source_translation)
+				$html[] = $source_translation->get_translation();
+			else
+				$html[] = Translation :: get('NoTranslationFound');
 			$html[] = '</div></div>';
 			
 			$html[] = '</div>';
