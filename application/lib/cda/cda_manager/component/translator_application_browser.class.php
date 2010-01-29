@@ -54,7 +54,7 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManagerComponen
 	{		
 		$user = $this->get_user();
 		
-		if ($user->is_platform_admin())
+		if (!$user->is_platform_admin())
 		{
 			$condition = new InCondition(TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID, $this->user_languages, TranslatorApplication :: get_table_name());
 		}
