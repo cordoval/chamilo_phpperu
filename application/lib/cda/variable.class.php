@@ -97,7 +97,7 @@ class Variable extends DataClass
 	{
 		$dm = $this->get_data_manager();
 		
-    	$condition = new NotCondition(new EqualityCondition(Variable :: PROPERTY_ID, $this->get_id()));
+    	$condition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $this->get_language_pack_id());
 		$variables = $dm->retrieve_variables($condition);
 		while($var = $variables->next_result())
 			if($var->get_variable() == $this->get_variable())
