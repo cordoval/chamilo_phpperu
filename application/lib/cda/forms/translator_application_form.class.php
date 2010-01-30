@@ -32,7 +32,7 @@ class TranslatorApplicationForm extends FormValidator
     	
 //		$url = Path :: get(WEB_PATH) . 'application/lib/cda/xml_feeds/xml_cda_languages_feed.php';
 //		$locale = array();
-//		$locale['Display'] = Translation :: get('AddAttachments');
+//		$locale['Display'] = Translation :: get('SelectLanguages');
 //		$locale['Searching'] = Translation :: get('Searching');
 //		$locale['NoResults'] = Translation :: get('NoResults');
 //		$locale['Error'] = Translation :: get('Error');
