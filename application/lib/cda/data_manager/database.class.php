@@ -278,7 +278,7 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$variable_alias = $this->database->get_alias(Variable :: get_table_name());
 		$variable_table = $this->database->escape_table_name(Variable :: get_table_name());
 		
-		$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
+		$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id(), Variable :: get_table_name());
 		if (!is_null($language_id))
 		{
 			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
@@ -292,7 +292,7 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$total_languages = $this->database->count_result_set($query, VariableTranslation :: get_table_name(), $condition);
 		
 		$conditions = array();
-		$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
+		$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id(), Variable :: get_table_name());
 		if (!is_null($language_id))
 		{
 			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
