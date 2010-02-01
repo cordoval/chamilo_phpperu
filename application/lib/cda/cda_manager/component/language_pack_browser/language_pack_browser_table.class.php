@@ -22,7 +22,7 @@ class LanguagePackBrowserTable extends ObjectTable
 	 */
 	function LanguagePackBrowserTable($browser, $parameters, $condition)
 	{
-		$model = new LanguagePackBrowserTableColumnModel();
+		$model = new LanguagePackBrowserTableColumnModel($browser);
 		$renderer = new LanguagePackBrowserTableCellRenderer($browser);
 		$data_provider = new LanguagePackBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
