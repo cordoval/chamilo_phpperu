@@ -2,11 +2,7 @@
 /**
  * @package cda.datamanager
  */
-require_once dirname(__FILE__).'/../cda_language.class.php';
-require_once dirname(__FILE__).'/../language_pack.class.php';
-require_once dirname(__FILE__).'/../variable.class.php';
-require_once dirname(__FILE__).'/../variable_translation.class.php';
-require_once dirname(__FILE__).'/../translator_application.class.php';
+
 require_once 'MDB2.php';
 
 /**

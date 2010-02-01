@@ -21,3 +21,5 @@ syntax: regexp
 ^plugin/phpfreechat/data/private$
 syntax: glob
 .cache*
+syntax: regexp
+\.log$
