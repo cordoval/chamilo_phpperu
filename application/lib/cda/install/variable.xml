@@ -8,4 +8,7 @@
  <index name="language_pack_id">
 	<indexproperty name="language_pack_id" />
  </index>
+ <index name="variable">
+ 	<indexproperty name="variable" />
+ </index>
 </object>

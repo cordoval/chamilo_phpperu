@@ -6,4 +6,13 @@
   <property name="branch" type="integer" length="1" unsigned="1" notnull="1" />
   <property name="type" type="integer" length="1" unsigned="1" notnull="1" />
  </properties>
+ <index name="branch">
+ 	<indexproperty name="branch" />
+ </index>
+ <index name="type">
+ 	<indexproperty name="type" />
+ </index>
+ <index name="name">
+ 	<indexproperty name="name" />
+ </index>
 </object>
