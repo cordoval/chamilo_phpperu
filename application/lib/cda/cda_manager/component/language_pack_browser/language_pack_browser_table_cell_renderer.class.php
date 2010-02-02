@@ -73,7 +73,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 	{
 		$cda_language_id = $this->browser->get_cda_language();
 		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
-		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language->get_id(), 'cda_language');
+		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language_id, 'cda_language');
 		
 		$toolbar_data = array();
 
