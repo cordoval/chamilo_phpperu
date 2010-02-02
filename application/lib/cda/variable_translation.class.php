@@ -122,6 +122,11 @@ class VariableTranslation extends DataClass
 	{
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
+	
+	function get_user()
+	{
+		return UserDataManager :: get_instance()->retrieve_user($this->get_user_id());
+	}
 
 	/**
 	 * Sets the user_id of this VariableTranslation.

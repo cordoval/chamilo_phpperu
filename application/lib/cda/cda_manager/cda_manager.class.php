@@ -587,5 +587,20 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		return CdaDataManager :: get_instance()->update_variable_translations($properties, $condition, $offset, $max_objects, $order_by);
 	}
+	
+ 	function count_historic_variable_translations($condition)
+	{
+		return CdaDataManager :: get_instance()->count_historic_variable_translations($condition);
+	}
+
+	function retrieve_historic_variable_translations($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return CdaDataManager :: get_instance()->retrieve_historic_variable_translations($condition, $offset, $count, $order_property);
+	}
+	
+  	function retrieve_historic_variable_translation($historic_variable_translation_id)
+	{
+		return CdaDataManager :: get_instance()->retrieve_historic_variable_translation($historic_variable_translation_id);
+	}
 }
 ?>

@@ -5,7 +5,7 @@
 
 require_once dirname(__FILE__).'/../cda_manager.class.php';
 require_once dirname(__FILE__).'/../cda_manager_component.class.php';
-require_once dirname(__FILE__).'/variable_browser/variable_browser_table.class.php';
+require_once dirname(__FILE__).'/historic_variable_translation_browser/historic_variable_translation_browser_table.class.php';
 
 /**
  * cda component which allows the user to browse his variables
@@ -82,7 +82,8 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
     {
     	$html = array();
     	
-    	$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'action_publish.png);">';
+    	// General information    	
+    	$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_information.png);">';
         $html[] = '<div class="title">' . Translation :: get('General') . '</div>';
         $html[] = '<div class="description" style="overflow: auto;">';
         $html[] = '<b>' . Translation :: get('Variable') . ': </b>' . $variable->get_variable();
@@ -102,7 +103,8 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         
-        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'action_statistics.png);">';
+        // Statistics
+        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_statistics.png);">';
         $html[] = '<div class="title">' . Translation :: get('Statistics') . '</div>';
         $html[] = '<div class="description" style="overflow: auto;">';
         
@@ -110,6 +112,20 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
         $html[] = '<br /><b>' . Translation :: get('Rating') . ': </b>' . $variable_translation->get_relative_rating();
         $html[] = '<br /><b>' . Translation :: get('NumberOfPersonsRated') . ': </b>' . $variable_translation->get_rated();
         $html[] = '<br /><b>' . Translation :: get('Status') . ': </b>' . $variable_translation->get_status_icon();
+        
+        $html[] = '</div>';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '</div>';
+        
+        // History
+        $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_versions.png);">';
+        $html[] = '<div class="title">' . Translation :: get('TranslationHistory') . '</div>';
+        $html[] = '<div class="description" style="overflow: auto;">';
+        
+        $condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_VARIABLE_TRANSLATION_ID, $variable_translation->get_id());
+        $parameters = array_merge($this->get_parameters(), array(CdaManager :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
+        $historic_table = new HistoricVariableTranslationBrowserTable($this, $parameters, $condition);
+        $html[] = $historic_table->as_html();
         
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';

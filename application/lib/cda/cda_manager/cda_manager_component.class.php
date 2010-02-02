@@ -303,5 +303,20 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->update_variable_translations($properties, $condition, $offset, $max_objects, $order_by);
 	}
+	
+	function count_historic_variable_translations($condition)
+	{
+		return $this->get_parent()->count_historic_variable_translations($condition);
+	}
+
+	function retrieve_historic_variable_translations($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return $this->get_parent()->retrieve_historic_variable_translations($condition, $offset, $count, $order_property);
+	}
+	
+ 	function retrieve_historic_variable_translation($historic_variable_translation_id)
+	{
+		return $this->get_parent()->retrieve_historic_variable_translation($historic_variable_translation_id);
+	}
 }
 ?>
