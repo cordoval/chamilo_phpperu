@@ -39,6 +39,8 @@ class DefaultCdaLanguageTableCellRenderer implements ObjectTableCellRenderer
 				return $cda_language->get_english_name();
 			case CdaLanguage :: PROPERTY_ISOCODE :
 				return $cda_language->get_isocode();
+			case CdaLanguage :: PROPERTY_RTL :
+				return $cda_language->get_rtl();
 			default :
 				return '&nbsp;';
 		}

@@ -67,6 +67,12 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 			case 'TranslationProgress':
 				$percentage = $this->browser->get_progress_for_language($cda_language);
 				return Display :: get_progress_bar($percentage);
+			case CdaLanguage :: PROPERTY_RTL :
+				if($cda_language->get_rtl())
+				{
+					return Translation :: get('True');
+				}
+				return Translation :: get('False');
 		}
 		
 		return parent :: render_cell($column, $cda_language);

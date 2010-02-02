@@ -45,6 +45,9 @@ class CdaLanguageForm extends FormValidator
 
 		$this->addElement('text', CdaLanguage :: PROPERTY_ISOCODE, Translation :: get('Isocode'));
 		$this->addRule(CdaLanguage :: PROPERTY_ISOCODE, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$this->addElement('checkbox', CdaLanguage :: PROPERTY_RTL, Translation :: get('RightToLeft'));
+		
 		$this->addElement('category');
 		
 		$this->addElement('category', Translation :: get('Moderators'));
@@ -106,6 +109,15 @@ class CdaLanguageForm extends FormValidator
     	$cda_language->set_english_name($values[CdaLanguage :: PROPERTY_ENGLISH_NAME]);
     	$cda_language->set_isocode($values[CdaLanguage :: PROPERTY_ISOCODE]);
 
+    	if($values[CdaLanguage :: PROPERTY_RTL])
+    	{
+    		$cda_language->set_rtl(1);
+    	}
+    	else
+    	{
+    		$cda_language->set_rtl(0);
+    	}
+    	
     	if (!$cda_language->update())
     	{
     		return false;
@@ -147,6 +159,15 @@ class CdaLanguageForm extends FormValidator
     	$cda_language->set_english_name($values[CdaLanguage :: PROPERTY_ENGLISH_NAME]);
     	$cda_language->set_isocode($values[CdaLanguage :: PROPERTY_ISOCODE]);
    		
+    	if($values[CdaLanguage :: PROPERTY_RTL])
+    	{
+    		$cda_language->set_rtl(1);
+    	}
+    	else
+    	{
+    		$cda_language->set_rtl(0);
+    	}
+    	
     	if (!$cda_language->create())
     	{
     		return false;

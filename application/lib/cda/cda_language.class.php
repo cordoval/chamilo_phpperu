@@ -19,6 +19,7 @@ class CdaLanguage extends DataClass
 	const PROPERTY_ORIGINAL_NAME = 'original_name';
 	const PROPERTY_ENGLISH_NAME = 'english_name';
 	const PROPERTY_ISOCODE = 'isocode';
+	const PROPERTY_RTL = 'rtl';
 
 	/**
 	 * Get the default properties
@@ -26,7 +27,7 @@ class CdaLanguage extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_ORIGINAL_NAME, self :: PROPERTY_ENGLISH_NAME, self :: PROPERTY_ISOCODE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_ORIGINAL_NAME, self :: PROPERTY_ENGLISH_NAME, self :: PROPERTY_ISOCODE, self :: PROPERTY_RTL);
 	}
 
 	function get_data_manager()
@@ -106,6 +107,23 @@ class CdaLanguage extends DataClass
 		$this->set_default_property(self :: PROPERTY_ISOCODE, $isocode);
 	}
 
+	/**
+	 * Returns the rtl of this CdaLanguage.
+	 * @return the rtl.
+	 */
+	function get_rtl()
+	{
+		return $this->get_default_property(self :: PROPERTY_RTL);
+	}
+
+	/**
+	 * Sets the rtl of this CdaLanguage.
+	 * @param rtl
+	 */
+	function set_rtl($rtl)
+	{
+		$this->set_default_property(self :: PROPERTY_RTL, $rtl);
+	}
 
 	static function get_table_name()
 	{
