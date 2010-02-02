@@ -2,7 +2,7 @@
 /**
  * @package common.html.formvalidator
  */
-// $Id: WizardPageValidator.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
+// $Id: wizard_page_validator.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
 
 
 /**

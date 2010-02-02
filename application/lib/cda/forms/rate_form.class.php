@@ -5,7 +5,6 @@
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 
 class RateForm extends FormValidator 
 {

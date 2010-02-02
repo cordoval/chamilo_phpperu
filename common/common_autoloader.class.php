@@ -105,8 +105,8 @@ class CommonAutoloader
 					  'options_menu_renderer' => 'menu/options_menu_renderer.class.php',
 					  'tree_menu_renderer' => 'menu/tree_menu_renderer.class.php',
 					  'xml_tree_menu_renderer' => 'menu/xml_tree_menu_renderer.class.php',
-					  'wizard_page_validator' => 'formvalidator/WizardPageValidator.class.php',
-					  'form_validator' => 'formvalidator/FormValidator.class.php',
+					  'wizard_page_validator' => 'formvalidator/wizard_page_validator.class.php',
+					  'form_validator' => 'formvalidator/form_validator.class.php',
 					  'form_validator_page' => 'formvalidator/form_validator_page.class.php',
 					  'form_validator_html_editor' => 'formvalidator/form_validator_html_editor.class.php',
 					  'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php'
