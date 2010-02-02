@@ -39,6 +39,7 @@ require_once 'HTML/QuickForm/element.php';
  */
 class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
 {
+	private $styleButtonLabel;
 
     // {{{ constructor
     /**
@@ -53,7 +54,8 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
      */
     function HTML_QuickForm_stylebutton($elementName = null, $elementLabel = null, $attributes = null, $value = null)
     {
-        $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        $this->HTML_QuickForm_element($elementName, null, $attributes);
+        $this->styleButtonLabel = $elementLabel;
         
         if (isset($value))
         {
@@ -67,6 +69,12 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
 
     
     // }}}
+    
+    function getStyleButtonLabel()
+    {
+    	return $this->styleButtonLabel;
+    }
+    
     // {{{ setType()
     
 
@@ -174,7 +182,7 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
         }
         else
         {
-            return $this->_getTabs() . '<button' . $this->_getAttrString($this->_attributes) . ' >' . $this->getLabel() . '</button>';
+            return $this->_getTabs() . '<button' . $this->_getAttrString($this->_attributes) . ' >' . $this->getStyleButtonLabel() . '</button>';
         }
     } //end func toHtml
 
