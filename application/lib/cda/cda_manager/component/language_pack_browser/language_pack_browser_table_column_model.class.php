@@ -29,7 +29,9 @@ class LanguagePackBrowserTableColumnModel extends DefaultLanguagePackTableColumn
 		$this->set_default_order_column(1);
 		
 		if(get_class($browser) != 'CdaManagerAdminLanguagePacksBrowserComponent')
+		{
 			$this->add_column(new StaticTableColumn(Translation :: get('TranslationProgress')));
+		}
 			
 		$this->add_column(self :: get_modification_column());
 	}

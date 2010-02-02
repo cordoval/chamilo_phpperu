@@ -102,7 +102,9 @@ abstract class TranslationImporter
     	$temp = Path :: get(SYS_TEMP_PATH) . '/' . $this->user->get_id() . '/';
     	
     	if(!is_dir($temp))
+    	{
     		Filesystem :: create_dir($temp);
+    	}
     	
     	$path = $temp . 'languages.zip';
     	
@@ -125,7 +127,9 @@ abstract class TranslationImporter
     	{
     		$system_language = $this->get_language($language);
     		if(!$system_language)
+    		{
     			continue;
+    		}
     			
     		$language_directory = $root . '/' . $language;
     		$language_packs = $this->scan_for_language_packs($language_directory);
@@ -134,7 +138,9 @@ abstract class TranslationImporter
     		{
     			$system_language_pack = $this->get_language_pack($language_pack);
     			if(!$system_language_pack)
+    			{
     				continue;
+    			}
     			
     			$file = $language_directory . '/' . $language_pack . '.inc.phps';
     			$translations = $this->scan_for_language_translations($file);
@@ -143,7 +149,9 @@ abstract class TranslationImporter
     			{
     				$system_variable = $this->get_variable($system_language_pack, $variable);
     				if(!$system_variable)
+    				{
     					continue;
+    				}
     				
     				$system_translation = $this->get_translation($system_language, $system_variable);
     				

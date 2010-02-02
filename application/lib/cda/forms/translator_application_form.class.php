@@ -31,7 +31,20 @@ class TranslatorApplicationForm extends FormValidator
     private function build_form()
     {  
     	$this->addElement('category', Translation :: get('LanguageSelections'));
-    	$this->addElement('select', TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID, Translation :: get('SourceLanguage'), $this->get_source_languages());
+    	
+    	$platform_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name('source_language', CdaManager :: APPLICATION_NAME);
+    	$user_setting = UserDataManager :: get_instance()->retrieve_user_setting(Session :: get_user_id(), $platform_setting->get_id());
+    	
+    	if (isset($user_setting))
+    	{
+    		$language = CdaDataManager :: get_instance()->retrieve_cda_language($user_setting->get_value());
+    		$this->addElement('hidden', TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID, $user_setting->get_value());
+    		$this->addElement('static', null, Translation :: get('SourceLanguage'), $language->get_original_name());
+    	}
+    	else
+    	{
+    		$this->addElement('select', TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID, Translation :: get('SourceLanguage'), $this->get_source_languages());
+    	}
     	
 //		$url = Path :: get(WEB_PATH) . 'application/lib/cda/xml_feeds/xml_cda_languages_feed.php';
 //		$locale = array();
@@ -45,15 +58,51 @@ class TranslatorApplicationForm extends FormValidator
 //		$elem->setDefaults(array());
 //		$elem->excludeElements(array());
 
-    	$this->addElement('select', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID, Translation :: get('DestinationLanguages'), $this->get_source_languages(), array('multiple'));
+    	$target_languages = $this->get_target_languages();
+    	
+    	if (count($target_languages) > 0)
+    	{
+    		$this->addElement('select', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID, Translation :: get('DestinationLanguages'), $this->get_target_languages(), array('multiple'));
+    	}
+    	else
+    	{
+    		$this->addElement('static', null, Translation :: get('DestinationLanguages'), Translation :: get('NoMoreLanguagesAvailable'));
+    	}
+
     	$this->addElement('category');
     	
-        $this->addElement('style_submit_button', 'submit', Translation :: get('Apply'), array('class' => 'positive'));
+    	if (count($target_languages) > 0)
+    	{
+        	$this->addElement('style_submit_button', 'submit', Translation :: get('Apply'), array('class' => 'positive'));
+    	}
     }
     
-    function get_source_languages()
+    function get_target_languages()
     {
-    	$languages = CdaDataManager :: get_instance()->retrieve_cda_languages(null, null, null, array(new ObjectTableOrder(CdaLanguage :: PROPERTY_ORIGINAL_NAME)));
+    	$condition = new EqualityCondition(TranslatorApplication :: PROPERTY_USER_ID, Session :: get_user_id());
+    	$translator_applications = CdaDataManager :: get_instance()->retrieve_translator_applications($condition);
+    	
+    	$exclude = array();
+    	while($translator_application = $translator_applications->next_result())
+    	{
+    		$exclude[] = $translator_application->get_destination_language_id();
+    	}
+    	
+    	return $this->get_source_languages($exclude);
+    }
+    
+    function get_source_languages($exclude = array())
+    {
+    	if (count($exclude) > 0)
+    	{
+    		$condition = new NotCondition(new InCondition(CdaLanguage :: PROPERTY_ID, $exclude));
+    	}
+    	else
+    	{
+    		$condition = null;
+    	}
+    	
+    	$languages = CdaDataManager :: get_instance()->retrieve_cda_languages($condition, null, null, array(new ObjectTableOrder(CdaLanguage :: PROPERTY_ORIGINAL_NAME)));
     	$options = array();
     	
     	while($language = $languages->next_result())
@@ -66,7 +115,29 @@ class TranslatorApplicationForm extends FormValidator
 
     function setDefaults($defaults = array ())
     {
-    	$defaults[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID] = PlatformSetting :: get('source_language', CdaManager :: APPLICATION_NAME);
+    	$user_language_text = LocalSetting :: get('platform_language');
+    	$user_language = CdaDataManager :: get_instance()->retrieve_cda_languages(new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, $user_language_text), null, 1)->next_result();
+    	
+    	$platform_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name('source_language', CdaManager :: APPLICATION_NAME);
+    	$user_setting = UserDataManager :: get_instance()->retrieve_user_setting(Session :: get_user_id(), $platform_setting->get_id());
+    	
+    	if ($user_setting)
+    	{
+    		$source_language = $user_setting->get_value();
+    	}
+    	else
+    	{
+    		if ($user_language)
+    		{
+    			$source_language = $user_language->get_id();
+    		}
+    		else
+    		{
+    			$source_language = LocalSetting :: get('source_language', CdaManager :: APPLICATION_NAME);
+    		}
+    	}
+    	
+    	$defaults[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID] = $source_language;
         parent :: setDefaults($defaults);
     }
     
