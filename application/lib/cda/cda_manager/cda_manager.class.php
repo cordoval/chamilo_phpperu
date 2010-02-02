@@ -54,6 +54,7 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	const ACTION_VIEW_VARIABLE_TRANSLATION = 'view_variable_translation';
 	const ACTION_EXPORT_TRANSLATIONS = 'export_translations';
 	const ACTION_RATE_VARIABLE_TRANSLATION = 'rate_variable_translation';
+	const ACTION_SEARCH_VARIABLE_TRANSLATIONS = 'search_variable_translations';
 	
 	const ACTION_CREATE_TRANSLATOR_APPLICATION = 'create_translator_application';
 	const ACTION_BROWSE_TRANSLATOR_APPLICATIONS = 'browse_translator_applications';
@@ -158,6 +159,9 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 				break;
 			case self :: ACTION_DELETE_TRANSLATOR_APPLICATION :
 				$component = CdaManagerComponent :: factory('TranslatorApplicationDeleter', $this);
+				break;
+			case self :: ACTION_SEARCH_VARIABLE_TRANSLATIONS :
+				$component = CdaManagerComponent :: factory('VariableTranslationsSearcher', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CDA_LANGUAGES);
@@ -554,5 +558,10 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS));
 	}	
+	
+	function get_variable_translations_searcher_url()
+	{
+		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_SEARCH_VARIABLE_TRANSLATIONS));
+	}
 }
 ?>

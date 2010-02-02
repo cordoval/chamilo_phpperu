@@ -47,6 +47,7 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
         $action_bar->set_search_url($this->get_url());
         
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('HelpTranslating'), Theme :: get_image_path() . 'action_apply.png', $this->get_url(array(Application :: PARAM_ACTION => CdaManager :: ACTION_CREATE_TRANSLATOR_APPLICATION))));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AdvancedSearch'), Theme :: get_common_image_path() . 'action_search.png', $this->get_variable_translations_searcher_url()));
         if (count($this->get_user_languages()) > 0)
         {
         	$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageApplications'), Theme :: get_image_path() . 'action_manage.png', $this->get_url(array(Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS))));

@@ -283,5 +283,10 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->retrieve_translator_application($id);
 	}
+	
+	function get_variable_translations_searcher_url()
+	{
+		return $this->get_parent()->get_variable_translations_searcher_url();
+	}
 }
 ?>
