@@ -41,8 +41,7 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 															CdaManager :: PARAM_VARIABLE => $variable_id)), Translation :: get('UpdateVariableTranslation')));
 			
 			$form = new VariableTranslationForm($variable_translation, $variable, 
-					$this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => $language_id, 
-										 CdaManager :: PARAM_VARIABLE => $variable_id)), $this->get_user());
+					$this->get_url(array(CdaManager :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id())), $this->get_user());
 	
 			if($form->validate())
 			{

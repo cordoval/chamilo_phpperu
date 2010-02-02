@@ -4,7 +4,7 @@
  */
 
 /**
- * This class describes a VariableTranslation data object
+ * This class describes a HistoricVariableTranslation data object
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
@@ -13,19 +13,14 @@ class HistoricVariableTranslation extends DataClass
 	const CLASS_NAME = __CLASS__;
 
 	/**
-	 * VariableTranslation properties
+	 * HistoricVariableTranslation properties
 	 */
-	const PROPERTY_LANGUAGE_ID = 'language_id';
-	const PROPERTY_VARIABLE_ID = 'variable_id';
+	const PROPERTY_VARIABLE_TRANSLATION_ID = 'variable_translation_id';
 	const PROPERTY_TRANSLATION = 'translation';
 	const PROPERTY_DATE = 'date';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_RATING = 'rating';
 	const PROPERTY_RATED = 'rated';
-	const PROPERTY_STATUS = 'status';
-
-	const STATUS_NORMAL = 1;
-	const STATUS_BLOCKED = 2;
 	
 	/**
 	 * Get the default properties
@@ -33,7 +28,7 @@ class HistoricVariableTranslation extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_LANGUAGE_ID, self :: PROPERTY_VARIABLE_ID, self :: PROPERTY_TRANSLATION, self :: PROPERTY_DATE, self :: PROPERTY_USER_ID, self :: PROPERTY_RATING, self :: PROPERTY_RATED, self :: PROPERTY_STATUS);
+		return parent :: get_default_property_names(array (self :: PROPERTY_VARIABLE_TRANSLATION_ID, self :: PROPERTY_TRANSLATION, self :: PROPERTY_DATE, self :: PROPERTY_USER_ID, self :: PROPERTY_RATING, self :: PROPERTY_RATED));
 	}
 
 	function get_data_manager()
@@ -42,43 +37,25 @@ class HistoricVariableTranslation extends DataClass
 	}
 
 	/**
-	 * Returns the language_id of this VariableTranslation.
-	 * @return the language_id.
+	 * Returns the variable_translation_id of this HistoricVariableTranslation.
+	 * @return the variable_translation_id.
 	 */
-	function get_language_id()
+	function get_variable_translation_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_LANGUAGE_ID);
+		return $this->get_default_property(self :: PROPERTY_VARIABLE_TRANSLATION_ID);
 	}
 
 	/**
-	 * Sets the language_id of this VariableTranslation.
-	 * @param language_id
+	 * Sets the variable_translation_id of this HistoricVariableTranslation.
+	 * @param variable_translation_id
 	 */
-	function set_language_id($language_id)
+	function set_variable_translation_id($variable_translation_id)
 	{
-		$this->set_default_property(self :: PROPERTY_LANGUAGE_ID, $language_id);
+		$this->set_default_property(self :: PROPERTY_VARIABLE_TRANSLATION_ID, $variable_translation_id);
 	}
 
 	/**
-	 * Returns the variable_id of this VariableTranslation.
-	 * @return the variable_id.
-	 */
-	function get_variable_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_VARIABLE_ID);
-	}
-
-	/**
-	 * Sets the variable_id of this VariableTranslation.
-	 * @param variable_id
-	 */
-	function set_variable_id($variable_id)
-	{
-		$this->set_default_property(self :: PROPERTY_VARIABLE_ID, $variable_id);
-	}
-
-	/**
-	 * Returns the translation of this VariableTranslation.
+	 * Returns the translation of this HistoricVariableTranslation.
 	 * @return the translation.
 	 */
 	function get_translation()
@@ -87,7 +64,7 @@ class HistoricVariableTranslation extends DataClass
 	}
 
 	/**
-	 * Sets the translation of this VariableTranslation.
+	 * Sets the translation of this HistoricVariableTranslation.
 	 * @param translation
 	 */
 	function set_translation($translation)
@@ -96,7 +73,7 @@ class HistoricVariableTranslation extends DataClass
 	}
 
 	/**
-	 * Returns the date of this VariableTranslation.
+	 * Returns the date of this HistoricVariableTranslation.
 	 * @return the date.
 	 */
 	function get_date()
@@ -105,7 +82,7 @@ class HistoricVariableTranslation extends DataClass
 	}
 
 	/**
-	 * Sets the date of this VariableTranslation.
+	 * Sets the date of this HistoricVariableTranslation.
 	 * @param date
 	 */
 	function set_date($date)
@@ -114,7 +91,7 @@ class HistoricVariableTranslation extends DataClass
 	}
 
 	/**
-	 * Returns the user_id of this VariableTranslation.
+	 * Returns the user_id of this HistoricVariableTranslation.
 	 * @return the user_id.
 	 */
 	function get_user_id()
@@ -123,7 +100,7 @@ class HistoricVariableTranslation extends DataClass
 	}
 
 	/**
-	 * Sets the user_id of this VariableTranslation.
+	 * Sets the user_id of this HistoricVariableTranslation.
 	 * @param user_id
 	 */
 	function set_user_id($user_id)
@@ -132,7 +109,7 @@ class HistoricVariableTranslation extends DataClass
 	}
 
 	/**
-	 * Returns the rating of this VariableTranslation.
+	 * Returns the rating of this HistoricVariableTranslation.
 	 * @return the rating.
 	 */
 	function get_rating()
@@ -141,7 +118,7 @@ class HistoricVariableTranslation extends DataClass
 	}
 
 	/**
-	 * Sets the rating of this VariableTranslation.
+	 * Sets the rating of this HistoricVariableTranslation.
 	 * @param rating
 	 */
 	function set_rating($rating)
@@ -150,7 +127,7 @@ class HistoricVariableTranslation extends DataClass
 	}
 
 	/**
-	 * Returns the rated of this VariableTranslation.
+	 * Returns the rated of this HistoricVariableTranslation.
 	 * @return the rated.
 	 */
 	function get_rated()
@@ -159,7 +136,7 @@ class HistoricVariableTranslation extends DataClass
 	}
 
 	/**
-	 * Sets the rated of this VariableTranslation.
+	 * Sets the rated of this HistoricVariableTranslation.
 	 * @param rated
 	 */
 	function set_rated($rated)
@@ -167,52 +144,14 @@ class HistoricVariableTranslation extends DataClass
 		$this->set_default_property(self :: PROPERTY_RATED, $rated);
 	}
 
-	/**
-	 * Returns the status of this VariableTranslation.
-	 * @return the status.
-	 */
-	function get_status()
-	{
-		return $this->get_default_property(self :: PROPERTY_STATUS);
-	}
-
-	/**
-	 * Sets the status of this VariableTranslation.
-	 * @param status
-	 */
-	function set_status($status)
-	{
-		$this->set_default_property(self :: PROPERTY_STATUS, $status);
-	}
-
 	function get_relative_rating()
 	{
 		return (int)($this->get_rating() / $this->get_rated());
 	}
 	
-	function get_status_icon()
-	{
-		switch($this->get_status())
-		{
-			case self :: STATUS_NORMAL:
-				$image = 'action_unlock';
-				break;
-			case self :: STATUS_BLOCKED:
-				$image = 'action_lock';
-				break;
-		}
-		
-		return Theme :: get_common_image($image);
-	}
-	
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
-	
-	function is_locked()
-	{
-		return $this->get_status() == self :: STATUS_BLOCKED;
 	}
 }
 

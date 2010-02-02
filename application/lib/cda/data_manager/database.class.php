@@ -401,5 +401,38 @@ class DatabaseCdaDataManager extends CdaDataManager
         
         return $number_of_translations;
 	}
+	
+	function create_historic_variable_translation($historic_variable_translation)
+	{
+		return $this->database->create($historic_variable_translation);
+	}
+	
+	function delete_historic_variable_translation($historic_variable_translation)
+	{
+		$condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_ID, $historic_variable_translation->get_id());
+		return $this->database->delete($historic_variable_translation->get_table_name(), $condition);
+	}
+	
+	function update_historic_variable_translation($historic_variable_translation)
+	{
+		$condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_ID, $historic_variable_translation->get_id());
+		return $this->database->update($historic_variable_translation, $condition);
+	}
+
+	function count_historic_variable_translations($condition = null)
+	{
+		return $this->database->count_objects(HistoricVariableTranslation :: get_table_name(), $condition);
+	}
+	
+	function retrieve_historic_variable_translation($historic_variable_translation_id)
+	{
+		$condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_ID, $historic_variable_translation_id);
+		return $this->database->retrieve_object(HistoricVariableTranslation :: get_table_name(), $condition);
+	}
+
+	function retrieve_historic_variable_translations($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+        return $this->database->retrieve_objects(HistoricVariableTranslation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+	}
 }
 ?>

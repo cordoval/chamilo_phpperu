@@ -2,6 +2,7 @@
 /**
  * cda
  */
+require_once dirname(__FILE__) . '\historic_variable_translation.class.php';
 
 /**
  * This class describes a VariableTranslation data object
@@ -235,6 +236,32 @@ class VariableTranslation extends DataClass
 		{
 			$this->lock();
 		}
+	}
+	
+	function update()
+	{
+		$original_translation = $this->get_data_manager()->retrieve_variable_translation($this->get_id());
+		
+		if (($original_translation->get_translation() != $this->get_translation()) && $original_translation != ' ')
+		{
+			$historic_variable_translation = new HistoricVariableTranslation();
+			$historic_variable_translation->set_variable_translation_id($this->get_id());
+			$historic_variable_translation->set_translation($original_translation->get_translation());
+			$historic_variable_translation->set_date($original_translation->get_date());
+			$historic_variable_translation->set_user_id($original_translation->get_user_id());
+			$historic_variable_translation->set_rating($original_translation->get_rating());
+			$historic_variable_translation->set_rated($original_translation->get_rated());
+			
+			if (!$historic_variable_translation->create())
+			{
+				return false;
+			}
+			
+			$this->set_rating(0);
+			$this->set_rated(0);
+		}
+		
+		return parent :: update();
 	}
 }
 
