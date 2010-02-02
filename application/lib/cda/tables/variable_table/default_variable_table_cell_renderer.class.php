@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../variable.class.php';
  * Default cell renderer for the variable table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class DefaultVariableTableCellRenderer implements ObjectTableCellRenderer
 {

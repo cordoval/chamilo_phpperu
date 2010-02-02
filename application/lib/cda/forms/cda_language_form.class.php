@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../cda_language.class.php';
 /**
  * This class describes the form for a CdaLanguage object.
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  **/
 class CdaLanguageForm extends FormValidator
 {

@@ -6,7 +6,7 @@
  * Basic functionality of a component to talk with the cda application
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 abstract class CdaManagerComponent extends WebApplicationComponent
 {

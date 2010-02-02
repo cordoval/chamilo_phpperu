@@ -6,7 +6,7 @@
  * Data provider for a variable_translation table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class VariableTranslationBrowserTableDataProvider extends ObjectTableDataProvider
 {

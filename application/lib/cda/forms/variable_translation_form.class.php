@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../variable_translation.class.php';
 /**
  * This class describes the form for a VariableTranslation object.
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  **/
 class VariableTranslationForm extends FormValidator
 {

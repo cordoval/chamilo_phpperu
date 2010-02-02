@@ -6,7 +6,7 @@
  * Data provider for a cda_language table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaLanguageBrowserTableDataProvider extends ObjectTableDataProvider
 {

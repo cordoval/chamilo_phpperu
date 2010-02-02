@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/variable_translation_browser/variable_translati
 /**
  * cda component which allows the user to browse his variable_translations
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
 {

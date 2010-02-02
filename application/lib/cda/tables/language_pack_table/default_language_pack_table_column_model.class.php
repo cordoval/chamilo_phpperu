@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../language_pack.class.php';
  * Default column model for the language_pack table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class DefaultLanguagePackTableColumnModel extends ObjectTableColumnModel
 {

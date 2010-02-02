@@ -6,7 +6,7 @@
 /**
  * This class describes a LanguagePack data object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class LanguagePack extends DataClass
 {

@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
  * A cda manager
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
  class CdaManager extends WebApplication
  {

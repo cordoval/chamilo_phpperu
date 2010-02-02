@@ -6,7 +6,7 @@
  * Data provider for a language_pack table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class LanguagePackBrowserTableDataProvider extends ObjectTableDataProvider
 {

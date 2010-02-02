@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../cda_manager.class.php';
  * Table to display a list of variable_translations
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class VariableTranslationBrowserTable extends ObjectTable
 {

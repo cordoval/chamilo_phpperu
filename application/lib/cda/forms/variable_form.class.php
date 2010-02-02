@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../variable.class.php';
 /**
  * This class describes the form for a Variable object.
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  **/
 class VariableForm extends FormValidator
 {

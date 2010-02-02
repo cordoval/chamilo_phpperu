@@ -3,8 +3,8 @@
  *	This is a skeleton for a data manager for the Cda Application.
  *	Data managers must extend this class and implement its abstract methods.
  *
- *  @author Sven Vanpoucke
- *	@author 
+ * @author Sven Vanpoucke
+ * @author Hans De Bisschop
  */
 
 require_once dirname(__FILE__).'/cda_language.class.php';

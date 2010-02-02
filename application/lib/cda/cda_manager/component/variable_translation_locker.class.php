@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../forms/variable_translation_form.class.php
 /**
  * Component to edit an existing variable_translation object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 {

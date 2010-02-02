@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../language_pack.class.php';
 /**
  * This class describes the form for a LanguagePack object.
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  **/
 class LanguagePackForm extends FormValidator
 {

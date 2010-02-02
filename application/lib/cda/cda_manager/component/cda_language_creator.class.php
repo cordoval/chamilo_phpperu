@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../forms/cda_language_form.class.php';
 /**
  * Component to create a new cda_language object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerCdaLanguageCreatorComponent extends CdaManagerComponent
 {

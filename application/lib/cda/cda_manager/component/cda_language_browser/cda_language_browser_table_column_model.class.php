@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../../cda_language.class.php';
  * Table column model for the cda_language browser table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 
 class CdaLanguageBrowserTableColumnModel extends DefaultCdaLanguageTableColumnModel

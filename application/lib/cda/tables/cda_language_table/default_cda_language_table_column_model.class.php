@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../cda_language.class.php';
  * Default column model for the cda_language table
  *
  * @author Sven Vanpoucke
- * @author
+ * @author Hans De Bisschop
  */
 class DefaultCdaLanguageTableColumnModel extends ObjectTableColumnModel
 {

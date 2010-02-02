@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../translator_application.class.php';
  * Default column model for the variable table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class DefaultTranslatorApplicationTableColumnModel extends ObjectTableColumnModel
 {

@@ -6,7 +6,7 @@
 /**
  * This class describes a Variable data object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class Variable extends DataClass
 {

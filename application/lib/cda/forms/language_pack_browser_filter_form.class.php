@@ -2,6 +2,9 @@
 /**
  * $Id: language_pack_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.laika.forms
+ * 
+ * @author Sven Vanpoucke
+ * @author Hans De Bisschop
  */
 class LanguagePackBrowserFilterForm extends FormValidator
 {

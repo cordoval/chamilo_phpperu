@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../translator_application.class.php';
  * Default cell renderer for the translator application table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class DefaultTranslatorApplicationTableCellRenderer implements ObjectTableCellRenderer
 {

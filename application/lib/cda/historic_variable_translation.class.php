@@ -6,7 +6,7 @@
 /**
  * This class describes a VariableTranslation data object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class HistoricVariableTranslation extends DataClass
 {

@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../../variable_translation.class.php';
  * Table column model for the variable_translation browser table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 
 class VariableTranslationBrowserTableColumnModel extends DefaultVariableTranslationTableColumnModel
