@@ -30,13 +30,13 @@ class CdaManagerAdminTranslationImporterComponent extends CdaManagerComponent
 			$branch = $form->exportValue(LanguagePack :: PROPERTY_BRANCH);
 			$file = Request :: file('file');
 			
-			$options = array(TranslationImporter :: OPTION_CREATE_NEW_LANGUAGE_PACKS => 0, 
-							 TranslationImporter :: OPTION_CREATE_NEW_LANGUAGES => 0,
-							 TranslationImporter :: OPTION_CREATE_NEW_VARIABLES => 0);
+			$options = array(TranslationImporter :: OPTION_CREATE_NEW_LANGUAGE_PACKS => 1, 
+							 TranslationImporter :: OPTION_CREATE_NEW_LANGUAGES => 1,
+							 TranslationImporter :: OPTION_CREATE_NEW_VARIABLES => 1);
 			
 			$importer = TranslationImporter :: factory($branch, $this->get_user(), $options);
 			$importer->import($file);
-			//$this->redirect($success ? Translation :: get('CdaLanguageCreated') : Translation :: get('CdaLanguageNotCreated'), !$success, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
+			$this->redirect(Translation :: get('TranslationsImported'), false, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_IMPORT_TRANSLATIONS));
 		}
 		else
 		{

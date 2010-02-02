@@ -21,6 +21,7 @@ abstract class TranslationImporter
     	$this->set_branch($branch);
     	$this->set_user($user);
     	$this->set_options($options);
+    	set_time_limit(0);
     }
     
 	/**
