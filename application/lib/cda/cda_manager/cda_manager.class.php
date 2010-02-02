@@ -53,6 +53,8 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	const ACTION_LOCK_VARIABLE_TRANSLATION = 'lock_variable_translation';
 	const ACTION_VIEW_VARIABLE_TRANSLATION = 'view_variable_translation';
 	const ACTION_EXPORT_TRANSLATIONS = 'export_translations';
+	const ACTION_IMPORT_TRANSLATIONS = 'import_translations';
+	const ACTION_ADMIN_IMPORT_TRANSLATIONS = 'admin_import_translations';
 	const ACTION_RATE_VARIABLE_TRANSLATION = 'rate_variable_translation';
 	const ACTION_SEARCH_VARIABLE_TRANSLATIONS = 'search_variable_translations';
 	
@@ -142,6 +144,12 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 			case self :: ACTION_EXPORT_TRANSLATIONS :
 				$component = CdaManagerComponent :: factory('TranslationExporter', $this);
 				break;
+			case self :: ACTION_IMPORT_TRANSLATIONS :
+				$component = CdaManagerComponent :: factory('TranslationImporter', $this);
+				break;
+			case self :: ACTION_ADMIN_IMPORT_TRANSLATIONS :
+				$component = CdaManagerComponent :: factory('AdminTranslationImporter', $this);
+				break;
 			case self :: ACTION_RATE_VARIABLE_TRANSLATION :
 				$component = CdaManagerComponent :: factory('VariableTranslationRater', $this);
 				break;
@@ -177,6 +185,7 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
         $links[] = array('name' => Translation :: get('ManageLanguages'), 'description' => Translation :: get('ManageLanguagesDescription'), 'action' => 'list', 'url' => $this->get_admin_browse_cda_languages_link());
         $links[] = array('name' => Translation :: get('ManageLanguagePacks'), 'description' => Translation :: get('ManageLanguagePacksDescription'), 'action' => 'add', 'url' => $this->get_admin_browse_language_packs_link());
         $links[] = array('name' => Translation :: get('ManageTranslatorApplications'), 'description' => Translation :: get('ManageTranslatorApplicationsDescription'), 'action' => 'list', 'url' => $this->get_browse_translator_applications_link());
+        $links[] = array('name' => Translation :: get('ImportLanguageFiles'), 'description' => Translation :: get('ImportLanguageFilesDescription'), 'action' => 'list', 'url' => $this->get_admin_import_variable_translations_url());
         
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
@@ -562,6 +571,16 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	function get_variable_translations_searcher_url()
 	{
 		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_SEARCH_VARIABLE_TRANSLATIONS));
+	}
+	
+	function get_import_variable_translations_url()
+	{
+		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TRANSLATIONS));
+	}
+	
+	function get_admin_import_variable_translations_url()
+	{
+		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_IMPORT_TRANSLATIONS));
 	}
 }
 ?>

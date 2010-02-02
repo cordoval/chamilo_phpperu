@@ -6,7 +6,7 @@
 class Request
 {
 
-    function get($variable)
+    static function get($variable)
     {
         if (isset($_GET[$variable]))
         {
@@ -21,12 +21,12 @@ class Request
         }
     }
 
-    function set_get($variable, $value)
+    static function set_get($variable, $value)
     {
         $_GET[$variable] = $value;
     }
 
-    function post($variable)
+    static function post($variable)
     {
         if (isset($_POST[$variable]))
         {
@@ -40,21 +40,21 @@ class Request
         }
     }
 
-    function server($variable)
+    static function server($variable)
     {
         $value = $_SERVER[$variable];
         // TODO: Add the necessary security filters if and where necessary
         return $value;
     }
 
-    function file($variable)
+    static function file($variable)
     {
         $value = $_FILES[$variable];
         // TODO: Add the necessary security filters if and where necessary
         return $value;
     }
 
-    function environment($variable)
+    static function environment($variable)
     {
         $value = $_ENV[$variable];
         // TODO: Add the necessary security filters if and where necessary
