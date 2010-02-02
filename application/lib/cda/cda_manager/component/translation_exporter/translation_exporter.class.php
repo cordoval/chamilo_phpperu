@@ -20,7 +20,8 @@ abstract class TranslationExporter
     {
     	$this->set_user($user);
     	$this->set_languages($languages);
-    	$this->set_language_packs($language_packs);	
+    	$this->set_language_packs($language_packs);
+    	set_time_limit(0);	
     }
     
     public static function factory($branch, $user, $languages, $language_packs)
