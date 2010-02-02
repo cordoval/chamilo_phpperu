@@ -71,6 +71,10 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 	 */
 	private function get_modification_links($language_pack)
 	{
+		$cda_language_id = $this->browser->get_cda_language();
+		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
+		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language->get_id(), 'cda_language');
+		
 		$toolbar_data = array();
 
 		if(get_class($this->browser) != 'CdaManagerLanguagePacksBrowserComponent')
@@ -89,9 +93,6 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 		}
 		else
 		{
-			$cda_language_id = $this->browser->get_cda_language();
-			$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
-			
 			if ($can_lock)
 			{
 				if($this->browser->can_language_pack_be_locked($language_pack, $this->browser->get_cda_language()))
@@ -127,21 +128,29 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 		        }
 			}
 			
-			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $this->browser->get_cda_language());
-			$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
-			$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID,
-												   'cda_' . Variable :: get_table_name(), $subcondition);
-			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
-			$condition = new AndCondition($conditions);
-			$translation = $this->browser->retrieve_variable_translations($condition, 0, 1)->next_result();
-			
-			if($translation)
+			if ($can_translate || $can_lock)
 			{
-				$toolbar_data[] = array(
-							'href' => $this->browser->get_update_variable_translation_url($translation),
-							'label' => Translation :: get('TranslateFirstEmptyTranslation'),
-							'img' => Theme :: get_image_path() . 'action_translate.png'
-						);
+				if (!$can_lock)
+				{
+					$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_NORMAL);
+				}
+			
+				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $this->browser->get_cda_language());
+				$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
+				$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID,
+													   'cda_' . Variable :: get_table_name(), $subcondition);
+				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+				$condition = new AndCondition($conditions);
+				$translation = $this->browser->retrieve_variable_translations($condition, 0, 1)->next_result();
+				
+				if($translation)
+				{
+					$toolbar_data[] = array(
+								'href' => $this->browser->get_update_variable_translation_url($translation),
+								'label' => Translation :: get('TranslateFirstEmptyTranslation'),
+								'img' => Theme :: get_image_path() . 'action_quickstart.png'
+							);
+				}
 			}
 		}
 		
