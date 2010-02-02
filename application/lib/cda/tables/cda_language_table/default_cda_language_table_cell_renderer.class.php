@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../cda_language.class.php';
  * Default cell renderer for the cda_language table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class DefaultCdaLanguageTableCellRenderer implements ObjectTableCellRenderer
 {

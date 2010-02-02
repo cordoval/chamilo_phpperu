@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../variable.class.php';
  * Default column model for the variable table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class DefaultVariableTableColumnModel extends ObjectTableColumnModel
 {

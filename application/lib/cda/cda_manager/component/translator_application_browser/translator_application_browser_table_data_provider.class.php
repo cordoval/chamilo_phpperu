@@ -6,7 +6,7 @@
  * Data provider for a translator_application table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class TranslatorApplicationBrowserTableDataProvider extends ObjectTableDataProvider
 {

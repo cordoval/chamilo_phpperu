@@ -6,7 +6,7 @@
  * Basic functionality of a component to talk with the cda application
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 abstract class CdaManagerComponent extends WebApplicationComponent
 {
@@ -76,10 +76,15 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->retrieve_variable_translations($condition, $offset, $count, $order_property);
 	}
-
- 	function retrieve_variable_translation($language_id, $variable_id)
+	
+ 	function retrieve_variable_translation($variable_translation_id)
 	{
-		return $this->get_parent()->retrieve_variable_translation($language_id, $variable_id);
+		return $this->get_parent()->retrieve_variable_translation($variable_translation_id);
+	}
+
+ 	function retrieve_variable_translation_by_parameters($language_id, $variable_id)
+	{
+		return $this->get_parent()->retrieve_variable_translation_by_parameters($language_id, $variable_id);
 	}
 	
 	function can_language_be_locked($language)
@@ -292,6 +297,11 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	function get_import_variable_translations_url()
 	{
 		return $this->get_parent()->get_import_variable_translations_url();
+	}
+	
+ 	function update_variable_translations($properties = array(), $condition, $offset = null, $max_objects = null, $order_by = array())
+	{
+		return $this->get_parent()->update_variable_translations($properties, $condition, $offset, $max_objects, $order_by);
 	}
 }
 ?>

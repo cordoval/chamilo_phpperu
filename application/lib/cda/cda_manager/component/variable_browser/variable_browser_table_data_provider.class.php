@@ -6,7 +6,7 @@
  * Data provider for a variable table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class VariableBrowserTableDataProvider extends ObjectTableDataProvider
 {

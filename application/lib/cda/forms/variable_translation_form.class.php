@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../variable_translation.class.php';
 /**
  * This class describes the form for a VariableTranslation object.
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  **/
 class VariableTranslationForm extends FormValidator
 {
@@ -49,7 +49,7 @@ class VariableTranslationForm extends FormValidator
 		if($source_id != $english_id)
 		{
 			
-			$source = CdaDataManager :: get_instance()->retrieve_variable_translation($source_id, $this->variable->get_id());
+			$source = CdaDataManager :: get_instance()->retrieve_variable_translation_by_parameters($source_id, $this->variable->get_id());
 			$source_translation = ($source && $source->get_translation() != ' ') ? $source->get_translation() : Translation :: get('NoTranslation');
 			$this->addElement('static', null, Translation :: get('SourceTranslation'), $source_translation);
 		}

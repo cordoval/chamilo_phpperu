@@ -1,9 +1,9 @@
 <?php
 /**
  * $Id: xml_cda_languages_feed.php 224 2009-11-13 14:40:30Z kariboe $
- * @package group.xml_feeds
+ * @package application.lib.cda.xml_feeds
+ * @author Sven Vanpoucke
  * @author Hans De Bisschop
- * @author Dieter De Neef
  */
 require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once Path :: get_application_path() . 'lib/cda/cda_data_manager.class.php';

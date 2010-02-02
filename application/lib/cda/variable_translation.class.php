@@ -2,11 +2,12 @@
 /**
  * cda
  */
+require_once dirname(__FILE__) . '\historic_variable_translation.class.php';
 
 /**
  * This class describes a VariableTranslation data object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class VariableTranslation extends DataClass
 {
@@ -33,7 +34,7 @@ class VariableTranslation extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_LANGUAGE_ID, self :: PROPERTY_VARIABLE_ID, self :: PROPERTY_TRANSLATION, self :: PROPERTY_DATE, self :: PROPERTY_USER_ID, self :: PROPERTY_RATING, self :: PROPERTY_RATED, self :: PROPERTY_STATUS);
+		return parent :: get_default_property_names(array (self :: PROPERTY_LANGUAGE_ID, self :: PROPERTY_VARIABLE_ID, self :: PROPERTY_TRANSLATION, self :: PROPERTY_DATE, self :: PROPERTY_USER_ID, self :: PROPERTY_RATING, self :: PROPERTY_RATED, self :: PROPERTY_STATUS));
 	}
 
 	function get_data_manager()
@@ -213,6 +214,54 @@ class VariableTranslation extends DataClass
 	function is_locked()
 	{
 		return $this->get_status() == self :: STATUS_BLOCKED;
+	}
+	
+	function lock()
+	{
+		$this->set_status(self :: STATUS_BLOCKED);
+	}
+	
+	function unlock()
+	{
+		$this->set_status(self :: STATUS_NORMAL);
+	}
+	
+	function switch_lock()
+	{
+		if ($this->is_locked())
+		{
+			$this->unlock();
+		}
+		else
+		{
+			$this->lock();
+		}
+	}
+	
+	function update()
+	{
+		$original_translation = $this->get_data_manager()->retrieve_variable_translation($this->get_id());
+		
+		if (($original_translation->get_translation() != $this->get_translation()) && $original_translation != ' ')
+		{
+			$historic_variable_translation = new HistoricVariableTranslation();
+			$historic_variable_translation->set_variable_translation_id($this->get_id());
+			$historic_variable_translation->set_translation($original_translation->get_translation());
+			$historic_variable_translation->set_date($original_translation->get_date());
+			$historic_variable_translation->set_user_id($original_translation->get_user_id());
+			$historic_variable_translation->set_rating($original_translation->get_rating());
+			$historic_variable_translation->set_rated($original_translation->get_rated());
+			
+			if (!$historic_variable_translation->create())
+			{
+				return false;
+			}
+			
+			$this->set_rating(0);
+			$this->set_rated(0);
+		}
+		
+		return parent :: update();
 	}
 }
 

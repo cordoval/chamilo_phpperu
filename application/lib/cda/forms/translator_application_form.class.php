@@ -3,7 +3,10 @@ require_once dirname(__FILE__) . '/../translator_application.class.php';
 require_once dirname(__FILE__) . '/../cda_language.class.php';
 /**
  * $Id: language_pack_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
- * @package application.lib.laika.forms
+ * @package application.lib.cda.forms
+ * 
+ * @author Sven Vanpoucke
+ * @author Hans De Bisschop
  */
 class TranslatorApplicationForm extends FormValidator
 {

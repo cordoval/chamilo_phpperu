@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/translation_exporter/exporter_wizard.class.php'
 /**
  * cda component which allows the user to export translations
  * @author Sven Vanpoucke
- * @author
+ * @author Hans De Bisschop
  */
 class CdaManagerTranslationExporterComponent extends CdaManagerComponent
 {

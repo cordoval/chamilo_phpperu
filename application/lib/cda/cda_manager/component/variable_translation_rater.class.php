@@ -9,19 +9,24 @@ require_once dirname(__FILE__).'/../../forms/rate_form.class.php';
 /**
  * Component to edit an existing variable_translation object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerVariableTranslationRaterComponent extends CdaManagerComponent
 {
+	private $variable_translation;
+	
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$language_id = Request :: get(CdaManager :: PARAM_CDA_LANGUAGE);
-		$variable_id = Request :: get(CdaManager :: PARAM_VARIABLE);
+		$variable_translation_id = Request :: get(CdaManager :: PARAM_VARIABLE_TRANSLATION);
+		$variable_translation = $this->retrieve_variable_translation($variable_translation_id);
 		
+		$language_id = $variable_translation->get_language_id();
+		$variable_id = $variable_translation->get_variable_id();
 		$variable = $this->retrieve_variable($variable_id);
+		
 		$language = $this->retrieve_cda_language($language_id);
 		$language_pack = $this->retrieve_language_pack($variable->get_language_pack_id());
 		
@@ -30,13 +35,9 @@ class CdaManagerVariableTranslationRaterComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), $language->get_original_name()));
 		$trail->add(new Breadcrumb($this->get_browse_variable_translations_url($language_id, $variable->get_language_pack_id()), $language_pack->get_branch_name() . ' - ' . $language_pack->get_name()));
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => $language_id,
-														CdaManager :: PARAM_VARIABLE => $variable_id)), Translation :: get('RateVariableTranslation')));
+														CdaManager :: PARAM_VARIABLE => $variable_translation->get_variable_id())), Translation :: get('RateVariableTranslation')));
 		
-		$variable_translation = $this->retrieve_variable_translation($language_id, $variable_id);
-		
-		$form = new RateForm($variable_translation, $variable, 
-				$this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => $language_id, 
-									 CdaManager :: PARAM_VARIABLE => $variable_id)), $this->get_user());
+		$form = new RateForm($variable_translation, $variable, $this->get_url(array(CdaManager :: PARAM_VARIABLE_TRANSLATION => $variable_translation_id)));
 
 		if($form->validate())
 		{

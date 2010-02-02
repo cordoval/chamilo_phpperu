@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/variable_browser/variable_browser_table.class.p
 /**
  * cda component which allows the user to browse his variables
  * @author Sven Vanpoucke
- * @author
+ * @author Hans De Bisschop
  */
 class CdaManagerVariablesBrowserComponent extends CdaManagerComponent
 {

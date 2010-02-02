@@ -10,34 +10,38 @@ require_once dirname(__FILE__).'/variable_browser/variable_browser_table.class.p
 /**
  * cda component which allows the user to browse his variables
  * @author Sven Vanpoucke
- * @author
+ * @author Hans De Bisschop
  */
 class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
 {
+	
+	private $variable_translation;
 
 	function run()
 	{
-		$language_id = Request :: get(CdaManager :: PARAM_CDA_LANGUAGE);
-		$variable_id = Request :: get(CdaManager :: PARAM_VARIABLE);
+		$variable_translation_id = Request :: get(CdaManager :: PARAM_VARIABLE_TRANSLATION);
+		$this->variable_translation = $this->retrieve_variable_translation($variable_translation_id);
 		
+		$language_id = $this->variable_translation->get_language_id();
+		$variable_id = $this->variable_translation->get_variable_id();
 		$variable = $this->retrieve_variable($variable_id);
 		
+		$language = $this->retrieve_cda_language($language_id);
+		$language_pack = $this->retrieve_language_pack($variable->get_language_pack_id());
+		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('BrowseLanguages')));
-		$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), Translation :: get('BrowseLanguagePacks')));
-		$trail->add(new Breadcrumb($this->get_browse_variable_translations_url($language_id, $variable->get_language_pack_id()), 
-								   Translation :: get('BrowseVariableTranslations')));
+		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
+		$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), $language->get_original_name()));
+		$trail->add(new Breadcrumb($this->get_browse_variable_translations_url($language_id, $variable->get_language_pack_id()), $language_pack->get_branch_name() . ' - ' . $language_pack->get_name()));
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => $language_id,
-														CdaManager :: PARAM_VARIABLE => $variable_id)), Translation :: get('ViewVariableTranslation')));
-
-		$variable_translation = $this->retrieve_variable_translation($language_id, $variable_id);																
+														CdaManager :: PARAM_VARIABLE => $this->variable_translation->get_variable_id())), Translation :: get('ViewVariableTranslation')));
 														
 		$this->display_header($trail);
 
         echo '<a name="top"></a>';
-        echo $this->get_action_bar_html($variable_translation) . '';
+        echo $this->get_action_bar_html($this->variable_translation) . '';
         echo '<div id="action_bar_browser">';
-		echo $this->get_variable_translation_view($variable, $variable_translation);
+		echo $this->get_variable_translation_view($variable, $this->variable_translation);
         echo '</div>';
         
 		$this->display_footer();
@@ -49,23 +53,26 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
        
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Rate'), Theme :: get_common_image_path() . 'action_statistics.png', 
-        			$this->get_rate_variable_translation_url($variable_translation)));
-        
-        if($variable_translation->get_status() == VariableTranslation :: STATUS_NORMAL)
-        {
-	        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Translate'), Theme :: get_common_image_path() . 'action_translate.png', 
-        			$this->get_update_variable_translation_url($variable_translation)));
+        			$this->get_rate_variable_translation_url($this->variable_translation)));
         			
+		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $this->variable_translation->get_language_id(), 'cda_language');
+		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $this->variable_translation->get_language_id(), 'cda_language');
+		
+		if (($can_translate && !$this->variable_translation->is_locked()) || $can_lock)
+		{
+	        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Translate'), Theme :: get_image_path() . 'action_translate.png', 
+        			$this->get_update_variable_translation_url($this->variable_translation)));
+		}
+        
+        if($can_lock && !$this->variable_translation->is_locked())
+        {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png', 
-	        			$this->get_lock_variable_translation_url($variable_translation)));
-	        $action_bar->add_common_action(new ToolbarItem(Translation :: get('UnlockNa'), Theme :: get_common_image_path() . 'action_unlock_na.png'));
+	        			$this->get_lock_variable_translation_url($this->variable_translation)));
         }
         else
         {
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('TranslateNa'), Theme :: get_common_image_path() . 'action_translate_na.png'));
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('LockNa'), Theme :: get_common_image_path() . 'action_lock_na.png'));
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Unlock'), Theme :: get_common_image_path() . 'action_unlock.png', 
-	        			$this->get_unlock_variable_translation_url($variable_translation)));
+	        			$this->get_unlock_variable_translation_url($this->variable_translation)));
         }
         
         return $action_bar->as_html();

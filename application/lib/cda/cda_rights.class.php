@@ -1,11 +1,11 @@
 <?php
-
 /**
  * $Id: cda_rights.class.php 196 2009-11-13 12:19:18Z chellee $
- * @package application.lib.laika
+ * @package application.lib.cda
+ * 
+ * @author Sven Vanpoucke
+ * @author Hans De Bisschop
  */
-
-
 require_once Path :: get_application_path() . 'lib/cda/cda_manager/cda_manager.class.php';
 
 class CdaRights

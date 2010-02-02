@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../cda_manager.class.php';
  * Cell rendere for the learning object browser table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 
 class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTranslationTableCellRenderer

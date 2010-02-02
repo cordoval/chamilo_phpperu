@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../forms/variable_translation_form.class.php
 /**
  * Component to edit an existing variable_translation object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 {
@@ -18,8 +18,8 @@ class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 	 */
 	function run()
 	{
+		$variable_translation_id = Request :: get(CdaManager :: PARAM_VARIABLE_TRANSLATION);
 		$language_id = Request :: get(CdaManager :: PARAM_CDA_LANGUAGE);
-		$variable_id = Request :: get(CdaManager :: PARAM_VARIABLE);
 		$language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
 		$status = Request :: get(CdaManager :: PARAM_VARIABLE_TRANSLATION_STATUS);
 		
@@ -30,9 +30,9 @@ class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 			Display :: not_allowed();
 		}
 		
-		if($variable_id)
+		if($variable_translation_id)
 		{
-			$this->handle_translation($language_id, $variable_id, $status);
+			$this->handle_translation($variable_translation_id);
 		}
 		
 		if($language_pack_id)
@@ -43,20 +43,21 @@ class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 		$this->handle_language($language_id, $status);
 	}
 	
-	function handle_translation($language_id, $variable_id, $status)
+	function handle_translation($variable_translation_id)
 	{
-		$variable = $this->retrieve_variable($variable_id);
-		$translation = $this->retrieve_variable_translation($language_id, $variable_id);
+		$translation = $this->retrieve_variable_translation($variable_translation_id);
+		$variable = $this->retrieve_variable($translation->get_variable_id());
+		$language_id = $translation->get_language_id();
 		
 		if($translation)
 		{
-			$translation->set_status($status);
+			$translation->switch_lock();
 			$succes = $translation->update();
 		}
 		
 		if($succes)
 		{
-			if($status == VariableTranslation :: STATUS_NORMAL)
+			if(!$translation->is_locked())
 			{
 				$message = 'TranslationVariableUnlocked';
 			}
@@ -67,7 +68,7 @@ class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 		}
 		else
 		{
-			if($status == VariableTranslation :: STATUS_NORMAL)
+			if(!$translation->is_locked())
 			{
 				$message = 'TranslationVariableNotUnlocked';
 			}
@@ -79,6 +80,7 @@ class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 		
 		$this->redirect(Translation :: get($message), !$succes, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS,
 				CdaManager :: PARAM_CDA_LANGUAGE => $language_id, CdaManager :: PARAM_LANGUAGE_PACK => $variable->get_language_pack_id()));
+		exit;
 	}
 	
 	function handle_language_pack($language_id, $language_pack_id, $status)
@@ -88,13 +90,7 @@ class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		$condition = new AndCondition($conditions);
 		
-		$succes = true;
-		$translations = $this->retrieve_variable_translations($condition);
-		while($translation = $translations->next_result())
-		{
-			$translation->set_status($status);
-			$succes &= $translation->update();
-		}
+		$succes = $this->update_variable_translations(array(VariableTranslation :: PROPERTY_STATUS => $status), $condition);
 		
 		if($succes)
 		{
@@ -121,19 +117,14 @@ class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 		
 		$this->redirect(Translation :: get($message), !$succes, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS,
 				CdaManager :: PARAM_CDA_LANGUAGE => $language_id));
+		exit;
 	}
 	
 	function handle_language($language_id, $status)
 	{
 		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		
-		$succes = true;
-		$translations = $this->retrieve_variable_translations($condition);
-		while($translation = $translations->next_result())
-		{
-			$translation->set_status($status);
-			$succes &= $translation->update();
-		}
+		$succes = $this->update_variable_translations(array(VariableTranslation :: PROPERTY_STATUS => $status), $condition);
 		
 		if($succes)
 		{
@@ -150,15 +141,16 @@ class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 		{
 			if($status == VariableTranslation :: STATUS_NORMAL)
 			{
-				$message = 'LanguagePackUnlocked';
+				$message = 'LanguageNotUnlocked';
 			}
 			else
 			{
-				$message = 'LanguagePackLocked';
+				$message = 'LanguageNotLocked';
 			}
 		}
 		
 		$this->redirect(Translation :: get($message), !$succes, array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_CDA_LANGUAGES));
+		exit;
 	}
 }
 ?>

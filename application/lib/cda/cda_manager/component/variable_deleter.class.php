@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 /**
  * Component to delete variables objects
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerVariableDeleterComponent extends CdaManagerComponent
 {

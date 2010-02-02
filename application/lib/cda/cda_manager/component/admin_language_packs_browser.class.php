@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../forms/language_pack_browser_filter_form
 /**
  * cda component which allows the user to browse his language_packs
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
 {

@@ -9,8 +9,8 @@ require_once 'MDB2.php';
  *	This is a data manager that uses a database for storage. It was written
  *	for MySQL, but should be compatible with most SQL flavors.
  *
- *  @author Sven Vanpoucke
- *  @author 
+ * @author Sven Vanpoucke
+ * @author Hans De Bisschop
  */
 
 class DatabaseCdaDataManager extends CdaDataManager
@@ -164,26 +164,33 @@ class DatabaseCdaDataManager extends CdaDataManager
 	
 	function delete_variable_translation($variable_translation)
 	{
-		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $variable_translation->get_language_id());
-		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_translation->get_variable_id());
-		$condition = new AndCondition($conditions);
+		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_ID, $variable_translation->get_id());
 		return $this->database->delete($variable_translation->get_table_name(), $condition);
 	}
 	
 	function update_variable_translation($variable_translation)
 	{
-		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $variable_translation->get_language_id());
-		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_translation->get_variable_id());
-		$condition = new AndCondition($conditions);
+		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_ID, $variable_translation->get_id());
 		return $this->database->update($variable_translation, $condition);
+	}
+	
+	function update_variable_translations($properties = array(), $condition, $offset = null, $max_objects = null, $order_by = array())
+	{
+		return $this->database->update_objects(VariableTranslation :: get_table_name(), $properties, $condition, $offset, $max_objects, $order_by);
 	}
 
 	function count_variable_translations($condition = null)
 	{
 		return $this->database->count_objects(VariableTranslation :: get_table_name(), $condition);
 	}
+	
+	function retrieve_variable_translation($variable_translation_id)
+	{
+		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_ID, $variable_translation_id);
+		return $this->database->retrieve_object(VariableTranslation :: get_table_name(), $condition);
+	}
 
-	function retrieve_variable_translation($language_id, $variable_id)
+	function retrieve_variable_translation_by_parameters($language_id, $variable_id)
 	{
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_id);
@@ -393,6 +400,39 @@ class DatabaseCdaDataManager extends CdaDataManager
         }
         
         return $number_of_translations;
+	}
+	
+	function create_historic_variable_translation($historic_variable_translation)
+	{
+		return $this->database->create($historic_variable_translation);
+	}
+	
+	function delete_historic_variable_translation($historic_variable_translation)
+	{
+		$condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_ID, $historic_variable_translation->get_id());
+		return $this->database->delete($historic_variable_translation->get_table_name(), $condition);
+	}
+	
+	function update_historic_variable_translation($historic_variable_translation)
+	{
+		$condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_ID, $historic_variable_translation->get_id());
+		return $this->database->update($historic_variable_translation, $condition);
+	}
+
+	function count_historic_variable_translations($condition = null)
+	{
+		return $this->database->count_objects(HistoricVariableTranslation :: get_table_name(), $condition);
+	}
+	
+	function retrieve_historic_variable_translation($historic_variable_translation_id)
+	{
+		$condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_ID, $historic_variable_translation_id);
+		return $this->database->retrieve_object(HistoricVariableTranslation :: get_table_name(), $condition);
+	}
+
+	function retrieve_historic_variable_translations($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+        return $this->database->retrieve_objects(HistoricVariableTranslation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 }
 ?>

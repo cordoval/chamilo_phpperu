@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../forms/variable_translation_form.class.php
 /**
  * Component to edit an existing variable_translation object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 {
@@ -18,11 +18,12 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 	 */
 	function run()
 	{
-		$language_id = Request :: get(CdaManager :: PARAM_CDA_LANGUAGE);
-		$variable_id = Request :: get(CdaManager :: PARAM_VARIABLE);
+		$variable_translation_id = Request :: get(CdaManager :: PARAM_VARIABLE_TRANSLATION);
+		$variable_translation = $this->retrieve_variable_translation($variable_translation_id);
 		
+		$language_id = $variable_translation->get_language_id();
+		$variable_id = $variable_translation->get_variable_id();
 		$variable = $this->retrieve_variable($variable_id);
-		$variable_translation = $this->retrieve_variable_translation($language_id, $variable_id);
 		
 		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $language_id, 'cda_language');
 		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $language_id, 'cda_language');
@@ -40,8 +41,7 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 															CdaManager :: PARAM_VARIABLE => $variable_id)), Translation :: get('UpdateVariableTranslation')));
 			
 			$form = new VariableTranslationForm($variable_translation, $variable, 
-					$this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => $language_id, 
-										 CdaManager :: PARAM_VARIABLE => $variable_id)), $this->get_user());
+					$this->get_url(array(CdaManager :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id())), $this->get_user());
 	
 			if($form->validate())
 			{

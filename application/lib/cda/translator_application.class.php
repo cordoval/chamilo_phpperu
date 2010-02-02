@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/cda_rights.class.php';
 /**
  * This class describes a TranslatorApplication data object
  * @author Hans De Bisschop
- * @author 
+ * @author Hans De Bisschop
  */
 class TranslatorApplication extends DataClass
 {

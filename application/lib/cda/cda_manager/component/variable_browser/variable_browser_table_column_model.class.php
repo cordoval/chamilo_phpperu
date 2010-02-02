@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../../variable.class.php';
  * Table column model for the variable browser table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 
 class VariableBrowserTableColumnModel extends DefaultVariableTableColumnModel

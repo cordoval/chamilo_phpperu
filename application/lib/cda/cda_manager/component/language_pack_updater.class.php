@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../forms/language_pack_form.class.php';
 /**
  * Component to edit an existing language_pack object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerLanguagePackUpdaterComponent extends CdaManagerComponent
 {

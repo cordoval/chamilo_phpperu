@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/cda_language_browser/cda_language_browser_table
 /**
  * cda component which allows the user to browse his cda_languages
  * @author Sven Vanpoucke
- * @author
+ * @author Hans De Bisschop
  */
 class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
 {

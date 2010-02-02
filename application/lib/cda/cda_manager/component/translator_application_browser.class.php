@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/translator_application_browser/translator_appli
 /**
  * cda component which allows the user to browse his variable_translations
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerTranslatorApplicationBrowserComponent extends CdaManagerComponent
 {

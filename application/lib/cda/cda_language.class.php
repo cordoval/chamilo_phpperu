@@ -6,7 +6,7 @@
 /**
  * This class describes a CdaLanguage data object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaLanguage extends DataClass
 {

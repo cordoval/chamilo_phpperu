@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../forms/variable_form.class.php';
 /**
  * Component to create a new variable object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerVariableCreatorComponent extends CdaManagerComponent
 {

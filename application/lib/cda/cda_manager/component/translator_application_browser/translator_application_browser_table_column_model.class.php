@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../../translator_application.class.php';
  * Table column model for the translator_application browser table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 
 class TranslatorApplicationBrowserTableColumnModel extends DefaultTranslatorApplicationTableColumnModel

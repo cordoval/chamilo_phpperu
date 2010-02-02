@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../forms/translator_application_form.class.p
 /**
  * Component to create a new variable object
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaManagerTranslatorApplicationCreatorComponent extends CdaManagerComponent
 {

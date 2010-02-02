@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../cda_data_manager.class.php';
  * cda application.
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author Hans De Bisschop
  */
 class CdaInstaller extends Installer
 {

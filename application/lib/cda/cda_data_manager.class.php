@@ -3,8 +3,8 @@
  *	This is a skeleton for a data manager for the Cda Application.
  *	Data managers must extend this class and implement its abstract methods.
  *
- *  @author Sven Vanpoucke
- *	@author 
+ * @author Sven Vanpoucke
+ * @author Hans De Bisschop
  */
 
 require_once dirname(__FILE__).'/cda_language.class.php';
@@ -78,10 +78,18 @@ abstract class CdaDataManager
 	abstract function delete_variable_translation($variable_translation);
 	abstract function update_variable_translation($variable_translation);
 	abstract function count_variable_translations($conditions = null);
-	abstract function retrieve_variable_translation($language_id, $variable_id);
+	abstract function retrieve_variable_translation($variable_translation_id);
+	abstract function retrieve_variable_translation_by_parameters($language_id, $variable_id);
 	abstract function retrieve_variable_translations($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function retrieve_english_translation($variable_id);
+	
+	abstract function create_historic_variable_translation($historic_variable_translation);
+	abstract function delete_historic_variable_translation($historic_variable_translation);
+	abstract function update_historic_variable_translation($historic_variable_translation);
+	abstract function count_historic_variable_translations($conditions = null);
+	abstract function retrieve_historic_variable_translation($historic_variable_translation_id);
+	abstract function retrieve_historic_variable_translations($condition = null, $offset = null, $count = null, $order_property = null);
 	
 	abstract function can_language_be_locked($language);
 	abstract function can_language_be_unlocked($language);
