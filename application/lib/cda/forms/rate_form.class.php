@@ -9,18 +9,16 @@ class RateForm extends FormValidator
 
 	private $translation;
 	private $variable;
-	private $user_id;
 
 	/**
 	 * Creates a new RateForm
 	 */
-    function RateForm($translation, $variable, $action, $user_id) 
+    function RateForm($translation, $variable, $action) 
     {
     	parent :: __construct('rate_form', 'post', $action);
 
 		$this->translation = $translation;
 		$this->variable = $variable;
-		$this->user_id = $user_id;
 		$this->build_form();
 		$this->setDefaults();
     }

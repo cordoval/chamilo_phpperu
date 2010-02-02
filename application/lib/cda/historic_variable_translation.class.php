@@ -8,7 +8,7 @@
  * @author Sven Vanpoucke
  * @author 
  */
-class VariableTranslation extends DataClass
+class HistoricVariableTranslation extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -33,7 +33,7 @@ class VariableTranslation extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return parent :: get_default_property_names(array (self :: PROPERTY_LANGUAGE_ID, self :: PROPERTY_VARIABLE_ID, self :: PROPERTY_TRANSLATION, self :: PROPERTY_DATE, self :: PROPERTY_USER_ID, self :: PROPERTY_RATING, self :: PROPERTY_RATED, self :: PROPERTY_STATUS));
+		return array (self :: PROPERTY_LANGUAGE_ID, self :: PROPERTY_VARIABLE_ID, self :: PROPERTY_TRANSLATION, self :: PROPERTY_DATE, self :: PROPERTY_USER_ID, self :: PROPERTY_RATING, self :: PROPERTY_RATED, self :: PROPERTY_STATUS);
 	}
 
 	function get_data_manager()
@@ -213,28 +213,6 @@ class VariableTranslation extends DataClass
 	function is_locked()
 	{
 		return $this->get_status() == self :: STATUS_BLOCKED;
-	}
-	
-	function lock()
-	{
-		$this->set_status(self :: STATUS_BLOCKED);
-	}
-	
-	function unlock()
-	{
-		$this->set_status(self :: STATUS_NORMAL);
-	}
-	
-	function switch_lock()
-	{
-		if ($this->is_locked())
-		{
-			$this->unlock();
-		}
-		else
-		{
-			$this->lock();
-		}
 	}
 }
 

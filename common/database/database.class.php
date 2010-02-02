@@ -344,12 +344,14 @@ class Database
     {
         if (count($properties) > 0)
         {
-            $query = 'UPDATE ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name) . ' SET ';
+        	$table_name_alias = $this->get_alias($table_name);
+        	
+            $query = 'UPDATE ' . $this->escape_table_name($table_name) . ' AS ' . $table_name_alias . ' SET ';
 
             $updates = array();
             foreach ($properties as $column => $property)
             {
-                $updates[] = $this->escape_column_name($column) . '=' . $property;
+                $updates[] = $this->escape_column_name($column, $table_name_alias) . '=' . $property;
             }
 
             $query .= implode(", ", $updates);
