@@ -161,14 +161,16 @@ class TranslatorApplicationForm extends FormValidator
 	   		{
 	   			return false;
 	   		}
+	   		
+	   		$applications[$application->get_id()] = $language;
     	}
     	
-    	$this->notify($languages, $source_language);
+    	$this->notify($applications, $source_language);
     	
    		return true;
     }
     
-    function notify($languages, $source_language)
+    function notify($applications, $source_language)
     {
     	$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
     	
@@ -179,11 +181,20 @@ class TranslatorApplicationForm extends FormValidator
     	$html[] = '';
     	$html[] = Translation :: get('DestinationLanguages');
 
-    	foreach($languages as $language)
+    	foreach($applications as $application => $language)
     	{
     		$language = $this->get_language_name($language);
-    		$html[] = $language;
+    		$link = Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION,
+    											  CdaManager :: PARAM_TRANSLATOR_APPLICATION => $application->get_id()));
+
+    		$html[] = '<a href="' . $link . '">' . $language . '</a>';
     	}
+    	
+    	$link = Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS));
+    	
+    	$html[] = '';
+    	$html[] = Translation :: get('FollowLinkToActivate') . ':';
+    	$html[] = '<a href="' . $link . '">' . $link . '</a>';
     	
     	$subject = '[CDA] ' . Translation :: get('UserAppliedForTranslator');
     	$content = implode("\n", $html);
