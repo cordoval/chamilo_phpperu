@@ -59,8 +59,6 @@ class HistoricVariableTranslationBrowserTableCellRenderer extends DefaultHistori
 	{
 		$toolbar_data = array();
 
-//		$status = $variable_translation->get_status();
-//		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $variable_translation->get_language_id(), 'cda_language');
 		$can_delete = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $historic_variable_translation->get_variable_translation()->get_language_id(), 'cda_language');
 
 		if ($can_delete)
@@ -74,50 +72,11 @@ class HistoricVariableTranslationBrowserTableCellRenderer extends DefaultHistori
 
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_revert_historic_variable_translation_url($historic_variable_translation),
-				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path() . 'action_delete.png',
+				'label' => Translation :: get('Revert'),
+				'img' => Theme :: get_common_image_path() . 'action_revert.png',
 			    'confirm' => true
 			);
 		}
-//		elseif($can_translate && $variable_translation->is_locked())
-//		{
-//        	$toolbar_data[] = array(
-//				'label' => Translation :: get('Lock'),
-//				'img' => Theme :: get_common_image_path().'action_lock.png'
-//			);
-//		}
-//
-//		if ($can_lock)
-//		{
-//			if(!$variable_translation->is_locked())
-//	        {
-//	        	$toolbar_data[] = array(
-//					'href' => $this->browser->get_lock_variable_translation_url($variable_translation),
-//					'label' => Translation :: get('Lock'),
-//					'img' => Theme :: get_common_image_path().'action_lock.png'
-//				);
-//	        }
-//	        else
-//	        {
-//	        	$toolbar_data[] = array(
-//					'href' => $this->browser->get_unlock_variable_translation_url($variable_translation),
-//					'label' => Translation :: get('Unlock'),
-//					'img' => Theme :: get_common_image_path().'action_unlock.png'
-//				);
-//	        }
-//		}
-//
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_rate_variable_translation_url($variable_translation),
-//			'label' => Translation :: get('Rate'),
-//			'img' => Theme :: get_common_image_path().'action_statistics.png'
-//		);
-//
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_view_variable_translation_url($variable_translation),
-//			'label' => Translation :: get('View'),
-//			'img' => Theme :: get_common_image_path().'action_browser.png'
-//		);
 
 		return Utilities :: build_toolbar($toolbar_data);
 	}

@@ -36,7 +36,7 @@ class CdaManagerHistoricVariableTranslationReverterComponent extends CdaManagerC
 				{
 					$failures++;
 				}
-				elseif (!$historic_variable_translation->delete())
+				elseif (!$historic_variable_translation->revert())
 				{
 					$failures++;
 				}
@@ -46,22 +46,22 @@ class CdaManagerHistoricVariableTranslationReverterComponent extends CdaManagerC
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedHistoricVariableTranslationNotDeleted';
+					$message = 'SelectedHistoricVariableTranslationNotReverted';
 				}
 				else
 				{
-					$message = 'SelectedHistoricVariableTranslationsNotDeleted';
+					$message = 'SelectedHistoricVariableTranslationsNotReverted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedHistoricVariableTranslationDeleted';
+					$message = 'SelectedHistoricVariableTranslationReverted';
 				}
 				else
 				{
-					$message = 'SelectedHistoricVariableTranslationsNotDeleted';
+					$message = 'SelectedHistoricVariableTranslationsNotReverted';
 				}
 			}
 

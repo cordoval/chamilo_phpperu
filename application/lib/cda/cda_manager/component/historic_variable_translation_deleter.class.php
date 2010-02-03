@@ -36,7 +36,7 @@ class CdaManagerHistoricVariableTranslationDeleterComponent extends CdaManagerCo
 				{
 					$failures++;
 				}
-				elseif (!$historic_variable_translation->delete())
+				elseif (!$historic_variable_translation->revert())
 				{
 					$failures++;
 				}

@@ -70,6 +70,8 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	const ACTION_REVERT_HISTORIC_VARIABLE_TRANSLATION = 'restore_historic_variable_translation';
 	const PARAM_HISTORIC_VARIABLE_TRANSLATION = 'historic_variable_translation';
 
+	const PARAM_COMPARE_SELECTED_VARIABLE_TRANSLATIONS = 'compare_selected_variable_translations';
+
 	/**
 	 * Constructor
 	 * @param User $user The current user
