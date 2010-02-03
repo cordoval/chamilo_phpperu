@@ -96,8 +96,6 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
         
         if ($can_lock)
         {
-	        $language_pack = $this->retrieve_cda_language(Request :: get(CdaManager :: PARAM_LANGUAGE_PACK));
-	        
 	    	if($this->can_language_pack_be_locked($language_pack, $cda_language_id))
 	        {
 				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png', 
