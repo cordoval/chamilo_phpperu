@@ -199,7 +199,7 @@ class TranslatorApplicationForm extends FormValidator
     	$subject = '[CDA] ' . Translation :: get('UserAppliedForTranslator');
     	$content = implode("<br />", $html);
     	$to = PlatformSetting :: get('administrator_email');
-    	$mail = Mail :: factory($subject, $content, $to); 
+    	$mail = Mail :: factory($subject, $content, $to, $to); 
     	$mail->send();
     }
     

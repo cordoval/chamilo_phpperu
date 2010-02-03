@@ -40,6 +40,10 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManagerCompon
 				{
 					$failures++;
 				}
+				else
+				{
+					$this->notify($translator_application);
+				}
 			}
 
 			if ($failures)
@@ -72,5 +76,29 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManagerCompon
 			$this->display_error_page(htmlentities(Translation :: get('NoTranslatorApplicationsSelected')));
 		}
 	}
+	
+	function notify($translator_application)
+    {
+    	$user = UserDataManager :: get_instance()->retrieve_user($translator_application->get_user_id());
+    	$source_language = $this->retrieve_cda_language($translator_application->get_source_language_id());
+    	$destination_language = $this->retrieve_cda_language($translator_application->destination_language_id());
+    	
+    	$html[] = Translation :: get('Dear') . ' ' . $user->get_fullname();
+    	$html[] = '';
+    	$html[] = Translation :: get('YouHaveBeenAcceptedAsTranslatorFor');
+    	$html[] = '';
+    	$html[] = Translation :: get('SourceLanguage');
+    	$html[] = $source_language->get_original_name();
+    	$html[] = '';
+    	$html[] = Translation :: get('DestinationLanguage');
+    	$html[] = $destination_language->get_original_name();
+
+    	$subject = '[CDA] ' . Translation :: get('TranslationApplicationAccepted');
+    	$content = implode("<br />", $html);
+    	$from = PlatformSetting :: get('administrator_email');
+    	$to = $user->get_email();
+    	$mail = Mail :: factory($subject, $content, $to, $from); 
+    	$mail->send();
+    }
 }
 ?>
