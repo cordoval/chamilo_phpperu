@@ -22,12 +22,13 @@ class HistoricVariableTranslationBrowserTable extends ObjectTable
 	 */
 	function HistoricVariableTranslationBrowserTable($browser, $parameters, $condition)
 	{
-		$model = new HistoricVariableTranslationBrowserTableColumnModel();	
+		$model = new HistoricVariableTranslationBrowserTableColumnModel();
 		$renderer = new HistoricVariableTranslationBrowserTableCellRenderer($browser);
 		$data_provider = new HistoricVariableTranslationBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
+//		$actions[] = new ObjectTableFormAction(CdaManager :: PARAM_COMPARE_SELECTED_VARIABLE_TRANSLATIONS, Translation :: get('CompareSelected'));
 
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);

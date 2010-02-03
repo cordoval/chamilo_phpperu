@@ -128,7 +128,7 @@ class SortableTable extends HTML_Table
         $_SESSION[$this->param_prefix . 'direction'] = $this->direction;
         $_SESSION[$this->param_prefix . 'page_nr'] = $this->page_nr;
         $_SESSION[$this->param_prefix . 'column'] = $this->column;
-        
+
         $this->pager = null;
         $this->default_items_per_page = $default_items_per_page;
         $this->total_number_of_items = - 1;
@@ -139,7 +139,7 @@ class SortableTable extends HTML_Table
         {
         	$this->per_page = $this->total_number_of_items;
         }
-        
+
         $this->ajax_enabled = $ajax_enabled;
         $this->column_filters = array();
         $this->form_actions = array();
@@ -250,7 +250,7 @@ class SortableTable extends HTML_Table
 							}
 							/* ]]> */
 							</script>';
-                //                
+                //
                 //							function anyCheckboxChecked(formName) {
                 //								var d = document[formName];
                 //								for (i = 0; i < d.elements.length; i++) {
@@ -259,10 +259,10 @@ class SortableTable extends HTML_Table
                 //								}
                 //								return false;
                 //							}
-                
+
 
                 // Initially replaced $this->get_sortable_table_param_string with
-                // $this->get_sortable_table_param_string() .. but I doubt it should be there anyway? 
+                // $this->get_sortable_table_param_string() .. but I doubt it should be there anyway?
                 //$params = $this->get_sortable_table_param_string().'&amp;'.$this->get_additional_url_paramstring();
                 $params = $this->get_additional_url_paramstring();
                 //$html[] = '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?' . $params . '" name="form_' . $this->table_name . '"  onsubmit="return anyCheckboxChecked(\'form_' . $this->table_name . '\') &amp;&amp; confirm(\'' . addslashes(htmlentities(Translation :: get("ConfirmYourChoice"))) . '\');">';
@@ -279,9 +279,11 @@ class SortableTable extends HTML_Table
             if (count($this->form_actions))
             {
                 $html[] = '<div class="sortable_table_selection_controls">';
+                $html[] = '<span class="sortable_table_selection_controls_options">';
                 $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
                 $html[] = '&nbsp;-&nbsp;';
                 $html[] = '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a> ';
+                $html[] = '</span>';
                 $html[] = '<select id="actions_' . $this->table_name . '" name="' . $this->form_actions_select_name . '">';
                 foreach ($this->form_actions as $form_action)
                 {
@@ -307,7 +309,7 @@ class SortableTable extends HTML_Table
             {
                 $html[] = '</form>';
             }
-            
+
             if ($this->is_ajax_enabled())
             {
                 $html[] = '<script type="text/javascript">';
@@ -348,14 +350,14 @@ class SortableTable extends HTML_Table
     {
         // Make sure the header isn't dragable or droppable
         //$this->setRowAttributes(0, array('class' => 'nodrag nodrop'), true);
-        
+
 
         // Now process the rest of the table
         $pager = $this->get_pager();
         $offset = $pager->getOffsetByPageId();
         $from = $offset[0] - 1;
         $table_data = $this->get_table_data($from);
-        
+
         foreach ($table_data as $index => $row)
         {
             $row_id = $row[0];
@@ -363,9 +365,9 @@ class SortableTable extends HTML_Table
             $current_row = $this->addRow($row);
             $this->setRowAttributes($current_row, array('id' => 'row_' . $row_id), true);
         }
-        
+
         $this->altRowAttributes(1, array('class' => 'row_odd'), array('class' => 'row_even'), true);
-        
+
         foreach ($this->th_attributes as $column => $attributes)
         {
             $this->setCellAttributes(0, $column, $attributes);
@@ -448,7 +450,7 @@ class SortableTable extends HTML_Table
     function set_header($column, $label, $sortable = true, $th_attributes = null, $td_attributes = null)
     {
         $header = $this->getHeader();
-        
+
         $param['direction'] = SORT_ASC;
         if ($this->column == $column && $this->direction == SORT_ASC)
         {
@@ -475,7 +477,7 @@ class SortableTable extends HTML_Table
         {
             $link = $label;
         }
-        
+
         $header->setHeaderContents(0, $column, $link);
         if (! is_null($td_attributes))
         {
@@ -486,7 +488,7 @@ class SortableTable extends HTML_Table
             $this->th_attributes[$column] = $th_attributes;
         }
         //$header->addCol(array($link), $attributes, 'th');
-        
+
 
         return $link;
     }
@@ -549,7 +551,7 @@ class SortableTable extends HTML_Table
         }
         $res = implode('&amp;', $param_string_parts);
         return $res;
-    
+
     }
 
     /**
@@ -635,7 +637,7 @@ class SortableTable extends HTML_Table
                 $row[$index] = '-';
             }
         }
-        
+
         return $row;
     }
 
@@ -706,7 +708,7 @@ class SortableTable extends HTML_Table
 
     /**
      * Gets the AJAX status of the table
-     * 
+     *
      * @return boolean Whether or not the table should have AJAX functionality
      */
     function is_ajax_enabled()

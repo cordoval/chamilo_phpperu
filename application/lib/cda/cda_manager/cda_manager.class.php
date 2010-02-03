@@ -57,15 +57,20 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	const ACTION_ADMIN_IMPORT_TRANSLATIONS = 'admin_import_translations';
 	const ACTION_RATE_VARIABLE_TRANSLATION = 'rate_variable_translation';
 	const ACTION_SEARCH_VARIABLE_TRANSLATIONS = 'search_variable_translations';
-	
+	const PARAM_VARIABLE_TRANSLATION = 'variable_translation';
+
 	const ACTION_CREATE_TRANSLATOR_APPLICATION = 'create_translator_application';
 	const ACTION_BROWSE_TRANSLATOR_APPLICATIONS = 'browse_translator_applications';
 	const ACTION_ACTIVATE_TRANSLATOR_APPLICATION = 'activate_translator_application';
 	const ACTION_DEACTIVATE_TRANSLATOR_APPLICATION = 'deactivate_translator_application';
 	const ACTION_DELETE_TRANSLATOR_APPLICATION = 'delete_translator_application';
 	const PARAM_TRANSLATOR_APPLICATION = 'translator_application';
-	
-	const PARAM_VARIABLE_TRANSLATION = 'variable_translation';
+
+	const ACTION_DELETE_HISTORIC_VARIABLE_TRANSLATION = 'delete_historic_variable_translation';
+	const ACTION_REVERT_HISTORIC_VARIABLE_TRANSLATION = 'restore_historic_variable_translation';
+	const PARAM_HISTORIC_VARIABLE_TRANSLATION = 'historic_variable_translation';
+
+	const PARAM_COMPARE_SELECTED_VARIABLE_TRANSLATIONS = 'compare_selected_variable_translations';
 
 	/**
 	 * Constructor
@@ -173,6 +178,12 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 			case self :: ACTION_SEARCH_VARIABLE_TRANSLATIONS :
 				$component = CdaManagerComponent :: factory('VariableTranslationsSearcher', $this);
 				break;
+			case self :: ACTION_DELETE_HISTORIC_VARIABLE_TRANSLATION :
+			    $component = CdaManagerComponent :: factory('HistoricVariableTranslationDeleter', $this);
+			    break;
+			case self :: ACTION_REVERT_HISTORIC_VARIABLE_TRANSLATION :
+			    $component = CdaManagerComponent :: factory('HistoricVariableTranslationReverter', $this);
+			    break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CDA_LANGUAGES);
 				$component = CdaManagerComponent :: factory('CdaLanguagesBrowser', $this);
@@ -188,12 +199,12 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
         $links[] = array('name' => Translation :: get('ManageLanguagePacks'), 'description' => Translation :: get('ManageLanguagePacksDescription'), 'action' => 'add', 'url' => $this->get_admin_browse_language_packs_link());
         $links[] = array('name' => Translation :: get('ManageTranslatorApplications'), 'description' => Translation :: get('ManageTranslatorApplicationsDescription'), 'action' => 'list', 'url' => $this->get_browse_translator_applications_link());
         $links[] = array('name' => Translation :: get('ImportLanguageFiles'), 'description' => Translation :: get('ImportLanguageFilesDescription'), 'action' => 'list', 'url' => $this->get_admin_import_variable_translations_url());
-        
+
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
         return $info;
     }
-	
+
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))
@@ -314,7 +325,7 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		return CdaDataManager :: get_instance()->retrieve_variable_translations($condition, $offset, $count, $order_property);
 	}
-	
+
   	function retrieve_variable_translation($variable_translation_id)
 	{
 		return CdaDataManager :: get_instance()->retrieve_variable_translation($variable_translation_id);
@@ -329,37 +340,37 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		return CdaDataManager :: get_instance()->retrieve_english_translation($variable_id);
 	}
-	
+
 	function can_language_be_locked($language)
 	{
 		return CdaDataManager :: get_instance()->can_language_be_locked($language);
 	}
-	
+
 	function can_language_be_unlocked($language)
 	{
 		return CdaDataManager :: get_instance()->can_language_be_unlocked($language);
 	}
-	
+
 	function can_language_pack_be_locked($language_pack, $language_id)
 	{
 		return CdaDataManager :: get_instance()->can_language_pack_be_locked($language_pack, $language_id);
 	}
-	
+
 	function can_language_pack_be_unlocked($language_pack, $language_id)
-	{ 
+	{
 		return CdaDataManager :: get_instance()->can_language_pack_be_unlocked($language_pack, $language_id);
 	}
-	
+
  	function get_progress_for_language($language)
 	{
 		return CdaDataManager :: get_instance()->get_progress_for_language($language);
 	}
-	
+
 	function get_progress_for_language_pack($language_pack, $language_id = null)
 	{
 		return CdaDataManager :: get_instance()->get_progress_for_language_pack($language_pack, $language_id);
 	}
-	
+
 	// Url Creation
 
 	function get_create_cda_language_url()
@@ -383,12 +394,12 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CDA_LANGUAGES));
 	}
-	
+
  	function get_admin_browse_cda_languages_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
 	}
-	
+
  	function get_admin_browse_cda_languages_link()
 	{
 		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES));
@@ -421,12 +432,12 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS));
 	}
-	
+
  	function get_admin_browse_language_packs_link()
 	{
 		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS));
 	}
-	
+
 	function get_create_variable_url($language_pack_id)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_VARIABLE,
@@ -468,13 +479,13 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 									self :: PARAM_CDA_LANGUAGE => $language_id,
 									self :: PARAM_LANGUAGE_PACK => $language_pack_id));
 	}
-	
+
  	function get_lock_variable_translation_url($variable_translation)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
 								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
 	}
-	
+
 	function get_lock_language_pack_url($language_pack, $language_id)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
@@ -482,20 +493,20 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 								    self :: PARAM_LANGUAGE_PACK => $language_pack->get_id(),
 								    self :: PARAM_VARIABLE_TRANSLATION_STATUS => VariableTranslation :: STATUS_BLOCKED));
 	}
-	
+
  	function get_lock_language_url($language)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
 								    self :: PARAM_CDA_LANGUAGE => $language->get_id(),
 								    self :: PARAM_VARIABLE_TRANSLATION_STATUS => VariableTranslation :: STATUS_BLOCKED));
 	}
-	
+
  	function get_unlock_variable_translation_url($variable_translation)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
 								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
 	}
-	
+
 	function get_unlock_language_pack_url($language_pack, $language_id)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
@@ -503,51 +514,51 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 								    self :: PARAM_LANGUAGE_PACK => $language_pack->get_id(),
 								    self :: PARAM_VARIABLE_TRANSLATION_STATUS => VariableTranslation :: STATUS_NORMAL));
 	}
-	
+
  	function get_unlock_language_url($language)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
 								    self :: PARAM_CDA_LANGUAGE => $language->get_id(),
 								    self :: PARAM_VARIABLE_TRANSLATION_STATUS => VariableTranslation :: STATUS_NORMAL));
 	}
-	
+
  	function get_view_variable_translation_url($variable_translation)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_VARIABLE_TRANSLATION,
 								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
 	}
-	
+
  	function get_rate_variable_translation_url($variable_translation)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_RATE_VARIABLE_TRANSLATION,
 								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
 	}
-	
+
  	function get_export_translations_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_TRANSLATIONS));
 	}
-	
+
  	function get_translator_application_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_TRANSLATOR_APPLICATION));
 	}
-	
+
  	function get_activate_translator_application_url($translator_application)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION, self :: PARAM_TRANSLATOR_APPLICATION => $translator_application->get_id()));
 	}
-	
+
 	function get_deactivate_translator_application_url($translator_application)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DEACTIVATE_TRANSLATOR_APPLICATION, self :: PARAM_TRANSLATOR_APPLICATION => $translator_application->get_id()));
 	}
-	
+
 	function get_delete_translator_application_url($translator_application)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TRANSLATOR_APPLICATION, self :: PARAM_TRANSLATOR_APPLICATION => $translator_application->get_id()));
 	}
-	
+
  	function count_translator_applications($condition)
 	{
 		return CdaDataManager :: get_instance()->count_translator_applications($condition);
@@ -562,32 +573,32 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		return CdaDataManager :: get_instance()->retrieve_translator_application($id);
 	}
-	
+
   	function get_browse_translator_applications_link()
 	{
 		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS));
 	}
-	
+
 	function get_variable_translations_searcher_url()
 	{
 		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_SEARCH_VARIABLE_TRANSLATIONS));
 	}
-	
+
 	function get_import_variable_translations_url()
 	{
 		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_TRANSLATIONS));
 	}
-	
+
 	function get_admin_import_variable_translations_url()
 	{
 		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_IMPORT_TRANSLATIONS));
 	}
-	
+
  	function update_variable_translations($properties = array(), $condition, $offset = null, $max_objects = null, $order_by = array())
 	{
 		return CdaDataManager :: get_instance()->update_variable_translations($properties, $condition, $offset, $max_objects, $order_by);
 	}
-	
+
  	function count_historic_variable_translations($condition)
 	{
 		return CdaDataManager :: get_instance()->count_historic_variable_translations($condition);
@@ -597,10 +608,20 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		return CdaDataManager :: get_instance()->retrieve_historic_variable_translations($condition, $offset, $count, $order_property);
 	}
-	
+
   	function retrieve_historic_variable_translation($historic_variable_translation_id)
 	{
 		return CdaDataManager :: get_instance()->retrieve_historic_variable_translation($historic_variable_translation_id);
+	}
+
+ 	function get_delete_historic_variable_translation_url($historic_variable_translation)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_HISTORIC_VARIABLE_TRANSLATION, self :: PARAM_HISTORIC_VARIABLE_TRANSLATION => $historic_variable_translation->get_id()));
+	}
+
+  	function get_revert_historic_variable_translation_url($historic_variable_translation)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REVERT_HISTORIC_VARIABLE_TRANSLATION, self :: PARAM_HISTORIC_VARIABLE_TRANSLATION => $historic_variable_translation->get_id()));
 	}
 }
 ?>
