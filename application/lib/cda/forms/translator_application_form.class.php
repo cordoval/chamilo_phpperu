@@ -184,20 +184,20 @@ class TranslatorApplicationForm extends FormValidator
     	foreach($applications as $application => $language)
     	{
     		$language = $this->get_language_name($language);
-    		$link = Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION,
+    		$link = Path :: get(WEB_PATH) . Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION,
     											  CdaManager :: PARAM_TRANSLATOR_APPLICATION => $application));
 
     		$html[] = '<a href="' . $link . '">' . $language . '</a>';
     	}
     	
-    	$link = Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS));
+    	$link = Path :: get(WEB_PATH) . Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS));
     	
     	$html[] = '';
     	$html[] = Translation :: get('FollowLinkToActivate') . ':';
     	$html[] = '<a href="' . $link . '">' . $link . '</a>';
     	
     	$subject = '[CDA] ' . Translation :: get('UserAppliedForTranslator');
-    	$content = implode("\n", $html);
+    	$content = implode("<br />", $html);
     	$to = PlatformSetting :: get('administrator_email');
     	$mail = Mail :: factory($subject, $content, $to); 
     	$mail->send();
