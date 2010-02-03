@@ -69,8 +69,9 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 						{
 							$message = $success ? Translation :: get('PreviousVariableTranslationUpdated') : Translation :: get('PreviousVariableTranslationNotUpdated');
 							$parameters[CdaManager :: PARAM_ACTION] = CdaManager :: ACTION_EDIT_VARIABLE_TRANSLATION;
-							$parameters[CdaManager :: PARAM_CDA_LANGUAGE] = $language_id;
-							$parameters[CdaManager :: PARAM_VARIABLE] = $next_variable->get_variable_id();
+							/*$parameters[CdaManager :: PARAM_CDA_LANGUAGE] = $language_id;
+							$parameters[CdaManager :: PARAM_VARIABLE] = $next_variable->get_variable_id();*/
+							$parameters[CdaManager :: PARAM_VARIABLE_TRANSLATION] = $next_variable->get_id();
 						}
 						else
 						{

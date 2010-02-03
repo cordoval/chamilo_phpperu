@@ -35,7 +35,7 @@ class TranslatorApplicationForm extends FormValidator
     	$platform_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name('source_language', CdaManager :: APPLICATION_NAME);
     	$user_setting = UserDataManager :: get_instance()->retrieve_user_setting(Session :: get_user_id(), $platform_setting->get_id());
     	
-    	if (isset($user_setting))
+    	if ($user_setting)
     	{
     		$language = CdaDataManager :: get_instance()->retrieve_cda_language($user_setting->get_value());
     		$this->addElement('hidden', TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID, $user_setting->get_value());
