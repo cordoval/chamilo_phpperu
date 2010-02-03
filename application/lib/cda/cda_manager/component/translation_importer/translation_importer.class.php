@@ -131,7 +131,15 @@ abstract class TranslationImporter
     		{
     			continue;
     		}
-    			
+    		
+    		$is_translator = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $system_language->get_id(), 'cda_language');
+			$is_moderator = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $system_language->get_id(), 'cda_language');
+	    		
+			if(!$is_translator && !$is_moderator)
+			{
+				continue;
+			}
+			
     		$language_directory = $root . '/' . $language;
     		$language_packs = $this->scan_for_language_packs($language_directory);
     		
