@@ -146,12 +146,13 @@ class TranslatorApplicationForm extends FormValidator
     	$values = $this->exportValues();
     	
     	$languages = $values[TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID];
+    	$source_language = $values[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID];
     	
     	foreach($languages as $language)
     	{
 	   		$application = new TranslatorApplication();
 	   		$application->set_user_id(Session :: get_user_id());
-	   		$application->set_source_language_id($values[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID]);
+	   		$application->set_source_language_id($source_language);
 	   		$application->set_destination_language_id($language);
 	   		$application->set_date(Utilities :: to_db_date(time()));
 	   		$application->set_status(TranslatorApplication :: STATUS_PENDING);
@@ -162,7 +163,39 @@ class TranslatorApplicationForm extends FormValidator
 	   		}
     	}
     	
+    	$this->notify($languages, $source_language);
+    	
    		return true;
+    }
+    
+    function notify($languages, $source_language)
+    {
+    	$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+    	
+    	$html[] = sprintf(Translation :: get('UserHasAppliedForTheFollowingLanguages'), $user->get_fullname());
+    	$html[] = '';
+    	$html[] = Translation :: get('SourceLanguage');
+    	$html[] = $this->get_language_name($source_language);
+    	$html[] = '';
+    	$html[] = Translation :: get('DestinationLanguages');
+
+    	foreach($languages as $language)
+    	{
+    		$language = $this->get_language_name($language);
+    		$html[] = $language;
+    	}
+    	
+    	$subject = Translation :: get('UserAppliedForTranslator');
+    	$content = implode("\n", $html);
+    	$to = PlatformSetting :: get('administrator_email');
+    	Mail :: factory($subject, $content, $to, $to); 
+    	
+    }
+    
+    function get_language_name($language_id)
+    {
+    	$language = CdaDataManager :: get_instance()->retrieve_cda_language($language_id);
+    	return $language->get_english_name();
     }
 }
 ?>
