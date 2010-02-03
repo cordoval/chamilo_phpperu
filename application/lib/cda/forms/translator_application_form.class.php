@@ -185,7 +185,7 @@ class TranslatorApplicationForm extends FormValidator
     	{
     		$language = $this->get_language_name($language);
     		$link = Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION,
-    											  CdaManager :: PARAM_TRANSLATOR_APPLICATION => $application->get_id()));
+    											  CdaManager :: PARAM_TRANSLATOR_APPLICATION => $application));
 
     		$html[] = '<a href="' . $link . '">' . $language . '</a>';
     	}
