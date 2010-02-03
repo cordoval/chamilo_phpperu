@@ -81,7 +81,7 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManagerCompon
     {
     	$user = UserDataManager :: get_instance()->retrieve_user($translator_application->get_user_id());
     	$source_language = $this->retrieve_cda_language($translator_application->get_source_language_id());
-    	$destination_language = $this->retrieve_cda_language($translator_application->destination_language_id());
+    	$destination_language = $this->retrieve_cda_language($translator_application->get_destination_language_id());
     	
     	$html[] = Translation :: get('Dear') . ' ' . $user->get_fullname();
     	$html[] = '';
