@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * cda
  */
@@ -21,7 +21,7 @@ class HistoricVariableTranslation extends DataClass
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_RATING = 'rating';
 	const PROPERTY_RATED = 'rated';
-	
+
 	/**
 	 * Get the default properties
 	 * @return array The property names.
@@ -43,6 +43,11 @@ class HistoricVariableTranslation extends DataClass
 	function get_variable_translation_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_VARIABLE_TRANSLATION_ID);
+	}
+
+	function get_variable_translation()
+	{
+	    return $this->get_data_manager()->retrieve_variable_translation($this->get_variable_translation_id());
 	}
 
 	/**
@@ -98,7 +103,7 @@ class HistoricVariableTranslation extends DataClass
 	{
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
-	
+
 	function get_user()
 	{
 		return UserDataManager :: get_instance()->retrieve_user($this->get_user_id());
@@ -153,7 +158,7 @@ class HistoricVariableTranslation extends DataClass
 	{
 		return (int)($this->get_rating() / $this->get_rated());
 	}
-	
+
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

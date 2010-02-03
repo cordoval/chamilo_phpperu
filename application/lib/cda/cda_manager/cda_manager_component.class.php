@@ -76,7 +76,7 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->retrieve_variable_translations($condition, $offset, $count, $order_property);
 	}
-	
+
  	function retrieve_variable_translation($variable_translation_id)
 	{
 		return $this->get_parent()->retrieve_variable_translation($variable_translation_id);
@@ -86,32 +86,32 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->retrieve_variable_translation_by_parameters($language_id, $variable_id);
 	}
-	
+
 	function can_language_be_locked($language)
 	{
 		return $this->get_parent()->can_language_be_locked($language);
 	}
-	
+
 	function can_language_be_unlocked($language)
 	{
 		return $this->get_parent()->can_language_be_unlocked($language);
 	}
-	
+
 	function can_language_pack_be_locked($language_pack, $language_id)
 	{
 		return $this->get_parent()->can_language_pack_be_locked($language_pack, $language_id);
 	}
-	
+
 	function can_language_pack_be_unlocked($language_pack, $language_id)
 	{
 		return $this->get_parent()->can_language_pack_be_unlocked($language_pack, $language_id);
 	}
-	
+
 	function get_progress_for_language($language)
 	{
 		return $this->get_parent()->get_progress_for_language($language);
 	}
-	
+
 	function get_progress_for_language_pack($language_pack, $language_id = null)
 	{
 		return $this->get_parent()->get_progress_for_language_pack($language_pack, $language_id);
@@ -143,7 +143,7 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_admin_browse_cda_languages_url();
 	}
-	
+
 	function get_create_language_pack_url()
 	{
 		return $this->get_parent()->get_create_language_pack_url();
@@ -163,7 +163,7 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_browse_language_packs_url($language_id);
 	}
-	
+
 	function get_admin_browse_language_packs_url()
 	{
 		return $this->get_parent()->get_admin_browse_language_packs_url();
@@ -188,7 +188,7 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_browse_variables_url();
 	}
-	
+
 	function get_update_variable_translation_url($variable_translation)
 	{
 		return $this->get_parent()->get_update_variable_translation_url($variable_translation);
@@ -203,77 +203,77 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_admin_browse_variables_url($language_pack_id);
 	}
-	
+
 	function retrieve_english_translation($variable_id)
 	{
 		return $this->get_parent()->retrieve_english_translation($variable_id);
 	}
-	
+
 	function get_lock_variable_translation_url($variable_translation)
 	{
 		return $this->get_parent()->get_lock_variable_translation_url($variable_translation);
 	}
-	
+
 	function get_lock_language_pack_url($language_pack, $language_id)
 	{
 		return $this->get_parent()->get_lock_language_pack_url($language_pack, $language_id);
 	}
-	
+
  	function get_lock_language_url($language)
 	{
 		return $this->get_parent()->get_lock_language_url($language);
 	}
-	
+
 	function get_unlock_variable_translation_url($variable_translation)
 	{
 		return $this->get_parent()->get_unlock_variable_translation_url($variable_translation);
 	}
-	
+
 	function get_unlock_language_pack_url($language_pack, $language_id)
 	{
 		return $this->get_parent()->get_unlock_language_pack_url($language_pack, $language_id);
 	}
-	
+
  	function get_unlock_language_url($language)
 	{
 		return $this->get_parent()->get_unlock_language_url($language);
 	}
-	
+
  	function get_view_variable_translation_url($variable_translation)
 	{
 		return $this->get_parent()->get_view_variable_translation_url($variable_translation);
 	}
-	
+
  	function get_rate_variable_translation_url($variable_translation)
 	{
 		return $this->get_parent()->get_rate_variable_translation_url($variable_translation);
 	}
-	
+
  	function get_export_translations_url()
 	{
 		return $this->get_parent()->get_export_translations_url();
 	}
-	
+
 	function get_translator_application_url()
 	{
 		return $this->get_parent()->get_translator_application_url();
 	}
-	
+
 	function get_activate_translator_application_url($translator_application)
 	{
 		return $this->get_parent()->get_activate_translator_application_url($translator_application);
 	}
-	
+
 	function get_deactivate_translator_application_url($translator_application)
 	{
 		return $this->get_parent()->get_deactivate_translator_application_url($translator_application);
 	}
-	
+
 	function get_delete_translator_application_url($translator_application)
 	{
 		return $this->get_parent()->get_delete_translator_application_url($translator_application);
 	}
-	
+
 	function count_translator_applications($condition)
 	{
 		return $this->get_parent()->count_translator_applications($condition);
@@ -288,22 +288,22 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->retrieve_translator_application($id);
 	}
-	
+
 	function get_variable_translations_searcher_url()
 	{
 		return $this->get_parent()->get_variable_translations_searcher_url();
 	}
-	
+
 	function get_import_variable_translations_url()
 	{
 		return $this->get_parent()->get_import_variable_translations_url();
 	}
-	
+
  	function update_variable_translations($properties = array(), $condition, $offset = null, $max_objects = null, $order_by = array())
 	{
 		return $this->get_parent()->update_variable_translations($properties, $condition, $offset, $max_objects, $order_by);
 	}
-	
+
 	function count_historic_variable_translations($condition)
 	{
 		return $this->get_parent()->count_historic_variable_translations($condition);
@@ -313,10 +313,20 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->retrieve_historic_variable_translations($condition, $offset, $count, $order_property);
 	}
-	
+
  	function retrieve_historic_variable_translation($historic_variable_translation_id)
 	{
 		return $this->get_parent()->retrieve_historic_variable_translation($historic_variable_translation_id);
+	}
+
+ 	function get_delete_historic_variable_translation_url($historic_variable_translation)
+	{
+		return $this->get_parent()->get_delete_historic_variable_translation_url($historic_variable_translation);
+	}
+
+  	function get_revert_historic_variable_translation_url($historic_variable_translation)
+	{
+		return $this->get_parent()->get_revert_historic_variable_translation_url($historic_variable_translation);
 	}
 }
 ?>
