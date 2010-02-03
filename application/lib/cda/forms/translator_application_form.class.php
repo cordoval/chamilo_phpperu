@@ -185,11 +185,11 @@ class TranslatorApplicationForm extends FormValidator
     		$html[] = $language;
     	}
     	
-    	$subject = Translation :: get('UserAppliedForTranslator');
+    	$subject = '[CDA] ' . Translation :: get('UserAppliedForTranslator');
     	$content = implode("\n", $html);
     	$to = PlatformSetting :: get('administrator_email');
-    	Mail :: factory($subject, $content, $to, $to); 
-    	
+    	$mail = Mail :: factory($subject, $content, $to); 
+    	$mail->send();
     }
     
     function get_language_name($language_id)
