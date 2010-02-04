@@ -69,7 +69,7 @@ class RegisterForm extends FormValidator
         {
             $this->addElement('file', User :: PROPERTY_PICTURE_URI, Translation :: get('AddPicture'));
         }
-        $allowed_picture_types = array('jpg', 'jpeg', 'png', 'gif');
+        $allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif', 'JPG', 'JPEG', 'PNG', 'GIF');
         $this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
         // Phone Number
         $this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'), array("size" => "50"));
@@ -116,12 +116,14 @@ class RegisterForm extends FormValidator
         $password = $values['pw']['pass'] == '1' ? Text :: generate_password() : $values['pw'][User :: PROPERTY_PASSWORD];
         if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
         {
-            $temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
+            /*$temp_picture_location = $_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name'];
             $picture_name = $_FILES[User :: PROPERTY_PICTURE_URI]['name'];
-            $picture_uri = create_unique_name($picture_name);
+            $picture_uri = Filesystem :: create_unique_name(Path :: get(SYS_USER_PATH), $picture_name);
             $picture_location = Path :: get(SYS_USER_PATH) . $picture_uri;
             $user->set_picture_uri($picture_location);
-            move_uploaded_file($temp_picture_location, $picture_location);
+            move_uploaded_file($temp_picture_location, $picture_location);*/
+        	
+        	$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
         }
         $udm = UserDataManager :: get_instance();
         if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_ID]))
