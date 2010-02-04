@@ -62,9 +62,19 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 						
 						$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 						$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+						$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $variable->get_language_pack_id(), Variable :: get_table_name());
 						$condition = new AndCondition($conditions);
-						
 						$next_variable = $this->retrieve_variable_translations($condition, 0, 1)->next_result();
+						
+						if(is_null($next_variable))
+						{
+							$conditions = array();
+							$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+							$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+							$condition = new AndCondition($conditions);
+							$next_variable = $this->retrieve_variable_translations($condition, 0, 1)->next_result();
+						}
+						
 						if (!is_null($next_variable))
 						{
 							$message = $success ? Translation :: get('PreviousVariableTranslationUpdated') : Translation :: get('PreviousVariableTranslationNotUpdated');
