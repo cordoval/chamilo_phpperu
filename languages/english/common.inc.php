@@ -655,7 +655,7 @@ $lang['common']['Logout'] = 'Logout';
 $lang['common']['NoResizing'] = 'Don\'t resize';
 $lang['common']['Resize'] = 'Resizing';
 $lang['common']['Dimensions'] = 'Dimensions (in pixels)';
-$lang['common']['Cda'] = 'Cda';
+$lang['common']['Cda'] = 'Translations';
 $lang['common']['Username'] = 'Username';
 $lang['common']['Firstname'] = 'Firstname';
 ?>
