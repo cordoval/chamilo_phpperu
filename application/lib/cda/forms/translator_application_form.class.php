@@ -179,7 +179,6 @@ class TranslatorApplicationForm extends FormValidator
     	$html[] = sprintf(Translation :: get('UserHasAppliedForTheFollowingLanguages'), $user->get_fullname());
     	$html[] = '';
     	$html[] = Translation :: get('SourceLanguage') . ': ' . $this->get_language_name($source_language);
-    	$html[] = '';
 
     	foreach($applications as $application => $language)
     	{
@@ -199,13 +198,14 @@ class TranslatorApplicationForm extends FormValidator
     	$html[] = '<a href="' . $link . '">' . $link . '</a>';
     	$html[] =  '';
     	$html[] = Translation :: get('KindRegards');
+    	$html[] =  '';
     	$html[] = 'Chamilo Support Team';
     	$html[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
     	
     	$subject = '[CDA] ' . Translation :: get('UserAppliedForTranslator');
     	$content = implode("<br />", $html);
     	$to = PlatformSetting :: get('administrator_email');
-    	$mail = Mail :: factory($subject, $content, $to, array('info@chamilo.org')); 
+    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
     	$mail->send();
     }
     

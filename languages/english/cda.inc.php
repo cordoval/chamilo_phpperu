@@ -152,4 +152,6 @@ $lang['cda']['DearAdministratorModerator'] = 'Dear moderator/administrator';
 $lang['cda']['YouHaveBeenAcceptedAsTranslatorFor'] = 'You have been accepted as translator for';
 $lang['cda']['TranslationApplicationAccepted'] = 'Translation application accepted';
 $lang['cda']['KindRegards'] = 'Kind regards';
+$lang['cda']['DocumentationInfo'] = 'All documentation concerning the translation tool can be found here';
+$lang['cda']['ThankYouForHelping'] = 'Thank you for helping the Chamilo software!';
 ?>

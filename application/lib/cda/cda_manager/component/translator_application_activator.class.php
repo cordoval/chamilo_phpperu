@@ -87,17 +87,21 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManagerCompon
     	$html[] = '';
     	$html[] = Translation :: get('YouHaveBeenAcceptedAsTranslatorFor');
     	$html[] = '';
-    	$html[] = Translation :: get('SourceLanguage');
-    	$html[] = $source_language->get_original_name();
+    	$html[] = Translation :: get('SourceLanguage') . ': ' . $source_language->get_original_name();
+    	$html[] = Translation :: get('DestinationLanguage') . ': ' . $destination_language->get_original_name();
     	$html[] = '';
-    	$html[] = Translation :: get('DestinationLanguage');
-    	$html[] = $destination_language->get_original_name();
-
+    	$html[] = Translation :: get('DocumentationInfo') . ': <a href="http://www.chamilo.org/documentation">http://www.chamilo.org/documentation</a>';
+    	$html[] = Translation :: get('ThankYouForHelping');
+    	$html[] = '';
+		$html[] = Translation :: get('KindRegards');
+    	$html[] =  '';
+    	$html[] = 'Chamilo Support Team';
+    	$html[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
+    	
     	$subject = '[CDA] ' . Translation :: get('TranslationApplicationAccepted');
     	$content = implode("<br />", $html);
-    	$from = PlatformSetting :: get('administrator_email');
     	$to = $user->get_email();
-    	$mail = Mail :: factory($subject, $content, $to, $from); 
+    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
     	$mail->send();
     }
 }
