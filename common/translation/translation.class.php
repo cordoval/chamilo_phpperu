@@ -64,10 +64,19 @@ class Translation
      * Returns the instance of this class.
      * @return Translation The instance.
      */
-    function get($variable)
+    function get($variable, $parameters = array())
     {
         $instance = self :: get_instance();
-        return $instance->translate($variable);
+        $translation = $instance->translate($variable);
+
+        if (empty($parameters))
+        {
+            return $translation;
+        }
+        else
+        {
+            return preg_replace('#\{([A-Z0-9\-_]+)\}#e', 'isset($parameters[\'\\1\']) ? $parameters[\'\\1\'] : \'\'', $variable);
+        }
     }
 
     function get_language()

@@ -247,7 +247,7 @@ class CasAuthentication extends Authentication
             $cas['certificate'] = PlatformSetting :: get('cas_certificate');
             $cas['log'] = PlatformSetting :: get('cas_log');
             $cas['enable_log'] = PlatformSetting :: get('cas_enable_log');
-            $cas['allow_change_password'] = PlatformSetting :: get('cas_allow_change_password');
+//            $cas['allow_change_password'] = PlatformSetting :: get('cas_allow_change_password');
 
             $this->cas_settings = $cas;
         }
