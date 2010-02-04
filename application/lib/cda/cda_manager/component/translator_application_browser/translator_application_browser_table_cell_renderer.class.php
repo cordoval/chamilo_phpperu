@@ -46,6 +46,11 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 				if($user)
 					return $user->get_fullname();
 				return Translation :: get('UserUnknown');
+			case User :: PROPERTY_USERNAME:
+				$user = UserDataManager :: get_instance()->retrieve_user($translator_application->get_user_id());
+				if($user)
+					return $user->get_username();
+				return Translation :: get('UserUnknown');
 			case CdaLanguage :: PROPERTY_ENGLISH_NAME:
 				$alias = CdaDataManager :: get_instance()->get_alias(CdaLanguage :: get_table_name());
 				if($column->get_storage_unit() == $alias)

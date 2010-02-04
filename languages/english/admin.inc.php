@@ -373,4 +373,12 @@ $lang['admin']['DefaultParticipantlist'] = 'Default participant list ';
 $lang['admin']['DefaultAssignmikeonjoin'] = 'Default Assign mike on join';
 $lang['admin']['DefaultHandsfreeonload'] = 'Default hands free on load';
 $lang['admin']['DefaultAllowattendeeinvites'] = 'Default Allow Attendee Invites';
+$lang['admin']['ManageLanguages'] = 'Manage languages';
+$lang['admin']['ManageLanguagePacks'] = 'Manage language packs';
+$lang['admin']['ManageTranslatorApplications'] = 'Manage translator applications';
+$lang['admin']['ImportLanguageFiles'] = 'Import language files';
+$lang['admin']['ManageLanguagesDescription'] = 'Manage languages';
+$lang['admin']['ManageLanguagePacksDescription'] = 'Manage language packs';
+$lang['admin']['ManageTranslatorApplicationsDescription'] = 'Manage translator applications';
+$lang['admin']['ImportLanguageFilesDescription'] = 'Import language files';
 ?>
