@@ -144,10 +144,12 @@ $lang['cda']['dateFormatShort'] = '%b %d, %y';
 $lang['cda']['of'] = 'of';
 $lang['cda']['timeNoSecFormat'] = '%I:%M %p';
 $lang['cda']['Rtl'] = 'Right to left';
-$lang['cda']['UserHasAppliedForTheFollowingLanguages'] = '%s has applied for the following languages';
+$lang['cda']['UserHasAppliedForTheFollowingLanguages'] = 'The user (%s) has applied for the following languages';
 $lang['cda']['UserAppliedForTranslator'] = 'User applied for translator';
 $lang['cda']['FollowLinkToActivate'] = 'Follow link to activate';
 $lang['cda']['Dear'] = 'Dear';
+$lang['cda']['DearAdministratorModerator'] = 'Dear moderator/administrator';
 $lang['cda']['YouHaveBeenAcceptedAsTranslatorFor'] = 'You have been accepted as translator for';
 $lang['cda']['TranslationApplicationAccepted'] = 'Translation application accepted';
+$lang['cda']['KindRegards'] = 'Kind regards';
 ?>

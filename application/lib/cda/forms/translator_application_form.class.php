@@ -174,12 +174,12 @@ class TranslatorApplicationForm extends FormValidator
     {
     	$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
     	
+    	$html[] = Translation :: get('DearAdministratorModerator');
+    	$html[] = '';
     	$html[] = sprintf(Translation :: get('UserHasAppliedForTheFollowingLanguages'), $user->get_fullname());
     	$html[] = '';
-    	$html[] = Translation :: get('SourceLanguage');
-    	$html[] = $this->get_language_name($source_language);
+    	$html[] = Translation :: get('SourceLanguage') . ': ' . $this->get_language_name($source_language);
     	$html[] = '';
-    	$html[] = Translation :: get('DestinationLanguages');
 
     	foreach($applications as $application => $language)
     	{
@@ -187,19 +187,25 @@ class TranslatorApplicationForm extends FormValidator
     		$link = Path :: get(WEB_PATH) . Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION,
     											  CdaManager :: PARAM_TRANSLATOR_APPLICATION => $application));
 
-    		$html[] = '<a href="' . $link . '">' . $language . '</a>';
+    		$links[] =  '<a href="' . $link . '">' . $language . '</a>';
     	}
+    	
+    	$html[] = Translation :: get('DestinationLanguages') . ': ' . implode(",", $links);
     	
     	$link = Path :: get(WEB_PATH) . Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS));
     	
     	$html[] = '';
     	$html[] = Translation :: get('FollowLinkToActivate') . ':';
     	$html[] = '<a href="' . $link . '">' . $link . '</a>';
+    	$html[] =  '';
+    	$html[] = Translation :: get('KindRegards');
+    	$html[] = 'Chamilo Support Team';
+    	$html[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
     	
     	$subject = '[CDA] ' . Translation :: get('UserAppliedForTranslator');
     	$content = implode("<br />", $html);
     	$to = PlatformSetting :: get('administrator_email');
-    	$mail = Mail :: factory($subject, $content, $to, $to); 
+    	$mail = Mail :: factory($subject, $content, $to, array('info@chamilo.org')); 
     	$mail->send();
     }
     
