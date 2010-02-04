@@ -64,16 +64,19 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
         			$this->get_update_variable_translation_url($this->variable_translation)));
 		}
 
-        if($can_lock && !$this->variable_translation->is_locked())
-        {
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png',
-	        			$this->get_lock_variable_translation_url($this->variable_translation)));
-        }
-        else
-        {
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Unlock'), Theme :: get_common_image_path() . 'action_unlock.png',
-	        			$this->get_unlock_variable_translation_url($this->variable_translation)));
-        }
+		if($can_lock)
+		{
+	        if(!$this->variable_translation->is_locked())
+	        {
+	        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png',
+		        			$this->get_lock_variable_translation_url($this->variable_translation)));
+	        }
+	        else
+	        {
+	        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Unlock'), Theme :: get_common_image_path() . 'action_unlock.png',
+		        			$this->get_unlock_variable_translation_url($this->variable_translation)));
+	        }
+		}
 
         return $action_bar->as_html();
     }
