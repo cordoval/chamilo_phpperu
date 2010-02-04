@@ -655,4 +655,6 @@ $lang['common']['Logout'] = 'Logout';
 $lang['common']['NoResizing'] = 'Don\'t resize';
 $lang['common']['Resize'] = 'Resizing';
 $lang['common']['Dimensions'] = 'Dimensions (in pixels)';
+$lang['common']['EnterUsername'] = 'Enter username';
+$lang['common']['ResetPassword'] = 'Reset password';
 ?>
