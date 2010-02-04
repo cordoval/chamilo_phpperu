@@ -101,7 +101,7 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManagerCompon
     	$subject = '[CDA] ' . Translation :: get('TranslationApplicationAccepted');
     	$content = implode("<br />", $html);
     	$to = $user->get_email();
-    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
+    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info@chamilo.org', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
     	$mail->send();
     }
 }

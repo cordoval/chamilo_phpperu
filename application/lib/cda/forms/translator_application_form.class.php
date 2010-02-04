@@ -205,7 +205,7 @@ class TranslatorApplicationForm extends FormValidator
     	$subject = '[CDA] ' . Translation :: get('UserAppliedForTranslator');
     	$content = implode("<br />", $html);
     	$to = PlatformSetting :: get('administrator_email');
-    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
+    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info@chamilo.org', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
     	$mail->send();
     }
     
