@@ -7,30 +7,32 @@ class FormValidatorHtmlEditor
     private $label;
     private $required;
     private $attributes;
+    private $options;
+    
+	const SETTING_TOOLBAR			= 'toolbar';
+	const SETTING_LANGUAGE			= 'language';
+	const SETTING_THEME				= 'theme';
+	const SETTING_WIDTH				= 'width';
+	const SETTING_HEIGHT			= 'height';
+	const SETTING_COLLAPSE_TOOLBAR	= 'collapse_toolbar';
+	const SETTING_CONFIGURATION		= 'configuration';
+	const SETTING_FULL_PAGE			= 'full_page';
+	const SETTING_ENTER_MODE		= 'enter_mode';
+	const SETTING_SHIFT_ENTER_MODE	= 'shift_enter_mode';
+	const SETTING_TEMPLATES			= 'templates';
 
-    function __construct($form, $name, $label, $required = true, $attributes = array())
+    function __construct($form, $name, $label, $required = true, $attributes = array(), $options = array())
     {
         $this->form = $form;
         $this->name = $name;
         $this->label = $label;
         $this->required = $required;
-
-        if (! array_key_exists('size', $attributes))
+        $this->options = $options;
+    
+        if (!array_key_exists('class', $attributes))
         {
-            $attributes['size'] = 50;
+            $attributes['class'] = 'html_editor';
         }
-
-        if (! array_key_exists('style', $attributes))
-        {
-            $attributes['style'] = 'width: 500px; height: 75px;';
-        }
-
-        $attributes['class'] = 'html_editor';
-
-//        if (array_key_exists('toolbar', $attributes))
-//        {
-//            $attributes['class'] = $attributes['class'] . ' ' . $attributes['toolbar'];
-//        }
 
         $this->attributes = $attributes;
     }
@@ -52,7 +54,6 @@ class FormValidatorHtmlEditor
     function create()
     {
         return $this->get_form()->createElement('textarea', $this->name, $this->label, $this->attributes);
-//        return $this->get_form()->createElement('textarea', $this->name, $this->label, $this->attributes);
     }
 
     function get_form()
@@ -93,6 +94,33 @@ class FormValidatorHtmlEditor
     function set_attributes($attributes)
     {
         $this->attributes = $attributes;
+    }
+    
+    function get_options()
+    {
+        return $this->options;
+    }
+
+    function set_options($options)
+    {
+        $this->options = $options;
+    }
+    
+    function get_option($variable)
+    {
+    	if (isset($this->options[$variable]))
+    	{
+    		return $this->options[$variable];
+    	}
+    	else
+    	{
+    		return null;
+    	}
+    }
+    
+    function set_option($variable, $value)
+    {
+    	$this->options[$variable] = $value;
     }
 
     function get_required()
