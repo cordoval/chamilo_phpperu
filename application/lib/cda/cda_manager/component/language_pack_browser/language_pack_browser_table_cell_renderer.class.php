@@ -42,16 +42,16 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 		switch ($column->get_name())
 		{
 			case LanguagePack :: PROPERTY_NAME :
-				
+
 				if(get_class($this->browser) == 'CdaManagerLanguagePacksBrowserComponent')
 				{
 					$url = $this->browser->get_browse_variable_translations_url(Request :: get(CdaManager :: PARAM_CDA_LANGUAGE), $language_pack->get_id());
 				}
 				else
 				{
-					$url = $this->browser->get_admin_browse_variables_url($language_pack->get_id());	
+					$url = $this->browser->get_admin_browse_variables_url($language_pack->get_id());
 				}
-				
+
 				return '<a href="' . $url . '">' . $language_pack->get_name() . '</a>';
 			case LanguagePack :: PROPERTY_TYPE :
 				return $language_pack->get_type_name();
@@ -59,7 +59,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 				$percentage = $this->browser->get_progress_for_language_pack($language_pack, $this->browser->get_cda_language());
 				return Display :: get_progress_bar($percentage);
 		}
-		
+
 		return parent :: render_cell($column, $language_pack);
 	}
 
@@ -74,22 +74,31 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 		$cda_language_id = $this->browser->get_cda_language();
 		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
 		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language_id, 'cda_language');
-		
+
 		$toolbar_data = array();
 
 		if(get_class($this->browser) != 'CdaManagerLanguagePacksBrowserComponent')
 		{
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_update_language_pack_url($language_pack),
-				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_image_path().'action_edit.png'
-			);
-	
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_delete_language_pack_url($language_pack),
-				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path().'action_delete.png',
-			);
+			$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'language_pack', 'manager');
+    		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'language_pack', 'manager');
+
+    		if ($can_edit)
+    		{
+    			$toolbar_data[] = array(
+    				'href' => $this->browser->get_update_language_pack_url($language_pack),
+    				'label' => Translation :: get('Edit'),
+    				'img' => Theme :: get_common_image_path().'action_edit.png'
+    			);
+    		}
+
+    		if ($can_delete)
+    		{
+    			$toolbar_data[] = array(
+    				'href' => $this->browser->get_delete_language_pack_url($language_pack),
+    				'label' => Translation :: get('Delete'),
+    				'img' => Theme :: get_common_image_path().'action_delete.png',
+    			);
+    		}
 		}
 		else
 		{
@@ -110,7 +119,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 						'img' => Theme :: get_common_image_path().'action_lock_na.png'
 					);
 		        }
-		        
+
 		        if($this->browser->can_language_pack_be_unlocked($language_pack, $this->browser->get_cda_language()))
 		        {
 		        	$toolbar_data[] = array(
@@ -127,14 +136,14 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 					);
 		        }
 			}
-			
+
 			if ($can_translate || $can_lock)
 			{
 				if (!$can_lock)
 				{
 					$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_NORMAL);
 				}
-			
+
 				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $this->browser->get_cda_language());
 				$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
 				$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID,
@@ -142,7 +151,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
 				$condition = new AndCondition($conditions);
 				$translation = $this->browser->retrieve_variable_translations($condition, 0, 1)->next_result();
-				
+
 				if($translation)
 				{
 					$toolbar_data[] = array(
@@ -153,7 +162,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 				}
 			}
 		}
-		
+
 		return Utilities :: build_toolbar($toolbar_data);
 	}
 }

@@ -52,17 +52,26 @@ class VariableBrowserTableCellRenderer extends DefaultVariableTableCellRenderer
 	{
 		$toolbar_data = array();
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_variable_url($variable),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-		);
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'variables', 'manager');
+		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'variables', 'manager');
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_variable_url($variable),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-		);
+		if ($can_edit)
+		{
+    		$toolbar_data[] = array(
+    			'href' => $this->browser->get_update_variable_url($variable),
+    			'label' => Translation :: get('Edit'),
+    			'img' => Theme :: get_common_image_path().'action_edit.png'
+    		);
+		}
+
+		if ($can_delete)
+		{
+    		$toolbar_data[] = array(
+    			'href' => $this->browser->get_delete_variable_url($variable),
+    			'label' => Translation :: get('Delete'),
+    			'img' => Theme :: get_common_image_path().'action_delete.png',
+    		);
+		}
 
 		return Utilities :: build_toolbar($toolbar_data);
 	}

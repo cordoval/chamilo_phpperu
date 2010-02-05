@@ -17,6 +17,13 @@ class CdaManagerCdaLanguageDeleterComponent extends CdaManagerComponent
 	 */
 	function run()
 	{
+	   	$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'cda_language', 'manager');
+
+   		if (!$can_delete)
+   		{
+   		    Display :: not_allowed();
+   		}
+
 		$ids = $_GET[CdaManager :: PARAM_CDA_LANGUAGE];
 		$failures = 0;
 

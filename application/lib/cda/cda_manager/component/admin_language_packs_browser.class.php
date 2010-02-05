@@ -17,7 +17,7 @@ class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
 {
 	private $actionbar;
 	private $form;
-	
+
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
@@ -25,12 +25,21 @@ class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => CdaManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Cda') ));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseLanguagePacks')));
 		$this->actionbar = $this->get_action_bar();
-		
+
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'language_pack', 'manager');
+		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'language_pack', 'manager');
+		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, 'language_pack', 'manager');
+
+		if (!$can_edit && !$can_delete && !$can_add)
+		{
+		    Display :: not_allowed($trail);
+		}
+
 		$this->display_header($trail);
 
 		echo $this->actionbar->as_html();
 		echo $this->get_table();
-		
+
 		$this->display_footer();
 	}
 
@@ -38,12 +47,12 @@ class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
 	{
 		$this->form = new LanguagePackBrowserFilterForm($this, $this->get_url());
 		$table = new LanguagePackBrowserTable($this, array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS), $this->get_condition());
-		
+
 		$html[] = $this->form->display();
         $html[] = $table->as_html();
         return implode("\n", $html);
 	}
-	
+
 	function get_condition()
     {
         $form = $this->form;
@@ -56,7 +65,7 @@ class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
     	$ab_condition = $this->actionbar->get_conditions($properties);
     	if($ab_condition)
     		$conditions[] = $ab_condition;
-    	
+
     	if(count($conditions) > 0)
     		return new AndCondition($conditions);
     }
@@ -64,15 +73,20 @@ class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
 	function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddLanguagePack'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_language_pack_url()));
+
+        $can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, 'language_pack', 'manager');
+        if ($can_add)
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddLanguagePack'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_language_pack_url()));
+        }
+
         $action_bar->set_search_url($this->get_admin_browse_language_packs_url());
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', 
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png',
         	$this->get_admin_browse_language_packs_url()));
-        
+
         return $action_bar;
     }
-	
+
     function get_cda_language()
     {
     	return null;

@@ -17,6 +17,13 @@ class CdaManagerLanguagePackDeleterComponent extends CdaManagerComponent
 	 */
 	function run()
 	{
+		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'language_pack', 'manager');
+
+   		if (!$can_delete)
+   		{
+   		    Display :: not_allowed();
+   		}
+
 		$ids = $_GET[CdaManager :: PARAM_LANGUAGE_PACK];
 		$failures = 0;
 

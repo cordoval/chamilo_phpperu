@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/cda_language_browser/cda_language_browser_table
 class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
 {
 	private $action_bar;
-	
+
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
@@ -23,7 +23,7 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseLanguages')));
 
 		$this->action_bar = $this->get_action_bar();
-		
+
 		$this->display_header($trail);
         echo '<a name="top"></a>';
         echo $this->action_bar->as_html() . '';
@@ -35,8 +35,8 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
 
 	function get_table()
 	{
-		$table = new CdaLanguageBrowserTable($this, 
-			array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_CDA_LANGUAGES), 
+		$table = new CdaLanguageBrowserTable($this,
+			array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_CDA_LANGUAGES),
 			$this->get_condition());
 		return $table->as_html();
 	}
@@ -45,50 +45,50 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
-        
+
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('HelpTranslating'), Theme :: get_image_path() . 'action_apply.png', $this->get_url(array(Application :: PARAM_ACTION => CdaManager :: ACTION_CREATE_TRANSLATOR_APPLICATION))));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AdvancedSearch'), Theme :: get_common_image_path() . 'action_search.png', $this->get_variable_translations_searcher_url()));
         if (count($this->get_user_languages(CdaRights :: EDIT_RIGHT)) > 0)
         {
         	$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageApplications'), Theme :: get_image_path() . 'action_manage.png', $this->get_url(array(Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS))));
         }
-        
+
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportTranslations'), Theme :: get_common_image_path() . 'action_export.png', $this->get_export_translations_url()));
-        
+
         if (count($this->get_user_languages(CdaRights :: VIEW_RIGHT)) > 0)
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ImportTranslations'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_variable_translations_url()));
         }
-        
+
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url()));
         return $action_bar;
     }
-    
+
     function get_condition()
     {
     	$properties[] = new ConditionProperty(CdaLanguage :: PROPERTY_ENGLISH_NAME);
     	$properties[] = new ConditionProperty(CdaLanguage :: PROPERTY_ORIGINAL_NAME);
-    	
+
     	return $this->action_bar->get_conditions($properties);
     }
-    
+
     function get_user_languages($right)
     {
 		$language_location = CdaRights :: get_location_by_identifier('manager', 'cda_language');
 		$languages = $language_location->get_children();
-		
+
 		$available_languages = array();
-		
+
 		while ($language = $languages->next_result())
 		{
-			$can_edit = CdaRights :: is_allowed($right, $language->get_identifier(), $language->get_type());
-			
-			if ($can_edit)
+			$has_right = CdaRights :: is_allowed($right, $language->get_identifier(), $language->get_type());
+
+			if ($has_right)
 			{
 				$available_languages[] = $language->get_identifier();
 			}
 		}
-		
+
 		return $available_languages;
     }
 }

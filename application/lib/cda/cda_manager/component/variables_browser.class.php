@@ -20,6 +20,15 @@ class CdaManagerVariablesBrowserComponent extends CdaManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseVariables')));
 
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'variables', 'manager');
+		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'variables', 'manager');
+		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, 'variables', 'manager');
+
+		if (!$can_edit && !$can_delete && !$can_add)
+		{
+		    Display :: not_allowed();
+		}
+
 		$this->display_header($trail);
 
         echo '<a name="top"></a>';
@@ -39,30 +48,30 @@ class CdaManagerVariablesBrowserComponent extends CdaManagerComponent
     function get_action_bar_html()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         $cda_language_id = Request :: get(CdaManager :: PARAM_CDA_LANGUAGE);
         $language_pack = $this->retrieve_cda_language(Request :: get(CdaManager :: PARAM_LANGUAGE_PACK));
-        
+
     	if($this->can_language_pack_be_locked($language_pack, $cda_language_id))
         {
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png', 
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png',
 				$this->get_lock_language_pack_url($language_pack, $cda_language_id)));
         }
         else
         {
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('LockNa'), Theme :: get_common_image_path() . 'action_lock_na.png'));
         }
-        
+
         if($this->can_language_pack_be_unlocked($language_pack, $cda_language_id))
         {
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Unlock'), Theme :: get_common_image_path() . 'action_unlock.png', 
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Unlock'), Theme :: get_common_image_path() . 'action_unlock.png',
 				$this->get_unlock_language_pack_url($language_pack, $cda_language_id)));
         }
         else
         {
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('UnlockNa'), Theme :: get_common_image_path() . 'action_unlock_na.png'));
         }
-        
+
         return $action_bar->as_html();
     }
 }

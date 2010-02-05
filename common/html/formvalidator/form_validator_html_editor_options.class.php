@@ -2,7 +2,7 @@
 /**
  * The combination of options available for the FormValidatorHtmlEditor
  * Should be implemented for each specific editor to translate the generic option values
- * 
+ *
  * @author Scaramanga
  */
 
@@ -12,47 +12,47 @@ abstract class FormValidatorHtmlEditorOptions
      * @var Array The array containing all the options
      */
     private $options;
-    
+
     /**
      * The name of the toolbar set e.g. Basic, Wiki, Assessment
      */
 	const OPTION_TOOLBAR			= 'toolbar';
-	
+
 	/**
 	 * Name of the language to be used for the editor
 	 */
 	const OPTION_LANGUAGE			= 'language';
-	
+
 	/**
 	 * Name of the theme to be used for the editor
-	 */	
+	 */
 	const OPTION_THEME				= 'theme';
-	
+
 	/**
 	 * The width of the editor in pixels or percent
 	 */
 	const OPTION_WIDTH				= 'width';
-	
+
 	/**
 	 * The height of the editor in pixels
 	 */
 	const OPTION_HEIGHT				= 'height';
-	
+
 	/**
 	 * Whether or not the toolbar should be collapse by default
 	 */
 	const OPTION_COLLAPSE_TOOLBAR	= 'collapse_toolbar';
-	
+
 	/**
 	 * Path to the editors configuration file
 	 */
 	const OPTION_CONFIGURATION		= 'configuration';
-	
+
 	/**
 	 * Whether or not the content of the editor should be treated as a standalone page
 	 */
 	const OPTION_FULL_PAGE			= 'full_page';
-	
+
 	/**
 	 * Path to available templates for the editor
 	 */
@@ -65,21 +65,21 @@ abstract class FormValidatorHtmlEditorOptions
     {
     	$this->options = $options;
     }
-    
+
     /**
      * Returns the names of all available options
-     * 
-     * @return Array The option names 
+     *
+     * @return Array The option names
      */
     function get_option_names()
     {
     	return array(self :: OPTION_COLLAPSE_TOOLBAR, self :: OPTION_CONFIGURATION, self :: OPTION_FULL_PAGE, self :: OPTION_HEIGHT, self :: OPTION_LANGUAGE, self :: OPTION_TEMPLATES, self :: OPTION_THEME, self :: OPTION_TOOLBAR, self :: OPTION_WIDTH);
     }
-    
+
     /**
      * Gets all options
-     * 
-     * @return Array The options 
+     *
+     * @return Array The options
      */
     function get_options()
     {
@@ -88,17 +88,17 @@ abstract class FormValidatorHtmlEditorOptions
 
     /**
      * Set the options
-     * 
+     *
      * @param Array $options
      */
     function set_options($options)
     {
         $this->options = $options;
     }
-    
+
     /**
      * Get a specific option's value or null if the option isn't set
-     * 
+     *
      * @return mixed the option's value
      */
     function get_option($variable)
@@ -112,10 +112,10 @@ abstract class FormValidatorHtmlEditorOptions
     		return null;
     	}
     }
-    
+
     /**
      * Sets a specific option
-     * 
+     *
      * @param String $variable
      * @param mixed $value
      */
@@ -123,16 +123,16 @@ abstract class FormValidatorHtmlEditorOptions
     {
     	$this->options[$variable] = $value;
     }
-    
+
     /**
      * Process the generic options into editor specific ones
      */
-    abstract function process_options();
-    
+    abstract function render_options();
+
     function set_defaults()
-    {    	
+    {
     	$available_options = $this->get_option_names();
-    	
+
     	foreach($available_options as $available_option)
     	{
     		$value = $this->get_option($available_option);
@@ -148,21 +148,21 @@ abstract class FormValidatorHtmlEditorOptions
 				        $editor_lang = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
     					$this->set_option($available_option, $editor_lang);
     					break;
-    				
+
     				case self :: OPTION_TOOLBAR :
     					$this->set_option($available_option, 'Basic');
     					break;
     				case self :: OPTION_COLLAPSE_TOOLBAR :
     					$this->set_option($available_option, false);
     					break;
-    				
+
     				case self :: OPTION_WIDTH :
     					$this->set_option($available_option, '100%');
     					break;
     				case self :: OPTION_HEIGHT :
     					$this->set_option($available_option, '200');
     					break;
-    				
+
     				case self :: OPTION_FULL_PAGE :
     					$this->set_option($available_option, false);
     					break;
@@ -170,7 +170,7 @@ abstract class FormValidatorHtmlEditorOptions
     		}
     	}
     }
-    
+
     /**
      * @param String $type
      * @param Array $options

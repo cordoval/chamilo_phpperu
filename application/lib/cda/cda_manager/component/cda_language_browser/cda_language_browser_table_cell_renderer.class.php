@@ -42,19 +42,19 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 		switch ($column->get_name())
 		{
 			case CdaLanguage :: PROPERTY_ORIGINAL_NAME :
-				
+
 				/*if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
 				{
 					$url = $this->browser->get_browse_language_packs_url($cda_language->get_id());
 					return '<a href="' . $url . '">' . $cda_language->get_original_name() . '</a>';
 				}*/
-				
-				if(!$this->browser->get_user()->is_platform_admin() && 
+
+				if(!$this->browser->get_user()->is_platform_admin() &&
 					CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language->get_id(), 'cda_language'))
 				{
-					return '<span style="color: green; font-weight: bold;">' . $cda_language->get_original_name() . '</span>'; 
+					return '<span style="color: green; font-weight: bold;">' . $cda_language->get_original_name() . '</span>';
 				}
-				
+
 				return $cda_language->get_original_name();
 			case CdaLanguage :: PROPERTY_ENGLISH_NAME :
 				if(get_class($this->browser) == 'CdaManagerCdaLanguagesBrowserComponent')
@@ -62,7 +62,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 					$url = $this->browser->get_browse_language_packs_url($cda_language->get_id());
 					return '<a href="' . $url . '">' . $cda_language->get_english_name() . '</a>';
 				}
-				
+
 				return $cda_language->get_english_name();
 			case 'TranslationProgress':
 				$percentage = $this->browser->get_progress_for_language($cda_language);
@@ -74,7 +74,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 				}
 				return Translation :: get('False');
 		}
-		
+
 		return parent :: render_cell($column, $cda_language);
 	}
 
@@ -90,23 +90,32 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 
 		if(get_class($this->browser) != 'CdaManagerCdaLanguagesBrowserComponent')
 		{
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_update_cda_language_url($cda_language),
-				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_image_path().'action_edit.png'
-			);
+    		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'cda_language', 'manager');
+    		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'cda_language', 'manager');
 
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_delete_cda_language_url($cda_language),
-				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path().'action_delete.png',
-			);
+    		if ($can_edit)
+    		{
+    			$toolbar_data[] = array(
+    				'href' => $this->browser->get_update_cda_language_url($cda_language),
+    				'label' => Translation :: get('Edit'),
+    				'img' => Theme :: get_common_image_path().'action_edit.png'
+    			);
+    		}
+
+    		if ($can_delete)
+    		{
+    			$toolbar_data[] = array(
+    				'href' => $this->browser->get_delete_cda_language_url($cda_language),
+    				'label' => Translation :: get('Delete'),
+    				'img' => Theme :: get_common_image_path().'action_delete.png',
+    			);
+    		}
 		}
 		else
 		{
 			$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language->get_id(), 'cda_language');
 			$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language->get_id(), 'cda_language');
-			
+
 			if ($can_lock)
 			{
 				if($this->browser->can_language_be_locked($cda_language))
@@ -124,7 +133,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 						'img' => Theme :: get_common_image_path().'action_lock_na.png'
 					);
 		        }
-		        
+
 		        if($this->browser->can_language_be_unlocked($cda_language))
 		        {
 		        	$toolbar_data[] = array(
@@ -141,7 +150,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 					);
 		        }
 			}
-			
+
 			if ($can_translate || $can_lock)
 			{
 				if (!$can_lock)
@@ -152,7 +161,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
 				$condition = new AndCondition($conditions);
 				$translation = $this->browser->retrieve_variable_translations($condition, 0, 1)->next_result();
-				
+
 				if($translation)
 				{
 					$toolbar_data[] = array(
@@ -163,7 +172,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 				}
 			}
 		}
-		
+
 		return Utilities :: build_toolbar($toolbar_data);
 	}
 }
