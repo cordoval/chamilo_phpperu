@@ -6,7 +6,10 @@ class Chamilo2TranslationImporter extends TranslationImporter
     {
     	$lang = array();
     	require_once($file);
-    	return $lang;
+    	
+    	$lp = substr($file, 0, -8);
+    	
+    	return $lang[$lp];
     }
 }
 
