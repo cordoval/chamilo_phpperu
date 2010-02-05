@@ -369,12 +369,12 @@ class ShibbolethAuthentication extends ExternalAuthentication
         /*
          * Default mandatory values if no mapping is defined
          */
-        $user_lang = $user->get_language();
-        if (! isset($user_lang))
-        {
-            $lang = $this->get_language_code(null);
-            $user->set_language($lang);
-        }
+//        $user_lang = $user->get_language();
+//        if (! isset($user_lang))
+//        {
+//            $lang = $this->get_language_code(null);
+//            $user->set_language($lang);
+//        }
         
         /*
          * case of new user -> init some more default values
