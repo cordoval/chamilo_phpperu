@@ -148,6 +148,24 @@ class Translation
         {
             $value = $strings[$language]['common'][$variable];
         }
+        else
+        {
+        	$packages = array('application_common', 'repository');
+        	
+        	foreach($packages as $package)
+        	{
+	        	if(!isset($strings[$language][$package]))
+	        	{
+	        		$instance->add_language_file_to_array($language, $package);
+	        	}
+	        	
+		        if (isset($strings[$language][$package][$variable]))
+		        {
+		            $value = $strings[$language][$package][$variable];
+		            break;
+		        }
+        	}
+        }
         
         if(!$value || $value == '' || $value == ' ')
         {
