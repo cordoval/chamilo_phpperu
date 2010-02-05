@@ -209,10 +209,11 @@ class TranslatorApplicationForm extends FormValidator
 	    	
 	    	$to = $this->get_moderator_emails($language);
 	    	$to[] = PlatformSetting :: get('administrator_email');
+	    	
+	    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info@chamilo.org', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
+    		$mail->send();
     	}
-    	
-    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info@chamilo.org', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
-    	$mail->send();
+    
     }
     
     function get_language($language_id)
@@ -226,6 +227,8 @@ class TranslatorApplicationForm extends FormValidator
 		$moderators = CdaRights :: get_allowed_users(CdaRights :: EDIT_RIGHT, $cda_language->get_id(), $cda_language->get_table_name());
 		
 		$udm = UserDataManager :: get_instance();
+		
+		$emails = array();
 		
 		foreach($moderators as $moderator)
 		{
