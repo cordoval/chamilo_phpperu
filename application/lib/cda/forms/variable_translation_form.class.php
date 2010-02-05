@@ -14,6 +14,7 @@ class VariableTranslationForm extends FormValidator
 	
 	const SUBMIT_NEXT = 'next';
 	const SUBMIT_SAVE = 'save';
+	const SUBMIT_NEXT_NO_SAVE = 'next_no_save';
 
     function VariableTranslationForm($variable_translation, $variable, $action, $user)
     {
@@ -62,6 +63,7 @@ class VariableTranslationForm extends FormValidator
 		$this->addElement('category');
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('TranslateNextVariable'), array('class' => 'normal continue'), self :: SUBMIT_NEXT);
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('GoToNextVariableWithoutSave'), array('class' => 'normal next'), self :: SUBMIT_NEXT_NO_SAVE);
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Translate'), array('class' => 'positive save'), self :: SUBMIT_SAVE);
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
@@ -97,6 +99,15 @@ class VariableTranslationForm extends FormValidator
 	{
 		$button_values = $this->exportValue('buttons');
 		return $button_values['submit'];
+	}
+	
+	function validate()
+	{
+		$button_values = $this->exportValue('buttons');
+		if($button_values['submit'] == self :: SUBMIT_NEXT_NO_SAVE)
+			return true;
+			
+		return parent :: validate();
 	}
 }
 ?>
