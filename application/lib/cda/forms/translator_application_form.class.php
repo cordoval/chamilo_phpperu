@@ -174,45 +174,72 @@ class TranslatorApplicationForm extends FormValidator
     {
     	$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
     	
-    	$html[] = Translation :: get('DearAdministratorModerator');
-    	$html[] = '';
-    	$html[] = sprintf(Translation :: get('UserHasAppliedForTheFollowingLanguages'), $user->get_fullname());
-    	$html[] = '';
-    	$html[] = Translation :: get('SourceLanguage') . ': ' . $this->get_language_name($source_language);
-
     	foreach($applications as $application => $language)
     	{
-    		$language = $this->get_language_name($language);
+    		$language = $this->get_language($language);
+    		$source_language = $this->get_language($source_language);
+    		
+    		$html = array();
+    	
+	    	$html[] = Translation :: get('DearAdministratorModerator');
+	    	$html[] = '';
+	    	$html[] = sprintf(Translation :: get('UserHasAppliedForTheFollowingLanguages'), $user->get_fullname());
+	    	$html[] = '';
+	    	$html[] = Translation :: get('SourceLanguage') . ': ' . $source_language->get_english_name();
+	
+	    	$language_name = $language->get_english_name();
     		$link = Path :: get(WEB_PATH) . Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION,
     											  CdaManager :: PARAM_TRANSLATOR_APPLICATION => $application));
 
-    		$links[] =  '<a href="' . $link . '">' . $language . '</a>';
+	    	$html[] = Translation :: get('DestinationLanguage') . ': <a href="' . $link . '">' . $language_name . '</a>';
+	    	
+	    	$link = Path :: get(WEB_PATH) . Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS));
+	    	
+	    	$html[] = '';
+	    	$html[] = Translation :: get('FollowLinkToActivate') . ':';
+	    	$html[] = '<a href="' . $link . '">' . $link . '</a>';
+	    	$html[] =  '';
+	    	$html[] = Translation :: get('KindRegards');
+	    	$html[] =  '';
+	    	$html[] = 'Chamilo Support Team';
+	    	$html[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
+	    	
+	    	$subject = '[CDA] ' . Translation :: get('UserAppliedForTranslator');
+	    	$content = implode("<br />", $html);
+	    	
+	    	$to = $this->get_moderator_emails($language);
+	    	$to[] = PlatformSetting :: get('administrator_email');
     	}
     	
-    	$html[] = Translation :: get('DestinationLanguages') . ': ' . implode(",", $links);
-    	
-    	$link = Path :: get(WEB_PATH) . Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS));
-    	
-    	$html[] = '';
-    	$html[] = Translation :: get('FollowLinkToActivate') . ':';
-    	$html[] = '<a href="' . $link . '">' . $link . '</a>';
-    	$html[] =  '';
-    	$html[] = Translation :: get('KindRegards');
-    	$html[] =  '';
-    	$html[] = 'Chamilo Support Team';
-    	$html[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
-    	
-    	$subject = '[CDA] ' . Translation :: get('UserAppliedForTranslator');
-    	$content = implode("<br />", $html);
-    	$to = PlatformSetting :: get('administrator_email');
     	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info@chamilo.org', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
     	$mail->send();
     }
     
-    function get_language_name($language_id)
+    function get_language($language_id)
     {
     	$language = CdaDataManager :: get_instance()->retrieve_cda_language($language_id);
-    	return $language->get_english_name();
+    	return $language;
     }
+    
+	function get_moderator_emails($cda_language)
+	{
+		$moderators = CdaRights :: get_allowed_users(CdaRights :: EDIT_RIGHT, $cda_language->get_id(), $cda_language->get_table_name());
+		
+		$udm = UserDataManager :: get_instance();
+		
+		foreach($moderators as $moderator)
+		{
+			$user = $udm->retrieve_user($moderator);
+			
+			if(!$user)	
+			{
+				continue;
+			}
+			
+			$emails[] = $user->get_email();
+		}
+		
+		return $emails;
+	}
 }
 ?>
