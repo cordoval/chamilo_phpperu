@@ -46,7 +46,7 @@ class CdaManagerVariableTranslationsSearcherComponent extends CdaManagerComponen
 	function get_table()
 	{
 		$table = new VariableTranslationBrowserTable($this, 
-			array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS), 
+			array(Application :: PARAM_APPLICATION => 'cda', Application :: PARAM_ACTION => CdaManager :: ACTION_SEARCH_VARIABLE_TRANSLATIONS), 
 			$this->get_condition());
 			
 		return $table->as_html();
