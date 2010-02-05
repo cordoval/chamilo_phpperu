@@ -148,7 +148,8 @@ class Translation
         {
             $value = $strings[$language]['common'][$variable];
         }
-        else
+        
+        if(!$value || $value == '' || $value == ' ')
         {
             if ( (Request :: get('install_running') != 1 && file_exists(dirname(__FILE__) . '/../configuration/configuration.php')) && PlatformSetting :: get('hide_dcda_markup'))
             {

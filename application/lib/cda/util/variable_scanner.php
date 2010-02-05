@@ -18,6 +18,8 @@ foreach($core_language_packs as $core_language_pack)
 	$scanner->scan_language_pack($root_path . $core_language_pack, $core_language_pack, LanguagePack :: TYPE_CORE);
 }
 
+$scanner->scan_language_pack($root_path . 'application/common', 'application_common', LanguagePack :: TYPE_CORE);
+
 $optional_language_packs = array('alexia', 'assessment', 'cda', 'distribute', 'forum', 'laika', 'linker', 'personal_calendar',
 						     'personal_messenger', 'portfolio', 'profiler', 'reservations', 'search_portal', 'webconferencing',
 							 'weblcms', 'wiki');

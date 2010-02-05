@@ -89,6 +89,10 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		$action = $this->get_action();
 		$component = null;
+		
+		if($action != self :: ACTION_EDIT_VARIABLE_TRANSLATION)
+			unset($_SESSION['skipped_variable_translations']);
+		
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_CDA_LANGUAGES :

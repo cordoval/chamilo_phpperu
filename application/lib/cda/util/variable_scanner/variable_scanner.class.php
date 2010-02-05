@@ -151,7 +151,7 @@ class VariableScanner
 		$dm = CdaDataManager :: get_instance();
 		$conditions[] = new EqualityCondition(LanguagePack :: PROPERTY_NAME, $name);
 		$conditions[] = new EqualityCondition(LanguagePack :: PROPERTY_BRANCH, 2);
-		$condition = new Andcondition($conditions);
+		$condition = new AndCondition($conditions);
 		$language_pack = $dm->retrieve_language_packs($condition)->next_result();
 		if(!$language_pack)
 		{

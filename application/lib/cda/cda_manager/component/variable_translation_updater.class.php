@@ -37,23 +37,30 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 			$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
 			$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), $language->get_original_name()));
 			$trail->add(new Breadcrumb($this->get_browse_variable_translations_url($language_id, $variable->get_language_pack_id()), $language_pack->get_branch_name() . ' - ' . $language_pack->get_name()));
-			$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => $language_id,
-															CdaManager :: PARAM_VARIABLE => $variable_id)), Translation :: get('UpdateVariableTranslation')));
+			$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_VARIABLE_TRANSLATION => $variable_translation_id)), Translation :: get('UpdateVariableTranslation')));
 			
 			$form = new VariableTranslationForm($variable_translation, $variable, 
 					$this->get_url(array(CdaManager :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id())), $this->get_user());
 	
 			if($form->validate())
 			{
-				$success = $form->update_variable_translation();
 				$type = $form->get_submit_type();
+				
+				if($type != VariableTranslationForm :: SUBMIT_NEXT_NO_SAVE)
+					$success = $form->update_variable_translation();
 				
 				switch($type)
 				{
+					case VariableTranslationForm :: SUBMIT_NEXT_NO_SAVE:
+						$_SESSION['skipped_variable_translations'][] = $variable_translation_id;
+						$extra_condition = new NotCondition(new InCondition(VariableTranslation :: PROPERTY_ID, $_SESSION['skipped_variable_translations']));
 					case VariableTranslationForm :: SUBMIT_NEXT :
 						$parameters = array();
 						
 						$conditions = array();
+						
+						if($extra_condition)
+							$conditions[] = $extra_condition;
 						
 						if (!$can_lock)
 						{
@@ -69,6 +76,10 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 						if(is_null($next_variable))
 						{
 							$conditions = array();
+							
+							if($extra_condition)
+								$conditions[] = $extra_condition;
+							
 							$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 							$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
 							$condition = new AndCondition($conditions);

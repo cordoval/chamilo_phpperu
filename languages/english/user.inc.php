@@ -52,6 +52,7 @@ $lang['user']['CurrentPassword'] = 'Current password';
 $lang['user']['AccountTitle'] = 'Account';
 $lang['user']['Email'] = 'Email';
 $lang['user']['Username'] = 'Username';
+$lang['user']['UserSettingsTitle'] = 'User settings';
 $lang['user']['GeneralPasswordRequirements']= '<h2>Guidelines for a strong password</h2>
 <ol>
 <li>Eight characters long, and longer if possible.</li>
