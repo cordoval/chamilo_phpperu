@@ -21,14 +21,14 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
         {
             $application = $this->application = 'admin';
         }
-        
+
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Settings')));
         $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_WEB_APPLICATION => $application)), Translation :: get(Utilities :: underscores_to_camelcase($application))));
         $trail->add_help('administration');
-        
+
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'settings', 'admin_manager_component'))
         {
             $this->display_header($trail);
@@ -36,9 +36,9 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
             $this->display_footer();
             exit();
         }
-        
+
         $form = new ConfigurationForm($application, 'config', 'post', $this->get_url(array(AdminManager :: PARAM_WEB_APPLICATION => $application)));
-        
+
         if ($form->validate())
         {
             $success = $form->update_configuration();
@@ -50,7 +50,7 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
             $application_url = $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_WEB_APPLICATION => Application :: PLACEHOLDER_APPLICATION));
             echo Application :: get_selecter($application_url, $this->application);
             $form->display();
-            echo '<script language="JavaScript" type="text/javascript">';
+            echo '<script type="text/javascript">';
             echo '$(document).ready(function() {';
             echo '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('On') . '\', uncheckedLabel: \'' . Translation :: get('Off') . '\'});';
             echo '});';

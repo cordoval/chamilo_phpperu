@@ -79,7 +79,7 @@ class UserManagerUserSettingsComponent extends UserManagerComponent
 
 	function display_footer()
 	{
-		$html[] = '<script language="JavaScript" type="text/javascript">';
+		$html[] = '<script type="text/javascript">';
         $html[] = '$(document).ready(function() {';
         $html[] = '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('On') . '\', uncheckedLabel: \'' . Translation :: get('Off') . '\'});';
         $html[] = '});';

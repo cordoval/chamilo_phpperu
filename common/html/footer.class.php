@@ -101,7 +101,7 @@ class Footer
 //        $output[] = '  </div> <!-- end of #outerframe opened in header -->';
 //        $output[] = ' </body>';
 //        $output[] = '</html>';
-//        //$output[] = '<script language="JavaScript" type="text/javascript">( function($) { $(window).unload(function() { alert("ByeNow!"); }); })(jQuery);</script>';
+//        //$output[] = '<script type="text/javascript">( function($) { $(window).unload(function() { alert("ByeNow!"); }); })(jQuery);</script>';
 //        return implode("\n", $output);
 
     	$template = Theme :: get_template();

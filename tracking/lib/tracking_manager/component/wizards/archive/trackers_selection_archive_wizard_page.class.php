@@ -36,15 +36,15 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
     {
         $this->_formBuilt = true;
         $defaults = array();
-        
+
         $events = $this->get_parent()->retrieve_events();
         $previousblock = '';
-        
+
         $this->addElement('html', '<div style="margin-top: 10px;">&nbsp;</div>');
         $this->addElement('html', '<div id="selectall" style="color: #4171B5; font-weight: bold; cursor: pointer; float: left;">' . Translation :: get('SelectAll') . '</div> &nbsp; | &nbsp; ');
         $this->addElement('html', '<div id="unselectall" style="color: #4171B5; font-weight: bold; cursor: pointer; display: inline;">' . Translation :: get('UnSelectAll') . '</div>');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/checkboxes.js'));
-        
+
         while ($event = $events->next_result())
         {
             if ($event->get_block() != $previousblock)
@@ -54,27 +54,27 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
             }
             else
                 $message = "";
-            
+
             $this->addElement('checkbox', $event->get_block() . '_' . $event->get_name() . '_event', $message, $event->get_name(), 'onclick=\'event_clicked("' . $event->get_block() . '_' . $event->get_name() . '_event", this.form)\' style=\'margin-top: 20px;\' class="chckbox"');
             $defaults[$event->get_name() . 'event'] = 1;
-            
+
             $trackers = $this->get_parent()->retrieve_trackers_from_event($event->get_id());
-            
+
             foreach ($trackers as $tracker)
             {
                 $this->addElement('checkbox', $event->get_block() . '_' . $event->get_name() . '_event_' . $tracker->get_id(), '', $tracker->get_class(), 'onclick=\'tracker_clicked("' . $event->get_block() . '_' . $event->get_name() . '_event", this)\' style=\'margin-left: 20px;\' class="chckbox"');
                 $defaults[$event->get_name() . 'event' . $tracker->get_id()] = 1;
             }
         }
-        
+
         $this->add_js_functions();
         $this->setDefaults($defaults);
-        
+
         //$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< ' . Translation :: get('Previous'), 'style=\'margin-top: 20px;\'');
         //$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next') . ' >>', 'style=\'margin-top: 20px;\'');
         $prevnext[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next') . ' >>', array('class' => 'next'));
         $this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
-        
+
         $this->setDefaultAction('next');
     }
 
@@ -84,7 +84,7 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
     function add_js_functions()
     {
         $html = array();
-        $html[] = '<script language="JavaScript" type="text/javascript">';
+        $html[] = '<script type="text/javascript">';
         $html[] = 'function tracker_clicked(event_name, object)';
         $html[] = '{';
         $html[] = '  var d = object.form[event_name];';
@@ -108,7 +108,7 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
         $html[] = '  }';
         $html[] = '}';
         $html[] = '</script>';
-        
+
         $this->addElement('html', implode("\n", $html));
     }
 }

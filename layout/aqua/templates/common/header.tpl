@@ -68,7 +68,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>EhB - Cyclops</title>
 
-<script language="JavaScript" type="text/javascript">var tracker=155</script>
+<script type="text/javascript">var tracker=155</script>
 </head>
 <body dir="ltr">
 <!-- #outerframe container to control some general layout of all pages -->
