@@ -145,7 +145,7 @@ abstract class FormValidatorHtmlEditorOptions
             {
                 $value = $this->get_option($available_option);
 
-                if($value)
+                if(isset($value))
                 {
                     $processing_function = 'process_' . $available_option;
                     if (method_exists($this, $processing_function))
