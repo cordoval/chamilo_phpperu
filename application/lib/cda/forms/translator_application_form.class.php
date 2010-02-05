@@ -173,11 +173,12 @@ class TranslatorApplicationForm extends FormValidator
     function notify($applications, $source_language)
     {
     	$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+
+    	$source_language = $this->get_language($source_language);
     	
     	foreach($applications as $application => $language)
     	{
     		$language = $this->get_language($language);
-    		$source_language = $this->get_language($source_language);
     		
     		$html = array();
     	
