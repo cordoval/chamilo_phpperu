@@ -64,6 +64,7 @@ abstract class FormValidatorHtmlEditorOptions
     function __construct($options)
     {
     	$this->options = $options;
+    	$this->set_defaults();
     }
 
     /**
@@ -124,10 +125,41 @@ abstract class FormValidatorHtmlEditorOptions
     	$this->options[$variable] = $value;
     }
 
+    function get_mapping()
+    {
+        return array_combine($this->get_option_names(), $this->get_option_names());
+    }
+
     /**
      * Process the generic options into editor specific ones
      */
-    abstract function render_options();
+    function render_options()
+    {
+        $javascript = array();
+        $available_options = $this->get_option_names();
+        $mapping = $this->get_mapping();
+
+        foreach($available_options as $available_option)
+        {
+            if(key_exists($available_option, $mapping))
+            {
+                $value = $this->get_option($available_option);
+
+                if(isset($value))
+                {
+                    $processing_function = 'process_' . $available_option;
+                    if (method_exists($this, $processing_function))
+                    {
+                        $value = call_user_func(array($this, $processing_function), $value);
+                    }
+
+                    $javascript[] = '			' . $mapping[$available_option] . ' : '. $this->format_for_javascript($value);
+                }
+            }
+        }
+
+        return implode(",\n", $javascript);
+    }
 
     function set_defaults()
     {
@@ -157,10 +189,10 @@ abstract class FormValidatorHtmlEditorOptions
     					break;
 
     				case self :: OPTION_WIDTH :
-    					$this->set_option($available_option, '100%');
+    					$this->set_option($available_option, 610);
     					break;
     				case self :: OPTION_HEIGHT :
-    					$this->set_option($available_option, '200');
+    					$this->set_option($available_option, 200);
     					break;
 
     				case self :: OPTION_FULL_PAGE :
@@ -169,6 +201,29 @@ abstract class FormValidatorHtmlEditorOptions
     			}
     		}
     	}
+    }
+
+    function format_for_javascript($value)
+    {
+        if (is_bool($value))
+        {
+            if ($value === true)
+            {
+                return 'true';
+            }
+            else
+            {
+                return 'false';
+            }
+        }
+        elseif(is_int($value))
+        {
+            return $value;
+        }
+        else
+        {
+            return '\'' . $value . '\'';
+        }
     }
 
     /**
@@ -185,6 +240,10 @@ abstract class FormValidatorHtmlEditorOptions
         {
             require_once ($file);
             return new $class($options);
+        }
+        else
+        {
+            return null;
         }
     }
 }

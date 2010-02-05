@@ -31,13 +31,13 @@ class DocumentForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $post_max_size = ini_get('upload_max_filesize');
-        
+
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         //$this->addElement('html', '<span style="margin-left: -40px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
         $object = $this->get_content_object();
         if (Utilities :: is_html_document($object->get_path()))
         {
-            $this->add_html_editor('html_content', Translation :: get('HtmlDocument'), false, true);
+            $this->add_html_editor('html_content', Translation :: get('HtmlDocument'), false);
             $this->addRule('html_content', Translation :: get('DiskQuotaExceeded'), 'disk_quota');
             //TODO: add option to upload & overwrite a HTML-document
         //TODO: add Rule to check if diskquota doesn't exceed when uploading a document
@@ -64,9 +64,9 @@ class DocumentForm extends ContentObjectForm
     function create_content_object()
     {
         $values = $this->exportValues();
-        
+
         $object = new Document();
-        
+
         if (StringUtilities :: has_value(($values['html_content'])))
         {
             /*
@@ -81,12 +81,12 @@ class DocumentForm extends ContentObjectForm
             * Object content is replaced by uploaded file
             */
             $object->set_filename($_FILES['file']['name']);
-            $object->set_temporary_file_path($_FILES['file']['tmp_name']);   
+            $object->set_temporary_file_path($_FILES['file']['tmp_name']);
         }
-        
+
         $this->set_content_object($object);
         $document = parent :: create_content_object();
-        
+
 //        $owner = $this->get_owner_id();
 //        $values = $this->exportValues();
 //        $owner_path = $this->get_upload_path() . $owner;
@@ -95,38 +95,38 @@ class DocumentForm extends ContentObjectForm
 //        {
 //            $filename = $values[Document :: PROPERTY_TITLE] . '.html';
 //            $hash = md5($filename);
-//            
+//
 //            $path = $owner . '/' . Text :: char_at($hash, 0);
 //            $full_path = $this->get_upload_path() . $path;
-//            
+//
 //            Filesystem :: create_dir($full_path);
 //            $hash = Filesystem :: create_unique_name($full_path, $hash);
-//            
+//
 //            $path = $path . '/' . $hash;
 //            $full_path = $full_path . '/' . $hash;
-//            
+//
 //            Filesystem :: write_to_file($full_path, $values['html_content']);
 //        }
 //        else
 //        {
 //            $filename = $_FILES['file']['name'];
 //            $hash = md5($_FILES['file']['name']);
-//            
+//
 //            $path = $owner . '/' . Text :: char_at($hash, 0);
 //            $full_path = $this->get_upload_path() . $path;
-//            
+//
 //            Filesystem :: create_dir($full_path);
 //            $hash = Filesystem :: create_unique_name($full_path, $hash);
-//            
+//
 //            $path = $path . '/' . $hash;
 //            $full_path = $full_path . '/' . $hash;
-//            
+//
 //            move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "' . $full_path . '"');
 //        }
-//        
+//
 //        $permissions_new_files = PlatformSetting :: get('permissions_new_files');
 //        Filesystem :: chmod($full_path, $permissions_new_files);
-//        
+//
 //        $object = new Document();
 //        $object->set_path($path);
 //        $object->set_filename($filename);
@@ -134,7 +134,7 @@ class DocumentForm extends ContentObjectForm
 //        $object->set_filesize(Filesystem :: get_disk_space($full_path));
 //        $this->set_content_object($object);
 //        $document = parent :: create_content_object();
-        
+
         if ($values['uncompress'] && ! $values['choice'])
         {
             $documents = array();
@@ -172,20 +172,20 @@ class DocumentForm extends ContentObjectForm
                     $path = $owner . '/' . Text :: char_at($hash, 0);
                     $full_path = $this->get_upload_path() . $path;
                     Filesystem :: create_dir($full_path);
-                    
+
                     $hash = Filesystem :: create_unique_name($owner_path, $hash);
                     $new_path = $path . '/' . $hash;
                     $full_path = $full_path . '/' . $hash;
-                    
+
                     Filesystem :: copy_file($entry, $full_path);
                     Filesystem :: chmod($full_path, $permissions_new_files);
-                    
+
                     $object = new Document();
                     $object->set_path($new_path);
                     $object->set_filename(basename($entry));
                     $object->set_filesize(Filesystem :: get_disk_space($full_path));
                     $object->set_hash($hash);
-                    
+
                     $this->set_content_object($object);
                     $object = parent :: create_content_object();
                     $object->set_title(basename($url));
@@ -210,7 +210,7 @@ class DocumentForm extends ContentObjectForm
     {
          $document = $this->get_content_object();
          $values = $this->exportValues();
-         
+
          if (StringUtilities :: has_value(($values['html_content'])))
          {
              /*
@@ -225,9 +225,9 @@ class DocumentForm extends ContentObjectForm
               * Object content is replaced by uploaded file
               */
              $document->set_filename($_FILES['file']['name']);
-             $document->set_temporary_file_path($_FILES['file']['tmp_name']);   
+             $document->set_temporary_file_path($_FILES['file']['tmp_name']);
          }
-         
+
          if ((isset($values['version']) && $values['version'] == 0) || ! isset($values['version']))
          {
              $document->set_save_as_new_version(false);
@@ -236,15 +236,15 @@ class DocumentForm extends ContentObjectForm
          {
              $document->set_save_as_new_version(true);
          }
-         
+
          return parent :: update_content_object();
     }
-    
+
 //    function update_content_object()
 //    {
 //        $object = $this->get_content_object();
 //        $values = $this->exportValues();
-//        
+//
 //        $owner = $object->get_owner_id();
 //        $owner_path = $this->get_upload_path() . $owner;
 //        Filesystem :: create_dir($owner_path);
@@ -254,17 +254,17 @@ class DocumentForm extends ContentObjectForm
 //            {
 //                Filesystem :: remove($this->get_upload_path() . $object->get_path());
 //            }
-//            
+//
 //            $filename = $object->get_title() . '.html';
 //            $hash = md5($filename);
 //            $path = $owner . '/' . Text :: char_at($hash, 0);
 //            $full_path = $this->get_upload_path() . $path;
 //            Filesystem :: create_dir($full_path);
-//            
+//
 //            $hash = Filesystem :: create_unique_name($full_path, $hash);
 //            $path .= '/' . $hash;
 //            $full_path .= '/' . $hash;
-//            
+//
 //            Filesystem :: write_to_file($full_path, $values['html_content']);
 //        }
 //        elseif (strlen($_FILES['file']['name']) > 0)
@@ -273,21 +273,21 @@ class DocumentForm extends ContentObjectForm
 //            {
 //                Filesystem :: remove($this->get_upload_path() . $object->get_path());
 //            }
-//            
+//
 //            $filename = $_FILES['file']['name'];
 //            $hash = md5($filename);
 //            $path = $owner . '/' . Text :: char_at($hash, 0);
 //            $full_path = $this->get_upload_path() . $path;
 //            Filesystem :: create_dir($full_path);
-//            
+//
 //            $hash = Filesystem :: create_unique_name($full_path, $hash);
 //            $path .= '/' . $hash;
 //            $full_path .= '/' . $hash;
-//            
+//
 //            move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "' . $full_path . '"');
 //            Filesystem :: chmod($full_path, PlatformSetting :: get('permissions_new_files'));
 //        }
-//        
+//
 //        if(isset($path))
 //        {
 //            $object->set_path($path);
@@ -304,7 +304,7 @@ class DocumentForm extends ContentObjectForm
 //        {
 //            $object->set_hash($hash);
 //        }
-//        
+//
 //        return parent :: update_content_object();
 //    }
 
@@ -315,14 +315,14 @@ class DocumentForm extends ContentObjectForm
     {
         // TODO: Do the errors need htmlentities()?
         $errors = array();
-        
+
         $owner_id = $this->get_owner_id();
         $udm = UserDataManager :: get_instance();
-        
+
         $owner = $udm->retrieve_user($owner_id);
-        
+
         $quotamanager = new QuotaManager($owner);
-        
+
         if (! $fields['choice'])
         {
             if (isset($_FILES['file']) && isset($_FILES['file']['error']) && $_FILES['file']['error'] != 0)
@@ -347,26 +347,26 @@ class DocumentForm extends ContentObjectForm
             {
                 $size = $_FILES['file']['size'];
                 $available_disk_space = $quotamanager->get_available_disk_space();
-                
+
                 if ($size > $available_disk_space)
                 {
                     $errors['upload_or_create'] = Translation :: get('DiskQuotaExceeded');
                 }
-                
+
                 /*$filecompression = Filecompression::factory(); dump($_FILES); exit();
 				if( $fields['uncompress'] && !$filecompression->is_supported_mimetype($_FILES['file']['type']))
 				{
 					$errors['upload_or_create'] = Translation :: get('UncompressNotAvailableForThisFile');
 				}*/
-                
+
                 $array = explode('.', $_FILES['file']['name']);
                 $type = $array[count($array) - 1];
-                
+
                 if (isset($fields['uncompress']) && $type != 'zip')
                 {
                     $errors['upload_or_create'] = Translation :: get('UncompressNotAvailableForThisFile');
                 }
-                
+
                 if (! $fields['uncompress'] && ! $this->allow_file_type($type))
                 {
                     if (PlatformSetting :: get('rename_instead_of_disallow') == 1)
@@ -425,7 +425,7 @@ class DocumentForm extends ContentObjectForm
             {
                 return false;
             }
-            
+
             return true;
         }
         else
@@ -436,7 +436,7 @@ class DocumentForm extends ContentObjectForm
             {
                 return true;
             }
-            
+
             return false;
         }
     }
