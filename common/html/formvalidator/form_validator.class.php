@@ -193,14 +193,20 @@ EOT;
      * @param boolean $required Is the form-element required (default=true)
      * @return HTML_QuickForm_html_editor The element.
      */
-    function add_html_editor($name, $label, $required = true, $options = array())
+    function add_html_editor($name, $label, $required = true, $options = array(), $attributes = array())
     {
-        FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $this, $name, $label, $required, $options)->add();
+        FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $this, $name, $label, $required, $options, $attributes)->add();
     }
 
-    function create_html_editor($name, $label, $options = array())
+    function create_html_editor($name, $label, $options = array(), $attributes = array())
     {
-        return FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $this, $name, $label, false, $options)->create();
+        return FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $this, $name, $label, false, $options, $attributes)->create();
+    }
+
+    function add_allowed_html_tags($full_page = false)
+    {
+        $html = '<br/><small><a href="#" onclick="MyWindow=window.open(' . "'" . Path :: get(WEB_LIB_PATH) . "html/allowed_html_tags.php?fullpage=" . ($full_page ? '1' : '0') . "','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'" . '); return false;">' . Translation :: get('AllowedHTMLTags') . '</a></small><br />';
+        $this->addElement('html', $html);
     }
 
     function get_html_editors()

@@ -22,7 +22,7 @@ class FormValidatorHtmlEditor
 	const SETTING_SHIFT_ENTER_MODE	= 'shift_enter_mode';
 	const SETTING_TEMPLATES			= 'templates';
 
-    function __construct($form, $name, $label, $required = true, $attributes = array(), $options = array())
+    function __construct($form, $name, $label, $required = true, $options = array(), $attributes = array())
     {
         $this->form = $form;
         $this->name = $name;
@@ -134,7 +134,7 @@ class FormValidatorHtmlEditor
         $this->required = $required;
     }
 
-    public static function factory($type, $form, $name, $label, $required = true, $attributes = array(), $options = array())
+    public static function factory($type, $form, $name, $label, $required = true, $options = array(), $attributes = array())
     {
         $file = dirname(__FILE__) . '/html_editor/' . $type . '_html_editor.class.php';
         $class = 'FormValidator' . Utilities :: underscores_to_camelcase($type) . 'HtmlEditor';
@@ -146,7 +146,7 @@ class FormValidatorHtmlEditor
             if ($options)
             {
                 require_once ($file);
-                return new $class($form, $name, $label, $required, $attributes, $options);
+                return new $class($form, $name, $label, $required, $options, $attributes);
             }
         }
     }

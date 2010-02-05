@@ -125,10 +125,41 @@ abstract class FormValidatorHtmlEditorOptions
     	$this->options[$variable] = $value;
     }
 
+    function get_mapping()
+    {
+        return array_combine($this->get_option_names(), $this->get_option_names());
+    }
+
     /**
      * Process the generic options into editor specific ones
      */
-    abstract function render_options();
+    function render_options()
+    {
+        $javascript = array();
+        $available_options = $this->get_option_names();
+        $mapping = $this->get_mapping();
+
+        foreach($available_options as $available_option)
+        {
+            if(key_exists($available_option, $mapping))
+            {
+                $value = $this->get_option($available_option);
+
+                if($value)
+                {
+                    $processing_function = 'process_' . $available_option;
+                    if (method_exists($this, $processing_function))
+                    {
+                        $value = call_user_func(array($this, $processing_function), $value);
+                    }
+
+                    $javascript[] = '			' . $mapping[$available_option] . ' : '. $this->format_for_javascript($value);
+                }
+            }
+        }
+
+        return implode(",\n", $javascript);
+    }
 
     function set_defaults()
     {
@@ -142,34 +173,57 @@ abstract class FormValidatorHtmlEditorOptions
     			switch($available_option)
     			{
     				case self :: OPTION_THEME :
-    					$this->set_option($available_option, '\'' . Theme :: get_theme() . '\'');
+    					$this->set_option($available_option, Theme :: get_theme());
     					break;
     				case self :: OPTION_LANGUAGE :
     					global $language_interface;
 				        $editor_lang = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
-    					$this->set_option($available_option, '\'' . $editor_lang . '\'');
+    					$this->set_option($available_option, $editor_lang);
     					break;
-//
+
     				case self :: OPTION_TOOLBAR :
-    					$this->set_option($available_option, '\'Basic\'');
+    					$this->set_option($available_option, 'Basic');
     					break;
     				case self :: OPTION_COLLAPSE_TOOLBAR :
-    					$this->set_option($available_option, 'false');
+    					$this->set_option($available_option, false);
     					break;
 
     				case self :: OPTION_WIDTH :
-    					$this->set_option($available_option, '610');
+    					$this->set_option($available_option, 610);
     					break;
     				case self :: OPTION_HEIGHT :
-    					$this->set_option($available_option, '200');
+    					$this->set_option($available_option, 200);
     					break;
-//
-//    				case self :: OPTION_FULL_PAGE :
-//    					$this->set_option($available_option, false);
-//    					break;
+
+    				case self :: OPTION_FULL_PAGE :
+    					$this->set_option($available_option, false);
+    					break;
     			}
     		}
     	}
+    }
+
+    function format_for_javascript($value)
+    {
+        if (is_bool($value))
+        {
+            if ($value === true)
+            {
+                return 'true';
+            }
+            else
+            {
+                return 'false';
+            }
+        }
+        elseif(is_int($value))
+        {
+            return $value;
+        }
+        else
+        {
+            return '\'' . $value . '\'';
+        }
     }
 
     /**

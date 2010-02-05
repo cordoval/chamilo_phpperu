@@ -14,7 +14,7 @@ class OpenQuestionDisplay extends QuestionDisplay
         $question = $this->get_question();
         $type = $question->get_question_type();
         $formvalidator = $this->get_formvalidator();
-        
+
         switch ($type)
         {
             case OpenQuestion :: TYPE_DOCUMENT :
@@ -34,10 +34,9 @@ class OpenQuestionDisplay extends QuestionDisplay
     {
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
-        $html_editor_options['height'] = '150';
-        $html_editor_options['show_tags'] = false;
-        $html_editor_options['toolbar_set'] = 'Assessment';
-        
+        $html_editor_options['height'] = 150;
+        $html_editor_options['toolbar'] = 'Assessment';
+
         $element_template = array();
         $element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
         $element_template[] = '<div class="clear">&nbsp;</div>';
@@ -46,7 +45,7 @@ class OpenQuestionDisplay extends QuestionDisplay
         $element_template[] = '</div>';
         $element_template = implode("\n", $element_template);
         $renderer = $this->get_renderer();
-        
+
         $name = $clo_question->get_id() . '_0';
         $formvalidator->add_html_editor($name, '', false, $html_editor_options);
         $renderer->setElementTemplate($element_template, $name);
@@ -74,7 +73,7 @@ class OpenQuestionDisplay extends QuestionDisplay
     {
         $instruction = array();
         $question = $this->get_question();
-        
+
         if ($question->has_description())
         {
             $instruction[] = '<div class="splitter">';
@@ -85,7 +84,7 @@ class OpenQuestionDisplay extends QuestionDisplay
         {
             $instruction = array();
         }
-        
+
         return implode("\n", $instruction);
     }
 }

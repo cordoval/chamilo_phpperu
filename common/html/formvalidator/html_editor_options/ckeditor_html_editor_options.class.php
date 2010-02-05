@@ -7,60 +7,37 @@
 
 class FormValidatorCkeditorHtmlEditorOptions extends FormValidatorHtmlEditorOptions
 {
-	private $mapping = array(	parent :: OPTION_TOOLBAR			=> 'toolbar',
-								parent :: OPTION_LANGUAGE			=> 'defaultLanguage',
-								parent :: OPTION_THEME				=> 'skin',
-								parent :: OPTION_WIDTH				=> 'width',
-								parent :: OPTION_HEIGHT			    => 'height',
-								parent :: OPTION_COLLAPSE_TOOLBAR	=> 'toolbarStartupExpanded',
-								parent :: OPTION_CONFIGURATION		=> 'customConfig',
-								parent :: OPTION_FULL_PAGE			=> 'fullPage',
-								parent :: OPTION_TEMPLATES			=> 'templates');
+	function get_mapping()
+	{
+	    $mapping = parent :: get_mapping();
+
+	    $mapping[self :: OPTION_LANGUAGE] = 'defaultLanguage';
+	    $mapping[self :: OPTION_THEME] = 'skin';
+	    $mapping[self :: OPTION_COLLAPSE_TOOLBAR] = 'toolbarStartupExpanded';
+	    $mapping[self :: OPTION_CONFIGURATION] = 'customConfig';
+	    $mapping[self :: OPTION_FULL_PAGE] = 'fullPage';
+
+	    return $mapping;
+	}
 
 	function process_collapse_toolbar($value)
 	{
-	    if ($value == 'true')
+	    if ($value === true)
 	    {
-	        return 'false';
+	        return false;
 	    }
 	    else
 	    {
-	        return 'true';
+	        return true;
 	    }
 	}
 
-	/**
-     *
-     */
-    function render_options()
-    {
-        $javascript = array();
-        $available_options = $this->get_option_names();
+	function set_defaults()
+	{
+	    parent :: set_defaults();
 
-        foreach($available_options as $available_option)
-        {
-            if(key_exists($available_option, $this->mapping))
-            {
-                $value = $this->get_option($available_option);
-
-                if($value)
-                {
-                    $processing_function = 'process_' . $available_option;
-                    if (method_exists($this, $processing_function))
-                    {
-                        $value = call_user_func(array($this, $processing_function), $value);
-                        $javascript[] = '			' . $this->mapping[$available_option] . ' : '. $value;
-                    }
-                    else
-                    {
-                        $javascript[] = '			' . $this->mapping[$available_option] . ' : '. $value;
-                    }
-                }
-            }
-        }
-
-        return implode(",\n", $javascript);
-    }
+	    $path = Path :: get(REL_PATH) . 'common/configuration/html_editor/ckeditor_configuration.js';
+	    $this->set_option(self :: OPTION_CONFIGURATION, $path);
+	}
 }
-
 ?>
