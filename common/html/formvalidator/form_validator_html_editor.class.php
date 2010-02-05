@@ -1,4 +1,5 @@
 <?php
+require_once Path :: get_library_path() . 'html/formvalidator/form_validator_html_editor_options.class.php';
 
 class FormValidatorHtmlEditor
 {
@@ -8,7 +9,7 @@ class FormValidatorHtmlEditor
     private $required;
     private $attributes;
     private $options;
-    
+
 	const SETTING_TOOLBAR			= 'toolbar';
 	const SETTING_LANGUAGE			= 'language';
 	const SETTING_THEME				= 'theme';
@@ -28,7 +29,7 @@ class FormValidatorHtmlEditor
         $this->label = $label;
         $this->required = $required;
         $this->options = $options;
-    
+
         if (!array_key_exists('class', $attributes))
         {
             $attributes['class'] = 'html_editor';
@@ -95,7 +96,7 @@ class FormValidatorHtmlEditor
     {
         $this->attributes = $attributes;
     }
-    
+
     function get_options()
     {
         return $this->options;
@@ -105,7 +106,7 @@ class FormValidatorHtmlEditor
     {
         $this->options = $options;
     }
-    
+
     function get_option($variable)
     {
     	if (isset($this->options[$variable]))
@@ -117,7 +118,7 @@ class FormValidatorHtmlEditor
     		return null;
     	}
     }
-    
+
     function set_option($variable, $value)
     {
     	$this->options[$variable] = $value;
@@ -133,15 +134,20 @@ class FormValidatorHtmlEditor
         $this->required = $required;
     }
 
-    public static function factory($type, $form, $name, $label, $required = true, $attributes = array())
+    public static function factory($type, $form, $name, $label, $required = true, $attributes = array(), $options = array())
     {
         $file = dirname(__FILE__) . '/html_editor/' . $type . '_html_editor.class.php';
         $class = 'FormValidator' . Utilities :: underscores_to_camelcase($type) . 'HtmlEditor';
 
         if (file_exists($file))
         {
-            require_once ($file);
-            return new $class($form, $name, $label, $required, $attributes);
+            $options = FormValidatorHtmlEditorOptions :: factory($type, $options);
+
+            if ($options)
+            {
+                require_once ($file);
+                return new $class($form, $name, $label, $required, $attributes, $options);
+            }
         }
     }
 }

@@ -9,13 +9,26 @@ class FormValidatorCkeditorHtmlEditorOptions extends FormValidatorHtmlEditorOpti
 {
 	private $mapping = array(	parent :: OPTION_TOOLBAR			=> 'toolbar',
 								parent :: OPTION_LANGUAGE			=> 'defaultLanguage',
-								parent :: OPTION_THEME				=> 'theme',
+								parent :: OPTION_THEME				=> 'skin',
 								parent :: OPTION_WIDTH				=> 'width',
 								parent :: OPTION_HEIGHT			    => 'height',
 								parent :: OPTION_COLLAPSE_TOOLBAR	=> 'toolbarStartupExpanded',
 								parent :: OPTION_CONFIGURATION		=> 'customConfig',
 								parent :: OPTION_FULL_PAGE			=> 'fullPage',
 								parent :: OPTION_TEMPLATES			=> 'templates');
+
+	function process_collapse_toolbar($value)
+	{
+	    if ($value == 'true')
+	    {
+	        return 'false';
+	    }
+	    else
+	    {
+	        return 'true';
+	    }
+	}
+
 	/**
      *
      */
@@ -36,16 +49,17 @@ class FormValidatorCkeditorHtmlEditorOptions extends FormValidatorHtmlEditorOpti
                     if (method_exists($this, $processing_function))
                     {
                         $value = call_user_func(array($this, $processing_function), $value);
-                        $javascript[] = '			' . $this->mapping[$available_option] . ' : \''. $value .'\'';
+                        $javascript[] = '			' . $this->mapping[$available_option] . ' : '. $value;
                     }
                     else
                     {
-                        $javascript[] = '			' . $this->mapping[$available_option] . ' : \''. $value .'\'';
+                        $javascript[] = '			' . $this->mapping[$available_option] . ' : '. $value;
                     }
                 }
             }
         }
 
+        return implode(",\n", $javascript);
     }
 }
 

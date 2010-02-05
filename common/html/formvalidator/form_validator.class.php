@@ -153,11 +153,6 @@ EOT;
         return $element;
     }
 
-    function add_editor($name, $label, $required = true, $attributes = array())
-    {
-        FormValidatorHtmlEditor :: factory('ckeditor', $this, $name, $label, $required, $attributes);
-    }
-
     function create_textfield($name, $label, $attributes = array())
     {
         if (! array_key_exists('size', $attributes))

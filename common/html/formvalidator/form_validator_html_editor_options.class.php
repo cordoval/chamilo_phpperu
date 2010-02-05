@@ -64,6 +64,7 @@ abstract class FormValidatorHtmlEditorOptions
     function __construct($options)
     {
     	$this->options = $options;
+    	$this->set_defaults();
     }
 
     /**
@@ -141,31 +142,31 @@ abstract class FormValidatorHtmlEditorOptions
     			switch($available_option)
     			{
     				case self :: OPTION_THEME :
-    					$this->set_option($available_option, Theme :: get_theme());
+    					$this->set_option($available_option, '\'' . Theme :: get_theme() . '\'');
     					break;
     				case self :: OPTION_LANGUAGE :
     					global $language_interface;
 				        $editor_lang = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
-    					$this->set_option($available_option, $editor_lang);
+    					$this->set_option($available_option, '\'' . $editor_lang . '\'');
     					break;
-
+//
     				case self :: OPTION_TOOLBAR :
-    					$this->set_option($available_option, 'Basic');
+    					$this->set_option($available_option, '\'Basic\'');
     					break;
     				case self :: OPTION_COLLAPSE_TOOLBAR :
-    					$this->set_option($available_option, false);
+    					$this->set_option($available_option, 'false');
     					break;
 
     				case self :: OPTION_WIDTH :
-    					$this->set_option($available_option, '100%');
+    					$this->set_option($available_option, '610');
     					break;
     				case self :: OPTION_HEIGHT :
     					$this->set_option($available_option, '200');
     					break;
-
-    				case self :: OPTION_FULL_PAGE :
-    					$this->set_option($available_option, false);
-    					break;
+//
+//    				case self :: OPTION_FULL_PAGE :
+//    					$this->set_option($available_option, false);
+//    					break;
     			}
     		}
     	}
@@ -185,6 +186,10 @@ abstract class FormValidatorHtmlEditorOptions
         {
             require_once ($file);
             return new $class($options);
+        }
+        else
+        {
+            return null;
         }
     }
 }
