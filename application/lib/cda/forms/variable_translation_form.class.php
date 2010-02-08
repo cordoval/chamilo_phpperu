@@ -58,7 +58,7 @@ class VariableTranslationForm extends FormValidator
     	$this->addElement('category');
     	
     	$this->addElement('category', Translation :: get('Translation'));
-    	$this->addElement('textarea', VariableTranslation :: PROPERTY_TRANSLATION, Translation :: get('Translation'), array('style' => 'width: 500px; height: 250px;'));
+    	$this->addElement('textarea', VariableTranslation :: PROPERTY_TRANSLATION, Translation :: get('Translation'), array('style' => 'width: 500px; height: 250px;', 'id' => 'translation'));
 		$this->addRule(VariableTranslation :: PROPERTY_TRANSLATION, Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addElement('category');
 		

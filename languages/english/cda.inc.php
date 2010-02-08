@@ -154,4 +154,5 @@ $lang['cda']['TranslationApplicationAccepted'] = 'Translation application accept
 $lang['cda']['KindRegards'] = 'Kind regards';
 $lang['cda']['DocumentationInfo'] = 'All documentation concerning the translation tool can be found here';
 $lang['cda']['ThankYouForHelping'] = 'Thank you for helping the Chamilo software!';
+$lang['cda']['TranslationSkipped'] = 'Translation skipped';
 ?>

@@ -54,6 +54,8 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 					case VariableTranslationForm :: SUBMIT_NEXT_NO_SAVE:
 						$_SESSION['skipped_variable_translations'][] = $variable_translation_id;
 						$extra_condition = new NotCondition(new InCondition(VariableTranslation :: PROPERTY_ID, $_SESSION['skipped_variable_translations']));
+						$success = true;
+						$message = Translation :: get('TranslationSkipped');
 					case VariableTranslationForm :: SUBMIT_NEXT :
 						$parameters = array();
 						
@@ -88,7 +90,12 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 						
 						if (!is_null($next_variable))
 						{
-							$message = $success ? Translation :: get('PreviousVariableTranslationUpdated') : Translation :: get('PreviousVariableTranslationNotUpdated');
+							if(!$message)
+							{
+								$message = $success ? Translation :: get('PreviousVariableTranslationUpdated') : Translation :: get('PreviousVariableTranslationNotUpdated');
+								$message .= '<br /> ' . $variable->get_variable() . ' = ' . $variable_translation->get_translation(); 
+							}
+								
 							$parameters[CdaManager :: PARAM_ACTION] = CdaManager :: ACTION_EDIT_VARIABLE_TRANSLATION;
 							/*$parameters[CdaManager :: PARAM_CDA_LANGUAGE] = $language_id;
 							$parameters[CdaManager :: PARAM_VARIABLE] = $next_variable->get_variable_id();*/
@@ -97,12 +104,14 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 						else
 						{
 							$message = Translation :: get('LanguageCompletelyTranslated');
+							$message .= '<br /> ' . $variable->get_variable() . ' = ' . $variable_translation->get_translation(); 
 							$parameters[CdaManager :: PARAM_ACTION] = CdaManager :: ACTION_BROWSE_CDA_LANGUAGES;
 							$success = true;
 						}
 						break;
 					case VariableTranslationForm :: SUBMIT_SAVE :
 						$message = $success ? Translation :: get('VariableTranslationUpdated') : Translation :: get('VariableTranslationNotUpdated');
+						$message .= '<br /> ' . $variable->get_variable() . ' = ' . $variable_translation->get_translation(); 
 						$parameters = array();
 						$parameters[CdaManager :: PARAM_ACTION] = CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS;
 						$parameters[CdaManager :: PARAM_CDA_LANGUAGE] = $language_id;
@@ -116,6 +125,13 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 			{
 				$this->display_header($trail);
 				$form->display();
+				
+				$html[] = '<script language="javascript">';
+				$html[] = '$("#translation").focus()';
+				$html[] = '</script>';
+				
+				echo implode("\n", $html);
+				
 				$this->display_footer();
 			}
 		}
