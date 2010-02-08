@@ -49,7 +49,6 @@ class VariableTranslationForm extends FormValidator
 		
 		if($source_id != $english_id)
 		{
-			
 			$source = CdaDataManager :: get_instance()->retrieve_variable_translation_by_parameters($source_id, $this->variable->get_id());
 			$source_translation = ($source && $source->get_translation() != ' ') ? $source->get_translation() : Translation :: get('NoTranslation');
 			$this->addElement('static', null, Translation :: get('SourceTranslation'), $source_translation);
@@ -66,8 +65,10 @@ class VariableTranslationForm extends FormValidator
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('GoToNextVariableWithoutSave'), array('class' => 'normal next'), self :: SUBMIT_NEXT_NO_SAVE);
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Translate'), array('class' => 'positive save'), self :: SUBMIT_SAVE);
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
+		
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		
+		$this->add_other_translations($english_id);
     }
 
     function update_variable_translation()
@@ -99,6 +100,32 @@ class VariableTranslationForm extends FormValidator
 	{
 		$button_values = $this->exportValue('buttons');
 		return $button_values['submit'];
+	}
+	
+	function add_other_translations($english_id)
+	{
+		$this->addElement('html', '<a href="#" id="show" style="display: none;">' . Translation :: get('ShowOtherTranslations') . '</a>');
+		$this->addElement('html', '<a href="#" id="hide" style="display: none;">' . Translation :: get('HideOtherTranslations') . '</a>');
+		$this->addElement('html', '<div id="othertranslations">');
+		$this->addElement('category', Translation :: get('OtherTranslations'));
+		
+		$conditions = array();
+		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $english_id));
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $this->variable->get_id());
+		
+		$dm = CdaDataManager :: get_instance();
+		$translations = $dm->retrieve_variable_translations(new AndCondition($conditions));
+		while($translation = $translations->next_result())
+		{
+			$trans = $translation->get_translation();
+			$language = $dm->retrieve_cda_language($translation->get_language_id());
+			$html[] = '<b>' . $language->get_original_name() . '</b>: ' . ($trans ? $trans : Translation :: get('NoTranslation'));
+		}
+		
+		$this->addElement('html', '<div style="margin-left: 20px;">' . implode("<br />", $html) . '<br /><br /></div>');
+		
+		$this->addElement('category');
+		$this->addElement('html', '</div>');
 	}
 	
 	function validate()

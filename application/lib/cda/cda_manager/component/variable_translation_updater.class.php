@@ -124,13 +124,9 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 			else
 			{
 				$this->display_header($trail);
+
+				echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/variable_translation_form.js');
 				$form->display();
-				
-				$html[] = '<script language="javascript">';
-				$html[] = '$("#translation").focus()';
-				$html[] = '</script>';
-				
-				echo implode("\n", $html);
 				
 				$this->display_footer();
 			}
