@@ -18,7 +18,6 @@ $lang['menu']['NavigationItemTitle'] = 'Title';
 $lang['menu']['NavigationItemParent'] = 'Parent';
 $lang['menu']['NavigationItemApplication'] = 'Application';
 $lang['menu']['NavigationItemExtra'] = 'Extra';
-$lang['menu']['MyAccount'] = 'My account';
 $lang['menu']['Logout'] = 'Logout';
 $lang['menu']['Link'] = 'Links';
 $lang['menu']['Application'] = 'Application';

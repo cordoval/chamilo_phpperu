@@ -5,7 +5,6 @@ $lang['migration']['Course_User_Categories'] = 'Course user categories';
 $lang['migration']['Course_User_Relations'] = 'Course user relations';
 $lang['migration']['Course_Class_Relations'] = 'Course class relations';
 $lang['migration']['already_migrated'] = 'already migrated';
-$lang['migration']['failed'] = 'failed';
 $lang['migration']['because'] = 'because';
 $lang['migration']['skipped'] = 'skipped';
 $lang['migration']['Classes'] = 'Classes';
@@ -193,4 +192,5 @@ $lang['migration']['learning_path'] = 'Learning path';
 $lang['migration']['ForumPost'] = 'Forum post';
 $lang['migration']['Profile'] = 'Profile';
 $lang['migration']['ForumThread'] = 'Forum thread';
+$lang['migration']['LearningPathItems'] = 'Learning path items';
 ?>

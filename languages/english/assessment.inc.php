@@ -1,6 +1,5 @@
 <?php
 $lang['assessment']['DeleteResults'] = 'Delete results';
-$lang['assessment']['Action'] = 'Action';
 $lang['assessment']['BrowseAssessmentPublications'] = 'Browse assessment publications';
 $lang['assessment']['AssessmentAttemptsDeleted'] = 'Assessment attempts deleted';
 $lang['assessment']['ViewAssessmentResults'] = 'View assessment results';
@@ -13,4 +12,5 @@ $lang['assessment']['SelectCategory'] = 'Select category';
 $lang['assessment']['UsersInvited'] = 'Users invited';
 $lang['assessment']['NoAssessmentPublicationsSelected'] = 'No assessment publications selected';
 $lang['assessment']['Assessments'] = 'Assessments';
+$lang['assessment']['PublishAndBuild'] = 'Publish and build';
 ?>

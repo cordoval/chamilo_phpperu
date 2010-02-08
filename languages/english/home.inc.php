@@ -73,6 +73,4 @@ $lang['home']['Tab'] = 'Tab';
 $lang['home']['BlockAdded'] = 'Block added';
 $lang['home']['Site'] = 'Site';
 $lang['home']['PortalHome'] = 'Portal home';
-$lang['home']['EnterUsername'] = 'Enter username';
-$lang['home']['ResetPassword'] = 'Reset password';
 ?>

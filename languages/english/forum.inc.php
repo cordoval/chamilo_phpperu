@@ -7,4 +7,5 @@ $lang['forum']['BrowseTitle'] = 'Browse';
 $lang['forum']['ViewForum'] = 'View forum';
 $lang['forum']['ForumUpdated'] = 'Forum updated';
 $lang['forum']['ForumNotUpdated'] = 'Forum not updated';
+$lang['forum']['PublishForum'] = 'Publish forum';
 ?>

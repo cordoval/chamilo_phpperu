@@ -28,7 +28,6 @@ $lang['group']['GroupMove'] = 'Move group';
 $lang['group']['GroupMoved'] = 'Group moved';
 $lang['group']['GroupNotMoved'] = 'Group not moved';
 $lang['group']['NoGroupsSelected'] = 'No groups selected';
-$lang['group']['ExportDescription'] = 'Export description';
 $lang['group']['OnlyXMLAllowed'] = 'Only XML allowed';
 $lang['group']['NewLocation'] = 'New location';
 $lang['group']['CouldNotRetrieveGroup'] = 'Could not retrieve group';
@@ -49,4 +48,8 @@ $lang['group']['ErrorUpdatingGroup'] = 'Error updating group';
 $lang['group']['ErrorDeletingGroup'] = 'Error deleting group';
 $lang['group']['ErrorSubscribingOrUnsubscribingUser'] = 'Error subscribing or unsubscribing user';
 $lang['group']['ToFrom'] = 'to / from';
+$lang['group']['GroupUserCreateCsv'] = '';
+$lang['group']['ImportGroupUsers'] = 'Import group users';
+$lang['group']['ImportGroupUsersDescription'] = '';
+$lang['group']['OnlyCSVAllowed'] = 'Only CSV files allowed';
 ?>
