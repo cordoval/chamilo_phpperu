@@ -679,8 +679,8 @@ abstract class RepositoryDataManager
     
     function delete_content_object_publication($application, $publication_id)
     {
-    	 require_once (Path :: get(SYS_PATH) . 'application/lib/' . $application . '/' . $application . '_manager/' . $application . '_manager.class.php');
-    	 $application = Application :: factory($application);
+    	 //require_once (Path :: get(SYS_PATH) . 'application/lib/' . $application . '/' . $application . '_manager/' . $application . '_manager.class.php');
+    	 $application = Application :: factory($application, null, true);
          return $application->delete_content_object_publication($publication_id);
     }
 

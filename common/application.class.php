@@ -460,7 +460,7 @@ abstract class Application
         	}
         	else
         	{
-        		$application = Path :: get(WEB_PATH) . $application . '/lib/' . $application .
+        		$application_manager_path = Path :: get(SYS_PATH) . $application . '/lib/' . $application .
         							        '_manager' . '/' . $application . '_manager.class.php';
         	}
         	

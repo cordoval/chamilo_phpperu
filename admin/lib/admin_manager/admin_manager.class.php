@@ -420,6 +420,12 @@ class AdminManager extends CoreApplication
         $adm = AdminDataManager :: get_instance();
         return $adm->delete_content_object_publications($object_id);
     }
+    
+	public function delete_content_object_publication($publication_id)
+    {
+        $adm = AdminDataManager :: get_instance();
+        return $adm->delete_content_object_publication($publication_id);
+    }
 
     /**
      * Helper function for the Application class,

@@ -398,6 +398,12 @@ class DatabaseAdminDataManager extends AdminDataManager
         $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         $this->database->delete('system_announcement_publication', $condition);
     }
+    
+	public function delete_content_object_publication($publication_id)
+    {
+        $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $publication_id);
+        return $this->database->delete('system_announcement_publication', $condition);
+    }
 
     function create_remote_package($remote_package)
     {
