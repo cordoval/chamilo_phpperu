@@ -173,6 +173,7 @@ abstract class FormValidatorHtmlEditorOptions
     			switch($available_option)
     			{
     				case self :: OPTION_THEME :
+//    					$this->set_option($available_option, 'v2');
     					$this->set_option($available_option, Theme :: get_theme());
     					break;
     				case self :: OPTION_LANGUAGE :

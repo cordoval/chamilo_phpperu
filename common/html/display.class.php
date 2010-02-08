@@ -200,11 +200,12 @@ class Display
 
         $header = new Header($document_language);
         $header->add_default_headers();
-        $header->add_javascript_file_header(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/fckeditor/fckeditor.js');
+//        $header->add_javascript_file_header(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/fckeditor/fckeditor.js');
         $header->set_page_title(PlatformSetting :: get('site_name'));
+        $header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
         $header->display();
 
-        echo '<style type="text/css">body {background-color:white; padding: 10px;}</style>';
+        echo '<body>' . "\n";
     }
 
     /**
@@ -214,6 +215,12 @@ class Display
     {
         $footer = new Footer();
         $footer->display();
+    }
+
+    public static function small_footer()
+    {
+        echo '</body>' . "\n";
+        echo '</html>' . "\n";
     }
 
     public static function not_allowed($trail = null, $show_login_form = true)
@@ -278,9 +285,9 @@ class Display
         }
         echo '</h3>';
     }
-    
+
     public static function get_progress_bar($percent, $step = 2)
-    {    	
+    {
         $html = '<div class="progress_information">';
         $html .= '<div class="progress_bar">';
         for($i = 0; $i < 100; $i += $step)
@@ -300,7 +307,7 @@ class Display
         $html .= '</div>';
         return $html;
     }
-    
+
     public static function get_rating_bar($percent, $show_text = true, $step = 2)
     {
         $html = '<div class="rating_information">';
@@ -336,11 +343,11 @@ class Display
         $html .= '</div>';
         return $html;
     }
-    
+
     static function form_category($title = null, $extra_classes = null)
     {
         $html = array();
-        
+
         if ($title != null)
         {
             $html[] = '<div class="configuration_form' . ($extra_classes ? ' ' . $extra_classes : '') . '" >';
@@ -351,14 +358,14 @@ class Display
             $html[] = '<div style="clear: both;"></div>';
             $html[] = '</div>';
         }
-        
+
         return implode("\n", $html);
     }
-    
+
     static function form_row($label = null, $value = null)
     {
         $html = array();
-        
+
         $html[] = '<div class="row">';
         $html[] = '<div class="label">'. $label .'</div>';
         $html[] = '<div class="formw">';
@@ -366,7 +373,7 @@ class Display
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 }

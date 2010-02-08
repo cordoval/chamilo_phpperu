@@ -34,7 +34,7 @@ $error_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		<link rel="stylesheet" href="layout/aqua/css/common.css" type="text/css"/>
 	</head>
 	<body dir="ltr">
-		<div id="outerframe">		
+		<div id="outerframe">
 			<div id="header">
 				<div id="header1">
 					<div class="banner"><span class="logo"></span><span class="text">Chamilo</span></div>
@@ -42,7 +42,7 @@ $error_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 				</div>
 				<div class="clear">&nbsp;</div>
 			</div>
-	
+
 			<div id="main" style="min-height: 300px;">' . "\n";
 
 $version = phpversion();
@@ -61,7 +61,7 @@ else
 }
 
 $error_message .= '			</div>
-	
+
 			<div id="footer">
 				<div id="copyright">
 					<div class="logo">
@@ -97,19 +97,19 @@ function __autoload($classname)
 					     Path :: get_reporting_path() . 'reporting_autoloader.class.php', Path :: get_rights_path() . 'rights_autoloader.class.php',
 					     Path :: get_tracking_path() . 'tracking_autoloader.class.php', Path :: get_webservice_path() . 'webservice_autoloader.class.php',
 					     Path :: get_application_library_path() . 'application_common_autoloader.class.php');
-	
+
 	foreach($autoloaders as $autoloader)
 	{
 		require_once $autoloader;
-		
+
 		$classn = substr(basename($autoloader), 0, -10);
 		$classname_upp = Utilities :: underscores_to_camelcase($classn);
 		$class = new $classname_upp;
-		
+
 		if($class->load($classname))
 			break;
 	}
-	
+
 }
 
 require_once 'MDB2.php';
@@ -144,7 +144,7 @@ if (PlatformSetting :: get('server_type') == 'test')
 	--------------------------------------------
 	*/
     error_reporting(E_ALL & ~ E_NOTICE);
-    
+
     //Addslashes to all $_GET variables
     foreach ($_GET as $key => $val)
     {
@@ -157,7 +157,7 @@ if (PlatformSetting :: get('server_type') == 'test')
             }
         }
     }
-    
+
     //Addslashes to all $_POST variables
     foreach ($_POST as $key => $val)
     {
@@ -199,16 +199,16 @@ if (isset($_POST['login']))
     {
         Session :: register('_uid', $user->get_id());
         Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
-        
+
         $request_uri = Session :: retrieve('request_uri');
-        
+
         if ($request_uri)
         {
             $request_uris = explode("/", $request_uri);
             $request_uri = array_pop($request_uris);
             header('Location: ' . $request_uri);
         }
-        
+
         $login_page = PlatformSetting :: get('page_after_login');
         if ($login_page == 'weblcms')
         {
@@ -237,19 +237,19 @@ if (Request :: get('logout'))
     {
         $query_string = '?language=' . $_SESSION['user_language_choice'];
     }
-    
+
     $user_id = Session :: get_user_id();
-    
+
     if (isset($user_id))
     {
         $udm = UserDataManager :: get_instance();
         $user = $udm->retrieve_user(Session :: get_user_id());
-        
+
         $udm = UserDataManager :: get_instance();
         $udm->logout();
         Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
     }
-    
+
     header("Location: index.php");
     exit();
 }
@@ -278,11 +278,11 @@ $language_interface = LocalSetting :: get('platform_language');
 if (isset($_SESSION['_uid']))
 {
     $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-    
+
     if (strpos($_SERVER['REQUEST_URI'], 'leave.php') === false && strpos($_SERVER['REQUEST_URI'], 'ajax') === false)
     {
         $return = Events :: trigger_event('enter', 'user', array('location' => $_SERVER['REQUEST_URI'], 'user' => $user, 'event' => 'enter'));
-        $htmlHeadXtra[] = '<script language="JavaScript" type="text/javascript">var tracker=' . $return[0] . '</script>';
+        $htmlHeadXtra[] = '<script type="text/javascript">var tracker=' . $return[0] . '</script>';
     }
 }
 
@@ -300,7 +300,7 @@ function dump($variable)
 
 /**
  * Globaly available function that call the DebugUtilities :: show() static function
- * 
+ *
  * @param mixed $object The object to print in the page
  * @return void
  */
@@ -325,7 +325,7 @@ function handle_error($errno, $errstr, $errfile, $errline)
         case E_USER_NOTICE :
             write_error('PHP Notice', $errstr, $errfile, $errline);
     }
-    
+
     return true;
 }
 
@@ -334,9 +334,9 @@ function write_error($errno, $errstr, $errfile, $errline)
     $path = Path :: get(SYS_FILE_PATH) . 'logs';
     $file = $path . '/error_log_' . date('Ymd') . '.txt';
     $fh = fopen($file, 'a');
-    
+
     $message = date('[H:i:s] ', time()) . $errno . ' File: ' . $errfile . ' - Line: ' . $errline . ' - Message: ' . $errstr;
-    
+
     fwrite($fh, $message . "\n");
     fclose($fh);
 }

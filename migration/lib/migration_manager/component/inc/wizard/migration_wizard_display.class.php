@@ -42,13 +42,13 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
         $renderer->setHeaderTemplate($header_template);
         HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>' . Translation :: get('ThisFieldIsRequired') . '</small>');
         $current_page->accept($renderer);
-        
+
         $this->parent->display_header();
-        
+
         $rm = ResourceManager :: get_instance();
         $html = $rm->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/migration.js');
         echo ($html);
-        
+
         echo '<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 15px;">';
         echo '<img src="../layout/aqua/images/common/dokeos_logo_small.png" alt="logo"/>';
         $all_pages = $current_page->controller->_pages;
@@ -69,34 +69,34 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
                 echo '<li>' . $page->get_title() . '</li>';
             }
         }
-        
+
         echo '</ol>';
         echo '</div>' . "\n";
-        
+
         echo '<div style="margin: 10px;">';
         echo '<h2>' . Translation :: get('Step') . ' ' . $current_page_number . ' ' . Translation :: get('of') . ' ' . $total_number_of_pages . ' &ndash; ' . $current_page->get_title() . '</h2>';
         echo '<div>';
-        
+
         echo '<div id="dynamic_div" style="display:block;margin-left:40%;margin-top:10px;height:50px;"></div>';
-        echo '<script language="JavaScript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/upload.js" type="text/javascript"></script>';
+        echo '<script src="' . Path :: get(WEB_LIB_PATH) . 'javascript/upload.js" type="text/javascript"></script>';
         echo '<script type="text/javascript">var myUpload = new upload(' . (abs(intval($delay)) * 1000) . '); myUpload.start(\'dynamic_div\',\'' . Theme :: get_common_image_path() . 'action_progress_bar.gif\',\'' . Translation :: get('PleaseStandBy') . '\',\'\');</script>';
-        
+
         flush();
-        
+
         $performed_correct = $current_page->perform();
         if ($performed_correct)
             echo $current_page->get_info();
         echo '</div>';
-        
+
         echo '<script type="text/javascript">myUpload.stop();</script>';
-        
+
         parent :: _renderForm($current_page);
-        
+
         echo '</div>';
-        
+
         if ($current_page->get_next_page())
             echo $current_page->next_step_info();
-        
+
         $this->parent->display_footer();
     }
 }

@@ -293,7 +293,7 @@ EOT;
         if ($this->supports_attachments())
         {
 
-            $html[] = '<script language="javascript">';
+            $html[] = '<script type="text/javascript">';
             $html[] =   'var support_attachments = true';
             $html[] = '</script>';
         	$this->addElement('html', implode("\n", $html));

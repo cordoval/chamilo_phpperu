@@ -24,7 +24,7 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManagerComponent
         }
         else
         {
-            $html[] = '<script language="javascript">';
+            $html[] = '<script type="text/javascript">';
             $html[] = 'window.parent.object_selected(' . $object . ');';
             $html[] = '</script>';
             echo implode("\n", $html);
