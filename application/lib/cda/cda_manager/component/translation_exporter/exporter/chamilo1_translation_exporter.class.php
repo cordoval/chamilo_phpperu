@@ -8,6 +8,8 @@ class Chamilo1TranslationExporter extends TranslationExporter
 		
 		$trans = ($translation->get_translation == ' ') ? '' : $translation->get_translation();
 		
+		$trans = str_replace('"', '\\"', $trans);
+		
 		fwrite($handle, '$' . $variable->get_variable() . ' = "' . $trans . "\";\n");
 	} 
 	
