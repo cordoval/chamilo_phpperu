@@ -150,6 +150,7 @@ class DatabaseReportingDataManager extends ReportingDataManager
         $query .= $this->database->escape_column_name('reporting_template_registration_id') . ' NOT IN (SELECT ' . $this->database->escape_column_name(ReportingTemplateRegistration :: PROPERTY_ID) . ' FROM ' . $this->database->escape_table_name(ReportingTemplateRegistration :: get_table_name()) . ') OR ';
         $query .= $this->database->escape_column_name('reporting_block_id') . ' NOT IN (SELECT ' . $this->database->escape_column_name(ReportingBlock :: PROPERTY_ID) . ' FROM ' . $this->database->escape_table_name(ReportingBlock :: get_table_name()) . ')';
         $res = $this->query($query);
+        $res->free();
         return $res;
     }
 }

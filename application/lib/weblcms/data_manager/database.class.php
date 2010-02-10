@@ -182,6 +182,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 
@@ -193,6 +196,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
+        $res->free();
+        
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[ContentObjectPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[ContentObjectPublication :: PROPERTY_PUBLISHER_ID]);
@@ -417,14 +422,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $publication_id = $publication->get_id();
         
     	$query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_user') . ' WHERE publication_id = ' . $this->quote($publication_id);
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
+        
         $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_course_group') . ' WHERE publication_id = ' . $this->quote($publication_id);
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
+        
         $query = 'UPDATE ' . $this->database->escape_table_name('content_object_publication') . ' SET ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '=' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '-1 WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '>' . $this->quote($publication->get_display_order_index());
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
+        
         $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication') . ' WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
         $this->database->get_connection()->setLimit(0, 1);
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
+        
         return true;
     }
 
@@ -654,6 +667,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         {
             $modules[$module->name] = $module;
         }
+        
+        $res->free();
+        
         return $modules;
     }
 
@@ -1394,6 +1410,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         {
             $course_user_ids[] = $record[User :: PROPERTY_ID];
         }
+        
+        $res->free();
+        
         $conditions[] = new InCondition(User :: PROPERTY_ID, $course_user_ids);
         $user_ids = $this->retrieve_course_group_user_ids($course_group);
         if (count($user_ids) > 0)

@@ -289,7 +289,8 @@ class DatabaseUserDataManager extends UserDataManager
 				 $this->database->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=0 WHERE'.
 				 $this->database->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=' . $this->quote($buddy_list_category->get_id());
 
-		$this->query($query);
+		$res = $this->query($query);
+		$res->free();
         return $succes;
 	}
 

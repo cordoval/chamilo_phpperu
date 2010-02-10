@@ -131,6 +131,9 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
             $info->set_publication_object_id($record['calendar_event_id']);
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 

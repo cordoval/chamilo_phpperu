@@ -48,6 +48,10 @@ class ObjectResultSet extends RecordResultSet
             $this->increment_current();
             return $this->data_manager->record_to_object($record, $this->class_name);
         }
+        else
+        {
+        	$this->get_handle()->free();
+        }
         return null;
     }
 }

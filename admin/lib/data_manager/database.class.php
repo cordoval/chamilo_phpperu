@@ -98,9 +98,11 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
         // Delete existing target users and groups
         $query = 'DELETE FROM ' . $this->database->escape_table_name('system_announcement_publication_user') . ' WHERE system_announcement_publication_id = ' . $this->quote($system_announcement_publication->get_id());
-		$this->query($query);
+		$res = $this->query($query);
+		$res->free();
         $query = 'DELETE FROM ' . $this->database->escape_table_name('system_announcement_publication_group') . ' WHERE system_announcement_publication_id = ' . $this->quote($system_announcement_publication->get_id());
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
         // Add updated target users and course_groups
         $users = $system_announcement_publication->get_target_users();
         $this->database->get_connection()->loadModule('Extended');
@@ -246,7 +248,8 @@ class DatabaseAdminDataManager extends AdminDataManager
         		 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' .
         		 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '>' . $this->quote($category->get_display_order()) . ' AND ' .
         		 $this->database->escape_column_name(AdminCategory :: PROPERTY_PARENT) . '=' . $this->quote($category->get_parent());
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
         return $succes;
     }
 
@@ -353,6 +356,9 @@ class DatabaseAdminDataManager extends AdminDataManager
             $info->set_publication_object_id($record['content_object_id']);
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 

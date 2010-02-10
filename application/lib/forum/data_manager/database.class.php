@@ -219,6 +219,9 @@ class DatabaseForumDataManager extends ForumDataManager
 
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 
@@ -231,6 +234,8 @@ class DatabaseForumDataManager extends ForumDataManager
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
+        $res->free();
+        
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[ForumPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[ForumPublication :: PROPERTY_AUTHOR]);

@@ -276,6 +276,9 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
 
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 
@@ -298,6 +301,8 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
         $publication_attr->set_url('run.php?application=alexia&go=browse');
         $publication_attr->set_publication_object_id($record[AlexiaPublication :: PROPERTY_CONTENT_OBJECT]);
 
+        $res->free();
+        
         return $publication_attr;
     }
 

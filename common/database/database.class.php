@@ -388,14 +388,15 @@ class Database
             }
 
             $res = $this->query($query);
-
+			
             if (MDB2 :: isError($res))
             {
                 return false;
             }
             else
             {
-                return true;
+                $res->free();
+            	return true;
             }
         }
         else
@@ -421,6 +422,7 @@ class Database
         }
         else
         {
+        	$res->free();
             return true;
         }
     }
@@ -442,14 +444,15 @@ class Database
         }
 
         $res = $this->query($query);
-
+		
         if (MDB2 :: isError($res))
         {
             return false;
         }
         else
         {
-            return true;
+            $res->free();
+        	return true;
         }
     }
 
@@ -471,7 +474,8 @@ class Database
         }
         else
         {
-            return true;
+            $result->free();
+        	return true;
         }
     }
 
@@ -601,12 +605,14 @@ class Database
         $res = $this->query($query);
         if ($res->numRows() >= 1)
         {
-            $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+        	$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+        	$res->free();
             return $record[0];
         }
         else
         {
-            return 0;
+            $res->free();
+        	return 0;
         }
     }
 
@@ -725,7 +731,7 @@ class Database
         {
             $distinct_elements[] = $record[$column_name];
         }
-
+		$res->free();
         return $distinct_elements;
     }
 
@@ -741,6 +747,7 @@ class Database
 
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+        $res->free();
         return $record[0];
     }
 

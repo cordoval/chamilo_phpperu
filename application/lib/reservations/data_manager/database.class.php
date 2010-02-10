@@ -121,7 +121,8 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         		  $this->db->escape_column_name(Category :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' .
         		  $this->db->escape_column_name(Category :: PROPERTY_DISPLAY_ORDER) . '>' . $this->quote($category->get_display_order()) . ' AND ' .
         		  $this->db->escape_column_name(Category :: PROPERTY_PARENT) . '=' . $this->quote($category->get_parent());
-		$this->query($query);
+		$res = $this->query($query);
+		$res->free();
     }
 
     function update_category($category)
@@ -475,7 +476,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         $this->db->get_connection()->setLimit(intval(0), intval(1));
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-
+		$res->free();
         $id = $record['quota_box_id'];
 
         if (is_null($id))
@@ -493,7 +494,8 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
                     $this->db->get_connection()->setLimit(intval(0), intval(1));
                     $res = $this->query($query);
                     $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-
+					$res->free();
+					
                     $id = $record['quota_box_id'];
 
                     if (! is_null($id))

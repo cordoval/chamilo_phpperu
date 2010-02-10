@@ -228,7 +228,8 @@ class DatabaseHomeDataManager extends HomeDataManager
             		 $this->database->escape_column_name(HomeBlock :: PROPERTY_SORT) . ' > ' . $this->quote($old_home_block->get_sort()) . ' AND ' .
             		 $this->database->escape_column_name(HomeBlock :: PROPERTY_COLUMN) . ' = ' . $this->quote($old_home_block->get_column());
 
-        	$this->query($query);
+        	$res = $this->query($query);
+        	$res->free();
         }
 
         return true;
@@ -265,7 +266,8 @@ class DatabaseHomeDataManager extends HomeDataManager
             		 $this->database->escape_column_name(HomeRow :: PROPERTY_SORT) . ' - 1 WHERE ' .
             	     $this->database->escape_column_name(HomeRow :: PROPERTY_SORT) . ' > ' . $this->quote($old_home_row->get_sort()) . ' AND ' .
             	     $this->database->escape_column_name(HomeRow :: PROPERTY_TAB) . ' = ' . $this->quote($old_home_row->get_tab());
-            $this->query($query);
+            $res = $this->query($query);
+            $res->free();
         }
 
         return true;
@@ -293,7 +295,8 @@ class DatabaseHomeDataManager extends HomeDataManager
              	     $this->database->escape_column_name(HomeColumn :: PROPERTY_SORT) . ' > ' . $this->quote($old_home_column->get_sort()) . ' AND ' .
              	     $this->database->escape_column_name(HomeColumn :: PROPERTY_ROW) . ' = ' . $this->quote($old_home_column->get_row());
 
-            $this->query($query);
+            $res = $this->query($query);
+            $res->free();
         }
 
         return true;

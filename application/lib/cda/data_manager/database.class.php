@@ -399,6 +399,8 @@ class DatabaseCdaDataManager extends CdaDataManager
         	$number_of_translations[$user] = $record['count'];
         }
         
+        $result->free();
+        
         return $number_of_translations;
 	}
 	

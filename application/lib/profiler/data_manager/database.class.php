@@ -227,6 +227,9 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
 
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 
@@ -281,7 +284,8 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         $query = 'UPDATE ' . $this->database->escape_table_name('profiler_category') . ' SET ' . $this->database->escape_column_name(ProfilerCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->database->escape_column_name(ProfilerCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' . $this->database->escape_column_name(ProfilerCategory :: PROPERTY_DISPLAY_ORDER) . '>' .
         	     $this->quote($category->get_display_order()) . ' AND ' . $this->database->escape_column_name(ProfilerCategory :: PROPERTY_PARENT) . '=' . $this->quote($category->get_parent());
 
-		$this->query($query);
+		$res = $this->query($query);
+		$res->free();
        	return $succes;
     }
 
@@ -319,7 +323,8 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
 
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-
+		$res->free();
+		
         return $record[0] + 1;
     }
 }

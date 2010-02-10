@@ -141,7 +141,8 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-
+		$res->free();
+		
         return $record[0] + 1;
     }
 
@@ -349,6 +350,9 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
 
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 
@@ -371,6 +375,8 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         $publication_attr->set_url('run.php?application=assessment&go=browse_assessments');
         $publication_attr->set_publication_object_id($record[AssessmentPublication :: PROPERTY_CONTENT_OBJECT]);
 
+        $res->free();
+        
         return $publication_attr;
     }
 

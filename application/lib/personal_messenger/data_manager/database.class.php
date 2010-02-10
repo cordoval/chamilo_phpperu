@@ -216,6 +216,9 @@ class DatabasePersonalMessengerDataManager extends PersonalMessengerDataManager
 
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 
