@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<location name="gradebook" type="root" identifier="0">
+ 	<children>
+ 		<location name="Browser" type="gradebook_component" identifier="browser" />
+ 		<location name="Home" type="gradebook_component" identifier="home" />
+ 		<location name="Viewer" type="gradebook_component" identifier="viewer" />
+ 	</children>
+</location>
