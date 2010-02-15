@@ -56,6 +56,7 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	const ACTION_IMPORT_TRANSLATIONS = 'import_translations';
 	const ACTION_ADMIN_IMPORT_TRANSLATIONS = 'admin_import_translations';
 	const ACTION_RATE_VARIABLE_TRANSLATION = 'rate_variable_translation';
+	const ACTION_VERIFY_VARIABLE_TRANSLATION = 'verify_variable_translation';
 	const ACTION_SEARCH_VARIABLE_TRANSLATIONS = 'search_variable_translations';
 	const PARAM_VARIABLE_TRANSLATION = 'variable_translation';
 
@@ -89,10 +90,10 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		$action = $this->get_action();
 		$component = null;
-		
+
 		if($action != self :: ACTION_EDIT_VARIABLE_TRANSLATION)
 			unset($_SESSION['skipped_variable_translations']);
-		
+
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_CDA_LANGUAGES :
@@ -187,6 +188,9 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 			    break;
 			case self :: ACTION_REVERT_HISTORIC_VARIABLE_TRANSLATION :
 			    $component = CdaManagerComponent :: factory('HistoricVariableTranslationReverter', $this);
+			    break;
+			case self :: ACTION_VERIFY_VARIABLE_TRANSLATION :
+			    $component = CdaManagerComponent :: factory('VariableTranslationVerifier', $this);
 			    break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CDA_LANGUAGES);
@@ -375,6 +379,16 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 		return CdaDataManager :: get_instance()->get_progress_for_language_pack($language_pack, $language_id);
 	}
 
+  	function get_status_for_language($language)
+	{
+		return CdaDataManager :: get_instance()->get_status_for_language($language);
+	}
+
+ 	function get_status_for_language_pack($language_pack, $language_id = null)
+	{
+		return CdaDataManager :: get_instance()->get_status_for_language_pack($language_pack, $language_id);
+	}
+
 	// Url Creation
 
 	function get_create_cda_language_url()
@@ -487,6 +501,12 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
  	function get_lock_variable_translation_url($variable_translation)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_LOCK_VARIABLE_TRANSLATION,
+								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
+	}
+
+  	function get_verify_variable_translation_url($variable_translation)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VERIFY_VARIABLE_TRANSLATION,
 								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
 	}
 

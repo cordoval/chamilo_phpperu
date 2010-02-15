@@ -117,6 +117,16 @@ abstract class CdaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->get_progress_for_language_pack($language_pack, $language_id);
 	}
 
+	function get_status_for_language($language)
+	{
+		return $this->get_parent()->get_status_for_language($language);
+	}
+
+	function get_status_for_language_pack($language_pack, $language_id = null)
+	{
+		return $this->get_parent()->get_status_for_language_pack($language_pack, $language_id);
+	}
+
 	// Url Creation
 
 	function get_create_cda_language_url()
@@ -327,6 +337,11 @@ abstract class CdaManagerComponent extends WebApplicationComponent
   	function get_revert_historic_variable_translation_url($historic_variable_translation)
 	{
 		return $this->get_parent()->get_revert_historic_variable_translation_url($historic_variable_translation);
+	}
+
+  	function get_verify_variable_translation_url($variable_translation)
+	{
+		return $this->get_parent()->get_verify_variable_translation_url($variable_translation);
 	}
 }
 ?>

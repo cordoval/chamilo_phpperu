@@ -83,22 +83,25 @@ abstract class CdaDataManager
 	abstract function retrieve_variable_translations($condition = null, $offset = null, $count = null, $order_property = null);
 
 	abstract function retrieve_english_translation($variable_id);
-	
+
 	abstract function create_historic_variable_translation($historic_variable_translation);
 	abstract function delete_historic_variable_translation($historic_variable_translation);
 	abstract function update_historic_variable_translation($historic_variable_translation);
 	abstract function count_historic_variable_translations($conditions = null);
 	abstract function retrieve_historic_variable_translation($historic_variable_translation_id);
 	abstract function retrieve_historic_variable_translations($condition = null, $offset = null, $count = null, $order_property = null);
-	
+
 	abstract function can_language_be_locked($language);
 	abstract function can_language_be_unlocked($language);
 	abstract function can_language_pack_be_locked($language_pack, $language_id);
 	abstract function can_language_pack_be_unlocked($language_pack, $language_id);
-	
+
 	abstract function get_progress_for_language($language);
 	abstract function get_progress_for_language_pack($language_pack, $language_id = null);
-	
+
+	abstract function get_status_for_language($language);
+	abstract function get_status_for_language_pack($language_pack, $language_id = null);
+
 	abstract function get_next_translator_application_id();
 	abstract function create_translator_application($translator_application);
 	abstract function update_translator_application($translator_application);
