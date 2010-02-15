@@ -45,7 +45,7 @@ class DefaultVariableTranslationTableCellRenderer implements ObjectTableCellRend
 				return $variable_translation->get_rating();
 			case VariableTranslation :: PROPERTY_RATED :
 				return $variable_translation->get_rated();
-			case VariableTranslation :: PROPERTY_STATUS :
+			case Translation :: get('Status') :
 				return $variable_translation->get_status_icon();
 			case Translation :: get('SourceTranslation') :
 				$source_id = LocalSetting :: get('source_language', CdaManager :: APPLICATION_NAME);
