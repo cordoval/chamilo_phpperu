@@ -94,12 +94,24 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
     				'img' => Theme :: get_image_path().'action_verify.png',
     			    'confirm' => true
     			);
+
+    			$toolbar_data[] = array(
+    				'label' => Translation :: get('DeprecationNotPossible'),
+    				'img' => Theme :: get_image_path().'action_deprecate_na.png'
+    			);
         	}
         	else
         	{
     			$toolbar_data[] = array(
     				'label' => Translation :: get('VerificationNotPossible'),
     				'img' => Theme :: get_image_path().'action_verify_na.png'
+    			);
+
+    			$toolbar_data[] = array(
+    				'href' => $this->browser->get_deprecate_variable_translation_url($variable_translation),
+    				'label' => Translation :: get('Deprecate'),
+    				'img' => Theme :: get_image_path().'action_deprecate.png',
+    			    'confirm' => true
     			);
         	}
 		}

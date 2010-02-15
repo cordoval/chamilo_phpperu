@@ -1,7 +1,7 @@
 <?php
 /**
  * $Id: variable_translation_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
- * 
+ *
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
@@ -41,11 +41,12 @@ class VariableTranslationBrowserFilterForm extends FormValidator
     {
         $this->renderer->setFormTemplate('<form {attributes}><div class="filter_form">{content}</div><div class="clear">&nbsp;</div></form>');
         $this->renderer->setElementTemplate('<div class="row"><div class="formw">{label}&nbsp;{element}</div></div>');
-    	
-        $options[0] = '-- ' . Translation :: get('Both') . ' --';
+
+        $options[0] = '-- ' . Translation :: get('AllTranslations') . ' --';
         $options[1] = Translation :: get('TranslatedVariables');
-        $options[2] = Translation :: get('UnTranslatedVariables');
-        
+        $options[2] = Translation :: get('UntranslatedVariables');
+        $options[3] = Translation :: get('OutdatedVariableTranslations');
+
         $this->addElement('select', self :: BROWSER_FILTER_TRANSLATION, Translation :: get('TranslatingStatus'), $options);
         $this->addElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'normal search'));
     }
@@ -67,7 +68,7 @@ class VariableTranslationBrowserFilterForm extends FormValidator
             $filter_translation = $values[self :: BROWSER_FILTER_TRANSLATION];
             Session :: register(self :: BROWSER_FILTER_TRANSLATION, $filter_translation);
         }
-        
+
         if ($filter_translation == 0)
         {
         	return null;
@@ -80,13 +81,15 @@ class VariableTranslationBrowserFilterForm extends FormValidator
      			return new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
      		case 2:
      			return new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+     		case 3:
+     		    return new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_OUTDATED);
      	}
     }
 
     function get_parameters_are_set()
     {
         $filter_branch = Session :: retrieve(self :: BROWSER_FILTER_TRANSLATION);
-		
+
         return isset($filter_branch);
     }
 

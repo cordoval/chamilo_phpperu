@@ -57,6 +57,7 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	const ACTION_ADMIN_IMPORT_TRANSLATIONS = 'admin_import_translations';
 	const ACTION_RATE_VARIABLE_TRANSLATION = 'rate_variable_translation';
 	const ACTION_VERIFY_VARIABLE_TRANSLATION = 'verify_variable_translation';
+	const ACTION_DEPRECATE_VARIABLE_TRANSLATION = 'deprecate_variable_translation';
 	const ACTION_SEARCH_VARIABLE_TRANSLATIONS = 'search_variable_translations';
 	const PARAM_VARIABLE_TRANSLATION = 'variable_translation';
 
@@ -191,6 +192,9 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 			    break;
 			case self :: ACTION_VERIFY_VARIABLE_TRANSLATION :
 			    $component = CdaManagerComponent :: factory('VariableTranslationVerifier', $this);
+			    break;
+			case self :: ACTION_DEPRECATE_VARIABLE_TRANSLATION :
+			    $component = CdaManagerComponent :: factory('VariableTranslationDeprecater', $this);
 			    break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CDA_LANGUAGES);
@@ -507,6 +511,12 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
   	function get_verify_variable_translation_url($variable_translation)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VERIFY_VARIABLE_TRANSLATION,
+								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
+	}
+
+   	function get_deprecate_variable_translation_url($variable_translation)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DEPRECATE_VARIABLE_TRANSLATION,
 								    self :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id()));
 	}
 

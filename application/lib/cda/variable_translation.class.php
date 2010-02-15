@@ -263,6 +263,12 @@ class VariableTranslation extends DataClass
 	    return parent :: update();
 	}
 
+	function deprecate()
+	{
+	    $this->set_status(self :: STATUS_OUTDATED);
+	    return parent :: update();
+	}
+
 	function update()
 	{
 		$original_translation = $this->get_data_manager()->retrieve_variable_translation($this->get_id());
