@@ -134,15 +134,16 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 
         foreach ($writable_folders as $folder)
         {
+            $exists   = file_exists(Path :: get(SYS_PATH) . $folder);
             $writable = is_writable(Path :: get(SYS_PATH) . $folder);
 
-            if (! $writable)
+            if (! $exists || ! $writable)
             {
                 $this->fatal = true;
             }
 
-            $status = $writable ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
-            $array[] = $diagnoser->build_setting($status, '[FILES]', Translation :: get('IsWritable') . ': ' . $folder, 'http://be2.php.net/manual/en/function.is-writable.php', $writable, 1, 'yes_no', Translation :: get('DirectoryMustBeWritable'), $path);
+            $status = $exists && $writable ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
+            $array[] = $diagnoser->build_setting($status, '[FILES]', Translation :: get($exists ? 'IsWritable' : 'DirectoryExists') . ': ' . $folder, $exists ? 'http://php.net/manual/en/function.is-writable.php' : 'http://php.net/manual/en/function.file-exists.php', $writable, 1, 'yes_no', Translation :: get($exists ? 'DirectoryMustBeWritable' : 'DirectoryMustExist'), $path);
         }
 
         $version = phpversion();
