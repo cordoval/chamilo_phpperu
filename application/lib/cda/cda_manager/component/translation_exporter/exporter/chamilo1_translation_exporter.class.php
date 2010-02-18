@@ -6,11 +6,11 @@ class Chamilo1TranslationExporter extends TranslationExporter
 	{
 		$variable = $this->retrieve_variable_from_translation($translation);
 		
-		$trans = ($translation->get_translation == ' ') ? '' : $translation->get_translation();
-		
-		$trans = str_replace('"', '\\"', $trans);
-		
-		fwrite($handle, '$' . $variable->get_variable() . ' = "' . $trans . "\";\n");
+		$trans = $translation->get_translation();
+		if (!empty ($trans)) {
+		  $trans = str_replace('"', '\\"', $trans);
+		  fwrite($handle, '$' . $variable->get_variable() . ' = "' . $trans . "\";\n");
+		}
 	} 
 	
 	function write_file_header($handle)
