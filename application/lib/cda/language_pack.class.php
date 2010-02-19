@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * cda
  */
@@ -19,10 +19,10 @@ class LanguagePack extends DataClass
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_BRANCH = 'branch';
 	const PROPERTY_TYPE = 'type';
-	
+
 	const TYPE_CORE = 1;
 	const TYPE_APPLICATION = 2;
-	
+
 	const BRANCH_CLASSIC = 1;
 	const BRANCH_LCMS = 2;
 
@@ -75,7 +75,7 @@ class LanguagePack extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_NAME, $name);
 	}
-	
+
 	/**
 	 * Returns the branch of this LanguagePack.
 	 * @return the branch.
@@ -116,7 +116,7 @@ class LanguagePack extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
 	function get_type_name()
 	{
 		switch($this->get_type())
@@ -124,10 +124,10 @@ class LanguagePack extends DataClass
 			case LanguagePack :: TYPE_CORE:
 				return Translation :: get('Core');
 			default:
-				return Translation :: get('Application');	
+				return Translation :: get('Application');
 		}
 	}
-	
+
 	function get_type_string()
 	{
 		switch($this->get_type())
@@ -138,7 +138,7 @@ class LanguagePack extends DataClass
 				return 'application';
 		}
 	}
-	
+
 	function get_branch_name()
 	{
 		switch($this->get_branch())
@@ -151,38 +151,38 @@ class LanguagePack extends DataClass
 				return Translation :: get('ChamiloLCMS');
 		}
 	}
-	
+
 	static function get_branch_options()
 	{
 		$options = array();
-		
+
 		$options[self :: BRANCH_CLASSIC] = Translation :: get('ChamiloClassic');
 		$options[self :: BRANCH_LCMS] = Translation :: get('ChamiloLCMS');
-		
+
 		return $options;
 	}
-	
+
 	function delete()
 	{
 		$succes = parent :: delete();
 		$dm = $this->get_data_manager();
-		
+
 		$condition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $this->get_id());
 		$variables = $dm->retrieve_variables($condition);
-		
+
 		while($variable = $variables->next_result())
 		{
 			$succes &= $variable->delete();
 		}
-		
+
 		return $succes;
-		
-	} 
-	
+
+	}
+
 	function update()
 	{
 		$dm = $this->get_data_manager();
-		
+
 		$conditions[] = new NotCondition(new EqualityCondition(LanguagePack :: PROPERTY_ID, $this->get_id()));
 		$conditions[] = new EqualityCondition(LanguagePack :: PROPERTY_BRANCH, $this->get_branch());
 		$condition = new AndCondition($conditions);
@@ -193,21 +193,39 @@ class LanguagePack extends DataClass
 			if($lp->get_name() == $this->get_name())
 				return false;
 		}
-				
+
 		return parent :: update();
 	}
-	
+
 	function create()
 	{
 		$dm = $this->get_data_manager();
-		
+
 		$condition = new EqualityCondition(LanguagePack :: PROPERTY_BRANCH, $this->get_branch());
     	$language_packs = $dm->retrieve_language_packs($condition);
 		while($lp = $language_packs->next_result())
 			if($lp->get_name() == $this->get_name())
 				return false;
-			
+
 		return parent :: create();
+	}
+
+	function is_outdated($language_id = null)
+	{
+	    $count = $this->get_data_manager()->get_status_for_language_pack($this, $language_id);
+	    return $count > 0;
+	}
+
+	function get_status_icon($language_id = null)
+	{
+		if ($this->is_outdated($language_id))
+	    {
+	        return '<img src="' . Theme :: get_image_path() . 'status_outdated.png" title="' . Translation :: get('OneOrMoreTranslationsOutdated') . '" alt="' . Translation :: get('OneOrMoreTranslationsOutdated') . '" />';
+	    }
+	    else
+	    {
+	        return '<img src="' . Theme :: get_image_path() . 'status_normal.png" title="' . Translation :: get('TranslationFinishedOrInProgress') . '" alt="' . Translation :: get('TranslationFinishedOrInProgress') . '" />';
+	    }
 	}
 }
 

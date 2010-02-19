@@ -64,13 +64,17 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 				}
 
 				return $cda_language->get_english_name();
-			case 'TranslationProgress':
+			case Translation :: get('TranslationProgress') :
 				$percentage = $this->browser->get_progress_for_language($cda_language);
 				return Display :: get_progress_bar($percentage);
 			case CdaLanguage :: PROPERTY_RTL :
 				if($cda_language->get_rtl())
 				{
-					return Translation :: get('True');
+					return '<img src="' . Theme :: get_image_path() . 'orientation_right.png" title="' . Translation :: get('RightToLeft') . '" alt="' . Translation :: get('RightToLeft') . '" />';
+				}
+				else
+				{
+				    return '<img src="' . Theme :: get_image_path() . 'orientation_left.png" title="' . Translation :: get('LeftToRight') . '" alt="' . Translation :: get('LeftToRight') . '" />';
 				}
 				return Translation :: get('False');
 		}

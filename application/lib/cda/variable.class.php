@@ -48,7 +48,7 @@ class Variable extends DataClass
 	 */
 	function set_id($id)
 	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
+		$this->set_default_property(self :: PROPERTY_ID, trim($id));
 	}
 
 	/**

@@ -25,7 +25,7 @@ Teachers/trainers can create, manage and publish their courses through the web.
 Students/trainees can follow courses, read content or participate actively
 through groups, forums, chat.
 
-Technically, Chamilo is a web application written in PHP that stores data in a 
+Technically, Chamilo is a web application written in PHP that stores data in a
 MySQL database. Users access it using a web browser.
 
 If you would like to know more or help develop this software, please visit
@@ -108,7 +108,7 @@ Mozilla (1.2+), Safari, Opera, ...
 
 PHP Configuration
 =================
- 
+
 Chamilo needs PHP version 4.3.2 or later (4.x versions), configured with the
 following modules : mysql, zlib, preg, xml. PHP versions 5 or later are not
 supported by Dokes yet. It will accept the following settings :
@@ -130,7 +130,7 @@ SECURITY
 
 In Chamilo 1.6, security and interoperability have been improved. Protection
 for documents has improved, and courses have more accessibility options.
-Password encryption is enabled by default. The php.ini setting 
+Password encryption is enabled by default. The php.ini setting
 "register globals" does not have be on anymore.
 
 NEW FEATURES IN CHAMILO 1.7
