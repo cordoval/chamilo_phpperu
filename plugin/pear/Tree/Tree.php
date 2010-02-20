@@ -151,7 +151,7 @@ class Tree
         // since "setupMemory" kind of reflects it but i think it's not obvious
         // if you dont know what is meant
         include_once 'Tree/Memory.php';
-        $memory =& new Tree_Memory($config);
+        $memory = new Tree_Memory($config);
         return $memory;
     }
 
@@ -186,7 +186,7 @@ class Tree
         $name .= strtolower($config['type']);
         include_once "Tree/Dynamic/$name.php";
         $className = 'Tree_Dynamic_' . $name;
-        $dynamic =& new $className($config);
+        $dynamic = new $className($config);
         return $dynamic;
     }
 
@@ -262,7 +262,7 @@ class Tree
         // if the storage container does not exist try the next one in the stack
         }
 
-        $storage =& new $storageName();
+        $storage = new $storageName();
         if (PEAR::isError($storage->init($confArray))) {
             $return = false;
             return $return;

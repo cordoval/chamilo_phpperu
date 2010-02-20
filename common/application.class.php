@@ -134,7 +134,8 @@ abstract class Application
      */
     function get_parameter($name)
     {
-        return $this->parameters[$name];
+        if(array_key_exists($name, $this->parameters))
+    		return $this->parameters[$name];
     }
 
     /**

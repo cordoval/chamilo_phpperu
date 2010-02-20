@@ -33,7 +33,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
     function perform($page, $actionName)
     { 
-        if($_FILES['config_file'])
+        if(array_key_exists('config_file', $_FILES))
         {
         	$values = array();
         	
