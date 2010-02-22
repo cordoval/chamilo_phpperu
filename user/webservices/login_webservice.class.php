@@ -15,7 +15,7 @@
  */
 
 require_once (dirname(__FILE__) . '/../../common/global.inc.php');
-require_once dirname(__FILE__) . '/../../common/webservices/action_success.class.php';
+//require_once dirname(__FILE__) . '/../../common/webservices/action_success.class.php';
 
 $handler = new LoginWebservice();
 $handler->run();
