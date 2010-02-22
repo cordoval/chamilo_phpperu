@@ -48,7 +48,7 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
         foreach ($alexia_publication->get_target_groups() as $group)
         {
             $alexia_publication_group = new AlexiaPublicationGroup();
-            $alexia_publication_group->set_alexia_publication($alexia_publication->get_id());
+            $alexia_publication_group->set_publication($alexia_publication->get_id());
             $alexia_publication_group->set_group_id($group);
             $succes = $alexia_publication_group->create();
         }
@@ -56,7 +56,7 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
         foreach ($alexia_publication->get_target_users() as $user)
         {
             $alexia_publication_user = new AlexiaPublicationUser();
-            $alexia_publication_user->set_alexia_publication($alexia_publication->get_id());
+            $alexia_publication_user->set_publication($alexia_publication->get_id());
             $alexia_publication_user->set_user($user);
             $succes = $alexia_publication_user->create();
         }
