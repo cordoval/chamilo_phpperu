@@ -527,7 +527,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         $user_alias = $this->db->get_alias($user_table);
         $user_table = 'user_user';
 
-        $query = 'SELECT COUNT(*) FROM ' . $sub_table . ' AS ' . $sub_alias . ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item=' . $item_alias . '.id' . ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.user_id';
+        $query = 'SELECT COUNT(*) FROM ' . $sub_table . ' AS ' . $sub_alias . ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item_id=' . $item_alias . '.id' . ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.user_id';
 
         $count = $this->db->count_result_set($query, Subscription :: get_table_name(), $condition);
 
