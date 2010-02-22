@@ -159,7 +159,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         	$this->fatal = true;
         $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('FileUploadsInfo'), $path);
 
-        $extensions = array('gd' => 'http://www.php.net/gd', 'mysql' => 'http://www.php.net/mysql', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://be2.php.net/xsl');
+        $extensions = array('gd' => 'http://www.php.net/gd', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://be2.php.net/xsl');
 
         foreach ($extensions as $extension => $url)
         {
