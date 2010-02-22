@@ -38,8 +38,8 @@ class SubscribeUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         {
             // Exceptions that need post-processing go here ...
             case User :: PROPERTY_STATUS :
-                $course_user_relation = $this->browser->get_parent()->retrieve_course_user_relation($this->browser->get_course_id(), $user->get_id());
-                if ($course_user_relation->get_status() == 1)
+ 
+                if ($user->get_status() == 1)
                 {
                     return Translation :: get('CourseAdmin');
                 }
@@ -50,11 +50,11 @@ class SubscribeUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
             case User :: PROPERTY_PLATFORMADMIN :
                 if ($user->get_platformadmin() == '1')
                 {
-                    return Translation :: get('PlatformAdmin');
+                    return Translation :: get('True');
                 }
                 else
                 {
-                    return '';
+                    return Translation :: get('False');
                 }
             case User :: PROPERTY_EMAIL :
                 return '<a href="mailto:' . $user->get_email() . '">' . $user->get_email() . '</a>';
