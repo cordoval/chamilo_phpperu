@@ -48,7 +48,7 @@ class TrackingManagerAdminEventBrowserComponent extends TrackingManagerComponent
 
     function get_user_html()
     {
-        $table = new EventBrowserTable($this, null, array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS), null);
+        $table = new EventBrowserTable($this, null, array(Application :: PARAM_APPLICATION => TrackingManager :: APPLICATION_NAME, Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS), null);
         
         $html = array();
         $html[] = '<div>';
