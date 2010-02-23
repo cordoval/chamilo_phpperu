@@ -50,7 +50,7 @@ class ObjectResultSet extends RecordResultSet
         }
         else
         {
-        	$this->get_handle()->free();
+        	//$this->get_handle()->free();
         }
         return null;
     }
