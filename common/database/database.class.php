@@ -753,7 +753,7 @@ class Database
 
     function get_alias($table_name)
     {
-        if (! $this->aliases[$table_name])
+        if (!array_key_exists($table_name, $this->aliases))
         {
             $possible_name = substr($table_name, 0, 2) . substr($table_name, - 2);
             $index = 0;

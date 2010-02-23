@@ -106,7 +106,11 @@ abstract class Installer
      */
     public static function parse_xml_file($file)
     {
-        $doc = new DOMDocument();
+        $name = '';
+        $properties = array();
+        $indexes = array();
+        
+    	$doc = new DOMDocument();
         $doc->load($file);
         $object = $doc->getElementsByTagname('object')->item(0);
         $name = $object->getAttribute('name');
@@ -369,7 +373,7 @@ abstract class Installer
             $xml = $this->extract_xml_file($file);
             
             $block = $xml['reporting_block'];
-            if ($block['name'])
+            if (array_key_exists('name', $block))
             { //1 block only
                 if ($this->register_reporting_block($block)) //$value = array
                 {
@@ -440,6 +444,7 @@ abstract class Installer
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
         
         $dir = $base_path . $application . '/trackers/tracker_tables/';
+        $files = array();
         
         if (is_dir($dir))
         {
@@ -611,11 +616,17 @@ abstract class Installer
 
     function parse_webservices($root, $parent)
     {
-        $categories = $root['category']; //contain categories
-        $webservices = $root['webservice']; //contains webservices
-        
+        if(array_key_exists('category', $root))
+    		$categories = $root['category']; //contain categories
+    	else
+    		$categories = array();
+    	
+    	if(array_key_exists('webservice', $root))
+        	$webservices = $root['webservice']; //contains webservices
+        else
+        	$webservices = array();
 
-        if ($categories['name'] != '') //category has a name
+        if (array_key_exists('name', $categories) && $categories['name'] != '') //category has a name
         {
             //register webservice_category
             $webserviceCategory = new WebserviceCategory();
@@ -652,7 +663,7 @@ abstract class Installer
         
         }
         
-        if ($webservices['name'] != '') //webservice has a name
+        if (array_key_exists('name', $webservices) && $webservices['name'] != '') //webservice has a name
         {
             //register webservice
             $webservice = new WebserviceRegistration();

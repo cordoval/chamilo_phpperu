@@ -39,7 +39,7 @@ class DatabaseReportingDataManager extends ReportingDataManager
      * Creates a reporting block in the database
      * @param ReportingBlock $reporting_block
      */
-    function create_reporting_block(&$reporting_block)
+    function create_reporting_block($reporting_block)
     {
         return $this->database->create($reporting_block);
     }
@@ -48,7 +48,7 @@ class DatabaseReportingDataManager extends ReportingDataManager
      * Updates an reporting block (needed for change of activity)
      * @param ReportingBlock $reporting_block
      */
-    function update_reporting_block(&$reporting_block)
+    function update_reporting_block($reporting_block)
     {
         $condition = new EqualityCondition(ReportingBlock :: PROPERTY_ID, $reporting_block->get_id());
         return $this->database->update($reporting_block, $condition);
@@ -95,13 +95,13 @@ class DatabaseReportingDataManager extends ReportingDataManager
         return $this->database->retrieve_object(ReportingBlock :: get_table_name(), $condition);
     }
 
-    function create_reporting_template_registration(&$reporting_template_registration)
+    function create_reporting_template_registration($reporting_template_registration)
     {
         return $this->database->create($reporting_template_registration);
     } //create_reporting_template_registration
 
 
-    function update_reporting_template_registration(&$reporting_template_registration)
+    function update_reporting_template_registration($reporting_template_registration)
     {
         $condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_ID, $reporting_template_registration->get_id());
         return $this->database->update($reporting_template_registration, $condition);

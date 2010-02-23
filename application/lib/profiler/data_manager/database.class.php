@@ -21,7 +21,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
     function initialize()
     {
         $aliases = array();
-        $aliases['user'] = 'u';
+        $aliases['user'] = 'user';
         $aliases['category'] = 'cat';
 
         $this->database = new Database($aliases);

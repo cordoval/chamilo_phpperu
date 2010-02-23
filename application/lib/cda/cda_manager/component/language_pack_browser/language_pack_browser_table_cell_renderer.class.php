@@ -55,6 +55,8 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 				return '<a href="' . $url . '">' . $language_pack->get_name() . '</a>';
 			case LanguagePack :: PROPERTY_TYPE :
 				return $language_pack->get_type_name();
+			case Translation :: get('Status'):
+			    return $language_pack->get_status_icon();
 			case Translation :: get('TranslationProgress'):
 				$percentage = $this->browser->get_progress_for_language_pack($language_pack, $this->browser->get_cda_language());
 				return Display :: get_progress_bar($percentage);

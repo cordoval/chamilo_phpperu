@@ -41,6 +41,8 @@ class DefaultCdaLanguageTableCellRenderer implements ObjectTableCellRenderer
 				return $cda_language->get_isocode();
 			case CdaLanguage :: PROPERTY_RTL :
 				return $cda_language->get_rtl();
+			case Translation :: get('Status') :
+			    return $cda_language->get_status_icon();
 			default :
 				return '&nbsp;';
 		}

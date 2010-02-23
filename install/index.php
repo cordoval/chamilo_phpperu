@@ -16,7 +16,7 @@ ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear'));
 ini_set("memory_limit", "-1");
 ini_set("max_execution_time", "7200");
 //error_reporting(E_ALL);
-ini_set('display_errors', '0');
+//ini_set('display_errors', '0');
 
 function __autoload($classname)
 {

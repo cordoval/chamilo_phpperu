@@ -130,19 +130,22 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         						  , '/files/repository/', '/files/temp', '/files/scorm', '/files/userpictures',
         						  '/home', '/common/configuration');*/
 
+        mkdir(Path :: get(SYS_PATH) . '/files');
+        
         $writable_folders = array('/files', '/common/configuration');
 
         foreach ($writable_folders as $folder)
         {
+            $exists   = file_exists(Path :: get(SYS_PATH) . $folder);
             $writable = is_writable(Path :: get(SYS_PATH) . $folder);
 
-            if (! $writable)
+            if (! $exists || ! $writable)
             {
                 $this->fatal = true;
             }
 
-            $status = $writable ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
-            $array[] = $diagnoser->build_setting($status, '[FILES]', Translation :: get('IsWritable') . ': ' . $folder, 'http://be2.php.net/manual/en/function.is-writable.php', $writable, 1, 'yes_no', Translation :: get('DirectoryMustBeWritable'), $path);
+            $status = $exists && $writable ? Diagnoser :: STATUS_OK : Diagnoser :: STATUS_ERROR;
+            $array[] = $diagnoser->build_setting($status, '[FILES]', Translation :: get($exists ? 'IsWritable' : 'DirectoryExists') . ': ' . $folder, $exists ? 'http://php.net/manual/en/function.is-writable.php' : 'http://php.net/manual/en/function.file-exists.php', $writable, 1, 'yes_no', Translation :: get($exists ? 'DirectoryMustBeWritable' : 'DirectoryMustExist'), $path);
         }
 
         $version = phpversion();
@@ -158,7 +161,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         	$this->fatal = true;
         $array[] = $diagnoser->build_setting($status, '[PHP-INI]', 'output_buffering', 'http://www.php.net/manual/en/outcontrol.configuration.php#ini.output-buffering', $setting, $req_setting, 'on_off', Translation :: get('FileUploadsInfo'), $path);
 
-        $extensions = array('gd' => 'http://www.php.net/gd', 'mysql' => 'http://www.php.net/mysql', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://be2.php.net/xsl');
+        $extensions = array('gd' => 'http://www.php.net/gd', 'pcre' => 'http://www.php.net/pcre', 'session' => 'http://www.php.net/session', 'standard' => 'http://www.php.net/spl', 'zlib' => 'http://www.php.net/zlib', 'xsl' => 'http://be2.php.net/xsl');
 
         foreach ($extensions as $extension => $url)
         {

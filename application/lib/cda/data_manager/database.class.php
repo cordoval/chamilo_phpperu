@@ -66,13 +66,13 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$condition = new EqualityCondition(CdaLanguage :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(CdaLanguage :: get_table_name(), $condition);
 	}
-	
+
 	function retrieve_cda_language_english()
 	{
 		$conditions[] = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english');
 		$conditions[] = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english_org');
 		$condition = new OrCondition($conditions);
-		
+
 		return $this->database->retrieve_objects(CdaLanguage :: get_table_name(), $condition, 0, 1)->next_result();
 	}
 
@@ -161,19 +161,19 @@ class DatabaseCdaDataManager extends CdaDataManager
 	{
 		return $this->database->create($variable_translation);
 	}
-	
+
 	function delete_variable_translation($variable_translation)
 	{
 		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_ID, $variable_translation->get_id());
 		return $this->database->delete($variable_translation->get_table_name(), $condition);
 	}
-	
+
 	function update_variable_translation($variable_translation)
 	{
 		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_ID, $variable_translation->get_id());
 		return $this->database->update($variable_translation, $condition);
 	}
-	
+
 	function update_variable_translations($properties = array(), $condition, $offset = null, $max_objects = null, $order_by = array())
 	{
 		return $this->database->update_objects(VariableTranslation :: get_table_name(), $properties, $condition, $offset, $max_objects, $order_by);
@@ -183,7 +183,7 @@ class DatabaseCdaDataManager extends CdaDataManager
 	{
 		return $this->database->count_objects(VariableTranslation :: get_table_name(), $condition);
 	}
-	
+
 	function retrieve_variable_translation($variable_translation_id)
 	{
 		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_ID, $variable_translation_id);
@@ -195,7 +195,7 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_id);
 		$condition = new AndCondition($conditions);
-		
+
 		return $this->database->retrieve_object(VariableTranslation :: get_table_name(), $condition);
 	}
 
@@ -220,28 +220,28 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$conditions[] = new SubSelectcondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, CdaLanguage :: PROPERTY_ID, 'cda_' . CdaLanguage :: get_table_name(), $subcondition);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_id);
 		$condition = new AndCondition($conditions);
-		
+
 		return $this->database->retrieve_object(VariableTranslation :: get_table_name(), $condition);
 	}
-	
+
 	function can_language_be_locked($language)
 	{
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_NORMAL);
 		$condition = new AndCondition($conditions);
-	
+
 		return ($this->count_variable_translations($condition) > 0);
 	}
-	
+
 	function can_language_be_unlocked($language)
 	{
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_BLOCKED);
 		$condition = new AndCondition($conditions);
-		
+
 		return ($this->count_variable_translations($condition) > 0);
 	}
-	
+
 	function can_language_pack_be_locked($language_pack, $language_id)
 	{
 		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
@@ -249,10 +249,10 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_NORMAL);
 		$condition = new AndCondition($conditions);
-		
+
 		return ($this->count_variable_translations($condition) > 0);
 	}
-	
+
 	function can_language_pack_be_unlocked($language_pack, $language_id)
 	{
 		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
@@ -260,44 +260,44 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_BLOCKED);
 		$condition = new AndCondition($conditions);
-		
+
 		return ($this->count_variable_translations($condition) > 0);
 	}
-	
+
 	function get_progress_for_language($language)
 	{
 		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
 		$total_languages = $this->count_variable_translations($condition);
-		
+
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
 		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
 		$condition = new AndCondition($conditions);
-		
+
 		$translated_variables = $this->count_variable_translations($condition);
-		
+
 		return (int)(($translated_variables / $total_languages) * 100);
 	}
-	
+
 	function get_progress_for_language_pack($language_pack, $language_id = null)
 	{
 		$variable_translation_alias = $this->database->get_alias(VariableTranslation :: get_table_name());
 		$variable_translation_table = $this->database->escape_table_name(VariableTranslation :: get_table_name());
 		$variable_alias = $this->database->get_alias(Variable :: get_table_name());
 		$variable_table = $this->database->escape_table_name(Variable :: get_table_name());
-		
+
 		$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id(), Variable :: get_table_name());
 		if (!is_null($language_id))
 		{
 			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		}
 		$condition = new AndCondition($conditions);
-		
+
 		$query = 'SELECT COUNT(*) FROM ' . $variable_translation_table . ' AS ' . $variable_translation_alias . ' ' .
-			     'JOIN ' . $variable_table . ' AS ' . $variable_alias . ' ON ' . $variable_translation_alias . 
+			     'JOIN ' . $variable_table . ' AS ' . $variable_alias . ' ON ' . $variable_translation_alias .
 			     '.variable_id = ' . $variable_alias . '.id';
-		
+
 		$total_languages = $this->database->count_result_set($query, VariableTranslation :: get_table_name(), $condition);
-		
+
 		$conditions = array();
 		$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id(), Variable :: get_table_name());
 		if (!is_null($language_id))
@@ -306,9 +306,9 @@ class DatabaseCdaDataManager extends CdaDataManager
 		}
 		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
 		$condition = new AndCondition($conditions);
-		
+
 		$translated_variables = $this->database->count_result_set($query, VariableTranslation :: get_table_name(), $condition);
-		
+
 		if($total_languages != 0 || $translated_variables != 0)
 		{
 			return (int)(($translated_variables / $total_languages) * 100);
@@ -318,12 +318,68 @@ class DatabaseCdaDataManager extends CdaDataManager
 			return 100;
 		}
 	}
-				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	function get_status_for_language($language)
+	{
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
+		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_OUTDATED);
+		$condition = new AndCondition($conditions);
+
+		return $this->count_variable_translations($condition);
+	}
+
+	function get_status_for_language_pack($language_pack, $language_id = null)
+	{
+		$variable_translation_alias = $this->database->get_alias(VariableTranslation :: get_table_name());
+		$variable_translation_table = $this->database->escape_table_name(VariableTranslation :: get_table_name());
+		$variable_alias = $this->database->get_alias(Variable :: get_table_name());
+		$variable_table = $this->database->escape_table_name(Variable :: get_table_name());
+
+		$query = 'SELECT COUNT(*) FROM ' . $variable_translation_table . ' AS ' . $variable_translation_alias . ' ' .
+			     'JOIN ' . $variable_table . ' AS ' . $variable_alias . ' ON ' . $this->database->escape_column_name(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_translation_alias) .
+			     ' = ' . $this->database->escape_column_name(Variable :: PROPERTY_ID, $variable_alias);
+
+		$conditions = array();
+		$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id(), Variable :: get_table_name());
+		if (!is_null($language_id))
+		{
+			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
+		}
+		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_OUTDATED);
+		$condition = new AndCondition($conditions);
+
+		return $this->database->count_result_set($query, VariableTranslation :: get_table_name(), $condition);
+	}
+
 	function get_alias($table_name)
 	{
 		return $this->database->get_alias($table_name);
 	}
-	
+
 	function get_next_translator_application_id()
 	{
 		return $this->database->get_next_id(TranslatorApplication :: get_table_name());
@@ -363,11 +419,11 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$translator_application_table = $this->database->escape_table_name(TranslatorApplication :: get_table_name());
 		$cda_language_alias = $this->database->get_alias(CdaLanguage :: get_table_name());
 		$cda_language_table = $this->database->escape_table_name(CdaLanguage :: get_table_name());
-		
+
 		$udm = UserDataMAnager :: get_instance();
 		$user_alias = $udm->get_database()->get_alias(User :: get_table_name());
 		$user_table = $udm->get_database()->escape_table_name(User :: get_table_name());
-		
+
         $query = 'SELECT ' . $translator_application_alias . '.* FROM ' . $translator_application_table . ' AS ' . $translator_application_alias;
         $query .= ' JOIN ' . $cda_language_table . ' AS ' . $cda_language_alias . ' ON ' . $translator_application_alias . '.source_language_id = ' . $cda_language_alias . '.id';
         $query .= ' JOIN ' . $cda_language_table . ' AS ' . $cda_language_alias . '2 ON ' . $translator_application_alias . '.destination_language_id = ' . $cda_language_alias . '2.id';
@@ -375,22 +431,22 @@ class DatabaseCdaDataManager extends CdaDataManager
 
         return $this->database->retrieve_object_set($query, TranslatorApplication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
-	
+
 	function get_number_of_translations_for_user($user_id)
 	{
 		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_USER_ID, $user_id);
 		return $this->count_variable_translations($condition);
 	}
-	
+
 	function get_number_of_translations_by_user()
 	{
 		$user_id_column = $this->database->escape_column_name(VariableTranslation :: PROPERTY_USER_ID);
 		$variable_translation_table = $this->database->escape_table_name(VariableTranslation :: get_table_name());
-		
+
 		$query = 'SELECT ' . $user_id_column . ', COUNT(*) AS count FROM ' . $variable_translation_table . ' GROUP BY ' . $user_id_column . ' ORDER BY count DESC;';
-		
+
 		$number_of_translations = array();
-		
+
 		$result = $this->database->query($query);
 		while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -398,23 +454,23 @@ class DatabaseCdaDataManager extends CdaDataManager
         	$user = $user ? $user : 0;
         	$number_of_translations[$user] = $record['count'];
         }
-        
+
         $result->free();
         
         return $number_of_translations;
 	}
-	
+
 	function create_historic_variable_translation($historic_variable_translation)
 	{
 		return $this->database->create($historic_variable_translation);
 	}
-	
+
 	function delete_historic_variable_translation($historic_variable_translation)
 	{
 		$condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_ID, $historic_variable_translation->get_id());
 		return $this->database->delete($historic_variable_translation->get_table_name(), $condition);
 	}
-	
+
 	function update_historic_variable_translation($historic_variable_translation)
 	{
 		$condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_ID, $historic_variable_translation->get_id());
@@ -425,7 +481,7 @@ class DatabaseCdaDataManager extends CdaDataManager
 	{
 		return $this->database->count_objects(HistoricVariableTranslation :: get_table_name(), $condition);
 	}
-	
+
 	function retrieve_historic_variable_translation($historic_variable_translation_id)
 	{
 		$condition = new EqualityCondition(HistoricVariableTranslation :: PROPERTY_ID, $historic_variable_translation_id);

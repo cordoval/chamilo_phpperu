@@ -62,6 +62,17 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
 		{
 	        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Translate'), Theme :: get_image_path() . 'action_translate.png',
         			$this->get_update_variable_translation_url($this->variable_translation)));
+
+        	if ($this->variable_translation->is_outdated())
+        	{
+    	        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Verify'), Theme :: get_image_path() . 'action_verify.png',
+            			$this->get_verify_variable_translation_url($this->variable_translation)));
+        	}
+        	else
+        	{
+    	        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Deprecate'), Theme :: get_image_path() . 'action_deprecate.png',
+            			$this->get_deprecate_variable_translation_url($this->variable_translation)));
+        	}
 		}
 
 		if($can_lock)

@@ -116,7 +116,8 @@ class Translation
 
         $language = $instance->language;
         $strings = $instance->strings;
-
+		$value = '';
+		
         if (! isset($strings[$language]))
         {
             $instance->add_language_file_to_array($language, 'common');

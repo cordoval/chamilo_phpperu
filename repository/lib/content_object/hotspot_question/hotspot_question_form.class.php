@@ -30,7 +30,7 @@ class HotspotQuestionForm extends ContentObjectForm
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         
-        $this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'), true);
+        //$this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'), true);
         
         $this->addElement('html', '<div id="hotspot_select" style="display: none;">');
         $this->addElement('category', Translation :: get(get_class($this) . 'Hotspots'));
