@@ -35,6 +35,12 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
                         foreach ($versions as $version)
                         {
                             $version->set_state(ContentObject :: STATE_NORMAL);
+                            
+                            if(!$this->repository_category_exists($version->get_parent_id()))
+                            {
+                            	$version->set_parent_id(0);
+                            }
+                            
                             $version->update();
                         }
                     }
@@ -77,6 +83,12 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
         {
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+    function repository_category_exists($id)
+    {
+    	$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $id);
+    	return (RepositoryDataManager :: get_instance()->count_categories($condition) > 0);
     }
 }
 ?>
