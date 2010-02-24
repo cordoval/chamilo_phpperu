@@ -130,8 +130,13 @@ class RequirementsInstallWizardPage extends InstallWizardPage
         						  , '/files/repository/', '/files/temp', '/files/scorm', '/files/userpictures',
         						  '/home', '/common/configuration');*/
 
-        mkdir(Path :: get(SYS_PATH) . '/files');
-        
+        $files_folder = Path :: get(SYS_PATH) . '/files';
+
+        if (!file_exists($files_folder))
+        {
+           	mkdir($files_folder);
+        }
+
         $writable_folders = array('/files', '/common/configuration');
 
         foreach ($writable_folders as $folder)

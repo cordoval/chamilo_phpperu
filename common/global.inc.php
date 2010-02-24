@@ -242,7 +242,7 @@ else
     Session :: unregister('request_uri');
 }
 
-set_error_handler(handle_error);
+set_error_handler('handle_error');
 
 // Log out
 if (Request :: get('logout'))
