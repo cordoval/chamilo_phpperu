@@ -65,7 +65,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
     function get_menu()
     {
         $url = $this->get_url($this->get_parameters()) . '&category=%s';
-        $extra = array(array('title' => Translation :: get('SharedContentObjects'), 'url' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => 'browser', 'category' => 1, 'sharedbrowser' => 1))), 'class' => '', OptionsMenuRenderer :: KEY_ID => 1));
+        $extra = array(array('title' => Translation :: get('SharedContentObjects'), 'url' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_BROWSER, 'category' => 1, 'sharedbrowser' => 1))), 'class' => '', OptionsMenuRenderer :: KEY_ID => 1));
         $menu = new ContentObjectCategoryMenu($this->get_user_id(), Request :: get('category') ? Request :: get('category') : 0, $url, $extra);
         return $menu;
     }
@@ -74,11 +74,13 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
     {
         $browser_actions = array();
         
-        $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
+        $browser_actions[] = array('href' => $this->get_url(
+        array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
         
         if (! Request :: get('sharedbrowser') == 1)
-            $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => 'creator', RepoViewer :: PARAM_EDIT_ID => '__ID__'))), //, RepoViewer :: PARAM_EDIT => 1))),
-'img' => Theme :: get_common_image_path() . 'action_editpublish.png', 'label' => Translation :: get('EditAndPublish'));
+        {
+            $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_CREATOR, RepoViewer :: PARAM_EDIT_ID => '__ID__'))), 'img' => Theme :: get_common_image_path() . 'action_editpublish.png', 'label' => Translation :: get('EditAndPublish'));
+        }
         
         return $browser_actions;
     }
