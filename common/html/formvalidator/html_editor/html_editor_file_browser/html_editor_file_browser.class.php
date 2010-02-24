@@ -1,11 +1,11 @@
 <?php
-require_once dirname(__FILE__) . '/html_editor_repo_viewer/html_editor_repo_viewer.class.php';
-
 class HtmlEditorFileBrowser
 {
     private $content_object_types;
 
     private $user;
+    
+    private $parameters;
 
     public static function factory($type, $user)
     {
@@ -31,28 +31,43 @@ class HtmlEditorFileBrowser
 
     function set_content_object_types($content_object_types)
     {
+        if (!is_array($content_object_types))
+        {
+            $content_object_types = array($content_object_types);
+        }
+        
         $this->content_object_types = $content_object_types;
     }
 
     function run()
     {
       $object = Request :: get('object');
-      $repo = new HtmlEditorRepoViewer($this, 'announcement');
+      $repo_viewer = new RepoViewer($this, $this->get_content_object_types(), false, RepoViewer :: SELECT_SINGLE);
 
-      if (! isset($object))
+      if (!$repo_viewer->is_ready_to_be_published())
       {
-          echo $repo->as_html();
+          echo $repo_viewer->as_html();
       }
       else
       {
           // Go to real processing depending on selected editor.
-          echo 'Selection made';
+          echo "<script type='text/javascript'>window.opener.CKEDITOR.tools.callFunction(" . $this->get_parameter('CKEditorFuncNum') . ", 'image.jpg', 'Message !');</script>";
       }
+    }
+    
+    function set_parameters($parameters)
+    {
+        $this->parameters = $parameters;
     }
 
     function get_parameters()
     {
-        return array('test' => 'one');
+        return $this->parameters;
+    }
+    
+    function get_parameter($key)
+    {
+        return $this->parameters[$key];
     }
 
     function set_user($user)
