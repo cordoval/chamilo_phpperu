@@ -315,8 +315,13 @@ class RepoViewer
 
     function any_object_selected()
     {
-        $object = Request :: get('object');
+        $object = Request :: get(self :: PARAM_ID);
         return isset($object);
+    }
+    
+    function get_selected_objects()
+    {
+        return Request :: get(self :: PARAM_ID);
     }
     
     function is_ready_to_be_published()
