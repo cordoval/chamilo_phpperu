@@ -1,6 +1,6 @@
 <?php
 // --------------------------------------------------------------------------------
-// PhpConcept Library - Zip Module 2.6
+// PhpConcept Library - Zip Module 2.7-RC1
 // --------------------------------------------------------------------------------
 // License GNU/LGPL - Vincent Blavet - March 2006
 // http://www.phpconcept.net
@@ -23,6 +23,20 @@
 //
 // --------------------------------------------------------------------------------
 // $Id: pclzip.lib.php 137 2009-11-09 13:24:37Z vanpouckesven $
+// --------------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------------
+// A patch about the renamed function gzopen() as gzopen64()
+// in Ubuntu Karmic Koala 9.10 (php5 5.2.10.dfsg.1-2ubuntu6).
+// http://dokeoslead.wordpress.com/2009/09/30/pclzip-and-gzopen64/
+// https://bugs.launchpad.net/ubuntu/+source/php5/+bug/451405
+// http://php.net/manual/en/function.gzopen.php
+// --------------------------------------------------------------------------------
+if (!function_exists('gzopen') && function_exists('gzopen64')) {
+	function gzopen($filename, $mode, $use_include_path = 0) {
+		return gzopen64($filename, $mode, $use_include_path);
+	}
+}
 // --------------------------------------------------------------------------------
 
   // ----- Constants
@@ -71,7 +85,7 @@
 // --------------------------------------------------------------------------------
 
   // ----- Global variables
-  $g_pclzip_version = "2.6";
+  $g_pclzip_version = "2.7-RC1";
 
   // ----- Error codes
   //   -1 : Unable to open file in binary write mode
@@ -1980,6 +1994,12 @@
   // --------------------------------------------------------------------------------
   // Function : privFileDescrExpand()
   // Description :
+  //   This method look for each item of the list to see if its a file, a folder
+  //   or a string to be added as file. For any other type of files (link, other)
+  //   just ignore the item.
+  //   Then prepare the information that will be stored for that file.
+  //   When its a folder, expand the folder with all the files that are in that 
+  //   folder (recursively).
   // Parameters :
   // Return Values :
   //   1 on success.
@@ -2002,7 +2022,7 @@
       
       // ----- Reduce the filename
       //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Filedescr before reduction :'".$v_descr['filename']."'");
-      $v_descr['filename'] = PclZipUtilTranslateWinPath($v_descr['filename']);
+      $v_descr['filename'] = PclZipUtilTranslateWinPath($v_descr['filename'], false);
       $v_descr['filename'] = PclZipUtilPathReduction($v_descr['filename']);
       //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Filedescr after reduction :'".$v_descr['filename']."'");
       
@@ -2869,7 +2889,8 @@
 
     // ----- Look for full name change
     if (isset($p_filedescr['new_full_name'])) {
-      $v_stored_filename = $p_filedescr['new_full_name'];
+      // ----- Remove drive letter if any
+      $v_stored_filename = PclZipUtilTranslateWinPath($p_filedescr['new_full_name']);
       //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 4, "Changing full name of '".$p_filename."' for '".$v_stored_filename."'");
     }
     
@@ -2877,6 +2898,7 @@
     else {
 
       // ----- Look for short name change
+      // Its when we cahnge just the filename but not the path
       if (isset($p_filedescr['new_short_name'])) {
         $v_path_info = pathinfo($p_filename);
         $v_dir = '';
@@ -2930,6 +2952,10 @@
           }
         }
       }
+      
+      // ----- Remove drive letter if any
+      $v_stored_filename = PclZipUtilTranslateWinPath($v_stored_filename);
+      
       // ----- Look for path to add
       if ($p_add_dir != "") {
         if (substr($p_add_dir, -1) == "/")
@@ -3765,7 +3791,7 @@
 
             //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, PclZip::errorCode(), PclZip::errorInfo());
             return PclZip::errorCode();
-		}
+		    }
       }
       // ----- Look if file is write protected
       else if (!is_writeable($p_entry['filename']))
@@ -3788,7 +3814,7 @@
 
             //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, PclZip::errorCode(), PclZip::errorInfo());
             return PclZip::errorCode();
-		}
+		    }
       }
 
       // ----- Look if the extracted file is older
@@ -3799,8 +3825,8 @@
         if (   (isset($p_options[PCLZIP_OPT_REPLACE_NEWER]))
 		    && ($p_options[PCLZIP_OPT_REPLACE_NEWER]===true)) {
             //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 2, "PCLZIP_OPT_REPLACE_NEWER is selected, file will be replaced");
-		}
-		else {
+	  	  }
+		    else {
             //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 2, "File will not be replaced");
             $p_entry['status'] = "newer_exist";
 
@@ -3817,8 +3843,8 @@
 
                 //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, PclZip::errorCode(), PclZip::errorInfo());
                 return PclZip::errorCode();
+		      }
 		    }
-		}
       }
       else {
         //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 2, "Existing file '".$p_entry['filename']."' is older than the extrated one - will be replaced by the extracted one (".date("l dS of F Y h:i:s A", filemtime($p_entry['filename'])).") than the extracted file (".date("l dS of F Y h:i:s A", $p_entry['mtime']).")");
@@ -3834,18 +3860,18 @@
       else
         $v_dir_to_check = dirname($p_entry['filename']);
 
-      if (($v_result = $this->privDirCheck($v_dir_to_check, (($p_entry['external']&0x00000010)==0x00000010))) != 1) {
-        //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 2, "Unable to create path for '".$p_entry['filename']."'");
-
-        // ----- Change the file status
-        $p_entry['status'] = "path_creation_fail";
-
-        // ----- Return
-        ////--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
-        //return $v_result;
-        $v_result = 1;
+        if (($v_result = $this->privDirCheck($v_dir_to_check, (($p_entry['external']&0x00000010)==0x00000010))) != 1) {
+          //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 2, "Unable to create path for '".$p_entry['filename']."'");
+  
+          // ----- Change the file status
+          $p_entry['status'] = "path_creation_fail";
+  
+          // ----- Return
+          ////--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
+          //return $v_result;
+          $v_result = 1;
+        }
       }
-    }
     }
 
     // ----- Look if extraction should be done
@@ -4274,6 +4300,8 @@
     //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, 'CRC : \''.sprintf("0x%X", $p_header['crc']).'\'');
     $p_header['flag'] = $v_data['flag'];
     //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, 'Flag : \''.$p_header['flag'].'\'');
+    //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, 'Flag bit 11 (from right) : \''.($p_header['flag']&0x0400).'\'');
+    //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, 'Flag bit 11 (from left) : \''.($p_header['flag']&0x0020).'\'');
     $p_header['filename_len'] = $v_data['filename_len'];
     //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, 'Filename_len : \''.$p_header['filename_len'].'\'');
 
@@ -4376,7 +4404,14 @@
     // ----- Get filename
     //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 4, "File name length : ".$p_header['filename_len']);
     if ($p_header['filename_len'] != 0)
-      $p_header['filename'] = fread($this->zip_fd, $p_header['filename_len']);
+      //
+      // --------------------------------------------------------------------------------
+      // A patch about stored filenames with backslash directory separator (Windows style).
+      // Archives created by the utility IZArc 3.81 (possibly new versions too) need this patch. 
+      //$p_header['filename'] = fread($this->zip_fd, $p_header['filename_len']);
+      $p_header['filename'] = str_replace("\\", '/', fread($this->zip_fd, $p_header['filename_len']));
+      // --------------------------------------------------------------------------------
+      //
     else
       $p_header['filename'] = '';
     //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 4, 'Filename : \''.$p_header['filename'].'\'');
