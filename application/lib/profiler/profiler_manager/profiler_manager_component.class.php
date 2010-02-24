@@ -81,14 +81,6 @@ abstract class ProfilerManagerComponent extends WebApplicationComponent
         return $this->get_parent()->get_profile_creation_url();
     }
 
-    /**
-     * @see ProfileManager :: get_publication_reply_url()
-     */
-    function get_publication_reply_url($profile)
-    {
-        return $this->get_parent()->get_publication_reply_url($profile);
-    }
-
     function get_profiler_category_manager_url()
     {
         return $this->get_parent()->get_profiler_category_manager_url();

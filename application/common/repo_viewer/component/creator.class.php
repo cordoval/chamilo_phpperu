@@ -117,7 +117,7 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
             }
             else
                 $content_object = $form->create_content_object();
-                //$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $content_object->get_id(), RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT => $edit));
+                //$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $content_object->get_id(), RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_EDIT => $edit));
             //$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $content_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
             /*if(!is_array($content_object) && $content_object->is_complex_content_object() && $this->redirect_complex($content_object->get_type()))
 			{

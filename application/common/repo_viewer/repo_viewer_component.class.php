@@ -74,9 +74,9 @@ abstract class RepoViewerComponent
     /**
      * @see ObjectRepoViewer::get_url()
      */
-    function get_url($parameters = array(), $encode = false)
+    function get_url($parameters = array(), $encode = false, $filter = array())
     {
-        return $this->get_parent()->get_url($parameters, $encode);
+        return $this->get_parent()->get_url($parameters, $encode, $filter);
     }
 
     /**

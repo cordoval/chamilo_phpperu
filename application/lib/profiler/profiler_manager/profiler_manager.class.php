@@ -387,16 +387,6 @@ class ProfilerManager extends WebApplication
     }
 
     /**
-     * Gets the url for replying to a profile publication
-     * @param ProfilePublication
-     * @return string The url
-     */
-    function get_publication_reply_url($profile)
-    {
-        return $this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_CREATE_PUBLICATION, ProfilePublisher :: PARAM_ACTION => 'publicationcreator', ProfilePublisher :: PARAM_CONTENT_OBJECT_ID => $profile->get_profile(), self :: PARAM_PROFILE_ID => $profile->get_id(), ProfilePublisher :: PARAM_EDIT => 1));
-    }
-
-    /**
      * Gets the url for creating a profile publication
      * @param ProfilePublication
      * @return string The url

@@ -23,6 +23,11 @@ class RepoViewer
     
     const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
     
+    const ACTION_CREATOR = 'creator';
+    const ACTION_BROWSER = 'browser';
+    const ACTION_FINDER = 'finder';
+    const ACTION_PUBLISHER = 'publisher';
+    
     /**
      * The types of learning object that this repo_viewer is aware of and may
      * repoviewer.
@@ -70,11 +75,13 @@ class RepoViewer
         $this->parameters = array();
         $this->types = (is_array($types) ? $types : array($types));
         $this->mail_option = $mail_option;
-        $this->set_repo_viewer_actions(array('creator', 'browser', 'finder'));
+        $this->set_repo_viewer_actions(array(self :: ACTION_CREATOR, self :: ACTION_BROWSER, self :: ACTION_FINDER));
         $this->excluded_objects = $excluded_objects;
-        $this->set_parameter(RepoViewer :: PARAM_ACTION, (Request :: get(RepoViewer :: PARAM_ACTION) ? Request :: get(RepoViewer :: PARAM_ACTION) : 'creator'));
+        $this->set_parameter(RepoViewer :: PARAM_ACTION, (Request :: get(RepoViewer :: PARAM_ACTION) ? Request :: get(RepoViewer :: PARAM_ACTION) : self :: ACTION_CREATOR));
         if ($parse_input)
+        {
             $this->parse_input_from_table();
+        }
         $this->redirect = $redirect;
     }
 
@@ -91,7 +98,7 @@ class RepoViewer
             {
                 $out .= ' class="current"';
             }
-            elseif (($action == 'publicationcreator' || $action == 'multirepo_viewer') && $repo_viewer_action == 'creator')
+            elseif (($action == self :: ACTION_PUBLISHER || $action == 'multirepo_viewer') && $repo_viewer_action == self :: ACTION_CREATOR)
             {
                 $out .= ' class="current"';
             }
@@ -147,7 +154,7 @@ class RepoViewer
     }
 
     /**
-     * Returns the action that the user selected, or "publicationcreator" if none.
+     * Returns the action that the user selected.
      * @return string The action.
      */
     function get_action()
@@ -310,6 +317,13 @@ class RepoViewer
     {
         $object = Request :: get('object');
         return isset($object);
+    }
+    
+    function is_ready_to_be_published()
+    {
+        $action = $this->get_action();
+        
+        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER); 
     }
 }
 ?>
