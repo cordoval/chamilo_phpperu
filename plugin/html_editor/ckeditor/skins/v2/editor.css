@@ -677,8 +677,9 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	height: 19px;
 	margin-left: 24px;
 	background-color: #fff;
-	_overflow: hidden;
-	_width: 80px;
+}
+
+.cke_skin_v2 .cke_frameLoaded .cke_menuitem .cke_label {
 	filter: alpha(opacity = 70);
 	opacity: .70;
 }
@@ -732,6 +733,19 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	margin-right: 0;
 	margin-left: 2px;
 	background-position: 0 -763px;
+}
+
+.cke_skin_v2 .cke_menuarrow span {
+	display: none;
+}
+
+.cke_hc .cke_skin_v2 .cke_menuarrow {
+	width: auto;
+	margin-top: 0;
+}
+
+.cke_hc .cke_skin_v2 .cke_menuarrow span {
+	display: inline;
 }
 
 .cke_browser_ie.cke_ltr .cke_skin_v2 .cke_menuarrow {
@@ -955,6 +969,10 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 .cke_skin_v2 .cke_browser_ie .cke_rtl .cke_rcombo,.cke_skin_v2 .cke_browser_ie .cke_rtl .cke_rcombo a,.cke_skin_v2 .cke_browser_ie .cke_rtl .cke_rcombo .cke_label
 	{
 	float: none;
+}
+
+.cke_skin_v2 .cke_browser_iequirks .cke_rcombo .cke_openbutton {
+	height: 22px;
 }
 
 @media print {

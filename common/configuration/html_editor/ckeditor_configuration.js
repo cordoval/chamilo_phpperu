@@ -54,6 +54,6 @@ CKEDITOR.editorConfig = function( config )
 		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor']
 		] ;
 	
-	config.filebrowserImageBrowseUrl = 'common/html/formvalidator/html_editor/ckeditor_file_browser/index.php';
+	config.filebrowserImageBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php';
 
 };
