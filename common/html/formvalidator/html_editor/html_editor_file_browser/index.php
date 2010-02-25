@@ -14,8 +14,7 @@ if (! Authentication :: is_valid() && ! Request :: get(AssessmentTool :: PARAM_I
 
 // Load the current user
 $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-$browser = HtmlEditorFileBrowser :: factory(LocalSetting :: get('html_editor'), $user);
-$browser->set_content_object_types('announcement');
+$browser = new HtmlEditorFileBrowser($user);
 $browser->set_parameters(array('CKEditor' => Request :: get('CKEditor'), 'CKEditorFuncNum' => Request :: get('CKEditorFuncNum'), 'langCode' => Request :: get('langCode')));
 
 Display :: small_header();

@@ -9,6 +9,9 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	
+	config.extraPlugins = 'youtube';
+//	config.removePlugins = 'elementspath,save,font';
+	
 	config.toolbar_Full =
 		[
 		    ['Source','-','Save','NewPage','Preview','-','Templates'],
@@ -36,7 +39,7 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.toolbar_Basic =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Flash','-','Templates']
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Flash','Youtube','-','Templates']
 		];
 	
 	config.toolbar_WikiPage =
@@ -54,6 +57,8 @@ CKEDITOR.editorConfig = function( config )
 		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor']
 		] ;
 	
-	config.filebrowserImageBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php';
+	config.filebrowserImageBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=image';
+	config.filebrowserFlashBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=flash';
+	config.filebrowserYoutubeBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=youtube';
 
 };
