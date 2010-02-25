@@ -20,39 +20,39 @@ class RepoViewer
     const PARAM_EDIT = 'edit';
     const PARAM_ID = 'object';
     const PARAM_EDIT_ID = 'obj';
-    
+
     const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
-    
+
     const ACTION_CREATOR = 'creator';
     const ACTION_BROWSER = 'browser';
     const ACTION_FINDER = 'finder';
     const ACTION_PUBLISHER = 'publisher';
-    
+
     /**
      * The types of learning object that this repo_viewer is aware of and may
      * repoviewer.
      */
     private $types;
-    
+
     /**
      * The default learning objects, which are used for form defaults.
      */
     private $default_content_objects;
-    
+
     private $parent;
-    
+
     private $repo_viewer_actions;
-    
+
     private $parameters;
-    
+
     private $mail_option;
-    
+
     private $maximum_select;
-    
+
     private $excluded_objects;
-    
+
     private $redirect;
-    
+
     /**
      * You have two choices for the select multiple
      * 0 / SELECT MULTIPLE - you can select as many lo as you want
@@ -88,7 +88,7 @@ class RepoViewer
     function as_html()
     {
         $action = $this->get_action();
-        
+
         $out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
         $repo_viewer_actions = $this->get_repo_viewer_actions();
         foreach ($repo_viewer_actions as $repo_viewer_action)
@@ -105,10 +105,10 @@ class RepoViewer
             $out .= ' href="' . $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => $repo_viewer_action)), true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
         }
         $out .= '</ul><div class="tabbed-pane-content">';
-        
+
         $out .= RepoViewerComponent :: factory($action, $this)->as_html();
         $out .= '</div></div>';
-        
+
         return $out;
     }
 
@@ -145,12 +145,26 @@ class RepoViewer
     }
 
     /**
-     * Returns the types of learning object that this object may repoviewer.
+     * Returns the types of content object that RepoViewer uses.
      * @return array The types.
      */
     function get_types()
     {
         return $this->types;
+    }
+
+    /**
+     * Set the type(s) of content object this RepoViewer uses.
+     * @param $types
+     */
+    function set_types($types)
+    {
+        if (!is_array($types))
+        {
+            $types = array($types);
+        }
+
+        $this->types = $types;
     }
 
     /**
@@ -193,7 +207,7 @@ class RepoViewer
     {
         $this->parameters[$name] = $value;
     }
-    
+
     private $creation_defaults;
 
     function set_creation_defaults($defaults)
@@ -253,7 +267,7 @@ class RepoViewer
         {
             $parameters[Application :: PARAM_ERROR_MESSAGE] = $message;
         }
-        
+
         $parameters = array_merge($this->get_parent()->get_parameters(), $parameters);
         Redirect :: url($parameters, $filter, $encode_entities);
     }
@@ -278,10 +292,10 @@ class RepoViewer
         if (isset($_POST['action']))
         {
             $selected_publication_ids = $_POST[ContentObjectTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            
+
             if (! is_array($selected_publication_ids))
                 $selected_publication_ids = array($selected_publication_ids);
-            
+
             switch ($_POST['action'])
             {
                 case self :: PARAM_PUBLISH_SELECTED :
@@ -296,7 +310,7 @@ class RepoViewer
                         }
                     }
                     $redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $selected_publication_ids));
-                    
+
                     $this->redirect(null, false, $redirect_params);
                     break;
             }
@@ -318,17 +332,17 @@ class RepoViewer
         $object = Request :: get(self :: PARAM_ID);
         return isset($object);
     }
-    
+
     function get_selected_objects()
     {
         return Request :: get(self :: PARAM_ID);
     }
-    
+
     function is_ready_to_be_published()
     {
         $action = $this->get_action();
-        
-        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER); 
+
+        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER);
     }
 }
 ?>
