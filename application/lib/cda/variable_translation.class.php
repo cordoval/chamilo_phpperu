@@ -290,7 +290,8 @@ class VariableTranslation extends DataClass
 
 			$this->set_rating(0);
 			$this->set_rated(0);
-			$this->set_status(self :: STATUS_OUTDATED);
+			//$this->set_status(self :: STATUS_OUTDATED);
+			$this->set_status(self :: STATUS_NORMAL); // Ivan, 25-FEB-2010: This choice seems to be better.
 		}
 
 		return parent :: update();
