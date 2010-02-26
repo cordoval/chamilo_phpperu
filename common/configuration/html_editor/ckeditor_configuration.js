@@ -9,7 +9,8 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	
-	config.extraPlugins = 'youtube';
+	config.removePlugins = 'flash';
+	config.extraPlugins = 'chamiloyoutube,chamiloflash';
 //	config.removePlugins = 'elementspath,save,font';
 	
 	config.toolbar_Full =

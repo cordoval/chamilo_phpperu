@@ -1,496 +1,688 @@
 ﻿/*
 Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
- */
+*/
 
-(function() {
-	var a = 1, b = 2, c = 4, d = {
-		id : [ {
-			type : a,
-			name : 'id'
-		} ],
-		classid : [ {
-			type : a,
-			name : 'classid'
-		} ],
-		codebase : [ {
-			type : a,
-			name : 'codebase'
-		} ],
-		pluginspage : [ {
-			type : c,
-			name : 'pluginspage'
-		} ],
-		src : [ {
-			type : b,
-			name : 'movie'
-		}, {
-			type : c,
-			name : 'src'
-		} ],
-		name : [ {
-			type : c,
-			name : 'name'
-		} ],
-		align : [ {
-			type : a,
-			name : 'align'
-		} ],
-		title : [ {
-			type : a,
-			name : 'title'
-		}, {
-			type : c,
-			name : 'title'
-		} ],
-		'class' : [ {
-			type : a,
-			name : 'class'
-		}, {
-			type : c,
-			name : 'class'
-		} ],
-		width : [ {
-			type : a,
-			name : 'width'
-		}, {
-			type : c,
-			name : 'width'
-		} ],
-		height : [ {
-			type : a,
-			name : 'height'
-		}, {
-			type : c,
-			name : 'height'
-		} ],
-		hSpace : [ {
-			type : a,
-			name : 'hSpace'
-		}, {
-			type : c,
-			name : 'hSpace'
-		} ],
-		vSpace : [ {
-			type : a,
-			name : 'vSpace'
-		}, {
-			type : c,
-			name : 'vSpace'
-		} ],
-		style : [ {
-			type : a,
-			name : 'style'
-		}, {
-			type : c,
-			name : 'style'
-		} ],
-		type : [ {
-			type : c,
-			name : 'type'
-		} ]
-	}, e = [ 'play', 'loop', 'menu', 'quality', 'scale', 'salign', 'wmode',
-			'bgcolor', 'base', 'youtubevars', 'allowScriptAccess',
-			'allowFullScreen' ];
-	for ( var f = 0; f < e.length; f++)
-		d[e[f]] = [ {
-			type : c,
-			name : e[f]
-		}, {
-			type : b,
-			name : e[f]
-		} ];
-	e = [ 'allowFullScreen', 'play', 'loop', 'menu' ];
-	for (f = 0; f < e.length; f++)
-		d[e[f]][0]['default'] = d[e[f]][1]['default'] = true;
-	function g(i, j, k) {
-		var q = this;
-		var l = d[q.id];
-		if (!l)
+(function()
+{
+	/*
+	 * It is possible to set things in three different places.
+	 * 1. As attributes in the object tag.
+	 * 2. As param tags under the object tag.
+	 * 3. As attributes in the embed tag.
+	 * It is possible for a single attribute to be present in more than one place.
+	 * So let's define a mapping between a sementic attribute and its syntactic
+	 * equivalents.
+	 * Then we'll set and retrieve attribute values according to the mapping,
+	 * instead of having to check and set each syntactic attribute every time.
+	 *
+	 * Reference: http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701
+	 */
+	var ATTRTYPE_OBJECT = 1,
+		ATTRTYPE_PARAM = 2,
+		ATTRTYPE_EMBED = 4;
+
+	var attributesMap =
+	{
+		id : [ { type : ATTRTYPE_OBJECT, name :  'id' } ],
+		classid : [ { type : ATTRTYPE_OBJECT, name : 'classid' } ],
+		codebase : [ { type : ATTRTYPE_OBJECT, name : 'codebase'} ],
+		pluginspage : [ { type : ATTRTYPE_EMBED, name : 'pluginspage' } ],
+		src : [ { type : ATTRTYPE_PARAM, name : 'movie' }, { type : ATTRTYPE_EMBED, name : 'src' } ],
+		name : [ { type : ATTRTYPE_EMBED, name : 'name' } ],
+		align : [ { type : ATTRTYPE_OBJECT, name : 'align' } ],
+		title : [ { type : ATTRTYPE_OBJECT, name : 'title' }, { type : ATTRTYPE_EMBED, name : 'title' } ],
+		'class' : [ { type : ATTRTYPE_OBJECT, name : 'class' }, { type : ATTRTYPE_EMBED, name : 'class'} ],
+		width : [ { type : ATTRTYPE_OBJECT, name : 'width' }, { type : ATTRTYPE_EMBED, name : 'width' } ],
+		height : [ { type : ATTRTYPE_OBJECT, name : 'height' }, { type : ATTRTYPE_EMBED, name : 'height' } ],
+		hSpace : [ { type : ATTRTYPE_OBJECT, name : 'hSpace' }, { type : ATTRTYPE_EMBED, name : 'hSpace' } ],
+		vSpace : [ { type : ATTRTYPE_OBJECT, name : 'vSpace' }, { type : ATTRTYPE_EMBED, name : 'vSpace' } ],
+		style : [ { type : ATTRTYPE_OBJECT, name : 'style' }, { type : ATTRTYPE_EMBED, name : 'style' } ],
+		type : [ { type : ATTRTYPE_EMBED, name : 'type' } ]
+	};
+
+	var names = [ 'play', 'loop', 'menu', 'quality', 'scale', 'salign', 'wmode', 'bgcolor', 'base', 'youtubevars', 'allowScriptAccess',
+		'allowFullScreen' ];
+	for ( var i = 0 ; i < names.length ; i++ )
+		attributesMap[ names[i] ] = [ { type : ATTRTYPE_EMBED, name : names[i] }, { type : ATTRTYPE_PARAM, name : names[i] } ];
+	names = [ 'allowFullScreen', 'play', 'loop', 'menu' ];
+	for ( i = 0 ; i < names.length ; i++ )
+		attributesMap[ names[i] ][0]['default'] = attributesMap[ names[i] ][1]['default'] = true;
+
+	function loadValue( objectNode, embedNode, paramMap )
+	{
+		var attributes = attributesMap[ this.id ];
+		if ( !attributes )
 			return;
-		var m = q instanceof CKEDITOR.ui.dialog.checkbox;
-		for ( var n = 0; n < l.length; n++) {
-			var o = l[n];
-			switch (o.type) {
-			case a:
-				if (!i)
-					continue;
-				if (i.getAttribute(o.name) !== null) {
-					var p = i.getAttribute(o.name);
-					if (m)
-						q.setValue(p.toLowerCase() == 'true');
-					else
-						q.setValue(p);
-					return;
-				} else if (m)
-					q.setValue(!!o['default']);
-				break;
-			case b:
-				if (!i)
-					continue;
-				if (o.name in k) {
-					p = k[o.name];
-					if (m)
-						q.setValue(p.toLowerCase() == 'true');
-					else
-						q.setValue(p);
-					return;
-				} else if (m)
-					q.setValue(!!o['default']);
-				break;
-			case c:
-				if (!j)
-					continue;
-				if (j.getAttribute(o.name)) {
-					p = j.getAttribute(o.name);
-					if (m)
-						q.setValue(p.toLowerCase() == 'true');
-					else
-						q.setValue(p);
-					return;
-				} else if (m)
-					q.setValue(!!o['default']);
+
+		var isCheckbox = ( this instanceof CKEDITOR.ui.dialog.checkbox );
+		for ( var i = 0 ; i < attributes.length ; i++ )
+		{
+			var attrDef = attributes[ i ];
+			switch ( attrDef.type )
+			{
+				case ATTRTYPE_OBJECT:
+					if ( !objectNode )
+						continue;
+					if ( objectNode.getAttribute( attrDef.name ) !== null )
+					{
+						var value = objectNode.getAttribute( attrDef.name );
+						if ( isCheckbox )
+							this.setValue( value.toLowerCase() == 'true' );
+						else
+							this.setValue( value );
+						return;
+					}
+					else if ( isCheckbox )
+						this.setValue( !!attrDef[ 'default' ] );
+					break;
+				case ATTRTYPE_PARAM:
+					if ( !objectNode )
+						continue;
+					if ( attrDef.name in paramMap )
+					{
+						value = paramMap[ attrDef.name ];
+						if ( isCheckbox )
+							this.setValue( value.toLowerCase() == 'true' );
+						else
+							this.setValue( value );
+						return;
+					}
+					else if ( isCheckbox )
+						this.setValue( !!attrDef[ 'default' ] );
+					break;
+				case ATTRTYPE_EMBED:
+					if ( !embedNode )
+						continue;
+					if ( embedNode.getAttribute( attrDef.name ) )
+					{
+						value = embedNode.getAttribute( attrDef.name );
+						if ( isCheckbox )
+							this.setValue( value.toLowerCase() == 'true' );
+						else
+							this.setValue( value );
+						return;
+					}
+					else if ( isCheckbox )
+						this.setValue( !!attrDef[ 'default' ] );
 			}
 		}
 	}
-	;
-	function h(i, j, k) {
-		var s = this;
-		var l = d[s.id];
-		if (!l)
+
+	function commitValue( objectNode, embedNode, paramMap )
+	{
+		var attributes = attributesMap[ this.id ];
+		if ( !attributes )
 			return;
-		var m = s.getValue() === '', n = s instanceof CKEDITOR.ui.dialog.checkbox;
-		for ( var o = 0; o < l.length; o++) {
-			var p = l[o];
-			switch (p.type) {
-			case a:
-				if (!i)
-					continue;
-				var q = s.getValue();
-				if (m || n && q === p['default'])
-					i.removeAttribute(p.name);
-				else
-					i.setAttribute(p.name, q);
-				break;
-			case b:
-				if (!i)
-					continue;
-				q = s.getValue();
-				if (m || n && q === p['default']) {
-					if (p.name in k)
-						k[p.name].remove();
-				} else if (p.name in k)
-					k[p.name].setAttribute('value', q);
-				else {
-					var r = CKEDITOR.dom.element.createFromHtml(
-							'<cke:param></cke:param>', i.getDocument());
-					r.setAttributes( {
-						name : p.name,
-						value : q
-					});
-					if (i.getChildCount() < 1)
-						r.appendTo(i);
+
+		var isRemove = ( this.getValue() === '' ),
+			isCheckbox = ( this instanceof CKEDITOR.ui.dialog.checkbox );
+
+		for ( var i = 0 ; i < attributes.length ; i++ )
+		{
+			var attrDef = attributes[i];
+			switch ( attrDef.type )
+			{
+				case ATTRTYPE_OBJECT:
+					if ( !objectNode )
+						continue;
+					var value = this.getValue();
+					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] )
+						objectNode.removeAttribute( attrDef.name );
 					else
-						r.insertBefore(i.getFirst());
+						objectNode.setAttribute( attrDef.name, value );
+					break;
+				case ATTRTYPE_PARAM:
+					if ( !objectNode )
+						continue;
+					value = this.getValue();
+					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] )
+					{
+						if ( attrDef.name in paramMap )
+							paramMap[ attrDef.name ].remove();
+					}
+					else
+					{
+						if ( attrDef.name in paramMap )
+							paramMap[ attrDef.name ].setAttribute( 'value', value );
+						else
+						{
+							var param = CKEDITOR.dom.element.createFromHtml( '<cke:param></cke:param>', objectNode.getDocument() );
+							param.setAttributes( { name : attrDef.name, value : value } );
+							if ( objectNode.getChildCount() < 1 )
+								param.appendTo( objectNode );
+							else
+								param.insertBefore( objectNode.getFirst() );
+						}
+					}
+					break;
+				case ATTRTYPE_EMBED:
+					if ( !embedNode )
+						continue;
+					value = this.getValue();
+					if ( isRemove || isCheckbox && value === attrDef[ 'default' ])
+						embedNode.removeAttribute( attrDef.name );
+					else
+						embedNode.setAttribute( attrDef.name, value );
+			}
+		}
+	}
+
+	CKEDITOR.dialog.add( 'youtube', function( editor )
+	{
+		var makeObjectTag = !editor.config.youtubeEmbedTagOnly,
+			makeEmbedTag = editor.config.youtubeAddEmbedTag || editor.config.youtubeEmbedTagOnly;
+
+		var previewPreloader,
+			previewAreaHtml = '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.image.preview ) +'<br>' +
+			'<div id="YoutubePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
+			'<div id="YoutubePreviewBox"></div></div>';
+
+		return {
+			title : editor.lang.youtube.title,
+			minWidth : 420,
+			minHeight : 310,
+			onShow : function()
+			{
+				// Clear previously saved elements.
+				this.fakeImage = this.objectNode = this.embedNode = null;
+				previewPreloader = new CKEDITOR.dom.element( 'embeded', editor.document );
+
+				// Try to detect any embed or object tag that has Youtube parameters.
+				var fakeImage = this.getSelectedElement();
+				if ( fakeImage && fakeImage.getAttribute( '_cke_real_element_type' ) && fakeImage.getAttribute( '_cke_real_element_type' ) == 'youtube' )
+				{
+					this.fakeImage = fakeImage;
+
+					var realElement = editor.restoreRealElement( fakeImage ),
+						objectNode = null, embedNode = null, paramMap = {};
+					if ( realElement.getName() == 'cke:object' )
+					{
+						objectNode = realElement;
+						var embedList = objectNode.getElementsByTag( 'embed', 'cke' );
+						if ( embedList.count() > 0 )
+							embedNode = embedList.getItem( 0 );
+						var paramList = objectNode.getElementsByTag( 'param', 'cke' );
+						for ( var i = 0, length = paramList.count() ; i < length ; i++ )
+						{
+							var item = paramList.getItem( i ),
+								name = item.getAttribute( 'name' ),
+								value = item.getAttribute( 'value' );
+							paramMap[ name ] = value;
+						}
+					}
+					else if ( realElement.getName() == 'cke:embed' )
+						embedNode = realElement;
+
+					this.objectNode = objectNode;
+					this.embedNode = embedNode;
+
+					this.setupContent( objectNode, embedNode, paramMap, fakeImage );
 				}
-				break;
-			case c:
-				if (!j)
-					continue;
-				q = s.getValue();
-				if (m || n && q === p['default'])
-					j.removeAttribute(p.name);
-				else
-					j.setAttribute(p.name, q);
-			}
-		}
-	}
-	;
-	CKEDITOR.dialog
-			.add(
-					'youtube',
-					function(i) {
-						var j = !i.config.youtubeEmbedTagOnly, k = i.config.youtubeAddEmbedTag
-								|| i.config.youtubeEmbedTagOnly, l, m = '<div>'
-								+ CKEDITOR.tools
-										.htmlEncode(i.lang.image.preview)
-								+ '<br>'
-								+ '<div id="YoutubePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>'
-								+ '<div id="YoutubePreviewBox"></div></div>';
-						return {
-							title : i.lang.youtube.title,
-							minWidth : 420,
-							minHeight : 310,
-							onShow : function() {
-								var z = this;
-								z.fakeImage = z.objectNode = z.embedNode = null;
-								l = new CKEDITOR.dom.element('embeded',
-										i.document);
-								var n = z.getSelectedElement();
-								if (n
-										&& n
-												.getAttribute('_cke_real_element_type')
-										&& n
-												.getAttribute('_cke_real_element_type') == 'youtube') {
-									z.fakeImage = n;
-									var o = i.restoreRealElement(n), p = null, q = null, r = {};
-									if (o.getName() == 'cke:object') {
-										p = o;
-										var s = p.getElementsByTag('embed',
-												'cke');
-										if (s.count() > 0)
-											q = s.getItem(0);
-										var t = p.getElementsByTag('param',
-												'cke');
-										for ( var u = 0, v = t.count(); u < v; u++) {
-											var w = t.getItem(u), x = w
-													.getAttribute('name'), y = w
-													.getAttribute('value');
-											r[x] = y;
-										}
-									} else if (o.getName() == 'cke:embed')
-										q = o;
-									z.objectNode = p;
-									z.embedNode = q;
-									z.setupContent(p, q, r, n);
-								}
-							},
-							onOk : function() {
-								var w = this;
-								var n = null, o = null, p = null;
-								if (!w.fakeImage) {
-									if (j) {
-										n = CKEDITOR.dom.element
-												.createFromHtml(
-														'<cke:object></cke:object>',
-														i.document);
-										var q = {
-											classid : 'clsid:d27cdb6e-ae6d-11cf-96b8-444553540000',
-											codebase : 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0'
-										};
-										n.setAttributes(q);
-									}
-									if (k) {
-										o = CKEDITOR.dom.element
-												.createFromHtml(
-														'<cke:embed></cke:embed>',
-														i.document);
-										o
-												.setAttributes( {
-													type : 'application/x-shockwave-flash',
-													pluginspage : 'http://www.macromedia.com/go/getflashplayer'
-												});
-										if (n)
-											o.appendTo(n);
-									}
-								} else {
-									n = w.objectNode;
-									o = w.embedNode;
-								}
-								if (n) {
-									p = {};
-									var r = n.getElementsByTag('param', 'cke');
-									for ( var s = 0, t = r.count(); s < t; s++)
-										p[r.getItem(s).getAttribute('name')] = r
-												.getItem(s);
-								}
-								var u = {};
-								w.commitContent(n, o, p, u);
-								var v = i.createFakeElement(n || o,
-										'cke_youtube', 'youtube', true);
-								v.setStyles(u);
-								if (w.fakeImage) {
-									v.replace(w.fakeImage);
-									i.getSelection().selectElement(v);
-								} else
-									i.insertElement(v);
-							},
-							onHide : function() {
-								if (this.preview)
-									this.preview.setHtml('');
-							},
-							contents : [
-									{
-										id : 'info',
-										label : i.lang.common.generalTab,
-										accessKey : 'I',
-										elements : [
-												{
-													type : 'vbox',
-													padding : 0,
-													children : [
-															{
-																type : 'html',
-																html : '<span>' + CKEDITOR.tools
-																		.htmlEncode(i.lang.image.url) + '</span>'
-															},
-															{
-																type : 'hbox',
-																widths : [
-																		'280px',
-																		'110px' ],
-																align : 'right',
-																children : [
-																		{
-																			id : 'src',
-																			type : 'text',
-																			label : '',
-																			validate : CKEDITOR.dialog.validate
-																					.notEmpty(i.lang.youtube.validateSrc),
-																			setup : g,
-																			commit : h,
-																			onLoad : function() {
-																				var n = this
-																						.getDialog(), o = function(
-																						p) {
-																					l
-																							.setAttribute(
-																									'src',
-																									p);
-																					n.preview
-																							.setHtml('<embed height="100%" width="100%" src="' + CKEDITOR.tools
-																									.htmlEncode(l
-																											.getAttribute('src')) + '" type="application/x-shockwave-flash"></embed>');
-																				};
-																				n.preview = n
-																						.getContentElement(
-																								'info',
-																								'preview')
-																						.getElement()
-																						.getChild(
-																								3);
-																				this
-																						.on(
-																								'change',
-																								function(
-																										p) {
-																									if (p.data
-																											&& p.data.value)
-																										o(p.data.value);
-																								});
-																				this
-																						.getInputElement()
-																						.on(
-																								'change',
-																								function(
-																										p) {
-																									o(this
-																											.getValue());
-																								},
-																								this);
-																			}
-																		},
-																		{
-																			type : 'button',
-																			id : 'browse',
-																			filebrowser : 'info:src',
-																			hidden : true,
-																			align : 'center',
-																			label : i.lang.common.browseServer
-																		} ]
-															} ]
-												},
-												{
-													type : 'hbox',
-													widths : [ '33%', '33%', '33%' ],
-													children : [
-															{
-																type : 'text',
-																id : 'width',
-																style : 'width:125px',
-																label : i.lang.youtube.width,
-																validate : CKEDITOR.dialog.validate
-																		.integer(i.lang.youtube.validateWidth),
-																setup : function(
-																		n, o,
-																		p, q) {
-																	g
-																			.apply(
-																					this,
-																					arguments);
-																	if (q) {
-																		var r = parseInt(
-																				q.$.style.width,
-																				10);
-																		if (!isNaN(r))
-																			this
-																					.setValue(r);
-																	}
-																},
-																commit : function(
-																		n, o,
-																		p, q) {
-																	h
-																			.apply(
-																					this,
-																					arguments);
-																	if (this
-																			.getValue())
-																		q.width = this
-																				.getValue() + 'px';
-																}
-															},
-															{
-																type : 'text',
-																id : 'height',
-																style : 'width:125px',
-																label : i.lang.youtube.height,
-																validate : CKEDITOR.dialog.validate
-																		.integer(i.lang.youtube.validateHeight),
-																setup : function(
-																		n, o,
-																		p, q) {
-																	g
-																			.apply(
-																					this,
-																					arguments);
-																	if (q) {
-																		var r = parseInt(
-																				q.$.style.height,
-																				10);
-																		if (!isNaN(r))
-																			this
-																					.setValue(r);
-																	}
-																},
-																commit : function(
-																		n, o,
-																		p, q) {
-																	h
-																			.apply(
-																					this,
-																					arguments);
-																	if (this
-																			.getValue())
-																		q.height = this
-																				.getValue() + 'px';
-																}
-															}, {
-																id : 'scale',
-																type : 'select',
-																label : i.lang.youtube.quality,
-																'default' : '',
-																style : 'width : 100%;',
-																items : [
-																		[
-																				i.lang.youtube.low,
-																				'low' ],
-																		[
-																				i.lang.youtube.high,
-																				'high' ] ],
-																setup : g,
-																commit : h
-															} ]
-												}, {
-													type : 'vbox',
-													children : [ {
-														type : 'html',
-														id : 'preview',
-														style : 'width:95%;',
-														html : m
-													}]
-												} ]
-									} ]
+			},
+			onOk : function()
+			{
+				// If there's no selected object or embed, create one. Otherwise, reuse the
+				// selected object and embed nodes.
+				var objectNode = null,
+					embedNode = null,
+					paramMap = null;
+				if ( !this.fakeImage )
+				{
+					if ( makeObjectTag )
+					{
+						objectNode = CKEDITOR.dom.element.createFromHtml( '<cke:object></cke:object>', editor.document );
+						var attributes = {
+							classid : 'clsid:d27cdb6e-ae6d-11cf-96b8-444553540000',
+							codebase : 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0'
 						};
-					});
+						objectNode.setAttributes( attributes );
+					}
+					if ( makeEmbedTag )
+					{
+						embedNode = CKEDITOR.dom.element.createFromHtml( '<cke:embed></cke:embed>', editor.document );
+						embedNode.setAttributes(
+							{
+								type : 'application/x-shockwave-flash',
+								pluginspage : 'http://www.macromedia.com/go/getflashplayer'
+							} );
+						if ( objectNode )
+							embedNode.appendTo( objectNode );
+					}
+				}
+				else
+				{
+					objectNode = this.objectNode;
+					embedNode = this.embedNode;
+				}
+
+				// Produce the paramMap if there's an object tag.
+				if ( objectNode )
+				{
+					paramMap = {};
+					var paramList = objectNode.getElementsByTag( 'param', 'cke' );
+					for ( var i = 0, length = paramList.count() ; i < length ; i++ )
+						paramMap[ paramList.getItem( i ).getAttribute( 'name' ) ] = paramList.getItem( i );
+				}
+
+				// Apply or remove youtube parameters.
+				var extraStyles = {};
+				this.commitContent( objectNode, embedNode, paramMap, extraStyles );
+
+				// Refresh the fake image.
+				var newFakeImage = editor.createFakeElement( objectNode || embedNode, 'cke_youtube', 'youtube', true );
+				newFakeImage.setStyles( extraStyles );
+				if ( this.fakeImage )
+				{
+					newFakeImage.replace( this.fakeImage );
+					editor.getSelection().selectElement( newFakeImage );
+				}
+				else
+					editor.insertElement( newFakeImage );
+			},
+
+			onHide : function()
+			{
+				if ( this.preview )
+					this.preview.setHtml('');
+			},
+
+			contents : [
+				{
+					id : 'info',
+					label : editor.lang.common.generalTab,
+					accessKey : 'I',
+					elements :
+					[
+						{
+							type : 'vbox',
+							padding : 0,
+							children :
+							[
+								{
+									type : 'html',
+									html : '<span>' + CKEDITOR.tools.htmlEncode( editor.lang.image.url ) + '</span>'
+								},
+								{
+									type : 'hbox',
+									widths : [ '280px', '110px' ],
+									align : 'right',
+									children :
+									[
+										{
+											id : 'src',
+											type : 'text',
+											label : '',
+											validate : CKEDITOR.dialog.validate.notEmpty( editor.lang.youtube.validateSrc ),
+											setup : loadValue,
+											commit : commitValue,
+											onLoad : function()
+											{
+												var dialog = this.getDialog(),
+												updatePreview = function( src ){
+													// Query the preloader to figure out the url impacted by based href.
+													previewPreloader.setAttribute( 'src', src );
+													dialog.preview.setHtml( '<embed height="100%" width="100%" src="'
+														+ CKEDITOR.tools.htmlEncode( previewPreloader.getAttribute( 'src' ) )
+														+ '" type="application/x-shockwave-flash"></embed>' );
+												};
+												// Preview element
+												dialog.preview = dialog.getContentElement( 'info', 'preview' ).getElement().getChild( 3 );
+
+												// Sync on inital value loaded.
+												this.on( 'change', function( evt ){
+
+														if ( evt.data && evt.data.value )
+															updatePreview( evt.data.value );
+													} );
+												// Sync when input value changed.
+												this.getInputElement().on( 'change', function( evt ){
+
+													updatePreview( this.getValue() );
+												}, this );
+											}
+										},
+										{
+											type : 'button',
+											id : 'browse',
+											filebrowser : 'info:src',
+											hidden : true,
+											align : 'center',
+											label : editor.lang.common.browseServer
+										}
+									]
+								}
+							]
+						},
+						{
+							type : 'hbox',
+							widths : [ '25%', '25%', '25%', '25%', '25%' ],
+							children :
+							[
+								{
+									type : 'text',
+									id : 'width',
+									style : 'width:95px',
+									label : editor.lang.youtube.width,
+									validate : CKEDITOR.dialog.validate.integer( editor.lang.youtube.validateWidth ),
+									setup : function( objectNode, embedNode, paramMap, fakeImage )
+									{
+										loadValue.apply( this, arguments );
+										if ( fakeImage )
+										{
+											var fakeImageWidth = parseInt( fakeImage.$.style.width, 10 );
+											if ( !isNaN( fakeImageWidth ) )
+												this.setValue( fakeImageWidth );
+										}
+									},
+									commit : function( objectNode, embedNode, paramMap, extraStyles )
+									{
+										commitValue.apply( this, arguments );
+										if ( this.getValue() )
+											extraStyles.width = this.getValue() + 'px';
+									}
+								},
+								{
+									type : 'text',
+									id : 'height',
+									style : 'width:95px',
+									label : editor.lang.youtube.height,
+									validate : CKEDITOR.dialog.validate.integer( editor.lang.youtube.validateHeight ),
+									setup : function( objectNode, embedNode, paramMap, fakeImage )
+									{
+										loadValue.apply( this, arguments );
+										if ( fakeImage )
+										{
+											var fakeImageHeight = parseInt( fakeImage.$.style.height, 10 );
+											if ( !isNaN( fakeImageHeight ) )
+												this.setValue( fakeImageHeight );
+										}
+									},
+									commit : function( objectNode, embedNode, paramMap, extraStyles )
+									{
+										commitValue.apply( this, arguments );
+										if ( this.getValue() )
+											extraStyles.height = this.getValue() + 'px';
+									}
+								},
+								{
+									type : 'text',
+									id : 'hSpace',
+									style : 'width:95px',
+									label : editor.lang.youtube.hSpace,
+									validate : CKEDITOR.dialog.validate.integer( editor.lang.youtube.validateHSpace ),
+									setup : loadValue,
+									commit : commitValue
+								},
+								{
+									type : 'text',
+									id : 'vSpace',
+									style : 'width:95px',
+									label : editor.lang.youtube.vSpace,
+									validate : CKEDITOR.dialog.validate.integer( editor.lang.youtube.validateVSpace ),
+									setup : loadValue,
+									commit : commitValue
+								}
+							]
+						},
+
+						{
+							type : 'vbox',
+							children :
+							[
+								{
+									type : 'html',
+									id : 'preview',
+									style : 'width:95%;',
+									html : previewAreaHtml
+								}
+							]
+						}
+					]
+				},
+				{
+					id : 'Upload',
+					hidden : true,
+					filebrowser : 'uploadButton',
+					label : editor.lang.common.upload,
+					elements :
+					[
+						{
+							type : 'file',
+							id : 'upload',
+							label : editor.lang.common.upload,
+							size : 38
+						},
+						{
+							type : 'fileButton',
+							id : 'uploadButton',
+							label : editor.lang.common.uploadSubmit,
+							filebrowser : 'info:src',
+							'for' : [ 'Upload', 'upload' ]
+						}
+					]
+				},
+				{
+					id : 'properties',
+					label : editor.lang.youtube.propertiesTab,
+					elements :
+					[
+						{
+							type : 'hbox',
+							widths : [ '50%', '50%' ],
+							children :
+							[
+								{
+									id : 'scale',
+									type : 'select',
+									label : editor.lang.youtube.scale,
+									'default' : '',
+									style : 'width : 100%;',
+									items :
+									[
+										[ editor.lang.common.notSet , ''],
+										[ editor.lang.youtube.scaleAll, 'showall' ],
+										[ editor.lang.youtube.scaleNoBorder, 'noborder' ],
+										[ editor.lang.youtube.scaleFit, 'exactfit' ]
+									],
+									setup : loadValue,
+									commit : commitValue
+								},
+								{
+									id : 'allowScriptAccess',
+									type : 'select',
+									label : editor.lang.youtube.access,
+									'default' : '',
+									style : 'width : 100%;',
+									items :
+									[
+										[ editor.lang.common.notSet , ''],
+										[ editor.lang.youtube.accessAlways, 'always' ],
+										[ editor.lang.youtube.accessSameDomain, 'samedomain' ],
+										[ editor.lang.youtube.accessNever, 'never' ]
+									],
+									setup : loadValue,
+									commit : commitValue
+								}
+							]
+						},
+						{
+							type : 'hbox',
+							widths : [ '50%', '50%' ],
+							children :
+							[
+								{
+									id : 'wmode',
+									type : 'select',
+									label : editor.lang.youtube.windowMode,
+									'default' : '',
+									style : 'width : 100%;',
+									items :
+									[
+										[ editor.lang.common.notSet , '' ],
+										[ editor.lang.youtube.windowModeWindow, 'window' ],
+										[ editor.lang.youtube.windowModeOpaque, 'opaque' ],
+										[ editor.lang.youtube.windowModeTransparent, 'transparent' ]
+									],
+									setup : loadValue,
+									commit : commitValue
+								},
+								{
+									id : 'quality',
+									type : 'select',
+									label : editor.lang.youtube.quality,
+									'default' : 'high',
+									style : 'width : 100%;',
+									items :
+									[
+										[ editor.lang.common.notSet , '' ],
+										[ editor.lang.youtube.qualityBest, 'best' ],
+										[ editor.lang.youtube.qualityHigh, 'high' ],
+										[ editor.lang.youtube.qualityAutoHigh, 'autohigh' ],
+										[ editor.lang.youtube.qualityMedium, 'medium' ],
+										[ editor.lang.youtube.qualityAutoLow, 'autolow' ],
+										[ editor.lang.youtube.qualityLow, 'low' ]
+									],
+									setup : loadValue,
+									commit : commitValue
+								}
+							]
+						},
+						{
+							type : 'hbox',
+							widths : [ '50%', '50%' ],
+							children :
+							[
+								{
+									id : 'align',
+									type : 'select',
+									label : editor.lang.youtube.align,
+									'default' : '',
+									style : 'width : 100%;',
+									items :
+									[
+										[ editor.lang.common.notSet , ''],
+										[ editor.lang.youtube.alignLeft , 'left'],
+										[ editor.lang.youtube.alignAbsBottom , 'absBottom'],
+										[ editor.lang.youtube.alignAbsMiddle , 'absMiddle'],
+										[ editor.lang.youtube.alignBaseline , 'baseline'],
+										[ editor.lang.youtube.alignBottom , 'bottom'],
+										[ editor.lang.youtube.alignMiddle , 'middle'],
+										[ editor.lang.youtube.alignRight , 'right'],
+										[ editor.lang.youtube.alignTextTop , 'textTop'],
+										[ editor.lang.youtube.alignTop , 'top']
+									],
+									setup : loadValue,
+									commit : commitValue
+								},
+								{
+									type : 'html',
+									html : '<div></div>'
+								}
+							]
+						},
+						{
+							type : 'vbox',
+							padding : 0,
+							children :
+							[
+								{
+									type : 'html',
+									html : CKEDITOR.tools.htmlEncode( editor.lang.youtube.youtubevars )
+								},
+								{
+									type : 'checkbox',
+									id : 'menu',
+									label : editor.lang.youtube.chkMenu,
+									'default' : true,
+									setup : loadValue,
+									commit : commitValue
+								},
+								{
+									type : 'checkbox',
+									id : 'play',
+									label : editor.lang.youtube.chkPlay,
+									'default' : true,
+									setup : loadValue,
+									commit : commitValue
+								},
+								{
+									type : 'checkbox',
+									id : 'loop',
+									label : editor.lang.youtube.chkLoop,
+									'default' : true,
+									setup : loadValue,
+									commit : commitValue
+								},
+								{
+									type : 'checkbox',
+									id : 'allowFullScreen',
+									label : editor.lang.youtube.chkFull,
+									'default' : true,
+									setup : loadValue,
+									commit : commitValue
+								}
+							]
+						}
+					]
+				},
+				{
+					id : 'advanced',
+					label : editor.lang.common.advancedTab,
+					elements :
+					[
+						{
+							type : 'hbox',
+							widths : [ '45%', '55%' ],
+							children :
+							[
+								{
+									type : 'text',
+									id : 'id',
+									label : editor.lang.common.id,
+									setup : loadValue,
+									commit : commitValue
+								},
+								{
+									type : 'text',
+									id : 'title',
+									label : editor.lang.common.advisoryTitle,
+									setup : loadValue,
+									commit : commitValue
+								}
+							]
+						},
+						{
+							type : 'hbox',
+							widths : [ '45%', '55%' ],
+							children :
+							[
+								{
+									type : 'text',
+									id : 'bgcolor',
+									label : editor.lang.youtube.bgcolor,
+									setup : loadValue,
+									commit : commitValue
+								},
+								{
+									type : 'text',
+									id : 'class',
+									label : editor.lang.common.cssClass,
+									setup : loadValue,
+									commit : commitValue
+								}
+							]
+						},
+						{
+							type : 'text',
+							id : 'style',
+							label : editor.lang.common.cssStyle,
+							setup : loadValue,
+							commit : commitValue
+						}
+					]
+				}
+			]
+		};
+	} );
 })();
