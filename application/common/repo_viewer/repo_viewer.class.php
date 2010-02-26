@@ -88,28 +88,35 @@ class RepoViewer
     function as_html()
     {
         $action = $this->get_action();
+        $html = array();
 
-        $out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
+        $html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
         $repo_viewer_actions = $this->get_repo_viewer_actions();
         foreach ($repo_viewer_actions as $repo_viewer_action)
         {
-            $out .= '<li><a';
+            $html[] = '<li><a';
             if ($action == $repo_viewer_action)
             {
-                $out .= ' class="current"';
+                $html[] = ' class="current"';
             }
             elseif (($action == self :: ACTION_PUBLISHER || $action == 'multirepo_viewer') && $repo_viewer_action == self :: ACTION_CREATOR)
             {
-                $out .= ' class="current"';
+                $html[] = ' class="current"';
             }
-            $out .= ' href="' . $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => $repo_viewer_action)), true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
+            
+            $html[] = ' href="' . $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => $repo_viewer_action)), true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
         }
-        $out .= '</ul><div class="tabbed-pane-content">';
+        $html[] = '</ul><div class="tabbed-pane-content">';
 
-        $out .= RepoViewerComponent :: factory($action, $this)->as_html();
-        $out .= '</div></div>';
+        $html[] = $this->get_repo_viewer_component($action)->as_html();
+        $html[] = '</div></div>';
 
-        return $out;
+        return implode("\n", $html);
+    }
+    
+    function get_repo_viewer_component($action)
+    {
+        return RepoViewerComponent :: factory($action, $this);
     }
 
     function set_maximum_select($maximum_select)
