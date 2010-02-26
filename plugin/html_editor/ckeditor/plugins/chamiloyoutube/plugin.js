@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function()
 {
-	var youtubeFilenameRegex = /\.youtube\./i,
+	var chamiloyoutubeFilenameRegex = /\.youtube\./i,
 		numberRegex = /^\d+(?:\.\d+)?$/;
 
 	function cssifyLength( length )
@@ -15,16 +15,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return length;
 	}
 
-	function isYoutubeEmbed( element )
+	function isChamiloyoutubeEmbed( element )
 	{
 		var attributes = element.attributes;
 
-		return ( youtubeFilenameRegex.test( attributes.src || '' ) );
+		return ( chamiloyoutubeFilenameRegex.test( attributes.src || '' ) );
 	}
 
 	function createFakeElement( editor, realElement )
 	{
-		var fakeElement = editor.createFakeParserElement( realElement, 'cke_youtube', 'youtube', true ),
+		var fakeElement = editor.createFakeParserElement( realElement, 'cke_chamiloyoutube', 'chamiloyoutube', true ),
 			fakeStyle = fakeElement.attributes.style || '';
 
 		var width = realElement.attributes.width,
@@ -39,21 +39,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return fakeElement;
 	}
 
-	CKEDITOR.plugins.add( 'youtube',
+	CKEDITOR.plugins.add( 'chamiloyoutube',
 	{
 		init : function( editor )
 		{
-			editor.addCommand( 'youtube', new CKEDITOR.dialogCommand( 'youtube' ) );
-			editor.ui.addButton( 'Youtube',
+			editor.addCommand( 'chamiloyoutube', new CKEDITOR.dialogCommand( 'chamiloyoutube' ) );
+			editor.ui.addButton( 'Chamiloyoutube',
 				{
-					label : editor.lang.common.youtube,
-					command : 'youtube',
-					icon: this.path + 'youtube.png'
+					label : editor.lang.common.chamiloyoutube,
+					command : 'chamiloyoutube',
+					icon: this.path + 'chamiloyoutube.png'
 				});
-			CKEDITOR.dialog.add( 'youtube', this.path + 'dialogs/youtube.js' );
+			CKEDITOR.dialog.add( 'chamiloyoutube', this.path + 'dialogs/chamiloyoutube.js' );
 
 			editor.addCss(
-				'img.cke_youtube' +
+				'img.cke_chamiloyoutube' +
 				'{' +
 					'background-image: url(' + CKEDITOR.getUrl( this.path + 'images/placeholder.png' ) + ');' +
 					'background-position: center center;' +
@@ -69,11 +69,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			{
 				editor.addMenuItems(
 					{
-						youtube :
+						chamiloyoutube :
 						{
-							label : editor.lang.youtube.properties,
-							command : 'youtube',
-							group : 'youtube'
+							label : editor.lang.chamiloyoutube.properties,
+							command : 'chamiloyoutube',
+							group : 'chamiloyoutube'
 						}
 					});
 			}
@@ -83,8 +83,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			{
 				editor.contextMenu.addListener( function( element, selection )
 					{
-						if ( element && element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'youtube' )
-							return { youtube : CKEDITOR.TRISTATE_OFF };
+						if ( element && element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'chamiloyoutube' )
+							return { chamiloyoutube : CKEDITOR.TRISTATE_OFF };
 					});
 			}
 		},
@@ -112,7 +112,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									{
 										if ( element.children[ i ].name == 'cke:embed' )
 										{
-											if ( !isYoutubeEmbed( element.children[ i ] ) )
+											if ( !isChamiloyoutubeEmbed( element.children[ i ] ) )
 												return null;
 
 											return createFakeElement( editor, element );
@@ -126,7 +126,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 							'cke:embed' : function( element )
 							{
-								if ( !isYoutubeEmbed( element ) )
+								if ( !isChamiloyoutubeEmbed( element ) )
 									return null;
 
 								return createFakeElement( editor, element );
@@ -148,19 +148,19 @@ CKEDITOR.tools.extend( CKEDITOR.config,
 	 * @type Boolean
 	 * @default false
 	 */
-	youtubeEmbedTagOnly : false,
+	chamiloyoutubeEmbedTagOnly : false,
 
 	/**
 	 * Add EMBED tag as alternative: &lt;object&gt&lt;embed&gt&lt;/embed&gt&lt;/object&gt
 	 * @type Boolean
 	 * @default false
 	 */
-	youtubeAddEmbedTag : true,
+	chamiloyoutubeAddEmbedTag : true,
 
 	/**
 	 * Use embedTagOnly and addEmbedTag values on edit.
 	 * @type Boolean
 	 * @default false
 	 */
-	youtubeConvertOnEdit : false
+	chamiloyoutubeConvertOnEdit : false
 } );

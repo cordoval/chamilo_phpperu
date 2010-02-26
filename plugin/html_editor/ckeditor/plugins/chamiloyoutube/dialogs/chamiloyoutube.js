@@ -41,7 +41,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		type : [ { type : ATTRTYPE_EMBED, name : 'type' } ]
 	};
 
-	var names = [ 'play', 'loop', 'menu', 'quality', 'scale', 'salign', 'wmode', 'bgcolor', 'base', 'youtubevars', 'allowScriptAccess',
+	var names = [ 'play', 'loop', 'menu', 'quality', 'scale', 'salign', 'wmode', 'bgcolor', 'base', 'chamiloyoutubevars', 'allowScriptAccess',
 		'allowFullScreen' ];
 	for ( var i = 0 ; i < names.length ; i++ )
 		attributesMap[ names[i] ] = [ { type : ATTRTYPE_EMBED, name : names[i] }, { type : ATTRTYPE_PARAM, name : names[i] } ];
@@ -168,18 +168,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
-	CKEDITOR.dialog.add( 'youtube', function( editor )
+	CKEDITOR.dialog.add( 'chamiloyoutube', function( editor )
 	{
-		var makeObjectTag = !editor.config.youtubeEmbedTagOnly,
-			makeEmbedTag = editor.config.youtubeAddEmbedTag || editor.config.youtubeEmbedTagOnly;
+		var makeObjectTag = !editor.config.chamiloyoutubeEmbedTagOnly,
+			makeEmbedTag = editor.config.chamiloyoutubeAddEmbedTag || editor.config.chamiloyoutubeEmbedTagOnly;
 
 		var previewPreloader,
 			previewAreaHtml = '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.image.preview ) +'<br>' +
-			'<div id="YoutubePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
-			'<div id="YoutubePreviewBox"></div></div>';
+			'<div id="ChamiloyoutubePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
+			'<div id="ChamiloyoutubePreviewBox"></div></div>';
 
 		return {
-			title : editor.lang.youtube.title,
+			title : editor.lang.chamiloyoutube.title,
 			minWidth : 420,
 			minHeight : 310,
 			onShow : function()
@@ -190,7 +190,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 				// Try to detect any embed or object tag that has Youtube parameters.
 				var fakeImage = this.getSelectedElement();
-				if ( fakeImage && fakeImage.getAttribute( '_cke_real_element_type' ) && fakeImage.getAttribute( '_cke_real_element_type' ) == 'youtube' )
+				if ( fakeImage && fakeImage.getAttribute( '_cke_real_element_type' ) && fakeImage.getAttribute( '_cke_real_element_type' ) == 'chamiloyoutube' )
 				{
 					this.fakeImage = fakeImage;
 
@@ -265,12 +265,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						paramMap[ paramList.getItem( i ).getAttribute( 'name' ) ] = paramList.getItem( i );
 				}
 
-				// Apply or remove youtube parameters.
+				// Apply or remove chamiloyoutube parameters.
 				var extraStyles = {};
 				this.commitContent( objectNode, embedNode, paramMap, extraStyles );
 
 				// Refresh the fake image.
-				var newFakeImage = editor.createFakeElement( objectNode || embedNode, 'cke_youtube', 'youtube', true );
+				var newFakeImage = editor.createFakeElement( objectNode || embedNode, 'cke_chamiloyoutube', 'chamiloyoutube', true );
 				newFakeImage.setStyles( extraStyles );
 				if ( this.fakeImage )
 				{
@@ -313,7 +313,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											id : 'src',
 											type : 'text',
 											label : '',
-											validate : CKEDITOR.dialog.validate.notEmpty( editor.lang.youtube.validateSrc ),
+											validate : CKEDITOR.dialog.validate.notEmpty( editor.lang.chamiloyoutube.validateSrc ),
 											setup : loadValue,
 											commit : commitValue,
 											onLoad : function()
@@ -356,15 +356,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						},
 						{
 							type : 'hbox',
-							widths : [ '25%', '25%', '25%', '25%', '25%' ],
+							widths : [ '50%', '50%' ],
 							children :
 							[
 								{
 									type : 'text',
 									id : 'width',
-									style : 'width:95px',
-									label : editor.lang.youtube.width,
-									validate : CKEDITOR.dialog.validate.integer( editor.lang.youtube.validateWidth ),
+									style : 'width:190px',
+									label : editor.lang.chamiloyoutube.width,
+									validate : CKEDITOR.dialog.validate.integer( editor.lang.chamiloyoutube.validateWidth ),
 									setup : function( objectNode, embedNode, paramMap, fakeImage )
 									{
 										loadValue.apply( this, arguments );
@@ -385,9 +385,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 									type : 'text',
 									id : 'height',
-									style : 'width:95px',
-									label : editor.lang.youtube.height,
-									validate : CKEDITOR.dialog.validate.integer( editor.lang.youtube.validateHeight ),
+									disabled : true,
+									style : 'width:190px',
+									label : editor.lang.chamiloyoutube.height,
+									validate : CKEDITOR.dialog.validate.integer( editor.lang.chamiloyoutube.validateHeight ),
 									setup : function( objectNode, embedNode, paramMap, fakeImage )
 									{
 										loadValue.apply( this, arguments );
@@ -404,24 +405,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										if ( this.getValue() )
 											extraStyles.height = this.getValue() + 'px';
 									}
-								},
-								{
-									type : 'text',
-									id : 'hSpace',
-									style : 'width:95px',
-									label : editor.lang.youtube.hSpace,
-									validate : CKEDITOR.dialog.validate.integer( editor.lang.youtube.validateHSpace ),
-									setup : loadValue,
-									commit : commitValue
-								},
-								{
-									type : 'text',
-									id : 'vSpace',
-									style : 'width:95px',
-									label : editor.lang.youtube.vSpace,
-									validate : CKEDITOR.dialog.validate.integer( editor.lang.youtube.validateVSpace ),
-									setup : loadValue,
-									commit : commitValue
 								}
 							]
 						},
@@ -437,248 +420,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									html : previewAreaHtml
 								}
 							]
-						}
-					]
-				},
-				{
-					id : 'Upload',
-					hidden : true,
-					filebrowser : 'uploadButton',
-					label : editor.lang.common.upload,
-					elements :
-					[
-						{
-							type : 'file',
-							id : 'upload',
-							label : editor.lang.common.upload,
-							size : 38
-						},
-						{
-							type : 'fileButton',
-							id : 'uploadButton',
-							label : editor.lang.common.uploadSubmit,
-							filebrowser : 'info:src',
-							'for' : [ 'Upload', 'upload' ]
-						}
-					]
-				},
-				{
-					id : 'properties',
-					label : editor.lang.youtube.propertiesTab,
-					elements :
-					[
-						{
-							type : 'hbox',
-							widths : [ '50%', '50%' ],
-							children :
-							[
-								{
-									id : 'scale',
-									type : 'select',
-									label : editor.lang.youtube.scale,
-									'default' : '',
-									style : 'width : 100%;',
-									items :
-									[
-										[ editor.lang.common.notSet , ''],
-										[ editor.lang.youtube.scaleAll, 'showall' ],
-										[ editor.lang.youtube.scaleNoBorder, 'noborder' ],
-										[ editor.lang.youtube.scaleFit, 'exactfit' ]
-									],
-									setup : loadValue,
-									commit : commitValue
-								},
-								{
-									id : 'allowScriptAccess',
-									type : 'select',
-									label : editor.lang.youtube.access,
-									'default' : '',
-									style : 'width : 100%;',
-									items :
-									[
-										[ editor.lang.common.notSet , ''],
-										[ editor.lang.youtube.accessAlways, 'always' ],
-										[ editor.lang.youtube.accessSameDomain, 'samedomain' ],
-										[ editor.lang.youtube.accessNever, 'never' ]
-									],
-									setup : loadValue,
-									commit : commitValue
-								}
-							]
-						},
-						{
-							type : 'hbox',
-							widths : [ '50%', '50%' ],
-							children :
-							[
-								{
-									id : 'wmode',
-									type : 'select',
-									label : editor.lang.youtube.windowMode,
-									'default' : '',
-									style : 'width : 100%;',
-									items :
-									[
-										[ editor.lang.common.notSet , '' ],
-										[ editor.lang.youtube.windowModeWindow, 'window' ],
-										[ editor.lang.youtube.windowModeOpaque, 'opaque' ],
-										[ editor.lang.youtube.windowModeTransparent, 'transparent' ]
-									],
-									setup : loadValue,
-									commit : commitValue
-								},
-								{
-									id : 'quality',
-									type : 'select',
-									label : editor.lang.youtube.quality,
-									'default' : 'high',
-									style : 'width : 100%;',
-									items :
-									[
-										[ editor.lang.common.notSet , '' ],
-										[ editor.lang.youtube.qualityBest, 'best' ],
-										[ editor.lang.youtube.qualityHigh, 'high' ],
-										[ editor.lang.youtube.qualityAutoHigh, 'autohigh' ],
-										[ editor.lang.youtube.qualityMedium, 'medium' ],
-										[ editor.lang.youtube.qualityAutoLow, 'autolow' ],
-										[ editor.lang.youtube.qualityLow, 'low' ]
-									],
-									setup : loadValue,
-									commit : commitValue
-								}
-							]
-						},
-						{
-							type : 'hbox',
-							widths : [ '50%', '50%' ],
-							children :
-							[
-								{
-									id : 'align',
-									type : 'select',
-									label : editor.lang.youtube.align,
-									'default' : '',
-									style : 'width : 100%;',
-									items :
-									[
-										[ editor.lang.common.notSet , ''],
-										[ editor.lang.youtube.alignLeft , 'left'],
-										[ editor.lang.youtube.alignAbsBottom , 'absBottom'],
-										[ editor.lang.youtube.alignAbsMiddle , 'absMiddle'],
-										[ editor.lang.youtube.alignBaseline , 'baseline'],
-										[ editor.lang.youtube.alignBottom , 'bottom'],
-										[ editor.lang.youtube.alignMiddle , 'middle'],
-										[ editor.lang.youtube.alignRight , 'right'],
-										[ editor.lang.youtube.alignTextTop , 'textTop'],
-										[ editor.lang.youtube.alignTop , 'top']
-									],
-									setup : loadValue,
-									commit : commitValue
-								},
-								{
-									type : 'html',
-									html : '<div></div>'
-								}
-							]
-						},
-						{
-							type : 'vbox',
-							padding : 0,
-							children :
-							[
-								{
-									type : 'html',
-									html : CKEDITOR.tools.htmlEncode( editor.lang.youtube.youtubevars )
-								},
-								{
-									type : 'checkbox',
-									id : 'menu',
-									label : editor.lang.youtube.chkMenu,
-									'default' : true,
-									setup : loadValue,
-									commit : commitValue
-								},
-								{
-									type : 'checkbox',
-									id : 'play',
-									label : editor.lang.youtube.chkPlay,
-									'default' : true,
-									setup : loadValue,
-									commit : commitValue
-								},
-								{
-									type : 'checkbox',
-									id : 'loop',
-									label : editor.lang.youtube.chkLoop,
-									'default' : true,
-									setup : loadValue,
-									commit : commitValue
-								},
-								{
-									type : 'checkbox',
-									id : 'allowFullScreen',
-									label : editor.lang.youtube.chkFull,
-									'default' : true,
-									setup : loadValue,
-									commit : commitValue
-								}
-							]
-						}
-					]
-				},
-				{
-					id : 'advanced',
-					label : editor.lang.common.advancedTab,
-					elements :
-					[
-						{
-							type : 'hbox',
-							widths : [ '45%', '55%' ],
-							children :
-							[
-								{
-									type : 'text',
-									id : 'id',
-									label : editor.lang.common.id,
-									setup : loadValue,
-									commit : commitValue
-								},
-								{
-									type : 'text',
-									id : 'title',
-									label : editor.lang.common.advisoryTitle,
-									setup : loadValue,
-									commit : commitValue
-								}
-							]
-						},
-						{
-							type : 'hbox',
-							widths : [ '45%', '55%' ],
-							children :
-							[
-								{
-									type : 'text',
-									id : 'bgcolor',
-									label : editor.lang.youtube.bgcolor,
-									setup : loadValue,
-									commit : commitValue
-								},
-								{
-									type : 'text',
-									id : 'class',
-									label : editor.lang.common.cssClass,
-									setup : loadValue,
-									commit : commitValue
-								}
-							]
-						},
-						{
-							type : 'text',
-							id : 'style',
-							label : editor.lang.common.cssStyle,
-							setup : loadValue,
-							commit : commitValue
 						}
 					]
 				}

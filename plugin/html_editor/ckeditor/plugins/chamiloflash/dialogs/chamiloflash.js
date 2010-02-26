@@ -175,8 +175,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		var previewPreloader,
 			previewAreaHtml = '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.image.preview ) +'<br>' +
-			'<div id="FlashPreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
-			'<div id="FlashPreviewBox"></div></div>';
+			'<div id="ChamiloflashPreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
+			'<div id="ChamiloflashPreviewBox"></div></div>';
 
 		return {
 			title : editor.lang.chamiloflash.title,

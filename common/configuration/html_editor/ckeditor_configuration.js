@@ -12,6 +12,8 @@ CKEDITOR.editorConfig = function( config )
 	config.removePlugins = 'flash';
 	config.extraPlugins = 'chamiloyoutube,chamiloflash';
 //	config.removePlugins = 'elementspath,save,font';
+	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube';
+	
 	
 	config.toolbar_Full =
 		[
@@ -40,7 +42,7 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.toolbar_Basic =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','Youtube','-','Templates']
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','Chamiloyoutube','-','Templates']
 		];
 	
 	config.toolbar_WikiPage =
@@ -59,7 +61,7 @@ CKEDITOR.editorConfig = function( config )
 		] ;
 	
 	config.filebrowserImageBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=image';
-	config.filebrowserFlashBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=flash';
-	config.filebrowserYoutubeBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=youtube';
+	config.filebrowserChamiloflashBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=flash';
+	config.filebrowserChamiloyoutubeBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=youtube';
 
 };

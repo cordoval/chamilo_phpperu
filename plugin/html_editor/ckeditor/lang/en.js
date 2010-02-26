@@ -35,6 +35,8 @@ CKEDITOR.lang.en = {
 		uploadSubmit : 'Send it to the Server',
 		image : 'Image',
 		flash : 'Flash',
+		chamiloflash : 'Chamiloflash',
+		chamiloyoutube : 'Chamiloyoutube',
 		form : 'Form',
 		checkbox : 'Checkbox',
 		radio : 'Radio Button',

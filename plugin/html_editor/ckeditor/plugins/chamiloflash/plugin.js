@@ -16,7 +16,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return length;
 	}
 
-	function isFlashEmbed( element )
+	function isChamiloflashEmbed( element )
 	{
 		var attributes = element.attributes;
 
@@ -48,7 +48,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			editor.ui.addButton( 'Chamiloflash',
 				{
 					label : editor.lang.common.chamiloflash,
-					command : 'chamiloflash'
+					command : 'chamiloflash',
+					icon: this.path + 'chamiloflash.png'
 				});
 			CKEDITOR.dialog.add( 'chamiloflash', this.path + 'dialogs/chamiloflash.js' );
 
@@ -112,7 +113,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									{
 										if ( element.children[ i ].name == 'cke:embed' )
 										{
-											if ( !isFlashEmbed( element.children[ i ] ) )
+											if ( !isChamiloflashEmbed( element.children[ i ] ) )
 												return null;
 
 											return createFakeElement( editor, element );
@@ -126,7 +127,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 							'cke:embed' : function( element )
 							{
-								if ( !isFlashEmbed( element ) )
+								if ( !isChamiloflashEmbed( element ) )
 									return null;
 
 								return createFakeElement( editor, element );
