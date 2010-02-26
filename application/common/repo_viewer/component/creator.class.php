@@ -51,7 +51,7 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
      * Gets the form to select a learning object type.
      * @return string A HTML-representation of the form.
      */
-    private function get_type_selector()
+    protected function get_type_selector()
     {
         $types = array();
         foreach ($this->get_types() as $t)
@@ -81,10 +81,10 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
      * Gets the form to create the learning object.
      * @return string A HTML-representation of the form.
      */
-    private function get_creation_form($type)
+    protected function get_creation_form($type)
     {
         $default_lo = $this->get_default_content_object($type);
-        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array_merge(array('type' => $type), $this->get_parameters())), null, array(), true, 'image');
+        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array_merge(array('type' => $type), $this->get_parameters())));
 
         $def = $this->get_creation_defaults();
         if ($def)
@@ -98,7 +98,7 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
     /**
      * Gets the editing form
      */
-    private function get_editing_form($content_object_id, $params = array())
+    protected function get_editing_form($content_object_id, $params = array())
     {
         $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object_id);
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array_merge($this->get_parameters(), array_merge($params, array(RepoViewer :: PARAM_EDIT_ID => $content_object_id))))); //, RepoViewer :: PARAM_EDIT => 1)))));
@@ -108,7 +108,7 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
     /*
 	 * Handles the displaying and validating of a create/edit learning object form
 	 */
-    private function handle_form($form, $edit = 0)
+    protected function handle_form($form, $edit = 0)
     {
         if ($form->validate())
         {

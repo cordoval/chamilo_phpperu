@@ -60,9 +60,8 @@ CKEDITOR.editorConfig = function( config )
 		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor']
 		] ;
 	
-	config.filebrowserImageBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=image';
-	config.filebrowserChamiloflashBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=flash';
-	config.filebrowserChamiloyoutubeBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=youtube';
-//	config.filebrowserChamiloyoutubeWindowWidth : '600';
+	config.filebrowserImageBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=image&repoviewer_action=browser';
+	config.filebrowserChamiloflashBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=flash&repoviewer_action=browser';
+	config.filebrowserChamiloyoutubeBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=youtube&repoviewer_action=browser';
 
 };

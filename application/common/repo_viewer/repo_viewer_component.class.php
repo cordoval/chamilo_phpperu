@@ -49,12 +49,12 @@ abstract class RepoViewerComponent
      */
     protected function get_user_id()
     {
-        return $this->parent->get_user_id();
+        return $this->get_parent()->get_user_id();
     }
 
     function get_user()
     {
-        return $this->parent->get_user();
+        return $this->get_parent()->get_user();
     }
 
     /**
@@ -62,7 +62,7 @@ abstract class RepoViewerComponent
      */
     protected function get_types()
     {
-        return $this->parent->get_types();
+        return $this->get_parent()->get_types();
     }
 
     /**
