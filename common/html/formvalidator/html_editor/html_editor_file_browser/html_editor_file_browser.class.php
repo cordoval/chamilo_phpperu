@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/html_editor_repo_viewer/html_editor_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/html_editor_processor/html_editor_processor.class.php';
 
 class HtmlEditorFileBrowser
 {
@@ -27,8 +28,11 @@ class HtmlEditorFileBrowser
       }
       else
       {
+          $processor = HtmlEditorProcessor :: factory($type, $this, $repo_viewer->get_selected_objects());
+          $processor->run();
+
           // Go to real processing depending on selected editor.
-          echo "<script type='text/javascript'>window.opener.CKEDITOR.tools.callFunction(" . $this->get_parameter('CKEditorFuncNum') . ", 'image.jpg', 'Message !');</script>";
+//          echo "<script type='text/javascript'>window.opener.CKEDITOR.tools.callFunction(" . $this->get_parameter('CKEditorFuncNum') . ", 'image.jpg', 'Message !');</script>";
       }
     }
 

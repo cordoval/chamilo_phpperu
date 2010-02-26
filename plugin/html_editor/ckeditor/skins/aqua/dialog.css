@@ -126,10 +126,21 @@ body .cke_dialog {
 	background-color: #f1f1e3;
 }
 
+.cke_skin_aqua .cke_hc a:hover.cke_dialog_tab {
+	padding: 2px 6px !important;
+	border-width: 3px;
+}
+
 .cke_skin_aqua a.cke_dialog_tab_selected,.cke_skin_aqua a:link.cke_dialog_tab_selected,.cke_skin_aqua a:active.cke_dialog_tab_selected,.cke_skin_aqua a:hover.cke_dialog_tab_selected,.cke_skin_aqua a:visited.cke_dialog_tab_selected
 	{
 	background-position: 0 -1279px;
 	cursor: default;
+}
+
+.cke_skin_aqua .cke_hc a.cke_dialog_tab_selected,.cke_skin_aqua .cke_hc a:link.cke_dialog_tab_selected,.cke_skin_aqua .cke_hc a:active.cke_dialog_tab_selected,.cke_skin_aqua .cke_hc a:hover.cke_dialog_tab_selected,.cke_skin_aqua .cke_hc a:visited.cke_dialog_tab_selected
+	{
+	padding: 2px 6px !important;
+	border-width: 3px;
 }
 
 .cke_skin_aqua .cke_single_page .cke_dialog_tabs {
@@ -142,7 +153,7 @@ body .cke_dialog {
 }
 
 .cke_skin_aqua .cke_browser_ie7.cke_single_page .cke_dialog_contents {
-	margin-top: -10px;
+	margin-top: 0;
 	position: relative;
 	margin-bottom: -22px;
 }
@@ -170,6 +181,16 @@ body .cke_dialog {
 	background-color: white;
 	border: 1px solid #a0a0a0;
 	padding: 1px 0;
+}
+
+.cke_skin_aqua .cke_browser_gecko.cke_hc div.cke_dialog_ui_input_text,.cke_skin_aqua .cke_browser_gecko.cke_hc div.cke_dialog_ui_input_password
+	{
+	border-width: 0;
+}
+
+.cke_skin_aqua .cke_browser_gecko18.cke_hc div.cke_dialog_ui_input_text,.cke_skin_aqua .cke_browser_gecko18.cke_hc div.cke_dialog_ui_input_password
+	{
+	border-width: 1px;
 }
 
 .cke_skin_aqua textarea.cke_dialog_ui_input_textarea {
@@ -253,7 +274,7 @@ body .cke_dialog {
 }
 
 .cke_skin_aqua .cke_browser_webkit a.cke_dialog_ui_button {
-	float: right;
+	display: inline-block;
 	padding-top: 3px;
 	padding-bottom: 2px;
 	margin: 2px 0;
@@ -331,6 +352,11 @@ body .cke_dialog {
 	background-position: 0 -1179px;
 }
 
+.cke_skin_aqua .cke_hc a:hover.cke_dialog_ui_button,.cke_skin_aqua .cke_hc a:focus.cke_dialog_ui_button,.cke_skin_aqua .cke_hc a:active.cke_dialog_ui_button
+	{
+	border-width: 2px;
+}
+
 .cke_skin_aqua .cke_browser_iequirks a:hover.cke_dialog_ui_button span,.cke_skin_aqua .cke_browser_iequirks a:focus.cke_dialog_ui_button span,.cke_skin_aqua .cke_browser_iequirks a:active.cke_dialog_ui_button span,.cke_skin_aqua .cke_browser_ie6 a:hover.cke_dialog_ui_button span,.cke_skin_aqua .cke_browser_ie6 a:focus.cke_dialog_ui_button span,.cke_skin_aqua .cke_browser_ie6 a:active.cke_dialog_ui_button span
 	{
 	background-image: none;
@@ -382,7 +408,7 @@ body .cke_dialog {
 	font-weight: bold;
 }
 
-.cke_skin_aqua .cke_dialog_close_button {
+.cke_skin_aqua .cke_dialog .cke_dialog_body .cke_dialog_close_button {
 	background-image: url(images/sprites.png);
 	background-repeat: no-repeat;
 	background-position: 0 -1022px;
@@ -523,7 +549,7 @@ body .cke_dialog {
 	margin: 2px;
 	padding: 2px;
 	opacity: .9;
-	filter: alpha(opacity =   90);
+	filter: alpha(opacity = 90);
 	background-color: #e4e4e4;
 }
 
@@ -537,7 +563,17 @@ body .cke_dialog {
 	background-color: white;
 }
 
-.cke_skin_aqua .cke_dialog #YoutubePreviewBox {
+.cke_skin_aqua .cke_dialog #ChamiloflashPreviewBox {
+	white-space: normal;
+	border: 2px ridge black;
+	overflow: auto;
+	height: 160px;
+	width: 390px;
+	padding: 2px;
+	background-color: white;
+}
+
+.cke_skin_aqua .cke_dialog #ChamiloyoutubePreviewBox {
 	white-space: normal;
 	border: 2px ridge black;
 	overflow: auto;
@@ -590,9 +626,25 @@ body .cke_dialog {
 	top: 3px;
 }
 
+.cke_skin_aqua .cke_dialog_body .cke_label {
+	display: none;
+}
+
+.cke_skin_aqua .cke_hc .cke_dialog_body .cke_label {
+	display: inline;
+}
+
 .cke_skin_aqua .cke_hc a.cke_btn_locked,.cke_skin_aqua .cke_hc a.cke_btn_unlocked,.cke_skin_aqua .cke_hc a.cke_btn_reset
 	{
 	border-style: solid;
+	float: left;
+	width: auto;
+	height: auto;
+}
+
+.cke_skin_aqua .cke_rtl.cke_hc a.cke_btn_locked,.cke_skin_aqua .cke_rtl.cke_hc a.cke_btn_unlocked,.cke_skin_aqua .cke_rtl.cke_hc a.cke_btn_reset
+	{
+	float: right;
 }
 
 .cke_skin_aqua a.cke_smile img {
@@ -602,4 +654,11 @@ body .cke_dialog {
 .cke_skin_aqua a.cke_smile:focus img,.cke_skin_aqua a.cke_smile:active img,.cke_skin_aqua a.cke_smile:hover img
 	{
 	border-color: #C7C78F;
+}
+
+.cke_skin_aqua .cke_hc .cke_dialog_tabs a,.cke_skin_aqua .cke_hc .cke_dialog_footer a
+	{
+	opacity: 1.0;
+	filter: alpha(opacity = 100);
+	border: 1px solid white;
 }

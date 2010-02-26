@@ -9,8 +9,11 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	
-	config.extraPlugins = 'youtube';
+	config.removePlugins = 'flash';
+	config.extraPlugins = 'chamiloyoutube,chamiloflash';
 //	config.removePlugins = 'elementspath,save,font';
+	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube';
+	
 	
 	config.toolbar_Full =
 		[
@@ -23,7 +26,7 @@ CKEDITOR.editorConfig = function( config )
 		    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
 		    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
 		    ['Link','Unlink','Anchor'],
-		    ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
+		    ['Image','Chamiloflash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
 		    '/',
 		    ['Styles','Format','Font','FontSize'],
 		    ['TextColor','BGColor'],
@@ -34,22 +37,22 @@ CKEDITOR.editorConfig = function( config )
 		[
 		 	['Maximize','-','Font','FontSize','Format','Bold','Italic','Underline','Strike','-','Subscript','Superscript','-','Cut','Copy','Paste','PasteText','PasteFromWord'],
 		 	'/',
-		 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','NumberedList','BulletedList','-','Outdent','Indent','Blockquote','-','TextColor','BGColor','-','HorizontalRule','Link','Unlink','-','Image','Flash','Table','-','Source']
+		 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','NumberedList','BulletedList','-','Outdent','Indent','Blockquote','-','TextColor','BGColor','-','HorizontalRule','Link','Unlink','-','Image','Chamiloflash','Table','-','Source']
 		];
 	
 	config.toolbar_Basic =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Flash','Youtube','-','Templates']
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','Chamiloyoutube','-','Templates']
 		];
 	
 	config.toolbar_WikiPage =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Flash','-','Templates']
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','-','Templates']
 		];
 
 	config.toolbar_RepositoryQuestion =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor','-','Image','Flash']
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor','-','Image','Chamiloflash']
 		] ;
 
 	config.toolbar_Assessment =
@@ -58,7 +61,8 @@ CKEDITOR.editorConfig = function( config )
 		] ;
 	
 	config.filebrowserImageBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=image';
-	config.filebrowserFlashBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=flash';
-	config.filebrowserYoutubeBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=youtube';
+	config.filebrowserChamiloflashBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=flash';
+	config.filebrowserChamiloyoutubeBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=youtube';
+//	config.filebrowserChamiloyoutubeWindowWidth : '600';
 
 };

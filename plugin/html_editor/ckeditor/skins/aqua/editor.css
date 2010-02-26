@@ -180,6 +180,22 @@ span.cke_skin_aqua {
 	padding-bottom: 5px;
 }
 
+.cke_skin_aqua .cke_voice_label {
+	display: none;
+}
+
+.cke_skin_aqua legend.cke_voice_label {
+	display: none;
+}
+
+.cke_skin_aqua .cke_browser_ie legend.cke_voice_label {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
 .cke_skin_aqua .cke_panel {
 	border: 1px solid #8f8f73;
 	background-color: #fff;
@@ -206,8 +222,11 @@ html.cke_skin_aqua_container {
 }
 
 body.cke_panel_frame {
-	overflow: auto;
-	overflow-x: hidden;
+	overflow: hidden;
+}
+
+.cke_panel_frame .cke_label {
+	display: none;
 }
 
 ul.cke_panel_list {
@@ -249,6 +268,12 @@ li.cke_panel_listItem {
 	{
 	border-color: #316ac5;
 	background-color: #dff1ff;
+}
+
+.cke_hc .cke_panel_listItem.cke_selected a,.cke_hc .cke_panel_listItem a:hover,.cke_hc .cke_panel_listItem a:focus,.cke_hc .cke_panel_listItem a:active
+	{
+	border-width: 3px;
+	padding: 0;
 }
 
 .cke_panel_grouptitle {
@@ -357,6 +382,17 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	float: left;
 }
 
+.cke_skin_aqua a.cke_toolbox_collapser span {
+	display: none;
+}
+
+.cke_skin_aqua .cke_hc a.cke_toolbox_collapser span {
+	font-size: 10px;
+	font-weight: bold;
+	font-family: Arial;
+	display: inline;
+}
+
 .cke_skin_aqua a.cke_toolbox_collapser_min,.cke_skin_aqua a:hover.cke_toolbox_collapser_min
 	{
 	background-image: url(images/sprites.png);
@@ -424,7 +460,7 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 }
 
 .cke_skin_aqua .cke_button a,.cke_skin_aqua .cke_button a.cke_off {
-	filter: alpha(opacity =   70);
+	filter: alpha(opacity = 70);
 	opacity: .70;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -433,13 +469,13 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 .cke_skin_aqua .cke_hc .cke_button a,.cke_skin_aqua .cke_hc .cke_button a.cke_off
 	{
 	opacity: 1.0;
-	filter: alpha(opacity =   100);
+	filter: alpha(opacity = 100);
 	border: 1px solid white;
 }
 
 .cke_skin_aqua .cke_button a.cke_on {
 	background-color: #a3d7ff;
-	filter: alpha(opacity =   100);
+	filter: alpha(opacity = 100);
 	opacity: 1;
 	padding: 2px 4px;
 }
@@ -451,19 +487,19 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 
 .cke_skin_aqua .cke_button a.cke_disabled,.cke_skin_aqua .cke_browser_ie a:hover.cke_button .cke_disabled
 	{
-	filter: alpha(opacity =   30);
+	filter: alpha(opacity = 30);
 	opacity: .3;
 }
 
 .cke_skin_aqua .cke_hc .cke_button a.cke_disabled,.cke_skin_aqua .cke_browser_ie.cke_hc a:hover.cke_button .cke_disabled
 	{
-	filter: alpha(opacity =   60);
+	filter: alpha(opacity = 60);
 	opacity: .6;
 }
 
 .cke_skin_aqua .cke_button a:hover.cke_on,.cke_skin_aqua .cke_button a:focus.cke_on,.cke_skin_aqua .cke_button a:active.cke_on,.cke_skin_aqua .cke_button a:hover.cke_off,.cke_skin_aqua .cke_button a:focus.cke_off,.cke_skin_aqua .cke_button a:active.cke_off
 	{
-	filter: alpha(opacity =   100);
+	filter: alpha(opacity = 100);
 	opacity: 1;
 	padding: 2px 4px;
 }
@@ -613,12 +649,13 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	cursor: default;
 }
 
-.cke_skin_aqua .cke_browser_ie7 .cke_toolbox {
-	margin-bottom: 2px;
+.cke_skin_aqua .cke_browser_ie .cke_toolbox {
+	padding-bottom: 5px;
+	_padding-bottom: 6px;
 }
 
-.cke_shared .cke_skin_aqua .cke_browser_ie7 .cke_toolbox {
-	margin-bottom: 0;
+.cke_shared .cke_skin_aqua .cke_browser_ie .cke_toolbox {
+	padding-bottom: 0;
 }
 
 .cke_skin_aqua .cke_browser_gecko .cke_toolbox {
@@ -643,9 +680,19 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	display: block;
 }
 
+.cke_hc .cke_menuitem a:hover,.cke_hc .cke_menuitem a:focus,.cke_hc .cke_menuitem a:active
+	{
+	border: 2px solid;
+}
+
 .cke_skin_aqua .cke_menuitem a.cke_disabled:hover,.cke_skin_aqua .cke_menuitem a.cke_disabled:focus,.cke_skin_aqua .cke_menuitem a.cke_disabled:active
 	{
 	background-color: transparent !important;
+}
+
+.cke_hc .cke_menuitem a.cke_disabled:hover,.cke_hc .cke_menuitem a.cke_disabled:focus,.cke_hc .cke_menuitem a.cke_disabled:active
+	{
+	border-width: 0;
 }
 
 .cke_skin_aqua .cke_menuitem .cke_icon {
@@ -659,7 +706,7 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 }
 
 .cke_skin_aqua .cke_menuitem .cke_disabled .cke_icon {
-	filter: alpha(opacity =   70);
+	filter: alpha(opacity = 70);
 	opacity: .70;
 }
 
@@ -669,7 +716,7 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	width: 16px;
 	height: 16px;
 	float: left;
-	filter: alpha(opacity =   70);
+	filter: alpha(opacity = 70);
 	opacity: .70;
 	clear: both;
 }
@@ -682,7 +729,7 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	{
 	background-color: #9d9d9d;
 	border: solid 4px #9d9d9d;
-	filter: alpha(opacity =   70);
+	filter: alpha(opacity = 70);
 	opacity: .70;
 }
 
@@ -700,9 +747,10 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	height: 19px;
 	margin-left: 24px;
 	background-color: #fff;
-	_overflow: hidden;
-	_width: 80px;
-	filter: alpha(opacity =   70);
+}
+
+.cke_skin_aqua .cke_frameLoaded .cke_menuitem .cke_label {
+	filter: alpha(opacity = 70);
 	opacity: .70;
 }
 
@@ -714,7 +762,7 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 }
 
 .cke_skin_aqua .cke_menuitem a.cke_disabled .cke_label {
-	filter: alpha(opacity =   30);
+	filter: alpha(opacity = 30);
 	opacity: .30;
 }
 
@@ -731,7 +779,7 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 .cke_skin_aqua .cke_menuseparator {
 	background-color: #D3D3D3;
 	height: 2px;
-	filter: alpha(opacity =   70);
+	filter: alpha(opacity = 70);
 	opacity: .70;
 	_font-size: 0;
 }
@@ -756,6 +804,19 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	_background-image: url(images/sprites_ie6.png);
 	background-position: 0 -1390px;
 	background-repeat: no-repeat;
+}
+
+.cke_skin_aqua .cke_menuarrow span {
+	display: none;
+}
+
+.cke_hc .cke_skin_aqua .cke_menuarrow {
+	width: auto;
+	margin-top: 0;
+}
+
+.cke_hc .cke_skin_aqua .cke_menuarrow span {
+	display: inline;
 }
 
 .cke_browser_ie.cke_ltr .cke_skin_aqua .cke_menuarrow {
@@ -806,7 +867,7 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 }
 
 .cke_skin_aqua .cke_hc .cke_rcombo a {
-	filter: alpha(opacity =   100);
+	filter: alpha(opacity = 100);
 	opacity: 1.0;
 }
 
@@ -815,7 +876,7 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	line-height: 26px;
 	vertical-align: top;
 	margin-right: 5px;
-	filter: alpha(opacity =   70);
+	filter: alpha(opacity = 70);
 	opacity: .70;
 }
 
@@ -830,13 +891,17 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	color: #666;
 }
 
+.cke_skin_aqua .cke_hc .cke_rcombo .cke_openbutton {
+	vertical-align: top;
+}
+
 .cke_skin_aqua .cke_hc .cke_rcombo .cke_label {
-	filter: alpha(opacity =   100);
+	filter: alpha(opacity = 100);
 	opacity: 1.0;
 }
 
 .cke_skin_aqua .cke_rcombo .cke_text {
-	filter: alpha(opacity =   70);
+	filter: alpha(opacity = 70);
 	opacity: .70;
 	height: 21px;
 	line-height: 21px;
@@ -863,6 +928,14 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	background-repeat: no-repeat;
 }
 
+.cke_skin_aqua .cke_rcombo .cke_openbutton span {
+	display: none;
+}
+
+.cke_skin_aqua .cke_hc .cke_rcombo .cke_openbutton span {
+	display: inline;
+}
+
 .cke_skin_aqua .cke_browser_iequirks .cke_rcombo .cke_openbutton {
 	margin-bottom: 0;
 }
@@ -870,7 +943,7 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 .cke_skin_aqua .cke_rcombo .cke_off a:hover .cke_text,.cke_skin_aqua .cke_rcombo .cke_off a:focus .cke_text,.cke_skin_aqua .cke_rcombo .cke_off a:active .cke_text,.cke_skin_aqua .cke_rcombo .cke_on .cke_text
 	{
 	border-color: #316ac5;
-	filter: alpha(opacity =   100);
+	filter: alpha(opacity = 100);
 	opacity: 1;
 }
 
@@ -893,24 +966,24 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 }
 
 .cke_skin_aqua .cke_rcombo .cke_disabled .cke_label {
-	filter: alpha(opacity =   30);
+	filter: alpha(opacity = 30);
 	opacity: .3;
 }
 
 .cke_skin_aqua .cke_hc .cke_rcombo .cke_disabled .cke_label {
-	filter: alpha(opacity =   70);
+	filter: alpha(opacity = 70);
 	opacity: .7;
 }
 
 .cke_skin_aqua .cke_rcombo .cke_disabled .cke_text,.cke_skin_aqua .cke_rcombo .cke_disabled .cke_openbutton
 	{
-	filter: alpha(opacity =   50);
+	filter: alpha(opacity = 50);
 	opacity: .5;
 }
 
 .cke_skin_aqua .cke_hc .cke_rcombo .cke_disabled .cke_text,.cke_skin_aqua .cke_hc .cke_rcombo .cke_disabled .cke_openbutton
 	{
-	filter: alpha(opacity =   80);
+	filter: alpha(opacity = 80);
 	opacity: .8;
 }
 
@@ -992,6 +1065,10 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 .cke_skin_aqua .cke_browser_ie .cke_rtl .cke_path a,.cke_skin_aqua .cke_browser_ie .cke_rtl .cke_path .cke_empty
 	{
 	float: none;
+}
+
+.cke_skin_aqua .cke_path .cke_label {
+	display: none;
 }
 
 .cke_skin_aqua .cke_button_source .cke_icon {
@@ -1092,6 +1169,16 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 
 .cke_skin_aqua .cke_button_flash .cke_icon {
 	background-position: 0 -592px;
+}
+
+.cke_skin_aqua .cke_button_chamiloflash .cke_icon {
+	background-image: url(plugins/chamiloflash.png);
+	background-position: top left;
+}
+
+.cke_skin_aqua .cke_button_chamiloyoutube .cke_icon {
+	background-image: url(plugins/chamiloyoutube.png);
+	background-position: top left;
 }
 
 .cke_skin_aqua .cke_button_specialchar .cke_icon {
@@ -1233,6 +1320,16 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 
 .cke_skin_aqua .cke_button_flash .cke_icon {
 	background-position: 0 -592px;
+}
+
+.cke_skin_aqua .cke_button_chamiloflash .cke_icon {
+	background-image: url(plugins/chamiloflash.png);
+	background-position: top left;
+}
+
+.cke_skin_aqua .cke_button_chamiloyoutube .cke_icon {
+	background-image: url(plugins/chamiloyoutube.png);
+	background-position: top left;
 }
 
 .cke_skin_aqua .cke_button_pastefromword .cke_icon {
