@@ -64,7 +64,7 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
         $form->addElement('select', 'type', '', $types);
         $form->addElement('submit', 'submit', Translation :: get('Ok'));
         $form->setDefaults(array(RepoViewer :: PARAM_ACTION => Request :: get(RepoViewer :: PARAM_ACTION)));
-        
+
         if ($form->validate())
         {
             $values = $form->exportValues();
@@ -85,11 +85,11 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
     {
         $default_lo = $this->get_default_content_object($type);
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array_merge(array('type' => $type), $this->get_parameters())));
-        
+
         $def = $this->get_creation_defaults();
         if ($def)
             $form->setParentDefaults($def);
-        
+
         return $this->handle_form($form, 0);
     }
 
@@ -137,8 +137,8 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
             {
                 $ids = $content_object->get_id();
             }
-            
-            $redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $ids));
+
+            $redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $ids));
             $this->redirect(null, false, $redirect_params);
             //}
         }
