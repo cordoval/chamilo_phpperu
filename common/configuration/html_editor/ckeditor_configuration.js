@@ -63,5 +63,6 @@ CKEDITOR.editorConfig = function( config )
 	config.filebrowserImageBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=image';
 	config.filebrowserChamiloflashBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=flash';
 	config.filebrowserChamiloyoutubeBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?type=youtube';
+//	config.filebrowserChamiloyoutubeWindowWidth : '600';
 
 };
