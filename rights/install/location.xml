@@ -13,9 +13,9 @@
 		<property name="locked" type="boolean" default="0" />
 		<property name="application" type="text" length="250" fixed="true"
 			notnull="1" />
-		<property name="type" type="text" length="250" fixed="true"
+		<property name="identifier" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="identifier" type="text" length="250" fixed="true"
+		<property name="type" type="text" length="20" fixed="true"
 			notnull="1" />
 		<property name="location_id" type="text" length="250" fixed="true"
 			notnull="1" />
@@ -29,10 +29,8 @@
 	<index name="application">
 		<indexproperty name="application" />
 	</index>
-	<index name="type">
-		<indexproperty name="type" />
-	</index>
-	<index name="identifier">
+	<index name="identifier_type">
 		<indexproperty name="identifier" />
+		<indexproperty name="type" />
 	</index>
 </object>
