@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/html_editor_processor/html_editor_processor.c
 
 class HtmlEditorFileBrowser
 {
-    const PARAM_TYPE = 'type';
+    const PARAM_PLUGIN = 'plugin';
 
     private $user;
 
@@ -17,10 +17,10 @@ class HtmlEditorFileBrowser
 
     function run()
     {
-      $type = $this->get_repo_viewer_type();
-      $this->set_parameter(self :: PARAM_TYPE, $type);
+      $plugin = $this->get_plugin();
+      $this->set_parameter(self :: PARAM_PLUGIN, $plugin);
 
-      $repo_viewer = HtmlEditorRepoViewer :: factory($type, $this, array(), false, RepoViewer :: SELECT_SINGLE);
+      $repo_viewer = HtmlEditorRepoViewer :: factory($plugin, $this, array(), false, RepoViewer :: SELECT_SINGLE);
 
       if (!$repo_viewer->is_ready_to_be_published())
       {
@@ -28,7 +28,7 @@ class HtmlEditorFileBrowser
       }
       else
       {
-          $processor = HtmlEditorProcessor :: factory($type, $this, $repo_viewer->get_selected_objects());
+          $processor = HtmlEditorProcessor :: factory($plugin, $this, $repo_viewer->get_selected_objects());
           $processor->run();
 
           // Go to real processing depending on selected editor.
@@ -36,9 +36,9 @@ class HtmlEditorFileBrowser
       }
     }
 
-    function get_repo_viewer_type()
+    function get_plugin()
     {
-        return Request :: get(self :: PARAM_TYPE);
+        return Request :: get(self :: PARAM_PLUGIN);
     }
 
     function set_parameters($parameters)
