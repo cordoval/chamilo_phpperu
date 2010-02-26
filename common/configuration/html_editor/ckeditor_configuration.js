@@ -24,7 +24,7 @@ CKEDITOR.editorConfig = function( config )
 		    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
 		    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
 		    ['Link','Unlink','Anchor'],
-		    ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
+		    ['Image','Chamiloflash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
 		    '/',
 		    ['Styles','Format','Font','FontSize'],
 		    ['TextColor','BGColor'],
@@ -35,22 +35,22 @@ CKEDITOR.editorConfig = function( config )
 		[
 		 	['Maximize','-','Font','FontSize','Format','Bold','Italic','Underline','Strike','-','Subscript','Superscript','-','Cut','Copy','Paste','PasteText','PasteFromWord'],
 		 	'/',
-		 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','NumberedList','BulletedList','-','Outdent','Indent','Blockquote','-','TextColor','BGColor','-','HorizontalRule','Link','Unlink','-','Image','Flash','Table','-','Source']
+		 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','NumberedList','BulletedList','-','Outdent','Indent','Blockquote','-','TextColor','BGColor','-','HorizontalRule','Link','Unlink','-','Image','Chamiloflash','Table','-','Source']
 		];
 	
 	config.toolbar_Basic =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Flash','Youtube','-','Templates']
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','Youtube','-','Templates']
 		];
 	
 	config.toolbar_WikiPage =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Flash','-','Templates']
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','-','Templates']
 		];
 
 	config.toolbar_RepositoryQuestion =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor','-','Image','Flash']
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor','-','Image','Chamiloflash']
 		] ;
 
 	config.toolbar_Assessment =
