@@ -11,11 +11,13 @@
 		<property name="inherit" type="integer" length="1" notnull="1"
 			unsigned="1" default="1" />
 		<property name="locked" type="boolean" default="0" />
-		<property name="application" type="text" length="250" fixed="true"
-			notnull="1" />
 		<property name="identifier" type="integer" unsigned="1"
 			notnull="1" />
+		<property name="tree_identifier" type="integer" unsigned="1"
+			notnull="1" />
 		<property name="type" type="text" length="20" fixed="true"
+			notnull="1" />
+		<property name="application" type="text" length="30" fixed="true"
 			notnull="1" />
 		<property name="location_id" type="text" length="250" fixed="true"
 			notnull="1" />
@@ -26,8 +28,9 @@
 	<index name="location_id">
 		<indexproperty name="location_id" />
 	</index>
-	<index name="application">
+	<index name="application_tree">
 		<indexproperty name="application" />
+		<indexproperty name="tree_identifier" />
 	</index>
 	<index name="identifier_type">
 		<indexproperty name="identifier" />

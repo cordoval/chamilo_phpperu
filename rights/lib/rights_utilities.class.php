@@ -15,20 +15,37 @@ require_once 'XML/Unserializer.php';
  */
 
 class RightsUtilities
-{
-
-    function create_application_root_location($application)
+{   
+	function create_location($name, $application, $type = 'root', $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $return_location = false)
+    {
+        $location = new Location();
+        $location->set_location($name);
+        $location->set_parent($parent);
+        $location->set_application($application);
+        $location->set_type($type);
+        $location->set_identifier($identifier);
+        $location->set_inherit($inherit);
+        $location->set_locked($locked);
+        $location->set_tree_identifier($tree_identifier);
+        
+        $succes = $location->create();
+        
+        if($return_location && $succes)
+        {
+        	return $location;
+        }
+        else
+        {
+        	return $succes;
+        }
+    }
+    
+	function create_application_root_location($application)
     {
         $xml = self :: parse_locations_file($application);
 
-        $root = new Location();
-        $root->set_location($xml['name']);
-        $root->set_application($application);
-        $root->set_type($xml['type']);
-        $root->set_identifier($xml['identifier']);
-        $root->set_inherit(0);
-        $root->set_locked(0);
-        if (! $root->create())
+        $root = $this->create_location($xml['name'], $application, $xml['type'], $xml['identifier'], 0, 0, 0, 0, true);
+        if (!$root)
         {
             return false;
         }
@@ -590,18 +607,6 @@ class RightsUtilities
         $return['title'] = $rights_template->get_name();
         $return['description'] = strip_tags($rights_template->get_description());
         return $return;
-    }
-
-    function create_location($name, $application, $type = 'root', $identifier = 0, $inherit = 0, $parent = 0)
-    {
-        $location = new Location();
-        $location->set_location($name);
-        $location->set_parent($parent);
-        $location->set_application($application);
-        $location->set_type($type);
-        $location->set_identifier($identifier);
-        $location->set_inherit($inherit);
-        return $location->create();
     }
 
     function get_rights_template_right_location($right_id, $rights_template_id, $location_id)
