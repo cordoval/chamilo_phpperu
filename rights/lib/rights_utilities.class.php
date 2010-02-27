@@ -16,7 +16,7 @@ require_once 'XML/Unserializer.php';
 
 class RightsUtilities
 {   
-	function create_location($name, $application, $type = 'root', $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $tree_type='root', $return_location = false)
+	static function create_location($name, $application, $type = 'root', $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $tree_type='root', $return_location = false)
     {
         $location = new Location();
         $location->set_location($name);
@@ -41,7 +41,7 @@ class RightsUtilities
         }
     }
     
-	function create_application_root_location($application)
+	static function create_application_root_location($application)
     {
         $xml = self :: parse_locations_file($application);
 
@@ -57,6 +57,11 @@ class RightsUtilities
         }
 
         return true;
+    }
+    
+    static function create_subtree_root_location($application, $tree_identifier, $subtree_type)
+    {
+    	return self :: create_location($subtree_type, $application, 'root', 0, 0, 0, 0, $tree_identifier, $subtree_type);	
     }
 
     function parse_locations_file($application)

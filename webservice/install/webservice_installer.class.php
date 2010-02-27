@@ -22,5 +22,26 @@ class WebserviceInstaller extends Installer
     {
         return dirname(__FILE__);
     }
+    
+	function install_extra()
+    {
+        if (! $this->create_webservice_subtree())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceSubTreeCreated'));
+        }
+        
+        return true;
+    }
+    
+    private function create_webservice_subtree()
+    {
+    	return RightsUtilities :: create_subtree_root_location(WebserviceManager :: APPLICATION_NAME, 0, 'webservices_tree');
+    }
+    
+    
 }
 ?>

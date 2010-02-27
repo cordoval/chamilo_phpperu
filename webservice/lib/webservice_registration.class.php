@@ -129,26 +129,25 @@ class WebserviceRegistration extends DataClass
         $wdm = WebserviceDataManager :: get_instance();
         $wdm->create_webservice($this);
 
-        $location = new Location();
+        /*$location = new Location();
         $location->set_location($this->get_name());
         $location->set_application('webservice');
         $location->set_type('webservice');
-        $location->set_identifier($this->get_id());
+        $location->set_identifier($this->get_id());*/
 
         //echo $location->get_location();
 
         if ($this->get_parent())
         {
-            $parent = WebserviceRights :: get_location_id_by_identifier('webservice_category', $this->get_parent());
-            $location->set_parent($parent);
+            $parent_id = WebserviceRights :: get_location_id_by_identifier('webservice_category', $this->get_parent());
         }
         else
-            $location->set_parent(WebserviceRights :: get_root_id());
+        {
+            $parent_id = WebserviceRights :: get_root_id();
+        }
 
-        //echo 'parent : ' . $location->get_parent();
 
-
-        if (! $location->create())
+        if (!WebserviceRights :: create_location_in_webservice_subtree($this->get_name(), 'webservice', $this->get_id(), $parent_id))
         {
             return false;
         }
