@@ -44,7 +44,7 @@ class RightsUtilities
     {
         $xml = self :: parse_locations_file($application);
 
-        $root = $this->create_location($xml['name'], $application, $xml['type'], $xml['identifier'], 0, 0, 0, 0, true);
+        $root = self :: create_location($xml['name'], $application, $xml['type'], $xml['identifier'], 0, 0, 0, 0, true);
         if (!$root)
         {
             return false;
