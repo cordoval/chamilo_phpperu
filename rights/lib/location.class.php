@@ -15,6 +15,7 @@ class Location extends DataClass
     const PROPERTY_PARENT = 'parent_id';
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_TREE_IDENTIFIER = 'tree_identifier';
+    const PROPERTY_TREE_TYPE = 'tree_type';
     const PROPERTY_TYPE = 'type';
     const PROPERTY_IDENTIFIER = 'identifier';
     const PROPERTY_INHERIT = 'inherit';
@@ -28,7 +29,8 @@ class Location extends DataClass
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT, 
         												  self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_IDENTIFIER, 
-        												  self :: PROPERTY_TREE_IDENTIFIER, self :: PROPERTY_INHERIT, self :: PROPERTY_LOCKED));
+        												  self :: PROPERTY_TREE_IDENTIFIER, self :: PROPERTY_TREE_TYPE,
+        												  self :: PROPERTY_INHERIT, self :: PROPERTY_LOCKED));
     }
 
     /**
@@ -132,6 +134,16 @@ class Location extends DataClass
     function set_tree_identifier($tree_identifier)
     {
         $this->set_default_property(self :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
+    }
+    
+	function get_tree_type()
+    {
+        return $this->get_default_property(self :: PROPERTY_TREE_TYPE);
+    }
+
+    function set_tree_type($tree_type)
+    {
+        $this->set_default_property(self :: PROPERTY_TREE_TYPE, $tree_type);
     }
 
     function inherits()

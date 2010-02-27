@@ -14,12 +14,14 @@
 		<property name="identifier" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="tree_identifier" type="integer" unsigned="1"
-			notnull="1" />
+			notnull="1"/>
 		<property name="type" type="text" length="20" fixed="true"
+			notnull="1" />
+		<property name="tree_type" type="text" length="20" fixed="true"
 			notnull="1" />
 		<property name="application" type="text" length="30" fixed="true"
 			notnull="1" />
-		<property name="location_id" type="text" length="250" fixed="true"
+		<property name="location_id" type="text" length="50" fixed="true"
 			notnull="1" />
 	</properties>
 	<index name="parent_id">
@@ -35,5 +37,9 @@
 	<index name="identifier_type">
 		<indexproperty name="identifier" />
 		<indexproperty name="type" />
+	</index>
+	<index name="tree_identifier_type">
+		<indexproperty name="tree_identifier" />
+		<indexproperty name="tree_type" />
 	</index>
 </object>
