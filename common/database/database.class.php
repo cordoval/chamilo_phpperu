@@ -224,7 +224,7 @@ class Database
                 if ($index_info['type'] == 'primary')
                 {
                     $index_info['primary'] = 1;
-                    $primary_result = $manager->createConstraint($name, $constraint_table_alias . '_' . $index_name . '_pk', $index_info);
+                    $primary_result = $manager->createConstraint($name, DatabaseAliasGenerator :: get_instance()->get_constraint_name($name, $index_name, DatabaseAliasGenerator :: TYPE_PRIMARY), $index_info);
                     if (MDB2 :: isError($primary_result))
                     {
                         echo '<pre>';
@@ -236,7 +236,7 @@ class Database
                 elseif ($index_info['type'] == 'unique')
                 {
                     $index_info['unique'] = 1;
-                    $unique_result = $manager->createConstraint($name, $constraint_table_alias . '_' . $index_name . '_un', $index_info);
+                    $unique_result = $manager->createConstraint($name, DatabaseAliasGenerator :: get_instance()->get_constraint_name($name, $index_name, DatabaseAliasGenerator :: TYPE_UNIQUE), $index_info);
                     if (MDB2 :: isError($unique_result))
                     {
                         echo '<pre>';
@@ -247,7 +247,7 @@ class Database
                 }
                 else
                 {
-                    $index_result = $manager->createIndex($name, $constraint_table_alias . '_' . $index_name . '_in', $index_info);
+                    $index_result = $manager->createIndex($name, DatabaseAliasGenerator :: get_instance()->get_constraint_name($name, $index_name, DatabaseAliasGenerator :: TYPE_INDEX), $index_info);
                     if (MDB2 :: isError($index_result))
                     {
                         echo '<pre>';
