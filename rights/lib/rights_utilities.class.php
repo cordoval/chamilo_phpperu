@@ -105,7 +105,17 @@ class RightsUtilities
             $location->set_location($child['name']);
             $location->set_application($application);
             $location->set_type($child['type']);
-            $location->set_identifier($child['identifier']);
+            
+            // TODO: Temporary fix !
+            if (is_string($child['identifier']))
+            {
+                $location->set_identifier(0);
+            }
+            else
+            {
+                $location->set_identifier($child['identifier']);
+            }
+            
             $location->set_parent($parent);
             $location->set_tree_type('root');
             

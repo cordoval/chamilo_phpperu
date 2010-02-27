@@ -42,9 +42,21 @@ class DatabaseAliasGenerator
         return $this->aliases;
     }
     
-    function get_table_alias($table, $column, $type)
+    function get_table_alias($table_name)
     {
-        return $alias;
+        if (!array_key_exists($table_name, $this->aliases[self :: TYPE_TABLE]))
+        {
+            $possible_name = substr($table_name, 0, 2) . substr($table_name, - 2);
+            $index = 'a';
+            while (array_key_exists($possible_name, $this->aliases))
+            {
+                $possible_name = $possible_name . $index;
+                $index++;
+            }
+            $this->aliases[self :: TYPE_TABLE][$table_name] = $possible_name;
+        }
+
+        return $this->aliases[self :: TYPE_TABLE][$table_name];
     }
     
     function get_constraint_name($table_name, $column)
@@ -73,32 +85,12 @@ class DatabaseAliasGenerator
             while (array_key_exists($possible_name, $this->aliases[self :: TYPE_CONSTRAINT]))
             {
                 $possible_name = $original_name . '_' . $index;
-                $index = $index ++;
+                $index++;
             }
             
             $this->aliases[self :: TYPE_CONSTRAINT][$possible_name] = serialize(array($table_name, $column));
             return $possible_name;
         }
-            
-            
-//                $possible_name = '';
-//        $parts = explode('_', $name);
-//        foreach($parts as $part)
-//        {
-//            $possible_name .= $part{0};
-//        }
-//            
-//            $possible_name = substr($table_name, 0, 2) . substr($table_name, - 2);
-//            $index = 0;
-//            while (array_key_exists($possible_name, $this->aliases))
-//            {
-//                $possible_name = $possible_name . $index;
-//                $index = $index ++;
-//            }
-//            $this->aliases[$table_name] = $possible_name;
-//        }
-//
-//        return $this->aliases[$table_name];
     }
 }
 ?>
