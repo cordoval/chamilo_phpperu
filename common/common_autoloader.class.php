@@ -148,6 +148,7 @@ class CommonAutoloader
 					  'connection' => 'database/connection.class.php',
 					  'object_result_set' => 'database/object_result_set.class.php',
 					  'record_result_set' => 'database/record_result_set.class.php',
+					  'database_alias_generator' => 'database/database_alias_generator.class.php',
 					  'cookie' => 'session/cookie.class.php',
 					  'request' => 'session/request.class.php',
 		);
