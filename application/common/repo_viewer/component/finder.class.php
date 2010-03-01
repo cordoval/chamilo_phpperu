@@ -28,7 +28,7 @@ class RepoViewerFinderComponent extends RepoViewerBrowserComponent
         parent :: __construct($parent);
         $this->form = new FormValidator('search', 'post', $this->get_url($this->get_parameters()), '', null, false);
         $this->form->addElement('hidden', RepoViewer :: PARAM_ACTION);
-        $this->form->addElement('text', 'query', Translation :: get('Find'), 'size="40" class="search_query"');
+        $this->form->addElement('text', RepoViewer :: PARAM_QUERY, Translation :: get('Find'), 'size="40" class="search_query"');
         $this->form->addElement('submit', 'submit', Translation :: get('Ok'));
     }
 
@@ -40,15 +40,17 @@ class RepoViewerFinderComponent extends RepoViewerBrowserComponent
         $this->renderer = clone $this->form->defaultRenderer();
         $this->renderer->setElementTemplate('<span>{element}</span> ');
         $this->form->accept($this->renderer);
-        
+
         $html = array();
         $html[] = '<div class="lofinder_search_form" style="margin: 0 0 1em 0;">';
         $html[] = $this->renderer->toHTML();
         $html[] = '</div>';
+
         if (strlen(trim($this->get_query())) > 0)
         {
             $html[] = parent :: as_html();
         }
+
         return implode("\n", $html);
     }
 
@@ -59,12 +61,14 @@ class RepoViewerFinderComponent extends RepoViewerBrowserComponent
     {
         if ($this->form->validate())
         {
-            return $this->form->exportValue('query');
+            return $this->form->exportValue(RepoViewer :: PARAM_QUERY);
         }
-        if (Request :: get('query'))
+
+        if (Request :: get(RepoViewer :: PARAM_QUERY))
         {
-            return Request :: get('query');
+            return Request :: get(RepoViewer :: PARAM_QUERY);
         }
+
         return null;
     }
 

@@ -29,18 +29,32 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         {
             $actions[$key]['href'] = str_replace('__ID__', '%d', $action['href']);
         }
-        
+
         if ($this->get_maximum_select() > RepoViewer :: SELECT_SINGLE)
+        {
             $html[] = '<b>' . sprintf(Translation :: get('SelectMaximumLO'), $this->get_maximum_select()) . '</b><br />';
-        
+        }
+
         $menu = $this->get_menu();
-        
-        $html[] = '<br /><div style="width: 15%; overflow: auto; float:left">';
+        $table = $this->get_object_table($actions);
+
+        $html[] = '<br />';
+
+        $html[] = '<div style="width: 15%; overflow: auto; float:left">';
         $html[] = $menu->render_as_tree();
-        $table = new ContentObjectTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);
-        $html[] = '</div><div style="width: 83%; float: right;">' . $table->as_html() . '</div>';
+        $html[] = '</div>';
+
+        $html[] = '<div style="width: 83%; float: right;">';
+        $html[] = $table->as_html();
+        $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
+
         return implode("\n", $html);
+    }
+
+    protected function get_object_table($actions)
+    {
+        return new ContentObjectTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);
     }
 
     /**
@@ -73,15 +87,15 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
     function get_default_browser_actions()
     {
         $browser_actions = array();
-        
+
         $browser_actions[] = array('href' => $this->get_url(
         array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
-        
+
         if (! Request :: get('sharedbrowser') == 1)
         {
             $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_CREATOR, RepoViewer :: PARAM_EDIT_ID => '__ID__'))), 'img' => Theme :: get_common_image_path() . 'action_editpublish.png', 'label' => Translation :: get('EditAndPublish'));
         }
-        
+
         return $browser_actions;
     }
 }

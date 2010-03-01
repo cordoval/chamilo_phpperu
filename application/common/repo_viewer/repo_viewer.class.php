@@ -20,6 +20,8 @@ class RepoViewer
     const PARAM_EDIT = 'edit';
     const PARAM_ID = 'object';
     const PARAM_EDIT_ID = 'obj';
+    const PARAM_QUERY = 'query';
+    const PARAM_CONTENT_OBJECT_TYPE = 'type';
 
     const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
 
@@ -103,7 +105,7 @@ class RepoViewer
             {
                 $html[] = ' class="current"';
             }
-            
+
             $html[] = ' href="' . $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => $repo_viewer_action)), true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
         }
         $html[] = '</ul><div class="tabbed-pane-content">';
@@ -113,7 +115,7 @@ class RepoViewer
 
         return implode("\n", $html);
     }
-    
+
     function get_repo_viewer_component($action)
     {
         return RepoViewerComponent :: factory($action, $this);
@@ -143,12 +145,12 @@ class RepoViewer
      */
     function get_user_id()
     {
-        return $this->parent->get_user_id();
+        return $this->get_parent()->get_user_id();
     }
 
     function get_user()
     {
-        return $this->parent->get_user();
+        return $this->get_parent()->get_user();
     }
 
     /**

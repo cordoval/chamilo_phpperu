@@ -13,6 +13,8 @@ class Document extends ContentObject
     const PROPERTY_FILESIZE = 'filesize';
     const PROPERTY_HASH = 'hash';
 
+    const TYPE_IMAGE = 'image';
+
     /**
     * In memory file content. Will be saved on disk if it doesn't exist yet. Mainly used to create a new Document.
     *
