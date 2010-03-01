@@ -50,6 +50,7 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
         $conditions = array();
         $conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, 'root');
         $condition = new AndCondition($conditions);
         $root = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
         
@@ -104,6 +105,7 @@ class UserRightManagerBrowserComponent extends UserRightManagerComponent
             $conditions = array();
             $conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
             $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
+            $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, 'root');
             
             $condition = new AndCondition($conditions);
         }
