@@ -7,7 +7,7 @@ class GradebookManagerGradebookEditorComponent extends GradebookManagerComponent
 	function run()
 	{
 
-		if (!GradebookRights :: is_allowed(GradebookRights :: EDIT_RIGHT, 'browser', 'sts_component'))
+		if (!GradebookRights :: is_allowed(GradebookRights :: EDIT_RIGHT, GradebookRights :: LOCATION_BROWSER, 'gradebook_component'))
 		{
 			$this->display_header($trail);
 			$this->display_error_message(Translation :: get('NotAllowed'));

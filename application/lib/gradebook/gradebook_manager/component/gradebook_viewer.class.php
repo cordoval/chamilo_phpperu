@@ -20,7 +20,7 @@ class GradebookManagerGradebookViewerComponent extends GradebookManagerComponent
 			$this->gradebook = $this->retrieve_gradebook($id);
 			$gradebook = $this->gradebook;
 						
-			if (!GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, 'browser', 'gradebook_component'))
+			if (!GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, GradebookRights :: LOCATION_VIEWER, 'gradebook_component'))
 			{
 				$this->display_header($trail);
 				$this->display_error_message(Translation :: get('NotAllowed'));

@@ -44,7 +44,7 @@ class CommonAutoloader
 	{
 		$list = array('authentication', 'configuration', 'database', 'datetime', 'debug', 'diagnoser', 'export', 'filecompression',
 				      'filesystem', 'hashing', 'image_manipulation', 'import', 'mail', 'security', 'session', 'string', 'translation',
-					  'validator', 'xml');
+					  'validator', 'xml', 'webservice');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

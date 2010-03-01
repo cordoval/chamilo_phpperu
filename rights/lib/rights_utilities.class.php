@@ -118,6 +118,7 @@ class RightsUtilities
             
             $location->set_parent($parent);
             $location->set_tree_type('root');
+            $location->set_tree_identifier(0);
             
             if (! $location->create($previous != null ? $previous : 0))
             {
@@ -133,7 +134,7 @@ class RightsUtilities
         }
     }
 
-    function is_allowed($right, $location, $type, $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = 'root')
+    function is_allowed($right, $location = 0, $type = 'root', $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = 'root')
     {
         $rdm = RightsDataManager :: get_instance();
         $udm = UserDataManager :: get_instance();
@@ -742,6 +743,14 @@ class RightsUtilities
             // TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
             $reflect = new ReflectionClass(Application :: application_to_class($application) . 'Rights');
             $rights = $reflect->getConstants();
+            
+			foreach($rights as $key => $right)
+			{
+				if(substr(strtolower($key), 0, 8) == 'location')
+				{
+					unset($rights[$key]);
+				}
+			}            
         }
 
         return $rights;

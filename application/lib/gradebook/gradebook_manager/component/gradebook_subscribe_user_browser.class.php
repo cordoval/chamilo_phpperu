@@ -11,7 +11,7 @@ class GradebookManagerGradebookSubscribeUserBrowserComponent extends GradebookMa
 
 	function run()
 	{
-		if (!GradebookRights :: is_allowed(GradebookRights :: ADD_RIGHT, 'browser', 'gradebook_component'))
+		if (!GradebookRights :: is_allowed(GradebookRights :: ADD_RIGHT, GradebookRights :: LOCATION_BROWSER, 'gradebook_component'))
 		{
 			$this->display_header($trail);
 			$this->display_error_message(Translation :: get('NotAllowed'));

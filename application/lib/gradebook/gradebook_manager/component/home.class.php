@@ -11,7 +11,7 @@ class GradebookManagerHomeComponent extends GradebookManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('GradeBook')));
 
-		if (!GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, 'home', 'gradebook_component'))
+		if (!GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, GradebookRights :: LOCATION_HOME, 'gradebook_component'))
 		{
 			$this->display_header($trail);
 			$this->display_error_message(Translation :: get('NotAllowed'));
@@ -26,8 +26,8 @@ class GradebookManagerHomeComponent extends GradebookManagerComponent
 
 	function get_gradebook_home()
 	{
-		$is_admin = GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, 'browser', 'gradebook_component');
-		$is_user = GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, 'viewer', 'gradebook_component');
+		$is_admin = GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, GradebookRights :: LOCATION_BROWSER, 'gradebook_component');
+		$is_user = GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, GradebookRights :: LOCATION_VIEWER, 'gradebook_component');
 
 		if ($is_admin)
 		{

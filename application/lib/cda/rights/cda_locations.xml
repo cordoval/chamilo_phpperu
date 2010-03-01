@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <location name="cda" type="root" identifier="0">
 	<children>
-		<location name="Languages" type="manager" identifier="cda_language" />
-		<location name="Language Packs" type="manager" identifier="language_pack" />
-		<location name="Translator Applications" type="manager" identifier="translator_application" />
-		<location name="Variable Translations" type="manager" identifier="variable_translation" />
-		<location name="Variables" type="manager" identifier="variables" />
+		<location name="Languages" type="manager" identifier="1" />
+		<location name="Language Packs" type="manager" identifier="2" />
+		<location name="Translator Applications" type="manager" identifier="3" />
+		<location name="Variable Translations" type="manager" identifier="4" />
+		<location name="Variables" type="manager" identifier="5" />
 	</children>
 </location>

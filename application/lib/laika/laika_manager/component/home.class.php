@@ -19,7 +19,7 @@ class LaikaManagerHomeComponent extends LaikaManagerComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Laika')));
         
-        if (! LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'home', 'laika_component'))
+        if (! LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, LaikaRights :: LOCATION_HOME, 'laika_component'))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -34,8 +34,8 @@ class LaikaManagerHomeComponent extends LaikaManagerComponent
 
     function get_laika_home()
     {
-        $is_admin = LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'browser', 'laika_component');
-        $is_user = LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'taker', 'laika_component');
+        $is_admin = LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, LaikaRights :: LOCATION_BROWSER, 'laika_component');
+        $is_user = LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, LaikaRights :: LOCATION_TAKER, 'laika_component');
         
         if ($is_admin)
         {

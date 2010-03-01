@@ -9,10 +9,25 @@ class GradebookRights
 	const EDIT_RIGHT	= '3';
 	const DELETE_RIGHT	= '4';
 	
+	const LOCATION_BROWSER = 1;
+	const LOCATION_HOME = 2;
+	const LOCATION_VIEWER = 3;
+	
 	function get_available_rights()
 	{
 	    $reflect = new ReflectionClass('GradebookRights');
-	    return $reflect->getConstants();
+	    
+	    $rights = $reflect->getConstants();
+	    
+	    foreach($rights as $key => $right)
+		{
+			if(substr(strtolower($key), 0, 8) == 'location')
+			{
+				unset($rights[$key]);
+			}
+		}          
+	    
+	    return $rights;
 	}
 	
 	function is_allowed($right, $location, $type)
