@@ -21,7 +21,10 @@ if (! $user->is_platform_admin())
     echo 0;
 }
 
-$locations = json_decode(Request :: post('locations'));
+$locations = Request :: post('locations');
+//small fix for tags
+$locations = str_replace('\\"', '"', $locations);
+$locations = json_decode($locations);
 
 $rights = $_POST['rights'];
 $rights = explode('_', $rights);
