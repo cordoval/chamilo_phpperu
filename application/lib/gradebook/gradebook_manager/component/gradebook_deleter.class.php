@@ -8,7 +8,7 @@ class GradebookManagerGradebookDeleterComponent extends GradebookManagerComponen
 
 		$trail = new BreadcrumbTrail();
 
-		if (!GradebookRights :: is_allowed(GradebookRights :: DELETE_RIGHT, 'browser', 'gradebook_component'))
+		if (!GradebookRights :: is_allowed(GradebookRights :: DELETE_RIGHT, GradebookRights :: LOCATION_BROWSER, 'gradebook_component'))
 		{
 			$this->display_header($trail);
 			$this->display_error_message(Translation :: get('NotAllowed'));

@@ -9,6 +9,10 @@ class GradebookRights
 	const EDIT_RIGHT	= '3';
 	const DELETE_RIGHT	= '4';
 	
+	const LOCATION_BROWSER = 1;
+	const LOCAITON_HOME = 2;
+	const LOCATION_VIEWER = 3;
+	
 	function get_available_rights()
 	{
 	    $reflect = new ReflectionClass('GradebookRights');

@@ -134,7 +134,7 @@ class RightsUtilities
         }
     }
 
-    function is_allowed($right, $location, $type, $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = 'root')
+    function is_allowed($right, $location = 0, $type = 'root', $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = 'root')
     {
         $rdm = RightsDataManager :: get_instance();
         $udm = UserDataManager :: get_instance();

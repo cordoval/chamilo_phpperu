@@ -20,7 +20,7 @@ class LaikaManagerInformerComponent extends LaikaManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Scales')));
         
-        if (! LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'informer', 'laika_component'))
+        if (! LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, LaikaRights :: LOCATION_INFORMER, 'laika_component'))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));

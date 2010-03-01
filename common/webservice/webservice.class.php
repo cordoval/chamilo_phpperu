@@ -40,7 +40,7 @@ abstract class Webservice
 
     public function Webservice()
     {
-        $this->ru = new RightsUtilities();
+        $this->ru = new WebserviceRights();
     }
 
     public static function factory($webservice_handler, $protocol = 'Soap', $implementation = 'Nusoap')
@@ -155,7 +155,7 @@ abstract class Webservice
         $webservice = $wm->retrieve_webservice_by_name($webservicename);
         if (isset($webservice))
         {
-            if ($this->ru->is_allowed('1', $webservice->get_id(), 'webservice', 'webservice', $userid))
+            if ($this->ru->is_allowed_in_webservices_subtree(WebserviceRights :: USE_RIGHT, $webservice->get_id(), 'webservice'))
             {
                 return true;
             }
