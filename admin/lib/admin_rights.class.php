@@ -17,8 +17,19 @@ class AdminRights
 
     function get_available_rights()
     {
-        $reflect = new ReflectionClass('AdminRights');
-        return $reflect->getConstants();
+        $reflect = new ReflectionClass('GradebookRights');
+	    
+	    $rights = $reflect->getConstants();
+	    
+	    foreach($rights as $key => $right)
+		{
+			if(substr(strtolower($key), 0, 8) == 'location')
+			{
+				unset($rights[$key]);
+			}
+		}          
+	    
+	    return $rights;
     }
 
     function is_allowed($right, $location = 0, $type = 'root')

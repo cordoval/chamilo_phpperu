@@ -743,6 +743,14 @@ class RightsUtilities
             // TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
             $reflect = new ReflectionClass(Application :: application_to_class($application) . 'Rights');
             $rights = $reflect->getConstants();
+            
+			foreach($rights as $key => $right)
+			{
+				if(substr(strtolower($key), 0, 8) == 'location')
+				{
+					unset($rights[$key]);
+				}
+			}            
         }
 
         return $rights;
