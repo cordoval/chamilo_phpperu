@@ -118,6 +118,7 @@ class RightsUtilities
             
             $location->set_parent($parent);
             $location->set_tree_type('root');
+            $location->set_tree_identifier(0);
             
             if (! $location->create($previous != null ? $previous : 0))
             {
