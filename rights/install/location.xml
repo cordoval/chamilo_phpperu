@@ -32,14 +32,11 @@
 	</index>
 	<index name="application_tree">
 		<indexproperty name="application" />
+		<indexproperty name="tree_type" />
 		<indexproperty name="tree_identifier" />
 	</index>
 	<index name="identifier_type">
 		<indexproperty name="identifier" />
 		<indexproperty name="type" />
-	</index>
-	<index name="tree_identifier_type">
-		<indexproperty name="tree_identifier" />
-		<indexproperty name="tree_type" />
 	</index>
 </object>

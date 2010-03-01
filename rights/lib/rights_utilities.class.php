@@ -59,9 +59,9 @@ class RightsUtilities
         return true;
     }
     
-    static function create_subtree_root_location($application, $tree_identifier, $subtree_type)
+    static function create_subtree_root_location($application, $tree_identifier, $tree_type)
     {
-    	return self :: create_location($subtree_type, $application, 'root', 0, 0, 0, 0, $tree_identifier, $subtree_type);	
+    	return self :: create_location($tree_type, $application, 'root', 0, 0, 0, 0, $tree_identifier, $tree_type);	
     }
 
     function parse_locations_file($application)
@@ -133,7 +133,7 @@ class RightsUtilities
         }
     }
 
-    function is_allowed($right, $location, $type, $application = 'admin', $user_id = null)
+    function is_allowed($right, $location, $type, $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = 'root')
     {
         $rdm = RightsDataManager :: get_instance();
         $udm = UserDataManager :: get_instance();
@@ -147,9 +147,11 @@ class RightsUtilities
         }
 
         $conditions = array();
-        $conditions[] = new EqualityCondition('identifier', $location);
-        $conditions[] = new EqualityCondition('type', $type);
-        $conditions[] = new EqualityCondition('application', $application);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_IDENTIFIER, $location);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TYPE, $type);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $application);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $tree_type);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
 
         $condition = new AndCondition($conditions);
 
@@ -336,13 +338,15 @@ class RightsUtilities
         }
     }
 
-    function get_root($application)
+    function get_root($application, $tree_type = 'root', $tree_identifier = 0)
     {
         $rdm = RightsDataManager :: get_instance();
 
         $root_conditions = array();
         $root_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
         $root_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $application);
+        $root_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $tree_type);
+        $root_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
 
         $root_condition = new AndCondition($root_conditions);
 
@@ -358,19 +362,22 @@ class RightsUtilities
         }
     }
 
-    function get_root_id($application)
+    function get_root_id($application, $tree_type = 'root', $tree_identifier = 0)
     {
-        $root = self :: get_root($application);
+        $root = self :: get_root($application, $tree_type, $tree_identifier);
         return $root->get_id();
     }
 
-    function get_location_by_identifier($application, $type, $identifier)
+    function get_location_by_identifier($application, $type, $identifier, $tree_identifier = '0', $tree_type = 'root')
     {
         $rdm = RightsDataManager :: get_instance();
 
         $conditions = array();
-        $conditions[] = new EqualityCondition('identifier', $identifier);
-        $conditions[] = new EqualityCondition('type', $type);
+        $root_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $application);
+        $root_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $tree_type);
+        $root_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_IDENTIFIER, $identifier);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TYPE, $type);
 
         $condition = new AndCondition($conditions);
 
@@ -379,9 +386,9 @@ class RightsUtilities
         return $locations->next_result();
     }
 
-    function get_location_id_by_identifier($application, $type, $identifier)
+    function get_location_id_by_identifier($application, $type, $identifier, $tree_identifier = '0', $tree_type = 'root')
     {
-        $location = self :: get_location_by_identifier($application, $type, $identifier);
+        $location = self :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
         if (isset($location))
         {
             return $location->get_id();
