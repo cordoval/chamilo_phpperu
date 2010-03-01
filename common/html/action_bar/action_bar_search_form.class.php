@@ -9,12 +9,12 @@ class ActionBarSearchForm extends FormValidator
      * Search parameter
      */
     const PARAM_SIMPLE_SEARCH_QUERY = 'query';
-    
+
     /**
      * Name of the search form
      */
     const FORM_NAME = 'search';
-    
+
     /**
      * The renderer used to display the form
      */
@@ -33,13 +33,13 @@ class ActionBarSearchForm extends FormValidator
     {
         parent :: __construct(self :: FORM_NAME, 'post', $url);
         $this->renderer = clone $this->defaultRenderer();
-        
+
         $query = Request :: post(self :: PARAM_SIMPLE_SEARCH_QUERY);
         if ($query)
             $this->setDefaults(array(self :: PARAM_SIMPLE_SEARCH_QUERY => $query));
-        
+
         $this->build_simple_search_form();
-        
+
         $this->accept($this->renderer);
     }
 

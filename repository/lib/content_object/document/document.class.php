@@ -37,7 +37,6 @@ class Document extends ContentObject
     */
     private $save_as_new_version = false;
 
-
     function get_path()
     {
         return $this->get_additional_property(self :: PROPERTY_PATH);

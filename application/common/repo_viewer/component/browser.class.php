@@ -11,12 +11,30 @@ require_once dirname(__FILE__) . '/content_object_table/content_object_table.cla
  */
 class RepoViewerBrowserComponent extends RepoViewerComponent
 {
+    /**
+     * The search form
+     */
+    private $form;
+
+    /**
+     * The renderer for the search form
+     */
+    private $renderer;
+
+    /**
+     * The browser actions
+     */
     private $browser_actions;
 
     function RepoViewerBrowserComponent($parent)
     {
         parent :: __construct($parent);
         $this->set_browser_actions($this->get_default_browser_actions());
+
+        $this->set_form(new FormValidator('search', 'post', $this->get_url($this->get_parameters()), '', array('id' => 'search'), false));
+        $this->get_form()->addElement('hidden', RepoViewer :: PARAM_ACTION);
+        $this->get_form()->addElement('text', RepoViewer :: PARAM_QUERY, Translation :: get('Find'), 'size="30" class="search_query"');
+        $this->get_form()->addElement('style_submit_button', 'submit', Theme :: get_common_image('action_search'), array('class' => 'search'));
     }
 
     /*
@@ -24,6 +42,17 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 	 */
     function as_html()
     {
+        $this->renderer = clone $this->form->defaultRenderer();
+        $this->renderer->setElementTemplate('<span>{element}</span> ');
+        $this->form->accept($this->renderer);
+
+        $html = array();
+        $html[] = '<div class="search_form" style="float: right; clear: both;">';
+        $html[] = '<div class="simple_search">';
+        $html[] = $this->renderer->toHTML();
+        $html[] = '</div>';
+        $html[] = '</div>';
+
         $actions = $this->get_browser_actions();
         foreach ($actions as $key => $action)
         {
@@ -63,6 +92,16 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
      */
     protected function get_query()
     {
+        if ($this->get_form()->validate())
+        {
+            return $this->get_form()->exportValue(RepoViewer :: PARAM_QUERY);
+        }
+
+        if (Request :: get(RepoViewer :: PARAM_QUERY))
+        {
+            return Request :: get(RepoViewer :: PARAM_QUERY);
+        }
+
         return null;
     }
 
@@ -74,6 +113,16 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
     function set_browser_actions($browser_actions)
     {
         $this->browser_actions = $browser_actions;
+    }
+
+    function get_form()
+    {
+        return $this->form;
+    }
+
+    function set_form($form)
+    {
+        $this->form = $form;
     }
 
     function get_menu()
