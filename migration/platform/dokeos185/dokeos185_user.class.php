@@ -475,9 +475,9 @@ class Dokeos185User extends Import
         unset($creator_id);
         
         if ($mgdm->is_language_available($this->get_language()))
-            $lcms_user->set_language($this->get_language());
+            //$lcms_user->set_language($this->get_language());
         else
-            $lcms_user->set_language('english');
+            //$lcms_user->set_language('english');
             
         //create user in database
         $lcms_user->create();
