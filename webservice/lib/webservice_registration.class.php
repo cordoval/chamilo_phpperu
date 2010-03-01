@@ -139,11 +139,11 @@ class WebserviceRegistration extends DataClass
 
         if ($this->get_parent())
         {
-            $parent_id = WebserviceRights :: get_location_id_by_identifier('webservice_category', $this->get_parent());
+            $parent_id = WebserviceRights :: get_location_id_by_identifier_from_webservices_subtree('webservice_category', $this->get_parent());
         }
         else
         {
-            $parent_id = WebserviceRights :: get_root_id();
+            $parent_id = WebserviceRights :: get_webservices_subtree_root_id();
         }
 
 

@@ -35,24 +35,17 @@ class RepositoryCategory extends PlatformCategory
             return false;
         }
 
-        $location = new Location();
-        $location->set_location($this->get_name());
-        $location->set_application(RepositoryManager :: APPLICATION_NAME);
-        $location->set_type_from_object($this);
-        $location->set_identifier($this->get_id());
-
         $parent = $this->get_parent();
         if ($parent == 0)
         {
-            $parent = RepositoryRights :: get_user_root_id($user_id);
+            $parent_id = RepositoryRights :: get_user_root_id($user_id);
         }
         else
         {
-            $parent = RepositoryRights :: get_location_id_by_identifier('repository_category', $this->get_parent());
+            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree('repository_category', $this->get_parent(), $user_id); 
         }
-
-        $location->set_parent($parent);
-        if (! $location->create())
+        
+    	if (!RepositoryRights :: create_location_in_user_tree($this->get_name(), 'repository_category', $this->get_id(), $parent_id, $user_id))
         {
             return false;
         }

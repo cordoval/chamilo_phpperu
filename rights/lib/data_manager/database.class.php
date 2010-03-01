@@ -198,6 +198,8 @@ class DatabaseRightsDataManager extends RightsDataManager
         // Update all necessary left-values
         $conditions = array();
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $location->get_tree_type());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $location->get_tree_identifier());
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $condition = new AndCondition($conditions);
 
@@ -212,6 +214,8 @@ class DatabaseRightsDataManager extends RightsDataManager
         // Update all necessary right-values
         $conditions = array();
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $location->get_tree_type());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $location->get_tree_identifier());
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $condition = new AndCondition($conditions);
 
@@ -230,6 +234,8 @@ class DatabaseRightsDataManager extends RightsDataManager
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $location->get_tree_type());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $location->get_tree_identifier());
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $location->get_left_value());
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $location->get_right_value());
         $condition = new AndCondition($conditions);
@@ -244,6 +250,8 @@ class DatabaseRightsDataManager extends RightsDataManager
         // Update all necessary nested-values
         $conditions = array();
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $location->get_tree_type());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $location->get_tree_identifier());
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_left_value());
         $condition = new AndCondition($conditions);
 
@@ -260,6 +268,8 @@ class DatabaseRightsDataManager extends RightsDataManager
         // Update some more nested-values
         $conditions = array();
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $location->get_tree_type());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $location->get_tree_identifier());
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $location->get_left_value());
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_right_value());
         $condition = new AndCondition($conditions);
@@ -370,6 +380,8 @@ class DatabaseRightsDataManager extends RightsDataManager
         // Do the actual update
         $conditions = array();
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $location->get_tree_type());
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $location->get_tree_identifier());
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, ($location->get_left_value() - 1));
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, ($location->get_right_value() + 1));
         $condition = new AndCondition($conditions);
