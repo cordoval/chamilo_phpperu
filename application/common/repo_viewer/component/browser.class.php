@@ -47,9 +47,16 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         $this->form->accept($this->renderer);
 
         $html = array();
-        $html[] = '<div class="search_form" style="float: right; clear: both;">';
+        $html[] = '<div class="search_form" style="float: right;">';
         $html[] = '<div class="simple_search">';
         $html[] = $this->renderer->toHTML();
+
+//        $reset_button = new ToolbarItem('', Theme :: get_common_image_path() . 'action_reset.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON);
+//        $html[] = $reset_button->as_html();
+//        $html[] = '<div class="simple_search">';
+//        $html[] = '<a href="' . $this->get_url() . '">Reset</a>';
+//        $html[] = '</div>';
+
         $html[] = '</div>';
         $html[] = '</div>';
 
