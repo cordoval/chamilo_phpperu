@@ -303,11 +303,17 @@ class Document extends ContentObject
         $filename = $this->get_filename();
         $parts = explode('.', $filename);
         $icon_name = $parts[count($parts) - 1];
-        if (! file_exists(Theme :: get_image_path() . $icon_name . '.png'))
+
+        $icon_path = Theme :: get_instance()->get_path(SYS_IMG_PATH) . 'common/content_object/document_' . $icon_name . '.png';
+
+//        echo Theme :: get_common_image_path() . 'content_object/document_' . $icon_name . '.png' . '<br />';
+
+        if (! file_exists($icon_path))
         {
             return 'document';
         }
-        return $icon_name;
+
+        return 'document_' . $icon_name;
     }
 
     static function get_disk_space_properties()
