@@ -112,10 +112,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									{
 										if ( element.children[ i ].name == 'cke:embed' )
 										{
-											if ( isChamiloyoutubeEmbed( element.children[ i ] ) )
-												return createFakeElement( editor, element );
+											if ( !isChamiloyoutubeEmbed( element.children[ i ] ) )
+												return null;
+
+											return createFakeElement( editor, element );
 										}
 									}
+									return null;
 								}
 								
 								return createFakeElement( editor, element );
