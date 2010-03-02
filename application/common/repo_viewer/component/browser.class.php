@@ -47,16 +47,9 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         $this->form->accept($this->renderer);
 
         $html = array();
-        $html[] = '<div class="search_form" style="float: right;">';
+        $html[] = '<div class="search_form" style="float: right; margin: 0px 0px 5px 0px;">';
         $html[] = '<div class="simple_search">';
         $html[] = $this->renderer->toHTML();
-
-//        $reset_button = new ToolbarItem('', Theme :: get_common_image_path() . 'action_reset.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON);
-//        $html[] = $reset_button->as_html();
-//        $html[] = '<div class="simple_search">';
-//        $html[] = '<a href="' . $this->get_url() . '">Reset</a>';
-//        $html[] = '</div>';
-
         $html[] = '</div>';
         $html[] = '</div>';
 
@@ -135,8 +128,41 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
     function get_menu()
     {
         $url = $this->get_url($this->get_parameters()) . '&category=%s';
-        $extra = array(array('title' => Translation :: get('SharedContentObjects'), 'url' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_BROWSER, 'category' => 1, 'sharedbrowser' => 1))), 'class' => '', OptionsMenuRenderer :: KEY_ID => 1));
+
+        $extra = array();
+
+        $shared = array();
+        $shared['title'] = Translation :: get('SharedContentObjects');
+        $shared['url'] = $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_BROWSER, 'category' => 1, 'sharedbrowser' => 1)));
+        $shared['class'] = 'shared_objects';
+        $shared[OptionsMenuRenderer :: KEY_ID] = 1;
+        $extra[] = $shared;
+
+        if ($this->get_query())
+        {
+            $search_url = '#';
+            $search = array();
+            $search['title'] = Translation :: get('SearchResults');
+            $search['url'] = $search_url;
+            $search['class'] = 'search_results';
+            $extra[] = $search;
+        }
+        else
+        {
+            $search_url = null;
+        }
+
         $menu = new ContentObjectCategoryMenu($this->get_user_id(), Request :: get('category') ? Request :: get('category') : 0, $url, $extra);
+
+        if ($search_url)
+        {
+            $menu->forceCurrentUrl($search_url);
+        }
+        elseif($this->is_shared_object_browser())
+        {
+            $menu->forceCurrentUrl($shared['url']);
+        }
+
         return $menu;
     }
 
@@ -144,8 +170,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
     {
         $browser_actions = array();
 
-        $browser_actions[] = array('href' => $this->get_url(
-        array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
+        $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
 
         if (! Request :: get('sharedbrowser') == 1)
         {
@@ -153,6 +178,11 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         }
 
         return $browser_actions;
+    }
+
+    function is_shared_object_browser()
+    {
+        return (Request :: get('sharedbrowser') == 1);
     }
 }
 ?>

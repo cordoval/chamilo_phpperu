@@ -7,7 +7,7 @@ $this_section = $application_name;
 
 Utilities :: set_application($this_section);
 
-if (! Authentication :: is_valid() && ! Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
+if (! Authentication :: is_valid())
 {
     Display :: not_allowed();
 }
