@@ -11,6 +11,8 @@ require_once dirname(__FILE__) . '/content_object_table/content_object_table.cla
  */
 class RepoViewerBrowserComponent extends RepoViewerComponent
 {
+    const SHARED_BROWSER = 'shared';
+
     /**
      * The search form
      */
@@ -31,7 +33,14 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         parent :: __construct($parent);
         $this->set_browser_actions($this->get_default_browser_actions());
 
-        $this->set_form(new FormValidator('search', 'post', $this->get_url($this->get_parameters()), '', array('id' => 'search'), false));
+        $form_parameters = $this->get_parameter();
+        $form_parameters[RepoViewer :: PARAM_ACTION] = RepoViewer :: ACTION_BROWSER;
+        if ($this->is_shared_object_browser())
+        {
+            $form_parameters[self :: SHARED_BROWSER] = 1;
+        }
+
+        $this->set_form(new FormValidator('search', 'post', $this->get_url($form_parameters), '', array('id' => 'search'), false));
         $this->get_form()->addElement('hidden', RepoViewer :: PARAM_ACTION);
         $this->get_form()->addElement('text', RepoViewer :: PARAM_QUERY, Translation :: get('Find'), 'size="30" class="search_query"');
         $this->get_form()->addElement('style_submit_button', 'submit', Theme :: get_common_image('action_search'), array('class' => 'search'));
@@ -133,7 +142,17 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 
         $shared = array();
         $shared['title'] = Translation :: get('SharedContentObjects');
-        $shared['url'] = $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_BROWSER, 'category' => 1, 'sharedbrowser' => 1)));
+
+        $extra_parameters = array();
+        $extra_parameters[RepoViewer :: PARAM_ACTION] = RepoViewer :: ACTION_BROWSER;
+        $extra_parameters['category'] = 1;
+
+        if ($this->is_shared_object_browser())
+        {
+            $extra_parameters[self :: SHARED_BROWSER] = 1;
+        }
+
+        $shared['url'] = $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_BROWSER, 'category' => 1, self :: SHARED_BROWSER => 1)));
         $shared['class'] = 'shared_objects';
         $shared[OptionsMenuRenderer :: KEY_ID] = 1;
         $extra[] = $shared;
@@ -142,7 +161,16 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         {
             $search_url = '#';
             $search = array();
-            $search['title'] = Translation :: get('SearchResults');
+
+            if ($this->is_shared_object_browser())
+            {
+                $search['title'] = Translation :: get('SharedSearchResults');
+            }
+            else
+            {
+                $search['title'] = Translation :: get('SearchResults');
+            }
+
             $search['url'] = $search_url;
             $search['class'] = 'search_results';
             $extra[] = $search;
@@ -172,7 +200,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 
         $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
 
-        if (! Request :: get('sharedbrowser') == 1)
+        if (!$this->is_shared_object_browser())
         {
             $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_CREATOR, RepoViewer :: PARAM_EDIT_ID => '__ID__'))), 'img' => Theme :: get_common_image_path() . 'action_editpublish.png', 'label' => Translation :: get('EditAndPublish'));
         }
@@ -182,7 +210,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 
     function is_shared_object_browser()
     {
-        return (Request :: get('sharedbrowser') == 1);
+        return (Request :: get(self :: SHARED_BROWSER) == 1);
     }
 }
 ?>

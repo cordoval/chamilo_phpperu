@@ -22,13 +22,6 @@ class HtmlEditorCkeditorImageProcessor extends HtmlEditorProcessor
         $html[] = '            element.setValue( \'' . addslashes($object->get_title()) . '\' );';
         $html[] = '        }';
 
-//        // Set the height of the movie
-//        $html[] = '        element = dialog.getContentElement( \'info\', \'height\' );';
-//        $html[] = '        if ( element )';
-//        $html[] = '        {';
-//        $html[] = '            element.setValue( ' . $object->get_height() . ' );';
-//        $html[] = '        }';
-
         $html[] = '    }';
 
         $html[] = '});';
