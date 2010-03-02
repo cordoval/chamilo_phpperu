@@ -59,7 +59,7 @@ class HistoricVariableTranslationBrowserTableCellRenderer extends DefaultHistori
 	{
 		$toolbar_data = array();
 
-		$can_delete = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $historic_variable_translation->get_variable_translation()->get_language_id(), 'cda_language');
+		$can_delete = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $historic_variable_translation->get_variable_translation()->get_language_id(), 'cda_language');
 
 		if ($can_delete)
 		{

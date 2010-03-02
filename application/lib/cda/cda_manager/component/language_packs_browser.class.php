@@ -60,7 +60,7 @@ class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png',
         	$this->get_browse_language_packs_url($cda_language->get_id())));
 
-        $can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
+        $can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
 
         if ($can_lock)
         {

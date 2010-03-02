@@ -160,17 +160,12 @@ class CdaLanguage extends DataClass
 			}
 		}
 
-	    $location = new Location();
-        $location->set_location($this->get_english_name());
-        $location->set_application(CdaManager :: APPLICATION_NAME);
-        $location->set_type('cda_language');
-        $location->set_identifier($this->get_id());
-		$parent = RepositoryRights :: get_location_id_by_identifier('manager', 'cda_language');
-        $location->set_parent($parent);
-        if (! $location->create())
-        {
-            return false;
-        }
+	    $parent = CdaRights :: get_languages_subtree_root_id();
+		
+		if(!CdaRights :: create_location_in_languages_subtree($this->get_english_name(), 'cda_language', $this->get_id(), $parent))
+		{
+			return false;
+		}
 
 		return $succes;
 	}

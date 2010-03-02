@@ -75,8 +75,8 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 		$toolbar_data = array();
 
 		$status = $variable_translation->get_status();
-		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $variable_translation->get_language_id(), 'cda_language');
-		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $variable_translation->get_language_id(), 'cda_language');
+		$can_translate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $variable_translation->get_language_id(), 'cda_language');
+		$can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $variable_translation->get_language_id(), 'cda_language');
 
 		if (($can_translate && !$variable_translation->is_locked()) || $can_lock)
 		{

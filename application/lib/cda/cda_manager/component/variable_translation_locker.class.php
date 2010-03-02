@@ -23,7 +23,7 @@ class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
 		$language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
 		$status = Request :: get(CdaManager :: PARAM_VARIABLE_TRANSLATION_STATUS);
 		
-		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $language_id, 'cda_language');
+		$can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $language_id, 'cda_language');
 		
 		if (!$can_lock)
 		{

@@ -26,9 +26,9 @@ class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseLanguagePacks')));
 		$this->actionbar = $this->get_action_bar();
 
-		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'language_pack', 'manager');
-		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'language_pack', 'manager');
-		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, 'language_pack', 'manager');
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
+		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
+		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
 
 		if (!$can_edit && !$can_delete && !$can_add)
 		{
@@ -74,7 +74,7 @@ class CdaManagerAdminLanguagePacksBrowserComponent extends CdaManagerComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, 'language_pack', 'manager');
+        $can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
         if ($can_add)
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddLanguagePack'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_language_pack_url()));

@@ -55,8 +55,8 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Rate'), Theme :: get_common_image_path() . 'action_statistics.png',
         			$this->get_rate_variable_translation_url($this->variable_translation)));
 
-		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $this->variable_translation->get_language_id(), 'cda_language');
-		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $this->variable_translation->get_language_id(), 'cda_language');
+		$can_translate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $this->variable_translation->get_language_id(), 'cda_language');
+		$can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $this->variable_translation->get_language_id(), 'cda_language');
 
 		if (($can_translate && !$this->variable_translation->is_locked()) || $can_lock)
 		{

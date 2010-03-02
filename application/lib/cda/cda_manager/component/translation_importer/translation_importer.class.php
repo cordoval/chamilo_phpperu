@@ -132,8 +132,8 @@ abstract class TranslationImporter
     			continue;
     		}
     		
-    		$is_translator = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $system_language->get_id(), 'cda_language');
-			$is_moderator = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $system_language->get_id(), 'cda_language');
+    		$is_translator = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $system_language->get_id(), 'cda_language');
+			$is_moderator = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $system_language->get_id(), 'cda_language');
 	    		
 			if(!$is_translator && !$is_moderator)
 			{

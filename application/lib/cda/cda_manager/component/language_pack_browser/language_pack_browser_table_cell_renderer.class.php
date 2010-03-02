@@ -74,15 +74,15 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 	private function get_modification_links($language_pack)
 	{
 		$cda_language_id = $this->browser->get_cda_language();
-		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
-		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language_id, 'cda_language');
+		$can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
+		$can_translate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $cda_language_id, 'cda_language');
 
 		$toolbar_data = array();
 
 		if(get_class($this->browser) != 'CdaManagerLanguagePacksBrowserComponent')
 		{
-			$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'language_pack', 'manager');
-    		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'language_pack', 'manager');
+			$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
+    		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
 
     		if ($can_edit)
     		{

@@ -50,7 +50,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 				}*/
 
 				if(!$this->browser->get_user()->is_platform_admin() &&
-					CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language->get_id(), 'cda_language'))
+					CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $cda_language->get_id(), 'cda_language'))
 				{
 					return '<span style="color: green; font-weight: bold;">' . $cda_language->get_original_name() . '</span>';
 				}
@@ -94,8 +94,8 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 
 		if(get_class($this->browser) != 'CdaManagerCdaLanguagesBrowserComponent')
 		{
-    		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'cda_language', 'manager');
-    		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'cda_language', 'manager');
+    		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_LANGUAGES, 'manager');
+    		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, CdaRights :: LOCATION_LANGUAGES, 'manager');
 
     		if ($can_edit)
     		{
@@ -117,8 +117,8 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 		}
 		else
 		{
-			$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language->get_id(), 'cda_language');
-			$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language->get_id(), 'cda_language');
+			$can_translate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $cda_language->get_id(), 'cda_language');
+			$can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $cda_language->get_id(), 'cda_language');
 
 			if ($can_lock)
 			{

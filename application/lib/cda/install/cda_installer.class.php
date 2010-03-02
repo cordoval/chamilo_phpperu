@@ -26,5 +26,24 @@ class CdaInstaller extends Installer
 	{
 		return dirname(__FILE__);
 	}
+	
+	function install_extra()
+    {
+        if (! $this->create_languages_subtree())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('LanguagesTreeCreated'));
+        }
+        
+        return true;
+    }
+    
+    private function create_languages_subtree()
+    {
+    	return RightsUtilities :: create_subtree_root_location(CdaManager :: APPLICATION_NAME, 0, 'languages_tree');
+    }
 }
 ?>

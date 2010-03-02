@@ -27,9 +27,9 @@ class CdaManagerAdminVariablesBrowserComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), Translation :: get('BrowseVariables')));
 		$this->actionbar = $this->get_action_bar();
 
-		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'variables', 'manager');
-		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'variables', 'manager');
-		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, 'variables', 'manager');
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
+		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
+		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
 
 		if (!$can_edit && !$can_delete && !$can_add)
 		{
@@ -55,7 +55,7 @@ class CdaManagerAdminVariablesBrowserComponent extends CdaManagerComponent
         $language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, 'variables', 'manager');
+        $can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
         if ($can_add)
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddVariable'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_variable_url(Request :: get(CdaManager :: PARAM_LANGUAGE_PACK))));

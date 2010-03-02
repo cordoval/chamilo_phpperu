@@ -74,14 +74,14 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
 
     function get_user_languages($right)
     {
-		$language_location = CdaRights :: get_location_by_identifier('manager', 'cda_language');
+		$language_location = CdaRights :: get_languages_subtree_root();
 		$languages = $language_location->get_children();
 
 		$available_languages = array();
 
 		while ($language = $languages->next_result())
 		{
-			$has_right = CdaRights :: is_allowed($right, $language->get_identifier(), $language->get_type());
+			$has_right = CdaRights :: is_allowed_in_languages_subtree($right, $language->get_identifier(), $language->get_type());
 
 			if ($has_right)
 			{

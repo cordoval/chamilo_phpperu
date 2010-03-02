@@ -28,7 +28,7 @@ class CdaManagerVariableUpdaterComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_VARIABLES, CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), Translation :: get('BrowseVariables')));
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_VARIABLE => $variable->get_id())), Translation :: get('UpdateVariable')));
 
-		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'variables', 'manager');
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
 
    		if (!$can_edit)
    		{

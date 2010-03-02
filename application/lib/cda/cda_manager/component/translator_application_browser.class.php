@@ -106,14 +106,14 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManagerComponen
     
     function get_user_languages()
     {
-		$language_location = CdaRights :: get_location_by_identifier('manager', 'cda_language');
+		$language_location = CdaRights :: get_languages_subtree_root();
 		$languages = $language_location->get_children();
 		
 		$available_languages = array();
 		
 		while ($language = $languages->next_result())
 		{
-			$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $language->get_identifier(), $language->get_type());
+			$can_edit = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $language->get_identifier(), $language->get_type());
 			
 			if ($can_edit)
 			{

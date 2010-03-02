@@ -24,7 +24,7 @@ class CdaManagerCdaLanguageCreatorComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES)), Translation :: get('AdminBrowseLanguages')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateCdaLanguage')));
 
-   		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, 'cda_language', 'manager');
+   		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_LANGUAGES, 'manager');
 
    		if (!$can_add)
    		{
