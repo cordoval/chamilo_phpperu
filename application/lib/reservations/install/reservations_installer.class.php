@@ -24,5 +24,24 @@ class ReservationsInstaller extends Installer
     {
         return dirname(__FILE__);
     }
+    
+	function install_extra()
+    {
+        if (! $this->create_reservations_subtree())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ReservationsTreeCreated'));
+        }
+        
+        return true;
+    }
+    
+    private function create_reservations_subtree()
+    {
+    	return RightsUtilities :: create_subtree_root_location(ReservationsManager :: APPLICATION_NAME, 0, 'reservations_tree');
+    }
 }
 ?>

@@ -296,7 +296,7 @@ class ReservationsManager extends WebApplication
     function has_right($type, $id, $right)
     {
         //$location_id = ReservationsRights :: get_location_id_by_identifier($type, $id);
-        return ReservationsRights :: is_allowed($right, $id, $type);
+        return ReservationsRights :: is_allowed_in_reservations_subtree($right, $id, $type);
     }
 
     function has_enough_credits_for($item, $start_date, $stop_date, $user_id)

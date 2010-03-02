@@ -49,5 +49,30 @@ class ReservationsRights
     {
         return RightsUtilities :: create_location($name, ReservationsManager :: APPLICATION_NAME, $type, $identifier, $inherit, $parent);
     }
+    
+	static function create_location_in_reservations_subtree($name, $type, $identifier, $parent)
+    {
+    	return RightsUtilities :: create_location($name, ReservationsManager :: APPLICATION_NAME, $type, $identifier, 0, $parent, 0, 0, 'reservations_tree');
+    }
+    
+    static function get_reservations_subtree_root()
+    {
+    	return RightsUtilities :: get_root(ReservationsManager :: APPLICATION_NAME, 'reservations_tree');
+    }
+    
+	static function get_reservations_subtree_root_id()
+    {
+    	return RightsUtilities :: get_root_id(ReservationsManager :: APPLICATION_NAME, 'reservations_tree');
+    }
+    
+    static function get_location_id_by_identifier_from_reservations_subtree($type, $identifier)
+    {
+    	return RightsUtilities :: get_location_id_by_identifier(ReservationsManager :: APPLICATION_NAME, $type, $identifier, 0, 'reservations_tree');
+    }
+    
+	static function is_allowed_in_reservations_subtree($right, $location, $type)
+    {
+    	 return RightsUtilities :: is_allowed($right, $location, $type, ReservationsManager :: APPLICATION_NAME, null, 0, 'reservations_tree');
+    }
 }
 ?>
