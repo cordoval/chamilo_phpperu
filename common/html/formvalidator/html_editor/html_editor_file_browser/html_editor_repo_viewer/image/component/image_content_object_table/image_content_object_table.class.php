@@ -32,13 +32,13 @@ class ImageContentObjectTable extends ObjectTable
         $column_model = new ImageContentObjectTableColumnModel();
         $cell_renderer = new ImageContentObjectTableCellRenderer($table_actions);
         parent :: __construct($data_provider, ImageContentObjectTable :: DEFAULT_NAME, $column_model, $cell_renderer);
-        
+
         if ($parent->get_maximum_select() != RepoViewer :: SELECT_SINGLE)
         {
             $actions = array();
             $actions[] = new ObjectTableFormAction(RepoViewer :: PARAM_PUBLISH_SELECTED, Translation :: get('PublishSelected'), false);
         }
-        
+
         $this->set_form_actions($actions);
     }
 }

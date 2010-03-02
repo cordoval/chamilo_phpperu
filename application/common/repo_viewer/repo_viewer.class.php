@@ -27,7 +27,6 @@ class RepoViewer
 
     const ACTION_CREATOR = 'creator';
     const ACTION_BROWSER = 'browser';
-    const ACTION_FINDER = 'finder';
     const ACTION_PUBLISHER = 'publisher';
 
     /**
@@ -77,7 +76,7 @@ class RepoViewer
         $this->parameters = array();
         $this->types = (is_array($types) ? $types : array($types));
         $this->mail_option = $mail_option;
-        $this->set_repo_viewer_actions(array(self :: ACTION_CREATOR, self :: ACTION_BROWSER, self :: ACTION_FINDER));
+        $this->set_repo_viewer_actions(array(self :: ACTION_CREATOR, self :: ACTION_BROWSER));
         $this->excluded_objects = $excluded_objects;
         $this->set_parameter(RepoViewer :: PARAM_ACTION, (Request :: get(RepoViewer :: PARAM_ACTION) ? Request :: get(RepoViewer :: PARAM_ACTION) : self :: ACTION_CREATOR));
         if ($parse_input)
