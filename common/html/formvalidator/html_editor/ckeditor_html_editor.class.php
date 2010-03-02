@@ -13,7 +13,7 @@ class FormValidatorCkeditorHtmlEditor extends FormValidatorHtmlEditor
         $form = $this->get_form();
 
         $scripts = array();
-        $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/ckeditor.js');
+        $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/ckeditor_source.js');
         $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/adapters/jquery.js');
 
         foreach($scripts as $script)
