@@ -14,6 +14,7 @@ class Document extends ContentObject
     const PROPERTY_HASH = 'hash';
 
     const TYPE_IMAGE = 'image';
+    const TYPE_FLASH = 'flash';
 
     /**
     * In memory file content. Will be saved on disk if it doesn't exist yet. Mainly used to create a new Document.
@@ -435,6 +436,14 @@ class Document extends ContentObject
         $image_types[] = 'BMP';
 
         return $image_types;
+    }
+
+    static function get_flash_types()
+    {
+        $flash_types = array();
+        $flash_types[] = 'swf';
+
+        return $flash_types;
     }
 
     function send_as_download()

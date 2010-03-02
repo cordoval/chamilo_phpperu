@@ -22,7 +22,7 @@ class RepositoryManagerDocumentDownloaderComponent extends RepositoryManagerComp
             $this->display_footer();
             exit();
         }
-        
+
         $lo = $this->retrieve_content_object($object_id);
         if ($lo->get_type() != 'document')
         {
@@ -31,7 +31,7 @@ class RepositoryManagerDocumentDownloaderComponent extends RepositoryManagerComp
             $this->display_footer();
             exit();
         }
-        
+
         if (Request :: get('display') == 1)
             $this->display_document($lo);
         else
@@ -41,9 +41,9 @@ class RepositoryManagerDocumentDownloaderComponent extends RepositoryManagerComp
     function display_document($lo)
     {
         $name = $lo->get_filename();
-        
-        $types = array('text/html' => array('.html', '.htm'), 'text/plain' => array('.txt'), 'image/' => array('.jpg', '.bmp', '.jpeg', '.png'));
-        
+
+        $types = array('application/x-shockwave-flash' => array('.swf'), 'text/html' => array('.html', '.htm'), 'text/plain' => array('.txt'), 'image/' => array('.jpg', '.bmp', '.jpeg', '.png'));
+
         foreach ($types as $type => $extensions)
         {
             foreach ($extensions as $extension)
@@ -53,16 +53,16 @@ class RepositoryManagerDocumentDownloaderComponent extends RepositoryManagerComp
                 {
                     if ($type == 'image/')
                         $type .= substr($extension, 1);
-                    
+
                     $bool = true;
                     break;
                 }
             }
-            
+
             if ($bool)
                 break;
         }
-        
+
         header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
         header('Content-Type: ' . $type);
         header('Content-Description: ' . $lo->get_filename());
