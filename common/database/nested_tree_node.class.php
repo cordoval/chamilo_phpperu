@@ -2,9 +2,10 @@
 
 /**
  * Extension on the database to embedd basic functionality for nested trees
+ * @author Sven Vanpoucke
  */
 
-abstract class NestedTreeDataClass extends DataClass
+abstract class NestedTreeNode extends DataClass
 {
 	const PROPERTY_PARENT_ID = 'parent_id';
 	const PROPERTY_LEFT_VALUE = 'left_value';
@@ -66,11 +67,18 @@ abstract class NestedTreeDataClass extends DataClass
     
     // Nested trees functionality
     
+    /**
+     * Check if the object has children
+     */
     function has_children()
     {
     	 return ! ($this->get_left_value() == ($this->get_right_value() - 1));
     }
     
+    /**
+     * Count the number of children of the object
+     * @param boolean $recursive - if put on true, every child will be counted, even those who are not directly connected with parent_id
+     */
     function count_children($recursive = true)
     {
     	$dm = $this->get_data_manager();
@@ -86,6 +94,10 @@ abstract class NestedTreeDataClass extends DataClass
         }
     }
     
+    /**
+     * Retrieve the children of the object
+     * @param boolean $recursive - if put on true, every child will be retrieved, even those who are not directly connected with parent_id
+     */
     function get_children($recursive = true)
     {
     	$dm = $this->get_data_manager();
@@ -93,6 +105,10 @@ abstract class NestedTreeDataClass extends DataClass
         $node = call_user_func(array($dm, $func), $this, $recursive);
     }
     
+    /**
+     * Count the parents of the object, recursivly, every parent will be counted, even those who are not directly connected with parent_id
+     * @param boolean $include_self - if put on true, the current object will be included in the count
+     */
 	function count_parents($include_self = true)
     {
     	$dm = $this->get_data_manager();
@@ -100,6 +116,10 @@ abstract class NestedTreeDataClass extends DataClass
         $node = call_user_func(array($dm, $func), $this, $include_self);
     }
     
+    /**
+     * Retrieve the parents of the object, recursivly, every parent will be counted, even those who are not directly connected with parent_id
+     * @param boolean $include_self - if put on true, the current object will be included in the parents list
+     */
     function get_parents($include_self = true)
     {
     	$dm = $this->get_data_manager();
@@ -107,6 +127,9 @@ abstract class NestedTreeDataClass extends DataClass
         $node = call_user_func(array($dm, $func), $this, true, $include_self);
     }
     
+    /**
+     * Retrieve the parent of the object that is directly connected with parent_id
+     */
 	function get_parent()
     {
     	$dm = $this->get_data_manager();
@@ -114,6 +137,10 @@ abstract class NestedTreeDataClass extends DataClass
         $node = call_user_func(array($dm, $func), $this, false);
     }
     
+    /**
+     * Check if the current object is a child of the given object
+     * @param NestedTreeNode $node - the possible parent node
+     */
     function is_child_of($node)
     {
     	if (!is_object($node))
@@ -136,6 +163,10 @@ abstract class NestedTreeDataClass extends DataClass
         return false;
     }
     
+    /**
+     * Check if the object is the parent of the given object
+     * @param NestedTreeNode $node - the possible child node
+     */
     function is_parent_of($node)
     {
     	if (!is_object($node))
@@ -158,13 +189,29 @@ abstract class NestedTreeDataClass extends DataClass
         return false;
     }
     
+    /**
+     * Check if the object has sibblings
+     */
     function has_siblings()
     {
-    	$dm = $this->get_data_manager();
-		$func = $this->get_object_name() . '_has_sibblings';
-        return call_user_func(array($dm, $func), $this);
+    	return ($this->count_sibblings(false) > 0);
     }
     
+    /**
+     * Count the sibblings of the object
+     * @param boolean $include_self - if set to true, the object will be included in the count
+     */
+    function count_sibblings($include_self = true)
+    {
+    	$dm = $this->get_data_manager();
+    	$func = 'count_' . $this->get_object_name() . '_sibblings';
+    	return call_user_func(array($dm, $func), $this, $include_self);
+    }
+    
+    /**
+     * Retrieve the sibblings of the object
+     * @param boolean $include_self - if set to true, the object will be included in the sibblings list
+     */
     function get_siblings($include_self = true)
     {
     	$dm = $this->get_data_manager();
@@ -172,13 +219,22 @@ abstract class NestedTreeDataClass extends DataClass
     	return call_user_func(array($dm, $func), $this, $include_self);
     }
     
-    function move($new_parent_id, $new_previous_id = 0)
+    /**
+     * Move the object to another place in the tree (either with parent id or previous node id)
+     * @param int $new_parent_id - the new parent_id
+     * @param int $new_previous_id - the previous node id where you want to add the object
+     */
+    function move($new_parent_id = 0, $new_previous_id = 0)
     {
     	$dm = $this->get_data_manager();
     	$func = 'move_' . $this->get_object_name();
     	return call_user_func(array($dm, $func), $this, $new_parent_id, $new_previous_id);
     }
     
+    /**
+     * Create the object in the database (either with parent id or previous node id)
+     * @param int $previous_id - the previous node id where you want to add the object
+     */
     function create($previous_id = 0)
     {
     	$dm = $this->get_data_manager();
@@ -209,7 +265,7 @@ abstract class NestedTreeDataClass extends DataClass
 
             // Correct the left and right values wherever necessary.
             $func = 'add_' . $this->get_object_name() . '_nested_values';
-            if (!call_user_func(array($dm, $func), $previous_visited, 1))
+            if (!call_user_func(array($dm, $func), $this, $previous_visited, 1))
             {
                 return false;
             }
@@ -229,6 +285,10 @@ abstract class NestedTreeDataClass extends DataClass
         return true;
     }
     
+    /**
+     * Delete the object from the database
+     * Delete the nested values
+     */
     function delete()
     {
     	$dm = $this->get_data_manager();
