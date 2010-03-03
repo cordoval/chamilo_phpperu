@@ -349,8 +349,10 @@ class NestedTreeDatabase extends Database
         	$conditions[] = $condition;
         }
 
+        $update_condition = new AndCondition($conditions);
+        
         $properties = array(NestedTreeNode :: PROPERTY_LEFT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
-        $res = $this->update_objects($node->get_table_name(), $properties, $condition);
+        $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
         		 
         if(!$res)
         {
@@ -360,14 +362,16 @@ class NestedTreeDatabase extends Database
         // Update all necessary right-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
-        
+     
 		if($condition)
         {
         	$conditions[] = $condition;
         }
         
+        $update_condition = new AndCondition($conditions);
+    
 		$properties = array(NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
-        $res = $this->update_objects($node->get_table_name(), $properties, $condition);
+        $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
 
         if (!$res)
         {
@@ -409,8 +413,7 @@ class NestedTreeDatabase extends Database
 
         // Update some more nested-values
         $conditions = array();
-        //Sven: Not sure, but i don't think this first condition is necessary, you don't need to update your parents only but the entire tree after this node
-        //$conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $node->get_left_value());
+        $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $node->get_left_value());
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $node->get_right_value());
         
 		if($condition)
