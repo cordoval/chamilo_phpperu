@@ -39,6 +39,7 @@ CKEDITOR.lang['en-gb'] = {
 		flash : 'Flash',
 		chamiloflash : 'Flash',
 		chamiloyoutube : 'YouTube',
+		chamilovideo : 'Video',
 		form : 'Form',
 		checkbox : 'Checkbox',
 		radio : 'Radio Button',
@@ -423,6 +424,20 @@ CKEDITOR.lang['en-gb'] = {
 		title : 'YouTube Properties',
 		width : 'Width',
 		height : 'Height'
+	},
+	chamilovideo : {
+		properties : 'Video Properties',
+		propertiesTab : 'Properties',
+		title : 'Video Properties',
+		autoSize : 'Autosize',
+		autoStart : 'Autostart',
+		showControls : 'Show playback controls',
+		showPositionControls : 'Show position controls',
+		showTracker : 'Tracker',
+		showAudioControls : 'Show audio controls',
+		showGoToBar : 'Show goto bar',
+		showStatusBar : 'Show statusbar',
+		standby : 'Loading video ...'
 	},
 	spellCheck : {
 		toolbar : 'Check Spelling',
