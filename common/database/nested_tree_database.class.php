@@ -399,12 +399,12 @@ class NestedTreeDatabase extends Database
         	$conditions[] = $condition;
         }
         
-        $condition = new AndCondition($conditions);
+        $update_condition = new AndCondition($conditions);
 
         $properties = array();
         $properties[NestedTreeNode :: PROPERTY_LEFT_VALUE] = $this->escape_column_name(NestedTreeNode :: PROPERTY_LEFT_VALUE) . ' - ' . $this->quote($delta);
         $properties[NestedTreeNode :: PROPERTY_RIGHT_VALUE] = $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta);
-        $res = $this->update_objects($node->get_table_name(), $properties, $condition);
+        $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
 
         if (!$res)
         {
@@ -421,10 +421,10 @@ class NestedTreeDatabase extends Database
         	$conditions[] = $condition;
         }
         
-        $condition = new AndCondition($conditions);
+        $update_condition = new AndCondition($conditions);
 
         $properties = array(NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta));
-        $res = $this->update_objects($node->get_table_name(), $properties, $condition);
+        $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
 
         if (!$res)
         {
