@@ -177,6 +177,38 @@ abstract class MigrationDataManager
      */
     abstract function get_user_by_full_name($fullname);
 
+   /**
+ 	 *	retrieve category
+ 	 *  if the category does not exist, create a new category
+ 	 *  return the id
+ 	 *  
+     */
+    function get_repository_category_by_name($user_id, $title)
+    {
+		$dm = RepositoryDataManager :: get_instance();
+		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_NAME, $title);
+        $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $user_id);
+        $condition = new AndCondition($conditions);
+        
+        $categories = $dm->retrieve_categories($condition);
+        $category = $categories->next_result();
+        if(!$category)
+        {
+            //Create category for tool in lcms
+        	$category = new RepositoryCategory();
+        	$category->set_user_id($user_id);
+        	$category->set_name($title);
+        	$category->set_parent(0);
+            
+        	//Create category in database
+        	$lcms_repository_category->create();
+        }
+ 
+        return $category->get_id();       
+        
+    }
+    
+    
 }
 
 ?>
