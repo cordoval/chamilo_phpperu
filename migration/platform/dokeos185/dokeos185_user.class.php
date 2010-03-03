@@ -493,7 +493,7 @@ class Dokeos185User extends Import
         // Convert profile fields to Profile object if the user has user profile data
         if ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL)
         {
-        	$lcms_category_id = $mgdm->get_repository_category_by_name($new_user_id,Translation :: get('Profile'));
+        	$lcms_category_id = $mgdm->get_repository_category_by_name($lcms_user->get_id(),Translation :: get('Profile'));
         	$lcms_repository_profile = new Profile();
         	$lcms_repository_profile->set_competences($this->get_competences());
         	$lcms_repository_profile->set_diplomas($this->get_diplomas());
