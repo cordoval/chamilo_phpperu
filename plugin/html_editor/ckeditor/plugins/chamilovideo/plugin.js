@@ -5,9 +5,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 (function()
 {
-	var chamiloflashFilenameRegex = /\.swf(?:$|\?)/i,
-		numberRegex = /^\d+(?:\.\d+)?$/,
-		youtubeFilenameRegex = /\.youtube\./;
+	var chamilovideoFilenameRegex = /\.video\./,
+		numberRegex = /^\d+(?:\.\d+)?$/;
 
 	function cssifyLength( length )
 	{
@@ -16,16 +15,16 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return length;
 	}
 
-	function isChamiloflashEmbed( element )
+	function isChamilovideoEmbed( element )
 	{
 		var attributes = element.attributes;
 
-		return (( attributes.type == 'application/x-shockwave-flash' || chamiloflashFilenameRegex.test( attributes.src || '' ) ) && !youtubeFilenameRegex.test( attributes.src || '' ));
+		return ( attributes.type == 'video/x-msvideo' );
 	}
 
 	function createFakeElement( editor, realElement )
 	{
-		var fakeElement = editor.createFakeParserElement( realElement, 'cke_chamiloflash', 'chamiloflash', true ),
+		var fakeElement = editor.createFakeParserElement( realElement, 'cke_chamilovideo', 'chamilovideo', true ),
 			fakeStyle = fakeElement.attributes.style || '';
 
 		var width = realElement.attributes.width,
@@ -40,21 +39,21 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		return fakeElement;
 	}
 
-	CKEDITOR.plugins.add( 'chamiloflash',
+	CKEDITOR.plugins.add( 'chamilovideo',
 	{
 		init : function( editor )
 		{
-			editor.addCommand( 'chamiloflash', new CKEDITOR.dialogCommand( 'chamiloflash' ) );
-			editor.ui.addButton( 'Chamiloflash',
+			editor.addCommand( 'chamilovideo', new CKEDITOR.dialogCommand( 'chamilovideo' ) );
+			editor.ui.addButton( 'Chamilovideo',
 				{
-					label : editor.lang.common.chamiloflash,
-					command : 'chamiloflash',
-					icon: this.path + 'chamiloflash.png'
+					label : editor.lang.common.chamilovideo,
+					command : 'chamilovideo',
+					icon: this.path + 'chamilovideo.png'
 				});
-			CKEDITOR.dialog.add( 'chamiloflash', this.path + 'dialogs/chamiloflash.js' );
+			CKEDITOR.dialog.add( 'chamilovideo', this.path + 'dialogs/chamilovideo.js' );
 
 			editor.addCss(
-				'img.cke_chamiloflash' +
+				'img.cke_chamilovideo' +
 				'{' +
 					'background-image: url(' + CKEDITOR.getUrl( this.path + 'images/placeholder.png' ) + ');' +
 					'background-position: center center;' +
@@ -70,11 +69,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			{
 				editor.addMenuItems(
 					{
-						chamiloflash :
+						chamilovideo :
 						{
-							label : editor.lang.chamiloflash.properties,
-							command : 'chamiloflash',
-							group : 'chamiloflash'
+							label : editor.lang.chamilovideo.properties,
+							command : 'chamilovideo',
+							group : 'chamilovideo'
 						}
 					});
 			}
@@ -84,8 +83,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			{
 				editor.contextMenu.addListener( function( element, selection )
 					{
-						if ( element && element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'chamiloflash' )
-							return { chamiloflash : CKEDITOR.TRISTATE_OFF };
+						if ( element && element.is( 'img' ) && element.getAttribute( '_cke_real_element_type' ) == 'chamilovideo' )
+							return { chamilovideo : CKEDITOR.TRISTATE_OFF };
 					});
 			}
 		},
@@ -113,7 +112,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									{
 										if ( element.children[ i ].name == 'cke:embed' )
 										{
-											if ( !isChamiloflashEmbed( element.children[ i ] ) )
+											if ( !isChamilovideoEmbed( element.children[ i ] ) )
 												return null;
 
 											return createFakeElement( editor, element );
@@ -122,13 +121,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									return null;
 								}
 								
-								if (isChamiloflashEmbed( element ) )
+								if ( isChamilovideoEmbed( element ) )
 									return createFakeElement( editor, element );
 							},
 
 							'cke:embed' : function( element )
 							{
-								if (isChamiloflashEmbed( element ) )
+								if (isChamilovideoEmbed( element ) )
 									return createFakeElement( editor, element );
 							}
 						}
@@ -148,19 +147,19 @@ CKEDITOR.tools.extend( CKEDITOR.config,
 	 * @type Boolean
 	 * @default false
 	 */
-	chamiloflashEmbedTagOnly : false,
+	chamilovideoEmbedTagOnly : false,
 
 	/**
 	 * Add EMBED tag as alternative: &lt;object&gt&lt;embed&gt&lt;/embed&gt&lt;/object&gt
 	 * @type Boolean
 	 * @default false
 	 */
-	chamiloflashAddEmbedTag : true,
+	chamilovideoAddEmbedTag : true,
 
 	/**
 	 * Use embedTagOnly and addEmbedTag values on edit.
 	 * @type Boolean
 	 * @default false
 	 */
-	chamiloflashConvertOnEdit : false
+	chamilovideoConvertOnEdit : false
 } );
