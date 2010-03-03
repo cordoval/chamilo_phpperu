@@ -466,9 +466,9 @@ class Dokeos185User extends Import
             
             $picture_uri = $old_mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, $this->get_picture_uri());
             if ($picture_uri)
+            {
                 $lcms_user->set_picture_uri($picture_uri);
-            else
-                $lcms_user->set_picture_uri($this->get_picture_uri());
+            }
             
             unset($new_rel_path_picture);
             unset($old_rel_path_picture);
