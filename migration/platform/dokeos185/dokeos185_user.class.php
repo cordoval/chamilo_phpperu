@@ -457,7 +457,7 @@ class Dokeos185User extends Import
             $lcms_user->set_auth_source('platform');
         }
 
-        //Move picture to correct directory
+        //Move user profile picture to correct directory
         $old_rel_path_picture = '/main/upload/users/';
         
         if ($this->get_picture_uri())
@@ -466,10 +466,9 @@ class Dokeos185User extends Import
             
             $picture_uri = $old_mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, $this->get_picture_uri());
             if ($picture_uri)
-                $lcms_user->set_picture_uri($picture_uri);
-            else
-                $lcms_user->set_picture_uri($this->get_picture_uri());
-            
+            {
+	            $lcms_user->set_picture_uri($picture_uri);
+            }
             unset($new_rel_path_picture);
             unset($old_rel_path_picture);
             unset($picture_uri);
@@ -491,7 +490,7 @@ class Dokeos185User extends Import
         //self :: $old_mgdm->create_directory(true, $rep_dir);
         
 
-        // Convert profile fields to Profile objec
+        // Convert profile fields to Profile object
         $lcms_repository_profile = new Profile();
         $lcms_repository_profile->set_competences($this->get_competences());
         $lcms_repository_profile->set_diplomas($this->get_diplomas());
