@@ -2,6 +2,21 @@
 
 /**
  * Extension on the database to embedd basic functionality for nested trees
+ * 
+ * Implement the following functions in you datamanager order to make your dataclass work (change object to your class name)
+ * 
+ * count_object_children
+ * get_object_children
+ * count_object_parents
+ * get_object_parents
+ * count_object_sibblings
+ * get_object_sibblings
+ * move_object
+ * add_object_nested_values
+ * delete_object_nested_values
+ * 
+ * You can make use of nested tree database where most of these methods are predefined. You only need to define these methods as delegation methods then (unless you need some additional properties)
+ * 
  * @author Sven Vanpoucke
  */
 
@@ -10,6 +25,14 @@ abstract class NestedTreeNode extends DataClass
 	const PROPERTY_PARENT_ID = 'parent_id';
 	const PROPERTY_LEFT_VALUE = 'left_value';
 	const PROPERTY_RIGHT_VALUE = 'right_value';
+	
+	static function get_default_property_names($extended_property_names)
+    {
+        $extended_property_names[] = self :: PROPERTY_PARENT_ID;
+        $extended_property_names[] = self :: PROPERTY_LEFT_VALUE;
+        $extended_property_names[] = self :: PROPERTY_RIGHT_VALUE;
+    	return parent :: get_default_property_names($extended_property_names);
+    }
 	
 	/**
      * Returns the parent_id of this data class
@@ -314,7 +337,7 @@ abstract class NestedTreeNode extends DataClass
         	if ($previous_id)
             {
             	$node = call_user_func(array($dm, $func), $previous_id);
-                $parent_id = $node->get_parent();
+                $parent_id = $node->get_parent_id();
             }
             else
             {
@@ -322,7 +345,7 @@ abstract class NestedTreeNode extends DataClass
             }
 
             // Set the new parent_id
-            $this->set_parent($parent_id);
+            $this->set_parent_id($parent_id);
 
             // get the "visited"-value where to add the new element behind
             // if $previous_id is given, we need to use the right-value
