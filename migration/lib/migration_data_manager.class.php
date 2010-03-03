@@ -201,7 +201,7 @@ abstract class MigrationDataManager
         	$category->set_parent(0);
             
         	//Create category in database
-        	$lcms_repository_category->create();
+        	$category->create();
         }
  
         return $category->get_id();       
