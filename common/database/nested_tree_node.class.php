@@ -137,7 +137,7 @@ abstract class NestedTreeNode extends DataClass
          	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
         }
 	    
-        $node = call_user_func(array($dm, $func), $this, $recursive);
+        return call_user_func(array($dm, $func), $this, $recursive);
     }
     
     /**
@@ -154,7 +154,7 @@ abstract class NestedTreeNode extends DataClass
          	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
         }
         
-        $node = call_user_func(array($dm, $func), $this, $include_self);
+        return call_user_func(array($dm, $func), $this, $include_self);
     }
     
     /**
@@ -171,7 +171,7 @@ abstract class NestedTreeNode extends DataClass
          	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
         }
         
-        $node = call_user_func(array($dm, $func), $this, true, $include_self);
+        return call_user_func(array($dm, $func), $this, true, $include_self)->as_array();
     }
     
     /**
@@ -187,7 +187,7 @@ abstract class NestedTreeNode extends DataClass
          	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
         }
         
-        $node = call_user_func(array($dm, $func), $this, false);
+        return call_user_func(array($dm, $func), $this, false);
     }
     
     /**
