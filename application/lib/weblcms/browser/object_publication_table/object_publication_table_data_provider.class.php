@@ -69,20 +69,31 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
         $datamanager = WeblcmsDataManager :: get_instance();
         if ($this->parent->is_allowed(EDIT_RIGHT))
         {
-            $user_id = null;
-            $course_groups = array();
+            $user_id = array();
+            $course_group_ids = array();
         }
         else
         {
-            $user_id = $this->parent->get_user_id();
-            $course_groups = $this->parent->get_course_groups();
+       		$user_id = $this->get_user_id();
+            $course_groups = $this->get_course_groups();
+                
+            $course_group_ids = array();
+               
+            foreach($course_groups as $course_group)
+            {
+             	$course_group_ids[] = $course_group->get_id();
+            }
         }
         $course = $this->parent->get_course_id();
         
         if ($this->parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY))
+        {
             $category = $this->parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
+        }
         else
+        {
             $category = 0;
+        }
         
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course);
@@ -91,12 +102,16 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
 
         $access = array();
         if($user_id)
+        {
     		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+        }
     	
-    	if(count($course_groups) > 0)
-        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+    	if(count($course_group_ids) > 0)
+    	{
+        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+    	}
         	
-        if (! empty($user_id) || ! empty($course_groups))
+        if (! empty($user_id) || ! empty($course_group_ids))
         {
             $access[] = new AndCondition(array(
             			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, $datamanager->get_database()->get_alias('content_object_publication_user')), 

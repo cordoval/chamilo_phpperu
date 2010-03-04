@@ -79,7 +79,7 @@ class NestedTreeDatabase extends Database
 	 */
 	function get_parents($node, $recursive = false, $include_object = false, $condition = null)
 	{
-    	$condition = $this->build_parents_condition($node, $recursive, $include_object, condition);    
+    	$condition = $this->build_parents_condition($node, $recursive, $include_object, $condition);    
 		$order = new ObjectTableOrder(NestedTreeNode :: PROPERTY_LEFT_VALUE, SORT_DESC);
         return $this->retrieve_objects($node->get_table_name(), $condition, null, null, $order);
 	}

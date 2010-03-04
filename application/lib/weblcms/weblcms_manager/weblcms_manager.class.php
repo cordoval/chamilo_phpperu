@@ -274,7 +274,28 @@ class WeblcmsManager extends WebApplication
     {
         $wdm = WeblcmsDataManager :: get_instance();
         $course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(), $this->get_course())->as_array();
-        return $course_groups;
+        
+        $course_groups_recursive = array();
+        
+        foreach($course_groups as $course_group)
+        { 
+        	if(!array_key_exists($course_group->get_id(), $course_groups_recursive))
+        	{
+        		$course_groups_recursive[$course_group->get_id()] = $course_group;
+        	}
+        	
+        	$parents = $course_group->get_parents(false);
+        	
+        	foreach($parents as $parent)
+        	{
+	        	if(!array_key_exists($parent->get_id(), $course_groups_recursive))
+	        	{
+	        		$course_groups_recursive[$parent->get_id()] = $parent;
+	        	}
+        	}
+        }
+
+        return $course_groups_recursive;
     }
 
     /**
@@ -882,7 +903,14 @@ class WeblcmsManager extends WebApplication
         {
             $last_visit_date = $this->get_last_visit_date($tool);
             $wdm = WeblcmsDataManager :: get_instance();
-            $course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(), $this->get_course())->as_array();
+            $course_groups = $this->get_course_groups();
+            
+        	$course_group_ids = array();
+                
+            foreach($course_groups as $course_group)
+            {
+             	$course_group_ids[] = $course_group->get_id();
+            }
             
             $conditions = array();
             $conditions[] = new EqualityCondition('tool', $tool);
@@ -908,8 +936,8 @@ class WeblcmsManager extends WebApplication
             
             $access = array();
             $access[] = new InCondition('user_id', $user_id, $wdm->get_database()->get_alias('content_object_publication_user'));
-            $access[] = new InCondition('course_group_id', $course_groups, $wdm->get_database()->get_alias('content_object_publication_course_group'));
-            if (! empty($user_id) || ! empty($course_groups))
+            $access[] = new InCondition('course_group_id', $course_group_ids, $wdm->get_database()->get_alias('content_object_publication_course_group'));
+            if (! empty($user_id) || ! empty($course_group_ids))
             {
                 $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_database()->get_alias('content_object_publication_course_group'))));
             }
