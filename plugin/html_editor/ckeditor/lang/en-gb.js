@@ -40,6 +40,7 @@ CKEDITOR.lang['en-gb'] = {
 		chamiloflash : 'Flash',
 		chamiloyoutube : 'YouTube',
 		chamilovideo : 'Video',
+		chamiloaudio : 'Audio',
 		form : 'Form',
 		checkbox : 'Checkbox',
 		radio : 'Radio Button',
@@ -428,6 +429,7 @@ CKEDITOR.lang['en-gb'] = {
 	chamilovideo : {
 		properties : 'Video Properties',
 		propertiesTab : 'Properties',
+		videoOptions : 'Video options',
 		title : 'Video Properties',
 		autoSize : 'Autosize',
 		autoStart : 'Autostart',
@@ -444,6 +446,27 @@ CKEDITOR.lang['en-gb'] = {
 		validateHeight : 'Height must be a number.',
 		validateType : 'Type has to be defined.',
 		standby : 'Loading video ...'
+	},
+	chamiloaudio : {
+		properties : 'Audio Properties',
+		propertiesTab : 'Properties',
+		audioOptions : 'Audio options',
+		title : 'Audio Properties',
+		autoSize : 'Autosize',
+		autoStart : 'Autostart',
+		showControls : 'Show playback controls',
+		showPositionControls : 'Show position controls',
+		showTracker : 'Tracker',
+		showAudioControls : 'Show audio controls',
+		showGoToBar : 'Show goto bar',
+		showStatusBar : 'Show statusbar',
+		width : 'Width',
+		height : 'Height',
+		type : 'Type',
+		validateWidth : 'Width must be a number.',
+		validateHeight : 'Height must be a number.',
+		validateType : 'Type has to be defined.',
+		standby : 'Loading audio ...'
 	},
 	spellCheck : {
 		toolbar : 'Check Spelling',

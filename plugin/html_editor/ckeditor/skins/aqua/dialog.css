@@ -593,6 +593,16 @@ body .cke_dialog {
 	background-color: white;
 }
 
+.cke_skin_aqua .cke_dialog #ChamiloaudioPreviewBox {
+	white-space: normal;
+	border: 2px ridge black;
+	overflow: auto;
+	height: 160px;
+	width: 390px;
+	padding: 2px;
+	background-color: white;
+}
+
 .cke_skin_aqua .cke_dialog .cke_dark_background {
 	text-align: center;
 	background-color: #eaead1;

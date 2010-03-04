@@ -40,6 +40,7 @@ CKEDITOR.lang.nl = {
 		chamiloflash : 'Flash',
 		chamiloyoutube : 'YouTube',
 		chamilovideo : 'Video',
+		chamiloaudio : 'Audio',
 		form : 'Formulier',
 		checkbox : 'Aanvinkvakje',
 		radio : 'Selectievakje',
@@ -428,6 +429,7 @@ CKEDITOR.lang.nl = {
 	chamilovideo : {
 		properties : 'Eigenschappen Video',
 		propertiesTab : 'Eigenschappen',
+		videoOptions : 'Video opties',
 		title : 'Eigenschappen Video',
 		autoSize : 'Autosize',
 		autoStart : 'Automatisch afspelen',
@@ -444,6 +446,27 @@ CKEDITOR.lang.nl = {
 		validateHeight : 'De hoogte moet een getal zijn.',
 		validateType : 'Type has to be defined.',
 		standby : 'Video laden ...'
+	},
+	chamiloaudio : {
+		properties : 'Eigenschappen Audio',
+		propertiesTab : 'Eigenschappen',
+		audioOptions : 'Audio opties',
+		title : 'Eigenschappen Audio',
+		autoSize : 'Autosize',
+		autoStart : 'Automatisch afspelen',
+		showControls : 'Show playback controls',
+		showPositionControls : 'Show position controls',
+		showTracker : 'Tracker',
+		showAudioControls : 'Show audio controls',
+		showGoToBar : 'Show goto bar',
+		showStatusBar : 'Toon statusbalk',
+		width : 'Breedte',
+		height : 'Hoogte',
+		type : 'Type',
+		validateWidth : 'De breedte moet een getal zijn.',
+		validateHeight : 'De hoogte moet een getal zijn.',
+		validateType : 'Type has to be defined.',
+		standby : 'Audio laden ...'
 	},
 	spellCheck : {
 		toolbar : 'Spellingscontrole',

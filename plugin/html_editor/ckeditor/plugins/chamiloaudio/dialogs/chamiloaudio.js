@@ -24,7 +24,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	var attributesMap =
 	{
-//		id : [ { type : ATTRTYPE_OBJECT, name :  'id' } ],
 		classid : [ { type : ATTRTYPE_OBJECT, name : 'classid' } ],
 		codebase : [  { type : ATTRTYPE_PARAM, name : 'codebase'}, { type : ATTRTYPE_EMBED, name : 'codebase'} ],
 		pluginspage : [ { type : ATTRTYPE_PARAM, name : 'pluginspage' }, { type : ATTRTYPE_EMBED, name : 'pluginspage' } ],
@@ -33,26 +32,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		width : [ { type : ATTRTYPE_PARAM, name : 'width' }, { type : ATTRTYPE_EMBED, name : 'width' } ],
 		height : [ { type : ATTRTYPE_PARAM, name : 'height' }, { type : ATTRTYPE_EMBED, name : 'height' } ],
 		
-		autosize : [ { type : ATTRTYPE_EMBED, name : 'autosize' } ],
 		autostart : [ { type : ATTRTYPE_PARAM, name : 'autostart' }, { type : ATTRTYPE_EMBED, name : 'autostart' } ],
 		showcontrols : [ { type : ATTRTYPE_PARAM, name : 'showcontrols' }, { type : ATTRTYPE_EMBED, name : 'showcontrols' } ],
 		showpositioncontrols : [ { type : ATTRTYPE_PARAM, name : 'showpositioncontrols' }, { type : ATTRTYPE_EMBED, name : 'showpositioncontrols' } ],
-		showtracker : [ { type : ATTRTYPE_PARAM, name : 'showtracker' }, { type : ATTRTYPE_EMBED, name : 'showtracker' } ],
 		showaudiocontrols : [ { type : ATTRTYPE_PARAM, name : 'showaudiocontrols' }, { type : ATTRTYPE_EMBED, name : 'showaudiocontrols' } ],
-		showgotobar : [ { type : ATTRTYPE_PARAM, name : 'showgotobar' }, { type : ATTRTYPE_EMBED, name : 'showgotobar' } ],
 		showstatusbar : [ { type : ATTRTYPE_PARAM, name : 'showstatusbar' }, { type : ATTRTYPE_EMBED, name : 'showstatusbar' } ],
-//		standby : [ { type : ATTRTYPE_PARAM, name : 'standby' } ],
 		
 		type : [ { type : ATTRTYPE_EMBED, name : 'type' } ]
 	};
-
-//	var names = [ 'play', 'loop', 'menu', 'quality', 'scale', 'salign', 'wmode', 'bgcolor', 'base', 'chamilovideovars', 'allowScriptAccess',
-//		'allowFullScreen' ];
-//	for ( var i = 0 ; i < names.length ; i++ )
-//		attributesMap[ names[i] ] = [ { type : ATTRTYPE_EMBED, name : names[i] }, { type : ATTRTYPE_PARAM, name : names[i] } ];
-//	names = [ 'allowFullScreen', 'play', 'loop', 'menu' ];
-//	for ( i = 0 ; i < names.length ; i++ )
-//		attributesMap[ names[i] ][0]['default'] = attributesMap[ names[i] ][1]['default'] = true;
 
 	function loadValue( objectNode, embedNode, paramMap )
 	{
@@ -173,18 +160,18 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		}
 	}
 
-	CKEDITOR.dialog.add( 'chamilovideo', function( editor )
+	CKEDITOR.dialog.add( 'chamiloaudio', function( editor )
 	{
-		var makeObjectTag = !editor.config.chamilovideoEmbedTagOnly,
-			makeEmbedTag = editor.config.chamilovideoAddEmbedTag || editor.config.chamilovideoEmbedTagOnly;
+		var makeObjectTag = !editor.config.chamiloaudioEmbedTagOnly,
+			makeEmbedTag = editor.config.chamiloaudioAddEmbedTag || editor.config.chamiloaudioEmbedTagOnly;
 
 		var previewPreloader,
 			previewAreaHtml = '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.common.preview ) +'<br>' +
-			'<div id="ChamilovideoPreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
-			'<div id="ChamilovideoPreviewBox"></div></div>';
+			'<div id="ChamiloaudioPreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
+			'<div id="ChamiloaudioPreviewBox"></div></div>';
 
 		return {
-			title : editor.lang.chamilovideo.title,
+			title : editor.lang.chamiloaudio.title,
 			minWidth : 420,
 			minHeight : 310,
 			onShow : function()
@@ -193,9 +180,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				this.fakeImage = this.objectNode = this.embedNode = null;
 				previewPreloader = new CKEDITOR.dom.element( 'embeded', editor.document );
 
-				// Try to detect any embed or object tag that has Video parameters.
+				// Try to detect any embed or object tag that has Audio parameters.
 				var fakeImage = this.getSelectedElement();
-				if ( fakeImage && fakeImage.getAttribute( '_cke_real_element_type' ) && fakeImage.getAttribute( '_cke_real_element_type' ) == 'chamilovideo' )
+				if ( fakeImage && fakeImage.getAttribute( '_cke_real_element_type' ) && fakeImage.getAttribute( '_cke_real_element_type' ) == 'chamiloaudio' )
 				{
 					this.fakeImage = fakeImage;
 
@@ -248,7 +235,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						embedNode = CKEDITOR.dom.element.createFromHtml( '<cke:embed></cke:embed>', editor.document );
 						embedNode.setAttributes(
 							{
-								type : 'video/x-msvideo',
 								pluginspage : 'http://www.videolan.org/'
 							} );
 						if ( objectNode )
@@ -270,12 +256,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						paramMap[ paramList.getItem( i ).getAttribute( 'name' ) ] = paramList.getItem( i );
 				}
 
-				// Apply or remove chamilovideo parameters.
+				// Apply or remove chamiloaudio parameters.
 				var extraStyles = {};
 				this.commitContent( objectNode, embedNode, paramMap, extraStyles );
 
 				// Refresh the fake image.
-				var newFakeImage = editor.createFakeElement( objectNode || embedNode, 'cke_chamilovideo', 'chamilovideo', true );
+				var newFakeImage = editor.createFakeElement( objectNode || embedNode, 'cke_chamiloaudio', 'chamiloaudio', true );
 				newFakeImage.setStyles( extraStyles );
 				if ( this.fakeImage )
 				{
@@ -315,7 +301,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											type : 'text',
 											label : editor.lang.common.url,
 											required : true,
-											validate : CKEDITOR.dialog.validate.notEmpty( editor.lang.chamilovideo.validateSrc ),
+											validate : CKEDITOR.dialog.validate.notEmpty( editor.lang.chamiloaudio.validateSrc ),
 											setup : loadValue,
 											commit : commitValue,
 											onLoad : function()
@@ -326,7 +312,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 													previewPreloader.setAttribute( 'src', src );
 													dialog.preview.setHtml( '<embed height="100%" width="100%" src="'
 														+ CKEDITOR.tools.htmlEncode( previewPreloader.getAttribute( 'src' ) )
-														+ '" type="video/x-msvideo"></embed>' );
+														+ '" type="audio/x-msaudio"></embed>' );
 												};
 												// Preview element
 												dialog.preview = dialog.getContentElement( 'info', 'preview' ).getElement().getChild( 3 );
@@ -360,73 +346,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						},
 						{
 							type : 'hbox',
-							widths : [ '33%', '33%', '33%' ],
+							widths : [ '100%' ],
 							children :
 							[
 								{
-									type : 'text',
-									id : 'width',
-									style : 'width:125px',
-									label : editor.lang.chamilovideo.width,
-									validate : CKEDITOR.dialog.validate.integer( editor.lang.chamilovideo.validateWidth ),
-									setup : function( objectNode, embedNode, paramMap, fakeImage )
-									{
-										loadValue.apply( this, arguments );
-										if ( fakeImage )
-										{
-											var fakeImageWidth = parseInt( fakeImage.$.style.width, 10 );
-											if ( !isNaN( fakeImageWidth ) )
-												this.setValue( fakeImageWidth );
-										}
-									},
-									commit : function( objectNode, embedNode, paramMap, extraStyles )
-									{
-										commitValue.apply( this, arguments );
-										if ( this.getValue() )
-											extraStyles.width = this.getValue() + 'px';
-									}
-								},
-								{
-									type : 'text',
-									id : 'height',
-									style : 'width:125px',
-									label : editor.lang.chamilovideo.height,
-									validate : CKEDITOR.dialog.validate.integer( editor.lang.chamilovideo.validateHeight ),
-									setup : function( objectNode, embedNode, paramMap, fakeImage )
-									{
-										loadValue.apply( this, arguments );
-										if ( fakeImage )
-										{
-											var fakeImageHeight = parseInt( fakeImage.$.style.height, 10 );
-											if ( !isNaN( fakeImageHeight ) )
-												this.setValue( fakeImageHeight );
-										}
-									},
-									commit : function( objectNode, embedNode, paramMap, extraStyles )
-									{
-										commitValue.apply( this, arguments );
-										if ( this.getValue() )
-											extraStyles.height = this.getValue() + 'px';
-									}
-								},
-								{
 									type : 'select',
 									id : 'type',
-									style : 'width:125px',
-									label : editor.lang.chamilovideo.type,
-									validate : CKEDITOR.dialog.validate.notEmpty( editor.lang.chamilovideo.validateType ),
+//									style : 'width:125px',
+									label : editor.lang.chamiloaudio.type,
+									validate : CKEDITOR.dialog.validate.notEmpty( editor.lang.chamiloaudio.validateType ),
 									style : 'width : 100%;',
 									items :
 									[
-										[ 'Mpg', 'video/mpeg' ],
-										[ 'Mpeg', 'video/mpeg' ],
-										[ 'Mp4', 'video/mpeg4-generic' ],
-										[ 'Avi', 'video/x-msvideo' ],
-										[ 'Window Media Video', 'audio/x-ms-wmv' ],
-										[ 'Quicktime', 'video/quicktime' ],
-										[ 'Asf', 'video/x-ms-asf' ]
+										[ 'Mp3', 'audio/mpeg' ],
+										[ 'Windows Media Audio', 'video/x-ms-wma' ],
+										[ 'Ogg', 'audio/ogg' ],
+										[ 'Aac', 'audio/aac' ],
+										[ 'M4a', 'audio/x-m4a' ],
+										[ 'Midi', 'audio/midi' ],
+										[ 'Wav', 'audio/x-wav' ]
 									],
-									'default' : 'video/x-msvideo',
+									'default' : 'audio/mpeg',
 									setup : loadValue,
 									commit : commitValue
 								}
@@ -448,7 +388,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				},
 				{
 					id : 'properties',
-					label : editor.lang.chamilovideo.propertiesTab,
+					label : editor.lang.chamiloaudio.propertiesTab,
 					elements :
 					[
 						{
@@ -458,12 +398,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							[
 								{
 									type : 'html',
-									html : CKEDITOR.tools.htmlEncode( editor.lang.chamilovideo.videoOptions )
+									html : CKEDITOR.tools.htmlEncode( editor.lang.chamiloaudio.audioOptions )
 								},
 								{
 									type : 'checkbox',
 									id : 'autosize',
-									label : editor.lang.chamilovideo.autoSize,
+									label : editor.lang.chamiloaudio.autoSize,
 									'default' : true,
 									setup : loadValue,
 									commit : commitValue
@@ -471,7 +411,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 									type : 'checkbox',
 									id : 'autostart',
-									label : editor.lang.chamilovideo.autoStart,
+									label : editor.lang.chamiloaudio.autoStart,
 									'default' : true,
 									setup : loadValue,
 									commit : commitValue
@@ -479,7 +419,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 									type : 'checkbox',
 									id : 'showcontrols',
-									label : editor.lang.chamilovideo.showControls,
+									label : editor.lang.chamiloaudio.showControls,
 									'default' : true,
 									setup : loadValue,
 									commit : commitValue
@@ -487,7 +427,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 									type : 'checkbox',
 									id : 'showpositioncontrols',
-									label : editor.lang.chamilovideo.showPositionControls,
+									label : editor.lang.chamiloaudio.showPositionControls,
 									'default' : true,
 									setup : loadValue,
 									commit : commitValue
@@ -495,7 +435,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 									type : 'checkbox',
 									id : 'showtracker',
-									label : editor.lang.chamilovideo.showTracker,
+									label : editor.lang.chamiloaudio.showTracker,
 									'default' : true,
 									setup : loadValue,
 									commit : commitValue
@@ -503,7 +443,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 									type : 'checkbox',
 									id : 'showaudiocontrols',
-									label : editor.lang.chamilovideo.showAudioControls,
+									label : editor.lang.chamiloaudio.showAudioControls,
 									'default' : true,
 									setup : loadValue,
 									commit : commitValue
@@ -511,7 +451,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 									type : 'checkbox',
 									id : 'showgotobar',
-									label : editor.lang.chamilovideo.showGoToBar,
+									label : editor.lang.chamiloaudio.showGoToBar,
 									'default' : true,
 									setup : loadValue,
 									commit : commitValue
@@ -519,7 +459,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 									type : 'checkbox',
 									id : 'showstatusbar',
-									label : editor.lang.chamilovideo.showStatusBar,
+									label : editor.lang.chamiloaudio.showStatusBar,
 									'default' : true,
 									setup : loadValue,
 									commit : commitValue
