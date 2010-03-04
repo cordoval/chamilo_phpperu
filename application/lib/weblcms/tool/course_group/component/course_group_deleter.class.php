@@ -24,10 +24,11 @@ class CourseGroupToolDeleterComponent extends CourseGroupToolComponent
             if (! is_array($ids))
                 $ids = array($ids);
             
+            $wdm = WeblcmsDataManager :: get_instance();
+                
             foreach ($ids as $group_id)
             {
-                $cg = new CourseGroup();
-                $cg->set_id($group_id);
+                $cg = $wdm->retrieve_course_group($group_id); 
                 $cg->delete();
             }
             
