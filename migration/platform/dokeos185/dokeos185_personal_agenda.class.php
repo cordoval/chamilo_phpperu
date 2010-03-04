@@ -216,24 +216,9 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
         if ($owner_id)
             $lcms_calendar_event->set_owner_id($owner_id);
             
-        // Category for calendar events already exists in the repository?
-        $lcms_category_id = $mgdm->get_parent_id($owner_id, 'category', Translation :: get('calendar_events'));
-        if (! $lcms_category_id)
-        {
-            //Create category in the repository
-            $lcms_repository_category = new RepositoryCategory();
-            $lcms_repository_category->set_user_id($owner_id);
-            $lcms_repository_category->set_name(Translation :: get('PersonalAgenda'));
-            $lcms_repository_category->set_parent(0);
-            $lcms_repository_category->create();
             
-            $lcms_calendar_event->set_parent_id($lcms_repository_category->get_id());
-        }
-        else
-        {
-            $lcms_calendar_event->set_parent_id($lcms_category_id);
-        }
-        
+        $lcms_category_id = $mgdm->get_repository_category_by_name($lcms_user->get_id(),Translation :: get('calendar_events'));    
+        $lcms_calendar_event->set_parent_id($lcms_category_id);
         $lcms_calendar_event->create();
         
         //Create personal agenda publication
