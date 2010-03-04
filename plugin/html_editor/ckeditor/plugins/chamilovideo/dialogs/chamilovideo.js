@@ -235,7 +235,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					{
 						objectNode = CKEDITOR.dom.element.createFromHtml( '<cke:object></cke:object>', editor.document );
 						var attributes = {
-							classid : 'classid="CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95',
+//							classid : 'CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95',
 							codebase : 'http://www.microsoft.com/Windows/MediaPlayer/'
 						};
 						objectNode.setAttributes( attributes );
@@ -352,6 +352,60 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											label : editor.lang.common.browseServer
 										}
 									]
+								}
+							]
+						},
+						{
+							type : 'hbox',
+							widths : [ '50%', '50%' ],
+							children :
+							[
+								{
+									type : 'text',
+									id : 'width',
+									style : 'width:190px',
+									label : editor.lang.chamilovideo.width,
+									validate : CKEDITOR.dialog.validate.integer( editor.lang.chamilovideo.validateWidth ),
+									setup : function( objectNode, embedNode, paramMap, fakeImage )
+									{
+										loadValue.apply( this, arguments );
+										if ( fakeImage )
+										{
+											var fakeImageWidth = parseInt( fakeImage.$.style.width, 10 );
+											if ( !isNaN( fakeImageWidth ) )
+												this.setValue( fakeImageWidth );
+										}
+									},
+									commit : function( objectNode, embedNode, paramMap, extraStyles )
+									{
+										commitValue.apply( this, arguments );
+										if ( this.getValue() )
+											extraStyles.width = this.getValue() + 'px';
+									}
+								},
+								{
+									type : 'text',
+									id : 'height',
+									disabled : true,
+									style : 'width:190px',
+									label : editor.lang.chamilovideo.height,
+									validate : CKEDITOR.dialog.validate.integer( editor.lang.chamilovideo.validateHeight ),
+									setup : function( objectNode, embedNode, paramMap, fakeImage )
+									{
+										loadValue.apply( this, arguments );
+										if ( fakeImage )
+										{
+											var fakeImageHeight = parseInt( fakeImage.$.style.height, 10 );
+											if ( !isNaN( fakeImageHeight ) )
+												this.setValue( fakeImageHeight );
+										}
+									},
+									commit : function( objectNode, embedNode, paramMap, extraStyles )
+									{
+										commitValue.apply( this, arguments );
+										if ( this.getValue() )
+											extraStyles.height = this.getValue() + 'px';
+									}
 								}
 							]
 						},

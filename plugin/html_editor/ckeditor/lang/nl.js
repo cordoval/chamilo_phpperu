@@ -437,6 +437,10 @@ CKEDITOR.lang.nl = {
 		showAudioControls : 'Show audio controls',
 		showGoToBar : 'Show goto bar',
 		showStatusBar : 'Toon statusbalk',
+		width : 'Breedte',
+		height : 'Hoogte',
+		validateWidth : 'De breedte moet een getal zijn.',
+		validateHeight : 'De hoogte moet een getal zijn.',
 		standby : 'Video laden ...'
 	},
 	spellCheck : {

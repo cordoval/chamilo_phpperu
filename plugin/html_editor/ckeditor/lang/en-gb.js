@@ -437,6 +437,10 @@ CKEDITOR.lang['en-gb'] = {
 		showAudioControls : 'Show audio controls',
 		showGoToBar : 'Show goto bar',
 		showStatusBar : 'Show statusbar',
+		width : 'Width',
+		height : 'Height',
+		validateWidth : 'Width must be a number.',
+		validateHeight : 'Height must be a number.',
 		standby : 'Loading video ...'
 	},
 	spellCheck : {
