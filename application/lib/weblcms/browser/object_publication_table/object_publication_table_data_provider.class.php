@@ -74,8 +74,8 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
         }
         else
         {
-       		$user_id = $this->get_user_id();
-            $course_groups = $this->get_course_groups();
+       		$user_id = $this->parent->get_user_id();
+            $course_groups = $this->parent->get_course_groups();
                 
             $course_group_ids = array();
                
