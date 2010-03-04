@@ -1181,6 +1181,11 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 	background-position: top left;
 }
 
+.cke_skin_aqua .cke_button_chamiloyoutube .cke_icon {
+	background-image: url(plugins/chamilovideo.png);
+	background-position: top left;
+}
+
 .cke_skin_aqua .cke_button_specialchar .cke_icon {
 	background-position: 0 -656px;
 }
@@ -1329,6 +1334,11 @@ a:hover.cke_colorauto,a:hover.cke_colormore,a:focus.cke_colorauto,a:focus.cke_co
 
 .cke_skin_aqua .cke_button_chamiloyoutube .cke_icon {
 	background-image: url(plugins/chamiloyoutube.png);
+	background-position: top left;
+}
+
+.cke_skin_aqua .cke_button_chamilovideo .cke_icon {
+	background-image: url(plugins/chamilovideo.png);
 	background-position: top left;
 }
 

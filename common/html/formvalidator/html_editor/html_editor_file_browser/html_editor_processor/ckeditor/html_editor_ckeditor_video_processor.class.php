@@ -1,5 +1,5 @@
 <?php
-class HtmlEditorCkeditorFlashProcessor extends HtmlEditorProcessor
+class HtmlEditorCkeditorVideoProcessor extends HtmlEditorProcessor
 {
     function run()
     {

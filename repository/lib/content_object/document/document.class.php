@@ -15,6 +15,7 @@ class Document extends ContentObject
 
     const TYPE_IMAGE = 'image';
     const TYPE_FLASH = 'flash';
+    const TYPE_VIDEO = 'video';
 
     /**
     * In memory file content. Will be saved on disk if it doesn't exist yet. Mainly used to create a new Document.
@@ -303,10 +304,7 @@ class Document extends ContentObject
         $filename = $this->get_filename();
         $parts = explode('.', $filename);
         $icon_name = $parts[count($parts) - 1];
-
-        $icon_path = Theme :: get_instance()->get_path(SYS_IMG_PATH) . 'common/content_object/document_' . $icon_name . '.png';
-
-//        echo Theme :: get_common_image_path() . 'content_object/document_' . $icon_name . '.png' . '<br />';
+        $icon_path = Theme :: get_common_image_system_path() . 'content_object/document_' . $icon_name . '.png';
 
         if (! file_exists($icon_path))
         {
@@ -450,6 +448,20 @@ class Document extends ContentObject
         $flash_types[] = 'swf';
 
         return $flash_types;
+    }
+
+    static function get_video_types()
+    {
+        $video_types = array();
+        $video_types[] = 'mpg';
+        $video_types[] = 'mpeg';
+        $video_types[] = 'mp4';
+        $video_types[] = 'avi';
+        $video_types[] = 'wmv';
+        $video_types[] = 'mov';
+        $video_types[] = 'asf';
+
+        return $video_types;
     }
 
     function send_as_download()

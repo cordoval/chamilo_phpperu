@@ -39,6 +39,7 @@ CKEDITOR.lang.nl = {
 		flash : 'Flash',
 		chamiloflash : 'Flash',
 		chamiloyoutube : 'YouTube',
+		chamilovideo : 'Video',
 		form : 'Formulier',
 		checkbox : 'Aanvinkvakje',
 		radio : 'Selectievakje',
@@ -423,6 +424,20 @@ CKEDITOR.lang.nl = {
 		title : 'Eigenschappen YouTube',
 		width : 'Breedte',
 		height : 'Hoogte'
+	},
+	chamilovideo : {
+		properties : 'Eigenschappen Video',
+		propertiesTab : 'Eigenschappen',
+		title : 'Eigenschappen Video',
+		autoSize : 'Autosize',
+		autoStart : 'Automatisch afspelen',
+		showControls : 'Show playback controls',
+		showPositionControls : 'Show position controls',
+		showTracker : 'Tracker',
+		showAudioControls : 'Show audio controls',
+		showGoToBar : 'Show goto bar',
+		showStatusBar : 'Toon statusbalk',
+		standby : 'Video laden ...'
 	},
 	spellCheck : {
 		toolbar : 'Spellingscontrole',
