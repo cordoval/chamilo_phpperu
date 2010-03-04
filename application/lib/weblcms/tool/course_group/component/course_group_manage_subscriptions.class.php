@@ -19,12 +19,14 @@ class CourseGroupToolManageSubscriptionsComponent extends CourseGroupToolCompone
             return;
         }
         
+        $course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
+        $wdm = WeblcmsDataManager :: get_instance();
+        $course_group = $wdm->retrieve_course_group($course_group_id);
+        
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE)), WebLcmsDataManager :: get_instance()->retrieve_course_group(Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP))->get_name()));
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_MANAGE_SUBSCRIPTIONS)), Translation :: get('ManageSubscriptions')));
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_MANAGE_SUBSCRIPTIONS, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id)), Translation :: get('ManageSubscriptions')));
         $trail->add_help('courses group');
-        
-        $course_group = $this->get_course_group();
         
         $form = new CourseGroupSubscriptionsForm($course_group, $this->get_url(array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_MANAGE_SUBSCRIPTIONS, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group->get_id())), $this);
         if ($form->validate())
@@ -36,7 +38,7 @@ class CourseGroupToolManageSubscriptionsComponent extends CourseGroupToolCompone
             else
                 $message = 'MaximumAmountOfMembersReached';
             
-            $this->redirect(Translation :: get($message), ! $succes, array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE));
+            $this->redirect(Translation :: get($message), ! $succes, array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group->get_id()));
         }
         else
         {
