@@ -499,7 +499,7 @@ class Dokeos185User extends Import
         	$lcms_repository_profile->set_diplomas($this->get_diplomas());
         	$lcms_repository_profile->set_teaching($this->get_teach());
         	$lcms_repository_profile->set_open($this->get_openarea());
-        	$lcms_repository_profile->set_title($this->get_lastname().' '.$this->get_firstname);
+        	$lcms_repository_profile->set_title($this->get_lastname().' '.$this->get_firstname());
         	$lcms_repository_profile->set_parent_id($lcms_category_id);
         	$lcms_repository_profile->set_phone($this->get_phone());
         	

@@ -4,6 +4,7 @@
  * @package application.lib.weblcms.course_group
  */
 require_once dirname(__FILE__) . '/course_group.class.php';
+require_once dirname(__FILE__) . '/../tool/course_group/course_group_menu.class.php';
 
 class CourseGroupForm extends FormValidator
 {
@@ -37,12 +38,27 @@ class CourseGroupForm extends FormValidator
     {
         $this->addElement('text', CourseGroup :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
         $this->addRule(CourseGroup :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        $this->addElement('select', CourseGroup :: PROPERTY_PARENT_ID, Translation :: get('Parent'), $this->get_groups());
+        $this->addRule(CourseGroup :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+        
         $this->add_html_editor(CourseGroup :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
         $this->addElement('text', CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS, Translation :: get('MaxNumberOfMembers'), 'size="4"');
         $this->addRule(CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS, Translation :: get('ThisFieldShouldBeNumeric'), 'regex', '/^[0-9]*$/');
         $this->addElement('checkbox', CourseGroup :: PROPERTY_SELF_REG, Translation :: get('Registration'), Translation :: get('SelfRegAllowed'));
         $this->addElement('checkbox', CourseGroup :: PROPERTY_SELF_UNREG, null, Translation :: get('SelfUnRegAllowed'));
         //$this->addElement('submit', 'course_group_settings', Translation :: get('Ok'));
+    }
+    
+    function get_groups()
+    {
+    	$course = new Course();
+    	$course->set_id($this->course_group->get_course_code());
+    	
+    	$menu = new CourseGroupMenu($course);
+    	$renderer = new OptionsMenuRenderer();
+        $menu->render($renderer, 'sitemap');
+        return $renderer->toArray();
     }
 
     function build_editing_form()

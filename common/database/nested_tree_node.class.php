@@ -137,7 +137,7 @@ abstract class NestedTreeNode extends DataClass
          	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
         }
 	    
-        $node = call_user_func(array($dm, $func), $this, $recursive);
+        return call_user_func(array($dm, $func), $this, $recursive);
     }
     
     /**
@@ -154,7 +154,7 @@ abstract class NestedTreeNode extends DataClass
          	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
         }
         
-        $node = call_user_func(array($dm, $func), $this, $include_self);
+        return call_user_func(array($dm, $func), $this, $include_self);
     }
     
     /**
@@ -171,7 +171,7 @@ abstract class NestedTreeNode extends DataClass
          	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
         }
         
-        $node = call_user_func(array($dm, $func), $this, true, $include_self);
+        return call_user_func(array($dm, $func), $this, true, $include_self)->as_array();
     }
     
     /**
@@ -187,7 +187,7 @@ abstract class NestedTreeNode extends DataClass
          	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
         }
         
-        $node = call_user_func(array($dm, $func), $this, false);
+        return call_user_func(array($dm, $func), $this, false);
     }
     
     /**
@@ -393,6 +393,23 @@ abstract class NestedTreeNode extends DataClass
         	return false;
         }
 
+        // Delete Children
+        
+        $func = 'delete_' . $this->get_object_name();
+        
+    	if(!method_exists($dm, $func))
+        {
+         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+        }
+        
+   		$children = $this->get_children(true);
+                
+        while($child = $children->next_result())
+        {
+        	if(!call_user_func(array($dm, $func), $child))
+        		return false;
+        }
+        
         $func = 'delete_' . $this->get_object_name() . '_nested_values';
         
     	if(!method_exists($dm, $func))
@@ -405,6 +422,8 @@ abstract class NestedTreeNode extends DataClass
         {
             return false;
         }
+        
+        // Delete all children
         
         return true;
     }

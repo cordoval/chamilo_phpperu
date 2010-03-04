@@ -50,12 +50,19 @@ class NoteBrowser extends ContentObjectPublicationBrowser
             if ($this->is_allowed(EDIT_RIGHT))
             {
                 $user_id = array();
-                $course_groups = array();
+                $course_group_ids = array();
             }
             else
             {
-                $user_id = $this->get_user_id();
+            	$user_id = $this->get_user_id();
                 $course_groups = $this->get_course_groups();
+                
+                $course_group_ids = array();
+                
+                foreach($course_groups as $course_group)
+                {
+                	$course_group_ids[] = $course_group->get_id();
+                }
             }
             
             $conditions = array();
@@ -64,8 +71,8 @@ class NoteBrowser extends ContentObjectPublicationBrowser
             
             $access = array();
             $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
-            $access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
-            if (! empty($user_id) || ! empty($course_groups))
+            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+            if (! empty($user_id) || ! empty($course_group_ids))
             {
                 $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
             }

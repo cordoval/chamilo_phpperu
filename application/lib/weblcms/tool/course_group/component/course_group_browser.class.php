@@ -72,7 +72,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupToolComponent
 	function get_table_html()
     {
         //$table = new GroupBrowserTable($this, $this->get_parameters(), $this->get_condition());
-        $course_group_table = new CourseGroupTable(new CourseGroupTableDataProvider($this));
+        $course_group_table = new CourseGroupTable($this, new CourseGroupTableDataProvider($this));
         
         $html = array();
         $html[] = '<div style="float: right; width: 80%;">';

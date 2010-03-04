@@ -358,8 +358,13 @@ class ContentObjectPublicationForm extends FormValidator
         $pub->set_course_id($course);
         $pub->set_tool($tool);
         $pub->set_category_id($category);
-        $pub->set_target_users($values[self :: PARAM_TARGET_ELEMENTS]['user']);
-        $pub->set_target_course_groups($values[self :: PARAM_TARGET_ELEMENTS]['group']);
+        
+    	if($values[self :: PARAM_TARGET_OPTION])
+    	{
+          	$pub->set_target_users($values[self :: PARAM_TARGET_ELEMENTS]['user']);
+           	$pub->set_target_course_groups($values[self :: PARAM_TARGET_ELEMENTS]['group']);
+        }
+        
         $pub->set_from_date($from);
         $pub->set_to_date($to);
         $pub->set_publisher_id($this->user->get_id());
@@ -437,8 +442,13 @@ class ContentObjectPublicationForm extends FormValidator
             $pub->set_course_id($course);
             $pub->set_tool($tool);
             $pub->set_category_id($category);
-            $pub->set_target_users($values[self :: PARAM_TARGET_ELEMENTS]['user']);
-            $pub->set_target_course_groups($values[self :: PARAM_TARGET_ELEMENTS]['group']);
+            
+            if($values[self :: PARAM_TARGET_OPTION])
+            {
+            	$pub->set_target_users($values[self :: PARAM_TARGET_ELEMENTS]['user']);
+            	$pub->set_target_course_groups($values[self :: PARAM_TARGET_ELEMENTS]['group']);
+            }
+            
             $pub->set_from_date($from);
             $pub->set_to_date($to);
             $pub->set_publisher_id($this->user->get_id());
