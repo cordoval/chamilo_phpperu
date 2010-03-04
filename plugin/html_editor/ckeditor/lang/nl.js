@@ -439,8 +439,10 @@ CKEDITOR.lang.nl = {
 		showStatusBar : 'Toon statusbalk',
 		width : 'Breedte',
 		height : 'Hoogte',
+		type : 'Type',
 		validateWidth : 'De breedte moet een getal zijn.',
 		validateHeight : 'De hoogte moet een getal zijn.',
+		validateType : 'Type has to be defined.',
 		standby : 'Video laden ...'
 	},
 	spellCheck : {

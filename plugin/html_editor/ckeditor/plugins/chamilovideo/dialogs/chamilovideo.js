@@ -30,6 +30,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		pluginspage : [ { type : ATTRTYPE_PARAM, name : 'pluginspage' }, { type : ATTRTYPE_EMBED, name : 'pluginspage' } ],
 		src : [ { type : ATTRTYPE_PARAM, name : 'url' }, { type : ATTRTYPE_EMBED, name : 'src' } ],
 		
+		width : [ { type : ATTRTYPE_PARAM, name : 'width' }, { type : ATTRTYPE_EMBED, name : 'width' } ],
+		height : [ { type : ATTRTYPE_PARAM, name : 'height' }, { type : ATTRTYPE_EMBED, name : 'height' } ],
+		
 		autosize : [ { type : ATTRTYPE_EMBED, name : 'autosize' } ],
 		autostart : [ { type : ATTRTYPE_PARAM, name : 'autostart' }, { type : ATTRTYPE_EMBED, name : 'autostart' } ],
 		showcontrols : [ { type : ATTRTYPE_PARAM, name : 'showcontrols' }, { type : ATTRTYPE_EMBED, name : 'showcontrols' } ],
@@ -357,13 +360,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						},
 						{
 							type : 'hbox',
-							widths : [ '50%', '50%' ],
+							widths : [ '33%', '33%', '33%' ],
 							children :
 							[
 								{
 									type : 'text',
 									id : 'width',
-									style : 'width:190px',
+									style : 'width:125px',
 									label : editor.lang.chamilovideo.width,
 									validate : CKEDITOR.dialog.validate.integer( editor.lang.chamilovideo.validateWidth ),
 									setup : function( objectNode, embedNode, paramMap, fakeImage )
@@ -386,8 +389,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								{
 									type : 'text',
 									id : 'height',
-									disabled : true,
-									style : 'width:190px',
+									style : 'width:125px',
 									label : editor.lang.chamilovideo.height,
 									validate : CKEDITOR.dialog.validate.integer( editor.lang.chamilovideo.validateHeight ),
 									setup : function( objectNode, embedNode, paramMap, fakeImage )
@@ -406,6 +408,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										if ( this.getValue() )
 											extraStyles.height = this.getValue() + 'px';
 									}
+								},
+								{
+									type : 'select',
+									id : 'type',
+									style : 'width:125px',
+									label : editor.lang.chamilovideo.type,
+									validate : CKEDITOR.dialog.validate.notEmpty( editor.lang.chamilovideo.validateType ),
+									style : 'width : 100%;',
+									items :
+									[
+										[ 'Mpg', 'video/mpeg' ],
+										[ 'Mpeg', 'video/mpeg' ],
+										[ 'Mp4', 'video/mpeg4-generic' ],
+										[ 'Avi', 'video/x-msvideo' ],
+										[ 'Window Media Video', 'audio/x-ms-wmv' ],
+										[ 'Quicktime', 'video/quicktime' ],
+										[ 'Asf', 'video/x-ms-asf' ]
+									],
+									'default' : 'video/x-msvideo',
+									setup : loadValue,
+									commit : commitValue
 								}
 							]
 						},

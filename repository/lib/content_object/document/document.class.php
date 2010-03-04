@@ -446,6 +446,7 @@ class Document extends ContentObject
     {
         $flash_types = array();
         $flash_types[] = 'swf';
+        $flash_types[] = 'SWF';
 
         return $flash_types;
     }
@@ -460,6 +461,14 @@ class Document extends ContentObject
         $video_types[] = 'wmv';
         $video_types[] = 'mov';
         $video_types[] = 'asf';
+        $video_types[] = 'MPG';
+        $video_types[] = 'MPEG';
+        $video_types[] = 'MP4';
+        $video_types[] = 'AVI';
+        $video_types[] = 'WMV';
+        $video_types[] = 'MOV';
+        $video_types[] = 'ASF';
+
 
         return $video_types;
     }

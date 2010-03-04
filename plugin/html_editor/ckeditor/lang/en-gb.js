@@ -439,8 +439,10 @@ CKEDITOR.lang['en-gb'] = {
 		showStatusBar : 'Show statusbar',
 		width : 'Width',
 		height : 'Height',
+		type : 'Type',
 		validateWidth : 'Width must be a number.',
 		validateHeight : 'Height must be a number.',
+		validateType : 'Type has to be defined.',
 		standby : 'Loading video ...'
 	},
 	spellCheck : {
