@@ -121,8 +121,8 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->browser->get_parent()->get_course_id());
         $conditions[] = $this->get_condition($category);
         
-    	$user_id = $this->get_user_id();
-        $course_groups = $this->get_course_groups();
+    	$user_id = $this->browser->get_user_id();
+        $course_groups = $this->browser->get_course_groups();
                 
         $course_group_ids = array();
                 
