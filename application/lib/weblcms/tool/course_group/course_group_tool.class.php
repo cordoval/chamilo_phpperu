@@ -5,12 +5,15 @@
  */
 
 require_once dirname(__FILE__) . '/course_group_tool_component.class.php';
+require_once dirname(__FILE__) . '/component/course_group_table/course_group_table.class.php';
 /**
  * This tool allows a course_group to publish course_groups in his or her course.
  */
 class CourseGroupTool extends Tool
 {
     const PARAM_COURSE_GROUP_ACTION = 'tool_action';
+    const PARAM_DELETE_COURSE_GROUPS = 'delete_course_groups';
+    const PARAM_UNSUBSCRIBE_USERS = 'unsubscribe_users';
     
     const ACTION_SUBSCRIBE = 'course_group_subscribe';
     const ACTION_UNSUBSCRIBE = 'course_group_unsubscribe';
@@ -24,6 +27,12 @@ class CourseGroupTool extends Tool
     
     const PARAM_COURSE_GROUP = 'course_group';
 
+    function CourseGroupTool($parent)
+    {
+    	parent :: __construct($parent);
+    	$this->parse_input_from_table();
+    }
+    
     /**
      * Inherited.
      */
@@ -68,6 +77,36 @@ class CourseGroupTool extends Tool
                 $component = CourseGroupToolComponent :: factory('Browser', $this);
         }
         $component->run();
+    }
+    
+	private function parse_input_from_table()
+    {
+        if (isset($_POST['action']))
+        {
+            $ids = $_POST[CourseGroupTable :: DEFAULT_NAME . CourseGroupTable :: CHECKBOX_NAME_SUFFIX];
+            
+            if (empty($ids))
+            {
+            	$ids = array();
+            }
+            elseif (! is_array($ids))
+            {
+                $ids = array($ids);
+            }
+            
+            $action = $_POST['action'];
+            switch ($action)
+            {
+                case self :: PARAM_DELETE_COURSE_GROUPS :
+                    $this->set_action(self :: ACTION_DELETE_COURSE_GROUP);
+                    Request :: set_get(self :: PARAM_COURSE_GROUP, $ids);
+                    break;
+                case self :: PARAM_UNSUBSCRIBE_USERS :
+                	$this->set_action(self :: ACTION_UNSUBSCRIBE);
+                	Request :: set_get(WeblcmsManager :: PARAM_USERS, $ids);
+                    break;
+            }
+        }
     }
     
     function get_course_group()

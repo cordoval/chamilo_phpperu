@@ -61,6 +61,10 @@ class CourseGroupTable
         $this->set_cell_renderer(isset($cell_renderer) ? $cell_renderer : new DefaultCourseGroupTableCellRenderer($data_provider->get_parent()));
         $this->set_default_row_count(10);
         $this->set_additional_parameters($this->determine_additional_parameters());
+        
+        $actions = array();
+	    $actions[] = new ObjectTableFormAction(CourseGroupTool :: PARAM_DELETE_COURSE_GROUPS, Translation :: get('RemoveSelected'));
+	    $this->set_form_actions($actions);
     }
 
     /**
