@@ -109,15 +109,15 @@ class WeblcmsManager extends WebApplication
         $this->set_parameter(self :: PARAM_COMPONENT_ACTION, Request :: get(self :: PARAM_COMPONENT_ACTION));
         $this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
         $this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
-        $this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
+        //$this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
         $this->set_parameter(self :: PARAM_TOOL, Request :: get(self :: PARAM_TOOL));
         
         $this->parse_input_from_table();
         
         $this->course = new Course();
         $this->load_course();
-        $this->course_group = null;
-        $this->load_course_group();
+        /*$this->course_group = null;
+        $this->load_course_group();*/
         $this->sections = array();
         $this->load_sections();
         $this->tools = array();

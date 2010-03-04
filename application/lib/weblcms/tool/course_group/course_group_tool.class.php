@@ -69,5 +69,12 @@ class CourseGroupTool extends Tool
         }
         $component->run();
     }
+    
+    function get_course_group()
+    {
+    	$course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
+        $wdm = WeblcmsDataManager :: get_instance();
+        return $wdm->retrieve_course_group($course_group_id);
+    }
 }
 ?>
