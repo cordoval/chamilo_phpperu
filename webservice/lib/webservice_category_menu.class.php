@@ -46,7 +46,7 @@ class WebserviceCategoryMenu extends HTML_Menu
         $menu = array();
         
         $menu_item = array();
-        $menu_item['title'] = Translation :: get('WebserviceCategory');
+        $menu_item['title'] = Translation :: get('Webservices');
         $menu_item['url'] = $this->get_home_url();
         
         $sub_menu_items = $this->get_menu_items(0);
