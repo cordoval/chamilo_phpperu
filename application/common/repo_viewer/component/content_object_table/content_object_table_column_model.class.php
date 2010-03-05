@@ -29,6 +29,7 @@ class ContentObjectTableColumnModel extends ObjectTableColumnModel
     function get_columns()
     {
         $columns = array();
+        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TYPE);
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
         $columns[] = self :: get_action_column();
