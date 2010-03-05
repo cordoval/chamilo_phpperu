@@ -180,7 +180,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
             $search_url = null;
         }
 
-        $menu = new ContentObjectCategoryMenu($this->get_user_id(), Request :: get('category') ? Request :: get('category') : 0, $url, $extra);
+        $menu = new ContentObjectCategoryMenu($this->get_user_id(), Request :: get('category') ? Request :: get('category') : 0, $url, $extra, $this->get_types());
 
         if ($search_url)
         {

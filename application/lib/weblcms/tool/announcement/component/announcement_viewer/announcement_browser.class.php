@@ -30,7 +30,12 @@ class AnnouncementBrowser extends ContentObjectPublicationBrowser
         else
         {
             $renderer = new ListContentObjectPublicationListRenderer($this);
-            $actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
+            //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
+            
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
+        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
+        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show'), false);
+            
             $renderer->set_actions($actions);
         }
         
@@ -106,7 +111,7 @@ class AnnouncementBrowser extends ContentObjectPublicationBrowser
             
             $condition = new AndCondition($conditions);
             
-            $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
+            $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC));
             $visible_publications = array();
             while ($publication = $publications->next_result())
             {

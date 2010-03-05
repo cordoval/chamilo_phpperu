@@ -47,7 +47,11 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 
         if (count($types) > 1)
         {
-            return Request :: post(RepoViewer :: PARAM_CONTENT_OBJECT_TYPE);
+            $type = Request :: post(RepoViewer :: PARAM_CONTENT_OBJECT_TYPE);
+            if(!$type)
+            	$type = Request :: get(RepoViewer :: PARAM_CONTENT_OBJECT_TYPE);
+            	
+            return $type;
         }
         else
         {

@@ -161,11 +161,11 @@ abstract class Tool
                 $component = ToolComponent :: factory('', 'CategoryManager', $this);
                 break;
             case self :: ACTION_MOVE_UP :
-                Request :: set_get(self :: PARAM_MOVE, 1);
+                Request :: set_get(self :: PARAM_MOVE, -1);
                 $component = ToolComponent :: factory('', 'Move', $this);
                 break;
             case self :: ACTION_MOVE_DOWN :
-                Request :: set_get(self :: PARAM_MOVE, - 1);
+                Request :: set_get(self :: PARAM_MOVE, 1);
                 $component = ToolComponent :: factory('', 'Move', $this);
                 break;
             case self :: ACTION_MOVE :
