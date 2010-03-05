@@ -29,7 +29,12 @@ class LinkBrowser extends ContentObjectPublicationBrowser
             $tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
             $renderer = new LinkPublicationListRenderer($this);
             $this->set_publication_category_tree($tree);
-            $actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
+            //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'));
+            
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
+        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
+        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show'), false);
+            
             $renderer->set_actions($actions);
         }
         $this->set_publication_list_renderer($renderer);
