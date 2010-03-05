@@ -47,6 +47,8 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
             case 'published_for' :
                 $data = $this->render_publication_targets($publication);
                 break;
+            case ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX:
+            	return $publication->get_display_order_index();
 
         }
 
@@ -132,39 +134,38 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
             {
                 $img = 'action_visible_na.png';
             }
-            //
-            //			if($publication->get_display_order_index() > 1)
-            //			{
-            //				$actions[] = array(
-            //					'href' => $this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-            //					'label' => Translation :: get('Up'),
-            //					'img' => Theme :: get_common_image_path() . 'action_up.png'
-            //				);
-            //			}
-            //			else
-            //			{
-            //				$actions[] = array(
-            //					'label' => Translation :: get('UpNA'),
-            //					'img' => Theme :: get_common_image_path() . 'action_up_na.png'
-            //				);
-            //			}
-            //
-            //			if($publication->get_display_order_index() < $this->object_count)
-            //			{
-            //				$actions[] = array(
-            //					'href' => $this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-            //					'label' => Translation :: get('Down'),
-            //					'img' => Theme :: get_common_image_path() . 'action_down.png'
-            //				);
-            //			}
-            //			else
-            //			{
-            //				$actions[] = array(
-            //					'label' => Translation :: get('DownNA'),
-            //					'img' => Theme :: get_common_image_path() . 'action_down_na.png'
-            //				);
-            //			}
-
+           
+            if($publication->get_display_order_index() > 1)
+            {
+            	$actions[] = array(
+            		'href' => $this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+            		'label' => Translation :: get('Up'),
+            		'img' => Theme :: get_common_image_path() . 'action_up.png'
+            	);
+            }
+            else
+            {
+            	$actions[] = array(
+            		'label' => Translation :: get('UpNA'),
+            		'img' => Theme :: get_common_image_path() . 'action_up_na.png'
+            	);
+            }
+            
+            if($publication->get_display_order_index() < $this->object_count)
+            {
+            	$actions[] = array(
+            		'href' => $this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+            		'label' => Translation :: get('Down'),
+            		'img' => Theme :: get_common_image_path() . 'action_down.png'
+            	);
+            }
+            else
+            {
+            	$actions[] = array(
+            		'label' => Translation :: get('DownNA'),
+            		'img' => Theme :: get_common_image_path() . 'action_down_na.png'
+            	);
+            }
 
             $actions['visible'] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Visible'), 'img' => Theme :: get_common_image_path() . $img);
 
