@@ -22,7 +22,7 @@ class ComplexRepoViewer extends RepoViewer
     function ComplexRepoViewer($parent, $types, $mail_option = false, $maximum_select = RepoViewer :: SELECT_MULTIPLE)
     {
         parent :: __construct($parent, $types, $mail_option, $maximum_select, array(), false);
-        $this->set_repo_viewer_actions(array('creator', 'browser', 'finder'));
+        $this->set_repo_viewer_actions(array('creator', 'browser'));
     }
 
     function redirect_complex($type)
