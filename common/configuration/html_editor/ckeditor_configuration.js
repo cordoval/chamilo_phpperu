@@ -11,7 +11,7 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.removePlugins = 'flash';
 	config.extraPlugins = 'chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio';
-//	config.removePlugins = 'elementspath,save,font';
+	config.removePlugins = 'elementspath,resize';
 	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio';
 	
 	config.toolbar_Full =

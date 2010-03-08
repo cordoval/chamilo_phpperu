@@ -87,48 +87,38 @@ function doAjax(type, url, parameters)
 }
 
 // Return an HTML Editor
-function renderHtmlEditor(name, options)
+function renderHtmlEditor(editorName, editorOptions, editorLabel, editorAttributes)
 {
-//	var defaults = {
-//			name: name,
-//			height: '100',
-//			fullPage: false,
-//			toolbarSet: 'Basic',
-//			toolbarExpanded: true,
-//			value: ''
-//	};
-//	
-//	var options = $.extend(defaults, options);
-	
-	var parameters = {
-			name: name,
-			options: options
+	var defaults = {
+			"name": '',
+			"label": '',
+			"options": $.json.serialize({}),
+			"attributes": $.json.serialize({})
 	};
 	
-	var editor = doAjaxPost("./common/html/formvalidator/form_validator_html_editor_instance.php", parameters);
+	var parameters = new Object();
+	parameters.name = editorName;
 	
-	alert(editor);
+	if (typeof editorOptions != "undefined")
+	{
+		parameters.options = $.json.serialize(editorOptions);
+	}
 	
-//	return editor.html;
+	if (typeof editorAttributes != "undefined")
+	{
+		parameters.attributes = $.json.serialize(editorAttributes);
+	}
 	
-//	var oFCKeditor = new FCKeditor(name);
-//	oFCKeditor.BasePath = getPath('WEB_PLUGIN_PATH') + 'html_editor/fckeditor/';
-//	oFCKeditor.Width = options.width;
-//	oFCKeditor.Height = options.height;
-//	oFCKeditor.Config[ "FullPage" ] = options.fullPage;
-//	oFCKeditor.Config[ "DefaultLanguage" ] = options.language ;
-//	if(options.value)
-//	{
-//		oFCKeditor.Value = options.value;
-//	}
-//	else
-//	{
-//		oFCKeditor.Value = "";
-//	}
-//	oFCKeditor.ToolbarSet = options.toolbarSet;
-//	oFCKeditor.Config[ "SkinPath" ] = oFCKeditor.BasePath + 'editor/skins/' + getTheme() + '/';
-//	oFCKeditor.Config["CustomConfigurationsPath"] = getPath('WEB_LIB_PATH') + 'configuration/html_editor/fckconfig.js';
-//	oFCKeditor.Config[ "ToolbarStartExpanded" ] = options.toolbarExpanded;
-//	
-//	return oFCKeditor.CreateHtml();
+	if (typeof editorLabel != "undefined")
+	{
+		parameters.label = editorLabel;
+	}
+	
+	var ajaxParameters = $.extend(defaults, parameters);
+	
+	var result = doAjaxPost("./common/html/formvalidator/form_validator_html_editor_instance.php", ajaxParameters);
+	
+//	alert(result);
+	
+	return result;
 }

@@ -6,7 +6,7 @@ $(function ()
 	
     function getDeleteIcon()
     {
-		return $('.data_table tbody tr:first td:last .remove_option').attr('src').replace('_na.png', '.png');
+		return $('.data_table > tbody > tr:first td:last .remove_option').attr('src').replace('_na.png', '.png');
     }
     
 	function processOptions()
@@ -15,7 +15,7 @@ $(function ()
 		
 		deleteImage = '<img class="remove_option" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
 		deleteField = '<input id="remove_$option_number" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
-		rows = $('.data_table tbody tr');
+		rows = $('.data_table > tbody > tr');
 		
 		if (rows.size() <= 2)
 		{
@@ -133,7 +133,7 @@ $(function ()
 			value = numberOfOptions;
 		}
 		
-		parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
+		parameters = { "width" : "96%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : "true" };
 		editorNameAnswer = 'option[' + numberOfOptions + ']';
 		editorNameComment = 'comment[' + numberOfOptions + ']';
 		
@@ -146,7 +146,7 @@ $(function ()
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
 				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
 		
-		$('.data_table tbody').append(string);
+		$('.data_table > tbody').append(string);
 		
 		processOptions();
 	}
