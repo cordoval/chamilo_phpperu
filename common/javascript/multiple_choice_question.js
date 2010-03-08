@@ -138,8 +138,8 @@ $(function ()
 		editorNameComment = 'comment[' + numberOfOptions + ']';
 		
 		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
-		fieldAnswer = renderFckEditor(editorNameAnswer, parameters);
-		fieldComment = renderFckEditor(editorNameComment, parameters);
+		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
+		fieldComment = renderHtmlEditor(editorNameComment, parameters);
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		

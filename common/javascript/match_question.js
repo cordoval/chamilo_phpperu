@@ -107,7 +107,7 @@ $(function ()
 		editorName = 'comment[' + numberOfOptions + ']';
 	
 		fieldAnswer = '<textarea name="option[' + numberOfOptions + ']" style="width: 100%; height: 65px;"></textarea>';
-		fieldFeedback = renderFckEditor(editorName, parameters);
+		fieldFeedback = renderHtmlEditor(editorName, parameters);
 		fieldWeight = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + visibleNumber + '</td><td>' + fieldAnswer + '</td><td>' + fieldFeedback + '</td><td>' + fieldWeight + '</td><td>' + fieldDelete + '</td></tr>';

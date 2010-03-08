@@ -31,7 +31,7 @@ class FormValidatorCkeditorHtmlEditor extends FormValidatorHtmlEditor
     {
         $html = array();
         $html[] = parent :: render();
-        $html[] = implode("\n", $this->get_includes());
+//        $html[] = implode("\n", $this->get_includes());
         $html[] = implode("\n", $this->get_javascript());
 
         return implode("\n", $html);

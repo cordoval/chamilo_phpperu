@@ -116,7 +116,7 @@ $(function ()
 		parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
 		editorName = 'option[' + numberOfOptions + ']';
 	
-		fieldAnswer = renderFckEditor(editorName, parameters);
+		fieldAnswer = renderHtmlEditor(editorName, parameters);
 		fieldOrder = '<select name="option_order[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldOrder + '</td><td>' + fieldDelete + '</td></tr>';

@@ -180,7 +180,7 @@ function utf8_encode ( argString ) {
 			parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
 			editorName = 'comment[' + matchnumber + ']';
 			
-			string += 	renderFckEditor(editorName, parameters);
+			string += 	renderHtmlEditor(editorName, parameters);
 			string +=	'</div></td>';
 			string +=	'<td><input size="2" name="match_weight[' + matchnumber + ']" type="text" value="1" /></td>';
 			string +=   '<td><input size="2" name="size[' + matchnumber + ']" type="text" value="' + default_size + '" /></td></tr>';

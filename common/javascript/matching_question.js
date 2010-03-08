@@ -130,8 +130,8 @@ $(function ()
 		editorNameComment = 'comment[' + numberOfOptions + ']';
 	
 		fieldMatches =  '<select name="matches_to[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';		
-		fieldAnswer = renderFckEditor(editorNameAnswer, parameters);
-		fieldComment = renderFckEditor(editorNameComment, parameters);
+		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
+		fieldComment = renderHtmlEditor(editorNameComment, parameters);
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_option_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[' + numberOfOptions + ']" />';
 		
@@ -198,7 +198,7 @@ $(function ()
 		editorName = 'match[' + numberOfMatches + ']';
 		
 		fieldOption = labels[newNumber] + '<input type="hidden" value="' + labels[newNumber] + '" name="match_label[' + numberOfMatches + ']" />';
-		fieldAnswer = renderFckEditor(editorName, parameters);
+		fieldAnswer = renderHtmlEditor(editorName, parameters);
 		fieldDelete = '<input id="remove_match_' + numberOfMatches + '" class="remove_match" type="image" src="' + getDeleteIconMatches() + '" name="remove_match[' + numberOfMatches + ']" />';
 		string = '<tr id="match_' + numberOfMatches + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldDelete + '</td></tr>';
 		

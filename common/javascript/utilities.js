@@ -86,38 +86,49 @@ function doAjax(type, url, parameters)
 	return response;
 }
 
-// Return an FckEditor
-function renderFckEditor(name, options)
+// Return an HTML Editor
+function renderHtmlEditor(name, options)
 {
-	var defaults = {
-			width: '100%',
-			height: '100',
-			fullPage: false,
-			toolbarSet: 'Basic',
-			toolbarExpanded: true,
-			value: ''
+//	var defaults = {
+//			name: name,
+//			height: '100',
+//			fullPage: false,
+//			toolbarSet: 'Basic',
+//			toolbarExpanded: true,
+//			value: ''
+//	};
+//	
+//	var options = $.extend(defaults, options);
+	
+	var parameters = {
+			name: name,
+			options: options
 	};
 	
-	var options = $.extend(defaults, options);
+	var editor = doAjaxPost("./common/html/formvalidator/form_validator_html_editor_instance.php", parameters);
 	
-	var oFCKeditor = new FCKeditor(name);
-	oFCKeditor.BasePath = getPath('WEB_PLUGIN_PATH') + 'html_editor/fckeditor/';
-	oFCKeditor.Width = options.width;
-	oFCKeditor.Height = options.height;
-	oFCKeditor.Config[ "FullPage" ] = options.fullPage;
-	oFCKeditor.Config[ "DefaultLanguage" ] = options.language ;
-	if(options.value)
-	{
-		oFCKeditor.Value = options.value;
-	}
-	else
-	{
-		oFCKeditor.Value = "";
-	}
-	oFCKeditor.ToolbarSet = options.toolbarSet;
-	oFCKeditor.Config[ "SkinPath" ] = oFCKeditor.BasePath + 'editor/skins/' + getTheme() + '/';
-	oFCKeditor.Config["CustomConfigurationsPath"] = getPath('WEB_LIB_PATH') + 'configuration/html_editor/fckconfig.js';
-	oFCKeditor.Config[ "ToolbarStartExpanded" ] = options.toolbarExpanded;
+	alert(editor);
 	
-	return oFCKeditor.CreateHtml();
+//	return editor.html;
+	
+//	var oFCKeditor = new FCKeditor(name);
+//	oFCKeditor.BasePath = getPath('WEB_PLUGIN_PATH') + 'html_editor/fckeditor/';
+//	oFCKeditor.Width = options.width;
+//	oFCKeditor.Height = options.height;
+//	oFCKeditor.Config[ "FullPage" ] = options.fullPage;
+//	oFCKeditor.Config[ "DefaultLanguage" ] = options.language ;
+//	if(options.value)
+//	{
+//		oFCKeditor.Value = options.value;
+//	}
+//	else
+//	{
+//		oFCKeditor.Value = "";
+//	}
+//	oFCKeditor.ToolbarSet = options.toolbarSet;
+//	oFCKeditor.Config[ "SkinPath" ] = oFCKeditor.BasePath + 'editor/skins/' + getTheme() + '/';
+//	oFCKeditor.Config["CustomConfigurationsPath"] = getPath('WEB_LIB_PATH') + 'configuration/html_editor/fckconfig.js';
+//	oFCKeditor.Config[ "ToolbarStartExpanded" ] = options.toolbarExpanded;
+//	
+//	return oFCKeditor.CreateHtml();
 }

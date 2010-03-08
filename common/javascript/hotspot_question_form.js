@@ -211,8 +211,8 @@ $(function ()
 		
 		fieldColour = '<div class="colour_box" style="background-color: ' + colours[numberOfOptions] + ';"></div>';
 		fieldCoordinates = '<input name="coordinates[' + numberOfOptions + ']" type="hidden" value="" />';
-		fieldAnswer = renderFckEditor(editorNameAnswer, parameters);
-		fieldComment = renderFckEditor(editorNameComment, parameters);
+		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
+		fieldComment = renderHtmlEditor(editorNameComment, parameters);
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldEdit = '<input id="edit_' + numberOfOptions + '" class="edit_option" type="image" src="' + getEditIcon() + '" name="edit[' + numberOfOptions + ']" />&nbsp;&nbsp;';
 		fieldReset = '<input id="reset_' + numberOfOptions + '" class="reset_option" type="image" src="' + getResetIcon() + '" name="reset[' + numberOfOptions + ']" />&nbsp;&nbsp;';
