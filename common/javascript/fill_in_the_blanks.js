@@ -177,7 +177,7 @@ function utf8_encode ( argString ) {
 			string +=   '<td>' + match + '<input type="hidden" name="match[' + matchnumber + ']" value="' + match + '" /></td>';
 			string +=  	'<td><div style="display: inline;">';
 			
-			parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
+			parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
 			editorName = 'comment[' + matchnumber + ']';
 			
 			string += 	renderHtmlEditor(editorName, parameters);

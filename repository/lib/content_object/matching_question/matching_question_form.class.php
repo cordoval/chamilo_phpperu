@@ -56,13 +56,13 @@ class MatchingQuestionForm extends ContentObjectForm
         else
         {
             $number_of_options = intval($_SESSION['mq_number_of_options']);
-            
+
             for($option_number = 0; $option_number < $number_of_options; $option_number ++)
             {
                 $defaults['option_weight'][$option_number] = 1;
             }
         }
-        
+
         parent :: setDefaults($defaults);
     }
 
@@ -98,7 +98,7 @@ class MatchingQuestionForm extends ContentObjectForm
         $values = $this->exportValues();
         $options = array();
         $matches = array();
-        
+
         //Get an array with a mapping from the match-id to its index in the $values['match'] array
         $matches_indexes = array_flip(array_keys($values['match']));
         foreach ($values['option'] as $option_id => $value)
@@ -106,7 +106,7 @@ class MatchingQuestionForm extends ContentObjectForm
             //Create the option with it corresponding match
             $options[] = new MatchingQuestionOption($value, $matches_indexes[$values['matches_to'][$option_id]], $values['option_weight'][$option_id], $values['comment'][$option_id]);
         }
-        
+
         foreach ($values['match'] as $match)
         {
             $matches[] = $match;
@@ -190,7 +190,7 @@ class MatchingQuestionForm extends ContentObjectForm
         $number_of_options = intval($_SESSION['mq_number_of_options']);
         $matches = array();
         $match_label = 'A';
-        
+
         for($match_number = 0; $match_number < $_SESSION['mq_number_of_matches']; $match_number ++)
         {
             if (! in_array($match_number, $_SESSION['mq_skip_matches']))
@@ -198,16 +198,16 @@ class MatchingQuestionForm extends ContentObjectForm
                 $matches[$match_number] = $match_label ++;
             }
         }
-        
+
         $this->addElement('category', Translation :: get('Options'));
         $this->addElement('hidden', 'mq_number_of_options', $_SESSION['mq_number_of_options'], array('id' => 'mq_number_of_options'));
-        
+
         $buttons = array();
         $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatchingQuestionOption'), array('class' => 'normal add', 'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        
+
         $renderer = $this->defaultRenderer();
-        
+
         $table_header = array();
         $table_header[] = '<table class="data_table options">';
         $table_header[] = '<thead>';
@@ -222,16 +222,15 @@ class MatchingQuestionForm extends ContentObjectForm
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
-        
+
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
-        $html_editor_options['show_toolbar'] = false;
-        $html_editor_options['show_tags'] = false;
-        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
-        
+        $html_editor_options['collapse_toolbar'] = true;
+        $html_editor_options['toolbar'] = 'RepositoryQuestion';
+
         $visual_number = 0;
-        
+
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
             $group = array();
@@ -243,7 +242,7 @@ class MatchingQuestionForm extends ContentObjectForm
                 $group[] = $this->createElement('select', 'matches_to[' . $option_number . ']', Translation :: get('Matches'), $matches);
                 $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
                 $group[] = $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
-                
+
                 if ($number_of_options - count($_SESSION['mq_skip_options']) > 2)
                 {
                     $group[] = $this->createElement('image', 'remove_option[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_option_' . $option_number));
@@ -252,24 +251,24 @@ class MatchingQuestionForm extends ContentObjectForm
                 {
                     $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
-                
+
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
-                
+
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'option_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
-                
+
                 $this->addGroupRule('option_' . $option_number, array('option[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), 'option_weight[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
             }
         }
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->addElement('html', implode("\n", $table_footer));
-        
+
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        
+
         $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
-        
+
         $this->addElement('category');
     }
 
@@ -281,15 +280,15 @@ class MatchingQuestionForm extends ContentObjectForm
     {
         $number_of_matches = intval($_SESSION['mq_number_of_matches']);
         $this->addElement('category', Translation :: get('Matches'));
-        
+
         $this->addElement('hidden', 'mq_number_of_matches', $_SESSION['mq_number_of_matches'], array('id' => 'mq_number_of_matches'));
-        
+
         $buttons = array();
         $buttons[] = $this->createElement('style_button', 'add_match[]', Translation :: get('AddMatch'), array('class' => 'normal add', 'id' => 'add_match'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        
+
         $renderer = $this->defaultRenderer();
-        
+
         $table_header = array();
         $table_header[] = '<table class="data_table matches">';
         $table_header[] = '<thead>';
@@ -301,19 +300,18 @@ class MatchingQuestionForm extends ContentObjectForm
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
-        
+
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
-        $html_editor_options['show_toolbar'] = false;
-        $html_editor_options['show_tags'] = false;
-        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
-        
+        $html_editor_options['collapse_toolbar'] = true;
+        $html_editor_options['toolbar'] = 'RepositoryQuestion';
+
         $label = 'A';
         for($match_number = 0; $match_number < $number_of_matches; $match_number ++)
         {
             $group = array();
-            
+
             if (! in_array($match_number, $_SESSION['mq_skip_matches']))
             {
                 $defaults['match_label'][$match_number] = $label ++;
@@ -321,7 +319,7 @@ class MatchingQuestionForm extends ContentObjectForm
                 $element->freeze();
                 $group[] = $element;
                 $group[] = $this->create_html_editor('match[' . $match_number . ']', Translation :: get('Match'), $html_editor_options);
-                
+
                 if ($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
                 {
                     $group[] = $this->createElement('image', 'remove_match[' . $match_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_match', 'id' => 'remove_match_' . $match_number));
@@ -330,27 +328,27 @@ class MatchingQuestionForm extends ContentObjectForm
                 {
                     $group[] = & $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
-                
+
                 $this->addGroup($group, 'match_' . $match_number, null, '', false);
-                
+
                 $renderer->setElementTemplate('<tr id="match_' . $match_number . '" class="' . ($match_number - 1 % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'match_' . $match_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'match_' . $match_number);
-                
+
                 $this->addGroupRule('match_' . $match_number, array('match[' . $match_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'))));
             }
-            
+
             $this->setConstants($defaults);
         }
-        
+
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->addElement('html', implode("\n", $table_footer));
-        
+
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        
+
         $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
-        
+
         $this->addElement('category');
     }
 }

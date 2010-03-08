@@ -116,17 +116,17 @@ $(function ()
 	
 	function getEditIcon()
 	{
-		return $('.data_table tbody tr:first td:last .edit_option').attr('src');
+		return $('.data_table > tbody > tr:first > td:last .edit_option').attr('src');
 	}
 	 
 	function getResetIcon()
 	{
-		return $('.data_table tbody tr:first td:last .reset_option').attr('src');
+		return $('.data_table > tbody > tr:first > td:last .reset_option').attr('src');
 	}
 	
 	function getDeleteIcon()
 	{
-		return $('.data_table tbody tr:first td:last .remove_option').attr('src').replace('_na.png', '.png');
+		return $('.data_table > tbody > tr:first > td:last .remove_option').attr('src').replace('_na.png', '.png');
 	}
    
 	function processOptions()
@@ -135,7 +135,7 @@ $(function ()
 		
 		deleteImage = '<img class="remove_option" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
 		deleteField = '<input id="remove_$option_number" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
-		rows = $('.data_table tbody tr');
+		rows = $('.data_table > tbody > tr');
 		
 		if (rows.size() <= 1)
 		{
@@ -205,7 +205,7 @@ $(function ()
 		
 		$('#mc_number_of_options').val(newNumber);
 		
-		parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
+		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
 		editorNameAnswer = 'answer[' + numberOfOptions + ']';
 		editorNameComment = 'comment[' + numberOfOptions + ']';
 		
@@ -221,7 +221,7 @@ $(function ()
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldColour + fieldCoordinates + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
 				 '</td><td>' + fieldScore + '</td><td>' + fieldEdit + fieldReset + fieldDelete + '</td></tr>';
 		
-		$('.data_table tbody').append(string);
+		$('.data_table > tbody').append(string);
 		
 		processOptions();
 		

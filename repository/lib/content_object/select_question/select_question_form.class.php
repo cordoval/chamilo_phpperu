@@ -174,10 +174,9 @@ class SelectQuestionForm extends ContentObjectForm
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $html_editor_options = array();
-        $html_editor_options['style'] = 'width: 100%; height: 65px;';
-//        $html_editor_options['show_toolbar'] = false;
-//        $html_editor_options['show_tags'] = false;
-//        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+        $html_editor_options['width'] = '100%';
+        $html_editor_options['height'] = '65';
+        $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['toolbar'] = 'RepositoryQuestion';
 
         $table_header = array();
