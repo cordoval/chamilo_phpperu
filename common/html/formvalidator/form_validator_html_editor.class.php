@@ -57,6 +57,11 @@ class FormValidatorHtmlEditor
         return $this->get_form()->createElement('textarea', $this->name, $this->label, $this->attributes);
     }
 
+    function render()
+    {
+        return FormValidator :: createElement('textarea', $this->name, $this->label, $this->attributes)->toHtml();
+    }
+
     function get_form()
     {
         return $this->form;
