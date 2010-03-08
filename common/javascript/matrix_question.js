@@ -8,17 +8,17 @@ $(function ()
 	
     function getDeleteIconMatches()
     {
-		return $('.data_table.matches tbody tr:first td:last .remove_match').attr('src').replace('_na.png', '.png');
+		return $('.data_table.matches > tbody > tr:first > td:last .remove_match').attr('src').replace('_na.png', '.png');
     }
     
     function getDeleteIconOptions()
     {
-		return $('.data_table.options tbody tr:first td:last .remove_option').attr('src').replace('_na.png', '.png');
+		return $('.data_table.options > tbody > tr:first > td:last .remove_option').attr('src').replace('_na.png', '.png');
     }
     
     function getSelectOptions()
     {
-		return $('.data_table.options tbody tr:first select[name*="matches_to"]').html();
+		return $('.data_table.options > tbody > tr:first select[name*="matches_to"]').html();
     }
 	
 	function processMatches()
@@ -28,7 +28,7 @@ $(function ()
 	
 		deleteImage = '<img class="remove_match" src="' + getDeleteIconMatches().replace('.png', '_na.png') + '"/>';
 		deleteField = '<input id="remove_match_$option_number" class="remove_match" type="image" src="' + getDeleteIconMatches() + '" name="remove_match[$option_number]" />';
-		rows = $('.data_table.matches tbody tr');
+		rows = $('.data_table.matches > tbody > tr');
 	
 		if (rows.size() <= 2)
 		{
@@ -60,7 +60,7 @@ $(function ()
 		
 		deleteImage = '<img class="remove_option" src="' + getDeleteIconOptions().replace('.png', '_na.png') + '"/>';
 		deleteField = '<input id="remove_option_$option_number" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[$option_number]" />';
-		rows = $('.data_table.options tbody tr');
+		rows = $('.data_table.options > tbody > tr');
 
 		if (rows.size() <= 2)
 		{
@@ -125,20 +125,20 @@ $(function ()
 		
 		$('#mq_number_of_options').val(newNumber);
 		
-		parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
+		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
 		editorNameAnswer = 'option[' + numberOfOptions + ']';
 		editorNameComment = 'comment[' + numberOfOptions + ']';
 	
 		fieldMatches =  '<select name="matches_to[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';		
-		fieldAnswer = renderFckEditor(editorNameAnswer, parameters);
-		fieldComment = renderFckEditor(editorNameComment, parameters);
+		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
+		fieldComment = renderHtmlEditor(editorNameComment, parameters);
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_option_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[' + numberOfOptions + ']" />';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldMatches + '</td><td>' + 
 				fieldComment + '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
 		
-		$('.data_table.options tbody').append(string);
+		$('.data_table.options > tbody').append(string);
 		
 		processOptions();
 	}
@@ -194,15 +194,15 @@ $(function ()
 		setMemory('mq_number_of_matches', newNumber);
 		$('#mq_number_of_matches').val(newNumber);
 		
-		parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
+		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
 		editorName = 'match[' + numberOfMatches + ']';
 		
 		fieldOption = labels[newNumber] + '<input type="hidden" value="' + labels[newNumber] + '" name="match_label[' + numberOfMatches + ']" />';
-		fieldAnswer = renderFckEditor(editorName, parameters);
+		fieldAnswer = renderHtmlEditor(editorName, parameters);
 		fieldDelete = '<input id="remove_match_' + numberOfMatches + '" class="remove_match" type="image" src="' + getDeleteIconMatches() + '" name="remove_match[' + numberOfMatches + ']" />';
 		string = '<tr id="match_' + numberOfMatches + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldDelete + '</td></tr>';
 		
-		$('.data_table.matches tbody').append(string);
+		$('.data_table.matches > tbody').append(string);
 		
 		selectBox = $('.data_table.options select[name*="matches_to"]');
 		selectBox.append('<option value="' + numberOfMatches + '">' + labels[numberOfMatches - skippedMatches] + '</option>');
