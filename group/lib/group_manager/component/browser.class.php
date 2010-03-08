@@ -9,6 +9,7 @@
 class GroupManagerBrowserComponent extends GroupManagerComponent
 {
     private $ab;
+    private $group;
 
     /**
      * Runs this component and displays its output.
@@ -68,7 +69,19 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 
     function get_group()
     {
-        return (Request :: get(GroupManager :: PARAM_GROUP_ID) ? Request :: get(GroupManager :: PARAM_GROUP_ID) : 0);
+        if(!$this->group)
+        {
+    		$this->group = Request :: get(GroupManager :: PARAM_GROUP_ID);
+    		
+    		if(!$this->group)
+    		{
+    			$group = $this->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
+    			$this->group = $group->get_id();
+    		}
+    		
+        }
+        
+        return $this->group;
     }
 
     function get_condition()
