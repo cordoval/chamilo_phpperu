@@ -11,7 +11,6 @@ class FormValidatorCkeditorHtmlEditorOptions extends FormValidatorHtmlEditorOpti
 	{
 	    $mapping = parent :: get_mapping();
 
-	    $mapping[self :: OPTION_LANGUAGE] = 'language';
 	    $mapping[self :: OPTION_THEME] = 'skin';
 	    $mapping[self :: OPTION_COLLAPSE_TOOLBAR] = 'toolbarStartupExpanded';
 	    $mapping[self :: OPTION_CONFIGURATION] = 'customConfig';
@@ -36,8 +35,8 @@ class FormValidatorCkeditorHtmlEditorOptions extends FormValidatorHtmlEditorOpti
 	{
 	    parent :: set_defaults();
 
-	    $path = Path :: get(REL_PATH) . 'common/configuration/html_editor/ckeditor_configuration.js';
-	    $this->set_option(self :: OPTION_CONFIGURATION, $path);
+//	    $path = Path :: get(REL_PATH) . 'common/configuration/html_editor/ckeditor_configuration.js';
+//	    $this->set_option(self :: OPTION_CONFIGURATION, $path);
 	}
 }
 ?>
