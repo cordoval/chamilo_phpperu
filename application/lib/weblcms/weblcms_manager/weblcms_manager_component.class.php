@@ -89,6 +89,14 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     }
 
     /**
+     * @see WeblcmsManager :: get_course_type()
+     */
+    function get_course_type()
+    {
+        return $this->get_parent()->get_course_type();
+    }
+    
+    /**
      * @see WeblcmsManager :: get_categories()
      */
     function get_categories($list = false)
@@ -151,7 +159,15 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->load_tools();
     }
-
+	
+    /**
+     * @see WeblcmsManager :: get_all_tools()
+     */
+    function get_all_non_admin_tools()
+    {
+    	return $this->get_parent()->get_all_non_admin_tools();
+    }
+    
     /**
      * @see WeblcmsManager :: is_tool_name()
      */

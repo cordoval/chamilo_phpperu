@@ -26,7 +26,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
         
         $object = Request :: get('object');
         //$edit = Request :: get('edit');
-        $pub = new RepoViewer($this, 'personal_message', true);
+        $pub = new RepoViewer($this, 'personal_message', false, RepoViewer :: SELECT_SINGLE);
         $pub->set_parameter('reply', $reply);
         $pub->set_parameter(PersonalMessengerManager :: PARAM_USER_ID, $user);
         

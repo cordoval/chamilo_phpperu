@@ -17,11 +17,11 @@ class PackageInstallerLanguageType extends PackageInstallerType
             
             if (! $this->add_registration())
             {
-                $this->get_parent()->add_message(Translation :: get('ContentObjectRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
+                $this->get_parent()->add_message(Translation :: get('LanguageRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
             }
             else
             {
-                $this->get_parent()->add_message(Translation :: get('ContentObjectRegistrationAdded'));
+                $this->get_parent()->add_message(Translation :: get('LanguageRegistrationAdded'));
             }
         }
         else
