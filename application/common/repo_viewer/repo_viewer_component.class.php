@@ -49,12 +49,12 @@ abstract class RepoViewerComponent
      */
     protected function get_user_id()
     {
-        return $this->parent->get_user_id();
+        return $this->get_parent()->get_user_id();
     }
 
     function get_user()
     {
-        return $this->parent->get_user();
+        return $this->get_parent()->get_user();
     }
 
     /**
@@ -62,7 +62,7 @@ abstract class RepoViewerComponent
      */
     protected function get_types()
     {
-        return $this->parent->get_types();
+        return $this->get_parent()->get_types();
     }
 
     /**
@@ -74,9 +74,9 @@ abstract class RepoViewerComponent
     /**
      * @see ObjectRepoViewer::get_url()
      */
-    function get_url($parameters = array(), $encode = false)
+    function get_url($parameters = array(), $encode = false, $filter = array())
     {
-        return $this->get_parent()->get_url($parameters, $encode);
+        return $this->get_parent()->get_url($parameters, $encode, $filter);
     }
 
     /**
@@ -133,16 +133,26 @@ abstract class RepoViewerComponent
         return $this->get_parent()->get_excluded_objects();
     }
 
+    function display_tabs_header()
+    {
+        return $this->get_parent()->display_tabs_header();
+    }
+
+    function display_tabs_footer()
+    {
+        return $this->get_parent()->display_tabs_footer();
+    }
+
     static function factory($type, $repoviewer)
     {
         $path = dirname(__FILE__) . '/component/' . Utilities :: camelcase_to_underscores($type) . '.class.php';
-        
+
         if (! file_exists($path) || ! is_file($path))
         {
             $message = Translation :: get('ComponentFailedToLoad') . ': ' . Translation :: get($type);
             Display :: error_message($message);
         }
-        
+
         $class = 'RepoViewer' . $type . 'Component';
         require_once $path;
         return new $class($repoviewer);

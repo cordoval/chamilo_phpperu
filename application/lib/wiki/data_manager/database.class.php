@@ -188,6 +188,9 @@ class DatabaseWikiDataManager extends WikiDataManager
 
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 
@@ -210,6 +213,8 @@ class DatabaseWikiDataManager extends WikiDataManager
         $publication_attr->set_url('run.php?application=wiki&go=browse');
         $publication_attr->set_publication_object_id($record[WikiPublication :: PROPERTY_CONTENT_OBJECT]);
 
+        $res->free();
+        
         return $publication_attr;
     }
 

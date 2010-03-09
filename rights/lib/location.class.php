@@ -14,6 +14,8 @@ class Location extends DataClass
     const PROPERTY_RIGHT_VALUE = 'right_value';
     const PROPERTY_PARENT = 'parent_id';
     const PROPERTY_APPLICATION = 'application';
+    const PROPERTY_TREE_IDENTIFIER = 'tree_identifier';
+    const PROPERTY_TREE_TYPE = 'tree_type';
     const PROPERTY_TYPE = 'type';
     const PROPERTY_IDENTIFIER = 'identifier';
     const PROPERTY_INHERIT = 'inherit';
@@ -25,7 +27,10 @@ class Location extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT, self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_IDENTIFIER, self :: PROPERTY_INHERIT, self :: PROPERTY_LOCKED));
+        return parent :: get_default_property_names(array(self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT, 
+        												  self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_IDENTIFIER, 
+        												  self :: PROPERTY_TREE_IDENTIFIER, self :: PROPERTY_TREE_TYPE,
+        												  self :: PROPERTY_INHERIT, self :: PROPERTY_LOCKED));
     }
 
     /**
@@ -119,6 +124,26 @@ class Location extends DataClass
     function set_inherit($inherit)
     {
         $this->set_default_property(self :: PROPERTY_INHERIT, $inherit);
+    }
+    
+	function get_tree_identifier()
+    {
+        return $this->get_default_property(self :: PROPERTY_TREE_IDENTIFIER);
+    }
+
+    function set_tree_identifier($tree_identifier)
+    {
+        $this->set_default_property(self :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
+    }
+    
+	function get_tree_type()
+    {
+        return $this->get_default_property(self :: PROPERTY_TREE_TYPE);
+    }
+
+    function set_tree_type($tree_type)
+    {
+        $this->set_default_property(self :: PROPERTY_TREE_TYPE, $tree_type);
     }
 
     function inherits()
@@ -236,6 +261,8 @@ class Location extends DataClass
         $siblings_conditions = array();
         $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_parent());
         $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+        $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $this->get_tree_type());
+        $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
 
         if (! $include_self)
         {
@@ -254,6 +281,8 @@ class Location extends DataClass
         $siblings_conditions = array();
         $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_parent());
         $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+        $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $this->get_tree_type());
+        $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
         $siblings_conditions[] = new NotCondition(new EqualityCondition(Location :: PROPERTY_ID, $this->get_id()));
 
         $siblings_condition = new AndCondition($siblings_conditions);
@@ -271,6 +300,8 @@ class Location extends DataClass
         $children_conditions = array();
         $children_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
         $children_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+        $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $this->get_tree_type());
+        $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
 
         $children_condition = new AndCondition($children_conditions);
 
@@ -284,6 +315,8 @@ class Location extends DataClass
         $children_conditions = array();
         $children_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
         $children_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+        $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $this->get_tree_type());
+        $siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
 
         $children_condition = new AndCondition($children_conditions);
 
@@ -309,6 +342,8 @@ class Location extends DataClass
             $parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_right_value());
         }
         $parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+        $parent_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $this->get_tree_type());
+        $parent_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
 
         $parent_condition = new AndCondition($parent_conditions);
         $order[] = new ObjectTableOrder(Location :: PROPERTY_LEFT_VALUE, SORT_DESC);
@@ -331,6 +366,8 @@ class Location extends DataClass
         $locked_parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $this->get_left_value());
         $locked_parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_right_value());
         $locked_parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+        $locked_parent_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $this->get_tree_type());
+        $locked_parent_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
         $locked_parent_conditions[] = new EqualityCondition(Location :: PROPERTY_LOCKED, true);
 
         $locked_parent_condition = new AndCondition($locked_parent_conditions);

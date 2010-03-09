@@ -11,27 +11,8 @@ class LearningPathToolDocumentViewerComponent extends LearningPathToolComponent
         $id = Request :: get('id');
         $lo = RepositoryDataManager :: get_instance()->retrieve_content_object($id);
         
-        $types = array('text/html' => array('.html', '.htm'), 'text/plain' => array('.txt'), 'image/' => array('.jpg', '.bmp', '.jpeg', '.png'));
         $name = $lo->get_filename();
-        
-        foreach ($types as $type => $extensions)
-        {
-            foreach ($extensions as $extension)
-            {
-                $len = strlen($extension) * - 1;
-                if (substr(strtolower($name), $len) == $extension)
-                {
-                    if ($type == 'image/')
-                        $type .= substr($extension, 1);
-                    
-                    $bool = true;
-                    break;
-                }
-            }
-            
-            if ($bool)
-                break;
-        }
+        $type = $lo->get_mime_type();
         
         header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
         header('Content-Type: ' . $type);

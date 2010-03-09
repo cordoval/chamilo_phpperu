@@ -20,34 +20,40 @@ class RepoViewer
     const PARAM_EDIT = 'edit';
     const PARAM_ID = 'object';
     const PARAM_EDIT_ID = 'obj';
-    
+    const PARAM_QUERY = 'query';
+    const PARAM_CONTENT_OBJECT_TYPE = 'type';
+
     const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
-    
+
+    const ACTION_CREATOR = 'creator';
+    const ACTION_BROWSER = 'browser';
+    const ACTION_PUBLISHER = 'publisher';
+
     /**
      * The types of learning object that this repo_viewer is aware of and may
      * repoviewer.
      */
     private $types;
-    
+
     /**
      * The default learning objects, which are used for form defaults.
      */
     private $default_content_objects;
-    
+
     private $parent;
-    
+
     private $repo_viewer_actions;
-    
+
     private $parameters;
-    
+
     private $mail_option;
-    
+
     private $maximum_select;
-    
+
     private $excluded_objects;
-    
+
     private $redirect;
-    
+
     /**
      * You have two choices for the select multiple
      * 0 / SELECT MULTIPLE - you can select as many lo as you want
@@ -70,39 +76,48 @@ class RepoViewer
         $this->parameters = array();
         $this->types = (is_array($types) ? $types : array($types));
         $this->mail_option = $mail_option;
-        $this->set_repo_viewer_actions(array('creator', 'browser', 'finder'));
+        $this->set_repo_viewer_actions(array(self :: ACTION_CREATOR, self :: ACTION_BROWSER));
         $this->excluded_objects = $excluded_objects;
-        $this->set_parameter(RepoViewer :: PARAM_ACTION, (Request :: get(RepoViewer :: PARAM_ACTION) ? Request :: get(RepoViewer :: PARAM_ACTION) : 'creator'));
+        $this->set_parameter(RepoViewer :: PARAM_ACTION, (Request :: get(RepoViewer :: PARAM_ACTION) ? Request :: get(RepoViewer :: PARAM_ACTION) : self :: ACTION_CREATOR));
         if ($parse_input)
+        {
             $this->parse_input_from_table();
+        }
         $this->redirect = $redirect;
     }
 
     function as_html()
     {
         $action = $this->get_action();
-        
-        $out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
+        $html = array();
+
+        $html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
         $repo_viewer_actions = $this->get_repo_viewer_actions();
         foreach ($repo_viewer_actions as $repo_viewer_action)
         {
-            $out .= '<li><a';
+            $html[] = '<li><a';
             if ($action == $repo_viewer_action)
             {
-                $out .= ' class="current"';
+                $html[] = ' class="current"';
             }
-            elseif (($action == 'publicationcreator' || $action == 'multirepo_viewer') && $repo_viewer_action == 'creator')
+            elseif (($action == self :: ACTION_PUBLISHER || $action == 'multirepo_viewer') && $repo_viewer_action == self :: ACTION_CREATOR)
             {
-                $out .= ' class="current"';
+                $html[] = ' class="current"';
             }
-            $out .= ' href="' . $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => $repo_viewer_action)), true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
+
+            $html[] = ' href="' . $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => $repo_viewer_action)), true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
         }
-        $out .= '</ul><div class="tabbed-pane-content">';
-        
-        $out .= RepoViewerComponent :: factory($action, $this)->as_html();
-        $out .= '</div></div>';
-        
-        return $out;
+        $html[] = '</ul><div class="tabbed-pane-content">';
+
+        $html[] = $this->get_repo_viewer_component($action)->as_html();
+        $html[] = '</div></div>';
+
+        return implode("\n", $html);
+    }
+
+    function get_repo_viewer_component($action)
+    {
+        return RepoViewerComponent :: factory($action, $this);
     }
 
     function set_maximum_select($maximum_select)
@@ -129,16 +144,16 @@ class RepoViewer
      */
     function get_user_id()
     {
-        return $this->parent->get_user_id();
+        return $this->get_parent()->get_user_id();
     }
 
     function get_user()
     {
-        return $this->parent->get_user();
+        return $this->get_parent()->get_user();
     }
 
     /**
-     * Returns the types of learning object that this object may repoviewer.
+     * Returns the types of content object that RepoViewer uses.
      * @return array The types.
      */
     function get_types()
@@ -147,7 +162,21 @@ class RepoViewer
     }
 
     /**
-     * Returns the action that the user selected, or "publicationcreator" if none.
+     * Set the type(s) of content object this RepoViewer uses.
+     * @param $types
+     */
+    function set_types($types)
+    {
+        if (!is_array($types))
+        {
+            $types = array($types);
+        }
+
+        $this->types = $types;
+    }
+
+    /**
+     * Returns the action that the user selected.
      * @return string The action.
      */
     function get_action()
@@ -186,7 +215,7 @@ class RepoViewer
     {
         $this->parameters[$name] = $value;
     }
-    
+
     private $creation_defaults;
 
     function set_creation_defaults($defaults)
@@ -246,7 +275,7 @@ class RepoViewer
         {
             $parameters[Application :: PARAM_ERROR_MESSAGE] = $message;
         }
-        
+
         $parameters = array_merge($this->get_parent()->get_parameters(), $parameters);
         Redirect :: url($parameters, $filter, $encode_entities);
     }
@@ -271,10 +300,10 @@ class RepoViewer
         if (isset($_POST['action']))
         {
             $selected_publication_ids = $_POST[ContentObjectTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            
+
             if (! is_array($selected_publication_ids))
                 $selected_publication_ids = array($selected_publication_ids);
-            
+
             switch ($_POST['action'])
             {
                 case self :: PARAM_PUBLISH_SELECTED :
@@ -289,7 +318,7 @@ class RepoViewer
                         }
                     }
                     $redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $selected_publication_ids));
-                    
+
                     $this->redirect(null, false, $redirect_params);
                     break;
             }
@@ -308,8 +337,20 @@ class RepoViewer
 
     function any_object_selected()
     {
-        $object = Request :: get('object');
+        $object = Request :: get(self :: PARAM_ID);
         return isset($object);
+    }
+
+    function get_selected_objects()
+    {
+        return Request :: get(self :: PARAM_ID);
+    }
+
+    function is_ready_to_be_published()
+    {
+        $action = $this->get_action();
+
+        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER);
     }
 }
 ?>

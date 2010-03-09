@@ -8,35 +8,60 @@ class WebserviceRights
 {
     const USE_RIGHT = '1';
 
-    function get_available_rights()
+    static function get_available_rights()
     {
         $reflect = new ReflectionClass('WebserviceRights');
         return $reflect->getConstants();
     }
 
-    function is_allowed($right, $location, $type)
+    static function is_allowed($right, $location, $type)
     {
-        return RightsUtilities :: is_allowed($right, $location, $type, 'admin');
+        return RightsUtilities :: is_allowed($right, $location, $type, WebserviceManager :: APPLICATION_NAME);
     }
 
-    function get_location_by_identifier($type, $identifier)
+    static function get_location_by_identifier($type, $identifier)
     {
-        return RightsUtilities :: get_location_by_identifier('webservice', $type, $identifier);
+        return RightsUtilities :: get_location_by_identifier(WebserviceManager :: APPLICATION_NAME, $type, $identifier);
     }
 
-    function get_location_id_by_identifier($type, $identifier)
+    static function get_location_id_by_identifier($type, $identifier)
     {
-        return RightsUtilities :: get_location_id_by_identifier('webservice', $type, $identifier);
+        return RightsUtilities :: get_location_id_by_identifier(WebserviceManager :: APPLICATION_NAME, $type, $identifier);
     }
 
-    function get_root_id()
+    static function get_root_id()
     {
-        return RightsUtilities :: get_root_id('webservice');
+        return RightsUtilities :: get_root_id(WebserviceManager :: APPLICATION_NAME);
     }
 
-    function get_root()
+    static function get_root()
     {
-        return RightsUtilities :: get_root('webservice');
+        return RightsUtilities :: get_root(WebserviceManager :: APPLICATION_NAME);
+    }
+    
+    static function create_location_in_webservice_subtree($name, $type, $identifier, $parent)
+    {
+    	return RightsUtilities :: create_location($name, WebserviceManager :: APPLICATION_NAME, $type, $identifier, 0, $parent, 0, 0, 'webservices_tree');
+    }
+    
+	static function get_webservices_subtree_root()
+    {
+    	return RightsUtilities :: get_root(WebserviceManager :: APPLICATION_NAME, 'webservices_tree');
+    }
+    
+	static function get_webservices_subtree_root_id()
+    {
+    	return RightsUtilities :: get_root_id(WebserviceManager :: APPLICATION_NAME, 'webservices_tree');
+    }
+    
+	static function get_location_id_by_identifier_from_webservices_subtree($type, $identifier)
+    {
+    	return RightsUtilities :: get_location_id_by_identifier(WebserviceManager :: APPLICATION_NAME, $type, $identifier, 0, 'webservices_tree');
+    }
+    
+    static function is_allowed_in_webservices_subtree($right, $location, $type)
+    {
+    	 return RightsUtilities :: is_allowed($right, $location, $type, WebserviceManager :: APPLICATION_NAME, null, 0, 'webservices_tree');
     }
 }
 ?>

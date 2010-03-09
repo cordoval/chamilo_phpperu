@@ -25,15 +25,8 @@ class CourseCategory extends PlatformCategory
         {
             return false;
         }
-
-        $location = new Location();
-        $location->set_location($this->get_name());
-        $location->set_application(WeblcmsManager :: APPLICATION_NAME);
-        $location->set_type_from_object($this);
-        $location->set_identifier($this->get_id());
-        $location->set_parent(WeblcmsRights :: get_root_id());
-
-        if (! $location->create())
+        
+    	if (!WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), 'course_category', $this->get_id(), WeblcmsRights :: get_courses_subtree_root_id()))
         {
             return false;
         }

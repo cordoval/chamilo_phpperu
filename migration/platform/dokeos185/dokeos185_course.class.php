@@ -396,7 +396,7 @@ class Dokeos185Course extends ImportCourse
         //titular id
         $udm = UserDataManager :: get_instance();
         $titular = $udm->retrieve_user_by_fullname($this->get_tutor_name());
-        if (isset($titular))
+        if (!($titular) == NULL)
             $titular_id = $titular->get_id();
         else
             $titular_id = 0;

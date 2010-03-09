@@ -219,7 +219,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
         $this->database->set_limit(1);
         $res = $this->query($query);
-        return $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+        $return = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+        
+        $res->free();
+        
+        return $return;
     }
 
     // Inherited.
@@ -414,12 +418,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
         // Delete object
         $query = 'DELETE FROM ' . $this->database->escape_table_name(ContentObject :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID) . '=' . $this->quote($object->get_id());
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
 
         if ($object->is_extended())
         {
             $query = 'DELETE FROM ' . $this->database->escape_table_name($object->get_type()) . ' WHERE ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID) . '=' . $this->quote($object->get_id());
-            $this->query($query);
+            $res = $this->query($query);
+            $res->free();
         }
 
         if ($object->is_latest_version())
@@ -977,7 +983,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         }
 
         //$this->database->set_limit(1);
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
 
         if ($clo_item->is_extended())
         {
@@ -1039,6 +1046,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
         // Determine type
 
+        $res->free();
 
         $ref = $record[ComplexContentObjectItem :: PROPERTY_REF];
 

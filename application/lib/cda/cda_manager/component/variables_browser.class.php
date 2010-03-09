@@ -20,9 +20,9 @@ class CdaManagerVariablesBrowserComponent extends CdaManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseVariables')));
 
-		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'variables', 'manager');
-		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'variables', 'manager');
-		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, 'variables', 'manager');
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
+		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
+		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
 
 		if (!$can_edit && !$can_delete && !$can_add)
 		{

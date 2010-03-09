@@ -73,21 +73,22 @@ class WebserviceCategory extends DataClass
         $wdm = WebserviceDataManager :: get_instance();
         $wdm->create_webservice_category($this);
 
-        $location = new Location();
+        /*$location = new Location();
         $location->set_location($this->get_name());
         $location->set_application('webservice');
         $location->set_type('webservice_category');
-        $location->set_identifier($this->get_id());
+        $location->set_identifier($this->get_id());*/
 
         if ($this->get_parent())
         {
-            $parent = WebserviceRights :: get_location_id_by_identifier('webservice_category', $this->get_parent());
-            $location->set_parent($parent);
+           	$parent_id = WebserviceRights :: get_location_id_by_identifier_from_webservices_subtree('webservice_category', $this->get_parent());
         }
         else
-            $location->set_parent(WebserviceRights :: get_root_id());
+        {
+            $parent_id = WebserviceRights :: get_webservices_subtree_root_id();
+        }
 
-        if (! $location->create())
+        if (!WebserviceRights :: create_location_in_webservice_subtree($this->get_name(), 'webservice_category', $this->get_id(), $parent_id))
         {
             return false;
         }

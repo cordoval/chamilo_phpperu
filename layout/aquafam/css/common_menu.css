@@ -94,6 +94,7 @@
 
 #header1 div.applications ul li ul {
 	display: none;
+	width: 12.0em;
 	border: 1px solid white;
 }
 

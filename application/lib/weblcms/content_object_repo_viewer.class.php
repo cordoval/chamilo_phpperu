@@ -33,7 +33,7 @@ class ContentObjectRepoViewer extends RepoViewer
             $this->set_parameter(Tool :: PARAM_ACTION, $action);
         if (Request :: get('pid') != null)
             $this->set_parameter('pid', Request :: get('pid'));
-        $this->set_repo_viewer_actions(array('creator', 'browser', 'finder'));
+        $this->set_repo_viewer_actions(array('creator', 'browser'));
         $this->parse_input_from_table();
     }
 

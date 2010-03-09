@@ -45,8 +45,15 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
         }
         else
         {
-            $user_id = $this->get_user_id();
+        	$user_id = $this->get_user_id();
             $course_groups = $this->get_course_groups();
+                
+            $course_group_ids = array();
+                
+            foreach($course_groups as $course_group)
+            {
+             	$course_group_ids[] = $course_group->get_id();
+            }
         }
         $target_path = current($category_folder_mapping);
         foreach ($category_folder_mapping as $category_id => $dir)
@@ -61,9 +68,9 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
             {
                 $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
             }
-            if (! empty($course_groups))
+            if (! empty($course_group_ids))
             {
-                $access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+                $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
             }
             
             $conditions[] = new OrCondition($access);

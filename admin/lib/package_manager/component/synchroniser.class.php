@@ -19,7 +19,7 @@ class PackageManagerSynchroniserComponent extends PackageManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Install')));
         $trail->add_help('administration install');
         
-        if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
+        if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));

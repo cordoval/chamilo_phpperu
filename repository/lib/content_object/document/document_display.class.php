@@ -26,7 +26,7 @@ class DocumentDisplay extends ContentObjectDisplay
         }
         else
         {
-            if (strtolower(substr($name, - 4)) == 'html' || strtolower(substr($name, - 3)) == 'htm' || strtolower(substr($name, - 3)) == 'txt')
+            if (strtolower(substr($name, - 4)) == 'html' || strtolower(substr($name, - 3)) == 'htm' || strtolower(substr($name, - 3)) == 'txt' || strtolower(substr($name, - 3)) == 'pdf')
             {
                 $html = preg_replace('|</div>\s*$|s', '<br /><iframe border="0" style="border: 1px solid grey;" width="100%" height="500"  src="' . $url . '&display=1"></iframe>', $html);
             }

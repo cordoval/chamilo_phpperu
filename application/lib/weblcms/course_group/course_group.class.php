@@ -13,11 +13,10 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
  * names of these constants start with the string "PROPERTY_".
  *
  */
-class CourseGroup
+class CourseGroup extends NestedTreeNode
 {
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_ID = 'id';
     const PROPERTY_COURSE_CODE = 'course_id';
     const PROPERTY_NAME = 'name';
     const PROPERTY_MAX_NUMBER_OF_MEMBERS = 'max_number_of_members';
@@ -26,65 +25,14 @@ class CourseGroup
     const PROPERTY_SELF_REG = 'self_reg_allowed';
 
     /**
-     * The default property values
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new course_group object.
-     * @param int $id The numeric ID of the course_group object. May be omitted if
-     * creating a new object.
-     * @param string $course_code The code of the course in which this course_group is
-     * created.
-     * @param array $defaultProperties The default properties of the course_group
-     * object. Associative array.
-     */
-    function CourseGroup($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property of this course_group object by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties of this course_group object.
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    /**
-     * Sets a default property of this course_group object by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    private function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-        return true;
-    }
-
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
      * Get the default properties of all course_groups.
      * @return array The property names.
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_MAX_NUMBER_OF_MEMBERS, self :: PROPERTY_SELF_REG, self :: PROPERTY_SELF_UNREG);
+        return parent :: get_default_property_names(
+        		array(self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, 
+        		self :: PROPERTY_MAX_NUMBER_OF_MEMBERS, self :: PROPERTY_SELF_REG, self :: PROPERTY_SELF_UNREG));
     }
 
     /**
@@ -269,44 +217,29 @@ class CourseGroup
         return $wdm->unsubscribe_users_from_course_groups($users, $this);
     }
 
-    /**
-     * Deletes the course_group object from persistent storage
-     * @return boolean
-     */
-    function delete()
-    {
-        $wdm = WeblcmsDataManager :: get_instance();
-        return $wdm->delete_course_group($this->get_id());
-    }
-
-    /**
-     * Creates the course_group object in persistent storage
-     * @return boolean
-     */
-    function create()
-    {
-        $wdm = WeblcmsDataManager :: get_instance();
-        return $wdm->create_course_group($this);
-    }
-
-    /**
-     * Updates the course_group object in persistent storage
-     * @return boolean
-     */
-    function update()
-    {
-        $wdm = WeblcmsDataManager :: get_instance();
-        $success = $wdm->update_course_group($this);
-        if (! $success)
-        {
-            return false;
-        }
-        return true;
-    }
-
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+
+	function get_data_manager() 
+	{
+		return WeblcmsDataManager :: get_instance();
+	}
+	
+	function create()
+	{
+		if(!$this->get_parent_id())
+		{
+			$root_group = WeblcmsDataManager :: get_instance()->retrieve_course_group_root($this->get_course_code());
+			if($root_group)
+			{
+				$this->set_parent_id($root_group->get_id());
+			}
+		}
+		
+		return parent :: create();
+	}
+
 }
 ?>

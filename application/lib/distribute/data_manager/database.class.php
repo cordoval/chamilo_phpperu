@@ -194,6 +194,9 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 
@@ -216,6 +219,8 @@ class DatabaseDistributeDataManager extends DistributeDataManager
         $publication_attr->set_url('run.php?application=alexia&go=browse');
         $publication_attr->set_publication_object_id($record[AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT]);
 
+        $res->free();
+        
         return $publication_attr;
     }
     

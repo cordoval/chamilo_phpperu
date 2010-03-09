@@ -11,22 +11,27 @@ require_once dirname(__FILE__) . '/../repo_viewer_component.class.php';
  */
 class RepoViewerViewerComponent extends RepoViewerComponent
 {
-
     /*
 	 * Inherited
 	 */
     function as_html()
     {
+        $html = array();
+
         if (Request :: get(RepoViewer :: PARAM_ID))
         {
             $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object(Request :: get(RepoViewer :: PARAM_ID));
             $toolbar_data = array();
-            $toolbar_data[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_ID => $content_object->get_id()))), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'), 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-            $toolbar_data[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT_ID => $content_object->get_id()))), //, RepoViewer :: PARAM_EDIT => 1))),
-'img' => Theme :: get_common_image_path() . 'action_editpublish.png', 'label' => Translation :: get('EditAndPublish'), 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+            $toolbar_data[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $content_object->get_id())), false), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'), 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+            $toolbar_data[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_CREATOR, RepoViewer :: PARAM_EDIT_ID => $content_object->get_id()))), //, RepoViewer :: PARAM_EDIT => 1))),
+									'img' => Theme :: get_common_image_path() . 'action_editpublish.png', 'label' => Translation :: get('EditAndPublish'), 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
             $toolbar = Utilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
-            return ContentObjectDisplay :: factory($content_object)->get_full_html() . $toolbar;
+
+            $html[] = ContentObjectDisplay :: factory($content_object)->get_full_html();
+            $html[] = $toolbar;
         }
+
+        return implode("\n", $html);
     }
 }
 ?>

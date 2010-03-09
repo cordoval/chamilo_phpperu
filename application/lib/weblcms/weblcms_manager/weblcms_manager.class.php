@@ -109,15 +109,15 @@ class WeblcmsManager extends WebApplication
         $this->set_parameter(self :: PARAM_COMPONENT_ACTION, Request :: get(self :: PARAM_COMPONENT_ACTION));
         $this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
         $this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
-        $this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
+        //$this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
         $this->set_parameter(self :: PARAM_TOOL, Request :: get(self :: PARAM_TOOL));
         
         $this->parse_input_from_table();
         
         $this->course = new Course();
         $this->load_course();
-        $this->course_group = null;
-        $this->load_course_group();
+        /*$this->course_group = null;
+        $this->load_course_group();*/
         $this->sections = array();
         $this->load_sections();
         $this->tools = array();
@@ -273,8 +273,7 @@ class WeblcmsManager extends WebApplication
     function get_course_groups()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        $course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(), $this->get_course())->as_array();
-        return $course_groups;
+        return $wdm->get_user_course_groups($this->get_user(), $this->get_course());
     }
 
     /**
@@ -882,7 +881,14 @@ class WeblcmsManager extends WebApplication
         {
             $last_visit_date = $this->get_last_visit_date($tool);
             $wdm = WeblcmsDataManager :: get_instance();
-            $course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(), $this->get_course())->as_array();
+            $course_groups = $this->get_course_groups();
+            
+        	$course_group_ids = array();
+                
+            foreach($course_groups as $course_group)
+            {
+             	$course_group_ids[] = $course_group->get_id();
+            }
             
             $conditions = array();
             $conditions[] = new EqualityCondition('tool', $tool);
@@ -908,8 +914,8 @@ class WeblcmsManager extends WebApplication
             
             $access = array();
             $access[] = new InCondition('user_id', $user_id, $wdm->get_database()->get_alias('content_object_publication_user'));
-            $access[] = new InCondition('course_group_id', $course_groups, $wdm->get_database()->get_alias('content_object_publication_course_group'));
-            if (! empty($user_id) || ! empty($course_groups))
+            $access[] = new InCondition('course_group_id', $course_group_ids, $wdm->get_database()->get_alias('content_object_publication_course_group'));
+            if (! empty($user_id) || ! empty($course_group_ids))
             {
                 $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_database()->get_alias('content_object_publication_course_group'))));
             }

@@ -23,8 +23,8 @@ class CdaManagerAdminTranslationImporterComponent extends CdaManagerComponent
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => CdaManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Cda') ));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ImportTranslations')));
 
-		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'variable_translation', 'manager');
-		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, 'variable_translation', 'manager');
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_VARIABLE_TRANSLATIONS, 'manager');
+		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_VARIABLE_TRANSLATIONS, 'manager');
 
 		if (!$can_edit && !$can_add)
 		{

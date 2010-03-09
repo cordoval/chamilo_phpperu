@@ -35,7 +35,7 @@ class DocumentDisplay extends LearningPathContentObjectDisplay
 
     function is_showable($file)
     {
-        $extensions = array('.html', '.htm', '.txt', '.jpg', '.bmp', '.jpeg', '.png');
+        $extensions = array('.html', '.htm', '.txt', '.jpg', '.bmp', '.jpeg', '.png', '.pdf');
         
         foreach ($extensions as $extension)
         {

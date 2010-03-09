@@ -35,12 +35,10 @@ class DocumentForm extends ContentObjectForm
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         //$this->addElement('html', '<span style="margin-left: -40px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
         $object = $this->get_content_object();
-        if (Utilities :: is_html_document($object->get_path()))
+        if (Utilities :: is_html_document($object->get_filename()))
         {
-            $this->add_html_editor('html_content', Translation :: get('HtmlDocument'), false);
+            $this->add_html_editor('html_content', Translation :: get('EditDocument'), false);
             $this->addRule('html_content', Translation :: get('DiskQuotaExceeded'), 'disk_quota');
-            //TODO: add option to upload & overwrite a HTML-document
-        //TODO: add Rule to check if diskquota doesn't exceed when uploading a document
         }
         else
         {
@@ -53,7 +51,7 @@ class DocumentForm extends ContentObjectForm
     function setDefaults($defaults = array ())
     {
         $object = $this->get_content_object();
-        if (isset($object) && Utilities :: is_html_document($object->get_path()))
+        if (isset($object) && Utilities :: is_html_document($object->get_filename()))
         {
             $defaults['html_content'] = file_get_contents($this->get_upload_path() . $object->get_path());
         }

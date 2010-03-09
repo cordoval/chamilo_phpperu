@@ -24,7 +24,7 @@ class CdaManagerCdaLanguageUpdaterComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES)), Translation :: get('AdminBrowseLanguages')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateCdaLanguage')));
 
-		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'cda_language', 'manager');
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_LANGUAGES, 'manager');
 
    		if (!$can_edit)
    		{

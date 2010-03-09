@@ -21,7 +21,7 @@ class ContentObjectTableCellRenderer extends DefaultContentObjectTableCellRender
      */
     function ContentObjectTableCellRenderer($table_actions)
     {
-        $this->table_actions = $table_actions;
+        $this->set_table_actions($table_actions);
     }
 
     /*
@@ -42,18 +42,28 @@ class ContentObjectTableCellRenderer extends DefaultContentObjectTableCellRender
      * links should be returned.
      * @return string A HTML-representation of the links.
      */
-    private function get_publish_links($content_object)
+    protected function get_publish_links($content_object)
     {
         $toolbar_data = array();
-        $table_actions = $this->table_actions;
-        
+        $table_actions = $this->get_table_actions();
+
         foreach ($table_actions as $table_action)
         {
             $table_action['href'] = str_replace('%d', $content_object->get_id(), $table_action['href']);
             $toolbar_data[] = $table_action;
         }
-        
+
         return Utilities :: build_toolbar($toolbar_data);
+    }
+
+    protected function get_table_actions()
+    {
+        return $this->table_actions;
+    }
+
+    protected function set_table_actions($table_actions)
+    {
+        $this->table_actions = $table_actions;
     }
 }
 ?>

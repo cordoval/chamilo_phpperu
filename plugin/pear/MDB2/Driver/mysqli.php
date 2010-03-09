@@ -1415,7 +1415,7 @@ class MDB2_Result_mysqli extends MDB2_Result_Common
             if ($object_class == 'stdClass') {
                 $row = (object) $row;
             } else {
-                $row = &new $object_class($row);
+                $row = new $object_class($row);
             }
         }
         ++$this->rownum;
@@ -1680,9 +1680,10 @@ class MDB2_Statement_mysqli extends MDB2_Statement_Common
         }
         if (!empty($this->positions)) {
             $parameters = array(0 => $this->statement, 1 => '');
+            $parameter_references = array();
             $lobs = array();
             $i = 0;
-            foreach ($this->positions as $parameter) {
+            foreach ($this->positions as $index => $parameter) {
                 if (!array_key_exists($parameter, $this->values)) {
                     return $this->db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                         'Unable to bind to missing placeholder: '.$parameter, __FUNCTION__);
@@ -1728,7 +1729,9 @@ class MDB2_Statement_mysqli extends MDB2_Statement_Common
                         if (PEAR::isError($quoted)) {
                             return $quoted;
                         }
-                        $parameters[] = $quoted;
+                        $parameter_references[$index] = $quoted;
+                        
+                        $parameters[] = &$parameter_references[$index];
                         $parameters[1].= $this->db->datatype->mapPrepareDatatype($type);
                     }
                     ++$i;

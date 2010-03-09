@@ -52,8 +52,8 @@ class VariableBrowserTableCellRenderer extends DefaultVariableTableCellRenderer
 	{
 		$toolbar_data = array();
 
-		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'variables', 'manager');
-		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'variables', 'manager');
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
+		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
 
 		if ($can_edit)
 		{

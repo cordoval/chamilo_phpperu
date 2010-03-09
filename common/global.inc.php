@@ -143,7 +143,15 @@ if (PlatformSetting :: get('server_type') == 'test')
 	- only do addslashes on $_GET and $_POST
 	--------------------------------------------
 	*/
-    error_reporting(E_ALL & ~ E_NOTICE);
+
+	if (phpversion() >= 5.3)
+	{
+		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+	}
+	else
+	{
+		error_reporting(E_ALL & ~ E_NOTICE);
+	}
 
     //Addslashes to all $_GET variables
     foreach ($_GET as $key => $val)
@@ -180,7 +188,14 @@ else
 	--------------------------------------------
 	*/
     //error_reporting(E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR);
-    error_reporting(E_ALL & ~ E_NOTICE);
+	if (phpversion() >= 5.3)
+	{
+		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+	}
+	else
+	{
+		error_reporting(E_ALL & ~ E_NOTICE);
+	}
 }
 
 /*
@@ -227,7 +242,7 @@ else
     Session :: unregister('request_uri');
 }
 
-set_error_handler(handle_error);
+set_error_handler('handle_error');
 
 // Log out
 if (Request :: get('logout'))

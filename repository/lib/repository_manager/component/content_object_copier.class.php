@@ -15,7 +15,7 @@ class RepositoryManagerContentObjectCopierComponent extends RepositoryManagerCom
         $lo_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
         $target_user = Request :: get(RepositoryManager :: PARAM_TARGET_USER);
         
-        $content_object_copier = new ContentObjectCopier();
+        $content_object_copier = new ContentObjectCopier($target_user);
         
         if (! is_array($lo_ids))
         {

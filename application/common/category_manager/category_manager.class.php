@@ -128,7 +128,7 @@ abstract class CategoryManager
     }
 
     /**
-     * Returns the action that the user selected, or "publicationcreator" if none.
+     * Returns the action that the user selected.
      * @return string The action.
      */
     function get_action()

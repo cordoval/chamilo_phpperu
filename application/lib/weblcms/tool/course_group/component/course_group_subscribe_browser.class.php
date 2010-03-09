@@ -33,7 +33,11 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
         {
             $udm = UserDataManager :: get_instance();
             $user = $udm->retrieve_user(Request :: get(WeblcmsManager :: PARAM_USERS));
-            $course_group = $this->get_parent()->get_course_group();
+            
+            $course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
+        	$wdm = WeblcmsDataManager :: get_instance();
+       	 	$course_group = $wdm->retrieve_course_group($course_group_id);
+            
             $course_group->subscribe_users($user->get_id());
             $html[] = Display :: normal_message(Translation :: get('UserSubscribed'), true);
         }

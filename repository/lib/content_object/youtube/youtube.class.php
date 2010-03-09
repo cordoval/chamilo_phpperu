@@ -43,5 +43,19 @@ class Youtube extends ContentObject
     {
         return array(self :: PROPERTY_URL, self :: PROPERTY_HEIGHT, self :: PROPERTY_WIDTH);
     }
+
+    function get_video_id()
+    {
+        $video_url = $this->get_url();
+        $video_url_components = parse_url($video_url);
+        $video_query_components = Text :: parse_query_string($video_url_components['query']);
+
+        return $video_query_components['v'];
+    }
+
+    function get_video_url()
+    {
+        return 'http://www.youtube.com/v/' . $this->get_video_id();
+    }
 }
 ?>

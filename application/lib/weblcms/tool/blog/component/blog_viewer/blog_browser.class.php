@@ -37,7 +37,13 @@ class BlogBrowser extends ContentObjectPublicationBrowser
             $this->set_publication_category_tree($tree);
             
             $renderer = new ListContentObjectPublicationListRenderer($this);
-            $actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'), Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY => Translation :: get('MoveSelected'));
+            //$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), Tool :: ACTION_HIDE => Translation :: get('Hide'), Tool :: ACTION_SHOW => Translation :: get('Show'), Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY => Translation :: get('MoveSelected'));
+            
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
+        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
+        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show'), false);
+        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY, Translation :: get('MoveSelected'), false);
+            
             $renderer->set_actions($actions);
         
         }
@@ -62,15 +68,22 @@ class BlogBrowser extends ContentObjectPublicationBrowser
             $category = Request :: get($tree_id) ? Request :: get($tree_id) : 0;
             
             $datamanager = WeblcmsDataManager :: get_instance();
-            if ($this->is_allowed(EDIT_RIGHT))
+        	if ($this->is_allowed(EDIT_RIGHT))
             {
                 $user_id = array();
-                $course_groups = array();
+                $course_group_ids = array();
             }
             else
             {
                 $user_id = $this->get_user_id();
                 $course_groups = $this->get_course_groups();
+                
+                $course_group_ids = array();
+                
+                foreach($course_groups as $course_group)
+                {
+                	$course_group_ids[] = $course_group->get_id();
+                }
             }
             
             $conditions = array();
@@ -80,8 +93,8 @@ class BlogBrowser extends ContentObjectPublicationBrowser
             
             $access = array();
             $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
-            $access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
-            if (! empty($user_id) || ! empty($course_groups))
+            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+            if (! empty($user_id) || ! empty($course_group_ids))
             {
                 $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
             }
@@ -97,7 +110,7 @@ class BlogBrowser extends ContentObjectPublicationBrowser
             $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
             $condition = new AndCondition($conditions);
             
-            $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
+            $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC));
             $visible_publications = array();
             while ($publication = $publications->next_result())
             {

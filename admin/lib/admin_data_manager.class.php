@@ -226,5 +226,15 @@ abstract class AdminDataManager
     
     abstract function delete_dynamic_form_element_values_from_form($dynamic_form_id);
     
+    function is_registered($name, $type = Registration :: TYPE_APPLICATION)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $name);
+    	$conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, $type);
+    	$condition = new AndCondition($conditions);
+    	
+    	return ($this->count_registrations($condition) > 0);
+    }
+    
 }
 ?>

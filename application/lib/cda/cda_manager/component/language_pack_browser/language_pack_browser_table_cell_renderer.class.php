@@ -55,6 +55,8 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 				return '<a href="' . $url . '">' . $language_pack->get_name() . '</a>';
 			case LanguagePack :: PROPERTY_TYPE :
 				return $language_pack->get_type_name();
+			case Translation :: get('Status'):
+			    return $language_pack->get_status_icon();
 			case Translation :: get('TranslationProgress'):
 				$percentage = $this->browser->get_progress_for_language_pack($language_pack, $this->browser->get_cda_language());
 				return Display :: get_progress_bar($percentage);
@@ -72,15 +74,15 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 	private function get_modification_links($language_pack)
 	{
 		$cda_language_id = $this->browser->get_cda_language();
-		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
-		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $cda_language_id, 'cda_language');
+		$can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
+		$can_translate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $cda_language_id, 'cda_language');
 
 		$toolbar_data = array();
 
 		if(get_class($this->browser) != 'CdaManagerLanguagePacksBrowserComponent')
 		{
-			$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'language_pack', 'manager');
-    		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, 'language_pack', 'manager');
+			$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
+    		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
 
     		if ($can_edit)
     		{

@@ -2,10 +2,10 @@
 <location name="admin" type="root" identifier="0">
 	<children>
 		<location name="System Announcements" type="admin_manager_component"
-			identifier="system_announcements" />
+			identifier="1" />
 		<location name="Settings" type="admin_manager_component"
-			identifier="settings" />
+			identifier="2" />
 		<location name="Category Manager" type="admin_manager_component"
-			identifier="category_manager" />
+			identifier="3" />
 	</children>
 </location>

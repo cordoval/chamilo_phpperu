@@ -129,6 +129,16 @@ class CpoImport extends ContentObjectImport
         $dir = $temp . '/';
         
         $path = $dir . 'content_object.xml';
+        
+    	if(!file_exists($path))
+        {
+	        if ($temp)
+	        {
+	            Filesystem :: remove($temp);
+	        }
+        	return false;
+        }
+        
         $this->import_files($dir);
         
         $doc = $this->doc;

@@ -27,7 +27,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     const ALIAS_CONTENT_OBJECT_PUBLICATION_TABLE = 'lop';
 
     /**
-     * @var Database
+     * @var NestedTreeDatabase
      */
     private $database;
 
@@ -43,7 +43,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $aliases['survey_invitation'] = 'si';
         $aliases['course_group'] = 'cg';
 
-        $this->database = new Database($aliases);
+        $this->database = new NestedTreeDatabase($aliases);
         $this->database->set_prefix('weblcms_');
     }
 
@@ -182,6 +182,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
             $publication_attr[] = $info;
         }
+        
+        $res->free();
+        
         return $publication_attr;
     }
 
@@ -193,6 +196,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
+        $res->free();
+        
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[ContentObjectPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[ContentObjectPublication :: PROPERTY_PUBLISHER_ID]);
@@ -417,14 +422,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $publication_id = $publication->get_id();
         
     	$query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_user') . ' WHERE publication_id = ' . $this->quote($publication_id);
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
+        
         $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication_course_group') . ' WHERE publication_id = ' . $this->quote($publication_id);
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
+        
         $query = 'UPDATE ' . $this->database->escape_table_name('content_object_publication') . ' SET ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '=' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '-1 WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '>' . $this->quote($publication->get_display_order_index());
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
+        
         $query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_publication') . ' WHERE ' . $this->database->escape_column_name(ContentObjectPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
         $this->database->get_connection()->setLimit(0, 1);
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
+        
         return true;
     }
 
@@ -654,6 +667,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         {
             $modules[$module->name] = $module;
         }
+        
+        $res->free();
+        
         return $modules;
     }
 
@@ -752,7 +768,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $course->set_last_edit(self :: to_db_date($now));
         $course->set_creation_date(self :: to_db_date($now));
         $course->set_expiration_date(self :: to_db_date($now));
-
+        
         return $this->database->create($course);
     }
 
@@ -1216,12 +1232,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     }
 
     // Inherited
-    function delete_course_group($id)
+    function delete_course_group($course_group)
     {
-        // TODO: Delete subscription of users in this course_group
-        // TODO: Delete other course_group stuff
-        $condition = new EqualityCondition(CourseGroup :: PROPERTY_ID, $id);
-        return $this->database->delete(CourseGroup :: get_table_name(), $condition);
+        //Delete subscription of users in this course_group
+        $condition = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group->get_id());
+        $succes = $this->database->delete(CourseGroupUserRelation :: get_table_name(), $condition);
+
+        if(!$succes)
+        {
+        	return false;
+        }
+        
+        $condition = new EqualityCondition(CourseGroup :: PROPERTY_ID, $course_group->get_id());
+        $succes = $this->database->delete(CourseGroup :: get_table_name(), $condition);
+        
+        return $succes;
     }
 
     // Inherited
@@ -1394,6 +1419,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         {
             $course_user_ids[] = $record[User :: PROPERTY_ID];
         }
+        
+        $res->free();
+        
         $conditions[] = new InCondition(User :: PROPERTY_ID, $course_user_ids);
         $user_ids = $this->retrieve_course_group_user_ids($course_group);
         if (count($user_ids) > 0)
@@ -1680,6 +1708,71 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition(Course :: PROPERTY_VISUAL, $visual_code);
         return $this->database->retrieve_object(Course :: get_table_name(), $condition);
     }
+    
+    // nested trees functions for course_groups
+    
+    function count_course_group_children($node)
+    {
+    	return $this->database->count_children($node, $this->get_course_group_nested_condition($node));
+    }
+    
+ 	function get_course_group_children($node, $recursive = false)
+ 	{
+ 		return $this->database->get_children($node, $recursive, $this->get_course_group_nested_condition($node));
+ 	}
+ 	
+ 	function count_course_group_parents($node, $include_object = false)
+ 	{
+ 		return $this->database->count_parents($node, $include_object, $this->get_course_group_nested_condition($node));
+ 	}
+ 	
+ 	function get_course_group_parents($node, $recursive = false, $include_object = false)
+ 	{
+ 		return $this->database->get_parents($node, $recursive, $include_object, $this->get_course_group_nested_condition($node));
+ 	}
+ 	
+ 	function count_course_group_sibblings($node, $include_object = false)
+ 	{
+ 		return $this->database->count_sibblings($node, $include_object, $this->get_course_group_nested_condition($node));
+ 	}
+ 	
+ 	function get_course_group_sibblings($node, $include_object = false)
+ 	{
+ 		return $this->database->get_sibblings($node, $include_object, $this->get_course_group_nested_condition($node));
+ 	}
+ 	
+ 	function move_course_group($node, $new_parent_id = 0, $new_previous_id = 0)
+ 	{
+ 		return $this->database->move($node, $new_parent_id, $new_previous_id, $this->get_course_group_nested_condition($node));
+ 	}
+ 	
+ 	function add_course_group_nested_values($node, $previous_visited, $number_of_elements = 1)
+ 	{
+ 		return $this->database->add_nested_values($node, $previous_visited, $number_of_elements, $this->get_course_group_nested_condition($node));
+ 	}
+ 	
+ 	function delete_course_group_nested_values($node)
+ 	{
+ 		return $this->database->delete_nested_values($node, $this->get_course_group_nested_condition($node));
+ 	}
+ 	
+ 	/**
+ 	 * Gets the conditions for the course group nested tree functions
+ 	 * @param CourseGroup $course_group
+ 	 */
+ 	private function get_course_group_nested_condition($course_group)
+ 	{
+ 		return new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $course_group->get_course_code());
+ 	}
+ 	
+ 	function retrieve_course_group_root($course_id)
+ 	{
+ 		$conditions = array();
+ 		$conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $course_id);
+ 		$conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, 0);
+ 		$condition = new AndCondition($conditions);
+ 		return $this->retrieve_course_groups($condition)->next_result();
+ 	}
 
 }
 ?>

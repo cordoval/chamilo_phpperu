@@ -33,7 +33,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
     function perform($page, $actionName)
     { 
-        if($_FILES['config_file'])
+        if(array_key_exists('config_file', $_FILES))
         {
         	$values = array();
         	
@@ -180,6 +180,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $config['{SECURITY_KEY}'] = md5(uniqid(rand() . time()));
         $config['{URL_APPEND}'] = str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
         $config['{HASHING_ALGORITHM}'] = $values['hashing_algorithm'];
+        $config['{INSTALL_DATE}'] = time();
 
         foreach ($config as $key => $value)
         {

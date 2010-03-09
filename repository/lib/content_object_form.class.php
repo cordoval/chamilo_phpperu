@@ -609,12 +609,23 @@ EOT;
      * @param string $method The method to use ('post' or 'get').
      * @param string $action The URL to which the form should be submitted.
      */
-    static function factory($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements, $allow_new_version)
+    static function factory($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements = array(), $allow_new_version = true, $form_variant = null)
     {
         $type = $content_object->get_type();
+        
+        if ($form_variant)
+        {
+            $class = ContentObject :: type_to_class($type) . ContentObject :: type_to_class($form_variant) . 'Form';
+            require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_'. $form_variant .'_form.class.php';
+        }
+        else
+        {
+            $class = ContentObject :: type_to_class($type) . 'Form';
+            require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_form.class.php';
+        }
 
-        $class = ContentObject :: type_to_class($type) . 'Form';
-        require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_form.class.php';
+//        $class = ContentObject :: type_to_class($type) . 'Form';
+//        require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_form.class.php';
         return new $class($form_type, $content_object, $form_name, $method, $action, $extra, $additional_elements, $allow_new_version);
     }
 

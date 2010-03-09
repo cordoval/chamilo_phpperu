@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * cda
  */
@@ -27,7 +27,8 @@ class VariableTranslation extends DataClass
 
 	const STATUS_NORMAL = 1;
 	const STATUS_BLOCKED = 2;
-	
+	const STATUS_OUTDATED = 3;
+
 	/**
 	 * Get the default properties
 	 * @return array The property names.
@@ -122,7 +123,7 @@ class VariableTranslation extends DataClass
 	{
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
-	
+
 	function get_user()
 	{
 		return UserDataManager :: get_instance()->retrieve_user($this->get_user_id());
@@ -195,42 +196,27 @@ class VariableTranslation extends DataClass
 	{
 		return (int)($this->get_rating() / $this->get_rated());
 	}
-	
-	function get_status_icon()
-	{
-		switch($this->get_status())
-		{
-			case self :: STATUS_NORMAL:
-				$image = 'action_unlock';
-				break;
-			case self :: STATUS_BLOCKED:
-				$image = 'action_lock';
-				break;
-		}
-		
-		return Theme :: get_common_image($image);
-	}
-	
+
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
 	function is_locked()
 	{
 		return $this->get_status() == self :: STATUS_BLOCKED;
 	}
-	
+
 	function lock()
 	{
 		$this->set_status(self :: STATUS_BLOCKED);
 	}
-	
+
 	function unlock()
 	{
 		$this->set_status(self :: STATUS_NORMAL);
 	}
-	
+
 	function switch_lock()
 	{
 		if ($this->is_locked())
@@ -242,11 +228,51 @@ class VariableTranslation extends DataClass
 			$this->lock();
 		}
 	}
-	
+
+	function is_outdated()
+	{
+	    return ($this->get_status() == self :: STATUS_OUTDATED);
+	}
+
+	function get_status_icon()
+	{
+	    switch($this->get_status())
+	    {
+	        case self :: STATUS_NORMAL :
+	            $label = 'TranslationVerified';
+	            $image = Theme :: get_image_path() . 'status_normal.png';
+	            break;
+	        case self :: STATUS_OUTDATED :
+	            $label = 'TranslationOutdated';
+	            $image = Theme :: get_image_path() . 'status_outdated.png';
+	            break;
+	        case self :: STATUS_BLOCKED :
+	            $label = 'TranslationLocked';
+	            $image = Theme :: get_image_path() . 'status_locked.png';
+	            break;
+	    }
+
+	    $toolbar_item = new ToolbarItem(Translation :: get($label), $image, null, ToolbarItem :: DISPLAY_ICON);
+
+	    return $toolbar_item->as_html();
+	}
+
+	function verify()
+	{
+	    $this->set_status(self :: STATUS_NORMAL);
+	    return parent :: update();
+	}
+
+	function deprecate()
+	{
+	    $this->set_status(self :: STATUS_OUTDATED);
+	    return parent :: update();
+	}
+
 	function update()
 	{
 		$original_translation = $this->get_data_manager()->retrieve_variable_translation($this->get_id());
-		
+
 		if (($original_translation->get_translation() != $this->get_translation()) && $original_translation != ' ')
 		{
 			$historic_variable_translation = new HistoricVariableTranslation();
@@ -256,16 +282,18 @@ class VariableTranslation extends DataClass
 			$historic_variable_translation->set_user_id($original_translation->get_user_id());
 			$historic_variable_translation->set_rating($original_translation->get_rating());
 			$historic_variable_translation->set_rated($original_translation->get_rated());
-			
+
 			if (!$historic_variable_translation->create())
 			{
 				return false;
 			}
-			
+
 			$this->set_rating(0);
 			$this->set_rated(0);
+			//$this->set_status(self :: STATUS_OUTDATED);
+			$this->set_status(self :: STATUS_NORMAL); // Ivan, 25-FEB-2010: This choice seems to be better.
 		}
-		
+
 		return parent :: update();
 	}
 }

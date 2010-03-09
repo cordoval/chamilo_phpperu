@@ -43,13 +43,13 @@ class Session
 
     static function register($variable, $value)
     {
-        session_register($variable);
+        //session_register($variable);
         $_SESSION[$variable] = $value;
     }
 
     static function unregister($variable)
     {
-        session_unregister($variable);
+        //session_unregister($variable);
         $_SESSION[$variable] = null;
         unset($GLOBALS[$variable]);
     }

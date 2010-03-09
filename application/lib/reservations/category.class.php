@@ -103,11 +103,11 @@ class Category extends DataClass
         $succes = $rdm->create_category($this);
 
         if ($this->get_parent() == 0)
-            $parent_location = ReservationsRights :: get_root_id();
+            $parent_location = ReservationsRights :: get_reservations_subtree_root_id();
         else
-            $parent_location = ReservationsRights :: get_location_id_by_identifier('category', $this->get_parent());
+            $parent_location = ReservationsRights :: get_location_id_by_identifier_from_reservations_subtree('category', $this->get_parent());
 
-        $succes &= ReservationsRights :: create_location($this->get_name(), 'category', $this->get_id(), true, $parent_location);
+        $succes &= ReservationsRights :: create_location_in_reservations_subtree($this->get_name(), 'category', $this->get_id(), $parent_location);
 
         return $succes;
     }

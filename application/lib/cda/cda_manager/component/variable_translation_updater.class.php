@@ -25,8 +25,8 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 		$variable_id = $variable_translation->get_variable_id();
 		$variable = $this->retrieve_variable($variable_id);
 		
-		$can_translate = CdaRights :: is_allowed(CdaRights :: VIEW_RIGHT, $language_id, 'cda_language');
-		$can_lock = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $language_id, 'cda_language');
+		$can_translate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $language_id, 'cda_language');
+		$can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $language_id, 'cda_language');
 		
 		if (($can_translate && !$variable_translation->is_locked()) || $can_lock)
 		{

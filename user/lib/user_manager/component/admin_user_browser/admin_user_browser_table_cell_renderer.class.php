@@ -40,10 +40,10 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
                 return $user->get_official_code();
             // Exceptions that need post-processing go here ...
             case User :: PROPERTY_STATUS :
-                if ($user->get_platformadmin() == '1')
+               /* if ($user->get_platformadmin() == '1')
                 {
                     return Translation :: get('PlatformAdmin');
-                }
+                }*/
                 if ($user->get_status() == '1')
                 {
                     return Translation :: get('CourseAdmin');
@@ -55,11 +55,11 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
             case User :: PROPERTY_PLATFORMADMIN :
                 if ($user->get_platformadmin() == '1')
                 {
-                    return Translation :: get('PlatformAdmin');
+                    return Translation :: get('True');
                 }
                 else
                 {
-                    return '';
+                    return Translation :: get('False');
                 }
             case User :: PROPERTY_ACTIVE:
             	if($user->get_active())

@@ -21,8 +21,11 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         {
             $html[] = Display :: normal_message(Translation :: get('NoPublicationsAvailable'), true);
         }
+        
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/publications_list.js');
+        
         if ($this->get_actions() && $this->is_allowed(EDIT_RIGHT))
-            $html[] = '<form name="publication_list" action="' . $this->get_url() . '" method="GET" >';
+            $html[] = '<form class="publication_list" name="publication_list" action="' . $this->get_url() . '" method="GET" >';
         $i = 0;
         
         foreach ($publications as $index => $publication)
@@ -55,10 +58,11 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $html[] = '<div style="text-align: right;">';
             $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
             $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll') . '</a><br />';
-            $html[] = '<select name="tool_action">';
-            foreach ($this->get_actions() as $action => $label)
+            $html[] = '<select id="tool_actions" name="tool_action">';
+            foreach ($this->get_actions() as $form_action)
             {
-                $html[] = '<option value="' . $action . '">' . $label . '</option>';
+                //$html[] = '<option value="' . $action . '">' . $label . '</option>';
+                $html[] = '<option value="' . $form_action->get_action() . '" class="' . ($form_action->get_confirm() ? 'confirm' : '') . '">' . $form_action->get_title() . '</option>';
             }
             $html[] = '</select>';
             $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
@@ -140,7 +144,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         $html[] = '<div class="publication_actions">';
         $html[] = $this->render_publication_actions($publication, $first, $last);
         if ($this->get_actions() && $this->is_allowed(EDIT_RIGHT))
-            $html[] = '<input type="checkbox" name="pid[]" value="' . $publication->get_id() . '"/>';
+            $html[] = '<input class="pid" type="checkbox" name="pid[]" value="' . $publication->get_id() . '"/>';
         $html[] = '</div>';
         $html[] = '</div><br />';
         

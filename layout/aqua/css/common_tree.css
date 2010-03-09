@@ -124,6 +124,10 @@ ul.tree-menu li div a.search_results {
 	background-image: url(../images/common/treemenu/search.png);
 }
 
+ul.tree-menu li div a.shared_objects {
+	background-image: url(../images/common/treemenu/shared_objects.png);
+}
+
 ul.tree-menu li div a.template {
 	background-image: url(../images/common/treemenu/template.png);
 }
@@ -145,7 +149,7 @@ ul.tree-menu li.current_path>div a.category,ul.tree-menu li.current>div a.catego
 	background-image: url(../images/common/treemenu/tree-folder-open.png);
 }
 
-ul.tree-menu li.current>div a.category {
+ul.tree-menu li.current>div a {
 	text-decoration: underline;
 }
 

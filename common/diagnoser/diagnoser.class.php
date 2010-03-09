@@ -24,7 +24,7 @@ class Diagnoser
     const STATUS_ERROR = 3;
     const STATUS_INFORMATION = 4;
 
-    function Diagnoser($manager)
+    function Diagnoser($manager = null)
     {
         $this->manager = $manager;
     }
@@ -81,6 +81,11 @@ class Diagnoser
         $exists = ! file_exists(Path :: get(SYS_PATH) . '/install');
         $status = $exists ? self :: STATUS_OK : self :: STATUS_WARNING;
         $array[] = $this->build_setting($status, '[FILES]', Translation :: get('DirectoryExists') . ': /install', 'http://be2.php.net/file_exists', $writable, 0, 'yes_no', Translation :: get('DirectoryShouldBeRemoved'));
+        
+        $date = Configuration :: get_instance()->get_parameter('general', 'install_date');
+        //$date = Utilities :: to_db_date($date);
+        $date = Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $date);
+        $array[] = $this->build_setting(1, '[INFORMATION]', Translation :: get('InstallDate'), '', $date, '', null, Translation :: get('InstallDateInfo'));
         
         return $array;
     }

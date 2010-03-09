@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * cda
  */
@@ -129,20 +129,20 @@ class CdaLanguage extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
 	function create()
 	{
 		$dm = $this->get_data_manager();
-		
+
 		$languages = $dm->retrieve_cda_languages();
 		while($language = $languages->next_result())
 			if($language->get_english_name() == $this->get_english_name())
 				return false;
-		
+
 		$succes = parent :: create();
-		
+
 		$variables = $dm->retrieve_variables();
-		
+
 		while($variable = $variables->next_result())
 		{
 			$translation = new VariableTranslation();
@@ -159,51 +159,64 @@ class CdaLanguage extends DataClass
 				return false;
 			}
 		}
+
+	    $parent = CdaRights :: get_languages_subtree_root_id();
 		
-	    $location = new Location();
-        $location->set_location($this->get_english_name());
-        $location->set_application(CdaManager :: APPLICATION_NAME);
-        $location->set_type('cda_language');
-        $location->set_identifier($this->get_id());
-		$parent = RepositoryRights :: get_location_id_by_identifier('manager', 'cda_language');
-        $location->set_parent($parent);
-        if (! $location->create())
-        {
-            return false;
-        }
+		if(!CdaRights :: create_location_in_languages_subtree($this->get_english_name(), 'cda_language', $this->get_id(), $parent))
+		{
+			return false;
+		}
 
 		return $succes;
 	}
-	
+
 	function update()
 	{
 		$dm = $this->get_data_manager();
-		
+
 		$condition = new NotCondition(new EqualityCondition(CdaLanguage :: PROPERTY_ID, $this->get_id()));
     	$languages = $dm->retrieve_cda_languages($condition);
 		while($language = $languages->next_result())
 			if($language->get_english_name() == $this->get_english_name())
 				return false;
-		
+
 		return parent :: update();
 	}
-	
+
 	function delete()
 	{
 		$succes = parent :: delete();
 		$dm = $this->get_data_manager();
-		
+
 		$condition = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $this->get_id());
 		$translations = $dm->retrieve_variable_translations($condition);
-		
+
 		while($translation = $translations->next_result())
 		{
 			$succes &= $translation->delete();
 		}
-		
+
 		return $succes;
-		
-	} 
+
+	}
+
+	function is_outdated()
+	{
+	    $count = $this->get_data_manager()->get_status_for_language($this);
+	    return $count > 0;
+	}
+
+	function get_status_icon($language_id = null)
+	{
+		if ($this->is_outdated($language_id))
+	    {
+	        return '<img src="' . Theme :: get_image_path() . 'status_outdated.png" title="' . Translation :: get('OneOrMoreTranslationsOutdated') . '" alt="' . Translation :: get('OneOrMoreTranslationsOutdated') . '" />';
+	    }
+	    else
+	    {
+	        return '<img src="' . Theme :: get_image_path() . 'status_normal.png" title="' . Translation :: get('TranslationFinishedOrInProgress') . '" alt="' . Translation :: get('TranslationFinishedOrInProgress') . '" />';
+	    }
+	}
 }
 
 ?>

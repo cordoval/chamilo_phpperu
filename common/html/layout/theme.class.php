@@ -125,7 +125,7 @@ class Theme
     /**
      * Get the path to the application's image folder
      */
-    function get_image_path($application = null)
+    static function get_image_path($application = null)
     {
         $instance = self :: get_instance();
         $application = (is_null($application) ? $instance->get_application() : $application);
@@ -133,12 +133,31 @@ class Theme
     }
 
     /**
+     * Get the system path to the application's image folder
+     */
+    static function get_image_system_path($application = null)
+    {
+        $instance = self :: get_instance();
+        $application = (is_null($application) ? $instance->get_application() : $application);
+        return $instance->get_path(SYS_IMG_PATH) . $application . '/';
+    }
+
+    /**
      * Get the path to the general image folder
      */
-    function get_common_image_path()
+    static function get_common_image_path()
     {
         $instance = self :: get_instance();
         return $instance->get_path(WEB_IMG_PATH) . 'common/';
+    }
+
+    /**
+     * Get the system path to the general image folder
+     */
+    static function get_common_image_system_path()
+    {
+        $instance = self :: get_instance();
+        return $instance->get_path(SYS_IMG_PATH) . 'common/';
     }
 
     static function get_instance()
@@ -168,7 +187,7 @@ class Theme
         return $options;
     }
 
-    function get_common_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+    static function get_common_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
         $image = self :: get_common_image_path() . $image . '.' . $extension;
 
@@ -176,7 +195,7 @@ class Theme
         return $icon->as_html();
     }
 
-    function get_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+    static function get_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
         $image = self :: get_image_path() . $image . '.' . $extension;
 

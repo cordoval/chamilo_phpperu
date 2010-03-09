@@ -46,28 +46,27 @@ class RepositoryRights
 
     function create_user_root($user)
     {
-        $repository_root = self :: get_root_id();
-        
-        $user_root = new Location();
-        $user_root->set_location($user->get_username());
-        $user_root->set_application(RepositoryManager :: APPLICATION_NAME);
-        $user_root->set_type('user_root');
-        $user_root->set_identifier($user->get_id());
-        
-        $user_root->set_parent($repository_root);
-        if (! $user_root->create())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return RightsUtilities :: create_subtree_root_location(RepositoryManager :: APPLICATION_NAME, $user->get_id(), 'user_tree');
     }
 
+	static function create_location_in_user_tree($name, $type, $identifier, $parent, $user_id)
+    {
+    	return RightsUtilities :: create_location($name, RepositoryManager :: APPLICATION_NAME, $type, $identifier, 0, $parent, 0, $user_id, 'user_tree');
+    }
+    
     function get_user_root_id($user_id)
     {
-        return self :: get_location_id_by_identifier('user_root', $user_id);
+        return RightsUtilities :: get_root_id(RepositoryManager :: APPLICATION_NAME, 'user_tree', $user_id);
+    }
+    
+	static function get_location_id_by_identifier_from_user_subtree($type, $identifier, $user_id)
+    {
+    	return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, $type, $identifier, $user_id, 'user_tree');
+    }
+    
+	static function is_allowed_in_user_subtree($right, $location, $type, $user_id)
+    {
+    	 return RightsUtilities :: is_allowed($right, $location, $type, RepositoryManager :: APPLICATION_NAME, null, $user_id, 'user_tree');
     }
 }
 ?>

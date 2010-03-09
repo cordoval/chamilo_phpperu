@@ -239,7 +239,8 @@ class DatabaseGroupDataManager extends GroupDataManager
             $query .= $translator->render_query($condition);
         }
 
-		$this->query($query);
+		$res = $this->query($query);
+		$res->free();
 
         // Update all necessary right-values
         $condition = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
@@ -248,7 +249,8 @@ class DatabaseGroupDataManager extends GroupDataManager
         $translator = new ConditionTranslator($this->database);
         $query .= $translator->render_query($condition);
 
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
         // TODO: For now we just return true ...
         return true;
     }
@@ -267,7 +269,8 @@ class DatabaseGroupDataManager extends GroupDataManager
         $translator = new ConditionTranslator($this->database);
         $query .= $translator->render_query($condition);
 
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
 
         // Update some more nested-values
         $conditions = array();
@@ -281,7 +284,8 @@ class DatabaseGroupDataManager extends GroupDataManager
         $translator = new ConditionTranslator($this->database);
         $query .= $translator->render_query($condition);
 
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
         return true;
     }
 
@@ -389,7 +393,8 @@ class DatabaseGroupDataManager extends GroupDataManager
         $translator = new ConditionTranslator($this->database);
         $query .= $translator->render_query($condition);
 
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
 
         // Remove the subtree where the group was before
         if (! $this->delete_nested_values($group))

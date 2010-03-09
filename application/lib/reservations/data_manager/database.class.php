@@ -121,7 +121,8 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         		  $this->db->escape_column_name(Category :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' .
         		  $this->db->escape_column_name(Category :: PROPERTY_DISPLAY_ORDER) . '>' . $this->quote($category->get_display_order()) . ' AND ' .
         		  $this->db->escape_column_name(Category :: PROPERTY_PARENT) . '=' . $this->quote($category->get_parent());
-		$this->query($query);
+		$res = $this->query($query);
+		$res->free();
     }
 
     function update_category($category)
@@ -475,7 +476,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         $this->db->get_connection()->setLimit(intval(0), intval(1));
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-
+		$res->free();
         $id = $record['quota_box_id'];
 
         if (is_null($id))
@@ -493,7 +494,8 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
                     $this->db->get_connection()->setLimit(intval(0), intval(1));
                     $res = $this->query($query);
                     $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-
+					$res->free();
+					
                     $id = $record['quota_box_id'];
 
                     if (! is_null($id))
@@ -525,7 +527,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         $user_alias = $this->db->get_alias($user_table);
         $user_table = 'user_user';
 
-        $query = 'SELECT COUNT(*) FROM ' . $sub_table . ' AS ' . $sub_alias . ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item=' . $item_alias . '.id' . ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.user_id';
+        $query = 'SELECT COUNT(*) FROM ' . $sub_table . ' AS ' . $sub_alias . ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item_id=' . $item_alias . '.id' . ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.user_id';
 
         $count = $this->db->count_result_set($query, Subscription :: get_table_name(), $condition);
 
@@ -550,7 +552,7 @@ class DatabaseReservationsDataManager extends ReservationsDataManager
         $user_alias = $this->db->get_alias($user_table);
         $user_table = 'user_user';
 
-        $query = 'SELECT ' . $sub_alias . '.* FROM ' . $sub_table . ' AS ' . $sub_alias . ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item=' . $item_alias . '.id' . ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.user_id';
+        $query = 'SELECT ' . $sub_alias . '.* FROM ' . $sub_table . ' AS ' . $sub_alias . ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item_id=' . $item_alias . '.id' . ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.id';
 
         return $this->db->retrieve_object_set($query, Subscription :: get_table_name(), $condition, $offset, $count, $order_property, Utilities :: underscores_to_camelcase(Subscription :: get_table_name()));
     }

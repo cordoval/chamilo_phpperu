@@ -224,7 +224,7 @@ class Database
                 if ($index_info['type'] == 'primary')
                 {
                     $index_info['primary'] = 1;
-                    $primary_result = $manager->createConstraint($name, $constraint_table_alias . '_' . $index_name . '_pk', $index_info);
+                    $primary_result = $manager->createConstraint($name, DatabaseAliasGenerator :: get_instance()->get_constraint_name($name, $index_name, DatabaseAliasGenerator :: TYPE_CONSTRAINT), $index_info);
                     if (MDB2 :: isError($primary_result))
                     {
                         echo '<pre>';
@@ -236,7 +236,7 @@ class Database
                 elseif ($index_info['type'] == 'unique')
                 {
                     $index_info['unique'] = 1;
-                    $unique_result = $manager->createConstraint($name, $constraint_table_alias . '_' . $index_name . '_un', $index_info);
+                    $unique_result = $manager->createConstraint($name, DatabaseAliasGenerator :: get_instance()->get_constraint_name($name, $index_name, DatabaseAliasGenerator :: TYPE_CONSTRAINT), $index_info);
                     if (MDB2 :: isError($unique_result))
                     {
                         echo '<pre>';
@@ -247,7 +247,7 @@ class Database
                 }
                 else
                 {
-                    $index_result = $manager->createIndex($name, $constraint_table_alias . '_' . $index_name . '_in', $index_info);
+                    $index_result = $manager->createIndex($name, DatabaseAliasGenerator :: get_instance()->get_constraint_name($name, $index_name, DatabaseAliasGenerator :: TYPE_CONSTRAINT), $index_info);
                     if (MDB2 :: isError($index_result))
                     {
                         echo '<pre>';
@@ -351,7 +351,7 @@ class Database
             $updates = array();
             foreach ($properties as $column => $property)
             {
-                $updates[] = $this->escape_column_name($column, $table_name_alias) . '=' . $property;
+                $updates[] = $this->escape_column_name($column) . '=' . $property;
             }
 
             $query .= implode(", ", $updates);
@@ -388,14 +388,15 @@ class Database
             }
 
             $res = $this->query($query);
-
+			
             if (MDB2 :: isError($res))
             {
                 return false;
             }
             else
             {
-                return true;
+                $res->free();
+            	return true;
             }
         }
         else
@@ -421,6 +422,7 @@ class Database
         }
         else
         {
+        	$res->free();
             return true;
         }
     }
@@ -442,14 +444,15 @@ class Database
         }
 
         $res = $this->query($query);
-
+		
         if (MDB2 :: isError($res))
         {
             return false;
         }
         else
         {
-            return true;
+            $res->free();
+        	return true;
         }
     }
 
@@ -471,7 +474,7 @@ class Database
         }
         else
         {
-            return true;
+        	return true;
         }
     }
 
@@ -601,12 +604,14 @@ class Database
         $res = $this->query($query);
         if ($res->numRows() >= 1)
         {
-            $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+        	$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+        	$res->free();
             return $record[0];
         }
         else
         {
-            return 0;
+            $res->free();
+        	return 0;
         }
     }
 
@@ -725,7 +730,7 @@ class Database
         {
             $distinct_elements[] = $record[$column_name];
         }
-
+		$res->free();
         return $distinct_elements;
     }
 
@@ -741,12 +746,13 @@ class Database
 
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+        $res->free();
         return $record[0];
     }
 
     function get_alias($table_name)
     {
-        if (! $this->aliases[$table_name])
+        if (!array_key_exists($table_name, $this->aliases))
         {
             $possible_name = substr($table_name, 0, 2) . substr($table_name, - 2);
             $index = 0;

@@ -631,24 +631,17 @@ class ContentObject extends DataClass implements AccessibleContentObject
         if ($this->get_owner_id() == 0)
             return true;
 
-        $location = new Location();
-        $location->set_location($this->get_title());
-        $location->set_application(RepositoryManager :: APPLICATION_NAME);
-        $location->set_type('content_object');
-        $location->set_identifier($this->get_id());
-
         $parent = $this->get_parent_id();
         if (! $parent)
         {
-            $parent = RepositoryRights :: get_user_root_id($this->get_owner_id());
+            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
         }
         else
         {
-            $parent = RepositoryRights :: get_location_id_by_identifier('repository_category', $this->get_parent_id());
+            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree('repository_category', $this->get_parent_id(), $this->get_owner_id());
         }
 
-        $location->set_parent($parent);
-        if (! $location->create())
+    	if (!RepositoryRights :: create_location_in_user_tree($this->get_title(), 'content_object', $this->get_id(), $parent_id, $this->get_owner_id()))
         {
             return false;
         }
@@ -672,24 +665,17 @@ class ContentObject extends DataClass implements AccessibleContentObject
         if ($this->get_owner_id() == 0)
             return true;
 
-        $location = new Location();
-        $location->set_location($this->get_title());
-        $location->set_application(RepositoryManager :: APPLICATION_NAME);
-        $location->set_type('content_object');
-        $location->set_identifier($this->get_id());
-
-        $parent = $this->get_parent_id();
+     	$parent = $this->get_parent_id();
         if (! $parent)
         {
-            $parent = RepositoryRights :: get_user_root_id($this->get_owner_id());
+            $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
         }
         else
         {
-            $parent = RepositoryRights :: get_location_id_by_identifier('repository_category', $this->get_parent_id());
+            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree('repository_category', $this->get_parent_id(), $this->get_owner_id());
         }
 
-        $location->set_parent($parent);
-        if (! $location->create())
+    	if (!RepositoryRights :: create_location_in_user_tree($this->get_title(), 'content_object', $this->get_id(), $parent_id, $this->get_owner_id()))
         {
             return false;
         }

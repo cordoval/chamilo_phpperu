@@ -113,7 +113,8 @@ class DatabaseMenuDataManager extends MenuDataManager
             		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' > ' . $this->quote($old_navigation_item->get_sort()) . ' AND ' .
             		 $this->database->escape_column_name(NavigationItem :: PROPERTY_CATEGORY) . ' = ' . $this->quote($old_navigation_item->get_category());
 
-            $this->query($query);
+            $res = $this->query($query);
+            $res->free();
         }
 
         return true;
@@ -130,7 +131,8 @@ class DatabaseMenuDataManager extends MenuDataManager
             		 $this->database->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' > ' . $this->quote($navigation_item->get_sort()) . ' AND ' .
             		 $this->database->escape_column_name(NavigationItem :: PROPERTY_CATEGORY) . ' = ' . $this->quote($navigation_item->get_category());
 
-        $this->query($query);
+        $res = $this->query($query);
+        $res->free();
         
         return $succes;
     }

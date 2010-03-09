@@ -22,7 +22,7 @@ class CdaManagerLanguagePackUpdaterComponent extends CdaManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateLanguagePack')));
 
-		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, 'language_pack', 'manager');
+		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
 
    		if (!$can_edit)
    		{

@@ -119,13 +119,6 @@ class WebserviceManager extends CoreApplication
     public static function get_tool_bar_item($id)
     {
         $wdm = new WebserviceManager();
-        $user_id = Session :: get_user_id();
-        $user = UserDataManager :: get_instance()->retrieve_user($user_id);
-        
-        if (! $user || ! $user->get_language())
-            $language = PlatformSetting :: get('platform_language');
-        else
-            $language = $user->get_language();
         
         $toolbar_item = WebserviceDataManager :: get_instance()->retrieve_webservice_category($id);
         if (isset($toolbar_item))
@@ -137,7 +130,7 @@ class WebserviceManager extends CoreApplication
             $wsm = new WebserviceManager();
             $url = $wsm->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => null));
         }
-        return new ToolbarItem('Change rights ', Theme :: get_common_image_path() . 'action_rights.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false);
+        return new ToolbarItem(Translation :: get('ChangeRights'), Theme :: get_common_image_path() . 'action_rights.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false);
     }
 
 }

@@ -18,7 +18,7 @@ class RssIconGenerator
 		{
 			if ($user != null)
 			{
-				$path .= '?sid'.$user->get_security_token();
+				$path .= '?sid='.$user->get_security_token();
 			}
 			return $path;
 		}

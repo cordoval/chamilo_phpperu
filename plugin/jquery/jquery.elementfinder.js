@@ -290,10 +290,15 @@
 				
 				$('#' + settings.name + '_expand_button').click(showElementFinder);
 				
-				$('#' + settings.name + '_search_field').keypress( function() {
+				$('#' + settings.name + '_search_field').keypress( function(event) {
 						// Avoid searches being started after every character
 						clearTimeout(timer);
 						timer = setTimeout(updateSearchResults, 750);
+						
+						if(event.keyCode == 13)
+						{
+							return false;
+						}
 					});
 				
 				$(this).bind('update_search', updateSearchResults);

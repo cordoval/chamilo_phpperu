@@ -27,6 +27,7 @@ class BuildWizardDisplay extends HTML_QuickForm_Action_Display
     public function BuildWizardDisplay($parent, $trail)
     {
         $this->parent = $parent;
+        $this->breadcrumbtrail = $trail;
     }
 
     /**

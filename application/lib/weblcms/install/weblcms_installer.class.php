@@ -27,7 +27,16 @@ class WeblcmsInstaller extends Installer
      */
     function install_extra()
     {
-        if (! $this->create_default_categories_in_weblcms())
+    	if (! $this->create_courses_subtree())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('CoursesTreeCreated'));
+        }
+        
+    	if (! $this->create_default_categories_in_weblcms())
         {
             return false;
         }
@@ -40,6 +49,11 @@ class WeblcmsInstaller extends Installer
         return true;
     }
 
+	private function create_courses_subtree()
+    {
+    	return RightsUtilities :: create_subtree_root_location(WeblcmsManager :: APPLICATION_NAME, 0, 'courses_tree');
+    }
+    
     function create_default_categories_in_weblcms()
     {
         $application = $this->get_application();

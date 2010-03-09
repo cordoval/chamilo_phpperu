@@ -30,7 +30,7 @@ class CdaManagerTranslatorApplicationDeleterComponent extends CdaManagerComponen
 			foreach ($ids as $id)
 			{
 				$translator_application = $this->retrieve_translator_application($id);
-				$can_delete = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, $translator_application->get_destination_language_id(), 'cda_language');
+				$can_delete = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $translator_application->get_destination_language_id(), 'cda_language');
 				
 				if (!$can_delete)
 				{

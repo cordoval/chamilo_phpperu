@@ -315,7 +315,9 @@ class Filesystem
      */
     public static function get_directory_content($path, $type = Filesystem::LIST_FILES_AND_DIRECTORIES, $recursive = true)
     {
-        if ($recursive)
+        $result = array();
+        
+    	if ($recursive)
         {
             $it = new RecursiveDirectoryIterator($path);
             $it = new RecursiveIteratorIterator($it, 1);
@@ -366,7 +368,7 @@ class Filesystem
         }
         elseif (is_dir($path))
         {
-            $content = Filesystem :: get_directory_content($path);
+        	$content = Filesystem :: get_directory_content($path);
             // Reverse sort the content so deepest entries come first.
             rsort($content);
             $result = true;

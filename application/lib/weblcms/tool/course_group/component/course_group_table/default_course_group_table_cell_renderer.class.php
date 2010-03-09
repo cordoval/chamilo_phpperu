@@ -100,16 +100,19 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
         
         $user = $this->course_group_tool->get_user();
         
-        if (! $user->is_platform_admin() && $course_group->is_self_registration_allowed())
+        if (! $user->is_platform_admin())
         {
-            if (! $course_group->is_member($user))
-            {
-                $parameters = array();
-                $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
-                $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_USER_SELF_SUBSCRIBE;
-                $subscribe_url = $this->course_group_tool->get_url($parameters);
-                $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
-            }
+        	if($course_group->is_self_registration_allowed())
+	        {
+	            if (! $course_group->is_member($user))
+	            {
+	                $parameters = array();
+	                $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
+	                $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_USER_SELF_SUBSCRIBE;
+	                $subscribe_url = $this->course_group_tool->get_url($parameters);
+	                $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
+	            }
+	        }
         }
         else
         {
@@ -120,7 +123,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
             $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('SubscribeUsers'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
         }
         
-        if (! $user->is_platform_admin() && $course_group->is_self_unregistration_allowed() && $course_group->is_member($user))
+        if (!$this->course_group_tool->is_allowed(EDIT_RIGHT) && $course_group->is_self_unregistration_allowed() && $course_group->is_member($user))
         {
             $parameters = array();
             $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();

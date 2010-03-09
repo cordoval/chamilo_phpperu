@@ -449,26 +449,16 @@ class Course extends DataClass
         $dropbox = new ContentObjectPublicationCategory();
         $dropbox->create_dropbox($this->get_id());
 
-        $location = new Location();
-        $location->set_location($this->get_name());
-        $location->set_application(WeblcmsManager :: APPLICATION_NAME);
-        $location->set_type_from_object($this);
-        $location->set_identifier($this->get_id());
-
-        $parent = WeblcmsRights :: get_location_id_by_identifier('course_category', 1);
-        //echo 'parent : ' . $parent;
-
-
-        if ($parent)
+        if ($this->get_category())
         {
-            $location->set_parent($parent);
+            $parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('course_category', $this->get_category());
         }
         else
         {
-            $location->set_parent(0);
+            $parent_id = WeblcmsRights :: get_courses_subtree_root_id();
         }
 
-        if (! $location->create())
+    	if (!WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), 'course', $this->get_id(), $parent_id))
         {
             return false;
         }
@@ -476,6 +466,11 @@ class Course extends DataClass
         if (! $this->initialize_course_sections())
         {
             return false;
+        }
+        
+        if(!$this->create_root_course_group())
+        {
+        	return false;
         }
 
         return true;
@@ -589,6 +584,14 @@ class Course extends DataClass
         }
 
         return true;
+    }
+    
+    function create_root_course_group()
+    {
+    	$group = new CourseGroup();
+    	$group->set_course_code($this->get_id());
+    	$group->set_name($this->get_name());
+    	return $group->create();
     }
 
 }
