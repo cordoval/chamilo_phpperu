@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="location">
+ <properties>
+  <property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true"/>
+  <property name="name" type="text" notnull="1"/>
+  <property name="street" type="text" notnull="1"/>
+  <property name="street_number" type="integer" notnull="1"/>
+  <property name="place_id" type="integer" notnull="1"/>
+  <property name="location_group_id" type="integer" notnull="1"/>
+ </properties>
+</object>
