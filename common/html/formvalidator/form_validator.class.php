@@ -200,6 +200,41 @@ EOT;
         $html_editor->add();
     }
 
+    /*
+     * Adds tabs to a form
+     * @param array $tabs An array of tab objects that specifies the tabs that are going to be created
+     * @param int $selected_tab The tab is selected
+     * @author Tristan Verheecke
+     */
+    function add_tabs($tabs, $selected_tab)
+    {
+    	$this->addElement('html', '<div id="tabs">');
+        $this->addElement('html', '<ul>');
+		foreach($tabs as $index => $tab)
+		{
+      		$this->addElement('html', '<li><a href="#tabs-'.$index.'">');
+        	$this->addElement('html', '<span class="category">');
+        	$this->addElement('html', '<span class="title">'.Translation :: get($tab->get_title()).'</span>');
+        	$this->addElement('html', '</span>');
+        	$this->addElement('html', '</a></li>');
+		}
+        $this->addElement('html', '</ul>');
+        foreach($tabs as $index => $tab)
+        {
+        	$this->addElement('html', '<div class="tab" id="tabs-'.$index.'">');
+        	call_user_func(Array($this, $tab->get_method()));
+        	$this->addElement('html','<div class="clear"></div>');
+        	$this->addElement('html', '</div>');
+        }
+        
+        $this->addElement('html', '</div>');
+        $this->addElement('html', '<script type="text/javascript">');
+        $this->addElement('html', '  var tabnumber = ' . $selected_tab . ';');
+        $this->addElement('html', '</script>');
+ 
+        $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/tabs.js'));
+    }
+    
     function create_html_editor($name, $label, $options = array(), $attributes = array())
     {
         $html_editor = FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $name, $label, false, $options, $attributes);

@@ -132,5 +132,36 @@ class Language extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+    function create()
+    {
+    	if(!parent :: create())
+    	{
+    		return false;
+    	}
+    	
+    	$registration = new Registration();
+    	$registration->set_name($this->get_english_name());
+    	$registration->set_type(Registration :: TYPE_LANGUAGE);
+    	$registration->set_version('1.0.0');
+    	$registration->set_status(Registration :: STATUS_ACTIVE);
+    	return $registration->create();
+    }
+    
+    function delete()
+    {
+    	if(!parent :: delete())
+    	{
+    		return false;
+    	}
+    	
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LANGUAGE);
+    	$conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $this->get_english_name());
+    	$condition = new AndCondition($conditions);
+    	
+    	$registration = AdminDataManager :: get_instance()->retrieve_registrations($condition)->next_result();
+    	return $registration->delete();
+    }
 }
 ?>

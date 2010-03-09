@@ -41,7 +41,8 @@ class ApplicationCommonAutoloader
 				      'rights_editor_manager' => 'rights_editor_manager/rights_editor_manager.class.php',
 					  'validation_manager' => 'validation_manager/validation_manager.class.php',
 					  'web_application' => 'web_application.class.php',
-					  'web_application_component' => 'web_application_component.class.php');
+					  'web_application_component' => 'web_application_component.class.php',
+					  'test_category_manager' => 'category_manager/test_category_manager.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

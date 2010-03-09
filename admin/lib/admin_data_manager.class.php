@@ -99,10 +99,30 @@ abstract class AdminDataManager
         $languages = $this->retrieve_languages();
         while ($language = $languages->next_result())
         {
-            $options[$language->get_folder()] = $language->get_original_name();
+    		if($this->is_language_active($language->get_english_name()))
+    		{
+        		$options[$language->get_folder()] = $language->get_original_name();
+    		}
         }
 
         return $options;
+    }
+    
+    function is_language_active($language_name)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LANGUAGE);
+    	$conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $language_name);
+    	$condition = new AndCondition($conditions);
+    	
+    	$registration = $this->retrieve_registrations($condition)->next_result();
+    		
+    	if(!$registration)
+    	{
+    		return false;
+    	}
+    	
+    	return ($registration->get_status() == Registration :: STATUS_ACTIVE);
     }
 
     /**
