@@ -273,29 +273,7 @@ class WeblcmsManager extends WebApplication
     function get_course_groups()
     {
         $wdm = WeblcmsDataManager :: get_instance();
-        $course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(), $this->get_course())->as_array();
-        
-        $course_groups_recursive = array();
-        
-        foreach($course_groups as $course_group)
-        { 
-        	if(!array_key_exists($course_group->get_id(), $course_groups_recursive))
-        	{
-        		$course_groups_recursive[$course_group->get_id()] = $course_group;
-        	}
-        	
-        	$parents = $course_group->get_parents(false);
-        	
-        	foreach($parents as $parent)
-        	{
-	        	if(!array_key_exists($parent->get_id(), $course_groups_recursive))
-	        	{
-	        		$course_groups_recursive[$parent->get_id()] = $parent;
-	        	}
-        	}
-        }
-
-        return $course_groups_recursive;
+        return $wdm->get_user_course_groups($this->get_user(), $this->get_course());
     }
 
     /**

@@ -154,6 +154,7 @@ class CommonAutoloader
 					  'nested_tree_database' => 'database/nested_tree_database.class.php',
 					  'cookie' => 'session/cookie.class.php',
 					  'request' => 'session/request.class.php',
+					  'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php'
 		);
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);

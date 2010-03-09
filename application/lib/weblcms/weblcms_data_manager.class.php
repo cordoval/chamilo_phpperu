@@ -682,6 +682,33 @@ abstract class WeblcmsDataManager
     abstract function count_course_sections($conditions = null);
 
     abstract function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    function get_user_course_groups($user, $course = null)
+    {
+        $course_groups = $this->retrieve_course_groups_from_user($user, $course)->as_array();
+        
+        $course_groups_recursive = array();
+        
+        foreach($course_groups as $course_group)
+        { 
+        	if(!array_key_exists($course_group->get_id(), $course_groups_recursive))
+        	{
+        		$course_groups_recursive[$course_group->get_id()] = $course_group;
+        	}
+        	
+        	$parents = $course_group->get_parents(false);
+        	
+        	foreach($parents as $parent)
+        	{
+	        	if(!array_key_exists($parent->get_id(), $course_groups_recursive))
+	        	{
+	        		$course_groups_recursive[$parent->get_id()] = $parent;
+	        	}
+        	}
+        }
+
+        return $course_groups_recursive;
+    }
 
 }
 ?>
