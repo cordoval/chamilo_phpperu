@@ -18,6 +18,7 @@ class Registration extends DataClass
     
     const TYPE_CONTENT_OBJECT = 'content_object';
     const TYPE_APPLICATION = 'application';
+    const TYPE_LANGUAGE = 'language';
     
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
