@@ -58,7 +58,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
         else
         {
             $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_condition());
-            $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
+            $html[] = '<div style="float: left; width: 18%; overflow: auto;">';
 
             $group = Request :: get(RightsEditorManager :: PARAM_GROUP);
 
@@ -71,7 +71,8 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
             $html[] = '</div>';
             $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_group.js');
         }
-
+		
+        $html[] = '<div class="clear"></div>';
         $html[] = RightsUtilities :: get_rights_legend();
 
         echo implode("\n", $html);
