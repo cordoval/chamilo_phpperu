@@ -174,7 +174,20 @@ abstract class WeblcmsDataManager
      * @return boolean True if creation succceeded, false otherwise.
      */
     abstract function create_course($course);
-
+    
+    /**
+     * Creates a coursetype object in persistent storage.
+     * @param CourseType $courseytype The coursetype to make persistent.
+     * @return boolean True if creation succceeded, false otherwise.
+     */
+    abstract function create_course_type($course_type);
+    
+    abstract function create_course_type_settings($course_type_settings);
+    
+    abstract function create_course_type_tool($course_type_tool);
+    
+    abstract function create_course_type_layout($course_type_layout);
+    
     abstract function create_course_group_user_relation($course_group_user_relation);
 
     /**
@@ -443,7 +456,19 @@ abstract class WeblcmsDataManager
      * @return boolean True if the update succceeded, false otherwise.
      */
     abstract function update_course($course);
+    
+    /**
+     * Updates the specified course_type in persistent storage,
+     * making any changes permanent.
+     * @param CourseType $course_type The course_type object
+     * @return boolean True if the update succceeded, false otherwise.
+     */
+    abstract function update_course_type($course_type);
 
+    abstract function update_course_type_settings($course_type_settings);
+
+    abstract function update_course_type_layout($course_type_layout);
+    
     /**
      * Updates the specified course category in persistent storage,
      * making any changes permanent.
@@ -598,7 +623,19 @@ abstract class WeblcmsDataManager
      * @param int id
      */
     abstract function retrieve_course_group($id);
-
+    
+    /**
+     * Retrieves a course_type
+     * @param int id
+     */
+    abstract function retrieve_course_type($id);
+    
+    abstract function retrieve_course_type_settings($id);
+    
+    abstract function retrieve_course_type_layout($id);
+    
+    abstract function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null);
+    
     /**
      * Retrieves the course_groups defined in a given course
      * @param string $course_code

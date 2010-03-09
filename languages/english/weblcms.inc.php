@@ -333,6 +333,15 @@ $lang['weblcms']['ImportCoursesDescription'] = '';
 $lang['weblcms']['ImportCourseUsers'] = '';
 $lang['weblcms']['ImportCourseUsersDescription'] = '';
 $lang['weblcms']['CourseName'] = 'Course name';
+$lang['weblcms']['CourseCodeTitleVisible'] = 'Course Code Title Visible';
+$lang['weblcms']['CourseManagerNameTitleVisible'] = 'Course Manager Name Title Visible';
+$lang['weblcms']['CourseLanguageVisible'] = 'Course Language Visible';
 $lang['weblcms']['SubscriptionFailed'] = 'Subscription failed';
 $lang['weblcms']['CreationFailed'] = 'Creation failed';
+$lang['weblcms']['Visibility'] = 'Visibility';
+$lang['weblcms']['Access'] = 'Access';
+$lang['weblcms']['IsFixed'] = 'Fixed';
+$lang['weblcms']['MakeAvailable'] = 'Make tool available?';
+$lang['weblcms']['IsVisible'] = 'Is tool viewable?';
+
 ?>
