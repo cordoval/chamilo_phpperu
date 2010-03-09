@@ -7,7 +7,8 @@ class WeblcmsPublicationRSS extends PublicationRSS
 {
 	function WeblcmsPublicationRSS()
 	{
-		parent :: PublicationRSS('Chamilo weblcms', htmlspecialchars(Path :: get(WEB_PATH)), 'Weblcms publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		Utilities :: set_application(WeblcmsManager :: APPLICATION_NAME);
+		parent :: PublicationRSS(Translation :: get('WeblcmsPublicationRSSTitle'), htmlspecialchars(Path :: get(WEB_PATH)), Translation :: get('WeblcmsPublicationRSSDescription'), htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')
@@ -26,15 +27,21 @@ class WeblcmsPublicationRSS extends PublicationRSS
 	
 	function add_item($publication, $channel)
 	{
+		$course = WeblcmsDataManager :: get_instance()->retrieve_course($publication->get_course_id());
 		$co = $publication->get_content_object();
 		if (!is_object($co))
 		{
 			$co = RepositoryDataManager :: get_instance()->retrieve_content_object($co);
 		}
 		
-		$title = Translation :: get(Utilities :: underscores_to_camelcase($publication->get_tool())) . ': ' . htmlspecialchars($co->get_title());
+		$title = $co->get_title();
+		$description = '<b>' . Translation :: get('Course') . ': </b>' . $course->get_name() . '<br />';
+		$description .= '<b>' . Translation :: get('Tool') . ': </b>' . Translation :: get(Utilities :: underscores_to_camelcase($publication->get_tool())) . '<br />';
+		$description .= '<b>' . Translation :: get('Published') . ': </b>' . Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $publication->get_publication_date()) . '<br />';
+		$description .= '<b>' . Translation :: get('Publisher') . ': </b>' . UserDataManager :: get_instance()->retrieve_user($publication->get_publisher_id())->get_fullname() . '<br />';
+		$description .= '<br />' . $co->get_description();
 		
-		$channel->add_item($title, htmlspecialchars($this->get_url($publication)), htmlspecialchars($co->get_description()));
+		$channel->add_item(htmlspecialchars($title), htmlspecialchars($this->get_url($publication)), htmlspecialchars($description));
 	}
 	
 	function get_url($pub)
