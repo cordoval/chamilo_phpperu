@@ -223,7 +223,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
                     if ($object->is_complex_content_object())
                     {
                         $clo_url = $this->get_browse_complex_content_object_url($object);
-                        $action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseComplex'), Theme :: get_common_image_path() . 'action_browser.png', $clo_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                        $action_bar->add_common_action(new ToolbarItem(Translation :: get('BuildComplexContentObject'), Theme :: get_common_image_path() . 'action_bar.png', $clo_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                     }
                 }
                 else
