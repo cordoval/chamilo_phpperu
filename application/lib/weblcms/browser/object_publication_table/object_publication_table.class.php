@@ -25,6 +25,9 @@ class ObjectPublicationTable extends ObjectTable
             $cell_renderer = new ObjectPublicationTableCellRenderer($parent);
         
         parent :: __construct($data_provider, ObjectPublicationTable :: DEFAULT_NAME, $column_model, $cell_renderer);
+        
+        $cell_renderer->set_object_count($this->get_object_count());
+        
         $actions = array();
         
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected'));

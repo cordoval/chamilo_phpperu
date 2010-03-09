@@ -474,7 +474,6 @@ class Database
         }
         else
         {
-            $result->free();
         	return true;
         }
     }

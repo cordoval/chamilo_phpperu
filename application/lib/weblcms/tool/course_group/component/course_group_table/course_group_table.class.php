@@ -43,6 +43,8 @@ class CourseGroupTable
      */
     private $form_actions;
 
+    private $parent;
+    
     /**
      * Constructor. Creates a course_group table.
      * @param CourseGroupTableDataProvider $data_provider The data provider, which
@@ -53,14 +55,22 @@ class CourseGroupTable
      * @param CourseGroupTableCellRenderer $cell_renderer The cell renderer for the
      * table. Omit to use the default renderer.
      */
-    function CourseGroupTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
+    function CourseGroupTable($parent, $data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
     {
-        $this->set_data_provider($data_provider);
+        $this->parent = $parent;
+    	$this->set_data_provider($data_provider);
         $this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);
         $this->set_column_model(isset($column_model) ? $column_model : new DefaultCourseGroupTableColumnModel($data_provider->get_parent()));
         $this->set_cell_renderer(isset($cell_renderer) ? $cell_renderer : new DefaultCourseGroupTableCellRenderer($data_provider->get_parent()));
         $this->set_default_row_count(10);
         $this->set_additional_parameters($this->determine_additional_parameters());
+        
+        $actions = array();
+        if($parent->is_allowed(EDIT_RIGHT))
+        {
+	    	$actions[] = new ObjectTableFormAction(CourseGroupTool :: PARAM_DELETE_COURSE_GROUPS, Translation :: get('RemoveSelected'));
+	    	$this->set_form_actions($actions);
+        }
     }
 
     /**

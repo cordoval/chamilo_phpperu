@@ -436,7 +436,7 @@ $(function () {
 		$.post("./home/ajax/tab_edit.php", {tab: tabId, title: newTitle}, function (data) {
 			if (data.success === '1')
 			{
-				e.data.tab.html(newTitle);
+				e.data.tab.html(data.title);
 				e.data.loading.close();
 				
 				$('#tabSave').unbind();

@@ -14,6 +14,9 @@ class Document extends ContentObject
     const PROPERTY_HASH = 'hash';
 
     const TYPE_IMAGE = 'image';
+    const TYPE_FLASH = 'flash';
+    const TYPE_VIDEO = 'video';
+    const TYPE_AUDIO = 'audio';
 
     /**
     * In memory file content. Will be saved on disk if it doesn't exist yet. Mainly used to create a new Document.
@@ -89,6 +92,7 @@ class Document extends ContentObject
 		//all mime types in an array (from 1.6, this is the authorative source)
 		//please keep this alphabetical if you add something to this list!!!
 	    $mime_types=array(
+	        "aac" => "audio/aac",
 			"ai" => "application/postscript",
 			"aif" => "audio/x-aiff",
     		"aifc" => "audio/x-aiff",
@@ -145,6 +149,7 @@ class Document extends ContentObject
 		    "m1a" => "audio/mpeg",
 		    "m2a" => "audio/mpeg",
 		    "m3u" => "audio/x-mpegurl",
+	        "m4a" => "audio/x-m4a",
 		    "man" => "application/x-troff-man",
 		    "me" => "application/x-troff-me",
 		    "mesh" => "model/mesh",
@@ -165,6 +170,7 @@ class Document extends ContentObject
 		    "mxu" => "video/vnd.mpegurl",
 		    "nc" => "application/x-netcdf",
 		    "oda" => "application/oda",
+	        "ogg" => "audio/ogg",
 		    "pbm" => "image/x-portable-bitmap",
 		    "pct" => "image/pict",
 		    "pdb" => "chemical/x-pdb",
@@ -302,11 +308,14 @@ class Document extends ContentObject
         $filename = $this->get_filename();
         $parts = explode('.', $filename);
         $icon_name = $parts[count($parts) - 1];
-        if (! file_exists(Theme :: get_image_path() . $icon_name . '.png'))
+        $icon_path = Theme :: get_common_image_system_path() . 'content_object/document_' . $icon_name . '.png';
+
+        if (! file_exists($icon_path))
         {
             return 'document';
         }
-        return $icon_name;
+
+        return 'document_' . $icon_name;
     }
 
     static function get_disk_space_properties()
@@ -435,6 +444,62 @@ class Document extends ContentObject
         $image_types[] = 'BMP';
 
         return $image_types;
+    }
+
+    static function get_flash_types()
+    {
+        $flash_types = array();
+        $flash_types[] = 'swf';
+        $flash_types[] = 'SWF';
+
+        return $flash_types;
+    }
+
+    static function get_video_types()
+    {
+        $video_types = array();
+        $video_types[] = 'mpg';
+        $video_types[] = 'mpeg';
+        $video_types[] = 'mp4';
+        $video_types[] = 'avi';
+        $video_types[] = 'wmv';
+        $video_types[] = 'mov';
+        $video_types[] = 'asf';
+        $video_types[] = 'MPG';
+        $video_types[] = 'MPEG';
+        $video_types[] = 'MP4';
+        $video_types[] = 'AVI';
+        $video_types[] = 'WMV';
+        $video_types[] = 'MOV';
+        $video_types[] = 'ASF';
+
+
+        return $video_types;
+    }
+
+    static function get_audio_types()
+    {
+        $audio_types = array();
+        $audio_types[] = 'mp3';
+        $audio_types[] = 'wma';
+        $audio_types[] = 'ogg';
+        $audio_types[] = 'aac';
+        $audio_types[] = 'm4a';
+        $audio_types[] = 'midi';
+        $audio_types[] = 'wav';
+//        $audio_types[] = '';
+        $audio_types[] = 'MP3';
+        $audio_types[] = 'WMA';
+        $audio_types[] = 'OGG';
+        $audio_types[] = 'AAC';
+        $audio_types[] = 'M4A';
+        $audio_types[] = 'MIDI';
+        $audio_types[] = 'WAV';
+//        $audio_types[] = '';
+
+//        $audio_types[] = '';
+
+        return $audio_types;
     }
 
     function send_as_download()

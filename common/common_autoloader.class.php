@@ -127,7 +127,7 @@ class CommonAutoloader
 
 	static function check_for_general_files($classname)
 	{
-		$list = array('application_component', 'application', 'block', 'core_application_component', 'core_application', 'data_class',
+		$list = array('application_component', 'application', 'block', 'core_application_component', 'core_application',
 				      'installer', 'redirect', 'resource_manager', 'sub_manager_component', 'sub_manager');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
@@ -150,8 +150,12 @@ class CommonAutoloader
 					  'object_result_set' => 'database/object_result_set.class.php',
 					  'record_result_set' => 'database/record_result_set.class.php',
 					  'database_alias_generator' => 'database/database_alias_generator.class.php',
+					  'data_class' => 'database/data_class.class.php',
+					  'nested_tree_node' => 'database/nested_tree_node.class.php',
+					  'nested_tree_database' => 'database/nested_tree_database.class.php',
 					  'cookie' => 'session/cookie.class.php',
 					  'request' => 'session/request.class.php',
+					  'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php'
 		);
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);

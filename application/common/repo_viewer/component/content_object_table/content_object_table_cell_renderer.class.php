@@ -53,8 +53,6 @@ class ContentObjectTableCellRenderer extends DefaultContentObjectTableCellRender
             $toolbar_data[] = $table_action;
         }
 
-        dump($toolbar_actions);
-
         return Utilities :: build_toolbar($toolbar_data);
     }
 

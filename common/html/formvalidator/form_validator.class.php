@@ -195,7 +195,9 @@ EOT;
      */
     function add_html_editor($name, $label, $required = true, $options = array(), $attributes = array())
     {
-        FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $this, $name, $label, $required, $options, $attributes)->add();
+        $html_editor = FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $name, $label, $required, $options, $attributes);
+        $html_editor->set_form($this);
+        $html_editor->add();
     }
 
     /*
@@ -235,7 +237,9 @@ EOT;
     
     function create_html_editor($name, $label, $options = array(), $attributes = array())
     {
-        return FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $this, $name, $label, false, $options, $attributes)->create();
+        $html_editor = FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $name, $label, false, $options, $attributes);
+        $html_editor->set_form($this);
+        return $html_editor->create();
     }
 
     function add_allowed_html_tags($full_page = false)

@@ -7,7 +7,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 {
 	var chamiloflashFilenameRegex = /\.swf(?:$|\?)/i,
 		numberRegex = /^\d+(?:\.\d+)?$/,
-		youtubeFilenameRegex = /\.youtube\./i;
+		youtubeFilenameRegex = /\.youtube\./;
 
 	function cssifyLength( length )
 	{
@@ -121,16 +121,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									}
 									return null;
 								}
-
-								return createFakeElement( editor, element );
+								
+								if (isChamiloflashEmbed( element ) )
+									return createFakeElement( editor, element );
 							},
 
 							'cke:embed' : function( element )
 							{
-								if ( !isChamiloflashEmbed( element ) )
-									return null;
-
-								return createFakeElement( editor, element );
+								if (isChamiloflashEmbed( element ) )
+									return createFakeElement( editor, element );
 							}
 						}
 					},

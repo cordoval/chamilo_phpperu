@@ -32,7 +32,7 @@ class WebserviceCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function WebserviceCategoryMenu($current_category, $url_format = '?go=browse&webservice_category_id=%s')
+    function WebserviceCategoryMenu($current_category, $url_format = '?application=webservice&go=browse&webservice_category_id=%s')
     {
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
@@ -46,7 +46,7 @@ class WebserviceCategoryMenu extends HTML_Menu
         $menu = array();
         
         $menu_item = array();
-        $menu_item['title'] = Translation :: get('WebserviceCategory');
+        $menu_item['title'] = Translation :: get('Webservices');
         $menu_item['url'] = $this->get_home_url();
         
         $sub_menu_items = $this->get_menu_items(0);

@@ -179,7 +179,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
         $mgdm = MigrationDataManager :: get_instance();
         if (! $this->get_user() || (! $this->get_title() && ! $this->get_text()) || ! $this->get_date() || $mgdm->get_failed_element('dokeos_main.user', $this->get_user()) || ! $mgdm->get_id_reference($this->get_user(), 'user_user'))
         {
-            $mgdm->add_failed_element($this->get_id(), 'dokeos_main.personal_agenda');
+            $mgdm->add_failed_element($this->get_id(), 'dokeos_user.personal_agenda');
             return false;
         }
         return true;
@@ -216,36 +216,16 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
         if ($owner_id)
             $lcms_calendar_event->set_owner_id($owner_id);
             
-        // Category for calendar events already exists?
-        $lcms_category_id = $mgdm->get_parent_id($owner_id, 'category', Translation :: get('calendar_events'));
-        if (! $lcms_category_id)
-        {
-            //Create category for tool in lcms
-            $lcms_repository_category = new RepositoryCategory();
-            $lcms_repository_category->set_user_id($owner_id);
-            $lcms_repository_category->set_name(Translation :: get('PersonalAgenda'));
-            $lcms_repository_category->set_parent(0);
             
-            //Create category in database
-            $lcms_repository_category->create();
-            
-            $lcms_calendar_event->set_parent_id($lcms_repository_category->get_id());
-        }
-        else
-        {
-            $lcms_calendar_event->set_parent_id($lcms_category_id);
-        }
-        
+        $lcms_category_id = $mgdm->get_repository_category_by_name($lcms_calendar_event->get_user(),Translation :: get('calendar_events'));    
+        $lcms_calendar_event->set_parent_id($lcms_category_id);
         $lcms_calendar_event->create();
         
         //Create personal agenda publication
-        
-
         $lcms_personal_calendar = new CalendarEventPublication();
         $lcms_personal_calendar->set_calendar_event($lcms_calendar_event->get_id());
         $lcms_personal_calendar->set_publisher($owner_id);
         $lcms_personal_calendar->set_published($mgdm->make_unix_time($this->get_date()));
-        
         $lcms_personal_calendar->create_all();
         
         return $lcms_calendar_event;

@@ -431,25 +431,33 @@ class Dokeos185User extends Import
         
         //User parameters
         $lcms_user = new User();
-        
         $lcms_user->set_lastname($this->get_lastname());
-        
         $lcms_user->set_firstname($this->get_firstname());
-        
         $lcms_user->set_username($this->get_username());
         $lcms_user->set_password($this->get_password());
-        
-        if ($mgdm->is_authentication_available($this->get_auth_source()))
-            $lcms_user->set_auth_source($this->get_auth_source());
-        else
-            $lcms_user->set_auth_source('platform');
-        
         $lcms_user->set_email($this->get_email());
         $lcms_user->set_status($this->get_status());
         $lcms_user->set_platformadmin($this->get_platformadmin());
         $lcms_user->set_official_code($this->get_official_code());
         $lcms_user->set_phone($this->get_phone());
-        // Move picture to correct directory
+        /*
+        if ($mgdm->is_language_available($this->get_language()))
+            //$lcms_user->set_language($this->get_language());
+        else
+            //$lcms_user->set_language('english');
+         */
+        
+        //Set user authentication method, if not available use default: platform
+        if ($mgdm->is_authentication_available($this->get_auth_source()))
+        {
+            $lcms_user->set_auth_source($this->get_auth_source());
+        }
+        else
+        {
+            $lcms_user->set_auth_source('platform');
+        }
+
+        //Move picture to correct directory
         $old_rel_path_picture = '/main/upload/users/';
         
         if ($this->get_picture_uri())
@@ -458,29 +466,21 @@ class Dokeos185User extends Import
             
             $picture_uri = $old_mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, $this->get_picture_uri());
             if ($picture_uri)
+            {
                 $lcms_user->set_picture_uri($picture_uri);
-            else
-                $lcms_user->set_picture_uri($this->get_picture_uri());
+            }
             
             unset($new_rel_path_picture);
             unset($old_rel_path_picture);
             unset($picture_uri);
         }
-        // Get new id from temporary table for references
         
-
+        // Get new id from temporary table for references
         $creator_id = $mgdm->get_id_reference($this->get_creator_id(), 'user_user');
         if ($creator_id)
             $lcms_user->set_creator_id($creator_id);
         unset($creator_id);
         
-        /*
-        if ($mgdm->is_language_available($this->get_language()))
-            //$lcms_user->set_language($this->get_language());
-        else
-            //$lcms_user->set_language('english');
-         */
-          
         //create user in database
         $lcms_user->create();
         //Add id references to temp table
@@ -489,33 +489,37 @@ class Dokeos185User extends Import
         // Create user directory
         //$rep_dir = '/files/repository/' . $lcms_user->get_id() . '/';
         //self :: $old_mgdm->create_directory(true, $rep_dir);
-        
 
-        // Repository_Profile parameters
-        $lcms_repository_profile = new Profile();
-        $lcms_repository_profile->set_competences($this->get_competences());
-        $lcms_repository_profile->set_diplomas($this->get_diplomas());
-        $lcms_repository_profile->set_teaching($this->get_teach());
-        $lcms_repository_profile->set_open($this->get_openarea());
-        $lcms_repository_profile->set_title(Translation :: get('Profile'));
-        $lcms_repository_profile->set_parent_id($lcms_user->get_id());
+        // Convert profile fields to Profile object if the user has user profile data
+        if ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL)
+        {
+        	$lcms_category_id = $mgdm->get_repository_category_by_name($lcms_user->get_id(),Translation :: get('Profile'));
+        	$lcms_repository_profile = new Profile();
+        	$lcms_repository_profile->set_competences($this->get_competences());
+        	$lcms_repository_profile->set_diplomas($this->get_diplomas());
+        	$lcms_repository_profile->set_teaching($this->get_teach());
+        	$lcms_repository_profile->set_open($this->get_openarea());
+        	$lcms_repository_profile->set_title($this->get_lastname().' '.$this->get_firstname());
+        	$lcms_repository_profile->set_parent_id($lcms_category_id);
+        	$lcms_repository_profile->set_phone($this->get_phone());
+        	
+        	//Create profile in database
+        	$lcms_repository_profile->create();
         
-        //Create profile in database
-        $lcms_repository_profile->create();
+        	//Publish Profile
+        	$lcms_profile_publication = new ProfilePublication();
+        	$lcms_profile_publication->set_profile($lcms_repository_profile->get_id());
+        	$lcms_profile_publication->set_publisher($lcms_user->get_id());
         
-        //Publish Profile
-        $lcms_profile_publication = new ProfilePublication();
-        $lcms_profile_publication->set_profile($lcms_repository_profile->get_id());
-        $lcms_profile_publication->set_publisher($lcms_user->get_id());
+        	//Create profile publication in database
+        	$lcms_profile_publication->create();
         
-        //Create profile publication in database
-        $lcms_profile_publication->create();
-        
-        //unset
-        unset($lcms_repository_profile);
-        unset($lcms_profile_publication);
-        
-        //Copy productions -> learning objects
+        	//unset
+        	unset($lcms_repository_profile);
+        	unset($lcms_profile_publication);
+        }
+        	
+        //Convert all production files to content objects
         $old_path = $old_rel_path_picture . $this->get_user_id() . '/' . $this->get_user_id() . '/';
         $directory = $old_mgdm->append_full_path(false, $old_path);
         unset($old_rel_path_picture);

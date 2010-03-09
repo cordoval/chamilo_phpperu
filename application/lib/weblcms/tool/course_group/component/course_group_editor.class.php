@@ -19,12 +19,13 @@ class CourseGroupToolEditorComponent extends CourseGroupToolComponent
             return;
         }
         
+        $course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
+        
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE)), WebLcmsDataManager :: get_instance()->retrieve_course_group(Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP))->get_name()));
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_EDIT_COURSE_GROUP)), Translation :: get('Edit')));
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_EDIT_COURSE_GROUP, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id)), Translation :: get('Edit')));
         $trail->add_help('courses group');
         
-        $course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
         $wdm = WeblcmsDataManager :: get_instance();
         $course_group = $wdm->retrieve_course_group($course_group_id);
         
@@ -34,7 +35,7 @@ class CourseGroupToolEditorComponent extends CourseGroupToolComponent
             $succes = $form->update_course_group();
             $message = $succes ? 'CourseGroupUpdated' : 'CourseGroupNotUpdated';
             
-            $this->redirect(Translation :: get($message), ! $succes, array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_VIEW_GROUPS));
+            $this->redirect(Translation :: get($message), ! $succes, array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_VIEW_GROUPS, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group->get_parent_id()));
         }
         else
         {

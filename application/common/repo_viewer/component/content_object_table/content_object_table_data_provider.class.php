@@ -66,7 +66,7 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
     {
         $owner = $this->get_owner();
 
-        if (! Request :: get('sharedbrowser') == 1)
+        if (!$this->get_parent()->is_shared_object_browser())
         {
             $category = Request :: get('category');
             $category = $category ? $category : 0;

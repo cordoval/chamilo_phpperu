@@ -32,6 +32,7 @@ class Request
         {
             $value = $_POST[$variable];
             // TODO: Add the necessary security filters if and where necessary
+            $value = Security :: remove_XSS($value);
             return $value;
         }
         else

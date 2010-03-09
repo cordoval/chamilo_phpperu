@@ -20,19 +20,37 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
             Display :: not_allowed();
             return;
         }
-        $course_group = $this->course_group = $this->get_course_group();
+        
+        $course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
+        $wdm = WeblcmsDataManager :: get_instance();
+       	$course_group = $wdm->retrieve_course_group($course_group_id);
+       	$this->course_group = $course_group;
+        
         $this->action_bar = $this->get_action_bar();
         $html[] = '<div style="clear: both;">&nbsp;</div>';
         
         if (Request :: get(WeblcmsManager :: PARAM_USERS))
         {
             $udm = UserDataManager :: get_instance();
-            $user = $udm->retrieve_user(Request :: get(WeblcmsManager :: PARAM_USERS));
-            $course_group->unsubscribe_users($user->get_id());
-            $html[] = Display :: normal_message(Translation :: get('UserUnsubscribed'), true);
+            
+            $users = Request :: get(WeblcmsManager :: PARAM_USERS);
+            if(!is_array($users))
+            {
+            	$users = array();
+            }
+            
+            foreach($users as $user)
+            {
+            	//$user = $udm->retrieve_user();
+            	$course_group->unsubscribe_users($user);
+            }
+            
+            $this->redirect(Translation :: get('UsersUnsubscribed'), false, array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id));
+            
         }
         
-        $table = new CourseGroupSubscribedUserBrowserTable($this->get_parent(), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => $this->get_tool_id(), Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_SUBSCRIBE), $this->get_condition());
+        $table = new CourseGroupSubscribedUserBrowserTable($this, array(Application :: PARAM_APPLICATION => WeblcmsManager :: APPLICATION_NAME, Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), 
+        			WeblcmsManager :: PARAM_TOOL => $this->get_tool_id(), Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_SUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id), $this->get_condition());
         $html[] = $this->action_bar->as_html();
         
         $html[] = '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_group.png);">';
@@ -49,7 +67,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
         $html[] = $table->as_html();
         $html[] = '</div>';
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE)), $course_group->get_name()));
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id)), $course_group->get_name()));
         $trail->add_help('courses group');
         
         $this->display_header($trail, true);
@@ -63,16 +81,17 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         //$action_bar->set_search_url($this->get_url());
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         $user = $this->get_parent()->get_user();
         
         $parameters = array();
         $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
         
-        if (! $user->is_platform_admin() && $course_group->is_self_registration_allowed())
+        if (! $user->is_platform_admin())
         {
-            if (! $course_group->is_member($user))
+            if ($course_group->is_self_registration_allowed() && !$course_group->is_member($user))
             {
                 $parameters = array();
                 $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
@@ -80,6 +99,16 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
                 $subscribe_url = $this->get_url($parameters);
                 
                 $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeToGroup'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            }
+            
+        	if ($course_group->is_self_unregistration_allowed() && $course_group->is_member($user))
+            {
+                $parameters = array();
+                $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
+                $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_USER_SELF_UNSUBSCRIBE;
+                $unsubscribe_url = $this->get_url($parameters);
+                
+                $action_bar->add_common_action(new ToolbarItem(Translation :: get('UnSubscribeFromGroup'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }
         else
@@ -109,6 +138,11 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
             $conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
             return new OrCondition($conditions);
         }
+    }
+    
+    function get_course_group()
+    {
+    	return $this->course_group;
     }
 
 }

@@ -10,10 +10,9 @@ CKEDITOR.editorConfig = function( config )
 	// config.uiColor = '#AADC6E';
 	
 	config.removePlugins = 'flash';
-	config.extraPlugins = 'chamiloyoutube,chamiloflash';
-//	config.removePlugins = 'elementspath,save,font';
-	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube';
-	
+	config.extraPlugins = 'chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio';
+	config.removePlugins = 'elementspath,resize';
+	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio';
 	
 	config.toolbar_Full =
 		[
@@ -42,7 +41,7 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.toolbar_Basic =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','Chamiloyoutube','-','Templates']
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','Chamiloyoutube','Chamilovideo','Chamiloaudio','-','Templates']
 		];
 	
 	config.toolbar_WikiPage =
@@ -63,5 +62,7 @@ CKEDITOR.editorConfig = function( config )
 	config.filebrowserImageBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=image&repoviewer_action=browser';
 	config.filebrowserChamiloflashBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=flash&repoviewer_action=browser';
 	config.filebrowserChamiloyoutubeBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=youtube&repoviewer_action=browser';
+	config.filebrowserChamilovideoBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=video&repoviewer_action=browser';
+	config.filebrowserChamiloaudioBrowseUrl = 'common/html/formvalidator/html_editor/html_editor_file_browser/index.php?plugin=audio&repoviewer_action=browser';
 
 };

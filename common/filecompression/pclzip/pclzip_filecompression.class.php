@@ -46,8 +46,7 @@ class PclzipFilecompression extends Filecompression
         $content = Filesystem :: get_directory_content($path, Filesystem :: LIST_FILES, true);
 
         $pclzip = new PclZip($archive_file);
-        // Looks like the PCLZIP_OPT_REMOVE_PATH parameter can't deal with the drive-letter in Windows-paths, so we remove it here.
-        $path_to_remove = ereg_replace('^[A-Z]:', '', realpath($path));
+        $path_to_remove = realpath($path);
         $pclzip->add($content, PCLZIP_OPT_REMOVE_PATH, $path_to_remove);
         return $archive_file;
     }

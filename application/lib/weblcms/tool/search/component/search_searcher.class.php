@@ -36,21 +36,29 @@ class SearchToolSearcherComponent extends SearchToolComponent
         if ($query = $this->get_query())
         {
             $datamanager = WeblcmsDataManager :: get_instance();
-            $user_id = $this->get_user_id();
+            
+        	$user_id = $this->get_user_id();
             $course_groups = $this->get_course_groups();
+                
+            $course_group_ids = array();
+                
+            foreach($course_groups as $course_group)
+            {
+              	$course_group_ids[] = $course_group->get_id();
+            }
             
             $conditions = array();
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
             
             $access = array();
             $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
-            $access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
-            if (! empty($user_id) || ! empty($course_groups))
+            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+            if (! empty($user_id) || ! empty($course_group_ids))
             {
                 $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
             }
             $conditions[] = new OrCondition($access);
-            
+            $condition = new AndCondition($conditions);
             $publications = $datamanager->retrieve_content_object_publications_new($condition);
             $tools = array();
             

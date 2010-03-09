@@ -133,12 +133,31 @@ class Theme
     }
 
     /**
+     * Get the system path to the application's image folder
+     */
+    static function get_image_system_path($application = null)
+    {
+        $instance = self :: get_instance();
+        $application = (is_null($application) ? $instance->get_application() : $application);
+        return $instance->get_path(SYS_IMG_PATH) . $application . '/';
+    }
+
+    /**
      * Get the path to the general image folder
      */
     static function get_common_image_path()
     {
         $instance = self :: get_instance();
         return $instance->get_path(WEB_IMG_PATH) . 'common/';
+    }
+
+    /**
+     * Get the system path to the general image folder
+     */
+    static function get_common_image_system_path()
+    {
+        $instance = self :: get_instance();
+        return $instance->get_path(SYS_IMG_PATH) . 'common/';
     }
 
     static function get_instance()

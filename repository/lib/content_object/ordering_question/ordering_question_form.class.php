@@ -87,7 +87,7 @@ class OrderingQuestionForm extends ContentObjectForm
     private function add_options()
     {
         $renderer = $this->defaultRenderer();
-        
+
         if (! $this->isSubmitted())
         {
             unset($_SESSION['ordering_number_of_options']);
@@ -116,21 +116,20 @@ class OrderingQuestionForm extends ContentObjectForm
             $_SESSION['ordering_number_of_options'] = $object->get_number_of_options();
         }
         $number_of_options = intval($_SESSION['ordering_number_of_options']);
-        
+
         $this->addElement('hidden', 'ordering_number_of_options', $_SESSION['ordering_number_of_options'], array('id' => 'ordering_number_of_options'));
-        
+
         $buttons = array();
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddItem'), array('class' => 'normal add', 'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        
+
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
-        $html_editor_options['show_toolbar'] = false;
-        $html_editor_options['show_tags'] = false;
-        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
-        
+        $html_editor_options['collapse_toolbar'] = true;
+        $html_editor_options['toolbar'] = 'RepositoryQuestion';
+
         $table_header = array();
         $table_header[] = '<table class="data_table">';
         $table_header[] = '<thead>';
@@ -142,22 +141,22 @@ class OrderingQuestionForm extends ContentObjectForm
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
-        
+
         $select_options = array();
         for($i = 1; $i <= $number_of_options; $i ++)
         {
             $select_options[$i] = $i;
         }
-        
+
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
             if (! in_array($option_number, $_SESSION['ordering_skip_options']))
             {
                 $group = array();
-                
+
                 $group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Item'), $html_editor_options);
                 $group[] = & $this->createElement('select', 'option_order[' . $option_number . ']', Translation :: get('Rank'), $select_options);
-                
+
                 if ($number_of_options - count($_SESSION['ordering_skip_options']) > 2)
                 {
                     $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
@@ -166,22 +165,22 @@ class OrderingQuestionForm extends ContentObjectForm
                 {
                     $group[] = & $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
-                
+
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
-                
+
                 $this->addGroupRule('option_' . $option_number, array('option[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'))));
-                
+
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
             }
         }
-        
+
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->addElement('html', implode("\n", $table_footer));
-        
+
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        
+
         $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
     }
