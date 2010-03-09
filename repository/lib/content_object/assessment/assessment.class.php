@@ -77,17 +77,17 @@ class Assessment extends ContentObject
         $this->set_additional_property(self :: PROPERTY_RANDOM_QUESTIONS, $random_questions);
     }
 
-    function get_allowed_types()
+	function get_allowed_types()
     {
         $allowed_types = array();
-        $allowed_types[] = 'rating_question';
-        $allowed_types[] = 'open_question';
+        $allowed_types[] = 'assessment_rating_question';
+        $allowed_types[] = 'assessment_open_question';
         $allowed_types[] = 'hotspot_question';
-        $allowed_types[] = 'fill_in_blanks_question';
-        $allowed_types[] = 'multiple_choice_question';
-        $allowed_types[] = 'matching_question';
-        $allowed_types[] = 'select_question';
-        $allowed_types[] = 'matrix_question';
+        $allowed_types[] = 'assessment_fill_in_blanks_question';
+        $allowed_types[] = 'assessment_multiple_choice_question';
+        $allowed_types[] = 'assessment_matching_question';
+        $allowed_types[] = 'assessment_select_question';
+        $allowed_types[] = 'assessment_matrix_question';
         $allowed_types[] = 'match_question';
         $allowed_types[] = 'ordering_question';
         //$allowed_types[] = '';

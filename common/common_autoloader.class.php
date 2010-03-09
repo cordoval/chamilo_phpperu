@@ -109,6 +109,7 @@ class CommonAutoloader
 					  'form_validator' => 'formvalidator/form_validator.class.php',
 					  'form_validator_page' => 'formvalidator/form_validator_page.class.php',
 					  'form_validator_html_editor' => 'formvalidator/form_validator_html_editor.class.php',
+					  'form_tab' => 'formvalidator/form_tab.class.php',
 					  'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php'
 		);
 
@@ -154,6 +155,7 @@ class CommonAutoloader
 					  'nested_tree_database' => 'database/nested_tree_database.class.php',
 					  'cookie' => 'session/cookie.class.php',
 					  'request' => 'session/request.class.php',
+					  'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php'
 		);
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);

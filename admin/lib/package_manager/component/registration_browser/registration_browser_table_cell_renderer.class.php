@@ -46,6 +46,11 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
     {
         $toolbar_data = array();
         
+        if($registration->get_type() == Registration :: TYPE_LANGUAGE && Utilities :: camelcase_to_underscores($registration->get_name()) == PlatformSetting :: get('platform_language'))
+        {
+        	return;
+        }
+        
         if ($registration->is_active())
         {
             $toolbar_data[] = array('href' => $this->browser->get_registration_deactivation_url($registration), 'label' => Translation :: get('Deactivate'), 'img' => Theme :: get_image_path() . 'action_deactivate.png');

@@ -49,6 +49,12 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
         return $this->database->delete_objects(Setting :: get_table_name(), $condition);
     }
+    
+	function delete_language($language)
+    {
+        $condition = new EqualityCondition(Language :: PROPERTY_ID, $language->get_id());
+    	return $this->database->delete_objects(Language :: get_table_name(), $condition);
+    }
 
     function count_registrations($condition = null)
     {

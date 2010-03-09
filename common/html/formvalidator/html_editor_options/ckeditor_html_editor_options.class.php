@@ -11,7 +11,7 @@ class FormValidatorCkeditorHtmlEditorOptions extends FormValidatorHtmlEditorOpti
 	{
 	    $mapping = parent :: get_mapping();
 
-	    $mapping[self :: OPTION_LANGUAGE] = 'defaultLanguage';
+	    $mapping[self :: OPTION_LANGUAGE] = 'language';
 	    $mapping[self :: OPTION_THEME] = 'skin';
 	    $mapping[self :: OPTION_COLLAPSE_TOOLBAR] = 'toolbarStartupExpanded';
 	    $mapping[self :: OPTION_CONFIGURATION] = 'customConfig';
