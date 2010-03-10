@@ -582,7 +582,7 @@ class WeblcmsManager extends WebApplication
 			$this->course_type->set_settings($wdm->retrieve_course_type_settings($this->get_parameter(self :: PARAM_COURSE_TYPE)));
 			$this->course_type->set_layout($wdm->retrieve_course_type_layout($this->get_parameter(self :: PARAM_COURSE_TYPE)));
 			$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $this->get_parameter(self :: PARAM_COURSE_TYPE));
-			$this->course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));	
+			$this->course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));
 		}
 		else
 		{
