@@ -1,18 +1,18 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
 require_once dirname(__FILE__).'/../cba_manager_component.class.php';
-require_once dirname(__FILE__).'/../../forms/cba_form.class.php';
+require_once dirname(__FILE__).'/../../forms/competency_form.class.php';
 /**
  * 
  * @author Nick Van Loocke
  */
-class CbaManagerCreatorCompetencyComponent extends CbaManagerComponent
+class CbaManagerCompetencyCreatorComponent extends CbaManagerComponent
 {
 
 	function run()
 	{				
 		$competency = new Competency();
-		$form = new CbaForm(CbaForm :: TYPE_CREATOR_COMPETENCY, $competency, $this->get_url(), $this->get_user());
+		$form = new CompetencyForm(CompetencyForm :: TYPE_CREATOR_COMPETENCY, $competency, $this->get_url(), $this->get_user());
 
 		if($form->validate())
 		{
@@ -21,7 +21,7 @@ class CbaManagerCreatorCompetencyComponent extends CbaManagerComponent
 		}
 		else
 		{
-			$new = 'CreatorCompetency';
+			$new = 'CompetencyCreator';
 			$this->display_header($trail, false, true, $new);
 			$form->display();
 		}

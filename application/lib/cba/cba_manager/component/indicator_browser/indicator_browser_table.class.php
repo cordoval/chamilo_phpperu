@@ -7,7 +7,6 @@ require_once dirname(__FILE__).'/../../cba_manager.class.php';
 /**
  * Table to display a list of indicators
  *
- * @author Sven Vanpoucke
  * @author Nick Van Loocke
  */
 class IndicatorBrowserTable extends ObjectTable
@@ -25,6 +24,8 @@ class IndicatorBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
+		
+		$actions[] = new ObjectTableFormAction(CbaManager :: PARAM_DELETE_SELECTED_INDICATORS, Translation :: get('RemoveSelected'));	
 
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);

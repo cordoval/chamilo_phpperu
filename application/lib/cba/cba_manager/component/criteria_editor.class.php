@@ -1,13 +1,13 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
 require_once dirname(__FILE__).'/../cba_manager_component.class.php';
-require_once dirname(__FILE__).'/../../forms/cba_form.class.php';
+require_once dirname(__FILE__).'/../../forms/criteria_form.class.php';
 
 /**
  * Component to edit an existing competency object
  * @author Nick Van Loocke
  */
-class CbaManagerEditorCriteriaComponent extends CbaManagerComponent
+class CbaManagerCriteriaEditorComponent extends CbaManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -19,7 +19,7 @@ class CbaManagerEditorCriteriaComponent extends CbaManagerComponent
 		
 		
 		$criteria = $this->retrieve_criteria(Request :: get(CbaManager :: PARAM_CRITERIA));
-		$form = new CbaForm(CbaForm :: TYPE_EDITOR_CRITERIA, $criteria, $this->get_url(array(CbaManager :: PARAM_CRITERIA => $criteria->get_id())), $this->get_user());
+		$form = new CriteriaForm(CriteriaForm :: TYPE_EDITOR_CRITERIA, $criteria, $this->get_url(array(CbaManager :: PARAM_CRITERIA => $criteria->get_id())), $this->get_user());
 
 		if($form->validate())
 		{

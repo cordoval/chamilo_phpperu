@@ -7,7 +7,6 @@ require_once dirname(__FILE__).'/../../cba_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  *
- * @author Sven Vanpoucke
  * @author Nick Van Loocke
  */
 
@@ -59,6 +58,7 @@ class CompetencyBrowserTableCellRenderer extends DefaultCompetencyTableCellRende
 			'href' => $this->browser->get_delete_competency_url($competency),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png',
+			'confirm' => true
 		);
 
 		return Utilities :: build_toolbar($toolbar_data);

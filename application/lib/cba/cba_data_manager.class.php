@@ -41,7 +41,7 @@ abstract class CbaDataManager
 	abstract function initialize();
 	abstract function create_storage_unit($name,$properties,$indexes);
 
-	//abstracte functies: Competency
+	// Abstract functions: Competency
 	abstract function get_next_competency_id();
 	abstract function create_competency($competency);
 	abstract function update_competency($competency);
@@ -50,7 +50,7 @@ abstract class CbaDataManager
 	abstract function retrieve_competency($id);
 	abstract function retrieve_competencys($condition = null, $offset = null, $count = null, $order_property = null);
 	
-	//abstracte functies: Indicator
+	// Abstract functions: Indicator
 	abstract function get_next_indicator_id();
 	abstract function create_indicator($indicator);
 	abstract function update_indicator($indicator);
@@ -60,7 +60,7 @@ abstract class CbaDataManager
 	abstract function retrieve_indicators($condition = null, $offset = null, $count = null, $order_property = null);
 	
 	
-	//abstracte functies: Criteria
+	// Abstract functions: Criteria
 	abstract function get_next_criteria_id();
 	abstract function create_criteria($criteria);
 	abstract function update_criteria($criteria);

@@ -3,17 +3,17 @@ require_once dirname(__FILE__).'/../cba_manager.class.php';
 require_once dirname(__FILE__).'/../cba_manager_component.class.php';
 
 /**
- * Component to delete criteria objects
+ * Component to delete competency objects
  * @author Nick Van Loocke
  */
-class CbaManagerDeleterCriteriaComponent extends CbaManagerComponent
+class CbaManagerCompetencyDeleterComponent extends CbaManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[CbaManager :: PARAM_CRITERIA];
+		$ids = $_GET[CbaManager :: PARAM_COMPETENCY];
 		$failures = 0;
 
 		if (!empty ($ids))
@@ -25,7 +25,7 @@ class CbaManagerDeleterCriteriaComponent extends CbaManagerComponent
 
 			foreach ($ids as $id)
 			{
-				$cba = $this->retrieve_criteria($id);
+				$cba = $this->retrieve_competency($id);
 
 				if (!$cba->delete())
 				{
@@ -37,30 +37,30 @@ class CbaManagerDeleterCriteriaComponent extends CbaManagerComponent
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedCriteriaNotDeleted';
+					$message = 'SelectedCompetencyNotDeleted';
 				}
 				else
 				{
-					$message = 'SelectedCriteriasNotDeleted';
+					$message = 'SelectedCompetencysNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedCriteriaDeleted';
+					$message = 'SelectedCompetencyDeleted';
 				}
 				else
 				{
-					$message = 'SelectedCriteriasDeleted';
+					$message = 'SelectedCompetencysDeleted';
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoCriteriasSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoCompetencysSelected')));
 		}
 	}
 }

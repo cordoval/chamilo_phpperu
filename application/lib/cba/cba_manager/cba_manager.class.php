@@ -2,6 +2,8 @@
 require_once dirname(__FILE__).'/cba_manager_component.class.php';
 require_once dirname(__FILE__).'/../cba_data_manager.class.php';
 require_once dirname(__FILE__).'/component/competency_browser/competency_browser_table.class.php';
+require_once dirname(__FILE__).'/component/indicator_browser/indicator_browser_table.class.php';
+require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_table.class.php';
 
 /**
  * A Cba manager
@@ -12,12 +14,22 @@ require_once dirname(__FILE__).'/component/competency_browser/competency_browser
  {
  	const APPLICATION_NAME = 'cba';
 
+ 	const PARAM_COMPETENCY_ID = 'competency_id';
+ 	const PARAM_INDICATOR_ID = 'indicator_id';
+ 	const PARAM_CRITERIA_ID = 'criteria_id';
+ 	
 	const PARAM_COMPETENCY = 'competency';
 	const PARAM_INDICATOR = 'indicator';
 	const PARAM_CRITERIA = 'criteria';
 	
-	const PARAM_DELETE_SELECTED_CBAS = 'delete_selected_cbas';
 	const PARAM_CONTENT_OBJECT_TYPE = 'type';
+	const PARAM_DELETE_SELECTED_COMPETENCYS = 'delete_selected_competencys';
+	const PARAM_DELETE_SELECTED_INDICATORS = 'delete_selected_indicators';
+	const PARAM_DELETE_SELECTED_CRITERIAS = 'delete_selected_criterias';
+	
+	const ACTION_DELETE_COMPETENCYS = 'delete_competencys';
+	const ACTION_DELETE_INDICATORS = 'delete_indicators';
+	const ACTION_DELETE_CRITERIAS = 'delete_criterias';
 
 	const ACTION_DELETE_COMPETENCY = 'delete_competency';
 	const ACTION_DELETE_INDICATOR = 'delete_indicator';
@@ -38,7 +50,7 @@ require_once dirname(__FILE__).'/component/competency_browser/competency_browser
 	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 	
 	const ACTION_CREATE = 'create';
-	const ACTION_BROWSE = 'browse';
+	const ACTION_VIEW_SEARCH_COMPETENCY = 'search';
 	
 
 	/**
@@ -59,10 +71,7 @@ require_once dirname(__FILE__).'/component/competency_browser/competency_browser
 		$action = $this->get_action();
 		$component = null;
 		switch ($action)
-		{
-			case self :: ACTION_BROWSE:
-				$component = CbaManagerComponent :: factory('Browser', $this);
-				break;		
+		{	
 			case self :: ACTION_CREATE:
 				$component = CbaManagerComponent :: factory('Create', $this);
 				break;
@@ -73,40 +82,52 @@ require_once dirname(__FILE__).'/component/competency_browser/competency_browser
 				$component = CbaManagerComponent :: factory('Browser', $this);
 				break;
 			case self :: ACTION_BROWSE_INDICATOR:
-				$component = CbaManagerComponent :: factory('BrowserIndicator', $this);
+				$component = CbaManagerComponent :: factory('IndicatorBrowser', $this);
 				break;		
 			case self :: ACTION_BROWSE_CRITERIA:
-				$component = CbaManagerComponent :: factory('BrowserCriteria', $this);
+				$component = CbaManagerComponent :: factory('CriteriaBrowser', $this);
 				break;
 		    case self :: ACTION_CREATOR_COMPETENCY:
-		    	$component = CbaManagerComponent :: factory('CreatorCompetency', $this);
+		    	$component = CbaManagerComponent :: factory('CompetencyCreator', $this);
 		    	break;
 		    case self :: ACTION_CREATOR_INDICATOR:
-		    	$component = CbaManagerComponent :: factory('CreatorIndicator', $this);
+		    	$component = CbaManagerComponent :: factory('IndicatorCreator', $this);
 		    	break;
 		    case self :: ACTION_CREATOR_CRITERIA:
-		    	$component = CbaManagerComponent :: factory('CreatorCriteria', $this);
+		    	$component = CbaManagerComponent :: factory('CriteriaCreator', $this);
 		    	break;
 		    case self :: ACTION_EDITOR_COMPETENCY :
-				$component = CbaManagerComponent :: factory('EditorCompetency', $this);
+				$component = CbaManagerComponent :: factory('CompetencyEditor', $this);
 				break;
 			case self :: ACTION_EDITOR_INDICATOR :
-				$component = CbaManagerComponent :: factory('EditorIndicator', $this);
+				$component = CbaManagerComponent :: factory('IndicatorEditor', $this);
 				break;
 			case self :: ACTION_EDITOR_CRITERIA :
-				$component = CbaManagerComponent :: factory('EditorCriteria', $this);
+				$component = CbaManagerComponent :: factory('CriteriaEditor', $this);
 				break;
 		    case self :: ACTION_DELETE_COMPETENCY :
-				$component = CbaManagerComponent :: factory('DeleterCompetency', $this);
+				$component = CbaManagerComponent :: factory('CompetencyDeleter', $this);
 				break;
 			case self :: ACTION_DELETE_INDICATOR :
-				$component = CbaManagerComponent :: factory('DeleterIndicator', $this);
+				$component = CbaManagerComponent :: factory('IndicatorDeleter', $this);
 				break;
 			case self :: ACTION_DELETE_CRITERIA :
-				$component = CbaManagerComponent :: factory('DeleterCriteria', $this);
+				$component = CbaManagerComponent :: factory('CriteriaDeleter', $this);
+				break;
+			case self :: ACTION_DELETE_COMPETENCYS :
+				$component = CbaManagerComponent :: factory('CompetencyDeleter', $this);
+				break;
+			case self :: ACTION_DELETE_INDICATORS :
+				$component = CbaManagerComponent :: factory('IndicatorDeleter', $this);
+				break;
+			case self :: ACTION_DELETE_CRITERIAS :
+				$component = CbaManagerComponent :: factory('CriteriaDeleter', $this);
+				break;
+			case self :: ACTION_VIEW_SEARCH_COMPETENCY :
+				$component = CbaManagerComponent :: factory('CompetencySearch', $this);
 				break;
 			default :
-				$this->set_action(self :: ACTION_BROWSE);
+				$this->set_action(self :: ACTION_BROWSE_COMPETENCY);
 				$component = CbaManagerComponent :: factory('Browser', $this);
 
 		}
@@ -119,9 +140,8 @@ require_once dirname(__FILE__).'/component/competency_browser/competency_browser
 		{
 			switch ($_POST['action'])
 			{
-				case self :: PARAM_DELETE_SELECTED_CBAS :
-
-					$selected_ids = $_POST[CbaBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+				case self :: PARAM_DELETE_SELECTED_COMPETENCYS:
+					$selected_ids = $_POST[CompetencyBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 
 					if (empty ($selected_ids))
 					{
@@ -132,13 +152,46 @@ require_once dirname(__FILE__).'/component/competency_browser/competency_browser
 						$selected_ids = array ($selected_ids);
 					}
 
-					$this->set_action(self :: ACTION_DELETE_CBA);
-					$_GET[self :: PARAM_CBA] = $selected_ids;
+					$this->set_action(self :: ACTION_DELETE_COMPETENCYS);
+					$_GET[self :: PARAM_COMPETENCY] = $selected_ids;
+					break;
+					
+				case self :: PARAM_DELETE_SELECTED_INDICATORS:
+					$selected_ids = $_POST[IndicatorBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+
+					if (empty ($selected_ids))
+					{
+						$selected_ids = array ();
+					}
+					elseif (!is_array($selected_ids))
+					{
+						$selected_ids = array ($selected_ids);
+					}
+
+					$this->set_action(self :: ACTION_DELETE_INDICATORS);
+					$_GET[self :: PARAM_INDICATOR] = $selected_ids;
+					break;
+					
+				case self :: PARAM_DELETE_SELECTED_CRITERIAS:
+					$selected_ids = $_POST[CriteriaBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+
+					if (empty ($selected_ids))
+					{
+						$selected_ids = array ();
+					}
+					elseif (!is_array($selected_ids))
+					{
+						$selected_ids = array ($selected_ids);
+					}
+
+					$this->set_action(self :: ACTION_DELETE_CRITERIAS);
+					$_GET[self :: PARAM_CRITERIA] = $selected_ids;
 					break;
 			}
 
 		}
 	}
+	
 
 	function get_application_name()
 	{
@@ -254,21 +307,6 @@ require_once dirname(__FILE__).'/component/competency_browser/competency_browser
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE));
 	}
-
-	function get_browse_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
-	}
-	
-  	function get_create_cba_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CBA));
-	}
-	
- 	function get_browse_cbas_url()
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CBAS));
-	}
 	
  	function get_category_manager_url()
     {
@@ -335,7 +373,6 @@ require_once dirname(__FILE__).'/component/competency_browser/competency_browser
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get($newbreadcrumb)));
 		}
         
-        
         $categories = $this->breadcrumbs;
 		/*if (count($categories) > 0 && $this->get_action() == self :: ACTION_BROWSE_CONTENT_OBJECTS)
 		{
@@ -388,14 +425,14 @@ require_once dirname(__FILE__).'/component/competency_browser/competency_browser
         }*/
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
-        /*if ($msg = Request :: get(Application :: PARAM_MESSAGE))
+        if ($msg = Request :: get(Application :: PARAM_MESSAGE))
         {
             $this->display_message($msg);
         }
         if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
         {
             $this->display_error_message($msg);
-        }*/
+        }
     }
  
 }

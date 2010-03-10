@@ -5,7 +5,6 @@ require_once dirname(__FILE__).'/../../../competency.class.php';
 /**
  * Table column model for the competency browser table
  *
- * @author Sven Vanpoucke
  * @author Nick Van Loocke
  */
 

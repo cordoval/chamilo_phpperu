@@ -165,12 +165,6 @@ abstract class CbaManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->get_category_manager_url();
     }
-    
-    
-	function display_popup_form($form_html)
-    {
-        $this->get_parent()->display_popup_form($form_html);
-    }
-   
+
 }
 ?>
