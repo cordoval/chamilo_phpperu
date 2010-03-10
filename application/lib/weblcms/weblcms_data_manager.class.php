@@ -133,6 +133,8 @@ abstract class WeblcmsDataManager
      * @return int
      */
     abstract function count_courses($conditions = null);
+    
+    abstract function count_course_types($conditions = null);
 
     /**
      * Count the number of course categories
@@ -629,6 +631,8 @@ abstract class WeblcmsDataManager
      * @param int id
      */
     abstract function retrieve_course_type($id);
+    
+    abstract function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null);
     
     abstract function retrieve_course_type_settings($id);
     
