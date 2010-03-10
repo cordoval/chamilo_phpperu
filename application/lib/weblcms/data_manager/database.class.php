@@ -1349,7 +1349,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     // Inherited
     function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null)
     {
-    	return $this->database->retrieve_objects(CourseTypeTool :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    	$resultset = $this->database->retrieve_objects(CourseTypeTool :: get_table_name(), $condition, $offset, $count, $order_property);
+    	$objects = array();
+    	while($object = $resultset->next_result())
+    	{
+    		$objects[] = $object;
+    	}
+    	return $objects;
     }
     
     // Inherited
