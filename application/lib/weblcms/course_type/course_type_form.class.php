@@ -40,7 +40,7 @@ class CourseTypeForm extends FormValidator
 		$this->addElement('hidden', Course :: PROPERTY_ID);
 
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty', 'onclick'=>'javascript: setTimeout(\'change_max_number_enable()\',30)'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
@@ -50,7 +50,7 @@ class CourseTypeForm extends FormValidator
 		$this->build_basic_form();
 
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty', 'onclick'=>'javascript: setTimeout(\'change_max_number_enable()\',30)'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
@@ -88,7 +88,7 @@ class CourseTypeForm extends FormValidator
 		$element_template[] = '<div class="clear">&nbsp;</div>';
 		$element_template[] = '</div>';
 		$element_template = implode("\n", $element_template);
-
+		
 		$this->addElement('html','<div style="width: 80%; margin:auto;">');
 		foreach ($tools as $index => $tool)
 		{
@@ -107,159 +107,24 @@ class CourseTypeForm extends FormValidator
 			$this->addElement('html','<img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/>');
 			$this->addElement('html','</div>');
 			$this->addElement('html','<div style="float: left; width: 32%">');
-			$this->addElement('checkbox', $element_name, $title, '',array('class'=>$element_name, 'checked'=>'checked'));
+			$this->addElement('checkbox', $element_name, $title, '',array('class'=>'iphone '.$tool));
 			$this->addElement('html','</div>');
 			$this->addElement('html','<div class=\''.$element_default.'\' style="float: left; width: 32%">');
-			$this->addElement('checkbox', $element_default, Translation :: get('IsVisible'),'', array('class'=>'viewablecheckbox', 'checked'=>'checked'));
+			$this->addElement('checkbox', $element_default, Translation :: get('IsVisible'),'', array('class'=>'viewablecheckbox'));
 			$this->addElement('html','</div>');
 			$this->addElement('html','<div class="clear"></div>');
 			$this->addElement('html','<br/>');
-			$this->addElement('html','</div>');
-			$this->addElement('html','<script type=\'text/javascript\'>
-				/* <![CDATA[ */
-				(function ($) 
-				{		
-						$.iphoneStyle'.$element_name.' = {
-						   defaults: { checkedLabel: \'ON\', uncheckedLabel: \'OFF\', background: \'#fff\' }
-						}
-								
-					    $.fn.iphoneStyle'.$element_name.' = function(options) {
-					    options = $.extend($.iphoneStyle'.$element_name.'.defaults, options);
-					    
-					    return this.each(function() {
-					      var elem = $(this);
-					      
-					      if (!elem.is(\':checkbox\'))
-					        return;
-					      
-					      elem.css({ opacity: 0 });
-					      elem.wrap(\'<div class="binary_checkbox" />\');
-					      elem.after(\'<div class="handle"><div class="bg" style="background: \' + options.background + \'"/><div class="slider" /></div>\')
-					          .after(\'<label class="off">\'+ options.uncheckedLabel + \'</label>\')
-					          .after(\'<label class="on">\' + options.checkedLabel   + \'</label>\');
-					      
-					      var handle    = elem.siblings(\'.handle\'),
-					          handlebg  = handle.children(\'.bg\'),
-					          offlabel  = elem.siblings(\'.off\'),
-					          onlabel   = elem.siblings(\'.on\'),
-					          container = elem.parent(\'.binary_checkbox\'),
-					          rightside = container.outerWidth() - 39;
-					          image'.$tool_image.' = $(\'.'.$tool_image.'\');
-					          default'.$element_default.' = $(\'.'.$element_default.'\');
-					      
-					      container.click(function() {
-					        var is_onstate = (handle.position().left <= 0);
-					            new_left   = (is_onstate) ? rightside : 0,
-					            bgleft     = (is_onstate) ? 34 : 0;
-					
-					        handlebg.hide();
-					        handle.animate({ left: new_left }, 100, function() {
-					          handlebg.css({ left: bgleft }).show();
-					        });
-					        
-					        if (is_onstate) {
-					          offlabel.animate({ opacity: 0 }, 200);
-					          onlabel.animate({ opacity: 1 }, 200);
-					        } else {
-					          offlabel.animate({ opacity: 1 }, 200);
-					          onlabel.animate({ opacity: 0 }, 200);
-					        }
-					        
-					        if (is_onstate)
-					        {
-					        	elem.attr(\'checked\', "true");
-					        	image'.$tool_image.'.attr(\'src\', \''.$tool_image_src.'\');
-					        	default'.$element_default.'.css(\'display\',\'inline\');
-					        }
-					        else
-					        {
-					        	elem.removeAttr(\'checked\');
-					        	image'.$tool_image.'.attr(\'src\', \''.$tool_image_src_disabled.'\');
-					        	default'.$element_default.'.css(\'display\',\'none\');
-					        }
-					        
-					        return false;
-					      });
-					      
-					      // initial load
-					      if (elem.is(\':checked\')) {
-					        offlabel.css({ opacity: 0 });
-					        onlabel.css({ opacity: 1 });
-					        handle.css({ left: rightside });
-					        handlebg.css({ left: 34 });
-					      }
-					    });
-					  };
-				})(jQuery);
-				/* ]]> */
-				</script>');
-			$this->addElement('html','<script type=\'text/javascript\'>
-				/* <![CDATA[ */
-				$(function () 
-				{		
-					$(document).ready(function ()
-					{
-						$(\'.'.$element_name.'\').iphoneStyle'.$element_name.'();
-				
-					});
-				});
-				/* ]]> */
-				</script>');
-				
+			$this->addElement('html','</div>');			
 			$count ++;
 		}
 		$this->addElement('html','</div>');
-		$this->addElement('html','<script type=\'text/javascript\'>
-				/* <![CDATA[ */
-				(function ($) 
-				{
-					$.fn.viewableStyle = function() 
-  					{
-    					 return this.each(function() 
-    					 {
-     						 var elem = $(this);
-      
-     						 if (!elem.is(\':checkbox\'))
-        						return;
-      
-     						elem.css(\'display\',\'none\');
-     						elem.wrap(\'<div class="viewable_checkbox" />\');
-      						elem.after(\'<img class="eye" src="layout/aqua/images/common/action_visible.png" style="vertical-align: middle;" alt=""/>\');
-      
-      						var eye = elem.siblings(\'.eye\'),
-          						container = elem.parent(\'.viewable_checkbox\');
-      
-							container.click(function() 
-							{
-    							if(elem.attr(\'checked\'))
-    		  						eye.attr(\'src\', \'layout/aqua/images/common/action_invisible.png\');
-    							else
-    	  							eye.attr(\'src\', \'layout/aqua/images/common/action_visible.png\');
-    	  	
-       							if (elem.attr(\'checked\'))
-        							elem.removeAttr(\'checked\');
-        						else
-        							elem.attr(\'checked\', \'true\');
-        
-        						return false;
-      						});
-    					});
- 					};
-				})(jQuery);
-				/* ]]> */
-				</script>');
-		$this->addElement('html','<script type=\'text/javascript\'>
-				/* <![CDATA[ */
-				$(function () 
-				{		
-					$(document).ready(function ()
-					{
-						$(\'.viewablecheckbox\').viewableStyle();
-				
-					});
-				});
-				/* ]]> */
-				</script>');
+		$this->addElement('html', "<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					var image_path = '".Theme :: get_image_path()."';
+					var common_image_path = '".Theme :: get_common_image_path()."';
+					/* ]]> */
+					</script>\n");
+		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
 
 	}
 
@@ -577,29 +442,16 @@ class CourseTypeForm extends FormValidator
 		$defaults['unlimited'] = ($course_type_settings->get_max_number_of_members() == 0)? 1:0;
 		$defaults[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED] = $course_type_settings->get_max_number_of_members_fixed();
 		
-		
-
-		//		$layout = $course->get_layout();
-		//		$defaults[Course :: PROPERTY_LAYOUT] = $layout ? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME);
-		//
-		//		$tool_shortcut = $course->get_tool_shortcut();
-		//		$defaults[Course :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut ? $tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
-		//
-		//		$menu = $course->get_menu();
-		//		$defaults[Course :: PROPERTY_MENU] = $menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
-		//
-		//		$breadcrumb = $course->get_breadcrumb();
-		//		$defaults[Course :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
-		//
-		//		$feedback = $course->get_allow_feedback();
-		//		$defaults[Course :: PROPERTY_ALLOW_FEEDBACK] = $feedback ? $feedback : PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME);
-		//
-		//		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
-		//
-		//		if ($course_can_have_theme)
-		//		{
-		//			$defaults[Course :: PROPERTY_THEME] = $course->get_theme();
-		//		}
+		//Tools defaults
+		$tools = $course_type->get_tools();
+		foreach($tools as $tool)
+		{
+			$element_name = $tool->get_name() . "element";
+			$element_default = $tool->get_name() . "elementdefault";
+			
+			$defaults[$element_name] = 1;
+			$defaults[$element_default] = $tool->get_visible_default();
+		}
 
 		//Layout defaults.
 		$course_type_id = $course_type->get_layout()->get_course_type_id();
