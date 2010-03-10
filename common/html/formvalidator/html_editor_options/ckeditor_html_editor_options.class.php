@@ -35,8 +35,8 @@ class FormValidatorCkeditorHtmlEditorOptions extends FormValidatorHtmlEditorOpti
 	{
 	    parent :: set_defaults();
 
-//	    $path = Path :: get(REL_PATH) . 'common/configuration/html_editor/ckeditor_configuration.js';
-//	    $this->set_option(self :: OPTION_CONFIGURATION, $path);
+	    $path = Path :: get(REL_PATH) . 'common/configuration/html_editor/ckeditor_configuration.js';
+	    $this->set_option(self :: OPTION_CONFIGURATION, $path);
 	}
 }
 ?>
