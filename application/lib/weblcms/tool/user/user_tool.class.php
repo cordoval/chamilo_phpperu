@@ -14,6 +14,7 @@ class UserTool extends Tool
     const ACTION_SUBSCRIBE_GROUPS = 'subscribe_groups';
     const ACTION_UNSUBSCRIBE_USERS = 'unsubscribe';
     const ACTION_USER_DETAILS = 'user_details';
+    const ACTION_EMAIL = 'email';
 
     /**
      * Inherited.
@@ -40,6 +41,9 @@ class UserTool extends Tool
             case self :: ACTION_SUBSCRIBE_GROUPS :
                 $component = UserToolComponent :: factory('GroupSubscribeBrowser', $this);
                 break;
+            case self :: ACTION_EMAIL :
+            	$component = UserToolComponent :: factory('Emailer', $this);
+            	break;
             default :
                 $component = UserToolComponent :: factory('UnsubscribeBrowser', $this);
         }

@@ -94,6 +94,15 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $unsubscribe_url = $this->browser->get_url($parameters);
             $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_image_path() . 'action_details.png');
             
+            if(PlatformSetting :: get('active_online_email_editor'))
+            {
+	            $parameters = array();
+	            $parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool :: ACTION_EMAIL;
+	            $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
+	            $unsubscribe_url = $this->browser->get_url($parameters);
+	            $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Email'), 'img' => Theme :: get_common_image_path() . 'action_email.png');
+            }
+            
             if ($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(DELETE_RIGHT))
             {
                 $parameters = array();
