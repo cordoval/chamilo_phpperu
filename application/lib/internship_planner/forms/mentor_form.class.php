@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../mentor.class.php';
 /**
  * This class describes the form for a Mentor object.
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  **/
 class MentorForm extends FormValidator
 {

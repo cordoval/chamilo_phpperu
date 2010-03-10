@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../location_rel_type.class.php';
 /**
  * This class describes the form for a LocationRelType object.
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  **/
 class LocationRelTypeForm extends FormValidator
 {

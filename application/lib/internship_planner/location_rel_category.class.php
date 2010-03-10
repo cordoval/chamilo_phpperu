@@ -1,12 +1,12 @@
 <?php 
 /**
- * internship planner
+ * internship_planner
  */
 
 /**
  * This class describes a LocationRelCategory data object
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  */
 class LocationRelCategory extends DataClass
 {
@@ -30,7 +30,7 @@ class LocationRelCategory extends DataClass
 
 	function get_data_manager()
 	{
-		return Internship plannerDataManager :: get_instance();
+		return InternshipPlannerDataManager :: get_instance();
 	}
 
 	/**

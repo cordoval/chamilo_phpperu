@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../location.class.php';
 /**
  * This class describes the form for a Location object.
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  **/
 class LocationForm extends FormValidator
 {

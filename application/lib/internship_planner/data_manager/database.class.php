@@ -1,6 +1,6 @@
 <?php
 /**
- * @package internship planner.datamanager
+ * @package internship_planner.datamanager
  */
 require_once dirname(__FILE__).'/../category.class.php';
 require_once dirname(__FILE__).'/../location.class.php';
@@ -20,10 +20,10 @@ require_once 'MDB2.php';
  *	for MySQL, but should be compatible with most SQL flavors.
  *
  *  @author Sven Vanpoucke
- *  @author ehb
+ *  @author Sven Vanhoecke
  */
 
-class DatabaseInternship plannerDataManager extends Internship plannerDataManager
+class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
 {
 	private $database;
 
@@ -43,7 +43,7 @@ class DatabaseInternship plannerDataManager extends Internship plannerDataManage
 		$aliases[Place :: get_table_name()] = 'plce';
 
 		$this->database = new Database($aliases);
-		$this->database->set_prefix('internship planner_');
+		$this->database->set_prefix('internship_planner_');
 	}
 
 	function create_storage_unit($name, $properties, $indexes)

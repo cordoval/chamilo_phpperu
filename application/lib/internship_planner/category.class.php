@@ -1,12 +1,12 @@
 <?php 
 /**
- * internship planner
+ * internship_planner
  */
 
 /**
  * This class describes a Category data object
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  */
 class Category extends DataClass
 {
@@ -33,7 +33,7 @@ class Category extends DataClass
 
 	function get_data_manager()
 	{
-		return Internship plannerDataManager :: get_instance();
+		return InternshipPlannerDataManager :: get_instance();
 	}
 
 	/**

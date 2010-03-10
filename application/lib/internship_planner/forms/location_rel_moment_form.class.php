@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../location_rel_moment.class.php';
 /**
  * This class describes the form for a LocationRelMoment object.
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  **/
 class LocationRelMomentForm extends FormValidator
 {

@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../location_rel_category.class.php';
 /**
  * This class describes the form for a LocationRelCategory object.
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  **/
 class LocationRelCategoryForm extends FormValidator
 {

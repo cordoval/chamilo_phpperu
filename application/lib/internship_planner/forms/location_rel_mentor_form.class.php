@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../location_rel_mentor.class.php';
 /**
  * This class describes the form for a LocationRelMentor object.
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  **/
 class LocationRelMentorForm extends FormValidator
 {

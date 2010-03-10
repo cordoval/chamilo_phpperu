@@ -1,12 +1,12 @@
 <?php 
 /**
- * internship planner
+ * internship_planner
  */
 
 /**
  * This class describes a Period data object
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  */
 class Period extends DataClass
 {
@@ -31,7 +31,7 @@ class Period extends DataClass
 
 	function get_data_manager()
 	{
-		return Internship plannerDataManager :: get_instance();
+		return InternshipPlannerDataManager :: get_instance();
 	}
 
 	/**

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Internship Planner</name>
+		<name>internship_planner</name>
 		<code>internship_planner</code>
 		<section>application</section>
 		<category>evaluation</category>

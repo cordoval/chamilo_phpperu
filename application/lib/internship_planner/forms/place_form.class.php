@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../place.class.php';
 /**
  * This class describes the form for a Place object.
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  **/
 class PlaceForm extends FormValidator
 {

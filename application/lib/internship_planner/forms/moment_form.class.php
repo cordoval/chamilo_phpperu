@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../moment.class.php';
 /**
  * This class describes the form for a Moment object.
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  **/
 class MomentForm extends FormValidator
 {

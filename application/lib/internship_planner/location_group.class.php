@@ -1,12 +1,12 @@
 <?php 
 /**
- * internship planner
+ * internship_planner
  */
 
 /**
  * This class describes a LocationGroup data object
  * @author Sven Vanpoucke
- * @author ehb
+ * @author Sven Vanhoecke
  */
 class LocationGroup extends DataClass
 {
@@ -29,7 +29,7 @@ class LocationGroup extends DataClass
 
 	function get_data_manager()
 	{
-		return Internship plannerDataManager :: get_instance();
+		return InternshipPlannerDataManager :: get_instance();
 	}
 
 	/**
