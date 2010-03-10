@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="cba">
+	<settings>
+		<category name="attempts">
+			<setting name="maximum_attempts" field="text" default="1" />
+		</category>
+	</settings>
+</application>
