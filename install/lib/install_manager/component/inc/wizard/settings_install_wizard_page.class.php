@@ -59,6 +59,7 @@ class SettingsInstallWizardPage extends InstallWizardPage
 
         $this->addElement('category', Translation :: get('Security'));
         $self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('Yes'), 1);
+        $self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('AfterApproval'), 2);
         $self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('No'), 0);
         $this->addGroup($self_reg, 'self_reg', Translation :: get("AllowSelfReg"), '&nbsp;', false);
 
