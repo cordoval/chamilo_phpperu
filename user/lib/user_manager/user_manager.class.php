@@ -22,6 +22,7 @@ class UserManager extends CoreApplication
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_APPROVE_SELECTED = 'approve_selected';
     const PARAM_DENY_SELECTED = 'deny_selected';
+    const PARAM_EMAIL_SELECTED = 'email_selected';
     
     const ACTION_CREATE_USER = 'create';
     const ACTION_BROWSE_USERS = 'adminbrowse';
@@ -31,6 +32,7 @@ class UserManager extends CoreApplication
     const ACTION_DELETE_USER = 'delete';
     const ACTION_REGISTER_USER = 'register';
     const ACTION_VIEW_ACCOUNT = 'account';
+    const ACTION_EMAIL = 'email';
     const ACTION_USER_QUOTA = 'quota';
     const ACTION_RESET_PASSWORD = 'reset_password';
     const ACTION_CHANGE_USER = 'change_user';
@@ -132,6 +134,10 @@ class UserManager extends CoreApplication
                 case self :: PARAM_DENY_SELECTED:
                 	$this->set_action(self :: ACTION_USER_APPROVER);
                 	Request :: set_get('choice', 0);
+                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
+                    break;
+                case self :: PARAM_EMAIL_SELECTED:
+                	$this->set_action(self :: ACTION_EMAIL);
                     Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
                     break;
             }
@@ -284,6 +290,9 @@ class UserManager extends CoreApplication
                 break;
             case self :: ACTION_USER_APPROVER:
             	$component = UserManagerComponent :: factory('UserApprover',$this);
+                break;
+            case self :: ACTION_EMAIL:
+            	$component = UserManagerComponent :: factory('Emailer',$this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_USERS);
@@ -479,6 +488,12 @@ class UserManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_APPROVER, 
         						    self :: PARAM_USER_USER_ID => $user->get_id(),
         						    UserManagerUserApproverComponent :: PARAM_CHOICE => UserManagerUserApproverComponent :: CHOICE_DENY));
+    }
+    
+    function get_email_user_url($user)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EMAIL, 
+        						    self :: PARAM_USER_USER_ID => $user->get_id()));
     }
 
 }

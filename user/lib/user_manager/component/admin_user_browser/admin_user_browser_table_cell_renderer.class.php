@@ -116,6 +116,11 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         
         $toolbar_data[] = array('href' => $this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, 'user_id' => $user->get_id())), 'label' => Translation :: get('ViewQuota'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
         
+    	if(PlatformSetting :: get('active_online_email_editor'))
+        {
+        	$toolbar_data[] = array('href' => $this->browser->get_email_user_url($user), 'label' => Translation :: get('SendEmail'), 'img' => Theme :: get_common_image_path() . 'action_email.png');
+        }
+        
         if ($user->get_id() != Session :: get_user_id())
         {
             if (UserDataManager :: get_instance()->user_deletion_allowed($user))
@@ -126,6 +131,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
             $toolbar_data[] = array('href' => $this->browser->get_change_user_url($user), 'label' => Translation :: get('LoginAsUser'), 'img' => Theme :: get_common_image_path() . 'action_login.png');
         }
         
+		        
         return Utilities :: build_toolbar($toolbar_data);
     }
 }
