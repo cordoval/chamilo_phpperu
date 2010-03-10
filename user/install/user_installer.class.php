@@ -151,6 +151,7 @@ class UserInstaller extends Installer
         }
         else
         {
+        	LocalSetting :: create_local_setting('platform_language', 'dutch', 'admin', $user->get_id());
             return true;
         }
     

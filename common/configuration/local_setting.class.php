@@ -92,5 +92,34 @@ class LocalSetting
         
         return $params;
     }
+    
+    static function create_local_setting($variable, $value, $application = 'admin', $user_id = null)
+    {
+    	if(!$user_id)
+    	{
+    		$user_id = Session :: get_user_id();
+    	}
+    	
+    	$setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name($variable, $application);
+    	if($setting && $setting->get_user_setting() == 1)
+    	{
+    		$condition = new EqualityCondition(UserSetting :: PROPERTY_USER_ID, $user_id);
+        	$user_settings = UserDataManager :: get_instance()->retrieve_user_settings($condition);
+        	$user_setting = $user_settings->next_result();
+        	if($user_setting)
+        	{
+        		$user_setting->set_value($value);
+        		return $user_setting->update();
+        	}
+        	else
+        	{
+        		$user_setting = new UserSetting();
+        		$user_setting->set_setting_id($setting->get_id());
+        		$user_setting->set_user_id($user_id);
+        		$user_setting->set_value($value);
+        		return $user_setting->create();
+        	}
+    	}
+    }
 }
 ?>
