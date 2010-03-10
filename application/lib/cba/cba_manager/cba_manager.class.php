@@ -13,10 +13,6 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
  class CbaManager extends WebApplication
  {
  	const APPLICATION_NAME = 'cba';
-
- 	const PARAM_COMPETENCY_ID = 'competency_id';
- 	const PARAM_INDICATOR_ID = 'indicator_id';
- 	const PARAM_CRITERIA_ID = 'criteria_id';
  	
 	const PARAM_COMPETENCY = 'competency';
 	const PARAM_INDICATOR = 'indicator';
@@ -419,10 +415,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 
         echo '<div>';
         echo '<h3 style="float: left;" title="' . $title . '">' . $title_short . '</h3>';
-        /*if ($display_search)
-        {
-            $this->display_search_form();
-        }*/
+        
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
         if ($msg = Request :: get(Application :: PARAM_MESSAGE))
@@ -434,6 +427,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
             $this->display_error_message($msg);
         }
     }
- 
+    
+    
 }
 ?>

@@ -165,6 +165,39 @@ abstract class CbaManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->get_category_manager_url();
     }
+    
+    
+	// Categories 
+	
+	function retrieve_competency_categories($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->database->retrieve_objects(CompetencyCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+	function count_competency_categories($condition = null)
+    {
+        return $this->database->count_objects(CompetencyCategory :: get_table_name(), $condition);
+    }
+    
+	function retrieve_indicator_categories($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->database->retrieve_objects(IndicatorCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+	function count_indicator_categories($condition = null)
+    {
+        return $this->database->count_objects(IndicatorCategory :: get_table_name(), $condition);
+    }
+    
+	function retrieve_criteria_categories($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->database->retrieve_objects(CriteriaCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+	function count_criteria_categories($condition = null)
+    {
+        return $this->database->count_objects(CriteriaCategory :: get_table_name(), $condition);
+    }
 
 }
 ?>
