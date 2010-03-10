@@ -576,6 +576,8 @@ class CourseTypeForm extends FormValidator
 		$defaults[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $course_type_settings->get_max_number_of_members();
 		$defaults['unlimited'] = ($course_type_settings->get_max_number_of_members() == 0)? 1:0;
 		$defaults[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED] = $course_type_settings->get_max_number_of_members_fixed();
+		
+		
 
 		//		$layout = $course->get_layout();
 		//		$defaults[Course :: PROPERTY_LAYOUT] = $layout ? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME);
