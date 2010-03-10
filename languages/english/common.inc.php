@@ -723,4 +723,24 @@ $lang['common']['Invalid'] = 'Invalid';
 $lang['common']['UpdateFailed'] = 'Update failed';
 $lang['common']['DeleteFailed'] = 'Delete failed';
 $lang['common']['PublishWiki'] = 'Publish wiki';
+$lang['common']['AssessmentFillInBlanksQuestionTypeName'] = 'Assessment - Fill-in-the-blanks question';
+$lang['common']['AssessmentMatchingQuestionTypeName'] = 'Assessment - Matching question';
+$lang['common']['AssessmentMatrixQuestionTypeName'] = 'Assessment - Matrix question';
+$lang['common']['AssessmentMultipleChoiceQuestionTypeName'] = 'Assessment - Multiple choice question';
+$lang['common']['AssessmentOpenQuestionTypeName'] = 'Assessment - Open question';
+$lang['common']['AssessmentRatingQuestionTypeName'] = 'Assessment - Rating question';
+$lang['common']['AssessmentSelectQuestionTypeName'] = 'Assessment - Select question';
+$lang['common']['MatchQuestionTypeName'] = 'Match question';
+$lang['common']['RdeventTypeName'] = 'Research event';
+$lang['common']['RdpublicationTypeName'] = 'Research publication';
+$lang['common']['SurveyFillInBlanksQuestionTypeName'] = 'Survey - Fill-in-the-blanks question';
+$lang['common']['SurveyMatchingQuestionTypeName'] = 'Survey - Matching question';
+$lang['common']['SurveyMatrixQuestionTypeName'] = 'Survey - Matrix question';
+$lang['common']['SurveyMultipleChoiceQuestionTypeName'] = 'Survey - Multiple choice question';
+$lang['common']['SurveyOpenQuestionTypeName'] = 'Survey - Open question';
+$lang['common']['SurveyPageTypeName'] = 'Survey page';
+$lang['common']['SurveyRatingQuestionTypeName'] = 'Survey - Rating question';
+$lang['common']['SurveySelectQuestionTypeName'] = 'Survey - Select question';
+$lang['common']['YoutubeTypeName'] = 'YouTube';
+
 ?>

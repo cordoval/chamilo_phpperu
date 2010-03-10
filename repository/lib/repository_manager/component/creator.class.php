@@ -24,7 +24,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
         $type_options = array();
         $type_options[''] = '-- ' . Translation :: get('SelectObject') . ' --';
         $extra_params = array();
-        $this->forbidden_types = array('portfolio_item', 'learning_path_item', 'scorm_item');
+        $this->forbidden_types = array('portfolio_item', 'learning_path_item', 'scorm_item', 'survey_item', 'survey_page_item');
 
         foreach ($this->get_content_object_types(true) as $type)
         {
@@ -214,7 +214,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
         {
             $html[] = Utilities :: add_block_hider();
             $html[] = Utilities :: build_block_hider('other_content_object_types', null, true);
-            
+
             //$html[] = '<h3>'. Translation :: get('OtherObjectTypes') .'</h3>';
             $html[] = '<div class="content_object_selection">';
             $html[] = implode("\n", $unused_html);

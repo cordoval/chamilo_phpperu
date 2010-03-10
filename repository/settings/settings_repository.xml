@@ -231,6 +231,24 @@
 					<option name="allow_survey_creation" value="1" />
 				</options>
 			</setting>
+			<setting name="allow_survey_item_creation" field="checkbox"
+				default="0">
+				<options type="static">
+					<option name="allow_survey_item_creation" value="1" />
+				</options>
+			</setting>
+			<setting name="allow_survey_page_creation" field="checkbox"
+				default="1">
+				<options type="static">
+					<option name="allow_survey_page_creation" value="1" />
+				</options>
+			</setting>
+			<setting name="allow_survey_page_item_creation" field="checkbox"
+				default="0">
+				<options type="static">
+					<option name="allow_survey_page_item_creation" value="1" />
+				</options>
+			</setting>
 			<setting name="allow_system_announcement_creation" field="checkbox"
 				default="0">
 				<options type="static">

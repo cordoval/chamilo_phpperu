@@ -2168,6 +2168,7 @@ div.create_block {
 	font-weight: bold;
 	color: #565656;
 	font-size: 11px;
+	min-height: 29px;
 }
 
 .content_object_selection {

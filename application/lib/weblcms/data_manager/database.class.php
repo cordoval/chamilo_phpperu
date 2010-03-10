@@ -265,6 +265,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         return $this->database->count_objects(Course :: get_table_name(), $condition);
     }
+    
+	function count_course_types($condition = null)
+    {
+        return $this->database->count_objects(CourseType :: get_table_name(), $condition);
+    }
 
     function count_course_categories($condition = null)
     {
@@ -1326,6 +1331,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         $condition = new EqualityCondition(CourseType :: PROPERTY_ID, $id);
         return $this->database->retrieve_object(CourseType :: get_table_name(), $condition);
+    }
+    
+    function retrieve_course_types($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        $order_by[] = new ObjectTableOrder(CourseType :: PROPERTY_NAME);
+        return $this->database->retrieve_objects(CourseType :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
     
     // Inherited

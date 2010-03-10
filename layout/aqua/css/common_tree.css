@@ -204,9 +204,14 @@ ul.tree-menu li div a.type_feedback {
 	background-image: url(../images/common/treemenu_types/feedback.png);
 }
 
-ul.tree-menu li div a.type_fill_in_blanks_question {
+ul.tree-menu li div a.type_assessment_fill_in_blanks_question {
 	background-image:
-		url(../images/common/treemenu_types/fill_in_blanks_question.png);
+		url(../images/common/treemenu_types/assessment_fill_in_blanks_question.png);
+}
+
+ul.tree-menu li div a.type_survey_fill_in_blanks_question {
+	background-image:
+		url(../images/common/treemenu_types/survey_fill_in_blanks_question.png);
 }
 
 ul.tree-menu li div a.type_forum {
@@ -255,22 +260,36 @@ ul.tree-menu li div a.type_link {
 	background-image: url(../images/common/treemenu_types/link.png);
 }
 
-ul.tree-menu li div a.type_matching_question {
+ul.tree-menu li div a.type_assessment_matching_question {
 	background-image:
-		url(../images/common/treemenu_types/matching_question.png);
+		url(../images/common/treemenu_types/assessment_matching_question.png);
 }
 
-ul.tree-menu li div a.type_multiple_choice_question {
+ul.tree-menu li div a.type_survey_matching_question {
 	background-image:
-		url(../images/common/treemenu_types/multiple_choice_question.png);
+		url(../images/common/treemenu_types/survey_matching_question.png);
+}
+
+ul.tree-menu li div a.type_assessment_multiple_choice_question {
+	background-image:
+		url(../images/common/treemenu_types/assessment_multiple_choice_question.png);
+}
+
+ul.tree-menu li div a.type_survey_multiple_choice_question {
+	background-image:
+		url(../images/common/treemenu_types/survey_multiple_choice_question.png);
 }
 
 ul.tree-menu li div a.type_note {
 	background-image: url(../images/common/treemenu_types/note.png);
 }
 
-ul.tree-menu li div a.type_open_question {
-	background-image: url(../images/common/treemenu_types/open_question.png);
+ul.tree-menu li div a.type_assessment_open_question {
+	background-image: url(../images/common/treemenu_types/assessment_open_question.png);
+}
+
+ul.tree-menu li div a.type_survey_open_question {
+	background-image: url(../images/common/treemenu_types/survey_open_question.png);
 }
 
 ul.tree-menu li div a.type_personal_message {
@@ -290,12 +309,36 @@ ul.tree-menu li div a.type_rss_feed {
 	background-image: url(../images/common/treemenu_types/rss_feed.png);
 }
 
-ul.tree-menu li div a.type_rating_question {
-	background-image: url(../images/common/treemenu_types/rating_question.png);
+ul.tree-menu li div a.type_assessment_rating_question {
+	background-image: url(../images/common/treemenu_types/assessment_rating_question.png);
+}
+
+ul.tree-menu li div a.type_survey_rating_question {
+	background-image: url(../images/common/treemenu_types/survey_rating_question.png);
+}
+
+ul.tree-menu li div a.type_assessment_matrix_question {
+	background-image: url(../images/common/treemenu_types/assessment_matrix_question.png);
+}
+
+ul.tree-menu li div a.type_survey_matrix_question {
+	background-image: url(../images/common/treemenu_types/survey_matrix_question.png);
+}
+
+ul.tree-menu li div a.type_assessment_select_question {
+	background-image: url(../images/common/treemenu_types/assessment_select_question.png);
+}
+
+ul.tree-menu li div a.type_survey_select_question {
+	background-image: url(../images/common/treemenu_types/survey_select_question.png);
 }
 
 ul.tree-menu li div a.type_survey {
 	background-image: url(../images/common/treemenu_types/survey.png);
+}
+
+ul.tree-menu li div a.type_survey_page {
+	background-image: url(../images/common/treemenu_types/survey_page.png);
 }
 
 ul.tree-menu li div a.type_template {
