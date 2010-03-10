@@ -42,9 +42,10 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
         $this->_elements[0]->setChecked(true);
         $this->_elements[1] = new HTML_QuickForm_file('file', '');
         $this->_elements[2] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Create'), '1', array('onclick' => 'javascript:editor_show(\'editor_html_content\'); javascript:editor_hide(\'uncompress\')'));
-        $this->_elements[3] = new HTML_QuickForm_fckeditor_html_editor('html_content', '', null, array('height' => '500'));
+        //$this->_elements[3] = new HTML_QuickForm_html_editor('html_content', '', null, array('height' => '500'));
+        //$this->_elements[3]->fullPage = true;
+        $this->_elements[3] = new HTML_QuickForm_textarea('html_content', '');
         $this->_elements[4] = new HTML_QuickForm_checkbox('uncompress', '', Translation :: get('Uncompress'), array('id' => 'uncompress'));
-        $this->_elements[3]->fullPage = true;
     }
 
     /**
@@ -60,7 +61,10 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
         $html[] = '<br />';
         $html[] = $this->_elements[2]->toHtml();
         $html[] = '<div style="margin-left:20px;display:block;" id="editor_html_content">';
-        $html[] = $this->_elements[3]->toHtml();
+        //$html[] = $this->_elements[3]->toHtml();
+        $html_editor = FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), 'html_content', '', false, array(FormValidatorHtmlEditorOptions :: OPTION_HEIGHT => '500', 
+        			FormValidatorHtmlEditorOptions :: OPTION_FULL_PAGE => true));
+        $html[] = $html_editor->render();
         $html[] = '</div>';
         $html[] = $this->getElementJS();
         return implode("\n", $html);
