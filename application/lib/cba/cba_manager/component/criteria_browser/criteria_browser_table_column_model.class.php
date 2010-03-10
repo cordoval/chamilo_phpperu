@@ -5,7 +5,6 @@ require_once dirname(__FILE__).'/../../../criteria.class.php';
 /**
  * Table column model for the criteria browser table
  *
- * @author Sven Vanpoucke
  * @author Nick Van Loocke
  */
 

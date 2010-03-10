@@ -41,7 +41,7 @@ abstract class CbaDataManager
 	abstract function initialize();
 	abstract function create_storage_unit($name,$properties,$indexes);
 
-	//abstracte functies: Competency
+	// Abstract functions: Competency
 	abstract function get_next_competency_id();
 	abstract function create_competency($competency);
 	abstract function update_competency($competency);
@@ -50,7 +50,10 @@ abstract class CbaDataManager
 	abstract function retrieve_competency($id);
 	abstract function retrieve_competencys($condition = null, $offset = null, $count = null, $order_property = null);
 	
-	//abstracte functies: Indicator
+	abstract function retrieve_competency_categories($condition = null, $offset = null, $count = null, $order_property = null);
+	abstract function count_competency_categories($conditions = null);
+		
+	// Abstract functions: Indicator
 	abstract function get_next_indicator_id();
 	abstract function create_indicator($indicator);
 	abstract function update_indicator($indicator);
@@ -59,8 +62,10 @@ abstract class CbaDataManager
 	abstract function retrieve_indicator($id);
 	abstract function retrieve_indicators($condition = null, $offset = null, $count = null, $order_property = null);
 	
+	abstract function retrieve_indicator_categories($condition = null, $offset = null, $count = null, $order_property = null);
+	abstract function count_indicator_categories($conditions = null);
 	
-	//abstracte functies: Criteria
+	// Abstract functions: Criteria
 	abstract function get_next_criteria_id();
 	abstract function create_criteria($criteria);
 	abstract function update_criteria($criteria);
@@ -69,5 +74,7 @@ abstract class CbaDataManager
 	abstract function retrieve_criteria($id);
 	abstract function retrieve_criterias($condition = null, $offset = null, $count = null, $order_property = null);
 	
+	abstract function retrieve_criteria_categories($condition = null, $offset = null, $count = null, $order_property = null);
+	abstract function count_criteria_categories($conditions = null);
 }
 ?>

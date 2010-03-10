@@ -19,7 +19,6 @@ class DatabaseCbaDataManager extends CbaDataManager
 	function initialize()
 	{
 		$aliases = array();
-		//$aliases[Cba :: get_table_name()] = 'cba';
 		$aliases[Competency :: get_table_name()] = 'competency';
 		$aliases[Indicator :: get_table_name()] = 'indicator';
 		$aliases[Criteria :: get_table_name()] = 'criteria';
@@ -33,7 +32,8 @@ class DatabaseCbaDataManager extends CbaDataManager
 		return $this->database->create_storage_unit($name, $properties, $indexes);
 	}
 	
-	//Competency CRUD, ...
+	// Competency CRUD, ...
+	
 	function get_next_competency_id()
 	{
 		return $this->database->get_next_id(Competency :: get_table_name());
@@ -52,8 +52,8 @@ class DatabaseCbaDataManager extends CbaDataManager
 	
 	function delete_competency($competency)
 	{
-		//$condition = new EqualityCondition(Competency :: PROPERTY_ID, $competency->get_id());
-		//return $this->database->delete($competency->get_table_name(), $condition);
+		$condition = new EqualityCondition(Competency :: PROPERTY_ID, $competency->get_id());
+		return $this->database->delete($competency->get_table_name(), $condition);
 	}
 
 	function count_competencys($condition = null)
@@ -73,7 +73,8 @@ class DatabaseCbaDataManager extends CbaDataManager
 	}
 	
 	
-	//Indicator CRUD, ...
+	// Indicator CRUD, ...
+	
 	function get_next_indicator_id()
 	{
 		return $this->database->get_next_id(Indicator :: get_table_name());
@@ -113,7 +114,8 @@ class DatabaseCbaDataManager extends CbaDataManager
 	}
 	
 	
-	//Criteria CRUD, ...
+	// Criteria CRUD, ...
+	
 	function get_next_criteria_id()
 	{
 		return $this->database->get_next_id(Criteria :: get_table_name());
@@ -151,6 +153,40 @@ class DatabaseCbaDataManager extends CbaDataManager
 	{
 		return $this->database->retrieve_objects(Criteria :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
+	
+	
+	
+	// Categories
+	
+	function retrieve_competency_categories($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->database->retrieve_objects(CompetencyCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+	function count_competency_categories($condition = null)
+    {
+        return $this->database->count_objects(CompetencyCategory :: get_table_name(), $condition);
+    }
+    
+	function retrieve_indicator_categories($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->database->retrieve_objects(IndicatorCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+	function count_indicator_categories($condition = null)
+    {
+        return $this->database->count_objects(IndicatorCategory :: get_table_name(), $condition);
+    }
+    
+	function retrieve_criteria_categories($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->database->retrieve_objects(CriteriaCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+	function count_criteria_categories($condition = null)
+    {
+        return $this->database->count_objects(CriteriaCategory :: get_table_name(), $condition);
+    }
 
 }
 ?>

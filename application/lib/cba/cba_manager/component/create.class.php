@@ -1,5 +1,7 @@
 <?php
 /**
+ * The list of object types you can create: competency, indicator and criteria. 
+ * 
  * @author Nick Van Loocke
  */
 class CbaManagerCreateComponent extends CbaManagerComponent
@@ -9,11 +11,17 @@ class CbaManagerCreateComponent extends CbaManagerComponent
 		$newbreadcrumb = 'Create';
 		$this->display_header($trail, false, true, $newbreadcrumb);
 		
+		
+		// Several object types
+		
 		$types = array();
 		$types['0'] = 'Competency';
 		$types['1'] = 'Indicator';
 		$types['2'] = 'Criteria';
 	
+				
+		// First list (dropdown list)
+		
 		$extra_params = array();
 		$types_dropdown = array();		
 		$types_dropdown['0'] = '-- ' . Translation :: get('SelectObject') . ' --';
@@ -22,7 +30,6 @@ class CbaManagerCreateComponent extends CbaManagerComponent
 			$types_dropdown[$i] = '-- ' . Translation :: get($types[$i - 1]) . ' --';	
 		}
         
-		//$extra_params['type'] = 'competency';
 		$type_form = new FormValidator('create_type', 'post', $this->get_url($extra_params));
 
         $type_form->addElement('select', CbaManager :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('CreateANew'), $types_dropdown, array('class' => 'learning-object-creation-type postback'));
@@ -52,6 +59,8 @@ class CbaManagerCreateComponent extends CbaManagerComponent
         $type_form->accept($renderer);
         echo $renderer->toHTML();
         
+        
+        // Second list (with images)
         
         echo '<h3>' . Translation :: get('GeneralObjectTypes') . '</h3>';
         

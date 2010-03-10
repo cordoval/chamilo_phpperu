@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../cba_manager_component.class.php';
  * Component to delete indicator objects
  * @author Nick Van Loocke
  */
-class CbaManagerDeleterIndicatorComponent extends CbaManagerComponent
+class CbaManagerIndicatorDeleterComponent extends CbaManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

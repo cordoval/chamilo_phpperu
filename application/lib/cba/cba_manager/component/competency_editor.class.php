@@ -1,13 +1,13 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
 require_once dirname(__FILE__).'/../cba_manager_component.class.php';
-require_once dirname(__FILE__).'/../../forms/cba_form.class.php';
+require_once dirname(__FILE__).'/../../forms/competency_form.class.php';
 
 /**
  * Component to edit an existing competency object
  * @author Nick Van Loocke
  */
-class CbaManagerEditorCompetencyComponent extends CbaManagerComponent
+class CbaManagerCompetencyEditorComponent extends CbaManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -20,12 +20,12 @@ class CbaManagerEditorCompetencyComponent extends CbaManagerComponent
 		//$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateCompetency')));
 
 		$competency = $this->retrieve_competency(Request :: get(CbaManager :: PARAM_COMPETENCY));
-		$form = new CbaForm(CbaForm :: TYPE_EDITOR_COMPETENCY, $competency, $this->get_url(array(CbaManager :: PARAM_COMPETENCY => $competency->get_id())), $this->get_user());
+		$form = new CompetencyForm(CompetencyForm :: TYPE_EDITOR_COMPETENCY, $competency, $this->get_url(array(CbaManager :: PARAM_COMPETENCY => $competency->get_id())), $this->get_user());
 
 		if($form->validate())
 		{
 			$success = $form->update_competency();
-			$this->redirect($success ? Translation :: get('CompetencyUpdated') : Translation :: get('CompetencyNotUpdated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE));
+			$this->redirect($success ? Translation :: get('CompetencyUpdated') : Translation :: get('CompetencyNotUpdated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY));
 		}
 		else
 		{
