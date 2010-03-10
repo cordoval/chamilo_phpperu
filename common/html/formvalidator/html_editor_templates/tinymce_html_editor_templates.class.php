@@ -5,7 +5,7 @@
  * @author Scaramanga
  */
 
-class FormValidatorCkeditorHtmlEditorTemplates extends FormValidatorHtmlEditorTemplates
+class FormValidatorTinymceHtmlEditorTemplates extends FormValidatorHtmlEditorTemplates
 {
     function render()
     {
