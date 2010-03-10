@@ -29,7 +29,7 @@ class TemplateForm extends ContentObjectForm
     private function build_default_form()
     {
         $this->add_html_editor(Template :: PROPERTY_DESIGN, Translation :: get('Design'), false);
-    
+
     }
 
     function setDefaults($defaults = array ())
@@ -39,14 +39,14 @@ class TemplateForm extends ContentObjectForm
         {
             $defaults[Template :: PROPERTY_DESIGN] = $lo->get_design();
         }
-        
+
         parent :: setDefaults($defaults);
     }
 
     function create_content_object()
     {
         $values = $this->exportValues();
-        
+
         $object = new Template();
         $object->set_design($values[Template :: PROPERTY_DESIGN]);
         parent :: set_content_object($object);
@@ -56,8 +56,8 @@ class TemplateForm extends ContentObjectForm
     function update_content_object()
     {
         $values = $this->exportValues();
-        
-        $object = new Template();
+
+        $object = $this->get_content_object();
         $object->set_design($values[Template :: PROPERTY_DESIGN]);
         parent :: set_content_object($object);
         return parent :: update_content_object();

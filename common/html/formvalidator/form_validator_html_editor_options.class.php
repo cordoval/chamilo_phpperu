@@ -221,6 +221,17 @@ abstract class FormValidatorHtmlEditorOptions
         {
             return $value;
         }
+        elseif(is_array($value))
+        {
+            $elements = array();
+
+            foreach($value as $element)
+            {
+                $elements[] = self :: format_for_javascript($element);
+            }
+
+            return '[' . implode(',', $elements) . ']';
+        }
         else
         {
             return '\'' . $value . '\'';
