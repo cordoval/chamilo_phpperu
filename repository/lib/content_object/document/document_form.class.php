@@ -37,7 +37,7 @@ class DocumentForm extends ContentObjectForm
         $object = $this->get_content_object();
         if (Utilities :: is_html_document($object->get_filename()))
         {
-            $this->add_html_editor('html_content', Translation :: get('EditDocument'), false);
+            $this->add_html_editor('html_content', Translation :: get('EditDocument'), false, array(FormValidatorHtmlEditorOptions :: OPTION_HEIGHT => '500', FormValidatorHtmlEditorOptions :: OPTION_FULL_PAGE => true));
             $this->addRule('html_content', Translation :: get('DiskQuotaExceeded'), 'disk_quota');
         }
         else
