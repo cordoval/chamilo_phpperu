@@ -126,6 +126,16 @@ abstract class UserManagerComponent extends CoreApplicationComponent
     {
     	return $this->get_parent()->get_user_detail_url($user_id);
     }
+    
+	function get_approve_user_url($user)
+    {
+        return $this->get_parent()->get_approve_user_url($user);
+    }
+    
+	function get_deny_user_url($user)
+    {
+        return $this->get_parent()->get_deny_user_url($user);
+    }
 }
 
 ?>

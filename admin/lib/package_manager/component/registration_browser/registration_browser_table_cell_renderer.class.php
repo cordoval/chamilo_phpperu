@@ -53,14 +53,14 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
         
         if ($registration->is_active())
         {
-            $toolbar_data[] = array('href' => $this->browser->get_registration_deactivation_url($registration), 'label' => Translation :: get('Deactivate'), 'img' => Theme :: get_image_path() . 'action_deactivate.png');
+            $toolbar_data[] = array('href' => $this->browser->get_registration_deactivation_url($registration), 'label' => Translation :: get('Deactivate'), 'img' => Theme :: get_common_image_path() . 'action_deactivate.png');
         }
         else
         {
-            $toolbar_data[] = array('href' => $this->browser->get_registration_activation_url($registration), 'label' => Translation :: get('Activate'), 'img' => Theme :: get_image_path() . 'action_activate.png');
+            $toolbar_data[] = array('href' => $this->browser->get_registration_activation_url($registration), 'label' => Translation :: get('Activate'), 'img' => Theme :: get_common_image_path() . 'action_activate.png');
         }
         
-        $toolbar_data[] = array('href' => $this->browser->get_registration_removal_url($registration), 'label' => Translation :: get('Deinstall'), 'img' => Theme :: get_image_path() . 'action_deinstall.png', 'confirm' => true);
+        $toolbar_data[] = array('href' => $this->browser->get_registration_removal_url($registration), 'label' => Translation :: get('Deinstall'), 'img' => Theme :: get_common_image_path() . 'action_deinstall.png', 'confirm' => true);
         
         return Utilities :: build_toolbar($toolbar_data);
     }

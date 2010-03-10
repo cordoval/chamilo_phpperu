@@ -20,6 +20,8 @@ class UserManager extends CoreApplication
     const PARAM_RESET_PASSWORD_SELECTED = 'reset_pass_selected';
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_FIRSTLETTER = 'firstletter';
+    const PARAM_APPROVE_SELECTED = 'approve_selected';
+    const PARAM_DENY_SELECTED = 'deny_selected';
     
     const ACTION_CREATE_USER = 'create';
     const ACTION_BROWSE_USERS = 'adminbrowse';
@@ -51,6 +53,8 @@ class UserManager extends CoreApplication
     const ACTION_BUILD_USER_FIELDS = 'user_field_builder';
     const ACTION_ADDITIONAL_ACCOUNT_INFORMATION = 'account_extra';
     const ACTION_USER_SETTINGS = 'user_settings';
+    const ACTION_USER_APPROVAL_BROWSER = 'user_approval_browser';
+    const ACTION_USER_APPROVER = 'user_approver';
     
     const PARAM_BUDDYLIST_CATEGORY = 'buddylist_category';
     const PARAM_BUDDYLIST_ITEM = 'buddylist_item';
@@ -118,6 +122,16 @@ class UserManager extends CoreApplication
                     break;
                 case self :: PARAM_RESET_PASSWORD_SELECTED :
                     $this->set_action(self :: ACTION_RESET_PASSWORD_MULTI);
+                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
+                    break;
+                case self :: PARAM_APPROVE_SELECTED:
+                	$this->set_action(self :: ACTION_USER_APPROVER);
+                	Request :: set_get('choice', 1);
+                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
+                    break;
+                case self :: PARAM_DENY_SELECTED:
+                	$this->set_action(self :: ACTION_USER_APPROVER);
+                	Request :: set_get('choice', 0);
                     Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
                     break;
             }
@@ -265,6 +279,12 @@ class UserManager extends CoreApplication
             case self :: ACTION_USER_SETTINGS:
             	$component = UserManagerComponent :: factory('UserSettings',$this);
                 break;
+            case self :: ACTION_USER_APPROVAL_BROWSER:
+            	$component = UserManagerComponent :: factory('UserApprovalBrowser',$this);
+                break;
+            case self :: ACTION_USER_APPROVER:
+            	$component = UserManagerComponent :: factory('UserApprover',$this);
+                break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_USERS);
                 $component = UserManagerComponent :: factory('AdminUserBrowser', $this);
@@ -335,6 +355,12 @@ class UserManager extends CoreApplication
     {
         $links = array();
         $links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+        
+        if(PlatformSetting :: get('allow_registration', 'user') == 2)
+        {
+			$links[] = array('name' => Translation :: get('ApproveList'), 'description' => Translation :: get('ApproveListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)));        	
+        }
+        
         $links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
         $links[] = array('name' => Translation :: get('Export'), 'description' => Translation :: get('ExportDescription'), 'action' => 'export', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
         $links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
@@ -439,6 +465,20 @@ class UserManager extends CoreApplication
   	function get_user_detail_url($user_id)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_DETAIL, self :: PARAM_USER_USER_ID => $user_id));
+    }
+    
+	function get_approve_user_url($user)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_APPROVER, 
+        						    self :: PARAM_USER_USER_ID => $user->get_id(),
+        							UserManagerUserApproverComponent :: PARAM_CHOICE => UserManagerUserApproverComponent :: CHOICE_APPROVE));
+    }
+    
+	function get_deny_user_url($user)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_APPROVER, 
+        						    self :: PARAM_USER_USER_ID => $user->get_id(),
+        						    UserManagerUserApproverComponent :: PARAM_CHOICE => UserManagerUserApproverComponent :: CHOICE_DENY));
     }
 
 }

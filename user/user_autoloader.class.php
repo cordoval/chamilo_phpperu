@@ -66,7 +66,7 @@ class UserAutoloader
 
 	static function check_for_tables($classname)
 	{
-		$list = array('admin_user_browser_table' => 'admin_user_browser/admin_user_browser_table.class.php');
+		$list = array('admin_user_browser_table' => 'admin_user_browser/admin_user_browser_table.class.php', 'user_approval_browser_table' => 'user_approval_browser/user_approval_browser_table.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

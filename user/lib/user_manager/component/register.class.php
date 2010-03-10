@@ -45,7 +45,15 @@ class UserManagerRegisterComponent extends UserManagerComponent
             if ($success == 1)
             {
                 //$this->redirect(Translation :: get($success ? 'UserRegistered' : 'UserNotRegistered'), ($success ? false : true), array(), array(), false, Redirect :: TYPE_LINK);
-                Redirect :: link('', array(), array(), false, null);
+                
+            	$parameters = array();
+            	
+	            if (PlatformSetting :: get('allow_registration', 'user') == 2)
+	        	{
+	        		$parameters['message'] = Translation :: get('UserAwaitingApproval');
+	        	}
+            	
+                Redirect :: link('', $parameters, array(), false, null);
             }
             else
             {

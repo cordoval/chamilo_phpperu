@@ -59,6 +59,12 @@
 			<setting name="platform_timezone" field="select" default="Europe/Brussels" user_setting="1">
 				<options type="dynamic" source="get_time_zones" />
 			</setting>
+			<setting name="active_online_email_editor" field="checkbox"
+				default="0">
+				<options type="static">
+					<option name="active_online_email_editor" value="1" />
+				</options>
+			</setting>
 		</category>
 		<category name="visual">
 			<setting name="platform_language" field="select" default="english" user_setting="1">

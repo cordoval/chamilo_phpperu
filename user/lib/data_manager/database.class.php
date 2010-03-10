@@ -177,11 +177,53 @@ class DatabaseUserDataManager extends UserDataManager
 
 	function count_users($condition = null)
 	{
+		if($condition)
+		{
+			$conditions[] = $condition;
+		}
+		
+		$conditions[] = new EqualityCondition(User :: PROPERTY_APPROVED, 1);
+		$condition = new AndCondition($conditions);
+		
+		return $this->database->count_objects(User :: get_table_name(), $condition);
+	}
+	
+	function count_approval_users($condition = null)
+	{
+		if($condition)
+		{
+			$conditions[] = $condition;
+		}
+		
+		$conditions[] = new EqualityCondition(User :: PROPERTY_APPROVED, 0);
+		$condition = new AndCondition($conditions);
+		
 		return $this->database->count_objects(User :: get_table_name(), $condition);
 	}
 
 	function retrieve_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
+		if($condition)
+		{
+			$conditions[] = $condition;
+		}
+		
+		$conditions[] = new EqualityCondition(User :: PROPERTY_APPROVED, 1);
+		$condition = new AndCondition($conditions);
+		
+		return $this->database->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+	}
+	
+	function retrieve_approval_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+		if($condition)
+		{
+			$conditions[] = $condition;
+		}
+		
+		$conditions[] = new EqualityCondition(User :: PROPERTY_APPROVED, 0);
+		$condition = new AndCondition($conditions);
+		
 		return $this->database->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 

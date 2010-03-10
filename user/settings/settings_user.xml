@@ -81,6 +81,33 @@
 			</setting>
 		</category>
 		<category name="registration">
+			<setting name="allow_registration" field="radio" default="1">
+				<options type="static">
+					<option name="after_aproval" value="2" />
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_teacher_registration" field="radio"
+				default="1">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="enable_terms_and_conditions" field="radio" default="1">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_password_retrieval" field="radio"
+				default="1">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
 			<setting name="require_official_code" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
@@ -94,26 +121,6 @@
 				</options>
 			</setting>
 			<setting name="require_language" field="radio" default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
-			<setting name="allow_password_retrieval" field="radio"
-				default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
-			<setting name="allow_registration" field="radio" default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
-			<setting name="allow_teacher_registration" field="radio"
-				default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />

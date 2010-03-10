@@ -85,7 +85,7 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_deactivate_translator_application_url($translator_application),
 				'label' => Translation :: get('Deactivate'),
-				'img' => Theme :: get_image_path().'action_deactivate.png'
+				'img' => Theme :: get_common_image_path().'action_deactivate.png'
 			);
 		}
 		elseif ($status == TranslatorApplication :: STATUS_PENDING)
@@ -93,7 +93,7 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_activate_translator_application_url($translator_application),
 				'label' => Translation :: get('Activate'),
-				'img' => Theme :: get_image_path().'action_activate.png'
+				'img' => Theme :: get_common_image_path().'action_activate.png'
 			);
 		}
 
