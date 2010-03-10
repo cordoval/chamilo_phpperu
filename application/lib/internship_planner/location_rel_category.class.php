@@ -15,6 +15,7 @@ class LocationRelCategory extends DataClass
 	/**
 	 * LocationRelCategory properties
 	 */
+	//test
 	const PROPERTY_ID = 'id';
 	const PROPERTY_LOCATION_ID = 'location_id';
 	const PROPERTY_CATEGORY_ID = 'category_id';
