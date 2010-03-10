@@ -18,7 +18,7 @@ class FormValidatorTinymceHtmlEditorOptions extends FormValidatorHtmlEditorOptio
 
     private $toolbars = array(
                 'Basic' => array(
-                                self :: OPTION_TOOLBAR_LINE_1 => 'bold,italic,underline,separator,numlist,bullist,separator,link,unlink,separator,forecolor,backcolor,separator,hr,separator,image',
+                                self :: OPTION_TOOLBAR_LINE_1 => 'bold,italic,underline,separator,numlist,bullist,separator,link,unlink,separator,forecolor,backcolor,separator,hr,separator,image,template',
                                 self :: OPTION_TOOLBAR_LINE_2 => '',
                                 self :: OPTION_TOOLBAR_LINE_3 => ''
                             )
@@ -46,6 +46,7 @@ class FormValidatorTinymceHtmlEditorOptions extends FormValidatorHtmlEditorOptio
 //	    $mapping[self :: OPTION_COLLAPSE_TOOLBAR] = 'toolbarStartupExpanded';
 //	    $mapping[self :: OPTION_CONFIGURATION] = 'script_url';
 //	    $mapping[self :: OPTION_FULL_PAGE] = 'fullPage';
+	    $mapping[self :: OPTION_TEMPLATES] = 'template_external_list_url';
 
 	    return $mapping;
 	}
@@ -73,7 +74,8 @@ class FormValidatorTinymceHtmlEditorOptions extends FormValidatorHtmlEditorOptio
 	    $this->set_option(self :: OPTION_TOOLBAR_LOCATION, 'top');
 	    $this->set_option(self :: OPTION_TOOLBAR_ALIGN, 'left');
 	    $this->set_option(self :: OPTION_BROWSER, 'myFileBrowser');
-	    $this->set_option(self :: OPTION_PLUGIN, 'media');
+	    $this->set_option(self :: OPTION_PLUGIN, 'template,media');
+	    $this->set_option(self :: OPTION_TEMPLATES, Path :: get(REL_PATH) . 'common/html/formvalidator/form_validator_html_editor_templates_instance.php');
 
 	    $formats = $this->get_toolbar_format($this->get_option(self :: OPTION_TOOLBAR));
 	    foreach ($formats as $key => $format)

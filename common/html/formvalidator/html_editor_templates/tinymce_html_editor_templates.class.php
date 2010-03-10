@@ -7,7 +7,28 @@
 
 class FormValidatorTinymceHtmlEditorTemplates extends FormValidatorHtmlEditorTemplates
 {
+    const TEMPLATE_ID = 'template';
+
     function render()
+    {
+        $template_id = Request :: get(self :: TEMPLATE_ID);
+
+        if (isset($template_id))
+        {
+            return $this->render_template($template_id);
+        }
+        else
+        {
+            return $this->render_template_list();
+        }
+    }
+
+    function render_template()
+    {
+        return '';
+    }
+
+    function render_template_list()
     {
         $templates = $this->get_templates();
 
@@ -18,14 +39,7 @@ class FormValidatorTinymceHtmlEditorTemplates extends FormValidatorHtmlEditorTem
 
         $html = array();
 
-        $html[] = "CKEDITOR.addTemplates( 'default',";
-        $html[] = '{';
-        $html[] = "// The name of sub folder which hold the shortcut preview images of the templates.";
-        $html[] = "imagesPath : CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'templates' ) + 'templates/images/' ),";
-        $html[] = '';
-        $html[] = '// The templates definitions';
-        $html[] = 'templates :';
-        $html[] = '[';
+        $html[] = "var tinyMCETemplateList = [";
 
         $templates = $this->get_templates();
 
@@ -36,27 +50,24 @@ class FormValidatorTinymceHtmlEditorTemplates extends FormValidatorHtmlEditorTem
             $design = preg_replace('/((\\\\n)+)/',"$1\"+\n\"",preg_replace("/(\r\n|\n)/",'\\n',addslashes($template->get_design())));
 
             $editor_template = array();
-            $editor_template[] = '{';
-            $editor_template[] = '	title: \'' . addslashes($template->get_title()) . '\',';
-            $editor_template[] = '	image: \'\',';
-            $editor_template[] = '	description: "' . $description . '",';
-            $editor_template[] = '	html: "' . $design . '"';
-            $editor_template[] = '}';
+            $editor_template[] = '[';
+            $editor_template[] = '"' . addslashes($template->get_title()) . '", ';
+            $editor_template[] = '"' . Path :: get(REL_PATH) . 'common/html/formvalidator/form_validator_html_editor_templates_instance.php?' . self :: TEMPLATE_ID . '=' . $template->get_id() . '",';
+            $editor_template[] = '"' . $description . '"';
+            $editor_template[] = ']';
 
-            $editor_templates[] = implode("\n", $editor_template);
+            $editor_templates[] = implode('', $editor_template);
         }
 
         $html[] = implode(',', $editor_templates);
-        $html[] = ']';
-        $html[] = '});';
+        $html[] = '];';
 
         return implode("\n", $html);
     }
 
     function render_default_templates()
     {
-        $default_path = Path :: get_plugin_path() . 'html_editor/ckeditor/plugins/templates/templates/default.js';
-        return file_get_contents($default_path);
+        return '';
     }
 }
 ?>
