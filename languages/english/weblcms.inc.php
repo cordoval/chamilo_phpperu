@@ -341,7 +341,8 @@ $lang['weblcms']['CreationFailed'] = 'Creation failed';
 $lang['weblcms']['Visibility'] = 'Visibility';
 $lang['weblcms']['Access'] = 'Access';
 $lang['weblcms']['IsFixed'] = 'Fixed';
-$lang['weblcms']['MakeAvailable'] = 'Make tool available?';
-$lang['weblcms']['IsVisible'] = 'Is tool viewable?';
+$lang['weblcms']['IsToolAvailable?'] = 'Is tool available?';
+$lang['weblcms']['IsToolVisible?'] = 'Is tool viewable?';
+$lang['weblcms']['ToolName'] = 'Tool\'s name:';
 
 ?>

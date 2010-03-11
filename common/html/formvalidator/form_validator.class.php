@@ -203,7 +203,7 @@ EOT;
     /*
      * Adds tabs to a form
      * @param array $tabs An array of tab objects that specifies the tabs that are going to be created
-     * @param int $selected_tab The tab is selected
+     * @param int $selected_tab The tab that is selected
      * @author Tristan Verheecke
      */
     function add_tabs($tabs, $selected_tab)
