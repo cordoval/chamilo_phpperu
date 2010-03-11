@@ -137,7 +137,7 @@ class DocumentForm extends ContentObjectForm
         {
             $documents = array();
             $filecompression = Filecompression :: factory();
-            $dir = $filecompression->extract_file($document->get_full_path());
+            $dir = $filecompression->extract_file($document->get_full_path()); dump($dir); exit;
             $entries = Filesystem :: get_directory_content($dir);
             $wdm = RepositoryDataManager :: get_instance();
             $created_directories = array();
