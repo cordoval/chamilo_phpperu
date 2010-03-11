@@ -25,7 +25,6 @@ class IncludeWikiParser extends ContentObjectIncludeParser
             {
                 $tags = Text :: fetch_tag_into_array($values[$html_editor], '[wikilink=]'); //bvb wikilink
 
-
                 foreach ($tags as $tag)
                 {
                     $search_path = str_replace($base_path, '', $tag['src']);

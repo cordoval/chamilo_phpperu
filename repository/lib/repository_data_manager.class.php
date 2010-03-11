@@ -676,7 +676,7 @@ abstract class RepositoryDataManager
 
         return true;
     }
-    
+
     function delete_content_object_publication($application, $publication_id)
     {
     	 //require_once (Path :: get(SYS_PATH) . 'application/lib/' . $application . '/' . $application . '_manager/' . $application . '_manager.class.php');
@@ -726,20 +726,20 @@ abstract class RepositoryDataManager
 
     /**
      * Counts the content objects to which the selected content object are attached to
-     * 
+     *
      * @param ContentObject $object The content object
      * @return int The count
      */
     abstract function count_objects_to_which_object_is_attached($object);
-    
+
     /**
      * Returns the content objects to which the selected content object are attached to
-     * 
+     *
      * @param ContentObject $object The content object
      * @return array The the content objects to which the selected content object are attached to
      */
     abstract function retrieve_objects_to_which_object_is_attached($object);
-    
+
     /**
      * Returns the learning objects that are included into the learning object
      * with the given ID.
@@ -751,20 +751,22 @@ abstract class RepositoryDataManager
 
     /**
      * Returns the content objects in which the selected content object are included
-     * 
+     *
      * @param ContentObject $object The content object
      * @return array The the content objects in which the selected content object are included
      */
     abstract function retrieve_objects_in_which_object_is_included($object);
-    
+
+    abstract function is_content_object_already_included($content_object, $include_object_id);
+
     /**
      * Counts the content objects in which the selected content object are included
-     * 
+     *
      * @param ContentObject $object The content object
      * @return int The count
      */
     abstract function count_objects_in_which_object_is_included($object);
-    
+
     abstract function retrieve_content_object_versions($object);
 
     abstract function get_latest_version_id($object);
@@ -955,12 +957,12 @@ abstract class RepositoryDataManager
     abstract function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
     abstract function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null);
-    
+
     abstract function create_external_repository_sync_info($external_repository_sync_info);
 
     abstract function update_external_repository_sync_info($external_repository_sync_info);
 
     abstract function delete_external_repository_sync_info($external_repository_sync_info);
-    
+
 }
 ?>

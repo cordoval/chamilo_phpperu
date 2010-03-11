@@ -110,6 +110,7 @@ class CommonAutoloader
 					  'form_validator_page' => 'formvalidator/form_validator_page.class.php',
 					  'form_validator_html_editor' => 'formvalidator/form_validator_html_editor.class.php',
 					  'form_validator_html_editor_templates' => 'formvalidator/form_validator_html_editor_templates.class.php',
+					  'html_editor_processor' => 'formvalidator/html_editor/html_editor_file_browser/html_editor_processor/html_editor_processor.class.php',
 					  'form_tab' => 'formvalidator/form_tab.class.php',
 					  'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php'
 		);

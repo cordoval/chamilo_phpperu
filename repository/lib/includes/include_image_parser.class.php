@@ -16,34 +16,35 @@ class IncludeImageParser extends ContentObjectIncludeParser
         $base_path = Path :: get(WEB_REPO_PATH);
         $html_editors = $form->get_html_editors();
 
-//        foreach ($html_editors as $html_editor)
-//        {
-//            if (isset($values[$html_editor]))
-//            {
-//                $tags = Text :: parse_html_file($values[$html_editor]);
-////                $tags = Text :: fetch_tag_into_array($values[$html_editor], '<img>');
-//
-//                foreach ($tags as $tag)
-//                {
-//                    $source = $tag->getAttribute('src');
-//                    dump($source);
-//                    continue;
-//
-//                    $search_path = str_replace($base_path, '', $tag['src']);
-//
-//                    $rdm = RepositoryDataManager :: get_instance();
-//                    $condition = new Equalitycondition('path', $search_path);
-//
-//                    $search_objects = $rdm->retrieve_type_content_objects('document', $condition);
-//
-//                    while ($search_object = $search_objects->next_result())
-//                    {
-//                        $content_object->include_content_object($search_object->get_id());
-//                    }
-//                }
-//                exit;
-//            }
-//        }
+        foreach ($html_editors as $html_editor)
+        {
+            if (isset($values[$html_editor]))
+            {
+                $tags = Text :: parse_html_file($values[$html_editor], 'img');
+
+                foreach ($tags as $tag)
+                {
+                    $source = $tag->getAttribute('src');
+
+                    if (stripos($source, HtmlEditorProcessor :: get_repository_document_display_url()) !== false)
+                    {
+                        $source_components = parse_url($source);
+                        $source_query_components = Text :: parse_query_string($source_components['query']);
+                        $content_object_id = $source_query_components[RepositoryManager :: PARAM_CONTENT_OBJECT_ID];
+
+                        if ($content_object_id)
+                        {
+                            $included_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object_id);
+
+                            if ($included_object->is_image())
+                            {
+                                $content_object->include_content_object($included_object->get_id());
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 ?>

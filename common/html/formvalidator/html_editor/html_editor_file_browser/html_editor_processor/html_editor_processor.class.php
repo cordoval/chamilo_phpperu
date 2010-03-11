@@ -59,6 +59,13 @@ abstract class HtmlEditorProcessor
         return $this->get_parent()->get_parameter($key);
     }
 
+    function get_repository_document_display_url($extra_parameters = array())
+    {
+        $parameters = array_merge(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_DOWNLOAD_DOCUMENT, 'display' => 1), $extra_parameters);
+
+        return Redirect :: get_link(RepositoryManager :: APPLICATION_NAME, $parameters, null, null, Redirect :: TYPE_CORE);
+    }
+
     abstract function run();
 }
 ?>
