@@ -427,6 +427,36 @@ class Document extends ContentObject
         return in_array($extension, $this->get_image_types());
     }
 
+    /**
+     * Determines if this document is a flash movie
+     * @return boolean True if the document is a flash movie
+     */
+    function is_flash()
+    {
+        $extension = $this->get_extension();
+        return in_array($extension, $this->get_flash_types());
+    }
+
+    /**
+     * Determines if this document is a video
+     * @return boolean True if the document is a video
+     */
+    function is_video()
+    {
+        $extension = $this->get_extension();
+        return in_array($extension, $this->get_video_types());
+    }
+
+    /**
+     * Determines if this document is an audio file
+     * @return boolean True if the document is an audio file
+     */
+    function is_audio()
+    {
+        $extension = $this->get_extension();
+        return in_array($extension, $this->get_audio_types());
+    }
+
     static function get_image_types()
     {
         $image_types = array();

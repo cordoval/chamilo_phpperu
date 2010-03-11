@@ -509,8 +509,18 @@ class ContentObject extends DataClass implements AccessibleContentObject
      */
     function include_content_object($id)
     {
-        $dm = RepositoryDataManager :: get_instance();
-        return $dm->include_content_object($this, $id);
+        $rdm = RepositoryDataManager :: get_instance();
+
+        $is_already_included = $rdm->is_content_object_already_included($this, $id);
+
+        if ($is_already_included)
+        {
+            return true;
+        }
+        else
+        {
+            return $rdm->include_content_object($this, $id);
+        }
     }
 
     /**
@@ -703,9 +713,9 @@ class ContentObject extends DataClass implements AccessibleContentObject
         $dm = RepositoryDataManager :: get_instance();
         $success = $dm->update_content_object($this);
         if (! $success)
-        { 
+        {
             return false;
-        } 
+        }
         $state = $this->get_state();
         if ($state == $this->oldState)
         {
@@ -719,16 +729,16 @@ class ContentObject extends DataClass implements AccessibleContentObject
 		 */
         return true;
     }
-    
+
     function recycle()
     {
     	$this->set_modification_date(time());
     	$this->set_state(self :: STATE_RECYCLED);
-    	
+
     	$dm = RepositoryDataManager :: get_instance();
         return $dm->update_content_object($this);
     }
-    
+
     function move($new_parent_id)
     {
     	$this->set_parent_id($new_parent_id);
@@ -1044,7 +1054,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
         {
         	return null;
         }
-        
+
     	$class = self :: type_to_class($type);
         require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
@@ -1086,9 +1096,9 @@ class ContentObject extends DataClass implements AccessibleContentObject
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
+
     /**
-     * 
+     *
      * @param integer $content_object_id
      * @return ContentObject An object inheriting from ContentObject
      */
