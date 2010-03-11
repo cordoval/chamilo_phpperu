@@ -24,7 +24,6 @@ class DefaultIndicatorTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 
-		$columns[] = new ObjectTableColumn(Indicator :: PROPERTY_ID);
 		$columns[] = new ObjectTableColumn(Indicator :: PROPERTY_TITLE);
 		$columns[] = new ObjectTableColumn(Indicator :: PROPERTY_DESCRIPTION);
 

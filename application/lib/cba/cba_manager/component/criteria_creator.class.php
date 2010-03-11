@@ -1,18 +1,18 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
 require_once dirname(__FILE__).'/../cba_manager_component.class.php';
-require_once dirname(__FILE__).'/../../forms/cba_form.class.php';
+require_once dirname(__FILE__).'/../../forms/criteria_form.class.php';
 /**
  * 
  * @author Nick Van Loocke
  */
-class CbaManagerCreatorCriteriaComponent extends CbaManagerComponent
+class CbaManagerCriteriaCreatorComponent extends CbaManagerComponent
 {
 
 	function run()
 	{				
 		$criteria = new Criteria();
-		$form = new CbaForm(CbaForm :: TYPE_CREATOR_CRITERIA, $criteria, $this->get_url(), $this->get_user());
+		$form = new CriteriaForm(CriteriaForm :: TYPE_CREATOR_CRITERIA, $criteria, $this->get_url(), $this->get_user());
 
 		if($form->validate())
 		{
@@ -21,7 +21,7 @@ class CbaManagerCreatorCriteriaComponent extends CbaManagerComponent
 		}
 		else
 		{
-			$new = 'CreatorCriteria';
+			$new = 'CriteriaCreator';
 			$this->display_header($trail, false, true, $new);
 			$form->display();
 		}

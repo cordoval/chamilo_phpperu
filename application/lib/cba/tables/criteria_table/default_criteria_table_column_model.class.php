@@ -24,7 +24,6 @@ class DefaultCriteriaTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 
-		$columns[] = new ObjectTableColumn(Criteria :: PROPERTY_ID);
 		$columns[] = new ObjectTableColumn(Criteria :: PROPERTY_TITLE);
 		$columns[] = new ObjectTableColumn(Criteria :: PROPERTY_DESCRIPTION);
 

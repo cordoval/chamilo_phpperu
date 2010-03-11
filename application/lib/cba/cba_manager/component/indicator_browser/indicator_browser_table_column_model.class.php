@@ -5,7 +5,6 @@ require_once dirname(__FILE__).'/../../../indicator.class.php';
 /**
  * Table column model for the indicator browser table
  *
- * @author Sven Vanpoucke
  * @author Nick Van Loocke
  */
 

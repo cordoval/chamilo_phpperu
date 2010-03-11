@@ -11,14 +11,14 @@ class SurveyBuilder extends ComplexBuilder
     function run()
     {
         $action = $this->get_action();
-        
+
         switch ($action)
         {
             case ComplexBuilder :: ACTION_BROWSE_CLO :
                 $component = SurveyBuilderComponent :: factory('Browser', $this);
                 break;
         }
-        
+
         if (! $component)
             parent :: run();
         else

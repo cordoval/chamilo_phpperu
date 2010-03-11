@@ -1,18 +1,18 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
 require_once dirname(__FILE__).'/../cba_manager_component.class.php';
-require_once dirname(__FILE__).'/../../forms/cba_form.class.php';
+require_once dirname(__FILE__).'/../../forms/indicator_form.class.php';
 /**
  * 
  * @author Nick Van Loocke
  */
-class CbaManagerCreatorIndicatorComponent extends CbaManagerComponent
+class CbaManagerIndicatorCreatorComponent extends CbaManagerComponent
 {
 
 	function run()
 	{				
 		$indicator = new Indicator();
-		$form = new CbaForm(CbaForm :: TYPE_CREATOR_INDICATOR, $indicator, $this->get_url(), $this->get_user());
+		$form = new IndicatorForm(IndicatorForm :: TYPE_CREATOR_INDICATOR, $indicator, $this->get_url(), $this->get_user());
 
 		if($form->validate())
 		{
@@ -21,7 +21,7 @@ class CbaManagerCreatorIndicatorComponent extends CbaManagerComponent
 		}
 		else
 		{
-			$new = 'CreatorIndicator';
+			$new = 'IndicatorCreator';
 			$this->display_header($trail, false, true, $new);
 			$form->display();
 		}
