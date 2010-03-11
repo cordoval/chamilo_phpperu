@@ -5,6 +5,8 @@ require_once dirname(__FILE__).'/component/competency_browser/competency_browser
 require_once dirname(__FILE__).'/component/indicator_browser/indicator_browser_table.class.php';
 require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_table.class.php';
 
+require_once 'HTML/Menu.php';
+require_once 'HTML/Menu/ArrayRenderer.php';
 /**
  * A Cba manager
  *
@@ -43,12 +45,20 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	const ACTION_CREATOR_INDICATOR = 'creator_indicator';
 	const ACTION_CREATOR_CRITERIA = 'creator_criteria';
 	
-	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
+	const ACTION_MANAGE_CATEGORIES_COMPETENCY = 'manage_categories_competency';
+	const ACTION_MANAGE_CATEGORIES_INDICATOR = 'manage_categories_indicator';
+	const ACTION_MANAGE_CATEGORIES_CRITERIA = 'manage_categories_criteria';
 	
 	const ACTION_CREATE = 'create';
 	const ACTION_VIEW_SEARCH_COMPETENCY = 'search';
 	
+	const ACTION_MOVE_COMPETENCY = 'move_competency';
+	const ACTION_MOVE_INDICATOR = 'move_indicator';
+	const ACTION_MOVE_CRITERIA = 'move_criteria';
+	
 
+	private $category_menu;
+	
 	/**
 	 * Constructor
 	 * @param User $user The current user
@@ -71,8 +81,14 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 			case self :: ACTION_CREATE:
 				$component = CbaManagerComponent :: factory('Create', $this);
 				break;
-		    case self :: ACTION_MANAGE_CATEGORIES:
-				$component = CbaManagerComponent :: factory('CategoryManager', $this);
+		    case self :: ACTION_MANAGE_CATEGORIES_COMPETENCY:
+				$component = CbaManagerComponent :: factory('CompetencyCategoryManager', $this);
+				break;
+			case self :: ACTION_MANAGE_CATEGORIES_INDICATOR:
+				$component = CbaManagerComponent :: factory('IndicatorCategoryManager', $this);
+				break;
+			case self :: ACTION_MANAGE_CATEGORIES_CRITERIA:
+				$component = CbaManagerComponent :: factory('CriteriaCategoryManager', $this);
 				break;
 			case self :: ACTION_BROWSE_COMPETENCY:
 				$component = CbaManagerComponent :: factory('Browser', $this);
@@ -122,6 +138,15 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 			case self :: ACTION_VIEW_SEARCH_COMPETENCY :
 				$component = CbaManagerComponent :: factory('CompetencySearch', $this);
 				break;
+			case self :: ACTION_MOVE_COMPETENCY :
+                $component = CBaManagerComponent :: factory('CompetencyMover', $this);
+                break;
+           	case self :: ACTION_MOVE_INDICATOR :
+                $component = CbaManagerComponent :: factory('IndicatorMover', $this);
+                break;
+        	case self :: ACTION_MOVE_CRITERIA :
+                $component = CbaManagerComponent :: factory('CriteriaMover', $this);
+                break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_COMPETENCY);
 				$component = CbaManagerComponent :: factory('Browser', $this);
@@ -304,11 +329,41 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE));
 	}
 	
- 	function get_category_manager_url()
+	
+	//Url creation for the different categories
+	
+ 	function get_competency_category_manager_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES_COMPETENCY));
     }
     
+ 	function get_indicator_category_manager_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES_INDICATOR));
+    }
+    
+ 	function get_criteria_category_manager_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES_CRITERIA));
+    }
+    
+    
+    // Move function
+    
+ 	function get_competency_moving_url($competency)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_COMPETENCY, self :: PARAM_COMPETENCY => $competency->get_id()));
+    }
+    
+ 	function get_indicator_moving_url($indicator)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_INDICATOR, self :: PARAM_INDICATOR => $indicator->get_id()));
+    }
+    
+ 	function get_criteria_moving_url($criteria)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_CRITERIA, self :: PARAM_CRITERIA => $criteria->get_id()));
+    }
 	
 	// Dummy Methods which are needed because we don't work with learning objects
 	function content_object_is_published($object_id)
@@ -354,53 +409,34 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	}
 	
 	
- 	function display_header($breadcrumbtrail, $display_search = false, $display_menu = true, $newbreadcrumb)
+ 	function display_header($breadcrumbtrail, $display_search = false, $display_menu = true)
     {
         if (is_null($breadcrumbtrail))
         {
             $breadcrumbtrail = new BreadcrumbTrail();
         }
-
-		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CBA')));
-		
-		if($newbreadcrumb != null)
-		{
-			$trail->add(new Breadcrumb($this->get_url(), Translation :: get($newbreadcrumb)));
-		}
-        
+        $trail = $breadcrumbtrail;        
         $categories = $this->breadcrumbs;
-		/*if (count($categories) > 0 && $this->get_action() == self :: ACTION_BROWSE_CONTENT_OBJECTS)
-		{
-			foreach($categories as $category)
-			{
-				$breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
-			}
-		}
-
-        if ($display_menu)
-        {
-            if (Request :: get('category'))
-                $trail->merge($this->get_category_menu()->get_breadcrumbs(false));
-        }*/
-
-        //$trail->merge($breadcrumbtrail);
-
         $breadcrumbtrail = $trail;
 
         $title = $breadcrumbtrail->get_last()->get_name();
         $title_short = $title;
-        /*if (strlen($title_short) > 53)
+        if (strlen($title_short) > 53)
         {
             $title_short = substr($title_short, 0, 50) . '&hellip;';
-        }*/
+        }
         Display :: header($breadcrumbtrail);
 
         
         if ($display_menu)
         {
+        	/*echo '<div id="repository_tree_container" style="float: left; width: 12%;">';
+            $this->display_content_object_categories();
+            echo '</div>';*/
+
+            
+            
             echo '<div id="repository_tree_container" style="float: left; width: 12%;">';
-            //$this->display_content_object_categories();
             echo '<br /><a href="' . $this->get_browse_competency_url() . '">' . Translation :: get('Competency') . '</a><hr size="1" width="90%" align="left"/>';
 			echo '<br /><a href="' . $this->get_browse_indicator_url() . '">' . Translation :: get('Indicator') . '</a><hr size="1" width="90%" align="left"/>';
 			echo '<br /><a href="' . $this->get_browse_criteria_url() . '">' . Translation :: get('Criteria') . '</a><hr size="1" width="90%" align="left"/>';
@@ -428,6 +464,87 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
         }
     }
     
+ 	private function display_content_object_categories()
+    {
+        echo $this->get_category_menu()->render_as_tree();
+    }
+    
+    private function get_category_menu($force_search = false)
+    {
+        if (! isset($this->category_menu))
+        {
+            $temp_replacement = '__CATEGORY_ID__';
+            $url_format = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_COMPETENCY, self :: PARAM_COMPETENCY => $temp_replacement));
+            $url_format = str_replace($temp_replacement, '%s', $url_format);
+            $category = $this->get_parameter(self :: PARAM_COMPETENCY);
+            if (! isset($category))
+            {
+                $category = $this->get_root_category_id();
+                $this->set_parameter(self :: PARAM_COMPETENCY, $category);
+            }
+            $extra_items = array();
+            
+            $create = array();
+            $create['title'] = Translation :: get('Competency');
+            $create['url'] = $this->get_browse_competency_url();
+            $create['class'] = 'create';
+            
+            $line = array();
+            $line['title'] = '';
+            $line['class'] = 'divider';
+            
+            $create = array();
+            $create['title'] = Translation :: get('Indicator');
+            $create['url'] = $this->get_browse_indicator_url();
+            $create['class'] = 'create';
+            
+            $line = array();
+            $line['title'] = '';
+            $line['class'] = 'divider';
+            
+            $create = array();
+            $create['title'] = Translation :: get('Criteria');
+            $create['url'] = $this->get_browse_criteria_url();
+            $create['class'] = 'create';
+            
+            $line = array();
+            $line['title'] = '';
+            $line['class'] = 'divider';
+            $line = array();
+            $line['title'] = '';
+            $line['class'] = 'divider';
+            
+            $create = array();
+            $create['title'] = Translation :: get('Create');
+            $create['url'] = $this->get_create_url();
+            $create['class'] = 'create';
+
+
+
+ 
+
+            $extra_items[] = $line;
+
+            $extra_items[] = $create;
+
+            $extra_items[] = $line;
+
+
+        }
+        return $this->category_menu;
+    }
+    
+ 	function get_root_category_id()
+    {
+		return 0;
+    }
+    
+ 	function render_as_tree()
+    {
+        $renderer = new TreeMenuRenderer();
+        $this->render($renderer, 'sitemap');
+        return $renderer->toHTML();
+    }
     
 }
 ?>

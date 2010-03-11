@@ -5,17 +5,16 @@ require_once dirname(__FILE__).'/../../category_manager/competency_category_mana
 /**
  * @author Nick Van Loocke
  */
-class CbaManagerCategoryManagerComponent extends CbaManagerComponent
+class CbaManagerCompetencyCategoryManagerComponent extends CbaManagerComponent
 {
     function run()
     {
         $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('CBA')));
         $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('BrowseCompetency')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
         $category_manager = new CompetencyCategoryManager($this, $trail);
-        $category_manager->run();
-        
-        
+        $category_manager->run();    
     }
     
 	function display_footer()

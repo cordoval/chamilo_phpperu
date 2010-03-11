@@ -14,10 +14,11 @@ class CbaManagerCompetencyEditorComponent extends CbaManagerComponent
 	 */
 	function run()
 	{
-		//$trail = new BreadcrumbTrail();
-		//$trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE)), Translation :: get('BrowseCba')));
-		//$trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CBAS)), Translation :: get('BrowseCbas')));
-		//$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateCompetency')));
+		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('CBA')));
+        $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('BrowseCompetency')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateCompetency')));
+		$this->display_header($trail, false, true);
 
 		$competency = $this->retrieve_competency(Request :: get(CbaManager :: PARAM_COMPETENCY));
 		$form = new CompetencyForm(CompetencyForm :: TYPE_EDITOR_COMPETENCY, $competency, $this->get_url(array(CbaManager :: PARAM_COMPETENCY => $competency->get_id())), $this->get_user());
@@ -29,7 +30,6 @@ class CbaManagerCompetencyEditorComponent extends CbaManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
 			$form->display();
 		}
 		$this->display_footer();

@@ -11,10 +11,6 @@ class ForumPublicationCategoryManager extends CategoryManager
 
     function ForumPublicationCategoryManager($parent)
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($parent->get_url(array(ForumManager :: PARAM_ACTION => null)), Translation :: get('Forum')));
-        $trail->add(new Breadcrumb($parent->get_url(), Translation :: get('ManageCategories')));
-        
         parent :: __construct($parent, $trail);
     }
 

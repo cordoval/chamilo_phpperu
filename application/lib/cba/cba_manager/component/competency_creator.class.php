@@ -10,7 +10,13 @@ class CbaManagerCompetencyCreatorComponent extends CbaManagerComponent
 {
 
 	function run()
-	{				
+	{			
+		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('CBA')));
+        $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('BrowseCompetency')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateCompetency')));
+		$this->display_header($trail, false, true);
+		
 		$competency = new Competency();
 		$form = new CompetencyForm(CompetencyForm :: TYPE_CREATOR_COMPETENCY, $competency, $this->get_url(), $this->get_user());
 
@@ -21,8 +27,6 @@ class CbaManagerCompetencyCreatorComponent extends CbaManagerComponent
 		}
 		else
 		{
-			$new = 'CompetencyCreator';
-			$this->display_header($trail, false, true, $new);
 			$form->display();
 		}
 		$this->display_footer();

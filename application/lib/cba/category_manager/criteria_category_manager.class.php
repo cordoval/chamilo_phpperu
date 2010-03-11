@@ -14,7 +14,7 @@ class CriteriaCategoryManager extends CategoryManager
 
     function get_category()
     {
-        return new CompetencyCategory();
+        return new CriteriaCategory();
     }
 
     function count_categories($condition)
@@ -31,8 +31,9 @@ class CriteriaCategoryManager extends CategoryManager
 
     function get_next_category_display_order($parent_id)
     {
-        $adm = CbaDataManager :: get_instance();
-        return $adm->select_next_criteria_category_display_order($parent_id);
+        $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent_id);
+        $sort = CbaDataManager :: get_instance()->retrieve_max_sort_value(CriteriaCategory :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
+        return $sort + 1;
     }
 }
 ?>

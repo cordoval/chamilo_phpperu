@@ -8,8 +8,10 @@ class CbaManagerCreateComponent extends CbaManagerComponent
 {
 	function run()
 	{
-		$newbreadcrumb = 'Create';
-		$this->display_header($trail, false, true, $newbreadcrumb);
+		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('CBA')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+		$this->display_header($trail, false, true);
 		
 		
 		// Several object types
