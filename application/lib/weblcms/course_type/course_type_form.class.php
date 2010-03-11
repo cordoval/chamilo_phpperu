@@ -255,18 +255,35 @@ class CourseTypeForm extends FormValidator
 			return false;
 		}
 		
-		$tools = $this->fill_course_type_tools();
-		$validation = true;
+		$tools = $this->parent->get_all_non_admin_tools();
+		$selected_tools = $this->fill_course_type_tools($tools);
+		$default_tools = $this->course_type->get_tools();
 		
-		foreach($tools as $tool)
+		foreach($selected_tools as $tool)
 		{
-			$tool->update();
+			$sub_validation = false;
+			foreach($default_tools as $index => $default_tool)
+			{
+				if($tool->get_name() == $default_tool->get_name())
+				{
+					if(!$tool->update())
+						return false;
+					$sub_validation = true;
+					unset($default_tools[$index]);
+					break;
+				}	
+			}
+			if(!$sub_validation)
+			{
+				if(!$tool->create())
+					return false;
+			}
 		}
 		
-		
-		if(!$validation)
+		foreach($default_tools as $tool)
 		{
-			return false;
+			if(!$tool->delete())
+				return false;
 		}
 		
 		$course_type_layout = $this->fill_course_type_layout();
@@ -299,10 +316,11 @@ class CourseTypeForm extends FormValidator
 			return false;
 		}
 		
-		$tools = $this->fill_course_type_tools();
+		$tools = $this->parent->get_all_non_admin_tools();
+		$selected_tools = $this->fill_course_type_tools($tools);
 		$validation = true;
 		
-		foreach($tools as $tool)
+		foreach($selected_tools as $tool)
 		{
 			$tool->create();
 		}
@@ -388,22 +406,20 @@ class CourseTypeForm extends FormValidator
 		return $course_type_layout;		
 	}
 	
-	function fill_course_type_tools()
+	function fill_course_type_tools($tools)
 	{
-		$tools = $this->parent->get_all_non_admin_tools();
 		$tools_array = array();
-		$values = $this->exportValues();
 		foreach($tools as $tool)
 		{
 			$element_name = $tool . "element";
 			$element_default = $tool . "elementdefault";
 			
-			if($this->get_checkbox_value($values[$element_name]))
+			if($this->get_checkbox_value($this->get_checkbox_value($this->getElementValue($element_name))))
 			{
 				$course_type_tool = new CourseTypeTool();
 				$course_type_tool->set_course_type_id($this->course_type->get_id());
 				$course_type_tool->set_name($tool);
-				$course_type_tool->set_visible_default($this->get_checkbox_value($values[$element_default]));
+				$course_type_tool->set_visible_default($this->get_checkbox_value($this->getElementValue($element_default)));
 				$tools_array[] = $course_type_tool;
 			}
 		}
@@ -535,9 +551,9 @@ class CourseTypeForm extends FormValidator
 		foreach($arrayelements as $index => $value)
 		{
 			if($index == 0)
-			$this->addElement('html', '<div class="row"><div style="width: 28.5%; float: left;">');
+				$this->addElement('html', '<div class="row"><div style="width: 28.5%; float: left;">');
 			else
-			$this->addElement('html', '<div style="width: 20%; float: left;">');
+				$this->addElement('html', '<div style="width: 20%; float: left;">');
 			$this->addElement($value);
 			if($value->getType() != 'checkbox' && $value->getName() != CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS)
 				$this->addRule($value->getName(), Translation :: get('ThisFieldIsRequired'), 'required');
