@@ -59,7 +59,6 @@ class ReportingTemplateViewer
         $application = $reporting_template_registration->get_application();
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
         $file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($reporting_template_registration->get_classname()) . '.class.php';
-        ;
         require_once ($file);
         
         $template = new $classname($this->parent, $reporting_template_registration->get_id(), $params);

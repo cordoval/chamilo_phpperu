@@ -5,16 +5,17 @@
             var parent = $(this).parent().parent().parent();
             var block = parent.attr('id');
             var type = $(this).val();
+            var template_parameters = gup();
             parent = $('.reporting_content', parent);
-
             //var para = serialize_array(params);
 
             parent.html(getLoadingBox('ChangingDisplaymode'));
-            $.post("./reporting/ajax/reporting_change_charttype.php?"+gup(),
+            $.post("./reporting/ajax/reporting_change_charttype.php?",
             {
                 //para: para,
                 block:  block,
                 type: type
+                template_parameters: template_parameters
             },	function(data)
             {
                 if(data.length > 0)
@@ -86,7 +87,7 @@
                         name = name.replace('%5D',']');
                         name = name.replace('%5B','[');
                         params2 += name+'=';
-                        params2 += value+'&';
+                        params2 += value + '&';
                     }
                 }
             } // -->

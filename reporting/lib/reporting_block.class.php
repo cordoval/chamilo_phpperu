@@ -145,7 +145,6 @@ class ReportingBlock extends DataClass
     public function get_export_links()
     {
         $list = Export :: get_supported_filetypes(array('ical'));
-        
         $array = array();
         
         foreach ($list as $export_format)
@@ -153,11 +152,10 @@ class ReportingBlock extends DataClass
             $arr = array();
             $file = Theme :: get_common_image_path() . 'export_' . $export_format . '.png';
             $sys_file = Theme :: get_instance()->get_path(SYS_IMG_PATH) . 'common/export_' . $export_format . '.png';
-            $parameters = array();
-            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS) ? Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS) : $_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+            //$parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS) ? Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS) : $_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS];
             if (! file_exists($sys_file))
                 $file = Theme :: get_common_image_path() . 'export_unknown.png';
-            $arr[] = '<a href="index_reporting.php?' . Application :: PARAM_ACTION . '=' . ReportingManager :: ACTION_EXPORT . '&' . ReportingManager :: PARAM_REPORTING_BLOCK_ID . '=' . $this->get_id() . '&' . ReportingManager :: PARAM_EXPORT_TYPE . '=' . $export_format . '&' . http_build_query($parameters) . '" />';
+            $arr[] = '<a href="core.php?application=reporting&reporting_parent=' . $this->get_application() . '&' . Application :: PARAM_ACTION . '=' . ReportingManager :: ACTION_EXPORT . '&' . ReportingManager :: PARAM_REPORTING_BLOCK_ID . '=' . $this->get_id() . '&' . ReportingManager :: PARAM_EXPORT_TYPE . '=' . $export_format . '&template_parameters=' . base64_encode(serialize($this->get_function_parameters())) . '">';
             //$arr[] = '<img src="'.$file.'" border="0" title="'.$export_format.'" alt="'.$export_format.'" width="12" height="12" />';
             $arr[] = $export_format;
             $arr[] = '</a>';
@@ -292,6 +290,11 @@ class ReportingBlock extends DataClass
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+    
+    static function get_total_number()
+    {
+    	return count($this->data[1]['Values']);
     }
 }
 ?>

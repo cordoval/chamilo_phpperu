@@ -153,5 +153,12 @@ class DatabaseReportingDataManager extends ReportingDataManager
         $res->free();
         return $res;
     }
+    
+    function retrieve_reporting_template_object($classname)
+    {
+    	$condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_CLASSNAME, $classname);
+    	
+    	return $this->database->retrieve_object(ReportingTemplateRegistration :: get_table_name(), $condition);
+    }
 }
 ?>

@@ -30,7 +30,6 @@ class ReportingChartFormatter extends ReportingFormatter
     {
         $this->reporting_block = $reporting_block;
     } //ReportingChartFormatter
-
     
     public function get_chart_instance()
     {

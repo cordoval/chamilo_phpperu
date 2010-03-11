@@ -14,8 +14,9 @@ abstract class ReportingFormatter
      * Generates the html representing the chosen display mode
      * @return html
      */
+	
     abstract function to_html();
-
+     
     public static function factory(&$reporting_block)
     {
         $type = $reporting_block->get_displaymode();

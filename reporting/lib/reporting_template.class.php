@@ -60,11 +60,17 @@ abstract class ReportingTemplate
     function get_action_bar()
     {
         $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $this->params;
-        $parameters['s'] = Request :: get('s');
+        //$parameters['s'] = Request :: get('s');
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
         //$url = $this->parent->get_url(array (Tool :: PARAM_ACTION=>ReportingTool::ACTION_EXPORT_REPORT,ReportingManager::PARAM_TEMPLATE_ID => $this->id,ReportingManager::PARAM_EXPORT_TYPE=>'pdf',ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $this->params));
-        $url = 'index_reporting.php?go=export&template=' . $this->get_registration_id() . '&export=pdf&' . http_build_query($parameters);
+       		$url = 'core.php?application=reporting&reporting_parent=' . Request :: get('application') . '&go=export&template=' . $this->get_registration_id() . '&export=pdf';
+       	$s = Request :: get('s');
+        if (isset($s))
+        	$url .= '&s=' . Request :: get('s');
+        if (isset($parameters['template_parameters'])) 
+        {
+        	$url .= '&template_parameters=' . base64_encode(serialize($parameters['template_parameters']));
+        }
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), null, $url));
         
@@ -215,7 +221,8 @@ abstract class ReportingTemplate
                 if ($export)
                     $html[] = Reporting :: generate_block_export($value[0], $this->get_reporting_block_template_properties($value[0]->get_name()));
                 else
-                    $html[] = Reporting :: generate_block($value[0], $this->get_reporting_block_template_properties($value[0]->get_name()));
+                	$html[] = Reporting :: generate_block($value[0], $this->get_reporting_block_template_properties($value[0]->get_name()));
+                
                 $html[] = '<div class="clear">&nbsp;</div>';
             }
         }

@@ -54,6 +54,10 @@ class Reporting
         $html[] = '</div>';
         
         $html[] = '<div class="reporting_content">';
+//        if ($_SESSION['displaymodes'][$reporting_block->get_id()])
+//        {
+//        	$reporting_block->set_displaymode($_SESSION['displaymodes'][$reporting_block->get_id()]);
+//        }
         $html[] = ReportingFormatter :: factory($reporting_block)->to_html();
         $html[] = '</div>';
         
@@ -62,9 +66,7 @@ class Reporting
         $html[] = $reporting_block->get_export_links();
         $html[] = '</div>&nbsp;<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
-        
         $html[] = '</div>';
-        
         return implode("\n", $html);
     } //generate_block
 
@@ -85,6 +87,10 @@ class Reporting
         
         $html[] = '<div class="reporting_content">';
         //remove links
+    	if ($_SESSION['displaymodes'][$reporting_block->get_id()])
+        {
+        	$reporting_block->set_displaymode($_SESSION['displaymodes'][$reporting_block->get_id()]);
+        }
         $data = ReportingFormatter :: factory($reporting_block)->to_html();
         $data = str_replace('</a>', '', $data);
         $data = preg_replace('/<a[^>]+href[^>]+>/', '', $data);
@@ -95,10 +101,8 @@ class Reporting
         $html[] = '</div>';
         
         $html[] = '</div>';
-        
         return implode("\n", $html);
     } //generate_block_export
-
     
     /**
      * Generates an array from a tracker

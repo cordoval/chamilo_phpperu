@@ -23,7 +23,7 @@ class ReportingExporter
         if (strpos($displaymode, 'Chart:') !== false)
         {
             $displaymode = 'image';
-            $test = ReportingFormatter :: factory($rep_block)->to_link('SYS');
+            $test = ReportingFormatter :: factory($rep_block)->to_html('SYS');
             //$this->export_report($export, $link, $rep_block->get_name(), $displaymode);
         }
         else
@@ -67,7 +67,6 @@ class ReportingExporter
                 $data = $data2;
             }
             $test = $data;
-            
         //dump($data);
         //dump($test);
         //            $series = sizeof($datadescription["Values"]);
@@ -97,7 +96,9 @@ class ReportingExporter
         //$test = ReportingFormatter :: factory($rep_block)->to_html();
         //$test += '</body></html>';
         //dump($test);
-        $this->export_report($export, $test, $rep_block->get_name(), $displaymode, $rep_block);
+        $temp = $test;
+        $test = str_replace(Path :: get(WEB_PATH), Path :: get(SYS_PATH), $temp);
+        $this->export_report($export, $test, $rep_block->get_name(), /*$displaymode,*/ $rep_block);
     }
 
     public function export_template($ti, $export, $params)
@@ -108,21 +109,20 @@ class ReportingExporter
             $application = $reporting_template_registration->get_application();
             $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
             $file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($reporting_template_registration->get_classname()) . '.class.php';
-            ;
-            require_once ($file);
             
+            require_once ($file);
             $classname = $reporting_template_registration->get_classname();
-            $template = new $classname($this->parent);
-            $template->set_reporting_blocks_function_parameters($params);
-            $template->set_registration_id($ti);
+            $template = new $classname($this->parent, $ti, $params, null/*, $params['assessment_publication']*/);
+            /*$template->set_reporting_blocks_function_parameters($params);
+            $template->set_registration_id($ti);*/
             if (Request :: get('s'))
             {
                 $template->show_reporting_block(Request :: get('s'));
             }
             $html .= $this->get_export_header();
-            $html .= $template->to_html_export();
+            $temp = $template->to_html_export();
+            $html .= str_replace(Path :: get(WEB_PATH), Path :: get(SYS_PATH), $temp);
             $html .= $this->get_export_footer();
-            
             $display = $html;
             $this->export_report($export, $display, $reporting_template_registration->get_title(), null);
         }
@@ -147,16 +147,22 @@ class ReportingExporter
         return $html;
     }
 
-    function export_report($file_type, $data, $name, $displaymode, $rep_block)
+    function export_report($file_type, $data, $name, $rep_block)
     {
         $filename = $name . date('_Y-m-d_H-i-s');
         $export = Export :: factory($file_type, $filename);
         if ($file_type == 'pdf')
         {
             if (isset($rep_block))
-                $export->write_to_file_html(Reporting :: generate_block_export($rep_block));
-            else
+            {
+            	$temp = Reporting :: generate_block_export($rep_block);
+            	$data = str_replace(Path :: get(WEB_PATH), Path :: get(SYS_PATH), $temp);
                 $export->write_to_file_html($data);
+            }
+            else
+            {
+            	$export->write_to_file_html($data);
+            }
         }
         else
         {
