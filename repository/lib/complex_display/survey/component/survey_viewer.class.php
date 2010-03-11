@@ -16,7 +16,7 @@ class SurveyDisplaySurveyViewerComponent extends SurveyDisplayComponent
     function run()
     {
         $wizard = new SurveyViewerWizard($this, $this->get_root_lo());
-        $wizard->run();
+        return $wizard->run();
     }
 }
 ?>

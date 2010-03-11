@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="survey">
+	<event name="create_publication">
+		<tracker name="survey_publication_changes" />
+	</event>
+	<event name="update_publication">
+		<tracker name="survey_publication_changes" />
+	</event>
+	<event name="delete_publication">
+		<tracker name="survey_publication_changes" />
+	</event>
+	<event name="create_publication_category">
+		<tracker name="survey_publication_changes" />
+	</event>
+	<event name="update_publication_category">
+		<tracker name="survey_publication_changes" />
+	</event>
+	<event name="delete_publication_category">
+		<tracker name="survey_publication_changes" />
+	</event>
+	<event name="survey_participation">
+		<tracker name="survey_participant" />
+	</event>
+	<event name="attempt_question">
+		<tracker name="survey_question_answer" />
+	</event>
+</application>

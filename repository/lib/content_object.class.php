@@ -1040,7 +1040,12 @@ class ContentObject extends DataClass implements AccessibleContentObject
      */
     static function factory($type, $defaultProperties = array(), $additionalProperties = array())
     {
-        $class = self :: type_to_class($type);
+        if(!AdminDataManager :: get_instance()->is_registered($type, 'content_object'))
+        {
+        	return null;
+        }
+        
+    	$class = self :: type_to_class($type);
         require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
     }
