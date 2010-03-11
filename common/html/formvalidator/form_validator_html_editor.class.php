@@ -53,7 +53,9 @@ class FormValidatorHtmlEditor
 
     function create()
     {
-        return $this->get_form()->createElement('textarea', $this->name, $this->label, $this->attributes);
+        $form = $this->get_form();
+        $form->register_html_editor($this->name);
+        return $form->createElement('textarea', $this->name, $this->label, $this->attributes);
     }
 
     function render()

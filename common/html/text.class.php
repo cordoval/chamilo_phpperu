@@ -31,7 +31,6 @@
 ==============================================================================
  */
 
-
 class Text
 {
 
@@ -65,7 +64,7 @@ class Text
             $string = eregi_replace("(https?|ftp)://([a-z0-9#?/&=._+:~%-]+)", "<a href=\"\\1://\\2\" target=\"_blank\">\\1://\\2</a>", $string);
             $string = eregi_replace("([a-z0-9_.-]+@[a-z0-9.-]+)", "<a href=\"mailto:\\1\">\\1</a>", $string);
         }
-        
+
         return $string;
     }
 
@@ -89,21 +88,21 @@ class Text
         $MonthsShort = array(Translation :: get("JanuaryShort"), Translation :: get("FebruaryShort"), Translation :: get("MarchShort"), Translation :: get("AprilShort"), Translation :: get("MayShort"), Translation :: get("JuneShort"), Translation :: get("JulyShort"), Translation :: get("AugustShort"), Translation :: get("SeptemberShort"), Translation :: get("OctoberShort"), Translation :: get("NovemberShort"), Translation :: get("DecemberShort"));
         // Defining the months of the year to allow translation of the months
         $MonthsLong = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
-        
+
         if ($timeStamp == - 1)
             $timeStamp = time();
-            
+
         // with the ereg  we  replace %aAbB of date format
         //(they can be done by the system when  locale date aren't aivailable
-        
+
 
         $date = ereg_replace('%[A]', $DaysLong[(int) strftime('%w', $timeStamp)], $dateFormat);
         $date = ereg_replace('%[a]', $DaysShort[(int) strftime('%w', $timeStamp)], $date);
         $date = ereg_replace('%[B]', $MonthsLong[(int) strftime('%m', $timeStamp) - 1], $date);
         $date = ereg_replace('%[b]', $MonthsShort[(int) strftime('%m', $timeStamp) - 1], $date);
-        
+
         return strftime($date, $timeStamp);
-    
+
     }
 
     /**
@@ -146,13 +145,13 @@ class Text
     {
         $queries = array();
         $variables = explode('&', $query);
-        
+
         foreach ($variables as $variable)
         {
             list($key, $value) = explode('=', $variable, 2);
             $queries[$key] = $value;
         }
-        
+
         return $queries;
     }
 
@@ -162,7 +161,7 @@ class Text
         $i = - 1;
         $n = '';
         $ok = 1;
-        
+
         while (isset($text{++ $i}))
         {
             if ($ok && $text{$i} != '<')
@@ -179,13 +178,13 @@ class Text
             {
                 $ok = 0;
             }
-            
+
             if (! $ok)
             {
                 $n .= $text{$i};
             }
         }
-        
+
         return $n;
     }
 
@@ -195,9 +194,9 @@ class Text
         $data = self :: strip_text($source);
         $data = ">" . $data;
         $striped_data = strip_tags($data, $tag);
-        
+
         $my_array = explode("><", $striped_data);
-        
+
         foreach ($my_array as $main_key => $main_value)
         {
             $my_space_array[$main_key] = explode(" ", $main_value);
@@ -211,8 +210,15 @@ class Text
                 }
             }
         }
-        
+
         return $my_tag_array;
+    }
+
+    public static function parse_html_file($string, $tag = 'img')
+    {
+    	$document = new DOMDocument();
+        $document->loadHTML($string);
+        return $document->getElementsByTagname($tag);
     }
 
     public static function highlight($haystack, $needle, $highlight_color)
@@ -221,19 +227,19 @@ class Text
         {
             return $haystack;
         }
-        
+
         $matches = array();
         $matches_done = array();
-        
+
         preg_match_all("/$needle+/i", $haystack, $matches);
-        
+
         if (is_array($matches[0]) && count($matches[0]) >= 1)
         {
             foreach ($matches[0] as $match)
             {
                 if (in_array($match, $matches_done))
                     continue;
-                
+
                 $matches_done[] = $match;
                 $haystack = str_replace($match, '<span style="background-color:' . $highlight_color . ';">' . $match . '</span>', $haystack);
             }
@@ -243,7 +249,7 @@ class Text
 
     /*	Convert strings from one character set to another
 	 * 	Can avoid weird characters in output for non default alphanumeric symbols
-	 * 
+	 *
 	 * 	Example
 	 *  $string = htmlentities($string, ENT_COMPAT, 'cp1252');
 	 *	$string = iconv('windows-1252', 'ISO-8859-1//TRANSLIT', $string);
@@ -252,34 +258,34 @@ class Text
     {
         $string = htmlentities($string, ENT_COMPAT, $from);
         $string = iconv($from, $to . '//TRANSLIT', $string);
-        
+
         return $string;
     }
 
     public function create_link($url, $text, $new_page = false, $class = null, $styles = array())
     {
         $link = '<a href="' . $url . '" ';
-        
+
         if ($new_page)
             $link .= 'target="about:blank" ';
-        
+
         if ($class)
             $link .= 'class="' . $class . '" ';
-        
+
         if (count($styles) > 0)
         {
             $link .= 'style="';
-            
+
             foreach ($styles as $name => $value)
             {
                 $link .= $name . ': ' . $value . ';';
             }
-            
+
             $link .= '" ';
         }
-        
+
         $link .= '>' . $text . '</a>';
-        
+
         return $link;
     }
 

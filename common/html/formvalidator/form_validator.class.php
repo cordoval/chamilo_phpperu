@@ -226,20 +226,35 @@ EOT;
         	$this->addElement('html','<div class="clear"></div>');
         	$this->addElement('html', '</div>');
         }
-        
+
         $this->addElement('html', '</div>');
         $this->addElement('html', '<script type="text/javascript">');
         $this->addElement('html', '  var tabnumber = ' . $selected_tab . ';');
         $this->addElement('html', '</script>');
- 
+
         $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/tabs.js'));
     }
-    
+
     function create_html_editor($name, $label, $options = array(), $attributes = array())
     {
         $html_editor = FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), $name, $label, false, $options, $attributes);
         $html_editor->set_form($this);
         return $html_editor->create();
+    }
+
+    function register_html_editor($name)
+    {
+        $this->html_editors[] = $name;
+    }
+
+    function unregister_html_editor($name)
+    {
+        $key = array_search($name, $this->html_editors);
+
+        if ($key)
+        {
+            unset($this->html_editors[$key]);
+        }
     }
 
     function add_allowed_html_tags($full_page = false)
