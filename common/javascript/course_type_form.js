@@ -121,13 +121,13 @@ $(function ()
 							        
 				if (is_onstate)
 				{
-				  	elem.attr('checked', "true");
+				  	elem.attr('checked', true);
 				   	image.attr('src', imagesrc);
 				   	defaultimage.css('display','inline');
 				 }
 				 else
 				 {
-				  	elem.attr('checked', "false");
+				  	elem.attr('checked', false);
 				   	image.attr('src', imagesrcdisabled);
 				   	defaultimage.css('display','none');
 				  }
@@ -174,16 +174,16 @@ $(function ()
 
 			container.click(function() 
 			{
-				if(elem.attr('checked'))
+				if (!elem.is(':checked'))
+					elem.attr('checked', true);
+				else
+					elem.attr('checked', false);
+				
+				if(!elem.is(':checked'))
 					eye.attr('src', common_image_path+'action_invisible.png');
 				else
   					eye.attr('src', common_image_path+'action_visible.png');
-  	
-				if (elem.attr('checked'))
-					elem.attr('checked', 'false');
-				else
-					elem.attr('checked', 'true');
-
+				
 				return false;
 			});
 		});

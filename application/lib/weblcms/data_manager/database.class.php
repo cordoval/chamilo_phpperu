@@ -1001,6 +1001,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition(CourseTypeLayout :: PROPERTY_COURSE_TYPE_ID, $course_type_layout->get_course_type_id());
         return $this->database->update($course_type_layout, $condition);
     }
+    
+    function update_course_type_tool($course_type_tool)
+    {
+        $conditions = array();
+    	$conditions[] = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $course_type_tool->get_course_type_id());
+    	$conditions[] = new EqualityCondition(CourseTypeTool :: PROPERTY_NAME, $course_type_tool->get_name());
+    	$condition = new AndCondition($conditions);
+        return $this->database->update($course_type_tool, $condition);
+    }
 
     function update_course_category($course_category)
     {
@@ -1279,7 +1288,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     // Inherited
     function delete_course_type_tool($course_type_tool)
     {
-    	
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $course_type_tool->get_course_type_id());
+    	$conditions[] = new EqualityCondition(CourseTypeTool :: PROPERTY_NAME, $course_type_tool->get_name());
+    	$condition = new AndCondition($conditions);
+        return $this->database->delete(CourseTypeTool :: get_table_name(), $condition);
     }
     
     // Inherited

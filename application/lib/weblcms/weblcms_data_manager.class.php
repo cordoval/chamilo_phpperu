@@ -471,6 +471,8 @@ abstract class WeblcmsDataManager
 
     abstract function update_course_type_layout($course_type_layout);
     
+     abstract function update_course_type_tool($course_type_tool);
+    
     /**
      * Updates the specified course category in persistent storage,
      * making any changes permanent.
@@ -500,6 +502,12 @@ abstract class WeblcmsDataManager
      * @param string $course_code The course code
      */
     abstract function delete_course($course_code);
+    
+    /**
+     * Deletes the given course_type_tool from the database related to this given course_type.
+     * @param string $course_type_tool The course_type_tool
+     */
+    abstract function delete_course_type_tool($course_type_tool);
 
     /**
      * Deletes the given course category from the database.

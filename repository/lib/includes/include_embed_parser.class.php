@@ -3,7 +3,7 @@
  * $Id: include_flash_parser.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.includes
  */
-class IncludeFlashParser extends ContentObjectIncludeParser
+class IncludeEmbedParser extends ContentObjectIncludeParser
 {
 
     function parse_editor()
@@ -36,7 +36,7 @@ class IncludeFlashParser extends ContentObjectIncludeParser
                         {
                             $included_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object_id);
 
-                            if ($included_object->is_flash())
+                            if ($included_object->is_flash() || $included_object->is_video() || $included_object->is_audio())
                             {
                                 $content_object->include_content_object($included_object->get_id());
                             }

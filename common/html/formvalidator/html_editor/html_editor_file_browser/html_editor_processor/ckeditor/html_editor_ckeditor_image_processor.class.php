@@ -6,8 +6,7 @@ class HtmlEditorCkeditorImageProcessor extends HtmlEditorProcessor
         $selected_object = $this->get_selected_content_objects();
         $object = RepositoryDataManager :: get_instance()->retrieve_content_object($selected_object);
 
-        $path = Path :: get(WEB_PATH) . 'core.php?application=repository&go=document_downloader&display=1&object=' . $object->get_id();
-//        $path = $object->get_url();
+        $path = Path :: get(WEB_PATH) . $this->get_repository_document_display_url() . '&object=' . $object->get_id();
 
         $html = array();
         $html[] = '<script type="text/javascript">';
