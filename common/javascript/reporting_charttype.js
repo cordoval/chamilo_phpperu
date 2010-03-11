@@ -5,7 +5,8 @@
             var parent = $(this).parent().parent().parent();
             var block = parent.attr('id');
             var type = $(this).val();
-            var template_parameters = gup();
+            // get_variables contains all GET variables in the current URL
+            var get_variables = gup();
             parent = $('.reporting_content', parent);
             //var para = serialize_array(params);
 
@@ -14,8 +15,10 @@
             {
                 //para: para,
                 block:  block,
-                type: type
-                template_parameters: template_parameters
+                type: type,
+                //URL is needed for the actions links later on
+                url: get_variables
+                //template_parameters: template_parameters
             },	function(data)
             {
                 if(data.length > 0)
@@ -69,29 +72,37 @@
             return translated_string;
         }
 
+        // retuns all GET variables from the current URL formatted
         function gup()
         {
             var query=this.location.search.substring(1);
-            var params2 = "";
-            if (query.length > 0)
-            {
-                var params=query.split("&");
-                for (var i=0 ; i<params.length ; i++)
-                {
-                    var pos = params[i].indexOf("=");
-                    var name = params[i].substring(0, pos);
-                    var value = params[i].substring(pos + 1);
-                    var template_parameter = name.indexOf("template_parameters");
-                    if(template_parameter > -1)
-                    {
-                        name = name.replace('%5D',']');
-                        name = name.replace('%5B','[');
-                        params2 += name+'=';
-                        params2 += value + '&';
-                    }
-                }
-            } // -->
-            return params2;
+//            var params2 = "";
+//            if (query.length > 0)
+//            {
+//                var params=query.split("&");
+//                for (var i=0 ; i<params.length ; i++)
+//                {
+//                    var pos = params[i].indexOf("=");
+//                    var name = params[i].substring(0, pos);
+//                    var value = params[i].substring(pos + 1);
+//                    //var template_parameter = name.indexOf("template_parameters");
+//                    if((i+1) < params.length)
+//                    {
+//                        name = name.replace('%5D',']');
+//                        name = name.replace('%5B','[');
+//                        params2 += name+'=';
+//                        params2 += value + '&';
+//                    }
+//                    else
+//                    {
+//                        name = name.replace('%5D',']');
+//                        name = name.replace('%5B','[');
+//                        params2 += name+'=';
+//                        params2 += value;
+//                    }	
+//                }
+//            } // -->
+            return query;//params2;
         }
 	
         $(document).ready( function()
