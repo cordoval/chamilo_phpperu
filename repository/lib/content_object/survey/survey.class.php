@@ -6,27 +6,21 @@
 /**
  * This class represents an assessment
  */
+
+require_once (dirname(__FILE__) . '/survey_context.class.php');
+
 class Survey extends ContentObject
 {
-    const PROPERTY_TIMES_TAKEN = 'times_taken';
-    const PROPERTY_AVERAGE_SCORE = 'average_score';
-    const PROPERTY_MAXIMUM_SCORE = 'maximum_score';
-    const PROPERTY_MAXIMUM_ATTEMPTS = 'max_attempts';
     const PROPERTY_FINISH_TEXT = 'finish_text';
     const PROPERTY_INTRODUCTION_TEXT = 'intro_text';
     const PROPERTY_ANONYMOUS = 'anonymous';
-    const PROPERTY_QUESTIONS_PER_PAGE = 'questions_per_page';
+    const PROPERTY_CONTEXT = 'context';
+    
+    private $context;
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_MAXIMUM_ATTEMPTS, self :: PROPERTY_QUESTIONS_PER_PAGE, self :: PROPERTY_INTRODUCTION_TEXT, self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_ANONYMOUS);
-    }
-    
-    const TYPE_SURVEY = 4;
-
-    function get_assessment_type()
-    {
-        return self :: TYPE_SURVEY;
+        return array(self :: PROPERTY_INTRODUCTION_TEXT, self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_ANONYMOUS, self :: PROPERTY_CONTEXT);
     }
 
     function get_introduction_text()
@@ -37,16 +31,6 @@ class Survey extends ContentObject
     function set_introduction_text($text)
     {
         $this->set_additional_property(self :: PROPERTY_INTRODUCTION_TEXT, $text);
-    }
-
-    function get_maximum_attempts()
-    {
-        return $this->get_additional_property(self :: PROPERTY_MAXIMUM_ATTEMPTS);
-    }
-
-    function set_maximum_attempts($value)
-    {
-        $this->set_additional_property(self :: PROPERTY_MAXIMUM_ATTEMPTS, $value);
     }
 
     function get_finish_text()
@@ -69,51 +53,66 @@ class Survey extends ContentObject
         return $this->set_additional_property(self :: PROPERTY_ANONYMOUS, $value);
     }
 
+    function get_context()
+    {
+        $type = $this->get_additional_property(self :: PROPERTY_CONTEXT);
+        return SurveyContext :: factory($type);
+        
+    //        if ($context === 'nocontext')
+    //        {
+    //            return null;
+    //        }
+    //        else
+    //        {
+    //            require_once dirname(__FILE__) . '/connector/' . 'survey_' . $context . '_' . 'context_connector.class.php';
+    //            $context = ucfirst($context);
+    //            $class = 'Survey' . $context . 'ContextConnector';
+    //            return new $class();
+    //        }
+    
+
+    }
+
+    function set_context($value)
+    {
+        $this->set_additional_property(self :: PROPERTY_CONTEXT, $value);
+    }
+
+    //    function has_context()
+    //    {
+    //        $context = $this->get_additional_property(self :: PROPERTY_CONTEXT);
+    //        if ($context === 'nocontext')
+    //        {
+    //            return false;
+    //        }
+    //        else
+    //        {
+    //            return true;
+    //        }
+    //    }
+    
+
+    function set_context_instance($context)
+    {
+        $this->context = $context;
+    }
+
+    function get_context_instance()
+    {
+        return $this->context;
+    }
+
     function get_allowed_types()
     {
         $allowed_types = array();
-        $allowed_types[] = 'rating_question';
-        $allowed_types[] = 'open_question';
-        $allowed_types[] = 'hotspot_question';
-        $allowed_types[] = 'fill_in_blanks_question';
-        $allowed_types[] = 'multiple_choice_question';
-        $allowed_types[] = 'matching_question';
-        $allowed_types[] = 'select_question';
-        $allowed_types[] = 'matrix_question';
-        $allowed_types[] = 'match_question';
-        $allowed_types[] = 'ordering_question';
-        //$allowed_types[] = '';
+        $allowed_types[] = 'survey_page';
         return $allowed_types;
-    }
-
-    function get_times_taken()
-    {
-        return WeblcmsDataManager :: get_instance()->get_num_user_assessments($this);
     }
 
     function get_table()
     {
-        return 'survey';
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
-    function get_average_score()
-    {
-        return WeblcmsDataManager :: get_instance()->get_average_score($this);
-    }
-
-    function get_maximum_score()
-    {
-        return WeblcmsDataManager :: get_instance()->get_maximum_score($this);
-    }
-
-    function get_questions_per_page()
-    {
-        return $this->get_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE);
-    }
-
-    function set_questions_per_page($value)
-    {
-        $this->set_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE, $value);
-    }
 }
 ?>

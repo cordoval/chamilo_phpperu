@@ -20,15 +20,15 @@ class ComplexSurvey extends ComplexContentObjectItem
 	{
 		return $this->set_additional_property(self :: PROPERTY_ANONYMOUS, $value);
 	}*/
-    
-    static function get_additional_property_names()
-    {
-        return array();
-    }
+//    
+//    static function get_additional_property_names()
+//    {
+//        return array();
+//    }
 
-    function get_allowed_types()
-    {
-        return array('open_question', 'hotspot_question', 'fill_in_blanks_question', 'multiple_choice_question', 'matching_question', 'select_question', 'matrix_question');
-    }
+//    function get_allowed_types()
+//    {
+//        return array('open_question', 'hotspot_question', 'fill_in_blanks_question', 'multiple_choice_question', 'matching_question', 'select_question', 'matrix_question', 'survey');
+//    }
 }
 ?>
