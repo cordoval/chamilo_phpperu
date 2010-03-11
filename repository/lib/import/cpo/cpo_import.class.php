@@ -290,6 +290,12 @@ class CpoImport extends ContentObjectImport
             $category = $general->getElementsByTagName('parent')->item(0)->nodeValue;
             
             $lo = ContentObject :: factory($type);
+            
+            if(!$lo)
+            {
+            	return null;
+            }
+            
             $lo->set_title($title);
             $lo->set_description($description);
             $lo->set_comment($comment);
@@ -298,9 +304,13 @@ class CpoImport extends ContentObjectImport
             $lo->set_owner_id($this->get_user()->get_id());
 
             if($category == 'category0' || !$category)
+            {
             	$lo->set_parent_id($this->get_category());
+            }
            	else
+           	{
            		$lo->set_parent_id($this->categories[$category]);
+           	}
             
             $extended = $content_object->getElementsByTagName('extended')->item(0);
             
@@ -322,7 +332,9 @@ class CpoImport extends ContentObjectImport
             }
         
             if($type == 'document' && !$lo->get_path())
+            {
 				return;
+            }
 
 			$lo->create_all();
 			
@@ -591,9 +603,13 @@ class CpoImport extends ContentObjectImport
             		$category->set_name($name);
             		
             		if($parent == 'category0' || !$this->categories[$parent])
+            		{
             			$category->set_parent($this->get_category());
+            		}
             		else
+            		{
             			$category->set_parent($this->categories[$parent]);
+            		}
             			
             		$category->set_user_id($this->get_user()->get_id());
             		$category->create();
