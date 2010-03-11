@@ -123,4 +123,5 @@ $lang['cda']['TranslatedVariables'] = 'Translated variables';
 $lang['cda']['UnTranslatedVariables'] = 'Untranslated variables';
 $lang['cda']['TranslatingStatus'] = 'Status';
 $lang['cda']['AllBranches'] = 'All branches';
+$lang['cda']['Logout'] = 'Log out';
 ?>

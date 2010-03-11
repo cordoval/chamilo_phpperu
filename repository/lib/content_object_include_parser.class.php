@@ -36,7 +36,7 @@ abstract class ContentObjectIncludeParser
 
     static function get_include_types()
     {
-        return array('image', 'wiki', 'embed');
+        return array('image', 'wiki', 'embed', 'youtube');
     }
 
     function parse_includes($form)
