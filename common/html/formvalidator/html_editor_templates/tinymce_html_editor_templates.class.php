@@ -23,9 +23,10 @@ class FormValidatorTinymceHtmlEditorTemplates extends FormValidatorHtmlEditorTem
         }
     }
 
-    function render_template()
+    function render_template($template_id)
     {
-        return '';
+    	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($template_id);
+    	return $object->get_design();
     }
 
     function render_template_list()
