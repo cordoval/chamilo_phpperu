@@ -15,6 +15,7 @@ class FormValidatorCkeditorHtmlEditorOptions extends FormValidatorHtmlEditorOpti
 	    $mapping[self :: OPTION_COLLAPSE_TOOLBAR] = 'toolbarStartupExpanded';
 	    $mapping[self :: OPTION_CONFIGURATION] = 'customConfig';
 	    $mapping[self :: OPTION_FULL_PAGE] = 'fullPage';
+	    $mapping[self :: OPTION_TEMPLATES] = 'templates_files';
 
 	    return $mapping;
 	}
@@ -37,6 +38,7 @@ class FormValidatorCkeditorHtmlEditorOptions extends FormValidatorHtmlEditorOpti
 
 	    $path = Path :: get(REL_PATH) . 'common/configuration/html_editor/ckeditor_configuration.js';
 	    $this->set_option(self :: OPTION_CONFIGURATION, $path);
+	    $this->set_option(self :: OPTION_TEMPLATES, array(Path :: get(REL_PATH) . 'common/html/formvalidator/form_validator_html_editor_templates_instance.php'));
 	}
 }
 ?>
