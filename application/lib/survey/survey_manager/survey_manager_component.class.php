@@ -114,14 +114,14 @@ abstract class SurveyManagerComponent extends WebApplicationComponent
         return $this->get_parent()->get_survey_results_viewer_url($survey_publication);
     }
 
-    function get_import_qti_url()
+    function get_import_survey_url()
     {
-        return $this->get_parent()->get_import_qti_url();
+        return $this->get_parent()->get_import_survey_url();
     }
 
-    function get_export_qti_url($survey_publication)
+    function get_export_survey_url($survey_publication)
     {
-        return $this->get_parent()->get_export_qti_url($survey_publication);
+        return $this->get_parent()->get_export_survey_url($survey_publication);
     }
 
     function get_change_survey_publication_visibility_url($survey_publication)
