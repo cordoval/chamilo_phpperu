@@ -177,6 +177,8 @@ END;
         $query = Request :: get('query');
         $object->set_title(Text :: highlight($object->get_title(), $query, 'yellow'));
         $object->set_description(Text :: highlight($object->get_description(), $query, 'yellow'));
+        
+        
         /*
 		 * This pretty much makes every GIF file accessible, which is evil.
 		 * Type GIFs should be in a separate directory.
@@ -190,7 +192,12 @@ END;
 		 */
         echo '<div class="portal_search_result_type">' . str_replace('_', ' ', $object->get_type()) . '</div>';
         echo '<div class="portal_search_result_description">' . $object->get_description() . '</div>';
-        echo '<div class="portal_search_result_date">' . date('r', $object->get_modification_date()) . '</div>';
+        echo '<div class="portal_search_result_owner">'. Translation :: get('ObjectOwner') . ': ' . UserDataManager :: get_instance()->retrieve_user($object->get_owner_id())->get_fullname() . '</div>';
+    	if(PlatformSetting :: get('active_online_email_editor'))
+        {
+        	//include email editor here
+        }
+        echo '<div class="portal_search_result_date">'. Translation :: get('LastModification') . ': ' . date('r', $object->get_modification_date()) . '</div>';
         echo '</li>';
     }
 
