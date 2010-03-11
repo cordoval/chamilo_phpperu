@@ -65,15 +65,7 @@ class DocumentForm extends ContentObjectForm
 
         $object = new Document();
 
-        if (StringUtilities :: has_value(($values['html_content'])))
-        {
-            /*
-            * Object content is replaced by HTML content
-            */
-            $object->set_filename($values[Document :: PROPERTY_TITLE] . '.html');
-            $object->set_in_memory_file($values['html_content']);
-        }
-        elseif(StringUtilities :: has_value(($_FILES['file']['name'])))
+        if($values['choice'] == 0)
         {
             /*
             * Object content is replaced by uploaded file
@@ -81,13 +73,21 @@ class DocumentForm extends ContentObjectForm
             $object->set_filename($_FILES['file']['name']);
             $object->set_temporary_file_path($_FILES['file']['tmp_name']);
         }
+        else
+        {
+            /*
+            * Object content is replaced by HTML content
+            */
+            $object->set_filename($values[Document :: PROPERTY_TITLE] . '.html');
+            $object->set_in_memory_file($values['html_content']);
+        }
 
         $this->set_content_object($object);
         $document = parent :: create_content_object();
 
-//        $owner = $this->get_owner_id();
+        $owner = $this->get_owner_id();
 //        $values = $this->exportValues();
-//        $owner_path = $this->get_upload_path() . $owner;
+        $owner_path = $this->get_upload_path() . $owner;
 //        Filesystem :: create_dir($owner_path);
 //        if ($values['choice'])
 //        {
@@ -122,7 +122,7 @@ class DocumentForm extends ContentObjectForm
 //            move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "' . $full_path . '"');
 //        }
 //
-//        $permissions_new_files = PlatformSetting :: get('permissions_new_files');
+        $permissions_new_files = PlatformSetting :: get('permissions_new_files');
 //        Filesystem :: chmod($full_path, $permissions_new_files);
 //
 //        $object = new Document();
@@ -137,7 +137,9 @@ class DocumentForm extends ContentObjectForm
         {
             $documents = array();
             $filecompression = Filecompression :: factory();
-            $dir = $filecompression->extract_file($document->get_full_path()); dump($dir); exit;
+            //Fix to make sure files can be unzipped
+            
+            $dir = $filecompression->extract_file($document->get_full_path());
             $entries = Filesystem :: get_directory_content($dir);
             $wdm = RepositoryDataManager :: get_instance();
             $created_directories = array();
