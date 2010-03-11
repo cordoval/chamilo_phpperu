@@ -38,4 +38,6 @@ $lang['webconferencing']['OptionAssignMikeOnJoin'] = 'Assign mike on join';
 $lang['webconferencing']['OptionHandsFreeOnLoad'] = 'Hands free on lead';
 $lang['webconferencing']['OptionAllowAttendeeInvites'] = 'Allow attendee invites';
 $lang['webconferencing']['Adminisration'] = 'Administration';
+$lang['webconferencing']['Duration'] = 'Duration';
+$lang['webconferencing']['SelectedWebconferencesDeleted'] = 'The selected web conference has been deleted';
 ?>

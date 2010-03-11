@@ -73,4 +73,8 @@ $lang['home']['Tab'] = 'Tab';
 $lang['home']['BlockAdded'] = 'Block added';
 $lang['home']['Site'] = 'Site';
 $lang['home']['PortalHome'] = 'Portal home';
+$lang['home']['ConfigurePortalHomeFirst'] = 'First Configure Portal Home';
+$lang['home']['ResetPassword'] = 'Reset Password';
+$lang['home']['EnterUsername'] = 'Enter your user name here';
+$lang['home']['Logout'] = 'Log out';
 ?>

@@ -1,0 +1,36 @@
+<?php
+$lang['tracking']['Enable_selected_events'] = 'Ausgewählte Events aktivieren';
+$lang['tracking']['Disable_selected_events'] = 'Ausgewählte Events deaktivieren';
+$lang['tracking']['Empty_selected_events'] = 'Ausgewählte Events leeren';
+$lang['tracking']['Empty_event'] = 'Event leeren';
+$lang['tracking']['You_have_chosen_following_events_and_trackers'] = '';
+$lang['tracking']['Start_date'] = 'Anfangsdatum';
+$lang['tracking']['End_date'] = 'Enddatum';
+$lang['tracking']['Period'] = 'Periode';
+$lang['tracking']['Days'] = 'Tage';
+$lang['tracking']['Archiver'] = 'Archivar';
+$lang['tracking']['Archiving_tracker'] = '';
+$lang['tracking']['Go_to_administration'] = 'Gehe zu Administration';
+$lang['tracking']['Event'] = 'Event';
+$lang['tracking']['Start_date_must_be_larger_then_last_archive_date'] = 'Startdatum muß nach dem letzten Archiv-Datum sein';
+$lang['tracking']['End_date_must_be_larger_then_start_date'] = 'Das Enddatum muß nach dem Startdatum liegen';
+$lang['tracking']['EventsList'] = 'Event-Liste';
+$lang['tracking']['Tracking_is_disabled'] = 'Das Tracking ist deaktiviert';
+$lang['tracking']['Empty_Tracker'] = 'Tracker ist leer';
+$lang['tracking']['Enable_selected_trackers'] = 'Aktiviere gewählte Tracker';
+$lang['tracking']['Disable_selected_trackers'] = 'Deaktiviere gewählte Tracker';
+$lang['tracking']['Empty_selected_trackers'] = 'Leere gewählte Tracker';
+$lang['tracking']['ViewEvent'] = 'Zeige Event';
+$lang['tracking']['You_are_viewing_trackers_for_event'] = 'Es werden Tracker für folgendes Event angezeigt';
+$lang['tracking']['ArchiveDescription'] = 'Archiv-Beschreibung';
+$lang['tracking']['ArchiveConfirmationTitle'] = '';
+$lang['tracking']['ArchiveConfirmationInfo'] = '';
+$lang['tracking']['ArchiveSettingsTitle'] = '';
+$lang['tracking']['ArchiveSettingsInfo'] = '';
+$lang['tracking']['ArchiveTrackersSelectionTitle'] = '';
+$lang['tracking']['ArchiveTrackersSelectionInfo'] = '';
+$lang['tracking']['Archive'] = '';
+$lang['tracking']['EnableSelectedEvents'] = '';
+$lang['tracking']['DisableSelectedEvents'] = '';
+$lang['tracking']['EmptySelectedEvents'] = '';
+?>
