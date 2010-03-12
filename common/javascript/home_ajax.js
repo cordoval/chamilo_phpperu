@@ -508,7 +508,15 @@ $(function () {
 				// Get the last column's width 
 				otherColumn = $(".tab:visible .column:last");
 				otherColumnWidth = otherColumn.css('width');
-				otherColumnWidth = parseInt(otherColumnWidth.replace('%', ''), 10);
+				
+				if(otherColumnWidth)
+				{
+					otherColumnWidth = parseInt(otherColumnWidth.replace('%', ''), 10);
+				}
+				else
+				{
+					otherColumnWidth = 0;
+				}
 				
 				// Calculate the new width
 				newColumnWidth =  columnWidth + otherColumnWidth + 1;
