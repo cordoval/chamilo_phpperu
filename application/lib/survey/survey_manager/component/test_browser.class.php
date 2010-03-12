@@ -8,7 +8,7 @@
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../survey_publication_category_menu.class.php';
-require_once dirname(__FILE__) . '/survey_publication_browser/survey_publication_browser_table.class.php';
+require_once dirname(__FILE__) . '/test_survey_publication_browser/test_survey_publication_browser_table.class.php';
 
 /**
  * survey component which allows the user to browse his survey_publications
@@ -22,7 +22,7 @@ class SurveyManagerTestBrowserComponent extends SurveyManagerComponent
     function run()
     {
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseSurveyPublications')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestSurveyPublications')));
         
         $this->action_bar = $this->get_action_bar();
         $menu = $this->get_menu();
@@ -43,7 +43,7 @@ class SurveyManagerTestBrowserComponent extends SurveyManagerComponent
 
     function get_table()
     {
-        $table = new SurveyPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => 'survey', Application :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS), $this->get_condition());
+        $table = new TestSurveyPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => 'survey', Application :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS), $this->get_condition());
         return $table->as_html();
     }
 
@@ -60,14 +60,14 @@ class SurveyManagerTestBrowserComponent extends SurveyManagerComponent
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         $action_bar->set_search_url($this->get_url());
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_manage_survey_publication_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('TestSurveys'), Theme :: get_common_image_path() . 'action_category.png', $this->get_browse_test_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_manage_survey_publication_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseSurveys'), Theme :: get_common_image_path() . 'action_category.png', $this->get_browse_survey_publications_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewResultsSummary'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_survey_results_viewer_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportQTI'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_qti_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewTestResultsSummary'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_survey_results_viewer_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportSurvey'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_survey_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
     }
@@ -94,7 +94,7 @@ class SurveyManagerTestBrowserComponent extends SurveyManagerComponent
         }
 
         $conditions = array();
-		$conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_TEST, false );
+		$conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_TEST, true );
         
         if (isset($query) && $query != '')
         {

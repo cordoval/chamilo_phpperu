@@ -39,7 +39,7 @@ class SurveyManagerUpdaterComponent extends SurveyManagerComponent
             $content_object = $survey_publication->get_publication_object();
             
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => SurveyManager :: ACTION_EDIT_SURVEY_PUBLICATION, SurveyManager :: PARAM_SURVEY_PUBLICATION => $publication)));
-            
+                        
             if ($form->validate() || Request :: get('validated'))
             {
                 if (! Request :: get('validated'))

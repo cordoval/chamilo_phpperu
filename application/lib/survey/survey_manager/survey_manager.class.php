@@ -29,10 +29,11 @@ class SurveyManager extends WebApplication
     const ACTION_BROWSE_SURVEY_PUBLICATIONS = 'browse';
     const ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES = 'manage_categories';
     const ACTION_BROWSE_TEST_SURVEY_PUBLICATION = 'browse_test';
+    const ACTION_BROWSE_TEST_SURVEY_PARTICIPANTS = 'browse_participants';
     const ACTION_VIEW_SURVEY_PUBLICATION = 'view';
     const ACTION_VIEW_SURVEY_PUBLICATION_RESULTS = 'view_results';
-    const ACTION_IMPORT_QTI = 'import_qti';
-    const ACTION_EXPORT_QTI = 'export_qti';
+    const ACTION_IMPORT_SURVEY = 'import_survey';
+    const ACTION_EXPORT_SURVEY = 'export_survey';
     const ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY = 'change_visibility';
     const ACTION_MOVE_SURVEY_PUBLICATION = 'move';
     const ACTION_EXPORT_RESULTS = 'export_results';
@@ -65,6 +66,9 @@ class SurveyManager extends WebApplication
             case self :: ACTION_BROWSE_TEST_SURVEY_PUBLICATION :
                 $component = SurveyManagerComponent :: factory('TestBrowser', $this);
                 break;
+            case self :: ACTION_BROWSE_TEST_SURVEY_PARTICIPANTS :
+                $component = SurveyManagerComponent :: factory('TestSurveyParticipantBrowser', $this);
+                break;
             case self :: ACTION_DELETE_SURVEY_PUBLICATION :
                 $component = SurveyManagerComponent :: factory('Deleter', $this);
                 break;
@@ -83,11 +87,11 @@ class SurveyManager extends WebApplication
             case self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS :
                 $component = SurveyManagerComponent :: factory('ResultsViewer', $this);
                 break;
-            case self :: ACTION_IMPORT_QTI :
-                $component = SurveyManagerComponent :: factory('QtiImporter', $this);
+            case self :: ACTION_IMPORT_SURVEY :
+                $component = SurveyManagerComponent :: factory('SurveyImporter', $this);
                 break;
-            case self :: ACTION_EXPORT_QTI :
-                $component = SurveyManagerComponent :: factory('QtiExporter', $this);
+            case self :: ACTION_EXPORT_SURVEY :
+                $component = SurveyManagerComponent :: factory('SurveyExporter', $this);
                 break;
             case self :: ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY :
                 $component = SurveyManagerComponent :: factory('VisibilityChanger', $this);
@@ -149,6 +153,16 @@ class SurveyManager extends WebApplication
 
     // Data Retrieving
     
+
+    function count_survey_participant_trackers($condition)
+    {
+        return SurveyDataManager :: get_instance()->count_survey_participant_trackers($condition);
+    }
+
+    function retrieve_survey_participant_trackers($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_participant_trackers($condition, $offset, $count, $order_property);
+    }
 
     function count_survey_publications($condition)
     {
@@ -228,25 +242,35 @@ class SurveyManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_TEST_SURVEY_PUBLICATION));
     }
 
+    function get_browse_test_survey_participants_url($survey_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_TEST_SURVEY_PARTICIPANTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+    }
+
     function get_survey_publication_viewer_url($survey_publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
     }
 
+    function get_test_survey_publication_viewer_url($survey_participant)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PARTICIPANT => $survey_participant->get_id()));
+    }
+      
     function get_survey_results_viewer_url($survey_publication)
     {
         $id = $survey_publication ? $survey_publication->get_id() : null;
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS, self :: PARAM_SURVEY_PUBLICATION => $id));
     }
 
-    function get_import_qti_url()
+    function get_import_survey_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_QTI));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_SURVEY));
     }
 
-    function get_export_qti_url($survey_publication)
+    function get_export_survey_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_QTI, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_SURVEY, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
     }
 
     function get_change_survey_publication_visibility_url($survey_publication)

@@ -66,8 +66,9 @@ class SurveyPublicationForm extends FormValidator
         {
             $defaults['forever'] = 0;
         }
+        
         $defaults['hidden'] = $publication->is_hidden();
-        $defaults[self :: PARAM_TEST] = $publication->is_test();
+        $defaults['test'] = $publication->is_test();
         
         $udm = UserDataManager :: get_instance();
         $gdm = GroupDataManager :: get_instance();
@@ -138,7 +139,6 @@ class SurveyPublicationForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
-        //$attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
         
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);

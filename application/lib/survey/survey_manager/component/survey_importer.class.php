@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
  * @author Sven Vanpoucke
  * @author 
  */
-class SurveyManagerQtiImporterComponent extends SurveyManagerComponent
+class SurveyManagerSurveyImporterComponent extends SurveyManagerComponent
 {
 
     /**
