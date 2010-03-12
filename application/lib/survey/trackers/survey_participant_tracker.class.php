@@ -6,7 +6,7 @@
  */
 
 require_once Path :: get_application_path() . 'lib/survey/trackers/survey_question_answer_tracker.class.php';
-require_once Path :: get_repository_path().'lib/content_object/survey/context_data_manager/database.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/database.class.php';
 
 class SurveyParticipantTracker extends MainTracker
 {
@@ -20,6 +20,7 @@ class SurveyParticipantTracker extends MainTracker
     const PROPERTY_STATUS = 'status';
     const PROPERTY_START_TIME = 'start_time';
     const PROPERTY_TOTAL_TIME = 'total_time';
+    const PROPERTY_CONTEXT_NAME = 'context_name';
     const PROPERTY_CONTEXT_ID = 'context_id';
 
     /**
@@ -40,6 +41,7 @@ class SurveyParticipantTracker extends MainTracker
         $survey = $parameters[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID];
         $progress = $parameters[SurveyParticipantTracker :: PROPERTY_PROGRESS];
         $context = $parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID];
+        $context_name = $parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME];
         $status = $parameters[SurveyParticipantTracker :: PROPERTY_STATUS];
         
         $this->set_user_id($user);
@@ -54,6 +56,8 @@ class SurveyParticipantTracker extends MainTracker
         $this->set_date(DatabaseRepositoryDataManager :: to_db_date(time()));
         $this->set_progress($progress);
         $this->set_context_id($context);
+        $this->set_context_name($context_name);
+        
         
         $this->create();
         
@@ -74,7 +78,7 @@ class SurveyParticipantTracker extends MainTracker
      */
     function get_default_property_names()
     {
-        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_PROGRESS, self :: PROPERTY_STATUS, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_CONTEXT_ID));
+        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_PROGRESS, self :: PROPERTY_STATUS, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_CONTEXT_ID, self :: PROPERTY_CONTEXT_NAME));
     }
 
     function get_user_id()
@@ -132,6 +136,16 @@ class SurveyParticipantTracker extends MainTracker
         return $this->get_property(self :: PROPERTY_CONTEXT_ID);
     }
 
+    function set_context_name($context_name)
+    {
+        $this->set_property(self :: PROPERTY_CONTEXT_NAME, $context_name);
+    }
+
+    function get_context_name()
+    {
+        return $this->get_property(self :: PROPERTY_CONTEXT_NAME);
+    }
+
     function set_status($status)
     {
         $this->set_property(self :: PROPERTY_STATUS, $status);
@@ -162,12 +176,13 @@ class SurveyParticipantTracker extends MainTracker
         $this->remove();
     }
 
-    function count_participants($publication)
-    {
-        $condition = new EqualityCondition(self :: PROPERTY_SURVEY_PUBLICATION_ID, $publication->get_id());
-        $trackers = $this->retrieve_tracker_items($condition);
-        return count($trackers);
-    }
+    //    function count_participants($publication)
+    //    {
+    //        $condition = new EqualityCondition(self :: PROPERTY_SURVEY_PUBLICATION_ID, $publication->get_id());
+    //        $trackers = $this->retrieve_tracker_items($condition);
+    //        return count($trackers);
+    //    }
+    
 
     function is_participant($publication, $user_id)
     {

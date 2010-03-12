@@ -46,6 +46,8 @@ class ReportingSurvey
             $conditions = array();
             $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $participant_id);
             $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $publication->get_id());
+            
+            
             $condition = new AndCondition($conditions);
             $trackers = $dummy->retrieve_tracker_items($condition);
                     

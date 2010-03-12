@@ -25,9 +25,9 @@ class DatabaseSurveyDataManager extends SurveyDataManager
     function initialize()
     {
         $aliases = array();
-        $aliases[SurveyPublication :: get_table_name()] = 'ason';
-        $aliases[SurveyPublicationGroup :: get_table_name()] = 'asup';
-        $aliases[SurveyPublicationUser :: get_table_name()] = 'aser';
+//        $aliases[SurveyPublication :: get_table_name()] = 'ason';
+//        $aliases[SurveyPublicationGroup :: get_table_name()] = 'asup';
+//        $aliases[SurveyPublicationUser :: get_table_name()] = 'aser';
         
         $this->database = new Database($aliases);
         $this->database->set_prefix('survey_');
@@ -99,7 +99,7 @@ class DatabaseSurveyDataManager extends SurveyDataManager
 
     function delete_survey_publication($survey_publication)
     {
-             
+        
         $publication_user_alias = $this->database->get_alias(SurveyPublicationUser :: get_table_name());
         $publication_group_alias = $this->database->get_alias(SurveyPublicationGroup :: get_table_name());
         
@@ -107,6 +107,16 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         $this->database->delete_objects($publication_user_alias, $condition);
         $this->database->delete_objects($publication_group_alias, $condition);
         return $this->database->delete($survey_publication->get_table_name(), $condition);
+    }
+
+    function count_survey_participant_trackers($condition = null)
+    {
+    	//$database = TrackingDataManager::get_instance()->get_database();
+    	$dummy = new SurveyParticipantTracker();
+        //$table_name = $dummy->get_table_name();
+    	return $dummy->count_tracker_items($condition);
+        //return $database->count_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
+       
     }
 
     function count_survey_publications($condition = null)
@@ -184,6 +194,17 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(SurveyPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->database->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $publication_group_alias);
         
         return $this->database->retrieve_object_set($query, SurveyPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublication :: CLASS_NAME);
+    }
+
+    function retrieve_survey_participant_trackers($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        //$database = TrackingDataManager::get_instance()->get_database();
+    	$dummy = new SurveyParticipantTracker();
+        //$table_name = $dummy->get_table_name();
+    	//$result = $database->retrieve_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
+        //$condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $result);
+    	return $dummy->retrieve_tracker_items_result_set($condition);
+    	
     }
 
     function create_survey_publication_group($survey_publication_group)

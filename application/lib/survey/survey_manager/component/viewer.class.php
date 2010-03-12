@@ -19,6 +19,7 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
     private $participant_id;
     private $active_tracker;
     private $with_menu;
+    private $trackers;
 
     function run()
     {
@@ -26,46 +27,48 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
         // Retrieving survey
         $this->datamanager = SurveyDataManager :: get_instance();
         
-        if (Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION))
-        {
-            $this->pid = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
-            $this->pub = $this->datamanager->retrieve_survey_publication($this->pid);
-            $survey_id = $this->pub->get_content_object();
-            $this->survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
-            $this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $this->pid);
-        }
-        
         if (Request :: get(SurveyManager :: PARAM_SURVEY_PARTICIPANT))
         {
             $this->participant_id = Request :: get(SurveyManager :: PARAM_SURVEY_PARTICIPANT);
-            
             $track = new SurveyParticipantTracker();
             $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_ID, $this->participant_id);
             $trackers = $track->retrieve_tracker_items($condition);
             $this->active_tracker = $trackers[0];
+            
             $this->set_parameter(SurveyManager :: PARAM_SURVEY_PARTICIPANT, $this->participant_id);
+            $this->set_publication_variables($this->active_tracker->get_survey_publication_id());
+            
+            $track = new SurveyParticipantTracker();
+            $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->pid);
+            $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->active_tracker->get_user_id());
+            $condition = new AndCondition($conditions);
+            $this->trackers = $track->retrieve_tracker_items($condition);
+        
         }
         else
         {
-            // Checking participation
-            $track = new SurveyParticipantTracker();
-            $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->pid);
-            $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->get_user_id());
-            $condition = new AndCondition($conditions);
-            $trackers = $track->retrieve_tracker_items($condition);
-            $count = count($trackers);
-            
-            if ($count === 0)
+            if (Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION))
             {
-                $this->active_tracker = $this->create_tracker();
+                
+                $this->set_publication_variables(Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION));
+            	
+            	$track = new SurveyParticipantTracker();
+                $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->pid);
+                $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->get_user_id());
+                $condition = new AndCondition($conditions);
+                $this->trackers = $track->retrieve_tracker_items($condition);
+                
+                if (count($this->trackers) === 0)
+                {
+                    $this->not_allowed($trail, false);
+                }
+                
+                else
+                {
+                    $this->active_tracker = $this->trackers[0];
+                    $this->set_parameter(SurveyManager :: PARAM_SURVEY_PARTICIPANT, $this->active_tracker->get_id());
+                }
             }
-            
-            else
-            {
-                $this->active_tracker = $trackers[0];
-            }
-            $this->set_parameter(SurveyManager :: PARAM_SURVEY_PARTICIPANT, $this->active_tracker->get_id());
-        
         }
         
         $trail = new BreadcrumbTrail();
@@ -79,17 +82,27 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
         
         $this->display_header($trail);
         
-        if ($this->active_tracker->get_context_id() != 0)
+        $db = SurveyContextDataManager :: get_instance();
+        $context = $db->retrieve_survey_context_by_id($this->active_tracker->get_context_id());
+        $this->survey->set_context_instance($context);
+        
+        if (count($this->trackers) > 1)
         {
-            $db = SurveyContextDataManager :: get_instance();
-            $context = $db->retrieve_survey_context_by_id($this->active_tracker->get_context_id());
-            $this->survey->set_context_instance($context);
             $this->with_menu = true;
             echo $this->get_menu_html();
         }
         
         echo $this->get_survey_html();
         $this->display_footer();
+    }
+
+    private function set_publication_variables($survey_publication_id)
+    {
+        $this->pid = $survey_publication_id;
+        $this->pub = $this->datamanager->retrieve_survey_publication($this->pid);
+        $survey_id = $this->pub->get_content_object();
+        $this->survey = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
+        $this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $this->pid);
     }
 
     function get_menu_html()
@@ -127,43 +140,45 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
         return $this->get_parameter(SurveyManager :: PARAM_SURVEY_PARTICIPANT);
     }
 
-    function create_tracker()
-    {
-        
-        $contexts = $this->survey->get_context()->create_contexts_for_user($this->get_user()->get_username());
-        
-        $args = array();
-        
-        $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->pid;
-        $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $this->get_user_id();
-        $args[SurveyParticipantTracker :: PROPERTY_PROGRESS] = 0;
-        
-//        $count = count($contexts);
-        $trackers = array();
-        //        if ($count === 0)
-        //        {
-        //            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
-        //            $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
-        //            $trackers[] = $tracker;
-        //        }
-        //        else
-        //        {
-        foreach ($contexts as $cont)
-        {
-            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
-            $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
-            $trackers[] = $tracker;
-        }
-        //        }
-        
+    //    function create_tracker()
+    //    {
+    //        
+    //        $contexts = $this->survey->get_context()->create_contexts_for_user($this->get_user()->get_username());
+    //        
+    //        $args = array();
+    //        
+    //        $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->pid;
+    //        $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $this->get_user_id();
+    //        $args[SurveyParticipantTracker :: PROPERTY_PROGRESS] = 0;
+    //        
+    ////        $count = count($contexts);
+    //        $trackers = array();
+    //        //        if ($count === 0)
+    //        //        {
+    //        //            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
+    //        //            $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
+    //        //            $trackers[] = $tracker;
+    //        //        }
+    //        //        else
+    //        //        {
+    //        foreach ($contexts as $cont)
+    //        {
+    //            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
+    //            $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
+    //            $trackers[] = $tracker;
+    //        }
+    //        //        }
+    //        
+    //
+    //        return $tracker[0];
+    //    }
+    
 
-        return $tracker[0];
-    }
-
-    function get_user_id()
-    {
-        return parent :: get_user_id();
-    }
+    //    function get_user_id()
+    //    {
+    //        return parent :: get_user_id();
+    //    }
+    
 
     function save_answer($complex_question_id, $answer)
     {

@@ -26,6 +26,16 @@ abstract class SurveyManagerComponent extends WebApplicationComponent
     //Data Retrieval
     
 
+    function count_survey_participant_trackers($condition)
+    {
+        return $this->get_parent()->count_survey_participant_trackers($condition);
+    }
+
+    function retrieve_survey_participant_trackers($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->get_parent()->retrieve_survey_participant_trackers($condition, $offset, $count, $order_property);
+    }
+
     function count_survey_publications($condition)
     {
         return $this->get_parent()->count_survey_publications($condition);
@@ -98,15 +108,25 @@ abstract class SurveyManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->get_manage_survey_publication_categories_url();
     }
-	
-	function get_browse_test_survey_publication_url()
+
+    function get_browse_test_survey_publication_url()
     {
         return $this->get_parent()->get_browse_test_survey_publication_url();
     }
-    
+
+    function get_browse_test_survey_participants_url($survey_publication)
+    {
+        return $this->get_parent()->get_browse_test_survey_participants_url($survey_publication);
+    }
+
     function get_survey_publication_viewer_url($survey_publication)
     {
         return $this->get_parent()->get_survey_publication_viewer_url($survey_publication);
+    }
+
+    function get_test_survey_publication_viewer_url($survey_participant)
+    {
+        return $this->get_parent()->get_test_survey_publication_viewer_url($survey_participant);
     }
 
     function get_survey_results_viewer_url($survey_publication)
@@ -148,10 +168,10 @@ abstract class SurveyManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->get_publish_survey_url($survey_publication);
     }
-    
+
     function get_build_survey_url($survey_publication)
     {
-    	return $this->get_parent()->get_build_survey_url($survey_publication);
+        return $this->get_parent()->get_build_survey_url($survey_publication);
     }
 }
 ?>
