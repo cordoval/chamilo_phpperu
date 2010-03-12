@@ -100,7 +100,7 @@ class CbaMenu extends HTML_Menu
         $count = $this->data_manager->count_indicators($condition);
         
         $menu_item['title'] = Translation :: get('Indicator') . ' (' . $count . ')';
-        $menu_item['url'] = $this->get_category_url();
+        $menu_item['url'] = $this->get_category_url(0);
         $sub_menu_items = $this->get_sub_indicator_menu_items(0);
         if (count($sub_menu_items) >= 0)
         {
