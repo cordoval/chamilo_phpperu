@@ -986,6 +986,11 @@ class ContentObject extends DataClass implements AccessibleContentObject
     {
         return in_array($name, self :: get_default_property_names());
     }
+    
+	static function is_additional_property_name($name)
+    {
+        return in_array($name, self :: get_additional_property_names());
+    }
 
     /**
      * Get all properties of this type of learning object that should be taken

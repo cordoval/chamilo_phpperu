@@ -323,7 +323,13 @@ class CpoImport extends ContentObjectImport
                 {
                     if ($node->nodeName == "#text" || $node->nodeName == 'id' || $node->nodeName == 'category')
                         continue;
-                    $additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
+                   
+                    $prop_names = $lo->get_additional_property_names();    
+                        
+                    if(in_array($node->nodeName, $prop_names))
+                    {    
+                    	$additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
+                    }
                 }
                 
                 $additionalProperties = $this->import_extra_properties($type, $additionalProperties, $lo);
