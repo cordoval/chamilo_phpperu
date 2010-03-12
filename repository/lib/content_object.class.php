@@ -809,7 +809,8 @@ class ContentObject extends DataClass implements AccessibleContentObject
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        if ($rdm->delete_content_object_publications($this) && $rdm->delete_content_object_attachments($this) && $rdm->delete_clois_for_content_object($this))
+        if ($rdm->delete_content_object_publications($this) && $rdm->delete_content_object_attachments($this) &&
+        	$rdm->delete_content_object_includes($this) && $rdm->delete_clois_for_content_object($this) && $rdm->delete_assisting_content_objects($this))
         {
             return true;
         }

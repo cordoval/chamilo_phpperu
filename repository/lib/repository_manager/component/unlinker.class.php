@@ -57,7 +57,7 @@ class RepositoryManagerUnlinkerComponent extends RepositoryManagerComponent
             {
                 $message = 'SelectedObjectUnlinked';
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
         }
         else
         {
