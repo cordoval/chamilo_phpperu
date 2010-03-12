@@ -65,20 +65,13 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
 			
         if ($form->validate())
         {
-         //   if (WebLcmsDataManager :: get_instance()->retrieve_course_types(new EqualityCondition(Course :: PROPERTY_VISUAL, $form->exportValue(Course :: PROPERTY_VISUAL)))->next_result())
-          //  {
-            //    $this->display_header($trail, false, true);
-            //    $this->display_error_message(Translation :: get('CourseTypeCodeAlreadyExists'));
-            //    $form->display();
-            //    $this->display_footer();
-           // }
-           // else
-            //{
-                $success = $form->save_course_type();
-                $this->redirect(Translation :: get($success ? 'CourseTypeCreated' : 'CourseTypeNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR, 'course_type' => $coursetype->get_id()));
-                //$this->redirect(Translation :: get($success ? 'CourseTypeCreated' : 'CourseTypeNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER, 'course_type' => $coursetype->get_id()));
-                
-           // }
+	        $success = $form->save_course_type();
+	        $array_type = array();
+	        $array_type['go'] = WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR;
+	        if($success ||  $form->get_form_type() == CourseTypeForm :: TYPE_EDIT)
+	        	$array_type['course_type'] = $coursetype->get_id();
+            $this->redirect(Translation :: get($success ? 'CourseTypeSaved' : 'CourseTypeNotSaved'), ($success ? false : true), $array_type );
+            //$this->redirect(Translation :: get($success ? 'CourseTypeCreated' : 'CourseTypeNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER, 'course_type' => $coursetype->get_id()));            
         }
         else
         {
