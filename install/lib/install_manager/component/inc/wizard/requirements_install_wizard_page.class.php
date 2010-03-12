@@ -186,8 +186,6 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 
     function buildForm()
     {
-        Session :: register('normal_install', 1);
-
     	$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 
         $this->_formBuilt = true;

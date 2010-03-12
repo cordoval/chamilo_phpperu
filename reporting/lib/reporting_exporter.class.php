@@ -161,8 +161,6 @@ class ReportingExporter
             }
             else
             {
-            	echo htmlentities($data);
-            	exit;
             	$export->write_to_file_html($data);
             }
         }

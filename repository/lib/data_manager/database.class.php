@@ -1579,5 +1579,44 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
             return null;
         }
     }
+    
+    function delete_content_object_includes($object)
+    {
+    	$query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_include') . ' WHERE ' .
+        		 $this->database->escape_column_name('include_id') . '=' . $this->quote($object->get_id());
+        $affectedRows = $this->query($query);
+        return ($affectedRows > 0);
+    }
+    
+    function delete_assisting_content_objects($object)
+    {
+    	$assisting_types = array('learning_path_item', 'portfolio_item');
+    	
+    	$failures = 0;
+    	
+    	foreach($assisting_types as $type)
+    	{
+    		$sub_condition = new EqualityCondition('reference_id', $object->get_id());
+    		$condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', $this->database->escape_table_name($type), $sub_condition, ContentObject :: get_table_name());
+    		$assisting_objects = $this->retrieve_content_objects($condition);
+    		
+    		while($assisting_object = $assisting_objects->next_result())
+    		{
+    			if(!$this->delete_clois_for_content_object($assisting_object))
+    			{
+    				$failures++;
+    			}
+    			
+    			if(!$assisting_object->delete())
+	    		{
+	    			$failures++;
+	    		}
+    		}
+    		
+    	}
+    	
+    	return ($failures == 0);
+    }
+
 }
 ?>

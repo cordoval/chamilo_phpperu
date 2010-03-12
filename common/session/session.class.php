@@ -49,9 +49,11 @@ class Session
 
     static function unregister($variable)
     {
-        //session_unregister($variable);
-        $_SESSION[$variable] = null;
-        unset($GLOBALS[$variable]);
+    	if(array_key_exists($variable, $_SESSION))
+        {
+        	$_SESSION[$variable] = null;
+        	unset($GLOBALS[$variable]);
+        }
     }
 
     static function clear()
@@ -70,7 +72,10 @@ class Session
 
     static function retrieve($variable)
     {
-        return $_SESSION[$variable];
+        if(array_key_exists($variable, $_SESSION))
+        {
+    		return $_SESSION[$variable];
+        }
     }
 
     static function get_user_id()

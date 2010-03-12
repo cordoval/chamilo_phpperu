@@ -85,4 +85,5 @@ $lang['install']['SelectConfigurationFileDescription'] = 'Selec configuration fi
 $lang['install']['ConfigurationFile'] = 'Configuration file';
 $lang['install']['Dropbox'] = 'Dropbox';
 $lang['install']['Gradebook'] = 'Gradebook';
+$lang['install']['Installation'] = 'Installation';
 ?>

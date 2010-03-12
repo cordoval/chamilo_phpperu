@@ -685,6 +685,10 @@ abstract class RepositoryDataManager
     }
 
     abstract function delete_content_object_attachments($object);
+    
+    abstract function delete_content_object_includes($object);
+    
+    abstract function delete_assisting_content_objects($object);
 
     /**
      * Deletes all known learning objects from persistent storage.

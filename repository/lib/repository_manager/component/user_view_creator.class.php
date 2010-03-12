@@ -17,13 +17,13 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManagerCompone
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserViewCreate')));
         $trail->add_help('repository userviews');
         
-        if (! $this->get_user()->is_platform_admin())
+        /*if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
             Display :: warning_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
-        }
+        }*/
         $user_view = new UserView();
         $user_view->set_user_id($this->get_user_id());
         $form = new UserViewForm(UserViewForm :: TYPE_CREATE, $user_view, $this->get_url());
