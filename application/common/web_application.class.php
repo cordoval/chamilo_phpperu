@@ -109,14 +109,23 @@ abstract class WebApplication extends Application
      * /application/lib/weblcms/weblcms.class.php. Applications must extend the
      * Application class.
      */
-    public static function load_all_from_filesystem($include_application_classes = true)
+    public static function load_all_from_filesystem($include_application_classes = true, $only_registered_applications = false)
     {
         $applications = array();
         $path = dirname(__FILE__) . '/../lib/';
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
+        
+        $adm = AdminDataManager :: get_instance();
+        
         foreach ($directories as $directory)
         {
             $application_name = basename($directory);
+            
+            if($only_registered_applications && !$adm->is_registered($application_name))
+            {
+            	continue;
+            }
+            
             if (Application :: is_application_name($application_name))
             {
                 if (! in_array($application_name, $applications))
