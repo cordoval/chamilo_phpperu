@@ -23,13 +23,13 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerCompone
             $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_USER_VIEW => $id)), $user_view->get_name()));
             $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_USER_VIEW => $id)), Translation :: get('Update')));
             
-            if (! $this->get_user()->is_platform_admin())
+            /*if (! $this->get_user()->is_platform_admin())
             {
                 $this->display_header($trail, false, true);
                 Display :: error_message(Translation :: get("NotAllowed"));
                 $this->display_footer();
                 exit();
-            }
+            }*/
             
             $form = new UserViewForm(UserViewForm :: TYPE_EDIT, $user_view, $this->get_url(array(RepositoryManager :: PARAM_USER_VIEW => $id)), $this->get_user());
             

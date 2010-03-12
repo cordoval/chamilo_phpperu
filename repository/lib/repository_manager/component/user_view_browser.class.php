@@ -20,13 +20,13 @@ class RepositoryManagerUserViewBrowserComponent extends RepositoryManagerCompone
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserViewList')));
         $trail->add_help('repository userviews');
         
-        if (! $this->get_user()->is_platform_admin())
+        /*if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
-        }
+        }*/
         
         $this->ab = $this->get_action_bar();
         
