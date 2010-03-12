@@ -22,6 +22,19 @@ class CourseTypeForm extends FormValidator
 		$this->form_type = $form_type;
 		$this->course_type = $course_type;
 		$this->parent = $parent;
+		
+		$renderer = $this->defaultRenderer();
+		$element_template[] = '<div class="row">';
+		$element_template[] = '<div class="label" style="width: 25%;">';
+		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="' . Theme :: get_common_image_path() . 'action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
+		$element_template[] = '</div>';
+		$element_template[] = '<div class="formw" style="width: 74%;">';
+		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
+		$element_template[] = '<div class="form_feedback"></div></div>';
+		$element_template[] = '<div class="clear">&nbsp;</div>';
+		$element_template[] = '</div>';
+		$renderer->setElementTemplate(implode("\n",$element_template));
+		
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
 			$this->build_editing_form();
@@ -58,7 +71,7 @@ class CourseTypeForm extends FormValidator
 	function build_basic_form()
 	{
 		$tabs = Array(new FormTab('build_general_settings_form','General'),
-		new FormTab('build_tools_form', 'Application'),
+		new FormTab('build_tools_form', 'Tools'),
 		new FormTab('build_rights_form', 'Rights'),
 		new FormTab('build_layout_form', 'Layout'));
 		$selected_tab = 0;
@@ -80,7 +93,7 @@ class CourseTypeForm extends FormValidator
 		$count = 0;
 		$renderer = $this->defaultRenderer();
 		$element_template = array();
-		$element_template[] = '<div class="row" style="width: 29%;{margin}">';
+		$element_template[] = '<div class="row" style="width: 29%; margin: auto">';
 		$element_template[] = '<div class="formw">';
 		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
 		$element_template[] = '<div class="form_feedback"></div></div>';
@@ -88,40 +101,35 @@ class CourseTypeForm extends FormValidator
 		$element_template[] = '</div>';
 		$element_template = implode("\n", $element_template);
 		
-		$this->addElement('html','<div style="width: 80%; margin:auto;">');
+		$this->addElement('html','<div class="table" style="width: 80%; margin:auto;">');
 		
-		$this->addElement('html','<div class="tool" style="width: 100%">');
-		$this->addElement('html','<div style="float: left; width: 20%; padding-left: 12%"><h4>'.Translation :: get('ToolName').'</h4></div>');
-		$this->addElement('html','<div style="float: left; width: 32%; text-align: center;"><h4>'.Translation :: get('IsToolAvailable?').'</h4></div>');
-		$this->addElement('html','<div style="float: left; width: 32%"><h4>'.Translation :: get('IsToolVisible?').'</h4></div>');
+		$this->addElement('html','<div style="width: 100%">');
+		$this->addElement('html','<div class="header" style="float: left; width: 32%; padding: 0px 1%; border: 0px; text-align: center;""><h4>'.Translation :: get('ToolName').'</h4></div>');
+		$this->addElement('html','<div class="header" style="float: left; width: 32%; padding: 0px 1%; border: 0px; text-align: center;"><h4>'.Translation :: get('IsToolAvailable?').'</h4></div>');
+		$this->addElement('html','<div class="header" style="float: left; width: 30%; padding: 0px 1%; border: 0px; text-align: center; "><h4>'.Translation :: get('IsToolVisible?').'</h4></div>');
 		$this->addElement('html','<div class="clear"></div>');
-		$this->addElement('html','<br/>');
 		$this->addElement('html','</div>');	
 		foreach ($tools as $index => $tool)
 		{
 			$tool_image_src = Theme :: get_image_path() . 'tool_' . $tool . '.png';
-			$tool_image_src_disabled = Theme :: get_image_path() . 'tool_' . $tool . '_na.png';
 			$tool_image = $tool . "_image";
 			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
 			$element_name = $tool . "element";
 			$element_default = $tool . "elementdefault";
-			$element_tool_template = str_replace('{margin}', 'margin-left: auto; margin-right: auto;', $element_template);
-			$renderer->setElementTemplate($element_tool_template, $element_name);
-			$element_default_template = str_replace('{margin}', '', $element_template);
-			$renderer->setElementTemplate($element_default_template, $element_default);
+			$renderer->setElementTemplate($element_template, $element_name);		
+			$renderer->setElementTemplate($element_template, $element_default);
 
-			$this->addElement('html','<div class="tool" style="width: 100%">');
-			$this->addElement('html','<div style="float: left; width: 20%; padding-left: 12%">');
+			$this->addElement('html','<div class="'.($index%2==0?'row_even':'row_odd').'" style="width: 100%;">');
+			$this->addElement('html','<div class="cell" style="float: left; width: 22%; padding-left: 6%; padding-right: 6%; height:35px">');
 			$this->addElement('html','<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div><div class="clear">&nbsp;</div>');
 			$this->addElement('html','</div>');
-			$this->addElement('html','<div style="float: left; width: 32%;">');
+			$this->addElement('html','<div class="cell" style="float: left; width: 32%; height:35px">');
 			$this->addElement('checkbox', $element_name, $title, '',array('class'=>'iphone '.$tool));
 			$this->addElement('html','</div>');
-			$this->addElement('html','<div class=\''.$element_default.'\' style="float: left; width: 32%">');
-			$this->addElement('checkbox', $element_default, Translation :: get('IsVisible'),'', array('class'=>'viewablecheckbox'));
-			$this->addElement('html','</div>');
+			$this->addElement('html','<div class="cell" style="height:35px"><div class=\''.$element_default.'\' style="float: left; width: 30%">');
+			$this->addElement('checkbox', $element_default, Translation :: get('IsVisible'),'', array('class'=>'viewablecheckbox', 'style'=>'width=80%'));
+			$this->addElement('html','</div></div>');
 			$this->addElement('html','<div class="clear"></div>');
-			$this->addElement('html','<br/>');
 			$this->addElement('html','</div>');			
 			$count ++;
 		}
@@ -180,34 +188,47 @@ class CourseTypeForm extends FormValidator
 
 	function build_general_settings_form()
 	{
-		$this->addElement('text', CourseType :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "40"));
+		$this->addElement('category', Translation :: get('CourseTypeOnly'));
+		
+		$this->addElement('text', CourseType :: PROPERTY_NAME, Translation :: get('CourseTypeName'), array("size" => "40"));
 		$this->addRule(CourseType :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('textarea', CourseType :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "50"));
+		$this->addElement('textarea', CourseType :: PROPERTY_DESCRIPTION, Translation :: get('CourseTypeDescription'), array("rows" => "7", "cols" => "50"));
 		$this->addRule(CourseType :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 
+		$this->addElement('category');
+		
+		$this->addElement('category', Translation :: get('CourseTypeCourses'));
+		
 		$adm = AdminDataManager :: get_instance();
 		$lang_options = $adm->get_languages();
-		$languages = $this->createElement('select', CourseTypeSettings :: PROPERTY_LANGUAGES, Translation :: get('Language'), $lang_options);
-		$languages_fixed = $this->createElement('checkbox', CourseTypeSettings :: PROPERTY_LANGUAGES_FIXED, Translation :: get('IsFixed'), '');
+		$languages = $this->addElement('select', CourseTypeSettings :: PROPERTY_LANGUAGES, Translation :: get('CourseTypeLanguage'), $lang_options);
+		$languages_fixed = $this->createElement('checkbox', CourseTypeSettings :: PROPERTY_LANGUAGES_FIXED, Translation :: get('IsFixed'));
 
-		$this->add_row_elements_required(array($languages, $languages_fixed));
-
-		$visibility = $this->createElement('checkbox', CourseTypeSettings :: PROPERTY_VISIBILITY, Translation :: get('Visibility'));
+		$this->add_fixed_element($languages_fixed);
+		$this->addElement('html', '<br/>');
+		
+		$visibility = $this->addElement('checkbox', CourseTypeSettings :: PROPERTY_VISIBILITY, Translation :: get('CourseTypeVisibility'));
 		$visibility_fixed = $this->createElement('checkbox', CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED, Translation :: get('IsFixed'));
 
-		$this->add_row_elements_required(array($visibility, $visibility_fixed));
-
-		$access= $this->createElement('checkbox', CourseTypeSettings :: PROPERTY_ACCESS, Translation :: get('Access'));
+		$this->add_fixed_element($visibility_fixed);
+		$this->addElement('html', '<br/>');
+		
+		$access= $this->addElement('checkbox', CourseTypeSettings :: PROPERTY_ACCESS, Translation :: get('CourseTypeAccess'));
 		$access_fixed = $this->createElement('checkbox', CourseTypeSettings :: PROPERTY_ACCESS_FIXED, Translation :: get('IsFixed'));
 
-		$this->add_row_elements_required(array($access, $access_fixed));
-
+		$this->add_fixed_element($access_fixed);
+		$this->addElement('html', '<br/>');
+		
 		$members = $this->createElement('text', CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS , Translation :: get('MaximumNumberOfMembers'), array('id' => 'max_number','size' => '4'));
 		$members_unlimited = $this->createElement('checkbox', 'unlimited' , Translation :: get('Unlimited'),'', array('id' => 'unlimited'));
 		$members_fixed = $this->createElement('checkbox', CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED , Translation :: get('IsFixed'));
 
-		$this->add_row_elements_required(array($members, $members_unlimited, $members_fixed));
+		$this->add_row_elements_required(array($members, $members_unlimited));
+		$this->add_fixed_element($members_fixed);
+		$this->addElement('html', '<br/>');
+		
+		$this->addElement('category');
 	}
 
 	function save_course_type()
@@ -533,7 +554,7 @@ class CourseTypeForm extends FormValidator
 		foreach($arrayelements as $index => $value)
 		{
 			if($index == 0)
-				$this->addElement('html', '<div class="row"><div style="width: 28.5%; float: left;">');
+				$this->addElement('html', '<div class="row"><div style="width: 38.5%; float: left;">');
 			else
 				$this->addElement('html', '<div style="width: 20%; float: left;">');
 			$this->addElement($value);
@@ -543,6 +564,25 @@ class CourseTypeForm extends FormValidator
 				
 		}
 		$this->addElement('html', '<div class="clear">&nbsp;</div></div>');
+	}
+	
+	function add_fixed_element($element)
+	{
+		$renderer = $this->defaultRenderer();
+
+		$element_template = array();
+		$element_template[] = '<div class="row">';
+		$element_template[] = '<div class="label" style="width: 35%;">';
+		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="' . Theme :: get_common_image_path() . 'action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
+		$element_template[] = '</div>';
+		$element_template[] = '<div class="formw" style="width: 64%;">';
+		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
+		$element_template[] = '<div class="form_feedback"></div></div>';
+		$element_template[] = '<div class="clear">&nbsp;</div>';
+		$element_template[] = '</div>';
+		$element_template = implode("\n", $element_template);
+		$renderer->setElementTemplate($element_template, $element->getName());
+		$this->addElement($element);
 	}
 	
 	function get_form_type()
