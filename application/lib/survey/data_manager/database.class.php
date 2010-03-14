@@ -4,7 +4,6 @@
  * @package application.lib.survey.data_manager
  */
 require_once dirname(__FILE__) . '/../survey_publication.class.php';
-require_once dirname(__FILE__) . '/../survey_invitation.class.php';
 require_once dirname(__FILE__) . '/../category_manager/survey_publication_category.class.php';
 require_once dirname(__FILE__) . '/../survey_publication_group.class.php';
 require_once dirname(__FILE__) . '/../survey_publication_user.class.php';
@@ -271,39 +270,6 @@ class DatabaseSurveyDataManager extends SurveyDataManager
     function retrieve_survey_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->database->retrieve_objects(SurveyPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationUser :: CLASS_NAME);
-    }
-
-    function create_survey_invitation($survey_invitation)
-    {
-        return $this->database->create($survey_invitation);
-    }
-
-    function update_survey_invitation($survey_invitation)
-    {
-        $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
-        return $this->database->update($survey_invitation, $condition);
-    }
-
-    function delete_survey_invitation($survey_invitation)
-    {
-        $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
-        return $this->database->delete($survey_invitation->get_table_name(), $condition);
-    }
-
-    function count_survey_invitations($condition = null)
-    {
-        return $this->database->count_objects(SurveyInvitation :: get_table_name(), $condition);
-    }
-
-    function retrieve_survey_invitation($id)
-    {
-        $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(SurveyInvitation :: get_table_name(), $condition);
-    }
-
-    function retrieve_survey_invitations($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return $this->database->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $count, $order_property);
     }
 
     function content_object_is_published($object_id)

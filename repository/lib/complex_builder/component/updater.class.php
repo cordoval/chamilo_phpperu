@@ -26,7 +26,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
         $type = $lo->get_type();
         
         $cloi_form = ComplexContentObjectItemForm :: factory_with_type(ComplexContentObjectItemForm :: TYPE_CREATE, $type, $cloi, 'create_complex', 'post', $this->get_url());
-        
+               
         if ($cloi_form)
         {
             $elements = $cloi_form->get_elements();

@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/survey_page.class.php';
 
-class ComplexSurveyItemForm extends ComplexContentObjectItemForm
+class ComplexSurveyPageForm extends ComplexContentObjectItemForm
 {
 }
 

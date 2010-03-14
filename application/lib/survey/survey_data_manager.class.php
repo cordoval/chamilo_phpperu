@@ -72,18 +72,5 @@ abstract class SurveyDataManager
     abstract function retrieve_survey_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function select_next_survey_publication_category_display_order($parent);
-
-    abstract function create_survey_invitation($survey_invitation);
-
-    abstract function update_survey_invitation($survey_invitation);
-
-    abstract function delete_survey_invitation($survey_invitation);
-
-    abstract function count_survey_invitations($conditions = null);
-
-    abstract function retrieve_survey_invitation($id);
-
-    abstract function retrieve_survey_invitations($condition = null, $offset = null, $count = null, $order_property = null);
-
 }
 ?>

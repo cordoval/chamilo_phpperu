@@ -99,7 +99,7 @@ class SurveyFillInBlanksQuestionDisplay extends SurveyQuestionDisplay
     {
         $answers = $this->get_question()->get_answers();
         $options = array();
-        
+      
         foreach ($answers as $answer)
         {
             $option = str_replace(array('[', ']'), '', $answer->get_value());

@@ -77,7 +77,7 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
             $toolbar_data[] = array('href' => $this->browser->get_export_qti_url($assessment_publication), 'label' => Translation :: get('Export'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
             $toolbar_data[] = array('href' => $this->browser->get_move_assessment_publication_url($assessment_publication), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
 
-            if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
+            if ($assessment->get_assessment_type() == Assessment :: TYPE_SURVEY)
             {
                 $toolbar_data[] = array('href' => $this->browser->get_publish_survey_url($assessment_publication), 'label' => Translation :: get('InviteUsers'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
             }

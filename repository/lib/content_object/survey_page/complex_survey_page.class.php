@@ -6,21 +6,6 @@
 
 class ComplexSurveyPage extends ComplexContentObjectItem
 {
-    const PROPERTY_ROUTING = 'routing';
-
-    static function get_additional_property_names()
-    {
-        return array(self :: PROPERTY_ROUTING);
-    }
-
-    function get_routing()
-    {
-        return $this->get_additional_property(self :: PROPERTY_ROUTING);
-    }
-
-    function set_routing($value)
-    {
-        $this->set_additional_property(self :: PROPERTY_ROUTING, $value);
-    }
+  
 }
 ?>

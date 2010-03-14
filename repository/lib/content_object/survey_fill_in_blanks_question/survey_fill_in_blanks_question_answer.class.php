@@ -6,6 +6,8 @@ require_once PATH::get_repository_path() . '/question_types/fill_in_blanks_quest
  */
 class SurveyFillInBlanksQuestionAnswer extends FillInBlanksQuestionAnswer
 {
-   
+   function SurveyFillInBlanksQuestionAnswer($match, $weight, $comment, $size, $position){
+   		parent :: FillInBlanksQuestionAnswer($match, $weight, $comment, $size, $position);
+   }
 }
 ?>
