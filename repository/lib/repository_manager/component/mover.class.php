@@ -134,6 +134,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
     private function get_categories_for_select($parent_id, $current_parent)
     {
         $conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent_id);
+        $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->get_user_id());
         $conditions[] = new NotCondition(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $current_parent));
         
         $condition = new AndCondition($conditions);
