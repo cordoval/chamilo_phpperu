@@ -246,12 +246,9 @@ $(function () {
 		});
 	}
 
-	function addBlock(e, ui) {
+	function addBlock(e, ui) 
+	{
 		var column, columnId, order, loadingMessage, loading;
-		
-		column = $(".tab:visible .column:first-child");
-		columnId = column.attr("id");
-		order = column.sortable("serialize");
 		
 		loadingMessage = 'YourBlockIsBeingAdded';
 
@@ -261,7 +258,19 @@ $(function () {
 			opacity: 75,
 			close: false
 		});
-
+		
+		column = $(".tab:visible .column");
+		
+		if(column.length == 0)
+		{
+			$(".loadingBox", loading.dialog.container).html(getMessageBox(false, getTranslation('BlockCanNotBeAddedWhenNoColumnAvailable', 'home')));
+			handleLoadingBox(loading);
+			return;
+		}
+		
+		columnId = column.attr("id");
+		order = column.sortable("serialize");
+		
 		$.post("./home/ajax/block_add.php", {
 			component : $(this).attr("id"),
 			column : columnId,
@@ -349,14 +358,22 @@ $(function () {
 			newWidths = data.width;
 			
 			lastColumn = $("div.column:last", row);
-			lastColumn.css('margin-right', '1%');
 			
-			$("div.column", row).each(function (i) {
-				var newWidth = newWidths[this.id] + '%'; 
-				this.style.width = newWidth;
-			});
-			
-			$("div.column:last", row).after(columnHtml);
+			if(lastColumn.length > 0)
+			{
+				lastColumn.css('margin-right', '1%');
+				
+				$("div.column", row).each(function (i) {
+					var newWidth = newWidths[this.id] + '%'; 
+					this.style.width = newWidth;
+				});
+				
+				$("div.column:last", row).after(columnHtml);
+			}
+			else
+			{
+				row.append(columnHtml);
+			}
 			
 			bindIconsLegacy();
 			columnsSortable();

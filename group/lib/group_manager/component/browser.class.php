@@ -10,6 +10,7 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 {
     private $ab;
     private $group;
+    private $root_group;
 
     /**
      * Runs this component and displays its output.
@@ -75,13 +76,23 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
     		
     		if(!$this->group)
     		{
-    			$group = $this->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
-    			$this->group = $group->get_id();
+    			$this->group = $this->get_root_group()->get_id();
     		}
     		
         }
         
         return $this->group;
+    }
+    
+    function get_root_group()
+    {
+    	if(!$this->root_group)
+    	{
+    		$group = $this->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
+    		$this->root_group = $group;
+    	}
+    	
+    	return $this->root_group;
     }
 
     function get_condition()
@@ -113,6 +124,7 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
         $action_bar->set_search_url($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())));
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_group_url($this->get_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewRoot'), Theme :: get_common_image_path() . 'action_home.png', $this->get_group_viewing_url($this->get_root_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
