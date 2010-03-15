@@ -31,12 +31,12 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
 	{
 		$aliases = array();
 		$aliases[Category :: get_table_name()] = 'cary';
-		$aliases[Location :: get_table_name()] = 'loon';
-		$aliases[LocationGroup :: get_table_name()] = 'loup';
-		$aliases[LocationRelCategory :: get_table_name()] = 'lory';
-		$aliases[LocationRelMentor :: get_table_name()] = 'loor';
-		$aliases[LocationRelMoment :: get_table_name()] = 'lont';
-		$aliases[LocationRelType :: get_table_name()] = 'lope';
+		$aliases[InternshipLocation :: get_table_name()] = 'loon';
+		$aliases[InternshipLocationGroup :: get_table_name()] = 'loup';
+		$aliases[InternshipLocationRelCategory :: get_table_name()] = 'lory';
+		$aliases[InternshipLocationRelMentor :: get_table_name()] = 'loor';
+		$aliases[InternshipLocationRelMoment :: get_table_name()] = 'lont';
+		$aliases[InternshipLocationRelType :: get_table_name()] = 'lope';
 		$aliases[Mentor :: get_table_name()] = 'meor';
 		$aliases[Moment :: get_table_name()] = 'mont';
 		$aliases[Period :: get_table_name()] = 'peod';
@@ -91,7 +91,7 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
 
 	function get_next_location_id()
 	{
-		return $this->database->get_next_id(Location :: get_table_name());
+		return $this->database->get_next_id(InternshipLocation :: get_table_name());
 	}
 
 	function create_location($location)
@@ -101,35 +101,35 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
 
 	function update_location($location)
 	{
-		$condition = new EqualityCondition(Location :: PROPERTY_ID, $location->get_id());
+		$condition = new EqualityCondition(InternshipLocation :: PROPERTY_ID, $location->get_id());
 		return $this->database->update($location, $condition);
 	}
 
 	function delete_location($location)
 	{
-		$condition = new EqualityCondition(Location :: PROPERTY_ID, $location->get_id());
+		$condition = new EqualityCondition(InternshipLocation :: PROPERTY_ID, $location->get_id());
 		return $this->database->delete($location->get_table_name(), $condition);
 	}
 
 	function count_locations($condition = null)
 	{
-		return $this->database->count_objects(Location :: get_table_name(), $condition);
+		return $this->database->count_objects(InternshipLocation :: get_table_name(), $condition);
 	}
 
 	function retrieve_location($id)
 	{
-		$condition = new EqualityCondition(Location :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(Location :: get_table_name(), $condition);
+		$condition = new EqualityCondition(InternshipLocation :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(InternshipLocation :: get_table_name(), $condition);
 	}
 
 	function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(Location :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->database->retrieve_objects(InternshipLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function get_next_location_group_id()
 	{
-		return $this->database->get_next_id(LocationGroup :: get_table_name());
+		return $this->database->get_next_id(InternshipLocationGroup :: get_table_name());
 	}
 
 	function create_location_group($location_group)
@@ -139,35 +139,35 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
 
 	function update_location_group($location_group)
 	{
-		$condition = new EqualityCondition(LocationGroup :: PROPERTY_ID, $location_group->get_id());
+		$condition = new EqualityCondition(InternshipLocationGroup :: PROPERTY_ID, $location_group->get_id());
 		return $this->database->update($location_group, $condition);
 	}
 
 	function delete_location_group($location_group)
 	{
-		$condition = new EqualityCondition(LocationGroup :: PROPERTY_ID, $location_group->get_id());
+		$condition = new EqualityCondition(InternshipLocationGroup :: PROPERTY_ID, $location_group->get_id());
 		return $this->database->delete($location_group->get_table_name(), $condition);
 	}
 
 	function count_location_groups($condition = null)
 	{
-		return $this->database->count_objects(LocationGroup :: get_table_name(), $condition);
+		return $this->database->count_objects(InternshipLocationGroup :: get_table_name(), $condition);
 	}
 
 	function retrieve_location_group($id)
 	{
-		$condition = new EqualityCondition(LocationGroup :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LocationGroup :: get_table_name(), $condition);
+		$condition = new EqualityCondition(InternshipLocationGroup :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(InternshipLocationGroup :: get_table_name(), $condition);
 	}
 
 	function retrieve_location_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(LocationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->database->retrieve_objects(InternshipLocationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function get_next_location_rel_category_id()
 	{
-		return $this->database->get_next_id(LocationRelCategory :: get_table_name());
+		return $this->database->get_next_id(InternshipLocationRelCategory :: get_table_name());
 	}
 
 	function create_location_rel_category($location_rel_category)
@@ -177,35 +177,35 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
 
 	function update_location_rel_category($location_rel_category)
 	{
-		$condition = new EqualityCondition(LocationRelCategory :: PROPERTY_ID, $location_rel_category->get_id());
+		$condition = new EqualityCondition(InternshipLocationRelCategory :: PROPERTY_ID, $location_rel_category->get_id());
 		return $this->database->update($location_rel_category, $condition);
 	}
 
 	function delete_location_rel_category($location_rel_category)
 	{
-		$condition = new EqualityCondition(LocationRelCategory :: PROPERTY_ID, $location_rel_category->get_id());
+		$condition = new EqualityCondition(InternshipLocationRelCategory :: PROPERTY_ID, $location_rel_category->get_id());
 		return $this->database->delete($location_rel_category->get_table_name(), $condition);
 	}
 
 	function count_location_rel_categories($condition = null)
 	{
-		return $this->database->count_objects(LocationRelCategory :: get_table_name(), $condition);
+		return $this->database->count_objects(InternshipLocationRelCategory :: get_table_name(), $condition);
 	}
 
 	function retrieve_location_rel_category($id)
 	{
-		$condition = new EqualityCondition(LocationRelCategory :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LocationRelCategory :: get_table_name(), $condition);
+		$condition = new EqualityCondition(InternshipLocationRelCategory :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(InternshipLocationRelCategory :: get_table_name(), $condition);
 	}
 
 	function retrieve_location_rel_categories($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(LocationRelCategory :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->database->retrieve_objects(InternshipLocationRelCategory :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function get_next_location_rel_mentor_id()
 	{
-		return $this->database->get_next_id(LocationRelMentor :: get_table_name());
+		return $this->database->get_next_id(InternshipLocationRelMentor :: get_table_name());
 	}
 
 	function create_location_rel_mentor($location_rel_mentor)
@@ -215,35 +215,35 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
 
 	function update_location_rel_mentor($location_rel_mentor)
 	{
-		$condition = new EqualityCondition(LocationRelMentor :: PROPERTY_ID, $location_rel_mentor->get_id());
+		$condition = new EqualityCondition(InternshipLocationRelMentor :: PROPERTY_ID, $location_rel_mentor->get_id());
 		return $this->database->update($location_rel_mentor, $condition);
 	}
 
 	function delete_location_rel_mentor($location_rel_mentor)
 	{
-		$condition = new EqualityCondition(LocationRelMentor :: PROPERTY_ID, $location_rel_mentor->get_id());
+		$condition = new EqualityCondition(InternshipLocationRelMentor :: PROPERTY_ID, $location_rel_mentor->get_id());
 		return $this->database->delete($location_rel_mentor->get_table_name(), $condition);
 	}
 
 	function count_location_rel_mentors($condition = null)
 	{
-		return $this->database->count_objects(LocationRelMentor :: get_table_name(), $condition);
+		return $this->database->count_objects(InternshipLocationRelMentor :: get_table_name(), $condition);
 	}
 
 	function retrieve_location_rel_mentor($id)
 	{
-		$condition = new EqualityCondition(LocationRelMentor :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LocationRelMentor :: get_table_name(), $condition);
+		$condition = new EqualityCondition(InternshipLocationRelMentor :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(InternshipLocationRelMentor :: get_table_name(), $condition);
 	}
 
 	function retrieve_location_rel_mentors($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(LocationRelMentor :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->database->retrieve_objects(InternshipLocationRelMentor :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function get_next_location_rel_moment_id()
 	{
-		return $this->database->get_next_id(LocationRelMoment :: get_table_name());
+		return $this->database->get_next_id(InternshipLocationRelMoment :: get_table_name());
 	}
 
 	function create_location_rel_moment($location_rel_moment)
@@ -253,35 +253,35 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
 
 	function update_location_rel_moment($location_rel_moment)
 	{
-		$condition = new EqualityCondition(LocationRelMoment :: PROPERTY_ID, $location_rel_moment->get_id());
+		$condition = new EqualityCondition(InternshipLocationRelMoment :: PROPERTY_ID, $location_rel_moment->get_id());
 		return $this->database->update($location_rel_moment, $condition);
 	}
 
 	function delete_location_rel_moment($location_rel_moment)
 	{
-		$condition = new EqualityCondition(LocationRelMoment :: PROPERTY_ID, $location_rel_moment->get_id());
+		$condition = new EqualityCondition(InternshipLocationRelMoment :: PROPERTY_ID, $location_rel_moment->get_id());
 		return $this->database->delete($location_rel_moment->get_table_name(), $condition);
 	}
 
 	function count_location_rel_moments($condition = null)
 	{
-		return $this->database->count_objects(LocationRelMoment :: get_table_name(), $condition);
+		return $this->database->count_objects(InternshipLocationRelMoment :: get_table_name(), $condition);
 	}
 
 	function retrieve_location_rel_moment($id)
 	{
-		$condition = new EqualityCondition(LocationRelMoment :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LocationRelMoment :: get_table_name(), $condition);
+		$condition = new EqualityCondition(InternshipLocationRelMoment :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(InternshipLocationRelMoment :: get_table_name(), $condition);
 	}
 
 	function retrieve_location_rel_moments($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(LocationRelMoment :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->database->retrieve_objects(InternshipLocationRelMoment :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function get_next_location_rel_type_id()
 	{
-		return $this->database->get_next_id(LocationRelType :: get_table_name());
+		return $this->database->get_next_id(InternshipLocationRelType :: get_table_name());
 	}
 
 	function create_location_rel_type($location_rel_type)
@@ -291,30 +291,30 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
 
 	function update_location_rel_type($location_rel_type)
 	{
-		$condition = new EqualityCondition(LocationRelType :: PROPERTY_ID, $location_rel_type->get_id());
+		$condition = new EqualityCondition(InternshipLocationRelType :: PROPERTY_ID, $location_rel_type->get_id());
 		return $this->database->update($location_rel_type, $condition);
 	}
 
 	function delete_location_rel_type($location_rel_type)
 	{
-		$condition = new EqualityCondition(LocationRelType :: PROPERTY_ID, $location_rel_type->get_id());
+		$condition = new EqualityCondition(InternshipLocationRelType :: PROPERTY_ID, $location_rel_type->get_id());
 		return $this->database->delete($location_rel_type->get_table_name(), $condition);
 	}
 
 	function count_location_rel_types($condition = null)
 	{
-		return $this->database->count_objects(LocationRelType :: get_table_name(), $condition);
+		return $this->database->count_objects(InternshipLocationRelType :: get_table_name(), $condition);
 	}
 
 	function retrieve_location_rel_type($id)
 	{
-		$condition = new EqualityCondition(LocationRelType :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(LocationRelType :: get_table_name(), $condition);
+		$condition = new EqualityCondition(InternshipLocationRelType :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(InternshipLocationRelType :: get_table_name(), $condition);
 	}
 
 	function retrieve_location_rel_types($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(LocationRelType :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->database->retrieve_objects(InternshipLocationRelType :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function get_next_mentor_id()

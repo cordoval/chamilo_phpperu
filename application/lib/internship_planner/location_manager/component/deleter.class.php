@@ -2,15 +2,15 @@
 /**
  * @package application.internship_planner.internship_planner.component
  */
-require_once dirname(__FILE__).'/../internship_planner_manager.class.php';
-require_once dirname(__FILE__).'/../internship_planner_manager_component.class.php';
+require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager.class.php';
+require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager_component.class.php';
 
 /**
  * Component to delete locations objects
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class InternshipLocationDeleterComponent extends InternshipLocationManagerComponent
+class InternshipLocationManagerDeleterComponent extends InternshipLocationManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -41,30 +41,30 @@ class InternshipLocationDeleterComponent extends InternshipLocationManagerCompon
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedLocationNotDeleted';
+					$message = 'SelectedInternshipLocationNotDeleted';
 				}
 				else
 				{
-					$message = 'Selected{LocationsNotDeleted';
+					$message = 'Selected{InternshipLocationsNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedLocationDeleted';
+					$message = 'SelectedInternshipLocationDeleted';
 				}
 				else
 				{
-					$message = 'SelectedLocationsDeleted';
+					$message = 'SelectedInternshipLocationsDeleted';
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipPlannerManager :: PARAM_ACTION => InternshipPlannerManager :: ACTION_BROWSE_LOCATIONS));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipLocationManager :: PARAM_ACTION => InternshipLocationManager :: ACTION_BROWSE_LOCATIONS));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoLocationsSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoInternshipLocationsSelected')));
 		}
 	}
 }

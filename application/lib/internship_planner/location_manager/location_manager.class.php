@@ -1,11 +1,11 @@
 <?php
-require_once Path :: get_application_path() . 'lib/internship_planner/location_manager/component/browser/browser_table.class.php';
+//require_once Path :: get_application_path() . 'lib/internship_planner/location_manager/component/browser/browser_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/location.class.php';
 
 class InternshipLocationManager extends SubManager
 {
     
-    const PARAM_LOCATION_ACTION = 'action';
+    const PARAM_ACTION = 'action';
     const PARAM_LOCATION_ID = 'location_id';
   
        
@@ -19,10 +19,10 @@ class InternshipLocationManager extends SubManager
     function InternshipLocationManager($internship_manager)
     {
         parent :: __construct($internship_manager);
-        $location_action = Request :: get(self :: PARAM_LOCATION_ACTION);
-        if ($location_action)
+        $action = Request :: get(self :: PARAM_ACTION);
+        if ($action)
         {
-            $this->set_parameter(self :: PARAM_LOCATION_ACTION, $location_action);
+            $this->set_parameter(self :: PARAM_ACTION, $action);
         }
         $this->parse_input_from_table();
     
@@ -30,13 +30,13 @@ class InternshipLocationManager extends SubManager
 
     function run()
     {
-        $location_action = $this->get_parameter(self :: PARAM_LOCATION_ACTION);
+        $action = $this->get_parameter(self :: PARAM_ACTION);
         
-        switch ($location_action)
+        switch ($action)
         {
             
             case self :: ACTION_EDIT_LOCATION :
-                $component = InternshipLocationManagerComponent :: factory('Editor', $this);
+                $component = InternshipLocationManagerComponent :: factory('Updater', $this);
                 break;
             case self :: ACTION_DELETE_LOCATION :
                 $component = InternshipLocationManagerComponent :: factory('Deleter', $this);
@@ -77,6 +77,28 @@ class InternshipLocationManager extends SubManager
 		return InternshipPlannerDataManager :: get_instance()->retrieve_location($id);
 	}
 
+        //url creation
+    function get_create_location_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_LOCATION));
+    }
+
+    function get_update_location_url($location)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_LOCATION, self :: PARAM_LOCATION => $location->get_id()));
+    }
+
+    function get_delete_location_url($location)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_LOCATION, self :: PARAM_LOCATION => $location->get_id()));
+    }
+
+    function get_browse_locations_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LOCATIONS));
+    }
+	
+	
     private function parse_input_from_table()
     {
         
@@ -131,7 +153,7 @@ class InternshipLocationManager extends SubManager
 
     private function set_location_action($action)
     {
-        $this->set_parameter(self :: PARAM_LOCATION_ACTION, $action);
+        $this->set_parameter(self :: PARAM_ACTION, $action);
     }
 }
 

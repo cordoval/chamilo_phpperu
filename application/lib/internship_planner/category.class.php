@@ -2,7 +2,7 @@
 /**
  * internship_planner
  */
-require_once dirname(__FILE__) . 'internship_planner_data_manager.class.php';
+require_once dirname(__FILE__) . '/internship_planner_data_manager.class.php';
 /**
  * This class describes a Category data object
  * @author Sven Vanpoucke

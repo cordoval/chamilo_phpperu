@@ -4,16 +4,16 @@
  */
 
 /**
- * This class describes a LocationRelCategory data object
+ * This class describes a InternshipLocationRelCategory data object
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class LocationRelCategory extends DataClass
+class InternshipLocationRelCategory extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
 	/**
-	 * LocationRelCategory properties
+	 * InternshipLocationRelCategory properties
 	 */
 	//test
 	const PROPERTY_ID = 'id';
@@ -35,7 +35,7 @@ class LocationRelCategory extends DataClass
 	}
 
 	/**
-	 * Returns the id of this LocationRelCategory.
+	 * Returns the id of this InternshipLocationRelCategory.
 	 * @return the id.
 	 */
 	function get_id()
@@ -44,7 +44,7 @@ class LocationRelCategory extends DataClass
 	}
 
 	/**
-	 * Sets the id of this LocationRelCategory.
+	 * Sets the id of this InternshipLocationRelCategory.
 	 * @param id
 	 */
 	function set_id($id)
@@ -53,7 +53,7 @@ class LocationRelCategory extends DataClass
 	}
 
 	/**
-	 * Returns the location_id of this LocationRelCategory.
+	 * Returns the location_id of this InternshipLocationRelCategory.
 	 * @return the location_id.
 	 */
 	function get_location_id()
@@ -62,7 +62,7 @@ class LocationRelCategory extends DataClass
 	}
 
 	/**
-	 * Sets the location_id of this LocationRelCategory.
+	 * Sets the location_id of this InternshipLocationRelCategory.
 	 * @param location_id
 	 */
 	function set_location_id($location_id)
@@ -71,7 +71,7 @@ class LocationRelCategory extends DataClass
 	}
 
 	/**
-	 * Returns the category_id of this LocationRelCategory.
+	 * Returns the category_id of this InternshipLocationRelCategory.
 	 * @return the category_id.
 	 */
 	function get_category_id()
@@ -80,7 +80,7 @@ class LocationRelCategory extends DataClass
 	}
 
 	/**
-	 * Sets the category_id of this LocationRelCategory.
+	 * Sets the category_id of this InternshipLocationRelCategory.
 	 * @param category_id
 	 */
 	function set_category_id($category_id)

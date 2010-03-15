@@ -4,16 +4,16 @@
  */
 
 /**
- * This class describes a LocationRelMentor data object
+ * This class describes a InternshipLocationRelMentor data object
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class LocationRelMentor extends DataClass
+class InternshipLocationRelMentor extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
 	/**
-	 * LocationRelMentor properties
+	 * InternshipLocationRelMentor properties
 	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_MOMENT_ID = 'moment_id';
@@ -37,7 +37,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Returns the id of this LocationRelMentor.
+	 * Returns the id of this InternshipLocationRelMentor.
 	 * @return the id.
 	 */
 	function get_id()
@@ -46,7 +46,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Sets the id of this LocationRelMentor.
+	 * Sets the id of this InternshipLocationRelMentor.
 	 * @param id
 	 */
 	function set_id($id)
@@ -55,7 +55,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Returns the moment_id of this LocationRelMentor.
+	 * Returns the moment_id of this InternshipLocationRelMentor.
 	 * @return the moment_id.
 	 */
 	function get_moment_id()
@@ -64,7 +64,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Sets the moment_id of this LocationRelMentor.
+	 * Sets the moment_id of this InternshipLocationRelMentor.
 	 * @param moment_id
 	 */
 	function set_moment_id($moment_id)
@@ -73,7 +73,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Returns the location_id of this LocationRelMentor.
+	 * Returns the location_id of this InternshipLocationRelMentor.
 	 * @return the location_id.
 	 */
 	function get_location_id()
@@ -82,7 +82,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Sets the location_id of this LocationRelMentor.
+	 * Sets the location_id of this InternshipLocationRelMentor.
 	 * @param location_id
 	 */
 	function set_location_id($location_id)
@@ -91,7 +91,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Returns the mentor_id of this LocationRelMentor.
+	 * Returns the mentor_id of this InternshipLocationRelMentor.
 	 * @return the mentor_id.
 	 */
 	function get_mentor_id()
@@ -100,7 +100,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Sets the mentor_id of this LocationRelMentor.
+	 * Sets the mentor_id of this InternshipLocationRelMentor.
 	 * @param mentor_id
 	 */
 	function set_mentor_id($mentor_id)
@@ -109,7 +109,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Returns the status of this LocationRelMentor.
+	 * Returns the status of this InternshipLocationRelMentor.
 	 * @return the status.
 	 */
 	function get_status()
@@ -118,7 +118,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Sets the status of this LocationRelMentor.
+	 * Sets the status of this InternshipLocationRelMentor.
 	 * @param status
 	 */
 	function set_status($status)
@@ -127,7 +127,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Returns the priority of this LocationRelMentor.
+	 * Returns the priority of this InternshipLocationRelMentor.
 	 * @return the priority.
 	 */
 	function get_priority()
@@ -136,7 +136,7 @@ class LocationRelMentor extends DataClass
 	}
 
 	/**
-	 * Sets the priority of this LocationRelMentor.
+	 * Sets the priority of this InternshipLocationRelMentor.
 	 * @param priority
 	 */
 	function set_priority($priority)
