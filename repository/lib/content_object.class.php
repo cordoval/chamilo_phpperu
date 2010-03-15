@@ -942,7 +942,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
         return $this->get_type();
     }
 
-    function get_icon()
+    function get_icon_image()
     {
         $src = Theme :: get_common_image_path() . 'content_object/' . $this->get_icon_name() . '.png';
         return '<img src="' . $src . '" alt="' . $this->get_icon_name() . '" />';
@@ -987,7 +987,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
     {
         return in_array($name, self :: get_default_property_names());
     }
-    
+
 	static function is_additional_property_name($name)
     {
         return in_array($name, self :: get_additional_property_names());
