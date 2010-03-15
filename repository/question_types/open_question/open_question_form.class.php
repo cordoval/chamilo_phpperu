@@ -28,7 +28,7 @@ class OpenQuestionForm extends ContentObjectForm
     {
         parent :: build_creation_form();
 
-        $this->addElement('category');
+        //$this->addElement('category');
         
     }
 
@@ -36,7 +36,7 @@ class OpenQuestionForm extends ContentObjectForm
     function build_editing_form()
     {
         parent :: build_editing_form();       
-        $this->addElement('category');
+        //$this->addElement('category');
     }
 
     // Inherited

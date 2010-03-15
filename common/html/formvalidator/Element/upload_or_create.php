@@ -17,6 +17,11 @@ require_once dirname(__FILE__) . '/html_editor/fckeditor_html_editor.php';
  */
 class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
 {
+    const ELEMENT_CHOICE = 'choice';
+    const ELEMENT_FILE = 'file';
+    const ELEMENT_EDITOR = 'html_content';
+    const ELEMENT_UNCOMPRESS = 'uncompress';
+
 
     /**
      * Constructor
@@ -38,14 +43,12 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
      */
     function _createElements()
     {
-        $this->_elements[0] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Upload'), '0', array('onclick' => 'javascript:editor_hide(\'editor_html_content\'); javascript:uncompress_show(\'uncompress\')'));
+        $this->_elements[0] = new HTML_QuickForm_Radio(self :: ELEMENT_CHOICE, '', Translation :: get('Upload'), '0', array('onclick' => 'javascript:editor_hide(\'editor_html_content\'); javascript:uncompress_show(\''. self :: ELEMENT_UNCOMPRESS .'\')'));
         $this->_elements[0]->setChecked(true);
-        $this->_elements[1] = new HTML_QuickForm_file('file', '');
-        $this->_elements[2] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Create'), '1', array('onclick' => 'javascript:editor_show(\'editor_html_content\'); javascript:editor_hide(\'uncompress\')'));
-        //$this->_elements[3] = new HTML_QuickForm_html_editor('html_content', '', null, array('height' => '500'));
-        //$this->_elements[3]->fullPage = true;
-        $this->_elements[3] = new HTML_QuickForm_textarea('html_content', '');
-        $this->_elements[4] = new HTML_QuickForm_checkbox('uncompress', '', Translation :: get('Uncompress'), array('id' => 'uncompress'));
+        $this->_elements[1] = new HTML_QuickForm_file(self :: ELEMENT_FILE, '');
+        $this->_elements[2] = new HTML_QuickForm_Radio(self :: ELEMENT_CHOICE, '', Translation :: get('Create'), '1', array('onclick' => 'javascript:editor_show(\'editor_html_content\'); javascript:editor_hide(\''. self :: ELEMENT_UNCOMPRESS .'\')'));
+        $this->_elements[3] = new HTML_QuickForm_textarea(self :: ELEMENT_EDITOR, '');
+        $this->_elements[4] = new HTML_QuickForm_checkbox(self :: ELEMENT_UNCOMPRESS, '', Translation :: get('Uncompress'), array('id' => self :: ELEMENT_UNCOMPRESS));
     }
 
     /**
@@ -54,7 +57,7 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
     function toHtml()
     {
         $html[] = $this->_elements[0]->toHtml();
-        $html[] = '<div style="display: inline;" id="uncompress">';
+        $html[] = '<div style="display: inline;" id="'. self :: ELEMENT_UNCOMPRESS .'">';
         $html[] = $this->_elements[1]->toHtml();
         $html[] = $this->_elements[4]->toHtml();
         $html[] = '</div>';
@@ -62,7 +65,7 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
         $html[] = $this->_elements[2]->toHtml();
         $html[] = '<div style="margin-left:20px;display:block;" id="editor_html_content">';
         //$html[] = $this->_elements[3]->toHtml();
-        $html_editor = FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), 'html_content', '', false, array(FormValidatorHtmlEditorOptions :: OPTION_HEIGHT => '500', 
+        $html_editor = FormValidatorHtmlEditor :: factory(LocalSetting :: get('html_editor'), self :: ELEMENT_EDITOR, '', false, array(FormValidatorHtmlEditorOptions :: OPTION_HEIGHT => '500',
         			FormValidatorHtmlEditorOptions :: OPTION_FULL_PAGE => true));
         $html[] = $html_editor->render();
         $html[] = '</div>';

@@ -468,6 +468,14 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
 	{
 		return $this->database->retrieve_objects(Place :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
+	
+	function retrieve_category_root($id)
+ 	{
+ 		$conditions = array();
+ 		$conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, 0);
+ 		$condition = new AndCondition($conditions);
+ 		return $this->retrieve_categories($condition)->next_result();
+ 	}
 
 }
 ?>
