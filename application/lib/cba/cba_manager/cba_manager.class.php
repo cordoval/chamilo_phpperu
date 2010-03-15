@@ -220,7 +220,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 
 	// Data Retrieving
 	
-	// Competency
+ 	// Competency
  	function count_competencys($condition)
 	{
 		return CbaDataManager :: get_instance()->count_competencys($condition);
@@ -432,13 +432,6 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
         	echo '<div id="repository_tree_container" style="float: left; width: 12%;">';
             $this->display_content_object_categories();
             echo '</div>';
-           
-            /*echo '<div id="repository_tree_container" style="float: left; width: 12%;">';
-            echo '<br /><a href="' . $this->get_browse_competency_url() . '">' . Translation :: get('Competency') . '</a><hr size="1" width="90%" align="left"/>';
-			echo '<br /><a href="' . $this->get_browse_indicator_url() . '">' . Translation :: get('Indicator') . '</a><hr size="1" width="90%" align="left"/>';
-			echo '<br /><a href="' . $this->get_browse_criteria_url() . '">' . Translation :: get('Criteria') . '</a><hr size="1" width="90%" align="left"/>';
-            echo '<hr size="1" width="90%" align="left"/><br /><a href="' . $this->get_create_url() . '">' . Translation :: get('Create') . '</a>';
-			echo '</div>';*/
             echo '<div style="float: right; width: 85%;">';
         }
         else
@@ -473,25 +466,11 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
             if (! isset($category))
             {
                 $category = $this->get_root_category_id();
-                $this->set_parameter(self :: PARAM_COMPETENCY, $category);
+                //$this->set_parameter(self :: PARAM_COMPETENCY, $category);
             }
             
             $extra_items = array();
             
-            $competency = array();
-            $competency['title'] = Translation :: get('Competency');
-            $competency['url'] = $this->get_browse_competency_url();
-            $competency['class'] = 'category';
-                       
-            $indicator = array();
-            $indicator['title'] = Translation :: get('Indicator');
-            $indicator['url'] = $this->get_browse_indicator_url();
-            $indicator['class'] = 'category';
-            
-            $criteria = array();
-            $criteria['title'] = Translation :: get('Criteria');
-            $criteria['url'] = $this->get_browse_criteria_url();
-            $criteria['class'] = 'category';
 
             $create = array();
             $create['title'] = Translation :: get('Create');
@@ -503,12 +482,9 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
             $line['class'] = 'divider';
 
 
-            $extra_items[] = $competency;
-            $extra_items[] = $indicator;
-            $extra_items[] = $criteria;
             $extra_items[] = $line;
             $extra_items[] = $create;
-
+			
 			$this->category_menu = new CbaMenu($this->get_user_id(), $category, $url_format, $extra_items);
             if (isset($search_url))
             {
