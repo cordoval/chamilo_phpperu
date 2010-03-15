@@ -250,7 +250,6 @@
 			function resetElementFinder(e)
 			{
 				activatedElements = new Array();
-				$(activeBox).html('');
 				
 				setOriginalActivatedElements();
 				if (settings.loadElements)
@@ -261,6 +260,8 @@
 				{
 					displayMessage('Please enter a search query', inactiveBox);
 				}
+				
+				processFinderTree();
 			}
 			
 			function showElementFinder()
@@ -319,7 +320,7 @@
 				
 				$(this).bind('update_search', updateSearchResults);
 				
-				$(':reset').live("click", resetElementFinder);
+				$(":reset").live("click", resetElementFinder);
 			}
 			
 			return this.each(init);
