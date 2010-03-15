@@ -40,15 +40,15 @@ class Course extends DataClass
     const PROPERTY_EXTLINK_URL = 'department_url';
     const PROPERTY_EXTLINK_NAME = 'department_name';
     const PROPERTY_CATEGORY = 'category_id';
-    //const PROPERTY_VISIBILITY = 'visibility';
-    //const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
-    //const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
+    const PROPERTY_VISIBILITY = 'visibility';
+    const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
+    const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
+    const PROPERTY_THEME = 'theme';
     const PROPERTY_LAYOUT = 'layout';
-/*    const PROPERTY_LAYOUT = 'layout';
     const PROPERTY_TOOL_SHORTCUT = 'tool_shortcut';
     const PROPERTY_MENU = 'menu';
     const PROPERTY_BREADCRUMB = 'breadcrumb';
-    const PROPERTY_ALLOW_FEEDBACK = 'allow_feedback';*/
+    const PROPERTY_ALLOW_FEEDBACK = 'allow_feedback';
     const PROPERTY_SHOW_SCORE = 'show_score';
     const PROPERTY_DISK_QUOTA = 'disk_quota';
 
@@ -58,7 +58,7 @@ class Course extends DataClass
     const PROPERTY_CREATION_DATE = 'creation_date';
     const PROPERTY_EXPIRATION_DATE = 'expiration_date';
 
-/*    const LAYOUT_2_COLUMNS = 1;
+    const LAYOUT_2_COLUMNS = 1;
     const LAYOUT_3_COLUMNS = 2;
     const LAYOUT_2_COLUMNS_GROUP_INACTIVE = 3;
     const LAYOUT_3_COLUMNS_GROUP_INACTIVE = 4;
@@ -96,7 +96,7 @@ class Course extends DataClass
     static function get_breadcrumb_options()
     {
         return array(self :: BREADCRUMB_TITLE => Translation :: get('Title'), self :: BREADCRUMB_CODE => Translation :: get('Code'), self :: BREADCRUMB_COURSE_HOME => Translation :: get('CourseHome'));
-    }*/
+    }
 
     /**
      * Get the default properties of all courses.
@@ -104,24 +104,7 @@ class Course extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(
-        		array(self :: PROPERTY_LAYOUT, 
-        			  self :: PROPERTY_VISUAL, 
-        			  self :: PROPERTY_CATEGORY, 
-        			  self :: PROPERTY_NAME, 
-        			  self :: PROPERTY_SHOW_SCORE, 
-        			  self :: PROPERTY_TITULAR, 
-        			  self :: PROPERTY_LANGUAGE, 
-        			  self :: PROPERTY_EXTLINK_URL, 
-        			  self :: PROPERTY_EXTLINK_NAME, 
-        			  self :: PROPERTY_VISIBILITY, 
-        			  self :: PROPERTY_SUBSCRIBE_ALLOWED, 
-        			  self :: PROPERTY_UNSUBSCRIBE_ALLOWED, 
-        			  self :: PROPERTY_DISK_QUOTA, 
-        			  self :: PROPERTY_CREATION_DATE, 
-        			  self :: PROPERTY_EXPIRATION_DATE, 
-        			  self :: PROPERTY_LAST_EDIT, 
-        			  self :: PROPERTY_LAST_VISIT));
+        return parent :: get_default_property_names(array(self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_SHOW_SCORE, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME, self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB, self :: PROPERTY_ALLOW_FEEDBACK, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_LAST_EDIT, self :: PROPERTY_LAST_VISIT));
     }
 
     /**
@@ -245,10 +228,10 @@ class Course extends DataClass
      * Returns the course theme
      * @return string The theme
      */
-/*    function get_theme()
+    function get_theme()
     {
         return $this->get_default_property(self :: PROPERTY_THEME);
-    }*/
+    }
 
     function get_creation_date()
     {
@@ -370,7 +353,7 @@ class Course extends DataClass
         return $this->get_default_property(self :: PROPERTY_LAYOUT);
     }
 
-/*    function set_menu($menu)
+    function set_menu($menu)
     {
         $this->set_default_property(self :: PROPERTY_MENU, $menu);
     }
@@ -408,7 +391,7 @@ class Course extends DataClass
     function get_allow_feedback()
     {
         return $this->get_default_property(self :: PROPERTY_ALLOW_FEEDBACK);
-    }*/
+    }
 
     function get_show_score()
     {
@@ -424,10 +407,10 @@ class Course extends DataClass
      * Sets the theme of this course object
      * @param String $theme The theme of this course object
      */
-/*    function set_theme($theme)
+    function set_theme($theme)
     {
         $this->set_default_property(self :: PROPERTY_THEME, $theme);
-    }*/
+    }
 
     function set_creation_date($creation_date)
     {
@@ -466,26 +449,16 @@ class Course extends DataClass
         $dropbox = new ContentObjectPublicationCategory();
         $dropbox->create_dropbox($this->get_id());
 
-        $location = new Location();
-        $location->set_location($this->get_name());
-        $location->set_application(WeblcmsManager :: APPLICATION_NAME);
-        $location->set_type_from_object($this);
-        $location->set_identifier($this->get_id());
-
-        $parent = WeblcmsRights :: get_location_id_by_identifier('course_category', 1);
-        //echo 'parent : ' . $parent;
-
-
-        if ($parent)
+        if ($this->get_category())
         {
-            $location->set_parent($parent);
+            $parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('course_category', $this->get_category());
         }
         else
         {
-            $location->set_parent(0);
+            $parent_id = WeblcmsRights :: get_courses_subtree_root_id();
         }
 
-        if (! $location->create())
+    	if (!WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), 'course', $this->get_id(), $parent_id))
         {
             return false;
         }
@@ -493,6 +466,11 @@ class Course extends DataClass
         if (! $this->initialize_course_sections())
         {
             return false;
+        }
+        
+        if(!$this->create_root_course_group())
+        {
+        	return false;
         }
 
         return true;
@@ -531,7 +509,7 @@ class Course extends DataClass
      */
     function has_theme()
     {
-        return (! is_null($this->get_layout()->get_theme()) ? true : false);
+        return (! is_null($this->get_theme()) ? true : false);
     }
 
     /**
@@ -606,6 +584,14 @@ class Course extends DataClass
         }
 
         return true;
+    }
+    
+    function create_root_course_group()
+    {
+    	$group = new CourseGroup();
+    	$group->set_course_code($this->get_id());
+    	$group->set_name($this->get_name());
+    	return $group->create();
     }
 
 }

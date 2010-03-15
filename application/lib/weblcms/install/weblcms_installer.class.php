@@ -41,10 +41,10 @@ class WeblcmsInstaller extends Installer
             return false;
         }
         
-        if (! $this->create_course())
+        /*if (! $this->create_course())
         {
             return false;
-        }
+        }*/
         
         return true;
     }

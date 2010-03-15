@@ -5,12 +5,12 @@
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
-require_once dirname(__FILE__) . '/../../course/course_form.class.php';
+require_once dirname(__FILE__) . '/../../course_type/course_type_select_form.class.php';
 
 /**
  * Weblcms component allows the use to create a course
  */
-class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManagerComponent
 {
 
     /**
@@ -31,8 +31,8 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         }
         else
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
-        $trail->add_help('courses create');
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Select')));
+        $trail->add_help('course type select');
         
         if (! $this->get_user()->is_teacher() && ! $this->get_user()->is_platform_admin())
         {
@@ -42,37 +42,13 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
             $this->display_footer();
             exit();
         }
-        
-        $course = $this->get_course();
-        $course_type_id = $course->get_course_type()->get_id();
- 
-       // $course->set_visibility(COURSE_VISIBILITY_OPEN_WORLD);
-        //$course->set_subscribe_allowed(1);
-        //$course->set_unsubscribe_allowed(0);
-        
-        $user_info = $this->get_user();
-        $course->set_language(LocalSetting :: get('platform_language'));
-        $course->set_titular($user_info->get_id());
-        
-        if(empty($course_type_id))
-        	$this->simple_redirect(array('go' => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE));
-        else
-        	$form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url());
+
+        $course_type_id = $this->get_course_type()->get_id();
+        $form = new CourseTypeSelectForm($this->get_url());
         
         if ($form->validate())
         {
-            if (WebLcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition(Course :: PROPERTY_VISUAL, $form->exportValue(Course :: PROPERTY_VISUAL)))->next_result())
-            {
-                $this->display_header($trail, false, true);
-                $this->display_error_message(Translation :: get('CourseCodeAlreadyExists'));
-                $form->display();
-                $this->display_footer();
-            }
-            else
-            {
-                $success = $form->create_course();
-                $this->redirect(Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $course->get_id()));
-            }
+            $this->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $form->get_selected_id()));
         }
         else
         {

@@ -72,6 +72,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_ADMIN_COURSE_BROWSER = 'adminbrowser';
 	const ACTION_ADMIN_COURSE_TYPE_CREATOR = 'admincoursetypecreator';
 	const ACTION_ADMIN_COURSE_TYPE_BROWSER = 'admincoursetypebrowser';
+	const ACTION_SELECT_COURSE_TYPE = 'selectcoursetype';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
 	const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
@@ -130,12 +131,12 @@ class WeblcmsManager extends WebApplication
 
 		$this->parse_input_from_table();
 
+		$this->course_type = null;
+		$this->load_course_type();
 		$this->course = new Course();
 		$this->load_course();
 		$this->course_group = null;
 		$this->load_course_group();
-		$this->course_type = null;
-		$this->load_course_type();
 		$this->sections = array();
 		$this->load_sections();
 		$this->tools = array();
@@ -186,6 +187,9 @@ class WeblcmsManager extends WebApplication
                 break;
 			case self :: ACTION_ADMIN_COURSE_TYPE_CREATOR :
 				$component = WeblcmsManagerComponent :: factory('AdminCourseTypeCreator', $this);
+				break;
+			case self :: ACTION_SELECT_COURSE_TYPE :
+				$component = WeblcmsManagerComponent :: factory('CourseTypeSelector', $this);
 				break;
 			case self :: ACTION_DELETE_COURSE :
 				$component = WeblcmsManagerComponent :: factory('CourseDeleter', $this);
@@ -584,6 +588,13 @@ class WeblcmsManager extends WebApplication
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
 			$this->course = $wdm->retrieve_course($this->get_parameter(self :: PARAM_COURSE));
+		}
+		else
+		{
+			$this->course = new Course();
+			$this->course->set_settings(new CourseSettings());
+			$this->course->set_layout(new CourseLayout());
+			$this->course->set_course_type($this->course_type);
 		}
 	}
 
@@ -1412,7 +1423,7 @@ class WeblcmsManager extends WebApplication
 		$links[] = array('name' => Translation :: get('Course_Type_list'), 'description' => Translation :: get('CourseTypeListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)));
 		$links[] = array('name' => Translation :: get('CreateType'), 'description' => Translation :: get('CreateTypeDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));		
 		$links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
-		$links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
+		$links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE)));
 		$links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
 		$links[] = array('name' => Translation :: get('CourseCategoryManagement'), 'description' => Translation :: get('CourseCategoryManagementDescription'), 'action' => 'category', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)));
 		$links[] = array('name' => Translation :: get('UserImport'), 'description' => Translation :: get('UserImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));

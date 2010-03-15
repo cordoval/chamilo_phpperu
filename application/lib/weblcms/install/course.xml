@@ -6,7 +6,6 @@
 			fixed="true" />
 		<property name="title" type="text" length="250" fixed="true" />
 		<property name="category_id" type="integer" notnull="1" />
-		<property name="visibility" type="boolean" default="0" />
 		<property name="show_score" type="integer" notnull="1"
 			default="1" />
 		<property name="titular_id" type="integer" />
@@ -21,14 +20,6 @@
 		<property name="last_edit" type="timestamp" />
 		<property name="creation_date" type="timestamp" />
 		<property name="expiration_date" type="timestamp" />
-		<property name="subscribe" type="boolean" default="1" />
-		<property name="unsubscribe" type="boolean" default="1" />
-		<property name="theme" type="text" length="50" fixed="true" />
-		<property name="layout" type="boolean" default="1" />
-		<property name="tool_shortcut" type="boolean" default="1" />
-		<property name="menu" type="boolean" default="1" />
-		<property name="breadcrumb" type="boolean" default="1" />
-		<property name="allow_feedback" type="boolean" default="1" />
 	</properties>
 	<index name="visual_code" type="unique">
 		<indexproperty name="visual_code" />
