@@ -22,6 +22,7 @@ class DocumentForm extends ContentObjectForm
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         //$this->addElement('html', '<span style="margin-left: -38px">' . Translation :: get('MaxSize') . ': ' . $post_max_size . '</span>');
         $this->addElement('upload_or_create', 'upload_or_create', sprintf(Translation :: get('FileName'), $post_max_size));
+        $this->register_html_editor(HTML_QuickForm_upload_or_create :: ELEMENT_EDITOR);
         //$this->addElement('checkbox','uncompress',Translation :: get('Uncompress'), '', array('id' => 'uncompress'));
         $this->addFormRule(array($this, 'check_document_form'));
         $this->addElement('category');
@@ -138,7 +139,7 @@ class DocumentForm extends ContentObjectForm
             $documents = array();
             $filecompression = Filecompression :: factory();
             //Fix to make sure files can be unzipped
-            
+
             $dir = $filecompression->extract_file($document->get_full_path());
             $entries = Filesystem :: get_directory_content($dir);
             $wdm = RepositoryDataManager :: get_instance();
