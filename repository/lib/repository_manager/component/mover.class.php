@@ -135,7 +135,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
     {
         $conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent_id);
         $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->get_user_id());
-        $conditions[] = new NotCondition(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $current_parent));
+        //$conditions[] = new NotCondition(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $current_parent));
         
         $condition = new AndCondition($conditions);
         
@@ -144,7 +144,13 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
         $tree = array();
         while ($cat = $categories->next_result())
         {
-            $this->tree[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
+        	$this->tree[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
+        	
+        	if($current_parent == $cat->get_id())
+        	{
+        		$this->tree[$cat->get_id()] .= ' (' . Translation :: get('Current') . ')';
+        	}
+        	
             $this->level ++;
             $this->get_categories_for_select($cat->get_id(), $current_parent);
             $this->level --;
