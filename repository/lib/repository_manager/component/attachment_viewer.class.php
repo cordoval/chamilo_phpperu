@@ -14,7 +14,7 @@ class RepositoryManagerAttachmentViewerComponent extends RepositoryManagerCompon
 			Display :: not_allowed();
 			return;
 		}*/
-        $trail = new BreadcrumbTrail();
+        $trail = new BreadcrumbTrail(false);
         $trail->add_help('repository general');
         
         $object_id = Request :: get('object');
