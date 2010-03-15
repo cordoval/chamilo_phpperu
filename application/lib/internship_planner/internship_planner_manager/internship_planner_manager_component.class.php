@@ -208,25 +208,7 @@ abstract class InternshipPlannerManagerComponent extends WebApplicationComponent
 //		return $this->get_parent()->get_browse_categories_url();
 //	}
 //
-//	function get_create_location_url()
-//	{
-//		return $this->get_parent()->get_create_location_url();
-//	}
-//
-//	function get_update_location_url($location)
-//	{
-//		return $this->get_parent()->get_update_location_url($location);
-//	}
-//
-// 	function get_delete_location_url($location)
-//	{
-//		return $this->get_parent()->get_delete_location_url($location);
-//	}
-//
-//	function get_browse_locations_url()
-//	{
-//		return $this->get_parent()->get_browse_locations_url();
-//	}
+
 //
 //	function get_create_location_group_url()
 //	{

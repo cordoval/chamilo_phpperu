@@ -4,6 +4,10 @@
  */
 require_once dirname(__FILE__).'/internship_planner_manager_component.class.php';
 require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
+
+require_once Path :: get_application_path() . 'lib/internship_planner/location_manager/location_manager.class.php';
+require_once Path :: get_application_path() . 'lib/internship_planner/location_manager/location_manager_component.class.php';
+
 //require_once dirname(__FILE__).'/component/category_browser/category_browser_table.class.php';
 //require_once dirname(__FILE__).'/component/location_browser/location_browser_table.class.php';
 //require_once dirname(__FILE__).'/component/location_group_browser/location_group_browser_table.class.php';
@@ -152,76 +156,76 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 //				$component = InternshipPlannerManagerComponent :: factory('CategoryCreator', $this);
 //				break;
 //			case self :: ACTION_BROWSE_LOCATIONS :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationsBrowser', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationsBrowser', $this);
 //				break;
 //			case self :: ACTION_DELETE_LOCATION :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationDeleter', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationDeleter', $this);
 //				break;
 //			case self :: ACTION_EDIT_LOCATION :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationUpdater', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationUpdater', $this);
 //				break;
 //			case self :: ACTION_CREATE_LOCATION :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationCreator', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationCreator', $this);
 //				break;
 //			case self :: ACTION_BROWSE_LOCATION_GROUPS :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationGroupsBrowser', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationGroupsBrowser', $this);
 //				break;
 //			case self :: ACTION_DELETE_LOCATION_GROUP :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationGroupDeleter', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationGroupDeleter', $this);
 //				break;
 //			case self :: ACTION_EDIT_LOCATION_GROUP :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationGroupUpdater', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationGroupUpdater', $this);
 //				break;
 //			case self :: ACTION_CREATE_LOCATION_GROUP :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationGroupCreator', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationGroupCreator', $this);
 //				break;
 //			case self :: ACTION_BROWSE_LOCATION_REL_CATEGORIES :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelCategoriesBrowser', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelCategoriesBrowser', $this);
 //				break;
 //			case self :: ACTION_DELETE_LOCATION_REL_CATEGORY :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelCategoryDeleter', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelCategoryDeleter', $this);
 //				break;
 //			case self :: ACTION_EDIT_LOCATION_REL_CATEGORY :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelCategoryUpdater', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelCategoryUpdater', $this);
 //				break;
 //			case self :: ACTION_CREATE_LOCATION_REL_CATEGORY :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelCategoryCreator', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelCategoryCreator', $this);
 //				break;
 //			case self :: ACTION_BROWSE_LOCATION_REL_MENTORS :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelMentorsBrowser', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelMentorsBrowser', $this);
 //				break;
 //			case self :: ACTION_DELETE_LOCATION_REL_MENTOR :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelMentorDeleter', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelMentorDeleter', $this);
 //				break;
 //			case self :: ACTION_EDIT_LOCATION_REL_MENTOR :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelMentorUpdater', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelMentorUpdater', $this);
 //				break;
 //			case self :: ACTION_CREATE_LOCATION_REL_MENTOR :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelMentorCreator', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelMentorCreator', $this);
 //				break;
 //			case self :: ACTION_BROWSE_LOCATION_REL_MOMENTS :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelMomentsBrowser', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelMomentsBrowser', $this);
 //				break;
 //			case self :: ACTION_DELETE_LOCATION_REL_MOMENT :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelMomentDeleter', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelMomentDeleter', $this);
 //				break;
 //			case self :: ACTION_EDIT_LOCATION_REL_MOMENT :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelMomentUpdater', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelMomentUpdater', $this);
 //				break;
 //			case self :: ACTION_CREATE_LOCATION_REL_MOMENT :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelMomentCreator', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelMomentCreator', $this);
 //				break;
 //			case self :: ACTION_BROWSE_LOCATION_REL_TYPES :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelTypesBrowser', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelTypesBrowser', $this);
 //				break;
 //			case self :: ACTION_DELETE_LOCATION_REL_TYPE :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelTypeDeleter', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelTypeDeleter', $this);
 //				break;
 //			case self :: ACTION_EDIT_LOCATION_REL_TYPE :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelTypeUpdater', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelTypeUpdater', $this);
 //				break;
 //			case self :: ACTION_CREATE_LOCATION_REL_TYPE :
-//				$component = InternshipPlannerManagerComponent :: factory('LocationRelTypeCreator', $this);
+//				$component = InternshipPlannerManagerComponent :: factory('InternshipLocationRelTypeCreator', $this);
 //				break;
 //			case self :: ACTION_BROWSE_MENTORS :
 //				$component = InternshipPlannerManagerComponent :: factory('MentorsBrowser', $this);
@@ -276,7 +280,7 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 //				break;
 			default :
 				$this->set_action(self :: ACTION_LOCATION);
-				$component = InternshipPlannerManagerComponent :: factory('Location', $this);
+				$component = InternshipPlannerManagerComponent :: factory('InternshipLocation', $this);
 
 		}
 		$component->run();
@@ -306,7 +310,7 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 //					break;
 //				case self :: PARAM_DELETE_SELECTED_LOCATIONS :
 //
-//					$selected_ids = $_POST[LocationBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+//					$selected_ids = $_POST[InternshipLocationBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 //
 //					if (empty ($selected_ids))
 //					{
@@ -322,7 +326,7 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 //					break;
 //				case self :: PARAM_DELETE_SELECTED_LOCATION_GROUPS :
 //
-//					$selected_ids = $_POST[LocationGroupBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+//					$selected_ids = $_POST[InternshipLocationGroupBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 //
 //					if (empty ($selected_ids))
 //					{
@@ -338,7 +342,7 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 //					break;
 //				case self :: PARAM_DELETE_SELECTED_LOCATION_REL_CATEGORIES :
 //
-//					$selected_ids = $_POST[LocationRelCategoryBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+//					$selected_ids = $_POST[InternshipLocationRelCategoryBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 //
 //					if (empty ($selected_ids))
 //					{
@@ -354,7 +358,7 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 //					break;
 //				case self :: PARAM_DELETE_SELECTED_LOCATION_REL_MENTORS :
 //
-//					$selected_ids = $_POST[LocationRelMentorBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+//					$selected_ids = $_POST[InternshipLocationRelMentorBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 //
 //					if (empty ($selected_ids))
 //					{
@@ -370,7 +374,7 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 //					break;
 //				case self :: PARAM_DELETE_SELECTED_LOCATION_REL_MOMENTS :
 //
-//					$selected_ids = $_POST[LocationRelMomentBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+//					$selected_ids = $_POST[InternshipLocationRelMomentBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 //
 //					if (empty ($selected_ids))
 //					{
@@ -386,7 +390,7 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 //					break;
 //				case self :: PARAM_DELETE_SELECTED_LOCATION_REL_TYPES :
 //
-//					$selected_ids = $_POST[LocationRelTypeBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+//					$selected_ids = $_POST[InternshipLocationRelTypeBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 //
 //					if (empty ($selected_ids))
 //					{
@@ -491,20 +495,7 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 //		return InternshipPlannerDataManager :: get_instance()->retrieve_category($id);
 //	}
 //
-//	function count_locations($condition)
-//	{
-//		return InternshipPlannerDataManager :: get_instance()->count_locations($condition);
-//	}
-//
-//	function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null)
-//	{
-//		return InternshipPlannerDataManager :: get_instance()->retrieve_locations($condition, $offset, $count, $order_property);
-//	}
-//
-// 	function retrieve_location($id)
-//	{
-//		return InternshipPlannerDataManager :: get_instance()->retrieve_location($id);
-//	}
+
 //
 //	function count_location_groups($condition)
 //	{
@@ -665,27 +656,7 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 //		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CATEGORIES));
 //	}
 //
-//	function get_create_location_url()
-//	{
-//		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_LOCATION));
-//	}
-//
-//	function get_update_location_url($location)
-//	{
-//		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_LOCATION,
-//								    self :: PARAM_LOCATION => $location->get_id()));
-//	}
-//
-// 	function get_delete_location_url($location)
-//	{
-//		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_LOCATION,
-//								    self :: PARAM_LOCATION => $location->get_id()));
-//	}
-//
-//	function get_browse_locations_url()
-//	{
-//		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LOCATIONS));
-//	}
+
 //
 //	function get_create_location_group_url()
 //	{
