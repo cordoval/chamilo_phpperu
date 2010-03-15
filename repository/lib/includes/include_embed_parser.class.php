@@ -26,8 +26,8 @@ class IncludeEmbedParser extends ContentObjectIncludeParser
                 {
                     $source = $tag->getAttribute('src');
 
-                    if (stripos($source, HtmlEditorProcessor :: get_repository_document_display_url()) !== false)
-                    {
+//                    if (stripos($source, HtmlEditorProcessor :: get_repository_document_display_url()) !== false)
+//                    {
                         $source_components = parse_url($source);
                         $source_query_components = Text :: parse_query_string($source_components['query']);
                         $content_object_id = $source_query_components[RepositoryManager :: PARAM_CONTENT_OBJECT_ID];
@@ -41,7 +41,7 @@ class IncludeEmbedParser extends ContentObjectIncludeParser
                                 $content_object->include_content_object($included_object->get_id());
                             }
                         }
-                    }
+//                    }
                 }
             }
         }
