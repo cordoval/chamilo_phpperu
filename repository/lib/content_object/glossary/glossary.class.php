@@ -13,5 +13,10 @@ class Glossary extends ContentObject
     {
         return array('glossary_item');
     }
+    
+	function is_versionable()
+    {
+        return false;
+    }
 }
 ?>

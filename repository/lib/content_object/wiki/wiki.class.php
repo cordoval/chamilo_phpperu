@@ -37,5 +37,10 @@ class Wiki extends ContentObject
     {
         return array(self :: PROPERTY_LOCKED, self :: PROPERTY_LINKS);
     }
+    
+	function is_versionable()
+    {
+        return false;
+    }
 }
 ?>
