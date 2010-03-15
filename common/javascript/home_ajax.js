@@ -268,6 +268,8 @@ $(function () {
 			return;
 		}
 		
+		column = $(".tab:visible .column:last");
+		
 		columnId = column.attr("id");
 		order = column.sortable("serialize");
 		
