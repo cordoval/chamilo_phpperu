@@ -8,6 +8,9 @@ require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/location_manager/location_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/location_manager/location_manager_component.class.php';
 
+require_once Path :: get_application_path() . 'lib/internship_planner/organisation_manager/organisation_manager.class.php';
+require_once Path :: get_application_path() . 'lib/internship_planner/organisation_manager/organisation_manager_component.class.php';
+
 //require_once dirname(__FILE__).'/component/category_browser/category_browser_table.class.php';
 //require_once dirname(__FILE__).'/component/location_browser/location_browser_table.class.php';
 //require_once dirname(__FILE__).'/component/location_group_browser/location_group_browser_table.class.php';
@@ -120,7 +123,8 @@ require_once Path :: get_application_path() . 'lib/internship_planner/location_m
 
 
 	const ACTION_LOCATION = 'location';
-
+	const ACTION_ORGANISATION = 'organisation';
+	
 	/**
 	 * Constructor
 	 * @param User $user The current user
@@ -143,6 +147,9 @@ require_once Path :: get_application_path() . 'lib/internship_planner/location_m
 			case self :: ACTION_LOCATION :
 				$component = InternshipPlannerManagerComponent :: factory('Location', $this);
 				break;
+			case self :: ACTION_ORGANISATION :
+				$component = InternshipPlannerManagerComponent :: factory('Organisation', $this);
+				break;	
 //			case self :: ACTION_BROWSE_CATEGORIES :
 //				$component = InternshipPlannerManagerComponent :: factory('CategoriesBrowser', $this);
 //				break;
@@ -279,8 +286,8 @@ require_once Path :: get_application_path() . 'lib/internship_planner/location_m
 //				$component = InternshipPlannerManagerComponent :: factory('Browser', $this);
 //				break;
 			default :
-				$this->set_action(self :: ACTION_LOCATION);
-				$component = InternshipPlannerManagerComponent :: factory('InternshipLocation', $this);
+				$this->set_action(self :: ACTION_ORGANISATION);
+				$component = InternshipPlannerManagerComponent :: factory('Organisation', $this);
 
 		}
 		$component->run();
