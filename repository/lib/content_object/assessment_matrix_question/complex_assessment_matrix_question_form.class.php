@@ -8,10 +8,10 @@ require_once PATH :: get_repository_path() . '/question_types/matrix_question/co
 /**
  * This class represents a form to create or update complex assessments
  */
-class tComplexAssessmenMatrixQuestionForm extends ComplexMatrixQuestionForm
+class ComplexAssessmentMatrixQuestionForm extends ComplexMatrixQuestionForm
 {
 
-public function get_elements()
+	public function get_elements()
     {
         $elements[] = $this->createElement('text', ComplexAssessmentMatrixQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
         return $elements;

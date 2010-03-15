@@ -3,11 +3,12 @@
  * $Id: complex_matrix_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.question_types.matrix_question
  */
-require_once dirname ( __FILE__ ) . '/assessment_complex_matrix_question.class.php';
+require_once dirname ( __FILE__ ) . '/complex_matrix_question.class.php';
 /**
  * This class represents a form to create or update complex assessments
  */
-class AssessmentComplexMatrixQuestionForm extends ComplexContentObjectItemForm {
+class ComplexMatrixQuestionForm extends ComplexContentObjectItemForm 
+{
 	
 	protected function build_creation_form() {
 		parent::build_creation_form ();
