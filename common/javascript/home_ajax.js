@@ -358,14 +358,22 @@ $(function () {
 			newWidths = data.width;
 			
 			lastColumn = $("div.column:last", row);
-			lastColumn.css('margin-right', '1%');
 			
-			$("div.column", row).each(function (i) {
-				var newWidth = newWidths[this.id] + '%'; 
-				this.style.width = newWidth;
-			});
-			
-			$("div.column:last", row).after(columnHtml);
+			if(lastColumn.length > 0)
+			{
+				lastColumn.css('margin-right', '1%');
+				
+				$("div.column", row).each(function (i) {
+					var newWidth = newWidths[this.id] + '%'; 
+					this.style.width = newWidth;
+				});
+				
+				$("div.column:last", row).after(columnHtml);
+			}
+			else
+			{
+				row.append(columnHtml);
+			}
 			
 			bindIconsLegacy();
 			columnsSortable();
