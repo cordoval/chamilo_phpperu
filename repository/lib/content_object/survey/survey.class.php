@@ -85,6 +85,11 @@ class Survey extends ContentObject
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+	function is_versionable()
+    {
+        return false;
+    }
 
 }
 ?>
