@@ -10,7 +10,7 @@ class CourseSettings extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
-    const PROPERTY_LANGUAGES = 'languages';
+    const PROPERTY_LANGUAGE = 'language';
     const PROPERTY_VISIBILITY = 'visibility';
     const PROPERTY_ACCESS = 'access';
     const PROPERTY_MAX_NUMBER_OF_MEMBERS = 'max_number_of_members';
@@ -22,7 +22,7 @@ class CourseSettings extends DataClass
     static function get_default_property_names($extended_property_names = array())
     {
         return array_merge($extended_property_names,
-        	array(self :: PROPERTY_LANGUAGES,
+        	array(self :: PROPERTY_LANGUAGE,
         		  self :: PROPERTY_VISIBILITY,
         		  self :: PROPERTY_ACCESS,
         		  self :: PROPERTY_MAX_NUMBER_OF_MEMBERS));
@@ -37,16 +37,16 @@ class CourseSettings extends DataClass
     }
     
     /**
-     * Returns the languages of this coursetype object
+     * Returns the language of this course object
      * @return array() the languages
      */
-    function get_languages()
+    function get_language()
     {
-        return $this->get_default_property(self :: PROPERTY_LANGUAGES);
+        return $this->get_default_property(self :: PROPERTY_LANGUAGE);
     }
     
     /**
-     * Returns the visibility of this coursetype object
+     * Returns the visibility of this course object
      * @return boolean the visibility Code
      */
     function get_visibility()
@@ -55,7 +55,7 @@ class CourseSettings extends DataClass
     }
     
     /**
-     * Returns the acces of this coursetype object
+     * Returns the acces of this course object
      * @return boolean the acces Code
      */
     function get_access()
@@ -64,7 +64,7 @@ class CourseSettings extends DataClass
     }
     
     /**
-     * Returns the max number of members of this coursetype object
+     * Returns the max number of members of this course object
      * @return int the max number of members
      */
     function get_max_number_of_members()
@@ -73,16 +73,16 @@ class CourseSettings extends DataClass
     }
     
     /**
-     * Sets the languages of this coursetype object
-     * @param array $languages the languages
+     * Sets the language of this course object
+     * @param array $language the language
      */
-    function set_languages($languages)
+    function set_language($language)
     {
-        return $this->set_default_property(self :: PROPERTY_LANGUAGES, $languages);
+        return $this->set_default_property(self :: PROPERTY_LANGUAGE, $language);
     }
        
     /**
-     * Sets the visibility of this coursetype object
+     * Sets the visibility of this course object
      * @param Boolean $visibility the visibility
      */
     function set_visibility($visibility)
@@ -91,7 +91,7 @@ class CourseSettings extends DataClass
     }
     
     /**
-     * Sets the access of this coursetype object
+     * Sets the access of this course object
      * @param Boolean $access the access
      */
     function set_access($access)
@@ -100,7 +100,7 @@ class CourseSettings extends DataClass
     }   
 
     /**
-     * Sets the the max number of members of this coursetype object
+     * Sets the the max number of members of this course object
      * @param int $max_number_of_members the max number of members
      */
     function set_max_number_of_members($max_number_of_members)

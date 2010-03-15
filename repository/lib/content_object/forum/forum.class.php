@@ -171,5 +171,10 @@ class Forum extends ContentObject
             $lo->remove_topic($topics);
         }
     }
+    
+	function is_versionable()
+    {
+        return false;
+    }
 }
 ?>

@@ -57,5 +57,10 @@ class LearningPath extends ContentObject
     {
         return Path :: get(SYS_SCORM_PATH) . $this->get_owner_id() . '/' . $this->get_path() . '/';
     }
+    
+	function is_versionable()
+    {
+        return false;
+    }
 }
 ?>

@@ -13,5 +13,10 @@ class Portfolio extends ContentObject
     {
         return array('portfolio', 'portfolio_item');
     }
+    
+	function is_versionable()
+    {
+        return false;
+    }
 }
 ?>

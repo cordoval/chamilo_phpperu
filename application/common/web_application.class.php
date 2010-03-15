@@ -115,7 +115,10 @@ abstract class WebApplication extends Application
         $path = dirname(__FILE__) . '/../lib/';
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
         
-        $adm = AdminDataManager :: get_instance();
+        if ($only_registered_applications)
+        {
+        	$adm = AdminDataManager :: get_instance();
+        }
         
         foreach ($directories as $directory)
         {

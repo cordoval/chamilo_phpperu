@@ -548,8 +548,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     function is_content_object_already_included($content_object, $include_object_id)
     {
         $conditions = array();
-        $conditions = new EqualityCondition('include_id', $include_object_id);
-        $conditions = new EqualityCondition('content_object_id', $content_object->get_id());
+        $conditions[] = new EqualityCondition('include_id', $include_object_id);
+        $conditions[] = new EqualityCondition('content_object_id', $content_object->get_id());
         $condition = new AndCondition($conditions);
 
         $count = $this->database->count_objects('content_object_include', $condition);
@@ -1579,7 +1579,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
             return null;
         }
     }
-    
+
     function delete_content_object_includes($object)
     {
     	$query = 'DELETE FROM ' . $this->database->escape_table_name('content_object_include') . ' WHERE ' .
@@ -1587,34 +1587,34 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         $affectedRows = $this->query($query);
         return ($affectedRows > 0);
     }
-    
+
     function delete_assisting_content_objects($object)
     {
     	$assisting_types = array('learning_path_item', 'portfolio_item');
-    	
+
     	$failures = 0;
-    	
+
     	foreach($assisting_types as $type)
     	{
     		$sub_condition = new EqualityCondition('reference_id', $object->get_id());
     		$condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', $this->database->escape_table_name($type), $sub_condition, ContentObject :: get_table_name());
     		$assisting_objects = $this->retrieve_content_objects($condition);
-    		
+
     		while($assisting_object = $assisting_objects->next_result())
     		{
     			if(!$this->delete_clois_for_content_object($assisting_object))
     			{
     				$failures++;
     			}
-    			
+
     			if(!$assisting_object->delete())
 	    		{
 	    			$failures++;
 	    		}
     		}
-    		
+
     	}
-    	
+
     	return ($failures == 0);
     }
 

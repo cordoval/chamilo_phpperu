@@ -68,10 +68,15 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
             {
                 $toolbar_data[] = array('label' => Translation :: get('Remove'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png');
             }
-            if ($this->browser->count_categories() > 0)
+            if ($this->browser->count_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->browser->get_user_id())) > 0)
             {
                 $toolbar_data[] = array('href' => $this->browser->get_content_object_moving_url($content_object), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
             }
+            else
+            {
+            	//$toolbar_data[] = array('label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move_na.png');
+            }
+            
             $toolbar_data[] = array('href' => $this->browser->get_content_object_metadata_editing_url($content_object), 'label' => Translation :: get('Metadata'), 'img' => Theme :: get_common_image_path() . 'action_metadata.png');
             $toolbar_data[] = array('href' => $this->browser->get_content_object_rights_editing_url($content_object), 'label' => Translation :: get('Rights'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
             $toolbar_data[] = array('href' => $this->browser->get_content_object_exporting_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_export.png', 'label' => Translation :: get('Export'));

@@ -87,7 +87,8 @@ class UserView extends DataClass
         $views = $gdm->count_user_views($condition);
         if ($views > 0)
         {
-            return false;
+            $this->add_error(Translation :: get('UserViewNameNotUnique'));
+        	return false;
         }
 
         $success = $gdm->create_user_view($this);
@@ -108,6 +109,23 @@ class UserView extends DataClass
         }
 
         return $success;
+    }
+    
+    function update($values)
+    {
+    	$gdm = RepositoryDataManager :: get_instance();
+    	$conditions[] = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+    	$conditions[] = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+    	$condition = new AndCondition($conditions);
+    	
+        $views = $gdm->count_user_views($condition);
+        if ($views > 0)
+        {
+            $this->add_error(Translation :: get('UserViewNameNotUnique'));
+        	return false;
+        }
+        
+        return parent :: update();
     }
 
     static function get_table_name()

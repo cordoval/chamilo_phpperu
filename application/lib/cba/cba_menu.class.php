@@ -57,7 +57,7 @@ class CbaMenu extends HTML_Menu
         $menu = $this->get_menu_items($extra_items);
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
-        $this->forceCurrentUrl($this->get_category_url($current_category));
+        $this->forceCurrentUrl($this->get_category_competency_url($current_category));
     }
 
     /**
@@ -73,18 +73,28 @@ class CbaMenu extends HTML_Menu
         $menu = array();
         $menu_item = array();
 
-        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
-        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
-       
-        $condition = new AndCondition($conditions);
+        $conditionsCompetency[] = new EqualityCondition(Competency :: PROPERTY_STATE, Competency :: STATE_NORMAL);
+        $conditionsCompetency[] = new EqualityCondition(Competency :: PROPERTY_PARENT_ID, 0);
+        $conditionsCompetency[] = new EqualityCondition(Competency :: PROPERTY_OWNER_ID, $this->owner);
         
+        $conditionsIndicator[] = new EqualityCondition(Indicator :: PROPERTY_STATE, Indicator :: STATE_NORMAL);
+        $conditionsIndicator[] = new EqualityCondition(Indicator :: PROPERTY_PARENT_ID, 0);
+        $conditionsIndicator[] = new EqualityCondition(Indicator :: PROPERTY_OWNER_ID, $this->owner);
+        
+        $conditionsCriteria[] = new EqualityCondition(Criteria :: PROPERTY_STATE, Criteria :: STATE_NORMAL);
+        $conditionsCriteria[] = new EqualityCondition(Criteria :: PROPERTY_PARENT_ID, 0);
+        $conditionsCriteria[] = new EqualityCondition(Criteria :: PROPERTY_OWNER_ID, $this->owner);
+        
+        $conditionCompetency = new AndCondition($conditionsCompetency);
+        $conditionIndicator = new AndCondition($conditionsIndicator);
+        $conditionCriteria = new AndCondition($conditionsCriteria);
         
         // Competency
-       
-        $count = $this->data_manager->count_competencys($condition);
+        
+        $count = $this->data_manager->count_competencys($conditionCompetency);
 
         $menu_item['title'] = Translation :: get('Competency') . ' (' . $count . ')';
-        $menu_item['url'] = $this->get_category_url(0);
+        $menu_item['url'] = $this->get_category_competency_url(0);
         $sub_menu_items = $this->get_sub_competency_menu_items(0);
         if (count($sub_menu_items) >= 0)
         {
@@ -97,10 +107,10 @@ class CbaMenu extends HTML_Menu
         
         // Indicator
         
-        $count = $this->data_manager->count_indicators($condition);
+        $count = $this->data_manager->count_indicators($conditionIndicator);
         
         $menu_item['title'] = Translation :: get('Indicator') . ' (' . $count . ')';
-        $menu_item['url'] = $this->get_category_url(0);
+        $menu_item['url'] = $this->get_category_indicator_url(0);
         $sub_menu_items = $this->get_sub_indicator_menu_items(0);
         if (count($sub_menu_items) >= 0)
         {
@@ -113,10 +123,10 @@ class CbaMenu extends HTML_Menu
         
         // Criteria
         
-        $count = $this->data_manager->count_criterias($condition);
+        $count = $this->data_manager->count_criterias($conditionCriteria);
         
         $menu_item['title'] = Translation :: get('Criteria') . ' (' . $count . ')';
-        $menu_item['url'] = $this->get_category_url(0);
+        $menu_item['url'] = $this->get_category_criteria_url(0);
         $sub_menu_items = $this->get_sub_criteria_menu_items(0);
         if (count($sub_menu_items) >= 0)
         {
@@ -129,11 +139,11 @@ class CbaMenu extends HTML_Menu
         
         // See cba_manager.class.php for the other items
         
-        /*if (count($extra_items))
+        if (count($extra_items))
         {
             $menu = array_merge($menu, $extra_items);
-        }*/
-
+        }
+		
         return $menu;
     }
     
@@ -165,7 +175,7 @@ class CbaMenu extends HTML_Menu
 
             $menu_item = array();
             $menu_item['title'] = $category->get_name() . ' (' . $count . ')';
-            $menu_item['url'] = $this->get_category_url($category->get_id());
+            $menu_item['url'] = $this->get_sub_category_competency_url($category->get_id());
             $sub_menu_items = $this->get_sub_competency_menu_items($category->get_id());
             if (count($sub_menu_items) > 0)
             {
@@ -207,7 +217,7 @@ class CbaMenu extends HTML_Menu
 
             $menu_item = array();
             $menu_item['title'] = $category->get_name() . ' (' . $count . ')';
-            $menu_item['url'] = $this->get_category_url($category->get_id());
+            $menu_item['url'] = $this->get_sub_category_indicator_url($category->get_id());
             $sub_menu_items = $this->get_sub_indicator_menu_items($category->get_id());
             if (count($sub_menu_items) > 0)
             {
@@ -246,7 +256,7 @@ class CbaMenu extends HTML_Menu
 
             $menu_item = array();
             $menu_item['title'] = $category->get_name() . ' (' . $count . ')';
-            $menu_item['url'] = $this->get_category_url($category->get_id());
+            $menu_item['url'] = $this->get_sub_category_criteria_url($category->get_id());
             $sub_menu_items = $this->get_sub_criteria_menu_items($category->get_id());
             if (count($sub_menu_items) > 0)
             {
@@ -264,12 +274,44 @@ class CbaMenu extends HTML_Menu
      * @param int $category The id of the category
      * @return string The requested URL
      */
-    private function get_category_url($category)
+    private function get_category_competency_url($category)
     {
-        // TODO: Put another class in charge of the htmlentities() invocation
         return htmlentities(sprintf($this->urlFmt, $category));
     }
-
+    
+	private function get_category_indicator_url($category)
+    {
+        $urlIndicator = '/chamilo/run.php?application=cba&go=indicator&indicator=%s';
+        return htmlentities(sprintf($urlIndicator, $category));
+    }
+    
+	private function get_category_criteria_url($category)
+    {
+        $urlCriteria = '/chamilo/run.php?application=cba&go=criteria&criteria=%s';
+        return htmlentities(sprintf($urlCriteria, $category));
+    }
+    
+    
+    // Sub categories url's
+    
+	private function get_sub_category_competency_url($category)
+    {
+        $subUrlCompetency = '/chamilo/run.php?go=manage_categories_competency&application=cba&category_action=browse_categories&category_id=%s';
+        return htmlentities(sprintf($subUrlCompetency, $category));
+    }
+    
+	private function get_sub_category_indicator_url($category)
+    {
+        $subUrlIndicator = '/chamilo/run.php?go=manage_categories_indicator&application=cba&category_action=browse_categories&category_id=%s';
+        return htmlentities(sprintf($subUrlIndicator, $category));
+    }
+    
+	private function get_sub_category_criteria_url($category)
+    {
+        $subUrlCriteria = '/chamilo/run.php?go=manage_categories_criteria&application=cba&category_action=browse_categories&category_id=%s';
+        return htmlentities(sprintf($subUrlCriteria, $category));
+    }
+    
     /**
      * Get the breadcrumbs which lead to the current category.
      * @return array The breadcrumbs.

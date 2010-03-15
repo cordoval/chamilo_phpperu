@@ -124,5 +124,10 @@ class Assessment extends ContentObject
         asort($types);
         return $types;
     }
+    
+	function is_versionable()
+    {
+        return false;
+    }
 }
 ?>
