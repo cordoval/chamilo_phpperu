@@ -37,7 +37,15 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerCompone
             {
                 $success = $form->update_user_view();
                 $user_view = $form->get_user_view();
-                $this->redirect(Translation :: get($success ? 'UserViewUpdated' : 'UserViewNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
+                
+                $message = Translation :: get($success ? 'UserViewUpdated' : 'UserViewNotUpdated');
+                
+                if(!$success)
+                {
+                	$message .= '<br />' . implode('<br /', $user_view->get_errors());
+                }
+                
+                $this->redirect($message, ($success ? false : true), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
             }
             else
             {
