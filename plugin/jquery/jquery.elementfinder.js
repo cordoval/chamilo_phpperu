@@ -247,6 +247,22 @@
 				processFinderTree();
 			}
 			
+			function resetElementFinder(e)
+			{
+				activatedElements = new Array();
+				$(activeBox).html('');
+				
+				setOriginalActivatedElements();
+				if (settings.loadElements)
+				{
+					updateSearchResults();
+				}
+				else
+				{
+					displayMessage('Please enter a search query', inactiveBox);
+				}
+			}
+			
 			function showElementFinder()
 			{
 				$(this).hide();
@@ -302,6 +318,8 @@
 					});
 				
 				$(this).bind('update_search', updateSearchResults);
+				
+				$(':reset').live("click", resetElementFinder);
 			}
 			
 			return this.each(init);
