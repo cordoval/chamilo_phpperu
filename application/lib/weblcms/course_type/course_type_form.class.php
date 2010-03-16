@@ -44,6 +44,7 @@ class CourseTypeForm extends FormValidator
 			$this->build_creation_form();
 		}
 		$this->setDefaults();
+				$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
 	}
 
 	function build_editing_form()
@@ -140,8 +141,6 @@ class CourseTypeForm extends FormValidator
 					var common_image_path = '".Theme :: get_common_image_path()."';
 					/* ]]> */
 					</script>\n");
-		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
-
 	}
 
 	function build_layout_form()
@@ -383,7 +382,7 @@ class CourseTypeForm extends FormValidator
 	{
 		$course_type = $this->course_type;
 		$values = $this->exportValues();
-		$course_type_layout = $course_type->get_layout();
+		$course_type_layout = $course_type->get_layout_settings();
 		$course_type_layout->set_course_type_id($this->course_type->get_id());	
 		$course_type_layout->set_intro_text($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT]);
 		$course_type_layout->set_intro_text_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED]));
@@ -473,53 +472,53 @@ class CourseTypeForm extends FormValidator
 		}
 
 		//Layout defaults.
-		$course_type_id = $course_type->get_layout()->get_course_type_id();
-		$student_view = $course_type->get_layout()->get_student_view();
+		$course_type_id = $course_type->get_layout_settings()->get_course_type_id();
+		$student_view = $course_type->get_layout_settings()->get_student_view();
 		$defaults[CourseTypeLayout :: PROPERTY_STUDENT_VIEW] = $course_type_id?$student_view:1;
 		
-		$student_view_fixed = $course_type->get_layout()->get_student_view_fixed();
+		$student_view_fixed = $course_type->get_layout_settings()->get_student_view_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_STUDENT_VIEW_FIXED] = $student_view_fixed;
 
-		$layout = $course_type->get_layout()->get_layout();
+		$layout = $course_type->get_layout_settings()->get_layout();
 		$defaults[CourseTypeLayout :: PROPERTY_LAYOUT] = $layout ? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME);
 
-		$tool_shortcut = $course_type->get_layout()->get_tool_shortcut();
+		$tool_shortcut = $course_type->get_layout_settings()->get_tool_shortcut();
 		$defaults[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut ? $tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
 
-		$menu = $course_type->get_layout()->get_menu();
+		$menu = $course_type->get_layout_settings()->get_menu();
 		$defaults[CourseTypeLayout :: PROPERTY_MENU] = $menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
 
-		$breadcrumb = $course_type->get_layout()->get_breadcrumb();
+		$breadcrumb = $course_type->get_layout_settings()->get_breadcrumb();
 		$defaults[CourseTypeLayout :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
 
-		$feedback = $course_type->get_layout()->get_feedback();
+		$feedback = $course_type->get_layout_settings()->get_feedback();
 		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK] = $course_type_id?$feedback:1;
 
-		$enable_introduction_text = $course_type->get_layout()->get_intro_text();
+		$enable_introduction_text = $course_type->get_layout_settings()->get_intro_text();
 		$defaults[CourseTypeLayout :: PROPERTY_INTRO_TEXT] = $course_type_id?$enable_introduction_text:1;
 
-		$course_code_visible = $course_type->get_layout()->get_course_code_visible();
+		$course_code_visible = $course_type->get_layout_settings()->get_course_code_visible();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE] = $course_type_id?$course_code_visible:1;
 
-		$course_manager_name_visible = $course_type->get_layout()->get_course_manager_name_visible();
+		$course_manager_name_visible = $course_type->get_layout_settings()->get_course_manager_name_visible();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE] = $course_type_id?$course_manager_name_visible:1;
 
-		$course_languages_visible = $course_type->get_layout()->get_course_languages_visible();
+		$course_languages_visible = $course_type->get_layout_settings()->get_course_languages_visible();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = $course_type_id?$course_languages_visible:1;
 		
-		$feedback_fixed = $course_type->get_layout()->get_feedback_fixed();
+		$feedback_fixed = $course_type->get_layout_settings()->get_feedback_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED] = $feedback;
 		
-		$enable_introduction_text_fixed = $course_type->get_layout()->get_intro_text_fixed();
+		$enable_introduction_text_fixed = $course_type->get_layout_settings()->get_intro_text_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED] = $enable_introduction_text_fixed;
 
-		$course_code_visible_fixed = $course_type->get_layout()->get_course_code_visible_fixed();
+		$course_code_visible_fixed = $course_type->get_layout_settings()->get_course_code_visible_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE_FIXED] = $course_code_visible_fixed;
 
-		$course_manager_name_visible_fixed = $course_type->get_layout()->get_course_manager_name_visible_fixed();
+		$course_manager_name_visible_fixed = $course_type->get_layout_settings()->get_course_manager_name_visible_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE_FIXED] = $course_manager_name_visible_fixed;
 
-		$course_languages_visible_fixed = $course_type->get_layout()->get_course_languages_visible_fixed();
+		$course_languages_visible_fixed = $course_type->get_layout_settings()->get_course_languages_visible_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED] = $course_languages_visible_fixed;
 
 		parent :: setDefaults($defaults);

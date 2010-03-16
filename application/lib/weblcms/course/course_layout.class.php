@@ -96,6 +96,10 @@ class CourseLayout extends DataClass
         		  self :: PROPERTY_COURSE_LANGUAGES_VISIBLE));
     }
     
+    /*
+     * Getters
+     */
+    
     function get_intro_text()
     {
             return $this->get_default_property(self :: PROPERTY_INTRO_TEXT);
@@ -145,6 +149,10 @@ class CourseLayout extends DataClass
 	{
     	return $this->get_default_property(self :: PROPERTY_COURSE_LANGUAGES_VISIBLE);
     }
+    
+    /*
+     * Setters
+     */
     
    	function set_feedback($feedback)
     {

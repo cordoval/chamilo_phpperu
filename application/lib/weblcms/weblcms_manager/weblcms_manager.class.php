@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . '/../category_manager/content_object_publicatio
 require_once dirname(__FILE__) . '/../tool/tool.class.php';
 require_once dirname(__FILE__) . '/../tool_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
+require_once dirname(__FILE__) . '/../course/course_settings.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/component/admin_course_browser/admin_course_browser_table.class.php';
@@ -615,7 +616,7 @@ class WeblcmsManager extends WebApplication
 		{
 			$this->course = new Course();
 			$this->course->set_settings(new CourseSettings());
-			$this->course->set_layout(new CourseLayout());
+			$this->course->set_layout_settings(new CourseLayout());
 			$this->course->set_course_type($this->course_type);
 		}
 	}
@@ -642,7 +643,7 @@ class WeblcmsManager extends WebApplication
 			$wdm = WeblcmsDataManager :: get_instance();
 			$this->course_type = $wdm->retrieve_course_type($this->get_parameter(self :: PARAM_COURSE_TYPE));
 			$this->course_type->set_settings($wdm->retrieve_course_type_settings($this->get_parameter(self :: PARAM_COURSE_TYPE)));
-			$this->course_type->set_layout($wdm->retrieve_course_type_layout($this->get_parameter(self :: PARAM_COURSE_TYPE)));
+			$this->course_type->set_layout_settings($wdm->retrieve_course_type_layout($this->get_parameter(self :: PARAM_COURSE_TYPE)));
 			$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $this->get_parameter(self :: PARAM_COURSE_TYPE));
 			$this->course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));
 		}
@@ -650,7 +651,7 @@ class WeblcmsManager extends WebApplication
 		{
 			$this->course_type = new CourseType();
 			$this->course_type->set_settings(new CourseTypeSettings());
-			$this->course_type->set_layout(new CourseTypeLayout());
+			$this->course_type->set_layout_settings(new CourseTypeLayout());
 		}
 	}
 

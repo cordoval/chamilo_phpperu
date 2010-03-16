@@ -10,6 +10,7 @@ class CourseSettings extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
+    const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_LANGUAGE = 'language';
     const PROPERTY_VISIBILITY = 'visibility';
     const PROPERTY_ACCESS = 'access';
@@ -21,6 +22,7 @@ class CourseSettings extends DataClass
      */
     static function get_default_property_names($extended_property_names = array())
     {
+    	if(empty($extended_property_names)) $extended_property_names = array(self :: PROPERTY_COURSE_ID);
         return array_merge($extended_property_names,
         	array(self :: PROPERTY_LANGUAGE,
         		  self :: PROPERTY_VISIBILITY,
@@ -46,8 +48,17 @@ class CourseSettings extends DataClass
     }
     
     /**
+     * Returns the course id of this course object
+     * @return int the course id
+     */
+    function get_course_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_COURSE_ID);
+    }
+    
+    /**
      * Returns the visibility of this course object
-     * @return boolean the visibility Code
+     * @return boolean the visibility
      */
     function get_visibility()
     {
@@ -70,6 +81,15 @@ class CourseSettings extends DataClass
     function get_max_number_of_members()
     {
         return $this->get_default_property(self :: PROPERTY_MAX_NUMBER_OF_MEMBERS);
+    }
+    
+    /**
+     * Sets the course id of this course object
+     * @param int $course_id the course id
+     */
+    function set_course_id($course_id)
+    {
+        return $this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
     }
     
     /**
