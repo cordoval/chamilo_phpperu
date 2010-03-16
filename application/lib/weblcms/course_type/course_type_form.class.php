@@ -25,18 +25,6 @@ class CourseTypeForm extends FormValidator
 		$this->course_type = $course_type;
 		$this->parent = $parent;
 
-//		$renderer = $this->defaultRenderer();
-//		$element_template[] = '<div class="row">';
-//		$element_template[] = '<div class="label" style="width: 25%;">';
-//		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="' . Theme :: get_common_image_path() . 'action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
-//		$element_template[] = '</div>';
-//		$element_template[] = '<div class="formw" style="width: 74%;">';
-//		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
-//		$element_template[] = '<div class="form_feedback"></div></div>';
-//		$element_template[] = '<div class="clear">&nbsp;</div>';
-//		$element_template[] = '</div>';
-//		$renderer->setElementTemplate(implode("\n",$element_template));
-
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
 			$this->build_editing_form();
@@ -72,18 +60,13 @@ class CourseTypeForm extends FormValidator
 
 	function build_basic_form()
 	{
-//		$tabs = Array(new FormTab('build_general_settings_form','General'),
-//		new FormTab('build_tools_form', 'Tools'),
-//		new FormTab('build_rights_form', 'Rights'),
-//		new FormTab('build_layout_form', 'Layout'));
 	    $tabs = array();
 	    $tabs[] = new FormTab('build_general_settings_form', 'General');
 	    $tabs[] = new FormTab('build_tools_form', 'Tools');
 	    $tabs[] = new FormTab('build_rights_form', 'RightsManagement');
 	    $tabs[] = new FormTab('build_layout_form', 'Layout');
-		$selected_tab = 0;
-		$this->add_tabs($tabs, $selected_tab);
-		//$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/weblcms.js'));
+
+		$this->add_tabs($tabs, 0);
 	}
 
 	function build_rights_form()
@@ -96,29 +79,7 @@ class CourseTypeForm extends FormValidator
 		$tools = $this->parent->get_all_non_admin_tools();
 		$data = array();
 
-		//$table = new HTML_Table('style="width: 100%;"');
-		//$table->setColCount($this->number_of_columns);
 		$count = 0;
-//		$renderer = $this->defaultRenderer();
-		$element_template = array();
-		$element_template[] = '<div class="row" style="width: 29%; margin: auto">';
-		$element_template[] = '<div class="formw">';
-		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
-		$element_template[] = '<div class="form_feedback"></div></div>';
-		$element_template[] = '<div class="clear">&nbsp;</div>';
-		$element_template[] = '</div>';
-		$element_template = implode("\n", $element_template);
-
-
-
-//		$this->addElement('html','<div class="table" style="width: 80%; margin:auto;">');
-//
-//		$this->addElement('html','<div style="width: 100%">');
-//		$this->addElement('html','<div class="header" style="float: left; width: 32%; padding: 0px 1%; border: 0px; text-align: center;""><h4>'.Translation :: get('ToolName').'</h4></div>');
-//		$this->addElement('html','<div class="header" style="float: left; width: 32%; padding: 0px 1%; border: 0px; text-align: center;"><h4>'.Translation :: get('IsToolAvailable?').'</h4></div>');
-//		$this->addElement('html','<div class="header" style="float: left; width: 30%; padding: 0px 1%; border: 0px; text-align: center; "><h4>'.Translation :: get('IsToolVisible?').'</h4></div>');
-//		$this->addElement('html','<div class="clear"></div>');
-//		$this->addElement('html','</div>');
 		foreach ($tools as $index => $tool)
 		{
 		    $tool_data = array();
@@ -128,38 +89,14 @@ class CourseTypeForm extends FormValidator
 			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
 			$element_name = $tool . "element";
 			$element_default = $tool . "elementdefault";
-//			$renderer->setElementTemplate($element_template, $element_name);
-//			$renderer->setElementTemplate($element_template, $element_default);
-
-//			$this->addElement('html','<div class="'.($index%2==0?'row_even':'row_odd').'" style="width: 100%;">');
-//			$this->addElement('html','<div class="cell" style="float: left; width: 22%; padding-left: 6%; padding-right: 6%; height:35px">');
 
 			$tool_data[] = '<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div>';
-//			$this->addElement('html','<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div><div class="clear">&nbsp;</div>');
-//			$this->addElement('html','</div>');
-//			$this->addElement('html','<div class="cell" style="float: left; width: 32%; height:35px">');
 			$tool_data[] = $this->createElement('checkbox', $element_name, $title, '',array('class'=>'iphone '.$tool))->toHtml();
-//			$element = $this->createElement('checkbox', $element_name, $title, '',array('class'=>'iphone '.$tool));
-//			$this->addElement('html', $element->toHtml());
-//			$this->addElement('html','</div>');
-//			$this->addElement('html','<div class="cell" style="height:35px"><div class=\''.$element_default.'\' style="float: left; width: 30%">');
 			$tool_data[] = $this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', array('class'=>'viewablecheckbox', 'style'=>'width=80%'))->toHtml();
-//			$this->addElement('checkbox', $element_default, Translation :: get('IsVisible'),'', array('class'=>'viewablecheckbox', 'style'=>'width=80%'));
-//			$this->addElement('html','</div></div>');
-//			$this->addElement('html','<div class="clear"></div>');
-//			$this->addElement('html','</div>');
 			$count ++;
 
 			$data[] = $tool_data;
 		}
-//		$this->addElement('html','</div>');
-//		$this->addElement('html', "<script type=\"text/javascript\">
-//					/* <![CDATA[ */
-//					var image_path = '".Theme :: get_image_path()."';
-//					var common_image_path = '".Theme :: get_common_image_path()."';
-//					/* ]]> */
-//					</script>\n");
-//		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
 
         $table = new SortableTableFromArray($data);
         $table->set_header(0, Translation :: get('ToolName'), false);
@@ -424,7 +361,7 @@ class CourseTypeForm extends FormValidator
 	{
 		$course_type = $this->course_type;
 		$values = $this->exportValues();
-		$course_type_layout = $course_type->get_layout();
+		$course_type_layout = $course_type->get_layout_settings();
 		$course_type_layout->set_course_type_id($this->course_type->get_id());
 		$course_type_layout->set_intro_text($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT]);
 		$course_type_layout->set_intro_text_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED]));
@@ -514,116 +451,56 @@ class CourseTypeForm extends FormValidator
 		}
 
 		//Layout defaults.
-		$course_type_id = $course_type->get_layout()->get_course_type_id();
-		$student_view = $course_type->get_layout()->get_student_view();
+		$course_type_id = $course_type->get_layout_settings()->get_course_type_id();
+		$student_view = $course_type->get_layout_settings()->get_student_view();
 		$defaults[CourseTypeLayout :: PROPERTY_STUDENT_VIEW] = $course_type_id?$student_view:1;
 
-		$student_view_fixed = $course_type->get_layout()->get_student_view_fixed();
+		$student_view_fixed = $course_type->get_layout_settings()->get_student_view_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_STUDENT_VIEW_FIXED] = $student_view_fixed;
 
-		$layout = $course_type->get_layout()->get_layout();
+		$layout = $course_type->get_layout_settings()->get_layout();
 		$defaults[CourseTypeLayout :: PROPERTY_LAYOUT] = $layout ? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME);
 
-		$tool_shortcut = $course_type->get_layout()->get_tool_shortcut();
+		$tool_shortcut = $course_type->get_layout_settings()->get_tool_shortcut();
 		$defaults[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut ? $tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
 
-		$menu = $course_type->get_layout()->get_menu();
+		$menu = $course_type->get_layout_settings()->get_menu();
 		$defaults[CourseTypeLayout :: PROPERTY_MENU] = $menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
 
-		$breadcrumb = $course_type->get_layout()->get_breadcrumb();
+		$breadcrumb = $course_type->get_layout_settings()->get_breadcrumb();
 		$defaults[CourseTypeLayout :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
 
-		$feedback = $course_type->get_layout()->get_feedback();
+		$feedback = $course_type->get_layout_settings()->get_feedback();
 		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK] = $course_type_id?$feedback:1;
 
-		$enable_introduction_text = $course_type->get_layout()->get_intro_text();
+		$enable_introduction_text = $course_type->get_layout_settings()->get_intro_text();
 		$defaults[CourseTypeLayout :: PROPERTY_INTRO_TEXT] = $course_type_id?$enable_introduction_text:1;
 
-		$course_code_visible = $course_type->get_layout()->get_course_code_visible();
+		$course_code_visible = $course_type->get_layout_settings()->get_course_code_visible();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE] = $course_type_id?$course_code_visible:1;
 
-		$course_manager_name_visible = $course_type->get_layout()->get_course_manager_name_visible();
+		$course_manager_name_visible = $course_type->get_layout_settings()->get_course_manager_name_visible();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE] = $course_type_id?$course_manager_name_visible:1;
 
-		$course_languages_visible = $course_type->get_layout()->get_course_languages_visible();
+		$course_languages_visible = $course_type->get_layout_settings()->get_course_languages_visible();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = $course_type_id?$course_languages_visible:1;
 
-		$feedback_fixed = $course_type->get_layout()->get_feedback_fixed();
+		$feedback_fixed = $course_type->get_layout_settings()->get_feedback_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED] = $feedback;
 
-		$enable_introduction_text_fixed = $course_type->get_layout()->get_intro_text_fixed();
+		$enable_introduction_text_fixed = $course_type->get_layout_settings()->get_intro_text_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED] = $enable_introduction_text_fixed;
 
-		$course_code_visible_fixed = $course_type->get_layout()->get_course_code_visible_fixed();
+		$course_code_visible_fixed = $course_type->get_layout_settings()->get_course_code_visible_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE_FIXED] = $course_code_visible_fixed;
 
-		$course_manager_name_visible_fixed = $course_type->get_layout()->get_course_manager_name_visible_fixed();
+		$course_manager_name_visible_fixed = $course_type->get_layout_settings()->get_course_manager_name_visible_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE_FIXED] = $course_manager_name_visible_fixed;
 
-		$course_languages_visible_fixed = $course_type->get_layout()->get_course_languages_visible_fixed();
+		$course_languages_visible_fixed = $course_type->get_layout_settings()->get_course_languages_visible_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED] = $course_languages_visible_fixed;
 
 		parent :: setDefaults($defaults);
-	}
-
-	/**
-	 * Function add_row_elements_required adds a row of small elements e.g. checkbox, text for a small number
-	 * @param array $arrayelements
-	 */
-
-	function add_row_elements_required($arrayelements)
-	{
-//		$renderer = $this->defaultRenderer();
-//
-//		$element_template = array();
-//		$element_template[] = '<div class="row">';
-//		$element_template[] = '<div class="label" style="width: 64%;">';
-//		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="' . Theme :: get_common_image_path() . 'action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
-//		$element_template[] = '</div>';
-//		$element_template[] = '<div class="formw" style="width: 30%;">';
-//		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
-//		$element_template[] = '<div class="form_feedback"></div></div>';
-//		$element_template[] = '<div class="clear">&nbsp;</div>';
-//		$element_template[] = '</div>';
-//		$element_template = implode("\n", $element_template);
-//
-//		foreach($arrayelements as $value)
-//		{
-//			$renderer->setElementTemplate($element_template, $value->getName());
-//		}
-//
-//		foreach($arrayelements as $index => $value)
-//		{
-//			if($index == 0)
-//				$this->addElement('html', '<div class="row"><div style="width: 38.5%; float: left;">');
-//			else
-//				$this->addElement('html', '<div style="width: 20%; float: left;">');
-//			$this->addElement($value);
-//			if($value->getType() != 'checkbox' && $value->getName() != CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS)
-//				$this->addRule($value->getName(), Translation :: get('ThisFieldIsRequired'), 'required');
-//			$this->addElement('html', '</div>');
-//
-//		}
-//		$this->addElement('html', '<div class="clear">&nbsp;</div></div>');
-	}
-
-	function add_fixed_element($element)
-	{
-//		$renderer = $this->defaultRenderer();
-
-//		$element_template = array();
-//		$element_template[] = '<div class="row">';
-//		$element_template[] = '<div class="label" style="width: 35%;">';
-//		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="' . Theme :: get_common_image_path() . 'action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
-//		$element_template[] = '</div>';
-//		$element_template[] = '<div class="formw" style="width: 64%;">';
-//		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
-//		$element_template[] = '<div class="form_feedback"></div></div>';
-//		$element_template[] = '<div class="clear">&nbsp;</div>';
-//		$element_template[] = '</div>';
-//		$element_template = implode("\n", $element_template);
-//		$renderer->setElementTemplate($element_template, $element->getName());
-//		$this->addElement($element);
 	}
 
 	function get_form_type()
