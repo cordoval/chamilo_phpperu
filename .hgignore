@@ -28,3 +28,6 @@ glob:layout/aqua/images/common/content_object/Thumbs.db
 glob:layout/aqua/images/common/Thumbs.db
 glob:layout/aqua/Thumbs.db
 glob:layout/aqua/images/common/treemenu/Thumbs.db
+
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
