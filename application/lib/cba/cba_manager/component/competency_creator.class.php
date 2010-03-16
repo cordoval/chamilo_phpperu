@@ -18,6 +18,7 @@ class CbaManagerCompetencyCreatorComponent extends CbaManagerComponent
 		$this->display_header($trail, false, true);
 		
 		$competency = new Competency();
+		$competency->set_owner_id($this->get_user_id());
 		$form = new CompetencyForm(CompetencyForm :: TYPE_CREATOR_COMPETENCY, $competency, $this->get_url(), $this->get_user());
 
 		if($form->validate())

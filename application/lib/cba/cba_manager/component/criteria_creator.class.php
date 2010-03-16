@@ -18,6 +18,7 @@ class CbaManagerCriteriaCreatorComponent extends CbaManagerComponent
 		$this->display_header($trail, false, true);
 		
 		$criteria = new Criteria();
+		$criteria->set_owner_id($this->get_user_id());
 		$form = new CriteriaForm(CriteriaForm :: TYPE_CREATOR_CRITERIA, $criteria, $this->get_url(), $this->get_user());
 
 		if($form->validate())

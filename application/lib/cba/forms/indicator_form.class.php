@@ -12,6 +12,7 @@ class IndicatorForm extends FormValidator
 	
 	private $indicator;
 	private $user;
+	private $owner_id;
 
     function IndicatorForm($form_type, $indicator, $action, $user)
     {
@@ -20,6 +21,7 @@ class IndicatorForm extends FormValidator
     	$this->indicator = $indicator;
     	$this->user = $user;
 		$this->form_type = $form_type;
+		$this->owner_id = $indicator->get_owner_id();
 
 		if ($this->form_type == self :: TYPE_CREATOR_INDICATOR)
 		{
@@ -64,6 +66,16 @@ class IndicatorForm extends FormValidator
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
+    
+    
+	/**
+     * Returns the ID of the owner of the CBA object being created or edited.
+     * @return int The ID.
+     */
+    protected function get_owner_id()
+    {
+        return $this->owner_id;
+    }
 
 
     // Create and Update functions (Indicator)
@@ -82,6 +94,7 @@ class IndicatorForm extends FormValidator
 	function update_indicator()
     {
     	$indicator = $this->indicator;
+    	$indicator->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
 
     	$indicator->set_title($values[Indicator :: PROPERTY_TITLE]);
