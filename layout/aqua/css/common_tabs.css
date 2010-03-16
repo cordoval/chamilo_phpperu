@@ -8,6 +8,11 @@
 	clear: both;
 }
 
+#form_tabs .ui-tabs-panel
+{
+	padding: 10px 20px;
+}
+
 #form_tabs ul {
 	display: none;
 }
@@ -20,6 +25,8 @@
 	 * margin: 20px;
 	 */
 	
+	background-color: white;
+	border-top: 0px;
 	border-bottom: 0px;
 	border-left: 0px;
 	border-right: 0px;

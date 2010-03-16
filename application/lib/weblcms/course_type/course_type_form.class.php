@@ -94,6 +94,7 @@ class CourseTypeForm extends FormValidator
 	function build_tools_form()
 	{
 		$tools = $this->parent->get_all_non_admin_tools();
+		$data = array();
 
 		//$table = new HTML_Table('style="width: 100%;"');
 		//$table->setColCount($this->number_of_columns);
@@ -108,6 +109,8 @@ class CourseTypeForm extends FormValidator
 		$element_template[] = '</div>';
 		$element_template = implode("\n", $element_template);
 
+
+
 //		$this->addElement('html','<div class="table" style="width: 80%; margin:auto;">');
 //
 //		$this->addElement('html','<div style="width: 100%">');
@@ -118,6 +121,8 @@ class CourseTypeForm extends FormValidator
 //		$this->addElement('html','</div>');
 		foreach ($tools as $index => $tool)
 		{
+		    $tool_data = array();
+
 			$tool_image_src = Theme :: get_image_path() . 'tool_' . $tool . '.png';
 			$tool_image = $tool . "_image";
 			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
@@ -128,17 +133,24 @@ class CourseTypeForm extends FormValidator
 
 //			$this->addElement('html','<div class="'.($index%2==0?'row_even':'row_odd').'" style="width: 100%;">');
 //			$this->addElement('html','<div class="cell" style="float: left; width: 22%; padding-left: 6%; padding-right: 6%; height:35px">');
+
+			$tool_data[] = '<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div>';
 //			$this->addElement('html','<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div><div class="clear">&nbsp;</div>');
 //			$this->addElement('html','</div>');
 //			$this->addElement('html','<div class="cell" style="float: left; width: 32%; height:35px">');
-			$this->addElement('checkbox', $element_name, $title, '',array('class'=>'iphone '.$tool));
+			$tool_data[] = $this->createElement('checkbox', $element_name, $title, '',array('class'=>'iphone '.$tool))->toHtml();
+//			$element = $this->createElement('checkbox', $element_name, $title, '',array('class'=>'iphone '.$tool));
+//			$this->addElement('html', $element->toHtml());
 //			$this->addElement('html','</div>');
 //			$this->addElement('html','<div class="cell" style="height:35px"><div class=\''.$element_default.'\' style="float: left; width: 30%">');
-			$this->addElement('checkbox', $element_default, Translation :: get('IsVisible'),'', array('class'=>'viewablecheckbox', 'style'=>'width=80%'));
+			$tool_data[] = $this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', array('class'=>'viewablecheckbox', 'style'=>'width=80%'))->toHtml();
+//			$this->addElement('checkbox', $element_default, Translation :: get('IsVisible'),'', array('class'=>'viewablecheckbox', 'style'=>'width=80%'));
 //			$this->addElement('html','</div></div>');
 //			$this->addElement('html','<div class="clear"></div>');
 //			$this->addElement('html','</div>');
 			$count ++;
+
+			$data[] = $tool_data;
 		}
 //		$this->addElement('html','</div>');
 //		$this->addElement('html', "<script type=\"text/javascript\">
@@ -149,6 +161,19 @@ class CourseTypeForm extends FormValidator
 //					</script>\n");
 //		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
 
+        $table = new SortableTableFromArray($data);
+        $table->set_header(0, Translation :: get('ToolName'), false);
+        $table->set_header(1, Translation :: get('IsToolAvailable'), false);
+        $table->set_header(2, Translation :: get('IsToolVisible'), false);
+        $this->addElement('html', $table->as_html());
+
+		$this->addElement('html', "<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					var image_path = '".Theme :: get_image_path()."';
+					var common_image_path = '".Theme :: get_common_image_path()."';
+					/* ]]> */
+					</script>\n");
+		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
 	}
 
 	function build_layout_form()
