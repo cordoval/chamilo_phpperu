@@ -43,16 +43,21 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
             exit();
         }
         
-        $course = new Course();
-        $course->set_visibility(COURSE_VISIBILITY_OPEN_WORLD);
-        $course->set_subscribe_allowed(1);
-        $course->set_unsubscribe_allowed(0);
+        $course = $this->get_course();
+        $course_type_id = $course->get_course_type()->get_id();
+ 
+       // $course->set_visibility(COURSE_VISIBILITY_OPEN_WORLD);
+        //$course->set_subscribe_allowed(1);
+        //$course->set_unsubscribe_allowed(0);
         
         $user_info = $this->get_user();
         $course->set_language(LocalSetting :: get('platform_language'));
         $course->set_titular($user_info->get_id());
         
-        $form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url());
+        if(empty($course_type_id))
+        	$this->simple_redirect(array('go' => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE));
+        else
+        	$form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url());
         
         if ($form->validate())
         {

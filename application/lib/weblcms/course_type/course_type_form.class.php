@@ -202,8 +202,8 @@ class CourseTypeForm extends FormValidator
 		
 		$adm = AdminDataManager :: get_instance();
 		$lang_options = $adm->get_languages();
-		$languages = $this->addElement('select', CourseTypeSettings :: PROPERTY_LANGUAGES, Translation :: get('CourseTypeLanguage'), $lang_options);
-		$languages_fixed = $this->createElement('checkbox', CourseTypeSettings :: PROPERTY_LANGUAGES_FIXED, Translation :: get('IsFixed'));
+		$languages = $this->addElement('select', CourseTypeSettings :: PROPERTY_LANGUAGE, Translation :: get('CourseTypeLanguage'), $lang_options);
+		$languages_fixed = $this->createElement('checkbox', CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED, Translation :: get('IsFixed'));
 
 		$this->add_fixed_element($languages_fixed);
 		$this->addElement('html', '<br/>');
@@ -364,8 +364,8 @@ class CourseTypeForm extends FormValidator
 		$values = $this->exportValues();
 		$course_type_settings = $course_type->get_settings();
 		$course_type_settings->set_course_type_id($course_type->get_id());
-		$course_type_settings->set_languages($values[CourseTypeSettings :: PROPERTY_LANGUAGES]);
-		$course_type_settings->set_languages_fixed($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_LANGUAGES_FIXED]));
+		$course_type_settings->set_language($values[CourseTypeSettings :: PROPERTY_LANGUAGE]);
+		$course_type_settings->set_language_fixed($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED]));
 		$course_type_settings->set_visibility($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY]));
 		$course_type_settings->set_visibility_fixed($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED]));
 		$course_type_settings->set_access($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
@@ -451,8 +451,8 @@ class CourseTypeForm extends FormValidator
 
 		$course_type_id = $course_type->get_settings()->get_course_type_id();
 		$course_type_settings = $course_type->get_settings();
-		$defaults[CourseTypeSettings :: PROPERTY_LANGUAGES] = $course_type_settings->get_languages();
-		$defaults[CourseTypeSettings :: PROPERTY_LANGUAGES_FIXED] = $course_type_settings->get_languages_fixed();
+		$defaults[CourseTypeSettings :: PROPERTY_LANGUAGE] = $course_type_settings->get_language();
+		$defaults[CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED] = $course_type_settings->get_language_fixed();
 		$defaults[CourseTypeSettings :: PROPERTY_VISIBILITY] = $course_type_id?$course_type_settings->get_visibility():1;
 		$defaults[CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED] = $course_type_settings->get_visibility_fixed();
 		$defaults[CourseTypeSettings :: PROPERTY_ACCESS] = $course_type_id?$course_type_settings->get_access():1;

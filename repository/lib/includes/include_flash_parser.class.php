@@ -25,8 +25,9 @@ class IncludeFlashParser extends ContentObjectIncludeParser
                 foreach ($tags as $tag)
                 {
                     $source = $tag->getAttribute('src');
+                    $matches = preg_match(HtmlEditorProcessor :: get_repository_document_display_matching_url(), $source);
 
-                    if (stripos($source, HtmlEditorProcessor :: get_repository_document_display_url()) !== false)
+                    if ($matches === 1)
                     {
                         $source_components = parse_url($source);
                         $source_query_components = Text :: parse_query_string($source_components['query']);

@@ -9,7 +9,7 @@
 class SystemAnnouncement extends ContentObject
 {
     const PROPERTY_ICON = 'icon';
-    
+
     const ICON_CONFIRMATION = 1;
     const ICON_ERROR = 2;
     const ICON_WARNING = 3;
@@ -34,7 +34,7 @@ class SystemAnnouncement extends ContentObject
 
     function get_icon_name()
     {
-        switch ($this->get_icon)
+        switch ($this->get_icon())
         {
             case self :: ICON_CONFIRMATION :
                 $icon = 'confirmation';
@@ -55,21 +55,21 @@ class SystemAnnouncement extends ContentObject
                 $icon = 'config';
                 break;
         }
-        
+
         return 'system_announcement_' . $icon;
     }
 
     static function get_possible_icons()
     {
         $icons = array();
-        
+
         $icons[self :: ICON_CONFIRMATION] = Translation :: get('Confirmation');
-        $icons[self :: ICON_CONFIRMATION] = Translation :: get('Error');
-        $icons[self :: ICON_CONFIRMATION] = Translation :: get('Warning');
-        $icons[self :: ICON_CONFIRMATION] = Translation :: get('Stop');
-        $icons[self :: ICON_CONFIRMATION] = Translation :: get('Question');
-        $icons[self :: ICON_CONFIRMATION] = Translation :: get('Config');
-        
+        $icons[self :: ICON_ERROR] = Translation :: get('Error');
+        $icons[self :: ICON_WARNING] = Translation :: get('Warning');
+        $icons[self :: ICON_STOP] = Translation :: get('Stop');
+        $icons[self :: ICON_QUESTION] = Translation :: get('Question');
+        $icons[self :: ICON_CONFIG] = Translation :: get('Config');
+
         return $icons;
     }
 
