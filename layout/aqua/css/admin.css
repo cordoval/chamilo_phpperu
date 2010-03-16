@@ -10,7 +10,7 @@ div.admin {
 	margin: 10px 20px 10px 0px;
 }
 
-div.admin_section {
+div.admin_section, div.admin_section_no_top_border {
 	clear: both;
 	padding: 10px;
 	border: 1px solid #ebebeb;
@@ -18,6 +18,10 @@ div.admin_section {
 	-moz-border-radius-bottomleft: 10px;
 	-webkit-border-top-right-radius: 10px;
 	-webkit-border-bottom-left-radius: background-color :   #f6f6f6;
+}
+
+div.admin_section_no_top_border {
+	border-top: 0px solid white;
 }
 
 div.admin_header {
@@ -115,7 +119,6 @@ div.vertical_action {
 	width: 100%;
 	overflow: hidden;
 	padding: 10px 0px 10px 0px;
-	border-top: 1px solid #EBEBEB;
 }
 
 div.vertical_action div.icon {
@@ -217,7 +220,10 @@ a.prev,a.next,a.prevPage,a.nextPage {
 }
 
 .hover,div.vertical_action:hover {
-	background-color: #f2f4f4;
+	/*background-color: #f2f4f4;*/
+	background-image: url(../images/admin/background_vertical_action.png);
+	background-repeat: no-repeat;
+	background-position: 0px center;
 }
 
 /* mouseover state */

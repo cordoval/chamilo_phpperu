@@ -109,7 +109,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
                         $onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
                     }
 
-                    $html[] = '<div class="vertical_action"' . ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') . '>';
+                    $html[] = '<div class="vertical_action">';
                     $html[] = '<div class="icon">';
                     $html[] = '<a href="' . $link['url'] . '" ' . $onclick . '><img src="' . Theme :: get_image_path() . 'browse_' . $link['action'] . '.png" alt="' . $link['name'] . '" title="' . $link['name'] . '"/></a>';
                     $html[] = '</div>';
