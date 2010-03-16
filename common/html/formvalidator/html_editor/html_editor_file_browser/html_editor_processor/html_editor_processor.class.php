@@ -59,11 +59,24 @@ abstract class HtmlEditorProcessor
         return $this->get_parent()->get_parameter($key);
     }
 
-    function get_repository_document_display_url($extra_parameters = array())
+    function get_repository_document_display_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
-        $parameters = array_merge(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_DOWNLOAD_DOCUMENT, 'display' => 1), $extra_parameters);
+        $parameters = array_merge(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_DOWNLOAD_DOCUMENT, 'display' => 1), $parameters);
 
-        return Redirect :: get_link(RepositoryManager :: APPLICATION_NAME, $parameters, null, null, Redirect :: TYPE_CORE);
+        return Redirect :: get_link(RepositoryManager :: APPLICATION_NAME, $parameters, $filter, $encode_entities, Redirect :: TYPE_CORE);
+    }
+
+    function get_repository_document_display_matching_url()
+    {
+        $matching_url = self :: get_repository_document_display_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => ''));
+        $matching_url = preg_quote($matching_url);
+
+        $original_object_string = '&'. RepositoryManager :: PARAM_CONTENT_OBJECT_ID .'\=';
+        $replace_object_string = '&'. RepositoryManager :: PARAM_CONTENT_OBJECT_ID .'\=[0-9]+';
+
+        $matching_url = str_replace($original_object_string, $replace_object_string, $matching_url);
+
+        return '/' . $matching_url . '/';
     }
 
     abstract function run();
