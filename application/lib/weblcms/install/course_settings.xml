@@ -2,7 +2,7 @@
 <object name="course_settings">
 	<properties>
 		<property name="course_id" type="integer" notnull="1" />
-		<property name="languages" type="text" length="255"  fixed="true" default="English" />
+		<property name="language" type="text" length="255"  fixed="true" default="English" />
 		<property name="visibility" type="boolean" default="1" />
 		<property name="access" type="boolean" default="1" />
 		<property name="max_number_of_members" type="integer" default="0" />

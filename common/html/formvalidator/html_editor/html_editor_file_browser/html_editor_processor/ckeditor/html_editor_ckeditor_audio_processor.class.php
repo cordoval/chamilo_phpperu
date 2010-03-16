@@ -8,7 +8,7 @@ class HtmlEditorCkeditorAudioProcessor extends HtmlEditorProcessor
         $selected_object = $this->get_selected_content_objects();
         $object = RepositoryDataManager :: get_instance()->retrieve_content_object($selected_object);
 
-        $audio_include_path = Path :: get(WEB_PATH) . $this->get_repository_document_display_url() . '&object=' . $object->get_id();
+        $audio_include_path = Path :: get(WEB_PATH) . $this->get_repository_document_display_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
 //        $audio_getid3 = new getID3();
 //        $audio_info = $audio_getid3->analyze($object->get_full_path());
 

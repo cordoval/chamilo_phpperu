@@ -284,6 +284,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->retrieve_course($course_code);
     }
+    
+    function retrieve_course_type($course_type_id)
+    {
+        return $this->get_parent()->retrieve_course_type($course_type_id);
+    }
 
     /**
      * @see WeblcmsManager :: retrieve_course_category()

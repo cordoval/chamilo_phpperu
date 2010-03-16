@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . '/../category_manager/content_object_publicatio
 require_once dirname(__FILE__) . '/../tool/tool.class.php';
 require_once dirname(__FILE__) . '/../tool_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
+require_once dirname(__FILE__) . '/../course/course_settings.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/component/admin_course_browser/admin_course_browser_table.class.php';
@@ -74,6 +75,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_ADMIN_COURSE_TYPE_BROWSER = 'admincoursetypebrowser';
 	const ACTION_SELECT_COURSE_TYPE = 'selectcoursetype';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
+	const ACTION_DELETE_COURSE_TYPE = 'coursetypedeleter';
 	const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
 	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
@@ -105,7 +107,7 @@ class WeblcmsManager extends WebApplication
 	 * The course_type object of the course currently active in this application
 	 */
 	private $course_type;
-	
+
 	/**
 	 * The course_group object of the course_group currently active in this application
 	 */
@@ -130,7 +132,7 @@ class WeblcmsManager extends WebApplication
 		$this->set_parameter(self :: PARAM_TOOL, Request :: get(self :: PARAM_TOOL));
 
 		$this->parse_input_from_table();
-
+		
 		$this->course_type = null;
 		$this->load_course_type();
 		$this->course = new Course();
@@ -188,11 +190,14 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_ADMIN_COURSE_TYPE_CREATOR :
 				$component = WeblcmsManagerComponent :: factory('AdminCourseTypeCreator', $this);
 				break;
-			case self :: ACTION_SELECT_COURSE_TYPE :
+		    case self :: ACTION_SELECT_COURSE_TYPE :
 				$component = WeblcmsManagerComponent :: factory('CourseTypeSelector', $this);
 				break;
 			case self :: ACTION_DELETE_COURSE :
 				$component = WeblcmsManagerComponent :: factory('CourseDeleter', $this);
+				break;
+			case self :: ACTION_DELETE_COURSE_TYPE :
+				$component = WeblcmsManagerComponent :: factory('CourseTypeDeleter', $this);
 				break;
 			case self :: ACTION_PUBLISH_INTRODUCTION :
 				$component = WeblcmsManagerComponent :: factory('IntroductionPublisher', $this);
@@ -263,6 +268,16 @@ class WeblcmsManager extends WebApplication
 	{
 		$this->course = $course;
 	}
+	
+	function set_course_type($course_type)
+	{
+		$this->course_type = $course_type;
+	}
+	
+	//function set_course_type($course_type)
+	//{
+	//	$this->course_type = $course_type;
+	//}
 
 	/**
 	 * Returns the identifier of the course that is being used.
@@ -275,6 +290,15 @@ class WeblcmsManager extends WebApplication
 
 		return $this->course->get_id();
 	}
+	/*
+	function get_course_type_id()
+	{
+		if($this->course_type == null)
+		return 0;
+		
+		return $this->course_type->get_id();
+	}
+	*/
 
 	/**
 	 * Returns the course_group that is being used.
@@ -296,8 +320,7 @@ class WeblcmsManager extends WebApplication
 	
 	function get_course_type_deleting_url($course_type)
     {
-        //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COURSE, self :: PARAM_COURSE => $course->get_id()));
-        return null;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COURSE_TYPE, self :: PARAM_COURSE_TYPE => $course_type->get_id()));
     }
     
 	function get_course_type_editing_url($course_type)
@@ -306,7 +329,7 @@ class WeblcmsManager extends WebApplication
     	return null;
     }
     
-	function get_course_type_maintenance_url($course)
+	function get_course_type_maintenance_url($course_type)
     {
         //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'maintenance'));
     	return null;
@@ -593,7 +616,7 @@ class WeblcmsManager extends WebApplication
 		{
 			$this->course = new Course();
 			$this->course->set_settings(new CourseSettings());
-			$this->course->set_layout(new CourseLayout());
+			$this->course->set_layout_settings(new CourseLayout());
 			$this->course->set_course_type($this->course_type);
 		}
 	}
@@ -620,7 +643,7 @@ class WeblcmsManager extends WebApplication
 			$wdm = WeblcmsDataManager :: get_instance();
 			$this->course_type = $wdm->retrieve_course_type($this->get_parameter(self :: PARAM_COURSE_TYPE));
 			$this->course_type->set_settings($wdm->retrieve_course_type_settings($this->get_parameter(self :: PARAM_COURSE_TYPE)));
-			$this->course_type->set_layout($wdm->retrieve_course_type_layout($this->get_parameter(self :: PARAM_COURSE_TYPE)));
+			$this->course_type->set_layout_settings($wdm->retrieve_course_type_layout($this->get_parameter(self :: PARAM_COURSE_TYPE)));
 			$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $this->get_parameter(self :: PARAM_COURSE_TYPE));
 			$this->course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));
 		}
@@ -628,7 +651,7 @@ class WeblcmsManager extends WebApplication
 		{
 			$this->course_type = new CourseType();
 			$this->course_type->set_settings(new CourseTypeSettings());
-			$this->course_type->set_layout(new CourseTypeLayout());
+			$this->course_type->set_layout_settings(new CourseTypeLayout());
 		}
 	}
 
@@ -893,6 +916,11 @@ class WeblcmsManager extends WebApplication
 	function retrieve_course($course_code)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course($course_code);
+	}
+	
+	function retrieve_course_type($course_type_id)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_course_type($course_type_id);
 	}
 	
     function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null)
