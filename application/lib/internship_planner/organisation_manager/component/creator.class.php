@@ -4,7 +4,7 @@ require_once Path :: get_application_path() . 'lib/internship_planner/internship
 require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager_component.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/forms/organisation_form.class.php';
 
-class InternshipLocationManagerCreatorComponent extends InternshipLocationManagerComponent
+class InternshipOrganisationManagerCreatorComponent extends InternshipOrganisationManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
