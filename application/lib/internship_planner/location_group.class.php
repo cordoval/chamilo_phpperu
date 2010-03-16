@@ -4,16 +4,16 @@
  */
 
 /**
- * This class describes a LocationGroup data object
+ * This class describes a InternshipLocationGroup data object
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class LocationGroup extends DataClass
+class InternshipLocationGroup extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
 	/**
-	 * LocationGroup properties
+	 * InternshipLocationGroup properties
 	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
@@ -33,7 +33,7 @@ class LocationGroup extends DataClass
 	}
 
 	/**
-	 * Returns the id of this LocationGroup.
+	 * Returns the id of this InternshipLocationGroup.
 	 * @return the id.
 	 */
 	function get_id()
@@ -42,7 +42,7 @@ class LocationGroup extends DataClass
 	}
 
 	/**
-	 * Sets the id of this LocationGroup.
+	 * Sets the id of this InternshipLocationGroup.
 	 * @param id
 	 */
 	function set_id($id)
@@ -51,7 +51,7 @@ class LocationGroup extends DataClass
 	}
 
 	/**
-	 * Returns the name of this LocationGroup.
+	 * Returns the name of this InternshipLocationGroup.
 	 * @return the name.
 	 */
 	function get_name()
@@ -60,7 +60,7 @@ class LocationGroup extends DataClass
 	}
 
 	/**
-	 * Sets the name of this LocationGroup.
+	 * Sets the name of this InternshipLocationGroup.
 	 * @param name
 	 */
 	function set_name($name)

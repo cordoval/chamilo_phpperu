@@ -18,6 +18,7 @@ class CbaManagerIndicatorCreatorComponent extends CbaManagerComponent
 		$this->display_header($trail, false, true);
 		
 		$indicator = new Indicator();
+		$indicator->set_owner_id($this->get_user_id());
 		$form = new IndicatorForm(IndicatorForm :: TYPE_CREATOR_INDICATOR, $indicator, $this->get_url(), $this->get_user());
 
 		if($form->validate())
