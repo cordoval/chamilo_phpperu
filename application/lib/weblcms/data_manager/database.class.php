@@ -690,7 +690,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition(Course :: PROPERTY_ID, $id);
         return $this->database->retrieve_object(Course :: get_table_name(), $condition);
     }
-
+    
     function retrieve_courses($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
@@ -1127,6 +1127,26 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         // Delete course
         $condition = new EqualityCondition(Course :: PROPERTY_ID, $course_code);
         return $this->database->delete_objects(Course :: get_table_name(), $condition);
+    }
+    
+    function delete_course_type($course_type)
+    {
+        // Delete course_type
+    	$condition = new EqualityCondition(CourseType :: PROPERTY_ID, $course_type->get_id());
+        $bool = $this->database->delete(CourseType :: get_table_name(), $condition);
+        
+        $condition_layout = new EqualityCondition(CourseTypeLayout :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+    	$bool = $bool && $this->database->delete(CourseTypeLayout :: get_table_name(), $condition_layout);
+        
+        $condition = new EqualityCondition(CourseTypeSettings :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+        $bool = $bool && $this->database->delete(CourseTypeSettings :: get_table_name(), $condition);
+        
+        $condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+        $bool = $bool && $this->database->delete(CourseTypeTool :: get_table_name(), $condition);     
+            
+        return $bool;
+		
+		//return $bool;
     }
 
     function retrieve_course_category($category)

@@ -503,6 +503,8 @@ abstract class WeblcmsDataManager
      */
     abstract function delete_course($course_code);
     
+    abstract function delete_course_type($course_type_id);
+    
     /**
      * Deletes the given course_type_tool from the database related to this given course_type.
      * @param string $course_type_tool The course_type_tool
