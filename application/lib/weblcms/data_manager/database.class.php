@@ -779,6 +779,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->create($course);
     }
     
+    function create_course_settings($course_settings)
+    {
+        return $this->database->create($course_settings);
+    }
+    
     function create_course_type($course_type)
     {
         return $this->database->create($course_type);

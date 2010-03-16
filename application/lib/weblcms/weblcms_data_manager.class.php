@@ -177,6 +177,8 @@ abstract class WeblcmsDataManager
      */
     abstract function create_course($course);
     
+    abstract function create_course_settings($course_settings);
+    
     /**
      * Creates a coursetype object in persistent storage.
      * @param CourseType $courseytype The coursetype to make persistent.
