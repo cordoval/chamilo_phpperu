@@ -177,6 +177,8 @@ abstract class WeblcmsDataManager
      */
     abstract function create_course($course);
     
+    abstract function create_course_settings($course_settings);
+    
     /**
      * Creates a coursetype object in persistent storage.
      * @param CourseType $courseytype The coursetype to make persistent.
@@ -502,6 +504,8 @@ abstract class WeblcmsDataManager
      * @param string $course_code The course code
      */
     abstract function delete_course($course_code);
+    
+    abstract function delete_course_type($course_type_id);
     
     /**
      * Deletes the given course_type_tool from the database related to this given course_type.

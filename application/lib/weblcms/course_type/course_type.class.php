@@ -70,7 +70,7 @@ class CourseType extends DataClass
      * Returns the layout of this coursetype object
      * @return CourseTypeLayout the layout
      */
-    function get_layout()
+    function get_layout_settings()
     {
         return $this->layout;
     }
@@ -115,7 +115,7 @@ class CourseType extends DataClass
      * Sets the layout of this coursetype object
      * @param CourseTypeLayout $layout the layout of this coursetype object
      */
-    function set_layout($layout)
+    function set_layout_settings($layout)
     {
         $this->layout = $layout;
     }

@@ -41,6 +41,11 @@ class WeblcmsInstaller extends Installer
             return false;
         }
         
+        if (! $this->create_course_types())
+        {
+            return false;
+        }
+        
         /*if (! $this->create_course())
         {
             return false;
@@ -108,6 +113,89 @@ class WeblcmsInstaller extends Installer
         return $succes;
     }
 
+    function create_course_types()
+    {
+    	$course_type = new CourseType();
+    	$course_type->set_name('Type Zero');
+    	$course_type->set_description('An ice cold course type.');
+    	$succes = $course_type->create();
+    	
+    	$course_type_settings = new CourseTypeSettings();
+    	$course_type_settings->set_course_type_id(1);
+    	$course_type_settings->set_language('français');
+    	$course_type_settings->set_language_fixed(1);
+    	$course_type_settings->set_visibility(0);
+    	$course_type_settings->set_visibility_fixed(1);
+    	$course_type_settings->set_access(1);
+    	$course_type_settings->set_access_fixed(0);
+    	$course_type_settings->set_max_number_of_members(0);
+    	$course_type_settings->set_max_number_of_members_fixed(1);
+    	$succes = $succes && $course_type_settings->create();
+    	
+    	$course_type_layout = new CourseTypeLayout();
+    	$course_type_layout->set_course_type_id(1);
+    	$course_type_layout->set_intro_text(1);
+    	$course_type_layout->set_intro_text_fixed(1);
+    	$course_type_layout->set_student_view(1);
+    	$course_type_layout->set_student_view_fixed(1);
+    	$course_type_layout->set_layout(1);
+    	$course_type_layout->set_layout_fixed(1);
+    	$course_type_layout->set_tool_shortcut(1);
+    	$course_type_layout->set_tool_shortcut_fixed(1);
+    	$course_type_layout->set_menu(1);
+    	$course_type_layout->set_menu_fixed(1);
+    	$course_type_layout->set_feedback(1);
+    	$course_type_layout->set_feedback_fixed(1);
+    	$course_type_layout->set_course_code_visible(1);
+    	$course_type_layout->set_course_code_visible_fixed(1);
+    	$course_type_layout->set_course_manager_name_visible(1);
+    	$course_type_layout->set_course_manager_name_visible_fixed(1);
+    	$course_type_layout->set_course_languages_visible(1);
+    	$course_type_layout->set_course_languages_visible_fixed(1);
+    	$succes = $succes && $course_type_layout->create();
+    	
+    	$course_type = new CourseType();
+    	$course_type->set_name('Gundanium Aloid');
+    	$course_type->set_description('A type made of the strongest material known in fiction.');
+    	$succes = $succes && $course_type->create();
+    	
+    	$course_type_settings = new CourseTypeSettings();
+    	$course_type_settings->set_course_type_id(2);
+    	$course_type_settings->set_language('english');
+    	$course_type_settings->set_language_fixed(1);
+    	$course_type_settings->set_visibility(1);
+    	$course_type_settings->set_visibility_fixed(0);
+    	$course_type_settings->set_access(1);
+    	$course_type_settings->set_access_fixed(0);
+    	$course_type_settings->set_max_number_of_members(30);
+    	$course_type_settings->set_max_number_of_members_fixed(0);
+    	$succes = $succes && $course_type_settings->create();
+    	
+    	$course_type_layout = new CourseTypeLayout();
+    	$course_type_layout->set_course_type_id(2);
+    	$course_type_layout->set_intro_text(1);
+    	$course_type_layout->set_intro_text_fixed(1);
+    	$course_type_layout->set_student_view(1);
+    	$course_type_layout->set_student_view_fixed(1);
+    	$course_type_layout->set_layout(1);
+    	$course_type_layout->set_layout_fixed(1);
+    	$course_type_layout->set_tool_shortcut(1);
+    	$course_type_layout->set_tool_shortcut_fixed(1);
+    	$course_type_layout->set_menu(1);
+    	$course_type_layout->set_menu_fixed(1);
+    	$course_type_layout->set_feedback(1);
+    	$course_type_layout->set_feedback_fixed(1);
+    	$course_type_layout->set_course_code_visible(1);
+    	$course_type_layout->set_course_code_visible_fixed(1);
+    	$course_type_layout->set_course_manager_name_visible(1);
+    	$course_type_layout->set_course_manager_name_visible_fixed(1);
+    	$course_type_layout->set_course_languages_visible(1);
+    	$course_type_layout->set_course_languages_visible_fixed(1);
+    	$succes = $succes && $course_type_layout->create();
+    	
+    	return $succes;
+    }
+    
     function get_path()
     {
         return dirname(__FILE__);

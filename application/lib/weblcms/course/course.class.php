@@ -181,115 +181,87 @@ class Course extends DataClass
         return $this->get_default_property(self :: PROPERTY_LAST_VISIT);
     }
 
-	/**
-     * Returns the settings of this course object
-     * @return CourseSettings the settings
-     */
     function get_settings()
     {
         return $this->settings;
     }
 	
-	/**
-     * Returns the layout of this course object
-     * @return CourseLayout the layout
-     */
-    function get_layout()
+    function get_layout_settings()
     {
         return $this->layout;
     }
     
-	/**
-     * Returns the tools of this course object
-     * @return array the tools
-     */
     function get_tools()
     {
         return $this->tools;
     }
     
-	/**
-     * Returns the course_type of this course object
-     * @return CourseType the course_type
-     */
     function get_course_type()
     {
         return $this->course_type;
     }
     
-	/**
-     * Returns the language of this course object
-     * @return array() the languages
-     */
     function get_language()
     {
         return $this->settings->get_language();
     }
     
-    /**
-     * Returns the visibility of this course object
-     * @return boolean the visibility Code
-     */
     function get_visibility()
     {
         return $this->settings->get_visibility();
     }
     
-    /**
-     * Returns the acces of this course object
-     * @return boolean the acces Code
-     */
-    function get_access()
+	function get_access()
     {
         return $this->settings->get_access();
     }
     
-    /**
-     * Returns the max number of members of this course object
-     * @return int the max number of members
-     */
     function get_max_number_of_members()
     {
         return $this->max_number_of_members();
     }
     
-    /**
-     * Sets the language of this course object
-     * @param array $language the language
-     */
+    function get_language_fixed()
+    {
+    	return $this->course_type->get_settings()->get_language_fixed();
+    }
+    
     function set_language($language)
     {
-    	if(!$this->course_type->get_settings()->get_language_fixed())
+    	if(!$this->get_language_fixed())
         	$this->settings->set_language($language);
     }
-       
-    /**
-     * Sets the visibility of this course object
-     * @param Boolean $visibility the visibility
-     */
+
+    function get_visibility_fixed()
+    {
+    	return $this->course_type->get_settings()->get_visibility_fixed();
+    }
+    
     function set_visibility($visibility)
     {
-		if(!$this->course_type->get_settings()->get_visibility_fixed())
+		if(!$this->get_visibility_fixed())
         	$this->settings->set_visibility($visibility);
     }
     
-    /**
-     * Sets the access of this course object
-     * @param Boolean $access the access
-     */
+    function get_access_fixed()
+    {
+    	return $this->course_type->get_settings()->get_access_fixed();
+    }
+    
     function set_access($access)
     {
-		if(!$this->course_type->get_settings()->get_access_fixed())
+		if(!$this->get_access_fixed())
         	$this->settings->set_access($access);
     }   
 
-    /**
-     * Sets the the max number of members of this course object
-     * @param int $max_number_of_members the max number of members
-     */
+    function get_max_number_of_members_fixed($max_number_of_members)
+    {
+		return $this->course_type->get_settings()->get_max_number_of_members_fixed();
+    }
+    
     function set_max_number_of_members($max_number_of_members)
     {
-		if(!$this->course_type->get_settings()->get_max_number_of_members_fixed())
+		if(!$this->get_max_number_of_members_fixed())
         	$this->settings->set_max_number_of_members($max_number_of_members);
     }
     
@@ -390,7 +362,7 @@ class Course extends DataClass
      * Sets the layout of this course object
      * @param CourseLayout $layout the layout of this course object
      */
-    function set_layout($layout)
+    function set_layout_settings($layout)
     {
         $this->layout = $layout;
     }
@@ -411,6 +383,177 @@ class Course extends DataClass
     function set_course_type($course_type)
     {
         $this->course_type = $course_type;
+    }
+    
+    /**
+     * Direct access to the setters and getters for the course layout
+     * All setters include a validation to see whether or not the property is writeable
+     */
+    
+    /*
+     * Getters
+     */
+    function get_intro_text()
+    {
+    	return $this->get_layout()->get_intro_text();
+    }
+    
+    function get_student_view()
+    {
+        return $this->get_layout()->get_student_view();
+    }
+    
+    function get_layout()
+    {
+        return $this->get_layout()->get_layout();
+    }
+    
+    function get_tool_shortcut()
+    {
+        return $this->get_layout()->get_tool_shortcut();
+    }
+    
+ 	function get_menu()
+    {
+        return $this->get_layout()->get_menu();
+    }
+    
+    function get_breadcrumb()
+    {
+        return $this->get_layout()->get_breadcrumb();
+    }
+    
+    function get_feedback()
+    {
+        return $this->get_layout()->get_feedback();
+    }
+    
+    function get_course_code_visible()
+    {
+        return $this->get_layout()->get_course_code_visible();
+    }
+    
+    function get_course_manager_name_visible()
+    {
+    	return $this->get_layout()->get_course_manager_name_visible();
+    }
+    
+    function get_course_languages_visible()
+	{
+    	return $this->get_layout()->get_course_languages_visible();
+    }
+    
+    /**
+     * Setters and validation to see whether they are writable
+     */
+    function get_feedback_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_feedback_fixed();
+    }
+        
+   	function set_feedback($feedback)
+    {
+    	if(!$this->get_feedback_fixed())
+    		$this->get_layout_settings()->set_feedback($feedback);
+    } 
+    
+    function get_layout_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_layout_fixed();
+    }
+    
+    function set_layout($layout)
+    {
+    	if(!$this->get_layout_fixed())
+    		$this->get_layout_settings()->set_layout($layout);
+    }
+    
+    function get_tool_shortcut_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_tool_shortcut_fixed();
+    }
+    
+    function set_tool_shortcut($tool_shortcut)
+    {
+    	if(!$this->get_tool_shortcut_fixed())
+    		$this->get_layout_settings()->set_tool_shortcut($tool_shortcut);
+    }
+    
+    function get_menu_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_menu_fixed();
+    }
+    
+    function set_menu($menu)
+    {
+    	if(!$this->get_menu_fixed())
+    		$this->get_layout_settings()->set_menu($menu);
+    }
+    
+    function get_breadcrumb_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_breadcrumb_fixed();
+    }
+    
+    function set_breadcrumb($breadcrumb)
+    {
+    	if(!$this->get_breadcrumb_fixed())
+    		$this->get_layout_settings()->set_breadcrumb($breadcrumb);
+    }
+    
+    function get_intro_text_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_intro_text_fixed();
+    }
+    
+    function set_intro_text($intro_text)
+    {
+    	if(!$this->get_intro_text_fixed())
+    		$this->get_layout_settings()->set_intro_text($intro_text);
+    }
+    
+    function get_student_view_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_student_view_fixed();
+    }
+    
+    function set_student_view($student_view)
+    {
+    	if(!$this->get_student_view_fixed())
+    		$this->get_layout_settings()->set_student_view($student_view);
+    }
+    
+    function get_course_code_visible_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_course_code_visible();
+    }
+    
+    function set_course_code_visible($course_code_visible)
+    {
+    	if(!$this->get_course_code_visible_fixed())
+    		$this->get_layout_settings()->set_course_code_visible($course_code_visible);
+    }
+    
+    function get_course_manager_name_visible_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_course_manager_name_visible();
+    }
+    
+    function set_course_manager_name_visible($course_manager_name_visible)
+    {
+    	if(!$this->get_course_manager_name_visible_fixed())
+    		$this->get_layout_settings()->set_course_manager_name_visible($course_manager_name_visible);
+    }
+    
+    function get_course_languages_visible_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_course_languages_visible();
+    }
+    
+    function set_course_languages_visible($course_languages_visible)
+    {
+    	if(!$this->get_course_languages_fixed())
+    		$this->get_layout_settings()->set_course_languages_visible($course_languages_visible);
     }
     
     /**
@@ -525,24 +668,6 @@ class Course extends DataClass
         return ($as_array ? $result->as_array() : $result);
     }
 
-    function is_layout_configurable()
-    {
-        $theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
-        $layout = PlatformSetting :: get('allow_course_layout_selection', WeblcmsManager :: APPLICATION_NAME);
-        $shortcut = PlatformSetting :: get('allow_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
-        $menu = PlatformSetting :: get('allow_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
-        $breadcrumbs = PlatformSetting :: get('allow_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
-
-        if (! $theme && ! $layout && ! $shortcut && ! $menu && ! $breadcrumbs)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
@@ -572,78 +697,78 @@ class Course extends DataClass
         return true;
     }
 	
-    function initialize_settings()
-    {
-    	$file = Path :: get_application_path() . '/settings/settings_weblcms_course_type.xml';
-        $result = array();
-
-        if (file_exists($file))
-        {
-            $doc = new DOMDocument();
-            $doc->load($file);
-            $object = $doc->getElementsByTagname('application')->item(0);
-            $name = $object->getAttribute('name');
-
-            // Get categories
-            $categories = $doc->getElementsByTagname('category');
-            $settings = array();
-
-            foreach ($categories as $index => $category)
-            {
-                $category_name = $category->getAttribute('name');
-                $category_properties = array();
-
-                // Get settings in category
-                $properties = $category->getElementsByTagname('setting');
-                $attributes = array('field', 'default');
-
-                foreach ($properties as $index => $property)
-                {
-                    $property_info = array();
-
-                    foreach ($attributes as $index => $attribute)
-                    {
-                        if ($property->hasAttribute($attribute))
-                        {
-                            $property_info[$attribute] = $property->getAttribute($attribute);
-                        }
-                    }
-
-                    if ($property->hasChildNodes())
-                    {
-                        $property_options = $property->getElementsByTagname('options')->item(0);
-                        $property_options_attributes = array('type', 'source');
-                        foreach ($property_options_attributes as $index => $options_attribute)
-                        {
-                            if ($property_options->hasAttribute($options_attribute))
-                            {
-                                $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
-                            }
-                        }
-
-                        if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
-                        {
-                            $options = $property_options->getElementsByTagname('option');
-                            $options_info = array();
-                            foreach ($options as $option)
-                            {
-                                $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
-                            }
-                            $property_info['options']['values'] = $options_info;
-                        }
-                    }
-                    $category_properties[$property->getAttribute('name')] = $property_info;
-                }
-
-                $settings[$category_name] = $category_properties;
-            }
-
-            $result['name'] = $name;
-            $result['settings'] = $settings;
-        }
-
-        return $result;
-    }
+//    function initialize_settings()
+//    {
+//    	$file = Path :: get_application_path() . '/settings/settings_weblcms_course_type.xml';
+//        $result = array();
+//
+//        if (file_exists($file))
+//        {
+//            $doc = new DOMDocument();
+//            $doc->load($file);
+//            $object = $doc->getElementsByTagname('application')->item(0);
+//            $name = $object->getAttribute('name');
+//
+//            // Get categories
+//            $categories = $doc->getElementsByTagname('category');
+//            $settings = array();
+//
+//            foreach ($categories as $index => $category)
+//            {
+//                $category_name = $category->getAttribute('name');
+//                $category_properties = array();
+//
+//                // Get settings in category
+//                $properties = $category->getElementsByTagname('setting');
+//                $attributes = array('field', 'default');
+//
+//                foreach ($properties as $index => $property)
+//                {
+//                    $property_info = array();
+//
+//                    foreach ($attributes as $index => $attribute)
+//                    {
+//                        if ($property->hasAttribute($attribute))
+//                        {
+//                            $property_info[$attribute] = $property->getAttribute($attribute);
+//                        }
+//                    }
+//
+//                    if ($property->hasChildNodes())
+//                    {
+//                        $property_options = $property->getElementsByTagname('options')->item(0);
+//                        $property_options_attributes = array('type', 'source');
+//                        foreach ($property_options_attributes as $index => $options_attribute)
+//                        {
+//                            if ($property_options->hasAttribute($options_attribute))
+//                            {
+//                                $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
+//                            }
+//                        }
+//
+//                        if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+//                        {
+//                            $options = $property_options->getElementsByTagname('option');
+//                            $options_info = array();
+//                            foreach ($options as $option)
+//                            {
+//                                $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
+//                            }
+//                            $property_info['options']['values'] = $options_info;
+//                        }
+//                    }
+//                    $category_properties[$property->getAttribute('name')] = $property_info;
+//                }
+//
+//                $settings[$category_name] = $category_properties;
+//            }
+//
+//            $result['name'] = $name;
+//            $result['settings'] = $settings;
+//        }
+//
+//        return $result;
+//    }
     
 }
 ?>
