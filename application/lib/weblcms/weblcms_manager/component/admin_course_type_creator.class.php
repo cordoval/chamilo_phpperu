@@ -22,7 +22,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
         {
             Header :: set_section('admin');
         }
-        
+
         $trail = new BreadcrumbTrail();
         if ($this->get_user()->is_platform_admin())
         {
@@ -33,7 +33,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('CourseTypes')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateType')));
         $trail->add_help('coursetypes create');
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
@@ -44,25 +44,25 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
         }
         $coursetype = $this->get_course_type();
         $id = $coursetype->get_id();
-        
+
         if(empty($id))
-        {	        
+        {
 	       // $user_info = $this->get_user();
-	        
+
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_CREATE, $coursetype, $this->get_url(), $this);
         }
         else
-        {	        
+        {
 	       // $user_info = $this->get_user();
-	        
+
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_EDIT, $coursetype, $this->get_url(), $this);
         }
-        
+
 		$data = $form->getSubmitValues();
-		if(!$data['unlimited'])
-			$form->addRule(CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-			
+//		if(!$data['unlimited'])
+//			$form->addRule(CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS, Translation :: get('ThisFieldIsRequired'), 'required');
+
+
         if ($form->validate())
         {
 	        $success = $form->save_course_type();
@@ -71,7 +71,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
 	        if($success ||  $form->get_form_type() == CourseTypeForm :: TYPE_EDIT)
 	        	$array_type['course_type'] = $coursetype->get_id();
             $this->redirect(Translation :: get($success ? 'CourseTypeSaved' : 'CourseTypeNotSaved'), ($success ? false : true), $array_type );
-            //$this->redirect(Translation :: get($success ? 'CourseTypeCreated' : 'CourseTypeNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER, 'course_type' => $coursetype->get_id()));            
+            //$this->redirect(Translation :: get($success ? 'CourseTypeCreated' : 'CourseTypeNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER, 'course_type' => $coursetype->get_id()));
         }
         else
         {

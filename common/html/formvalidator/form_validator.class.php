@@ -222,7 +222,7 @@ EOT;
         foreach($tabs as $index => $tab)
         {
         	$this->addElement('html', '<div class="form_tab" id="form_tabs-'.$index.'">');
-        	call_user_func(Array($this, $tab->get_method()));
+        	call_user_func(array($this, $tab->get_method()));
         	$this->addElement('html','<div class="clear"></div>');
         	$this->addElement('html', '</div>');
         }
@@ -458,13 +458,29 @@ EOT;
     }
 
     /**
-     * Adds an error message to the form.
+     * Adds a warning message to the form.
      * @param string $label The label for the error message
      * @param string $message The actual error message
      */
     function add_warning_message($name, $label, $message, $no_margin = false)
     {
         $html = '<div id="' . $name . '" class="row"><div class="forme' . ($no_margin ? ' forme_no_margin' : '') . '">';
+        if ($label)
+        {
+            $html .= '<b>' . $label . '</b><br />';
+        }
+        $html .= $message . '</div></div>';
+        $this->addElement('html', $html);
+    }
+
+    /**
+     * Adds an error message to the form.
+     * @param string $label The label for the error message
+     * @param string $message The actual error message
+     */
+    function add_information_message($name, $label, $message, $no_margin = false)
+    {
+        $html = '<div id="' . $name . '" class="row"><div class="formc' . ($no_margin ? ' formc_no_margin' : '') . '">';
         if ($label)
         {
             $html .= '<b>' . $label . '</b><br />';
