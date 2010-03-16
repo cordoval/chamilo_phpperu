@@ -208,11 +208,11 @@ EOT;
      */
     function add_tabs($tabs, $selected_tab)
     {
-    	$this->addElement('html', '<div id="tabs">');
+    	$this->addElement('html', '<div id="form_tabs">');
         $this->addElement('html', '<ul>');
 		foreach($tabs as $index => $tab)
 		{
-      		$this->addElement('html', '<li><a href="#tabs-'.$index.'">');
+      		$this->addElement('html', '<li><a href="#form_tabs-'.$index.'">');
         	$this->addElement('html', '<span class="category">');
         	$this->addElement('html', '<span class="title">'.Translation :: get($tab->get_title()).'</span>');
         	$this->addElement('html', '</span>');
@@ -221,7 +221,7 @@ EOT;
         $this->addElement('html', '</ul>');
         foreach($tabs as $index => $tab)
         {
-        	$this->addElement('html', '<div class="tab" id="tabs-'.$index.'">');
+        	$this->addElement('html', '<div class="form_tab" id="form_tabs-'.$index.'">');
         	call_user_func(Array($this, $tab->get_method()));
         	$this->addElement('html','<div class="clear"></div>');
         	$this->addElement('html', '</div>');
@@ -232,7 +232,7 @@ EOT;
         $this->addElement('html', '  var tabnumber = ' . $selected_tab . ';');
         $this->addElement('html', '</script>');
 
-        $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/tabs.js'));
+        $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/form_tabs.js'));
     }
 
     function create_html_editor($name, $label, $options = array(), $attributes = array())
