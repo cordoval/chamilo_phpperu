@@ -68,9 +68,13 @@ abstract class HtmlEditorProcessor
 
     function get_repository_document_display_matching_url()
     {
-        $matching_url = self :: get_repository_document_display_url(array('object' => ''));
+        $matching_url = self :: get_repository_document_display_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => ''));
         $matching_url = preg_quote($matching_url);
-        $matching_url = str_replace('&object\=', '&object\=[0-9]+', $matching_url);
+
+        $original_object_string = '&'. RepositoryManager :: PARAM_CONTENT_OBJECT_ID .'\=';
+        $replace_object_string = '&'. RepositoryManager :: PARAM_CONTENT_OBJECT_ID .'\=[0-9]+';
+
+        $matching_url = str_replace($original_object_string, $replace_object_string, $matching_url);
 
         return '/' . $matching_url . '/';
     }
