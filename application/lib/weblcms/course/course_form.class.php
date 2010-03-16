@@ -103,15 +103,9 @@ class CourseForm extends FormValidator
             }
         }
         
-        $course_type_objects = $wdm->retrieve_course_types();
-        $course_types = array();
-        while($course_type = $course_type_objects->next_result())
-        {
-        	$course_types[$course_type->get_id()] = $course_type->get_name();
-        }
+        $this->addElement('category', Translation :: get('CourseSettings'));
         
-       	$this->addElement('select', 'CourseType', Translation :: get('CourseType'), $course_types);
-        $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
+       	$this->addElement('static', 'course_type', Translation :: get('CourseType'), $this->course->get_course_type()->get_name());
         
         $this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
         $this->addRule(Course :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -121,101 +115,16 @@ class CourseForm extends FormValidator
         
         $this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'), array("size" => "50"));
         $this->addRule(Course :: PROPERTY_VISUAL, Translation :: get('ThisFieldIsRequired'), 'required');
-
-        /*$this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('Optional') . '</span>');
-        
-        $cat_options = array();
-        $parent = $this->parent;
-        
-        $this->get_categories(0);
-        
-        $this->addElement('select', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
-        
-        if (PlatformSetting :: get('allow_course_language_selection', WeblcmsManager :: APPLICATION_NAME))
-        {
-            $adm = AdminDataManager :: get_instance();
-            $lang_options = $adm->get_languages();
-            $this->addElement('select', Course :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
-        }
-        
-        if (PlatformSetting :: get('allow_course_access_selection', WeblcmsManager :: APPLICATION_NAME))
-        {
-            $course_access = array();
-            $course_access[] = & $this->createElement('radio', null, null, Translation :: get('CourseAccessOpenWorld'), self :: COURSE_VISIBILITY_OPEN_WORLD);
-            $course_access[] = & $this->createElement('radio', null, null, Translation :: get('CourseAccessOpenRegistered'), self :: COURSE_VISIBILITY_OPEN_PLATFORM);
-            $course_access[] = & $this->createElement('radio', null, null, Translation :: get('CourseAccessPrivate'), self :: COURSE_VISIBILITY_REGISTERED);
-            $course_access[] = & $this->createElement('radio', null, null, Translation :: get('CourseAccessClosed'), self :: COURSE_VISIBILITY_CLOSED);
-            $course_access[] = & $this->createElement('radio', null, null, Translation :: get('CourseAccessModified'), self :: COURSE_VISIBILITY_MODIFIED);
-            $this->addGroup($course_access, Course :: PROPERTY_VISIBILITY, Translation :: get('CourseAccess'), '<br />');
-        }
-        
-        if (PlatformSetting :: get('allow_subscribe_selection', WeblcmsManager :: APPLICATION_NAME))
-        {
-            $subscribe_allowed = array();
-            $subscribe_allowed[] = & $this->createElement('radio', null, null, Translation :: get('SubscribeAllowed'), 1);
-            $subscribe_allowed[] = & $this->createElement('radio', null, null, Translation :: get('SubscribeNotAllowed'), 0);
-            $this->addGroup($subscribe_allowed, Course :: PROPERTY_SUBSCRIBE_ALLOWED, Translation :: get('Subscribe'), '<br />');
-        }
-        
-        if (PlatformSetting :: get('allow_unsubscribe_selection', WeblcmsManager :: APPLICATION_NAME))
-        {
-            $unsubscribe_allowed = array();
-            $unsubscribe_allowed[] = & $this->createElement('radio', null, null, Translation :: get('UnsubscribeAllowed'), 1);
-            $unsubscribe_allowed[] = & $this->createElement('radio', null, null, Translation :: get('UnsubscribeNotAllowed'), 0);
-            $this->addGroup($unsubscribe_allowed, Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, Translation :: get('Unsubscribe'), '<br />');
-        }
-        
-        if (PlatformSetting :: get('allow_feedback_selection', WeblcmsManager :: APPLICATION_NAME))
-        {
-            $feedback_allowed = array();
-            $feedback_allowed[] = & $this->createElement('radio', null, null, Translation :: get('Yes'), 1);
-            $feedback_allowed[] = & $this->createElement('radio', null, null, Translation :: get('No'), 0);
-            $this->addGroup($feedback_allowed, Course :: PROPERTY_ALLOW_FEEDBACK, Translation :: get('AllowFeedback'), '<br />');
-        
-        }
-        
-        $this->addElement('html', '<div style="clear: both;"></div>');
-        $this->addElement('html', '</div>');
-        
-        if ($this->course->is_layout_configurable())
-        {
-            $this->addElement('html', '<div class="configuration_form">');
-            $this->addElement('html', '<span class="category">' . Translation :: get('Layout') . '</span>');
-            
-            $course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
-            
-            if ($course_can_have_theme)
-            {
-                $theme_options = array();
-                $theme_options[''] = '-- ' . Translation :: get('PlatformDefault') . ' --';
-                $theme_options = array_merge($theme_options, Theme :: get_themes());
-                $this->addElement('select', Course :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
-            }
-            
-            if (PlatformSetting :: get('allow_course_layout_selection', WeblcmsManager :: APPLICATION_NAME))
-            {
-                $this->addElement('select', Course :: PROPERTY_LAYOUT, Translation :: get('Layout'), Course :: get_layouts());
-            }
-            
-            if (PlatformSetting :: get('allow_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME))
-            {
-                $this->addElement('select', Course :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), Course :: get_tool_shortcut_options());
-            }
-            
-            if (PlatformSetting :: get('allow_course_menu_selection', WeblcmsManager :: APPLICATION_NAME))
-            {
-                $this->addElement('select', Course :: PROPERTY_MENU, Translation :: get('Menu'), Course :: get_menu_options());
-            }
-            
-            if (PlatformSetting :: get('allow_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME))
-            {
-                $this->addElement('select', Course :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), Course :: get_breadcrumb_options());
-            }
-            
-            $this->addElement('html', '<div style="clear: both;"></div>');
-            $this->addElement('html', '</div>');
-        }*/
+		
+		$adm = AdminDataManager :: get_instance();
+		$lang_options = $adm->get_languages();
+		$languages = $this->addElement('select', CourseTypeSettings :: PROPERTY_LANGUAGE, Translation :: get('CourseTypeLanguage'), $lang_options);
+		$visibility = $this->addElement('checkbox', CourseTypeSettings :: PROPERTY_VISIBILITY, Translation :: get('CourseTypeVisibility'));
+		$access= $this->addElement('checkbox', CourseTypeSettings :: PROPERTY_ACCESS, Translation :: get('CourseTypeAccess'));
+		$members = $this->createElement('text', CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS , Translation :: get('MaximumNumberOfMembers'), array('id' => 'max_number','size' => '4'));
+		$members_unlimited = $this->createElement('checkbox', 'unlimited' , Translation :: get('Unlimited'),'', array('id' => 'unlimited'));
+		//$this->add_row_elements_required(array($members, $members_unlimited));		
+		$this->addElement('category');
     }
 
     function build_editing_form()
