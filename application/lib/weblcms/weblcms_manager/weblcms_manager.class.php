@@ -105,7 +105,7 @@ class WeblcmsManager extends WebApplication
 	 * The course_type object of the course currently active in this application
 	 */
 	private $course_type;
-	
+
 	/**
 	 * The course_group object of the course_group currently active in this application
 	 */
@@ -284,7 +284,7 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->course_group;
 	}
-	
+
 	/**
 	 * Returns the course_group that is being used.
 	 * @return string The course_group.
@@ -293,25 +293,25 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->course_type;
 	}
-	
+
 	function get_course_type_deleting_url($course_type)
     {
         //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COURSE, self :: PARAM_COURSE => $course->get_id()));
         return null;
     }
-    
+
 	function get_course_type_editing_url($course_type)
     {
         //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'course_settings', 'previous' => 'admin'));
     	return null;
     }
-    
+
 	function get_course_type_maintenance_url($course)
     {
         //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'maintenance'));
     	return null;
     }
-    
+
 	function get_course_type_viewing_url($course_type)
     {
         //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
@@ -551,7 +551,7 @@ class WeblcmsManager extends WebApplication
 						{
 							$section = 'basic';
 						}
-						
+
 						if($section == 'basic')
 							$course_modules[] = $file;
 					}
@@ -609,7 +609,7 @@ class WeblcmsManager extends WebApplication
 			$this->course_group = $wdm->retrieve_course_group($this->get_parameter(self :: PARAM_COURSE_GROUP));
 		}
 	}
-	
+
 	/**
 	 * Loads the current course_type into the system.
 	 */
@@ -814,7 +814,7 @@ class WeblcmsManager extends WebApplication
     {
         return WeblcmsDataManager :: get_instance()->count_course_types($condition);
     }
-    
+
 	/**
 	 * Count the number of course categories
 	 * @param Condition $condition
@@ -894,7 +894,7 @@ class WeblcmsManager extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course($course_code);
 	}
-	
+
     function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null)
     {
     	return WeblcmsDataManager :: get_instance()->retrieve_course_types($condition, $offset, $count, $order_property);
@@ -1420,8 +1420,8 @@ class WeblcmsManager extends WebApplication
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get('Course_Type_list'), 'description' => Translation :: get('CourseTypeListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)));
-		$links[] = array('name' => Translation :: get('CreateType'), 'description' => Translation :: get('CreateTypeDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));		
+		$links[] = array('name' => Translation :: get('CourseTypeList'), 'description' => Translation :: get('CourseTypeListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)));
+		$links[] = array('name' => Translation :: get('CreateType'), 'description' => Translation :: get('CreateTypeDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));
 		$links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
 		$links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE)));
 		$links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
@@ -1483,7 +1483,7 @@ class WeblcmsManager extends WebApplication
 
 		$table->setHeaderContents(1, 0, Translation :: get('CourseCode'));
 		$table->setHeaderContents(1, 1, Translation :: get('CourseName'));
-		 
+
 		$courses = $this->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user->get_id(), CourseUserRelation :: get_table_name()));
 
 		if($courses->size() == 0)
@@ -1493,7 +1493,7 @@ class WeblcmsManager extends WebApplication
 		}
 
 		$i = 2;
-		 
+
 		while($course = $courses->next_result())
 		{
 			$url = '<a href="' . $this->get_course_viewing_link($course) . '">';
