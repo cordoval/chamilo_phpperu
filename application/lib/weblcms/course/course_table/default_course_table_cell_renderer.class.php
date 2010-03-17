@@ -38,20 +38,20 @@ class DefaultCourseTableCellRenderer implements ObjectTableCellRenderer
                 if ($titular)
                     return $titular->get_fullname();
                 return '';
-            case Course :: PROPERTY_LANGUAGE :
-                return $course->get_language();
-            case Course :: PROPERTY_SUBSCRIBE_ALLOWED :
-                $sub = $course->get_subscribe_allowed();
-                if ($sub)
-                    return Translation :: get('True');
-                else
-                    return Translation :: get('False');
-            case Course :: PROPERTY_UNSUBSCRIBE_ALLOWED :
-                $sub = $course->get_unsubscribe_allowed();
-                if ($sub)
-                    return Translation :: get('True');
-                else
-                    return Translation :: get('False');
+//            case Course :: PROPERTY_LANGUAGE :
+//                return $course->get_language();
+//            case Course :: PROPERTY_SUBSCRIBE_ALLOWED :
+//                $sub = $course->get_subscribe_allowed();
+//                if ($sub)
+//                    return Translation :: get('True');
+//                else
+//                    return Translation :: get('False');
+//            case Course :: PROPERTY_UNSUBSCRIBE_ALLOWED :
+//                $sub = $course->get_unsubscribe_allowed();
+//                if ($sub)
+//                    return Translation :: get('True');
+//                else
+//                    return Translation :: get('False');
             case Course :: PROPERTY_CATEGORY :
                 $cat_id = $course->get_category();
                 $cat = WeblcmsDataManager :: get_instance()->retrieve_course_category($cat_id);
