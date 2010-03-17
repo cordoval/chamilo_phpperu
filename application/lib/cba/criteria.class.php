@@ -97,6 +97,13 @@ class Criteria extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+	function move($new_parent_id)
+    {
+    	$this->set_parent_id($new_parent_id);
+    	$cdm = CbaDataManager :: get_instance();
+        return $cdm->update_criteria($this);
+    }
 }
 
 ?>

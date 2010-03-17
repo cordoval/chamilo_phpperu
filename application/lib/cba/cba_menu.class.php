@@ -252,7 +252,7 @@ class CbaMenu extends HTML_Menu
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category->get_id());
         	
             $condition = new AndCondition($conditions);
-            $count = $this->data_manager->count_criteria($condition);
+            $count = $this->data_manager->count_criterias($condition);
 
             $menu_item = array();
             $menu_item['title'] = $category->get_name() . ' (' . $count . ')';
@@ -305,13 +305,15 @@ class CbaMenu extends HTML_Menu
     
 	private function get_sub_category_indicator_url($category)
     {
-        $subUrlIndicator = '/chamilo/run.php?go=manage_categories_indicator&application=cba&category_action=browse_categories&category=%s';
+    	$subUrlIndicator = '/chamilo/run.php?application=cba&go=indicator&category=%s';
+        //$subUrlIndicator = '/chamilo/run.php?go=manage_categories_indicator&application=cba&category_action=browse_categories&category=%s';
         return htmlentities(sprintf($subUrlIndicator, $category));
     }
     
 	private function get_sub_category_criteria_url($category)
     {
-        $subUrlCriteria = '/chamilo/run.php?go=manage_categories_criteria&application=cba&category_action=browse_categories&category=%s';
+    	$subUrlCriteria = '/chamilo/run.php?application=cba&go=criteria&category=%s';
+        //$subUrlCriteria = '/chamilo/run.php?go=manage_categories_criteria&application=cba&category_action=browse_categories&category=%s';
         return htmlentities(sprintf($subUrlCriteria, $category));
     }
     

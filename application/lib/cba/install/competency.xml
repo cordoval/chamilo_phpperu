@@ -7,7 +7,6 @@
   		<property name="state" type="integer" length="1" unsigned="1" notnull="1" default="0" />
   		<property name="parent_id" type="integer" unsigned="1" notnull="1" default="0" />
   		<property name="owner_id" type="integer" unsigned="1" notnull="1" />
-  		<property name="category_id" type="integer" notnull="1" default="0" />
  	</properties>
 	<index name="owner_id">
 		<indexproperty name="owner_id" />
@@ -17,8 +16,5 @@
 	</index>
 	<index name="state">
 		<indexproperty name="state" />
-	</index>
-	<index name="category_id">
-		<indexproperty name="category_id" />
 	</index>
 </object>

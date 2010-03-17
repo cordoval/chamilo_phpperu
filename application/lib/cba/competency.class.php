@@ -30,12 +30,11 @@ class Competency extends DataClass
 	const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_STATE = 'state';
-    const PROPERTY_CATEGORY = 'category_id';
 
 
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_OWNER_ID, self :: PROPERTY_PARENT_ID, self :: PROPERTY_STATE, self :: PROPERTY_CATEGORY);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_OWNER_ID, self :: PROPERTY_PARENT_ID, self :: PROPERTY_STATE);
 	}
 
 	function get_data_manager()
@@ -92,16 +91,6 @@ class Competency extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_STATE, $state);
 	}
-
-    function get_category()
-    {
-        return $this->get_default_property(self :: PROPERTY_CATEGORY);
-    }
-
-    function set_category($category)
-    {
-        $this->set_default_property(self :: PROPERTY_CATEGORY, $category);
-    }
 	
 	static function get_table_name()
 	{
@@ -112,9 +101,8 @@ class Competency extends DataClass
 	function move($new_parent_id)
     {
     	$this->set_parent_id($new_parent_id);
-    	$this->set_category($new_parent_id);
-    	$dm = CbaDataManager :: get_instance();
-        return $dm->update_competency($this);
+    	$cdm = CbaDataManager :: get_instance();
+        return $cdm->update_competency($this);
     }
 }
 
