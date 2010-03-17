@@ -12,23 +12,22 @@ class CbaManagerCompetencyMoverComponent extends CbaManagerComponent
      */
     function run()
     {  	
-        $id = Request :: get('Repository');
-        $ids = $id;
-        
-        if (is_array($ids))
+        $ids = Request :: get(CbaManager :: PARAM_COMPETENCY);
+        if (! empty($ids))
         {
-            $id = $ids[0];
+	        if (!is_array($ids))
+	        {
+	        	$ids = array($ids);
+	        }
         }
         
-        $competency = $this->retrieve_competency($id);
-        
-        //$parent = $competency->get_category();
-        $parent = 0;
+        $competency = $this->retrieve_competency($ids[0]);
+        $parent = $competency->get_parent_id();
         
         $form = $this->build_move_form($parent, $ids);
         if ($form->validate())
         {
-            $new_category_id = $this->move_competencys_to_category($form, $ids);
+            $new_category_id = $this->move_competencys_to_category($form, $ids, $competency);
             $this->redirect(Translation :: get('CompetencysMoved'), false, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY, 'category' => $new_category_id));
         }
         else
@@ -50,7 +49,6 @@ class CbaManagerCompetencyMoverComponent extends CbaManagerComponent
         
         $this->categories = array();
         $this->categories[0] = Translation :: get('Root');
-        
         $this->retrieve_categories_recursive(0, $exclude_category);
         
         $form->addElement('select', Competency :: PROPERTY_CATEGORY, Translation :: get('SelectCategory'), $this->categories);
@@ -75,21 +73,16 @@ class CbaManagerCompetencyMoverComponent extends CbaManagerComponent
         }
     }
 
-    function move_competencys_to_category($form, $ids)
-    {
+    function move_competencys_to_category($form, $ids, $competency)
+    {    	
         $category = $form->exportValue(Competency :: PROPERTY_CATEGORY);
-        
         if (! is_array($ids))
-            $pids = array($ids);
+            $ids = array($ids);
         
         $condition = new InCondition(Competency :: PROPERTY_ID, $ids);
-        $cdm = CbaDataManager :: get_instance()->retrieve_competencys($condition);
-        while ($competency = $cdm->next_result())
-        {
-            $competency->set_category($category);
-            $competency->update();
-        }
-        
+        $cdm = CbaDataManager :: get_instance()->retrieve_competencys($condition);        
+        $competency->move($category);
+
         return $category;
     }
     
