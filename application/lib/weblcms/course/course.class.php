@@ -218,7 +218,7 @@ class Course extends DataClass
     
     function get_max_number_of_members()
     {
-        return $this->max_number_of_members();
+        return $this->settings->get_max_number_of_members();
     }
     
     function get_language_fixed()
@@ -395,52 +395,52 @@ class Course extends DataClass
      */
     function get_intro_text()
     {
-    	return $this->get_layout()->get_intro_text();
+    	return $this->get_layout_settings()->get_intro_text();
     }
     
     function get_student_view()
     {
-        return $this->get_layout()->get_student_view();
+        return $this->get_layout_settings()->get_student_view();
     }
     
     function get_layout()
     {
-        return $this->get_layout()->get_layout();
+        return $this->get_layout_settings()->get_layout();
     }
     
     function get_tool_shortcut()
     {
-        return $this->get_layout()->get_tool_shortcut();
+        return $this->get_layout_settings()->get_tool_shortcut();
     }
     
  	function get_menu()
     {
-        return $this->get_layout()->get_menu();
+        return $this->get_layout_settings()->get_menu();
     }
     
     function get_breadcrumb()
     {
-        return $this->get_layout()->get_breadcrumb();
+        return $this->get_layout_settings()->get_breadcrumb();
     }
     
     function get_feedback()
     {
-        return $this->get_layout()->get_feedback();
+        return $this->get_layout_settings()->get_feedback();
     }
     
     function get_course_code_visible()
     {
-        return $this->get_layout()->get_course_code_visible();
+        return $this->get_layout_settings()->get_course_code_visible();
     }
     
     function get_course_manager_name_visible()
     {
-    	return $this->get_layout()->get_course_manager_name_visible();
+    	return $this->get_layout_settings()->get_course_manager_name_visible();
     }
     
     function get_course_languages_visible()
 	{
-    	return $this->get_layout()->get_course_languages_visible();
+    	return $this->get_layout_settings()->get_course_languages_visible();
     }
     
     /**

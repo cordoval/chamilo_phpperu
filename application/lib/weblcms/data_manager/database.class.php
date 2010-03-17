@@ -690,6 +690,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition(Course :: PROPERTY_ID, $id);
         return $this->database->retrieve_object(Course :: get_table_name(), $condition);
     }
+
+    function retrieve_course_settings($id)
+    {
+        $condition = new EqualityCondition(CourseSettings :: PROPERTY_COURSE_ID, $id);
+        return $this->database->retrieve_object(CourseSettings :: get_table_name(), $condition);
+    }
     
     function retrieve_courses($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
@@ -987,6 +993,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         $condition = new EqualityCondition(Course :: PROPERTY_ID, $course->get_id());
         return $this->database->update($course, $condition);
+    }
+    
+    function update_course_settings($course_settings)
+    {
+        $condition = new EqualityCondition(Course :: PROPERTY_COURSE_ID, $course_settings->get_course_id());
+        return $this->database->update($course_settings, $condition);
     }
     
     function update_course_type($course_type)
