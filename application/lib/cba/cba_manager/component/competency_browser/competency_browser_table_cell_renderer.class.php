@@ -53,15 +53,11 @@ class CompetencyBrowserTableCellRenderer extends DefaultCompetencyTableCellRende
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
-		//if ($this->browser->count_competency_categories() > 0)
-        //{
-			$toolbar_data[] = array(
+		$toolbar_data[] = array(
 				'href' => $this->browser->get_competency_moving_url($competency),
 				'label' => Translation :: get('Move'),
 				'img' => Theme :: get_common_image_path().'action_move.png'
-			);
-        //}   		
-
+		);	
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_delete_competency_url($competency),
 			'label' => Translation :: get('Delete'),

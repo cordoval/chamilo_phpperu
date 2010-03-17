@@ -46,6 +46,13 @@ class IndicatorForm extends FormValidator
 		$this->add_html_editor(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
     	
+		$this->categories = array();
+        $this->categories[0] = Translation :: get('Root');
+        $this->retrieve_categories_recursive(0, 0);
+		
+    	$this->addElement('select', Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		
     	
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -66,7 +73,20 @@ class IndicatorForm extends FormValidator
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
-    
+     
+	function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
+    {
+        $conditions[] = new NotCondition(new EqualityCondition(IndicatorCategory :: PROPERTY_ID, $exclude_category));
+        $conditions[] = new EqualityCondition(IndicatorCategory :: PROPERTY_PARENT, $parent);
+        $condition = new AndCondition($conditions);
+        
+        $cdm = CbaDataManager :: get_instance()->retrieve_indicator_categories($condition);
+        while ($indicator = $cdm->next_result())
+        {
+            $this->categories[$indicator->get_id()] = str_repeat('--', $level) . ' ' . $indicator->get_name();
+            $this->retrieve_categories_recursive($indicator->get_id(), $exclude_category, ($level + 1));
+        }
+    }
     
 	/**
      * Returns the ID of the owner of the CBA object being created or edited.
@@ -83,10 +103,13 @@ class IndicatorForm extends FormValidator
 	function create_indicator()
     {
     	$indicator = $this->indicator;
+    	$indicator->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
+    	$parent = $this->exportValue(Indicator :: PROPERTY_PARENT_ID);
     	
     	$indicator->set_title($values[Indicator :: PROPERTY_TITLE]);
     	$indicator->set_description($values[Indicator :: PROPERTY_DESCRIPTION]);
+    	$indicator->move($parent);
 
    		return $indicator->create();
     }

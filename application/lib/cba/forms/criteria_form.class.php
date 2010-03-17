@@ -47,6 +47,14 @@ class CriteriaForm extends FormValidator
 		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
     	
+		$this->categories = array();
+        $this->categories[0] = Translation :: get('Root');
+        $this->retrieve_categories_recursive(0, 0);
+		
+    	$this->addElement('select', Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
@@ -67,6 +75,20 @@ class CriteriaForm extends FormValidator
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
+	function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
+    {
+        $conditions[] = new NotCondition(new EqualityCondition(CriteriaCategory :: PROPERTY_ID, $exclude_category));
+        $conditions[] = new EqualityCondition(CriteriaCategory :: PROPERTY_PARENT, $parent);
+        $condition = new AndCondition($conditions);
+        
+        $cdm = CbaDataManager :: get_instance()->retrieve_criteria_categories($condition);
+        while ($criteria = $cdm->next_result())
+        {
+            $this->categories[$criteria->get_id()] = str_repeat('--', $level) . ' ' . $criteria->get_name();
+            $this->retrieve_categories_recursive($criteria->get_id(), $exclude_category, ($level + 1));
+        }
+    }
+    
     
 	/**
      * Returns the ID of the owner of the CBA object being created or edited.
@@ -85,9 +107,12 @@ class CriteriaForm extends FormValidator
     	$criteria = $this->criteria;
     	$criteria->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
+    	$parent = $this->exportValue(Criteria :: PROPERTY_PARENT_ID);
+    	
     	
     	$criteria->set_title($values[Criteria :: PROPERTY_TITLE]);
     	$criteria->set_description($values[Criteria :: PROPERTY_DESCRIPTION]);
+    	$criteria->move($parent);
 
    		return $criteria->create();
     }
@@ -95,7 +120,9 @@ class CriteriaForm extends FormValidator
 	function update_criteria()
     {
     	$criteria = $this->criteria;
+    	$criteria->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
+    	$parent = $this->exportValue(Criteria :: PROPERTY_PARENT_ID);
 
     	$criteria->set_title($values[Criteria :: PROPERTY_TITLE]);
     	$criteria->set_description($values[Criteria :: PROPERTY_DESCRIPTION]);
