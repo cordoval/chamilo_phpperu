@@ -192,6 +192,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('refresh'), Translation :: get('Refresh'), array('class' => 'normal refresh', 'id' => 'refreshBtn'));
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
 
         $table = new SimpleTable($this->get_data(), new DiagnoserCellRenderer(), null, 'diagnoser');
