@@ -430,6 +430,8 @@ abstract class WeblcmsDataManager
      * @return Course The course.
      */
     abstract function retrieve_course($course_code);
+    
+    abstract function retrieve_course_settings($course_code);
 
     /**
      * Retrieve a series of courses
@@ -460,6 +462,8 @@ abstract class WeblcmsDataManager
      * @return boolean True if the update succceeded, false otherwise.
      */
     abstract function update_course($course);
+    
+    abstract function update_course_settings($course_settings);
     
     /**
      * Updates the specified course_type in persistent storage,

@@ -218,7 +218,7 @@ class Course extends DataClass
 
     function get_max_number_of_members()
     {
-        return $this->max_number_of_members();
+        return $this->settings->get_max_number_of_members();
     }
 
     function get_language_fixed()

@@ -122,7 +122,7 @@ class WeblcmsInstaller extends Installer
     	
     	$course_type_settings = new CourseTypeSettings();
     	$course_type_settings->set_course_type_id(1);
-    	$course_type_settings->set_language('français');
+    	$course_type_settings->set_language('french');
     	$course_type_settings->set_language_fixed(1);
     	$course_type_settings->set_visibility(0);
     	$course_type_settings->set_visibility_fixed(1);
