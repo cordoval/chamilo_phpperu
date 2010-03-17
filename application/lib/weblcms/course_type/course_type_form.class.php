@@ -80,11 +80,26 @@ class CourseTypeForm extends FormValidator
 		$tools = $this->parent->get_all_non_admin_tools();
 		$data = array();
 
-		$count = 0;
+		//Tools defaults
+		$course_type_tools = $this->course_type->get_tools();
+			
 		foreach ($tools as $index => $tool)
 		{
 		    $tool_data = array();
-
+			
+		    $element_name_arr = array('class'=>'iphone '.$tool);
+			$element_default_arr = array('class'=>'viewablecheckbox', 'style'=>'width=80%');
+			
+			foreach($course_type_tools as $course_type_tool)
+			{
+			    if($tool ==  $course_type_tool->get_name())
+			    {
+			    	$element_name_arr['checked'] = "checked";
+					if($course_type_tool->get_visible_default())
+						$element_default_arr['checked'] = "checked";
+			    }
+			}
+			
 			$tool_image_src = Theme :: get_image_path() . 'tool_' . $tool . '.png';
 			$tool_image = $tool . "_image";
 			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
@@ -92,8 +107,8 @@ class CourseTypeForm extends FormValidator
 			$element_default = $tool . "elementdefault";
 
 			$tool_data[] = '<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div>';
-			$tool_data[] = $this->createElement('checkbox', $element_name, $title, '',array('class'=>'iphone '.$tool))->toHtml();
-			$tool_data[] = $this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', array('class'=>'viewablecheckbox', 'style'=>'width=80%'))->toHtml();
+			$tool_data[] = $this->createElement('checkbox', $element_name, $title, '', $element_name_arr)->toHtml();
+			$tool_data[] = '<div class="'.$element_default.'"/>'.$this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', $element_default_arr)->toHtml().'</div>';
 			$count ++;
 
 			$data[] = $tool_data;
@@ -172,8 +187,8 @@ class CourseTypeForm extends FormValidator
 
         // Number of members
         $choices = array();
-        $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Unlimited'), 0, array('onclick' => 'javascript:window_hide(\'' . self :: UNLIMITED_MEMBERS . '_window\')', 'id' => self :: UNLIMITED_MEMBERS));
-        $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Limited'), 1, array('onclick' => 'javascript:window_show(\'' . self :: UNLIMITED_MEMBERS . '_window\')'));
+        $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Unlimited'), 1, array('onclick' => 'javascript:window_hide(\'' . self :: UNLIMITED_MEMBERS . '_window\')', 'id' => self :: UNLIMITED_MEMBERS));
+        $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Limited'), 0, array('onclick' => 'javascript:window_show(\'' . self :: UNLIMITED_MEMBERS . '_window\')'));
         $this->addGroup($choices, null, Translation :: get('MaximumNumberOfMembers'), '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . self :: UNLIMITED_MEMBERS . '_window">');
         $this->add_textfield(CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS, null, false);
@@ -303,7 +318,8 @@ class CourseTypeForm extends FormValidator
 
 		foreach($selected_tools as $tool)
 		{
-			$tool->create();
+			if(!$tool->create())
+				$validation = false;
 		}
 
 
@@ -348,7 +364,7 @@ class CourseTypeForm extends FormValidator
 		$course_type_settings->set_visibility_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED]));
 		$course_type_settings->set_access($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
 		$course_type_settings->set_access_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS_FIXED]));
-		if(isset($values['unlimited']))
+		if($values[self::UNLIMITED_MEMBERS])
 			$members = 0;
 		else
 			$members = $values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS];
@@ -395,12 +411,12 @@ class CourseTypeForm extends FormValidator
 			$element_name = $tool . "element";
 			$element_default = $tool . "elementdefault";
 
-			if($this->parse_checkbox_value($this->parse_checkbox_value($this->getElementValue($element_name))))
+			if($this->parse_checkbox_value($this->getSubmitValue($element_name)))
 			{
 				$course_type_tool = new CourseTypeTool();
 				$course_type_tool->set_course_type_id($this->course_type->get_id());
 				$course_type_tool->set_name($tool);
-				$course_type_tool->set_visible_default($this->parse_checkbox_value($this->getElementValue($element_default)));
+				$course_type_tool->set_visible_default($this->parse_checkbox_value($this->getSubmitValue($element_default)));
 				$tools_array[] = $course_type_tool;
 			}
 		}
@@ -428,19 +444,8 @@ class CourseTypeForm extends FormValidator
 		$defaults[CourseTypeSettings :: PROPERTY_ACCESS] = $course_type_id?$course_type_settings->get_access():1;
 		$defaults[CourseTypeSettings :: PROPERTY_ACCESS_FIXED] = $course_type_settings->get_access_fixed();
 		$defaults[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $course_type_settings->get_max_number_of_members();
-		$defaults[self :: UNLIMITED_MEMBERS] = ($course_type_settings->get_max_number_of_members() == 0)? 0:1;
+		$defaults[self :: UNLIMITED_MEMBERS] = ($course_type_settings->get_max_number_of_members() == 0)? 1:0;
 		$defaults[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED] = $course_type_settings->get_max_number_of_members_fixed();
-
-		//Tools defaults
-		$tools = $course_type->get_tools();
-		foreach($tools as $tool)
-		{
-			$element_name = $tool->get_name() . "element";
-			$element_default = $tool->get_name() . "elementdefault";
-
-			$defaults[$element_name] = 1;
-			$defaults[$element_default] = $tool->get_visible_default();
-		}
 
 		//Layout defaults.
 		$course_type_id = $course_type->get_layout_settings()->get_course_type_id();

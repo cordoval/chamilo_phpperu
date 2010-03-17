@@ -492,7 +492,7 @@ EOT;
 
 	function parse_checkbox_value($value = null)
 	{
-		if(isset($checkbox) && $checkbox == 1)
+		if(isset($value) && $value == 1)
 		{
 		    return 1;
 		}

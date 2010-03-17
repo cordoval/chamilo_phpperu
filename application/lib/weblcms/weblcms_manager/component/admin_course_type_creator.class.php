@@ -46,19 +46,9 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
         $id = $coursetype->get_id();
 
         if(empty($id))
-        {
-	       // $user_info = $this->get_user();
-
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_CREATE, $coursetype, $this->get_url(), $this);
-        }
         else
-        {
-	       // $user_info = $this->get_user();
-
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_EDIT, $coursetype, $this->get_url(), $this);
-        }
-
-		$data = $form->getSubmitValues();
 
         if ($form->validate())
         {

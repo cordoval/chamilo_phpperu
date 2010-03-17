@@ -60,9 +60,9 @@ class CourseForm extends FormValidator
 
     function build_basic_form()
     {
-    	$tabs = Array(new FormTab('build_general_settings_form','General'),
-		new FormTab('build_rights_form', 'Rights'),
-		new FormTab('build_layout_form', 'Layout'));
+    	$tabs = Array(new FormValidatorTab('build_general_settings_form','General'),
+		new FormValidatorTab('build_rights_form', 'Rights'),
+		new FormValidatorTab('build_layout_form', 'Layout'));
 		$selected_tab = 0;
 		$this->add_tabs($tabs, $selected_tab);
     }
