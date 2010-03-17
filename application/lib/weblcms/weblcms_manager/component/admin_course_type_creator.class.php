@@ -59,9 +59,6 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
         }
 
 		$data = $form->getSubmitValues();
-//		if(!$data['unlimited'])
-//			$form->addRule(CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS, Translation :: get('ThisFieldIsRequired'), 'required');
-
 
         if ($form->validate())
         {

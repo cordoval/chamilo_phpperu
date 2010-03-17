@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: admin_course_type_browser.class.php 218 2009-11-13 14:21:26Z Yannick & Tristan $
+ * $Id: admin_course_type_browser.class.php 218 2010-03-11 14:21:26Z Yannick & Tristan $
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
@@ -43,7 +43,7 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
         
         $this->action_bar = $this->get_action_bar();
         $menu = $this->get_menu_html();
-        $output = $this->get_course_html();
+        $output = $this->get_course_type_html();
         
         $this->display_header($trail, false, true);
         echo '<div class="clear"></div>';
@@ -63,7 +63,7 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
 		return $action_bar;
 	}
 
-    function get_course_html()
+    function get_course_type_html()
     {
         $table = new AdminCourseTypeBrowserTable($this, null, $this->get_condition());
         

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: admin_course_type_browser_table_data_provider.class.php 218 2009-11-13 14:21:26Z yannick $
+ * $Id: admin_course_type_browser_table_data_provider.class.php 218 2010-03-10 14:21:26Z yannick $
  * @package application.lib.weblcms.weblcms_manager.component.admin_course_type_browser
  */
 /**
@@ -27,7 +27,7 @@ class AdminCourseTypeBrowserTableDataProvider extends ObjectTableDataProvider
      * @param int $offset
      * @param int $count
      * @param string $order_property
-     * @return ResultSet A set of matching courses.
+     * @return ResultSet A set of matching coursetypes.
      */
     function get_objects($offset, $count, $order_property = null)
     {

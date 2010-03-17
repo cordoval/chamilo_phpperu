@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: admin_course_type_browser_table_cell_renderer.class.php 218 2009-11-13 14:21:26Z yannick $
+ * $Id: admin_course_type_browser_table_cell_renderer.class.php 218 2010-03-10 14:21:26Z yannick $
  * @package application.lib.weblcms.weblcms_manager.component.admin_course_type_browser
  */
 require_once dirname(__FILE__) . '/admin_course_type_browser_table_column_model.class.php';

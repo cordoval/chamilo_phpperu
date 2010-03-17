@@ -76,7 +76,6 @@ class WeblcmsManager extends WebApplication
 	const ACTION_ADMIN_COURSE_TYPE_BROWSER = 'admincoursetypebrowser';
 	const ACTION_SELECT_COURSE_TYPE = 'selectcoursetype';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
-	const ACTION_EDIT_COURSE_TYPE = 'coursetypeditor';
 	const ACTION_DELETE_COURSE_TYPE = 'coursetypedeleter';
 	const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
@@ -200,9 +199,6 @@ class WeblcmsManager extends WebApplication
 				break;
 			case self :: ACTION_DELETE_COURSE_TYPE :
 				$component = WeblcmsManagerComponent :: factory('CourseTypeDeleter', $this);
-				break;
-			case self :: ACTION_EDIT_COURSE_TYPE : 
-				$component = WeblcmsManagerComponent :: factory('CourseTypeEditor', $this);
 				break;
 			case self :: ACTION_PUBLISH_INTRODUCTION :
 				$component = WeblcmsManagerComponent :: factory('IntroductionPublisher', $this);
