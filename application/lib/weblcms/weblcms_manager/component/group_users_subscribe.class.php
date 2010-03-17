@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: group_subscribe.class.php 218 2009-11-13 14:21:26Z kariboe $
+ * $Id: group_users_subscribe.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
