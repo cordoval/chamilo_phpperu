@@ -34,7 +34,7 @@ class CourseTypeForm extends FormValidator
 			$this->build_creation_form();
 		}
 		$this->setDefaults();
-				$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
+		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
 	}
 
 	function build_editing_form()
@@ -62,10 +62,10 @@ class CourseTypeForm extends FormValidator
 	function build_basic_form()
 	{
 	    $tabs = array();
-	    $tabs[] = new FormTab('build_general_settings_form', 'General');
-	    $tabs[] = new FormTab('build_tools_form', 'Tools');
-	    $tabs[] = new FormTab('build_rights_form', 'RightsManagement');
-	    $tabs[] = new FormTab('build_layout_form', 'Layout');
+	    $tabs[] = new FormValidatorTab('build_general_settings_form', 'General');
+	    $tabs[] = new FormValidatorTab('build_tools_form', 'Tools');
+	    $tabs[] = new FormValidatorTab('build_rights_form', 'RightsManagement');
+	    $tabs[] = new FormValidatorTab('build_layout_form', 'Layout');
 
 		$this->add_tabs($tabs, 0);
 	}
