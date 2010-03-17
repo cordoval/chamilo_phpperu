@@ -11,7 +11,6 @@ require_once dirname(__FILE__) . '/admin_course_type_browser/admin_course_type_b
  */
 class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerComponent
 {
-    //private $category;
     private $action_bar;
 
     /**
@@ -20,8 +19,6 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
     function run()
     {
         Header :: set_section('admin');
-        
-        //$this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
         
         $trail = new BreadcrumbTrail();
         //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_APPLICATION => 'weblcms')), Translation :: get('MyCourseTypes')));
@@ -34,13 +31,7 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('CourseTypes')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseTypeList')));
         $trail->add_help('coursetype general');
-        /*
-        if ($this->category)
-        {
-            $category = WeblcmsDataManager :: get_instance()->retrieve_course_category($this->category);
-            $trail->add(new Breadcrumb($this->get_url(), $category->get_name()));
-        }
-        */
+       
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
@@ -77,7 +68,7 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
         $table = new AdminCourseTypeBrowserTable($this, null, $this->get_condition());
         
         $html = array();
-        $html[] = '<div style="float: right; width: 80%;">';
+        $html[] = '<div style="float: right; width: 100%;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
         
@@ -102,19 +93,11 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
             $search_url = null;
         }
         
-        //$temp_replacement = '__CATEGORY_ID__';
         $url_format = $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER, WeblcmsManager));
         $url_format = str_replace($temp_replacement, '%s', $url_format);
-        //$category_menu = new CourseCategoryMenu($this->category, $url_format, $extra_items);
-        
-        //if (isset($search_url))
-        //{
-        //    $category_menu->forceCurrentUrl($search_url, true);
-        //}
         
         $html = array();
         $html[] = '<div style="float: left; width: 20%;">';
-        //$html[] = $category_menu->render_as_tree();
         $html[] = '</div>';
         
         return implode($html, "\n");
@@ -131,28 +114,13 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
             $conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             
             $search_conditions = new OrCondition($conditions);
-        }
-        
+        }       
         $condition = null;
-        /*
-        if (isset($this->category))
-        {
-            $condition = new EqualityCondition(Course :: PROPERTY_CATEGORY, $this->category);
-            
-            if (count($search_conditions))
-            {
-                $condition = new AndCondition($condition, $search_conditions);
-            }
-        }
-        else
-        {
-        */
-            if (count($search_conditions))
-            {
-                $condition = $search_conditions;
-            }
-        //}
-        
+       
+        if (count($search_conditions))
+       	{
+           $condition = $search_conditions;
+      	}     
         return $condition;
     }
 }
