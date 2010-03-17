@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/course_browser/course_browser_table.class.php
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
+class WeblcmsManagerGroupUsersSubscribeComponent extends WeblcmsManagerComponent
 {
 
     /**
