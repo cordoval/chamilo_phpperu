@@ -50,6 +50,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_COURSE_USER = 'course';
 	const PARAM_DIRECTION = 'direction';
 	const PARAM_REMOVE_SELECTED = 'remove_selected';
+	const PARAM_REMOVE_SELECTED_COURSE_TYPES ='remove selected coursetypes';
 	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED_AS_STUDENT = 'subscribe_selected_as_student';
@@ -75,6 +76,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_ADMIN_COURSE_TYPE_BROWSER = 'admincoursetypebrowser';
 	const ACTION_SELECT_COURSE_TYPE = 'selectcoursetype';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
+	const ACTION_EDIT_COURSE_TYPE = 'coursetypeditor';
 	const ACTION_DELETE_COURSE_TYPE = 'coursetypedeleter';
 	const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
@@ -198,6 +200,9 @@ class WeblcmsManager extends WebApplication
 				break;
 			case self :: ACTION_DELETE_COURSE_TYPE :
 				$component = WeblcmsManagerComponent :: factory('CourseTypeDeleter', $this);
+				break;
+			case self :: ACTION_EDIT_COURSE_TYPE : 
+				$component = WeblcmsManagerComponent :: factory('CourseTypeEditor', $this);
 				break;
 			case self :: ACTION_PUBLISH_INTRODUCTION :
 				$component = WeblcmsManagerComponent :: factory('IntroductionPublisher', $this);
@@ -325,8 +330,8 @@ class WeblcmsManager extends WebApplication
     
 	function get_course_type_editing_url($course_type)
     {
-        //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'course_settings', 'previous' => 'admin'));
-    	return null;
+        //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE_TYPE => $course_type->get_id(), self :: PARAM_TOOL => 'course_type_settings', 'previous' => 'admin'));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_COURSE_TYPE_CREATOR, self :: PARAM_COURSE_TYPE => $course_type->get_id(), self :: PARAM_TOOL => 'course_type_settings', 'previous' => 'admin'));
     }
     
 	function get_course_type_maintenance_url($course_type)
@@ -1358,6 +1363,16 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_group_ids = array($selected_group_ids);
 			}
+			
+			$selected_course_type_ids = $_POST[AdminCourseTypeBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			if (empty($selected_course_type_ids))
+			{
+				$selected_course_type_ids = array();
+			}
+			elseif (! is_array($selected_course_type_ids))
+			{
+				$selected_course_type_ids = array($selected_course_type_ids);
+			}
 
 			switch ($_POST['action'])
 			{
@@ -1387,6 +1402,10 @@ class WeblcmsManager extends WebApplication
 					Request :: set_get('group_id', $selected_group_ids);
 					Request :: set_get(self :: PARAM_STATUS, 1);
 					break;
+				case self :: PARAM_REMOVE_SELECTED_COURSE_TYPES :
+					$this->set_action(self :: ACTION_DELETE_COURSE_TYPE);
+					Request :: set_get(self :: PARAM_COURSE_TYPE, $selected_course_type_ids);
+					break;					
 			}
 		}
 	}
