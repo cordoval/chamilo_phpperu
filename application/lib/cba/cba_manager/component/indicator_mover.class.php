@@ -27,8 +27,12 @@ class CbaManagerIndicatorMoverComponent extends CbaManagerComponent
         $form = $this->build_move_form($parent, $ids);
         if ($form->validate())
         {
-            $new_category_id = $this->move_indicators_to_category($form, $ids, $indicator);
-            $this->redirect(Translation :: get('IndicatorsMoved'), false, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_INDICATOR, 'category' => $new_category_id));
+            foreach ($ids as $id)
+            {
+            	$indicator = $this->retrieve_indicator($id);
+            	$new_category_id = $this->move_indicators_to_category($form, $ids, $indicator);	
+            }
+            $this->redirect(Translation :: get('IndicatorsMoved'), false, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_INDICATOR, 'category' => $new_category_id));      	
         }
         else
         {
@@ -61,8 +65,8 @@ class CbaManagerIndicatorMoverComponent extends CbaManagerComponent
 
     function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
     {
-        $conditions[] = new NotCondition(new EqualityCondition(IndicatorCategory :: PROPERTY_ID, $exclude_category));
-        $conditions[] = new EqualityCondition(IndicatorCategory :: PROPERTY_PARENT, $parent);
+        //$conditions[] = new NotCondition(new EqualityCondition(IndicatorCategory :: PROPERTY_ID, $exclude_category));
+    	$conditions[] = new EqualityCondition(IndicatorCategory :: PROPERTY_PARENT, $parent);
         $condition = new AndCondition($conditions);
         
         $cdm = CbaDataManager :: get_instance()->retrieve_indicator_categories($condition);

@@ -57,10 +57,14 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	const PARAM_MOVE_COMPETENCY_SELECTED = 'move_selected_competency';
 	const PARAM_MOVE_INDICATOR_SELECTED = 'move_selected_indicator';
 	const PARAM_MOVE_CRITERIA_SELECTED = 'move_selected_criteria';
+	
 	const ACTION_MOVE_COMPETENCY = 'move_competency';
 	const ACTION_MOVE_INDICATOR = 'move_indicator';
 	const ACTION_MOVE_CRITERIA = 'move_criteria';
 	
+	const PARAM_MOVE_SELECTED_COMPETENCYS = 'move_selected_competencys';
+	const PARAM_MOVE_SELECTED_INDICATORS = 'move_selected_indicators';
+	const PARAM_MOVE_SELECTED_CRITERIAS = 'move_selected_criterias';
 
 	private $category_menu;
 	
@@ -177,6 +181,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	{
 		if (isset ($_POST['action']))
 		{
+			
 			switch ($_POST['action'])
 			{
 				case self :: PARAM_DELETE_SELECTED_COMPETENCYS:
@@ -226,6 +231,48 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 					$this->set_action(self :: ACTION_DELETE_CRITERIAS);
 					$_GET[self :: PARAM_CRITERIA] = $selected_ids;
 					break;
+				case self :: PARAM_MOVE_SELECTED_COMPETENCYS :
+					$selected_ids = $_POST[CompetencyBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+
+					if (empty ($selected_ids))
+					{
+						$selected_ids = array ();
+					}
+					elseif (!is_array($selected_ids))
+					{
+						$selected_ids = array ($selected_ids);
+					}
+                    $this->set_action(self :: ACTION_MOVE_COMPETENCY);
+                	Request :: set_get(self :: PARAM_COMPETENCY, $selected_ids);
+                    break;
+                case self :: PARAM_MOVE_SELECTED_INDICATORS :
+					$selected_ids = $_POST[IndicatorBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+
+					if (empty ($selected_ids))
+					{
+						$selected_ids = array ();
+					}
+					elseif (!is_array($selected_ids))
+					{
+						$selected_ids = array ($selected_ids);
+					}
+                    $this->set_action(self :: ACTION_MOVE_INDICATOR);
+                	Request :: set_get(self :: PARAM_INDICATOR, $selected_ids);
+                    break;
+                case self :: PARAM_MOVE_SELECTED_CRITERIAS :
+					$selected_ids = $_POST[CriteriaBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+
+					if (empty ($selected_ids))
+					{
+						$selected_ids = array ();
+					}
+					elseif (!is_array($selected_ids))
+					{
+						$selected_ids = array ($selected_ids);
+					}
+                    $this->set_action(self :: ACTION_MOVE_CRITERIA);
+                	Request :: set_get(self :: PARAM_CRITERIA, $selected_ids);
+                    break;
 			}
 
 		}

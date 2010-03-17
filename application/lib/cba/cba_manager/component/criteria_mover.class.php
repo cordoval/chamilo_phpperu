@@ -27,8 +27,12 @@ class CbaManagerCriteriaMoverComponent extends CbaManagerComponent
         $form = $this->build_move_form($parent, $ids);
         if ($form->validate())
         {
-            $new_category_id = $this->move_criterias_to_category($form, $ids, $criteria);
-            $this->redirect(Translation :: get('CriteriasMoved'), false, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA, 'category' => $new_category_id));
+			foreach ($ids as $id)
+            {
+            	$criteria = $this->retrieve_criteria($id);
+            	$new_category_id = $this->move_criterias_to_category($form, $ids, $criteria);	
+            }
+            $this->redirect(Translation :: get('CriteriasMoved'), false, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA, 'category' => $new_category_id));      	
         }
         else
         {
@@ -61,7 +65,7 @@ class CbaManagerCriteriaMoverComponent extends CbaManagerComponent
 
     function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
     {
-        $conditions[] = new NotCondition(new EqualityCondition(CriteriaCategory :: PROPERTY_ID, $exclude_category));
+        //$conditions[] = new NotCondition(new EqualityCondition(CriteriaCategory :: PROPERTY_ID, $exclude_category));
         $conditions[] = new EqualityCondition(CriteriaCategory :: PROPERTY_PARENT, $parent);
         $condition = new AndCondition($conditions);
         

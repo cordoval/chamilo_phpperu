@@ -53,7 +53,7 @@ class CriteriaForm extends FormValidator
 		
     	$this->addElement('select', Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
         $this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-		
+		$this->extra_criteria_form();
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -143,5 +143,66 @@ class CriteriaForm extends FormValidator
 
 		parent :: setDefaults($defaults);
 	}
+	
+	
+	
+	// Extra
+	
+	/*private function extra_criteria_form()
+    {
+        
+        if (! $this->isSubmitted())
+        {
+            unset($_SESSION['mc_number_of_options']);
+            unset($_SESSION['mc_skip_options']);
+        }
+        
+        if (! isset($_SESSION['mc_number_of_options']))
+        {
+            $_SESSION['mc_number_of_options'] = 3;
+        }
+        
+        if (! isset($_SESSION['mc_skip_options']))
+        {
+            $_SESSION['mc_skip_options'] = array();
+        }
+        
+        if (isset($_POST['add']))
+        {
+            $_SESSION['mc_number_of_options'] = $_SESSION['mc_number_of_options'] + 1;
+        }
+        if (isset($_POST['remove']))
+        {
+            $indexes = array_keys($_POST['remove']);
+            $_SESSION['mc_skip_options'][] = $indexes[0];
+        }
+        
+        $number_of_options = intval($_SESSION['mc_number_of_options']);
+        
+        for($option_number = 0; $option_number < $number_of_options; $option_number ++)
+        {
+            if (! in_array($option_number, $_SESSION['mc_skip_options']))
+            {
+                $group = array();
+                $group[] = $this->add_name_field($option_number);
+                if ($number_of_options - count($_SESSION['mc_skip_options']) > 1)
+                {
+                    $group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png', array('style="border: 0px;"'));
+                }
+                $this->addGroup($group, PlatformCategory :: PROPERTY_NAME . $option_number, Translation :: get('CategoryName'), '', false);
+                $this->addRule(PlatformCategory :: PROPERTY_NAME . $option_number, Translation :: get('ThisFieldIsRequired'), 'required');
+            	
+            }
+        }
+        
+        $this->addElement('image', 'add[]', Theme :: get_common_image_path() . 'action_list_add.png', array('style="border: 0px;"'));
+        //$this->build_footer('Create');
+    }
+    
+	function add_name_field($number = null)
+    {
+        $element = $this->createElement('text', PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('Name'), array("size" => "50"));
+        return $element;
+    }*/
 }
 ?>

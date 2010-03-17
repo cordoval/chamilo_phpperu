@@ -35,5 +35,15 @@ class CriteriaCategoryManager extends CategoryManager
         $sort = CbaDataManager :: get_instance()->retrieve_max_sort_value(CriteriaCategory :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
         return $sort + 1;
     }
+    
+	function allowed_to_delete_category($category_id)
+    {
+        $conditions[] = new EqualityCondition(Criteria :: PROPERTY_PARENT_ID, $category_id);
+        $conditions[] = new EqualityCondition(Criteria :: PROPERTY_STATE, Criteria :: STATE_NORMAL);
+        $condition = new AndCondition($conditions);
+        $count = CbaDataManager :: get_instance()->count_criterias($condition);
+
+        return ($count == 0);
+    }
 }
 ?>
