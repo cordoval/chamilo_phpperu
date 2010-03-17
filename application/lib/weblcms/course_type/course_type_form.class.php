@@ -343,17 +343,17 @@ class CourseTypeForm extends FormValidator
 		$course_type_settings = $course_type->get_settings();
 		$course_type_settings->set_course_type_id($course_type->get_id());
 		$course_type_settings->set_language($values[CourseTypeSettings :: PROPERTY_LANGUAGE]);
-		$course_type_settings->set_language_fixed($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED]));
-		$course_type_settings->set_visibility($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY]));
-		$course_type_settings->set_visibility_fixed($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED]));
-		$course_type_settings->set_access($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
-		$course_type_settings->set_access_fixed($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS_FIXED]));
-		if($this->get_checkbox_value($values['unlimited']))
+		$course_type_settings->set_language_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED]));
+		$course_type_settings->set_visibility($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY]));
+		$course_type_settings->set_visibility_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED]));
+		$course_type_settings->set_access($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
+		$course_type_settings->set_access_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS_FIXED]));
+		if(isset($values['unlimited']))
 			$members = 0;
 		else
 			$members = $values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS];
 		$course_type_settings->set_max_number_of_members($members);
-		$course_type_settings->set_max_number_of_members_fixed($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED]));
+		$course_type_settings->set_max_number_of_members_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED]));
 		return $course_type_settings;
 	}
 
@@ -364,25 +364,25 @@ class CourseTypeForm extends FormValidator
 		$course_type_layout = $course_type->get_layout_settings();
 		$course_type_layout->set_course_type_id($this->course_type->get_id());
 		$course_type_layout->set_intro_text($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT]);
-		$course_type_layout->set_intro_text_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED]));
+		$course_type_layout->set_intro_text_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED]));
 		$course_type_layout->set_student_view($values[CourseTypeLayout :: PROPERTY_STUDENT_VIEW]);
-		$course_type_layout->set_student_view_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_STUDENT_VIEW_FIXED]));
+		$course_type_layout->set_student_view_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_STUDENT_VIEW_FIXED]));
 		$course_type_layout->set_layout($values[CourseTypeLayout :: PROPERTY_LAYOUT]);
-		$course_type_layout->set_layout_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_LAYOUT_FIXED]));
+		$course_type_layout->set_layout_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_LAYOUT_FIXED]));
 		$course_type_layout->set_tool_shortcut($values[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT]);
-		$course_type_layout->set_tool_shortcut_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT_FIXED]));
+		$course_type_layout->set_tool_shortcut_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT_FIXED]));
 		$course_type_layout->set_menu($values[CourseTypeLayout :: PROPERTY_MENU]);
-		$course_type_layout->set_menu_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_MENU_FIXED]));
+		$course_type_layout->set_menu_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_MENU_FIXED]));
 		$course_type_layout->set_breadcrumb($values[CourseTypeLayout :: PROPERTY_BREADCRUMB]);
-		$course_type_layout->set_breadcrumb_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED]));
+		$course_type_layout->set_breadcrumb_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED]));
 		$course_type_layout->set_feedback($values[CourseTypeLayout :: PROPERTY_FEEDBACK]);
-		$course_type_layout->set_feedback_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED]));
+		$course_type_layout->set_feedback_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED]));
 		$course_type_layout->set_course_code_visible($values[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE]);
-		$course_type_layout->set_course_code_visible_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE_FIXED]));
+		$course_type_layout->set_course_code_visible_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE_FIXED]));
 		$course_type_layout->set_course_manager_name_visible($values[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE]);
-		$course_type_layout->set_course_manager_name_visible_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE_FIXED]));
+		$course_type_layout->set_course_manager_name_visible_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE_FIXED]));
 		$course_type_layout->set_course_languages_visible($values[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]);
-		$course_type_layout->set_course_languages_visible_fixed($this->get_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED]));
+		$course_type_layout->set_course_languages_visible_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED]));
 
 		return $course_type_layout;
 	}
@@ -395,24 +395,16 @@ class CourseTypeForm extends FormValidator
 			$element_name = $tool . "element";
 			$element_default = $tool . "elementdefault";
 
-			if($this->get_checkbox_value($this->get_checkbox_value($this->getElementValue($element_name))))
+			if($this->parse_checkbox_value($this->parse_checkbox_value($this->getElementValue($element_name))))
 			{
 				$course_type_tool = new CourseTypeTool();
 				$course_type_tool->set_course_type_id($this->course_type->get_id());
 				$course_type_tool->set_name($tool);
-				$course_type_tool->set_visible_default($this->get_checkbox_value($this->getElementValue($element_default)));
+				$course_type_tool->set_visible_default($this->parse_checkbox_value($this->getElementValue($element_default)));
 				$tools_array[] = $course_type_tool;
 			}
 		}
 		return $tools_array;
-	}
-
-	function get_checkbox_value($checkbox)
-	{
-		if(isset($checkbox) && $checkbox == 1)
-		return 1;
-		else
-		return 0;
 	}
 
 	/**

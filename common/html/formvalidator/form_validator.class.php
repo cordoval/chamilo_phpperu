@@ -221,6 +221,7 @@ EOT;
         $this->addElement('html', '</ul>');
         foreach($tabs as $index => $tab)
         {
+//            $this->addElement('html', '<h2>' . $tab->get_title() . '</h2>');
         	$this->addElement('html', '<div class="form_tab" id="form_tabs-'.$index.'">');
         	call_user_func(array($this, $tab->get_method()));
         	$this->addElement('html','<div class="clear"></div>');
@@ -488,6 +489,18 @@ EOT;
         $html .= $message . '</div></div>';
         $this->addElement('html', $html);
     }
+
+	function parse_checkbox_value($value = null)
+	{
+		if(isset($checkbox) && $checkbox == 1)
+		{
+		    return 1;
+		}
+		else
+		{
+		    return 0;
+		}
+	}
 
     /**
      * Adds javascript code to hide a certain element.
