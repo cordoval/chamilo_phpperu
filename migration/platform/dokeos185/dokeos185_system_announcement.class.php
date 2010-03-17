@@ -212,26 +212,34 @@ class Dokeos185SystemAnnouncement extends Import
         $admin_id = $parameters['admin_id'];
         
         $new_mgdm = MigrationDataManager :: get_instance();
-        $lcms_repository_announcement = new Announcement();
-        $lcms_repository_announcement->set_owner_id($admin_id);
+        $lcms_system_announcement = new SystemAnnouncement();
+        $lcms_system_announcement->set_owner_id($admin_id);
+        $lcms_system_announcement->set_icon('6');
         
         if (! $this->get_title())
-            $lcms_repository_announcement->set_title(substr($this->get_content(), 0, 20));
+            $lcms_system_announcement->set_title(substr($this->get_content(), 0, 20));
         else
-            $lcms_repository_announcement->set_title($this->get_title());
+            $lcms_system_announcement->set_title($this->get_title());
         
         if (! $this->get_content())
-            $lcms_repository_announcement->set_description($this->get_title());
+            $lcms_system_announcement->set_description($this->get_title());
         else
-            $lcms_repository_announcement->set_description($this->get_content());
+            $lcms_system_announcement->set_description($this->get_content());
             
-        
+        //Create category in admin repository and create system announcement    
+            
         $lcms_category_id = $mgdm->get_repository_category_by_name($admin_id,Translation :: get('system_announcements')); 
-		$lcms_repository_announcement->set_parent_id($lcms_category_id);
-        //Create announcement in database
-        $lcms_repository_announcement->create();
+		$lcms_system_announcement->set_parent_id($lcms_category_id);
+        $lcms_system_announcement->create();
         
-        return $lcms_repository_announcement;
+        //Make System Announcement publication
+        $lcms_system_announcement_publication = new SystemAnnouncementPublication();
+        $lcms_system_announcement_publication->set_content_object_id($lcms_system_announcement->get_id());
+        $lcms_system_announcement_publication->set_publisher($admin_id);
+        $lcms_system_announcement_publication->set_published($mgdm->make_unix_time($this->get_date()));
+        $lcms_system_announcement_publication->create_all();
+        
+        return $lcms_system_announcement;
     }
 
     /**
