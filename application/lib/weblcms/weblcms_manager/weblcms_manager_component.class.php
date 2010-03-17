@@ -310,6 +310,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->retrieve_course_user_relation($course_code, $user_id);
     }
+    
+    function retrieve_course_type_user_relation($id, $user_id)
+    {
+    	return $this->get_parent()->retrieve_course_type_user_relation($id, $user_id);
+    }
 
     /**
      * @see WeblcmsManager :: retrieve_course_user_relation_at_sort()
