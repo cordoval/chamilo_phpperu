@@ -236,7 +236,7 @@ class Dokeos185SystemAnnouncement extends Import
         $lcms_system_announcement_publication = new SystemAnnouncementPublication();
         $lcms_system_announcement_publication->set_content_object_id($lcms_system_announcement->get_id());
         $lcms_system_announcement_publication->set_publisher($admin_id);
-        $lcms_system_announcement_publication->set_published($mgdm->make_unix_time($this->get_date()));
+        $lcms_system_announcement_publication->set_published($mgdm->make_unix_time($this->get_date_start()));
         $lcms_system_announcement_publication->create_all();
         
         return $lcms_system_announcement;
