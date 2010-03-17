@@ -276,18 +276,20 @@ class CbaMenu extends HTML_Menu
      */
     private function get_category_competency_url($category)
     {
-        return htmlentities(sprintf($this->urlFmt, $category));
+        //return htmlentities(sprintf($this->urlFmt, $category));
+        $urlIndicator = '/chamilo/run.php?application=cba&go=competency&category=%s';
+        return htmlentities(sprintf($urlIndicator, $category));
     }
     
 	private function get_category_indicator_url($category)
     {
-        $urlIndicator = '/chamilo/run.php?application=cba&go=indicator&indicator=%s';
+        $urlIndicator = '/chamilo/run.php?application=cba&go=indicator&category=%s';
         return htmlentities(sprintf($urlIndicator, $category));
     }
     
 	private function get_category_criteria_url($category)
     {
-        $urlCriteria = '/chamilo/run.php?application=cba&go=criteria&criteria=%s';
+        $urlCriteria = '/chamilo/run.php?application=cba&go=criteria&category=%s';
         return htmlentities(sprintf($urlCriteria, $category));
     }
     
@@ -296,19 +298,20 @@ class CbaMenu extends HTML_Menu
     
 	private function get_sub_category_competency_url($category)
     {
-        $subUrlCompetency = '/chamilo/run.php?go=manage_categories_competency&application=cba&category_action=browse_categories&category_id=%s';
+    	$subUrlCompetency = '/chamilo/run.php?application=cba&go=competency&category=%s';
+        //$subUrlCompetency = '/chamilo/run.php?go=manage_categories_competency&application=cba&category_action=browse_categories&category=%s';
         return htmlentities(sprintf($subUrlCompetency, $category));
     }
     
 	private function get_sub_category_indicator_url($category)
     {
-        $subUrlIndicator = '/chamilo/run.php?go=manage_categories_indicator&application=cba&category_action=browse_categories&category_id=%s';
+        $subUrlIndicator = '/chamilo/run.php?go=manage_categories_indicator&application=cba&category_action=browse_categories&category=%s';
         return htmlentities(sprintf($subUrlIndicator, $category));
     }
     
 	private function get_sub_category_criteria_url($category)
     {
-        $subUrlCriteria = '/chamilo/run.php?go=manage_categories_criteria&application=cba&category_action=browse_categories&category_id=%s';
+        $subUrlCriteria = '/chamilo/run.php?go=manage_categories_criteria&application=cba&category_action=browse_categories&category=%s';
         return htmlentities(sprintf($subUrlCriteria, $category));
     }
     

@@ -107,6 +107,8 @@ class InstallManager extends CoreApplication
         
         $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.iphone.checkboxes.js"></script>';
         $output[] = '<script type="text/javascript" src="../plugin/jquery/jquery.textarearesizer.js"></script>';
+        $output[] = '<script type="text/javascript" src="../common/javascript/install.js"></script>';
+        
         
         $output[] = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
         $output[] = '</head>';

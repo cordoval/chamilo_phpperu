@@ -26,6 +26,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
                 $ids = array($ids);
             }
             
+            
             $object = $this->retrieve_content_object($ids[0]);
             $parent = $object->get_parent_id();
             
@@ -95,7 +96,8 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
                 $parameters = array();
                 $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $object->get_parent_id();
-                $this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
+                echo $destination;
+                //$this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
             }
             else
             {
