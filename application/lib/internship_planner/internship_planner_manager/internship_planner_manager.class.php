@@ -5,9 +5,6 @@
 require_once dirname(__FILE__).'/internship_planner_manager_component.class.php';
 require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
 
-require_once Path :: get_application_path() . 'lib/internship_planner/location_manager/location_manager.class.php';
-require_once Path :: get_application_path() . 'lib/internship_planner/location_manager/location_manager_component.class.php';
-
 require_once Path :: get_application_path() . 'lib/internship_planner/organisation_manager/organisation_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/organisation_manager/organisation_manager_component.class.php';
 
@@ -144,9 +141,6 @@ require_once Path :: get_application_path() . 'lib/internship_planner/organisati
 		$component = null;
 		switch ($action)
 		{
-			case self :: ACTION_LOCATION :
-				$component = InternshipPlannerManagerComponent :: factory('Location', $this);
-				break;
 			case self :: ACTION_ORGANISATION :
 				$component = InternshipPlannerManagerComponent :: factory('Organisation', $this);
 				break;	

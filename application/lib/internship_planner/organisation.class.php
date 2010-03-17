@@ -1,13 +1,5 @@
 <?php 
-/**
- * internship_planner
- */
 
-/**
- * This class describes a Organisation data object
- * @author Sven Vanpoucke
- * @author Sven Vanhoecke
- */
 class InternshipOrganisation extends DataClass
 {
 	const CLASS_NAME = __CLASS__;

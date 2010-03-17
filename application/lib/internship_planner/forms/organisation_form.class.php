@@ -83,8 +83,8 @@ class InternshipOrganisationForm extends FormValidator
 
     	$organisation->set_name($values[InternshipOrganisation :: PROPERTY_NAME]);
     	$organisation->set_description($values[InternshipOrganisation :: PROPERTY_DESCRIPTION]);
-    	
-   		return $place->create();
+    	    	
+   		return $organisation->create();
     }
 
 	/**
@@ -96,7 +96,7 @@ class InternshipOrganisationForm extends FormValidator
     	$organisation = $this->organisation;
 		
     	$defaults[InternshipOrganisation :: PROPERTY_NAME] = $organisation->get_name();
-    	$defaults[InternshipOrganisation :: PROPERTY_DESCRIPTION] = $organisation->get_parent_id();
+    	$defaults[InternshipOrganisation :: PROPERTY_DESCRIPTION] = $organisation->get_description();
     
 		parent :: setDefaults($defaults);
 	}

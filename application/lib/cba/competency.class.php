@@ -107,6 +107,15 @@ class Competency extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+	
+	function move($new_parent_id)
+    {
+    	$this->set_parent_id($new_parent_id);
+    	$this->set_category($new_parent_id);
+    	$dm = CbaDataManager :: get_instance();
+        return $dm->update_competency($this);
+    }
 }
 
 ?>

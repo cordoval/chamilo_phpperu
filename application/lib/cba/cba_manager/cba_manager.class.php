@@ -52,6 +52,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	const ACTION_CREATE = 'create';
 	const ACTION_VIEW_SEARCH_COMPETENCY = 'search';
 	
+	const PARAM_MOVE_COMPETENCY_SELECTED = 'move_competency';
 	const ACTION_MOVE_COMPETENCY = 'move_competency';
 	const ACTION_MOVE_INDICATOR = 'move_indicator';
 	const ACTION_MOVE_CRITERIA = 'move_criteria';
@@ -140,6 +141,10 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 				break;
 			case self :: ACTION_MOVE_COMPETENCY :
                 $component = CBaManagerComponent :: factory('CompetencyMover', $this);
+            	break;
+            case self :: PARAM_MOVE_COMPETENCY_SELECTED :
+                $this->set_action(self :: ACTION_MOVE_COMPETENCY);
+                Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
                 break;
            	case self :: ACTION_MOVE_INDICATOR :
                 $component = CbaManagerComponent :: factory('IndicatorMover', $this);
@@ -430,7 +435,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
         
         if ($display_menu)
         {
-        	echo '<div id="repository_tree_container" style="float: left; width: 12%;">';
+        	echo '<div id="repository_tree_container" style="float: left; width: 13%;">';
             $this->display_content_object_categories();
             echo '</div>';
             echo '<div style="float: right; width: 85%;">';
