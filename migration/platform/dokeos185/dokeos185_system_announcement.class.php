@@ -211,7 +211,7 @@ class Dokeos185SystemAnnouncement extends Import
     {
         $admin_id = $parameters['admin_id'];
         
-        $new_mgdm = MigrationDataManager :: get_instance();
+        $mgdm = MigrationDataManager :: get_instance();
         $lcms_system_announcement = new SystemAnnouncement();
         $lcms_system_announcement->set_owner_id($admin_id);
         $lcms_system_announcement->set_icon('6');
