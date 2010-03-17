@@ -42,6 +42,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_COURSE_GROUP = 'course_group';
 	const PARAM_COURSE_TYPE = 'course_type';
 	const PARAM_USERS = 'users';
+	const PARAM_GROUP = 'group';
 	const PARAM_TOOL = 'tool';
 	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_CATEGORY = 'pcattree';
@@ -60,7 +61,8 @@ class WeblcmsManager extends WebApplication
 	const PARAM_STATUS = 'user_status';
 
 	const ACTION_SUBSCRIBE = 'subscribe';
-	const ACTION_SUBSCRIBE_GROUPS = 'subscribe_groups';
+	const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
+	const ACTION_SUBSCRIBE_GROUP_USERS = 'subscribe_group_users';
 	const ACTION_UNSUBSCRIBE = 'unsubscribe';
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
@@ -174,8 +176,11 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_MANAGER_UNSUBSCRIBE :
 				$component = WeblcmsManagerComponent :: factory('Unsubscribe', $this);
 				break;
-			case self :: ACTION_SUBSCRIBE_GROUPS :
+			case self :: ACTION_SUBSCRIBE_GROUP :
 				$component = WeblcmsManagerComponent :: factory('GroupSubscribe', $this);
+				break;
+			case self :: ACTION_SUBSCRIBE_GROUP_USERS :
+				$component = WeblcmsManagerComponent :: factory('GroupUsersSubscribe', $this);
 				break;
 			case self :: ACTION_MANAGER_SORT :
 				$component = WeblcmsManagerComponent :: factory('Sorter', $this);
@@ -201,7 +206,7 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_DELETE_COURSE_TYPE :
 				$component = WeblcmsManagerComponent :: factory('CourseTypeDeleter', $this);
 				break;
-			case self :: ACTION_EDIT_COURSE_TYPE : 
+			case self :: ACTION_EDIT_COURSE_TYPE :
 				$component = WeblcmsManagerComponent :: factory('CourseTypeEditor', $this);
 				break;
 			case self :: ACTION_PUBLISH_INTRODUCTION :
@@ -1366,7 +1371,7 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_group_ids = array($selected_group_ids);
 			}
-			
+
 			$selected_course_type_ids = $_POST[AdminCourseTypeBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty($selected_course_type_ids))
 			{
@@ -1401,14 +1406,14 @@ class WeblcmsManager extends WebApplication
 					Request :: set_get(self :: PARAM_STATUS, 1);
 					break;
 				case self :: PARAM_SUBSCRIBE_SELECTED_GROUP :
-					$this->set_action(self :: ACTION_SUBSCRIBE_GROUPS);
-					Request :: set_get('group_id', $selected_group_ids);
+					$this->set_action(self :: ACTION_SUBSCRIBE_GROUP_USERS);
+					Request :: set_get(WeblcmsManager :: PARAM_GROUP, $selected_group_ids);
 					Request :: set_get(self :: PARAM_STATUS, 1);
 					break;
 				case self :: PARAM_REMOVE_SELECTED_COURSE_TYPES :
 					$this->set_action(self :: ACTION_DELETE_COURSE_TYPE);
 					Request :: set_get(self :: PARAM_COURSE_TYPE, $selected_course_type_ids);
-					break;					
+					break;
 			}
 		}
 	}

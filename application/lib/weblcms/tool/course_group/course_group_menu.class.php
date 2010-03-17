@@ -22,13 +22,13 @@ class CourseGroupMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-    
+
     /**
      * The selected group
      * @var int
      */
     private $current_group;
-    
+
     /**
      * The current course
      * @var Course
@@ -54,10 +54,10 @@ class CourseGroupMenu extends HTML_Menu
         {
             $this->current_group = WeblcmsDataManager :: get_instance()->retrieve_course_group($current_group);
         }
-        
+
         $this->course = $course;
         $this->urlFmt = $url_format;
-        
+
         $menu = $this->get_menu();
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
@@ -67,9 +67,9 @@ class CourseGroupMenu extends HTML_Menu
     function get_menu()
     {
         $course_group = WeblcmsDataManager :: get_instance()->retrieve_course_group_root($this->course->get_id());
-        
+
         $menu = array();
-            
+
         $menu_item = array();
         $menu_item['title'] = $course_group->get_name();
         $menu_item['url'] = $this->get_home_url();
@@ -79,7 +79,7 @@ class CourseGroupMenu extends HTML_Menu
         {
             $menu_item['sub'] = $sub_menu_items;
         }
-         
+
         $menu_item['class'] = 'home';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = $course_group->get_id();
         $menu[$course_group->get_id()] = $menu_item;
@@ -98,9 +98,9 @@ class CourseGroupMenu extends HTML_Menu
     {
         $condition = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, $parent_id);
         $groups = WeblcmsDataManager :: get_instance()->retrieve_course_groups($condition);
-        
+
         $current_group = $this->current_group;
-        
+
         while ($group = $groups->next_result())
         {
             $menu_item = array();
@@ -111,12 +111,12 @@ class CourseGroupMenu extends HTML_Menu
             {
                 $menu_item['sub'] = $this->get_menu_items($group->get_id());
             }
-                
+
             $menu_item['class'] = 'category';
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
             $menu[$group->get_id()] = $menu_item;
         }
-        
+
         return $menu;
     }
 

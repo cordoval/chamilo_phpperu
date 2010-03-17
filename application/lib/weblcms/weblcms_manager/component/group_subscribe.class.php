@@ -18,8 +18,8 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
     function run()
     {
         $course_code = Request :: get(WeblcmsManager :: PARAM_COURSE);
-        $groups = Request :: get('group_id');
-        
+        $groups = Request :: get(WeblcmsManager :: PARAM_GROUP);
+
         if (! is_array($groups))
         {
             $groups = array($groups);
@@ -33,9 +33,9 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
                 {
                     $this->subscribe_group($group_id, $course);
                 }
-                
+
                 $success = true;
-                
+
                 if (count($groups) == 1)
                 {
                     $message = 'GroupsSubscribedToCourse';
@@ -44,18 +44,18 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
                 {
                     $message = 'GroupsSubscribedToCourse';
                 }
-                
+
                 $this->redirect(Translation :: get($message), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
             }
         }
-    
+
     }
 
     function subscribe_group($group_id, $course)
     {
         $gdm = GroupDataManager :: get_instance();
         $group_users = $gdm->retrieve_group_rel_users(new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group_id));
-        
+
         while ($user = $group_users->next_result())
         {
             $user_id = $user->get_user_id();
@@ -65,11 +65,14 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
                 $this->subscribe_user_to_course($course, $status, '0', $user_id);
             }
         }
-        
+
         $groups = $gdm->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, $group_id));
-        
+
         while ($group = $groups->next_result())
+        {
+            dump($group);
             $this->subscribe_group($group->get_id(), $course);
+        }
     }
 }
 ?>

@@ -14,7 +14,7 @@ class MenuToolListRenderer extends ToolListRenderer
      *
      */
     private $is_course_admin;
-    
+
     private $menu_properties;
 
     /**
@@ -53,11 +53,11 @@ class MenuToolListRenderer extends ToolListRenderer
     {
         $parent = $this->get_parent();
         $course = $parent->get_course();
-        
+
         $menu_style = $this->get_menu_style();
-        
+
         $html[] = '<div id="tool_bar" class="tool_bar tool_bar_' . ($this->display_menu_icons() && ! $this->display_menu_text() ? 'icon_' : '') . $menu_style . '">';
-        
+
         if ($this->get_menu_style() == 'right')
         {
             $html[] = '<div id="tool_bar_hide_container" class="hide">';
@@ -65,33 +65,33 @@ class MenuToolListRenderer extends ToolListRenderer
             $html[] = '<a id="tool_bar_show" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_' . $menu_style . '_show.png" /></a>';
             $html[] = '</div>';
         }
-        
+
         $html[] = '<div class="tool_menu">';
         $html[] = '<ul>';
-        
+
         foreach ($tools as $index => $tool)
         {
             $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $tool->section));
             $section = $sections->next_result();
-            
+
             //dump($tool->name);
             if (! PlatformSetting :: get($tool->name . '_active', 'weblcms') && $section->get_type() != CourseSection :: TYPE_ADMIN)
                 continue;
-            
+
             $section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $tool->section))->next_result();
-            
+
             if ($section->get_type() == CourseSection :: TYPE_ADMIN)
             {
                 $admin_tools[] = $tool;
                 continue;
             }
-            
+
             if ($tool->visible || $this->is_course_admin)
             {
                 $html[] = $this->display_tool($tool);
             }
         }
-        
+
         if (count($admin_tools) && $this->is_course_admin)
         {
             $html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
@@ -101,11 +101,11 @@ class MenuToolListRenderer extends ToolListRenderer
             }
         }
         $html[] = '</ul>';
-        
+
         if ($this->display_menu_text())
         {
             $html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px; text-align: center;"></div>';
-            
+
             $form = new FormValidator('search_simple', 'post', $parent->get_url(array('tool' => 'search')), '', array('style' => 'text-align: center;'), false);
             $renderer = clone $form->defaultRenderer();
             $renderer->setFormTemplate('<form {attributes}>{content}</form>');
@@ -115,10 +115,10 @@ class MenuToolListRenderer extends ToolListRenderer
             $form->accept($renderer);
             $html[] = $renderer->toHtml();
         }
-        
+
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
-        
+
         if ($this->get_menu_style() == 'left')
         {
             $html[] = '<div id="tool_bar_hide_container" class="hide">';
@@ -126,17 +126,17 @@ class MenuToolListRenderer extends ToolListRenderer
             $html[] = '<a id="tool_bar_show" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_' . $menu_style . '_show.png" /></a>';
             $html[] = '</div>';
         }
-        
+
         $html[] = '</div>';
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
-        
+
         if ($_SESSION['toolbar_state'] == 'hide')
             $html[] = '<script type="text/javascript">var hide = "true";</script>';
         else
             $html[] = '<script type="text/javascript">var hide = "false";</script>';
-        
+
         $html[] = '<div class="clear"></div>';
-        
+
         echo implode("\n", $html);
     }
 
@@ -144,7 +144,7 @@ class MenuToolListRenderer extends ToolListRenderer
     {
         $parent = $this->get_parent();
         $course = $parent->get_course();
-        
+
         $new = '';
         if ($parent->tool_has_new_publications($tool->name))
         {
@@ -154,70 +154,70 @@ class MenuToolListRenderer extends ToolListRenderer
         $title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name) . 'Title'));
         $html[] = '<li class="tool_list_menu" style="padding: 0px 0px 2px 0px;">';
         $html[] = '<a href="' . $parent->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_TOOL => $tool->name), array(), true) . '" title="' . $title . '">';
-        
+
         if ($this->display_menu_icons())
         {
             $html[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/> ';
         }
-        
+
         if ($this->display_menu_text())
         {
             $html[] = $title;
         }
-        
+
         $html[] = '</a>';
         $html[] = '</li>';
-        
+
         return implode("\n", $html);
     }
 
     function retrieve_menu_properties()
     {
         $menu_style = $this->get_parent()->get_course()->get_menu();
-        
+
         $properties = array();
-        
+
         switch ($menu_style)
         {
-            case Course :: MENU_LEFT_ICON :
+            case CourseLayout :: MENU_LEFT_ICON :
                 $properties['style'] = 'left';
                 $properties['icons'] = true;
                 $properties['text'] = false;
                 break;
-            case Course :: MENU_LEFT_ICON_TEXT :
+            case CourseLayout :: MENU_LEFT_ICON_TEXT :
                 $properties['style'] = 'left';
                 $properties['icons'] = true;
                 $properties['text'] = true;
                 break;
-            case Course :: MENU_LEFT_TEXT :
+            case CourseLayout :: MENU_LEFT_TEXT :
                 $properties['style'] = 'left';
                 $properties['icons'] = false;
                 $properties['text'] = true;
                 break;
-            
-            case Course :: MENU_RIGHT_ICON :
+
+            case CourseLayout :: MENU_RIGHT_ICON :
                 $properties['style'] = 'right';
                 $properties['icons'] = true;
                 $properties['text'] = false;
                 break;
-            case Course :: MENU_RIGHT_ICON_TEXT :
+            case CourseLayout :: MENU_RIGHT_ICON_TEXT :
                 $properties['style'] = 'right';
                 $properties['icons'] = true;
                 $properties['text'] = true;
                 break;
-            case Course :: MENU_RIGHT_TEXT :
+            case CourseLayout :: MENU_RIGHT_TEXT :
                 $properties['style'] = 'right';
                 $properties['icons'] = false;
                 $properties['text'] = true;
                 break;
-            
+
             default :
                 $properties['style'] = 'left';
                 $properties['icons'] = true;
                 $properties['text'] = true;
                 break;
         }
-        
+
         return $properties;
     }
 
