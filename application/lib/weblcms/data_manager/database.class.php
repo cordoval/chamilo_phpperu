@@ -14,6 +14,7 @@ require_once dirname(__FILE__) . '/../course/course.class.php';
 require_once dirname(__FILE__) . '/../course/course_section.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_category.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
+require_once dirname(__FILE__) . '/../course/course_group_relation.class.php';
 require_once dirname(__FILE__) . '/../course/course_module.class.php';
 require_once dirname(__FILE__) . '/../course/course_module_last_access.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
@@ -892,6 +893,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         }
     }
 
+    function subscribe_group_to_course(Course $course, $group_id)
+    {
+        $this->database->get_connection()->loadModule('Extended');
+
+        $course_group_relation = new CourseGroupRelation();
+        $course_group_relation->set_course_id($course->get_id());
+        $course_group_relation->set_group_id($group_id);
+
+        if ($course_group_relation->create())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     function create_course_user_relation($courseuserrelation)
     {
         $props = array();
@@ -938,6 +957,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new AndCondition($conditions);
 
         return $this->database->delete_objects(CourseUserRelation :: get_table_name(), $condition);
+    }
+
+    function unsubscribe_group_from_course(Course $course, $group_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $course->get_id());
+        $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $group_id);
+        $condition = new AndCondition($conditions);
+
+        return $this->database->delete_objects(CourseGroupRelation :: get_table_name(), $condition);
     }
 
     function create_course_category($course_category)

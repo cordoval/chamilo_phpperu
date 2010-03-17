@@ -23,7 +23,7 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->count_courses($conditions);
     }
-    
+
 	function count_course_types($conditions = null)
     {
         return $this->get_parent()->count_course_types($conditions);
@@ -100,7 +100,7 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->get_course_type();
     }
-    
+
     /**
      * @see WeblcmsManager :: get_categories()
      */
@@ -164,7 +164,7 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->load_tools();
     }
-	
+
     /**
      * @see WeblcmsManager :: get_all_tools()
      */
@@ -172,7 +172,7 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
     	return $this->get_parent()->get_all_non_admin_tools();
     }
-    
+
     /**
      * @see WeblcmsManager :: is_tool_name()
      */
@@ -284,7 +284,7 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->retrieve_course($course_code);
     }
-    
+
     function retrieve_course_type($course_type_id)
     {
         return $this->get_parent()->retrieve_course_type($course_type_id);
@@ -297,7 +297,7 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->retrieve_course_category($course_category);
     }
-    
+
 	function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return $this->get_parent()->retrieve_course_types($condition, $offset, $count, $order_property);
@@ -310,7 +310,7 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->retrieve_course_user_relation($course_code, $user_id);
     }
-    
+
     function retrieve_course_type_user_relation($id, $user_id)
     {
     	return $this->get_parent()->retrieve_course_type_user_relation($id, $user_id);
@@ -395,27 +395,27 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->get_course_subscription_url($course);
     }
-    
+
 	function get_course_type_deleting_url($course_type)
     {
     	return $this->get_parent()->get_course_type_deleting_url($course_type);
     }
-    
+
 	function get_course_type_editing_url($course_type)
     {
     	return $this->get_parent()->get_course_type_editing_url($course_type);
     }
-    
+
     function get_course_type_maintenance_url($course_type)
     {
     	return $this->get_parent()->get_course_type_maintenance_url($course_type);
     }
-    
+
     function get_course_type_subscription_url($course_type)
     {
     	return $this->get_parent()->get_course_type_subscription($course_type);
     }
-    
+
     function get_course_type_viewing_url($course_type)
     {
     	return $this->get_parent()->get_course_type_viewing_url($course_type);
@@ -526,6 +526,22 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     }
 
     /**
+     * @see WeblcmsManager :: subscribe_group_to_course()
+     */
+    function subscribe_group_to_course($course, $group_id)
+    {
+        return $this->get_parent()->subscribe_group_to_course($course, $group_id);
+    }
+
+    /**
+     * @see WeblcmsManager :: unsubscribe_user_from_course()
+     */
+    function unsubscribe_group_from_course($course, $group_id)
+    {
+        return $this->get_parent()->unsubscribe_group_from_course($course, $group_id);
+    }
+
+    /**
      * @see WeblcmsManager :: get_search_condition()
      */
     function get_search_condition()
@@ -568,7 +584,7 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->get_course_group();
     }
-    
+
     function get_course_deleting_url($course)
     {
     	return $this->get_parent()->get_course_deleting_url($course);

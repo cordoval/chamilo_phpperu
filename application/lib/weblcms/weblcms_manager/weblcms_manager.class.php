@@ -62,6 +62,7 @@ class WeblcmsManager extends WebApplication
 
 	const ACTION_SUBSCRIBE = 'subscribe';
 	const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
+	const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
 	const ACTION_SUBSCRIBE_GROUP_USERS = 'subscribe_group_users';
 	const ACTION_UNSUBSCRIBE = 'unsubscribe';
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
@@ -178,6 +179,9 @@ class WeblcmsManager extends WebApplication
 				break;
 			case self :: ACTION_SUBSCRIBE_GROUP :
 				$component = WeblcmsManagerComponent :: factory('GroupSubscribe', $this);
+				break;
+			case self :: ACTION_UNSUBSCRIBE_GROUP :
+				$component = WeblcmsManagerComponent :: factory('GroupUnsubscribe', $this);
 				break;
 			case self :: ACTION_SUBSCRIBE_GROUP_USERS :
 				$component = WeblcmsManagerComponent :: factory('GroupUsersSubscribe', $this);
@@ -1333,6 +1337,30 @@ class WeblcmsManager extends WebApplication
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->unsubscribe_user_from_course($course, $user_id);
+	}
+
+	/**
+	 * Subscribe a group to a course.
+	 * @param Course $course
+	 * @param int $group_id
+	 * @return boolean
+	 */
+	function subscribe_group_to_course($course, $group_id)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->subscribe_group_to_course($course, $group_id);
+	}
+
+	/**
+	 * Unsubscribe a group from a course.
+	 * @param Course $course
+	 * @param int $user_id
+	 * @return boolean
+	 */
+	function unsubscribe_group_from_course($course, $group_id)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->unsubscribe_group_from_course($course, $group_id);
 	}
 
 	/**
