@@ -5,7 +5,7 @@ require_once Path :: get_application_path().'lib/internship_planner/internship_p
 require_once Path :: get_application_path().'lib/internship_planner/forms/organisation_form.class.php';
 
 
-class InternshipOrganisationManagerUpdaterComponent extends InternshipOrganisationManagerManagerComponent
+class InternshipOrganisationManagerUpdaterComponent extends InternshipOrganisationManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -21,7 +21,7 @@ class InternshipOrganisationManagerUpdaterComponent extends InternshipOrganisati
 
 		if($form->validate())
 		{
-			$success = $form->update_location();
+			$success = $form->update_organisation();
 			$this->redirect($success ? Translation :: get('InternshipOrganisationUpdated') : Translation :: get('InternshipOrganisationNotUpdated'), !$success, array(InternshipOrganisationManager :: PARAM_ACTION => InternshipOrganisationManager :: ACTION_BROWSE_ORGANISATION));
 		}
 		else

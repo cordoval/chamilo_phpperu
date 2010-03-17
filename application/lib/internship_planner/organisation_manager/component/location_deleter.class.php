@@ -1,23 +1,16 @@
 <?php
-/**
- * @package application.internship_planner.internship_planner.component
- */
+
 require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager_component.class.php';
 
-/**
- * Component to delete locations objects
- * @author Sven Vanpoucke
- * @author Sven Vanhoecke
- */
-class InternshipLocationManagerDeleterComponent extends InternshipLocationManagerComponent
+class InternshipOrganisationManagerLocationDeleterComponent extends InternshipOrganisationManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[InternshipPlannerManager :: PARAM_LOCATION];
+		$ids = $_GET[InternshipOrganisationManager :: PARAM_LOCATION_ID];
 		$failures = 0;
 
 		if (!empty ($ids))
@@ -60,7 +53,7 @@ class InternshipLocationManagerDeleterComponent extends InternshipLocationManage
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipLocationManager :: PARAM_ACTION => InternshipLocationManager :: ACTION_BROWSE_LOCATIONS));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganisationManager :: PARAM_ACTION => InternshipOrganisationManager :: ACTION_VIEW_ORGANISATION));
 		}
 		else
 		{

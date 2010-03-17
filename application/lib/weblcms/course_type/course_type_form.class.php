@@ -34,6 +34,7 @@ class CourseTypeForm extends FormValidator
 			$this->build_creation_form();
 		}
 		$this->setDefaults();
+				$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
 	}
 
 	function build_editing_form()
@@ -110,7 +111,6 @@ class CourseTypeForm extends FormValidator
 					var common_image_path = '".Theme :: get_common_image_path()."';
 					/* ]]> */
 					</script>\n");
-		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
 	}
 
 	function build_layout_form()

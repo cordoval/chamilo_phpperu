@@ -1,15 +1,8 @@
 <?php
-/**
- * @package application.internship_planner.internship_planner.component
- */
+
 require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager_component.class.php';
 
-/**
- * Component to delete locations objects
- * @author Sven Vanpoucke
- * @author Sven Vanhoecke
- */
 class InternshipOrganisationManagerDeleterComponent extends InternshipOrganisationManagerComponent
 {
 	/**

@@ -27,13 +27,17 @@ class InternshipOrganisationManagerBrowserComponent extends InternshipOrganisati
 	}
 	
 	function get_table() {
-		$table = new InternshipOrganisationBrowserTable ( $this, array () , $this->get_condition () );
+		$parameters = $this->get_parameters();
+		$table = new InternshipOrganisationBrowserTable ( $this, $parameters , $this->get_condition () );
 		return $table->as_html ();
 	}
 
 	
 	function get_action_bar() {
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
+		
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddOrganisation'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_organisation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
 		
 		$action_bar->set_search_url ( $this->get_url () );
 				

@@ -21,6 +21,7 @@ class CourseForm extends FormValidator
     const COURSE_VISIBILITY_CLOSED = 3;
     const COURSE_VISIBILITY_MODIFIED = 4;
 
+    private $parent;
     private $course;
     private $user;
     private $form_type;
@@ -31,7 +32,6 @@ class CourseForm extends FormValidator
         
         $this->course = $course;
         $this->user = $user;
-        $this->parent = $parent;
         
         $this->form_type = $form_type;
         if ($this->form_type == self :: TYPE_EDIT)
@@ -44,6 +44,7 @@ class CourseForm extends FormValidator
         }
         
         $this->setDefaults();
+        $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_form.js'));
     }
     
     private $categories;
@@ -105,6 +106,8 @@ class CourseForm extends FormValidator
         
         $this->addElement('category', Translation :: get('CourseSettings'));
         
+        $adm = AdminDataManager :: get_instance();
+		$lang = $adm->get_languages();
        	$this->addElement('static', 'course_type', Translation :: get('CourseType'), $this->course->get_course_type()->get_name());
         
         $this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
@@ -116,17 +119,104 @@ class CourseForm extends FormValidator
         $this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'), array("size" => "50"));
         $this->addRule(Course :: PROPERTY_VISUAL, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$adm = AdminDataManager :: get_instance();
-		$lang_options = $adm->get_languages();
-		$languages = $this->addElement('select', CourseTypeSettings :: PROPERTY_LANGUAGE, Translation :: get('CourseTypeLanguage'), $lang_options);
-		$visibility = $this->addElement('checkbox', CourseTypeSettings :: PROPERTY_VISIBILITY, Translation :: get('CourseTypeVisibility'));
-		$access= $this->addElement('checkbox', CourseTypeSettings :: PROPERTY_ACCESS, Translation :: get('CourseTypeAccess'));
-		$members = $this->createElement('text', CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS , Translation :: get('MaximumNumberOfMembers'), array('id' => 'max_number','size' => '4'));
-		$members_unlimited = $this->createElement('checkbox', 'unlimited' , Translation :: get('Unlimited'),'', array('id' => 'unlimited'));
-		//$this->add_row_elements_required(array($members, $members_unlimited));		
+        $this->get_categories(0);
+        $this->addElement('select', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
+        
+        $this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Extlink_name'), array("size" => "50"));
+        $this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('Extlink_url'), array("size" => "50"));
+		
+        $adm = AdminDataManager :: get_instance();
+		$lang = $adm->retrieve_language_from_english_name($this->course->get_course_type()->get_settings()->get_language())->get_original_name();
+		
+		$language_disabled = $this->course->get_language_fixed();
+		if($language_disabled)
+		{
+			$this->addElement('static', 'static_language', Translation :: get('CourseTypeLanguage'), $lang);
+			$this->addElement('hidden', CourseSettings :: PROPERTY_LANGUAGE);
+		}
+		else
+			$this->addElement('select', CourseSettings :: PROPERTY_LANGUAGE, Translation :: get('CourseTypeLanguage'), $lang_options);
+		
+		$visibility_disabled = $this->course->get_visibility_fixed();
+		$attr_array = array();
+		if($visibility_disabled)
+			$attr_array = array('class' => 'disabled_checkbox');
+		$this->addElement('checkbox', CourseSettings :: PROPERTY_VISIBILITY, Translation :: get('CourseTypeVisibility'), '', $attr_array);
+		
+		$access_disabled = $this->course->get_access_fixed();
+		$attr_array = array();
+		if($access_disabled)
+			$attr_array = array('class' => 'disabled_checkbox');
+		$this->addElement('checkbox', CourseSettings :: PROPERTY_ACCESS, Translation :: get('CourseTypeAccess'), '', $attr_array);
+		
+		$members_disabled = $this->course->get_max_number_of_members_fixed();
+		$max = "Unlimited";
+		if($this->course->get_course_type()->get_settings()->get_max_number_of_members()>=0) $max = $this->course->get_course_type()->get_settings()->get_max_number_of_members();
+		if($members_disabled)
+		{
+			$this->addElement('static', 'static_member', Translation :: get('MaximumNumberOfMembers'), $max);
+			$this->addElement('hidden', CourseSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS );
+		}
+		else
+		{
+			$members = $this->createElement('text', CourseSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS , Translation :: get('MaximumNumberOfMembers'), array('id' => 'max_number','size' => '4'));
+			$members_unlimited = $this->createElement('checkbox', 'unlimited' , Translation :: get('Unlimited'),'', array('id' => 'unlimited'));
+			$this->add_row_elements_required(array($members, $members_unlimited));
+		}		
 		$this->addElement('category');
     }
 
+	function build_layout_form()
+	{
+		$feedback_disabled = $this->course->get_feedback_fixed();
+		$attr_array = array();
+		if($feedback_disabled)
+			$attr_array = array('class' => 'disabled_checkbox');
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), '', $attr_array);
+
+		$intro_tex_disabled = $this->course->get_intro_text_fixed();
+		$attr_array = array();
+		if($intro_tex_disabled)
+			$attr_array = array('class' => 'disabled_checkbox');
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_INTRO_TEXT, Translation :: get('IntroductionToolTitle'), '', $attr_array);
+
+		$student_view_disabled = $this->course->get_student_view_fixed();
+		$attr_array = array();
+		if($student_view_disabled)
+			$attr_array = array('class' => 'disabled_checkbox');
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_STUDENT_VIEW, Translation :: get('StudentView'), '', $attr_array);
+			
+		$course_code_visible_disabled = $this->course->get_course_code_visible_fixed();
+		$attr_array = array();
+		if($course_code_visible_disabled)
+			$attr_array = array('class' => 'disabled_checkbox');
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_COURSE_CODE_VISIBLE, Translation :: get('CourseCodeTitleVisible'), '', $attr_array);
+
+		$course_manager_name_visible_disabled = $this->course->get_course_manager_name_visible_fixed();
+		$attr_array = array();
+		if($course_manager_name_visible_disabled)
+			$attr_array = array('class' => 'disabled_checkbox');
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE, Translation :: get('CourseManagerNameTitleVisible'), '', $attr_array);
+
+		$course_languages_visible_disabled = $this->course->get_course_languages_visible_fixed();
+		$attr_array = array();
+		if($course_languages_visible_disabled)
+			$attr_array = array('class' => 'disabled_checkbox');
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE, Translation :: get('CourseLanguageVisible'), '', $attr_array);
+
+		//$this->addElement('html', '<div style="clear: both;"></div>');
+			
+		//$this->addElement('html', '</div>');
+			
+		$this->addElement('select', CourseTypeLayout :: PROPERTY_LAYOUT, Translation :: get('Layout'), CourseTypeLayout :: get_layouts());
+		$this->addElement('select', CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), CourseTypeLayout :: get_tool_shortcut_options());
+		$this->addElement('select', CourseTypeLayout :: PROPERTY_MENU, Translation :: get('Menu'), CourseTypeLayout :: get_menu_options());
+		$this->addElement('select', CourseTypeLayout :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), CourseTypeLayout :: get_breadcrumb_options());
+			
+		$this->addElement('html', '<div style="clear: both;"></div>');
+		$this->addElement('html', '</div>');
+	}
+    
     function build_editing_form()
     {
         $this->build_basic_form();
@@ -148,7 +238,18 @@ class CourseForm extends FormValidator
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
-
+    
+	function save_course_type()
+	{
+		switch($this->form_type)
+		{
+			case self::TYPE_CREATE: return $this->create_course_type();
+									break;
+			case self::TYPE_EDIT: return $this->update_course_type();
+								  break;
+		}
+	}
+	
     function update_course()
     {
         $course = $this->course;
@@ -205,8 +306,20 @@ class CourseForm extends FormValidator
         $course->set_titular($values[Course :: PROPERTY_TITULAR]);
         $course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
         $course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
+
+    	if(!$this->course->create())
+		{
+			return false;
+		}
+
+		$course_settings = $this->fill_course_type_settings();
+		
+		if (!$course_settings->create())
+		{
+			return false;
+		}
         
-        $course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
+   /*     $course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
         if ($course_can_have_theme)
         {
             $course->set_theme($values[Course :: PROPERTY_THEME]);
@@ -262,9 +375,26 @@ class CourseForm extends FormValidator
         else
         {
             return false;
-        }
+        }*/
     }
 
+	function fill_course_type_settings()
+	{
+		$course = $this->course;
+		$values = $this->exportValues();
+		$course_settings = $course->get_settings();
+		$course_settings->set_course_id($course->get_id());
+		$course_settings->set_language($values[CourseTypeSettings :: PROPERTY_LANGUAGE]);
+		$course_settings->set_visibility($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY]));
+		$course_settings->set_access($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
+		if($this->get_checkbox_value($values['unlimited']))
+			$members = 0;
+		else
+			$members = $values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS];
+		$course_settings->set_max_number_of_members($members);
+		return $course_settings;
+	}
+    
     /**
      * Sets default values. Traditionally, you will want to extend this method
      * so it sets default for your learning object type's additional
@@ -280,34 +410,79 @@ class CourseForm extends FormValidator
         $defaults[Course :: PROPERTY_CATEGORY] = $course->get_category();
         $defaults[Course :: PROPERTY_EXTLINK_NAME] = $course->get_extlink_name();
         $defaults[Course :: PROPERTY_EXTLINK_URL] = $course->get_extlink_url();
-        /*$defaults[Course :: PROPERTY_LANGUAGE] = $course->get_language();
-        $defaults[Course :: PROPERTY_VISIBILITY] = $course->get_visibility();
-        $defaults[Course :: PROPERTY_SUBSCRIBE_ALLOWED] = $course->get_subscribe_allowed();
-        $defaults[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED] = $course->get_unsubscribe_allowed();
         
-        $layout = $course->get_layout();
-        $defaults[Course :: PROPERTY_LAYOUT] = $layout ? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME);
+        $course_settings = $course;
+        if(is_null($course->get_id())) $course_settings = $course->get_course_type()->get_settings();
         
-        $tool_shortcut = $course->get_tool_shortcut();
-        $defaults[Course :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut ? $tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
-        
-        $menu = $course->get_menu();
-        $defaults[Course :: PROPERTY_MENU] = $menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
-        
-        $breadcrumb = $course->get_breadcrumb();
-        $defaults[Course :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
-        
-        $feedback = $course->get_allow_feedback();
-        $defaults[Course :: PROPERTY_ALLOW_FEEDBACK] = $feedback ? $feedback : PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME);
-        
-        $course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
-        
-        if ($course_can_have_theme)
-        {
-            $defaults[Course :: PROPERTY_THEME] = $course->get_theme();
-        }*/
+        $defaults[CourseSettings :: PROPERTY_LANGUAGE] = $course_settings->get_language();
+		$defaults[CourseSettings :: PROPERTY_VISIBILITY] = $course_settings->get_visibility();
+		$defaults[CourseSettings :: PROPERTY_ACCESS] = $course_settings->get_access();
+		$defaults[CourseSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $course_settings->get_max_number_of_members();
+		$defaults['unlimited'] = ($course_settings->get_max_number_of_members() == 0)? 1:0;
+		
+		$course_layout = $course;
+        if(is_null($course->get_id())) $course_layout = $course->get_course_type()->get_layout_settings();
+		$defaults[CourseTypeLayout :: PROPERTY_STUDENT_VIEW] = $course_layout->get_student_view();
+		$defaults[CourseTypeLayout :: PROPERTY_LAYOUT] = $course_layout->get_layout();
+		$defaults[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT] = $course_layout->get_tool_shortcut();
+		$defaults[CourseTypeLayout :: PROPERTY_MENU] = $course_layout->get_menu();
+		$defaults[CourseTypeLayout :: PROPERTY_BREADCRUMB] = $course_layout->get_breadcrumb();
+		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK] = $course_layout->get_feedback();
+		$defaults[CourseTypeLayout :: PROPERTY_INTRO_TEXT] = $course_layout->get_intro_text();
+		$defaults[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE] = $course_layout->get_course_code_visible();
+		$defaults[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE] = $course_layout->get_course_manager_name_visible();
+		$defaults[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = $course_layout->get_course_languages_visible();
         
         parent :: setDefaults($defaults);
     }
+    
+	function get_checkbox_value($checkbox)
+	{
+		if(isset($checkbox) && $checkbox == 1)
+		return 1;
+		else
+		return 0;
+	}
+    
+	/**
+	 * Function add_row_elements_required adds a row of small elements e.g. checkbox, text for a small number
+	 * @param array $arrayelements
+	 */
+
+	function add_row_elements_required($arrayelements)
+	{
+		$renderer = $this->defaultRenderer();
+
+		$element_template = array();
+		$element_template[] = '<div class="row">';
+		$element_template[] = '<div class="label" style="width: 64%;">';
+		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="' . Theme :: get_common_image_path() . 'action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
+		$element_template[] = '</div>';
+		$element_template[] = '<div class="formw" style="width: 30%;">';
+		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
+		$element_template[] = '<div class="form_feedback"></div></div>';
+		$element_template[] = '<div class="clear">&nbsp;</div>';
+		$element_template[] = '</div>';
+		$element_template = implode("\n", $element_template);
+
+		foreach($arrayelements as $value)
+		{
+			$renderer->setElementTemplate($element_template, $value->getName());
+		}
+
+		foreach($arrayelements as $index => $value)
+		{
+			if($index == 0)
+				$this->addElement('html', '<div class="row"><div style="width: 28.5%; float: left;">');
+			else
+				$this->addElement('html', '<div style="width: 20%; float: left;">');
+			$this->addElement($value);
+			if($value->getType() != 'checkbox' && $value->getName() != CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS)
+				$this->addRule($value->getName(), Translation :: get('ThisFieldIsRequired'), 'required');
+			$this->addElement('html', '</div>');
+				
+		}
+		$this->addElement('html', '<div class="clear">&nbsp;</div></div>');
+	}
 }
 ?>
