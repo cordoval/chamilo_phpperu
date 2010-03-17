@@ -177,7 +177,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
     function is_valid($parameters)
     {
         $mgdm = MigrationDataManager :: get_instance();
-        if (! $this->get_user() ||(! $this->get_title() && strip_tags($this->get_text()) == '') || (! $this->get_title() && ! $this->get_text()) || ! $this->get_date() || $mgdm->get_failed_element('dokeos_main.user', $this->get_user()) || ! $mgdm->get_id_reference($this->get_user(), 'user_user'))
+        if (! $this->get_user() ||(! $this->get_title() && trim(strip_tags($this->get_text())) == '') || (! $this->get_title() && ! $this->get_text()) || ! $this->get_date() || $mgdm->get_failed_element('dokeos_main.user', $this->get_user()) || ! $mgdm->get_id_reference($this->get_user(), 'user_user'))
         {
             $mgdm->add_failed_element($this->get_id(), 'dokeos_user.personal_agenda');
             return false;
