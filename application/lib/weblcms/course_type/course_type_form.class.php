@@ -483,7 +483,7 @@ class CourseTypeForm extends FormValidator
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = $course_type_id?$course_languages_visible:1;
 
 		$feedback_fixed = $course_type->get_layout_settings()->get_feedback_fixed();
-		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED] = $feedback;
+		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED] = $feedback_fixed;
 
 		$enable_introduction_text_fixed = $course_type->get_layout_settings()->get_intro_text_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED] = $enable_introduction_text_fixed;

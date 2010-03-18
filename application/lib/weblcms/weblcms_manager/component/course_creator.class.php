@@ -47,8 +47,8 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         $course_type_id = $course->get_course_type()->get_id();
         
         $user_info = $this->get_user();
-        $course->set_language(LocalSetting :: get('platform_language'));
-        $course->set_titular($user_info->get_id());
+        //$course->set_language(LocalSetting :: get('platform_language'));
+        //$course->set_titular($user_info->get_id());
         
         if(empty($course_type_id))
         	$this->simple_redirect(array('go' => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE));

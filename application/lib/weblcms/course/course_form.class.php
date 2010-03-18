@@ -101,9 +101,7 @@ class CourseForm extends FormValidator
         }
         
         $this->addElement('category', Translation :: get('CourseSettings'));
-        
-        $adm = AdminDataManager :: get_instance();
-		$lang = $adm->get_languages();
+
        	$this->addElement('static', 'course_type', Translation :: get('CourseType'), $this->course->get_course_type()->get_name());
         
         $this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
@@ -123,6 +121,9 @@ class CourseForm extends FormValidator
 		
         $adm = AdminDataManager :: get_instance();
 		$lang = $adm->retrieve_language_from_english_name($this->course->get_course_type()->get_settings()->get_language())->get_original_name();
+
+		$adm = AdminDataManager :: get_instance();
+		$lang_options = $adm->get_languages();
 		
 		$language_disabled = $this->course->get_language_fixed();
 		if($language_disabled)
@@ -187,12 +188,23 @@ class CourseForm extends FormValidator
 
 	function build_layout_form()
 	{
-		$feedback_disabled = $this->course->get_feedback_fixed();
-		$attr_array = array();
-		if($feedback_disabled)
-			$attr_array = array('class' => 'disabled_checkbox');
-		$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), '', $attr_array);
-
+		$this->addElement('category', Translation :: get('Layout'));
+		$this->addElement('select', CourseLayout :: PROPERTY_LAYOUT, Translation :: get('Layout'), CourseLayout :: get_layouts());
+		$this->addElement('select', CourseLayout :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), CourseLayout :: get_tool_shortcut_options());
+		$this->addElement('select', CourseLayout :: PROPERTY_MENU, Translation :: get('Menu'), CourseLayout :: get_menu_options());
+		$this->addElement('select', CourseLayout :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), CourseLayout :: get_breadcrumb_options());
+		$this->addElement('category');
+		
+		$this->addElement('category', Translation :: get('Functionality'));
+		if (PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME))
+		{
+			$feedback_disabled = $this->course->get_feedback_fixed();
+			$attr_array = array();
+			if($feedback_disabled)
+				$attr_array = array('class' => 'disabled_checkbox');
+			$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), '', $attr_array);
+		}
+		
 		$intro_tex_disabled = $this->course->get_intro_text_fixed();
 		$attr_array = array();
 		if($intro_tex_disabled)
@@ -222,18 +234,13 @@ class CourseForm extends FormValidator
 		if($course_languages_visible_disabled)
 			$attr_array = array('class' => 'disabled_checkbox');
 		$this->addElement('checkbox', CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE, Translation :: get('CourseLanguageVisible'), '', $attr_array);
-
+		$this->addElement('category');
 		//$this->addElement('html', '<div style="clear: both;"></div>');
 			
+		//$this->addElement('html', '</div>')
+			
+		//$this->addElement('html', '<div style="clear: both;"></div>');
 		//$this->addElement('html', '</div>');
-			
-		$this->addElement('select', CourseLayout :: PROPERTY_LAYOUT, Translation :: get('Layout'), CourseLayout :: get_layouts());
-		$this->addElement('select', CourseLayout :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), CourseLayout :: get_tool_shortcut_options());
-		$this->addElement('select', CourseLayout :: PROPERTY_MENU, Translation :: get('Menu'), CourseLayout :: get_menu_options());
-		$this->addElement('select', CourseLayout :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), CourseLayout :: get_breadcrumb_options());
-			
-		$this->addElement('html', '<div style="clear: both;"></div>');
-		$this->addElement('html', '</div>');
 	}
     
     function build_editing_form()
@@ -389,7 +396,6 @@ class CourseForm extends FormValidator
         
         $course_settings = $course;
         if(is_null($course->get_id())) $course_settings = $course->get_course_type()->get_settings();
-        
         $defaults[CourseSettings :: PROPERTY_LANGUAGE] = $course_settings->get_language();
 		$defaults[CourseSettings :: PROPERTY_VISIBILITY] = $course_settings->get_visibility();
 		$defaults[CourseSettings :: PROPERTY_ACCESS] = $course_settings->get_access();
