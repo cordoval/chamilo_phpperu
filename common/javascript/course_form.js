@@ -23,7 +23,6 @@ $(function ()
 	
 	$(document).ready(function ()
 	{
-		$('.disabled_checkbox').bind("click", function() { return false; });
 		$('#unlimited').live('click', change_max_number_enable);
 		change_max_number_enable();
 	});

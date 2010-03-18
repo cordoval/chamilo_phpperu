@@ -137,13 +137,13 @@ class CourseForm extends FormValidator
 		$visibility_disabled = $this->course->get_visibility_fixed();
 		$attr_array = array();
 		if($visibility_disabled)
-			$attr_array = array('class' => 'disabled_checkbox');
+			$attr_array = array('disabled' => 'disabled');
 		$this->addElement('checkbox', CourseSettings :: PROPERTY_VISIBILITY, Translation :: get('CourseTypeVisibility'), '', $attr_array);
 		
 		$access_disabled = $this->course->get_access_fixed();
 		$attr_array = array();
 		if($access_disabled)
-			$attr_array = array('class' => 'disabled_checkbox');
+			$attr_array = array('disabled' => 'disabled');
 		$this->addElement('checkbox', CourseSettings :: PROPERTY_ACCESS, Translation :: get('CourseTypeAccess'), '', $attr_array);
 		
 		$members_disabled = $this->course->get_max_number_of_members_fixed();
@@ -201,38 +201,38 @@ class CourseForm extends FormValidator
 			$feedback_disabled = $this->course->get_feedback_fixed();
 			$attr_array = array();
 			if($feedback_disabled)
-				$attr_array = array('class' => 'disabled_checkbox');
+				$attr_array = array('disabled' => 'disabled');
 			$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), '', $attr_array);
 		}
 		
 		$intro_tex_disabled = $this->course->get_intro_text_fixed();
 		$attr_array = array();
 		if($intro_tex_disabled)
-			$attr_array = array('class' => 'disabled_checkbox');
+			$attr_array = array('disabled' => 'disabled');
 		$this->addElement('checkbox', CourseLayout :: PROPERTY_INTRO_TEXT, Translation :: get('IntroductionToolTitle'), '', $attr_array);
 
 		$student_view_disabled = $this->course->get_student_view_fixed();
 		$attr_array = array();
 		if($student_view_disabled)
-			$attr_array = array('class' => 'disabled_checkbox');
+			$attr_array = array('disabled' => 'disabled');
 		$this->addElement('checkbox', CourseLayout :: PROPERTY_STUDENT_VIEW, Translation :: get('StudentView'), '', $attr_array);
 			
 		$course_code_visible_disabled = $this->course->get_course_code_visible_fixed();
 		$attr_array = array();
 		if($course_code_visible_disabled)
-			$attr_array = array('class' => 'disabled_checkbox');
+			$attr_array = array('disabled' => 'disabled');
 		$this->addElement('checkbox', CourseLayout :: PROPERTY_COURSE_CODE_VISIBLE, Translation :: get('CourseCodeTitleVisible'), '', $attr_array);
 
 		$course_manager_name_visible_disabled = $this->course->get_course_manager_name_visible_fixed();
 		$attr_array = array();
 		if($course_manager_name_visible_disabled)
-			$attr_array = array('class' => 'disabled_checkbox');
+			$attr_array = array('disabled' => 'disabled');
 		$this->addElement('checkbox', CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE, Translation :: get('CourseManagerNameTitleVisible'), '', $attr_array);
 
 		$course_languages_visible_disabled = $this->course->get_course_languages_visible_fixed();
 		$attr_array = array();
 		if($course_languages_visible_disabled)
-			$attr_array = array('class' => 'disabled_checkbox');
+			$attr_array = array('disabled' => 'disabled');
 		$this->addElement('checkbox', CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE, Translation :: get('CourseLanguageVisible'), '', $attr_array);
 		$this->addElement('category');
 		//$this->addElement('html', '<div style="clear: both;"></div>');
