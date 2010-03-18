@@ -45,6 +45,40 @@ $(function ()
 		})
 	}
 	
+	function immediateHideBlockScreen()
+	{
+		$("#tool_bar_hide_container").attr('class', 'show');
+		
+		switch(tool)
+		{
+			case 'tool_bar tool_bar_left':
+				$("div.tool_bar_left").css("left", "-" + originalWidth + "px");
+				$("#tool_browser_left").css("margin-left", "10px");
+				break;
+			case 'tool_bar tool_bar_icon_left':
+				$("div.tool_bar_icon_left").css("left", "-" + originalWidth + "px");
+				$("#tool_browser_icon_left").css("margin-left", "0px");
+				break;
+			case 'tool_bar tool_bar_right':
+				$("div.tool_bar_right").css("right", "-" + originalWidth + "px");
+				$("#tool_browser_right").css("margin-right", "0px");
+				break;
+			case 'tool_bar tool_bar_icon_right':
+				$("div.tool_bar_icon_right").css("right", "-" + originalWidth + "px");
+				$("#tool_browser_icon_right").css("margin-right", "0px");
+				break;
+		}
+		
+		toggleButtons();
+		
+		$.ajax({
+			type: "POST",
+			url: "./common/javascript/ajax/toolbar_memory.php",
+			data: { state: 'hide'},
+			async: false
+		})
+	}
+	
 	function showBlockScreen()
 	{
 		$("#tool_bar_hide_container").attr('class', 'hide');
@@ -112,7 +146,7 @@ $(function ()
 		{
 			if(hide == 'true')
 			{
-				hideBlockScreen();
+				immediateHideBlockScreen();
 			}
 		}
 	});

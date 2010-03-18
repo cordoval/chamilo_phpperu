@@ -1,19 +1,18 @@
 <?php
 /**
- * $Id: subscribe.class.php 218 2009-11-13 14:21:26Z kariboe $
+ * $Id: unsubscribe.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
-require_once dirname(__FILE__) . '/course_browser/course_browser_table.class.php';
+require_once dirname(__FILE__) . '/unsubscribe_browser/unsubscribe_browser_table.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
+class WeblcmsManagerGroupUnsubscribeComponent extends WeblcmsManagerComponent
 {
     private $category;
-    private $action_bar;
     private $breadcrumbs;
 
     /**
@@ -22,24 +21,22 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
     function run()
     {
         $this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
-        $course_id = Request :: get(WeblcmsManager :: PARAM_COURSE);
+        $course_code = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $group_ids = Request :: get(WeblcmsManager :: PARAM_GROUP);
-
-        if (isset($group_ids) && ! is_array($group_ids))
+        if (! is_array($group_ids))
         {
             $group_ids = array($group_ids);
         }
-
-        if (isset($course_id))
+        if (isset($course_code))
         {
-            $course = $this->retrieve_course($course_id);
-            if (isset($group_ids) && count($group_ids) > 0 && ($this->get_course()->is_course_admin($this->get_user()) || $this->get_user()->is_platform_admin()))
+            $course = $this->retrieve_course($course_code);
+            if (isset($group_ids) && $this->get_course()->is_course_admin($this->get_user()))
             {
                 $failures = 0;
 
                 foreach ($group_ids as $group_id)
                 {
-                    if (! $this->subscribe_group_to_course($course, $group_id))
+                    if (! $this->unsubscribe_group_from_course($course, $group_id))
                     {
                         $failures ++;
                     }
@@ -51,11 +48,11 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
 
                     if (count($group_ids) == 1)
                     {
-                        $message = 'GroupSubscribedToCourse';
+                        $message = 'GroupUnsubscribedFromCourse';
                     }
                     else
                     {
-                        $message = 'GroupsSubscribedToCourse';
+                        $message = 'GroupsUnsubscribedFromCourse';
                     }
                 }
                 elseif ($failures == count($group_ids))
@@ -64,20 +61,20 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
 
                     if (count($group_ids) == 1)
                     {
-                        $message = 'GroupNotSubscribedToCourse';
+                        $message = 'GroupNotUnsubscribedFromCourse';
                     }
                     else
                     {
-                        $message = 'GroupsNotSubscribedToCourse';
+                        $message = 'GroupsNotUnsubscribedFromCourse';
                     }
                 }
                 else
                 {
                     $success = false;
-                    $message = 'PartialGroupsNotSubscribedToCourse';
+                    $message = 'PartialGroupsNotUnsubscribedFromCourse';
                 }
 
-                $this->redirect(Translation :: get($message), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_id, WeblcmsManager :: PARAM_TOOL => 'user'));
+                $this->redirect(Translation :: get($message), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
             }
             else
             {
