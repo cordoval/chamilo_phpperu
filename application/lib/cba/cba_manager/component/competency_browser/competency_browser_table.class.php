@@ -26,8 +26,9 @@ class CompetencyBrowserTable extends ObjectTable
 		$actions = array();
         
         $actions[] = new ObjectTableFormAction(CbaManager :: PARAM_DELETE_SELECTED_COMPETENCYS, Translation :: get('RemoveSelected'));
-
-		$this->set_form_actions($actions);
+        $actions[] = new ObjectTableFormAction(CbaManager :: PARAM_MOVE_SELECTED_COMPETENCYS, Translation :: get('MoveSelected'), false);
+		
+        $this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
 }

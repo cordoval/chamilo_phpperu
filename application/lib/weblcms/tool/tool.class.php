@@ -259,13 +259,13 @@ abstract class Tool
         $trail->set_help_items($breadcrumbtrail->get_help_items());
         switch ($this->parent->get_course()->get_breadcrumb())
         {
-            case Course :: BREADCRUMB_TITLE :
+            case CourseLayout :: BREADCRUMB_TITLE :
                 $title = $this->parent->get_course()->get_name();
                 break;
-            case Course :: BREADCRUMB_CODE :
+            case CourseLayout :: BREADCRUMB_CODE :
                 $title = $this->parent->get_course()->get_visual();
                 break;
-            case Course :: BREADCRUMB_COURSE_HOME :
+            case CourseLayout :: BREADCRUMB_COURSE_HOME :
                 $title = Translation :: get('CourseHome');
                 break;
             default :
@@ -310,7 +310,7 @@ abstract class Tool
         //echo '<div class="clear"></div>';
         
 
-        if ($this->parent->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
+        if ($this->parent->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON)
         {
             $renderer = ToolListRenderer :: factory('Shortcut', $this->parent);
             echo '<div style="width: 100%; text-align: right;">';
@@ -330,7 +330,7 @@ abstract class Tool
         }
         
         $menu_style = $this->parent->get_course()->get_menu();
-        if ($menu_style != Course :: MENU_OFF)
+        if ($menu_style != CourseLayout :: MENU_OFF)
         {
             $renderer = ToolListRenderer :: factory('Menu', $this->parent);
             $renderer->display();
