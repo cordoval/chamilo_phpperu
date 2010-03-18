@@ -739,7 +739,7 @@ abstract class Installer
         $this->add_message(self :: TYPE_NORMAL, '');
         
         // VARIOUS #2: Reporting
-        $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Reporting') . '</span>');
+        /*$this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Reporting') . '</span>');
         if (! $this->register_reporting())
         {
             return $this->installation_failed(Translation :: get('ReportingFailed'));
@@ -748,7 +748,7 @@ abstract class Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ReportingAdded'));
         }
-        $this->add_message(self :: TYPE_NORMAL, '');
+        $this->add_message(self :: TYPE_NORMAL, '');*/
         
         // VARIOUS #3: Webservices
         $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Webservice') . '</span>');

@@ -6,9 +6,11 @@
  */
 
 
-class ReportingBlock extends DataClass
+//class ReportingBlock extends DataClass
+    
+abstract class ReportingBlock
 {
-    const CLASS_NAME = __CLASS__;
+	const CLASS_NAME = __CLASS__;
     
     const PROPERTY_NAME = 'name';
     const PROPERTY_APPLICATION = 'application';
@@ -21,6 +23,56 @@ class ReportingBlock extends DataClass
     
     private $data, $params;
 
+	function ReportingBlock(){}
+	
+	public abstract function count_data();
+	
+	/*private function retrieve_data()
+    {
+        //require_once($this->get_applicationUrl());
+        $base_path = (WebApplication :: is_application($this->get_application()) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+        
+        $file = $base_path . $this->get_application() . '/reporting/reporting_' . $this->get_application() . '.class.php';
+        require_once $file;
+        $this->data = call_user_func('Reporting' . $this->get_application() . '::' . $this->get_function(), $this->get_function_parameters());
+    }*/
+	
+	public abstract function retrieve_data();
+	
+    /*function get_data_manager()
+    {
+        return ReportingDataManager :: get_instance();
+    }*/
+	public abstract function get_data_manager();
+
+	public function display_footer()
+	{
+		$parameters = array();
+        $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS);
+        
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' . '"></script>';
+        return implode("\n", $html);
+	}
+	
+	public function display_header()
+	{
+		$html[] = '<br />' . $this->action_bar->as_html() . '<br />';
+        return implode("\n", $html);
+	}
+	
+	public function render_block()
+	{
+		$formatter = ReportingFormatter :: factory($this);
+		return $formatter->to_html();		
+	}
+	
+	public function to_html()
+	{
+		$output = $this->display_header() . $this->render_block() . display_footer();
+		return $output;		
+	}
+	
     /**
      * Get the default properties
      * @return array The property names.
@@ -31,60 +83,8 @@ class ReportingBlock extends DataClass
     }
 
     /**
-     * inherited
-     */
-    function get_data_manager()
-    {
-        return ReportingDataManager :: get_instance();
-    }
-
-    /**
-     * Retrieves the data for this block
-     */
-    private function retrieve_data()
-    {
-        //require_once($this->get_applicationUrl());
-        $base_path = (WebApplication :: is_application($this->get_application()) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
-        
-        $file = $base_path . $this->get_application() . '/reporting/reporting_' . $this->get_application() . '.class.php';
-        require_once $file;
-        $this->data = call_user_func('Reporting' . $this->get_application() . '::' . $this->get_function(), $this->get_function_parameters());
-    }
-
-    /**
      * Returns all available displaymodes
      */
-    //    public function get_displaymodes()
-    //    {
-    //        $data = $this->get_data();
-    //        $datadescription = $data[1];
-    //        $chartdata = $data[0];
-    //        $names = sizeof($chartdata);
-    //        $series = sizeof($datadescription["Values"]);
-    //
-    //        $modes = array();
-    //        $modes["Text"] = Translation :: get('Text');
-    //        $modes["Table"] = Translation :: get('Table');
-    //        if($series == 1)
-    //        {
-    //            $modes["Chart:Pie"] = Translation :: get('Pie');
-    //            if($names > 2)
-    //            {
-    //                $modes["Chart:Bar"] = Translation :: get('Bar');
-    //                $modes["Chart:Line"] = Translation :: get('Line');
-    //                $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
-    //            }
-    //        }else
-    //        {
-    //            $modes["Chart:Bar"] = Translation :: get('Bar');
-    //            $modes["Chart:Line"] = Translation :: get('Line');
-    //            $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
-    //        }
-    //
-    //        return $modes;
-    //    }
-    
-
     public function get_displaymodes()
     {
         $data = $this->get_data();
@@ -293,5 +293,6 @@ class ReportingBlock extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+ 
 }
 ?>

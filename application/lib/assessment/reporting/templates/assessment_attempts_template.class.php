@@ -45,18 +45,15 @@ class AssessmentAttemptsTemplate extends ReportingTemplate
      */
     function to_html()
     {
-        //template header
-        $html[] = $this->get_header();
-        //$html[] = '<div class="reporting_center">';
-        //show visible blocks
+        //$html[] = $this->get_header();
+        //$html[] = $this->get_content_object_data();
+        //$html[] = $this->get_visible_reporting_blocks();
+        //$html[] = $this->get_footer();
         
-
+        $html[] = $this->display_header();
         $html[] = $this->get_content_object_data();
-        
-        $html[] = $this->get_visible_reporting_blocks();
-        //$html[] = '</div>';
-        //template footer
-        $html[] = $this->get_footer();
+        $html[] = $this->render_blocks();
+        $html[] = $this->display_footer();
         
         return implode("\n", $html);
     }

@@ -6,19 +6,20 @@
  */
 class ReportingHtmlFormatter extends ReportingFormatter
 {
-    private $reporting_block;
-
+    function ReportingHtmlFormatter($block)
+    {
+        //$this->reporting_block = $reporting_block;
+        parent :: $block;
+    }
+    
     /**
      * @see Reporting Formatter -> to_html
      */
     public function to_html()
     {
-        return $this->reporting_block->get_data();
+        //return $this->reporting_block->get_data();
+        return $this->get_block()->retrieve_data();
     }
 
-    public function ReportingHtmlFormatter(& $reporting_block)
-    {
-        $this->reporting_block = $reporting_block;
-    }
-} //ReportingHtmlFormatter
+}
 ?>
