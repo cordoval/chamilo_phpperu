@@ -4,16 +4,16 @@
  */
 
 /**
- * This class describes a LocationRelType data object
+ * This class describes a InternshipLocationRelType data object
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class LocationRelType extends DataClass
+class InternshipLocationRelType extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
 	/**
-	 * LocationRelType properties
+	 * InternshipLocationRelType properties
 	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_LOCATION_ID = 'location_id';
@@ -34,7 +34,7 @@ class LocationRelType extends DataClass
 	}
 
 	/**
-	 * Returns the id of this LocationRelType.
+	 * Returns the id of this InternshipLocationRelType.
 	 * @return the id.
 	 */
 	function get_id()
@@ -43,7 +43,7 @@ class LocationRelType extends DataClass
 	}
 
 	/**
-	 * Sets the id of this LocationRelType.
+	 * Sets the id of this InternshipLocationRelType.
 	 * @param id
 	 */
 	function set_id($id)
@@ -52,7 +52,7 @@ class LocationRelType extends DataClass
 	}
 
 	/**
-	 * Returns the location_id of this LocationRelType.
+	 * Returns the location_id of this InternshipLocationRelType.
 	 * @return the location_id.
 	 */
 	function get_location_id()
@@ -61,7 +61,7 @@ class LocationRelType extends DataClass
 	}
 
 	/**
-	 * Sets the location_id of this LocationRelType.
+	 * Sets the location_id of this InternshipLocationRelType.
 	 * @param location_id
 	 */
 	function set_location_id($location_id)
@@ -70,7 +70,7 @@ class LocationRelType extends DataClass
 	}
 
 	/**
-	 * Returns the type_id of this LocationRelType.
+	 * Returns the type_id of this InternshipLocationRelType.
 	 * @return the type_id.
 	 */
 	function get_type_id()
@@ -79,7 +79,7 @@ class LocationRelType extends DataClass
 	}
 
 	/**
-	 * Sets the type_id of this LocationRelType.
+	 * Sets the type_id of this InternshipLocationRelType.
 	 * @param type_id
 	 */
 	function set_type_id($type_id)

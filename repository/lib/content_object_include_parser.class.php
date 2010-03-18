@@ -36,17 +36,17 @@ abstract class ContentObjectIncludeParser
 
     static function get_include_types()
     {
-        return array('image', 'flash', 'wiki');
+        return array('image', 'wiki', 'embed', 'youtube');
     }
 
     function parse_includes($form)
     {
         $content_object = $form->get_content_object();
-        
+
         if ($content_object->supports_includes())
         {
             $form_type = $form->get_form_type();
-            
+
             if ($form_type == ContentObjectForm :: TYPE_EDIT)
             {
                 /*
@@ -59,7 +59,7 @@ abstract class ContentObjectIncludeParser
                     $content_object->exclude_content_object($included_object->get_id());
                 }
             }
-            
+
             $include_types = self :: get_include_types();
             foreach ($include_types as $include_type)
             {

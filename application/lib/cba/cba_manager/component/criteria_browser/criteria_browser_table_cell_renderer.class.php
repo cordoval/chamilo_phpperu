@@ -53,7 +53,11 @@ class CriteriaBrowserTableCellRenderer extends DefaultCriteriaTableCellRenderer
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
-
+		$toolbar_data[] = array(
+				'href' => $this->browser->get_criteria_moving_url($criteria),
+				'label' => Translation :: get('Move'),
+				'img' => Theme :: get_common_image_path().'action_move.png'
+		);
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_delete_criteria_url($criteria),
 			'label' => Translation :: get('Delete'),

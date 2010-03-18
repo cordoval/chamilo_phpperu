@@ -26,9 +26,10 @@ class PclzipFilecompression extends Filecompression
         $dir = $this->create_temporary_directory();
         $pclzip = new PclZip($file);
         if ($pclzip->extract(PCLZIP_OPT_PATH, $dir) == 0)
-        {
+        { 
+        	dump($pclzip->errorInfo());
             return false;
-        }
+        } 
         Filesystem :: create_safe_names($dir);
         return $dir;
     }

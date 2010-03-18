@@ -284,6 +284,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->retrieve_course($course_code);
     }
+    
+    function retrieve_course_type($course_type_id)
+    {
+        return $this->get_parent()->retrieve_course_type($course_type_id);
+    }
 
     /**
      * @see WeblcmsManager :: retrieve_course_category()
@@ -304,6 +309,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     function retrieve_course_user_relation($course_code, $user_id)
     {
         return $this->get_parent()->retrieve_course_user_relation($course_code, $user_id);
+    }
+    
+    function retrieve_course_type_user_relation($id, $user_id)
+    {
+    	return $this->get_parent()->retrieve_course_type_user_relation($id, $user_id);
     }
 
     /**

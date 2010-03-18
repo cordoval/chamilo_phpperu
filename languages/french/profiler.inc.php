@@ -1,7 +1,7 @@
 <?php
-$lang['profiler']['ViewProfile'] = ' ';
-$lang['profiler']['MyProfiler'] = ' ';
-$lang['profiler']['PublishProfile'] = ' ';
-$lang['profiler']['EditProfilePublication'] = ' ';
-$lang['profiler']['CategoryNotUpdated'] = ' ';
+$lang['profiler']['ViewProfile'] = 'Voir le profil';
+$lang['profiler']['MyProfiler'] = 'Profileur';
+$lang['profiler']['PublishProfile'] = 'Publier';
+$lang['profiler']['EditProfilePublication'] = 'Éditer la publication du profil';
+$lang['profiler']['CategoryNotUpdated'] = 'Catégorie non mise à jour';
 ?>

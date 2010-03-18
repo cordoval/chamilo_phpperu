@@ -509,8 +509,18 @@ class ContentObject extends DataClass implements AccessibleContentObject
      */
     function include_content_object($id)
     {
-        $dm = RepositoryDataManager :: get_instance();
-        return $dm->include_content_object($this, $id);
+        $rdm = RepositoryDataManager :: get_instance();
+
+        $is_already_included = $rdm->is_content_object_already_included($this, $id);
+
+        if ($is_already_included)
+        {
+            return true;
+        }
+        else
+        {
+            return $rdm->include_content_object($this, $id);
+        }
     }
 
     /**
@@ -703,9 +713,9 @@ class ContentObject extends DataClass implements AccessibleContentObject
         $dm = RepositoryDataManager :: get_instance();
         $success = $dm->update_content_object($this);
         if (! $success)
-        { 
+        {
             return false;
-        } 
+        }
         $state = $this->get_state();
         if ($state == $this->oldState)
         {
@@ -719,16 +729,16 @@ class ContentObject extends DataClass implements AccessibleContentObject
 		 */
         return true;
     }
-    
+
     function recycle()
     {
     	$this->set_modification_date(time());
     	$this->set_state(self :: STATE_RECYCLED);
-    	
+
     	$dm = RepositoryDataManager :: get_instance();
         return $dm->update_content_object($this);
     }
-    
+
     function move($new_parent_id)
     {
     	$this->set_parent_id($new_parent_id);
@@ -799,7 +809,8 @@ class ContentObject extends DataClass implements AccessibleContentObject
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        if ($rdm->delete_content_object_publications($this) && $rdm->delete_content_object_attachments($this) && $rdm->delete_clois_for_content_object($this))
+        if ($rdm->delete_content_object_publications($this) && $rdm->delete_content_object_attachments($this) &&
+        	$rdm->delete_content_object_includes($this) && $rdm->delete_clois_for_content_object($this) && $rdm->delete_assisting_content_objects($this))
         {
             return true;
         }
@@ -931,7 +942,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
         return $this->get_type();
     }
 
-    function get_icon()
+    function get_icon_image()
     {
         $src = Theme :: get_common_image_path() . 'content_object/' . $this->get_icon_name() . '.png';
         return '<img src="' . $src . '" alt="' . $this->get_icon_name() . '" />';
@@ -975,6 +986,11 @@ class ContentObject extends DataClass implements AccessibleContentObject
     static function is_default_property_name($name)
     {
         return in_array($name, self :: get_default_property_names());
+    }
+
+	static function is_additional_property_name($name)
+    {
+        return in_array($name, self :: get_additional_property_names());
     }
 
     /**
@@ -1044,7 +1060,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
         {
         	return null;
         }
-        
+
     	$class = self :: type_to_class($type);
         require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
@@ -1086,9 +1102,9 @@ class ContentObject extends DataClass implements AccessibleContentObject
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
+
     /**
-     * 
+     *
      * @param integer $content_object_id
      * @return ContentObject An object inheriting from ContentObject
      */

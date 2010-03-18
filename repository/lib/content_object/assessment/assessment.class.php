@@ -13,6 +13,7 @@ class Assessment extends ContentObject
     
     const TYPE_EXERCISE = 1;
     const TYPE_ASSIGNMENT = 2;
+    const TYPE_SURVEY = 3;
     
     const PROPERTY_TIMES_TAKEN = 'times_taken';
     const PROPERTY_AVERAGE_SCORE = 'average_score';
@@ -119,8 +120,14 @@ class Assessment extends ContentObject
         $types = array();
         $types[self :: TYPE_EXERCISE] = Translation :: get('Exercise');
         $types[self :: TYPE_ASSIGNMENT] = Translation :: get('Assignment');
+        $types[self :: TYPE_SURVEY] = Translation :: get('Survey');
         asort($types);
         return $types;
+    }
+    
+	function is_versionable()
+    {
+        return false;
     }
 }
 ?>

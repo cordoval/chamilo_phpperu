@@ -16,7 +16,6 @@ class ReportingManagerViewComponent extends ReportingManagerComponent
     {
         //$template = $this->template = Request :: get('template');
         $template = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
-        
         $params = Reporting :: get_params($this);
         
         $reporting_template_registration = $this->retrieve_reporting_template_registration($template);

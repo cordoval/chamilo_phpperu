@@ -9,9 +9,8 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	
-	//config.removePlugins = 'flash';
 	config.extraPlugins = 'chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio';
-	config.removePlugins = 'elementspath,resize';
+	config.removePlugins = 'flash,elementspath,resize';
 	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio';
 	
 	config.toolbar_Full =
@@ -42,6 +41,11 @@ CKEDITOR.editorConfig = function( config )
 	config.toolbar_Basic =
 		[
 		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','Chamiloyoutube','Chamilovideo','Chamiloaudio','-','Templates']
+		];
+	
+	config.toolbar_BasicMarkup =
+		[
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule']
 		];
 	
 	config.toolbar_WikiPage =

@@ -750,8 +750,8 @@ class SortableTableFromArray extends SortableTable
      */
     function SortableTableFromArray($table_data, $default_column = 1, $default_items_per_page = 20, $tablename = 'tablename')
     {
-        parent :: SortableTable($tablename, null, null, $default_column, $default_items_per_page);
         $this->table_data = $table_data;
+        parent :: SortableTable($tablename, array($this, 'get_total_number_of_items'), array($this, 'get_table_data'), $default_column, $default_items_per_page);
     }
 
     /**

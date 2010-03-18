@@ -23,4 +23,8 @@ $lang['personal_messenger']['RecipientUnknown'] = 'Recipient unknown';
 $lang['personal_messenger']['PersonalMessagePublished'] = 'Personal message published';
 $lang['personal_messenger']['ShowAttachment'] = 'Show attachment';
 $lang['personal_messenger']['SelectedPublicationsUpdated'] = 'Selected publications updated';
+$lang['personal_messenger']['PersonalMessageId'] = 'Id of personal message';
+$lang['personal_messenger']['SenderId'] = 'Id of sender';
+$lang['personal_messenger']['RecipientId'] = 'Id of recipient';
+$lang['personal_messenger']['CategoryTypeName'] = 'Select category';
 ?>

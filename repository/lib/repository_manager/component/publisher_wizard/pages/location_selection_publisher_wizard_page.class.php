@@ -127,14 +127,16 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 							</script>';
         $this->addElement('html', $html);
         
-        $applications = WebApplication :: load_all_from_filesystem(true);
+        $applications = WebApplication :: load_all_from_filesystem(true, true);
         $apps = array();
         
         $location_count = 0;
         
+        $adm = AdminDataManager :: get_instance();
+        
         foreach ($applications as $application_name)
         {
-            $application = Application :: factory($application_name);
+        	$application = Application :: factory($application_name);
             $locations = $application->get_content_object_publication_locations($this->content_objects[0], $this->get_parent()->get_user());
             $location_count += count($locations);
             

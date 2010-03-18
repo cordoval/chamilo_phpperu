@@ -203,16 +203,16 @@ EOT;
     /*
      * Adds tabs to a form
      * @param array $tabs An array of tab objects that specifies the tabs that are going to be created
-     * @param int $selected_tab The tab is selected
+     * @param int $selected_tab The tab that is selected
      * @author Tristan Verheecke
      */
     function add_tabs($tabs, $selected_tab)
     {
-    	$this->addElement('html', '<div id="tabs">');
+    	$this->addElement('html', '<div id="form_tabs">');
         $this->addElement('html', '<ul>');
 		foreach($tabs as $index => $tab)
 		{
-      		$this->addElement('html', '<li><a href="#tabs-'.$index.'">');
+      		$this->addElement('html', '<li><a href="#form_tabs-'.$index.'">');
         	$this->addElement('html', '<span class="category">');
         	$this->addElement('html', '<span class="title">'.Translation :: get($tab->get_title()).'</span>');
         	$this->addElement('html', '</span>');
@@ -221,8 +221,9 @@ EOT;
         $this->addElement('html', '</ul>');
         foreach($tabs as $index => $tab)
         {
-        	$this->addElement('html', '<div class="tab" id="tabs-'.$index.'">');
-        	call_user_func(Array($this, $tab->get_method()));
+//            $this->addElement('html', '<h2>' . $tab->get_title() . '</h2>');
+        	$this->addElement('html', '<div class="form_tab" id="form_tabs-'.$index.'">');
+        	call_user_func(array($this, $tab->get_method()));
         	$this->addElement('html','<div class="clear"></div>');
         	$this->addElement('html', '</div>');
         }
@@ -232,7 +233,7 @@ EOT;
         $this->addElement('html', '  var tabnumber = ' . $selected_tab . ';');
         $this->addElement('html', '</script>');
 
-        $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/tabs.js'));
+        $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/form_tabs.js'));
     }
 
     function create_html_editor($name, $label, $options = array(), $attributes = array())
@@ -458,7 +459,7 @@ EOT;
     }
 
     /**
-     * Adds an error message to the form.
+     * Adds a warning message to the form.
      * @param string $label The label for the error message
      * @param string $message The actual error message
      */
@@ -472,6 +473,34 @@ EOT;
         $html .= $message . '</div></div>';
         $this->addElement('html', $html);
     }
+
+    /**
+     * Adds an error message to the form.
+     * @param string $label The label for the error message
+     * @param string $message The actual error message
+     */
+    function add_information_message($name, $label, $message, $no_margin = false)
+    {
+        $html = '<div id="' . $name . '" class="row"><div class="formc' . ($no_margin ? ' formc_no_margin' : '') . '">';
+        if ($label)
+        {
+            $html .= '<b>' . $label . '</b><br />';
+        }
+        $html .= $message . '</div></div>';
+        $this->addElement('html', $html);
+    }
+
+	function parse_checkbox_value($value = null)
+	{
+		if(isset($value) && $value == 1)
+		{
+		    return 1;
+		}
+		else
+		{
+		    return 0;
+		}
+	}
 
     /**
      * Adds javascript code to hide a certain element.

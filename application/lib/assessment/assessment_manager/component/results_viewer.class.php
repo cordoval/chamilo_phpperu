@@ -88,7 +88,6 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
         }
         
         $this->display_header($trail);
-        
         if (is_object($html))
             $html->run();
         else
@@ -103,10 +102,11 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
         
         $current_category = Request :: get('category');
         $current_category = $current_category ? $current_category : 0;
-        
         $parameters = array('category' => $current_category, 'url' => $this->get_url());
-        $template = new AssessmentAttemptsSummaryTemplate($this, 0, $parameters, null);
-        $template->set_reporting_blocks_function_parameters($parameters);
+        $database = ReportingDataManager :: get_instance();
+        $template_obj = $database->retrieve_reporting_template_object('AssessmentAttemptsSummaryTemplate');
+        $template = new AssessmentAttemptsSummaryTemplate($this, $template_obj->get_id(), $parameters, null);
+        //$template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();
     }
 
@@ -118,8 +118,10 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
         $results_export_url = $this->get_results_exporter_url();
         
         $parameters = array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid, 'url' => $url, 'results_export_url' => $results_export_url);
-        $template = new AssessmentAttemptsTemplate($this, 0, $parameters, null, $pid);
-        $template->set_reporting_blocks_function_parameters($parameters);
+        $database = ReportingDataManager :: get_instance();
+        $template_obj = $database->retrieve_reporting_template_object('AssessmentAttemptsTemplate');
+        $template = new AssessmentAttemptsTemplate($this, $template_obj->get_id() , $parameters, null, $pid);
+        //$template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();
     }
 

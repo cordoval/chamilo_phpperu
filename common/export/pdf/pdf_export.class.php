@@ -31,11 +31,10 @@ class PdfExport extends Export
         //$htmlFile = 'http://localhost/chamilo20/run.php?go=courseviewer&course=1&tool=reporting&application=weblcms';
         //$buffer = file_get_contents($htmlFile);
         
-
-        $pdf = new HTML2FPDF('P', 'mm', 'a3');
+        $pdf = new HTML2FPDF('P', 'mm', 'a4');
         $pdf->AddPage();
         $pdf->WriteHTML($html);
-        $pdf->Output('test.pdf', 'D');
+        $pdf->Output($this->get_filename(), 'D');
         
     //        require_once Path :: get_plugin_path().'dompdf/dompdf_config.inc.php';
     //        $theme = Theme :: get_instance();

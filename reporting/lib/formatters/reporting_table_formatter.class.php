@@ -87,10 +87,15 @@ class ReportingTableFormatter extends ReportingFormatter
         
         return $table->toHTML();
     }
-
+    
     public function ReportingTableFormatter(&$reporting_block)
     {
-        $this->reporting_block = $reporting_block;
+    	$this->reporting_block = $reporting_block;
+    }
+    
+    function get_total_number_from_reporting_block()
+    {
+    	return $this->reporting_block->get_total_number();
     }
 } //ReportingTextFormatter
 ?>

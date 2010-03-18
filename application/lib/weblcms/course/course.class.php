@@ -36,19 +36,11 @@ class Course extends DataClass
     const PROPERTY_VISUAL = 'visual_code';
     const PROPERTY_NAME = 'title';
     const PROPERTY_TITULAR = 'titular_id';
-    const PROPERTY_LANGUAGE = 'course_language';
+
     const PROPERTY_EXTLINK_URL = 'department_url';
     const PROPERTY_EXTLINK_NAME = 'department_name';
+
     const PROPERTY_CATEGORY = 'category_id';
-    const PROPERTY_VISIBILITY = 'visibility';
-    const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
-    const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
-    const PROPERTY_THEME = 'theme';
-    const PROPERTY_LAYOUT = 'layout';
-    const PROPERTY_TOOL_SHORTCUT = 'tool_shortcut';
-    const PROPERTY_MENU = 'menu';
-    const PROPERTY_BREADCRUMB = 'breadcrumb';
-    const PROPERTY_ALLOW_FEEDBACK = 'allow_feedback';
     const PROPERTY_SHOW_SCORE = 'show_score';
     const PROPERTY_DISK_QUOTA = 'disk_quota';
 
@@ -58,45 +50,14 @@ class Course extends DataClass
     const PROPERTY_CREATION_DATE = 'creation_date';
     const PROPERTY_EXPIRATION_DATE = 'expiration_date';
 
-    const LAYOUT_2_COLUMNS = 1;
-    const LAYOUT_3_COLUMNS = 2;
-    const LAYOUT_2_COLUMNS_GROUP_INACTIVE = 3;
-    const LAYOUT_3_COLUMNS_GROUP_INACTIVE = 4;
+	private $settings;
 
-    const TOOL_SHORTCUT_OFF = 1;
-    const TOOL_SHORTCUT_ON = 2;
+	private $layout;
 
-    const MENU_OFF = 1;
-    const MENU_LEFT_ICON = 2;
-    const MENU_LEFT_ICON_TEXT = 3;
-    const MENU_LEFT_TEXT = 4;
-    const MENU_RIGHT_ICON = 5;
-    const MENU_RIGHT_ICON_TEXT = 6;
-    const MENU_RIGHT_TEXT = 7;
+	private $tools;
 
-    const BREADCRUMB_TITLE = 1;
-    const BREADCRUMB_CODE = 2;
-    const BREADCRUMB_COURSE_HOME = 3;
+	private $course_type;
 
-    static function get_layouts()
-    {
-        return array(self :: LAYOUT_2_COLUMNS => Translation :: get('TwoColumns'), self :: LAYOUT_3_COLUMNS => Translation :: get('ThreeColumns'), self :: LAYOUT_2_COLUMNS_GROUP_INACTIVE => Translation :: get('TwoColumnsGroupInactive'), self :: LAYOUT_3_COLUMNS_GROUP_INACTIVE => Translation :: get('ThreeColumnsGroupInactive'));
-    }
-
-    static function get_tool_shortcut_options()
-    {
-        return array(self :: TOOL_SHORTCUT_OFF => Translation :: get('Off'), self :: TOOL_SHORTCUT_ON => Translation :: get('On'));
-    }
-
-    static function get_menu_options()
-    {
-        return array(self :: MENU_OFF => Translation :: get('Off'), self :: MENU_LEFT_ICON => Translation :: get('LeftIcon'), self :: MENU_LEFT_ICON_TEXT => Translation :: get('LeftIconText'), self :: MENU_LEFT_TEXT => Translation :: get('LeftText'), self :: MENU_RIGHT_ICON => Translation :: get('RightIcon'), self :: MENU_RIGHT_ICON_TEXT => Translation :: get('RightIconText'), self :: MENU_RIGHT_TEXT => Translation :: get('RightText'));
-    }
-
-    static function get_breadcrumb_options()
-    {
-        return array(self :: BREADCRUMB_TITLE => Translation :: get('Title'), self :: BREADCRUMB_CODE => Translation :: get('Code'), self :: BREADCRUMB_COURSE_HOME => Translation :: get('CourseHome'));
-    }
 
     /**
      * Get the default properties of all courses.
@@ -104,7 +65,19 @@ class Course extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_SHOW_SCORE, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME, self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB, self :: PROPERTY_ALLOW_FEEDBACK, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_LAST_EDIT, self :: PROPERTY_LAST_VISIT));
+        return parent :: get_default_property_names(
+        		array(self :: PROPERTY_VISUAL,
+        			  self :: PROPERTY_CATEGORY,
+        			  self :: PROPERTY_NAME,
+        			  self :: PROPERTY_SHOW_SCORE,
+        			  self :: PROPERTY_TITULAR,
+        			  self :: PROPERTY_EXTLINK_URL,
+        			  self :: PROPERTY_EXTLINK_NAME,
+        			  self :: PROPERTY_DISK_QUOTA,
+        			  self :: PROPERTY_CREATION_DATE,
+        			  self :: PROPERTY_EXPIRATION_DATE,
+        			  self :: PROPERTY_LAST_EDIT,
+        			  self :: PROPERTY_LAST_VISIT));
     }
 
     /**
@@ -171,15 +144,6 @@ class Course extends DataClass
     }
 
     /**
-     * Returns the language of this course object
-     * @return String The Language
-     */
-    function get_language()
-    {
-        return $this->get_default_property(self :: PROPERTY_LANGUAGE);
-    }
-
-    /**
      * Returns the ext url of this course object
      * @return String The URL
      */
@@ -195,42 +159,6 @@ class Course extends DataClass
     function get_extlink_name()
     {
         return $this->get_default_property(self :: PROPERTY_EXTLINK_NAME);
-    }
-
-    /**
-     * Returns the visibility code of this course object
-     * @return String The Visibility Code
-     */
-    function get_visibility()
-    {
-        return $this->get_default_property(self :: PROPERTY_VISIBILITY);
-    }
-
-    /**
-     * Returns if you can subscribe to this course object
-     * @return Int
-     */
-    function get_subscribe_allowed()
-    {
-        return $this->get_default_property(self :: PROPERTY_SUBSCRIBE_ALLOWED);
-    }
-
-    /**
-     * Returns if you can unsubscribe to this course object
-     * @return Int
-     */
-    function get_unsubscribe_allowed()
-    {
-        return $this->get_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
-    }
-
-    /**
-     * Returns the course theme
-     * @return string The theme
-     */
-    function get_theme()
-    {
-        return $this->get_default_property(self :: PROPERTY_THEME);
     }
 
     function get_creation_date()
@@ -251,6 +179,90 @@ class Course extends DataClass
     function get_last_visit()
     {
         return $this->get_default_property(self :: PROPERTY_LAST_VISIT);
+    }
+
+    function get_settings()
+    {
+        return $this->settings;
+    }
+
+    function get_layout_settings()
+    {
+        return $this->layout;
+    }
+
+    function get_tools()
+    {
+        return $this->tools;
+    }
+
+    function get_course_type()
+    {
+        return $this->course_type;
+    }
+
+    function get_language()
+    {
+        return $this->settings->get_language();
+    }
+
+    function get_visibility()
+    {
+        return $this->settings->get_visibility();
+    }
+
+	function get_access()
+    {
+        return $this->settings->get_access();
+    }
+
+    function get_max_number_of_members()
+    {
+        return $this->settings->get_max_number_of_members();
+    }
+
+    function get_language_fixed()
+    {
+    	return $this->course_type->get_settings()->get_language_fixed();
+    }
+
+    function set_language($language)
+    {
+    	if(!$this->get_language_fixed())
+        	$this->settings->set_language($language);
+    }
+
+    function get_visibility_fixed()
+    {
+    	return $this->course_type->get_settings()->get_visibility_fixed();
+    }
+
+    function set_visibility($visibility)
+    {
+		if(!$this->get_visibility_fixed())
+        	$this->settings->set_visibility($visibility);
+    }
+
+    function get_access_fixed()
+    {
+    	return $this->course_type->get_settings()->get_access_fixed();
+    }
+
+    function set_access($access)
+    {
+		if(!$this->get_access_fixed())
+        	$this->settings->set_access($access);
+    }
+
+    function get_max_number_of_members_fixed($max_number_of_members)
+    {
+		return $this->course_type->get_settings()->get_max_number_of_members_fixed();
+    }
+
+    function set_max_number_of_members($max_number_of_members)
+    {
+		if(!$this->get_max_number_of_members_fixed())
+        	$this->settings->set_max_number_of_members($max_number_of_members);
     }
 
     /**
@@ -290,15 +302,6 @@ class Course extends DataClass
     }
 
     /**
-     * Sets the language of this course object
-     * @param String $language The language of this course object
-     */
-    function set_language($language)
-    {
-        $this->set_default_property(self :: PROPERTY_LANGUAGE, $language);
-    }
-
-    /**
      * Sets the extlink URL of this course object
      * @param String $url The URL if the extlink
      */
@@ -316,83 +319,6 @@ class Course extends DataClass
         $this->set_default_property(self :: PROPERTY_EXTLINK_NAME, $name);
     }
 
-    /**
-     * Sets the visibility of this course object
-     * @param String $visual The visual code
-     */
-    function set_visibility($visibility)
-    {
-        $this->set_default_property(self :: PROPERTY_VISIBILITY, $visibility);
-    }
-
-    /**
-     * Sets if a user is allowed to subscribe on this course object
-     * @param Int $subscribe
-     */
-    function set_subscribe_allowed($subscribe)
-    {
-        $this->set_default_property(self :: PROPERTY_SUBSCRIBE_ALLOWED, $subscribe);
-    }
-
-    /**
-     * Sets if a user is allowed to unsubscribe on this course object
-     * @param Int $subscribe
-     */
-    function set_unsubscribe_allowed($subscribe)
-    {
-        $this->set_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED, $subscribe);
-    }
-
-    function set_layout($layout)
-    {
-        $this->set_default_property(self :: PROPERTY_LAYOUT, $layout);
-    }
-
-    function get_layout()
-    {
-        return $this->get_default_property(self :: PROPERTY_LAYOUT);
-    }
-
-    function set_menu($menu)
-    {
-        $this->set_default_property(self :: PROPERTY_MENU, $menu);
-    }
-
-    function get_menu()
-    {
-        return $this->get_default_property(self :: PROPERTY_MENU);
-    }
-
-    function set_tool_shortcut($tool_shortcut)
-    {
-        $this->set_default_property(self :: PROPERTY_TOOL_SHORTCUT, $tool_shortcut);
-    }
-
-    function get_tool_shortcut()
-    {
-        return $this->get_default_property(self :: PROPERTY_TOOL_SHORTCUT);
-    }
-
-    function set_breadcrumb($breadcrumb)
-    {
-        $this->set_default_property(self :: PROPERTY_BREADCRUMB, $breadcrumb);
-    }
-
-    function get_breadcrumb()
-    {
-        return $this->get_default_property(self :: PROPERTY_BREADCRUMB);
-    }
-
-    function set_allow_feedback($allow_feedback)
-    {
-        $this->set_default_property(self :: PROPERTY_ALLOW_FEEDBACK, $allow_feedback);
-    }
-
-    function get_allow_feedback()
-    {
-        return $this->get_default_property(self :: PROPERTY_ALLOW_FEEDBACK);
-    }
-
     function get_show_score()
     {
         return $this->get_default_property(self :: PROPERTY_SHOW_SCORE);
@@ -401,15 +327,6 @@ class Course extends DataClass
     function set_show_score()
     {
         return $this->set_default_property(self :: PROPERTY_SHOW_SCORE);
-    }
-
-    /**
-     * Sets the theme of this course object
-     * @param String $theme The theme of this course object
-     */
-    function set_theme($theme)
-    {
-        $this->set_default_property(self :: PROPERTY_THEME, $theme);
     }
 
     function set_creation_date($creation_date)
@@ -433,6 +350,213 @@ class Course extends DataClass
     }
 
     /**
+     * Sets the settings of this course object
+     * @param CourseSettings $settings the settings of this course object
+     */
+    function set_settings($settings)
+    {
+        $this->settings = $settings;
+    }
+
+    /**
+     * Sets the layout of this course object
+     * @param CourseLayout $layout the layout of this course object
+     */
+    function set_layout_settings($layout)
+    {
+        $this->layout = $layout;
+    }
+
+    /**
+     * Sets the tools of this course object
+     * @param array $tools the tools of this course object
+     */
+    function set_tools($tools)
+    {
+        $this->tools = $tools;
+    }
+
+    /**
+     * Sets the course_type of this course object
+     * @param array $course_type the course_type of this course object
+     */
+    function set_course_type($course_type)
+    {
+        $this->course_type = $course_type;
+    }
+
+    /**
+     * Direct access to the setters and getters for the course layout
+     * All setters include a validation to see whether or not the property is writeable
+     */
+
+    /*
+     * Getters
+     */
+    function get_intro_text()
+    {
+    	return $this->get_layout_settings()->get_intro_text();
+    }
+
+    function get_student_view()
+    {
+        return $this->get_layout_settings()->get_student_view();
+    }
+
+    function get_layout()
+    {
+        return $this->get_layout_settings()->get_layout();
+    }
+
+    function get_tool_shortcut()
+    {
+        return $this->get_layout_settings()->get_tool_shortcut();
+    }
+
+ 	function get_menu()
+    {
+        return $this->get_layout_settings()->get_menu();
+    }
+
+    function get_breadcrumb()
+    {
+        return $this->get_layout_settings()->get_breadcrumb();
+    }
+
+    function get_feedback()
+    {
+        return $this->get_layout_settings()->get_feedback();
+    }
+
+    function get_course_code_visible()
+    {
+        return $this->get_layout_settings()->get_course_code_visible();
+    }
+
+    function get_course_manager_name_visible()
+    {
+    	return $this->get_layout_settings()->get_course_manager_name_visible();
+    }
+
+    function get_course_languages_visible()
+	{
+    	return $this->get_layout_settings()->get_course_languages_visible();
+    }
+
+    /**
+     * Setters and validation to see whether they are writable
+     */
+    function get_feedback_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_feedback_fixed();
+    }
+
+   	function set_feedback($feedback)
+    {
+    	if(!$this->get_feedback_fixed())
+    		$this->get_layout_settings()->set_feedback($feedback);
+    }
+
+    function get_layout_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_layout_fixed();
+    }
+
+    function set_layout($layout)
+    {
+    	if(!$this->get_layout_fixed())
+    		$this->get_layout_settings()->set_layout($layout);
+    }
+
+    function get_tool_shortcut_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_tool_shortcut_fixed();
+    }
+
+    function set_tool_shortcut($tool_shortcut)
+    {
+    	if(!$this->get_tool_shortcut_fixed())
+    		$this->get_layout_settings()->set_tool_shortcut($tool_shortcut);
+    }
+
+    function get_menu_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_menu_fixed();
+    }
+
+    function set_menu($menu)
+    {
+    	if(!$this->get_menu_fixed())
+    		$this->get_layout_settings()->set_menu($menu);
+    }
+
+    function get_breadcrumb_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_breadcrumb_fixed();
+    }
+
+    function set_breadcrumb($breadcrumb)
+    {
+    	if(!$this->get_breadcrumb_fixed())
+    		$this->get_layout_settings()->set_breadcrumb($breadcrumb);
+    }
+
+    function get_intro_text_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_intro_text_fixed();
+    }
+
+    function set_intro_text($intro_text)
+    {
+    	if(!$this->get_intro_text_fixed())
+    		$this->get_layout_settings()->set_intro_text($intro_text);
+    }
+
+    function get_student_view_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_student_view_fixed();
+    }
+
+    function set_student_view($student_view)
+    {
+    	if(!$this->get_student_view_fixed())
+    		$this->get_layout_settings()->set_student_view($student_view);
+    }
+
+    function get_course_code_visible_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_course_code_visible();
+    }
+
+    function set_course_code_visible($course_code_visible)
+    {
+    	if(!$this->get_course_code_visible_fixed())
+    		$this->get_layout_settings()->set_course_code_visible($course_code_visible);
+    }
+
+    function get_course_manager_name_visible_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_course_manager_name_visible();
+    }
+
+    function set_course_manager_name_visible($course_manager_name_visible)
+    {
+    	if(!$this->get_course_manager_name_visible_fixed())
+    		$this->get_layout_settings()->set_course_manager_name_visible($course_manager_name_visible);
+    }
+
+    function get_course_languages_visible_fixed()
+    {
+    	return $this->course_type->get_layout_settings()->get_course_languages_visible();
+    }
+
+    function set_course_languages_visible($course_languages_visible)
+    {
+    	if(!$this->get_course_languages_fixed())
+    		$this->get_layout_settings()->set_course_languages_visible($course_languages_visible);
+    }
+
+    /**
      * Creates the course object in persistent storage
      * @return boolean
      */
@@ -449,16 +573,26 @@ class Course extends DataClass
         $dropbox = new ContentObjectPublicationCategory();
         $dropbox->create_dropbox($this->get_id());
 
-        if ($this->get_category())
+        $location = new Location();
+        $location->set_location($this->get_name());
+        $location->set_application(WeblcmsManager :: APPLICATION_NAME);
+        $location->set_type_from_object($this);
+        $location->set_identifier($this->get_id());
+
+        $parent = WeblcmsRights :: get_location_id_by_identifier('course_category', 1);
+        //echo 'parent : ' . $parent;
+
+
+        if ($parent)
         {
-            $parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('course_category', $this->get_category());
+            $location->set_parent($parent);
         }
         else
         {
-            $parent_id = WeblcmsRights :: get_courses_subtree_root_id();
+            $location->set_parent(0);
         }
 
-    	if (!WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), 'course', $this->get_id(), $parent_id))
+        if (! $location->create())
         {
             return false;
         }
@@ -466,11 +600,6 @@ class Course extends DataClass
         if (! $this->initialize_course_sections())
         {
             return false;
-        }
-        
-        if(!$this->create_root_course_group())
-        {
-        	return false;
         }
 
         return true;
@@ -487,7 +616,7 @@ class Course extends DataClass
         $dm = $this->get_data_manager();
         return $dm->delete_course($this->get_id());
     }
-    
+
     /**
      * Checks whether the given user is a course admin in this course
      * @param int $user_id
@@ -509,7 +638,7 @@ class Course extends DataClass
      */
     function has_theme()
     {
-        return (! is_null($this->get_theme()) ? true : false);
+        return (! is_null($this->get_layout()->get_theme()) ? true : false);
     }
 
     /**
@@ -537,24 +666,6 @@ class Course extends DataClass
         $condition = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $this->get_id());
         $result = $wdm->retrieve_course_groups($condition, null, null, array(new ObjectTableOrder(CourseGroup :: PROPERTY_NAME)));
         return ($as_array ? $result->as_array() : $result);
-    }
-
-    function is_layout_configurable()
-    {
-        $theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
-        $layout = PlatformSetting :: get('allow_course_layout_selection', WeblcmsManager :: APPLICATION_NAME);
-        $shortcut = PlatformSetting :: get('allow_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
-        $menu = PlatformSetting :: get('allow_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
-        $breadcrumbs = PlatformSetting :: get('allow_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
-
-        if (! $theme && ! $layout && ! $shortcut && ! $menu && ! $breadcrumbs)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
     }
 
     static function get_table_name()
@@ -585,14 +696,79 @@ class Course extends DataClass
 
         return true;
     }
-    
-    function create_root_course_group()
-    {
-    	$group = new CourseGroup();
-    	$group->set_course_code($this->get_id());
-    	$group->set_name($this->get_name());
-    	return $group->create();
-    }
+
+//    function initialize_settings()
+//    {
+//    	$file = Path :: get_application_path() . '/settings/settings_weblcms_course_type.xml';
+//        $result = array();
+//
+//        if (file_exists($file))
+//        {
+//            $doc = new DOMDocument();
+//            $doc->load($file);
+//            $object = $doc->getElementsByTagname('application')->item(0);
+//            $name = $object->getAttribute('name');
+//
+//            // Get categories
+//            $categories = $doc->getElementsByTagname('category');
+//            $settings = array();
+//
+//            foreach ($categories as $index => $category)
+//            {
+//                $category_name = $category->getAttribute('name');
+//                $category_properties = array();
+//
+//                // Get settings in category
+//                $properties = $category->getElementsByTagname('setting');
+//                $attributes = array('field', 'default');
+//
+//                foreach ($properties as $index => $property)
+//                {
+//                    $property_info = array();
+//
+//                    foreach ($attributes as $index => $attribute)
+//                    {
+//                        if ($property->hasAttribute($attribute))
+//                        {
+//                            $property_info[$attribute] = $property->getAttribute($attribute);
+//                        }
+//                    }
+//
+//                    if ($property->hasChildNodes())
+//                    {
+//                        $property_options = $property->getElementsByTagname('options')->item(0);
+//                        $property_options_attributes = array('type', 'source');
+//                        foreach ($property_options_attributes as $index => $options_attribute)
+//                        {
+//                            if ($property_options->hasAttribute($options_attribute))
+//                            {
+//                                $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
+//                            }
+//                        }
+//
+//                        if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+//                        {
+//                            $options = $property_options->getElementsByTagname('option');
+//                            $options_info = array();
+//                            foreach ($options as $option)
+//                            {
+//                                $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
+//                            }
+//                            $property_info['options']['values'] = $options_info;
+//                        }
+//                    }
+//                    $category_properties[$property->getAttribute('name')] = $property_info;
+//                }
+//
+//                $settings[$category_name] = $category_properties;
+//            }
+//
+//            $result['name'] = $name;
+//            $result['settings'] = $settings;
+//        }
+//
+//        return $result;
+//    }
 
 }
 ?>

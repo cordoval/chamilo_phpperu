@@ -55,5 +55,7 @@ abstract class ReportingDataManager
     abstract function delete_reporting_blocks($condition = null);
 
     abstract function delete_orphaned_block_template_relations();
+    
+    abstract function retrieve_reporting_template_object($classname);
 }
 ?>

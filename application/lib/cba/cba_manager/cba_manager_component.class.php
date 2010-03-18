@@ -93,6 +93,11 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_COMPETENCY));
 	}
 	
+	function get_competency_moving_url($competency)
+    {
+        return $this->get_parent()->get_competency_moving_url($competency);
+    }
+	
 	// Indicator
 	function get_create_indicator_url()
 	{
@@ -118,6 +123,11 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_INDICATOR));
 	}
+	
+	function get_indicator_moving_url($indicator)
+    {
+        return $this->get_parent()->get_indicator_moving_url($indicator);
+    }
 
 	// Criteria
 	function get_create_criteria_url()
@@ -145,13 +155,18 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CRITERIA));
 	}
 	
+	function get_criteria_moving_url($criteria)
+    {
+        return $this->get_parent()->get_criteria_moving_url($criteria);
+    }
+	
 	
 	function get_browse_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
-	}	
+	}
 	
-	function display_header($breadcrumbtrail, $display_search = false, $display_menu = true, $helpitem, $newbreadcrumb)
+	function display_header($breadcrumbtrail, $display_search = false, $display_menu = true, $helpitem)
     {
         $this->get_parent()->display_header($breadcrumbtrail, $display_search, $display_menu, $helpitem);
     }

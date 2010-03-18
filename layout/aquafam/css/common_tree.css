@@ -56,7 +56,7 @@ ul.tree-menu li div.lastExpand {
 ul.tree-menu li div a {
 	clear: both;
 	display: block;
-	height: 16px;
+	height: 26px;
 	padding-left: 21px;
 	background-repeat: no-repeat;
 	background-image: url(../images/common/treemenu/tree-document.png);
@@ -147,6 +147,41 @@ ul.tree-menu li.current_path>div a.category,ul.tree-menu li.current>div a.catego
 
 ul.tree-menu li.current>div a.category {
 	text-decoration: underline;
+}
+
+ul.tree-menu li div a.blog_item{
+	background-image: url(../images/common/content_object/blog_item.png);
+}
+
+ul.tree-menu li div a.link{
+	background-image: url(../images/common/content_object/link.png);
+}
+
+ul.tree-menu li div a.portfolio{
+	background-image: url(../images/common/content_object/portfolio.png);
+}
+
+ul.tree-menu li div a.announcement{
+    background-image: url(../images/common/content_object/announcement.png);
+}
+ul.tree-menu li div a.calendar_event{
+    background-image: url(../images/common/content_object/calendar_event.png);
+}
+ul.tree-menu li div a.description{
+    background-image: url(../images/common/content_object/description.png);
+}
+ul.tree-menu li div a.document{
+        background-image: url(../images/common/content_object/document.png);
+}
+ul.tree-menu li div a.note{
+    background-image: url(../images/common/content_object/note.png);
+}
+ul.tree-menu li div a.profile{
+    background-image: url(../images/common/content_object/profile.png);
+}
+ul.tree-menu li div a.youtube{
+	clear: both;
+        background-image: url(../images/common/content_object/youtube.png);
 }
 
 /*

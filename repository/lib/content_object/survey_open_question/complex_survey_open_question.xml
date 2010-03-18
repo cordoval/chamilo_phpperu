@@ -2,7 +2,7 @@
 <object name="complex_survey_open_question">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1"/>
-		<property name="weight" type="integer" unsigned="1" notnull="1" default="1"/>
+		<property name="visible" type="boolean" default="true" />
 	</properties>
 
 	<index name="id" type="primary">

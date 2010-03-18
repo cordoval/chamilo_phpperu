@@ -63,7 +63,7 @@ class SurveyDefaultContext extends SurveyContext
         $contexts = array();
         
         $context = new SurveyDefaultContext();
-        $context->set_name('DefaultContext');
+        $context->set_name($user_name);
         $context->set_firstname($user->get_firstname());
         $context->set_lastname($user->get_lastname());
         $context->set_email($user->get_email());

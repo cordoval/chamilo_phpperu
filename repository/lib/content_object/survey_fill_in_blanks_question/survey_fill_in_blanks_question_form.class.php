@@ -4,6 +4,8 @@
  * @package repository.lib.content_object.survey_fill_in_blanks_question
  */
 require_once PATH::get_repository_path() . '/question_types/fill_in_blanks_question/fill_in_blanks_question_form.class.php';
+require_once dirname(__FILE__) . '/survey_fill_in_blanks_question.class.php';
+require_once dirname(__FILE__) . '/survey_fill_in_blanks_question_answer.class.php';
 
 class SurveyFillInBlanksQuestionForm extends FillInBlanksQuestionForm
 {

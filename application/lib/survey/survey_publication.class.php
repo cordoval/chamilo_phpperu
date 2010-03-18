@@ -56,14 +56,14 @@ class SurveyPublication extends DataClass
         $succes = parent :: update();
         if ($succes)
         {
-                    
+            
             $dummy = new SurveyParticipantTracker();
             $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
             $trackers = $dummy->retrieve_tracker_items($condition);
-          
+            
             $user_ids = $this->get_target_user_ids();
-          	$tracker_user_ids = array();
-                    	
+            $tracker_user_ids = array();
+            
             foreach ($trackers as $tracker)
             {
                 $user_id = $tracker->get_user_id();
@@ -71,7 +71,7 @@ class SurveyPublication extends DataClass
                 
                 if ($key == false)
                 {
-             
+                    
                     $tracker->delete();
                 }
                 else
@@ -80,7 +80,7 @@ class SurveyPublication extends DataClass
                     $tracker_user_ids[] = $user_id;
                 }
             }
-          
+            
             $new_tracker_user_ids = array_diff($user_ids, $tracker_user_ids);
             foreach ($new_tracker_user_ids as $user_id)
             {
@@ -100,10 +100,10 @@ class SurveyPublication extends DataClass
             $dummy = new SurveyParticipantTracker();
             $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
             $trackers = $dummy->retrieve_tracker_items($condition);
-                       
+            
             foreach ($trackers as $tracker)
             {
-               $tracker->delete();
+                $tracker->delete();
             }
         
         }
@@ -121,10 +121,11 @@ class SurveyPublication extends DataClass
         $args = array();
         $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
         $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
-    
+        
         foreach ($contexts as $cont)
         {
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
+            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $cont->get_name();
             $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
         
         }
@@ -132,7 +133,7 @@ class SurveyPublication extends DataClass
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_CATEGORY));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_CATEGORY, self :: PROPERTY_TEST));
     }
 
     function get_data_manager()

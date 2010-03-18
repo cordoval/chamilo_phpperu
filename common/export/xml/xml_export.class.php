@@ -18,7 +18,11 @@ class XmlExport extends Export
         $file = $this->get_path(SYS_TEMP_PATH) . Filesystem :: create_unique_name($this->get_path(SYS_TEMP_PATH), $this->get_filename());
         $this->handle = fopen($file, 'a+');
         fwrite($this->handle, '<?xml version="1.0" encoding="ISO-8859-1"?>' . "\n");
+        fwrite($this->handle, str_repeat("\t", $this->level) . '<rootItem>' . "\n");
+        $this->level ++;
         $this->write_array($data);
+        $this->level --;
+        fwrite($this->handle, str_repeat("\t", $this->level) . '</rootItem>' . "\n");
         fclose($this->handle);
         Filesystem :: file_send_for_download($file, true, $file);
         exit();
@@ -43,7 +47,6 @@ class XmlExport extends Export
             {
                 fwrite($this->handle, str_repeat("\t", $this->level) . '<' . $key . '>' . $value . '</' . $key . '>' . "\n");
             }
-        
         }
     }
 }

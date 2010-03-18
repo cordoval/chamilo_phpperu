@@ -81,7 +81,8 @@ EOT;
 
         echo '<div id="progressbox">';
         $all_pages = $current_page->controller->_pages;
-        $total_number_of_pages = count($all_pages) - 1;
+
+        $total_number_of_pages = count($all_pages) + 1;
 
     	if(get_class($current_page) == 'LanguageInstallWizardPage')
         {
@@ -90,7 +91,7 @@ EOT;
 
     	if(get_class($current_page) == 'PreconfiguredInstallWizardPage')
         {
-            $total_number_of_pages = 2;
+            $total_number_of_pages = 3;
         }
 
         $current_page_number = 0;
@@ -161,6 +162,11 @@ EOT;
             {
                 echo '<li><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
             }
+        }
+        
+        if(get_class($current_page) != 'LanguageInstallWizardPage')
+        {
+        	echo '<li><a href="#">' . $total_number_of_pages . '.&nbsp;&nbsp;' . Translation :: get('Installation') . '</a></li>';
         }
 
         echo '</ul>';

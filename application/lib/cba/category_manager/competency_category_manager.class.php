@@ -8,7 +8,7 @@ class CompetencyCategoryManager extends CategoryManager
 {
 
     function CompetencyCategoryManager($parent, $trail)
-    {
+    {        
         parent :: __construct($parent, $trail);
     }
 
@@ -31,8 +31,19 @@ class CompetencyCategoryManager extends CategoryManager
 
     function get_next_category_display_order($parent_id)
     {
-        $adm = CbaDataManager :: get_instance();
-        return $adm->select_next_competency_category_display_order($parent_id);
+        $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent_id);
+        $sort = CbaDataManager :: get_instance()->retrieve_max_sort_value(CompetencyCategory :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
+        return $sort + 1;
+    }
+    
+	function allowed_to_delete_category($category_id)
+    {
+        $conditions[] = new EqualityCondition(Competency :: PROPERTY_PARENT_ID, $category_id);
+        $conditions[] = new EqualityCondition(Competency :: PROPERTY_STATE, Competency :: STATE_NORMAL);
+        $condition = new AndCondition($conditions);
+        $count = CbaDataManager :: get_instance()->count_competencys($condition);
+
+        return ($count == 0);
     }
 }
 ?>

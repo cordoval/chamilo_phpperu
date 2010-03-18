@@ -75,12 +75,15 @@ $lang['install']['ContentObjectRegistration'] = 'Content object registration';
 $lang['install']['PortalHome'] = 'Portal Home';
 $lang['install']['UsePredefinedConfigurationFile'] = 'Use a predefined configuration file';
 $lang['install']['InstallationOverview'] = 'Installation overview';
-$lang['install']['InstallationOverviewInfo'] = '';
+$lang['install']['InstallationOverviewInfo'] = 'Installation overview information....';
 $lang['install']['DatabaseProperties'] = 'Database properties';
 $lang['install']['SelectedApplications'] = 'Selected applications';
 $lang['install']['NonSelectedApplications'] = 'Non selected applications';
 $lang['install']['Finish'] = 'Finish';
 $lang['install']['SelectConfigurationFile'] = 'Select configuration file';
-$lang['install']['SelectConfigurationFileDescription'] = '';
+$lang['install']['SelectConfigurationFileDescription'] = 'Selec configuration file description....';
 $lang['install']['ConfigurationFile'] = 'Configuration file';
+$lang['install']['Dropbox'] = 'Dropbox';
+$lang['install']['Gradebook'] = 'Gradebook';
+$lang['install']['Installation'] = 'Installation';
 ?>

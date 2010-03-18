@@ -26,7 +26,9 @@ class IndicatorBrowserTable extends ObjectTable
 		$actions = array();
 		
 		$actions[] = new ObjectTableFormAction(CbaManager :: PARAM_DELETE_SELECTED_INDICATORS, Translation :: get('RemoveSelected'));	
-
+		$actions[] = new ObjectTableFormAction(CbaManager :: PARAM_MOVE_SELECTED_INDICATORS, Translation :: get('MoveSelected'), false);
+		
+		
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

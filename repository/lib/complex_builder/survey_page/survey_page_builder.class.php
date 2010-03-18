@@ -8,8 +8,10 @@ require_once dirname(__FILE__) . '/survey_page_builder_component.class.php';
 class SurveyPageBuilder extends ComplexBuilder
 {
     
-    const ACTION_CREATE_SURVEY_PAGE_ITEM = 'create_item';
+    const ACTION_CREATE_SURVEY_PAGE = 'create';
     const ACTION_BUILD_ROUTING = 'routing';
+    const PARAM_QUESTION_ID = 'question';
+    const PARAM_SURVEY_PAGE_ID = 'survey_page';
 
     function run()
     {
@@ -20,8 +22,8 @@ class SurveyPageBuilder extends ComplexBuilder
             case ComplexBuilder :: ACTION_BROWSE_CLO :
                 $component = SurveyPageBuilderComponent :: factory('Browser', $this);
                 break;
-            case SurveyPageBuilder :: ACTION_CREATE_SURVEY_PAGE_ITEM :
-                $component = SurveyPageBuilderComponent :: factory('ItemCreator', $this);
+            case SurveyPageBuilder :: ACTION_CREATE_SURVEY_PAGE :
+                $component = SurveyPageBuilderComponent :: factory('Creator', $this);
                 break;
         }
         

@@ -53,7 +53,11 @@ class IndicatorBrowserTableCellRenderer extends DefaultIndicatorTableCellRendere
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
-
+		$toolbar_data[] = array(
+				'href' => $this->browser->get_indicator_moving_url($indicator),
+				'label' => Translation :: get('Move'),
+				'img' => Theme :: get_common_image_path().'action_move.png'
+		);
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_delete_indicator_url($indicator),
 			'label' => Translation :: get('Delete'),

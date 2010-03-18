@@ -18,6 +18,7 @@ class CourseLayout extends DataClass
 
 	const CLASS_NAME = __CLASS__;
 	
+	const PROPERTY_COURSE_ID = "course_id";
 	const PROPERTY_INTRO_TEXT = "intro_text_visible";
 	const PROPERTY_STUDENT_VIEW = "student_view_visible";
     const PROPERTY_LAYOUT = "layout";
@@ -83,6 +84,7 @@ class CourseLayout extends DataClass
      */
     static function get_default_property_names($extended_property_names = array())
     {
+        if(empty($extended_property_names)) $extended_property_names = array(self :: PROPERTY_COURSE_ID);
         return array_merge($extended_property_names,
         	array(self :: PROPERTY_FEEDBACK,
         		  self :: PROPERTY_LAYOUT,
@@ -96,19 +98,28 @@ class CourseLayout extends DataClass
         		  self :: PROPERTY_COURSE_LANGUAGES_VISIBLE));
     }
     
+    /*
+     * Getters
+     */
+    
+    function get_course_id()
+    {
+    	return $this->get_default_property(self :: PROPERTY_COURSE_ID);
+    }
+    
     function get_intro_text()
     {
-            return $this->get_default_property(self :: PROPERTY_INTRO_TEXT);
+        return $this->get_default_property(self :: PROPERTY_INTRO_TEXT);
     }
     
     function get_student_view()
     {
-            return $this->get_default_property(self :: PROPERTY_STUDENT_VIEW);
+        return $this->get_default_property(self :: PROPERTY_STUDENT_VIEW);
     }
     
     function get_layout()
     {
-            return $this->get_default_property(self :: PROPERTY_LAYOUT);
+        return $this->get_default_property(self :: PROPERTY_LAYOUT);
     }
     
     function get_tool_shortcut()
@@ -145,6 +156,16 @@ class CourseLayout extends DataClass
 	{
     	return $this->get_default_property(self :: PROPERTY_COURSE_LANGUAGES_VISIBLE);
     }
+    
+    /*
+     * Setters
+     */
+    
+    function set_course_id($course_id)
+    {
+    	$this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
+    } 
+    
     
    	function set_feedback($feedback)
     {

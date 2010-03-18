@@ -8,7 +8,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 
 /**
  * This class provides a navigation menu to allow a user to browse through portfolio publications
- * @author Sven Vanpoucke
+ * @author Sven Vanpoucke, Nathalie Blocry
  */
 class PortfolioMenu extends HTML_Menu
 {
@@ -75,7 +75,9 @@ class PortfolioMenu extends HTML_Menu
         $menu = array();
         
         $users = array();
-        $users['title'] = Translation :: get('MyPortfolio');
+        //Changed so the root of the portfolio displays the user's full name
+        $udm = UserDataManager :: get_instance();
+        $users['title'] = Translation :: get('PersonalPortfolio') . " - " . $udm->retrieve_user($this->view_user)->get_fullname();
         $users['url'] = $this->get_root_url();
         $users['class'] = 'home';
         $subs = $this->get_publications();
@@ -117,7 +119,7 @@ class PortfolioMenu extends HTML_Menu
             if ($publication->is_visible_for_target_user($this->user->get_id()))
             {
                 $lo = $rdm->retrieve_content_object($publication->get_content_object());
-                
+             
                 $pub = array();
                 $pub['title'] = $lo->get_title();
                 $pub['url'] = $this->get_publication_url($publication->get_id());
@@ -154,8 +156,7 @@ class PortfolioMenu extends HTML_Menu
             
             $item['title'] = $lo->get_title();
             $item['url'] = $this->get_sub_item_url($pub_id, $child->get_id());
-            $item['class'] = 'portfolio';
-            
+           $item['class'] = $lo->get_type();
             $menu[] = $item;
         }
         

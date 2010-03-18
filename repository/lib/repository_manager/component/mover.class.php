@@ -26,6 +26,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
                 $ids = array($ids);
             }
             
+            
             $object = $this->retrieve_content_object($ids[0]);
             $parent = $object->get_parent_id();
             
@@ -134,7 +135,8 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
     private function get_categories_for_select($parent_id, $current_parent)
     {
         $conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent_id);
-        $conditions[] = new NotCondition(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $current_parent));
+        $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->get_user_id());
+        //$conditions[] = new NotCondition(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $current_parent));
         
         $condition = new AndCondition($conditions);
         
@@ -143,7 +145,13 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
         $tree = array();
         while ($cat = $categories->next_result())
         {
-            $this->tree[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
+        	$this->tree[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
+        	
+        	if($current_parent == $cat->get_id())
+        	{
+        		$this->tree[$cat->get_id()] .= ' (' . Translation :: get('Current') . ')';
+        	}
+        	
             $this->level ++;
             $this->get_categories_for_select($cat->get_id(), $current_parent);
             $this->level --;

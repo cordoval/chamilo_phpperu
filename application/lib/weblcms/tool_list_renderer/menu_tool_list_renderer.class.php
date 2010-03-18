@@ -179,33 +179,33 @@ class MenuToolListRenderer extends ToolListRenderer
         
         switch ($menu_style)
         {
-            case Course :: MENU_LEFT_ICON :
+            case CourseLayout :: MENU_LEFT_ICON :
                 $properties['style'] = 'left';
                 $properties['icons'] = true;
                 $properties['text'] = false;
                 break;
-            case Course :: MENU_LEFT_ICON_TEXT :
+            case CourseLayout :: MENU_LEFT_ICON_TEXT :
                 $properties['style'] = 'left';
                 $properties['icons'] = true;
                 $properties['text'] = true;
                 break;
-            case Course :: MENU_LEFT_TEXT :
+            case CourseLayout :: MENU_LEFT_TEXT :
                 $properties['style'] = 'left';
                 $properties['icons'] = false;
                 $properties['text'] = true;
                 break;
             
-            case Course :: MENU_RIGHT_ICON :
+            case CourseLayout :: MENU_RIGHT_ICON :
                 $properties['style'] = 'right';
                 $properties['icons'] = true;
                 $properties['text'] = false;
                 break;
-            case Course :: MENU_RIGHT_ICON_TEXT :
+            case CourseLayout :: MENU_RIGHT_ICON_TEXT :
                 $properties['style'] = 'right';
                 $properties['icons'] = true;
                 $properties['text'] = true;
                 break;
-            case Course :: MENU_RIGHT_TEXT :
+            case CourseLayout :: MENU_RIGHT_TEXT :
                 $properties['style'] = 'right';
                 $properties['icons'] = false;
                 $properties['text'] = true;

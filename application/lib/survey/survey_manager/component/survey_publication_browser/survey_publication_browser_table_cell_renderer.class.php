@@ -84,7 +84,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
                 $toolbar_data[] = array('href' => $this->browser->get_change_survey_publication_visibility_url($survey_publication), 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
             }
             
-            $toolbar_data[] = array('href' => $this->browser->get_export_qti_url($survey_publication), 'label' => Translation :: get('Export'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
+            $toolbar_data[] = array('href' => $this->browser->get_export_survey_url($survey_publication), 'label' => Translation :: get('Export'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
             $toolbar_data[] = array('href' => $this->browser->get_move_survey_publication_url($survey_publication), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
             $toolbar_data[] = array('href' => $this->browser->get_publish_survey_url($survey_publication), 'label' => Translation :: get('InviteUsers'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
             

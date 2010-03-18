@@ -45,14 +45,12 @@ class InstallWizardProcess extends HTML_QuickForm_Action
     		$this->values = $page->controller->exportValues();
         }
 
-        Session :: unregister('normal_install');
-        
         $this->applications['core'] = array('webservice', 'admin', 'help', 'reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
         $this->applications['extra'] = Filesystem :: get_directory_content(Path :: get_application_path() . 'lib/', Filesystem :: LIST_DIRECTORIES, false);
 
+        $this->display_header($page);
+        
         // Display the page header
-        $this->parent->display_header(array(), "install");
-
         echo '<h3>' . Translation :: get('PreProduction') . '</h3>';
 
         // 1. Connection to the DBMS and create the database
@@ -101,6 +99,41 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $this->parent->display_footer();
     }
 
+    function display_header($page)
+    {
+    	$this->parent->display_header(array(), "install");
+    	$all_pages = $page->controller->_pages;
+
+        $total_number_of_pages = count($all_pages) + 1;
+        
+        $html[] = '<div id="progressbox">';
+        $html[] = '<ul id="progresstrail">';
+        
+        $page_number = 1;
+        
+        foreach($all_pages as $page)
+        {
+        	 $html[] = '<li class="active"><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
+        	 $page_number++;
+        }
+        
+        $html[] = '<li class="active"><a href="#">' . $total_number_of_pages . '.&nbsp;&nbsp;' . Translation :: get('Installation') . '</a></li>';
+        $html[] = '</ul>';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '</div>';
+        
+        $html[] = '<div id="theForm" style="margin: 10px;">';
+        $html[] = '<div id="select" class="row"><div class="formc formc_no_margin">';
+        $html[] = '<b>' . Translation :: get('Step') . ' ' . $total_number_of_pages . ' ' . Translation :: get('of') . ' ' . $total_number_of_pages . ' &ndash; ' . Translation :: get('Installation') . '</b><br />';
+
+        $html[] = Translation :: get('InstallationDescription');
+        $html[] = '</div>';
+        $html[] = '</div></div>';
+        $html[] = '<div class="clear"></div>';
+        
+        echo implode("\n", $html);
+    }
+    
     function create_database()
     {
         $values = $this->values;

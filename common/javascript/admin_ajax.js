@@ -72,10 +72,10 @@ $(function () {
 
 	$(document).ready(function ()
 	{
-		$("#tabs ul").css('display', 'block');
-		$("#tabs h2").hide();
-		$("#tabs").tabs();
-		var tabs = $('#tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
+		$("#admin_tabs ul").css('display', 'block');
+		$("#admin_tabs h2").hide();
+		$("#admin_tabs").tabs();
+		var tabs = $('#admin_tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
 		tabs.tabs('select', tabnumber);
 	});
 

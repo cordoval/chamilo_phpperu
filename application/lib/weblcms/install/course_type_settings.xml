@@ -2,8 +2,8 @@
 <object name="course_type_settings">
 	<properties>
 		<property name="course_type_id" type="integer" notnull="1" />
-		<property name="languages" type="text" length="255"  fixed="true" default="English" />
-		<property name="languages_fixed" type="boolean" default="0" />
+		<property name="language" type="text" length="255"  fixed="true" default="English" />
+		<property name="language_fixed" type="boolean" default="0" />
 		<property name="visibility" type="boolean" default="1" />
 		<property name="visibility_fixed" type="boolean" default="0" />
 		<property name="access" type="boolean" default="1" />

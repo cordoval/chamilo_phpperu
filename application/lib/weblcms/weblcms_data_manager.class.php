@@ -127,15 +127,74 @@ abstract class WeblcmsDataManager
 
     abstract function count_content_object_publications_new($condition);
 
+    //--Course_type_items--
+    
+     /**
+     * Count the number of course_types
+     * @param Condition $condition
+     * @return int
+     */
+    abstract function count_course_types($conditions = null);
+
+    /**
+     * Creates a coursetype object in persistent storage.
+     * @param CourseType $courseytype The coursetype to make persistent.
+     * @return boolean True if creation succceeded, false otherwise.
+     */
+    abstract function create_course_type($course_type);
+    
+    abstract function create_course_type_settings($course_type_settings);
+    
+    abstract function create_course_type_tool($course_type_tool);
+    
+    abstract function create_course_type_layout($course_type_layout);
+    
+    /**
+    * Updates the specified course_type in persistent storage,
+    * making any changes permanent.
+    * @param CourseType $course_type The course_type object
+    * @return boolean True if the update succceeded, false otherwise.
+    */
+    abstract function update_course_type($course_type);
+
+    abstract function update_course_type_settings($course_type_settings);
+
+    abstract function update_course_type_layout($course_type_layout);
+    
+    abstract function update_course_type_tool($course_type_tool);
+     
+    abstract function delete_course_type($course_type_id);
+    
+    /**
+     * Deletes the given course_type_tool from the database related to this given course_type.
+     * @param string $course_type_tool The course_type_tool
+    */
+    abstract function delete_course_type_tool($course_type_tool);
+         
+    /**
+     * Retrieves a single course_type from persistent storage.
+     * @param int $id
+     * @return CourseType The course_type
+    */
+    abstract function retrieve_course_type($id);
+    
+    abstract function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    abstract function retrieve_course_type_settings($id);
+    
+    abstract function retrieve_course_type_layout($id);
+    
+    abstract function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null);   
+    
+    //-- END -- Course_type_items--
+    
     /**
      * Count the number of courses
      * @param Condition $condition
      * @return int
-     */
+     */ 
     abstract function count_courses($conditions = null);
     
-    abstract function count_course_types($conditions = null);
-
     /**
      * Count the number of course categories
      * @param Condition $condition
@@ -177,19 +236,10 @@ abstract class WeblcmsDataManager
      */
     abstract function create_course($course);
     
-    /**
-     * Creates a coursetype object in persistent storage.
-     * @param CourseType $courseytype The coursetype to make persistent.
-     * @return boolean True if creation succceeded, false otherwise.
-     */
-    abstract function create_course_type($course_type);
+    abstract function create_course_settings($course_settings);
     
-    abstract function create_course_type_settings($course_type_settings);
-    
-    abstract function create_course_type_tool($course_type_tool);
-    
-    abstract function create_course_type_layout($course_type_layout);
-    
+    abstract function create_course_layout($course_layout);
+
     abstract function create_course_group_user_relation($course_group_user_relation);
 
     /**
@@ -428,7 +478,10 @@ abstract class WeblcmsDataManager
      * @return Course The course.
      */
     abstract function retrieve_course($course_code);
+    
+    abstract function retrieve_course_settings($course_code);
 
+    abstract function retrieve_course_layout($course_code);
     /**
      * Retrieve a series of courses
      * @param User $user
@@ -459,18 +512,9 @@ abstract class WeblcmsDataManager
      */
     abstract function update_course($course);
     
-    /**
-     * Updates the specified course_type in persistent storage,
-     * making any changes permanent.
-     * @param CourseType $course_type The course_type object
-     * @return boolean True if the update succceeded, false otherwise.
-     */
-    abstract function update_course_type($course_type);
+    abstract function update_course_settings($course_settings);
 
-    abstract function update_course_type_settings($course_type_settings);
-
-    abstract function update_course_type_layout($course_type_layout);
-    
+    abstract function update_course_layout($course_layout);
     /**
      * Updates the specified course category in persistent storage,
      * making any changes permanent.
@@ -625,20 +669,6 @@ abstract class WeblcmsDataManager
      * @param int id
      */
     abstract function retrieve_course_group($id);
-    
-    /**
-     * Retrieves a course_type
-     * @param int id
-     */
-    abstract function retrieve_course_type($id);
-    
-    abstract function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null);
-    
-    abstract function retrieve_course_type_settings($id);
-    
-    abstract function retrieve_course_type_layout($id);
-    
-    abstract function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null);
     
     /**
      * Retrieves the course_groups defined in a given course

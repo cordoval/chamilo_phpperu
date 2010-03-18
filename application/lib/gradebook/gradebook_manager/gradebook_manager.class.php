@@ -7,6 +7,7 @@ require_once Path :: get_library_path() . 'utilities.class.php';
 require_once Path :: get_application_path() . 'lib/gradebook/gradebook_rights.class.php';
 require_once dirname(__FILE__).'/component/gradebook_browser/gradebook_browser_table.class.php';
 require_once dirname(__FILE__).'/component/gradebook_subscribe_user_browser/gradebook_subscribe_user_browser_table.class.php';
+require_once dirname(__FILE__).'/component/gradebook_rel_user_browser/gradebook_rel_user_browser_table.class.php';
 
 require_once dirname(__FILE__).'/../gradebook_utilities.class.php';
 
@@ -242,15 +243,16 @@ class GradebookManager extends WebApplication
 		
 		if (isset ($_POST['action']))
 		{
-			
-			if(isset($_POST[GradebookBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){
+			if(isset($_POST[GradebookBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){ 
 				$selected_ids = $_POST[GradebookBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			}
 			
 			if(isset($_POST[GradebookSubscribeUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){
 				$selected_ids = $_POST[GradebookSubscribeUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			}
-			
+			if(isset($_POST[GradebookRelUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){
+				$selected_ids = $_POST[GradebookRelUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			}
 			
 			if (empty ($selected_ids))
 			{

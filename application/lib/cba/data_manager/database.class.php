@@ -8,7 +8,6 @@ require_once 'MDB2.php';
  *	This is a data manager that uses a database for storage. It was written
  *	for MySQL, but should be compatible with most SQL flavors.
  *
- *  @author Sven Vanpoucke
  *  @author Nick Van Loocke
  */
 
@@ -167,6 +166,23 @@ class DatabaseCbaDataManager extends CbaDataManager
     {
         return $this->database->count_objects(CompetencyCategory :: get_table_name(), $condition);
     }
+         
+	function create_competency_category($competency_category)
+    {
+        return $this->database->create($competency_category);
+    }
+
+	function update_competency_category($competency_category)
+    {
+        $condition = new EqualityCondition(CompetencyCategory :: PROPERTY_ID, $competency_category->get_id());
+        return $this->database->update($competency_category, $condition);
+    }
+
+    function delete_competency_category($competency_category)
+    {
+        $condition = new EqualityCondition(CompetencyCategory :: PROPERTY_ID, $competency_category->get_id());
+        return $this->database->delete($competency_category->get_table_name(), $condition);
+    }
     
 	function retrieve_indicator_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
@@ -178,6 +194,23 @@ class DatabaseCbaDataManager extends CbaDataManager
         return $this->database->count_objects(IndicatorCategory :: get_table_name(), $condition);
     }
     
+	function create_indicator_category($indicator_category)
+    {
+        return $this->database->create($indicator_category);
+    }
+    
+	function update_indicator_category($indicator_category)
+    {
+        $condition = new EqualityCondition(IndicatorCategory :: PROPERTY_ID, $indicator_category->get_id());
+        return $this->database->update($indicator_category, $condition);
+    }
+
+    function delete_indicator_category($indicator_category)
+    {
+        $condition = new EqualityCondition(IndicatorCategory :: PROPERTY_ID, $indicator_category->get_id());
+        return $this->database->delete($indicator_category->get_table_name(), $condition);
+    }
+    
 	function retrieve_criteria_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return $this->database->retrieve_objects(CriteriaCategory :: get_table_name(), $condition, $offset, $count, $order_property);
@@ -187,6 +220,28 @@ class DatabaseCbaDataManager extends CbaDataManager
     {
         return $this->database->count_objects(CriteriaCategory :: get_table_name(), $condition);
     }
+    
+	function create_criteria_category($criteria_category)
+    {
+        return $this->database->create($criteria_category);
+    }
+    
+	function update_criteria_category($criteria_category)
+    {
+        $condition = new EqualityCondition(CriteriaCategory :: PROPERTY_ID, $criteria_category->get_id());
+        return $this->database->update($criteria_category, $condition);
+    }
 
+    function delete_criteria_category($criteria_category)
+    {
+        $condition = new EqualityCondition(CriteriaCategory :: PROPERTY_ID, $criteria_category->get_id());
+        return $this->database->delete($criteria_category->get_table_name(), $condition);
+    }
+
+    
+	function retrieve_max_sort_value($table_name, $column, $condition)
+    {
+        return $this->database->retrieve_max_sort_value($table_name, $column, $condition);
+    }
 }
 ?>

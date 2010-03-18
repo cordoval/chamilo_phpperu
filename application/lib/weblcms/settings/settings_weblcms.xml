@@ -15,6 +15,11 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
+			<setting name="show_subscribe_button_on_course_home" field="checkbox" default="1">
+				<options type="static">
+					<option name="show_subscribe_button_on_course_home" value="1" />
+				</options>
+			</setting>
 		</category>
 		<category name="tools">
 			<setting name="enable_introduction" field="radio" default="1">

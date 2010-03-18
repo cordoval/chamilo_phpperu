@@ -13,4 +13,5 @@ $lang['assessment']['UsersInvited'] = 'Users invited';
 $lang['assessment']['NoAssessmentPublicationsSelected'] = 'No assessment publications selected';
 $lang['assessment']['Assessments'] = 'Assessments';
 $lang['assessment']['PublishAndBuild'] = 'Publish and build';
+$lang['assessment']['Logout'] = 'Log out';
 ?>

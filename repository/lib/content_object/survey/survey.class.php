@@ -4,7 +4,7 @@
  * @package repository.lib.content_object.survey
  */
 /**
- * This class represents an assessment
+ * This class represents an survey
  */
 
 require_once (dirname(__FILE__) . '/survey_context.class.php');
@@ -57,40 +57,12 @@ class Survey extends ContentObject
     {
         $type = $this->get_additional_property(self :: PROPERTY_CONTEXT);
         return SurveyContext :: factory($type);
-        
-    //        if ($context === 'nocontext')
-    //        {
-    //            return null;
-    //        }
-    //        else
-    //        {
-    //            require_once dirname(__FILE__) . '/connector/' . 'survey_' . $context . '_' . 'context_connector.class.php';
-    //            $context = ucfirst($context);
-    //            $class = 'Survey' . $context . 'ContextConnector';
-    //            return new $class();
-    //        }
-    
-
     }
 
     function set_context($value)
     {
         $this->set_additional_property(self :: PROPERTY_CONTEXT, $value);
     }
-
-    //    function has_context()
-    //    {
-    //        $context = $this->get_additional_property(self :: PROPERTY_CONTEXT);
-    //        if ($context === 'nocontext')
-    //        {
-    //            return false;
-    //        }
-    //        else
-    //        {
-    //            return true;
-    //        }
-    //    }
-    
 
     function set_context_instance($context)
     {
@@ -112,6 +84,11 @@ class Survey extends ContentObject
     function get_table()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+    
+	function is_versionable()
+    {
+        return false;
     }
 
 }

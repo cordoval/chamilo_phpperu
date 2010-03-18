@@ -27,7 +27,6 @@ class ReportingTextFormatter extends ReportingFormatter
         
         $pager = $this->create_pager($pager_params);
         $pager_links = $this->get_pager_links($pager);
-        
         $offset = $pager->getOffsetByPageId();
         
         $start = $offset[0];

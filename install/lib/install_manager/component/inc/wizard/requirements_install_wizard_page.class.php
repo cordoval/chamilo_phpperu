@@ -186,19 +186,31 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 
     function buildForm()
     {
-        Session :: register('normal_install', 1);
-
     	$this->set_lang($this->controller->exportValue('page_language', 'install_language'));
 
         $this->_formBuilt = true;
 
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('refresh'), Translation :: get('Refresh'), array('class' => 'normal refresh', 'id' => 'refresh_button'));
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
 
         $table = new SimpleTable($this->get_data(), new DiagnoserCellRenderer(), null, 'diagnoser');
         $this->addElement('html', $table->toHTML());
 
+        $script = array();
+        $script[] = '<script type="text/javascript">';
+        $script[] = '//Tim brouckaert 2010 03 11: added for refresh button';
+        $script[] = '$(document).ready(function ()';
+        $script[] = '{';
+        $script[] = '	$(\'#refresh_button\').click(function(){';
+        $script[] = '		location.reload();';
+        $script[] = '		return false;';
+        $script[] = '	});';
+        $script[] = '});';
+        $script[] = '</script>';
+
+        $this->addElement('html', implode("\n", $script));
 
         $this->get_data();
         if ($this->fatal)

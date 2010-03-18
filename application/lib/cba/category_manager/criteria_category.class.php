@@ -9,9 +9,12 @@ class CriteriaCategory extends PlatformCategory
 
     function create()
     {
-        $adm = CbaDataManager :: get_instance();
-        $this->set_display_order($adm->select_next_criteria_category_display_order($this->get_parent()));
-        return $adm->create_criteria_category($this);
+        $cdm = CbaDataManager :: get_instance();
+        $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $this->get_parent());
+        $sort = $cdm->retrieve_max_sort_value(self :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
+        $this->set_display_order($sort + 1);
+
+        return $cdm->create_criteria_category($this);
     }
 
     function update()

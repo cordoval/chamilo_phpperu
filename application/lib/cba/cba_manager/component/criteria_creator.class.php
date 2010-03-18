@@ -10,8 +10,15 @@ class CbaManagerCriteriaCreatorComponent extends CbaManagerComponent
 {
 
 	function run()
-	{				
+	{	
+		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('CBA')));
+        $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA)), Translation :: get('BrowseCriteria')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateCriteria')));
+		$this->display_header($trail, false, true);
+		
 		$criteria = new Criteria();
+		$criteria->set_owner_id($this->get_user_id());
 		$form = new CriteriaForm(CriteriaForm :: TYPE_CREATOR_CRITERIA, $criteria, $this->get_url(), $this->get_user());
 
 		if($form->validate())
@@ -21,8 +28,6 @@ class CbaManagerCriteriaCreatorComponent extends CbaManagerComponent
 		}
 		else
 		{
-			$new = 'CriteriaCreator';
-			$this->display_header($trail, false, true, $new);
 			$form->display();
 		}
 		$this->display_footer();
