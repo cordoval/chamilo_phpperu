@@ -30,8 +30,7 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('CourseTypes')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseTypeList')));
         $trail->add_help('coursetype general');
-       
-        
+              
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
@@ -47,8 +46,7 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
     }
 
     function get_course_type_html()
-    {
-        //$table = new AdminCourseTypeBrowserTable($this, null, $this->get_condition());      
+    {    
         $html = array();
         
         $html[] = '<div style="clear: both;"></div>';
@@ -69,14 +67,11 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
 		$action_bar->set_search_url($this->get_url());
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
 		$action_bar->set_search_url($this->get_url());
 		
 		return $action_bar;
 	}
-
-
-    
+	  
 	function get_table_html()
 	{
 		$parameters = $this->get_parameters();
