@@ -697,6 +697,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $this->database->retrieve_object(CourseSettings :: get_table_name(), $condition);
     }
     
+    function retrieve_course_layout($id)
+    {
+        $condition = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $id);
+        return $this->database->retrieve_object(CourseLayout :: get_table_name(), $condition);
+    }
+    
     function retrieve_courses($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
@@ -788,6 +794,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function create_course_settings($course_settings)
     {
         return $this->database->create($course_settings);
+    }
+    
+    function create_course_layout($course_layout)
+    {
+        return $this->database->create($course_layout);
     }
     
     function create_course_type($course_type)
@@ -997,8 +1008,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     
     function update_course_settings($course_settings)
     {
-        $condition = new EqualityCondition(Course :: PROPERTY_COURSE_ID, $course_settings->get_course_id());
+        $condition = new EqualityCondition(CourseSettings :: PROPERTY_COURSE_ID, $course_settings->get_course_id());
         return $this->database->update($course_settings, $condition);
+    }
+    
+    function update_course_layout($course_layout)
+    {
+        $condition = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $course_layout->get_course_id());
+        return $this->database->update($course_layout, $condition);
     }
     
     function update_course_type($course_type)

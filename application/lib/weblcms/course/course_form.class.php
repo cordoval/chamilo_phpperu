@@ -14,6 +14,8 @@ class CourseForm extends FormValidator
     const TYPE_EDIT = 2;
     const RESULT_SUCCESS = 'ObjectUpdated';
     const RESULT_ERROR = 'ObjectUpdateFailed';
+    
+   	const UNLIMITED_MEMBERS = 'unlimited_members';
 
     private $parent;
     private $course;
@@ -153,11 +155,34 @@ class CourseForm extends FormValidator
 		}
 		else
 		{
-			$members = $this->createElement('text', CourseSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS , Translation :: get('MaximumNumberOfMembers'), array('id' => 'max_number','size' => '4'));
-			$members_unlimited = $this->createElement('checkbox', 'unlimited' , Translation :: get('Unlimited'),'', array('id' => 'unlimited'));
-			$this->add_row_elements_required(array($members, $members_unlimited));
+	        $choices = array();
+	        $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Unlimited'), 1, array('onclick' => 'javascript:window_hide(\'' . self :: UNLIMITED_MEMBERS . '_window\')', 'id' => self :: UNLIMITED_MEMBERS));
+	        $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Limited'), 0, array('onclick' => 'javascript:window_show(\'' . self :: UNLIMITED_MEMBERS . '_window\')'));
+	        $this->addGroup($choices, null, Translation :: get('MaximumNumberOfMembers'), '<br />', false);
+	        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . self :: UNLIMITED_MEMBERS . '_window">');
+	        $this->add_textfield(CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS, null, false);
+	        $this->addElement('html', '</div>');
 		}		
 		$this->addElement('category');
+		
+		$this->addElement('html', "<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					var " . self :: UNLIMITED_MEMBERS . " = document.getElementById('" . self :: UNLIMITED_MEMBERS . "');
+					if (" . self :: UNLIMITED_MEMBERS . ".checked)
+					{
+						window_hide('" . self :: UNLIMITED_MEMBERS . "_window');
+					}
+
+					function window_show(item) {
+						el = document.getElementById(item);
+						el.style.display='';
+					}
+					function window_hide(item) {
+						el = document.getElementById(item);
+						el.style.display='none';
+					}
+					/* ]]> */
+					</script>\n");
     }
 
 	function build_layout_form()
@@ -260,6 +285,10 @@ class CourseForm extends FormValidator
 			return false;
 		}
 		
+		$course_layout = $this->fill_course_layout();
+		if(!$course_layout->update())
+			return false;
+		
 		return true;
     }
 
@@ -268,42 +297,35 @@ class CourseForm extends FormValidator
         $course = $this->fill_course_general_settings();
         
     	if(!$course->create())
-		{
 			return false;
-		}
 
 		$course_settings = $this->fill_course_settings();
 		
 		if (!$course_settings->create())
-		{
 			return false;
-		}
 		
+		$course_layout = $this->fill_course_layout();
+		
+		if(!$course_layout->create())
+			return false;
+			
         $wdm = WeblcmsDataManager :: get_instance();
         if (! $this->user->is_platform_admin())
-        {
             $user_id = $this->user->get_id();
-        }
         else
-        {
             $user_id = $course->get_titular();
-        }
             
         if ($wdm->subscribe_user_to_course($course, '1', '1', $user_id))
-        {
             return true;
-        }
         else
-        {
             return false;
-        }
     }
 
     function fill_course_general_settings()
     {
     	$course = $this->course;
 		$values = $this->exportValues();
-    	$course->set_id($values[Course :: PROPERTY_ID]);
+    	//$course->set_id($values[Course :: PROPERTY_ID]);
         $course->set_visual($values[Course :: PROPERTY_VISUAL]);
         $course->set_name($values[Course :: PROPERTY_NAME]);
         $course->set_category($values[Course :: PROPERTY_CATEGORY]);
@@ -320,9 +342,9 @@ class CourseForm extends FormValidator
 		$course_settings = $course->get_settings();
 		$course_settings->set_course_id($course->get_id());
 		$course_settings->set_language($values[CourseTypeSettings :: PROPERTY_LANGUAGE]);
-		$course_settings->set_visibility($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY]));
-		$course_settings->set_access($this->get_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
-		if($this->get_checkbox_value($values['unlimited']))
+		$course_settings->set_visibility($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY]));
+		$course_settings->set_access($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
+		if($values[self::UNLIMITED_MEMBERS])
 			$members = 0;
 		else
 			$members = $values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS];
@@ -330,12 +352,12 @@ class CourseForm extends FormValidator
 		return $course_settings;
 	}
     
-	function fill_course_type_layout()
+	function fill_course_layout()
 	{
 		$course = $this->course;
 		$values = $this->exportValues();
 		$course_layout = $course->get_layout_settings();
-		$course_layout->set_course_type_id($this->course_type->get_id());	
+		$course_layout->set_course_id($this->course->get_id());	
 		$course_layout->set_intro_text($values[CourseLayout :: PROPERTY_INTRO_TEXT]);
 		$course_layout->set_student_view($values[CourseLayout :: PROPERTY_STUDENT_VIEW]);
 		$course_layout->set_layout($values[CourseLayout :: PROPERTY_LAYOUT]);
@@ -345,7 +367,7 @@ class CourseForm extends FormValidator
 		$course_layout->set_feedback($values[CourseLayout :: PROPERTY_FEEDBACK]);
 		$course_layout->set_course_code_visible($values[CourseLayout :: PROPERTY_COURSE_CODE_VISIBLE]);
 		$course_layout->set_course_manager_name_visible($values[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE]);
-		$course_layout->set_course_languages_visible($values[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]);	
+		$course_layout->set_course_languages_visible($values[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]);
 		return $course_layout;		
 	}
 	
@@ -371,8 +393,8 @@ class CourseForm extends FormValidator
         $defaults[CourseSettings :: PROPERTY_LANGUAGE] = $course_settings->get_language();
 		$defaults[CourseSettings :: PROPERTY_VISIBILITY] = $course_settings->get_visibility();
 		$defaults[CourseSettings :: PROPERTY_ACCESS] = $course_settings->get_access();
-		$defaults[CourseSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $course_settings->get_max_number_of_members();
-		$defaults['unlimited'] = ($course_settings->get_max_number_of_members() == 0)? 1:0;
+		$defaults[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $course_settings->get_max_number_of_members();
+		$defaults[self :: UNLIMITED_MEMBERS] = ($course_settings->get_max_number_of_members() == 0)? 1:0;
 		
 		$course_layout = $course;
         if(is_null($course->get_id())) $course_layout = $course->get_course_type()->get_layout_settings();
@@ -389,14 +411,6 @@ class CourseForm extends FormValidator
         
         parent :: setDefaults($defaults);
     }
-    
-	function get_checkbox_value($checkbox)
-	{
-		if(isset($checkbox) && $checkbox == 1)
-		return 1;
-		else
-		return 0;
-	}
     
 	/**
 	 * Function add_row_elements_required adds a row of small elements e.g. checkbox, text for a small number

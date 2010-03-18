@@ -237,6 +237,8 @@ abstract class WeblcmsDataManager
     abstract function create_course($course);
     
     abstract function create_course_settings($course_settings);
+    
+    abstract function create_course_layout($course_layout);
 
     abstract function create_course_group_user_relation($course_group_user_relation);
 
@@ -479,6 +481,7 @@ abstract class WeblcmsDataManager
     
     abstract function retrieve_course_settings($course_code);
 
+    abstract function retrieve_course_layout($course_code);
     /**
      * Retrieve a series of courses
      * @param User $user
@@ -510,7 +513,8 @@ abstract class WeblcmsDataManager
     abstract function update_course($course);
     
     abstract function update_course_settings($course_settings);
-    
+
+    abstract function update_course_layout($course_layout);
     /**
      * Updates the specified course category in persistent storage,
      * making any changes permanent.

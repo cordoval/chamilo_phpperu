@@ -613,7 +613,7 @@ class WeblcmsManager extends WebApplication
 			$wdm = WeblcmsDataManager :: get_instance();
 			$this->course = $wdm->retrieve_course($this->get_parameter(self :: PARAM_COURSE));
 			$this->course->set_settings($wdm->retrieve_course_settings($this->get_parameter(self :: PARAM_COURSE)));
-			$this->course->set_layout_settings(new CourseLayout());
+			$this->course->set_layout_settings($wdm->retrieve_course_layout($this->get_parameter(self :: PARAM_COURSE)));
 			$this->course->set_course_type($this->course_type);
 		}
 		else
