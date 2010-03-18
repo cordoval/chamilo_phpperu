@@ -7,6 +7,9 @@
 		<property name="state" type="integer" length="1" unsigned="1" notnull="1" default="0" />
   		<property name="parent_id" type="integer" unsigned="1" notnull="1" default="0" />
   		<property name="owner_id" type="integer" unsigned="1" notnull="1" />
+  		<property name="description_score" type="text" notnull="1" default=""/>
+  		<property name="score" type="text" length="5" notnull="1" default=""/>
+  		<property name="feedback_id" type="integer" unsigner="1" notnull="1" default="0" />
 	</properties>
 	<index name="owner_id">
 		<indexproperty name="owner_id" />
