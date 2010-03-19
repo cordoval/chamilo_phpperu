@@ -34,6 +34,7 @@ class CourseTypeForm extends FormValidator
 			$this->build_creation_form();
 		}
 		$this->setDefaults();
+		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/viewable_checkbox.js'));
 		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
 	}
 
@@ -77,7 +78,8 @@ class CourseTypeForm extends FormValidator
 
 	function build_tools_form()
 	{
-		$tools = $this->parent->get_all_non_admin_tools();
+		$wdm = WeblcmsDataManager :: get_instance();
+		$tools = $wdm->get_tools('basic');
 		$data = array();
 
 		//Tools defaults
@@ -250,8 +252,9 @@ class CourseTypeForm extends FormValidator
 		{
 			return false;
 		}
-
-		$tools = $this->parent->get_all_non_admin_tools();
+		
+		$wdm = WeblcmsDataManager :: get_instance();
+		$tools = $wdm->get_tools('basic');
 		$selected_tools = $this->fill_course_type_tools($tools);
 		$default_tools = $this->course_type->get_tools();
 
@@ -312,7 +315,8 @@ class CourseTypeForm extends FormValidator
 			return false;
 		}
 
-		$tools = $this->parent->get_all_non_admin_tools();
+		$wdm = WeblcmsDataManager :: get_instance();
+		$tools = $wdm->get_tools('basic');
 		$selected_tools = $this->fill_course_type_tools($tools);
 		$validation = true;
 
@@ -321,7 +325,6 @@ class CourseTypeForm extends FormValidator
 			if(!$tool->create())
 				$validation = false;
 		}
-
 
 		if(!$validation)
 		{

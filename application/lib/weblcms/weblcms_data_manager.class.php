@@ -44,6 +44,44 @@ abstract class WeblcmsDataManager
         return self :: $instance;
     }
 
+	/*
+	 * Gets the tool of a section
+	 */
+	function get_tools($requested_section = 'all')
+	{
+		$course_modules = Array();
+		$tool_dir = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'tool'));
+		if ($handle = opendir($tool_dir))
+		{
+			while (false !== ($file = readdir($handle)))
+			{
+				if (substr($file, 0, 1) != '.' && $file != 'component')
+				{
+					$file_path = $tool_dir . DIRECTORY_SEPARATOR . $file;
+					if (is_dir($file_path))
+					{
+						// TODO: Move to an XML format for tool properties, instead of .hidden, .section and whatnot
+						$section_file = $file_path . DIRECTORY_SEPARATOR . '.section';
+						if (file_exists($section_file))
+						{
+							$contents = file($section_file);
+							$section = rtrim($contents[0]);
+						}
+						else
+						{
+							$section = 'basic';
+						}
+
+						if($section == $requested_section || $requested_section == 'all')
+							$course_modules[] = $file;
+					}
+				}
+			}
+			closedir($handle);
+		}
+		return $course_modules;
+	}
+    
     abstract function retrieve_max_sort_value($table, $column, $condition = null);
 
     /**
@@ -241,6 +279,10 @@ abstract class WeblcmsDataManager
     abstract function create_course_layout($course_layout);
 
     abstract function create_course_group_user_relation($course_group_user_relation);
+    
+    abstract function create_course_modules($course_modules, $course_code);
+    
+    abstract function create_course_module($course_module);
 
     /**
      * Creates a course category object in persistent storage.
@@ -464,7 +506,7 @@ abstract class WeblcmsDataManager
      * @param string $course_code The course code
      * @return array The list of available course modules
      */
-    abstract function get_course_modules($course_code);
+ /*   abstract function get_course_modules($course_code);*/
 
     /**
      * Gets all course modules
@@ -515,6 +557,8 @@ abstract class WeblcmsDataManager
     abstract function update_course_settings($course_settings);
 
     abstract function update_course_layout($course_layout);
+    
+    abstract function update_course_module($course_module);
     /**
      * Updates the specified course category in persistent storage,
      * making any changes permanent.
