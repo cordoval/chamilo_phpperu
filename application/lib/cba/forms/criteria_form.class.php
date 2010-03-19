@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../criteria.class.php';
+require_once dirname(__FILE__) . '/../criteria_score.class.php';
 /**
  * This class describes a CriteriaForm object
  * 
@@ -11,14 +12,16 @@ class CriteriaForm extends FormValidator
 	const TYPE_EDITOR_CRITERIA = 2;
 
 	private $criteria;
+	private $criteria_score;
 	private $user;
 	private $owner_id;
 
-    function CriteriaForm($form_type, $criteria, $action, $user)
+    function CriteriaForm($form_type, $criteria, $criteria_score, $action, $user)
     {
     	parent :: __construct('criteria_settings', 'post', $action);
 
     	$this->criteria = $criteria;
+    	$this->criteria_score = $criteria_score;
     	$this->user = $user;
 		$this->form_type = $form_type;
 		$this->owner_id = $criteria->get_owner_id();
@@ -27,6 +30,7 @@ class CriteriaForm extends FormValidator
 		{
 			$this->build_creator_criteria_form();
 			$this->setCriteriaDefaults();
+			$this->setCriteriaScoreDefaults();
 		}
     	elseif ($this->form_type == self :: TYPE_EDITOR_CRITERIA)
 		{
@@ -53,10 +57,8 @@ class CriteriaForm extends FormValidator
 		
     	$this->addElement('select', Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
         $this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-        
-        $this->extra_criteria_form();
-		
+		     
+        $this->criteria_score_form();
         
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -111,13 +113,35 @@ class CriteriaForm extends FormValidator
     	$criteria->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
     	$parent = $this->exportValue(Criteria :: PROPERTY_PARENT_ID);
-    	
-    	
+    	   	
     	$criteria->set_title($values[Criteria :: PROPERTY_TITLE]);
     	$criteria->set_description($values[Criteria :: PROPERTY_DESCRIPTION]);
     	$criteria->move($parent);
 
    		return $criteria->create();
+    }
+    
+    function create_criteria_score()
+    {
+    	$criteria = $this->criteria;
+    	$criteria_score = $this->criteria_score;
+    	$criteria_score->set_owner_id($this->get_owner_id());
+    	$values = $this->exportValues();
+    	$parent = $this->exportValue(CriteriaScore :: PROPERTY_PARENT_ID);
+    	
+    	$criteria_score->set_criteria_id($criteria->get_id());   	
+    	$criteria_score->set_description_score($values[CriteriaScore :: PROPERTY_DESCRIPTION_SCORE]);
+		$criteria_score->set_score($values[CriteriaScore :: PROPERTY_SCORE]);
+    	/*if(($criteria_score->get_score() == null) || ($criteria_score->get_score() == null))
+    		echo 'null pointer exception';
+    	else
+    		echo $criteria_score->get_criteria_id();
+    		echo '<br/>';
+    		echo $criteria_score->get_description_score();
+    		echo '<br/>';
+    		echo $criteria_score->get_score();
+    	exit;*/
+   		return $criteria_score->create();
     }
     
 	function update_criteria()
@@ -147,11 +171,23 @@ class CriteriaForm extends FormValidator
 		parent :: setDefaults($defaults);
 	}
 	
+	function setCriteriaScoreDefaults($defaults = array ())
+	{
+		$criteria_score = $this->criteria_score;
+
+		$defaults[CriteriaScore :: PROPERTY_ID] = $criteria_score->get_id();
+    	$defaults[CriteriaScore :: PROPERTY_CRITERIA_ID] = $criteria_score->get_criteria_id();
+    	$defaults[CriteriaScore :: PROPERTY_DESCRIPTION_SCORE] = $criteria_score->get_description_score();
+		$defaults[CriteriaScore :: PROPERTY_SCORE] = $criteria_score->get_score();
+    	
+		parent :: setDefaults($defaults);
+	}
+	
 	
 	
 	// Dynamic form options
 	
-	private function extra_criteria_form()
+	function criteria_score_form()
     {
         
         if (! $this->isSubmitted())
@@ -231,12 +267,12 @@ class CriteriaForm extends FormValidator
             {
                 $group = array();
 				$group[] = $this->add_option_number_field($option_number);
-				$group[] = & $this->add_description_score_field($option_number);
-                $group[] = & $this->add_score_field($option_number);
+				$group[] = $this->add_description_score_field($option_number);
+                $group[] = $this->add_score_field($option_number);
 				
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 1)
                 {
-                	$group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                	$group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
                 }
                 $this->addGroup($group, PlatformCategory :: PROPERTY_NAME . $option_number, Translation :: get('Criteria'), '&nbsp;', false);
                 $this->addRule(PlatformCategory :: PROPERTY_NAME . $option_number, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -262,14 +298,16 @@ class CriteriaForm extends FormValidator
     
 	function add_description_score_field($number = null)
     {
-        $element = $this->createElement('text', PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('DescriptionScore'), array("size" => "70"));
-		return $element;
+        //$element = $this->createElement('text', PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('DescriptionScore'), array("size" => "70"));
+		$element = $this->createElement('text', CriteriaScore :: PROPERTY_DESCRIPTION_SCORE, Translation :: get('DescriptionScore'), array("size" => "70"));
+        return $element;
     }
     
 	function add_score_field($number = null)
     {
-        $element = $this->createElement('text', PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('Score'), array("size" => "10"));
-        return $element;
+        //$element = $this->createElement('text', PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('Score'), array("size" => "10"));
+        $element = $this->createElement('text', CriteriaScore :: PROPERTY_SCORE, Translation :: get('Score'), array("size" => "10"));
+    	return $element;
     }
     
 	function validate()
@@ -280,5 +318,6 @@ class CriteriaForm extends FormValidator
         }
         return parent :: validate();
     }
+  
 }
 ?>

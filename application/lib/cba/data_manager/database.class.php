@@ -2,6 +2,7 @@
 require_once dirname(__FILE__).'/../competency.class.php';
 require_once dirname(__FILE__).'/../indicator.class.php';
 require_once dirname(__FILE__).'/../criteria.class.php';
+require_once dirname(__FILE__).'/../criteria_score.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -21,6 +22,7 @@ class DatabaseCbaDataManager extends CbaDataManager
 		$aliases[Competency :: get_table_name()] = 'competency';
 		$aliases[Indicator :: get_table_name()] = 'indicator';
 		$aliases[Criteria :: get_table_name()] = 'criteria';
+		$aliases[CriteriaScore :: get_table_name()] = 'criteria_score';
 
 		$this->database = new Database($aliases);
 		$this->database->set_prefix('cba_');
@@ -151,6 +153,46 @@ class DatabaseCbaDataManager extends CbaDataManager
 	function retrieve_criterias($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return $this->database->retrieve_objects(Criteria :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+	}
+	
+	// Criteria score CRUD, ...
+	
+	function get_next_criteria_score_id()
+	{
+		return $this->database->get_next_id(CriteriaScore :: get_table_name());
+	}
+
+	function create_criteria_score($criteria_score)
+	{
+		return $this->database->create($criteria_score);
+	}
+	
+	function update_criteria_score($criteria_score)
+	{
+		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $criteria_score->get_id());
+		return $this->database->update($criteria_score, $condition);
+	}
+	
+	function delete_criteria_score($criteri_scorea)
+	{
+		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $criteria_score->get_id());
+		return $this->database->delete($criteria_score->get_table_name(), $condition);
+	}
+
+	function count_criterias_score($condition = null)
+	{
+		return $this->database->count_objects(CriteriaScore :: get_table_name(), $condition);
+	}
+	
+	function retrieve_criteria_score($id)
+	{
+		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(CriteriaScore :: get_table_name(), $condition);
+	}
+	
+	function retrieve_criterias_score($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return $this->database->retrieve_objects(CriteriaScore :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 	
 	

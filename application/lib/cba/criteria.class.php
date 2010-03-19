@@ -15,6 +15,7 @@ class Criteria extends DataClass
     /**
      * Constant to define the recycled state of a learning object (= learning
      * object is moved to recycle bin)
+     * Recycle bin is not used in the CBA application
      */
     const STATE_RECYCLED = 1;
     /**
@@ -30,11 +31,6 @@ class Criteria extends DataClass
 	const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_STATE = 'state';
-    
-    const PROPERTY_DESCRIPTION_SCORE = 'description_score';
-    const PROPERTY_SCORE = 'score';
-    const PROPERTY_FEEDBACK_ID = 'feedback_id';
-
 
 	static function get_default_property_names()
 	{
@@ -95,37 +91,6 @@ class Criteria extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_STATE, $state);
 	}
-	
-	function get_description_score()
-	{
-		return $this->get_default_property(self :: PROPERTY_DESCRIPTION_SCORE);
-	}
-
-	function set_description_score($description_score)
-	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION_SCORE, $description_score);
-	}
-	
-	function get_score()
-	{
-		return $this->get_default_property(self :: PROPERTY_SCORE);
-	}
-
-	function set_score($score)
-	{
-		$this->set_default_property(self :: PROPERTY_SCORE, $score);
-	}
-	
-	function get_feedback_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_FEEDBACK_ID);
-	}
-
-	function set_feedback_id($feedback_id)
-	{
-		$this->set_default_property(self :: PROPERTY_FEEDBACK_ID, $feedback_id);
-	}
-
 
 	static function get_table_name()
 	{

@@ -15,6 +15,7 @@ class Competency extends DataClass
     /**
      * Constant to define the recycled state of a learning object (= learning
      * object is moved to recycle bin)
+     * Recycle bin is not used in the CBA application
      */
     const STATE_RECYCLED = 1;
     /**
