@@ -32,11 +32,6 @@ $(function () {
         $('#selectbuttons').show();
         $('#selectall').live('click', selectall_clicked);
         $('#unselectall').live('click', unselectall_clicked);
-        //Tim brouckaert 2010 03 11: added for refresh button
-        jQuery('#refreshBtn').click(function(){
-        	window.location.href=window.location.href; 
-        	return false;
-        });
 	});
 
 });

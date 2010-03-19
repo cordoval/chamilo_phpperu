@@ -15,6 +15,8 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
  {
  	const APPLICATION_NAME = 'cba';
  	
+ 	const PARAM_CATEGORY_ID = 'category';
+ 	
 	const PARAM_COMPETENCY = 'competency';
 	const PARAM_INDICATOR = 'indicator';
 	const PARAM_CRITERIA = 'criteria';
@@ -52,11 +54,17 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	const ACTION_CREATE = 'create';
 	const ACTION_VIEW_SEARCH_COMPETENCY = 'search';
 	
-	const PARAM_MOVE_COMPETENCY_SELECTED = 'move_competency';
+	const PARAM_MOVE_COMPETENCY_SELECTED = 'move_selected_competency';
+	const PARAM_MOVE_INDICATOR_SELECTED = 'move_selected_indicator';
+	const PARAM_MOVE_CRITERIA_SELECTED = 'move_selected_criteria';
+	
 	const ACTION_MOVE_COMPETENCY = 'move_competency';
 	const ACTION_MOVE_INDICATOR = 'move_indicator';
 	const ACTION_MOVE_CRITERIA = 'move_criteria';
 	
+	const PARAM_MOVE_SELECTED_COMPETENCYS = 'move_selected_competencys';
+	const PARAM_MOVE_SELECTED_INDICATORS = 'move_selected_indicators';
+	const PARAM_MOVE_SELECTED_CRITERIAS = 'move_selected_criterias';
 
 	private $category_menu;
 	
@@ -68,6 +76,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
     {
     	parent :: __construct($user);
     	$this->parse_input_from_table();
+    	$this->determine_category_settings();
     }
 
     /**
@@ -144,13 +153,21 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
             	break;
             case self :: PARAM_MOVE_COMPETENCY_SELECTED :
                 $this->set_action(self :: ACTION_MOVE_COMPETENCY);
-                Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
+                Request :: set_get(self :: PARAM_COMPETENCY, $selected_ids);
                 break;
-           	case self :: ACTION_MOVE_INDICATOR :
+            case self :: ACTION_MOVE_INDICATOR :
                 $component = CbaManagerComponent :: factory('IndicatorMover', $this);
+            	break;
+            case self :: PARAM_MOVE_INDICATOR_SELECTED :
+                $this->set_action(self :: ACTION_MOVE_INDICATOR);
+                Request :: set_get(self :: PARAM_INDICATOR, $selected_ids);
                 break;
-        	case self :: ACTION_MOVE_CRITERIA :
+            case self :: ACTION_MOVE_CRITERIA :
                 $component = CbaManagerComponent :: factory('CriteriaMover', $this);
+            	break;
+            case self :: PARAM_MOVE_CRITERIA_SELECTED :
+                $this->set_action(self :: ACTION_MOVE_CRITERIA);
+                Request :: set_get(self :: PARAM_CRITERIA, $selected_ids);
                 break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_COMPETENCY);
@@ -164,6 +181,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	{
 		if (isset ($_POST['action']))
 		{
+			
 			switch ($_POST['action'])
 			{
 				case self :: PARAM_DELETE_SELECTED_COMPETENCYS:
@@ -213,6 +231,48 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 					$this->set_action(self :: ACTION_DELETE_CRITERIAS);
 					$_GET[self :: PARAM_CRITERIA] = $selected_ids;
 					break;
+				case self :: PARAM_MOVE_SELECTED_COMPETENCYS :
+					$selected_ids = $_POST[CompetencyBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+
+					if (empty ($selected_ids))
+					{
+						$selected_ids = array ();
+					}
+					elseif (!is_array($selected_ids))
+					{
+						$selected_ids = array ($selected_ids);
+					}
+                    $this->set_action(self :: ACTION_MOVE_COMPETENCY);
+                	Request :: set_get(self :: PARAM_COMPETENCY, $selected_ids);
+                    break;
+                case self :: PARAM_MOVE_SELECTED_INDICATORS :
+					$selected_ids = $_POST[IndicatorBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+
+					if (empty ($selected_ids))
+					{
+						$selected_ids = array ();
+					}
+					elseif (!is_array($selected_ids))
+					{
+						$selected_ids = array ($selected_ids);
+					}
+                    $this->set_action(self :: ACTION_MOVE_INDICATOR);
+                	Request :: set_get(self :: PARAM_INDICATOR, $selected_ids);
+                    break;
+                case self :: PARAM_MOVE_SELECTED_CRITERIAS :
+					$selected_ids = $_POST[CriteriaBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+
+					if (empty ($selected_ids))
+					{
+						$selected_ids = array ();
+					}
+					elseif (!is_array($selected_ids))
+					{
+						$selected_ids = array ($selected_ids);
+					}
+                    $this->set_action(self :: ACTION_MOVE_CRITERIA);
+                	Request :: set_get(self :: PARAM_CRITERIA, $selected_ids);
+                    break;
 			}
 
 		}
@@ -435,7 +495,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
         
         if ($display_menu)
         {
-        	echo '<div id="repository_tree_container" style="float: left; width: 13%;">';
+        	echo '<div id="repository_tree_container" style="float: left; width: 14%; overflow-y: hidden;">';
             $this->display_content_object_categories();
             echo '</div>';
             echo '<div style="float: right; width: 85%;">';
@@ -460,19 +520,28 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
         }
     }
     
+
+    private function determine_category_settings()
+    {
+        if (Request :: get(self :: PARAM_CATEGORY_ID))
+        {
+            $this->set_parameter(self :: PARAM_CATEGORY_ID, intval(Request :: get(self :: PARAM_CATEGORY_ID)));
+        }
+    }
+    
     
     private function get_category_menu($force_search = false)
     {
         if (! isset($this->category_menu))
         {
             $temp_replacement = '__CATEGORY_ID__';
-            $url_format = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_COMPETENCY, self :: PARAM_COMPETENCY => $temp_replacement));
+            $url_format = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_COMPETENCY, self :: PARAM_CATEGORY_ID => $temp_replacement));
             $url_format = str_replace($temp_replacement, '%s', $url_format);
-            $category = $this->get_parameter(self :: PARAM_COMPETENCY);
+            $category = $this->get_parameter(self :: PARAM_CATEGORY_ID);
             if (! isset($category))
             {
                 $category = $this->get_root_category_id();
-                //$this->set_parameter(self :: PARAM_COMPETENCY, $category);
+                $this->set_parameter(self :: PARAM_CATEGORY_ID, $category);
             }
             
             $extra_items = array();

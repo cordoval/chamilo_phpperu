@@ -155,13 +155,13 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 				switch ($this->get_course()->get_breadcrumb())
 				{
-					case Course :: BREADCRUMB_TITLE :
+					case CourseLayout :: BREADCRUMB_TITLE :
 						$title = $this->get_course()->get_name();
 						break;
-					case Course :: BREADCRUMB_CODE :
+					case CourseLayout :: BREADCRUMB_CODE :
 						$title = $this->get_course()->get_visual();
 						break;
-					case Course :: BREADCRUMB_COURSE_HOME :
+					case CourseLayout :: BREADCRUMB_COURSE_HOME :
 						$title = Translation :: get('CourseHome');
 						break;
 					default :
@@ -197,7 +197,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 				//Display menu
 				$menu_style = $this->get_course()->get_menu();
-				if ($menu_style != Course :: MENU_OFF)
+				if ($menu_style != CourseLayout :: MENU_OFF)
 				{
 					$renderer = ToolListRenderer :: factory('Menu', $this);
 					$renderer->display();
@@ -380,7 +380,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				}
 			}
 
-			if ($this->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
+			if ($this->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON)
 			{
 				$renderer = ToolListRenderer :: factory('Shortcut', $this);
 				echo '<div id="tool_shortcuts">';

@@ -41,7 +41,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
     {
         $html = array();
         $html[] = '<a name="top"></a>';
-        $html[] = '<div id="tabs">';
+        $html[] = '<div id="admin_tabs">';
         $html[] = '<ul>';
 
         // Render the tabs
@@ -63,7 +63,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
             	$selected_tab = $index - 1;
             }
 
-            $html[] = '<li><a href="#tabs-' . $index . '">';
+            $html[] = '<li><a href="#admin_tabs-' . $index . '">';
             $html[] = '<span class="category">';
             $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
             $html[] = '<span class="title">' . $application_links['application']['name'] . '</span>';
@@ -80,7 +80,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
             {
             	$index ++;
                 $html[] = '<h2><img src="' . Theme :: get_image_path() . 'place_mini_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>&nbsp;' . $application_links['application']['name'] . '</h2>';
-                $html[] = '<div class="tab" id="tabs-' . $index . '">';
+                $html[] = '<div class="admin_tab" id="admin_tabs-' . $index . '">';
 
                 $html[] = '<a class="prev"></a>';
 
@@ -109,7 +109,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
                         $onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
                     }
 
-                    $html[] = '<div class="vertical_action"' . ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') . '>';
+                    $html[] = '<div class="vertical_action">';
                     $html[] = '<div class="icon">';
                     $html[] = '<a href="' . $link['url'] . '" ' . $onclick . '><img src="' . Theme :: get_image_path() . 'browse_' . $link['action'] . '.png" alt="' . $link['name'] . '" title="' . $link['name'] . '"/></a>';
                     $html[] = '</div>';

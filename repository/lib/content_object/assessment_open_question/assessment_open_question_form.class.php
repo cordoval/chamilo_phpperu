@@ -17,7 +17,7 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
         $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
         $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
         $defaults[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE] = $valuearray[3];
-        
+
         parent :: set_values($defaults);
     }
 
@@ -32,7 +32,7 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
         {
             $defaults[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE] = AssessmentOpenQuestion :: TYPE_OPEN;
         }
-        
+
         parent :: setDefaults($defaults);
     }
 
@@ -55,7 +55,7 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $types = OpenQuestion :: get_types();
+        $types = AssessmentOpenQuestion :: get_types();
         $choices = array();
         foreach ($types as $type_id => $type_label)
         {
@@ -69,10 +69,10 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
     function create_content_object()
     {
         $object = new AssessmentOpenQuestion();
-        
+
         $values = $this->exportValues();
         $object->set_question_type($values[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE]);
-        
+
         $this->set_content_object($object);
         return parent :: create_content_object($object);
     }
@@ -80,10 +80,10 @@ class AssessmentOpenQuestionForm extends OpenQuestionForm
     function update_content_object()
     {
         $object = $this->get_content_object();
-        
+
         $values = $this->exportValues();
         $object->set_question_type($values[AssessmentOpenQuestion :: PROPERTY_QUESTION_TYPE]);
-        
+
         $this->set_content_object($object);
         return parent :: update_content_object();
     }

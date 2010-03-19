@@ -52,8 +52,8 @@ class CompetencyForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-    	$this->addElement('select', Competency :: PROPERTY_CATEGORY, Translation :: get('SelectCategory'), $this->categories);
-        $this->addRule(Competency :: PROPERTY_CATEGORY, Translation :: get('ThisFieldIsRequired'), 'required');
+    	$this->addElement('select', Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $this->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -107,7 +107,8 @@ class CompetencyForm extends FormValidator
     	$competency = $this->competency;
     	$competency->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
-    	$parent = $form->exportValue(Competency :: PROPERTY_CATEGORY);
+    	$parent = $this->exportValue(Competency :: PROPERTY_PARENT_ID);
+    	
     	
     	$competency->set_title($values[Competency :: PROPERTY_TITLE]);
     	$competency->set_description($values[Competency :: PROPERTY_DESCRIPTION]);      

@@ -45,23 +45,27 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         
         $course = $this->get_course();
         $course_type_id = $course->get_course_type()->get_id();
- 
-       // $course->set_visibility(COURSE_VISIBILITY_OPEN_WORLD);
-        //$course->set_subscribe_allowed(1);
-        //$course->set_unsubscribe_allowed(0);
         
         $user_info = $this->get_user();
-        $course->set_language(LocalSetting :: get('platform_language'));
-        $course->set_titular($user_info->get_id());
+        //$course->set_language(LocalSetting :: get('platform_language'));
+        //$course->set_titular($user_info->get_id());
         
         if(empty($course_type_id))
         	$this->simple_redirect(array('go' => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE));
         else
-        	$form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url());
+        {        
+        	$id = $course->get_id();
+	        if(empty($id))
+		        $form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url(), $this);
+	        else
+		        $form = new CourseForm(CourseForm :: TYPE_EDIT, $course, $this->get_user(), $this->get_url(), $this);
+        }
+        
+
         
         if ($form->validate())
         {
-            if (WebLcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition(Course :: PROPERTY_VISUAL, $form->exportValue(Course :: PROPERTY_VISUAL)))->next_result())
+            if ($form->get_form_type() == CourseForm :: TYPE_CREATE && WebLcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition(Course :: PROPERTY_VISUAL, $form->exportValue(Course :: PROPERTY_VISUAL)))->next_result())
             {
                 $this->display_header($trail, false, true);
                 $this->display_error_message(Translation :: get('CourseCodeAlreadyExists'));
@@ -70,8 +74,12 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
             }
             else
             {
-                $success = $form->create_course();
-                //$this->redirect(Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $course->get_id()));
+            	$success = $form->save_course();
+	        	$array_type = array();
+	        	$array_type['go'] = WeblcmsManager :: ACTION_CREATE_COURSE;
+	        	if($success ||  $form->get_form_type() == CourseForm :: TYPE_EDIT)
+	        		$array_type['course'] = $course->get_id();
+                $this->redirect(Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true), $array_type);
             }
         }
         else

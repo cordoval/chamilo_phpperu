@@ -68,18 +68,12 @@ class CbaManagerBrowserComponent extends CbaManagerComponent
         $condition = new AndCondition($conditions);
         return $condition;
     }
-	
-	private function get_category()
-    {
-        return Request :: get(CbaManager :: PARAM_COMPETENCY) ? Request :: get(CbaManager :: PARAM_COMPETENCY) : 0;
-    }
     
 	private function get_parent_id()
     {
-        return Request :: get(CbaManager :: PARAM_COMPETENCY) ? Request :: get(CbaManager :: PARAM_COMPETENCY) : 0;
+        return Request :: get(CbaManager :: PARAM_CATEGORY_ID) ? Request :: get(CbaManager :: PARAM_CATEGORY_ID) : 0;
     }
-	
-	
+		
 	function display_footer()
 	{
 		echo '</div>';

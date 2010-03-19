@@ -1,46 +1,23 @@
 $(function () 
 {
-	var prev_text = 0;
-	
-	function change_max_number_enable() 
-	{
-		un = document.getElementById("unlimited");
-		el = document.getElementById("max_number");
-					
-		if(un.checked)
-		{
-			el.disabled = true;
-			prev_text = el.value;
-			el.value = 0;
-		}
-		else
-		{
-			el.disabled = false;
-			if(prev_text != 0)
-				el.value = prev_text;
-		}
-	}
 	
 	function reset(evt,ui)
 	{
 		setTimeout(
 			function()
 			{
-				$('.iphone').setiphoneCourseType();
-				$('.viewablecheckbox').setviewableStyle();
-				change_max_number_enable();
+				$('.iphone').setIphoneCourseType();
+				$('.viewablecheckbox').setViewableStyle();
 			},30);	
 	}
 	
 	$(document).ready(function ()
 	{
-		$('.iphone').iphoneCourseType();
-		$('.iphone').setiphoneCourseType();
+		$('.iphone').iphoneStyle();
+		$('.iphone').setiPhoneCourseType();
 		$('.viewablecheckbox').viewableStyle();
-		$('.viewablecheckbox').setviewableStyle();
+		$('.viewablecheckbox').setViewableStyle();
 		$('.empty').live('click', reset);
-		$('#unlimited').live('click', change_max_number_enable);
-		change_max_number_enable();
 	});
 
 });
@@ -51,7 +28,7 @@ $(function ()
 	   defaults: { checkedLabel: 'ON', uncheckedLabel: 'OFF', background: '#fff' }
 	}
 	
-	$.fn.setiphoneCourseType = function()
+	$.fn.setiPhoneCourseType = function()
 	{
 	    return this.each(function() 
 	    {
@@ -72,6 +49,31 @@ $(function ()
 	        	imagesrc = image_path + 'tool_' + tool + '.png';
 	        	imagesrcdisabled = image_path + 'tool_' + tool + '_na.png';
 			
+	  	      container.click(function() 
+	  	  	  {
+	  	  	    var is_onstate = (handle.position().left <= 0);
+	  	  		    tool = elem.attr('class').split(' ').slice(-1);
+	  	  		    image = $('.'+tool+'_image'); 
+	  	  		    defaultimage = $('.'+tool+'elementdefault');
+	  	  		    imagesrc = image_path + 'tool_' + tool + '.png';
+	  	  		    imagesrcdisabled = image_path + 'tool_' + tool + '_na.png';
+
+	  	  		if (is_onstate)
+	  	  		{
+	  	  			elem.attr('checked', true);
+	  	  			image.attr('src', imagesrc);
+	  	  			defaultimage.css('display','inline');
+	  	  		}
+	  	  		else
+	  	  		{
+	  	  			elem.attr('checked', false);
+	  	  			image.attr('src', imagesrcdisabled);
+	  	  			defaultimage.css('display','none');
+	  	  		}
+	  	  							        
+	  	  		return false;
+	  	  	});	
+	        	
 	        if (elem.is(':checked')) 
 			{
 			    offlabel.css({ opacity: 0 });
@@ -91,124 +93,5 @@ $(function ()
 			   	defaultimage.css('display','none');
 			}
 	    });
-	};
-	
-    $.fn.iphoneCourseType = function(options) 
-    {
-	    options = $.extend($.iphoneCourseType.defaults, options);
-						    
-	    return this.each(function() 
-	    {
-	    	var elem = $(this);
-					      
-	    	if (!elem.is(':checkbox'))
-	    			return;
-						      
-	      elem.css({ opacity: 0 });
-	      elem.wrap('<div class="binary_checkbox" />');
-	      elem.after('<div class="handle"><div class="bg" style="background: ' + options.background + '"/><div class="slider" /></div>')
-	          .after('<label class="off">'+ options.uncheckedLabel + '</label>')
-	          .after('<label class="on">' + options.checkedLabel   + '</label>');
-						      
-	      var handle    = elem.siblings('.handle'),
-	          handlebg  = handle.children('.bg'),
-	          offlabel  = elem.siblings('.off'),
-	          onlabel   = elem.siblings('.on'),
-	          container = elem.parent('.binary_checkbox'),
-	          rightside = container.outerWidth() - 39;
-
-				      
-	      container.click(function() 
-	      {
-	    	  var is_onstate = (handle.position().left <= 0);
-	    	  	  new_left   = (is_onstate) ? rightside : 0,
-	    	  	  bgleft     = (is_onstate) ? 34 : 0;
-		          tool = elem.attr('class').split(' ').slice(-1);
-		          image = $('.'+tool+'_image'); 
-		          defaultimage = $('.'+tool+'elementdefault');
-		          imagesrc = image_path + 'tool_' + tool + '.png';
-		          imagesrcdisabled = image_path + 'tool_' + tool + '_na.png';
-		          
-			  handlebg.hide();
-			  handle.animate({ left: new_left }, 100, function() {
-			  handlebg.css({ left: bgleft }).show();
-			  });
-							        
-			  if (is_onstate) {
-			      offlabel.animate({ opacity: 0 }, 200);
-			      onlabel.animate({ opacity: 1 }, 200);
-			  } else {
-			      offlabel.animate({ opacity: 1 }, 200);
-			      onlabel.animate({ opacity: 0 }, 200);
-			   }
-							        
-				if (is_onstate)
-				{
-				  	elem.attr('checked', true);
-				   	image.attr('src', imagesrc);
-				   	defaultimage.css('display','inline');
-				 }
-				 else
-				 {
-				  	elem.attr('checked', false);
-				   	image.attr('src', imagesrcdisabled);
-				   	defaultimage.css('display','none');
-				  }
-							        
-				 return false;
-			  });
-		});
-	};
-	
-	$.fn.setviewableStyle = function()
-	{
-		return this.each(function() 
-		{
-			var elem = $(this);
-				 	
-			if (!elem.is(':checkbox'))
-				return;
-			
-			var eye = elem.siblings('.eye');
-			
-			// initial load
-			if (!elem.is(':checked')) 
-				eye.attr('src', common_image_path+'action_invisible.png');
-			else
-				eye.attr('src', common_image_path+'action_visible.png');
-		});
-	};
-	
-	$.fn.viewableStyle = function() 
-	{
-		 return this.each(function() 
-		 {
-		 	var elem = $(this);
-		 	
-			if (!elem.is(':checkbox'))
-				return;
-
-			elem.css('display','none');
-			elem.wrap('<div class="viewable_checkbox" />');
-			elem.after('<img class="eye" src="'+common_image_path+'action_visible.png" style="vertical-align: middle;" alt=""/>');
-
-			var eye = elem.siblings('.eye'),
-				container = elem.parent('.viewable_checkbox');
-
-			container.click(function() 
-			{
-				if (!elem.is(':checked'))
-					elem.attr('checked', true);
-				else
-					elem.attr('checked', false);
-				
-				if(!elem.is(':checked'))
-					eye.attr('src', common_image_path+'action_invisible.png');
-				else
-  					eye.attr('src', common_image_path+'action_visible.png');
-				
-				return false;
-			});
-		});
 	};
 })(jQuery);

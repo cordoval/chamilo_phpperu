@@ -1,17 +1,56 @@
 /*********************************************
- * jQuery CSS: Tabs
+ * jQuery CSS: Form tabs
  *********************************************/
-.tab {
-	border: 1px solid #ebebeb;
-	background-color: #fafcfc;
+.form_tab {
+	border: 0px solid #ebebeb;
+	background-color: white;
 	z-index: 1000;
 	clear: both;
 }
 
-#tabs ul {
+#form_tabs .ui-tabs-panel
+{
+	padding: 10px 20px 20px 20px;
+	margin: 0px;
+}
+
+#form_tabs ul {
 	display: none;
 }
+
+#form_tabs h2
+{
+	font-size: 14px;
+}
+
+#form_tabs.ui-tabs div.configuration_form
+{
+	/*
+	 * border-top: 0px;
+	 * background-color: white;
+	 * margin: 20px;
+	 */
+	
+	border-top: 1px solid #ebebeb;
+	
+	border-bottom: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-webkit-border-top-right-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+}
+
+#form_tabs.ui-tabs div.configuration_form span.category
+{
+	background-color: #fafcfc;
+}
  
+/*********************************************
+ * jQuery CSS: Tabs
+ *********************************************/
 .ui-tabs {
 	padding: 0px;
 }
@@ -19,6 +58,7 @@
 .ui-tabs .ui-tabs-panel {
 	border: 1px solid #ebebeb;
 	background-color: #FAFCFC;
+	padding: 0px;
 }
 
 .ui-tabs .ui-tabs-nav {
@@ -27,8 +67,7 @@
 }
 
 .ui-widget {
-	font-family:arial,verdana,helvetica,sans-serif;
-	font-size:12px;
+	font-family: verdana, sans-serif;
 }
 
 .ui-widget-content {
@@ -47,7 +86,8 @@
 	border: 0px solid #c5dbec;
 }
 
-.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus {
+.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus
+	{
 	border: 0px solid #79b7e7;
 }
 
@@ -71,7 +111,10 @@ a.prev,a.next,a.prevPage,a.nextPage {
 }
 
 .hover,div.vertical_action:hover {
-	background-color: #f2f4f4;
+	/*background-color: #f2f4f4;*/
+	background-image: url(../images/admin/background_vertical_action.png);
+	background-repeat: no-repeat;
+	background-position: 0px center;
 }
 
 /* mouseover state */
@@ -94,6 +137,35 @@ a.disabled:hover {
 a.next,a.nextPage {
 	background-image: url(../plugin/jquery/scrollable/bottom.png);
 	clear: right;
+}
+
+/*********** navigator ***********/
+	/* position and dimensions of the navigator */
+div.navi {
+	margin-left: 328px;
+	width: 200px;
+	height: 20px;
+}
+
+/* items inside navigator */
+div.navi a {
+	width: 8px;
+	height: 8px;
+	float: left;
+	margin: 3px;
+	background: url(../plugin/jquery/scrollable/navigator.png) 0 0 no-repeat
+		;
+	cursor: pointer;
+}
+
+/* mouseover state */
+div.navi a:hover {
+	background-position: 0 -8px;
+}
+
+/* active state (current page state) */
+div.navi a.active {
+	background-position: 0 -16px;
 }
 
 /*********************************************

@@ -33,13 +33,14 @@ class Course extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
+    const PROPERTY_COURSE_TYPE_ID = 'course_type_id';
     const PROPERTY_VISUAL = 'visual_code';
     const PROPERTY_NAME = 'title';
     const PROPERTY_TITULAR = 'titular_id';
-    
+
     const PROPERTY_EXTLINK_URL = 'department_url';
     const PROPERTY_EXTLINK_NAME = 'department_name';
-    
+
     const PROPERTY_CATEGORY = 'category_id';
     const PROPERTY_SHOW_SCORE = 'show_score';
     const PROPERTY_DISK_QUOTA = 'disk_quota';
@@ -51,14 +52,14 @@ class Course extends DataClass
     const PROPERTY_EXPIRATION_DATE = 'expiration_date';
 
 	private $settings;
-	
+
 	private $layout;
-	
+
 	private $tools;
-	
+
 	private $course_type;
-    
-    
+
+
     /**
      * Get the default properties of all courses.
      * @return array The property names.
@@ -66,17 +67,18 @@ class Course extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(
-        		array(self :: PROPERTY_VISUAL, 
-        			  self :: PROPERTY_CATEGORY, 
-        			  self :: PROPERTY_NAME, 
-        			  self :: PROPERTY_SHOW_SCORE, 
-        			  self :: PROPERTY_TITULAR, 
-        			  self :: PROPERTY_EXTLINK_URL, 
+        		array(self :: PROPERTY_COURSE_TYPE_ID,
+        			  self :: PROPERTY_VISUAL,
+        			  self :: PROPERTY_CATEGORY,
+        			  self :: PROPERTY_NAME,
+        			  self :: PROPERTY_SHOW_SCORE,
+        			  self :: PROPERTY_TITULAR,
+        			  self :: PROPERTY_EXTLINK_URL,
         			  self :: PROPERTY_EXTLINK_NAME,
-        			  self :: PROPERTY_DISK_QUOTA, 
-        			  self :: PROPERTY_CREATION_DATE, 
-        			  self :: PROPERTY_EXPIRATION_DATE, 
-        			  self :: PROPERTY_LAST_EDIT, 
+        			  self :: PROPERTY_DISK_QUOTA,
+        			  self :: PROPERTY_CREATION_DATE,
+        			  self :: PROPERTY_EXPIRATION_DATE,
+        			  self :: PROPERTY_LAST_EDIT,
         			  self :: PROPERTY_LAST_VISIT));
     }
 
@@ -88,6 +90,15 @@ class Course extends DataClass
         return WeblcmsDataManager :: get_instance();
     }
 
+    /**
+     * Returns the course type id of this course object
+     * @return string the course type id
+     */
+    function get_course_type_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
+    }
+    
     /**
      * Returns the visual code of this course object
      * @return string the visual code
@@ -185,84 +196,29 @@ class Course extends DataClass
     {
         return $this->settings;
     }
-	
+
     function get_layout_settings()
     {
         return $this->layout;
     }
-    
+
     function get_tools()
     {
         return $this->tools;
     }
-    
+
     function get_course_type()
     {
         return $this->course_type;
     }
-    
-    function get_language()
-    {
-        return $this->settings->get_language();
-    }
-    
-    function get_visibility()
-    {
-        return $this->settings->get_visibility();
-    }
-    
-	function get_access()
-    {
-        return $this->settings->get_access();
-    }
-    
-    function get_max_number_of_members()
-    {
-        return $this->max_number_of_members();
-    }
-    
-    function get_language_fixed()
-    {
-    	return $this->course_type->get_settings()->get_language_fixed();
-    }
-    
-    function set_language($language)
-    {
-    	if(!$this->get_language_fixed())
-        	$this->settings->set_language($language);
-    }
 
-    function get_visibility_fixed()
+    /**
+     * Sets the course type id of this course object
+     * @param int $type The course type id
+     */
+    function set_course_type_id($type)
     {
-    	return $this->course_type->get_settings()->get_visibility_fixed();
-    }
-    
-    function set_visibility($visibility)
-    {
-		if(!$this->get_visibility_fixed())
-        	$this->settings->set_visibility($visibility);
-    }
-    
-    function get_access_fixed()
-    {
-    	return $this->course_type->get_settings()->get_access_fixed();
-    }
-    
-    function set_access($access)
-    {
-		if(!$this->get_access_fixed())
-        	$this->settings->set_access($access);
-    }   
-
-    function get_max_number_of_members_fixed($max_number_of_members)
-    {
-		return $this->course_type->get_settings()->get_max_number_of_members_fixed();
-    }
-    
-    function set_max_number_of_members($max_number_of_members)
-    {
-		if(!$this->get_max_number_of_members_fixed())
-        	$this->settings->set_max_number_of_members($max_number_of_members);
+        $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $type);
     }
     
     /**
@@ -357,7 +313,7 @@ class Course extends DataClass
     {
         $this->settings = $settings;
     }
-    
+
     /**
      * Sets the layout of this course object
      * @param CourseLayout $layout the layout of this course object
@@ -366,7 +322,7 @@ class Course extends DataClass
     {
         $this->layout = $layout;
     }
-    
+
     /**
      * Sets the tools of this course object
      * @param array $tools the tools of this course object
@@ -375,7 +331,7 @@ class Course extends DataClass
     {
         $this->tools = $tools;
     }
-    
+
     /**
      * Sets the course_type of this course object
      * @param array $course_type the course_type of this course object
@@ -384,65 +340,186 @@ class Course extends DataClass
     {
         $this->course_type = $course_type;
     }
+
+    /**
+     * Direct access to the setters and getters for the course settings
+     * All setters include a validation to see whether or not the property is writeable
+     */
+
+    /*
+     * Getters and validation whether or not the property is readable from the course's own settings
+     */
+    
+    function get_language()
+    {
+    	if(!$this->get_language_fixed())
+    	{
+        	return $this->settings->get_language();
+    	}
+        else
+        	return $this->get_course_type()->get_settings()->get_language();
+    }
+
+    function get_visibility()
+    {
+    	if(!$this->get_visibility_fixed())
+        	return $this->settings->get_visibility();
+        else
+        	return $this->get_course_type()->get_settings()->get_visibility();
+    }
+
+	function get_access()
+    {
+    	if(!$this->get_access_fixed())
+        	return $this->settings->get_access();
+        else
+        	return $this->get_course_type()->get_settings()->get_access();
+    }
+
+    function get_max_number_of_members()
+    {
+    	if(!$this->get_max_number_of_members_fixed())
+        	return $this->settings->get_max_number_of_members();
+        else
+        	return $this->get_course_type()->get_settings()->get_max_number_of_members();
+    }
+    
+    /**
+     * Setters and validation to see whether they are writable
+     */
+
+    function get_language_fixed()
+    {
+    	return $this->course_type->get_settings()->get_language_fixed();
+    }
+
+    function set_language($language)
+    {
+    	if(!$this->get_language_fixed())
+        	$this->settings->set_language($language);
+    }
+    
+    function get_visibility_fixed()
+    {
+    	return $this->course_type->get_settings()->get_visibility_fixed();
+    }
+
+    function set_visibility($visibility)
+    {
+		if(!$this->get_visibility_fixed())
+        	$this->settings->set_visibility($visibility);
+    }
+
+    function get_access_fixed()
+    {
+    	return $this->course_type->get_settings()->get_access_fixed();
+    }
+
+    function set_access($access)
+    {
+		if(!$this->get_access_fixed())
+        	$this->settings->set_access($access);
+    }
+
+    function get_max_number_of_members_fixed($max_number_of_members)
+    {
+		return $this->course_type->get_settings()->get_max_number_of_members_fixed();
+    }
+
+    function set_max_number_of_members($max_number_of_members)
+    {
+		if(!$this->get_max_number_of_members_fixed())
+        	$this->settings->set_max_number_of_members($max_number_of_members);
+    }
     
     /**
      * Direct access to the setters and getters for the course layout
      * All setters include a validation to see whether or not the property is writeable
      */
-    
+
     /*
-     * Getters
+     * Getters and validation whether or not the property is readable from the course's own settings
      */
     function get_intro_text()
     {
-    	return $this->get_layout()->get_intro_text();
+    	if(!$this->get_intro_text_fixed())
+       		return $this->get_layout_settings()->get_intro_text();
+       	else
+       		return $this->get_course_type()->get_layout_settings()->get_intro_text();
     }
-    
+
     function get_student_view()
     {
-        return $this->get_layout()->get_student_view();
+    	if(!$this->get_student_view_fixed())
+       		return $this->get_layout_settings()->get_student_view();
+       	else
+       		return $this->get_course_type()->get_layout_settings()->get_student_view();
     }
-    
+
     function get_layout()
     {
-        return $this->get_layout()->get_layout();
+    	if(!$this->get_layout_fixed())
+       		return $this->get_layout_settings()->get_layout();
+       	else
+       		return $this->get_course_type()->get_layout_settings()->get_layout();
     }
-    
+
     function get_tool_shortcut()
     {
-        return $this->get_layout()->get_tool_shortcut();
+    	if(!$this->get_tool_shortcut_fixed())
+       		return $this->get_layout_settings()->get_tool_shortcut();
+       	else
+       		return $this->get_course_type()->get_layout_settings()->get_tool_shortcut();
     }
-    
+
  	function get_menu()
     {
-        return $this->get_layout()->get_menu();
+    	if(!$this->get_menu_fixed())
+       		return $this->get_layout_settings()->get_menu();
+       	else
+       		return $this->get_course_type()->get_layout_settings()->get_menu();
     }
-    
+
     function get_breadcrumb()
     {
-        return $this->get_layout()->get_breadcrumb();
+    	if(!$this->get_breadcrumb_fixed())
+       		return $this->get_layout_settings()->get_breadcrumb();
+       	else
+       		return $this->get_course_type()->get_layout_settings()->get_breadcrumb();
     }
-    
+
     function get_feedback()
     {
-        return $this->get_layout()->get_feedback();
+    	if(!$this->get_feedback_fixed())
+       		return $this->get_layout_settings()->get_feedback();
+       	else
+       		return $this->get_course_type()->get_layout_settings()->get_feedback();
     }
-    
+
     function get_course_code_visible()
     {
-        return $this->get_layout()->get_course_code_visible();
+    	if(!$this->get_course_code_visible_fixed())
+       		return $this->get_layout_settings()->get_course_code_visible();
+       	else
+       		return $this->get_course_type()->get_layout_settings()->get_course_code_visible();
     }
-    
+
     function get_course_manager_name_visible()
     {
-    	return $this->get_layout()->get_course_manager_name_visible();
+    	if(!$this->get_course_manager_name_visible_fixed())
+       		return $this->get_layout_settings()->get_course_manager_name_visible();
+       	else
+       		return $this->get_course_type()->get_layout_settings()->get_course_manager_name_visible();
     }
-    
+
     function get_course_languages_visible()
 	{
-    	return $this->get_layout()->get_course_languages_visible();
+    	if(!$this->get_course_languages_visible_fixed())
+       		return $this->get_layout_settings()->get_course_languages_visible();
+       	else
+       		return $this->get_course_type()->get_layout_settings()->get_course_languages_visible();
     }
-    
+
     /**
      * Setters and validation to see whether they are writable
      */
@@ -450,112 +527,112 @@ class Course extends DataClass
     {
     	return $this->course_type->get_layout_settings()->get_feedback_fixed();
     }
-        
+
    	function set_feedback($feedback)
     {
     	if(!$this->get_feedback_fixed())
     		$this->get_layout_settings()->set_feedback($feedback);
-    } 
-    
+    }
+
     function get_layout_fixed()
     {
     	return $this->course_type->get_layout_settings()->get_layout_fixed();
     }
-    
+
     function set_layout($layout)
     {
     	if(!$this->get_layout_fixed())
     		$this->get_layout_settings()->set_layout($layout);
     }
-    
+
     function get_tool_shortcut_fixed()
     {
     	return $this->course_type->get_layout_settings()->get_tool_shortcut_fixed();
     }
-    
+
     function set_tool_shortcut($tool_shortcut)
     {
     	if(!$this->get_tool_shortcut_fixed())
     		$this->get_layout_settings()->set_tool_shortcut($tool_shortcut);
     }
-    
+
     function get_menu_fixed()
     {
     	return $this->course_type->get_layout_settings()->get_menu_fixed();
     }
-    
+
     function set_menu($menu)
     {
     	if(!$this->get_menu_fixed())
     		$this->get_layout_settings()->set_menu($menu);
     }
-    
+
     function get_breadcrumb_fixed()
     {
     	return $this->course_type->get_layout_settings()->get_breadcrumb_fixed();
     }
-    
+
     function set_breadcrumb($breadcrumb)
     {
     	if(!$this->get_breadcrumb_fixed())
     		$this->get_layout_settings()->set_breadcrumb($breadcrumb);
     }
-    
+
     function get_intro_text_fixed()
     {
     	return $this->course_type->get_layout_settings()->get_intro_text_fixed();
     }
-    
+
     function set_intro_text($intro_text)
     {
     	if(!$this->get_intro_text_fixed())
     		$this->get_layout_settings()->set_intro_text($intro_text);
     }
-    
+
     function get_student_view_fixed()
     {
     	return $this->course_type->get_layout_settings()->get_student_view_fixed();
     }
-    
+
     function set_student_view($student_view)
     {
     	if(!$this->get_student_view_fixed())
     		$this->get_layout_settings()->set_student_view($student_view);
     }
-    
+
     function get_course_code_visible_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_course_code_visible();
+    	return $this->course_type->get_layout_settings()->get_course_code_visible_fixed();
     }
-    
+
     function set_course_code_visible($course_code_visible)
     {
     	if(!$this->get_course_code_visible_fixed())
     		$this->get_layout_settings()->set_course_code_visible($course_code_visible);
     }
-    
+
     function get_course_manager_name_visible_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_course_manager_name_visible();
+    	return $this->course_type->get_layout_settings()->get_course_manager_name_visible_fixed();
     }
-    
+
     function set_course_manager_name_visible($course_manager_name_visible)
     {
     	if(!$this->get_course_manager_name_visible_fixed())
     		$this->get_layout_settings()->set_course_manager_name_visible($course_manager_name_visible);
     }
-    
+
     function get_course_languages_visible_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_course_languages_visible();
+    	return $this->course_type->get_layout_settings()->get_course_languages_visible_fixed();
     }
-    
+
     function set_course_languages_visible($course_languages_visible)
     {
-    	if(!$this->get_course_languages_fixed())
+    	if(!$this->get_course_languages_visible_fixed())
     		$this->get_layout_settings()->set_course_languages_visible($course_languages_visible);
     }
-    
+
     /**
      * Creates the course object in persistent storage
      * @return boolean
@@ -616,7 +693,7 @@ class Course extends DataClass
         $dm = $this->get_data_manager();
         return $dm->delete_course($this->get_id());
     }
-    
+
     /**
      * Checks whether the given user is a course admin in this course
      * @param int $user_id
@@ -696,7 +773,7 @@ class Course extends DataClass
 
         return true;
     }
-	
+
 //    function initialize_settings()
 //    {
 //    	$file = Path :: get_application_path() . '/settings/settings_weblcms_course_type.xml';
@@ -769,6 +846,6 @@ class Course extends DataClass
 //
 //        return $result;
 //    }
-    
+
 }
 ?>

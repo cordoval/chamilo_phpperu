@@ -15,6 +15,7 @@ class Criteria extends DataClass
     /**
      * Constant to define the recycled state of a learning object (= learning
      * object is moved to recycle bin)
+     * Recycle bin is not used in the CBA application
      */
     const STATE_RECYCLED = 1;
     /**
@@ -30,7 +31,6 @@ class Criteria extends DataClass
 	const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_STATE = 'state';
-
 
 	static function get_default_property_names()
 	{
@@ -92,11 +92,17 @@ class Criteria extends DataClass
 		$this->set_default_property(self :: PROPERTY_STATE, $state);
 	}
 
-
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+	function move($new_parent_id)
+    {
+    	$this->set_parent_id($new_parent_id);
+    	$cdm = CbaDataManager :: get_instance();
+        return $cdm->update_criteria($this);
+    }
 }
 
 ?>

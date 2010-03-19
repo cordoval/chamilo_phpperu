@@ -27,8 +27,12 @@ class CbaManagerCompetencyMoverComponent extends CbaManagerComponent
         $form = $this->build_move_form($parent, $ids);
         if ($form->validate())
         {
-            $new_category_id = $this->move_competencys_to_category($form, $ids, $competency);
-            $this->redirect(Translation :: get('CompetencysMoved'), false, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY, 'category' => $new_category_id));
+        	foreach ($ids as $id)
+            {
+            	$competency = $this->retrieve_competency($id);
+            	$new_category_id = $this->move_competencys_to_category($form, $ids, $competency);	
+            }
+            $this->redirect(Translation :: get('CompetencysMoved'), false, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY, 'category' => $new_category_id));    
         }
         else
         {
@@ -51,7 +55,7 @@ class CbaManagerCompetencyMoverComponent extends CbaManagerComponent
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, $exclude_category);
         
-        $form->addElement('select', Competency :: PROPERTY_CATEGORY, Translation :: get('SelectCategory'), $this->categories);
+        $form->addElement('select', Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
         
         $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive finish'));
         
@@ -61,7 +65,7 @@ class CbaManagerCompetencyMoverComponent extends CbaManagerComponent
 
     function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
     {
-        $conditions[] = new NotCondition(new EqualityCondition(CompetencyCategory :: PROPERTY_ID, $exclude_category));
+        //$conditions[] = new NotCondition(new EqualityCondition(CompetencyCategory :: PROPERTY_ID, $exclude_category));
         $conditions[] = new EqualityCondition(CompetencyCategory :: PROPERTY_PARENT, $parent);
         $condition = new AndCondition($conditions);
         
@@ -75,7 +79,7 @@ class CbaManagerCompetencyMoverComponent extends CbaManagerComponent
 
     function move_competencys_to_category($form, $ids, $competency)
     {    	
-        $category = $form->exportValue(Competency :: PROPERTY_CATEGORY);
+        $category = $form->exportValue(Competency :: PROPERTY_PARENT_ID);
         if (! is_array($ids))
             $ids = array($ids);
         

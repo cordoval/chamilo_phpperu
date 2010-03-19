@@ -50,6 +50,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_COURSE_USER = 'course';
 	const PARAM_DIRECTION = 'direction';
 	const PARAM_REMOVE_SELECTED = 'remove_selected';
+	const PARAM_REMOVE_SELECTED_COURSE_TYPES ='remove selected coursetypes';
 	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED_AS_STUDENT = 'subscribe_selected_as_student';
@@ -132,17 +133,15 @@ class WeblcmsManager extends WebApplication
 		$this->set_parameter(self :: PARAM_TOOL, Request :: get(self :: PARAM_TOOL));
 
 		$this->parse_input_from_table();
-		
-		$this->course_type = null;
-		$this->load_course_type();
+
+		$this->course_type = $this->load_course_type();
+		$this->tools = array();
 		$this->course = new Course();
 		$this->load_course();
 		$this->course_group = null;
 		$this->load_course_group();
 		$this->sections = array();
 		$this->load_sections();
-		$this->tools = array();
-		$this->load_tools();
 	}
 
 	/*
@@ -268,12 +267,12 @@ class WeblcmsManager extends WebApplication
 	{
 		$this->course = $course;
 	}
-	
+
 	function set_course_type($course_type)
 	{
 		$this->course_type = $course_type;
 	}
-	
+
 	//function set_course_type($course_type)
 	//{
 	//	$this->course_type = $course_type;
@@ -295,7 +294,7 @@ class WeblcmsManager extends WebApplication
 	{
 		if($this->course_type == null)
 		return 0;
-		
+
 		return $this->course_type->get_id();
 	}
 	*/
@@ -308,7 +307,7 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->course_group;
 	}
-	
+
 	/**
 	 * Returns the course_group that is being used.
 	 * @return string The course_group.
@@ -317,24 +316,24 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->course_type;
 	}
-	
+
 	function get_course_type_deleting_url($course_type)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COURSE_TYPE, self :: PARAM_COURSE_TYPE => $course_type->get_id()));
     }
-    
+
 	function get_course_type_editing_url($course_type)
     {
-        //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'course_settings', 'previous' => 'admin'));
-    	return null;
+        //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE_TYPE => $course_type->get_id(), self :: PARAM_TOOL => 'course_type_settings', 'previous' => 'admin'));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_COURSE_TYPE_CREATOR, self :: PARAM_COURSE_TYPE => $course_type->get_id(), self :: PARAM_TOOL => 'course_type_settings', 'previous' => 'admin'));
     }
-    
+
 	function get_course_type_maintenance_url($course_type)
     {
         //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'maintenance'));
     	return null;
     }
-    
+
 	function get_course_type_viewing_url($course_type)
     {
         //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
@@ -546,45 +545,7 @@ class WeblcmsManager extends WebApplication
 			}
 		}
 	}
-
-	/*
-	 * Gets all the toolnames that are available to the application and are non admin
-	 */
-	function get_all_non_admin_tools()
-	{
-		$course_modules = Array();
-		$tool_dir = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), '..', 'tool'));
-		if ($handle = opendir($tool_dir))
-		{
-			while (false !== ($file = readdir($handle)))
-			{
-				if (substr($file, 0, 1) != '.' && $file != 'component')
-				{
-					$file_path = $tool_dir . DIRECTORY_SEPARATOR . $file;
-					if (is_dir($file_path))
-					{
-						// TODO: Move to an XML format for tool properties, instead of .hidden, .section and whatnot
-						$section_file = $file_path . DIRECTORY_SEPARATOR . '.section';
-						if (file_exists($section_file))
-						{
-							$contents = file($section_file);
-							$section = rtrim($contents[0]);
-						}
-						else
-						{
-							$section = 'basic';
-						}
-						
-						if($section == 'basic')
-							$course_modules[] = $file;
-					}
-				}
-			}
-			closedir($handle);
-		}
-		return $course_modules;
-	}
-
+	
 	/**
 	 * Loads the sections installed on the system.
 	 */
@@ -605,12 +566,17 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Loads the current course into the system.
 	 */
-	private function load_course()
+	public function load_course($id = null)
 	{
-		if (! is_null($this->get_parameter(self :: PARAM_COURSE)))
+		if($id == null)
+			$id = $this->get_parameter(self :: PARAM_COURSE);
+		if (! is_null($id))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->course = $wdm->retrieve_course($this->get_parameter(self :: PARAM_COURSE));
+			$this->course = $wdm->retrieve_course($id);
+			$this->course->set_settings($wdm->retrieve_course_settings($id));
+			$this->course->set_layout_settings($wdm->retrieve_course_layout($id));
+			$this->course->set_course_type($this->load_course_type($this->course->get_course_type_id()));
 		}
 		else
 		{
@@ -619,6 +585,8 @@ class WeblcmsManager extends WebApplication
 			$this->course->set_layout_settings(new CourseLayout());
 			$this->course->set_course_type($this->course_type);
 		}
+		$this->load_tools();
+		$this->course->set_tools($this->tools);
 	}
 
 	/**
@@ -632,27 +600,31 @@ class WeblcmsManager extends WebApplication
 			$this->course_group = $wdm->retrieve_course_group($this->get_parameter(self :: PARAM_COURSE_GROUP));
 		}
 	}
-	
+
 	/**
 	 * Loads the current course_type into the system.
 	 */
-	private function load_course_type()
+	private function load_course_type($id = null)
 	{
-		if (! is_null($this->get_parameter(self :: PARAM_COURSE_TYPE)) && strlen($this->get_parameter(self :: PARAM_COURSE_TYPE) > 0))
+		$course_type = null;
+		if(is_null($id))
+			$id = $this->get_parameter(self :: PARAM_COURSE_TYPE);
+		if (! is_null($id) && strlen($id) > 0)
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->course_type = $wdm->retrieve_course_type($this->get_parameter(self :: PARAM_COURSE_TYPE));
-			$this->course_type->set_settings($wdm->retrieve_course_type_settings($this->get_parameter(self :: PARAM_COURSE_TYPE)));
-			$this->course_type->set_layout_settings($wdm->retrieve_course_type_layout($this->get_parameter(self :: PARAM_COURSE_TYPE)));
-			$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $this->get_parameter(self :: PARAM_COURSE_TYPE));
-			$this->course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));
+			$course_type = $wdm->retrieve_course_type($id);
+			$course_type->set_settings($wdm->retrieve_course_type_settings($id));
+			$course_type->set_layout_settings($wdm->retrieve_course_type_layout($id));
+			$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
+			$course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));
 		}
 		else
 		{
-			$this->course_type = new CourseType();
-			$this->course_type->set_settings(new CourseTypeSettings());
-			$this->course_type->set_layout_settings(new CourseTypeLayout());
+			$course_type = new CourseType();
+			$course_type->set_settings(new CourseTypeSettings());
+			$course_type->set_layout_settings(new CourseTypeLayout());
 		}
+		return $course_type;
 	}
 
 	/**
@@ -837,7 +809,7 @@ class WeblcmsManager extends WebApplication
     {
         return WeblcmsDataManager :: get_instance()->count_course_types($condition);
     }
-    
+
 	/**
 	 * Count the number of course categories
 	 * @param Condition $condition
@@ -917,12 +889,12 @@ class WeblcmsManager extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course($course_code);
 	}
-	
+
 	function retrieve_course_type($course_type_id)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_type($course_type_id);
 	}
-	
+
     function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null)
     {
     	return WeblcmsDataManager :: get_instance()->retrieve_course_types($condition, $offset, $count, $order_property);
@@ -1358,6 +1330,16 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_group_ids = array($selected_group_ids);
 			}
+			
+			$selected_course_type_ids = $_POST[AdminCourseTypeBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			if (empty($selected_course_type_ids))
+			{
+				$selected_course_type_ids = array();
+			}
+			elseif (! is_array($selected_course_type_ids))
+			{
+				$selected_course_type_ids = array($selected_course_type_ids);
+			}
 
 			switch ($_POST['action'])
 			{
@@ -1387,6 +1369,10 @@ class WeblcmsManager extends WebApplication
 					Request :: set_get('group_id', $selected_group_ids);
 					Request :: set_get(self :: PARAM_STATUS, 1);
 					break;
+				case self :: PARAM_REMOVE_SELECTED_COURSE_TYPES :
+					$this->set_action(self :: ACTION_DELETE_COURSE_TYPE);
+					Request :: set_get(self :: PARAM_COURSE_TYPE, $selected_course_type_ids);
+					break;					
 			}
 		}
 	}
@@ -1448,8 +1434,8 @@ class WeblcmsManager extends WebApplication
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get('Course_Type_list'), 'description' => Translation :: get('CourseTypeListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)));
-		$links[] = array('name' => Translation :: get('CreateType'), 'description' => Translation :: get('CreateTypeDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));		
+		$links[] = array('name' => Translation :: get('CourseTypelist'), 'description' => Translation :: get('CourseTypeListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)));
+		$links[] = array('name' => Translation :: get('CreateType'), 'description' => Translation :: get('CreateTypeDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));
 		$links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
 		$links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE)));
 		$links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
@@ -1511,7 +1497,7 @@ class WeblcmsManager extends WebApplication
 
 		$table->setHeaderContents(1, 0, Translation :: get('CourseCode'));
 		$table->setHeaderContents(1, 1, Translation :: get('CourseName'));
-		 
+
 		$courses = $this->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user->get_id(), CourseUserRelation :: get_table_name()));
 
 		if($courses->size() == 0)
@@ -1521,7 +1507,7 @@ class WeblcmsManager extends WebApplication
 		}
 
 		$i = 2;
-		 
+
 		while($course = $courses->next_result())
 		{
 			$url = '<a href="' . $this->get_course_viewing_link($course) . '">';

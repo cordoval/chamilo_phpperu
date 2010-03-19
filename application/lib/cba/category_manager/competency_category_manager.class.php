@@ -35,5 +35,15 @@ class CompetencyCategoryManager extends CategoryManager
         $sort = CbaDataManager :: get_instance()->retrieve_max_sort_value(CompetencyCategory :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
         return $sort + 1;
     }
+    
+	function allowed_to_delete_category($category_id)
+    {
+        $conditions[] = new EqualityCondition(Competency :: PROPERTY_PARENT_ID, $category_id);
+        $conditions[] = new EqualityCondition(Competency :: PROPERTY_STATE, Competency :: STATE_NORMAL);
+        $condition = new AndCondition($conditions);
+        $count = CbaDataManager :: get_instance()->count_competencys($condition);
+
+        return ($count == 0);
+    }
 }
 ?>
