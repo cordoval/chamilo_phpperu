@@ -6,6 +6,6 @@
 	</properties>
 	<index name="course_id" type="primary">
 		<indexproperty name="course_id" />
-		<indexproperty name="user_id" />
+		<indexproperty name="group_id" />
 	</index>
 </object>
