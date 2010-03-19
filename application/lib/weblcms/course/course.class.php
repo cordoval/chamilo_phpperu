@@ -329,7 +329,7 @@ class Course extends DataClass
     /*
      * Getters and validation whether or not the property is readable from the course's own settings
      */
-    
+
     function get_language()
     {
     	if(!$this->get_language_fixed())
@@ -363,7 +363,7 @@ class Course extends DataClass
         else
         	return $this->get_course_type()->get_settings()->get_max_number_of_members();
     }
-    
+
     /**
      * Setters and validation to see whether they are writable
      */
@@ -378,7 +378,7 @@ class Course extends DataClass
     	if(!$this->get_language_fixed())
         	$this->settings->set_language($language);
     }
-    
+
     function get_visibility_fixed()
     {
     	return $this->course_type->get_settings()->get_visibility_fixed();
@@ -411,7 +411,7 @@ class Course extends DataClass
 		if(!$this->get_max_number_of_members_fixed())
         	$this->settings->set_max_number_of_members($max_number_of_members);
     }
-    
+
     /**
      * Direct access to the setters and getters for the course layout
      * All setters include a validation to see whether or not the property is writeable
@@ -711,6 +711,21 @@ class Course extends DataClass
         $relation_condition = new AndCondition($relation_conditions);
 
         return $wdm->retrieve_course_user_relations($relation_condition)->as_array();
+    }
+
+    /**
+     * Gets the subscribed groups of this course
+     * @return array An array of CourseGroupRelation objects
+     */
+    function get_subscribed_groups()
+    {
+        $wdm = WeblcmsDataManager :: get_instance();
+
+        $relation_conditions = array();
+        $relation_conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        $relation_condition = new AndCondition($relation_conditions);
+
+        return $wdm->retrieve_course_group_relations($relation_condition)->as_array();
     }
 
     /**
