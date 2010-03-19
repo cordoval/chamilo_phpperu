@@ -566,14 +566,16 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Loads the current course into the system.
 	 */
-	private function load_course()
+	public function load_course($id = null)
 	{
-		if (! is_null($this->get_parameter(self :: PARAM_COURSE)))
+		if($id == null)
+			$id = $this->get_parameter(self :: PARAM_COURSE);
+		if (! is_null($id))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->course = $wdm->retrieve_course($this->get_parameter(self :: PARAM_COURSE));
-			$this->course->set_settings($wdm->retrieve_course_settings($this->get_parameter(self :: PARAM_COURSE)));
-			$this->course->set_layout_settings($wdm->retrieve_course_layout($this->get_parameter(self :: PARAM_COURSE)));
+			$this->course = $wdm->retrieve_course($id);
+			$this->course->set_settings($wdm->retrieve_course_settings($id));
+			$this->course->set_layout_settings($wdm->retrieve_course_layout($id));
 			$this->course->set_course_type($this->load_course_type($this->course->get_course_type_id()));
 		}
 		else

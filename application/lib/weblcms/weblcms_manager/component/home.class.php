@@ -167,9 +167,9 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
             {
                 
                 $weblcms = $this->get_parent();
-                $weblcms->set_course($course);
-                $weblcms->load_tools();
-                $tools = $weblcms->get_registered_tools();
+                $weblcms->load_course($course->get_id());
+                $course = $weblcms->get_course();
+                $tools = $weblcms->get_course()->get_tools();
                 
                 $html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_home.png);"><a style="top: -2px; position: relative;" href="' . $this->get_course_viewing_url($course) . '">' . $course->get_name() . '</a>';
                 /*$html[] = '<br />'. $course->get_id();

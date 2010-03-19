@@ -66,7 +66,7 @@ class CourseForm extends FormValidator
     {
     	$tabs = Array();
     	$tabs[] = new FormValidatorTab('build_general_settings_form','General');
-    	if($this->type == self::TYPE_CREATE)
+    	if($this->form_type == self::TYPE_CREATE)
     		$tabs[] = new FormValidatorTab('build_tools_form', 'Tools');
 		$tabs[] = new FormValidatorTab('build_rights_form', 'Rights');
 		$tabs[] = new FormValidatorTab('build_layout_form', 'Layout');
