@@ -33,6 +33,7 @@ class Course extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
+    const PROPERTY_COURSE_TYPE_ID = 'course_type_id';
     const PROPERTY_VISUAL = 'visual_code';
     const PROPERTY_NAME = 'title';
     const PROPERTY_TITULAR = 'titular_id';
@@ -66,7 +67,8 @@ class Course extends DataClass
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(
-        		array(self :: PROPERTY_VISUAL,
+        		array(self :: PROPERTY_COURSE_TYPE_ID,
+        			  self :: PROPERTY_VISUAL,
         			  self :: PROPERTY_CATEGORY,
         			  self :: PROPERTY_NAME,
         			  self :: PROPERTY_SHOW_SCORE,
@@ -88,6 +90,15 @@ class Course extends DataClass
         return WeblcmsDataManager :: get_instance();
     }
 
+    /**
+     * Returns the course type id of this course object
+     * @return string the course type id
+     */
+    function get_course_type_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
+    }
+    
     /**
      * Returns the visual code of this course object
      * @return string the visual code
@@ -201,6 +212,15 @@ class Course extends DataClass
         return $this->course_type;
     }
 
+    /**
+     * Sets the course type id of this course object
+     * @param int $type The course type id
+     */
+    function set_course_type_id($type)
+    {
+        $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $type);
+    }
+    
     /**
      * Sets the visual code of this course object
      * @param String $visual The visual code

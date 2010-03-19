@@ -103,6 +103,7 @@ class CourseForm extends FormValidator
         $this->addElement('category', Translation :: get('CourseSettings'));
 
        	$this->addElement('static', 'course_type', Translation :: get('CourseType'), $this->course->get_course_type()->get_name());
+       	$this->addElement('hidden', Course :: PROPERTY_COURSE_TYPE_ID, $this->course->get_course_type()->get_id());
         
         $this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
         $this->addRule(Course :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -129,7 +130,7 @@ class CourseForm extends FormValidator
 		if($language_disabled)
 		{
 			$this->addElement('static', 'static_language', Translation :: get('CourseTypeLanguage'), $lang);
-			$this->addElement('hidden', CourseSettings :: PROPERTY_LANGUAGE);
+			$this->addElement('hidden', CourseSettings :: PROPERTY_LANGUAGE, $lang);
 		}
 		else
 			$this->addElement('select', CourseSettings :: PROPERTY_LANGUAGE, Translation :: get('CourseTypeLanguage'), $lang_options);
@@ -152,7 +153,7 @@ class CourseForm extends FormValidator
 		if($members_disabled)
 		{
 			$this->addElement('static', 'static_member', Translation :: get('MaximumNumberOfMembers'), $max);
-			$this->addElement('hidden', CourseSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS );
+			$this->addElement('hidden', CourseSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS, $max );
 		}
 		else
 		{
@@ -333,6 +334,7 @@ class CourseForm extends FormValidator
     	$course = $this->course;
 		$values = $this->exportValues();
     	//$course->set_id($values[Course :: PROPERTY_ID]);
+    	$course->set_course_type_id($values[Course :: PROPERTY_COURSE_TYPE_ID]);
         $course->set_visual($values[Course :: PROPERTY_VISUAL]);
         $course->set_name($values[Course :: PROPERTY_NAME]);
         $course->set_category($values[Course :: PROPERTY_CATEGORY]);
