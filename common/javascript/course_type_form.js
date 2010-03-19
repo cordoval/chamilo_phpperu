@@ -6,17 +6,17 @@ $(function ()
 		setTimeout(
 			function()
 			{
-				$('.iphone').setiphoneCourseType();
-				$('.viewablecheckbox').setviewableStyle();
+				$('.iphone').setIphoneCourseType();
+				$('.viewablecheckbox').setViewableStyle();
 			},30);	
 	}
 	
 	$(document).ready(function ()
 	{
 		$('.iphone').iphoneStyle();
-		$('.iphone').setiphoneCourseType();
+		$('.iphone').setiPhoneCourseType();
 		$('.viewablecheckbox').viewableStyle();
-		$('.viewablecheckbox').setviewableStyle();
+		$('.viewablecheckbox').setViewableStyle();
 		$('.empty').live('click', reset);
 	});
 
@@ -28,7 +28,7 @@ $(function ()
 	   defaults: { checkedLabel: 'ON', uncheckedLabel: 'OFF', background: '#fff' }
 	}
 	
-	$.fn.setiphoneCourseType = function()
+	$.fn.setiPhoneCourseType = function()
 	{
 	    return this.each(function() 
 	    {
@@ -93,57 +93,5 @@ $(function ()
 			   	defaultimage.css('display','none');
 			}
 	    });
-	};
-	
-	$.fn.setviewableStyle = function()
-	{
-		return this.each(function() 
-		{
-			var elem = $(this);
-				 	
-			if (!elem.is(':checkbox'))
-				return;
-			
-			var eye = elem.siblings('.eye');
-			
-			// initial load
-			if (!elem.is(':checked')) 
-				eye.attr('src', common_image_path+'action_invisible.png');
-			else
-				eye.attr('src', common_image_path+'action_visible.png');
-		});
-	};
-	
-	$.fn.viewableStyle = function() 
-	{
-		 return this.each(function() 
-		 {
-		 	var elem = $(this);
-		 	
-			if (!elem.is(':checkbox'))
-				return;
-
-			elem.css('display','none');
-			elem.wrap('<div class="viewable_checkbox" />');
-			elem.after('<img class="eye" src="'+common_image_path+'action_visible.png" style="vertical-align: middle;" alt=""/>');
-
-			var eye = elem.siblings('.eye'),
-				container = elem.parent('.viewable_checkbox');
-
-			container.click(function() 
-			{
-				if (!elem.is(':checked'))
-					elem.attr('checked', true);
-				else
-					elem.attr('checked', false);
-				
-				if(!elem.is(':checked'))
-					eye.attr('src', common_image_path+'action_invisible.png');
-				else
-  					eye.attr('src', common_image_path+'action_visible.png');
-				
-				return false;
-			});
-		});
 	};
 })(jQuery);

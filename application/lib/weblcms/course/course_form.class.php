@@ -22,14 +22,15 @@ class CourseForm extends FormValidator
     private $user;
     private $form_type;
     
-    function CourseForm($form_type, $course, $user, $action)
+    function CourseForm($form_type, $course, $user, $action, $parent)
     {
         parent :: __construct('course_settings', 'post', $action);
         
         $this->course = $course;
         $this->user = $user;
-        
+		$this->parent = $parent;
         $this->form_type = $form_type;
+        
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -40,7 +41,8 @@ class CourseForm extends FormValidator
         }
         
         $this->setDefaults();
-        $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_form.js'));
+		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/viewable_checkbox.js'));
+		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_form.js'));
     }
     
     private $categories;
@@ -62,9 +64,12 @@ class CourseForm extends FormValidator
 
     function build_basic_form()
     {
-    	$tabs = Array(new FormValidatorTab('build_general_settings_form','General'),
-		new FormValidatorTab('build_rights_form', 'Rights'),
-		new FormValidatorTab('build_layout_form', 'Layout'));
+    	$tabs = Array();
+    	$tabs[] = new FormValidatorTab('build_general_settings_form','General');
+    	if($this->type == self::TYPE_CREATE)
+    		$tabs[] = new FormValidatorTab('build_tools_form', 'Tools');
+		$tabs[] = new FormValidatorTab('build_rights_form', 'Rights');
+		$tabs[] = new FormValidatorTab('build_layout_form', 'Layout');
 		$selected_tab = 0;
 		$this->add_tabs($tabs, $selected_tab);
     }
@@ -255,6 +260,42 @@ class CourseForm extends FormValidator
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
+    
+	function build_tools_form()
+	{
+		//Tools defaults
+		$course_type_tools = $this->course->get_course_type()->get_tools();
+		foreach ($course_type_tools as $course_type_tool)
+		{
+			$tool = $course_type_tool->get_name();
+		    $tool_data = array();
+			
+			$element_default_arr = array('class'=>'viewablecheckbox', 'style'=>'width=80%');
+			if($course_type_tool->get_visible_default())
+				$element_default_arr['checked'] = "checked";
+
+			$tool_image_src = Theme :: get_image_path() . 'tool_' . $tool . '.png';
+			$tool_image = $tool . "_image";
+			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
+			$element_default = $tool . "elementdefault";
+
+			$tool_data[] = '<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div>';
+			$tool_data[] = '<div class="'.$element_default.'"/>'.$this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', $element_default_arr)->toHtml().'</div>';
+			$count ++;
+
+			$data[] = $tool_data;
+		}
+
+        $table = new SortableTableFromArray($data);
+        $table->set_header(0, Translation :: get('ToolName'), false);
+        $table->set_header(1, Translation :: get('IsToolVisible'), false);
+        $this->addElement('html', $table->as_html());
+        $this->addElement('html', "<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					var common_image_path = '".Theme :: get_common_image_path()."';
+					/* ]]> */
+					</script>\n");
+	}
 
     function build_creation_form()
     {
@@ -296,7 +337,7 @@ class CourseForm extends FormValidator
 		$course_layout = $this->fill_course_layout();
 		if(!$course_layout->update())
 			return false;
-		
+
 		return true;
     }
 
@@ -316,8 +357,14 @@ class CourseForm extends FormValidator
 		
 		if(!$course_layout->create())
 			return false;
-			
-        $wdm = WeblcmsDataManager :: get_instance();
+		
+		$wdm = WeblcmsDataManager :: get_instance();
+		$tools = $this->course->get_course_type()->get_tools();
+		$selected_tools = $this->fill_course_tools($tools);
+		
+		if(!$wdm->create_course_modules($selected_tools, $this->course->get_id()))
+			return false;
+		
         if (! $this->user->is_platform_admin())
             $user_id = $this->user->get_id();
         else
@@ -378,6 +425,22 @@ class CourseForm extends FormValidator
 		$course_layout->set_course_manager_name_visible($values[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE]);
 		$course_layout->set_course_languages_visible($values[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]);
 		return $course_layout;		
+	}
+	
+	function fill_course_tools($tools)
+	{
+		$tools_array = array();
+		foreach($tools as $tool)
+		{
+			$element_default = $tool->get_name() . "elementdefault";
+			$course_module = new CourseModule();
+			$course_module->set_course_code($this->course->get_id());
+			$course_module->set_name($tool->get_name());
+			$course_module->set_visible($this->parse_checkbox_value($this->getSubmitValue($element_default)));
+			$course_module->set_section("basic");
+			$tools_array[] = $course_module;
+		}
+		return $tools_array;
 	}
 	
     /**

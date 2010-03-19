@@ -135,14 +135,13 @@ class WeblcmsManager extends WebApplication
 		$this->parse_input_from_table();
 
 		$this->course_type = $this->load_course_type();
+		$this->tools = array();
 		$this->course = new Course();
 		$this->load_course();
 		$this->course_group = null;
 		$this->load_course_group();
 		$this->sections = array();
 		$this->load_sections();
-		$this->tools = array();
-		$this->load_tools();
 	}
 
 	/*
@@ -546,45 +545,7 @@ class WeblcmsManager extends WebApplication
 			}
 		}
 	}
-
-	/*
-	 * Gets all the toolnames that are available to the application and are non admin
-	 */
-	function get_all_non_admin_tools()
-	{
-		$course_modules = Array();
-		$tool_dir = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), '..', 'tool'));
-		if ($handle = opendir($tool_dir))
-		{
-			while (false !== ($file = readdir($handle)))
-			{
-				if (substr($file, 0, 1) != '.' && $file != 'component')
-				{
-					$file_path = $tool_dir . DIRECTORY_SEPARATOR . $file;
-					if (is_dir($file_path))
-					{
-						// TODO: Move to an XML format for tool properties, instead of .hidden, .section and whatnot
-						$section_file = $file_path . DIRECTORY_SEPARATOR . '.section';
-						if (file_exists($section_file))
-						{
-							$contents = file($section_file);
-							$section = rtrim($contents[0]);
-						}
-						else
-						{
-							$section = 'basic';
-						}
-
-						if($section == 'basic')
-							$course_modules[] = $file;
-					}
-				}
-			}
-			closedir($handle);
-		}
-		return $course_modules;
-	}
-
+	
 	/**
 	 * Loads the sections installed on the system.
 	 */
@@ -622,6 +583,8 @@ class WeblcmsManager extends WebApplication
 			$this->course->set_layout_settings(new CourseLayout());
 			$this->course->set_course_type($this->course_type);
 		}
+		$this->load_tools();
+		$this->course->set_tools($this->tools);
 	}
 
 	/**

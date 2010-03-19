@@ -56,9 +56,9 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         {        
         	$id = $course->get_id();
 	        if(empty($id))
-		        $form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url());
+		        $form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url(), $this);
 	        else
-		        $form = new CourseForm(CourseForm :: TYPE_EDIT, $course, $this->get_user(), $this->get_url());
+		        $form = new CourseForm(CourseForm :: TYPE_EDIT, $course, $this->get_user(), $this->get_url(), $this);
         }
         
 
