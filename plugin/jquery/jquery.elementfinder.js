@@ -64,8 +64,8 @@
 				$("ul li:not(:last-child):has(ul) > div", self).addClass("collapse");
 				$("ul li:last-child:has(ul) > div", self).addClass("lastCollapse");
 				
-				$("ul li:has(ul) > div", self).toggle(collapseItem, expandItem);
-				$("ul li:has(ul) > div > a", self).click(function(e){e.stopPropagation();});
+//				$("ul li:has(ul) > div", self).toggle(collapseItem, expandItem);
+//				$("ul li:has(ul) > div > a", self).click(function(e){e.stopPropagation();});
 			}
 			
 			function displayMessage(message, element)
@@ -106,10 +106,10 @@
 					if (tree.node && $(tree.node).size() > 0)
 					{
 						$.each(tree.node, function(i, the_node){
-								var li = $('<li><div><a href="#" id="' + the_node.id + '" class="category">' + the_node.title + '</a></div></li>');
-								$(ul).append(li);
-								buildElement(the_node, li);
-							});
+							var li = $('<li><div><a href="#" id="' + the_node.id + '" class="' + the_node.classes + '" title="' + the_node.description + '">' + the_node.title + '</a></div></li>');
+							$(ul).append(li);
+							buildElement(the_node, li);
+						});
 					}
 					
 					if (tree.leaf && $(tree.leaf).size() > 0)
@@ -138,7 +138,7 @@
 					if (the_node.node && $(the_node.node).size() > 0)
 					{
 						$.each(the_node.node, function(i, a_node){
-							var li = $('<li><div><a href="#" id="' + a_node.id + '" class="category">' + a_node.title + '</a></div></li>');
+							var li = $('<li><div><a href="#" id="' + a_node.id + '" class="' + a_node.classes + '" title="' + a_node.description + '">' + a_node.title + '</a></div></li>');
 							$(ul).append(li);
 							buildElement(a_node, li);
 						});
@@ -190,6 +190,7 @@
 			{
 				$.each(activatedElements, function(i, activatedElement){
 					var current_element = $('#' + activatedElement, inactiveBox);
+					
 					if(current_element.css("background-image"))
 					{
 						if (!current_element.hasClass('disabled'))
@@ -239,6 +240,7 @@
 				
 				var li = $('<li></li>');
 				li.append(elementHtml);
+				$('ul', li).remove();
 				
 				$("ul:first", activeBox).append(li);
 				

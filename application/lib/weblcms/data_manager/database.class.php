@@ -703,7 +703,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $id);
         return $this->database->retrieve_object(CourseLayout :: get_table_name(), $condition);
     }
-    
+
     function retrieve_courses($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
@@ -723,6 +723,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return $this->database->retrieve_objects(CourseUserRelation :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+
+    function retrieve_group_user_relation($course_id, $group_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_ID, $course_id);
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_GROUP_ID, $user_id);
+        $condition = new AndCondition($conditions);
+
+        return $this->database->retrieve_object(CourseGroupRelation :: get_table_name(), $condition);
+    }
+
+    function retrieve_course_group_relations($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->database->retrieve_objects(CourseGroupRelation :: get_table_name(), $condition, $offset, $count, $order_property);
     }
 
     function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction)
@@ -801,7 +816,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         return $this->database->create($course_layout);
     }
-    
+
     function create_course_type($course_type)
     {
         return $this->database->create($course_type);
@@ -834,6 +849,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course);
         $condition = new AndCondition($conditions);
         return $this->database->count_objects(CourseUserRelation :: get_table_name(), $condition) > 0;
+    }
+
+    function is_group_subscribed($course_id, $group_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $group_id);
+        $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $course);
+        $condition = new AndCondition($conditions);
+        return $this->database->count_objects(CourseGroupRelation :: get_table_name(), $condition) > 0;
     }
 
     function is_course_category($category)
@@ -1065,7 +1089,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $course_layout->get_course_id());
         return $this->database->update($course_layout, $condition);
     }
-    
+
     function update_course_type($course_type)
     {
         $condition = new EqualityCondition(CourseType :: PROPERTY_ID, $course_type->get_id());
