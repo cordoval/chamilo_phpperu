@@ -24,13 +24,14 @@ class SurveyPublicationForm extends FormValidator
         
         $this->addElement('advmultiselect', 'course_users', Translation :: get('SelectUsers'), $usrs, 'style="width: 250px;"');
         
-        if ($survey->get_anonymous())
-            $this->addElement('textarea', 'additional_users', Translation :: get('AdditionalUsers'), array('cols' => 50, 'rows' => 2));
+        if ($survey->get_anonymous()){
+        	$this->addElement('textarea', 'additional_users', Translation :: get('AdditionalUsers'), array('cols' => 50, 'rows' => 2));
+        }
         
         $this->addElement('html', '<br />' . Translation :: get('PublishSurveySendMailInfo') . '<br /><br />');
         $this->addElement('checkbox', 'resend', Translation :: get('ResendEmail'));
         $this->addElement('html', '<br />' . Translation :: get('PublishSurveyResendMailInfo') . '<br /><br />');
-        //$this->addElement('submit', 'submit', Translation :: get('SendMail'));
+        $this->addElement('submit', 'submit', Translation :: get('SendMail'));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         

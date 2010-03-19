@@ -28,38 +28,40 @@ class SurveyManagerSurveyExporterComponent extends SurveyManagerComponent
         
         $publication = $this->retrieve_survey_publication($pid);
         
-        $survey = $publication->get_publication_object();
-        $exporter = ContentObjectExport :: factory('qti', $survey);
-        $path = $exporter->export_content_object();
+        return 'not implemented yet';
         
-        header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
-        header('Cache-Control: public');
-        header('Pragma: no-cache');
-        header('Content-type: application/octet-stream');
-        header('Content-length: ' . filesize($path));
-        
-        if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
-        {
-            header('Content-Disposition: filename= ' . basename($path));
-        }
-        else
-        {
-            header('Content-Disposition: attachment; filename= ' . basename($path));
-        }
-        
-        if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
-        {
-            header('Pragma: ');
-            header('Cache-Control: ');
-            header('Cache-Control: public'); // IE cannot download from sessions without a cache
-        }
-        
-        header('Content-Description: ' . basename($path));
-        header('Content-transfer-encoding: binary');
-        $fp = fopen($path, 'r');
-        fpassthru($fp);
-        fclose($fp);
-        Filesystem :: remove($path);
+//        $survey = $publication->get_publication_object();
+//        $exporter = ContentObjectExport :: factory('qti', $survey);
+//        $path = $exporter->export_content_object();
+//        
+//        header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
+//        header('Cache-Control: public');
+//        header('Pragma: no-cache');
+//        header('Content-type: application/octet-stream');
+//        header('Content-length: ' . filesize($path));
+//        
+//        if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
+//        {
+//            header('Content-Disposition: filename= ' . basename($path));
+//        }
+//        else
+//        {
+//            header('Content-Disposition: attachment; filename= ' . basename($path));
+//        }
+//        
+//        if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
+//        {
+//            header('Pragma: ');
+//            header('Cache-Control: ');
+//            header('Cache-Control: public'); // IE cannot download from sessions without a cache
+//        }
+//        
+//        header('Content-Description: ' . basename($path));
+//        header('Content-transfer-encoding: binary');
+//        $fp = fopen($path, 'r');
+//        fpassthru($fp);
+//        fclose($fp);
+//        Filesystem :: remove($path);
     }
 }
 ?>

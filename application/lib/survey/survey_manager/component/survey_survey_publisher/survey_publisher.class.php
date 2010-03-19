@@ -1,10 +1,6 @@
 <?php
-/**
- * $Id: survey_publisher.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component.survey_survey_publisher
- */
+
 require_once dirname(__FILE__) . '/survey_publication_form.class.php';
-require_once dirname(__FILE__) . '/../../../survey_invitation.class.php';
 
 class SurveyPublisher extends SurveyPublisherComponent
 {
@@ -27,7 +23,7 @@ class SurveyPublisher extends SurveyPublisherComponent
         $toolbar = $this->parent->get_toolbar();
         
         $wdm = SurveyDataManager :: get_instance();
-        
+               
         $pid = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         $publication = $wdm->retrieve_survey_publication($pid);
         $survey = $publication->get_publication_object();

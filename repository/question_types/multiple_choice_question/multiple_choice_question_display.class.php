@@ -25,7 +25,7 @@ class MultipleChoiceQuestionDisplay extends ContentObjectDisplay
         $html[] = '<thead>';
         $html[] = '<tr>';
         $html[] = '<th class="checkbox"></th>';
-        $html[] = '<th>' . Translation :: get('Answer') . '</th>';
+        $html[] = '<th>' . Translation :: get('Option') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';

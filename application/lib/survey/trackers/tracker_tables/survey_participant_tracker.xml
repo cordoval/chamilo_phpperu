@@ -7,9 +7,9 @@
 		<property name="survey_publication_id" type="integer"
 			unsigned="1" notnull="1" />
 		<property name="date" type="timestamp" notnull="1" />
-		<property name="progress" type="integer" />
+		<property name="progress" type="integer" default='0' />
 		<property name="status" type="text" length="50" fixed="true"
-			notnull="1" default="not attempted" />
+			notnull="1" default="notstarted" />
 		<property name="start_time" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="total_time" type="integer" unsigned="1"

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="publication_mail">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="sender_user_id" type="integer" notnull="1" />
+		<property name="from_address" type="text" />
+		<property name="mail_header" type="text" />
+		<property name="mail_content" type="text" />
+	</properties>
+</object>

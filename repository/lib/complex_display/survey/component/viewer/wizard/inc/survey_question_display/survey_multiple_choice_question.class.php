@@ -71,11 +71,11 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
         
         if ($type == 'radio' && $question->has_description())
         {
-            $title = Translation :: get('SelectCorrectAnswer');
+            $title = Translation :: get('SelectYourChoice');
         }
         elseif ($type == 'checkbox' && $question->has_description())
         {
-            $title = Translation :: get('SelectCorrectAnswers');
+            $title = Translation :: get('SelectYourChoices');
         }
         else
         {

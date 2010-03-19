@@ -1,8 +1,5 @@
 <?php
-/**
- * $Id: survey_publisher.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component
- */
+
 require_once dirname(__FILE__) . '/survey_survey_publisher/survey_publisher_component.class.php';
 
 class SurveyManagerSurveyPublisherComponent extends SurveyManagerComponent

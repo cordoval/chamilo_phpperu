@@ -272,6 +272,40 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         return $this->database->retrieve_objects(SurveyPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationUser :: CLASS_NAME);
     }
 
+    function create_survey_publication_mail($survey_publication_mail)
+    {
+        return $this->database->create($survey_publication_mail);
+    }
+
+    function update_survey_publication_mail($survey_publication_mail)
+    {
+        $condition = new EqualityCondition(SurveyPublicationMail :: PROPERTY_ID, $survey_publication_mail->get_id());
+        return $this->database->update($survey_publication_mail, $condition);
+    }
+
+    function delete_survey_publication_mail($survey_publication_mail)
+    {
+        $condition = new EqualityCondition(SurveyPublicationMail :: PROPERTY_ID, $survey_publication_mail->get_id());
+        return $this->database->delete($survey_publication_mail->get_table_name(), $condition);
+    }
+
+    function count_survey_publication_mails($condition = null)
+    {
+        return $this->database->count_objects(SurveyPublicationMail :: get_table_name(), $condition);
+    }
+
+    function retrieve_survey_publication_mail($id)
+    {
+        $condition = new EqualityCondition(SurveyPublicationMail :: PROPERTY_ID, $id);
+        return $this->database->retrieve_object(SurveyPublicationMail :: get_table_name(), $condition, array(), SurveyPublicationMail :: CLASS_NAME);
+    }
+
+    function retrieve_survey_publication_mails($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->database->retrieve_objects(SurveyPublicationMail :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationMail :: CLASS_NAME);
+    }
+    
+    
     function content_object_is_published($object_id)
     {
         return $this->any_content_object_is_published(array($object_id));

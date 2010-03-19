@@ -1,8 +1,5 @@
 <?php
-/**
- * $Id: survey_publisher_component.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component.survey_survey_publisher
- */
+
 require_once dirname(__FILE__) . '/survey_publisher.class.php';
 require_once dirname(__FILE__) . '/survey_publication_viewer.class.php';
 

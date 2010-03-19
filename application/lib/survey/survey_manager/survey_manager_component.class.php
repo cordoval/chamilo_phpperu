@@ -81,6 +81,21 @@ abstract class SurveyManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_survey_publication_user($id);
     }
 
+    function count_survey_publication_mails($condition)
+    {
+        return $this->get_parent()->count_survey_publication_mails($condition);
+    }
+
+    function retrieve_survey_publication_mails($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->get_parent()->retrieve_survey_publication_mails($condition, $offset, $count, $order_property);
+    }
+
+    function retrieve_survey_publication_mail($id)
+    {
+        return $this->get_parent()->retrieve_survey_publication_mail($id);
+    }
+
     // Url Creation
     
 
@@ -164,9 +179,9 @@ abstract class SurveyManagerComponent extends WebApplicationComponent
         return $this->get_parent()->get_download_documents_url($survey_publication);
     }
 
-    function get_publish_survey_url($survey_publication)
+    function get_mail_survey_participant_url($survey_publication)
     {
-        return $this->get_parent()->get_publish_survey_url($survey_publication);
+        return $this->get_parent()->get_mail_survey_participant_url($survey_publication);
     }
 
     function get_build_survey_url($survey_publication)

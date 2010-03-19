@@ -52,27 +52,25 @@ class DefaultSurveyPublicationTableCellRenderer implements ObjectTableCellRender
                 }
                 
                 return $description;
-            case ContentObject :: PROPERTY_TYPE :
-                $type = Translation :: get($content_object->get_type());
-                if ($type == 'survey')
-                {
-                    $type = $content_object->get_survey_type();
-                }
-                
-                if ($survey_publication->get_hidden())
-                {
-                    return '<span style="color: #999999;">' . $type . '</span>';
-                }
-                
-                return $type;
             case SurveyPublication :: PROPERTY_FROM_DATE :
-                return $survey_publication->get_from_date();
+                return $this->get_date($survey_publication->get_from_date());
             case SurveyPublication :: PROPERTY_TO_DATE :
-                return $survey_publication->get_to_date();
-            case SurveyPublication :: PROPERTY_PUBLISHER :
-                return $survey_publication->get_publisher();
+                return $this->get_date($survey_publication->get_to_date());
             default :
                 return '&nbsp;';
+        }
+    }
+
+    private function get_date($date)
+    {
+        if ($date == 0)
+        {
+            return Translation :: get('NoDate');
+        }
+        else
+        {
+            return date("Y-m-d H:i", $date);
+        
         }
     }
 

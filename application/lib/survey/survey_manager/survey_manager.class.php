@@ -1,18 +1,9 @@
 <?php
-/**
- * $Id: survey_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
- * @package application.lib.survey.survey_manager
- */
+
 require_once dirname(__FILE__) . '/survey_manager_component.class.php';
 require_once dirname(__FILE__) . '/../survey_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/survey_publication_browser/survey_publication_browser_table.class.php';
 
-/**
- * A survey manager
- *
- * @author Sven Vanpoucke
- * @author
- */
 class SurveyManager extends WebApplication
 {
     const APPLICATION_NAME = 'survey';
@@ -38,7 +29,9 @@ class SurveyManager extends WebApplication
     const ACTION_MOVE_SURVEY_PUBLICATION = 'move';
     const ACTION_EXPORT_RESULTS = 'export_results';
     const ACTION_DOWNLOAD_DOCUMENTS = 'download_documents';
-    const ACTION_PUBLISH_SURVEY = 'publish_survey';
+    
+    const ACTION_MAIL_SURVEY_PARTICIPANTS = 'mail_survey_participants';
+    
     const ACTION_BUILD_SURVEY = 'build';
 
     /**
@@ -105,8 +98,8 @@ class SurveyManager extends WebApplication
             case self :: ACTION_DOWNLOAD_DOCUMENTS :
                 $component = SurveyManagerComponent :: factory('DocumentDownloader', $this);
                 break;
-            case self :: ACTION_PUBLISH_SURVEY :
-                $component = SurveyManagerComponent :: factory('SurveyPublisher', $this);
+            case self :: ACTION_MAIL_SURVEY_PARTICIPANTS :
+                $component = SurveyManagerComponent :: factory('Mailer', $this);
                 break;
             case self :: ACTION_BUILD_SURVEY :
                 $component = SurveyManagerComponent :: factory('Builder', $this);
@@ -209,6 +202,21 @@ class SurveyManager extends WebApplication
         return SurveyDataManager :: get_instance()->retrieve_survey_publication_user($id);
     }
 
+    function count_survey_publication_mails($condition)
+    {
+        return SurveyDataManager :: get_instance()->count_survey_publication_mails($condition);
+    }
+
+    function retrieve_survey_publication_mails($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_publication_mails($condition, $offset, $count, $order_property);
+    }
+
+    function retrieve_survey_publication_mail($id)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_publication_mail($id);
+    }
+
     // Url Creation
     
 
@@ -256,7 +264,7 @@ class SurveyManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PARTICIPANT => $survey_participant->get_id()));
     }
-      
+
     function get_survey_results_viewer_url($survey_publication)
     {
         $id = $survey_publication ? $survey_publication->get_id() : null;
@@ -293,9 +301,9 @@ class SurveyManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
     }
 
-    function get_publish_survey_url($survey_publication)
+    function get_mail_survey_participant_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_SURVEY, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MAIL_SURVEY_PARTICIPANTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
     }
 
     function get_build_survey_url($survey_publication)
@@ -345,7 +353,7 @@ class SurveyManager extends WebApplication
 
     function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array('survey', 'survey', 'hotpotatoes');
+        $allowed_types = array('survey');
         
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
