@@ -87,7 +87,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
             //TO DO implement survey exporter !!
             //$toolbar_data[] = array('href' => $this->browser->get_export_survey_url($survey_publication), 'label' => Translation :: get('Export'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
             $toolbar_data[] = array('href' => $this->browser->get_move_survey_publication_url($survey_publication), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
-            $toolbar_data[] = array('href' => $this->browser->get_mail_survey_participant_url($survey_publication), 'label' => Translation :: get('InviteUsers'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
+            $toolbar_data[] = array('href' => $this->browser->get_mail_survey_participant_url($survey_publication), 'label' => Translation :: get('InviteParticipants'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
             
             if ($survey->is_complex_content_object())
             {

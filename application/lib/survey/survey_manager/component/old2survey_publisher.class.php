@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/survey_survey_publisher/survey_publisher_component.class.php';
 
-class SurveyManagerSurveyPublisherComponent extends SurveyManagerComponent
+class Old2SurveyManagerSurveyPublisherComponent extends SurveyManagerComponent
 {
 
     function run()

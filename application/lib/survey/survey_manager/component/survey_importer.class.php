@@ -29,7 +29,7 @@ class SurveyManagerSurveyImporterComponent extends SurveyManagerComponent
         {
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
-            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_IMPORT_QTI)), Translation :: get('ImportQTI')));
+            //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_IMPORT_QTI)), Translation :: get('ImportQTI')));
             
             $this->display_header($trail, true);
             
@@ -41,7 +41,7 @@ class SurveyManagerSurveyImporterComponent extends SurveyManagerComponent
 
     function build_importing_form()
     {
-        $url = $this->get_url(array(SurveyTool :: PARAM_ACTION => SurveyTool :: ACTION_IMPORT_QTI));
+        //$url = $this->get_url(array(SurveyTool :: PARAM_ACTION => SurveyTool :: ACTION_IMPORT_QTI));
         $form = new FormValidator('qti_import', 'post', $url);
         $form->addElement('html', '<b>Import survey from QTI</b><br/><br/>');
         $form->addElement('html', '<em>' . Translation :: get('FileMustContainAllSurveyXML') . '</em>');

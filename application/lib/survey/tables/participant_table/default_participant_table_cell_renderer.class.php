@@ -1,24 +1,15 @@
 <?php
-/**
- * $Id: default_survey_publication_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.tables.survey_publication_table
- */
 
 require_once dirname(__FILE__) . '/../../survey_publication.class.php';
 
-/**
- * Default cell renderer for the survey_publication table
- *
- * @author Sven Vanpoucke
- * @author 
- */
-class DefaultTestSurveyParticipantTableCellRenderer implements ObjectTableCellRenderer
+
+class DefaultParticipantTableCellRenderer implements ObjectTableCellRenderer
 {
 
     /**
      * Constructor
      */
-    function DefaultTestSurveyParticipantTableCellRenderer()
+    function DefaultParticipantTableCellRenderer()
     {
     }
 
