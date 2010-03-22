@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: default_course_table_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
+ * $Id: default_course_table_cell_renderer.class.php 216 2010-03-12 14:08:06Z Yannick $
  * @package application.lib.weblcms.course_type.course_type_table
  */
 

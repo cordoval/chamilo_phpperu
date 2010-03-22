@@ -127,7 +127,7 @@ class CategoryMenu extends HTML_Menu
      */
     function render_as_tree()
     {
-        $renderer = new DragAndDropTreeMenuRenderer('category_changer', $this->current_item);
+        /*$renderer = new DragAndDropTreeMenuRenderer('category_changer', $this->current_item);
         $this->render($renderer, 'sitemap');
         
         $html[] = '<script type="text/javascript">';
@@ -137,6 +137,10 @@ class CategoryMenu extends HTML_Menu
         $html[] = '';
         $html[] = '</script>';
         
-        return implode("\n", $html) . $renderer->toHTML();
+        return implode("\n", $html) . $renderer->toHTML();*/
+    	
+    	$renderer = new TreeMenuRenderer();
+        $this->render($renderer, 'sitemap');
+        return $renderer->toHTML();
     }
 }

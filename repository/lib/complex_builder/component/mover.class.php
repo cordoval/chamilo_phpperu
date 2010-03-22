@@ -27,21 +27,26 @@ class ComplexBuilderMoverComponent extends ComplexBuilderComponent
             $rdm = RepositoryDataManager :: get_instance();
             $cloi = $rdm->retrieve_complex_content_object_item($id);
             $parent = $cloi->get_parent();
+            $max = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent));
             
             $display_order = $cloi->get_display_order();
             $new_place = ($display_order + ($direction == RepositoryManager :: PARAM_DIRECTION_UP ? - 1 : 1));
-            $cloi->set_display_order($new_place);
             
-            $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, $new_place, ComplexContentObjectItem :: get_table_name());
-            $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name());
-            $condition = new AndCondition($conditions);
-            $items = $rdm->retrieve_complex_content_object_items($condition);
-            $new_cloi = $items->next_result();
-            $new_cloi->set_display_order($display_order);
-            
-            if (! $cloi->update() || ! $new_cloi->update())
-            {
-                $succes = false;
+            if($new_place > 0 && $new_place <= $max)
+            { 
+	            $cloi->set_display_order($new_place);
+	            
+	            $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, $new_place, ComplexContentObjectItem :: get_table_name());
+	            $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name());
+	            $condition = new AndCondition($conditions);
+	            $items = $rdm->retrieve_complex_content_object_items($condition);
+	            $new_cloi = $items->next_result();
+	            $new_cloi->set_display_order($display_order);
+	            
+	            if (! $cloi->update() || ! $new_cloi->update())
+	            {
+	                $succes = false;
+            	}
             }
             
             if ($parent == $root)

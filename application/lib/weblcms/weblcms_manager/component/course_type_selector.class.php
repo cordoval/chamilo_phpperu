@@ -18,6 +18,10 @@ class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManagerComponent
      */
     function run()
     {
+    	
+    	if(!WeblcmsDataManager :: get_instance()->count_course_types())
+    		$this->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE));
+    	
         if ($this->get_user()->is_platform_admin())
         {
             Header :: set_section('admin');

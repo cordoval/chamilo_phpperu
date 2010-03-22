@@ -34,27 +34,31 @@ class CategoryManagerMoverComponent extends CategoryManagerComponent
         $category = $categories->next_result();
         $parent = $category->get_parent();
         
+        $max = $this->count_categories(new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent));
+        
         $display_order = $category->get_display_order();
         $new_place = $display_order + $direction;
-        $category->set_display_order($new_place);
         
-        $conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_DISPLAY_ORDER, $new_place);
-        $conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent);
-        $condition = new AndCondition($conditions);
-        $categories = $this->retrieve_categories($condition);
-        $newcategory = $categories->next_result();
+        $succes = false;
         
-        $newcategory->set_display_order($display_order);
-        
-        $sucess = true;
-        
-        if (! $category->update() || ! $newcategory->update())
+        if($new_place > 0 && $new_place <= $max)
         {
-            $sucess = false;
+	        $category->set_display_order($new_place);
+	        
+	        $conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_DISPLAY_ORDER, $new_place);
+	        $conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent);
+	        $condition = new AndCondition($conditions);
+	        $categories = $this->retrieve_categories($condition);
+	        $newcategory = $categories->next_result();
+	        
+	        $newcategory->set_display_order($display_order);
+	        
+	        if ($category->update() && $newcategory->update())
+	        {
+	            $sucess = true;
+	        }
         }
-        /*if(get_class($this->get_parent()) == 'RepositoryCategoryManager')
-			$this->repository_redirect(RepositoryManager :: ACTION_MANAGE_CATEGORIES, Translation :: get($sucess ? 'CategoryMoved' : 'CategoryNotMoved'), 0, ($sucess ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $category->get_parent()));
-		else*/
+
         $this->redirect(Translation :: get($sucess ? 'CategoryMoved' : 'CategoryNotMoved'), ($sucess ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $category->get_parent()));
     }
 }
