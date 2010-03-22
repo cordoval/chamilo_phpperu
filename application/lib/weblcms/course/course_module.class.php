@@ -27,7 +27,10 @@ class CourseModule extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_VISIBLE, self :: PROPERTY_SECTION));
+        return array(self :: PROPERTY_COURSE_CODE, 
+        			 self :: PROPERTY_NAME, 
+        			 self :: PROPERTY_VISIBLE, 
+        			 self :: PROPERTY_SECTION);
     }
 
     /**

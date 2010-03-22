@@ -2,6 +2,7 @@
 <object name="course">
 	<properties>
 		<property name="id" type="integer" notnull="1" autoincrement="true" />
+		<property name="course_type_id" type="integer"/>
 		<property name="course_language" type="text" length="20"
 			fixed="true" />
 		<property name="title" type="text" length="250" fixed="true" />
@@ -21,6 +22,9 @@
 		<property name="creation_date" type="timestamp" />
 		<property name="expiration_date" type="timestamp" />
 	</properties>
+	<index name="course_type_id">
+		<indexproperty name="category_id" />
+	</index>
 	<index name="visual_code" type="unique">
 		<indexproperty name="visual_code" />
 	</index>

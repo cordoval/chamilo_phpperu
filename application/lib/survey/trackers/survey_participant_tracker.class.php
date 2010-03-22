@@ -23,6 +23,10 @@ class SurveyParticipantTracker extends MainTracker
     const PROPERTY_CONTEXT_NAME = 'context_name';
     const PROPERTY_CONTEXT_ID = 'context_id';
 
+    const STATUS_STARTED = 'started';
+    const STATUS_NOTSTARTED = 'notstarted';
+    const STATUS_FINISHED = 'finished';
+    
     /**
      * Constructor sets the default values
      */

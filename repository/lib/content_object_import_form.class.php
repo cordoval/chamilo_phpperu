@@ -50,8 +50,8 @@ class ContentObjectImportForm extends FormValidator
     private function build_basic_form()
     {
         $this->add_select(RepositoryManager :: PARAM_CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
-        $this->add_select('type', Translation :: get('Type'), $this->get_types());
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
+ 		$this->add_select('type', Translation :: get('Type'), $this->get_types());
         //$this->addElement('submit', 'content_object_import', Translation :: get('Ok'));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
         //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: default_course_type_table_column_model.class.php 216 2009-11-13 14:08:06Z kariboe $
+ * $Id: default_course_type_table_column_model.class.php 216 2010-03-12 14:08:06Z yannick $
  * @package application.lib.weblcms.course_type.course_type_table
  */
 require_once dirname(__FILE__) . '/../course_type.class.php';

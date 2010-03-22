@@ -51,8 +51,8 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
             {
                 
                 $this->set_publication_variables(Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION));
-            	
-            	$track = new SurveyParticipantTracker();
+                
+                $track = new SurveyParticipantTracker();
                 $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->pid);
                 $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->get_user_id());
                 $condition = new AndCondition($conditions);
@@ -72,7 +72,16 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
         }
         
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
+        if ($this->pub->is_test())
+        {
+            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_TEST_SURVEY_PUBLICATION)), Translation :: get('BrowseTestSurveyPublications')));
+        
+        }
+        else
+        {
+            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
+        
+        }
         $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('TakeSurvey')));
         
         if ($this->pub && ! $this->pub->is_visible_for_target_user($this->get_user()))
@@ -140,46 +149,6 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
         return $this->get_parameter(SurveyManager :: PARAM_SURVEY_PARTICIPANT);
     }
 
-    //    function create_tracker()
-    //    {
-    //        
-    //        $contexts = $this->survey->get_context()->create_contexts_for_user($this->get_user()->get_username());
-    //        
-    //        $args = array();
-    //        
-    //        $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->pid;
-    //        $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $this->get_user_id();
-    //        $args[SurveyParticipantTracker :: PROPERTY_PROGRESS] = 0;
-    //        
-    ////        $count = count($contexts);
-    //        $trackers = array();
-    //        //        if ($count === 0)
-    //        //        {
-    //        //            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
-    //        //            $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
-    //        //            $trackers[] = $tracker;
-    //        //        }
-    //        //        else
-    //        //        {
-    //        foreach ($contexts as $cont)
-    //        {
-    //            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
-    //            $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
-    //            $trackers[] = $tracker;
-    //        }
-    //        //        }
-    //        
-    //
-    //        return $tracker[0];
-    //    }
-    
-
-    //    function get_user_id()
-    //    {
-    //        return parent :: get_user_id();
-    //    }
-    
-
     function save_answer($complex_question_id, $answer)
     {
         
@@ -213,10 +182,22 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
         $tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
         if ($percent === 100)
         {
-            $tracker->set_status('completed');
+            foreach ($this->trackers as $tracker)
+            {
+                $tracker->set_status(SurveyParticipantTracker :: STATUS_FINISHED);
+            	$tracker->update();
+            }
+        }
+        else
+        {
+           	foreach ($this->trackers as $tracker)
+            {
+                $tracker->set_status(SurveyParticipantTracker :: STATUS_STARTED);
+            	$tracker->update();
+            }
         }
         
-        $tracker->update();
+        
     }
 
     function get_current_attempt_id()

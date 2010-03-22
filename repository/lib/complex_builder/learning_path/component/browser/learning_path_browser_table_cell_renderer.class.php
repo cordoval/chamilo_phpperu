@@ -109,9 +109,11 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
             $delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi, $this->browser->get_root());
             $moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
             $movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);
-
+			$change_parent_url = $this->browser->get_complex_content_object_parent_changer_url($cloi, $this->browser->get_root());
+			
             $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-
+		 	$toolbar_data[] = array('href' => $change_parent_url, 'label' => Translation :: get('ChangeParent'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+		 	
             $allowed = $this->check_move_allowed($cloi);
 
             if ($allowed["moveup"])

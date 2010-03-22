@@ -34,6 +34,7 @@ class CourseTypeForm extends FormValidator
 			$this->build_creation_form();
 		}
 		$this->setDefaults();
+		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/viewable_checkbox.js'));
 		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_type_form.js'));
 	}
 
@@ -77,7 +78,8 @@ class CourseTypeForm extends FormValidator
 
 	function build_tools_form()
 	{
-		$tools = $this->parent->get_all_non_admin_tools();
+		$wdm = WeblcmsDataManager :: get_instance();
+		$tools = $wdm->get_tools('basic');
 		$data = array();
 
 		//Tools defaults
@@ -108,7 +110,7 @@ class CourseTypeForm extends FormValidator
 
 			$tool_data[] = '<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div>';
 			$tool_data[] = $this->createElement('checkbox', $element_name, $title, '', $element_name_arr)->toHtml();
-			$tool_data[] = '<div class="'.$element_default.'"/>'.$this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', $element_default_arr)->toHtml().'</div>';
+			$tool_data[] = '<div class="'.$element_default.'" style="margin: 0 auto"/>'.$this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', $element_default_arr)->toHtml().'</div>';
 			$count ++;
 
 			$data[] = $tool_data;
@@ -250,8 +252,9 @@ class CourseTypeForm extends FormValidator
 		{
 			return false;
 		}
-
-		$tools = $this->parent->get_all_non_admin_tools();
+		
+		$wdm = WeblcmsDataManager :: get_instance();
+		$tools = $wdm->get_tools('basic');
 		$selected_tools = $this->fill_course_type_tools($tools);
 		$default_tools = $this->course_type->get_tools();
 
@@ -312,7 +315,8 @@ class CourseTypeForm extends FormValidator
 			return false;
 		}
 
-		$tools = $this->parent->get_all_non_admin_tools();
+		$wdm = WeblcmsDataManager :: get_instance();
+		$tools = $wdm->get_tools('basic');
 		$selected_tools = $this->fill_course_type_tools($tools);
 		$validation = true;
 
@@ -321,7 +325,6 @@ class CourseTypeForm extends FormValidator
 			if(!$tool->create())
 				$validation = false;
 		}
-
 
 		if(!$validation)
 		{
@@ -483,7 +486,7 @@ class CourseTypeForm extends FormValidator
 		$defaults[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = $course_type_id?$course_languages_visible:1;
 
 		$feedback_fixed = $course_type->get_layout_settings()->get_feedback_fixed();
-		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED] = $feedback;
+		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED] = $feedback_fixed;
 
 		$enable_introduction_text_fixed = $course_type->get_layout_settings()->get_intro_text_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED] = $enable_introduction_text_fixed;

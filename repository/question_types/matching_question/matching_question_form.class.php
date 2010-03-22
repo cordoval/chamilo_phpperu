@@ -203,7 +203,7 @@ class MatchingQuestionForm extends ContentObjectForm
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
-        $table_header[] = '<th>' . Translation :: get('Answer') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Options') . '</th>';
         $table_header[] = '<th class="code">' . Translation :: get('Matches') . '</th>';
         $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
@@ -280,7 +280,7 @@ class MatchingQuestionForm extends ContentObjectForm
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
-        $table_header[] = '<th>' . Translation :: get('Answer') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Matches') . '</th>';
         $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';

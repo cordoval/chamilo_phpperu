@@ -63,13 +63,13 @@ class SurveySelectQuestionDisplay extends SurveyQuestionDisplay
         if ($type == 'radio' && $question->has_description())
         {
             $instruction[] = '<div class="splitter">';
-            $instruction[] = Translation :: get('SelectCorrectAnswer');
+            $instruction[] = Translation :: get('SelectYourChoice');
             $instruction[] = '</div>';
         }
         elseif ($type == 'checkbox' && $question->has_description())
         {
             $instruction[] = '<div class="splitter">';
-            $instruction[] = Translation :: get('SelectCorrectAnswers');
+            $instruction[] = Translation :: get('SelectYourChoices');
             $instruction[] = '</div>';
         }
         else

@@ -153,7 +153,7 @@ class SelectQuestionForm extends ContentObjectForm
         $table_header[] = '<table class="data_table">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        $table_header[] = '<th style="width: 320px;">' . Translation :: get('Answer') . '</th>';
+        $table_header[] = '<th style="width: 320px;">' . Translation :: get('Options') . '</th>';
         $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';

@@ -8,7 +8,7 @@ require_once PATH::get_repository_path() . '/question_types/multiple_choice_ques
 /**
  * This class represents a form to create or update complex assessments
  */
-class ComplexSurveyMultipleChoiceQuestionForm extends ComplexMultipleChoiceForm
+class ComplexSurveyMultipleChoiceQuestionForm extends ComplexMultipleChoiceQuestionForm
 {
 
 public function get_elements() {

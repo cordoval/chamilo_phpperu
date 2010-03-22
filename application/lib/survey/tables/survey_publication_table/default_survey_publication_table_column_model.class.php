@@ -32,16 +32,12 @@ class DefaultSurveyPublicationTableColumnModel extends ObjectTableColumnModel
         $content_object_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
         
         $columns = array();
-       $columns[] = new ObjectTableColumn(SurveyPublication :: PROPERTY_FROM_DATE);
-        
+              
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, true, $content_object_alias);
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION, true, $content_object_alias);
-        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TYPE, true, $content_object_alias);
-       $columns[] = new ObjectTableColumn(SurveyPublication :: PROPERTY_FROM_DATE);
-        //$columns[] = new ObjectTableColumn(SurveyPublication :: PROPERTY_TO_DATE);
-        //		$columns[] = new ObjectTableColumn(SurveyPublication :: PROPERTY_PUBLISHER);
-        
-
+       	$columns[] = new ObjectTableColumn(SurveyPublication :: PROPERTY_FROM_DATE);
+       	$columns[] = new ObjectTableColumn(SurveyPublication :: PROPERTY_TO_DATE);
+      
         return $columns;
     }
 }

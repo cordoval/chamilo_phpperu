@@ -33,7 +33,9 @@ class SurveyPageBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 				$title_short = $title;
 				
 				$title_short = Utilities::truncate_string ( $title_short, 53, false );
-				$title_short = '<a href="' . $this->browser->get_url ( array (ComplexBuilder::PARAM_ROOT_LO => $this->browser->get_root (), ComplexBuilder::PARAM_CLOI_ID => $cloi->get_id (), 'publish' => Request::get ( 'publish' ) ) ) . '">' . $title_short . '</a>';
+				//$title_short = '<a href="' . $this->browser->get_url ( array (ComplexBuilder::PARAM_ROOT_LO => $this->browser->get_root (), ComplexBuilder::PARAM_CLOI_ID => $cloi->get_id (), 'publish' => Request::get ( 'publish' ) ) ) . '">' . $title_short . '</a>';
+				//TO DO
+				//needs a link to the survey_question viewer not the builder
 				return $title_short;
 		}
 		

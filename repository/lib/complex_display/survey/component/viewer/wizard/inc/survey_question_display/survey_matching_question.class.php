@@ -66,7 +66,7 @@ class SurveyMatchingQuestionDisplay extends SurveyQuestionDisplay
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
-        $table_header[] = '<th colspan="2">' . Translation :: get('MatchOptionAnswer') . '</th>';
+        $table_header[] = '<th colspan="2">' . Translation :: get('ChooseYourOptionMatch') . '</th>';
         //		$table_header[] = '<th></th>';
         //		$table_header[] = '<th>' . Translation :: get('Options') . '</th>';
         //		$table_header[] = '<th>' . Translation :: get('Matches') . '</th>';

@@ -50,7 +50,7 @@ class SurveyRatingQuestionDisplay extends SurveyQuestionDisplay
         if ($question->has_description())
         {
             $instruction[] = '<div class="splitter">';
-            $instruction[] = Translation :: get('SelectCorrectRating');
+            $instruction[] = Translation :: get('ChooseYourRating');
             $instruction[] = '</div>';
         }
         else

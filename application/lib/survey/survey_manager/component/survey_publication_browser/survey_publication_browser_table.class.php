@@ -31,6 +31,8 @@ class SurveyPublicationBrowserTable extends ObjectTable
         $actions = array();
         
         $actions[] = new ObjectTableFormAction(SurveyManager :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(SurveyManager :: PARAM_MAIL_PARTICIPANTS, Translation :: get('InviteParticipants'));
+        
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

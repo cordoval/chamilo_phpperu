@@ -134,16 +134,14 @@ class WeblcmsManager extends WebApplication
 
 		$this->parse_input_from_table();
 
-		$this->course_type = null;
-		$this->load_course_type();
+		$this->course_type = $this->load_course_type();
+		$this->tools = array();
 		$this->course = new Course();
 		$this->load_course();
 		$this->course_group = null;
 		$this->load_course_group();
 		$this->sections = array();
 		$this->load_sections();
-		$this->tools = array();
-		$this->load_tools();
 	}
 
 	/*
@@ -547,45 +545,7 @@ class WeblcmsManager extends WebApplication
 			}
 		}
 	}
-
-	/*
-	 * Gets all the toolnames that are available to the application and are non admin
-	 */
-	function get_all_non_admin_tools()
-	{
-		$course_modules = Array();
-		$tool_dir = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), '..', 'tool'));
-		if ($handle = opendir($tool_dir))
-		{
-			while (false !== ($file = readdir($handle)))
-			{
-				if (substr($file, 0, 1) != '.' && $file != 'component')
-				{
-					$file_path = $tool_dir . DIRECTORY_SEPARATOR . $file;
-					if (is_dir($file_path))
-					{
-						// TODO: Move to an XML format for tool properties, instead of .hidden, .section and whatnot
-						$section_file = $file_path . DIRECTORY_SEPARATOR . '.section';
-						if (file_exists($section_file))
-						{
-							$contents = file($section_file);
-							$section = rtrim($contents[0]);
-						}
-						else
-						{
-							$section = 'basic';
-						}
-
-						if($section == 'basic')
-							$course_modules[] = $file;
-					}
-				}
-			}
-			closedir($handle);
-		}
-		return $course_modules;
-	}
-
+	
 	/**
 	 * Loads the sections installed on the system.
 	 */
@@ -606,15 +566,19 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Loads the current course into the system.
 	 */
-	private function load_course()
+	public function load_course($id = null)
 	{
-		if (! is_null($this->get_parameter(self :: PARAM_COURSE)))
+		if($id == null)
+			$id = $this->get_parameter(self :: PARAM_COURSE);
+		if (! is_null($id))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->course = $wdm->retrieve_course($this->get_parameter(self :: PARAM_COURSE));
-			$this->course->set_settings($wdm->retrieve_course_settings($this->get_parameter(self :: PARAM_COURSE)));
-			$this->course->set_layout_settings($wdm->retrieve_course_layout($this->get_parameter(self :: PARAM_COURSE)));
-			$this->course->set_course_type($this->course_type);
+			$this->course = $wdm->retrieve_course($id);
+			if(empty($this->course))
+				$this->redirect(Translation :: get('CourseDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+			$this->course->set_settings($wdm->retrieve_course_settings($id));
+			$this->course->set_layout_settings($wdm->retrieve_course_layout($id));
+			$this->course->set_course_type($this->load_course_type($this->course->get_course_type_id()));
 		}
 		else
 		{
@@ -623,6 +587,8 @@ class WeblcmsManager extends WebApplication
 			$this->course->set_layout_settings(new CourseLayout());
 			$this->course->set_course_type($this->course_type);
 		}
+		$this->load_tools();
+		$this->course->set_tools($this->tools);
 	}
 
 	/**
@@ -640,23 +606,29 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Loads the current course_type into the system.
 	 */
-	private function load_course_type()
+	private function load_course_type($id = null)
 	{
-		if (! is_null($this->get_parameter(self :: PARAM_COURSE_TYPE)) && strlen($this->get_parameter(self :: PARAM_COURSE_TYPE) > 0))
+		$course_type = null;
+		if(is_null($id))
+			$id = $this->get_parameter(self :: PARAM_COURSE_TYPE);
+		if (! is_null($id) && strlen($id) > 0)
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->course_type = $wdm->retrieve_course_type($this->get_parameter(self :: PARAM_COURSE_TYPE));
-			$this->course_type->set_settings($wdm->retrieve_course_type_settings($this->get_parameter(self :: PARAM_COURSE_TYPE)));
-			$this->course_type->set_layout_settings($wdm->retrieve_course_type_layout($this->get_parameter(self :: PARAM_COURSE_TYPE)));
-			$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $this->get_parameter(self :: PARAM_COURSE_TYPE));
-			$this->course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));
+			$course_type = $wdm->retrieve_course_type($id);
+			if(empty($course_type))
+				$this->redirect(Translation :: get('CourseTypeDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+			$course_type->set_settings($wdm->retrieve_course_type_settings($id));
+			$course_type->set_layout_settings($wdm->retrieve_course_type_layout($id));
+			$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
+			$course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));
 		}
 		else
 		{
-			$this->course_type = new CourseType();
-			$this->course_type->set_settings(new CourseTypeSettings());
-			$this->course_type->set_layout_settings(new CourseTypeLayout());
+			$course_type = new CourseType();
+			$course_type->set_settings(new CourseTypeSettings());
+			$course_type->set_layout_settings(new CourseTypeLayout());
 		}
+		return $course_type;
 	}
 
 	/**

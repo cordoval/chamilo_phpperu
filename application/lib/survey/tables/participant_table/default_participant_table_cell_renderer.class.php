@@ -1,24 +1,15 @@
 <?php
-/**
- * $Id: default_survey_publication_table_cell_renderer.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.tables.survey_publication_table
- */
 
 require_once dirname(__FILE__) . '/../../survey_publication.class.php';
 
-/**
- * Default cell renderer for the survey_publication table
- *
- * @author Sven Vanpoucke
- * @author 
- */
-class DefaultTestSurveyParticipantTableCellRenderer implements ObjectTableCellRenderer
+
+class DefaultParticipantTableCellRenderer implements ObjectTableCellRenderer
 {
 
     /**
      * Constructor
      */
-    function DefaultTestSurveyParticipantTableCellRenderer()
+    function DefaultParticipantTableCellRenderer()
     {
     }
 
@@ -43,13 +34,51 @@ class DefaultTestSurveyParticipantTableCellRenderer implements ObjectTableCellRe
             case SurveyParticipantTracker :: PROPERTY_PROGRESS :
                 return $survey_participant_tracker->get_progress();
             case SurveyParticipantTracker :: PROPERTY_START_TIME :
-                return $survey_participant_tracker->get_start_time();
+                return $this->get_date($survey_participant_tracker->get_start_time());
             case SurveyParticipantTracker :: PROPERTY_TOTAL_TIME :
-                return $survey_participant_tracker->get_total_time();
+                return $this->get_total_time($survey_participant_tracker->get_total_time());
             case SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME :
-                return $survey_participant_tracker->get_context_name();    
+                return $survey_participant_tracker->get_context_name();
             default :
                 return '&nbsp;';
+        }
+    }
+
+    private function get_total_time($s)
+    {
+        
+        $d = intval($s / 86400);
+        $s -= $d * 86400;
+        
+        $h = intval($s / 3600);
+        $s -= $h * 3600;
+        
+        $m = intval($s / 60);
+        $s -= $m * 60;
+        
+        if ($d)
+            $str = $d . 'd ';
+        if ($h)
+            $str .= $h . 'h ';
+        if ($m)
+            $str .= $m . 'm ';
+        if ($s)
+            $str .= $s . 's';
+        
+        return $str;
+    
+    }
+
+    private function get_date($date)
+    {
+        if ($date == 0)
+        {
+            return Translation :: get('NoDate');
+        }
+        else
+        {
+            return date("Y-m-d H:i", $date);
+        
         }
     }
 

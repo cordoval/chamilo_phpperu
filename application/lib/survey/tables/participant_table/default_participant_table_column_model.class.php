@@ -1,23 +1,15 @@
 <?php
-/**
- * $Id: default_survey_publication_table_column_model.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.tables.survey_publication_table
- */
+
 require_once dirname(__FILE__) . '/../../survey_publication.class.php';
 
-/**
- * Default column model for the survey_publication table
- *
- * @author Sven Vanpoucke
- * @author 
- */
-class DefaultTestSurveyParticipantTableColumnModel extends ObjectTableColumnModel
+
+class DefaultParticipantTableColumnModel extends ObjectTableColumnModel
 {
 
     /**
      * Constructor
      */
-    function DefaultTestSurveyParticipantTableColumnModel()
+    function DefaultParticipantTableColumnModel()
     {
         parent :: __construct(self :: get_default_columns(), 1);
     }

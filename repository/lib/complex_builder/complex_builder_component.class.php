@@ -182,6 +182,11 @@ abstract class ComplexBuilderComponent
     {
     	return $this->get_parent()->get_complex_content_object_item_view_url($cloi, $root_id);
     }
+    
+    function get_complex_content_object_parent_changer_url($cloi, $root_id)
+    {
+    	return $this->get_complex_content_object_parent_changer_url($cloi, $root_id);
+    }
 }
 
 ?>

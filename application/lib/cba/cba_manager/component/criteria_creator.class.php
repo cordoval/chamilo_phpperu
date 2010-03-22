@@ -18,12 +18,16 @@ class CbaManagerCriteriaCreatorComponent extends CbaManagerComponent
 		$this->display_header($trail, false, true);
 		
 		$criteria = new Criteria();
+		$criteria_score = new CriteriaScore();
 		$criteria->set_owner_id($this->get_user_id());
-		$form = new CriteriaForm(CriteriaForm :: TYPE_CREATOR_CRITERIA, $criteria, $this->get_url(), $this->get_user());
+		$form = new CriteriaForm(CriteriaForm :: TYPE_CREATOR_CRITERIA, $criteria, $criteria_score, $this->get_url(), $this->get_user());
 
 		if($form->validate())
 		{
-			$success = $form->create_criteria();
+			$success_criteria = $form->create_criteria();
+			$success_criteria_score = $form->create_criteria_score();
+			if($success_criteria == $success_criteria_score)
+				$success = 1;
 			$this->redirect($success ? Translation :: get('CriteriaCreated') : Translation :: get('CriteriaNotCreated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA));
 		}
 		else
