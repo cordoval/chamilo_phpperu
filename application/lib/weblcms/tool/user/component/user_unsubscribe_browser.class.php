@@ -83,7 +83,8 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 
     function get_course_group_menu()
     {
-        $course_group_user_menu = new CourseGroupUserMenu($this->get_course(), 0);
+        $group = Request :: get(WeblcmsManager :: PARAM_GROUP);
+        $course_group_user_menu = new CourseGroupUserMenu($this->get_course(), $group);
         return $course_group_user_menu->render_as_tree();
     }
 
@@ -91,7 +92,16 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->set_search_url($this->get_url(array('tool_action' => UserTool :: ACTION_UNSUBSCRIBE_USERS)));
+        $parameters = array();
+        $parameters['tool_action'] = UserTool :: ACTION_UNSUBSCRIBE_USERS;
+
+        $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
+        if (isset($group_id))
+        {
+            $parameters[WeblcmsManager :: PARAM_GROUP] = $group_id;
+        }
+
+        $action_bar->set_search_url($this->get_url($parameters));
 
         if ($this->is_allowed(EDIT_RIGHT))
         {
@@ -109,27 +119,46 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 
     function get_unsubscribe_condition()
     {
-        $condition = null;
+        $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
 
-        $relation_conditions = array();
-        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_course()->get_id());
-        $relation_condition = new AndCondition($relation_conditions);
-
-        $users = $this->get_parent()->retrieve_course_user_relations($relation_condition);
-
-        $conditions = array();
-        while ($user = $users->next_result())
+        if (isset($group_id))
         {
-            $conditions[] = new EqualityCondition(User :: PROPERTY_ID, $user->get_user());
+            $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
+
+            $conditions = array();
+            $conditions[] = new InCondition(User :: PROPERTY_ID, $group->get_users(true, true));
+
+            if ($this->get_condition())
+            {
+                $conditions[] = $this->get_condition();
+            }
+
+            return new AndCondition($conditions);
         }
-
-        $condition = new OrCondition($conditions);
-
-        if ($this->get_condition())
+        else
         {
-            $condition = new AndCondition($condition, $this->get_condition());
+            $condition = null;
+
+            $relation_conditions = array();
+            $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_course()->get_id());
+            $relation_condition = new AndCondition($relation_conditions);
+
+            $users = $this->get_parent()->retrieve_course_user_relations($relation_condition);
+
+            $conditions = array();
+            while ($user = $users->next_result())
+            {
+                $conditions[] = new EqualityCondition(User :: PROPERTY_ID, $user->get_user());
+            }
+
+            $condition = new OrCondition($conditions);
+
+            if ($this->get_condition())
+            {
+                $condition = new AndCondition($condition, $this->get_condition());
+            }
+            return $condition;
         }
-        return $condition;
     }
 
     function get_condition()

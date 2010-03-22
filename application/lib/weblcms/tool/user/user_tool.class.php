@@ -23,10 +23,10 @@ class UserTool extends Tool
     {
         $action = $this->get_action();
         $component = parent :: run();
-        
+
         if ($component)
             return;
-        
+
         switch ($action)
         {
             case self :: ACTION_SUBSCRIBE_USERS :

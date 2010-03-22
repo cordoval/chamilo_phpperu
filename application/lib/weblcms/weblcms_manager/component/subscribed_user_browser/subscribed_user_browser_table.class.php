@@ -24,18 +24,24 @@ class SubscribedUserBrowserTable extends ObjectTable
         parent :: __construct($data_provider, SubscribedUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-        if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) != WeblcmsManager :: ACTION_SUBSCRIBE)
+
+        $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
+
+        if (!isset($group_id ))
         {
-            $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);
+            if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) != WeblcmsManager :: ACTION_SUBSCRIBE)
+            {
+                $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);
+            }
+            else
+            {
+                $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT, Translation :: get('SubscribeSelectedAsStudent'), false);
+                $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN, Translation :: get('SubscribeSelectedAsAdmin'), false);
+            }
         }
-        else
-        {
-            $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT, Translation :: get('SubscribeSelectedAsStudent'), false);
-            $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN, Translation :: get('SubscribeSelectedAsAdmin'), false);
-        }
-        
+
         //$actions[] = new ObjectTableFormAction(UserTool :: ACTION_USER_DETAILS, Translation :: get('Details'), false);
-        
+
 
         if ($browser->get_course()->is_course_admin($browser->get_user()))
         {

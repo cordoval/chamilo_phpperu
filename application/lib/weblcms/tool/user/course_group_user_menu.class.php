@@ -46,14 +46,14 @@ class CourseGroupUserMenu extends HTML_Menu
      */
     function CourseGroupUserMenu($course, $current_group, $url_format = '?application=weblcms&go=courseviewer&tool=user&course=%s&group=%s')
     {
-//        if ($current_group == '0' || is_null($current_group))
-//        {
-//            $this->current_group = 0;
-//        }
-//        else
-//        {
-//            $this->current_group = WeblcmsDataManager :: get_instance()->retrieve_course_group($current_group);
-//        }
+        if ($current_group == '0' || is_null($current_group))
+        {
+            $this->current_group = 0;
+        }
+        else
+        {
+            $this->current_group = $current_group;
+        }
 
         $this->course = $course;
         $this->urlFmt = $url_format;
@@ -61,21 +61,7 @@ class CourseGroupUserMenu extends HTML_Menu
         $menu = $this->get_menu();
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
-//        $this->forceCurrentUrl($this->get_url($this->get_current_group()));
-    }
-
-    function get_current_group()
-    {
-        $current_group = $this->current_group;
-
-        if ($current_group == '0')
-        {
-            return 0;
-        }
-        else
-        {
-            return $current_group->get_id();
-        }
+        $this->forceCurrentUrl($this->get_url($this->current_group));
     }
 
     function get_menu()
