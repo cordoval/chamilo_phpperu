@@ -53,7 +53,7 @@ class UserLogin extends UserBlock
                 if (PlatformSetting :: get('allow_password_retrieval', 'user'))
                 {
                     //display_lost_password_info();
-                    $links[] = '<a href="index_user.php?go=reset_password">' . Translation :: get('ResetPassword') . '</a>';
+                    $links[] = '<a href="core.php?application=user&go=reset_password">' . Translation :: get('ResetPassword') . '</a>';
                 }
 
                 $html[] = implode(' - ', $links);
