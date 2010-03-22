@@ -366,8 +366,12 @@ class CourseForm extends FormValidator
 		if(!$course_layout->create())
 			return false;
 		
-		$wdm = WeblcmsDataManager :: get_instance();
-		$tools = $this->course->get_course_type()->get_tools();
+    	$course_type_id = $this->course->get_course_type()->get_id();
+    	$wdm = WeblcmsDataManager :: get_instance();
+		if(!empty($course_type_id))
+			$tools = $this->course->get_course_type()->get_tools();
+		else
+			$tools = $wdm->get_tools('basic');
 		$selected_tools = $this->fill_course_tools($tools);
 		
 		if(!$wdm->create_course_modules($selected_tools, $this->course->get_id()))
@@ -440,10 +444,12 @@ class CourseForm extends FormValidator
 		$tools_array = array();
 		foreach($tools as $tool)
 		{
-			$element_default = $tool->get_name() . "elementdefault";
+			if(!empty($course_type_id))
+				$tool = $course_type_tool->get_name();
+			$element_default = $tool . "elementdefault";
 			$course_module = new CourseModule();
 			$course_module->set_course_code($this->course->get_id());
-			$course_module->set_name($tool->get_name());
+			$course_module->set_name($tool);
 			$course_module->set_visible($this->parse_checkbox_value($this->getSubmitValue($element_default)));
 			$course_module->set_section("basic");
 			$tools_array[] = $course_module;
@@ -461,7 +467,7 @@ class CourseForm extends FormValidator
     {
         $course = $this->course;
         $defaults[Course :: PROPERTY_VISUAL] = $course->get_visual();
-        $defaults[Course :: PROPERTY_TITULAR] = $course->get_titular();
+        $defaults[Course :: PROPERTY_TITULAR] = !is_null($course->get_titular())?$course->get_titular():$this->user->get_id();
         $defaults[Course :: PROPERTY_NAME] = $course->get_name();
         $defaults[Course :: PROPERTY_CATEGORY] = $course->get_category();
         $defaults[Course :: PROPERTY_EXTLINK_NAME] = $course->get_extlink_name();
@@ -469,7 +475,7 @@ class CourseForm extends FormValidator
         
         $course_settings = $course;
         if(is_null($course->get_id())) $course_settings = $course->get_course_type()->get_settings();
-        $defaults[CourseSettings :: PROPERTY_LANGUAGE] = $course_settings->get_language();
+        $defaults[CourseSettings :: PROPERTY_LANGUAGE] = !is_null($course_settings->get_language())?$course_settings->get_language():LocalSetting :: get('platform_language');
 		$defaults[CourseSettings :: PROPERTY_VISIBILITY] = $course_settings->get_visibility();
 		$defaults[CourseSettings :: PROPERTY_ACCESS] = $course_settings->get_access();
 		$defaults[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $course_settings->get_max_number_of_members();
