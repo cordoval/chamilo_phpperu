@@ -38,6 +38,12 @@ class ComplexBrowserTable extends ObjectTable
 				$action = ComplexBuilder :: PARAM_DELETE_SELECTED_CLOI . '_' . $name;
 				
         	$actions[] = new ObjectTableFormAction($action, Translation :: get('RemoveSelected'));
+        	
+        	$action = ComplexBuilder :: PARAM_MOVE_SELECTED_CLOI;
+			if($name != self :: DEFAULT_NAME)
+				$action = ComplexBuilder :: PARAM_MOVE_SELECTED_CLOI . '_' . $name;
+        	
+        	$actions[] = new ObjectTableFormAction($action, Translation :: get('MoveSelected'), false);
         }
         else
         {

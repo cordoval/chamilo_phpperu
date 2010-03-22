@@ -110,7 +110,7 @@ class CourseTypeForm extends FormValidator
 
 			$tool_data[] = '<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div>';
 			$tool_data[] = $this->createElement('checkbox', $element_name, $title, '', $element_name_arr)->toHtml();
-			$tool_data[] = '<div class="'.$element_default.'"/>'.$this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', $element_default_arr)->toHtml().'</div>';
+			$tool_data[] = '<div class="'.$element_default.'" style="margin: 0 auto"/>'.$this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', $element_default_arr)->toHtml().'</div>';
 			$count ++;
 
 			$data[] = $tool_data;

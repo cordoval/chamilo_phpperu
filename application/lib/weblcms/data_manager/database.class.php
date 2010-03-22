@@ -1237,7 +1237,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
         // Delete course
         $condition = new EqualityCondition(Course :: PROPERTY_ID, $course_code);
-        return $this->database->delete_objects(Course :: get_table_name(), $condition);
+		$bool = $this->database->delete_objects(Course :: get_table_name(), $condition);
+		
+		return $bool;
+		
+		//return $bool;
+		
+		//$condition_layout = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $course);
+		//$bool = $bool && $this->database->delete(CourseLayout :: get_table_name(), $condition_layout);
+		
+		//$condition_settings = new EqualityCondition(CourseSettings :: PROPERTY_COURSE_ID, $course);
+		//$bool = $bool && $this->database->delete(CourseSettings :: get_table_name(), $condition_settings);
     }
 
     function delete_course_type($course_type)

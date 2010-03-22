@@ -583,6 +583,8 @@ class WeblcmsManager extends WebApplication
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
 			$this->course = $wdm->retrieve_course($id);
+			if(empty($this->course))
+				$this->redirect(Translation :: get('CourseDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
 			$this->course->set_settings($wdm->retrieve_course_settings($id));
 			$this->course->set_layout_settings($wdm->retrieve_course_layout($id));
 			$this->course->set_course_type($this->load_course_type($this->course->get_course_type_id()));
@@ -622,6 +624,8 @@ class WeblcmsManager extends WebApplication
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
 			$course_type = $wdm->retrieve_course_type($id);
+			if(empty($course_type))
+				$this->redirect(Translation :: get('CourseTypeDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
 			$course_type->set_settings($wdm->retrieve_course_type_settings($id));
 			$course_type->set_layout_settings($wdm->retrieve_course_type_layout($id));
 			$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
