@@ -64,6 +64,22 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->retrieve_criteria($id);
 	}
 	
+	// Criteria Score
+	function count_criterias_score($condition)
+	{
+		return $this->get_parent()->count_criterias_score($condition);
+	}
+
+	function retrieve_criterias_score($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return $this->get_parent()->retrieve_criterias_score($condition, $offset, $count, $order_property);
+	}
+
+ 	function retrieve_criteria_score($id)
+	{
+		return $this->get_parent()->retrieve_criteria_score($id);
+	}
+	
 
 	// Url Creation
 

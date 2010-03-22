@@ -19,11 +19,15 @@ class CbaManagerCriteriaEditorComponent extends CbaManagerComponent
 		
 		
 		$criteria = $this->retrieve_criteria(Request :: get(CbaManager :: PARAM_CRITERIA));
-		$form = new CriteriaForm(CriteriaForm :: TYPE_EDITOR_CRITERIA, $criteria, $this->get_url(array(CbaManager :: PARAM_CRITERIA => $criteria->get_id())), $this->get_user());
+		$criteria_score = $this->retrieve_criteria_score(Request :: get(CbaManager :: PARAM_CRITERIA_SCORE));
+		$form = new CriteriaForm(CriteriaForm :: TYPE_EDITOR_CRITERIA, $criteria, $criteria_score, $this->get_url(array(CbaManager :: PARAM_CRITERIA => $criteria->get_id())), $this->get_user());
 
 		if($form->validate())
 		{
-			$success = $form->update_criteria();
+			$success_criteria = $form->update_criteria();
+			$success_criteria_score = $form->update_criteria_score();
+			if($success_criteria == $success_criteria_score)
+				$success = 1;
 			$this->redirect($success ? Translation :: get('CriteriaUpdated') : Translation :: get('CriteriaNotUpdated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA));
 		}
 		else
