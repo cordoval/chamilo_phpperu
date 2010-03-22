@@ -131,9 +131,9 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
             $info->set_publication_object_id($record['calendar_event_id']);
             $publication_attr[] = $info;
         }
-        
+
         $res->free();
-        
+
         return $publication_attr;
     }
 
@@ -178,7 +178,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_CALENDAR_EVENT, $object_id);
         return $this->database->delete(CalendarEventPublication :: get_table_name(), $condition);
     }
-    
+
 	function delete_content_object_publication($publication_id)
     {
         $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_ID, $publication_id);
@@ -331,6 +331,8 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
             $publication_group = new CalendarEventPublicationGroup();
             $publication_group->set_publication($publication->get_id());
             $publication_group->set_group_id($group_id);
+
+            dump($publication_group);
 
             if (! $publication_group->create())
             {

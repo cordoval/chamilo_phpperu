@@ -186,20 +186,42 @@
 				$(activeBox).html(ul);
 			}
 			
+			function disableElement(theElement)
+			{
+				if(theElement.css("background-image"))
+				{
+					if (!theElement.hasClass('disabled'))
+					{
+						theElement.addClass('disabled');
+						theElement.css("background-image", theElement.css("background-image").replace(".png", "_na.png"));
+					}
+				}
+			}
+			
 			function disableActivatedElements()
 			{
 				$.each(activatedElements, function(i, activatedElement){
-					var current_element = $('#' + activatedElement, inactiveBox);
+					var currentElement = $('#' + activatedElement, inactiveBox);
+					var currentElementParent = currentElement.parent().parent();
 					
-					if(current_element.css("background-image"))
-					{
-						if (!current_element.hasClass('disabled'))
-						{
-							current_element.addClass('disabled');
-							current_element.css("background-image", current_element.css("background-image").replace(".png", "_na.png"));
-						}
-					}
+					disableElement(currentElement);
+					
+					var subElements = $('ul:first div a', currentElementParent);
+					
+					$.each(subElements, function(i, subElement){
+						subElementObject = $(subElement);
+						
+						// Remove the child-elements in case they were previously activated
+						removeActivatedElement(subElementObject.attr('id'));
+						var currentSubElement = $('#' + subElementObject.attr('id'), activeBox);
+						currentSubElement.parent().parent().remove();
+						
+						// Disabled the child-elements in the inactive tree box
+						disableElement(subElementObject);
+					});
 				});
+				
+				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 			}
 			
 			function removeActivatedElement(arrayElement)
@@ -213,16 +235,27 @@
 				} 
 			}
 			
+			function enableElement(theElement)
+			{
+				if (typeof theElement.css("background-image") !== 'undefined')
+				{
+					theElement.removeClass('disabled');
+					theElement.css("background-image", theElement.css("background-image").replace("_na.png", ".png"));
+				}
+			}
+			
 			function deactivateElement(e)
 			{
 				e.preventDefault();
-				var the_element = $('#' + $(this).attr('id'), inactiveBox);
+				var currentElement = $('#' + $(this).attr('id'), inactiveBox);
+				var currentElementParent = currentElement.parent().parent();
 				
-				if (typeof the_element.css("background-image") !== 'undefined')
-				{
-					the_element.removeClass('disabled');
-					the_element.css("background-image", the_element.css("background-image").replace("_na.png", ".png"));
-				}
+				enableElement(currentElement);
+				
+				var subElements = $('ul:first div a', currentElementParent);
+				$.each(subElements, function(i, subElement){
+					enableElement($(subElement));
+				});
 				
 				removeActivatedElement($(this).attr('id'));
 				$(this).parent().parent().remove();
@@ -234,7 +267,8 @@
 			function activateElement(e)
 			{
 				e.preventDefault();
-				var elementHtml = $(this).parent().parent().html();
+				var elementParent = $(this).parent().parent();
+				var elementHtml = elementParent.html();
 				
 				activatedElements.push($(this).attr('id'));
 				
