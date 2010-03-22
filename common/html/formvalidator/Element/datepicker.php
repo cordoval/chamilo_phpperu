@@ -75,7 +75,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
      */
     function getElementJS()
     {
-        /* $js = '';
+         $js = '';
         //if(!defined('DATEPICKER_JAVASCRIPT_INCLUDED'))
         {
             //define('DATEPICKER_JAVASCRIPT_INCLUDED',1);
@@ -85,13 +85,13 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
             $js .= 'tbl_change.js" type="text/javascript"></script>';
             $js .= "\n";
         }
-        return $js;*/
         
-        $js = '<script type="text/javascript">';
+        $js .= '<script type="text/javascript">';
         $js .= 'var path = \'' . Path :: get(WEB_LIB_PATH) . '\';';
         $js .= '</script>';
-        
-        return $js . ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
+
+        //$js .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
+        return $js; //ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
     }
 
     /**

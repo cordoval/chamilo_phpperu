@@ -12,8 +12,11 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManagerComponen
      */
     function run()
     {
+    	
+    	$id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
+    	
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewSystemAnnouncement')));
+        $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $id)), Translation :: get('ViewSystemAnnouncement')));
         $trail->add_help('administration system announcements');
         
         $user = $this->get_user();
@@ -24,7 +27,6 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManagerComponen
             exit();
         }
         
-        $id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
         
         if ($id)
         {

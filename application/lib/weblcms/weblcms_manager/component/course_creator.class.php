@@ -50,7 +50,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         //$course->set_language(LocalSetting :: get('platform_language'));
         //$course->set_titular($user_info->get_id());
         
-        if(empty($course_type_id))
+        if(empty($course_type_id) && WeblcmsDataManager :: get_instance()->count_course_types())
         	$this->simple_redirect(array('go' => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE));
         else
         {        
@@ -76,9 +76,9 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
             {
             	$success = $form->save_course();
 	        	$array_type = array();
-	        	$array_type['go'] = WeblcmsManager :: ACTION_CREATE_COURSE;
-	        	if($success ||  $form->get_form_type() == CourseForm :: TYPE_EDIT)
-	        		$array_type['course'] = $course->get_id();
+	        	$array_type['go'] = WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME;
+	        	/*if($success ||  $form->get_form_type() == CourseForm :: TYPE_EDIT)
+	        		$array_type['course'] = $course->get_id();*/
                 $this->redirect(Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true), $array_type);
             }
         }
