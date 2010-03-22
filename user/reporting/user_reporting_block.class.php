@@ -1,7 +1,7 @@
 <?php
 require_once PATH :: get_reporting_path() . '/lib/reporting_block.class.php';
 
-abstract class SurveyReportingBlock extends ReportingBlock
+abstract class UserReportingBlock extends ReportingBlock
 {
 	public function count_data()
 	{}
@@ -11,7 +11,7 @@ abstract class SurveyReportingBlock extends ReportingBlock
 	
 	public function get_data_manager()
 	{
-		return SurveyDataManager::get_instance();
+		return UserDataManager::get_instance();
 	}
 }
 ?>

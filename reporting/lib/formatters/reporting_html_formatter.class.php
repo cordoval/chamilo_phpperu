@@ -9,7 +9,7 @@ class ReportingHtmlFormatter extends ReportingFormatter
     function ReportingHtmlFormatter($block)
     {
         //$this->reporting_block = $reporting_block;
-        parent :: $block;
+        parent :: __construct($block);
     }
     
     /**

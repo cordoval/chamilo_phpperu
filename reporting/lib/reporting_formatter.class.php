@@ -45,7 +45,7 @@ abstract class ReportingFormatter
     	$this->block = $block;
     }
     
-    /*protected function get_pager_links($pager)
+    protected function get_pager_links($pager)
     {
         return '<div class="page" style="text-align: center; margin: 1em 0;">' . $pager_links .= $pager->links . '</div>';
     }
@@ -53,7 +53,7 @@ abstract class ReportingFormatter
     protected function create_pager($params)
     {
         return Pager :: factory($params);
-    }*/
+    }
 
 } 
 ?>

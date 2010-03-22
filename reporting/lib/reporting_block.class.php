@@ -12,82 +12,136 @@ abstract class ReportingBlock
 {
 	const CLASS_NAME = __CLASS__;
     
-    const PROPERTY_NAME = 'name';
-    const PROPERTY_APPLICATION = 'application';
-    const PROPERTY_FUNCTION = 'function';
-    const PROPERTY_DISPLAYMODE = 'displaymode';
+    //const PROPERTY_NAME = 'name';
+    //const PROPERTY_APPLICATION = 'application';
+    //const PROPERTY_FUNCTION = 'function';
+    /*const PROPERTY_DISPLAYMODE = 'displaymode';
     const PROPERTY_EXCLUDE_DISPLAYMODES = 'exclude_displaymodes';
     const PROPERTY_WIDTH = 'width';
     const PROPERTY_HEIGHT = 'height';
-    const PROPERTY_SORTABLE = 'sortalbe';
+    const PROPERTY_SORTABLE = 'sortalbe';*/
+    const PARAM_DISPLAY_MODE = "display_mode";
     
-    private $data, $params;
+    private $data, $params, $parent;
 
-	function ReportingBlock(){}
+	function ReportingBlock($parent)
+	{
+		$this->parent = $parent;
+	}
+	
+	public function get_parent()
+	{
+		return $this->parent;
+	}
+	
+	public function set_parent($parent)
+	{
+		$this->parent = $parent;
+	}
 	
 	public abstract function count_data();
 	
-	/*private function retrieve_data()
-    {
-        //require_once($this->get_applicationUrl());
-        $base_path = (WebApplication :: is_application($this->get_application()) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
-        
-        $file = $base_path . $this->get_application() . '/reporting/reporting_' . $this->get_application() . '.class.php';
-        require_once $file;
-        $this->data = call_user_func('Reporting' . $this->get_application() . '::' . $this->get_function(), $this->get_function_parameters());
-    }*/
-	
 	public abstract function retrieve_data();
-	
-    /*function get_data_manager()
-    {
-        return ReportingDataManager :: get_instance();
-    }*/
+
 	public abstract function get_data_manager();
 
 	public function display_footer()
 	{
-		$parameters = array();
-        $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS);
+		$html[] = '</div>';
         
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' . '"></script>';
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' . '"></script>';
+        $html[] = '<div class="reporting_footer">';
+        $html[] = '<div class="reporting_footer_export">';
+        $html[] = $this->get_export_links();
+        $html[] = '</div>&nbsp;<div class="clear">&nbsp;</div>';
+        $html[] = '</div>';
+        $html[] = '</div>';
+        
         return implode("\n", $html);
 	}
 	
 	public function display_header()
 	{
-		$html[] = '<br />' . $this->action_bar->as_html() . '<br />';
+		$html[] = '<div id="' . $this->get_id() . '" class="reporting_block">';
+        $html[] = '<div class="reporting_header">';
+        $html[] = '<div class="reporting_header_title">' . Translation :: get(get_class($this)) . '</div>';
+        $html[] = '<div class="reporting_header_displaymode">';
+        $html[] = '<form method=POST action="'.$this->get_parent()->get_parent()->get_url().'">';
+        $html[] = '<select name="charttype" class="charttype">';
+        foreach ($this->get_displaymodes() as $key => $value)
+        {
+            if ($key == $this->get_displaymode())
+            {
+                $html[] = '<option SELECTED value="' . $key . '">' . $value . '</option>';
+            }
+            else
+            {
+                $html[] = '<option value="' . $key . '">' . $value . '</option>';
+            }
+        }
+        $html[] = '</select>';
+        $html[] = '</form>';
+        $html[] = '</div>';
+        
+        $html[] = '<div class="clear">&nbsp;</div>';
+        
+        $html[] = '</div>';
         return implode("\n", $html);
 	}
 	
 	public function render_block()
-	{
-		$formatter = ReportingFormatter :: factory($this);
+	{	
+		$formatter = ReportingFormatter :: factory($this);		
 		return $formatter->to_html();		
 	}
 	
 	public function to_html()
 	{
-		$output = $this->display_header() . $this->render_block() . display_footer();
-		return $output;		
+		$html[] = $this->display_header();
+		$html[] = $this->render_block();
+		$html[] =  $this->display_footer();
+		return implode("\n", $html);		
 	}
+	
+	function get_id()
+    {  	
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_APPLICATION, $this->get_application());
+        $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_BLOCK, $this->get_name());
+        $condition = new AndCondition($conditions);
+		$registrations = ReportingDataManager::get_instance()->retrieve_reporting_block_registrations($condition);
+		if($registrations->size() == 1)
+        {
+        	return $registrations->next_result()->get_id();
+        }
+		else 
+		{
+			return 0;
+		}
+    }
+	
+    abstract function get_application();
+    
+    function get_name()
+    {
+    	return Utilities::camelcase_to_underscores(get_class($this));
+    }
 	
     /**
      * Get the default properties
      * @return array The property names.
      */
-    static function get_default_property_names()
+    /*static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_APPLICATION, self :: PROPERTY_FUNCTION, self :: PROPERTY_DISPLAYMODE, self :: PROPERTY_WIDTH, self :: PROPERTY_HEIGHT, self :: PROPERTY_EXCLUDE_DISPLAYMODES, self :: PROPERTY_SORTABLE));
-    }
+    }*/
 
     /**
      * Returns all available displaymodes
      */
     public function get_displaymodes()
     {
-        $data = $this->get_data();
+		return $this->get_available_displaymodes();
+    	/*$data = $this->get_data();
         $datadescription = $data[1];
         $chartdata = $data[0];
         $names = sizeof($chartdata);
@@ -122,7 +176,7 @@ abstract class ReportingBlock
             unset($excluded[$key]);
         }
         $diff = array_diff($modes, $excluded);
-        return $diff;
+        return $diff;*/
     }
 
     /**
@@ -204,7 +258,7 @@ abstract class ReportingBlock
         return $this->params;
     }
 
-    public function get_name()
+    /*public function get_name()
     {
         return $this->get_default_property(self :: PROPERTY_NAME);
     }
@@ -232,11 +286,21 @@ abstract class ReportingBlock
     public function set_function($value)
     {
         $this->set_default_property(self :: PROPERTY_FUNCTION, $value);
-    }
+    }*/
 
     public function get_displaymode()
     {
-        return $this->get_default_property(self :: PROPERTY_DISPLAYMODE);
+        $display = Request::get(self::PARAM_DISPLAY_MODE);
+        if (isset($display))
+        {
+        	return $display;
+        }
+        else
+        {
+        	$display_mode = $this->get_displaymodes();
+        	$array_keys = array_keys($display_mode);
+        	return $array_keys[0];
+        }
     }
 
     public function set_displaymode($value)
@@ -293,6 +357,5 @@ abstract class ReportingBlock
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
- 
 }
 ?>

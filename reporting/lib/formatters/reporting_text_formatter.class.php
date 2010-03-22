@@ -13,7 +13,8 @@ class ReportingTextFormatter extends ReportingFormatter
      */
     public function to_html()
     {
-        $all_data = $this->reporting_block->get_data();
+    	return $this->get_block()->retrieve_data();
+        /*$all_data = $this->reporting_block->get_data();
         $data = $all_data[0];
         $datadescription = $all_data[1];
         $values = sizeof($datadescription["Values"]);
@@ -69,12 +70,8 @@ class ReportingTextFormatter extends ReportingFormatter
             }
         }
         $html[] = $pager_links;
-        return implode("\n", $html);
+        return implode("\n", $html);*/
     }
 
-    public function ReportingTextFormatter(& $reporting_block)
-    {
-        $this->reporting_block = $reporting_block;
-    }
 } //ReportingTextFormatter
 ?>

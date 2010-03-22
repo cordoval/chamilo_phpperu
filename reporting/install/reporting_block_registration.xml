@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="reporting_template_registration">
+<object name="reporting_block_registration">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="application" length="50" type="text" fixed="true"
 			unsigned="1" notnull="1" />
-		<property name="template" length="50" type="text" fixed="true"
+		<property name="block" length="250" type="text" fixed="true"
 			unsigned="1" notnull="1" />
-		<property name="platform" type="integer" unsigned="1"
-			notnull="1" default="1" />
 	</properties>
 	<index name="application">
 		<indexproperty name="application" />
