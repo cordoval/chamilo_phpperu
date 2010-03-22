@@ -32,7 +32,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
         {
             return $this->get_modification_links($user);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -78,7 +78,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $subscribe_url = $this->browser->get_url($parameters);
             $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('SubscribeAsStudent'), 'img' => Theme :: get_image_path() . 'action_subscribe_student.png');
-            
+
             $parameters = array();
             $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
@@ -93,7 +93,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $unsubscribe_url = $this->browser->get_url($parameters);
             $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_image_path() . 'action_details.png');
-            
+
             if(PlatformSetting :: get('active_online_email_editor'))
             {
 	            $parameters = array();
@@ -102,16 +102,20 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 	            $unsubscribe_url = $this->browser->get_url($parameters);
 	            $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Email'), 'img' => Theme :: get_common_image_path() . 'action_email.png');
             }
-            
+
             if ($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(DELETE_RIGHT))
             {
                 $parameters = array();
                 $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_UNSUBSCRIBE;
                 $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
                 $unsubscribe_url = $this->browser->get_url($parameters);
-                $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_unsubscribe.png');
+                $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_image_path() . 'action_unsubscribe.png');
             }
-            
+            else
+            {
+                $toolbar_data[] = array('label' => Translation :: get('UnsubscribeNotAvailable'), 'img' => Theme :: get_image_path() . 'action_unsubscribe_na.png');
+            }
+
             if ($this->browser->is_allowed(EDIT_RIGHT))
             {
                 //@todo check rights ?

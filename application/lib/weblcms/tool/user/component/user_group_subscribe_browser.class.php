@@ -109,8 +109,8 @@ class UserToolGroupSubscribeBrowserComponent extends UserToolComponent
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions2[] = new LikeCondition(Group :: PROPERTY_NAME, $query);
-            $conditions2[] = new LikeCondition(Group :: PROPERTY_DESCRIPTION, $query);
+            $conditions2[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*');
+            $conditions2[] = new PatternMatchCondition(Group :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             $conditions[] = new OrCondition($conditions2);
         }
 

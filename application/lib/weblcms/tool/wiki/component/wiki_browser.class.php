@@ -27,23 +27,23 @@ class WikiToolBrowserComponent extends WikiToolComponent
             Display :: not_allowed();
             return;
         }
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'wiki');
-        
+
         $subselect_condition = new EqualityCondition('type', 'introduction');
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         $condition = new AndCondition($conditions);
-        
+
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
         $this->introduction_text = $publications->next_result();
-        
+
         $this->action_bar = $this->get_toolbar();
-        
+
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses wiki tool');
-        
+
         $this->display_header($trail, true);
         if (! Request :: get('pid'))
         {
@@ -52,12 +52,12 @@ class WikiToolBrowserComponent extends WikiToolComponent
                 echo $this->display_introduction_text($this->introduction_text);
             }
         }
-        
+
         echo $this->action_bar->as_html();
-        
+
         $table = new ObjectPublicationTable($this, $this->get_user(), array('wiki'), $this->get_condition(), new WikiCellRenderer($this));
         echo $table->as_html();
-        
+
         $this->display_footer();
     }
 
@@ -65,19 +65,19 @@ class WikiToolBrowserComponent extends WikiToolComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
-        
+
         if ($this->is_allowed(ADD_RIGHT))
         {
-            
+
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishWiki'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        
+
         /*$action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('Browse'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);*/
-        
+
         if (! $this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms') && $this->is_allowed(EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -90,11 +90,11 @@ class WikiToolBrowserComponent extends WikiToolComponent
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query, ContentObject :: get_table_name());
-            $conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query, ContentObject :: get_table_name());
+            $conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*', ContentObject :: get_table_name());
+            $conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*', ContentObject :: get_table_name());
             return new OrCondition($conditions);
         }
-        
+
         return null;
     }
 }

@@ -72,9 +72,9 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 
         if (isset($query) && $query != '')
         {
-            $or_conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
-            $or_conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
-            $or_conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
             $conditions[] = new OrCondition($or_conditions);
         }
 

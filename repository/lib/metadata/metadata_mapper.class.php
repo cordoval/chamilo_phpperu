@@ -12,7 +12,7 @@ abstract class MetadataMapper
     const OVERRIDE_ID_ATTRIBUTE = 'override_id';
     const METADATA_ID_ATTRIBUTE = 'metadata_id';
     const METADATA_OVERRIDE_ID = ContentObjectMetadata :: PROPERTY_OVERRIDE_ID;
-    
+
     protected $content_object;
     protected $additional_metadata_array;
     protected $repository_data_manager;
@@ -25,11 +25,11 @@ abstract class MetadataMapper
     function MetadataMapper($content_object)
     {
         $this->errors = array();
-        
+
         if (isset($content_object))
         {
             $this->repository_data_manager = RepositoryDataManager :: get_instance();
-            
+
             if (is_numeric($content_object))
             {
                 $lo = $this->repository_data_manager->retrieve_content_object($content_object);
@@ -58,7 +58,7 @@ abstract class MetadataMapper
     }
 
     /****************************************************************************************/
-    
+
     /**
      * Get the metadata from the metadata table for a specific learning object
      *
@@ -69,14 +69,14 @@ abstract class MetadataMapper
     {
         $id = $content_object->get_id();
         $conditions = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $id);
-        
+
         $additional_metadata = $this->repository_data_manager->retrieve_content_object_metadata($conditions, null, null, null);
         $additional_metadata_array = array();
         while ($metadata = $additional_metadata->next_result())
         {
             $additional_metadata_array[] = $metadata;
         }
-        
+
         return $additional_metadata_array;
     }
 
@@ -93,11 +93,11 @@ abstract class MetadataMapper
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $this->content_object->get_id());
         $conditions[] = new EqualityCondition(ContentObjectMetadata :: PROPERTY_TYPE, $metadata_type);
-        $conditions[] = new LikeCondition($field_name, $start_like);
+        $conditions[] = new PatternMatchCondition($field_name, $start_like . '*');
         $condition = new AndCondition($conditions);
-        
+
         $existing_metadata = $this->repository_data_manager->retrieve_content_object_metadata($condition);
-        
+
         return $existing_metadata;
     }
 
@@ -112,14 +112,14 @@ abstract class MetadataMapper
     protected function retrieve_existing_metadata_id($field_name, $start_like, $metadata_type)
     {
         $existing_metadata = $this->retrieve_existing_metadata($field_name, $start_like, $metadata_type);
-        
+
         $existing_metadata_id = array();
-        
+
         while ($ex_meta = $existing_metadata->next_result())
         {
             $existing_metadata_id[$ex_meta->get_id()] = $ex_meta;
         }
-        
+
         return $existing_metadata_id;
     }
 
@@ -137,7 +137,7 @@ abstract class MetadataMapper
          */
         //debug($existing_metadata_id);
         //debug($saved_metadata_id);
-        
+
 
         foreach ($saved_metadata_id as $saved_id => $meta)
         {
@@ -146,7 +146,7 @@ abstract class MetadataMapper
                 unset($existing_metadata_id[$saved_id]);
             }
         }
-        
+
         /*
          * Delete the existing metadata that were not saved
          */
@@ -174,7 +174,7 @@ abstract class MetadataMapper
         if (isset($filter))
         {
             $filtered_metadata = array();
-            
+
             foreach ($this->additional_metadata_array as $metadata)
             {
                 if (StringUtilities :: start_with($metadata->get_property(), $filter))
@@ -182,7 +182,7 @@ abstract class MetadataMapper
                     $filtered_metadata[] = $metadata;
                 }
             }
-            
+
             return $filtered_metadata;
         }
     }
@@ -206,29 +206,29 @@ abstract class MetadataMapper
     {
         //        debug($property);
         //        debug($value);
-        
+
 
         $metaData = new ContentObjectMetadata();
         $metaData->set_content_object_id($this->content_object->get_id());
         $metaData->set_type($type);
-        
+
         if (isset($id))
         {
             $metaData->set_id($id);
         }
-        
+
         if (isset($property))
         {
             $metaData->set_property($property);
         }
-        
+
         $metaData->set_value($value);
-        
+
         if (isset($override_id) && strlen($override_id) > 0 && is_numeric($override_id) && $override_id != DataClass :: NO_UID)
         {
             $metaData->set_override_id($override_id);
         }
-        
+
         return $metaData;
     }
 
@@ -261,14 +261,14 @@ abstract class MetadataMapper
         if (count($this->errors) > 0)
         {
             $error_str = '<ul>';
-            
+
             foreach ($this->errors as $error)
             {
                 $error_str .= '<li>' . $error['message'] . '</li>';
             }
-            
+
             $error_str .= '</ul>';
-            
+
             return $error_str;
         }
     }

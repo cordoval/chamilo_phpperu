@@ -313,7 +313,7 @@ class ReportingUser
         require_once (dirname(__FILE__) . '/../trackers/visit_tracker.class.php');
         $tracker = new VisitTracker();
 
-        $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION, '&course=' . $course_id);
+        $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&course=' . $course_id . '*');
         $conditions[] = new EqualityCondition(VisitTracker :: PROPERTY_USER_ID, $user_id);
         $condition = new AndCondition($conditions);
         $trackerdata = $tracker->retrieve_tracker_items($condition);
@@ -334,7 +334,7 @@ class ReportingUser
 
         //        unset($conditions);
         //        unset($condition);
-        //        $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
+        //        $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION,'*&course='.$course_id.'*');
         //        $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$uid);
         //        $condition = new AndCondition($conditions);
         //        $trackerdata = $tracker->retrieve_tracker_items($condition);
@@ -449,7 +449,7 @@ class ReportingUser
             $user_id = $user_relation->get_user();
             unset($conditions);
             unset($condition);
-            $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION, '&course=' . $course_id);
+            $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&course=' . $course_id . '*');
             $conditions[] = new EqualityCondition(VisitTracker :: PROPERTY_USER_ID, $user_id);
             $condition = new AndCondition($conditions);
 

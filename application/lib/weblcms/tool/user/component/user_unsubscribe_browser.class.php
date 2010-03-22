@@ -6,6 +6,7 @@
 require_once dirname(__FILE__) . '/../user_tool.class.php';
 require_once dirname(__FILE__) . '/../user_tool_component.class.php';
 require_once dirname(__FILE__) . '/../../../weblcms_manager/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
+require_once dirname(__FILE__) . '/../course_group_user_menu.class.php';
 
 class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 {
@@ -43,20 +44,47 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
         {
             echo $this->display_introduction_text();
         }
+
         echo $this->action_bar->as_html();
-        echo $this->get_user_unsubscribe_html();
+        echo $this->display_users();
 
         $this->display_footer();
+    }
+
+    function display_users()
+    {
+        $has_subscribed_groups = $this->get_course()->has_subscribed_groups();
+        $html = array();
+
+        if ($has_subscribed_groups)
+        {
+            $html[] = '<div style="float: left; width: 14%; overflow: auto;">';
+            $html[] = $this->get_course_group_menu();
+            $html[] = '</div>';
+            $html[] = '<div style="float: right; width: 84%;">';
+        }
+
+        $html[] = $this->get_user_unsubscribe_html();
+
+        if ($has_subscribed_groups)
+        {
+            $html[] = '</div>';
+            $html[] = '<div class="clear"></div>';
+        }
+
+        return implode("\n", $html);
     }
 
     function get_user_unsubscribe_html()
     {
         $table = new SubscribedUserBrowserTable($this, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => $this->get_tool_id(), UserTool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USERS, 'application' => 'weblcms'), $this->get_unsubscribe_condition());
+        return $table->as_html();
+    }
 
-        $html = array();
-        $html[] = $table->as_html();
-
-        return implode($html, "\n");
+    function get_course_group_menu()
+    {
+        $course_group_user_menu = new CourseGroupUserMenu($this->get_course(), 0);
+        return $course_group_user_menu->render_as_tree();
     }
 
     function get_action_bar()
@@ -109,9 +137,9 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
-            $conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
-            $conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
             return new OrCondition($conditions);
         }
     }

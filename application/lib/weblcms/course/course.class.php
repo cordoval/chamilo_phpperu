@@ -98,7 +98,7 @@ class Course extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
     }
-    
+
     /**
      * Returns the visual code of this course object
      * @return string the visual code
@@ -220,7 +220,7 @@ class Course extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $type);
     }
-    
+
     /**
      * Sets the visual code of this course object
      * @param String $visual The visual code
@@ -718,19 +718,26 @@ class Course extends DataClass
         return (! is_null($this->get_layout()->get_theme()) ? true : false);
     }
 
+    function has_subscribed_users()
+    {
+        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        return $this->get_data_manager()->count_course_user_relations($relation_condition);
+    }
+
     /**
      * Gets the subscribed users of this course
      * @return array An array of CourseUserRelation objects
      */
     function get_subscribed_users()
     {
-        $wdm = WeblcmsDataManager :: get_instance();
+        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
+        return $this->get_data_manager()->retrieve_course_user_relations($relation_condition)->as_array();
+    }
 
-        $relation_conditions = array();
-        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
-        $relation_condition = new AndCondition($relation_conditions);
-
-        return $wdm->retrieve_course_user_relations($relation_condition)->as_array();
+    function has_subscribed_groups()
+    {
+        $relation_condition = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        return $this->get_data_manager()->count_course_group_relations($relation_condition);
     }
 
     /**
@@ -739,13 +746,8 @@ class Course extends DataClass
      */
     function get_subscribed_groups()
     {
-        $wdm = WeblcmsDataManager :: get_instance();
-
-        $relation_conditions = array();
-        $relation_conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->get_id());
-        $relation_condition = new AndCondition($relation_conditions);
-
-        return $wdm->retrieve_course_group_relations($relation_condition)->as_array();
+        $relation_condition = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        return $this->get_data_manager()->retrieve_course_group_relations($relation_condition)->as_array();
     }
 
     /**

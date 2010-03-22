@@ -103,9 +103,9 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
         if (isset($query) && $query != '')
         {
             $or_conditions = array();
-            $or_conditions[] = new LikeCondition(Group :: PROPERTY_NAME, $query);
-            $or_conditions[] = new LikeCondition(Group :: PROPERTY_DESCRIPTION, $query);
-            $or_conditions[] = new LikeCondition(Group :: PROPERTY_CODE, $query);
+            $or_conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(Group :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(Group :: PROPERTY_CODE, '*' . $query . '*');
             $or_condition = new OrCondition($or_conditions);
 
             $and_conditions = array();

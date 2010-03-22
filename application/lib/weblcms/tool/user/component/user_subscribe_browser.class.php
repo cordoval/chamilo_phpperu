@@ -85,9 +85,9 @@ class UserToolSubscribeBrowserComponent extends UserToolComponent
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
-            $conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
-            $conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
             return new OrCondition($conditions);
         }
     }

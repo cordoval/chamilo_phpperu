@@ -19,9 +19,9 @@ class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManagerCom
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewQuotaBoxes')));
-        
+
         $this->ab = $this->get_action_bar();
-        
+
         $this->display_header($trail);
         echo $this->ab->as_html() . '<br />';
         echo $this->get_user_html();
@@ -31,10 +31,10 @@ class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManagerCom
     function get_user_html()
     {
         $table = new QuotaBoxBrowserTable($this, $this->get_parameters(), $this->get_condition());
-        
+
         $html = array();
         $html[] = $table->as_html();
-        
+
         return implode($html, "\n");
     }
 
@@ -44,10 +44,10 @@ class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManagerCom
         if (isset($search) && ($search != ''))
         {
             $conditions = array();
-            $conditions[] = new LikeCondition(QuotaBox :: PROPERTY_NAME, $search);
-            $conditions[] = new LikeCondition(QuotaBox :: PROPERTY_DESCRIPTION, $search);
+            $conditions[] = new PatternMatchCondition(QuotaBox :: PROPERTY_NAME, '*' . $search . '*');
+            $conditions[] = new PatternMatchCondition(QuotaBox :: PROPERTY_DESCRIPTION, '*' . $search . '*');
             $condition = new OrCondition($conditions);
-            
+
             return $condition;
         }
     }
@@ -55,11 +55,11 @@ class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManagerCom
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         $action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_quota_box_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+
         return $action_bar;
     }
 }

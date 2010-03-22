@@ -63,27 +63,33 @@ class ConditionTranslator
      *                                                   to avoid collisions.
      * @return string The WHERE clause.
      */
-    function translate_aggregate_condition($condition)
+    function translate_aggregate_condition($aggregate_condition)
     {
         $string = '';
 
-        if ($condition instanceof AndCondition || $condition instanceof OrCondition)
+        if ($aggregate_condition instanceof AndCondition || $aggregate_condition instanceof OrCondition)
         {
             $cond = array();
             $count = 0;
 
-            foreach ($condition->get_conditions() as $c)
+            foreach ($aggregate_condition->get_conditions() as $key => $condition)
             {
                 $count ++;
-                $translation = $this->translate($c);
+                $translation = $this->translate($condition);
 
                 if (! empty($translation))
                 {
                     $string .= $translation;
 
-                    if ($count < count($condition->get_conditions()))
+                    if ($count < count($aggregate_condition->get_conditions()))
                     {
-                        $string .= $condition->get_operator();
+                        $conditions = $aggregate_condition->get_conditions();
+                        $next_condition = $conditions[$key + 1];
+
+                        if (!($next_condition instanceof InCondition && $this->translate($next_condition) === ''))
+                        {
+                            $string .= $aggregate_condition->get_operator();
+                        }
                     }
                 }
             }
@@ -93,10 +99,10 @@ class ConditionTranslator
                 $string = '(' . $string . ')';
             }
         }
-        elseif ($condition instanceof NotCondition)
+        elseif ($aggregate_condition instanceof NotCondition)
         {
             $string .= 'NOT (';
-            $string .= $this->translate($condition->get_condition());
+            $string .= $this->translate($aggregate_condition->get_condition());
             $string .= $this->strings[] = ')';
         }
         else

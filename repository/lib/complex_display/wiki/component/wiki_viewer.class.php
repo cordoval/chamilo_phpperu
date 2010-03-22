@@ -22,11 +22,11 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
     function run()
     {
         $dm = RepositoryDataManager :: get_instance();
-        
+
         $this->action_bar = $this->get_parent()->get_toolbar($this, $this->get_root_lo()->get_id(), $this->get_root_lo(), null);
         echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
         echo '<div style="float:left; width: 135px;">' . $this->action_bar->as_html() . '</div>';
-        
+
         if ($this->get_root_lo() != null)
         {
             echo '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">' . $this->get_root_lo()->get_title() . '</div><hr style="height:1px;color:#4271B5;width:100%;">';
@@ -40,8 +40,8 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
-            $conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
+            $conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             return new OrCondition($conditions);
         }
         return null;
