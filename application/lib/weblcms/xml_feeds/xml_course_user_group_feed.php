@@ -138,7 +138,7 @@ function dump_tree($users, $groups)
     {
         if (contains_results($users))
         {
-            echo '<node id="user" classes="type_category unlinked" title="Users">', "\n";
+            echo '<node id="user" classes="category unlinked" title="Users">', "\n";
             foreach ($users as $user)
             {
                 echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($user->get_username()) . '" description="' . htmlentities($user->get_fullname()) . '"/>' . "\n";
@@ -148,7 +148,7 @@ function dump_tree($users, $groups)
 
         if (contains_results($groups))
         {
-            echo '<node id="group" classes="type_category unlinked" title="Groups">', "\n";
+            echo '<node id="group" classes="category unlinked" title="Groups">', "\n";
             foreach ($groups as $group)
             {
                 echo '<leaf id="group_' . $group->get_id() . '" classes="' . 'type type_group' . '" title="' . htmlentities($group->get_name()) . '" description="' . htmlentities($group->get_name()) . '"/>' . "\n";

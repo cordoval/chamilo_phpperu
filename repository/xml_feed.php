@@ -113,18 +113,24 @@ function dump_tree($tree, $objects)
         }
         $id = $node['obj']->get_id();
         if (get_class($node['obj']) == 'RepositoryCategory')
+        {
             $title = $node['obj']->get_name();
+        }
         else
+        {
             $title = $node['obj']->get_title();
+        }
 
-        echo '<node id="category_', $id, '" classes="type_category unlinked" title="', htmlspecialchars($title), '">', "\n";
+        echo '<node id="category_' . $id . '" classes="category unlinked" title="' . htmlspecialchars($title) . '">' . "\n";
         dump_tree($node['sub'], $objects);
+
         foreach ($objects[$id] as $lo)
         {
             $id = $lo->get_id();
             $value = Utilities :: content_object_for_element_finder($lo);
-            echo '<leaf id="lo_', $id, '" classes="', $value['classes'], '" title="', htmlspecialchars($value['title']), '" description="', htmlspecialchars($value['description']), '"/>', "\n";
+            echo '<leaf id="lo_' . $id . '" classes="' . $value['classes'] . '" title="' . htmlspecialchars($value['title']) . '" description="' . htmlspecialchars($value['description']) . '"/>', "\n";
         }
+
         echo '</node>', "\n";
     }
 }

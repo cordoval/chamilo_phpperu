@@ -97,7 +97,9 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
         $types = array('learning_path_item', 'portfolio_item', 'survey_page_item', 'survey_item');
 
         foreach ($types as $type)
+        {
             $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type));
+        }
 
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
