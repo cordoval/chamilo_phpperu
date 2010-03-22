@@ -192,10 +192,12 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
             $this->addElement('checkbox', $cbname, '', $location, array('style' => 'margin-left: 12px;'));
             $appDefaults[$cbname] = '1';
         }
-            
-        $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a>');
-        $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a>');
-            
+
+        if (count($locations) > 1)
+        {
+        	$this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a>');
+        	$this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a>');
+        }  
         $this->addElement('html', '<div style="clear: both;"></div></div></div><br />');
     }
 }
