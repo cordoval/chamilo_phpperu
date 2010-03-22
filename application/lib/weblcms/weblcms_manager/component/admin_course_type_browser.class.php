@@ -50,9 +50,6 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
         $html = array();
         
         $html[] = '<div style="clear: both;"></div>';
-        $html[] = $this->get_course_type_admin_menu($this);
-        $html[] = '<div id="tool_browser_right">';
-        $html[] = '<div>';
         $html[] = $this->action_bar->as_html() . '<br />';
 		$html[] = $this->get_table_html();
         $html[] = '<div style="clear: both;"></div>';
@@ -105,38 +102,5 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
       	}     
         return $condition;
     }
-    
-    function get_course_type_admin_menu($browser)
-	{
-		$html = array();
-		
-		$html[] = '<div id="tool_bar" class="tool_bar tool_bar_right">';
-		
-		$html[] = '<div id="tool_bar_hide_container" class="hide">';
-		$html[] = '<a id="tool_bar_hide" href="#"><img src="'. Theme :: get_common_image_path() .'action_action_bar_right_hide.png" /></a>';
-		$html[] = '<a id="tool_bar_show" href="#"><img src="'. Theme :: get_common_image_path() .'action_action_bar_right_show.png" /></a>';
-		$html[] = '</div>';
-		
-		$html[] = '<div class="tool_menu">';
-		$html[] = '<ul>';
-		
-		// Browse Links
-		$html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('CourseTypes') . '</li><br />';
-		$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a style="top: -3px; position: relative;" href="'.$browser->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)) .'">'.Translation :: get('BrowseCourseType').'</a></li>';
-
-//		$html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
-//		
-//		// Tool Links
-//		$html[] = '<li class="tool_list_menu" style="font-weight: bold">' . Translation :: get('GradebookTools') . '</li><br />';
-		
-		$html[] = '</ul>';
-		$html[] = '</div>';
-		
-		$html[] = '</div>';
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' .'"></script>';
-		$html[] = '<div class="clear"></div>';
-		
-		return implode("\n", $html);
-	}
 }
 ?>

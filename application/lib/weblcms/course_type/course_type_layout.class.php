@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: course_type_layout.class.php 216 2009-11-13 14:08:06Z Yannick & Tristan $
+ * $Id: course_type_layout.class.php 216 2010-02-26 14:08:06Z Yannick & Tristan $
  * @package application.lib.weblcms.course_type
  */
 require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
