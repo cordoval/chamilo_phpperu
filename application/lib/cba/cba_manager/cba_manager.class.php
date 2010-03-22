@@ -20,6 +20,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	const PARAM_COMPETENCY = 'competency';
 	const PARAM_INDICATOR = 'indicator';
 	const PARAM_CRITERIA = 'criteria';
+	const PARAM_CRITERIA_SCORE = 'criteria_score';
 	
 	const PARAM_CONTENT_OBJECT_TYPE = 'type';
 	const PARAM_CONTENT_OBJECT_ID = 'object';
@@ -332,6 +333,22 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
  	function retrieve_criteria($id)
 	{
 		return CbaDataManager :: get_instance()->retrieve_criteria($id);
+	}
+	
+ 	// Criteria Score
+ 	function count_criterias_score($condition)
+	{
+		return CbaDataManager :: get_instance()->count_criterias_score($condition);
+	}
+	
+ 	function retrieve_criterias_score($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return CbaDataManager :: get_instance()->retrieve_criterias_score($condition, $offset, $count, $order_property);
+	}
+	
+ 	function retrieve_criteria_score($id)
+	{
+		return CbaDataManager :: get_instance()->retrieve_criteria_score($id);
 	}
 
 	
