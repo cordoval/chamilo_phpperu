@@ -54,7 +54,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
         {
 	        $success = $form->save_course_type();
 	        $array_type = array();
-	        $array_type['go'] = WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR;
+	        $array_type['go'] = WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER;
 	        if($success ||  $form->get_form_type() == CourseTypeForm :: TYPE_EDIT)
 	        	$array_type['course_type'] = $coursetype->get_id();
             $this->redirect(Translation :: get($success ? 'CourseTypeSaved' : 'CourseTypeNotSaved'), ($success ? false : true), $array_type );
