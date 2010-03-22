@@ -86,7 +86,7 @@ class CategoryForm extends FormValidator
         
         if (! isset($_SESSION['mc_number_of_options']))
         {
-            $_SESSION['mc_number_of_options'] = 3;
+            $_SESSION['mc_number_of_options'] = 1;
         }
         
         if (! isset($_SESSION['mc_skip_options']))
