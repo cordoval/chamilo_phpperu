@@ -80,15 +80,32 @@ class ConditionTranslator
                 {
                     $string .= $translation;
 
-                    if ($count < count($aggregate_condition->get_conditions()))
-                    {
-                        $conditions = $aggregate_condition->get_conditions();
-                        $next_condition = $conditions[$key + 1];
+                }
 
-                        if (!($next_condition instanceof InCondition && $this->translate($next_condition) === ''))
-                        {
-                            $string .= $aggregate_condition->get_operator();
-                        }
+                if ($count < count($aggregate_condition->get_conditions()))
+                {
+                    $conditions = $aggregate_condition->get_conditions();
+                    $next_condition = $conditions[$key + 1];
+
+//                    if ($translation == 'coer.`user_id` IN (\'2\')')
+//                    {
+//                        dump($conditions);
+//                        dump($this->translate($next_condition));
+//                        exit;
+//                    }
+//
+//                    if ($next_condition instanceof InCondition && $this->translate($next_condition) === '')
+//                    {
+//                        dump('EMPTY');
+//                    }
+//                    else
+//                    {
+//                       $string .= $aggregate_condition->get_operator();
+//                    }
+
+                    if (!($next_condition instanceof InCondition && $this->translate($next_condition) === ''))
+                    {
+                        $string .= $aggregate_condition->get_operator();
                     }
                 }
             }
