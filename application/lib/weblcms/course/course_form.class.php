@@ -125,15 +125,13 @@ class CourseForm extends FormValidator
         $this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Extlink_name'), array("size" => "50"));
         $this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('Extlink_url'), array("size" => "50"));
 		
-        $adm = AdminDataManager :: get_instance();
-		$lang = $adm->retrieve_language_from_english_name($this->course->get_course_type()->get_settings()->get_language())->get_original_name();
-
 		$adm = AdminDataManager :: get_instance();
 		$lang_options = $adm->get_languages();
 		
 		$language_disabled = $this->course->get_language_fixed();
 		if($language_disabled)
 		{
+			$lang = $adm->retrieve_language_from_english_name($this->course->get_course_type()->get_settings()->get_language())->get_original_name();
 			$this->addElement('static', 'static_language', Translation :: get('CourseTypeLanguage'), $lang);
 			$this->addElement('hidden', CourseSettings :: PROPERTY_LANGUAGE, $lang);
 		}
@@ -264,14 +262,24 @@ class CourseForm extends FormValidator
 	function build_tools_form()
 	{
 		//Tools defaults
-		$course_type_tools = $this->course->get_course_type()->get_tools();
+		$course_type_id = $this->course->get_course_type()->get_id();
+		if(!empty($course_type_id))
+			$course_type_tools = $this->course->get_course_type()->get_tools();
+		else
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			$course_type_tools = $wdm->get_tools('basic');
+		}
 		foreach ($course_type_tools as $course_type_tool)
 		{
-			$tool = $course_type_tool->get_name();
+			if(!empty($course_type_id))
+				$tool = $course_type_tool->get_name();
+			else
+				$tool = $course_type_tool;
 		    $tool_data = array();
 			
 			$element_default_arr = array('class'=>'viewablecheckbox', 'style'=>'width=80%');
-			if($course_type_tool->get_visible_default())
+			if(!empty($course_type_id) && $course_type_tool->get_visible_default())
 				$element_default_arr['checked'] = "checked";
 
 			$tool_image_src = Theme :: get_image_path() . 'tool_' . $tool . '.png';

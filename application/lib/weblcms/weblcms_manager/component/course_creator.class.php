@@ -50,7 +50,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         //$course->set_language(LocalSetting :: get('platform_language'));
         //$course->set_titular($user_info->get_id());
         
-        if(empty($course_type_id))
+        if(empty($course_type_id) && WeblcmsDataManager :: get_instance()->count_course_types())
         	$this->simple_redirect(array('go' => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE));
         else
         {        
