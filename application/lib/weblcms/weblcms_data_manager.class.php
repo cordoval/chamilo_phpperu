@@ -225,14 +225,14 @@ abstract class WeblcmsDataManager
     abstract function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null);   
     
     //-- END -- Course_type_items--
-    
+        
     /**
      * Count the number of courses
      * @param Condition $condition
      * @return int
-     */ 
+     */
     abstract function count_courses($conditions = null);
-    
+
     /**
      * Count the number of course categories
      * @param Condition $condition
@@ -273,9 +273,9 @@ abstract class WeblcmsDataManager
      * @return boolean True if creation succceeded, false otherwise.
      */
     abstract function create_course($course);
-    
+
     abstract function create_course_settings($course_settings);
-    
+
     abstract function create_course_layout($course_layout);
 
     abstract function create_course_group_user_relation($course_group_user_relation);
@@ -363,6 +363,22 @@ abstract class WeblcmsDataManager
      * @return boolean
      */
     abstract function unsubscribe_user_from_course($course, $user_id);
+
+    /**
+     * Subscribe a group to a course.
+     * @param Course $course
+     * @param int $group_id
+     * @return boolean
+     */
+    abstract function subscribe_group_to_course(Course $course, $group_id);
+
+    /**
+     * Unsubscribe a user from a course.
+     * @param Course $course
+     * @param int $group_id
+     * @return boolean
+     */
+    abstract function unsubscribe_group_from_course(Course $course, $group_id);
 
     /**
      * Checks whether a user is subscribed to a course.
@@ -520,7 +536,7 @@ abstract class WeblcmsDataManager
      * @return Course The course.
      */
     abstract function retrieve_course($course_code);
-    
+
     abstract function retrieve_course_settings($course_code);
 
     abstract function retrieve_course_layout($course_code);
@@ -553,7 +569,7 @@ abstract class WeblcmsDataManager
      * @return boolean True if the update succceeded, false otherwise.
      */
     abstract function update_course($course);
-    
+
     abstract function update_course_settings($course_settings);
 
     abstract function update_course_layout($course_layout);
@@ -713,7 +729,7 @@ abstract class WeblcmsDataManager
      * @param int id
      */
     abstract function retrieve_course_group($id);
-    
+
     /**
      * Retrieves the course_groups defined in a given course
      * @param string $course_code
@@ -797,22 +813,22 @@ abstract class WeblcmsDataManager
     abstract function count_course_sections($conditions = null);
 
     abstract function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null);
-    
+
     function get_user_course_groups($user, $course = null)
     {
         $course_groups = $this->retrieve_course_groups_from_user($user, $course)->as_array();
-        
+
         $course_groups_recursive = array();
-        
+
         foreach($course_groups as $course_group)
-        { 
+        {
         	if(!array_key_exists($course_group->get_id(), $course_groups_recursive))
         	{
         		$course_groups_recursive[$course_group->get_id()] = $course_group;
         	}
-        	
+
         	$parents = $course_group->get_parents(false);
-        	
+
         	foreach($parents as $parent)
         	{
 	        	if(!array_key_exists($parent->get_id(), $course_groups_recursive))

@@ -127,7 +127,7 @@ function dump_tree($tree, $objects)
         else
             $title = $node['obj']->get_title();
 
-        echo '<node id="category_', $id, '" classes="type_category unlinked" title="', htmlentities($title), '">', "\n";
+        echo '<node id="category_', $id, '" classes="category unlinked" title="', htmlentities($title), '">', "\n";
         dump_tree($node['sub'], $objects);
         foreach ($objects[$id] as $lo)
         {
