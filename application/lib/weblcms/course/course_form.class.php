@@ -154,7 +154,8 @@ class CourseForm extends FormValidator
 
 		$members_disabled = $this->course->get_max_number_of_members_fixed();
 		$max = "Unlimited";
-		if($this->course->get_course_type()->get_settings()->get_max_number_of_members()>0) $max = $this->course->get_course_type()->get_settings()->get_max_number_of_members();
+		if($this->course->get_course_type()->get_settings()->get_max_number_of_members()>0) 
+			$max = $this->course->get_course_type()->get_settings()->get_max_number_of_members();
 		if($members_disabled)
 		{
 			$this->addElement('static', 'static_member', Translation :: get('MaximumNumberOfMembers'), $max);
@@ -197,10 +198,54 @@ class CourseForm extends FormValidator
 	function build_layout_form()
 	{
 		$this->addElement('category', Translation :: get('Layout'));
-		$this->addElement('select', CourseLayout :: PROPERTY_LAYOUT, Translation :: get('Layout'), CourseLayout :: get_layouts());
-		$this->addElement('select', CourseLayout :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), CourseLayout :: get_tool_shortcut_options());
-		$this->addElement('select', CourseLayout :: PROPERTY_MENU, Translation :: get('Menu'), CourseLayout :: get_menu_options());
-		$this->addElement('select', CourseLayout :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), CourseLayout :: get_breadcrumb_options());
+		
+		$layouts = $this->course->get_course_type()->get_layout_settings()->get_layouts();		
+		$layout_disabled = $this->course->get_layout_fixed();
+		if($layout_disabled)
+		{
+			$this->addElement('static', 'static_layout', Translation :: get('Layout'), $layouts[$this->course->get_layout()]);
+		}
+		else
+		{
+			$this->addElement('select', CourseLayout :: PROPERTY_LAYOUT, Translation :: get('Layout'), CourseLayout :: get_layouts());
+		}
+
+		
+		$tool_shortcut = $this->course->get_course_type()->get_layout_settings()->get_tool_shortcut_options();		
+		$tool_shortcut_disabled = $this->course->get_tool_shortcut_fixed();
+		if($tool_shortcut_disabled)
+		{
+			$this->addElement('static', 'static_tool_shortcut', Translation :: get('ToolShortcut'), $tool_shortcut[$this->course->get_tool_shortcut()]);
+		}
+		else
+		{
+			$this->addElement('select', CourseLayout :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), CourseLayout :: get_tool_shortcut_options());
+		}
+		
+		
+		$menu = $this->course->get_course_type()->get_layout_settings()->get_menu_options();		
+		$menu_disabled = $this->course->get_menu_fixed();
+		if($menu_disabled)
+		{
+			$this->addElement('static', 'static_tool_shortcut', Translation :: get('Menu'), $menu[$this->course->get_menu()]);
+		}
+		else
+		{
+			$this->addElement('select', CourseLayout :: PROPERTY_MENU, Translation :: get('Menu'), CourseLayout :: get_menu_options());
+		}
+		
+		$breadcrumb = $this->course->get_course_type()->get_layout_settings()->get_breadcrumb_options();		
+		$breadcrumb_disabled = $this->course->get_breadcrumb_fixed();
+		if($breadcrumb_disabled)
+		{
+			$this->addElement('static', 'static_tool_shortcut', Translation :: get('Breadcrumb'), $breadcrumb[$this->course->get_breadcrumb()]);
+		}
+		else
+		{
+			$this->addElement('select', CourseLayout :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), CourseLayout :: get_breadcrumb_options());
+		}
+		
+		
 		$this->addElement('category');
 		
 		$this->addElement('category', Translation :: get('Functionality'));
@@ -213,9 +258,9 @@ class CourseForm extends FormValidator
 		$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), '', $attr_array);
 		}
 
-		$intro_tex_disabled = $this->course->get_intro_text_fixed();
+		$intro_text_disabled = $this->course->get_intro_text_fixed();
 		$attr_array = array();
-		if($intro_tex_disabled)
+		if($intro_text_disabled)
 			$attr_array = array('disabled' => 'disabled');
 		$this->addElement('checkbox', CourseLayout :: PROPERTY_INTRO_TEXT, Translation :: get('IntroductionToolTitle'), '', $attr_array);
 

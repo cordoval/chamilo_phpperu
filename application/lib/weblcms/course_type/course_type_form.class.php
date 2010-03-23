@@ -161,6 +161,12 @@ class CourseTypeForm extends FormValidator
 	    $this->addElement('category');
 
 	    $this->addElement('category', Translation :: get('LockedFunctionality'));
+	    $this->add_information_message('', '', Translation :: get('LockedFunctionalityLayout'), true);
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_LAYOUT_FIXED, Translation :: get('Layout'));
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT_FIXED, Translation :: get('ToolShortcut'));
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_MENU_FIXED, Translation :: get('Menu'));
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED, Translation :: get('Breadcrumb'));
+	    
 	    $this->add_information_message('', '', Translation :: get('LockedFunctionalityDescription'), true);
 		if (PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME))
 		{
