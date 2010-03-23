@@ -137,7 +137,7 @@ class CriteriaForm extends FormValidator
     function create_criteria_score()
     {
     	$criteria = $this->criteria;
-    	$criteria_score = $this->criteria_score;   		
+    	$criteria_score = $this->criteria_score; 	
     	$criteria_score->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();	
     	$parent = $this->exportValue(CriteriaScore :: PROPERTY_PARENT_ID);
@@ -228,7 +228,7 @@ class CriteriaForm extends FormValidator
 	function setCriteriaDefaults($defaults = array ())
 	{
 		$criteria = $this->criteria;
-		
+
 		$defaults[Criteria :: PROPERTY_ID] = $criteria->get_id();
     	$defaults[Criteria :: PROPERTY_TITLE] = $criteria->get_title();
     	$defaults[Criteria :: PROPERTY_DESCRIPTION] = $criteria->get_description();
@@ -239,7 +239,10 @@ class CriteriaForm extends FormValidator
 	function setCriteriaScoreDefaults($defaults = array ())
 	{
 		$criteria = $this->criteria;
+		
 		$criteria_score = $this->criteria_score;
+		dump($criteria_score);
+		exit();
 		//$criteria_score = new CriteriaScore();
 		//$criteria_score->set_description_score('test'); 		
 		/*$values = $this->exportValues();
@@ -361,7 +364,6 @@ class CriteriaForm extends FormValidator
             }
         }
         $this->addElement('style_button', 'add[]', Translation :: get('AddCriteriaOption'), array('class' => 'normal add add_option'));
-        
     }
 
     

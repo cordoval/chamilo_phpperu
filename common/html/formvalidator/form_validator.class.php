@@ -393,6 +393,27 @@ EOT;
 					/* ]]> */
 					</script>\n");
     }
+    
+	function add_indicators($elementName, $elementLabel, $attributes)
+    {
+        $this->addElement('html', '<div style="display: block;" id="receivers_window">');
+		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+		$element_finder->excludeElements($attributes['exclude']);
+        $this->addElement($element_finder);
+        $this->addElement('html', '</div>');
+        $this->addElement('html', "<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					function receivers_show(item) {
+						el = document.getElementById(item);
+						el.style.display='';
+					}
+					function receivers_hide(item) {
+						el = document.getElementById(item);
+						el.style.display='none';
+					}
+					/* ]]> */
+					</script>\n");
+    }
 
     /**
      * Add a button to the form to add resources.

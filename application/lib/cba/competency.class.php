@@ -31,6 +31,8 @@ class Competency extends DataClass
 	const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_STATE = 'state';
+    
+    private $attachments;
 
 
 	static function get_default_property_names()
