@@ -141,7 +141,10 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 				$wdm = WeblcmsDataManager :: get_instance();
 				$class = Tool :: type_to_class($tool);
-				$toolObj = new $class($this);
+				/*$toolObj = new $class($this);*/
+				
+				$toolObj = Tool :: factory($tool, $this);
+				
 				$this->set_tool_class($class);
 				$toolObj->run();
 				$wdm->log_course_module_access($this->get_course_id(), $this->get_user_id(), $tool, $category);

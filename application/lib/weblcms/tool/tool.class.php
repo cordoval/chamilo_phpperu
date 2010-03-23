@@ -604,5 +604,20 @@ abstract class Tool
 
         return $parents;
     }
+    
+    static function factory($tool_name, $parent)
+    {
+    	$file = dirname(__FILE__) . '/' . $tool_name . '/' . $tool_name . '_tool.class.php';
+    	if(!file_exists($file))
+    	{
+    		throw new Exception(Translation :: get('ToolDoesNotExist', array('toolname' => $tool_name)));
+    	}
+    	
+    	require_once $file;
+    	
+    	$class = self :: type_to_class($tool_name);
+    	
+    	return new $class($parent);
+    }
 }
 ?>
