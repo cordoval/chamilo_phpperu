@@ -66,10 +66,10 @@ class CourseForm extends FormValidator
     {
     	$tabs = Array();
     	$tabs[] = new FormValidatorTab('build_general_settings_form','General');
+		$tabs[] = new FormValidatorTab('build_layout_form', 'Layout');
     	if($this->form_type == self::TYPE_CREATE)
     		$tabs[] = new FormValidatorTab('build_tools_form', 'Tools');
 		$tabs[] = new FormValidatorTab('build_rights_form', 'Rights');
-		$tabs[] = new FormValidatorTab('build_layout_form', 'Layout');
 		$selected_tab = 0;
 		$this->add_tabs($tabs, $selected_tab);
     }
@@ -163,9 +163,11 @@ class CourseForm extends FormValidator
 	        $choices = array();
 	        $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Unlimited'), 1, array('onclick' => 'javascript:window_hide(\'' . self :: UNLIMITED_MEMBERS . '_window\')', 'id' => self :: UNLIMITED_MEMBERS));
 	        $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Limited'), 0, array('onclick' => 'javascript:window_show(\'' . self :: UNLIMITED_MEMBERS . '_window\')'));
-	        $this->addGroup($choices, null, Translation :: get('MaximumNumberOfMembers'), '<br />', false);
+	        $this->addGroup($choices, 'choices', Translation :: get('MaximumNumberOfMembers'), '<br />', false);
 	        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . self :: UNLIMITED_MEMBERS . '_window">');
 	        $this->add_textfield(CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS, null, false);
+	        $this->registerRule('max_members', null, 'HTML_QuickForm_Rule_Max_Members', dirname(__FILE__) .'/../course_type/max_members.rule.class.php');
+        	$this->addRule(Array('choices',CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS), Translation :: get('IncorrectNumber'), 'max_members');
 	        $this->addElement('html', '</div>');
 		}		
 		$this->addElement('category');
@@ -282,12 +284,13 @@ class CourseForm extends FormValidator
 			if(!empty($course_type_id) && $course_type_tool->get_visible_default())
 				$element_default_arr['checked'] = "checked";
 
-			$tool_image_src = Theme :: get_image_path() . 'tool_' . $tool . '.png';
+			$tool_image_src = Theme :: get_image_path() . 'tool_mini_' . $tool . '.png';
 			$tool_image = $tool . "_image";
 			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
 			$element_default = $tool . "elementdefault";
 
-			$tool_data[] = '<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div>';
+			$tool_data[] = '<img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/>';
+			$tool_data[] = $title;
 			$tool_data[] = '<div class="'.$element_default.'"/>'.$this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', $element_default_arr)->toHtml().'</div>';
 			$count ++;
 
@@ -295,9 +298,10 @@ class CourseForm extends FormValidator
 		}
 
         $table = new SortableTableFromArray($data);
-        $table->set_header(0, Translation :: get('ToolName'), false);
-        $table->set_header(1, Translation :: get('IsToolVisible'), false);
-        $this->addElement('html', $table->as_html());
+        $table->set_header(0, '', false);
+        $table->set_header(1, Translation :: get('ToolName'), false);
+        $table->set_header(2, Translation :: get('IsToolVisible'), false, null, array('style'=>'width: 20%; text-align: center;'));
+        $this->addElement('html', '<div style="width:50%; margin-left:15%;">'.$table->as_html().'</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
 					var common_image_path = '".Theme :: get_common_image_path()."';
