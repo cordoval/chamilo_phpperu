@@ -21,6 +21,7 @@ class CourseForm extends FormValidator
     private $course;
     private $user;
     private $form_type;
+    private $course_type_id;
 
     function CourseForm($form_type, $course, $user, $action, $parent)
     {
@@ -30,6 +31,7 @@ class CourseForm extends FormValidator
         $this->user = $user;
 		$this->parent = $parent;
         $this->form_type = $form_type;
+        $this->course_type_id = $this->course->get_course_type()->get_id();
 
         if ($this->form_type == self :: TYPE_EDIT)
         {
@@ -265,8 +267,7 @@ class CourseForm extends FormValidator
 	function build_tools_form()
 	{
 		//Tools defaults
-		$course_type_id = $this->course->get_course_type()->get_id();
-		if(!empty($course_type_id))
+		if(!empty($this->course_type_id))
 			$course_type_tools = $this->course->get_course_type()->get_tools();
 		else
 		{
@@ -275,14 +276,14 @@ class CourseForm extends FormValidator
 		}
 		foreach ($course_type_tools as $course_type_tool)
 		{
-			if(!empty($course_type_id))
+			if(!empty($this->course_type_id))
 				$tool = $course_type_tool->get_name();
 			else
 				$tool = $course_type_tool;
 		    $tool_data = array();
 			
 			$element_default_arr = array('class'=>'viewablecheckbox', 'style'=>'width=80%');
-			if(!empty($course_type_id) && $course_type_tool->get_visible_default())
+			if(!empty($this->course_type_id) && $course_type_tool->get_visible_default())
 				$element_default_arr['checked'] = "checked";
 
 			$tool_image_src = Theme :: get_image_path() . 'tool_mini_' . $tool . '.png';
@@ -371,12 +372,12 @@ class CourseForm extends FormValidator
 		if(!$course_layout->create())
 			return false;
 			
-    	$course_type_id = $this->course->get_course_type()->get_id();
         $wdm = WeblcmsDataManager :: get_instance();
-		if(!empty($course_type_id))
-		$tools = $this->course->get_course_type()->get_tools();
+		if(!empty($this->course_type_id))
+			$tools = $this->course->get_course_type()->get_tools();
 		else
 			$tools = $wdm->get_tools('basic');
+			
 		$selected_tools = $this->fill_course_tools($tools);
 		
 		if(!$wdm->create_course_modules($selected_tools, $this->course->get_id()))
@@ -449,8 +450,8 @@ class CourseForm extends FormValidator
 		$tools_array = array();
 		foreach($tools as $tool)
 		{
-			if(!empty($course_type_id))
-				$tool = $course_type_tool->get_name();
+			if(!empty($this->course_type_id))
+				$tool = $tool->get_name();
 			$element_default = $tool . "elementdefault";
 			$course_module = new CourseModule();
 			$course_module->set_course_code($this->course->get_id());

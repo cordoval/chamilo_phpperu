@@ -36,28 +36,32 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
         $condition = new AndCondition($conditions);
         $courses = $this->retrieve_user_courses($condition);
-        
-        echo $this->display_course_digest($courses);
-        
-        while ($course_category = $course_categories->next_result())
+        if($courses->size()>0)
         {
-            $conditions = array();
-            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id(), CourseUserRelation :: get_table_name());
-            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-            $condition = new AndCondition($conditions);
-            $courses = $this->retrieve_user_courses($condition);
-            
-            echo $this->display_course_digest($courses, $course_category);
+	        echo $this->display_course_digest($courses);
+	        
+	        while ($course_category = $course_categories->next_result())
+	        {
+	            $conditions = array();
+	            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id(), CourseUserRelation :: get_table_name());
+	            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+	            $condition = new AndCondition($conditions);
+	            $courses = $this->retrieve_user_courses($condition);
+	            
+	            echo $this->display_course_digest($courses, $course_category);
+	        }
+	        
+	        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
+	        
+	        if ($_SESSION['toolbar_state'] == 'hide')
+	            $html[] = '<script type="text/javascript">var hide = "true";</script>';
+	        else
+	            $html[] = '<script type="text/javascript">var hide = "false";</script>';
+	        
+	        echo implode("\n", $html);
         }
-        
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
-        
-        if ($_SESSION['toolbar_state'] == 'hide')
-            $html[] = '<script type="text/javascript">var hide = "true";</script>';
         else
-            $html[] = '<script type="text/javascript">var hide = "false";</script>';
-        
-        echo implode("\n", $html);
+        	$this->display_message(Translation :: get('NoCoursesFound'));
         
         echo '</div>';
         

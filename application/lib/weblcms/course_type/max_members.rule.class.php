@@ -9,7 +9,7 @@ require_once ('HTML/QuickForm/Rule.php');
  */
 class HTML_QuickForm_Rule_Max_Members extends HTML_QuickForm_Rule
 {
-	const UNLIMITED_MEMBERS = 'Unlimited_Members';
+	const UNLIMITED_MEMBERS = 'unlimited_members';
 	
 	function validate($values)
 	{
