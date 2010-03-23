@@ -1,75 +1,93 @@
 <?php
 /**
- * $Id: group_subscribe.class.php 218 2009-11-13 14:21:26Z kariboe $
+ * $Id: subscribe.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 require_once dirname(__FILE__) . '/course_browser/course_browser_table.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
 class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
 {
+    private $category;
+    private $action_bar;
+    private $breadcrumbs;
 
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $course_code = Request :: get(WeblcmsManager :: PARAM_COURSE);
-        $groups = Request :: get('group_id');
-        
-        if (! is_array($groups))
+        $this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
+        $course_id = Request :: get(WeblcmsManager :: PARAM_COURSE);
+        $group_ids = Request :: get(WeblcmsManager :: PARAM_GROUP);
+
+        if (isset($group_ids) && ! is_array($group_ids))
         {
-            $groups = array($groups);
+            $group_ids = array($group_ids);
         }
-        if (isset($course_code))
+
+        if (isset($course_id))
         {
-            $course = $this->retrieve_course($course_code);
-            if (isset($groups) && $this->get_course()->is_course_admin($this->get_user()))
+            $course = $this->retrieve_course($course_id);
+            if (isset($group_ids) && count($group_ids) > 0 && ($this->get_course()->is_course_admin($this->get_user()) || $this->get_user()->is_platform_admin()))
             {
-                foreach ($groups as $group_id)
+                $failures = 0;
+
+                foreach ($group_ids as $group_id)
                 {
-                    $this->subscribe_group($group_id, $course);
+                    if (! $this->subscribe_group_to_course($course, $group_id))
+                    {
+                        $failures ++;
+                    }
                 }
-                
-                $success = true;
-                
-                if (count($groups) == 1)
+
+                if ($failures == 0)
                 {
-                    $message = 'GroupsSubscribedToCourse';
+                    $success = true;
+
+                    if (count($group_ids) == 1)
+                    {
+                        $message = 'GroupSubscribedToCourse';
+                    }
+                    else
+                    {
+                        $message = 'GroupsSubscribedToCourse';
+                    }
+                }
+                elseif ($failures == count($group_ids))
+                {
+                    $success = false;
+
+                    if (count($group_ids) == 1)
+                    {
+                        $message = 'GroupNotSubscribedToCourse';
+                    }
+                    else
+                    {
+                        $message = 'GroupsNotSubscribedToCourse';
+                    }
                 }
                 else
                 {
-                    $message = 'GroupsSubscribedToCourse';
+                    $success = false;
+                    $message = 'PartialGroupsNotSubscribedToCourse';
                 }
-                
-                $this->redirect(Translation :: get($message), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
-            }
-        }
-    
-    }
 
-    function subscribe_group($group_id, $course)
-    {
-        $gdm = GroupDataManager :: get_instance();
-        $group_users = $gdm->retrieve_group_rel_users(new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group_id));
-        
-        while ($user = $group_users->next_result())
-        {
-            $user_id = $user->get_user_id();
-            if ($user_id != $this->get_user_id())
+                $this->redirect(Translation :: get($message), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_id, WeblcmsManager :: PARAM_TOOL => 'user'));
+            }
+            else
             {
-                $status = Request :: get(WeblcmsManager :: PARAM_STATUS) ? Request :: get(WeblcmsManager :: PARAM_STATUS) : 5;
-                $this->subscribe_user_to_course($course, $status, '0', $user_id);
+                $this->display_error_page(htmlentities(Translation :: get('NoGroupsSelected')));
             }
         }
-        
-        $groups = $gdm->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, $group_id));
-        
-        while ($group = $groups->next_result())
-            $this->subscribe_group($group->get_id(), $course);
+        else
+        {
+            $this->display_error_page(htmlentities(Translation :: get('NoCourseSelected')));
+        }
     }
 }
 ?>

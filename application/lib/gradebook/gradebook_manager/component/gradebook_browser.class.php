@@ -21,7 +21,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManagerComponen
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION=> GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('BrowseGradeBook')));
-		
+
 		$this->display_header($trail);
 		$this->ab = $this->get_action_bar();
 		echo $this->get_browser_html();
@@ -49,7 +49,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManagerComponen
 
 		$table = new GradebookBrowserTable($this, $parameters, $this->get_condition());
 
-		
+
 		$html = array();
 		//$html[] = '<div style="float: right; width: 80%;">';
 		$html[] = $table->as_html();
@@ -61,26 +61,26 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManagerComponen
 
 	function get_condition()
 	{
-		
+
 		$condition = new EqualityCondition(Gradebook :: PROPERTY_OWNER_ID, $this->get_user_id());
 
 		$query = $this->ab->get_query();
 		if(isset($query) && $query != '')
 		{
 			$or_conditions = array();
-			$or_conditions[] = new LikeCondition(Gradebook :: PROPERTY_NAME, $query);
-			$or_conditions[] = new LikeCondition(Gradebook :: PROPERTY_DESCRIPTION, $query);
+			$or_conditions[] = new PatternMatchCondition(Gradebook :: PROPERTY_NAME, '*' . $query . '*');
+			$or_conditions[] = new PatternMatchCondition(Gradebook :: PROPERTY_DESCRIPTION, '*' . $query . '*');
 			$or_condition = new OrCondition($or_conditions);
-				
+
 			$and_conditions = array();
 			$and_conditions[] = $condition;
 			$and_conditions[] = $or_condition;
 			$condition = new AndCondition($and_conditions);
 		}
-			
+
 		return $condition;
 	}
-		
+
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);

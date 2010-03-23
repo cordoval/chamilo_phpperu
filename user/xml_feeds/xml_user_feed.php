@@ -61,7 +61,7 @@ function dump_tree($users)
         return;
     }
 
-    echo '<node id="0" classes="type_category unlinked" title="' . Translation :: get('Users') . '">' . "\n";
+    echo '<node id="0" classes="category unlinked" title="' . Translation :: get('Users') . '">' . "\n";
 
     while ($user = $users->next_result())
     {

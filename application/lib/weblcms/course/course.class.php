@@ -98,7 +98,7 @@ class Course extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
     }
-    
+
     /**
      * Returns the visual code of this course object
      * @return string the visual code
@@ -220,7 +220,7 @@ class Course extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $type);
     }
-    
+
     /**
      * Sets the visual code of this course object
      * @param String $visual The visual code
@@ -349,7 +349,7 @@ class Course extends DataClass
     /*
      * Getters and validation whether or not the property is readable from the course's own settings
      */
-    
+
     function get_language()
     {
     	if(!$this->get_language_fixed())
@@ -383,7 +383,7 @@ class Course extends DataClass
         else
         	return $this->get_course_type()->get_settings()->get_max_number_of_members();
     }
-    
+
     /**
      * Setters and validation to see whether they are writable
      */
@@ -398,7 +398,7 @@ class Course extends DataClass
     	if(!$this->get_language_fixed())
         	$this->settings->set_language($language);
     }
-    
+
     function get_visibility_fixed()
     {
     	return $this->course_type->get_settings()->get_visibility_fixed();
@@ -431,7 +431,7 @@ class Course extends DataClass
 		if(!$this->get_max_number_of_members_fixed())
         	$this->settings->set_max_number_of_members($max_number_of_members);
     }
-    
+
     /**
      * Direct access to the setters and getters for the course layout
      * All setters include a validation to see whether or not the property is writeable
@@ -678,6 +678,11 @@ class Course extends DataClass
         {
             return false;
         }
+        
+    	if(!$this->create_root_course_group())
+        {
+        	return false;
+        }
 
         return true;
     }
@@ -718,19 +723,36 @@ class Course extends DataClass
         return (! is_null($this->get_layout()->get_theme()) ? true : false);
     }
 
+    function has_subscribed_users()
+    {
+        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        return $this->get_data_manager()->count_course_user_relations($relation_condition);
+    }
+
     /**
      * Gets the subscribed users of this course
      * @return array An array of CourseUserRelation objects
      */
     function get_subscribed_users()
     {
-        $wdm = WeblcmsDataManager :: get_instance();
+        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
+        return $this->get_data_manager()->retrieve_course_user_relations($relation_condition)->as_array();
+    }
 
-        $relation_conditions = array();
-        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
-        $relation_condition = new AndCondition($relation_conditions);
+    function has_subscribed_groups()
+    {
+        $relation_condition = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        return $this->get_data_manager()->count_course_group_relations($relation_condition);
+    }
 
-        return $wdm->retrieve_course_user_relations($relation_condition)->as_array();
+    /**
+     * Gets the subscribed groups of this course
+     * @return array An array of CourseGroupRelation objects
+     */
+    function get_subscribed_groups()
+    {
+        $relation_condition = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        return $this->get_data_manager()->retrieve_course_group_relations($relation_condition)->as_array();
     }
 
     /**
@@ -846,6 +868,14 @@ class Course extends DataClass
 //
 //        return $result;
 //    }
+
+    function create_root_course_group()
+    {
+    	$group = new CourseGroup();
+    	$group->set_course_code($this->get_id());
+    	$group->set_name($this->get_name());
+    	return $group->create();
+    }
 
 }
 ?>

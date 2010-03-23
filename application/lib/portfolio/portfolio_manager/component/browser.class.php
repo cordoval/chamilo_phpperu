@@ -20,23 +20,23 @@ class PortfolioManagerBrowserComponent extends PortfolioManagerComponent
     {
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowsePortfolio')));
-       
+
         $this->display_header($trail);
-        
+
         $firstletter = Request :: get('firstletter');
         $firstletter = $firstletter ? $firstletter : 'A';
         $this->firstletter = $firstletter;
-        
+
         $menu = new UserMenu($firstletter);
-        
+
         echo '<div style="width: 17%; overflow: auto; float: left;">';
         echo $menu->render_as_tree();
         echo '</div>';
-        
+
         echo '<div style="width: 82%; overflow: auto; float: right;">';
         echo $this->get_table();
         echo '</div>';
-        
+
         $this->display_footer();
     }
 
@@ -49,21 +49,21 @@ class PortfolioManagerBrowserComponent extends PortfolioManagerComponent
     function get_condition()
     {
         $firstletter = $this->firstletter;
-        
+
         $conditions = array();
-        
+
         for($i = 0; $i < 3; $i ++)
         {
-            $conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $firstletter . '%');
-            
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, $firstletter . '*');
+
             if ($firstletter == 'Z')
                 break;
-            
+
             $firstletter ++;
         }
-        
+
         $condition = new OrCondition($conditions);
-        
+
         return $condition;
     }
 

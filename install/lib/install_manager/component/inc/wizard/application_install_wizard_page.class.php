@@ -30,12 +30,6 @@ class ApplicationInstallWizardPage extends InstallWizardPage
         $this->_formBuilt = true;
 
         $packages = $this->get_package_info();
-
-        //		echo '<pre>';
-        //		print_r($packages) . '<br />';
-        //		echo '</pre>';
-
-
         $this->get_package_tabs($packages);
 
         $buttons = array();
@@ -73,7 +67,9 @@ class ApplicationInstallWizardPage extends InstallWizardPage
                     {
                         $packages[$data['package'][0]['category']] = array();
                     }
-                    $packages[$data['package'][0]['category']][] = $data['package'][0];
+
+                    $sort_name = Text :: remove_non_alphanumerical($data['package'][0]['name']);
+                    $packages[$data['package'][0]['category']][$sort_name] = $data['package'][0];
                 }
             }
         }
@@ -134,6 +130,8 @@ class ApplicationInstallWizardPage extends InstallWizardPage
             $this->addElement('html', implode("\n", $html));
 
             $count = 0;
+
+            ksort($packages);
 
             foreach ($packages as $package)
             {

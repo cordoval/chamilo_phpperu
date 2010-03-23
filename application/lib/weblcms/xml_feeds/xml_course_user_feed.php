@@ -100,7 +100,7 @@ function dump_tree($users)
 {
     if (contains_results($users))
     {
-        echo '<node id="user" classes="type_category unlinked" title="Users">', "\n";
+        echo '<node id="user" classes="category unlinked" title="Users">', "\n";
         foreach ($users as $user)
         {
             echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($user->get_username()) . '" description="' . htmlentities($user->get_fullname()) . '"/>' . "\n";

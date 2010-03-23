@@ -17,7 +17,16 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
      */
     function LearningPathBrowserTableCellRenderer($browser, $condition)
     {
-        $this->count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
+        if($condition)
+        {
+    		$count_conditions[] = $condition;
+        }
+        
+        $subselect_condition = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'learning_path'));
+        $count_conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'repository_content_object', $subselect_condition);
+        $count_condition = new AndCondition($count_conditions);
+        
+    	$this->count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($count_condition);
         parent :: __construct($browser, $condition);
     }
 

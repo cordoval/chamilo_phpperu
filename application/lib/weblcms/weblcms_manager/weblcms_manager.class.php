@@ -42,6 +42,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_COURSE_GROUP = 'course_group';
 	const PARAM_COURSE_TYPE = 'course_type';
 	const PARAM_USERS = 'users';
+	const PARAM_GROUP = 'group';
 	const PARAM_TOOL = 'tool';
 	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_CATEGORY = 'pcattree';
@@ -60,7 +61,9 @@ class WeblcmsManager extends WebApplication
 	const PARAM_STATUS = 'user_status';
 
 	const ACTION_SUBSCRIBE = 'subscribe';
-	const ACTION_SUBSCRIBE_GROUPS = 'subscribe_groups';
+	const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
+	const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
+	const ACTION_SUBSCRIBE_GROUP_USERS = 'subscribe_group_users';
 	const ACTION_UNSUBSCRIBE = 'unsubscribe';
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
@@ -171,8 +174,14 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_MANAGER_UNSUBSCRIBE :
 				$component = WeblcmsManagerComponent :: factory('Unsubscribe', $this);
 				break;
-			case self :: ACTION_SUBSCRIBE_GROUPS :
+			case self :: ACTION_SUBSCRIBE_GROUP :
 				$component = WeblcmsManagerComponent :: factory('GroupSubscribe', $this);
+				break;
+			case self :: ACTION_UNSUBSCRIBE_GROUP :
+				$component = WeblcmsManagerComponent :: factory('GroupUnsubscribe', $this);
+				break;
+			case self :: ACTION_SUBSCRIBE_GROUP_USERS :
+				$component = WeblcmsManagerComponent :: factory('GroupUsersSubscribe', $this);
 				break;
 			case self :: ACTION_MANAGER_SORT :
 				$component = WeblcmsManagerComponent :: factory('Sorter', $this);
@@ -1299,6 +1308,30 @@ class WeblcmsManager extends WebApplication
 	}
 
 	/**
+	 * Subscribe a group to a course.
+	 * @param Course $course
+	 * @param int $group_id
+	 * @return boolean
+	 */
+	function subscribe_group_to_course($course, $group_id)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->subscribe_group_to_course($course, $group_id);
+	}
+
+	/**
+	 * Unsubscribe a group from a course.
+	 * @param Course $course
+	 * @param int $user_id
+	 * @return boolean
+	 */
+	function unsubscribe_group_from_course($course, $group_id)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->unsubscribe_group_from_course($course, $group_id);
+	}
+
+	/**
 	 * @todo Clean this up. It's all SortableTable's fault. :-(
 	 */
 	private function parse_input_from_table()
@@ -1334,7 +1367,7 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_group_ids = array($selected_group_ids);
 			}
-			
+
 			$selected_course_type_ids = $_POST[AdminCourseTypeBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty($selected_course_type_ids))
 			{
@@ -1369,14 +1402,14 @@ class WeblcmsManager extends WebApplication
 					Request :: set_get(self :: PARAM_STATUS, 1);
 					break;
 				case self :: PARAM_SUBSCRIBE_SELECTED_GROUP :
-					$this->set_action(self :: ACTION_SUBSCRIBE_GROUPS);
-					Request :: set_get('group_id', $selected_group_ids);
+					$this->set_action(self :: ACTION_SUBSCRIBE_GROUP_USERS);
+					Request :: set_get(WeblcmsManager :: PARAM_GROUP, $selected_group_ids);
 					Request :: set_get(self :: PARAM_STATUS, 1);
 					break;
 				case self :: PARAM_REMOVE_SELECTED_COURSE_TYPES :
 					$this->set_action(self :: ACTION_DELETE_COURSE_TYPE);
 					Request :: set_get(self :: PARAM_COURSE_TYPE, $selected_course_type_ids);
-					break;					
+					break;
 			}
 		}
 	}

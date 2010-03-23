@@ -138,6 +138,8 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
                 $condition = $parent_condition;
             }
 
+            $conditions = array();
+            
         	if(count($this->get_excluded_groups()) > 0)
         	{
         		foreach($this->get_excluded_groups() as $group)
@@ -152,6 +154,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
         }
         else
         {
+        	$conditions = array();
         	if(count($this->get_excluded_users()) > 0)
         	{
         		foreach($this->get_excluded_users() as $user)

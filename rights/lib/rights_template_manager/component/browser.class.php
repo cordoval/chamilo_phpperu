@@ -16,14 +16,14 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerCompone
      */
     function run()
     {
-        
+
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('RightsTemplates')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseRightsTemplates')));
         $trail->add_help('rights general');
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail);
@@ -31,10 +31,10 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerCompone
             $this->display_footer();
             exit();
         }
-        
+
         $this->action_bar = $this->get_action_bar();
         $output = $this->get_user_html();
-        
+
         $this->display_header($trail);
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo $output;
@@ -44,12 +44,12 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerCompone
     function get_user_html()
     {
         $table = new RightsTemplateBrowserTable($this, array(Application :: PARAM_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES), $this->get_condition());
-        
+
         $html = array();
         $html[] = '<div style="float: right; width: 100%;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
-        
+
         return implode($html, "\n");
     }
 
@@ -58,9 +58,9 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerCompone
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $condition = new LikeCondition(HelpItem :: PROPERTY_NAME, $query);
+            $condition = new PatternMatchCondition(HelpItem :: PROPERTY_NAME, '*' . $query . '*');
         }
-        
+
         return $condition;
     }
 
@@ -72,11 +72,11 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerCompone
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         $action_bar->set_search_url($this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->get_rights_template())));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('NewRightsTemplate'), Theme :: get_image_path() . 'action_add_template.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CREATE_RIGHTS_TEMPLATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+
         return $action_bar;
     }
 }

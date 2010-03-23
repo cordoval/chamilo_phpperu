@@ -10,6 +10,8 @@ require_once dirname(__FILE__) . '/../../../weblcms_manager/component/subscribe_
 class UserToolGroupSubscribeBrowserComponent extends UserToolComponent
 {
     private $action_bar;
+    private $group;
+    private $root_group;
 
     function run()
     {
@@ -18,32 +20,32 @@ class UserToolGroupSubscribeBrowserComponent extends UserToolComponent
             Display :: not_allowed();
             return;
         }
-        
+
         $this->action_bar = $this->get_action_bar();
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUPS)), Translation :: get('SubscribeGroups')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SubscribeGroups')));
         $trail->add_help('courses user');
-        
+
         $this->add_group_menu_breadcrumbs($trail);
         $this->display_header($trail, true);
-        
+
         echo $this->action_bar->as_html();
         echo $this->get_group_menu();
         echo $this->get_group_subscribe_html();
-        
+
         $this->display_footer();
     }
 
     function get_group_subscribe_html()
     {
         $table = new SubscribeGroupBrowserTable($this, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => 'user', UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUPS, 'application' => 'weblcms'), $this->get_condition());
-        
+
         $html = array();
         $html[] = '<div style="width: 75%; float: right;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
-        
+
         return implode($html, "\n");
     }
 
@@ -65,26 +67,53 @@ class UserToolGroupSubscribeBrowserComponent extends UserToolComponent
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         $action_bar->set_search_url($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)));
-        
+
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USERS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+
         return $action_bar;
+    }
+
+    function get_group()
+    {
+        if(!$this->group)
+        {
+    		$this->group = Request :: get(WeblcmsManager :: PARAM_GROUP);
+
+    		if(!$this->group)
+    		{
+    			$this->group = $this->get_root_group()->get_id();
+    		}
+
+        }
+
+        return $this->group;
+    }
+
+    function get_root_group()
+    {
+    	if(!$this->root_group)
+    	{
+    		$group = GroupDataManager :: get_instance()->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
+    		$this->root_group = $group;
+    	}
+
+    	return $this->root_group;
     }
 
     function get_condition()
     {
-        $conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, Request :: get('group_id') ? Request :: get('group_id') : 0);
-        
+        $conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_group());
+
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions2[] = new LikeCondition(Group :: PROPERTY_NAME, $query);
-            $conditions2[] = new LikeCondition(Group :: PROPERTY_DESCRIPTION, $query);
+            $conditions2[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*');
+            $conditions2[] = new PatternMatchCondition(Group :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             $conditions[] = new OrCondition($conditions2);
         }
-        
+
         return new AndCondition($conditions);
     }
 }

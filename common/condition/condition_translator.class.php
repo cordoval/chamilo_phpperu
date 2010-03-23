@@ -12,7 +12,6 @@ require_once dirname(__FILE__) . '/and_condition.class.php';
 require_once dirname(__FILE__) . '/or_condition.class.php';
 require_once dirname(__FILE__) . '/not_condition.class.php';
 require_once dirname(__FILE__) . '/in_condition.class.php';
-require_once dirname(__FILE__) . '/like_condition.class.php';
 require_once dirname(__FILE__) . '/subselect_condition.class.php';
 
 class ConditionTranslator
@@ -63,40 +62,54 @@ class ConditionTranslator
      *                                                   to avoid collisions.
      * @return string The WHERE clause.
      */
-    function translate_aggregate_condition($condition)
+    function translate_aggregate_condition($aggregate_condition)
     {
         $string = '';
 
-        if ($condition instanceof AndCondition || $condition instanceof OrCondition)
+        if ($aggregate_condition instanceof AndCondition || $aggregate_condition instanceof OrCondition)
         {
-            $cond = array();
+            $condition_translations = array();
             $count = 0;
 
-            foreach ($condition->get_conditions() as $c)
+            foreach ($aggregate_condition->get_conditions() as $key => $condition)
             {
                 $count ++;
-                $translation = $this->translate($c);
+                $translation = $this->translate($condition);
 
                 if (! empty($translation))
                 {
-                    $string .= $translation;
-
-                    if ($count < count($condition->get_conditions()))
-                    {
-                        $string .= $condition->get_operator();
-                    }
+                    $condition_translations[] = $translation;
+//                    $string .= $translation;
+//
+//                    if ($count < count($aggregate_condition->get_conditions()))
+//                    {
+//                        $string .= $aggregate_condition->get_operator();
+//                    }
                 }
+
+//                if ($count < count($aggregate_condition->get_conditions()))
+//                {
+//                    $conditions = $aggregate_condition->get_conditions();
+//                    $next_condition = $conditions[$key + 1];
+//
+//                    if (!($next_condition instanceof InCondition && $this->translate($next_condition) === ''))
+//                    {
+//                        $string .= $aggregate_condition->get_operator();
+//                    }
+//                }
             }
 
-            if (! empty($string))
+//            if (!empty($string))
+            if (count($condition_translations) > 0)
             {
-                $string = '(' . $string . ')';
+//                $string = '(' . $string . ')';
+                $string = '(' . implode($aggregate_condition->get_operator(), $condition_translations) . ')';
             }
         }
-        elseif ($condition instanceof NotCondition)
+        elseif ($aggregate_condition instanceof NotCondition)
         {
             $string .= 'NOT (';
-            $string .= $this->translate($condition->get_condition());
+            $string .= $this->translate($aggregate_condition->get_condition());
             $string .= $this->strings[] = ')';
         }
         else

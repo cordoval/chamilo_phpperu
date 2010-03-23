@@ -15,7 +15,7 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
     function ContentObjectPublicationDetailsRenderer($browser, $parameters = array (), $actions)
     {
         parent :: ContentObjectPublicationListRenderer($browser, $parameters, $actions);
-        if ($browser->get_parent()->get_course()->get_allow_feedback())
+        //if ($browser->get_parent()->get_course()->get_allow_feedback())
         {
             //$item = new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         //$browser->get_parent()->add_actionbar_item($item);

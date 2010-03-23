@@ -142,11 +142,11 @@ class Database
     function get_table_name($name)
     {
         if(strpos($_SERVER['PHP_SELF'], '/migration/index.php') !== false || strpos($_SERVER['PHP_SELF'], '_command_line_migration.php') !== false)
-        { 
+        {
         	$dsn = $this->connection->getDSN('array');
         	return $dsn['database'] . '.' . $this->prefix . $name;
         }
-        
+
         return $this->prefix . $name;
     }
 
@@ -158,11 +158,11 @@ class Database
     function escape_table_name($name)
     {
     	if(strpos($_SERVER['PHP_SELF'], '/migration/index.php') !== false || strpos($_SERVER['PHP_SELF'], '_command_line_migration.php') !== false)
-        { 
+        {
         	$dsn = $this->connection->getDSN('array');
         	return $dsn['database'] . '.' . $this->prefix . $name;
         }
-        
+
         return $this->connection->quoteIdentifier($this->prefix . $name);
     }
 
@@ -345,7 +345,7 @@ class Database
         if (count($properties) > 0)
         {
         	$table_name_alias = $this->get_alias($table_name);
-        	
+
             $query = 'UPDATE ' . $this->escape_table_name($table_name) . ' AS ' . $table_name_alias . ' SET ';
 
             $updates = array();
@@ -388,7 +388,7 @@ class Database
             }
 
             $res = $this->query($query);
-			
+
             if (MDB2 :: isError($res))
             {
                 return false;
@@ -444,7 +444,7 @@ class Database
         }
 
         $res = $this->query($query);
-		
+
         if (MDB2 :: isError($res))
         {
             return false;
@@ -792,6 +792,11 @@ class Database
     function quote($value, $type = null, $quote = true, $escape_wildcards = false)
     {
         return $this->connection->quote($value, $type, $quote, $escape_wildcards);
+    }
+
+    function escape($text, $escape_wildcards = false)
+    {
+        return $this->connection->escape($text, $escape_wildcards);
     }
 
     function query($query, $types = null, $result_class = true, $result_wrap_class = false)

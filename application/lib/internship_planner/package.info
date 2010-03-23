@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>internship_planner</name>
+		<name>Internship Planner</name>
 		<code>internship_planner</code>
 		<section>application</section>
-		<category>evaluation</category>
+		<category>education</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/applications/i/internship_planner/internship_planner-1.0.0.zip</filename>

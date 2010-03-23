@@ -451,6 +451,7 @@ $lang['common']['Collaboration'] = 'Collaboration';
 $lang['common']['Communication'] = 'Communication';
 $lang['common']['Evaluation'] = 'Evaluation';
 $lang['common']['Research'] = 'Research';
+$lang['common']['Education'] = 'Education';
 $lang['common']['Social'] = 'Social';
 $lang['common']['Portfolio'] = 'Portfolio';
 $lang['common']['AlexiaE-Library'] = 'Alexia E-library';
