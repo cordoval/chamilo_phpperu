@@ -220,6 +220,8 @@ abstract class WeblcmsDataManager
 
     abstract function retrieve_active_course_types();
     
+    abstract function count_active_course_types();
+    
     abstract function retrieve_course_type_settings($id);
 
     abstract function retrieve_course_type_layout($id);

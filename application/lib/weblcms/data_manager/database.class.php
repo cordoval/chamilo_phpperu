@@ -271,6 +271,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         return $this->database->count_objects(CourseType :: get_table_name(), $condition);
     }
+    
+	function count_active_course_types()
+    {
+    	$condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
+        return $this->count_course_types($condition);
+    }
 
     function count_course_categories($condition = null)
     {

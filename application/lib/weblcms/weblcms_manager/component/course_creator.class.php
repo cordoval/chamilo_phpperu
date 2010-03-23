@@ -46,7 +46,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         $course = $this->get_course();
         $course_type_id = $course->get_course_type()->get_id();
         
-        if(empty($course_type_id) && WeblcmsDataManager :: get_instance()->count_course_types())
+        if(empty($course_type_id) && WeblcmsDataManager :: get_instance()->count_active_course_types())
         	$this->simple_redirect(array('go' => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE));
         else
         {        

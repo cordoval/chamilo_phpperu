@@ -307,6 +307,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
     	return $this->get_parent()->retrieve_active_course_types();
     }
+    
+    function count_active_course_types()
+    {
+    	return $this->get_parent()->count_active_course_types();
+    }
 
     /**
      * @see WeblcmsManager :: retrieve_course_user_relation()
