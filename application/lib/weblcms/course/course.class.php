@@ -678,6 +678,11 @@ class Course extends DataClass
         {
             return false;
         }
+        
+    	if(!$this->create_root_course_group())
+        {
+        	return false;
+        }
 
         return true;
     }
@@ -863,6 +868,14 @@ class Course extends DataClass
 //
 //        return $result;
 //    }
+
+    function create_root_course_group()
+    {
+    	$group = new CourseGroup();
+    	$group->set_course_code($this->get_id());
+    	$group->set_name($this->get_name());
+    	return $group->create();
+    }
 
 }
 ?>

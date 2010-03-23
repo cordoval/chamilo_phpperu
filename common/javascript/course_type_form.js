@@ -46,8 +46,8 @@ $(function ()
 	        	tool = elem.attr('class').split(' ').slice(-1);
 	        	image = $('.'+tool+'_image'); 
 	        	defaultimage = $('.'+tool+'elementdefault');
-	        	imagesrc = image_path + 'tool_' + tool + '.png';
-	        	imagesrcdisabled = image_path + 'tool_' + tool + '_na.png';
+	        	imagesrc = image_path + 'tool_mini_' + tool + '.png';
+	        	imagesrcdisabled = image_path + 'tool_mini_' + tool + '_na.png';
 			
 	  	      container.click(function() 
 	  	  	  {
@@ -55,8 +55,8 @@ $(function ()
 	  	  		    tool = elem.attr('class').split(' ').slice(-1);
 	  	  		    image = $('.'+tool+'_image'); 
 	  	  		    defaultimage = $('.'+tool+'elementdefault');
-	  	  		    imagesrc = image_path + 'tool_' + tool + '.png';
-	  	  		    imagesrcdisabled = image_path + 'tool_' + tool + '_na.png';
+	  	  		    imagesrc = image_path + 'tool_mini_' + tool + '.png';
+	  	  		    imagesrcdisabled = image_path + 'tool_mini_' + tool + '_na.png';
 
 	  	  		if (is_onstate)
 	  	  		{

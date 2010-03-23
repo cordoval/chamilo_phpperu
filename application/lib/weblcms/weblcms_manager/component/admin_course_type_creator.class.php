@@ -27,7 +27,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
         if ($this->get_user()->is_platform_admin())
         {
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('CourseType')));
+            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
         }
         else
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('CourseTypes')));
@@ -49,16 +49,13 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_CREATE, $coursetype, $this->get_url(), $this);
         else
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_EDIT, $coursetype, $this->get_url(), $this);
-
+	        
         if ($form->validate())
         {
 	        $success = $form->save_course_type();
 	        $array_type = array();
 	        $array_type['go'] = WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER;
-	        if($success ||  $form->get_form_type() == CourseTypeForm :: TYPE_EDIT)
-	        	$array_type['course_type'] = $coursetype->get_id();
-            $this->redirect(Translation :: get($success ? 'CourseTypeSaved' : 'CourseTypeNotSaved'), ($success ? false : true), $array_type );
-            //$this->redirect(Translation :: get($success ? 'CourseTypeCreated' : 'CourseTypeNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER, 'course_type' => $coursetype->get_id()));
+            $this->redirect(Translation :: get($success ? 'CourseTypeSaved' : 'CourseTypeNotSaved'), ($success ? false : true), $array_type,array(),false,Redirect::TYPE_LINK );
         }
         else
         {

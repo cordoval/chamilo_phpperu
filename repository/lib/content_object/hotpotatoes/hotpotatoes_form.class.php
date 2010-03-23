@@ -156,7 +156,8 @@ class HotpotatoesForm extends ContentObjectForm
         
         foreach ($entries as $entry)
         {
-            $filename = basename($entry);
+        	//$filename = basename($entry); dump($entry);
+        	$filename = substr($entry, strlen($dir)); dump($filename);
             $full_new_path = $full_path . $filename;
             $new_path = substr($full_new_path, strlen($hotpot_path));
             
@@ -166,7 +167,6 @@ class HotpotatoesForm extends ContentObjectForm
                 $return_path = $new_path;
             }
         }
-        
         Filesystem :: remove($dir);
         Filesystem :: remove($full_path . $zip_file_name);
         

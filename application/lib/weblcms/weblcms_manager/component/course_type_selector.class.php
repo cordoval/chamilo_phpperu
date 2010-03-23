@@ -50,7 +50,7 @@ class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManagerComponent
         $course_type_id = $this->get_course_type()->get_id();
         $form = new CourseTypeSelectForm($this->get_url());
         
-        if ($form->validate())
+        if ($form->validate() || $form->get_size()==1)
         {
             $this->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $form->get_selected_id()));
         }

@@ -24,7 +24,6 @@ class CourseTypeForm extends FormValidator
 		$this->form_type = $form_type;
 		$this->course_type = $course_type;
 		$this->parent = $parent;
-
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
 			$this->build_editing_form();
@@ -64,9 +63,9 @@ class CourseTypeForm extends FormValidator
 	{
 	    $tabs = array();
 	    $tabs[] = new FormValidatorTab('build_general_settings_form', 'General');
+	    $tabs[] = new FormValidatorTab('build_layout_form', 'Layout');
 	    $tabs[] = new FormValidatorTab('build_tools_form', 'Tools');
 	    $tabs[] = new FormValidatorTab('build_rights_form', 'RightsManagement');
-	    $tabs[] = new FormValidatorTab('build_layout_form', 'Layout');
 
 		$this->add_tabs($tabs, 0);
 	}
@@ -92,35 +91,45 @@ class CourseTypeForm extends FormValidator
 		    $element_name_arr = array('class'=>'iphone '.$tool);
 			$element_default_arr = array('class'=>'viewablecheckbox', 'style'=>'width=80%');
 			
-			foreach($course_type_tools as $course_type_tool)
+			if($this->form_type == self::TYPE_CREATE)
 			{
-			    if($tool ==  $course_type_tool->get_name())
-			    {
-			    	$element_name_arr['checked'] = "checked";
-					if($course_type_tool->get_visible_default())
-						$element_default_arr['checked'] = "checked";
-			    }
+				$element_name_arr['checked'] = "checked";
+				$element_default_arr['checked'] = "checked";
+			}
+			else
+			{
+				foreach($course_type_tools as $course_type_tool)
+				{
+				    if($tool ==  $course_type_tool->get_name())
+				    {
+				    	$element_name_arr['checked'] = "checked";
+						if($course_type_tool->get_visible_default())
+							$element_default_arr['checked'] = "checked";
+				    }
+				}
 			}
 			
-			$tool_image_src = Theme :: get_image_path() . 'tool_' . $tool . '.png';
+			$tool_image_src = Theme :: get_image_path() . 'tool_mini_' . $tool . '.png';
 			$tool_image = $tool . "_image";
 			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
 			$element_name = $tool . "element";
 			$element_default = $tool . "elementdefault";
 
-			$tool_data[] = '<div style="float: left;"/>'.$title.'</div><div style="float: right"><img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/></div>';
-			$tool_data[] = $this->createElement('checkbox', $element_name, $title, '', $element_name_arr)->toHtml();
-			$tool_data[] = '<div class="'.$element_default.'" style="margin: 0 auto"/>'.$this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', $element_default_arr)->toHtml().'</div>';
+			$tool_data[] = '<img class="' . $tool_image .'" src="' . $tool_image_src . '" style="vertical-align: middle;" alt="' . $title . '"/>';
+			$tool_data[] = $title;
+			$tool_data[] = '<div  style="margin: 0 auto; width: 50px;">'.$this->createElement('checkbox', $element_name, $title, '', $element_name_arr)->toHtml().'</div>';
+			$tool_data[] = '<div class="'.$element_default.'"/>'.$this->createElement('checkbox', $element_default, Translation :: get('IsVisible'),'', $element_default_arr)->toHtml().'</div>';
 			$count ++;
 
 			$data[] = $tool_data;
 		}
 
         $table = new SortableTableFromArray($data);
-        $table->set_header(0, Translation :: get('ToolName'), false);
-        $table->set_header(1, Translation :: get('IsToolAvailable'), false);
-        $table->set_header(2, Translation :: get('IsToolVisible'), false);
-        $this->addElement('html', $table->as_html());
+        $table->set_header(0, '', false);
+        $table->set_header(1, Translation :: get('Tool'), false);
+        $table->set_header(2, Translation :: get('IsToolAvailable'), false, null, array('style'=>'width: 35%;'));
+        $table->set_header(3, Translation :: get('IsToolVisible'), false, null, array('style'=>'width: 20%; text-align: center;'));
+        $this->addElement('html', '<div style="width:70%; margin-left: 15%;">'.$table->as_html().'</div>');
 
 		$this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
@@ -163,9 +172,6 @@ class CourseTypeForm extends FormValidator
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE_FIXED, Translation :: get('CourseManagerNameTitleVisible'));
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED, Translation :: get('CourseLanguageVisible'));
 	    $this->addElement('category');
-
-		$this->addElement('html', '<div style="clear: both;"></div>');
-		$this->addElement('html', '</div>');
 	}
 
 	function build_general_settings_form()
@@ -191,9 +197,11 @@ class CourseTypeForm extends FormValidator
         $choices = array();
         $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Unlimited'), 1, array('onclick' => 'javascript:window_hide(\'' . self :: UNLIMITED_MEMBERS . '_window\')', 'id' => self :: UNLIMITED_MEMBERS));
         $choices[] = $this->createElement('radio', self :: UNLIMITED_MEMBERS, '', Translation :: get('Limited'), 0, array('onclick' => 'javascript:window_show(\'' . self :: UNLIMITED_MEMBERS . '_window\')'));
-        $this->addGroup($choices, null, Translation :: get('MaximumNumberOfMembers'), '<br />', false);
+        $this->addGroup($choices, 'choices', Translation :: get('MaximumNumberOfMembers'), '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . self :: UNLIMITED_MEMBERS . '_window">');
         $this->add_textfield(CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS, null, false);
+        $this->registerRule('max_members', null, 'HTML_QuickForm_Rule_Max_Members', dirname(__FILE__) .'/max_members.rule.class.php');
+        $this->addRule(Array('choices',CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS), Translation :: get('IncorrectNumber'), 'max_members');
         $this->addElement('html', '</div>');
 
 		$this->addElement('category');
@@ -224,7 +232,7 @@ class CourseTypeForm extends FormValidator
 					}
 					/* ]]> */
 					</script>\n");
-	}
+	}	
 
 	function save_course_type()
 	{

@@ -457,7 +457,7 @@ abstract class ContentObjectPublicationListRenderer
 
     function get_feedback()
     {
-        if ($this->browser->get_parent()->get_course()->get_allow_feedback())
+        //if ($this->browser->get_parent()->get_course()->get_allow_feedback())
         {
             $fbm = new FeedbackManager($this->browser->get_parent(), WeblcmsManager :: APPLICATION_NAME);
             return $fbm->as_html();

@@ -12,6 +12,8 @@ class CourseTypeSelectForm extends FormValidator
 	const RESULT_SUCCESS = 'ObjectUpdated';
 	const RESULT_ERROR = 'ObjectUpdateFailed';
 
+	private $size;
+	
 	function CourseTypeSelectForm($action)
 	{
 		parent :: __construct('course_type_select', 'post', $action);
@@ -26,10 +28,9 @@ class CourseTypeSelectForm extends FormValidator
         $wdm = WeblcmsDataManager :: get_instance();
 		$course_type_objects = $wdm->retrieve_course_types();
         $course_types = array();
+        $this->size = $course_type_objects->size();
         while($course_type = $course_type_objects->next_result())
-        {
         	$course_types[$course_type->get_id()] = $course_type->get_name();
-        }
         
        	$this->addElement('select', 'CourseType', Translation :: get('CourseType'), $course_types);
         $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
@@ -44,6 +45,11 @@ class CourseTypeSelectForm extends FormValidator
 	{
 		$values = $this->exportValues();
 		return $values['CourseType'];
+	}
+	
+	function get_size()
+	{
+		return $this->size;	
 	}
 
 }
