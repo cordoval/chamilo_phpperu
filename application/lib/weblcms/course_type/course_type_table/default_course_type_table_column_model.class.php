@@ -25,6 +25,7 @@ class DefaultCourseTypeTableColumnModel extends ObjectTableColumnModel
         $columns = array();
         $columns[] = new ObjectTableColumn(CourseType :: PROPERTY_NAME);
         $columns[] = new ObjectTableColumn(CourseType :: PROPERTY_DESCRIPTION);
+        $columns[] = new ObjectTableColumn(CourseType :: PROPERTY_ACTIVE);
         return $columns;
     }
 }

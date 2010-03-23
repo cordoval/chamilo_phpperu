@@ -39,10 +39,10 @@ class WeblcmsManager extends WebApplication
 	const APPLICATION_NAME = 'weblcms';
 
 	const PARAM_COURSE = 'course';
+	const PARAM_ACTIVE = 'active';
 	const PARAM_COURSE_GROUP = 'course_group';
 	const PARAM_COURSE_TYPE = 'course_type';
 	const PARAM_USERS = 'users';
-	const PARAM_GROUP = 'group';
 	const PARAM_TOOL = 'tool';
 	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_CATEGORY = 'pcattree';
@@ -52,6 +52,8 @@ class WeblcmsManager extends WebApplication
 	const PARAM_DIRECTION = 'direction';
 	const PARAM_REMOVE_SELECTED = 'remove_selected';
 	const PARAM_REMOVE_SELECTED_COURSE_TYPES ='remove selected coursetypes';
+	const PARAM_ACTIVATE_SELECTED_COURSE_TYPES = 'activate selected coursetypes';
+	const PARAM_DEACTIVATE_SELECTED_COURSE_TYPES = 'deactivate selected coursetypes';
 	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED_AS_STUDENT = 'subscribe_selected_as_student';
@@ -84,6 +86,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
 	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
 	const ACTION_REPORTING = 'reporting';
+	const ACTION_CHANGE_ACTIVATION = 'change activation';
 
 	const ACTION_RENDER_BLOCK = 'block';
 
@@ -216,6 +219,9 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_EDIT_INTRODUCTION :
 				$component = WeblcmsManagerComponent :: factory('IntroductionEditor', $this);
 				break;
+			case self :: ACTION_CHANGE_ACTIVATION :
+                $component = UserManagerComponent :: factory('ActiveChanger', $this);
+                break;
 			case self :: ACTION_REPORTING :
 				$component = WeblcmsManagerComponent :: factory('Reporting', $this);
 				break;
@@ -1367,7 +1373,7 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_group_ids = array($selected_group_ids);
 			}
-
+			
 			$selected_course_type_ids = $_POST[AdminCourseTypeBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty($selected_course_type_ids))
 			{
@@ -1410,6 +1416,16 @@ class WeblcmsManager extends WebApplication
 					$this->set_action(self :: ACTION_DELETE_COURSE_TYPE);
 					Request :: set_get(self :: PARAM_COURSE_TYPE, $selected_course_type_ids);
 					break;
+				case self :: PARAM_ACTIVATE_SELECTED_COURSE_TYPES :
+					$this->set_action(self :: ACTION_CHANGE_ACTIVATION);
+					Request :: set_get(self :: PARAM_COURSE_TYPE, $selected_course_type_ids);
+					Request :: set_get(self :: PARAM_ACTIVE, 1);
+					break;
+				case self :: PARAM_DEACTIVATE_SELECTED_COURSE_TYPES :
+					$this->set_action(self :: ACTION_CHANGE_ACTIVATION);
+					Request :: set_get(self :: PARAM_COURSE_TYPE, $selected_course_type_ids);
+					Request :: set_get(self :: PARAM_ACTIVE, 0);
+					break;					
 			}
 		}
 	}

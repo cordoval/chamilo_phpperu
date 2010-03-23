@@ -180,6 +180,7 @@ class CourseTypeForm extends FormValidator
 		$this->addElement('category', Translation :: get('CourseTypeOnly'));
 		$this->add_textfield(CourseType :: PROPERTY_NAME, Translation :: get('CourseTypeName'));
 		$this->add_html_editor(CourseType :: PROPERTY_DESCRIPTION, Translation :: get('CourseTypeDescription'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));
+		$this->addElement('checkbox', CourseType :: PROPERTY_ACTIVE, Translation :: get('CourseTypeActive'));
 		$this->addElement('category');
 
 		// Course settings
@@ -360,6 +361,7 @@ class CourseTypeForm extends FormValidator
 		//$course_type->set_id($values[CourseType :: PROPERTY_ID]);
 		$course_type->set_name($values[CourseType :: PROPERTY_NAME]);
 		$course_type->set_description($values[CourseType :: PROPERTY_DESCRIPTION]);
+		$course_type->set_active($values[CourseType :: PROPERTY_ACTIVE]);
 		return $course_type;
 	}
 
@@ -445,6 +447,7 @@ class CourseTypeForm extends FormValidator
 		$course_type = $this->course_type;
 		$defaults[CourseType :: PROPERTY_NAME] = $course_type->get_name();
 		$defaults[CourseType :: PROPERTY_DESCRIPTION] = $course_type->get_description();
+		$defaults[CourseType :: PROPERTY_ACTIVE] = $course_type->get_active();
 
 		$course_type_id = $course_type->get_settings()->get_course_type_id();
 		$course_type_settings = $course_type->get_settings();

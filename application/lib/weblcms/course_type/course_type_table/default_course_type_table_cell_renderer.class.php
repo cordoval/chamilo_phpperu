@@ -18,17 +18,17 @@ class DefaultCourseTypeTableCellRenderer implements ObjectTableCellRenderer
 
     /**
      * Renders a table cell
-     * @param CourseTableColumnModel $column The column which should be
+     * @param CourseTypeTableColumnModel $column The column which should be
      * rendered
-     * @param Course $course The course object to render
+     * @param CourseType $course_type The course_type object to render
      * @return string A HTML representation of the rendered table cell
      */
     function render_cell($column, $course_type)
     {
         switch ($column->get_name())
         {
-              case CourseType :: PROPERTY_ID :
-                  return $course_type->get_id();
+            case CourseType :: PROPERTY_ID :
+                return $course_type->get_id();
                 
             //case Course :: PROPERTY_VISUAL :
             //    return $course->get_visual();
@@ -38,6 +38,17 @@ class DefaultCourseTypeTableCellRenderer implements ObjectTableCellRenderer
                 
             case CourseType :: PROPERTY_DESCRIPTION :
             	return $course_type->get_description();
+            	
+            case CourseType :: PROPERTY_ACTIVE :
+            	//return $course_type->get_active();
+            	if($course_type->get_active())
+            	{
+            		Return Translation :: get('True');
+            	}
+            	else
+            	{
+            		Return Translation :: get('False');
+            	}
             /*
             case Course :: PROPERTY_TITULAR :
                 $titular = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
