@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../indicator.class.php';
+require_once dirname(__FILE__) . '/../indicator_criteria.class.php';
 /**
  * This class describes a IndicatorForm object
  * 

@@ -241,8 +241,8 @@ class CriteriaForm extends FormValidator
 		$criteria = $this->criteria;
 		
 		$criteria_score = $this->criteria_score;
-		dump($criteria_score);
-		exit();
+		//dump($criteria_score);
+		//exit();
 		//$criteria_score = new CriteriaScore();
 		//$criteria_score->set_description_score('test'); 		
 		/*$values = $this->exportValues();

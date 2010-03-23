@@ -3,6 +3,8 @@ require_once dirname(__FILE__).'/../competency.class.php';
 require_once dirname(__FILE__).'/../indicator.class.php';
 require_once dirname(__FILE__).'/../criteria.class.php';
 require_once dirname(__FILE__).'/../criteria_score.class.php';
+require_once dirname(__FILE__).'/../competency_indicator.class.php';
+require_once dirname(__FILE__).'/../indicator_criteria.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -23,6 +25,8 @@ class DatabaseCbaDataManager extends CbaDataManager
 		$aliases[Indicator :: get_table_name()] = 'indicator';
 		$aliases[Criteria :: get_table_name()] = 'criteria';
 		$aliases[CriteriaScore :: get_table_name()] = 'criteria_score';
+		$aliases[CompetencyIndicator :: get_table_name()] = 'competency_indicator';
+		$aliases[IndicatorCriteria :: get_table_name()] = 'indicator_criteria';
 
 		$this->database = new Database($aliases);
 		$this->database->set_prefix('cba_');
@@ -71,6 +75,11 @@ class DatabaseCbaDataManager extends CbaDataManager
 	function retrieve_competencys($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return $this->database->retrieve_objects(Competency :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+	}
+	
+	function count_competencys_indicator($condition = null)
+	{
+		return $this->database->count_objects(CompetencyIndicator :: get_table_name(), $condition);
 	}
 	
 	

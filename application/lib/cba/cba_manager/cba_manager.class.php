@@ -20,7 +20,9 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	const PARAM_COMPETENCY = 'competency';
 	const PARAM_INDICATOR = 'indicator';
 	const PARAM_CRITERIA = 'criteria';
-	const PARAM_CRITERIA_SCORE = 'criteria_score';
+	const PARAM_CRITERIA_SCORE = 'criteria_score';	
+	const PARAM_COMPETENCY_INDICATOR = 'competency_indicator';
+	const PARAM_INDICATOR_CRITERIA = 'indicator_criteria';
 	
 	const PARAM_CONTENT_OBJECT_TYPE = 'type';
 	const PARAM_CONTENT_OBJECT_ID = 'object';
@@ -350,6 +352,38 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	{
 		return CbaDataManager :: get_instance()->retrieve_criteria_score($id);
 	}
+	
+ 	// Competency Indicator
+ 	function count_competencys_indicator($condition)
+	{
+		return CbaDataManager :: get_instance()->count_competencys_indicator($condition);
+	}
+	
+ 	/*function retrieve_competencys_indicator($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return CbaDataManager :: get_instance()->retrieve_competencys_indicator($condition, $offset, $count, $order_property);
+	}
+	
+ 	function retrieve_competency_indicator($id)
+	{
+		return CbaDataManager :: get_instance()->retrieve_competency_indicator($id);
+	}*/
+	
+ 	// Indicator Criteria
+ 	/*function count_indicators_criteria($condition)
+	{
+		return CbaDataManager :: get_instance()->count_indicators_criteria($condition);
+	}
+	
+ 	function retrieve_indicators_criteria($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return CbaDataManager :: get_instance()->retrieve_indicators_criteria($condition, $offset, $count, $order_property);
+	}
+	
+ 	function retrieve_indicator_criteria($id)
+	{
+		return CbaDataManager :: get_instance()->retrieve_indicator_criteria($id);
+	}*/
 
 	
 	// Url Creation

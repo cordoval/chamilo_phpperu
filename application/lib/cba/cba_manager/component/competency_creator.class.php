@@ -18,12 +18,18 @@ class CbaManagerCompetencyCreatorComponent extends CbaManagerComponent
 		$this->display_header($trail, false, true);
 		
 		$competency = new Competency();
+		$competency_indicator = new CompetencyIndicator();
 		$competency->set_owner_id($this->get_user_id());
-		$form = new CompetencyForm(CompetencyForm :: TYPE_CREATOR_COMPETENCY, $competency, $this->get_url(), $this->get_user());
+		$form = new CompetencyForm(CompetencyForm :: TYPE_CREATOR_COMPETENCY, $competency, $competency_indicator, $this->get_url(), $this->get_user());
 
 		if($form->validate())
 		{
-			$success = $form->create_competency();
+			$success_competency = $form->create_competency();
+			$success_competency_indicator = $form->create_competency_indicator();
+			//dump($success_competency_indicator);
+			//exit();
+			if($success_competency == $success_competency_indicator)
+				$success = 1;
 			$this->redirect($success ? Translation :: get('CompetencyCreated') : Translation :: get('CompetencyNotCreated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY));
 		}
 		else
