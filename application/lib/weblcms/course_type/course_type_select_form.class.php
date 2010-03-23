@@ -30,7 +30,7 @@ class CourseTypeSelectForm extends FormValidator
 		$this->addElement('hidden', Course :: PROPERTY_ID);
 		
         $wdm = WeblcmsDataManager :: get_instance();
-		$course_type_objects = $wdm->retrieve_course_types();
+		$course_type_objects = $wdm->retrieve_active_course_types();
         $course_types = array();
         $this->size = $course_type_objects->size();
         if($this->size == 1)

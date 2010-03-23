@@ -924,9 +924,18 @@ class WeblcmsManager extends WebApplication
 
     function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null)
     {
-    	return WeblcmsDataManager :: get_instance()->retrieve_course_types($condition, $offset, $count, $order_property);
+    		return WeblcmsDataManager :: get_instance()->retrieve_course_types($condition, $offset, $count, $order_property);
     }
-
+    
+    function retrieve_active_course_types()
+    {
+		return WeblcmsDataManager :: get_instance()->retrieve_active_course_type();
+    }
+    
+    function count_active_course_types()
+    {
+    	return WeblcmsDataManager :: get_instance()->count_active_course_type();
+    }
 	/**
 	 * Retrieves a single course category from persistent storage.
 	 * @param string $category_code The alphanumerical identifier of the course category.
@@ -1498,7 +1507,7 @@ class WeblcmsManager extends WebApplication
 		$links[] = array('name' => Translation :: get('CourseTypelist'), 'description' => Translation :: get('CourseTypeListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)));
 		$links[] = array('name' => Translation :: get('CreateType'), 'description' => Translation :: get('CreateTypeDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));
 		$links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
-		$links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE)));
+		$links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
 		$links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
 		$links[] = array('name' => Translation :: get('CourseCategoryManagement'), 'description' => Translation :: get('CourseCategoryManagementDescription'), 'action' => 'category', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)));
 		$links[] = array('name' => Translation :: get('UserImport'), 'description' => Translation :: get('UserImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
