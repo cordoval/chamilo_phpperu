@@ -20,6 +20,10 @@ class CbaManagerCriteriaEditorComponent extends CbaManagerComponent
 		
 		$criteria = $this->retrieve_criteria(Request :: get(CbaManager :: PARAM_CRITERIA));
 		$criteria_score = $this->retrieve_criteria_score(Request :: get(CbaManager :: PARAM_CRITERIA_SCORE));
+		$i = 0;
+		$test = $defaults[CriteriaScore :: PROPERTY_SCORE . $i] = $criteria_score->get_description_score();
+		echo $test;
+		exit();
 		$form = new CriteriaForm(CriteriaForm :: TYPE_EDITOR_CRITERIA, $criteria, $criteria_score, $this->get_url(array(CbaManager :: PARAM_CRITERIA => $criteria->get_id())), $this->get_user());
 
 		if($form->validate())
