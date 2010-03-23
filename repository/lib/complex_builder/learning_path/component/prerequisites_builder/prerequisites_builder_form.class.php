@@ -230,8 +230,16 @@ class PrerequisitesBuilderForm extends FormValidator
         while ($sibbling = $siblings_list->next_result())
         {
             $lo = $rdm->retrieve_content_object($sibbling->get_ref());
+            
+            if($lo->get_type() == 'learning_path')
+            {
+            	continue;
+            }
+            
             if ($lo->get_type() == 'learning_path_item')
+            {
                 $lo = $rdm->retrieve_content_object($lo->get_reference());
+            }
 
             $siblings[$sibbling->get_id()] = $lo->get_title();
         }
