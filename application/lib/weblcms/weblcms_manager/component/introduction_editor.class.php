@@ -37,21 +37,7 @@ class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManagerComponent
         {
             $trail = new BreadcrumbTrail();
             
-            switch ($this->get_course()->get_breadcrumb())
-            {
-                case Course :: BREADCRUMB_TITLE :
-                    $title = $this->get_course()->get_name();
-                    break;
-                case Course :: BREADCRUMB_CODE :
-                    $title = $this->get_course()->get_visual();
-                    break;
-                case Course :: BREADCRUMB_COURSE_HOME :
-                    $title = Translation :: get('CourseHome');
-                    break;
-                default :
-                    $title = $this->get_course()->get_visual();
-                    break;
-            }
+            $title = CourseLayout :: get_title($this->get_course());
             
             $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
             $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE)), $title));
