@@ -170,13 +170,22 @@ function dump_tree($users, $groups_tree)
     {
         if (contains_results($users))
         {
-            echo '<node id="user" classes="category unlinked" title="Users">', "\n";
+            echo '<node id="user" classes="category unlinked" title="'. Translation :: get('Users') .'">', "\n";
             foreach ($users as $user)
             {
                 echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($user->get_username()) . '" description="' . htmlentities($user->get_fullname()) . '"/>' . "\n";
             }
             echo '</node>', "\n";
         }
+
+//        if (contains_results($platform_groups))
+//        {
+            echo '<node id="platform_group" classes="category unlinked" title="'. Translation :: get('LinkedPlatformGroups') .'">', "\n";
+//            echo '<leaf id="platform_group_1" classes="' . 'type type_group' . '" title="Test" description="Test"/>' . "\n";
+//            echo '<leaf id="group_' . $group['group']->get_id() . '" classes="' . 'type type_group' . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '"/>' . "\n";
+            dump_platform_groups_tree();
+            echo '</node>', "\n";
+//        }
 
         if (contains_results($groups_tree))
         {
@@ -187,6 +196,49 @@ function dump_tree($users, $groups_tree)
             dump_groups_tree($groups_tree);
             echo '</node>', "\n";
         }
+    }
+}
+
+function dump_platform_groups_tree()
+{
+    global $course, $user_condition;
+    $group_relations = $course->get_subscribed_groups();
+
+    foreach($group_relations as $group_relation)
+    {
+        $group = $group_relation->get_group_object();
+
+        echo '<node id="platform_group_' . $group->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group->get_name()) . '" description="' . htmlspecialchars($group->get_name()) . '">', "\n";
+        $user_ids = $group->get_users(true, true);
+
+//        dump($user_ids);
+//        exit;
+
+        if (!is_null($user_condition))
+        {
+            $group_user_condition = new AndCondition($user_condition, new InCondition(User :: PROPERTY_ID, $user_ids));
+        }
+        else
+        {
+            $group_user_condition = new InCondition(User :: PROPERTY_ID, $user_ids);
+        }
+
+        $users = UserDataManager :: get_instance()->retrieve_users($group_user_condition, 0, 0);
+
+        while($user = $users->next_result())
+        {
+            echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($user->get_username()) . '" description="' . htmlentities($user->get_fullname()) . '"/>' . "\n";
+        }
+
+        echo '</node>', "\n";
+
+//        $sub_menu_item = array();
+//        $sub_menu_item['title'] = $group->get_name();
+//        $sub_menu_item['url'] = $this->get_url($group->get_id());
+//        $sub_menu_item['class'] = 'category';
+//        $sub_menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
+//
+//        $sub_menu_items[] = $sub_menu_item;
     }
 }
 
