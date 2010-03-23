@@ -68,7 +68,7 @@ class ConditionTranslator
 
         if ($aggregate_condition instanceof AndCondition || $aggregate_condition instanceof OrCondition)
         {
-            $cond = array();
+            $condition_translations = array();
             $count = 0;
 
             foreach ($aggregate_condition->get_conditions() as $key => $condition)
@@ -78,35 +78,19 @@ class ConditionTranslator
 
                 if (! empty($translation))
                 {
-                    $string .= $translation;
-
-                    if ($count < count($aggregate_condition->get_conditions()))
-                    {
-                        $string .= $aggregate_condition->get_operator();
-                    }
-
+                    $condition_translations[] = $translation;
+//                    $string .= $translation;
+//
+//                    if ($count < count($aggregate_condition->get_conditions()))
+//                    {
+//                        $string .= $aggregate_condition->get_operator();
+//                    }
                 }
 
 //                if ($count < count($aggregate_condition->get_conditions()))
 //                {
 //                    $conditions = $aggregate_condition->get_conditions();
 //                    $next_condition = $conditions[$key + 1];
-//
-//                    if ($translation == 'coer.`user_id` IN (\'2\')')
-//                    {
-//                        dump($conditions);
-//                        dump($this->translate($next_condition));
-//                        exit;
-//                    }
-//
-//                    if ($next_condition instanceof InCondition && $this->translate($next_condition) === '')
-//                    {
-//                        dump('EMPTY');
-//                    }
-//                    else
-//                    {
-//                       $string .= $aggregate_condition->get_operator();
-//                    }
 //
 //                    if (!($next_condition instanceof InCondition && $this->translate($next_condition) === ''))
 //                    {
@@ -115,9 +99,11 @@ class ConditionTranslator
 //                }
             }
 
-            if (! empty($string))
+//            if (!empty($string))
+            if (count($condition_translations) > 0)
             {
-                $string = '(' . $string . ')';
+//                $string = '(' . $string . ')';
+                $string = '(' . implode($aggregate_condition->get_operator(), $condition_translations) . ')';
             }
         }
         elseif ($aggregate_condition instanceof NotCondition)
