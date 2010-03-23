@@ -102,7 +102,7 @@ class ContentObjectCopier
         // Replace some properties
         $co->set_owner_id($this->target_repository);
         $co->set_parent_id(0);
-        
+    
         // Create object
         if (! $co->create())
         {
@@ -173,7 +173,8 @@ class ContentObjectCopier
     {
         foreach ($includes as $include)
         {
-            $new_include_id = $this->create_content_object($include);
+            $object = $this->rdm->retrieve_content_object($include->get_id());
+        	$new_include_id = $this->create_content_object($object);
             $co->include_content_object($new_include_id);
         }
     }
@@ -188,7 +189,8 @@ class ContentObjectCopier
     {
         foreach ($attachments as $attachment)
         {
-            $new_attachment_id = $this->create_content_object($attachment);
+            $object = $this->rdm->retrieve_content_object($attachment->get_id());
+        	$new_attachment_id = $this->create_content_object($object);
             $co->attach_content_object($new_attachment_id);
         }
     }
@@ -316,14 +318,15 @@ class ContentObjectCopier
         
         $fields = $co->get_html_editors();
         
-        $pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
+        //$pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
+        $pattern = '/http:\/\/.*\/core.php?go=document_downloader&display=1&object=[0-9]*&application=repository/';
         foreach ($fields as $field)
         {
-            $value = $co->get_default_property($field);
+            $value = $co->get_default_property($field); dump($value);
             $value = preg_replace_callback($pattern, array($this, 'fix_link_matches'), $value);
             $co->set_default_property($field, $value);
         }
-        
+
         $co->update();
     }
 
