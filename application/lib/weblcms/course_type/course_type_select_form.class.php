@@ -9,10 +9,14 @@ class CourseTypeSelectForm extends FormValidator
 
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
+	
 	const RESULT_SUCCESS = 'ObjectUpdated';
 	const RESULT_ERROR = 'ObjectUpdateFailed';
 
+	const SELECT_ELEMENT = 'course_type';
+	
 	private $size;
+	private $single_course_type_id;
 	
 	function CourseTypeSelectForm($action)
 	{
@@ -29,10 +33,15 @@ class CourseTypeSelectForm extends FormValidator
 		$course_type_objects = $wdm->retrieve_course_types();
         $course_types = array();
         $this->size = $course_type_objects->size();
-        while($course_type = $course_type_objects->next_result())
-        	$course_types[$course_type->get_id()] = $course_type->get_name();
+        if($this->size == 1)
+        	$this->single_course_type_id = $course_type_objects->next_result()->get_id();
+        else
+        {
+        	while($course_type = $course_type_objects->next_result())
+        		$course_types[$course_type->get_id()] = $course_type->get_name();
+        }
         
-       	$this->addElement('select', 'CourseType', Translation :: get('CourseType'), $course_types);
+       	$this->addElement('select', self::SELECT_ELEMENT, Translation :: get('CourseType'), $course_types);
         $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'positive update'));
@@ -43,8 +52,14 @@ class CourseTypeSelectForm extends FormValidator
 	
 	function get_selected_id()
 	{
-		$values = $this->exportValues();
-		return $values['CourseType'];
+		
+		if($this->size!=1)
+		{
+			$values = $this->exportValues();
+			return $values[self::SELECT_ELEMENT];
+		}
+		else
+			return $this->single_course_type_id;
 	}
 	
 	function get_size()

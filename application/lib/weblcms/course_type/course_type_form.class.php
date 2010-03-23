@@ -398,9 +398,9 @@ class CourseTypeForm extends FormValidator
 		$values = $this->exportValues();
 		$course_type_layout = $course_type->get_layout_settings();
 		$course_type_layout->set_course_type_id($this->course_type->get_id());
-		$course_type_layout->set_intro_text($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT]);
+		$course_type_layout->set_intro_text($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT]));
 		$course_type_layout->set_intro_text_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED]));
-		$course_type_layout->set_student_view($values[CourseTypeLayout :: PROPERTY_STUDENT_VIEW]);
+		$course_type_layout->set_student_view($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_STUDENT_VIEW]));
 		$course_type_layout->set_student_view_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_STUDENT_VIEW_FIXED]));
 		$course_type_layout->set_layout($values[CourseTypeLayout :: PROPERTY_LAYOUT]);
 		$course_type_layout->set_layout_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_LAYOUT_FIXED]));
@@ -410,13 +410,13 @@ class CourseTypeForm extends FormValidator
 		$course_type_layout->set_menu_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_MENU_FIXED]));
 		$course_type_layout->set_breadcrumb($values[CourseTypeLayout :: PROPERTY_BREADCRUMB]);
 		$course_type_layout->set_breadcrumb_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED]));
-		$course_type_layout->set_feedback($values[CourseTypeLayout :: PROPERTY_FEEDBACK]);
+		$course_type_layout->set_feedback($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_FEEDBACK]));
 		$course_type_layout->set_feedback_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED]));
-		$course_type_layout->set_course_code_visible($values[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE]);
+		$course_type_layout->set_course_code_visible($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE]));
 		$course_type_layout->set_course_code_visible_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE_FIXED]));
-		$course_type_layout->set_course_manager_name_visible($values[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE]);
+		$course_type_layout->set_course_manager_name_visible($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE]));
 		$course_type_layout->set_course_manager_name_visible_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE_FIXED]));
-		$course_type_layout->set_course_languages_visible($values[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]);
+		$course_type_layout->set_course_languages_visible($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]));
 		$course_type_layout->set_course_languages_visible_fixed($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED]));
 
 		return $course_type_layout;

@@ -251,11 +251,11 @@ class CourseForm extends FormValidator
 		$this->addElement('category', Translation :: get('Functionality'));
 		if (PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME))
 		{
-		$feedback_disabled = $this->course->get_feedback_fixed();
-		$attr_array = array();
-		if($feedback_disabled)
-				$attr_array = array('disabled' => 'disabled');
-		$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), '', $attr_array);
+			$feedback_disabled = $this->course->get_feedback_fixed();
+			$attr_array = array();
+			if($feedback_disabled)
+					$attr_array = array('disabled' => 'disabled');
+			$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), '', $attr_array);
 		}
 
 		$intro_text_disabled = $this->course->get_intro_text_fixed();
@@ -458,36 +458,34 @@ class CourseForm extends FormValidator
 	{
 		$course = $this->course;
 		$values = $this->exportValues();
-		$course_settings = $course->get_settings();
-		$course_settings->set_course_id($course->get_id());
-		$course_settings->set_language($values[CourseTypeSettings :: PROPERTY_LANGUAGE]);
-		$course_settings->set_visibility($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY]));
-		$course_settings->set_access($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
+		$course->get_settings()->set_course_id($course->get_id());
+		$course->set_language($values[CourseTypeSettings :: PROPERTY_LANGUAGE]);
+		$course->set_visibility($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY]));
+		$course->set_access($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
 		if($values[self::UNLIMITED_MEMBERS])
 			$members = 0;
 		else
 			$members = $values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS];
-		$course_settings->set_max_number_of_members($members);
-		return $course_settings;
+		$course->set_max_number_of_members($members);
+		return $course->get_settings();
 	}
 
 	function fill_course_layout()
 	{
 		$course = $this->course;
 		$values = $this->exportValues();
-		$course_layout = $course->get_layout_settings();
-		$course_layout->set_course_id($this->course->get_id());	
-		$course_layout->set_intro_text($values[CourseLayout :: PROPERTY_INTRO_TEXT]);
-		$course_layout->set_student_view($values[CourseLayout :: PROPERTY_STUDENT_VIEW]);
-		$course_layout->set_layout($values[CourseLayout :: PROPERTY_LAYOUT]);
-		$course_layout->set_tool_shortcut($values[CourseLayout :: PROPERTY_TOOL_SHORTCUT]);
-		$course_layout->set_menu($values[CourseLayout :: PROPERTY_MENU]);
-		$course_layout->set_breadcrumb($values[CourseLayout :: PROPERTY_BREADCRUMB]);
-		$course_layout->set_feedback($values[CourseLayout :: PROPERTY_FEEDBACK]);
-		$course_layout->set_course_code_visible($values[CourseLayout :: PROPERTY_COURSE_CODE_VISIBLE]);
-		$course_layout->set_course_manager_name_visible($values[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE]);
-		$course_layout->set_course_languages_visible($values[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]);
-		return $course_layout;
+		$course->get_layout_settings()->set_course_id($this->course->get_id());	
+		$course->set_intro_text($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_INTRO_TEXT]));
+		$course->set_student_view($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_STUDENT_VIEW]));
+		$course->set_layout($values[CourseLayout :: PROPERTY_LAYOUT]);
+		$course->set_tool_shortcut($values[CourseLayout :: PROPERTY_TOOL_SHORTCUT]);
+		$course->set_menu($values[CourseLayout :: PROPERTY_MENU]);
+		$course->set_breadcrumb($values[CourseLayout :: PROPERTY_BREADCRUMB]);
+		$course->set_feedback($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_FEEDBACK]));
+		$course->set_course_code_visible($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_COURSE_CODE_VISIBLE]));
+		$course->set_course_manager_name_visible($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE]));
+		$course->set_course_languages_visible($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]));
+		return $course->get_layout_settings();
 	}
 
 	function fill_course_tools($tools)

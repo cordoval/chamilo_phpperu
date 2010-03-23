@@ -397,6 +397,8 @@ class Course extends DataClass
     {
     	if(!$this->get_language_fixed())
         	$this->settings->set_language($language);
+        else
+        	$this->settings->set_language($this->course_type->get_settings()->get_language());
     }
 
     function get_visibility_fixed()
@@ -408,6 +410,8 @@ class Course extends DataClass
     {
 		if(!$this->get_visibility_fixed())
         	$this->settings->set_visibility($visibility);
+        else
+        	$this->settings->set_visibility($this->course_type->get_settings()->get_visibility());
     }
 
     function get_access_fixed()
@@ -419,6 +423,8 @@ class Course extends DataClass
     {
 		if(!$this->get_access_fixed())
         	$this->settings->set_access($access);
+        else
+        	$this->settings->set_access($this->course_type->get_settings()->get_access());
     }
 
     function get_max_number_of_members_fixed($max_number_of_members)
@@ -430,6 +436,8 @@ class Course extends DataClass
     {
 		if(!$this->get_max_number_of_members_fixed())
         	$this->settings->set_max_number_of_members($max_number_of_members);
+        else
+        	$this->settings->set_max_number_of_members($this->course_type->get_settings()->get_max_number_of_members());
     }
 
     /**
@@ -532,6 +540,8 @@ class Course extends DataClass
     {
     	if(!$this->get_feedback_fixed())
     		$this->get_layout_settings()->set_feedback($feedback);
+    	else
+        	$this->get_layout_settings()->set_feedback($this->course_type->get_layout_settings()->get_feedback());
     }
 
     function get_layout_fixed()
@@ -543,6 +553,8 @@ class Course extends DataClass
     {
     	if(!$this->get_layout_fixed())
     		$this->get_layout_settings()->set_layout($layout);
+    	else
+        	$this->get_layout_settings()->set_layout($this->course_type->get_layout_settings()->get_layout());
     }
 
     function get_tool_shortcut_fixed()
@@ -554,6 +566,8 @@ class Course extends DataClass
     {
     	if(!$this->get_tool_shortcut_fixed())
     		$this->get_layout_settings()->set_tool_shortcut($tool_shortcut);
+    	else
+        	$this->get_layout_settings()->set_tool_shortcut($this->course_type->get_layout_settings()->get_tool_shortcut());
     }
 
     function get_menu_fixed()
@@ -565,6 +579,8 @@ class Course extends DataClass
     {
     	if(!$this->get_menu_fixed())
     		$this->get_layout_settings()->set_menu($menu);
+    	else
+        	$this->get_layout_settings()->set_menu($this->course_type->get_layout_settings()->get_menu());
     }
 
     function get_breadcrumb_fixed()
@@ -576,6 +592,8 @@ class Course extends DataClass
     {
     	if(!$this->get_breadcrumb_fixed())
     		$this->get_layout_settings()->set_breadcrumb($breadcrumb);
+    	else
+        	$this->get_layout_settings()->set_breadcrumb($this->course_type->get_layout_settings()->get_breadcrumb());
     }
 
     function get_intro_text_fixed()
@@ -587,6 +605,8 @@ class Course extends DataClass
     {
     	if(!$this->get_intro_text_fixed())
     		$this->get_layout_settings()->set_intro_text($intro_text);
+    	else
+        	$this->get_layout_settings()->set_intro_text($this->course_type->get_layout_settings()->get_intro_text());
     }
 
     function get_student_view_fixed()
@@ -598,6 +618,8 @@ class Course extends DataClass
     {
     	if(!$this->get_student_view_fixed())
     		$this->get_layout_settings()->set_student_view($student_view);
+    	else
+        	$this->get_layout_settings()->set_student_view($this->course_type->get_layout_settings()->get_student_view());
     }
 
     function get_course_code_visible_fixed()
@@ -609,6 +631,8 @@ class Course extends DataClass
     {
     	if(!$this->get_course_code_visible_fixed())
     		$this->get_layout_settings()->set_course_code_visible($course_code_visible);
+    	else
+        	$this->get_layout_settings()->set_course_code_visible($this->course_type->get_layout_settings()->get_course_code_visible());
     }
 
     function get_course_manager_name_visible_fixed()
@@ -620,6 +644,8 @@ class Course extends DataClass
     {
     	if(!$this->get_course_manager_name_visible_fixed())
     		$this->get_layout_settings()->set_course_manager_name_visible($course_manager_name_visible);
+    	else
+        	$this->get_layout_settings()->set_course_manager_name_visible($this->course_type->get_layout_settings()->get_course_manager_name_visible());
     }
 
     function get_course_languages_visible_fixed()
@@ -631,6 +657,8 @@ class Course extends DataClass
     {
     	if(!$this->get_course_languages_visible_fixed())
     		$this->get_layout_settings()->set_course_languages_visible($course_languages_visible);
+    	else
+        	$this->get_layout_settings()->set_course_languages_visible($this->course_type->get_layout_settings()->get_course_languages_visible());
     }
 
     /**

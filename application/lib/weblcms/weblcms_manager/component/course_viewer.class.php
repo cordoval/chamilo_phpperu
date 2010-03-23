@@ -156,21 +156,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				$this->set_parameter('tool_action', null);
 				$this->set_parameter('course_group', null);
 
-				switch ($this->get_course()->get_breadcrumb())
-				{
-					case CourseLayout :: BREADCRUMB_TITLE :
-						$title = $this->get_course()->get_name();
-						break;
-					case CourseLayout :: BREADCRUMB_CODE :
-						$title = $this->get_course()->get_visual();
-						break;
-					case CourseLayout :: BREADCRUMB_COURSE_HOME :
-						$title = Translation :: get('CourseHome');
-						break;
-					default :
-						$title = $this->get_course()->get_visual();
-						break;
-				}
+				$title = CourseLayout :: get_title($this->get_course());
 
 				if (Request :: get('previous') == 'admin')
 				{
@@ -210,7 +196,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				{
 					echo '<div id="tool_browser">';
 				}
-				if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+				if ($this->get_course()->get_intro_text())
 				{
 					echo $this->display_introduction_text();
 					echo '<div class="clear"></div>';

@@ -91,9 +91,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_RENDER_BLOCK = 'block';
 
 	/**
-	 * The tools that this application offers.
-	 * According to me (Tristan) these are not the tools the application offers
-	 * but the tools the course offers.
+	 * The tools that this course offers.
 	 */
 	private $tools;
 	/**
@@ -544,8 +542,7 @@ class WeblcmsManager extends WebApplication
 	}
 
 	/**
-	 * Loads the tools installed on the system.
-	 * According to me (Tristan) this only loads/ or should load the tools availble to the course.
+	 * Loads the tools available to the course.
 	 */
 	function load_tools()
 	{
@@ -631,21 +628,32 @@ class WeblcmsManager extends WebApplication
 			$wdm = WeblcmsDataManager :: get_instance();
 			$course_type = $wdm->retrieve_course_type($id);
 			if(empty($course_type))
-				$this->redirect(Translation :: get('CourseTypeDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
-			$course_type->set_settings($wdm->retrieve_course_type_settings($id));
-			$course_type->set_layout_settings($wdm->retrieve_course_type_layout($id));
-			$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
-			$course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));
+			{
+				return $this->load_empty_course_type();
+				//$this->redirect(Translation :: get('CourseTypeDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+			}
+			else
+			{
+				$course_type->set_settings($wdm->retrieve_course_type_settings($id));
+				$course_type->set_layout_settings($wdm->retrieve_course_type_layout($id));
+				$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
+				$course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));
+			}
 		}
 		else
 		{
-			$course_type = new CourseType();
-			$course_type->set_settings(new CourseTypeSettings());
-			$course_type->set_layout_settings(new CourseTypeLayout());
+			$course_type = $this->load_empty_course_type();
 		}
 		return $course_type;
 	}
 
+	private function load_empty_course_type()
+	{
+		$course_type = new CourseType();
+		$course_type->set_settings(new CourseTypeSettings());
+		$course_type->set_layout_settings(new CourseTypeLayout());
+		return $course_type;
+	}
 	/**
 	 * Determines whether or not the given name is a valid tool name.
 	 * @param string $name The name to evaluate.
