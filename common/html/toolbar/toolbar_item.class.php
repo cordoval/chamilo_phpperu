@@ -65,7 +65,7 @@ class ToolbarItem
 
     function as_html()
     {
-        $label = ($this->get_label() ? htmlentities($this->get_label()) : null);
+        $label = ($this->get_label() ? htmlspecialchars($this->get_label()) : null);
         if (! $this->get_display())
         {
             $this->display = self :: DISPLAY_ICON;
