@@ -271,6 +271,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         return $this->database->count_objects(CourseType :: get_table_name(), $condition);
     }
+    
+	function count_active_course_types()
+    {
+    	$condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
+        return $this->count_course_types($condition);
+    }
 
     function count_course_categories($condition = null)
     {
@@ -1238,14 +1244,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         // Delete course
         $condition = new EqualityCondition(Course :: PROPERTY_ID, $course_code);
 		$bool = $this->database->delete_objects(Course :: get_table_name(), $condition);
-		
+
 		return $bool;
-		
+
 		//return $bool;
-		
+
 		//$condition_layout = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $course);
 		//$bool = $bool && $this->database->delete(CourseLayout :: get_table_name(), $condition_layout);
-		
+
 		//$condition_settings = new EqualityCondition(CourseSettings :: PROPERTY_COURSE_ID, $course);
 		//$bool = $bool && $this->database->delete(CourseSettings :: get_table_name(), $condition_settings);
     }
@@ -1512,6 +1518,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         $condition = new EqualityCondition(CourseTypeLayout :: PROPERTY_COURSE_TYPE_ID, $id);
         return $this->database->retrieve_object(CourseTypeLayout :: get_table_name(), $condition);
+    }
+    
+    function retrieve_active_course_types()
+    {
+    	$condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
+    	return $this->database->retrieve_objects(CourseType :: get_table_name(), $condition);
     }
 
     function retrieve_course_group_by_name($name)

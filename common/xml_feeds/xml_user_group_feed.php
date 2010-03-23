@@ -96,14 +96,36 @@ if (Authentication :: is_valid())
     $group_result_set = $gdm->retrieve_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
     while ($group = $group_result_set->next_result())
     {
-        $group_parent = $group->get_parent();
-        if (is_array($groups[$group_parent]))
+        $group_parent_id = $group->get_parent();
+
+        if (!is_array($groups[$group_parent_id]))
         {
-            array_push($groups[$group_parent], $group);
+            $groups[$group_parent_id] = array();
         }
-        else
+
+        if (!isset($groups[$group_parent_id][$group->get_id()]))
         {
-            $groups[$group_parent] = array($group);
+            $groups[$group_parent_id][$group->get_id()] = $group;
+        }
+
+        if ($group_parent_id != 0)
+        {
+            $tree_parents = $group->get_parents(false);
+
+            while ($tree_parent = $tree_parents->next_result())
+            {
+                $tree_parent_parent_id = $tree_parent->get_parent();
+
+                if (!is_array($groups[$tree_parent_parent_id]))
+                {
+                    $groups[$tree_parent_parent_id] = array();
+                }
+
+                if (!isset($groups[$tree_parent_parent_id][$tree_parent->get_id()]))
+                {
+                    $groups[$tree_parent_parent_id][$tree_parent->get_id()] = $tree_parent;
+                }
+            }
         }
     }
 
@@ -133,14 +155,9 @@ function dump_tree($users, $groups)
 
         if (contains_results($groups))
         {
-            echo '<node id="group" classes="category unlinked" title="Groups">', "\n";
-
+//            echo '<node id="group" classes="category unlinked" title="Groups">', "\n";
             dump_groups_tree($groups);
-//            foreach ($groups as $group)
-//            {
-//                echo '<leaf id="group_' . $group->get_id() . '" classes="' . 'type type_group' . '" title="' . htmlspecialchars($group->get_name()) . '" description="' . htmlspecialchars($group->get_name()) . '"/>' . "\n";
-//            }
-            echo '</node>', "\n";
+//            echo '</node>', "\n";
         }
     }
 }

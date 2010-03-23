@@ -632,7 +632,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
         $this->set_creation_date($now);
         $this->set_modification_date($now);
         $this->set_object_number($dm->get_next_content_object_number());
-
+        
         if (! $dm->create_content_object($this, 'new'))
         {
             return false;
