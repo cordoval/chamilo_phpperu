@@ -50,6 +50,7 @@ class CbaManagerBrowserComponent extends CbaManagerComponent
 		return $table->as_html();
 	}
 
+
 	private function get_condition()
     {
         $conditions[] = new EqualityCondition(Competency :: PROPERTY_STATE, Competency :: STATE_NORMAL);
@@ -73,6 +74,7 @@ class CbaManagerBrowserComponent extends CbaManagerComponent
     {
         return Request :: get(CbaManager :: PARAM_CATEGORY_ID) ? Request :: get(CbaManager :: PARAM_CATEGORY_ID) : 0;
     }
+  
 
 	function display_footer()
 	{

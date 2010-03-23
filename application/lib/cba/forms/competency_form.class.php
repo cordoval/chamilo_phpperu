@@ -10,8 +10,11 @@ class CompetencyForm extends FormValidator
 	
 	const TYPE_CREATOR_COMPETENCY = 1;
 	const TYPE_EDITOR_COMPETENCY = 2;
+	
+	const PARAM_TARGET = 'target_indicators';
 
 	private $competency;
+	private $indicator;
 	private $user;
 	private $owner_id;
 
@@ -54,7 +57,22 @@ class CompetencyForm extends FormValidator
 		
     	$this->addElement('select', Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
         $this->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-		
+               
+
+        $attributes = array();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_indicator_category_feed.php';
+
+        $locale = array();
+        $locale['Display'] = Translation :: get('ShareWith');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+		$attributes['locale'] = $locale;
+        $attributes['defaults'] = array();
+        
+        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
+        
+        
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
@@ -140,7 +158,6 @@ class CompetencyForm extends FormValidator
     	$defaults[Competency :: PROPERTY_DESCRIPTION] = $competency->get_description();
     	
 		parent :: setDefaults($defaults);
-	}
-	
+	}	
 }
 ?>
