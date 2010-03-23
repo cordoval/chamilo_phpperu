@@ -13,6 +13,7 @@ class CourseType extends DataClass
     
     const PROPERTY_NAME = 'name';
     const PROPERTY_DESCRIPTION = 'description';
+    const PROPERTY_ACTIVE = 'active';
 	
     private $settings;
 	
@@ -28,6 +29,7 @@ class CourseType extends DataClass
     {
         return parent :: get_default_property_names(
         	array(self :: PROPERTY_NAME,
+        		  self :: PROPERTY_ACTIVE,
         		  self :: PROPERTY_DESCRIPTION));
     }
 
@@ -46,6 +48,11 @@ class CourseType extends DataClass
     function get_name()
     {
         return $this->get_default_property(self :: PROPERTY_NAME);
+    }
+    
+    function get_active()
+    {
+    	return $this->get_default_property(self :: PROPERTY_ACTIVE);
     }
 
     /**
@@ -91,6 +98,11 @@ class CourseType extends DataClass
     function set_name($name)
     {
         $this->set_default_property(self :: PROPERTY_NAME, $name);
+    }
+    
+    function set_active($active)
+    {
+    	$this->set_default_property(self :: PROPERTY_ACTIVE, $active);
     }
 
     /**
