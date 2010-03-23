@@ -916,9 +916,13 @@ class WeblcmsManager extends WebApplication
 
     function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null)
     {
-    	return WeblcmsDataManager :: get_instance()->retrieve_course_types($condition, $offset, $count, $order_property);
+    		return WeblcmsDataManager :: get_instance()->retrieve_course_types($condition, $offset, $count, $order_property);
     }
-
+    
+    function retrieve_active_course_types()
+    {
+		return WeblcmsDataManager :: get_instance()->retrieve_active_course_type();
+    }
 	/**
 	 * Retrieves a single course category from persistent storage.
 	 * @param string $category_code The alphanumerical identifier of the course category.
