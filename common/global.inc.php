@@ -283,10 +283,6 @@ if ($user)
 {
 	Events :: trigger_event('online', 'admin', array('user' => $user));
 }
-else
-{
-	$timezone = LocalSetting :: get('platform_timezone');
-}
 
 $language_interface = LocalSetting :: get('platform_language');
 $adm = AdminDataManager :: get_instance();
@@ -306,6 +302,7 @@ if (isset($_SESSION['_uid']))
     }
 }
 
+$timezone = LocalSetting :: get('platform_timezone');
 date_default_timezone_set($timezone);
 
 /**
