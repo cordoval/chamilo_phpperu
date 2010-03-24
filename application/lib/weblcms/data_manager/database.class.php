@@ -654,7 +654,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     }
 
 	function get_course_modules($course_code)
-        {
+    {
         $query = 'SELECT * FROM ' . $this->database->escape_table_name('course_module') . ' WHERE course_id = ' . $this->quote($course_code);
         $res = $this->query($query);
         $modules = array();
@@ -695,8 +695,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function retrieve_courses($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
+    	$course_alias = $this->database->get_alias(Course :: get_table_name());
+        $course_settings_alias = $this->database->get_alias(CourseSettings :: get_table_name());
+
+        $query = 'SELECT ' . $course_alias . '.* FROM ' . $this->database->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
+        $query .= ' JOIN ' . $this->database->escape_table_name(CourseSettings :: get_table_name()) . ' AS ' . $course_settings_alias . ' ON ' . $this->database->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->database->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_settings_alias);
+        
         $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
-        return $this->database->retrieve_objects(Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+
+        return $this->database->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_course_user_relation($course_code, $user_id)

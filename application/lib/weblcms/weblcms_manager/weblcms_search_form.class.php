@@ -156,7 +156,7 @@ class WeblcmsSearchForm extends FormValidator
             $conditions = array();
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_ID, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
-            $conditions[] = new PatternMatchCondition(Course :: PROPERTY_LANGUAGE, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*');
+            $conditions[] = new PatternMatchCondition(CourseSettings :: PROPERTY_LANGUAGE, '*' . $values[self :: PARAM_SIMPLE_SEARCH_QUERY] . '*', CourseSettings :: get_table_name());
             
             return new OrCondition($conditions);
         }
