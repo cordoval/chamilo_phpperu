@@ -46,7 +46,7 @@ class AdminCourseTypeBrowserTableCellRenderer extends DefaultCourseTypeTableCell
 				{
 					$name_short = mb_substr($name_short,0,50).'&hellip;';
 				}
-				//return '<a href="'.htmlentities($this->browser->get_course_type_viewing_url($course_type)).'" title="'.$name.'">'.$name_short.'</a>';
+				return '<a href="'.htmlentities($this->browser->get_course_type_viewing_url($course_type)).'" title="'.$name.'">'.$name_short.'</a>';
         	
             case CourseType :: PROPERTY_DESCRIPTION :
 				$description = strip_tags(parent :: render_cell($column, $course_type));
