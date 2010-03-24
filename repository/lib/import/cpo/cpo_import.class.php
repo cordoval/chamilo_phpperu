@@ -454,7 +454,12 @@ class CpoImport extends ContentObjectImport
      */
     private function fix_links($co)
     {
-        $fields = $co->get_html_editors();
+        if (count($co->get_included_content_objects()) == 0)
+        {
+            return;
+        }
+            
+    	$fields = $co->get_html_editors();
         
         //$pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
         $pattern = '/http:\/\/.*\/core\.php\?go=document_downloader&display=1&object=[0-9]*&application=repository/';
