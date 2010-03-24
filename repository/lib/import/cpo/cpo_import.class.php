@@ -108,6 +108,15 @@ class CpoImport extends ContentObjectImport
     private $categories;
     
     /**
+     * Used to save the references in the object numbers
+     * @var int[]
+     * 
+     * Example:
+     * $object_numbers[60] = 1;
+     */
+    private $object_numbers;
+    
+    /**
      * Enter description here...
      *
      * @param unknown_type $content_object_file
@@ -288,6 +297,7 @@ class CpoImport extends ContentObjectImport
             $created = $general->getElementsByTagName('created')->item(0)->nodeValue;
             $modified = $general->getElementsByTagName('modified')->item(0)->nodeValue;
             $category = $general->getElementsByTagName('parent')->item(0)->nodeValue;
+            $object_number = $general->getElementsByTagName('object_number')->item(0)->nodeValue;
             
             $lo = ContentObject :: factory($type);
             
@@ -302,6 +312,12 @@ class CpoImport extends ContentObjectImport
             $lo->set_creation_date($created);
             $lo->set_modification_date($modified);
             $lo->set_owner_id($this->get_user()->get_id());
+            
+            $object_number_exists = array_key_exists($object_number, $this->object_numbers);
+            if($object_number_exists)
+            {
+            	$lo->set_object_number($this->object_numbers[$object_number]);
+            }
 
             if($category == 'category0' || !$category)
             {
@@ -342,7 +358,15 @@ class CpoImport extends ContentObjectImport
 				return;
             }
 
-			$lo->create_all();
+            if($object_number_exists)
+            {
+            	$lo->version();	
+            }
+            else
+            {
+            	$lo->create_all();
+            	$this->object_numbers[$object_number] = $lo->get_object_number();
+            }
 			
             if ($type == 'learning_path_item' || $type == 'portfolio_item')
             {

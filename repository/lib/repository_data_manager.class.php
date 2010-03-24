@@ -771,7 +771,7 @@ abstract class RepositoryDataManager
      */
     abstract function count_objects_in_which_object_is_included($object);
 
-    abstract function retrieve_content_object_versions($object);
+    abstract function retrieve_content_object_versions($object, $include_last = true);
 
     abstract function get_latest_version_id($object);
 

@@ -175,9 +175,19 @@ class CpoExport extends ContentObjectExport
      */
     function render_content_object($content_object)
     {
-        if (in_array($content_object->get_id(), $this->exported_content_objects))
+    	if (in_array($content_object->get_id(), $this->exported_content_objects))
             return;
         
+    	//First we export the versions so the last version will always be imported last
+        if($content_object->is_latest_version())
+        {
+            $versions = $this->rdm->retrieve_content_object_versions($content_object, false);
+	        foreach($versions as $version)
+	        {
+	        	$this->render_content_object($version);
+	        }
+        }
+            
         $this->exported_content_objects[] = $content_object->get_id();
         
         $doc = $this->doc;
@@ -192,7 +202,16 @@ class CpoExport extends ContentObjectExport
         $id_value = $doc->createTextNode('object' . $content_object->get_id());
         $id->appendChild($id_value);
         
-        $export_prop = array(ContentObject :: PROPERTY_TYPE, ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION, ContentObject :: PROPERTY_COMMENT, ContentObject :: PROPERTY_CREATION_DATE, ContentObject :: PROPERTY_MODIFICATION_DATE);
+        if($content_object->is_latest_version())
+        {
+        	$last_version = $doc->createAttribute('last_version');
+        	$lo->appendChild($last_version);
+        	
+        	$last_version_value = $doc->createTextNode('1');
+        	$last_version->appendChild($last_version_value);
+        }
+        
+        $export_prop = array(ContentObject :: PROPERTY_TYPE, ContentObject :: PROPERTY_OBJECT_NUMBER, ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION, ContentObject :: PROPERTY_COMMENT, ContentObject :: PROPERTY_CREATION_DATE, ContentObject :: PROPERTY_MODIFICATION_DATE);
         
         $general = $doc->createElement('general');
         $lo->appendChild($general);
