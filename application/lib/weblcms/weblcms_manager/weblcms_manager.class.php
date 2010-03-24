@@ -70,6 +70,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_UNSUBSCRIBE = 'unsubscribe';
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
+	const ACTION_VIEW_COURSE_TYPE ='coursetypeviewer';
 	const ACTION_CREATE_COURSE = 'coursecreator';
 	const ACTION_IMPORT_COURSES = 'courseimporter';
 	const ACTION_IMPORT_COURSE_USERS = 'courseuserimporter';
@@ -208,6 +209,9 @@ class WeblcmsManager extends WebApplication
 				break;
 			case self :: ACTION_DELETE_COURSE_TYPE :
 				$component = WeblcmsManagerComponent :: factory('CourseTypeDeleter', $this);
+				break;
+			case self :: ACTION_VIEW_COURSE_TYPE :
+				$component = WeblcmsManagerComponent :: factory('CourseTypeViewer', $this);
 				break;
 			case self :: ACTION_PUBLISH_INTRODUCTION :
 				$component = WeblcmsManagerComponent :: factory('IntroductionPublisher', $this);
@@ -350,8 +354,7 @@ class WeblcmsManager extends WebApplication
 
 	function get_course_type_viewing_url($course_type)
     {
-        //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
-        return null;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE_TYPE, self :: PARAM_COURSE_TYPE => $course_type->get_id()));
     }
 
 	/**
