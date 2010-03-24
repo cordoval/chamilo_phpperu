@@ -1158,6 +1158,9 @@ class WeblcmsManager extends WebApplication
 	 */
 	function get_course_subscription_url($course)
 	{
+		if(is_null($course->get_settings()))
+        	$course = $this->load_course($course->get_id());
+        $course = $this->get_course();
 		if (! $this->course_subscription_allowed($course))
 		{
 			return null;
