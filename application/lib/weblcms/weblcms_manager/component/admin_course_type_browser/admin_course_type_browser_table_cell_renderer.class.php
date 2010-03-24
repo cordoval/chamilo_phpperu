@@ -39,7 +39,34 @@ class AdminCourseTypeBrowserTableCellRenderer extends DefaultCourseTypeTableCell
         switch ($column->get_name())
         {
             // Exceptions that need post-processing go here ...
+            case CourseType :: PROPERTY_NAME :
+				$name = parent :: render_cell($column, $course_type);
+				$name_short = $name;
+				if(strlen($name_short) > 53)
+				{
+					$name_short = mb_substr($name_short,0,50).'&hellip;';
+				}
+				return '<a href="'.htmlentities($this->browser->get_course_type_viewing_url($course_type)).'" title="'.$name.'">'.$name_short.'</a>';
+        	
+            case CourseType :: PROPERTY_DESCRIPTION :
+				$description = strip_tags(parent :: render_cell($column, $course_type));
+				if(strlen($description) > 175)
+				{
+					$description = mb_substr($description,0,170).'&hellip;';
+				}
+				return $description;
+			/*
+            case CourseType :: PROPERTY_ACTIVE :
+            	$active = parent :: render_cell($column, $course_type);
+        		$active_short = $active;
+				if(strlen($active_short) > 53)
+				{
+					$active_short = mb_substr($active_short,0,50).'&hellip;';
+				}
+            	return '<a href"'.htmlentities($this->browser->get_course_type_changing_url($course_type)).'" title="'.$active.'">'.$active_short.'</a>';
+            */
         }
+        
         return parent :: render_cell($column, $course_type);
     }
 

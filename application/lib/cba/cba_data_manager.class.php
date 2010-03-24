@@ -86,5 +86,25 @@ abstract class CbaDataManager
 	abstract function retrieve_criteria_score($id);
 	abstract function retrieve_criterias_score($condition = null, $offset = null, $count = null, $order_property = null);
 	
+	
+	// Abstract functions: CompetencyIndicator
+	abstract function get_next_competency_indicator_id();
+	abstract function create_competency_indicator($competency_indicator);
+	abstract function update_competency_indicator($competency_indicator);
+	abstract function delete_competency_indicator($competency_indicator);
+	abstract function count_competency_indicator($conditions = null);
+	abstract function retrieve_competency_indicator($id);
+	abstract function retrieve_competencys_indicator($condition = null, $offset = null, $count = null, $order_property = null);
+	
+	
+	// Abstract functions: IndicatorCriteria
+	abstract function get_next_indicator_criteria_id();
+	abstract function create_indicator_criteria($indicator_criteria);
+	abstract function update_indicator_criteria($indicator_criteria);
+	abstract function delete_indicator_criteria($indicator_criteria);
+	abstract function count_indicator_criteria($conditions = null);
+	abstract function retrieve_indicator_criteria($id);
+	abstract function retrieve_indicators_criteria($condition = null, $offset = null, $count = null, $order_property = null);
+	
 }
 ?>

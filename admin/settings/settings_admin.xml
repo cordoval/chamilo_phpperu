@@ -65,6 +65,12 @@
 					<option name="active_online_email_editor" value="1" />
 				</options>
 			</setting>
+			<setting name="installation_blocked" field="checkbox" 
+				default="1">
+				<options type="static">
+					<option name="installation_blocked" value="1" />
+				</options>
+			</setting>
 		</category>
 		<category name="visual">
 			<setting name="platform_language" field="select" default="english" user_setting="1">

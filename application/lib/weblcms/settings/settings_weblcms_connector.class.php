@@ -19,22 +19,22 @@ class SettingsWeblcmsConnector
 
     function get_course_layouts()
     {
-        return Course :: get_layouts();
+        return CourseLayout :: get_layouts();
     }
 
     function get_tool_shortcut_options()
     {
-        return Course :: get_tool_shortcut_options();
+        return CourseLayout :: get_tool_shortcut_options();
     }
 
     function get_course_menu_options()
     {
-        return Course :: get_menu_options();
+        return CourseLayout :: get_menu_options();
     }
 
     function get_breadcrumb_options()
     {
-        return Course :: get_breadcrumb_options();
+        return CourseLayout :: get_breadcrumb_options();
     }
     
     function get_languages()
