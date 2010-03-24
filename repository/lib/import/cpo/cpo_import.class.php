@@ -454,7 +454,12 @@ class CpoImport extends ContentObjectImport
      */
     private function fix_links($co)
     {
-        $fields = $co->get_html_editors();
+        if (count($co->get_included_content_objects()) == 0)
+        {
+            return;
+        }
+            
+    	$fields = $co->get_html_editors();
         
         //$pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
         $pattern = '/http:\/\/.*\/core\.php\?go=document_downloader&display=1&object=[0-9]*&application=repository/';
@@ -470,6 +475,7 @@ class CpoImport extends ContentObjectImport
 
     private function fix_link_matches($matches)
     {
+    	//TODO: Use the correct link (downloader) - You will need to change the structue of the import (first import everything, then loop through all the objects)
         $base_path = Path :: get(WEB_REPO_PATH);
         
         foreach ($this->files as $hash => $file)
