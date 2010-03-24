@@ -101,6 +101,21 @@ if (Authentication :: is_valid())
             $user_ids[] = $course_user->get_user();
         }
 
+        // Add users from subscribed platform groups to user ids array
+        $group_relations = $course->get_subscribed_groups();
+
+        if (count($group_relations) > 0)
+        {
+
+            foreach($group_relations as $group_relation)
+            {
+                $group = $group_relation->get_group_object();
+                $group_user_ids = $group->get_users(true, true);
+
+                $user_ids = array_merge($user_ids, $group_user_ids);
+            }
+        }
+
         $users = array();
         while ($user = $user_result_set->next_result())
         {
@@ -178,14 +193,7 @@ function dump_tree($users, $groups_tree)
             echo '</node>', "\n";
         }
 
-//        if (contains_results($platform_groups))
-//        {
-            echo '<node id="platform_group" classes="category unlinked" title="'. Translation :: get('LinkedPlatformGroups') .'">', "\n";
-//            echo '<leaf id="platform_group_1" classes="' . 'type type_group' . '" title="Test" description="Test"/>' . "\n";
-//            echo '<leaf id="group_' . $group['group']->get_id() . '" classes="' . 'type type_group' . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '"/>' . "\n";
-            dump_platform_groups_tree();
-            echo '</node>', "\n";
-//        }
+        dump_platform_groups_tree();
 
         if (contains_results($groups_tree))
         {
@@ -204,41 +212,44 @@ function dump_platform_groups_tree()
     global $course, $user_condition;
     $group_relations = $course->get_subscribed_groups();
 
-    foreach($group_relations as $group_relation)
+    if (count($group_relations) > 0)
     {
-        $group = $group_relation->get_group_object();
+        echo '<node id="platform" classes="category unlinked" title="'. Translation :: get('LinkedPlatformGroups') .'">', "\n";
 
-        echo '<node id="platform_group_' . $group->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group->get_name()) . '" description="' . htmlspecialchars($group->get_name()) . '">', "\n";
-        $user_ids = $group->get_users(true, true);
-
-//        dump($user_ids);
-//        exit;
-
-        if (!is_null($user_condition))
+        foreach($group_relations as $group_relation)
         {
-            $group_user_condition = new AndCondition($user_condition, new InCondition(User :: PROPERTY_ID, $user_ids));
-        }
-        else
-        {
-            $group_user_condition = new InCondition(User :: PROPERTY_ID, $user_ids);
-        }
+            $group = $group_relation->get_group_object();
 
-        $users = UserDataManager :: get_instance()->retrieve_users($group_user_condition, 0, 0);
+            echo '<leaf id="platform_' . $group->get_id() . '" classes="type type_group" title="' . htmlentities($group->get_name()) . '" description="' . htmlentities($group->get_name()) . '"/>' . "\n";
 
-        while($user = $users->next_result())
-        {
-            echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($user->get_username()) . '" description="' . htmlentities($user->get_fullname()) . '"/>' . "\n";
+//            echo '<node id="platform_' . $group->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group->get_name()) . '" description="' . htmlspecialchars($group->get_name()) . '">', "\n";
+//            $user_ids = $group->get_users(true, true);
+//
+//            if (!is_null($user_condition))
+//            {
+//                $group_user_condition = new AndCondition($user_condition, new InCondition(User :: PROPERTY_ID, $user_ids));
+//            }
+//            else
+//            {
+//                if(count($user_ids) == 0)
+//                {
+//                    $user_ids[] = 0;
+//                }
+//
+//                $group_user_condition = new InCondition(User :: PROPERTY_ID, $user_ids);
+//            }
+//
+//            $users = UserDataManager :: get_instance()->retrieve_users($group_user_condition, 0, 0);
+//
+//            while($user = $users->next_result())
+//            {
+//                echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($user->get_username()) . '" description="' . htmlentities($user->get_fullname()) . '"/>' . "\n";
+//            }
+//
+//            echo '</node>', "\n";
         }
 
         echo '</node>', "\n";
-
-//        $sub_menu_item = array();
-//        $sub_menu_item['title'] = $group->get_name();
-//        $sub_menu_item['url'] = $this->get_url($group->get_id());
-//        $sub_menu_item['class'] = 'category';
-//        $sub_menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
-//
-//        $sub_menu_items[] = $sub_menu_item;
     }
 }
 

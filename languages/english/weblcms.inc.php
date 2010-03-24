@@ -380,4 +380,7 @@ $lang['weblcms']['UserTracking'] = 'User tracking';
 $lang['weblcms']['Table'] = 'Table';
 $lang['weblcms']['Text'] = 'Text';
 $lang['weblcms']['RssFeed'] = 'Rss Feed';
+$lang['weblcms']['TitularId'] = 'Titular';
+$lang['weblcms']['CourseTypeId'] = 'Course Type';
+$lang['weblcms']['CategoryId'] = 'Category';
 ?>

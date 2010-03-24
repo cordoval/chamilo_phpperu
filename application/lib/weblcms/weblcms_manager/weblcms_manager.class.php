@@ -43,6 +43,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_COURSE_GROUP = 'course_group';
 	const PARAM_COURSE_TYPE = 'course_type';
 	const PARAM_USERS = 'users';
+	const PARAM_GROUP = 'group';
 	const PARAM_TOOL = 'tool';
 	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_CATEGORY = 'pcattree';
@@ -557,7 +558,7 @@ class WeblcmsManager extends WebApplication
 			}
 		}
 	}
-	
+
 	/**
 	 * Loads the sections installed on the system.
 	 */
@@ -1390,7 +1391,7 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_group_ids = array($selected_group_ids);
 			}
-			
+
 			$selected_course_type_ids = $_POST[AdminCourseTypeBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty($selected_course_type_ids))
 			{
@@ -1442,7 +1443,7 @@ class WeblcmsManager extends WebApplication
 					$this->set_action(self :: ACTION_CHANGE_ACTIVATION);
 					Request :: set_get(self :: PARAM_COURSE_TYPE, $selected_course_type_ids);
 					Request :: set_get(self :: PARAM_ACTIVE, 0);
-					break;					
+					break;
 			}
 		}
 	}

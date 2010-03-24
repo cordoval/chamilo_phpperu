@@ -198,27 +198,68 @@
 				}
 			}
 			
+//			function disableElement(theElementObject)
+//			{
+//				var theElements = $('#' + theElementObject.attr('id'), inactiveBox);
+//				
+//				$.each(theElements, function(i, theElement){
+//					theElement = $(theElement);
+//					
+//					if(theElement.css("background-image"))
+//					{
+//						if (!theElement.hasClass('disabled'))
+//						{
+//							theElement.addClass('disabled');
+//							theElement.css("background-image", theElement.css("background-image").replace(".png", "_na.png"));
+//						}
+//					}
+//				});
+//			}
+			
 			function disableActivatedElements()
 			{
 				$.each(activatedElements, function(i, activatedElement){
-					var currentElement = $('#' + activatedElement, inactiveBox);
-					var currentElementParent = currentElement.parent().parent();
+					var currentElements = $('#' + activatedElement, inactiveBox);
 					
-					disableElement(currentElement);
-					
-					var subElements = $('ul:first div a', currentElementParent);
-					
-					$.each(subElements, function(i, subElement){
-						subElementObject = $(subElement);
+					$.each(currentElements, function(i, currentElement){
+						currentElement = $(currentElement);
 						
-						// Remove the child-elements in case they were previously activated
-						removeActivatedElement(subElementObject.attr('id'));
-						var currentSubElement = $('#' + subElementObject.attr('id'), activeBox);
-						currentSubElement.parent().parent().remove();
+						var currentElementParent = currentElement.parent().parent();
 						
-						// Disabled the child-elements in the inactive tree box
-						disableElement(subElementObject);
+						disableElement(currentElement);
+						
+						var subElements = $('ul:first div a', currentElementParent);
+						
+						$.each(subElements, function(i, subElement){
+							subElementObject = $(subElement);
+							
+							// Remove the child-elements in case they were previously activated
+							removeActivatedElement(subElementObject.attr('id'));
+							var currentSubElement = $('#' + subElementObject.attr('id'), activeBox);
+							currentSubElement.parent().parent().remove();
+							
+							// Disabled the child-elements in the inactive tree box
+							disableElement(subElementObject);
+						});
 					});
+					
+//					var currentElementParent = currentElement.parent().parent();
+//					
+//					disableElement(currentElement);
+//					
+//					var subElements = $('ul:first div a', currentElementParent);
+//					
+//					$.each(subElements, function(i, subElement){
+//						subElementObject = $(subElement);
+//						
+//						// Remove the child-elements in case they were previously activated
+//						removeActivatedElement(subElementObject.attr('id'));
+//						var currentSubElement = $('#' + subElementObject.attr('id'), activeBox);
+//						currentSubElement.parent().parent().remove();
+//						
+//						// Disabled the child-elements in the inactive tree box
+//						disableElement(subElementObject);
+//					});
 				});
 				
 				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
@@ -243,6 +284,21 @@
 					theElement.css("background-image", theElement.css("background-image").replace("_na.png", ".png"));
 				}
 			}
+			
+//			function enableElement(theElementObject)
+//			{
+//				var theElements = $('#' + theElementObject.attr('id'), inactiveBox);
+//				
+//				$.each(theElements, function(i, theElement){
+//					theElement = $(theElement);
+//					
+//					if (typeof theElement.css("background-image") !== 'undefined')
+//					{
+//						theElement.removeClass('disabled');
+//						theElement.css("background-image", theElement.css("background-image").replace("_na.png", ".png"));
+//					}
+//				});
+//			}
 			
 			function deactivateElement(e)
 			{

@@ -22,17 +22,12 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 	private $tool_class;
 
 	/**
-	 * The course object of the course currently active in this application
-	 */
-	private $course;
-
-	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
 		$this->load_rights();
-
+		
 		if ($this->is_teacher())
 		{
 			$studentview = Request :: get('studentview');
@@ -52,14 +47,24 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				$this->set_rights_for_teacher();
 			}
 		}
-
+		
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses general');
 
 		if (! $this->is_course())
 		{
-			$this->display_header($trail, false, true);
+			$this->display_header($trail, false, true, false);
 			Display :: error_message(Translation :: get("NotACourse"));
+			$this->display_footer();
+			exit();
+		}
+		
+		if($studentview && $this->get_course()->get_student_view() != 1)
+		{
+			if($this->is_teacher())
+				$this->redirect(Translation :: get('StudentViewNotAvailable'), true, array('studentview'=>0));
+			$this->display_header($trail, false, false, false);
+			Display :: error_message(Translation :: get("StudentViewNotAvailable"));
 			$this->display_footer();
 			exit();
 		}
@@ -306,7 +311,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbtrail, $display_search = false, $display_title = true)
+	function display_header($breadcrumbtrail, $display_search = false, $display_title = true, $display_tools = true)
 	{
 		if (is_null($breadcrumbtrail))
 		{
@@ -324,7 +329,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			$title_short = substr($title_short, 0, 50) . '&hellip;';
 		}
 
-		if ($this->is_teacher() && PlatformSetting :: get('allow_student_view', 'weblcms') == 1)
+		if ($this->is_teacher() && $this->get_course()->get_student_view() == 1)
 		{
 			$studentview = Session :: retrieve('studentview');
 
@@ -354,9 +359,28 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		}
 		else
 		{
-			if ($course && is_object($this->course) && $action == self :: ACTION_VIEW_COURSE)
+			if ($course && is_object($this->get_course()) && $action == WeblcmsManager :: ACTION_VIEW_COURSE)
 			{
+				
 				//echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
+				if(!$this->get_course()->get_course_code_visible())
+					$title = '';
+				if($this->get_course()->get_course_manager_name_visible())
+				{
+					$userobject = UserDataManager::get_instance()->retrieve_user($this->get_course()->get_titular());
+                	$user_name = $userobject->get_lastname() . ' ' . $userobject->get_firstname();
+                	if($this->get_course()->get_course_code_visible())
+                		$title .= ' - ';
+					$title .= $user_name;
+				}
+				if($this->get_course()->get_course_languages_visible())
+				{
+					$adm = AdminDataManager::get_instance();
+					$lang = $adm->retrieve_language_from_english_name($this->get_course()->get_language())->get_original_name();
+					if($this->get_course()->get_course_manager_name_visible() || $this->get_course()->get_course_code_visible())
+						$title .= ' - ';
+					$title .= $lang;
+				} 
 				echo '<h3 style="float: left;">' . htmlentities($title) . '</h3>';
 				// TODO: Add department name and url here somewhere ?
 			}
@@ -369,7 +393,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				}
 			}
 
-			if ($this->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON)
+			if ($this->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON && $display_tools)
 			{
 				$renderer = ToolListRenderer :: factory('Shortcut', $this);
 				echo '<div id="tool_shortcuts">';
@@ -419,8 +443,6 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		{
 			$this->set_rights_for_student();
 		}
-
-		return;
 	}
 
 	private function set_rights_for_teacher()

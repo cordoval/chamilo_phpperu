@@ -69,7 +69,7 @@ class ContentObjectPublicationGroup extends DataClass
      */
     function set_group_id($group_id)
     {
-        $this->set_default_property(self :: PROPERTY_GROUP_ID, $group);
+        $this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
     }
 
     function create()
