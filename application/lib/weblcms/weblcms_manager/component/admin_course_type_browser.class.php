@@ -92,7 +92,7 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerCompon
             $conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_NAME, '*' . $query . '*');
             $conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             
-            $search_conditions = new OrCondition($conditions);
+           	$search_conditions = new OrCondition($conditions);
         }       
         $condition = null;
        
