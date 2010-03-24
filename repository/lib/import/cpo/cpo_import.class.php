@@ -456,7 +456,8 @@ class CpoImport extends ContentObjectImport
     {
         $fields = $co->get_html_editors();
         
-        $pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
+        //$pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
+        $pattern = '/http:\/\/.*\/core\.php\?go=document_downloader&display=1&object=[0-9]*&application=repository/';
         foreach ($fields as $field)
         {
             $value = $co->get_default_property($field);
