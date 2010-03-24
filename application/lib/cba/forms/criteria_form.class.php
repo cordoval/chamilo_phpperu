@@ -19,7 +19,7 @@ class CriteriaForm extends FormValidator
 	
     function CriteriaForm($form_type, $criteria, $criteria_score, $action, $user)
     {
-    	parent :: __construct('criteria_settings', 'post', $action);
+    	parent :: __construct('cba_settings', 'post', $action);
 
     	$this->criteria = $criteria;
     	$this->criteria_score = $criteria_score;
@@ -51,15 +51,15 @@ class CriteriaForm extends FormValidator
     	$this->addElement('text', Criteria :: PROPERTY_TITLE, Translation :: get('Title'));
 		$this->addRule(Criteria :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
-		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
-    	
 		$this->categories = array();
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
     	$this->addElement('select', Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
         $this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 		     
         $this->criteria_score_form();
         
@@ -74,16 +74,16 @@ class CriteriaForm extends FormValidator
     	$this->addElement('text', Criteria :: PROPERTY_TITLE, Translation :: get('Title'));
 		$this->addRule(Criteria :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
-		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
-    	
 		$this->categories = array();
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
         $this->addElement('select', Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
-        $this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');		     
-        
+        $this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+
 		$this->criteria_score_form();
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));

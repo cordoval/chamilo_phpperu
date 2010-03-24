@@ -7,8 +7,7 @@ require_once dirname(__FILE__) . '/../competency_indicator.class.php';
  * @author Nick Van Loocke
  **/
 class CompetencyForm extends FormValidator
-{
-	
+{	
 	const TYPE_CREATOR_COMPETENCY = 1;
 	const TYPE_EDITOR_COMPETENCY = 2;
 	
@@ -23,7 +22,7 @@ class CompetencyForm extends FormValidator
 
     function CompetencyForm($form_type, $competency, $competency_indicator, $action, $user)
     {
-    	parent :: __construct('competency_settings', 'post', $action);
+    	parent :: __construct('cba_settings', 'post', $action);
 
     	$this->competency = $competency;
     	$this->competency_indicator = $competency_indicator;
@@ -53,19 +52,18 @@ class CompetencyForm extends FormValidator
     	$this->addElement('text', Competency :: PROPERTY_TITLE, Translation :: get('Title'));
 		$this->addRule(Competency :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->add_html_editor(Competency :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
-		$this->addRule(Competency :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
-		
 		$this->categories = array();
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
     	$this->addElement('select', Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
         $this->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-               
+		
+		$this->add_html_editor(Competency :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+		$this->addRule(Competency :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');            
 
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_indicator_category_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_indicator_feed.php';
 
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith');
@@ -75,7 +73,7 @@ class CompetencyForm extends FormValidator
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         
-        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
+        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
         
         
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
@@ -152,25 +150,27 @@ class CompetencyForm extends FormValidator
     	
     	foreach($indicators as $key => $value)
     	{
-    		if($indicators[0] != null)
-    		{
-    			$competency_indicator->set_indicator_id($key);
-    			$result &= $competency_indicator->create();
-    		}
-    	}
-    	//$conditions = array();
-		//$conditions[] = new EqualityCondition(CompetnecyIndicator :: PROPERTY_COMPETENCY_ID, $competency->get_id());				
-        //$conditions[] = new EqualityCondition(CompetnecyIndicator :: PROPERTY_INDICATOR_ID, $competency_indicator->get_indicator_id());
+    		$indicator_id = substr($value, 10);
+    		$competency_indicator->set_indicator_id($indicator_id);
 
-        //$condition = new AndCondition($conditions);
-        //$cats = $this->data_manager->count_competencys_indicator($condition);
-    	
+    		$conditions = array();
+			$conditions[] = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $competency->get_id());				
+        	$conditions[] = new EqualityCondition(CompetencyIndicator :: PROPERTY_INDICATOR_ID, $competency_indicator->get_indicator_id());
+    		
+            $condition = new AndCondition($conditions);
+           	$cats = $this->data_manager->count_competency_indicator($condition);
+                
+            if ($cats > 0)
+            {
+                $result = false;
+            }
+            else
+            {
+              	$result &= $competency_indicator->create();
+            }
+    	}
         //dump($competency_indicator);
     	//exit();   	
-    	if($result == false)
-    	{
-    		$result = 1;
-    	}
     	return $result;
     }
     

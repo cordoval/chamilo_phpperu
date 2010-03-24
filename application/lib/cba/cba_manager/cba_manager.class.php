@@ -359,7 +359,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 		return CbaDataManager :: get_instance()->count_competencys_indicator($condition);
 	}
 	
- 	/*function retrieve_competencys_indicator($condition = null, $offset = null, $count = null, $order_property = null)
+ 	function retrieve_competencys_indicator($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		return CbaDataManager :: get_instance()->retrieve_competencys_indicator($condition, $offset, $count, $order_property);
 	}
@@ -367,10 +367,10 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
  	function retrieve_competency_indicator($id)
 	{
 		return CbaDataManager :: get_instance()->retrieve_competency_indicator($id);
-	}*/
+	}
 	
  	// Indicator Criteria
- 	/*function count_indicators_criteria($condition)
+ 	function count_indicators_criteria($condition)
 	{
 		return CbaDataManager :: get_instance()->count_indicators_criteria($condition);
 	}
@@ -383,7 +383,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
  	function retrieve_indicator_criteria($id)
 	{
 		return CbaDataManager :: get_instance()->retrieve_indicator_criteria($id);
-	}*/
+	}
 
 	
 	// Url Creation

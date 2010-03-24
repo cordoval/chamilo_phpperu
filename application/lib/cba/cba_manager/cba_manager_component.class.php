@@ -86,7 +86,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->count_competencys_indicator($condition);
 	}
 	
- 	/*function retrieve_competencys_indicator($condition = null, $offset = null, $count = null, $order_property = null)
+ 	function retrieve_competencys_indicator($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		return $this->get_parent()->retrieve_competencys_indicator($condition, $offset, $count, $order_property);
 	}
@@ -94,10 +94,10 @@ abstract class CbaManagerComponent extends WebApplicationComponent
  	function retrieve_competency_indicator($id)
 	{
 		return $this->get_parent()->retrieve_competency_indicator($id);
-	}*/
+	}
 	
  	// Indicator Criteria
- 	/*function count_indicators_criteria($condition)
+ 	function count_indicators_criteria($condition)
 	{
 		return $this->get_parent()->count_indicators_criteria($condition);
 	}
@@ -110,7 +110,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
  	function retrieve_indicator_criteria($id)
 	{
 		return $this->get_parent()->retrieve_indicator_criteria($id);
-	}*/
+	}
 	
 
 	// Url Creation
