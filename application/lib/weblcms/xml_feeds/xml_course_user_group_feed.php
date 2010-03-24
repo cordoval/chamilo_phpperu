@@ -68,16 +68,6 @@ if (Authentication :: is_valid())
             }
         }
 
-        //if ($user_conditions)
-        if (count($user_conditions) > 0)
-        {
-            $user_condition = new AndCondition($user_conditions);
-        }
-        else
-        {
-            $user_condition = null;
-        }
-
         //if ($group_conditions)
         if (count($group_conditions) > 0)
         {
@@ -91,7 +81,6 @@ if (Authentication :: is_valid())
         $udm = UserDataManager :: get_instance();
         $wdm = WeblcmsDataManager :: get_instance();
 
-        $user_result_set = $udm->retrieve_users($user_condition);
         $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course);
         $course_user_relation_result_set = $wdm->retrieve_course_user_relations();
 
@@ -106,23 +95,43 @@ if (Authentication :: is_valid())
 
         if (count($group_relations) > 0)
         {
+            $group_users = array();
 
             foreach($group_relations as $group_relation)
             {
                 $group = $group_relation->get_group_object();
                 $group_user_ids = $group->get_users(true, true);
 
-                $user_ids = array_merge($user_ids, $group_user_ids);
+                $group_users = array_merge($group_users, $group_user_ids);
+            }
+
+            $user_ids = array_merge($user_ids, $group_users);
+        }
+
+            //if ($user_conditions)
+        if (count($user_conditions) > 0)
+        {
+            $user_conditions[] = new InCondition(User :: PROPERTY_ID, $user_ids);
+            $user_condition = new AndCondition($user_conditions);
+        }
+        else
+        {
+            if (count($user_ids) > 0)
+            {
+                $user_condition = new InCondition(User :: PROPERTY_ID, $user_ids);
+            }
+            else
+            {
+                $user_condition = null;
             }
         }
+
+        $user_result_set = $udm->retrieve_users($user_condition);
 
         $users = array();
         while ($user = $user_result_set->next_result())
         {
-            if (in_array($user->get_id(), $user_ids))
-            {
-                $users[] = $user;
-            }
+            $users[] = $user;
         }
 
         $groups = array();
