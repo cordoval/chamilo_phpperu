@@ -299,12 +299,12 @@ class ContentObject extends DataClass implements AccessibleContentObject
         return $this->includes;
     }
 
-    function get_content_object_versions()
+    function get_content_object_versions($include_last = true)
     {
         if (! is_array($this->versions))
         {
             $dm = RepositoryDataManager :: get_instance();
-            $this->versions = $dm->retrieve_content_object_versions($this);
+            $this->versions = $dm->retrieve_content_object_versions($this, $include_last);
         }
         return $this->versions;
     }

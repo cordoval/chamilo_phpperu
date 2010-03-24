@@ -556,20 +556,29 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         return ($count > 0);
     }
 
-    function retrieve_content_object_versions($object)
+    function retrieve_content_object_versions($object, $include_last = true)
     {
         $object_number = $object->get_object_number();
-        $query = 'SELECT ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID) . ' FROM ' .
-        		 $this->database->escape_table_name('content_object') . ' WHERE ' .
-        		 $this->database->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . '=' . $this->quote($object_number) . ' AND ' .
-        		 $this->database->escape_column_name(ContentObject :: PROPERTY_STATE) . '=' . $this->quote($object->get_state());
-        $res = $this->query($query);
-        $versions = array();
-        while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $object_number);
+        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, $object->get_state());
+        
+        if(!$include_last)
         {
-            $versions[] = $this->retrieve_content_object($record[0]);
+        	$subcond = new EqualityCondition('object_number', $object_number);
+        	$conditions[] = new NotCondition(new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', 'repository_content_object_version', $subcond));
         }
-        $res->free();
+        
+        $condition = new AndCondition($conditions);
+        
+        $objects = $this->database->retrieve_objects(ContentObject :: get_table_name(), $condition);
+        
+        while($object = $objects->next_result())
+        {
+        	$versions[] = $this->retrieve_content_object($object->get_id());
+        }
+        
         return $versions;
     }
 

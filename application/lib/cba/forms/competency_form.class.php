@@ -1,31 +1,35 @@
 <?php
 require_once dirname(__FILE__) . '/../competency.class.php';
+require_once dirname(__FILE__) . '/../competency_indicator.class.php';
 /**
  * This class describes a CompetencyForm object
  * 
  * @author Nick Van Loocke
  **/
 class CompetencyForm extends FormValidator
-{
-	
+{	
 	const TYPE_CREATOR_COMPETENCY = 1;
 	const TYPE_EDITOR_COMPETENCY = 2;
 	
 	const PARAM_TARGET = 'target_indicators';
+	const PARAM_TARGET_ELEMENTS = 'target_indicators_elements';
 
 	private $competency;
-	private $indicator;
+	private $competency_indicator;
 	private $user;
 	private $owner_id;
+	private $data_manager;
 
-    function CompetencyForm($form_type, $competency, $action, $user)
+    function CompetencyForm($form_type, $competency, $competency_indicator, $action, $user)
     {
-    	parent :: __construct('competency_settings', 'post', $action);
+    	parent :: __construct('cba_settings', 'post', $action);
 
     	$this->competency = $competency;
+    	$this->competency_indicator = $competency_indicator;
     	$this->user = $user;
 		$this->form_type = $form_type;
 		$this->owner_id = $competency->get_owner_id();
+		$this->data_manager = CbaDataManager :: get_instance();
 
 		if ($this->form_type == self :: TYPE_CREATOR_COMPETENCY)
 		{
@@ -48,19 +52,18 @@ class CompetencyForm extends FormValidator
     	$this->addElement('text', Competency :: PROPERTY_TITLE, Translation :: get('Title'));
 		$this->addRule(Competency :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->add_html_editor(Competency :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
-		$this->addRule(Competency :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
-		
 		$this->categories = array();
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
     	$this->addElement('select', Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
         $this->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-               
+		
+		$this->add_html_editor(Competency :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+		$this->addRule(Competency :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');            
 
         $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_indicator_category_feed.php';
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_indicator_feed.php';
 
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith');
@@ -70,7 +73,7 @@ class CompetencyForm extends FormValidator
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         
-        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
+        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
         
         
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
@@ -122,17 +125,53 @@ class CompetencyForm extends FormValidator
     
 	function create_competency()
     {
-    	$competency = $this->competency;
+    	$competency = $this->competency;  	
     	$competency->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
     	$parent = $this->exportValue(Competency :: PROPERTY_PARENT_ID);
-    	
-    	
+    	  	
     	$competency->set_title($values[Competency :: PROPERTY_TITLE]);
-    	$competency->set_description($values[Competency :: PROPERTY_DESCRIPTION]);      
+    	$competency->set_description($values[Competency :: PROPERTY_DESCRIPTION]);  
     	$competency->move($parent);
 
    		return $competency->create();
+    }
+    
+    function create_competency_indicator()
+    {
+    	$competency = $this->competency;
+    	$competency_indicator = $this->competency_indicator;  	
+    	$values = $this->exportValues();
+	   	
+    	$competency_indicator->set_competency_id($competency->get_id());
+    	
+    	$result = true;
+    	$indicators = $values[self :: PARAM_TARGET_ELEMENTS];
+    	
+    	foreach($indicators as $key => $value)
+    	{
+    		$indicator_id = substr($value, 10);
+    		$competency_indicator->set_indicator_id($indicator_id);
+
+    		$conditions = array();
+			$conditions[] = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $competency->get_id());				
+        	$conditions[] = new EqualityCondition(CompetencyIndicator :: PROPERTY_INDICATOR_ID, $competency_indicator->get_indicator_id());
+    		
+            $condition = new AndCondition($conditions);
+           	$cats = $this->data_manager->count_competency_indicator($condition);
+                
+            if ($cats > 0)
+            {
+                $result = false;
+            }
+            else
+            {
+              	$result &= $competency_indicator->create();
+            }
+    	}
+        //dump($competency_indicator);
+    	//exit();   	
+    	return $result;
     }
     
 	function update_competency()
