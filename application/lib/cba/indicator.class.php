@@ -32,11 +32,13 @@ class Indicator extends DataClass
 	const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_STATE = 'state';
+    
+    const PROPERTY_TARGET_CRITERIAS = 'target_criterias';
 
 
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_OWNER_ID, self :: PROPERTY_PARENT_ID, self :: PROPERTY_STATE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_OWNER_ID, self :: PROPERTY_PARENT_ID, self :: PROPERTY_STATE, self :: PROPERTY_TARGET_CRITERIAS);
 	}
 
 	function get_data_manager()
@@ -99,6 +101,28 @@ class Indicator extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+	
+	function set_target_criterias($target_criterias)
+    {
+        $this->target_criterias = $target_criterias;
+    }
+    
+	function get_target_criterias()
+    {
+        if (! $this->target_criterias)
+        {
+            $condition = new EqualityCondition(Criteria :: PROPERTY_ID, $this->get_id());
+            $criterias = $this->get_data_manager()->retrieve_criterias($condition);
+            
+            while ($criteria = $criterias->next_result())
+            {
+                $this->target_criterias[] = $user->get_criteria();
+            }
+        }
+        
+        return $this->target_users;
+    }
 	
 	
 	function move($new_parent_id)

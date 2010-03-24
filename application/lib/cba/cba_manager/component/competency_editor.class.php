@@ -21,11 +21,15 @@ class CbaManagerCompetencyEditorComponent extends CbaManagerComponent
 		$this->display_header($trail, false, true);
 
 		$competency = $this->retrieve_competency(Request :: get(CbaManager :: PARAM_COMPETENCY));
-		$form = new CompetencyForm(CompetencyForm :: TYPE_EDITOR_COMPETENCY, $competency, $this->get_url(array(CbaManager :: PARAM_COMPETENCY => $competency->get_id())), $this->get_user());
+		$competency_indicator = null;//$this->retrieve_competency_indicator(Request :: get(CbaManager :: PARAM_COMPETENCY_INDICATOR));
+		$form = new CompetencyForm(CompetencyForm :: TYPE_EDITOR_COMPETENCY, $competency, $competency_indicator, $this->get_url(array(CbaManager :: PARAM_COMPETENCY => $competency->get_id())), $this->get_user());
 
 		if($form->validate())
 		{
-			$success = $form->update_competency();
+			$success_competency = $form->update_competency();
+			$success_competency_indicator = 1;//$form->update_competency_indicator();
+			if($success_competency == $success_competency_indicator)
+				$success = 1;
 			$this->redirect($success ? Translation :: get('CompetencyUpdated') : Translation :: get('CompetencyNotUpdated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY));
 		}
 		else

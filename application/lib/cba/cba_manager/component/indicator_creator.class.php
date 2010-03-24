@@ -18,12 +18,16 @@ class CbaManagerIndicatorCreatorComponent extends CbaManagerComponent
 		$this->display_header($trail, false, true);
 		
 		$indicator = new Indicator();
+		$indicator_criteria = new IndicatorCriteria();
 		$indicator->set_owner_id($this->get_user_id());
-		$form = new IndicatorForm(IndicatorForm :: TYPE_CREATOR_INDICATOR, $indicator, $this->get_url(), $this->get_user());
+		$form = new IndicatorForm(IndicatorForm :: TYPE_CREATOR_INDICATOR, $indicator, $indicator_criteria, $this->get_url(), $this->get_user());
 
 		if($form->validate())
 		{
-			$success = $form->create_indicator();
+			$success_indicator = $form->create_indicator();
+			$success_indicator_criteria = $form->create_indicator_criteria();
+			if($success_indicator == $success_indicator_criteria)
+				$success = 1;
 			$this->redirect($success ? Translation :: get('IndicatorCreated') : Translation :: get('IndicatorNotCreated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_INDICATOR));
 		}
 		else
