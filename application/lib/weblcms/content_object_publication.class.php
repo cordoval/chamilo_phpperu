@@ -33,6 +33,7 @@ class ContentObjectPublication extends DataClass
 
     private $target_course_groups;
     private $target_users;
+    private $target_groups;
 
     private $content_object;
     private $publisher;
@@ -126,6 +127,22 @@ class ContentObjectPublication extends DataClass
         }
 
         return $this->target_course_groups;
+    }
+
+    /**
+     * Gets the list of target groups of this publication
+     * @return array An array of group ids.
+     * @see is_for_everybody()
+     */
+    function get_target_groups()
+    {
+        if (! isset($this->target_groups))
+        {
+            $wdm = WeblcmsDataManager :: get_instance();
+            $this->target_groups = $wdm->retrieve_content_object_publication_target_groups($this);
+        }
+
+        return $this->target_groups;
     }
 
     /**
@@ -234,7 +251,7 @@ class ContentObjectPublication extends DataClass
 
     function is_for_everybody()
     {
-        return (count($this->get_target_users()) == 0 && count($this->get_target_course_groups()) == 0);
+        return (count($this->get_target_users()) == 0 && count($this->get_target_course_groups()) == 0 && count($this->get_target_groups()) == 0);
     }
 
     function is_visible_for_target_users()
@@ -280,6 +297,11 @@ class ContentObjectPublication extends DataClass
     function set_target_course_groups($target_course_groups)
     {
         $this->target_course_groups = $target_course_groups;
+    }
+
+    function set_target_groups($target_groups)
+    {
+        $this->target_groups = $target_groups;
     }
 
     function set_from_date($from_date)

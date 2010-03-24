@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__) . '/../content_object_publication.class.php';
 require_once dirname(__FILE__) . '/../content_object_publication_user.class.php';
 require_once dirname(__FILE__) . '/../content_object_publication_course_group.class.php';
+require_once dirname(__FILE__) . '/../content_object_publication_group.class.php';
 require_once dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php';
 require_once dirname(__FILE__) . '/../content_object_publication_feedback.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
@@ -271,7 +272,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
     {
         return $this->database->count_objects(CourseType :: get_table_name(), $condition);
     }
-    
+
 	function count_active_course_types()
     {
     	$condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
@@ -371,6 +372,30 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return true;
     }
 
+    function create_content_object_publication_group($publication_group)
+    {
+        return $this->database->create($publication_group);
+    }
+
+    function create_content_object_publication_groups($publication)
+    {
+        $groups = $publication->get_target_groups();
+
+        foreach ($groups as $index => $group_id)
+        {
+            $publication_group = new ContentObjectPublicationGroup();
+            $publication_group->set_publication_id($publication->get_id());
+            $publication_group->set_group_id($group_id);
+
+            if (! $publication_group->create())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     function create_content_object_publication($publication)
     {
         if (! $this->database->create($publication))
@@ -388,6 +413,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
             return false;
         }
 
+        if (! $this->create_content_object_publication_groups($publication))
+        {
+            return false;
+        }
+
         return true;
     }
 
@@ -397,6 +427,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition('publication_id', $publication->get_id());
         $this->database->delete_objects('content_object_publication_user', $condition);
         $this->database->delete_objects('content_object_publication_course_group', $condition);
+        $this->database->delete_objects('content_object_publication_group', $condition);
 
         // Add updated target users and course_groups
         if (! $this->create_content_object_publication_users($publication))
@@ -405,6 +436,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         }
 
         if (! $this->create_content_object_publication_course_groups($publication))
+        {
+            return false;
+        }
+
+        if (! $this->create_content_object_publication_groups($publication))
         {
             return false;
         }
@@ -1427,6 +1463,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         return $target_course_groups;
     }
 
+    function retrieve_content_object_publication_target_groups($content_object_publication)
+    {
+        $condition = new EqualityCondition(ContentObjectPublicationGroup :: PROPERTY_PUBLICATION_ID, $content_object_publication->get_id());
+        $groups = $this->database->retrieve_objects(ContentObjectPublicationGroup :: get_table_name(), $condition);
+
+        $target_groups = array();
+        while ($group = $groups->next_result())
+        {
+            $target_groups[] = $group->get_group_id();
+        }
+
+        return $target_groups;
+    }
+
     // Inherited
     function delete_course_type_tool($course_type_tool)
     {
@@ -1519,7 +1569,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
         $condition = new EqualityCondition(CourseTypeLayout :: PROPERTY_COURSE_TYPE_ID, $id);
         return $this->database->retrieve_object(CourseTypeLayout :: get_table_name(), $condition);
     }
-    
+
     function retrieve_active_course_types()
     {
     	$condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
