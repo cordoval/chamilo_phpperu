@@ -31,7 +31,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManagerCompon
         }
         else
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('CourseTypes')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateType')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateCourseType')));
         $trail->add_help('coursetypes create');
 
         if (! $this->get_user()->is_platform_admin())
