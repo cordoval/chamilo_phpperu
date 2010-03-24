@@ -87,14 +87,34 @@ class ContentObjectCopier
      * @param ContentObject $co
      * @return Int the id of the new created content object
      */
-    private function create_content_object($co)
+    private function create_content_object($co, $is_version = false)
     {
         $old_co_id = $co->get_id();
         $old_user_id = $co->get_owner_id();
 
         if (array_key_exists($old_co_id, $this->created_content_objects))
+        {
             return $this->created_content_objects[$old_co_id]->get_id();
+        }
 
+    	//First we copy the versions so the last version will always be copied last
+        if($co->is_latest_version())
+        {
+            $versions = $this->rdm->retrieve_content_object_versions($co, false);
+	        foreach($versions as $version)
+	        {
+	        	$this->create_content_object($version, true);
+	        }
+        }
+        else
+        {
+        	if(!$is_version)
+        	{
+        		$this->create_content_object($co->get_latest_version());
+        		return;
+        	}
+        }
+            
         // Retrieve includes and attachments
         $includes = $co->get_included_content_objects();
         $attachments = $co->get_attached_content_objects();
@@ -314,7 +334,9 @@ class ContentObjectCopier
     private function fix_links($co)
     {
         if (count($co->get_included_content_objects()) == 0)
+        {
             return;
+        }
 
         $fields = $co->get_html_editors();
 

@@ -475,6 +475,7 @@ class CpoImport extends ContentObjectImport
 
     private function fix_link_matches($matches)
     {
+    	//TODO: Use the correct link (downloader) - You will need to change the structue of the import (first import everything, then loop through all the objects)
         $base_path = Path :: get(WEB_REPO_PATH);
         
         foreach ($this->files as $hash => $file)

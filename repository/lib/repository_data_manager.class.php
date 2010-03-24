@@ -107,6 +107,12 @@ abstract class RepositoryDataManager
     {
         //echo $type; echo "test";
         $temp_class = ContentObject :: factory($type);
+        
+        if(!$temp_class)
+        {
+        	return false;
+        }
+        
         $has_additional_properties = count($temp_class->get_additional_property_names()) > 0;
         unset($temp_class);
         return $has_additional_properties;
