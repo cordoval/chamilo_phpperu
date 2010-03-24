@@ -358,7 +358,7 @@ class DatabaseAdminDataManager extends AdminDataManager
             //TODO: i8n location string
             $info->set_location('');
             //TODO: set correct URL
-            $info->set_url('index_admin.php?go=sysviewer&announcement=' . $record['id']);
+            $info->set_url('core.php?application=admin&go=sysviewer&announcement=' . $record['id']);
             $info->set_publication_object_id($record['content_object_id']);
             $publication_attr[] = $info;
         }
