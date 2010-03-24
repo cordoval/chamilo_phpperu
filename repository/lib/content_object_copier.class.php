@@ -52,6 +52,15 @@ class ContentObjectCopier
      * @var String[]
      */
     private $file_references;
+    
+    /**
+     * Used to save the references in the object numbers
+     * @var int[]
+     * 
+     * Example:
+     * $object_numbers[60] = 1;
+     */
+    private $object_numbers;
 
     /**
      * Constructor
@@ -110,8 +119,7 @@ class ContentObjectCopier
         {
         	if(!$is_version)
         	{
-        		$this->create_content_object($co->get_latest_version());
-        		return;
+        		return $this->create_content_object($co->get_latest_version());
         	}
         }
             
@@ -123,10 +131,27 @@ class ContentObjectCopier
         $co->set_owner_id($this->target_repository);
         $co->set_parent_id(0);
 
-        // Create object
-        if (! $co->create())
+        $old_object_number = $co->get_object_number();
+    	$object_number_exists = array_key_exists($old_object_number, $this->object_numbers);
+        if($object_number_exists)
         {
-            $this->failed ++;
+          	$co->set_object_number($this->object_numbers[$old_object_number]);
+       	 	if (!$co->version())
+	        {
+	            $this->failed ++;
+	        }
+        }
+        else
+        {
+	        // Create object
+        	if (! $co->create())
+	        {
+	            $this->failed ++;
+	        }
+	        else
+	        {
+	        	$this->object_numbers[$old_object_number] = $co->get_object_number();
+	        }
         }
 
         // Add object to created content objects
