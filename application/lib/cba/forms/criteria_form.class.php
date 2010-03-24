@@ -140,7 +140,6 @@ class CriteriaForm extends FormValidator
     	$criteria_score = $this->criteria_score; 	
     	$criteria_score->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();	
-    	$parent = $this->exportValue(CriteriaScore :: PROPERTY_PARENT_ID);
     	
     	$result = true;
 
@@ -201,11 +200,15 @@ class CriteriaForm extends FormValidator
     	$criteria = $this->criteria;
     	$criteria_score = $this->criteria_score;
     	$criteria_score->set_owner_id($this->get_owner_id());
-        $values = $this->exportValues();	
-    	$parent = $this->exportValue(CriteriaScore :: PROPERTY_PARENT_ID);
-    	$criteria_score->set_criteria_id($this->exportValue(CriteriaScore :: PROPERTY_CRITERIA_ID));
-    	$criteria_score->set_description_id($this->exportValue(CriteriaScore :: PROPERTY_DESCRIPTION_SCORE));
-    	$criteria_score->set_score($this->exportValue(CriteriaScore :: PROPERTY_SCORE));
+        $values = $this->exportValues();
+
+        
+		$count = sizeof($criteria_score);
+		for($i = 0; $i < $count; $i++)
+		{	
+    		$criteria_score->set_description_score($values[CriteriaScore :: PROPERTY_DESCRIPTION_SCORE .$i]);
+    		$criteria_score->set_score($values[CriteriaScore :: PROPERTY_SCORE .$i]);
+		}
         
         $conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $criteria->get_id());				
         $conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_DESCRIPTION_SCORE, $criteria_score->get_description_score());
@@ -213,6 +216,7 @@ class CriteriaForm extends FormValidator
 						
         $condition = new AndCondition($conditions);
         $cats = $this->data_manager->count_criterias_score($condition);
+
         
         if ($cats > 0)
         {
@@ -240,11 +244,7 @@ class CriteriaForm extends FormValidator
 	{
 		$criteria = $this->criteria;
 		
-		$criteria_score = $this->criteria_score;
-		//dump($criteria_score);
-		//exit();
-		//$criteria_score = new CriteriaScore();
-		//$criteria_score->set_description_score('test'); 		
+		$criteria_score = $this->criteria_score;		
 		/*$values = $this->exportValues();
 		$parent = $this->exportValue(CriteriaScore :: PROPERTY_PARENT_ID);
 		
@@ -255,14 +255,12 @@ class CriteriaForm extends FormValidator
 			echo '<br/>';		
 		}
 		exit();*/
-		
-		for($i = 0; $i < 3; $i++)
+
+		$count = sizeof($criteria_score);				
+		for($i = 0; $i < $count; $i++)
 		{
-			//$defaults[CriteriaScore :: PROPERTY_ID] = $criteria_score->get_id();
-	    	//$defaults[CriteriaScore :: PROPERTY_CRITERIA_ID] = $criteria_score->get_criteria_id();
-	    	//$defaults[CriteriaScore :: PROPERTY_DESCRIPTION_SCORE . $i] = $criteria_score->get_description_score();
 			$defaults[CriteriaScore :: PROPERTY_DESCRIPTION_SCORE . $i] = $criteria_score->get_description_score();
-			$defaults[CriteriaScore :: PROPERTY_SCORE . $i] = $criteria->get_title();
+			$defaults[CriteriaScore :: PROPERTY_SCORE . $i] = $criteria_score->get_score();
 		}
 		parent :: setDefaults($defaults);
 	}
@@ -282,7 +280,7 @@ class CriteriaForm extends FormValidator
         
         if (! isset($_SESSION['mc_number_of_options']))
         {
-            $_SESSION['mc_number_of_options'] = 3;
+            $_SESSION['mc_number_of_options'] = 1;
         }
         
         if (! isset($_SESSION['mc_skip_options']))

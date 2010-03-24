@@ -30,13 +30,12 @@ class CriteriaScore extends DataClass
 	const PROPERTY_DESCRIPTION_SCORE = 'description_score';
 	const PROPERTY_SCORE = 'score';
 	const PROPERTY_OWNER_ID = 'owner_id';
-    const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_STATE = 'state';
 
 
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_CRITERIA_ID, self :: PROPERTY_DESCRIPTION_SCORE, self :: PROPERTY_SCORE, self :: PROPERTY_OWNER_ID, self :: PROPERTY_PARENT_ID, self :: PROPERTY_STATE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_CRITERIA_ID, self :: PROPERTY_DESCRIPTION_SCORE, self :: PROPERTY_SCORE, self :: PROPERTY_OWNER_ID, self :: PROPERTY_STATE);
 	}
 
 	function get_data_manager()
@@ -84,16 +83,6 @@ class CriteriaScore extends DataClass
 		$this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
 	}
 
-	function get_parent_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_PARENT_ID);
-	}
-
-	function set_parent_id($parent_id)
-	{
-		$this->set_default_property(self :: PROPERTY_PARENT_ID, $parent_id);
-	}
-
 	function get_state()
 	{
 		return $this->get_default_property(self :: PROPERTY_STATE);
@@ -108,13 +97,6 @@ class CriteriaScore extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
-	/*function move($new_parent_id)
-    {
-    	$this->set_parent_id($new_parent_id);
-    	$cdm = CbaDataManager :: get_instance();
-        return $cdm->update_criteria($this);
-    }*/
 }
 
 ?>

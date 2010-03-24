@@ -12,12 +12,13 @@ class CompetencyIndicator extends DataClass
 	 * Competency/Indicator properties
 	 */
 	const PROPERTY_COMPETENCY_ID = 'competency_id';
-    const PROPERTY_INDICATOR_ID = 'indicator_id';    
+    const PROPERTY_INDICATOR_ID = 'indicator_id'; 
+    const PROPERTY_OWNER_ID = 'owner_id';   
 
 
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_COMPETENCY_ID, self :: PROPERTY_INDICATOR_ID);
+		return array (self :: PROPERTY_COMPETENCY_ID, self :: PROPERTY_INDICATOR_ID, self :: PROPERTY_OWNER_ID);
 	}
 
 	function get_data_manager()
@@ -43,6 +44,16 @@ class CompetencyIndicator extends DataClass
 	function set_indicator_id($indicator_id)
 	{
 		$this->set_default_property(self :: PROPERTY_INDICATOR_ID, $indicator_id);
+	}
+	
+	function get_owner_id()
+	{
+		return $this->get_default_property(self :: PROPERTY_OWNER_ID);
+	}
+
+	function set_owner_id($owner_id)
+	{
+		$this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
 	}
 	
 	static function get_table_name()

@@ -178,7 +178,7 @@ class DatabaseCbaDataManager extends CbaDataManager
 		return $this->database->update($criteria_score, $condition);
 	}
 	
-	function delete_criteria_score($criteri_scorea)
+	function delete_criteria_score($criteria_score)
 	{
 		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $criteria_score->get_id());
 		return $this->database->delete($criteria_score->get_table_name(), $condition);
@@ -191,7 +191,8 @@ class DatabaseCbaDataManager extends CbaDataManager
 	
 	function retrieve_criteria_score($id)
 	{
-		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $id);
+		//$condition = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $id);
+		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $id);
 		return $this->database->retrieve_object(CriteriaScore :: get_table_name(), $condition);
 	}
 	
@@ -224,14 +225,15 @@ class DatabaseCbaDataManager extends CbaDataManager
 		return $this->database->delete($competency_indicator->get_table_name(), $condition);
 	}
 
-	function count_competency_indicator($condition = null)
+	function count_competencys_indicator($condition = null)
 	{
 		return $this->database->count_objects(CompetencyIndicator :: get_table_name(), $condition);
 	}
 	
 	function retrieve_competency_indicator($id)
 	{
-		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_ID, $id);
+		//$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_ID, $id);
+		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $id);
 		return $this->database->retrieve_object(CompetencyIndicator :: get_table_name(), $condition);
 	}
 	
@@ -264,14 +266,15 @@ class DatabaseCbaDataManager extends CbaDataManager
 		return $this->database->delete($indicator_criteria->get_table_name(), $condition);
 	}
 
-	function count_indicator_criteria($condition = null)
+	function count_indicators_criteria($condition = null)
 	{
 		return $this->database->count_objects(IndicatorCriteria :: get_table_name(), $condition);
 	}
 	
 	function retrieve_indicator_criteria($id)
 	{
-		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_ID, $id);
+		//$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_ID, $id);
+		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $id);
 		return $this->database->retrieve_object(IndicatorCriteria :: get_table_name(), $condition);
 	}
 	
