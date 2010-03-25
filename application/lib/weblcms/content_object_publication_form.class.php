@@ -281,7 +281,16 @@ class ContentObjectPublicationForm extends FormValidator
         $attributes['exclude'] = array('user_' . $this->tool->get_user_id());
         $attributes['defaults'] = array();
 
-        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
+        $legend_items = array();
+        $legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        $legend_items[] = new ToolbarItem(Translation :: get('LinkedUser'), Theme :: get_common_image_path() . 'treemenu/user_platform.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        $legend_items[] = new ToolbarItem(Translation :: get('UserGroup'), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+
+        $legend = new Toolbar();
+        $legend->set_items($legend_items);
+        $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
+
+        $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes, 'Everybody', $legend);
 
         $this->add_forever_or_timewindow();
         $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));

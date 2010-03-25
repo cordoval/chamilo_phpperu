@@ -1155,8 +1155,13 @@ ul.toolbar li span,ul.toolbar_horizontal li span,ul.toolbar_vertical li span
 }
 
 ul.toolbar li.last span,ul.toolbar_horizontal li.last span,ul.toolbar_vertical li.last span
-	{
+{
 	padding-right: 0;
+}
+
+ul.toolbar li span.legend,ul.toolbar_horizontal li span.legend,ul.toolbar_vertical li span.legend
+{
+	color: black;
 }
 
 /*******************
