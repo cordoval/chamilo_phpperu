@@ -3,6 +3,8 @@ require_once dirname(__FILE__).'/../cba_manager.class.php';
 require_once dirname(__FILE__).'/../cba_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/criteria_form.class.php';
 
+require_once dirname(__FILE__).'/../../criteria_score.class.php';
+
 /**
  * Component to edit an existing competency object
  * @author Nick Van Loocke
@@ -17,13 +19,18 @@ class CbaManagerCriteriaEditorComponent extends CbaManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateCriteria')));
 		
-		
-		$criteria = $this->retrieve_criteria(Request :: get(CbaManager :: PARAM_CRITERIA));
-		$criteria_score = $this->retrieve_criteria_score(Request :: get(CbaManager :: PARAM_CRITERIA_SCORE));
-		$i = 0;
-		$test = $defaults[CriteriaScore :: PROPERTY_SCORE . $i] = $criteria_score->get_description_score();
-		echo $test;
-		exit();
+		$id = Request :: get(CbaManager :: PARAM_CRITERIA);
+		$criteria = $this->retrieve_criteria($id);		
+		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $id);
+		$count_links = $this->count_criterias_score($condition);
+				
+		for($i = 0; $i < $count_links; $i++)
+		{	
+			$criteria_score = $this->retrieve_criteria_score($id);
+			//$criteria_score = $this->retrieve_criteria_score_new($id, /*PROPERTY_ID from criteria_score*/);
+			//dump($criteria_score);			
+		}
+		//exit();
 		$form = new CriteriaForm(CriteriaForm :: TYPE_EDITOR_CRITERIA, $criteria, $criteria_score, $this->get_url(array(CbaManager :: PARAM_CRITERIA => $criteria->get_id())), $this->get_user());
 
 		if($form->validate())

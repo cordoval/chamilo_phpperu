@@ -6,14 +6,10 @@
 		<property name="description_score" type="text"/>
   		<property name="score" type="text"/>
 		<property name="state" type="integer" length="1" unsigned="1" notnull="1" default="0" />
-  		<property name="parent_id" type="integer" unsigned="1" notnull="1" default="0" />
   		<property name="owner_id" type="integer" unsigned="1" notnull="1" />
 	</properties>
 	<index name="owner_id">
 		<indexproperty name="owner_id" />
-	</index>
-	<index name="parent_id">
-		<indexproperty name="parent_id" />
 	</index>
 	<index name="state">
 		<indexproperty name="state" />

@@ -72,6 +72,8 @@ class IndicatorForm extends FormValidator
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         
+        // DELETE ADD INDICATORS IN FORM VALIDATOR
+        
         $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
         
     	
@@ -85,14 +87,41 @@ class IndicatorForm extends FormValidator
     {
     	$this->addElement('text', Indicator :: PROPERTY_TITLE, Translation :: get('Title'));
 		$this->addRule(Indicator :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$this->categories = array();
+        $this->categories[0] = Translation :: get('Root');
+        $this->retrieve_categories_recursive(0, 0);
+		
+    	$this->addElement('select', Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
 		$this->add_html_editor(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$attributes = array();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_criteria_feed.php';
+
+        $locale = array();
+        $locale['Display'] = Translation :: get('ShareWith');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+		$attributes['locale'] = $locale;
+        $attributes['defaults'] = array();
+        
+        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
     	
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    }
+    
+ 	function add_indicators($elementName, $elementLabel, $attributes)
+    {
+		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+		$element_finder->excludeElements($attributes['exclude']);
+        $this->addElement($element_finder);
     }
      
 	function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
@@ -138,7 +167,8 @@ class IndicatorForm extends FormValidator
 	function create_indicator_criteria()
     {
     	$indicator = $this->indicator;
-    	$indicator_criteria = $this->indicator_criteria;  	
+    	$indicator_criteria = $this->indicator_criteria;  
+    	$indicator_criteria->set_owner_id($this->get_owner_id());	
     	$values = $this->exportValues();
 	   	
     	$indicator_criteria->set_indicator_id($indicator->get_id());
@@ -156,7 +186,7 @@ class IndicatorForm extends FormValidator
         	$conditions[] = new EqualityCondition(IndicatorCriteria :: PROPERTY_CRITERIA_ID, $indicator_criteria->get_criteria_id());
     		
             $condition = new AndCondition($conditions);
-           	$cats = $this->data_manager->count_indicator_criteria($condition);
+           	$cats = $this->data_manager->count_indicators_criteria($condition);
                 
             if ($cats > 0)
             {
