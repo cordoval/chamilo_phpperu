@@ -1439,12 +1439,6 @@ class WeblcmsManager extends WebApplication
             {
                 $this->redirect('url', null, null, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CHANGE_ACTIVE, WeblcmsManager :: PARAM_COURSE_TYPE => $selected_course_type_id, WeblcmsManager :: PARAM_TYPE => 'course_type', WeblcmsManager :: PARAM_EXTRA => $action));
             }
-            /*         
-            else
-            {
-                //$this->redirect('url', null, null, array(Application :: PARAM_ACTION => $action, WeblcmsManager :: PARAM_COURSE_TYPE => $selected_course_type_id, WeblcmsManager :: PARAM_TYPE => 'course_type'));               
-            }
-            */
             
 			switch ($action)
 			{
