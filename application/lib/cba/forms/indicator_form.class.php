@@ -72,6 +72,8 @@ class IndicatorForm extends FormValidator
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         
+        // DELETE ADD INDICATORS IN FORM VALIDATOR
+        
         $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
         
     	
@@ -113,6 +115,13 @@ class IndicatorForm extends FormValidator
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    }
+    
+ 	function add_indicators($elementName, $elementLabel, $attributes)
+    {
+		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+		$element_finder->excludeElements($attributes['exclude']);
+        $this->addElement($element_finder);
     }
      
 	function retrieve_categories_recursive($parent, $exclude_category, $level = 1)

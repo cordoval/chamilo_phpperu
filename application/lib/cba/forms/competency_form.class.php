@@ -116,7 +116,14 @@ class CompetencyForm extends FormValidator
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
-    
+ 	function add_indicators($elementName, $elementLabel, $attributes)
+    {
+    	// Use defaults for the right column!
+		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+		$element_finder->excludeElements($attributes['exclude']);
+        $this->addElement($element_finder);
+    }
+       
 	function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
     {
         $conditions[] = new NotCondition(new EqualityCondition(CompetencyCategory :: PROPERTY_ID, $exclude_category));
