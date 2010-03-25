@@ -25,10 +25,16 @@ class SurveyPublicationForm extends FormValidator
     private $publication;
     private $content_object;
     private $user;
+    private $testcase = 0;
 
     function SurveyPublicationForm($form_type, $content_object, $user, $action)
     {
         parent :: __construct('survey_publication_settings', 'post', $action);
+        
+        $action = Request::get(SurveyManager::PARAM_ACTION);
+        if($action === SurveyManager::ACTION_TESTCASE ){
+           	$this->testcase = 1;
+        }
         
         $this->content_object = $content_object;
         $this->user = $user;
@@ -68,7 +74,7 @@ class SurveyPublicationForm extends FormValidator
         }
         
         $defaults['hidden'] = $publication->is_hidden();
-        $defaults['test'] = $publication->is_test();
+        //$defaults['test'] = $publication->is_test();
         
         $udm = UserDataManager :: get_instance();
         $gdm = GroupDataManager :: get_instance();
@@ -142,19 +148,19 @@ class SurveyPublicationForm extends FormValidator
         $attributes['defaults'] = array();
         
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
-        $this->add_forever_or_timewindow();
-        $this->addElement('checkbox', SurveyPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
-        $this->addElement('checkbox', SurveyPublication :: PROPERTY_TEST, Translation :: get('Test'));
-    
+        if($this->testcase != 1){
+        	$this->add_forever_or_timewindow();
+        	$this->addElement('checkbox', SurveyPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
+        }
+     
     }
 
     function add_footer()
     {
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        //$this->addElement('submit', 'submit', Translation :: get('Ok'));
+
     }
 
     /**
@@ -174,8 +180,7 @@ class SurveyPublicationForm extends FormValidator
             $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
         }
         $hidden = ($values[SurveyPublication :: PROPERTY_HIDDEN] ? 1 : 0);
-        $test = ($values[SurveyPublication :: PROPERTY_TEST] ? 1 : 0);
-        
+      
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
         
@@ -186,7 +191,7 @@ class SurveyPublicationForm extends FormValidator
         $pub->set_from_date($from);
         $pub->set_to_date($to);
         $pub->set_hidden($hidden);
-        $pub->set_test($test);
+        $pub->set_test($this->testcase);
         $pub->set_target_users($users);
         $pub->set_target_groups($groups);
         
@@ -213,7 +218,6 @@ class SurveyPublicationForm extends FormValidator
             $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
         }
         $hidden = ($values[SurveyPublication :: PROPERTY_HIDDEN] ? 1 : 0);
-        $test = ($values[SurveyPublication :: PROPERTY_TEST] ? 1 : 0);
         
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
@@ -229,7 +233,7 @@ class SurveyPublicationForm extends FormValidator
             $pub->set_from_date($from);
             $pub->set_to_date($to);
             $pub->set_hidden($hidden);
-            $pub->set_test($test);
+            $pub->set_test($this->testcase);
             $pub->set_target_users($users);
             $pub->set_target_groups($groups);
             
@@ -255,8 +259,7 @@ class SurveyPublicationForm extends FormValidator
             $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
         }
         $hidden = ($values[SurveyPublication :: PROPERTY_HIDDEN] ? 1 : 0);
-        $test = ($values[SurveyPublication :: PROPERTY_TEST] ? 1 : 0);
-        
+       
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
         
@@ -264,7 +267,6 @@ class SurveyPublicationForm extends FormValidator
         $pub->set_from_date($from);
         $pub->set_to_date($to);
         $pub->set_hidden($hidden);
-        $pub->set_test($test);
         
         $pub->set_target_users($users);
         $pub->set_target_groups($groups);
