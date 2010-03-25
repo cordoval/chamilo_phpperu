@@ -363,7 +363,7 @@ EOT;
 					</script>\n");
     }
 
-    function add_receivers($elementName, $elementLabel, $attributes, $no_selection = 'Everybody')
+    function add_receivers($elementName, $elementLabel, $attributes, $no_selection = 'Everybody', $legend = null)
     {
         $choices = array();
         $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($no_selection), '0', array('onclick' => 'javascript:receivers_hide(\'receivers_window\')', 'id' => 'receiver'));
@@ -374,6 +374,12 @@ EOT;
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
+
+        if ($legend)
+        {
+            $this->addElement('static', null, null, $legend->as_html());
+        }
+
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */

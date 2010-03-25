@@ -8,7 +8,7 @@ class ToolbarItem
     const DISPLAY_ICON = 1;
     const DISPLAY_LABEL = 2;
     const DISPLAY_ICON_AND_LABEL = 3;
-    
+
     private $label;
     private $display;
     private $image;
@@ -71,33 +71,45 @@ class ToolbarItem
             $this->display = self :: DISPLAY_ICON;
         }
         $display_label = ($this->display & self :: DISPLAY_LABEL) == self :: DISPLAY_LABEL && ! empty($label);
-        
+
         $button = '';
         if (($this->display & self :: DISPLAY_ICON) == self :: DISPLAY_ICON && isset($this->image))
         {
             $button .= '<img src="' . htmlentities($this->image) . '" alt="' . $label . '" title="' . $label . '"' . ($display_label ? ' class="labeled"' : '') . '/>';
         }
-        
+
+        if ($this->class)
+        {
+            $class = ' class="' . $this->class . '"';
+        }
+        else
+        {
+            $class = '';
+        }
+
         if ($display_label)
         {
-            $button .= '<span>' . $label . '</span>';
+            if ($this->get_href())
+            {
+                $button .= '<span>' . $label . '</span>';
+            }
+            else
+            {
+                $button .= '<span'. $class .'>' . $label . '</span>';
+            }
         }
-        
+
         if ($this->get_href())
         {
-            if ($this->class)
-            {
-                $class = ' class="' . $this->class . '"';
-            }
-            
+
             if ($this->target)
             {
                 $target = ' target="' . $this->target . '"';
             }
-            
+
             $button = '<a' . $class . $target . ' href="' . htmlentities($this->href) . '" title="' . $label . '"' . ($this->needs_confirmation() ? ' onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"' : '') . '>' . $button . '</a>';
         }
-        
+
         return $button;
     }
 }
