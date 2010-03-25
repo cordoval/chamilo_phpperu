@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . '/../../../tables/survey_publication_table/defa
 require_once dirname(__FILE__) . '/../../../survey_publication.class.php';
 //require_once dirname(__FILE__) . '/../../survey_manager.class.php';
 
+
 class TestcaseSurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublicationTableCellRenderer
 {
     /**
@@ -31,6 +32,16 @@ class TestcaseSurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPub
             return $this->get_modification_links($survey_publication);
         }
         
+        switch ($column->get_name())
+        {
+            case Translation :: get(TestcaseSurveyPublicationBrowserTableColumnModel :: COLUMN_NOT_PARTICIPANTS) :
+                return $survey_publication->count_excluded_participants();
+            
+            case Translation :: get(TestcaseSurveyPublicationBrowserTableColumnModel :: COLUMN_PARTICIPANTS) :
+                return $survey_publication->count_unique_participants();
+        
+        }
+        
         return parent :: render_cell($column, $survey_publication);
     }
 
@@ -48,35 +59,26 @@ class TestcaseSurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPub
         
         $user = $this->browser->get_user();
         
-        $toolbar_data[] = array('href' => $this->browser->get_browse_survey_participants_url($survey_publication), 'label' => Translation :: get('TakeSurvey'), 'img' => Theme :: get_common_image_path() . 'action_next.png');
+        $toolbar_data[] = array('href' => $this->browser->get_browse_survey_participants_url($survey_publication), 'label' => Translation :: get('Participants'), 'img' => Theme :: get_common_image_path().'action_subscribe.png');
         
         //$toolbar_data[] = array('href' => $this->browser->get_survey_results_viewer_url($survey_publication), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
         
+
         if ($user->is_platform_admin() || $user->get_id() == $survey_publication->get_publisher())
         {
-            $toolbar_data[] = array('href' => $this->browser->get_parent()->get_parent()->get_delete_survey_publication_url($survey_publication), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-            $toolbar_data[] = array('href' => $this->browser->get_parent()->get_parent()->get_update_survey_publication_url($survey_publication), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $toolbar_data[] = array('href' => $this->browser->get_delete_survey_publication_url($survey_publication), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+            $toolbar_data[] = array('href' => $this->browser->get_update_survey_publication_url($survey_publication), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
             
-//for test visibility makes no difference: only the tester is able to see the publications
-            //            if ($survey_publication->get_hidden())
-//            {
-//                $toolbar_data[] = array('href' => $this->browser->get_change_survey_publication_visibility_url($survey_publication), 'label' => Translation :: get('Show'), 'img' => Theme :: get_common_image_path() . 'action_visible_na.png');
-//            }
-//            else
-//            {
-//                $toolbar_data[] = array('href' => $this->browser->get_change_survey_publication_visibility_url($survey_publication), 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
-//            }
+            $toolbar_data[] = array('href' => $this->browser->get_change_test_to_production_url($survey_publication), 'label' => Translation :: get('ChangeToProduction'), 'img' => Theme :: get_common_image_path() . 'export_repository.png');
             
-//TO DO implement survey exporter            
-// $toolbar_data[] = array('href' => $this->browser->get_export_survey_url($survey_publication), 'label' => Translation :: get('Export'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
-//            $toolbar_data[] = array('href' => $this->browser->get_move_survey_publication_url($survey_publication), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+            //TO DO implement survey exporter            
+            // $toolbar_data[] = array('href' => $this->browser->get_export_survey_url($survey_publication), 'label' => Translation :: get('Export'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
+            //            $toolbar_data[] = array('href' => $this->browser->get_move_survey_publication_url($survey_publication), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
             //$toolbar_data[] = array('href' => $this->browser->get_publish_survey_url($survey_publication), 'label' => Translation :: get('InviteUsers'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
             
 
-            if ($survey->is_complex_content_object())
-            {
-                $toolbar_data[] = array('href' => $this->browser->get_parent()->get_parent()->get_build_survey_url($survey_publication), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseComplex'));
-            }
+            $toolbar_data[] = array('href' => $this->browser->get_build_survey_url($survey_publication), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseComplex'));
+        
         }
         
         return Utilities :: build_toolbar($toolbar_data);

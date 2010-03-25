@@ -63,7 +63,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
         {
             $t = is_array($type) ? implode(',', $type) : $type;
             $p = $this->rdm->retrieve_content_object($parent);
-        	$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />'; 
+        	$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities:: underscores_to_camelcase($t)), Translation :: get(Utilities:: underscores_to_camelcase($p->get_type())), $p->get_title()) . '</h4><br />'; 
         	$html[] = $pub->as_html();
         }
         else

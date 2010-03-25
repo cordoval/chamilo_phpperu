@@ -342,7 +342,8 @@ class SurveyPublication extends DataClass
     {
         $user_ids = array();
         $groups = $this->get_target_groups();
-        if ($groups)
+        
+        if (isset($groups) && (count($groups) != 0))
         {
             $gdm = GroupDataManager :: get_instance();
             foreach ($groups as $group_id)
@@ -360,7 +361,7 @@ class SurveyPublication extends DataClass
         
         $user_count = 0;
         $groups = $this->get_target_groups();
-        if ($groups)
+        if (isset($groups) && (count($groups) != 0))
         {
             $gdm = GroupDataManager :: get_instance();
             foreach ($groups as $group_id)
@@ -473,6 +474,38 @@ class SurveyPublication extends DataClass
         $udm = UserDataManager :: get_instance();
         return $udm->retrieve_user($this->get_publisher());
     }
+
+    function count_unique_participants()
+    {
+        $dummy = new SurveyParticipantTracker();
+        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
+        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
+        $user_ids = array();
+        while ($tracker = $trackers->next_result())
+        {
+            $user_ids[] = $tracker->get_user_id();
+        }
+        $user_ids = array_unique($user_ids);
+        return count($user_ids);
+    
+    }
+
+    function count_excluded_participants()
+    {
+        $dummy = new SurveyParticipantTracker();
+        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
+        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
+        $user_ids = array();
+        while ($tracker = $trackers->next_result())
+        {
+            $user_ids[] = $tracker->get_user_id();
+        }
+        $user_ids = array_unique($user_ids);
+        $user_ids = array_diff($this->get_target_user_ids(), $user_ids);
+        return count($user_ids);
+    
+    }
+
 }
 
 ?>

@@ -19,6 +19,14 @@ class SurveyManagerDeleterComponent extends SurveyManagerComponent
      */
     function run()
     {
+        
+        $testcase = false;
+        $action = Request :: get(SurveyManager :: PARAM_ACTION);
+        if ($action === SurveyManager :: ACTION_TESTCASE)
+        {
+            $testcase = true;
+        }
+               
         $ids = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         $failures = 0;
         
@@ -69,7 +77,14 @@ class SurveyManagerDeleterComponent extends SurveyManagerComponent
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+            if ($testcase)
+            {
+                $this->redirect(Translation :: get($message), ($failures ? true : false), array(TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+            }
+            else
+            {
+                $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+            }
         }
         else
         {

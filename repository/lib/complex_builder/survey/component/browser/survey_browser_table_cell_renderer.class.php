@@ -91,7 +91,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
             $toolbar_data[] = array('label' => Translation :: get('MoveDownNA'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
         }
         
-        $toolbar_data[] = array('href' => $this->browser->get_url(array(ComplexBuilder :: PARAM_ROOT_LO => $lo->get_id(), 'publish' => Request :: get('publish'))), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseComplex'));
+        $toolbar_data[] = array('href' => $this->browser->get_url(array(ComplexBuilder :: PARAM_ROOT_LO => $lo->get_id(), 'publish' => Request :: get('publish'))), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseSurveyPage'));
         
         $toolbar_data = array_merge($toolbar_data, $additional_items);
         
