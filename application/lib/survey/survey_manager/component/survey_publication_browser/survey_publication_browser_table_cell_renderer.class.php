@@ -68,7 +68,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         
         }
         
-        $toolbar_data[] = array('href' => $this->browser->get_survey_results_viewer_url($survey_publication), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+//        $toolbar_data[] = array('href' => $this->browser->get_survey_results_viewer_url($survey_publication), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
         
         if ($user->is_platform_admin() || $user->get_id() == $survey_publication->get_publisher())
         {
@@ -91,7 +91,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
             
             if ($survey->is_complex_content_object())
             {
-                $toolbar_data[] = array('href' => $this->browser->get_build_survey_url($survey_publication), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseComplex'));
+                $toolbar_data[] = array('href' => $this->browser->get_build_survey_url($survey_publication), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseSurvey'));
             }
         }
         
