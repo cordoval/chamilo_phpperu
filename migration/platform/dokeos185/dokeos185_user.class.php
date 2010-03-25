@@ -440,12 +440,6 @@ class Dokeos185User extends Import
         $lcms_user->set_platformadmin($this->get_platformadmin());
         $lcms_user->set_official_code($this->get_official_code());
         $lcms_user->set_phone($this->get_phone());
-        /*
-        if ($mgdm->is_language_available($this->get_language()))
-            //$lcms_user->set_language($this->get_language());
-        else
-            //$lcms_user->set_language('english');
-         */
         
         //Set user authentication method, if not available use default: platform
         if ($mgdm->is_authentication_available($this->get_auth_source()))
@@ -486,9 +480,11 @@ class Dokeos185User extends Import
         //Add id references to temp table
         $mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_id(), 'user_user');
         
-        // Create user directory
-        //$rep_dir = '/files/repository/' . $lcms_user->get_id() . '/';
-        //self :: $old_mgdm->create_directory(true, $rep_dir);
+        if ($mgdm->is_language_available($this->get_language()))
+            LocalSetting :: create_local_setting('platform_language', $this->get_language(), 'admin', $lcms_user->get_id());
+        else
+            LocalSetting :: create_local_setting('platform_language', 'english', 'admin', $lcms_user->get_id());
+
 
         // Convert profile fields to Profile object if the user has user profile data
         if ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL)

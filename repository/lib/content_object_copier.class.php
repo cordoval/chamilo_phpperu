@@ -52,6 +52,15 @@ class ContentObjectCopier
      * @var String[]
      */
     private $file_references;
+    
+    /**
+     * Used to save the references in the object numbers
+     * @var int[]
+     * 
+     * Example:
+     * $object_numbers[60] = 1;
+     */
+    private $object_numbers;
 
     /**
      * Constructor
@@ -87,14 +96,33 @@ class ContentObjectCopier
      * @param ContentObject $co
      * @return Int the id of the new created content object
      */
-    private function create_content_object($co)
+    private function create_content_object($co, $is_version = false)
     {
         $old_co_id = $co->get_id();
         $old_user_id = $co->get_owner_id();
 
         if (array_key_exists($old_co_id, $this->created_content_objects))
+        {
             return $this->created_content_objects[$old_co_id]->get_id();
+        }
 
+    	//First we copy the versions so the last version will always be copied last
+        if($co->is_latest_version())
+        {
+            $versions = $this->rdm->retrieve_content_object_versions($co, false);
+	        foreach($versions as $version)
+	        {
+	        	$this->create_content_object($version, true);
+	        }
+        }
+        else
+        {
+        	if(!$is_version)
+        	{
+        		return $this->create_content_object($co->get_latest_version());
+        	}
+        }
+            
         // Retrieve includes and attachments
         $includes = $co->get_included_content_objects();
         $attachments = $co->get_attached_content_objects();
@@ -103,10 +131,27 @@ class ContentObjectCopier
         $co->set_owner_id($this->target_repository);
         $co->set_parent_id(0);
 
-        // Create object
-        if (! $co->create())
+        $old_object_number = $co->get_object_number();
+    	$object_number_exists = array_key_exists($old_object_number, $this->object_numbers);
+        if($object_number_exists)
         {
-            $this->failed ++;
+          	$co->set_object_number($this->object_numbers[$old_object_number]);
+       	 	if (!$co->version())
+	        {
+	            $this->failed ++;
+	        }
+        }
+        else
+        {
+	        // Create object
+        	if (! $co->create())
+	        {
+	            $this->failed ++;
+	        }
+	        else
+	        {
+	        	$this->object_numbers[$old_object_number] = $co->get_object_number();
+	        }
         }
 
         // Add object to created content objects
@@ -314,12 +359,15 @@ class ContentObjectCopier
     private function fix_links($co)
     {
         if (count($co->get_included_content_objects()) == 0)
+        {
             return;
+        }
 
         $fields = $co->get_html_editors();
 
         //$pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
-        $pattern = '/http:\/\/.*\/core\.php\?go=document_downloader&display=1&object=[0-9]*&application=repository/';
+        //$pattern = '/http:\/\/.*\/core\.php\?go=document_downloader&display=1&object=[0-9]*&application=repository/';
+        $pattern = '/core\.php\?go=document_downloader&display=1&object=[0-9]*&application=repository/';
         foreach ($fields as $field)
         {
             $value = $co->get_default_property($field); dump($value);

@@ -311,18 +311,10 @@ abstract class WeblcmsDataManager
     function course_subscription_allowed($course, $user_id)
     {
         $already_subscribed = $this->is_subscribed($course, $user_id);
-        if ($course->get_visibility() == COURSE_VISIBILITY_CLOSED || $course->get_visibility() == COURSE_VISIBILITY_REGISTERED)
-        {
-            $visibility = false;
-        }
-        else
-        {
-            $visibility = true;
-        }
 
-        $subscription_allowed = ($course->get_subscribe_allowed() == 1 ? true : false);
+        $subscription_allowed = ($course->get_access() == 1 ? true : false);
 
-        if ($visibility && ! $already_subscribed && $subscription_allowed)
+        if (! $already_subscribed && $subscription_allowed)
         {
             return true;
         }
@@ -622,6 +614,7 @@ abstract class WeblcmsDataManager
      */
     abstract function delete_course_category($course_category);
 
+    abstract function delete_course_module($course_code, $course_name);
     /**
      * Sets the visibility of a course module.
      * @param string $course_code

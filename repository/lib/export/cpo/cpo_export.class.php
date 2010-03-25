@@ -173,10 +173,12 @@ class CpoExport extends ContentObjectExport
      * Render the contentobject
      * @param ContentObject $content_object
      */
-    function render_content_object($content_object)
+    function render_content_object($content_object, $is_version = false)
     {
     	if (in_array($content_object->get_id(), $this->exported_content_objects))
+    	{
             return;
+    	}
         
     	//First we export the versions so the last version will always be imported last
         if($content_object->is_latest_version())
@@ -184,8 +186,16 @@ class CpoExport extends ContentObjectExport
             $versions = $this->rdm->retrieve_content_object_versions($content_object, false);
 	        foreach($versions as $version)
 	        {
-	        	$this->render_content_object($version);
+	        	$this->render_content_object($version, true);
 	        }
+        }
+    	else
+        {
+        	if(!$is_version)
+        	{ 
+        		$this->render_content_object($content_object->get_latest_version());
+        		return;
+        	}
         }
             
         $this->exported_content_objects[] = $content_object->get_id();

@@ -46,7 +46,7 @@ class AdminCourseTypeBrowserTableCellRenderer extends DefaultCourseTypeTableCell
 				{
 					$name_short = mb_substr($name_short,0,50).'&hellip;';
 				}
-				//return '<a href="'.htmlentities($this->browser->get_course_type_viewing_url($course_type)).'" title="'.$name.'">'.$name_short.'</a>';
+				return '<a href="'.htmlentities($this->browser->get_course_type_viewing_url($course_type)).'" title="'.$name.'">'.$name_short.'</a>';
         	
             case CourseType :: PROPERTY_DESCRIPTION :
 				$description = strip_tags(parent :: render_cell($column, $course_type));
@@ -83,7 +83,7 @@ class AdminCourseTypeBrowserTableCellRenderer extends DefaultCourseTypeTableCell
         $toolbar_data[] = array('href' => $this->browser->get_course_type_editing_url($course_type), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         $toolbar_data[] = array('href' => $this->browser->get_course_type_deleting_url($course_type), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         //$toolbar_data[] = array('href' => $this->browser->get_course_type_maintenance_url($course_type), 'label' => Translation :: get('Maintenance'), 'img' => Theme :: get_common_image_path() . 'action_maintenance.png');
-        
+        $toolbar_data[] = array('href' => $this->browser->get_change_active_url('course_type', $course_type->get_id()), 'label' => ($course_type->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'), 'confirm' => false, 'img' => ($course_type->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png');
         
         //$params = array();
         //$params[ReportingManager :: PARAM_COURSE_TYPE_ID] = $course_type->get_id();

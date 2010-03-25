@@ -535,7 +535,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     {
         $subselect_condition = new EqualityCondition('content_object_id', $object->get_id());
         $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'include_id', $this->database->escape_table_name('content_object_include'), $subselect_condition, $this->database->get_alias(ContentObject :: get_table_name()));
-        return $this->retrieve_content_objects($condition)->as_array();;
+        //return $this->retrieve_content_objects($condition)->as_array();;
+        
+        return $this->database->retrieve_objects(ContentObject :: get_table_name(), $condition)->as_array();
     }
 
     function is_content_object_included($object)

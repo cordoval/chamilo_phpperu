@@ -388,6 +388,10 @@ ul.tree-menu li div a.type_user {
 	background-image: url(../images/common/treemenu/user.png);
 }
 
+ul.tree-menu li div a.type_user_platform {
+	background-image: url(../images/common/treemenu/user_platform.png);
+}
+
 ul.tree-menu li div a.type_group {
 	background-image: url(../images/common/treemenu/group.png);
 }

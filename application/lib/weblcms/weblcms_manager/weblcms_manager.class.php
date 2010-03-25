@@ -39,6 +39,7 @@ class WeblcmsManager extends WebApplication
 	const APPLICATION_NAME = 'weblcms';
 
 	const PARAM_COURSE = 'course';
+	const PARAM_TYPE = 'type';
 	const PARAM_ACTIVE = 'active';
 	const PARAM_COURSE_GROUP = 'course_group';
 	const PARAM_COURSE_TYPE = 'course_type';
@@ -62,6 +63,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_SUBSCRIBE_SELECTED_GROUP = 'subscribe_selected_group_admin';
 	const PARAM_TOOL_ACTION = 'tool_action';
 	const PARAM_STATUS = 'user_status';
+	const PARAM_EXTRA = 'extra';
 
 	const ACTION_SUBSCRIBE = 'subscribe';
 	const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
@@ -70,6 +72,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_UNSUBSCRIBE = 'unsubscribe';
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
+	const ACTION_VIEW_COURSE_TYPE ='coursetypeviewer';
 	const ACTION_CREATE_COURSE = 'coursecreator';
 	const ACTION_IMPORT_COURSES = 'courseimporter';
 	const ACTION_IMPORT_COURSE_USERS = 'courseuserimporter';
@@ -87,7 +90,8 @@ class WeblcmsManager extends WebApplication
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
 	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
 	const ACTION_REPORTING = 'reporting';
-	const ACTION_CHANGE_ACTIVATION = 'change activation';
+	const ACTION_CHANGE_ACTIVATION = 'activitychanger';
+	const ACTION_CHANGE_ACTIVE = 'activechanger';
 
 	const ACTION_RENDER_BLOCK = 'block';
 
@@ -209,6 +213,9 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_DELETE_COURSE_TYPE :
 				$component = WeblcmsManagerComponent :: factory('CourseTypeDeleter', $this);
 				break;
+			case self :: ACTION_VIEW_COURSE_TYPE :
+				$component = WeblcmsManagerComponent :: factory('CourseTypeViewer', $this);
+				break;
 			case self :: ACTION_PUBLISH_INTRODUCTION :
 				$component = WeblcmsManagerComponent :: factory('IntroductionPublisher', $this);
 				break;
@@ -219,10 +226,13 @@ class WeblcmsManager extends WebApplication
 				$component = WeblcmsManagerComponent :: factory('IntroductionEditor', $this);
 				break;
 			case self :: ACTION_CHANGE_ACTIVATION :
-                $component = UserManagerComponent :: factory('ActiveChanger', $this);
+                $component = WeblcmsManagerComponent :: factory('ActiveChanger', $this);
                 break;
 			case self :: ACTION_REPORTING :
 				$component = WeblcmsManagerComponent :: factory('Reporting', $this);
+				break;
+			case self :: ACTION_CHANGE_ACTIVE :
+				$component = WeblcmsManagerComponent :: factory('ActivityChanger', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
@@ -253,6 +263,20 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->get_parameter(self :: PARAM_TOOL);
 	}
+	
+ 	/**
+     * Retrieves the change active url
+     * @return the change active component url
+     */
+    function get_change_active_url($type, $course_type_id)
+    {
+        $parameters = array();
+        $parameters[self :: PARAM_ACTION] = self :: ACTION_CHANGE_ACTIVE;
+        $parameters[self :: PARAM_TYPE] = $type;
+        $parameters[self :: PARAM_COURSE_TYPE] = $course_type_id;
+        
+        return $this->get_url($parameters);
+    }
 
 	/**
 	 * Gets the user object for a given user
@@ -350,8 +374,7 @@ class WeblcmsManager extends WebApplication
 
 	function get_course_type_viewing_url($course_type)
     {
-        //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
-        return null;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE_TYPE, self :: PARAM_COURSE_TYPE => $course_type->get_id()));
     }
 
 	/**
@@ -1158,6 +1181,9 @@ class WeblcmsManager extends WebApplication
 	 */
 	function get_course_subscription_url($course)
 	{
+		if(is_null($course->get_settings()))
+        	$course = $this->load_course($course->get_id());
+        $course = $this->get_course();
 		if (! $this->course_subscription_allowed($course))
 		{
 			return null;
@@ -1360,8 +1386,13 @@ class WeblcmsManager extends WebApplication
 	 */
 	private function parse_input_from_table()
 	{
-		if (isset($_POST['action']))
+		$action = $_POST['action'];
+		
+		if (isset($action))
 		{
+			
+			$action = $_POST['action'];
+			
 			$selected_course_ids = $_POST[AdminCourseBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty($selected_course_ids))
 			{
@@ -1397,12 +1428,19 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_course_type_ids = array();
 			}
+			
 			elseif (! is_array($selected_course_type_ids))
 			{
 				$selected_course_type_ids = array($selected_course_type_ids);
 			}
-
-			switch ($_POST['action'])
+			
+			$selected_course_type_id = $_POST[AdminCourseTypeBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			if ($action == 'enable' || $action == 'disable')
+            {
+                $this->redirect('url', null, null, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CHANGE_ACTIVE, WeblcmsManager :: PARAM_COURSE_TYPE => $selected_course_type_id, WeblcmsManager :: PARAM_TYPE => 'course_type', WeblcmsManager :: PARAM_EXTRA => $action));
+            }
+            
+			switch ($action)
 			{
 				case self :: PARAM_REMOVE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_COURSE);
@@ -1444,6 +1482,7 @@ class WeblcmsManager extends WebApplication
 					Request :: set_get(self :: PARAM_COURSE_TYPE, $selected_course_type_ids);
 					Request :: set_get(self :: PARAM_ACTIVE, 0);
 					break;
+					
 			}
 		}
 	}

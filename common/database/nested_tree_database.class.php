@@ -17,7 +17,7 @@ class NestedTreeDatabase extends Database
 		$condition = $this->build_children_condition($node, false, $condition);
 		return $this->count_objects($node->get_table_name(), $condition);
 	}
-	
+
 	/**
 	 * Retrieves the children of a tree node
 	 * @param NestedTreeNode $node - the node
@@ -29,7 +29,7 @@ class NestedTreeDatabase extends Database
 		$condition = $this->build_children_condition($node, $recursive, $condition);
 		return $this->retrieve_objects($node->get_table_name(), $condition);
 	}
-	
+
 	/**
 	 * Build the conditions for the get / count children methods
 	 * @param NestedTreeNode $node - the node
@@ -39,7 +39,7 @@ class NestedTreeDatabase extends Database
 	private function build_children_condition($node, $recursive = false, $condition = null)
 	{
 	 	$children_conditions = array();
-	 	
+
 		if ($recursive)
         {
             $children_conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $node->get_left_value());
@@ -49,15 +49,15 @@ class NestedTreeDatabase extends Database
         {
             $children_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT, $node->get_id());
         }
-        
+
         if($condition)
         {
         	$children_conditions[] = $condition;
         }
-        
+
         return new AndCondition($children_conditions);
 	}
-	
+
 	/**
 	 * Counts the parents of a tree node
 	 * @param NestedTreeNode $node - the node
@@ -69,7 +69,7 @@ class NestedTreeDatabase extends Database
 		$condition = $this->build_parents_condition($node, true, $include_object, $condition);
 		return $this->count_objects($node->get_table_name(), $condition);
 	}
-	
+
 	/**
 	 * Get the parents of a tree node
 	 * @param NestedTreeNode $node - the node
@@ -79,11 +79,11 @@ class NestedTreeDatabase extends Database
 	 */
 	function get_parents($node, $recursive = false, $include_object = false, $condition = null)
 	{
-    	$condition = $this->build_parents_condition($node, $recursive, $include_object, $condition);    
+    	$condition = $this->build_parents_condition($node, $recursive, $include_object, $condition);
 		$order = new ObjectTableOrder(NestedTreeNode :: PROPERTY_LEFT_VALUE, SORT_DESC);
         return $this->retrieve_objects($node->get_table_name(), $condition, null, null, $order);
 	}
-	
+
 	/**
 	 * Build the conditions for the get / count parents methods
 	 * @param NestedTreeNode $node - the node
@@ -94,7 +94,7 @@ class NestedTreeDatabase extends Database
 	private function build_parents_condition($node, $recursive = false, $include_object = false, $condition = null)
 	{
 		$parent_conditions = array();
-		
+
 		if($recursive)
 		{
 			if ($include_object)
@@ -117,7 +117,7 @@ class NestedTreeDatabase extends Database
         {
         	$parent_conditions[] = $condition;
         }
-        
+
         return new AndCondition($parent_conditions);
 	}
 
@@ -132,7 +132,7 @@ class NestedTreeDatabase extends Database
 		$condition = $this->build_sibblings_condition($node, $include_object, $condition);
 		return $this->count_objects($node->get_table_name(), $condition);
 	}
-	
+
 	/**
 	 * Gets the sibblings of a tree node
 	 * @param NestedTreeNode $node - the node
@@ -144,7 +144,7 @@ class NestedTreeDatabase extends Database
 		$condition = $this->build_sibblings_condition($node, $include_object, $condition);
         return $this->retrieve_objects($node->get_table_name(), $condition);
 	}
-	
+
 	/**
 	 * Build the conditions for the get / count sibblings methods
 	 * @param NestedTreeNode $node - the node
@@ -154,7 +154,7 @@ class NestedTreeDatabase extends Database
 	private function build_sibblings_condition($node, $include_object = false, $condition = null)
 	{
 		$siblings_conditions = array();
-		
+
         $siblings_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT, $node->get_parent());
 
         if (!$include_object)
@@ -166,10 +166,10 @@ class NestedTreeDatabase extends Database
         {
         	$siblings_conditions[] = $condition;
         }
-        
+
         return new AndCondition($siblings_conditions);
 	}
-	
+
 	/**
 	 * Move a node to a new parent with the use of a new parent id or a previous node id
 	 * @param NestedTreeNode $node - the node
@@ -190,12 +190,12 @@ class NestedTreeDatabase extends Database
             }
 
             $new_previous = $this->retrieve_node($node->get_table_name(), $new_previous_id);
-           
+
             if(!$new_previous)
 			{
 				throw new Exception(Translation :: get('NewPreviousNodeCanNotBeNull'));
-			}        
-            
+			}
+
             $new_parent_id = $new_previous->get_parent();
         }
         else
@@ -219,11 +219,11 @@ class NestedTreeDatabase extends Database
             }
             // Try to retrieve the data of the parent element
             $new_parent = $this->retrieve_node($node->get_table_name(), $new_parent_id);
-            
+
         	if(!$new_parent)
 			{
 				throw new Exception(Translation :: get('NewParentNodeCanNotBeNull'));
-			}            
+			}
         }
 
         $number_of_elements = ($node->get_right_value() - $node->get_left_value() + 1) / 2;
@@ -239,7 +239,7 @@ class NestedTreeDatabase extends Database
         // Now we can update the actual parent_id
         // Return false if this failed
         $node = $this->retrieve_node($node->get_table_name(), $node->get_id());
-        $node->set_parent($new_parent_id);
+        $node->set_parent_id($new_parent_id);
         if (! $node->update())
         {
             return false;
@@ -255,23 +255,23 @@ class NestedTreeDatabase extends Database
         if ($new_previous_id)
         {
             $temp = $this->retrieve_node($node->get_table_name(), $new_previous_id);
-            
+
 	        if(!$temp)
 			{
 				throw new Exception(Translation :: get('NewPreviousNodeCanNotBeNull'));
 			}
-            
+
             $calculate_width = $temp->get_right_value();
         }
         else
         {
             $temp = $this->retrieve_node($node->get_table_name(), $new_parent_id);
-            
+
         	if(!$temp)
 			{
 				throw new Exception(Translation :: get('NewParentNodeCanNotBeNull'));
 			}
-            
+
             $calculate_width = $temp->get_left_value();
         }
 
@@ -284,7 +284,7 @@ class NestedTreeDatabase extends Database
 		{
 			throw new Exception(Translation :: get('NodeCanNotBeNull'));
 		}
-        
+
         // Calculate the offset of the element to to the spot where it should go
         // correct the offset by one, since it needs to go inbetween!
         $offset = $calculate_width - $node->get_left_value() + 1;
@@ -293,12 +293,12 @@ class NestedTreeDatabase extends Database
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, ($node->get_left_value() - 1));
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, ($node->get_right_value() + 1));
-        
+
 		if($condition)
         {
         	$conditions[] = $condition;
         }
-        
+
         $update_condition = new AndCondition($conditions);
 
         $properties = array();
@@ -319,7 +319,7 @@ class NestedTreeDatabase extends Database
 
         return true;
 	}
-	
+
 	/**
 	 * Retrieve a node from the database
 	 * @param String $table_name - the table name
@@ -328,11 +328,11 @@ class NestedTreeDatabase extends Database
 	private function retrieve_node($table_name, $id)
 	{
 		$condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object($table_name, $condition);
+        return $this->retrieve_object($table_name, $condition);
 	}
-	
+
 	/**
-	 * Change the left/right values in the tree of every node that comes after the given node 
+	 * Change the left/right values in the tree of every node that comes after the given node
 	 * @param NestedTreeNode $node - the node
 	 * @param int $previous_visited - the previous node
 	 * @param int $number_of_elements - the number of elements which have to be inserted
@@ -343,17 +343,17 @@ class NestedTreeDatabase extends Database
 		// Update all necessary left-values
 		$conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
-        
+
         if($condition)
         {
         	$conditions[] = $condition;
         }
 
         $update_condition = new AndCondition($conditions);
-        
+
         $properties = array(NestedTreeNode :: PROPERTY_LEFT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
-        		 
+
         if(!$res)
         {
         	return false;
@@ -362,14 +362,14 @@ class NestedTreeDatabase extends Database
         // Update all necessary right-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
-     
+
 		if($condition)
         {
         	$conditions[] = $condition;
         }
-        
+
         $update_condition = new AndCondition($conditions);
-    
+
 		$properties = array(NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
 
@@ -377,10 +377,10 @@ class NestedTreeDatabase extends Database
         {
             return false;
         }
-        
+
         return true;
 	}
-	
+
 	/**
 	 * Change the left/right values in the tree of every node that is infected due to a delete of the given node
 	 * @param NestedTreeNode $node - the node
@@ -393,12 +393,12 @@ class NestedTreeDatabase extends Database
         // Update all necessary nested-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $node->get_left_value());
-        
+
 		if($condition)
         {
         	$conditions[] = $condition;
         }
-        
+
         $update_condition = new AndCondition($conditions);
 
         $properties = array();
@@ -415,12 +415,12 @@ class NestedTreeDatabase extends Database
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $node->get_left_value());
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $node->get_right_value());
-        
+
 		if($condition)
         {
         	$conditions[] = $condition;
         }
-        
+
         $update_condition = new AndCondition($conditions);
 
         $properties = array(NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta));
@@ -433,7 +433,7 @@ class NestedTreeDatabase extends Database
 
         return true;
 	}
-	
+
 }
 
 ?>

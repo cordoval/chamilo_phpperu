@@ -363,24 +363,6 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			{
 				
 				//echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
-				if(!$this->get_course()->get_course_code_visible())
-					$title = '';
-				if($this->get_course()->get_course_manager_name_visible())
-				{
-					$userobject = UserDataManager::get_instance()->retrieve_user($this->get_course()->get_titular());
-                	$user_name = $userobject->get_lastname() . ' ' . $userobject->get_firstname();
-                	if($this->get_course()->get_course_code_visible())
-                		$title .= ' - ';
-					$title .= $user_name;
-				}
-				if($this->get_course()->get_course_languages_visible())
-				{
-					$adm = AdminDataManager::get_instance();
-					$lang = $adm->retrieve_language_from_english_name($this->get_course()->get_language())->get_original_name();
-					if($this->get_course()->get_course_manager_name_visible() || $this->get_course()->get_course_code_visible())
-						$title .= ' - ';
-					$title .= $lang;
-				} 
 				echo '<h3 style="float: left;">' . htmlentities($title) . '</h3>';
 				// TODO: Add department name and url here somewhere ?
 			}
