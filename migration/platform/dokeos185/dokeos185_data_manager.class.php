@@ -172,7 +172,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
         $defaultProp = array();
         foreach (Dokeos185User :: get_default_user_property_names() as $prop)
         {
-            $defaultProp[$prop] = $record[$prop];
+            $defaultProp[$prop] = utf8_encode($record[$prop]);
         }
         return new Dokeos185User($defaultProp);
     }
@@ -192,7 +192,7 @@ class Dokeos185DataManager extends OldMigrationDataManager
 
         foreach ($class->get_default_property_names() as $prop)
         {
-            $defaultProp[$prop] = $record[$prop];
+            $defaultProp[$prop] = utf8_encode($record[$prop]);
         }
 
         $class->set_default_properties($defaultProp);

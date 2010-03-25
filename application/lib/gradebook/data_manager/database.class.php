@@ -1,21 +1,29 @@
 <?php
 require_once dirname(__FILE__).'/../gradebook_data_manager.class.php';
-require_once dirname(__FILE__).'/../gradebook.class.php';
-require_once dirname(__FILE__).'/../gradebook_rel_user.class.php';
+require_once dirname(__FILE__).'/../gradebook_internal_evaluation.class.php';
+require_once dirname(__FILE__).'/../gradebook_external_evaluation.class.php';
+require_once dirname(__FILE__).'/../gradebook_evaluation_results.class.php';
+require_once dirname(__FILE__).'/../gradebook_evaluation_format.class.php';
+require_once dirname(__FILE__).'/../gradebook_last_used_evaluation_key.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
 
 class DatabaseGradebookDatamanager extends GradebookDatamanager
 {
-	const ALIAS_GRADEBOOK_TABLE = 'gb';
-	const ALIAS_GRADEBOOK_REL_USER_TABLE = 'gbru';
 
 	private $database;
 
 	function initialize()
-	{
-		$this->database = new Database(array(Gradebook :: get_table_name() => self :: ALIAS_GRADEBOOK_TABLE, GradebookRelUser :: get_table_name() => self :: ALIAS_GRADEBOOK_REL_USER_TABLE));
+	{   
+		$aliases = array();
+		$aliases[GradebookInternalEvaluation :: get_table_name()] = 'gron';
+		$aliases[GradebookExternalEvaluation :: get_table_name()] = 'gres';
+		$aliases[GradebookEvaluationResults :: get_table_name()] = 'grts';
+		$aliases[GradebookEvaluationFormat :: get_table_name()] = 'grrm';
+		$aliases[GradebookLastUsedEvaluationKey :: get_table_name()] = 'grey';
+		
+		$this->database = new Database($aliases);
 		$this->database->set_prefix('gradebook_');
 	}
 
@@ -26,7 +34,7 @@ class DatabaseGradebookDatamanager extends GradebookDatamanager
 
 	//gradebook_items
 
-	function get_next_gradebook_id(){
+	/*function get_next_gradebook_id(){
 		$id = $this->database->get_next_id(Gradebook :: get_table_name());
 		return $id;
 	}
@@ -118,6 +126,6 @@ class DatabaseGradebookDatamanager extends GradebookDatamanager
 	function get_database()
 	{
 		return $this->database;
-	}
+	}*/
 }
 ?>

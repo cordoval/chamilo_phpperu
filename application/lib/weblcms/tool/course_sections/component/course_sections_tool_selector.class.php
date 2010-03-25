@@ -48,7 +48,9 @@ class CourseSectionsToolToolSelectorComponent extends CourseSectionsToolComponen
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoCourseSectionSelected')));
+            $this->display_header($trail, true);
+            Display :: error_message(htmlentities(Translation :: get('NoCourseSectionSelected')));
+            $this->display_footer();
         }
     }
 }
