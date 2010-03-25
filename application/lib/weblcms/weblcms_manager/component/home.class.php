@@ -198,12 +198,12 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
                 
                 $text = array();
                 
-                if (PlatformSetting :: get('display_course_code_in_title', 'weblcms'))
+                if ($course->get_course_code_visible())
                 {
                     $text[] = $course->get_visual();
                 }
                 
-                if (PlatformSetting :: get('display_teacher_in_title', 'weblcms'))
+                if ($course->get_course_manager_name_visible())
                 {
                     $user = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
                     if($user)
@@ -216,7 +216,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
                     }
                 }
                 
-                if (PlatformSetting :: get('show_course_languages', 'weblcms'))
+                if ($course->get_course_languages_visible())
                 {
                     $text[] = ucfirst($course->get_language());
                 }

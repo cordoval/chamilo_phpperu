@@ -31,14 +31,13 @@ class Competency extends DataClass
 	const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_STATE = 'state';
-    
-    const PROPERTY_TARGET_INDICATORS = 'target_indicators';
+
     
 
 
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_OWNER_ID, self :: PROPERTY_PARENT_ID, self :: PROPERTY_STATE, self :: PROPERTY_TARGET_INDICATORS);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_OWNER_ID, self :: PROPERTY_PARENT_ID, self :: PROPERTY_STATE);
 	}
 
 	function get_data_manager()
@@ -100,28 +99,6 @@ class Competency extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
-	
-	function set_target_indicators($target_indicators)
-    {
-        $this->target_indicators = $target_indicators;
-    }
-    
-	function get_target_indicators()
-    {
-        if (! $this->target_indicators)
-        {
-            $condition = new EqualityCondition(Indicator :: PROPERTY_ID, $this->get_id());
-            $indicators = $this->get_data_manager()->retrieve_indicators($condition);
-            
-            while ($indicator = $indicators->next_result())
-            {
-                $this->target_indicators[] = $user->get_indicator();
-            }
-        }
-        
-        return $this->target_users;
-    }
 	
 	
 	function move($new_parent_id)

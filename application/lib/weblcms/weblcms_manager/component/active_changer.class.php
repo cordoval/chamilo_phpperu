@@ -1,7 +1,7 @@
 <?php
 /**
- * $Id: deleter.class.php 211 2010-03-23 13:28:39Z Yannick $
- * @package user.lib.user_manager.component
+ * $Id: active_changer.class.php 211 2010-03-23 13:28:39Z Yannick $
+ * @package weblcms.lib.weblcms_manager.component
  */
 
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
@@ -21,9 +21,9 @@ class WeblcmsManagerActiveChangerComponent extends WeblcmsManagerComponent
 	    if (! $this->get_user()->is_platform_admin())
         {
             $trail = new BreadcrumbTrail();
-            $trail->add_help('course_type_activation_changer');
+            $trail->add_help('course_type_active_changer');
             $this->display_header($trail);
-            Display :: error_message(Translation :: get("NotAllowed"));
+            Display :: error_message(Translation :: get("Not allowed"));
             $this->display_footer();
             exit();
         }
@@ -56,7 +56,7 @@ class WeblcmsManagerActiveChangerComponent extends WeblcmsManagerComponent
 			if($active == 0)
 				$message = $this->get_result($failures, count($course_type_id), 'CourseTypeNotDeactivated' , 'CourseTypesNotDeactivated', 'CourseTypeDeactivated', 'CourseTypesDeactivated');
 			else
-				$message = $this->get_result($failures, count($course_type_id), 'CourseTypeNotActivated' , 'CourseTypesNotActivated', 'CourseTypeNotActivated', 'CourseTypesNotActivated');
+				$message = $this->get_result($failures, count($course_type_id), 'CourseTypeNotActivated' , 'CourseTypesNotActivated', 'CourseTypeActivated', 'CourseTypesActivated');
 			
             $this->redirect($message, ($failures > 0), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER));
         

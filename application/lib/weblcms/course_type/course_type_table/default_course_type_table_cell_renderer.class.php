@@ -49,6 +49,7 @@ class DefaultCourseTypeTableCellRenderer implements ObjectTableCellRenderer
             	{
             		Return Translation :: get('False');
             	}
+            	
             /*
             case Course :: PROPERTY_TITULAR :
                 $titular = UserDataManager :: get_instance()->retrieve_user($course->get_titular());

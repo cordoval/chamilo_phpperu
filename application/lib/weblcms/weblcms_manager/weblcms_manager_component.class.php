@@ -289,6 +289,15 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->retrieve_course_type($course_type_id);
     }
+    
+   /**
+     * Retrieves the change active url
+     * @see TrackingManager :: get_change_active_url;
+     */
+    function get_change_active_url($type, $course_type_id)
+    {
+        return $this->get_parent()->get_change_active_url($type, $course_type_id);
+    }
 
     /**
      * @see WeblcmsManager :: retrieve_course_category()

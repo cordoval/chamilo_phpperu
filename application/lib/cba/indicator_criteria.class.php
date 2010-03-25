@@ -12,12 +12,13 @@ class IndicatorCriteria extends DataClass
 	 * Indicator/Criteria properties
 	 */	
     const PROPERTY_INDICATOR_ID = 'indicator_id'; 
-    const PROPERTY_CRITERIA_ID = 'criteria_id';   
+    const PROPERTY_CRITERIA_ID = 'criteria_id'; 
+    const PROPERTY_OWNER_ID = 'owner_id';  
 
 
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_CRITERIA_ID, self :: PROPERTY_INDICATOR_ID);
+		return array (self :: PROPERTY_CRITERIA_ID, self :: PROPERTY_INDICATOR_ID, self :: PROPERTY_OWNER_ID);
 	}
 
 	function get_data_manager()
@@ -43,6 +44,16 @@ class IndicatorCriteria extends DataClass
 	function set_criteria_id($criteria_id)
 	{
 		$this->set_default_property(self :: PROPERTY_CRITERIA_ID, $criteria_id);
+	}
+	
+	function get_owner_id()
+	{
+		return $this->get_default_property(self :: PROPERTY_OWNER_ID);
+	}
+
+	function set_owner_id($owner_id)
+	{
+		$this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
 	}
 	
 	static function get_table_name()
