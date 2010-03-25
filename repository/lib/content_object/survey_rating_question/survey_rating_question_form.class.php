@@ -17,7 +17,7 @@ class SurveyRatingQuestionForm extends RatingQuestionForm
         
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage') . ' (0-100)', 0, array('onclick' => 'javascript:hide_controls(\'buttons\')'));
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 1, array('onclick' => 'javascript:show_controls(\'buttons\')'));
-        $this->addGroup($elem, 'type', Translation :: get('type'), '<br />', false);
+        $this->addGroup($elem, 'type', Translation :: get('SurveyRatingType'), '<br />', false);
         
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="buttons">');
         $ratings[] = $this->createElement('text',  RatingQuestion :: PROPERTY_LOW, null, array('class' => 'rating_question_low_value', 'style' => 'width: 124px; margin-right: 4px;'));
@@ -50,7 +50,7 @@ class SurveyRatingQuestionForm extends RatingQuestionForm
         
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 0, array('onclick' => 'javascript:hide_controls(\'buttons\')', 'id' => 'ratingtype_percentage'));
         $elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 1, array('onclick' => 'javascript:show_controls(\'buttons\')'));
-        $this->addGroup($elem, 'type', Translation :: get('type'), '<br />', false);
+        $this->addGroup($elem, 'type', Translation :: get('SurveyRatingType'), '<br />', false);
         
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="buttons">');
         $ratings[] = $this->createElement('text',  RatingQuestion :: PROPERTY_LOW, null, array('class' => 'rating_question_low_value', 'style' => 'width: 124px; margin-right: 4px;'));

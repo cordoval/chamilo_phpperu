@@ -96,6 +96,9 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
         $percent = $count_questions / $total_questions * 100;
         $this->parent->get_parent()->finish_survey($percent);
         
+        //reset the controller !
+        $page->controller->container(true);
+        
         $html[] = '<div class="assessment">';
         $html[] = '<div class="description">';
         $finish_text = $this->parent->get_survey()->get_finish_text();
@@ -105,11 +108,7 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
         
         $back_url = $this->parent->get_parent()->get_go_back_url();
         
-        if (! Request :: get('invitation_id'))
-        {
-            $html[] = '<a href="' . $back_url . '">' . Translation :: get('GoBack') . '</a>';
-        
-        }
+        $html[] = '<a href="' . $back_url . '">' . Translation :: get('GoBack') . '</a>';
         
         return implode("\n", $html);
     }

@@ -48,9 +48,9 @@ class TestcaseSurveyParticipantBrowserTableCellRenderer extends DefaultParticipa
         $toolbar_data = array();
            
       
-        $toolbar_data[] = array('href' => $this->browser->get_test_survey_publication_viewer_url($survey_participant_tracker), 'label' => Translation :: get('TakeSurvey'), 'img' => Theme :: get_common_image_path() . 'action_next.png');
+        $toolbar_data[] = array('href' => $this->browser->get_survey_publication_viewer_url($survey_participant_tracker), 'label' => Translation :: get('TakeSurvey'), 'img' => Theme :: get_common_image_path() . 'action_next.png');
          
-        $toolbar_data[] = array('href' => $this->browser->get_survey_results_viewer_url($survey_publication), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+//        $toolbar_data[] = array('href' => $this->browser->get_survey_results_viewer_url($survey_publication), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
         
         
         return Utilities :: build_toolbar($toolbar_data);

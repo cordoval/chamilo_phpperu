@@ -57,12 +57,6 @@ class SurveyManager extends WebApplication {
 			case self::ACTION_BROWSE_SURVEY_PUBLICATIONS :
 				$component = SurveyManagerComponent::factory ( 'Browser', $this );
 				break;
-			//			case self::ACTION_BROWSE_TEST_SURVEY_PUBLICATION :
-			//				$component = SurveyManagerComponent::factory ( 'TestBrowser', $this );
-			//				break;
-			//			case self::ACTION_BROWSE_TEST_SURVEY_PARTICIPANTS :
-			//				$component = SurveyManagerComponent::factory ( 'TestSurveyParticipantBrowser', $this );
-			//				break;
 			case self::ACTION_TESTCASE :
 				$component = SurveyManagerComponent::factory ( 'Testcase', $this );
 				break;
@@ -233,23 +227,9 @@ class SurveyManager extends WebApplication {
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_TESTCASE ) );
 	}
 	
-	//	function get_browse_test_survey_publication_url() {
-	//		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_TEST_SURVEY_PUBLICATION ) );
-	//	}
-	//	
-	//	function get_browse_test_survey_participants_url($survey_publication) {
-	//		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_TEST_SURVEY_PARTICIPANTS, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
-	//	}
-	
-
 	function get_survey_publication_viewer_url($survey_publication) {
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_VIEW_SURVEY_PUBLICATION, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
 	}
-	
-	//	function get_test_survey_publication_viewer_url($survey_participant) {
-	//		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_VIEW_SURVEY_PUBLICATION, self::PARAM_SURVEY_PARTICIPANT => $survey_participant->get_id () ) );
-	//	}
-	
 
 	function get_survey_results_viewer_url($survey_publication) {
 		$id = $survey_publication ? $survey_publication->get_id () : null;

@@ -24,10 +24,11 @@ class DatabaseSurveyDataManager extends SurveyDataManager
     function initialize()
     {
         $aliases = array();
-//        $aliases[SurveyPublication :: get_table_name()] = 'ason';
-//        $aliases[SurveyPublicationGroup :: get_table_name()] = 'asup';
-//        $aliases[SurveyPublicationUser :: get_table_name()] = 'aser';
+        //        $aliases[SurveyPublication :: get_table_name()] = 'ason';
+        //        $aliases[SurveyPublicationGroup :: get_table_name()] = 'asup';
+        //        $aliases[SurveyPublicationUser :: get_table_name()] = 'aser';
         
+
         $this->database = new Database($aliases);
         $this->database->set_prefix('survey_');
     }
@@ -99,25 +100,26 @@ class DatabaseSurveyDataManager extends SurveyDataManager
     function delete_survey_publication($survey_publication)
     {
         
-        $publication_user_alias = $this->database->get_alias(SurveyPublicationUser :: get_table_name());
-        $publication_group_alias = $this->database->get_alias(SurveyPublicationGroup :: get_table_name());
+        $user_condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $survey_publication->get_id());
+        $group_condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $survey_publication->get_id());
+        $publication_condition = new EqualityCondition(SurveyPublication :: PROPERTY_ID, $survey_publication->get_id());
         
-        $condition = new EqualityCondition(SurveyPublication :: PROPERTY_ID, $survey_publication->get_id());
-        $this->database->delete_objects($publication_user_alias, $condition);
-        $this->database->delete_objects($publication_group_alias, $condition);
-        return $this->database->delete($survey_publication->get_table_name(), $condition);
+        $this->database->delete_objects(SurveyPublicationUser :: get_table_name(), $user_condition);
+        $this->database->delete_objects(SurveyPublicationGroup :: get_table_name(), $group_condition);
+        return $this->database->delete($survey_publication->get_table_name(), $publication_condition);
     }
 
     function count_survey_participant_trackers($condition = null)
     {
-    	//$database = TrackingDataManager::get_instance()->get_database();
-    	$dummy = new SurveyParticipantTracker();
+        //$database = TrackingDataManager::get_instance()->get_database();
+        $dummy = new SurveyParticipantTracker();
         //$table_name = $dummy->get_table_name();
-    	return $dummy->count_tracker_items($condition);
+        return $dummy->count_tracker_items($condition);
         //return $database->count_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
-       
-    }
+    
 
+    }
+	    
     function count_survey_publications($condition = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
@@ -198,12 +200,12 @@ class DatabaseSurveyDataManager extends SurveyDataManager
     function retrieve_survey_participant_trackers($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         //$database = TrackingDataManager::get_instance()->get_database();
-    	$dummy = new SurveyParticipantTracker();
+        $dummy = new SurveyParticipantTracker();
         //$table_name = $dummy->get_table_name();
-    	//$result = $database->retrieve_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
+        //$result = $database->retrieve_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
         //$condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $result);
-    	return $dummy->retrieve_tracker_items_result_set($condition);
-    	
+        return $dummy->retrieve_tracker_items_result_set($condition);
+    
     }
 
     function create_survey_publication_group($survey_publication_group)
@@ -304,8 +306,7 @@ class DatabaseSurveyDataManager extends SurveyDataManager
     {
         return $this->database->retrieve_objects(SurveyPublicationMail :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationMail :: CLASS_NAME);
     }
-    
-    
+
     function content_object_is_published($object_id)
     {
         return $this->any_content_object_is_published(array($object_id));

@@ -727,4 +727,5 @@ $lang['common']['DeleteFailed'] = 'Delete failed';
 $lang['common']['PublishWiki'] = 'Publish wiki';
 $lang['common']['CategoryTypeName'] = 'Select category';
 $lang['common']['SubscribeSelectedConfirm'] = 'Confirm subscription';
+$lang['common']['Logout'] = 'Log out';
 ?>

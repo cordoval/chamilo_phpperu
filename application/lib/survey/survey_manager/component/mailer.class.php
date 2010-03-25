@@ -154,17 +154,19 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent {
 		}
 		
 		if (count ( array_values ( $mail_users ) ) == 0) {
-			$this->redirect ( Translation::get ( 'NoUserMailsSend' ), false, array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_BROWSE_SURVEY_PUBLICATIONS ) );
+			$this->redirect ( Translation::get ( 'NoSurveyParticipantMailsSend' ), false, array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_BROWSE_SURVEY_PUBLICATIONS ) );
 		} else {
 			$email_header = $values [SurveyPublicationMailerForm::EMAIL_HEADER];
 			$email_content = $values [SurveyPublicationMailerForm::EMAIL_CONTENT];
 			$email_from_address = $values [SurveyPublicationMailerForm::FROM_ADDRESS];
+			$email_reply_address = $values [SurveyPublicationMailerForm::REPLY_ADDRESS];
 			
 			$email = new SurveyPublicationMail ();
 			$email->set_mail_haeder ( $email_header );
 			$email->set_mail_content ( $email_content );
 			$email->set_sender_user_id ( $this->get_user_id () );
 			$email->set_from_address ( $email_from_address );
+			$email->set_reply_address ( $email_reply_address );
 			
 			$email->create ();
 			
@@ -176,9 +178,9 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent {
 			
 			}
 			if ($this->mail_send == false) {
-				$this->redirect ( Translation::get ( 'NotAllParticipantMailsSend' ), false, array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_BROWSE_SURVEY_PUBLICATIONS ) );
+				$this->redirect ( Translation::get ( 'NotAllSurveyParticipantMailsSend' ), false, array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_BROWSE_SURVEY_PUBLICATIONS ) );
 			} else {
-				$this->redirect ( Translation::get ( 'AllParticipantMailsSend' ), false, array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_BROWSE_SURVEY_PUBLICATIONS ) );
+				$this->redirect ( Translation::get ( 'AllSurveyParticipantMailsSend' ), false, array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_BROWSE_SURVEY_PUBLICATIONS ) );
 			}
 		
 		}
@@ -211,7 +213,15 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent {
 		$args [SurveyParticipantMailTracker::PROPERTY_USER_ID] = $user_id;
 		$args [SurveyParticipantMailTracker::PROPERTY_SURVEY_PUBLICATION_MAIL_ID] = $email->get_id ();
 		
-		$mail = Mail::factory ( $email->get_mail_header (), $fullbody, $to_email, $email->get_from_address () );
+		$from = array();
+		$from[Mail :: NAME] = '';
+		$from[Mail :: EMAIL] = $email->get_from_address ();
+		
+		$mail = Mail::factory ( $email->get_mail_header (), $fullbody, $to_email,  $from);
+		$reply = array();
+		$reply[Mail:: NAME] = '';
+		$reply[Mail :: EMAIL] = $email->get_reply_address();
+		$mail->set_reply($reply);
 		// Check whether it was sent successfully
 		if ($mail->send () === FALSE) {
 			$this->mail_send = false;

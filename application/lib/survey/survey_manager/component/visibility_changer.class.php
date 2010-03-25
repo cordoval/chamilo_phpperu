@@ -13,7 +13,10 @@ require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
  */
 class SurveyManagerVisibilityChangerComponent extends SurveyManagerComponent
 {
-
+	
+	const MESSAGE_VISIBILITY_CHANGED = 'VisibilityChanged';
+	const MESSAGE_VISIBILITY_NOT_CHANGED = 'VisibilityNotChanged';
+	
     /**
      * Runs this component and displays its output.
      */
@@ -33,7 +36,7 @@ class SurveyManagerVisibilityChangerComponent extends SurveyManagerComponent
             $publication->toggle_visibility();
             $succes = $publication->update();
             
-            $message = $succes ? 'VisibilityChanged' : 'VisibilityNotChanged';
+            $message = $succes ? self :: MESSAGE_VISIBILITY_CHANGED : self :: MESSAGE_VISIBILITY_NOT_CHANGED;
             
             $this->redirect(Translation :: get($message), ! $succes, array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
         }

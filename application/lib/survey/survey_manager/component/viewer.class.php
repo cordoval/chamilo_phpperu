@@ -74,7 +74,8 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
         $trail = new BreadcrumbTrail();
         if ($this->pub->is_test())
         {
-            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_TEST_SURVEY_PUBLICATION)), Translation :: get('BrowseTestSurveyPublications')));
+            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TESTCASE, TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseTestCaseSurveyPublications')));
+            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TESTCASE, TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PARTICIPANTS, TestcaseManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('BrowseTestCaseSurveyParticipants')));
         
         }
         else
@@ -177,27 +178,50 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
     function finish_survey($percent)
     {
         $tracker = $this->active_tracker;
-        
         $tracker->set_progress($percent);
         $tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
+        $tracker->update();
+        
+        $track = new SurveyParticipantTracker();
+        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->pid);
+        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->active_tracker->get_user_id());
+        $condition = new AndCondition($conditions);
+        $trackers = $track->retrieve_tracker_items($condition);
+        
         if ($percent === 100)
         {
-            foreach ($this->trackers as $tracker)
+            $all_finished = false;
+            $progress = array();
+            
+            foreach ($trackers as $tracker)
             {
-                $tracker->set_status(SurveyParticipantTracker :: STATUS_FINISHED);
-            	$tracker->update();
+                $progress[] = $tracker->get_progress();
             }
+            
+            $finshed = array_intersect($progress, array(100));
+            $all_finished = count($progress) == count($finshed);
+            if ($all_finished)
+            {
+                foreach ($trackers as $tracker)
+                {
+                    $tracker->set_status(SurveyParticipantTracker :: STATUS_FINISHED);
+                    $tracker->update();
+                }
+            }
+        
         }
-        else
+        
+        foreach ($trackers as $tracker)
         {
-           	foreach ($this->trackers as $tracker)
+            $status = $tracker->get_status();
+            if ($status === SurveyParticipantTracker :: STATUS_NOTSTARTED)
             {
                 $tracker->set_status(SurveyParticipantTracker :: STATUS_STARTED);
-            	$tracker->update();
+                $tracker->update();
             }
+        
         }
-        
-        
+    
     }
 
     function get_current_attempt_id()
@@ -239,4 +263,5 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
         return implode(' ', $new_value);
     }
 }
+
 ?>
