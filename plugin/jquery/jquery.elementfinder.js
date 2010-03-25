@@ -64,8 +64,8 @@
 				$("ul li:not(:last-child):has(ul) > div", self).addClass("collapse");
 				$("ul li:last-child:has(ul) > div", self).addClass("lastCollapse");
 				
-//				$("ul li:has(ul) > div", self).toggle(collapseItem, expandItem);
-//				$("ul li:has(ul) > div > a", self).click(function(e){e.stopPropagation();});
+				$("ul li:has(ul) > div", self).toggle(collapseItem, expandItem);
+				$("ul li:has(ul) > div > a", self).click(function(e){e.stopPropagation();});
 			}
 			
 			function displayMessage(message, element)
@@ -396,6 +396,8 @@
 					$("a:not(.disabled, .category)", inactiveBox).live("activate", activateElement);
 					$("a.category", inactiveBox).css("cursor", "default");
 				}
+				
+				alert(inactiveBox.html());
 				
 				$('#' + settings.name + '_expand_button').click(showElementFinder);
 				
