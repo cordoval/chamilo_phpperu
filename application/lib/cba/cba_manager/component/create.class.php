@@ -40,8 +40,6 @@ class CbaManagerCreateComponent extends CbaManagerComponent
         
         $type = ($type_form->validate() ? $type_form->exportValue(CbaManager :: PARAM_CONTENT_OBJECT_TYPE) : Request :: get(CbaManager :: PARAM_CONTENT_OBJECT_TYPE));        
         $type_value = strtolower($types[$type - 1]);
-
-        $test = Request :: get(CbaManager :: ACTION_CREATOR_COMPETENCY);
         
         if($type_value == 'competency')
         {

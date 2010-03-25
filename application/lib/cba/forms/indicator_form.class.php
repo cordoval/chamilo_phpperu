@@ -207,11 +207,11 @@ class IndicatorForm extends FormValidator
     	$indicator = $this->indicator;
     	$indicator->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
+    	$parent = $this->exportValue(Indicator :: PROPERTY_PARENT_ID);
 
     	$indicator->set_title($values[Indicator :: PROPERTY_TITLE]);
     	$indicator->set_description($values[Indicator :: PROPERTY_DESCRIPTION]);
-    	//dump($indicator);
-    	//exit();
+		$indicator->move($parent);
 
     	return $indicator->update();
     }
