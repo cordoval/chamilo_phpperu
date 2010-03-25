@@ -16,7 +16,7 @@ class TestcaseManagerBrowserComponent extends TestcaseManagerComponent
     function run()
     {
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestcaseSurveyPublications')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
 
         $this->action_bar = $this->get_action_bar();
 //        $menu = $this->get_menu();
@@ -59,7 +59,7 @@ class TestcaseManagerBrowserComponent extends TestcaseManagerComponent
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_manage_survey_publication_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseSurveys'), Theme :: get_common_image_path() . 'action_category.png', $this->get_parent()->get_parent()->get_browse_survey_publications_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseSurveyPublications'), Theme :: get_common_image_path() . 'action_category.png', $this->get_parent()->get_parent()->get_browse_survey_publications_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
 //        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewTestcaseResultsSummary'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_survey_results_viewer_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

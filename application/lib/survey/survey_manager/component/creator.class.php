@@ -79,11 +79,27 @@ class SurveyManagerCreatorComponent extends SurveyManagerComponent
                 
                 if (! $publication)
                 {
-                    $message = Translation :: get('SurveyNotPublished');
+                    if ($testcase)
+                    {
+                    	$message = Translation :: get('TestCaseNotCreated');
+                    }
+                    else
+                    {
+                        $message = Translation :: get('SurveyNotPublished');
+                    
+                    }
                 }
                 else
                 {
-                    $message = Translation :: get('SurveyPublished');
+                    if ($testcase)
+                    {
+                    	$message = Translation :: get('TestCaseCreated');
+                    }
+                    else
+                    {
+                        $message = Translation :: get('SurveyPublished');
+                    
+                    }
                 }
                 
                 if ($testcase)
