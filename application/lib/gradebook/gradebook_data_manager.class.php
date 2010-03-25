@@ -47,7 +47,7 @@ abstract class GradebookDatamanager {
 	
 	//gradebook_items
 
-	abstract function get_next_gradebook_id();
+	/*abstract function get_next_gradebook_id();
 
 	abstract function delete_gradebook($gradebook);
 
@@ -77,6 +77,6 @@ abstract class GradebookDatamanager {
 	abstract function retrieve_gradebook_rel_user($user_id, $gradebook_id);
 
 	abstract function retrieve_gradebook_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
-	
+	*/
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/gradebook_browser/gradebook_browser_table.class.php';
+//require_once dirname(__FILE__).'/gradebook_browser/gradebook_browser_table.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
@@ -9,7 +9,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManagerComponen
 
 	function run()
 	{
-
 		if (!GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, GradebookRights :: LOCATION_BROWSER, 'gradebook_component'))
 		{
 			$this->display_header($trail);
@@ -17,7 +16,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManagerComponen
 			$this->display_footer();
 			exit;
 		}
-
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION=> GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('BrowseGradeBook')));
@@ -30,11 +28,11 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManagerComponen
 
 	function get_browser_html(){
 		$html = array();
-		$html[] = GradebookUtilities :: get_gradebook_admin_menu($this);
+		//$html[] = GradebookUtilities :: get_gradebook_admin_menu($this);
 		$html[] = '<div id="tool_browser_right">';
 		$html[] = '<div>';
 		$html[] = $this->ab->as_html() . '<br />';
-		$html[] = $this->get_table_html();
+		//$html[] = $this->get_table_html();
 		$html[] = '<div style="clear: both;"></div>';
 		$html[] = '</div>';
 		$html[] = '</div>';
