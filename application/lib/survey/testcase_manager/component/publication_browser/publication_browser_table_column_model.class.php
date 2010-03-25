@@ -9,14 +9,20 @@ class TestcaseSurveyPublicationBrowserTableColumnModel extends DefaultSurveyPubl
      * The tables modification column
      */
     private static $modification_column;
-
+	
+    const COLUMN_NOT_PARTICIPANTS = 'NotParticipants';
+    const COLUMN_PARTICIPANTS = 'Participants';
+    
+    
     /**
      * Constructor
      */
     function TestcaseSurveyPublicationBrowserTableColumnModel()
     {
         parent :: __construct();
-        $this->set_default_order_column(1);
+        $this->set_default_order_column(0);
+        $this->add_column(new StaticTableColumn(Translation :: get(self :: COLUMN_PARTICIPANTS)));
+        $this->add_column(new StaticTableColumn(Translation :: get(self :: COLUMN_NOT_PARTICIPANTS)));
         $this->add_column(self :: get_modification_column());
     }
 

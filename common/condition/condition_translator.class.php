@@ -49,7 +49,7 @@ class ConditionTranslator
             //			dump($condition);
             die('Need a Condition instance');
         }
-
+        
         return $string;
     }
 
@@ -58,52 +58,69 @@ class ConditionTranslator
      * @param AggregateCondition $condition The AggregateCondition object.
      * @param array $parameters A reference to the query's parameter list.
      * @param boolean $storage_unit Whether or not to
-     *                                                   prefix learning
-     *                                                   object properties
-     *                                                   to avoid collisions.
+     * prefix learning
+     * object properties
+     * to avoid collisions.
      * @return string The WHERE clause.
      */
-    function translate_aggregate_condition($condition)
+    /**
+     * Translates an aggregate condition to a SQL WHERE clause.
+     * @param AggregateCondition $condition The AggregateCondition object.
+     * @param array $parameters A reference to the query's parameter list.
+     * @param boolean $storage_unit Whether or not to
+     * prefix learning
+     * object properties
+     * to avoid collisions.
+     * @return string The WHERE clause.
+     */
+    function translate_aggregate_condition($aggregate_condition)
     {
         $string = '';
-
-        if ($condition instanceof AndCondition || $condition instanceof OrCondition)
+        
+        if ($aggregate_condition instanceof AndCondition || $aggregate_condition instanceof OrCondition)
         {
             $cond = array();
             $count = 0;
-
-            foreach ($condition->get_conditions() as $c)
+           
+            foreach ($aggregate_condition->get_conditions() as $key => $condition)
             {
                 $count ++;
-                $translation = $this->translate($c);
-
+                $translation = $this->translate($condition);
+                
                 if (! empty($translation))
                 {
                     $string .= $translation;
-
-                    if ($count < count($condition->get_conditions()))
+                    
+                    if ($count < count($aggregate_condition->get_conditions()))
                     {
-                        $string .= $condition->get_operator();
+                        $conditions = $aggregate_condition->get_conditions();
+                        
+                        $next_condition = $conditions[$key + 1];
+                        
+                        if (! ($next_condition instanceof InCondition && $this->translate($next_condition) == ''))
+                        {
+                        	$string .= $aggregate_condition->get_operator();
+                        }
                     }
                 }
             }
-
+            
             if (! empty($string))
             {
                 $string = '(' . $string . ')';
             }
         }
-        elseif ($condition instanceof NotCondition)
+        elseif ($aggregate_condition instanceof NotCondition)
         {
             $string .= 'NOT (';
-            $string .= $this->translate($condition->get_condition());
+            $string .= $this->translate($aggregate_condition->get_condition());
             $string .= $this->strings[] = ')';
         }
         else
         {
             die('Cannot translate aggregate condition');
         }
-
+        
         return $string;
     }
 
@@ -112,41 +129,41 @@ class ConditionTranslator
      * @param InCondition $condition The InCondition object.
      * @param array $parameters A reference to the query's parameter list.
      * @param boolean $storage_unit Whether or not to
-     *                                                   prefix learning
-     *                                                   object properties
-     *                                                   to avoid collisions.
+     * prefix learning
+     * object properties
+     * to avoid collisions.
      * @return string The WHERE clause.
      */
     function translate_in_condition($condition)
     {
         $storage_unit = $this->storage_unit;
         $condition_storage_unit = $condition->get_storage_unit();
-
+        
         if (! is_null($condition_storage_unit))
         {
             $storage_unit = $this->data_manager->get_alias($condition_storage_unit);
         }
-
+        
         if ($condition instanceof InCondition)
         {
             $name = $condition->get_name();
             $values = $condition->get_values();
-
+            
             if (! is_array($values))
             {
                 $values = array($values);
             }
-
+            
             if (count($values) > 0)
             {
                 $where_clause = $this->data_manager->escape_column_name($name, $storage_unit) . ' IN (';
-
+                
                 $placeholders = array();
                 foreach ($values as $value)
                 {
                     $placeholders[] = $this->data_manager->quote($value);
                 }
-
+                
                 $where_clause .= implode(',', $placeholders) . ')';
                 return $where_clause;
             }
@@ -166,7 +183,7 @@ class ConditionTranslator
         if ($condition instanceof SubselectCondition)
         {
             $storage_unit = $this->storage_unit;
-
+            
             $name = $condition->get_name();
             $value = $condition->get_value();
             $table = $condition->get_storage_unit_value();
@@ -174,22 +191,22 @@ class ConditionTranslator
             //$etable = $this->data_manager->escape_table_name($table);
             $etable = $table;
             $sub_condition = $condition->get_condition();
-
+            
             $alias = $this->data_manager->get_alias($table);
             if ($name_table)
             {
                 $alias_name = $this->data_manager->get_alias($name_table);
             }
-
+            
             $this->storage_unit = $alias;
             $string = $this->data_manager->escape_column_name($name, $alias_name) . ' IN ( SELECT ' . $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
-
+            
             if ($sub_condition)
             {
                 $string .= ' WHERE ';
                 $string .= $this->translate($sub_condition);
             }
-
+            
             $string .= ')';
             $this->storage_unit = $storage_unit;
         }
@@ -197,7 +214,7 @@ class ConditionTranslator
         {
             die('Cannot translate in condition');
         }
-
+        
         return $string;
     }
 
@@ -206,49 +223,49 @@ class ConditionTranslator
      * @param Condition $condition The Condition object.
      * @param array $parameters A reference to the query's parameter list.
      * @param boolean $storage_unit Whether or not to
-     *                                                   prefix learning
-     *                                                   object properties
-     *                                                   to avoid collisions.
+     * prefix learning
+     * object properties
+     * to avoid collisions.
      * @return string The WHERE clause.
      */
     function translate_simple_condition($condition)
     {
         $storage_unit = $this->storage_unit;
         $data_manager = $this->data_manager;
-
+        
         $name = $condition->get_name();
         $condition_storage_unit = $condition->get_storage_unit();
-
+        
         if (! is_null($condition_storage_unit))
         {
             $storage_unit = $this->data_manager->get_alias($condition_storage_unit);
         }
-
+        
         if ($condition instanceof EqualityCondition)
         {
             $value = $condition->get_value();
-
+            
             if ($data_manager->is_date_column($name))
             {
                 $value = self :: to_db_date($value);
             }
-
+            
             if (is_null($value))
             {
                 return $this->data_manager->escape_column_name($name, $storage_unit) . ' IS NULL';
             }
-
+            
             return $this->data_manager->escape_column_name($name, $storage_unit) . ' = ' . $this->data_manager->quote($value);
         }
         elseif ($condition instanceof InequalityCondition)
         {
             $value = $condition->get_value();
-
+            
             if ($data_manager->is_date_column($name))
             {
                 $value = self :: to_db_date($value);
             }
-
+            
             switch ($condition->get_operator())
             {
                 case InequalityCondition :: GREATER_THAN :
@@ -266,7 +283,7 @@ class ConditionTranslator
                 default :
                     die('Unknown operator for inequality condition');
             }
-
+            
             return $this->data_manager->escape_column_name($name, $storage_unit) . ' ' . $operator . ' ' . $this->data_manager->quote($value);
         }
         elseif ($condition instanceof PatternMatchCondition)
