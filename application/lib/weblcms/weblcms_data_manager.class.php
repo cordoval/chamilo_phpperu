@@ -614,6 +614,7 @@ abstract class WeblcmsDataManager
      */
     abstract function delete_course_category($course_category);
 
+    abstract function delete_course_module($course_code, $course_name);
     /**
      * Sets the visibility of a course module.
      * @param string $course_code
