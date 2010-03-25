@@ -2,9 +2,10 @@
 require_once dirname(__FILE__).'/../cba_manager.class.php';
 require_once dirname(__FILE__).'/../cba_manager_component.class.php';
 
+require_once dirname(__FILE__) . '/../../criteria_score.class.php';
+
 /**
  * Component to delete criteria objects
- * 
  * @author Nick Van Loocke
  */
 class CbaManagerCriteriaDeleterComponent extends CbaManagerComponent
@@ -16,7 +17,7 @@ class CbaManagerCriteriaDeleterComponent extends CbaManagerComponent
 	{
 		$ids = $_GET[CbaManager :: PARAM_CRITERIA];
 		$failures = 0;
-
+		
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
@@ -27,7 +28,16 @@ class CbaManagerCriteriaDeleterComponent extends CbaManagerComponent
 			foreach ($ids as $id)
 			{
 				$cba = $this->retrieve_criteria($id);
+				
+				$condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $id);
+				$count_scores = $this->count_criterias_score($condition);
 
+				for($i = 0; $i < $count_scores; $i++)
+				{
+					$cba_score = $this->retrieve_criteria_score($id);	
+					$cba_score->delete();		
+				}
+				
 				if (!$cba->delete())
 				{
 					$failures++;
@@ -63,6 +73,8 @@ class CbaManagerCriteriaDeleterComponent extends CbaManagerComponent
 		{
 			$this->display_error_page(htmlentities(Translation :: get('NoCriteriasSelected')));
 		}
+		
+		
 	}
 }
 ?>
