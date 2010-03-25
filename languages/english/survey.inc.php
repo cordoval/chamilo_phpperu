@@ -29,6 +29,28 @@ $lang['survey']['NoDate'] = 'No Date';
 $lang['survey']['Username'] = 'Username';
 $lang['survey']['Progress'] = 'Progress';
 $lang['survey']['StartTime'] = 'Invitation Date';
-$lang['survey']['ContextName'] = 'Context';
+
 $lang['survey']['TakeSurvey'] = 'Take survey';
+$lang['survey']['InviteParticipants'] = 'Invite Participants';
+$lang['survey']['VisibilityChanged'] = 'Survey publication visibility changed';
+$lang['survey']['VisibilityNotChanged'] = 'Survey publication visibility not changed';
+$lang['survey']['MailToParticipantsForSurveys'] = 'Mail to participants for surveys';
+$lang['survey']['MailParticipants'] = 'Mail participants';
+$lang['survey']['SurveyFromEmailAddress'] = 'From address';
+$lang['survey']['SurveyReplyEmailAddress'] = 'Reply address';
+$lang['survey']['SurveyEmailTitle'] = 'Subject';
+$lang['survey']['SurveyEmailContent'] = 'Body';
+$lang['survey']['SurveyMailAttention'] = 'Attention';
+$lang['survey']['SurveyAttentionSendMailInfo'] = 'Sending a large number of emails will take som time !';
+$lang['survey']['NoSurveyParticipantMailsSend'] = 'No mails send to participant';
+$lang['survey']['NotAllSurveyParticipantMailsSend'] = 'Not all mails send to participants';
+$lang['survey']['AllSurveyParticipantMailsSend'] = 'All mails send to participants';
+
+$lang['survey']['SurveyNotStarted'] = 'Not started survey';
+$lang['survey']['SurveyStarted'] = 'Started survey';
+$lang['survey']['SurveyFinished'] = 'Finished survey';
+
+$lang['survey']['BrowseSurvey'] = 'Browse survey';
+
+
 ?>
