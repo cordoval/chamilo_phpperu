@@ -1,0 +1,34 @@
+<?php
+$lang['survey']['DeleteResults'] = 'Delete results';
+$lang['survey']['BrowseSurveyPublications'] = 'Browse survey publications';
+$lang['survey']['BrowseTestCaseSurveyPublications'] = 'Browse test cases';
+$lang['survey']['BrowseTestCaseSurveyParticipants'] = 'Browse participants';
+$lang['survey']['ViewSurveyResults'] = 'View survey results';
+$lang['survey']['ViewSurveyDetails'] = 'View survey details';
+$lang['survey']['CreateSurveyPublication'] = 'Create survey publication';
+$lang['survey']['CreateTestCaseSurveyPublication'] = 'Create test case';
+$lang['survey']['UpdateSurveyPublication'] = 'Update survey publication';
+$lang['survey']['CategoriesMoved'] = 'Categories moved';
+$lang['survey']['MoveSurveyPublications'] = 'Move survey publications';
+$lang['survey']['SelectCategory'] = 'Select category';
+$lang['survey']['UsersInvited'] = 'Users invited';
+$lang['survey']['NoSurveyPublicationsSelected'] = 'No survey publications selected';
+$lang['survey']['Surveys'] = 'Surveys';
+$lang['survey']['PublishAndBuild'] = 'Publish and build';
+$lang['survey']['TestSurveys'] = 'Test Cases';
+$lang['survey']['FromDate'] = 'From';
+$lang['survey']['ToDate'] = 'To';
+$lang['survey']['CreateTestCase'] = 'Create test case';
+$lang['survey']['Participants'] = 'Participants';
+$lang['survey']['NotParticipants'] = 'Not Participants';
+$lang['survey']['SurveyPublished'] = 'Survey Published';
+$lang['survey']['SurveyNotPublished'] = 'Survey not Published';
+$lang['survey']['TestCaseNotCreated'] = 'Test case not created';
+$lang['survey']['TestCaseCreated'] = 'Test case created';
+$lang['survey']['NoDate'] = 'No Date';
+$lang['survey']['Username'] = 'Username';
+$lang['survey']['Progress'] = 'Progress';
+$lang['survey']['StartTime'] = 'Invitation Date';
+$lang['survey']['ContextName'] = 'Context';
+$lang['survey']['TakeSurvey'] = 'Take survey';
+?>
