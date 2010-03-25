@@ -1,8 +1,8 @@
 <?php
 /**
+ * $Id: Max_Members_rule.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.formvalidator.Rule
  */
-// $Id: Max_Members_rule.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
 require_once ('HTML/QuickForm/Rule.php');
 /**
  * QuickForm rule to check a date
@@ -19,3 +19,5 @@ class HTML_QuickForm_Rule_Max_Members extends HTML_QuickForm_Rule
 			return false;
 	}
 }
+
+?>

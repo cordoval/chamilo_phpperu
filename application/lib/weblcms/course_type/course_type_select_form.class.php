@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: course_type_form.class.php 2 2010-02-25 11:43:06Z Yannick & Tristan $
+ * $Id: course_type_select_form.class.php 2 2010-02-25 11:43:06Z Yannick & Tristan $
  * @package application.lib.weblcms.course_type
  */
 

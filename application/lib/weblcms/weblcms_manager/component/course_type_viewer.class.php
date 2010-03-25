@@ -1,4 +1,8 @@
 <?php
+/**
+ * $Id: course_type_viewer.class.php 218 2010-03-26 14:21:26Z Yannick & Tristan $
+ * @package application.lib.weblcms.weblcms_manager.component
+ */
 
 require_once dirname(__FILE__) . '/admin_course_browser/admin_course_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';

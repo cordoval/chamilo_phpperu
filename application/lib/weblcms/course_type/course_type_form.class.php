@@ -578,26 +578,26 @@ class CourseTypeForm extends FormValidator
 		$defaults[CourseTypeLayout :: PROPERTY_LAYOUT] = $layout ? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME);
 
 		$layout_fixed = $course_type->get_layout_settings()->get_layout_fixed();
-		$defaults[CourseTypeLayout :: PROPERTY_LAYOUT] = $layout_fixed;
-
+		$defaults[CourseTypeLayout :: PROPERTY_LAYOUT_FIXED] = $layout_fixed;
+		
 		$tool_shortcut = $course_type->get_layout_settings()->get_tool_shortcut();
 		$defaults[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut ? $tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
 
 		$tool_shortcut_fixed = $course_type->get_layout_settings()->get_tool_shortcut_fixed();
-		$defaults[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut_fixed;
-
+		$defaults[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT_FIXED] = $tool_shortcut_fixed;
+		
 		$menu = $course_type->get_layout_settings()->get_menu();
 		$defaults[CourseTypeLayout :: PROPERTY_MENU] = $menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
 
 		$menu_fixed = $course_type->get_layout_settings()->get_menu_fixed();
-		$defaults[CourseTypeLayout :: PROPERTY_MENU] = $menu_fixed;
-
+		$defaults[CourseTypeLayout :: PROPERTY_MENU_FIXED] = $menu_fixed;
+		
 		$breadcrumb = $course_type->get_layout_settings()->get_breadcrumb();
 		$defaults[CourseTypeLayout :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
 
 		$breadcrumb_fixed = $course_type->get_layout_settings()->get_breadcrumb_fixed();
-		$defaults[CourseTypeLayout :: PROPERTY_BREADCRUMB] = $breadcrumb_fixed;
-
+		$defaults[CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED] = $breadcrumb_fixed;
+		
 		$feedback = $course_type->get_layout_settings()->get_feedback();
 		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK] = $course_type_id?$feedback:1;
 
