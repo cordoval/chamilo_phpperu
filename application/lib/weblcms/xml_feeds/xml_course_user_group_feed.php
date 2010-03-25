@@ -190,6 +190,7 @@ echo '</tree>';
 
 function dump_tree($users, $groups_tree)
 {
+    global $group_users;
     if (contains_results($users) || contains_results($groups_tree))
     {
         if (contains_results($users))
@@ -197,7 +198,16 @@ function dump_tree($users, $groups_tree)
             echo '<node id="user" classes="category unlinked" title="'. Translation :: get('Users') .'">', "\n";
             foreach ($users as $user)
             {
-                echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($user->get_username()) . '" description="' . htmlentities($user->get_fullname()) . '"/>' . "\n";
+                if (in_array($user->get_id(), $group_users))
+                {
+                    $class = 'type type_user_platform';
+                }
+                else
+                {
+                    $class = 'type type_user';
+                }
+
+                echo '<leaf id="user_' . $user->get_id() . '" classes="' . $class . '" title="' . htmlentities($user->get_username()) . '" description="' . htmlentities($user->get_fullname()) . '"/>' . "\n";
             }
             echo '</node>', "\n";
         }
