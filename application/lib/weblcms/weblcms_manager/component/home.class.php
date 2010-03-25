@@ -18,6 +18,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
      */
     function run()
     {
+    	//LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME)
+    	
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyCourses')));
         $trail->add_help('courses general');
