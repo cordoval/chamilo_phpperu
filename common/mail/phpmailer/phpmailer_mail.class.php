@@ -15,21 +15,30 @@ class PhpmailerMail extends Mail
 
     function send()
     {
-        $headers = array();
-        foreach ($this->get_cc() as $index => $cc)
-        {
-            $headers[] = 'Cc: ' . $cc;
-        }
-        foreach ($this->get_bcc() as $index => $bcc)
-        {
-            $headers[] = 'Bcc: ' . $bcc;
-        }
-        if (! is_null($this->get_from()))
-        {
-            $headers[] = 'From: ' . $this->get_from();
-            $headers[] = 'Reply-To: ' . $this->get_from();
-        }
-        $headers = implode("\n", $headers);
+//        $headers = array();
+//        foreach ($this->get_cc() as $index => $cc)
+//        {
+//            $headers[] = 'Cc: ' . $cc;
+//        }
+//        foreach ($this->get_bcc() as $index => $bcc)
+//        {
+//            $headers[] = 'Bcc: ' . $bcc;
+//        }
+//        if (! is_null($this->get_from()))
+//        {
+//            $headers[] = 'From: ' . $this->get_from();
+//            
+//            if (! is_null($this->get_reply()))
+//            {
+//                $headers[] = 'Reply-To: ' . $this->get_reply();
+//            
+//            }
+//            else
+//            {
+//                $headers[] = 'Reply-To: ' . $this->get_from();
+//            }
+//        }
+//        $headers = implode("\n", $headers);
         
         global $phpmailer_config;
         require_once (dirname(__FILE__) . '/phpmailer.conf.php');
@@ -67,8 +76,15 @@ class PhpmailerMail extends Mail
             $mail->From = $this->get_from_email();
             $mail->Sender = $this->get_from_email();
             $mail->FromName = $this->get_from_name();
+            
             //$mail->ConfirmReadingTo = $this->get_from(); //Disposition-Notification
         }
+         if(! is_null($this->get_reply())){
+         	
+         	$mail->AddReplyTo($this->get_reply_email(), $this->get_reply_name());
+         }
+        
+        
         else
         {
             $mail->From = $phpmailer_config['SMTP_FROM_EMAIL'];
