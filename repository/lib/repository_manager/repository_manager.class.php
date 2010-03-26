@@ -111,6 +111,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_IMPORT_TEMPLATE = 'import_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
     const ACTION_DELETE_LINK = 'delete_link';
+    const ACTION_VIEW_DOUBLES = 'view_doubles';
 
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
