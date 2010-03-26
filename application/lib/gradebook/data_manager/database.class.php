@@ -9,7 +9,7 @@ require_once Path :: get_library_path().'condition/condition_translator.class.ph
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
 
-class DatabaseGradebookDatamanager extends GradebookDatamanager
+class DatabaseGradebookDataManager extends GradebookDatamanager
 {
 
 	private $database;
@@ -17,10 +17,10 @@ class DatabaseGradebookDatamanager extends GradebookDatamanager
 	function initialize()
 	{   
 		$aliases = array();
-		$aliases[GradebookInternalEvaluation :: get_table_name()] = 'gron';
-		$aliases[GradebookExternalEvaluation :: get_table_name()] = 'gres';
+		$aliases[GradebookInternalEvaluation :: get_table_name()] = 'grin';
+		$aliases[GradebookExternalEvaluation :: get_table_name()] = 'gren';
 		$aliases[GradebookEvaluationResults :: get_table_name()] = 'grts';
-		$aliases[GradebookEvaluationFormat :: get_table_name()] = 'grrm';
+		$aliases[GradebookEvaluationFormat :: get_table_name()] = 'grat';
 		$aliases[GradebookLastUsedEvaluationKey :: get_table_name()] = 'grey';
 		
 		$this->database = new Database($aliases);
@@ -32,19 +32,20 @@ class DatabaseGradebookDatamanager extends GradebookDatamanager
 		return $this->database->create_storage_unit($name,$properties,$indexes);
 	}
 	
+	// gradebook evaluation format items
 	function create_gradebook_evaluation_format($evaluation_format)
 	{
 		return $this->database->create($evaluation_format);
 	}
 	
-	function retrieve_all_evaluation_formats()
+	function retrieve_all_evaluation_formats($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name());
+		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 	
 	function retrieve_all_active_evaluation_formats()
 	{
-		$condition = new EqualityCondition(GradebookEvaluationFormats :: PROPERTY_ACTIVE, GradebookEvaluationFormat :: EVALUATION_FORMAT_ACTIVE);
+		$condition = new EqualityCondition(GradebookEvaluationFormat :: PROPERTY_ACTIVE, GradebookEvaluationFormat :: EVALUATION_FORMAT_ACTIVE);
 		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name(), $condition);
 	}
 
