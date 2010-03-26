@@ -52,7 +52,10 @@ class GradebookInstaller extends Installer
     	{
     		if(Text :: char_at($folder, 0) != '.')
     		{
-    			
+    			if (!file_exists($root . $folder . '/' . $folder . '_evaluation_format.class.php'))
+    			{
+    				return false;
+    			}
     			$gef = new GradebookEvaluationFormat();
     			$gef->set_evaluation_format($folder);
     			$gef->set_active(1);
