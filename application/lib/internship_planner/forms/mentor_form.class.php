@@ -54,8 +54,8 @@ class MentorForm extends FormValidator
 		$this->addElement('text', Mentor :: PROPERTY_TELEPHONE, Translation :: get('Telephone'));
 		$this->addRule(Mentor :: PROPERTY_TELEPHONE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', Mentor :: PROPERTY_USER_ID, Translation :: get('UserId'));
-		$this->addRule(Mentor :: PROPERTY_USER_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', Mentor :: PROPERTY_LOCATION_ID, Translation :: get('UserId'));
+		$this->addRule(Mentor :: PROPERTY_LOCATION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
     }
 
@@ -92,7 +92,7 @@ class MentorForm extends FormValidator
     	$mentor->set_lastname($values[Mentor :: PROPERTY_LASTNAME]);
     	$mentor->set_email($values[Mentor :: PROPERTY_EMAIL]);
     	$mentor->set_telephone($values[Mentor :: PROPERTY_TELEPHONE]);
-    	$mentor->set_user_id($values[Mentor :: PROPERTY_USER_ID]);
+    	$mentor->set_user_id($values[Mentor :: PROPERTY_LOCATION_ID]);
 
     	return $mentor->update();
     }
@@ -108,7 +108,7 @@ class MentorForm extends FormValidator
     	$mentor->set_lastname($values[Mentor :: PROPERTY_LASTNAME]);
     	$mentor->set_email($values[Mentor :: PROPERTY_EMAIL]);
     	$mentor->set_telephone($values[Mentor :: PROPERTY_TELEPHONE]);
-    	$mentor->set_user_id($values[Mentor :: PROPERTY_USER_ID]);
+    	$mentor->set_user_id($values[Mentor :: PROPERTY_LOCATION_ID]);
 
    		return $mentor->create();
     }
@@ -127,7 +127,7 @@ class MentorForm extends FormValidator
     	$defaults[Mentor :: PROPERTY_LASTNAME] = $mentor->get_lastname();
     	$defaults[Mentor :: PROPERTY_EMAIL] = $mentor->get_email();
     	$defaults[Mentor :: PROPERTY_TELEPHONE] = $mentor->get_telephone();
-    	$defaults[Mentor :: PROPERTY_USER_ID] = $mentor->get_user_id();
+    	$defaults[Mentor :: PROPERTY_LOCATION_ID] = $mentor->get_user_id();
 
 		parent :: setDefaults($defaults);
 	}
