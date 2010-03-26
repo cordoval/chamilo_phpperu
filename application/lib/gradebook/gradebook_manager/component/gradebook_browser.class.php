@@ -22,7 +22,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManagerComponen
 
 		$this->display_header($trail);
 		$this->ab = $this->get_action_bar();
-		dump($folders);
 		echo $this->get_browser_html();
 		$this->display_footer();
 	}

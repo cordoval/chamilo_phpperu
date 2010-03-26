@@ -26,5 +26,10 @@ class LettersEvaluationFormat extends EvaluationFormat
 	{
 		
 	}
+	
+	function get_default_active_value()
+	{
+		return self :: DEFAULT_ACTIVE_VALUE;
+	}
 }
 ?>

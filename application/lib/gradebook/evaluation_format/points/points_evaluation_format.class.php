@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__) . '/../evaluation_format.class.php';
+
 class PointsEvaluationFormat extends EvaluationFormat
 {
 	private $base_score;
@@ -36,6 +38,11 @@ class PointsEvaluationFormat extends EvaluationFormat
 	function add_to_form($form)
 	{
 		
+	}
+	
+	function get_default_active_value()
+	{
+		return self :: DEFAULT_ACTIVE_VALUE;
 	}
 }
 ?>

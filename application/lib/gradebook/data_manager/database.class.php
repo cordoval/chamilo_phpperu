@@ -36,6 +36,17 @@ class DatabaseGradebookDatamanager extends GradebookDatamanager
 	{
 		return $this->database->create($evaluation_format);
 	}
+	
+	function retrieve_all_evaluation_formats()
+	{
+		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name());
+	}
+	
+	function retrieve_all_active_evaluation_formats()
+	{
+		$condition = new EqualityCondition(GradebookEvaluationFormats :: PROPERTY_ACTIVE, GradebookEvaluationFormat :: EVALUATION_FORMAT_ACTIVE);
+		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name(), $condition);
+	}
 
 	//gradebook_items
 
