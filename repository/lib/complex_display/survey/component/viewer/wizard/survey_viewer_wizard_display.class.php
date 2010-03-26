@@ -25,7 +25,9 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
     function _renderForm($current_page)
     {
         
-        if ($current_page->get_page_number() != 0)
+    	
+        
+    	if ($current_page->get_page_number() != 0)
         {
             $html = array();
             $html[] = '<div class="assessment">';

@@ -55,7 +55,10 @@ class CbaManagerIndicatorMoverComponent extends CbaManagerComponent
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, $exclude_category);
         
-        $form->addElement('select', Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $select = $form->add_select(Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+    	$indicator = $this->retrieve_indicator($ids[0]);
+        $select->setSelected($indicator->get_parent_id());
+        $form->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive finish'));
         
@@ -65,8 +68,7 @@ class CbaManagerIndicatorMoverComponent extends CbaManagerComponent
 
     function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
     {
-        //$conditions[] = new NotCondition(new EqualityCondition(IndicatorCategory :: PROPERTY_ID, $exclude_category));
-    	$conditions[] = new EqualityCondition(IndicatorCategory :: PROPERTY_PARENT, $parent);
+		$conditions[] = new EqualityCondition(IndicatorCategory :: PROPERTY_PARENT, $parent);
         $condition = new AndCondition($conditions);
         
         $cdm = CbaDataManager :: get_instance()->retrieve_indicator_categories($condition);

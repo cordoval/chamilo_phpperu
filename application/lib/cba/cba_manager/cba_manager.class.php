@@ -25,7 +25,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	const PARAM_INDICATOR_CRITERIA = 'indicator_criteria';
 	
 	const PARAM_CONTENT_OBJECT_TYPE = 'type';
-	const PARAM_CONTENT_OBJECT_ID = 'object';
+	//const PARAM_CONTENT_OBJECT_ID = 'object';
 	const PARAM_DELETE_SELECTED_COMPETENCYS = 'delete_selected_competencys';
 	const PARAM_DELETE_SELECTED_INDICATORS = 'delete_selected_indicators';
 	const PARAM_DELETE_SELECTED_CRITERIAS = 'delete_selected_criterias';

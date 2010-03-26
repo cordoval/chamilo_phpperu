@@ -10,10 +10,14 @@ class GradebookEvaluationFormat extends DataClass
     /**
      * GradebookEvaluationFormat properties
      */
+    const PROPERTY_EVALUATION_FORMAT = 'evaluation_format';
+    const PROPERTY_ACTIVE = 'active';
+    /*
+     * Possible active values
+     */
+    const EVALUATION_FORMAT_NON_ACTIVE = 0;
+    const EVALUATION_FORMAT_ACTIVE = 1;
     
-     const PROPERTY_EVALUATION_FORMAT = 'evaluation_format';
-     const PROPERTY_ACTIVE = 'active';
-     
 	static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_EVALUATION_FORMAT, self :: PROPERTY_ACTIVE));
@@ -56,10 +60,19 @@ class GradebookEvaluationFormat extends DataClass
     	return $this->get_default_property(self :: PROPERTY_ACTIVE);
     }
     
-
     static function get_table_name()
     {
         return self :: TABLE_NAME;
+    }
+    
+	function create()
+    {
+    	if(!parent :: create())
+    	{
+    		return false;
+    	}
+    	
+    	return true;
     }
 }
 ?>

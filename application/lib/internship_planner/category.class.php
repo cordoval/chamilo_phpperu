@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/internship_planner_data_manager.class.php';
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class Category extends NestedTreeNode
+class InternshipPlannerCategory extends NestedTreeNode
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -18,7 +18,7 @@ class Category extends NestedTreeNode
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
-
+	
 	/**
 	 * Get the default properties
 	 * @return array The property names.
@@ -86,7 +86,7 @@ class Category extends NestedTreeNode
 
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return 'category';
 	}
 	
 	function get_data_manager() 

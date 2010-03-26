@@ -111,6 +111,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_IMPORT_TEMPLATE = 'import_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
     const ACTION_DELETE_LINK = 'delete_link';
+    const ACTION_VIEW_DOUBLES = 'view_doubles';
 
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
@@ -313,6 +314,9 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_UNLINK_CONTENT_OBJECTS:
             	$component = RepositoryManagerComponent :: factory('Unlinker', $this);
+                break;
+            case self :: ACTION_VIEW_DOUBLES:
+            	$component = RepositoryManagerComponent :: factory('DoublesViewer', $this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_CONTENT_OBJECTS);
@@ -1045,13 +1049,18 @@ class RepositoryManager extends CoreApplication
             $shared['title'] = Translation :: get('SharedContentObjects');
             $shared['url'] = $this->get_shared_content_objects_url();
             $shared['class'] = 'category';
+            
+            $doubles = array();
+            $doubles['title'] = Translation :: get('Doubles');
+            $doubles['url'] = $this->get_view_doubles_url();
+            $doubles['class'] = 'doubles';
 
             $external_repositories = ExternalRepository :: retrieve_external_repository();
             if (count($external_repositories) > 0)
             {
                 $external_repository = array();
                 $external_repository['title'] = (count($external_repositories) > 1) ? Translation :: get('ExternalRepositories') : Translation :: get('ExternalRepository');
-                $external_repository['url']   = $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
+                $external_repository['url']   = $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE));
                 $external_repository['class'] = 'external_repository';
             }
 
@@ -1073,6 +1082,7 @@ class RepositoryManager extends CoreApplication
 
             $extra_items[] = $quota;
             $extra_items[] = $uv;
+            $extra_items[] = $doubles;
             $extra_items[] = $trash;
 
             if ($force_search || $this->get_search_form()->validate())
@@ -1324,6 +1334,11 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_CONTENT_OBJECT_ID => $template_id));
     }
 
+    function get_view_doubles_url()
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_DOUBLES));
+    }
+    
     function get_delete_link_url($type, $object_id, $link_id)
     {
     	$parameters = array();

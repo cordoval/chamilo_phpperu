@@ -14,13 +14,16 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage
     {
         parent :: SurveyViewerWizardPage($name, $parent);
         $this->page_number = $number;
+        $this->addAction('process', new SurveyViewerWizardProcess ( $this ));
+      
     
     }
 
     function buildForm()
     {
         
-        $this->_formBuilt = true;
+        
+    	$this->_formBuilt = true;
         
         $this->questions = $this->get_parent()->get_questions($this->page_number);
         

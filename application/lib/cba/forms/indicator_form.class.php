@@ -55,8 +55,10 @@ class IndicatorForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-    	$this->addElement('select', Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
-        $this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$select = $this->add_select(Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $category_id = Request :: get(CbaManager :: PARAM_CATEGORY_ID);
+		$select->setSelected($category_id);
+    	$this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->add_html_editor(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -92,8 +94,9 @@ class IndicatorForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-    	$this->addElement('select', Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
-        $this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+    	$select = $this->add_select(Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $select->setSelected($this->indicator->get_parent_id());
+    	$this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
 		$this->add_html_editor(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -207,11 +210,11 @@ class IndicatorForm extends FormValidator
     	$indicator = $this->indicator;
     	$indicator->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
+    	$parent = $this->exportValue(Indicator :: PROPERTY_PARENT_ID);
 
     	$indicator->set_title($values[Indicator :: PROPERTY_TITLE]);
     	$indicator->set_description($values[Indicator :: PROPERTY_DESCRIPTION]);
-    	//dump($indicator);
-    	//exit();
+		$indicator->move($parent);
 
     	return $indicator->update();
     }

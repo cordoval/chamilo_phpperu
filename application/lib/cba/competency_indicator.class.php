@@ -56,6 +56,27 @@ class CompetencyIndicator extends DataClass
 		$this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
 	}
 	
+	function get_target_indicators()
+	{
+		if (! $this->target_indicators)
+        {
+            $condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $this->get_id());
+            $indicators = CbaDataManager :: get_instance()->retrieve_competencys_indicator($condition);
+
+            while ($indicators = $indicators->next_result())
+            {
+                $this->target_indicators[] = $indicators->get_get_user();
+            }
+        }
+
+        return $this->target_users;
+	}
+	
+	function set_target_indicators($target_indicators)
+	{
+        $this->target_indicators = $target_indicators;
+	}
+	
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

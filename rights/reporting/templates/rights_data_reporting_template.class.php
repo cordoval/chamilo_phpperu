@@ -47,5 +47,13 @@ class RightsDataReportingTemplate extends ReportingTemplate
         
         return implode("\n", $html);
     }
+	
+    function get_application()
+    {
+    	return RightsManager::APPLICATION_NAME;
+    }
+    
+    function display_context()
+    {}
 }
 ?>

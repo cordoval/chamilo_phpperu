@@ -107,7 +107,10 @@ class SurveyPublicationCategoryMenu extends HTML_Menu
 
     function get_publication_count($category_id)
     {
-        $condition = new EqualityCondition(SurveyPublication :: PROPERTY_CATEGORY, $category_id);
+        $conditions = array();
+    	$conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_CATEGORY, $category_id);
+        $conditions[] = new NotCondition(new EqualityCondition(SurveyPublication :: PROPERTY_TEST, 1 ));
+        $condition = new AndCondition($conditions);
         return SurveyDataManager :: get_instance()->count_survey_publications($condition);
     }
 

@@ -16,6 +16,15 @@ class CbaManagerCriteriaEditorComponent extends CbaManagerComponent
 	 */
 	function run()
 	{
+		$ids = Request :: get(CbaManager :: PARAM_CRITERIA);
+        if (! empty($ids))
+        {
+	        if (!is_array($ids))
+	        {
+	        	$ids = array($ids);
+	        }
+        }
+		
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateCriteria')));
 		
@@ -39,7 +48,14 @@ class CbaManagerCriteriaEditorComponent extends CbaManagerComponent
 			$success_criteria_score = $form->update_criteria_score();
 			if($success_criteria == $success_criteria_score)
 				$success = 1;
-			$this->redirect($success ? Translation :: get('CriteriaUpdated') : Translation :: get('CriteriaNotUpdated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA));
+			
+			foreach ($ids as $id)
+            {
+            	$criteria = $this->retrieve_criteria($id);
+            	$new_category_id = $this->move_criterias_to_category($form, $ids, $criteria);	
+            }
+				
+			$this->redirect($success ? Translation :: get('CriteriaUpdated') : Translation :: get('CriteriaNotUpdated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA, 'category' => $new_category_id));  
 		}
 		else
 		{
@@ -48,6 +64,19 @@ class CbaManagerCriteriaEditorComponent extends CbaManagerComponent
 		}
 		$this->display_footer();
 	}
+	
+    function move_criterias_to_category($form, $ids, $criteria)
+    {    	
+        $category = $form->exportValue(Criteria :: PROPERTY_PARENT_ID);
+        if (! is_array($ids))
+            $ids = array($ids);
+        
+        $condition = new InCondition(Criteria :: PROPERTY_ID, $ids);
+        $cdm = CbaDataManager :: get_instance()->retrieve_criterias($condition);        
+        $criteria->move($category);
+
+        return $category;
+    }
 	
 	function display_footer()
 	{

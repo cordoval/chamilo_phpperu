@@ -106,4 +106,15 @@ $lang['user']['Visual'] = 'Visual settings';
 $lang['user']['PlatformLanguage'] = 'User platform language';
 $lang['user']['CKEditor'] = 'CKEditor';
 $lang['user']['TinyMCE'] = 'TinyMCE';
+$lang['user']['ApproveSelected'] = '';
+$lang['user']['DenySelected'] = '';
+$lang['user']['Approve'] = '';
+$lang['user']['Deny'] = '';
+$lang['user']['SendEmail'] = '';
+$lang['user']['EmailSelected'] = '';
+$lang['user']['UserAwaitingApproval'] = '';
+$lang['user']['UserApproveBrowser'] = '';
+$lang['user']['Emailer'] = '';
+$lang['user']['ApproveList'] = '';
+$lang['user']['ApproveListDescription'] = '';
 ?>

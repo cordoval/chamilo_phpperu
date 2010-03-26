@@ -46,6 +46,7 @@ class CbaMenu extends HTML_Menu
      *                           root.
      * @param string[] $filter_count_on_types - Array to define the types on which the count on the categories should be filtered                         
      */
+    
     function CbaMenu($owner, $current_category, $url_format = '?category=%s', $extra_items = array(), $filter_count_on_types = array())
     {
         $this->owner = $owner;
@@ -57,8 +58,29 @@ class CbaMenu extends HTML_Menu
         $menu = $this->get_menu_items($extra_items);
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
-        $this->forceCurrentUrl($this->get_category_competency_url($current_category));
+
+        $type = Request :: get(CbaManager :: PARAM_ACTION);
+    	if($type == 'competency' || $type == 'editor_competency' || $type == 'move_competency' || $type == 'delete_competency' || $type == null)
+        {
+        	$this->forceCurrentUrl($this->get_category_competency_url($current_category));
+        }
+        elseif($type == 'indicator' || $type == 'editor_indicator' || $type == 'move_indicator' || $type == 'delete_indicator')
+        {
+        	$this->forceCurrentUrl($this->get_category_indicator_url($current_category));
+        }
+        elseif($type == 'criteria' || $type == 'editor_criteria' || $type == 'move_criteria' || $type == 'delete_criteria')
+        {
+        	$this->forceCurrentUrl($this->get_category_criteria_url($current_category));
+        }
+        else
+        {
+        	$this->forceCurrentUrl($this->get_category_create_url($current_category));
+        }
     }
+
+    
+    
+	
 
     /**
      * Returns the menu items.
@@ -200,7 +222,6 @@ class CbaMenu extends HTML_Menu
     private function get_sub_indicator_menu_items($parent)
     {
         $conditions = array();
-        //$conditions[] = new EqualityCondition(CompetencyCategory :: PROPERTY_USER_ID, $this->owner);
         $conditions[] = new EqualityCondition(IndicatorCategory :: PROPERTY_PARENT, $parent);
         $condition = new AndCondition($conditions);
 
@@ -293,27 +314,30 @@ class CbaMenu extends HTML_Menu
         return htmlentities(sprintf($urlCriteria, $category));
     }
     
+    private function get_category_create_url($category)
+    {
+    	$urlCreate = '/chamilo/run.php?go=create&application=cba&category=%s';
+        return htmlentities(sprintf($urlCreate, $category));
+    }
+    
     
     // Sub categories url's
     
 	private function get_sub_category_competency_url($category)
     {
     	$subUrlCompetency = '/chamilo/run.php?application=cba&go=competency&category=%s';
-        //$subUrlCompetency = '/chamilo/run.php?go=manage_categories_competency&application=cba&category_action=browse_categories&category=%s';
         return htmlentities(sprintf($subUrlCompetency, $category));
     }
     
 	private function get_sub_category_indicator_url($category)
     {
     	$subUrlIndicator = '/chamilo/run.php?application=cba&go=indicator&category=%s';
-        //$subUrlIndicator = '/chamilo/run.php?go=manage_categories_indicator&application=cba&category_action=browse_categories&category=%s';
         return htmlentities(sprintf($subUrlIndicator, $category));
     }
     
 	private function get_sub_category_criteria_url($category)
     {
     	$subUrlCriteria = '/chamilo/run.php?application=cba&go=criteria&category=%s';
-        //$subUrlCriteria = '/chamilo/run.php?go=manage_categories_criteria&application=cba&category_action=browse_categories&category=%s';
         return htmlentities(sprintf($subUrlCriteria, $category));
     }
     

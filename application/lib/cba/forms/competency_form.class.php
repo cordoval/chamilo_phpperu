@@ -56,7 +56,9 @@ class CompetencyForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-    	$this->addElement('select', Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+    	$select = $this->add_select(Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+    	$category_id = Request :: get(CbaManager :: PARAM_CATEGORY_ID);   	
+    	$select->setSelected($category_id);
         $this->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->add_html_editor(Competency :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
@@ -90,10 +92,11 @@ class CompetencyForm extends FormValidator
 		$this->categories = array();
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
-		
-    	$this->addElement('select', Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+
+        $select = $this->add_select(Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $select->setSelected($this->competency->get_parent_id());
         $this->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-		
+		       
 		$this->add_html_editor(Competency :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Competency :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 		
@@ -106,7 +109,25 @@ class CompetencyForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
 		$attributes['locale'] = $locale;
-        $attributes['defaults'] = array();
+		$attributes['defaults'] = array();
+		//Competency indicator (get indicator id)
+        //$attributes['exclude'] = array('indicator_' . $this->competency->get_id());
+        
+    	//$target_indicator = $this->competency;
+        //$cdm = CbaDataManager :: get_instance();
+        
+        //dump($target_indicator->get_id());
+        /*foreach ($target_indicator->get_indicator_id() as $competency_id)
+        {
+            $competency_indicator = $cdm->retrieve_competency_indicator($competency_id);
+            $default = array();
+            $default['id'] = 'indicator_' . $competency_id;
+            $default['classes'] = 'type type_cda_language';
+            $default['title'] = $competency_indicator->get_title();
+            $default['description'] = $competency_indicator->get_title();
+            
+            $attributes['defaults'][] = $default;
+        }*/
         
         $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
     	
@@ -118,10 +139,10 @@ class CompetencyForm extends FormValidator
     
  	function add_indicators($elementName, $elementLabel, $attributes)
     {
-    	// Use defaults for the right column!
 		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
 		$element_finder->excludeElements($attributes['exclude']);
-        $this->addElement($element_finder);
+        $this->addElement($element_finder, $elementLabel);
+        //$this->addGroup($element_finder, null, $elementLabel);
     }
        
 	function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
@@ -196,9 +217,7 @@ class CompetencyForm extends FormValidator
             {
               	$result &= $competency_indicator->create();
             }
-    	}
-        //dump($competency_indicator);
-    	//exit();   	
+    	}   	
     	return $result;
     }
     
@@ -206,9 +225,11 @@ class CompetencyForm extends FormValidator
     {
     	$competency = $this->competency;
     	$values = $this->exportValues();
+    	$parent = $this->exportValue(Competency :: PROPERTY_PARENT_ID);
 
     	$competency->set_title($values[Competency :: PROPERTY_TITLE]);
     	$competency->set_description($values[Competency :: PROPERTY_DESCRIPTION]);
+    	$competency->move($parent);
 
     	return $competency->update();
     }

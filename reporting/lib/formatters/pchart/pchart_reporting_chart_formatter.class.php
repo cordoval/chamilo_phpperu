@@ -10,7 +10,6 @@ require_once Path :: get_plugin_path() . '/pChart/pChart/pData.class';
 class PchartReportingChartFormatter extends ReportingChartFormatter
 {
     private $instance;
-    protected $reporting_block;
     protected $font;
 
     /**
@@ -21,6 +20,18 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
         return $this->get_pchart_instance()->to_html();
     } //to_html
 
+    public function get_chart()
+    {
+        $all_data = $this->get_block()->retrieve_data();
+        if ($all_data == null)
+        {
+        	return null;
+        }
+        else
+        {
+        	return $this->render_chart();
+        }
+    }
     
     protected function strip_data_names($data)
     {
@@ -48,8 +59,8 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
 
     public function PchartReportingChartFormatter(&$reporting_block)
     {
-        $this->reporting_block = $reporting_block;
-        $this->font = Path :: get_plugin_path() . '/pChart/Fonts/tahoma.ttf';
+        parent ::__construct($reporting_block);
+        $this->font = Path :: get_plugin_path() . 'pChart/Fonts/tahoma.ttf';
     } //ReportingChartFormatter
 
     
@@ -57,11 +68,13 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
     {
         if (! isset(self :: $instance))
         {
-            $pos = strpos($this->reporting_block->get_displaymode(), ':');
-            $charttype = substr($this->reporting_block->get_displaymode(), $pos + 1);
-            require_once dirname(__FILE__) . '/' . strtolower($charttype) . '_pchart_reporting_chart_formatter.class.php';
-            $class = $charttype . 'PchartReportingChartFormatter';
-            $this->instance = new $class($this->reporting_block); // (self :: $charttype);
+            $display_mode = $this->get_block()->get_displaymode();
+        	$display_mode = explode('_', $display_mode);
+        	$type = self::get_type_name($display_mode[0] . '_' .  $display_mode[1]);
+        	
+            require_once dirname(__FILE__) . '/' . strtolower($type) . '_pchart_reporting_chart_formatter.class.php';
+            $class = Utilities::underscores_to_camelcase($type) . 'PchartReportingChartFormatter';
+            $this->instance = new $class($this->get_block()); // (self :: $charttype);
         }
         return $this->instance;
     } //get_instance
@@ -89,14 +102,21 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
 
     protected function render_link($chart, $chartname = 'chart', $type = 'SYS')
     {
-        $random = rand();
-        // Render the pie chart to a temporary file
-        $path = Path :: get(SYS_FILE_PATH) . 'temp/' . $this->reporting_block->get_name() . '_' . $chartname . $random . '.png';
-        $chart->Render($path);
-        
-        // Return the link to the file
-        $path = Path :: get($type . _FILE_PATH) . 'temp/' . $this->reporting_block->get_name() . '_' . $chartname . $random . '.png';
-        return $path;
+        if ($chart == null)
+        {
+        	return Path :: get($type . _PATH) . 'layout/' . Theme::get_theme() . '/images/common/unknown.jpg';
+        }
+        else 
+        {
+        	$random = rand();
+	        // Render the pie chart to a temporary file
+	        $path = Path :: get(SYS_FILE_PATH) . 'temp/' . $this->get_block()->get_name() . '_' . $chartname . $random . '.png';
+	        $chart->Render($path);
+	        
+	        // Return the link to the file
+	        $path = Path :: get($type . _FILE_PATH) . 'temp/' . $this->get_block()->get_name() . '_' . $chartname . $random . '.png';
+	        return $path;
+        }
     }
 }
 ?>

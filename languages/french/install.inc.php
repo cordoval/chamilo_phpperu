@@ -86,4 +86,8 @@ $lang['install']['SelectConfigurationFileDescription'] = '';
 $lang['install']['ConfigurationFile'] = '';
 $lang['install']['Dropbox'] = '';
 $lang['install']['Gradebook'] = '';
+$lang['install']['Installation'] = '';
+$lang['install']['InstallationDescription'] = '';
+$lang['install']['Refresh'] = '';
+$lang['install']['AfterApproval'] = '';
 ?>

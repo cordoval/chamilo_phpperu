@@ -397,8 +397,6 @@
 					$("a.category", inactiveBox).css("cursor", "default");
 				}
 				
-				alert(inactiveBox.html());
-				
 				$('#' + settings.name + '_expand_button').click(showElementFinder);
 				
 				$('#' + settings.name + '_search_field').keypress( function(event) {

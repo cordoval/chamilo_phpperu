@@ -46,6 +46,14 @@ abstract class GradebookDatamanager {
 	abstract function initialize();
 	
 	//gradebook_items
+	
+	//gradebook evaluation format items
+	
+	abstract function create_gradebook_evaluation_format($evaluation_format);
+	
+	abstract function retrieve_all_evaluation_formats();
+	
+	abstract function retrieve_all_active_evaluation_formats();
 
 	/*abstract function get_next_gradebook_id();
 
