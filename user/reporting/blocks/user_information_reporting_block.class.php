@@ -43,7 +43,7 @@ class UserInformationReportingBlock extends UserReportingBlock
 		return UserManager::APPLICATION_NAME;
 	}
 	
-	public function get_available_diplaymodes()
+	public function get_available_displaymodes()
 	{
 		
 	}
