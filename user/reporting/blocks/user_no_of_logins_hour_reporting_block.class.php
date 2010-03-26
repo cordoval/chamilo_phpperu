@@ -6,26 +6,27 @@ class UserNoOfLoginsHourReportingBlock extends UserReportingBlock
 {
 	public function count_data()
 	{
-		require_once (dirname(__FILE__) . '/../trackers/login_logout_tracker.class.php');
+		$reporting_data = new ReportingData();
+		require_once (dirname(__FILE__) . '/../../trackers/login_logout_tracker.class.php');
         $condition = new EqualityCondition(LoginLogoutTracker :: PROPERTY_TYPE, 'login');
         $tracker = new LoginLogoutTracker();
         $trackerdata = $tracker->retrieve_tracker_items($condition);
-
-        $days = self :: getDateArray($trackerdata, 'l');
-        $new_days = array();
-
-        $day_names = array(Translation :: get('MondayLong'), Translation :: get('TuesdayLong'), Translation :: get('WednesdayLong'), Translation :: get('ThursdayLong'), Translation :: get('FridayLong'), Translation :: get('SaturdayLong'), Translation :: get('SundayLong'));
-
-        foreach ($day_names as $name)
+        $hours = UserReportingBlock :: getDateArray($trackerdata, 'G');
+        
+        $hours_names = array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24);
+		$reporting_data->set_categories($hours_names);
+        $reporting_data->set_rows(array(Translation :: get('logins')));
+        
+        foreach ($hours_names as $key => $name)
         {
-            $new_days[$name] = $days[$name] ? $days[$name] : array(0);
+            $reporting_data->add_data_category_row($name, Translation :: get('logins'), ($hours[$key] ? $hours[$key] : 0));
         }
-        return Reporting :: getSerieArray($new_days);
+        return $reporting_data;
 	}	
 	
 	public function retrieve_data()
 	{
-		return count_data();		
+		return $this->count_data();		
 	}
 	
 	function get_application()
@@ -33,48 +34,16 @@ class UserNoOfLoginsHourReportingBlock extends UserReportingBlock
 		return UserManager::APPLICATION_NAME;
 	}
 	
-    /**
-     * Splits given data into a given date format
-     * @param <type> $data
-     * @param <type> $format
-     * @return <type>
-     */
-    public static function getDateArray($data, $format)
-    {
-        foreach ($data as $key => $value)
-        {
-            $bla = explode('-', $value->get_date());
-            $bla2 = explode(' ', $bla[2]);
-            $hoursarray = explode(':', $bla2[1]);
-            $bus = mktime($hoursarray[0], $hoursarray[1], $hoursarray[2], $bla[1], $bla2[0], $bla[0]);
-            //            $date = date($format,mktime($hoursarray[0],$hoursarray[1],$hoursarray[2],$bla[1],$bla2[0],$bla[0]));
-            //            $date = (is_numeric($date))?$date:Translation :: get($date.'Long');
-            //            //dump($date);
-            //            if (array_key_exists($date, $arr))
-            //                $arr[$date][0]++;
-            //            else
-            //                $arr[$date][0] = 1;
-
-
-            $arr2[$bus][0] ++;
-            //            if (array_key_exists($bus,$arr2))
-        //                $arr2[$bus][0]++;
-        //            else
-        //                $arr2[$bus][0] = 1;
-        }
-        //sort the array
-        ksort($arr2);
-        foreach ($arr2 as $key => $value)
-        {
-            $date = date($format, $key);
-            $date = (is_numeric($date)) ? $date : Translation :: get($date . 'Long');
-            if (array_key_exists($date, $arr2))
-                $arr2[$date][0] += $arr2[$key][0];
-            else
-                $arr2[$date][0] = $arr2[$key][0];
-            unset($arr2[$key]);
-        }
-        return $arr2;
-    }
+	public function get_available_displaymodes()
+	{
+		$modes = array();
+        $modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
+        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
+        $modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie'); 
+        $modes[ReportingChartFormatter::DISPLAY_BAR] = Translation :: get('Chart:Bar');
+        $modes[ReportingChartFormatter::DISPLAY_LINE] = Translation :: get('Chart:Line');
+        $modes[ReportingChartFormatter::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic');
+        return $modes;
+	}
 }
 ?>

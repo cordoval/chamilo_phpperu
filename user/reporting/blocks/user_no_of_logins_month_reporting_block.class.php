@@ -6,68 +6,42 @@ class UserNoOfLoginsMonthReportingBlock extends UserReportingBlock
 {
 	public function count_data()
 	{
-		require_once (dirname(__FILE__) . '/../trackers/login_logout_tracker.class.php');
+		$reporting_data = new ReportingData();
+		require_once (dirname(__FILE__) . '/../../trackers/login_logout_tracker.class.php');
         $condition = new EqualityCondition(LoginLogoutTracker :: PROPERTY_TYPE, 'login');
         $tracker = new LoginLogoutTracker();
         $trackerdata = $tracker->retrieve_tracker_items($condition);
 
-        $months = self :: getDateArray($trackerdata, 'F');
-
-        return Reporting :: getSerieArray($months);
+		$months_names = array(Translation :: get('January'), Translation :: get('Februari'), Translation :: get('March'),Translation :: get('April'),Translation :: get('May'),Translation :: get('June'),Translation :: get('July'),Translation :: get('August'),Translation :: get('September'),Translation :: get('October'), Translation :: get('November'),Translation :: get('December'));
+        $months = UserReportingBlock :: getDateArray($trackerdata, 'n');
+        
+		$reporting_data->set_categories($months_names);
+        $reporting_data->set_rows(array(Translation :: get('logins')));
+        
+        foreach ($months_names as $key => $name)
+        {
+            $reporting_data->add_data_category_row($name, Translation :: get('logins'), ($months[$key+1] ? $months[$key+1] : 0));
+        }
+        return $reporting_data;
 	}	
 	
 	public function retrieve_data()
 	{
-		return count_data();		
+		return $this->count_data();		
 	}
 	
 	function get_application()
 	{
 		return UserManager::APPLICATION_NAME;
 	}
-
-    /**
-     * Splits given data into a given date format
-     * @param <type> $data
-     * @param <type> $format
-     * @return <type>
-     */
-    public static function getDateArray($data, $format)
-    {
-        foreach ($data as $key => $value)
-        {
-            $bla = explode('-', $value->get_date());
-            $bla2 = explode(' ', $bla[2]);
-            $hoursarray = explode(':', $bla2[1]);
-            $bus = mktime($hoursarray[0], $hoursarray[1], $hoursarray[2], $bla[1], $bla2[0], $bla[0]);
-            //            $date = date($format,mktime($hoursarray[0],$hoursarray[1],$hoursarray[2],$bla[1],$bla2[0],$bla[0]));
-            //            $date = (is_numeric($date))?$date:Translation :: get($date.'Long');
-            //            //dump($date);
-            //            if (array_key_exists($date, $arr))
-            //                $arr[$date][0]++;
-            //            else
-            //                $arr[$date][0] = 1;
-
-
-            $arr2[$bus][0] ++;
-            //            if (array_key_exists($bus,$arr2))
-        //                $arr2[$bus][0]++;
-        //            else
-        //                $arr2[$bus][0] = 1;
-        }
-        //sort the array
-        ksort($arr2);
-        foreach ($arr2 as $key => $value)
-        {
-            $date = date($format, $key);
-            $date = (is_numeric($date)) ? $date : Translation :: get($date . 'Long');
-            if (array_key_exists($date, $arr2))
-                $arr2[$date][0] += $arr2[$key][0];
-            else
-                $arr2[$date][0] = $arr2[$key][0];
-            unset($arr2[$key]);
-        }
-        return $arr2;
-    }
+	
+	public function get_available_displaymodes()
+	{
+		$modes = array();
+        $modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
+        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
+        $modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie');
+        return $modes;
+	}
 }
 ?>

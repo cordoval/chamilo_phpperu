@@ -35,12 +35,17 @@ class UserInformationReportingBlock extends UserReportingBlock
 	
 	public function retrieve_data()
 	{
-		return count_data();		
+		return $this->count_data();		
 	}
 	
 	function get_application()
 	{
 		return UserManager::APPLICATION_NAME;
+	}
+	
+	public function get_available_diplaymodes()
+	{
+		
 	}
 }
 ?>

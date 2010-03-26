@@ -47,6 +47,11 @@ class ReportingBlockRegistration extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_BLOCK);
     }
+    
+    public function get_block_object()
+    {
+    	return ;
+    }
 
     public function set_block($value)
     {

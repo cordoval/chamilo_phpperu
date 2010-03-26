@@ -5,11 +5,15 @@
  * @author Michael Kyndt
  */
 
-//require_once Path :: get_plugin_path() . '/pear/Pager/Pager.php';
+require_once Path :: get_plugin_path() . '/pear/Pager/Pager.php';
 
 abstract class ReportingFormatter
 {
 	protected $block;
+	const DISPLAY_TEXT = 1;
+	const DISPLAY_TABLE = 2;
+	const DISPLAY_CHART = 3;
+	const DISPLAY_HTML = 4;
     
     function ReportingFormatter($block)
     {
@@ -24,16 +28,26 @@ abstract class ReportingFormatter
 
     public static function factory($reporting_block)
     {
-        $type = $reporting_block->get_displaymode();
-        if (strpos($type, 'Chart:') !== false)
-        {
-            $type = 'Chart';
-        }
-        
+        $display_mode = $reporting_block->get_displaymode();
+        $display_mode = explode('_', $display_mode);
+        $type = self::get_type_name($display_mode[0]);
         require_once dirname(__FILE__) . '/formatters/reporting_' . strtolower($type) . '_formatter.class.php';
-        $class = 'Reporting' . $type . 'Formatter';
+        $class = 'Reporting' . Utilities::underscores_to_camelcase($type) . 'Formatter';
+
         return new $class($reporting_block);
     } 
+    
+    function get_type_name($value)
+    {
+    	switch($value)
+    	{
+    		case self::DISPLAY_TEXT : return 'text'; break;
+    		case self::DISPLAY_HTML: return 'html'; break;
+    		case self::DISPLAY_TABLE : return 'table'; break;
+    		case self::DISPLAY_CHART : return 'chart'; break;
+    		default : return 'text';
+    	}
+    }
     
     public function get_block()
     {

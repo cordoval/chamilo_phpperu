@@ -20,13 +20,13 @@ abstract class ReportingTemplate
     //const REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS = 1;
     //const REPORTING_BLOCK_USE_BLOCK_DIMENSIONS = 0;
 
-	const PARAM_BLOCK = 'block';
+	//const PARAM_BLOCK = 'block';
 	
     protected $action_bar;
 	
 	private $blocks = array();
 	private $parent;
-	private $parameters;
+	private $parameters = array();
 	
 	function ReportingTemplate($parent)
 	{
@@ -34,20 +34,15 @@ abstract class ReportingTemplate
         $this->action_bar = $this->get_action_bar();
 	}
 	
-	public static function factory($parent)
+	public static function factory($reporting_template_id, $parent)
 	{
-		if (stristr($parent, 'Assessment'))
-		{
-			$type = 'assessment';
-		}
-		if (stristr($parent, 'Survey'))
-		{
-			$type = 'survey';
-		}
-		
-		require_once dirname (__FILE__) . '/application/lib/' . $type . '/reporting/templates/' . $type . '_attempt_reporting_template.class.php';
-		$class = $type . 'AttemptReportingTemplate';
-		return new $class($parent);
+		$registration = ReportingDataManager::get_instance()->retrieve_reporting_template_registration($reporting_template_id);
+		$application = $registration->get_application();
+        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+        $file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($registration->get_template()) . '.class.php';
+        require_once ($file);
+        $new_template = Utilities :: underscores_to_camelcase($registration->get_template());
+        return new $new_template($parent);
 	}
 	
 	function get_id()
@@ -94,20 +89,45 @@ abstract class ReportingTemplate
 		return implode("\n", $html);
 	}
 	
+	public function render_all_blocks()
+	{
+		$blocks = $this->get_reporting_blocks();
+		$html = array();
+		foreach($blocks as $block)
+		{
+			$html[] = $block->export();
+		}
+		return implode($html, "\n");
+	}
+	
 	public function render_blocks()
 	{
 		$html = array();
         $html[] = '<div style="float: right; width: 80%;">';
         
-		$block = Request::get(self::PARAM_BLOCK);
+		$block = Request::get(ReportingManager::PARAM_REPORTING_BLOCK_ID);
 		if (isset($block))
 		{
 			$html[] = $this->get_reporting_block($block)->to_html();
 		}
 		$html[] = '</div>';
         $html[] = '<div class="clear"></div>';
-        
         return implode($html, "\n");
+	}
+	
+	public function export()
+	{
+		$block = Request::get(ReportingManager::PARAM_REPORTING_BLOCK_ID);
+		if (isset($block))
+		{
+			$html[] = $this->get_reporting_block($block)->export();
+		}
+		else
+		{
+			$html[] = $this->display_context();
+			$html[] = $this->render_all_blocks();	
+		}
+		return implode("\n", $html);
 	}
 	
 	public function display_footer()
@@ -172,12 +192,36 @@ abstract class ReportingTemplate
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+        $parameters = array();
+      
+            $parameters [Application :: PARAM_ACTION ] = ReportingManager :: ACTION_EXPORT;
+            $parameters [ReportingManager:: PARAM_TEMPLATE_ID] = $this->get_id();
+            $parameters [ReportingManager :: PARAM_EXPORT_TYPE] = 'pdf';
+            $display_mode = $this->get_displaymode();
+            if (isset($display_mode))
+            {
+            	$parameters [ReportingFormatterForm::FORMATTER_TYPE] = $this->get_displaymode();
+            }
+            $url = Redirect::get_link(ReportingManager::APPLICATION_NAME, $parameters, array(), false, Redirect::TYPE_CORE);
        
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), null, $url));
         
         return $action_bar;
     }
     
+    public function get_displaymode(){
+		$display = Request::post(ReportingFormatterForm::FORMATTER_TYPE);
+    	$display_get = Request::get(ReportingFormatterForm::FORMATTER_TYPE);
+        if (isset($display))
+        {
+        	return $display;
+        }
+        elseif (isset($display_get))
+        {
+        	return $display_get;
+        }
+	}
+
     /*
      * Reporting blocks
      */

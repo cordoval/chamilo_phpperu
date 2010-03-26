@@ -14,13 +14,14 @@ class LinePchartReportingChartFormatter extends PchartReportingChartFormatter
 
     protected function render_chart()
     {
-        $all_data = $this->reporting_block->get_data();
+        $all_data = $this->get_block()->retrieve_data();
         $data = $all_data[0];
         $datadescription = $all_data[1];
         
         //$width = $this->reporting_block->get_width()-20;
         $width = 100 + count($data) * 30;
-        $height = $this->reporting_block->get_height() - 50;
+        //$height = $this->reporting_block->get_height() - 50;
+        $height = 270;
         $legend = 30 + sizeof($datadescription["Values"]) * 30;
         $data = $this->strip_data_names($data);
         
@@ -45,7 +46,7 @@ class LinePchartReportingChartFormatter extends PchartReportingChartFormatter
         $Test->setFontProperties($this->font, 8);
         $Test->drawLegend(15, $height + 30, $datadescription, 255, 255, 255);
         $Test->setFontProperties($this->font, 10);
-        $Test->drawTitle(60, 22, $this->reporting_block->get_name(), 50, 50, 50, $width * 0.7);
+        $Test->drawTitle(60, 22, $this->get_block()->get_name_translation(), 50, 50, 50, $width * 0.7);
         
         return $Test;
     }
@@ -64,7 +65,7 @@ class LinePchartReportingChartFormatter extends PchartReportingChartFormatter
      */
     public function to_link($type = 'SYS')
     {
-        return parent :: render_link($this->render_chart(), 'linechart', $type);
+        return parent :: render_link($this->get_chart(), 'linechart', $type);
     }
 }
 ?>

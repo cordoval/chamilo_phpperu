@@ -66,6 +66,7 @@ class ReportingTemplateViewer
         {
             $temp->show_reporting_block(Request :: get('s'));
         }
+        $temp->add_parameters(ReportingManager::PARAM_TEMPLATE_ID,$reporting_template_registration->get_id());
         echo $temp->to_html();
     }
 }

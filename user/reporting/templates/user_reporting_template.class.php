@@ -23,9 +23,6 @@ class UserReportingTemplate extends ReportingTemplate
 
     function UserReportingTemplate($parent)
     {
-        //$this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserInformation"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        //$this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserPlatformStatistics"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        
         parent :: __construct($parent);
         
         $this->add_reporting_block(new UserActiveInactiveReportingBlock($this));
@@ -35,7 +32,7 @@ class UserReportingTemplate extends ReportingTemplate
         $this->add_reporting_block(new UserNoOfLoginsReportingBlock($this));
         $this->add_reporting_block(new UserNoOfUsersPictureReportingBlock($this));
         $this->add_reporting_block(new UserNoOfUsersReportingBlock($this));
-        $this->add_reporting_block(new UserNoOfUsersSubscribedCourseReportingBlock($this));
+       // $this->add_reporting_block(new UserNoOfUsersSubscribedCourseReportingBlock($this));
     }
 
     /**
@@ -56,7 +53,7 @@ class UserReportingTemplate extends ReportingTemplate
     /*function to_html()
     {
         //template header
-        $html[] = $this->get_header();
+        $html[] = $this->display_header();
         
         $html[] = '<div class="reporting_template_container">';
         $html[] = '<div class="reporting_template_con_left">';
@@ -72,7 +69,7 @@ class UserReportingTemplate extends ReportingTemplate
         
 
         //template footer
-        $html[] = $this->get_footer();
+        $html[] = $this->display_footer();
         
         return implode("\n", $html);
     }*/

@@ -8,18 +8,11 @@
 
 //class ReportingBlock extends DataClass
     
+require_once dirname(__FILE__) . '/forms/reporting_formatter_form.class.php';
+
 abstract class ReportingBlock
 {
 	const CLASS_NAME = __CLASS__;
-    
-    //const PROPERTY_NAME = 'name';
-    //const PROPERTY_APPLICATION = 'application';
-    //const PROPERTY_FUNCTION = 'function';
-    /*const PROPERTY_DISPLAYMODE = 'displaymode';
-    const PROPERTY_EXCLUDE_DISPLAYMODES = 'exclude_displaymodes';
-    const PROPERTY_WIDTH = 'width';
-    const PROPERTY_HEIGHT = 'height';
-    const PROPERTY_SORTABLE = 'sortalbe';*/
     const PARAM_DISPLAY_MODE = "display_mode";
     
     private $data, $params, $parent;
@@ -47,7 +40,6 @@ abstract class ReportingBlock
 
 	public function display_footer()
 	{
-		$html[] = '</div>';
         
         $html[] = '<div class="reporting_footer">';
         $html[] = '<div class="reporting_footer_export">';
@@ -65,7 +57,11 @@ abstract class ReportingBlock
         $html[] = '<div class="reporting_header">';
         $html[] = '<div class="reporting_header_title">' . Translation :: get(get_class($this)) . '</div>';
         $html[] = '<div class="reporting_header_displaymode">';
-        $html[] = '<form method=POST action="'.$this->get_parent()->get_parent()->get_url().'">';
+        $parameters = $this->parent->get_parameters();
+        $bloc_parameters = array_merge($parameters, array(ReportingManager::PARAM_REPORTING_BLOCK_ID=>$this->get_id()));
+		$form = new ReportingFormatterForm($this, $this->get_parent()->get_parent()->get_url($bloc_parameters));
+        $html[] = $form->toHtml();
+        /*$html[] = '<form method=POST action="'.$this->get_parent()->get_parent()->get_url().'">';
         $html[] = '<select name="charttype" class="charttype">';
         foreach ($this->get_displaymodes() as $key => $value)
         {
@@ -79,7 +75,7 @@ abstract class ReportingBlock
             }
         }
         $html[] = '</select>';
-        $html[] = '</form>';
+        $html[] = '</form>';*/
         $html[] = '</div>';
         
         $html[] = '<div class="clear">&nbsp;</div>';
@@ -98,7 +94,7 @@ abstract class ReportingBlock
 	{
 		$html[] = $this->display_header();
 		$html[] = $this->render_block();
-		$html[] =  $this->display_footer();
+		$html[] = $this->display_footer();
 		return implode("\n", $html);		
 	}
 	
@@ -117,6 +113,25 @@ abstract class ReportingBlock
 		{
 			return 0;
 		}
+    }
+    
+	public function export()
+	{
+		$html[] = '<b>' . Utilities::underscores_to_camelcase_with_spaces($this->get_name()) . '<br></br></b>';
+		$html[] = $this->render_block();
+		$html[] = '<br></br>';
+		return implode("\n", $html);
+	}
+    
+    static function factory($registration)
+    {
+        $type = $registration->get_block();
+        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+        $file = $base_path . $application . '/reporting/blocks/' . $type . '.class.php';
+        require_once ($file);
+        $class = Utilities::underscores_to_camelcase($type) . 'ReportingBlock';
+
+        return new $class($registration);
     }
 	
     abstract function get_application();
@@ -184,9 +199,8 @@ abstract class ReportingBlock
      * @return array modes
      * @todo build modes dynamically
      */
-    private function get_available_displaymodes()
-    {
-        $modes = array();
+    abstract function get_available_displaymodes();/*{
+    	$modes = array();
         $modes["Text"] = Translation :: get('Text');
         $modes["Table"] = Translation :: get('Table');
         $modes["Chart:Pie"] = Translation :: get('Chart:Pie');
@@ -194,12 +208,11 @@ abstract class ReportingBlock
         $modes["Chart:Line"] = Translation :: get('Chart:Line');
         $modes["Chart:FilledCubic"] = Translation :: get('Chart:FilledCubic');
         return $modes;
-    }
+    }*/
 
     public function get_export_links()
     {
         $list = Export :: get_supported_filetypes(array('ical'));
-        
         $array = array();
         
         foreach ($list as $export_format)
@@ -211,7 +224,12 @@ abstract class ReportingBlock
             $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS) ? Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS) : $_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS];
             if (! file_exists($sys_file))
                 $file = Theme :: get_common_image_path() . 'export_unknown.png';
-            $arr[] = '<a href="index_reporting.php?' . Application :: PARAM_ACTION . '=' . ReportingManager :: ACTION_EXPORT . '&' . ReportingManager :: PARAM_REPORTING_BLOCK_ID . '=' . $this->get_id() . '&' . ReportingManager :: PARAM_EXPORT_TYPE . '=' . $export_format . '&' . http_build_query($parameters) . '" />';
+            $parameters [Application :: PARAM_ACTION ] = ReportingManager :: ACTION_EXPORT;
+            $parameters [ReportingManager :: PARAM_REPORTING_BLOCK_ID] = $this->get_id();
+            $parameters [ReportingManager:: PARAM_TEMPLATE_ID] = $this->get_parent()->get_id();
+            $parameters [ReportingManager :: PARAM_EXPORT_TYPE] = $export_format;
+            $parameters [ReportingFormatterForm::FORMATTER_TYPE] = $this->get_displaymode();
+            $arr[] = '<a href="'. Redirect::get_link(ReportingManager::APPLICATION_NAME, $parameters, array(), true, Redirect::TYPE_CORE) .'" />';
             //$arr[] = '<img src="'.$file.'" border="0" title="'.$export_format.'" alt="'.$export_format.'" width="12" height="12" />';
             $arr[] = $export_format;
             $arr[] = '</a>';
@@ -221,7 +239,6 @@ abstract class ReportingBlock
         
         $return = Translation :: get('Export') . ': ';
         $return .= implode('|', $array);
-        
         return $return;
     }
 
@@ -257,6 +274,11 @@ abstract class ReportingBlock
     {
         return $this->params;
     }
+    
+    function get_name_translation()
+    {
+    	return Utilities::underscores_to_camelcase($this->get_name());
+    }
 
     /*public function get_name()
     {
@@ -290,10 +312,23 @@ abstract class ReportingBlock
 
     public function get_displaymode()
     {
-        $display = Request::get(self::PARAM_DISPLAY_MODE);
+    	$display = Request::post(ReportingFormatterForm::FORMATTER_TYPE);
+    	$display_get = Request::get(ReportingFormatterForm::FORMATTER_TYPE);
         if (isset($display))
         {
         	return $display;
+        }
+        elseif (isset($display_get))
+        {
+        	$display_mode = $this->get_displaymodes();
+        	if (array_key_exists($display_get, $display_mode))
+        	{
+        		return $display_get;
+        	}
+        	else {
+        		$array_keys = array_keys($display_mode);
+        		return $array_keys[0];
+        	}
         }
         else
         {
@@ -303,7 +338,7 @@ abstract class ReportingBlock
         }
     }
 
-    public function set_displaymode($value)
+    /*public function set_displaymode($value)
     {
         $this->set_default_property(self :: PROPERTY_DISPLAYMODE, $value);
     }
@@ -318,7 +353,7 @@ abstract class ReportingBlock
         $this->set_default_property(self :: PROPERTY_EXCLUDE_DISPLAYMODES, $value);
     }
 
-    public function get_width()
+    /*public function get_width()
     {
         return $this->get_default_property(self :: PROPERTY_WIDTH);
     }
@@ -338,7 +373,7 @@ abstract class ReportingBlock
         $this->set_default_property(self :: PROPERTY_HEIGHT, $value);
     }
 
-    public function get_sortable()
+    /*public function get_sortable()
     {
         return $this->get_default_property(self :: PROPERTY_SORTABLE);
     }
@@ -347,10 +382,10 @@ abstract class ReportingBlock
     {
         $this->set_default_property(self :: PROPERTY_SORTABLE, $value);
     }
-
+*/
     public function is_sortable()
     {
-        return $this->get_default_property(self :: PROPERTY_SORTABLE) == 1;
+        return false;
     }
 
     static function get_table_name()

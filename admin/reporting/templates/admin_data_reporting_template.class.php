@@ -53,7 +53,7 @@ class AdminDataReportingTemplate extends ReportingTemplate
     
     function get_application()
     {
-    	return SurveyManager::APPLICATION_NAME;
+    	return AdminManager::APPLICATION_NAME;
     }
     
     function display_context()

@@ -83,7 +83,8 @@ class ReportingAutoloader
 	{
 		$list = array('reporting_manager' => 'reporting_manager/reporting_manager.class.php',
 					  'reporting_manager_component' => 'reporting_manager/reporting_manager_component.class.php',
-					  'reporting_validator' => '../validator/reporting_validator.class.php');
+					  'reporting_validator' => '../validator/reporting_validator.class.php',
+					  'reporting_chart_formatter' => 'formatters/reporting_chart_formatter.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

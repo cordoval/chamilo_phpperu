@@ -88,8 +88,7 @@ class ReportingTemplateMenu extends HTML_Menu
                 {
                     $sub_menu_item = array();
                     $sub_menu_item['title'] = Translation::get(get_class($reporting_block));
-                    $bloc_parameters = array_merge($parameters, array(ReportingTemplate::PARAM_BLOCK=>$reporting_block->get_id()));
-                    
+                    $bloc_parameters = array_merge($parameters, array(ReportingManager::PARAM_REPORTING_BLOCK_ID=>$reporting_block->get_id()));
                     $sub_menu_item['url'] = $reporting_template->get_parent()->get_url($bloc_parameters);
                     $sub_menu_item['class'] = 'category';
 //                    $sub_menu_item['class'] = 'reporting_block';

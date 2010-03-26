@@ -6,8 +6,8 @@ class UserPlatformStatisticsReportingBlock extends UserReportingBlock
 	public function count_data()
 	{
 		$uid = $params[ReportingManager :: PARAM_USER_ID];
-        require_once (dirname(__FILE__) . '/../trackers/login_logout_tracker.class.php');
-        require_once (dirname(__FILE__) . '/../trackers/visit_tracker.class.php');
+        require_once (dirname(__FILE__) . '/../../trackers/login_logout_tracker.class.php');
+        require_once (dirname(__FILE__) . '/../../trackers/visit_tracker.class.php');
         $conditions[] = new EqualityCondition(LoginLogoutTracker :: PROPERTY_USER_ID, $uid);
         $conditions[] = new EqualityCondition(LoginLogoutTracker :: PROPERTY_TYPE, 'login');
         $condition = new AndCondition($conditions);
@@ -45,12 +45,24 @@ class UserPlatformStatisticsReportingBlock extends UserReportingBlock
 	
 	public function retrieve_data()
 	{
-		return count_data();		
+		return $this->count_data();		
 	}
 	
 	function get_application()
 	{
 		return UserManager::APPLICATION_NAME;
+	}
+	
+	public function get_available_displaymodes()
+	{
+		$modes = array();
+        $modes["Text"] = Translation :: get('Text');
+        $modes["Table"] = Translation :: get('Table');
+        $modes["Chart:Pie"] = Translation :: get('Chart:Pie');
+        $modes["Chart:Bar"] = Translation :: get('Chart:Bar');
+        $modes["Chart:Line"] = Translation :: get('Chart:Line');
+        $modes["Chart:FilledCubic"] = Translation :: get('Chart:FilledCubic');
+        return $modes;
 	}
 	
 /**
