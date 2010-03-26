@@ -14,7 +14,7 @@ class FilledCubicPchartReportingChartFormatter extends PchartReportingChartForma
 
     protected function render_chart()
     {
-        $all_data = $this->get_block()->retrieve_data();
+        $all_data = $this->convert_reporting_data();
         $data = $all_data[0];
         $datadescription = $all_data[1];
         

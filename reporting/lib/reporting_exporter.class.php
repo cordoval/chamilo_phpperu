@@ -94,8 +94,7 @@ class ReportingExporter
     {
 	
     	$export_type = Request :: get(ReportingManager :: PARAM_EXPORT_TYPE);
-		$filename = $name . date('_Y-m-d_H-i-s');
-		$export = Export :: factory($export_type, $filename);
+
     	if (Request :: get(ReportingManager :: PARAM_TEMPLATE_ID))
     	{   
 		    $ti = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
@@ -104,8 +103,9 @@ class ReportingExporter
 			$html[] = $this->get_export_header();	
 			$html[] = $template->export();
 			$html[] = $this->get_export_footer();
-			
     	}
+		$filename = $template->get_name() . date('_Y-m-d_H-i-s');	
+    	$export = Export :: factory($export_type, $filename);
 			
         	switch( $export_type)
         	{

@@ -104,7 +104,6 @@ class ReportingTableFormatter extends ReportingFormatter
             return $table->toHTML_export();
             */
         $parameters = $this->get_block()->get_parent()->get_parameters();
-        dump($parameters);
         $parameters[ReportingManager::PARAM_REPORTING_BLOCK_ID] = $this->get_block()->get_id();
         $parameters[ReportingFormatterForm::FORMATTER_TYPE] = $this->get_block()->get_displaymode();
         $parameters = array_merge($this->get_block()->get_parent()->get_parent()->get_parameters(), $parameters);
