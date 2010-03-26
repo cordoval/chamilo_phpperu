@@ -23,7 +23,7 @@ class DoublesBrowserTableColumnModel extends DefaultContentObjectTableColumnMode
     {
         parent :: __construct();
         $this->set_default_order_column(0);
-        $this->add_column(new ObjectTableColumn('Duplicatess'), false);
+        $this->add_column(new ObjectTableColumn('Duplicates'), false);
         $this->add_column(self :: get_modification_column());
     }
 
