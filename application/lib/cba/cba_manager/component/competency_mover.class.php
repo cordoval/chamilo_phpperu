@@ -55,7 +55,10 @@ class CbaManagerCompetencyMoverComponent extends CbaManagerComponent
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, $exclude_category);
         
-        $form->addElement('select', Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+		$select = $form->add_select(Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+    	$competency = $this->retrieve_competency($ids[0]);
+        $select->setSelected($competency->get_parent_id());
+        $form->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive finish'));
         
@@ -65,8 +68,7 @@ class CbaManagerCompetencyMoverComponent extends CbaManagerComponent
 
     function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
     {
-        //$conditions[] = new NotCondition(new EqualityCondition(CompetencyCategory :: PROPERTY_ID, $exclude_category));
-        $conditions[] = new EqualityCondition(CompetencyCategory :: PROPERTY_PARENT, $parent);
+		$conditions[] = new EqualityCondition(CompetencyCategory :: PROPERTY_PARENT, $parent);
         $condition = new AndCondition($conditions);
         
         $cdm = CbaDataManager :: get_instance()->retrieve_competency_categories($condition);

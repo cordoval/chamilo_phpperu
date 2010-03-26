@@ -56,7 +56,9 @@ class CompetencyForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-    	$this->addElement('select', Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+    	$select = $this->add_select(Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+    	$category_id = Request :: get(CbaManager :: PARAM_CATEGORY_ID);   	
+    	$select->setSelected($category_id);
         $this->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->add_html_editor(Competency :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
@@ -90,10 +92,11 @@ class CompetencyForm extends FormValidator
 		$this->categories = array();
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
-		
-    	$this->addElement('select', Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+
+        $select = $this->add_select(Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $select->setSelected($this->competency->get_parent_id());
         $this->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-		
+		       
 		$this->add_html_editor(Competency :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Competency :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 		
@@ -138,7 +141,8 @@ class CompetencyForm extends FormValidator
     {
 		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
 		$element_finder->excludeElements($attributes['exclude']);
-        $this->addElement($element_finder);
+        $this->addElement($element_finder, $elementLabel);
+        //$this->addGroup($element_finder, null, $elementLabel);
     }
        
 	function retrieve_categories_recursive($parent, $exclude_category, $level = 1)

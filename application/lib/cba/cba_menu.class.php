@@ -59,27 +59,23 @@ class CbaMenu extends HTML_Menu
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
 
-    	/*$url = $_SERVER['REQUEST_URI'];
-        $type = strrev(substr(strstr(strrev(substr($url, 36)), '&'), 1));
-        dump($type);
-        
-        if($type == 'competency')
+        $type = Request :: get(CbaManager :: PARAM_ACTION);
+    	if($type == 'competency' || $type == 'editor_competency' || $type == 'move_competency' || $type == 'delete_competency' || $type == null)
         {
         	$this->forceCurrentUrl($this->get_category_competency_url($current_category));
         }
-        elseif($type == 'indicator')
+        elseif($type == 'indicator' || $type == 'editor_indicator' || $type == 'move_indicator' || $type == 'delete_indicator')
         {
         	$this->forceCurrentUrl($this->get_category_indicator_url($current_category));
         }
-        elseif($type == 'criteria')
+        elseif($type == 'criteria' || $type == 'editor_criteria' || $type == 'move_criteria' || $type == 'delete_criteria')
         {
         	$this->forceCurrentUrl($this->get_category_criteria_url($current_category));
         }
         else
         {
         	$this->forceCurrentUrl($this->get_category_create_url($current_category));
-        }*/
-        $this->forceCurrentUrl($this->get_category_competency_url($current_category));
+        }
     }
 
     
@@ -316,6 +312,12 @@ class CbaMenu extends HTML_Menu
     {
         $urlCriteria = '/chamilo/run.php?application=cba&go=criteria&category=%s';
         return htmlentities(sprintf($urlCriteria, $category));
+    }
+    
+    private function get_category_create_url($category)
+    {
+    	$urlCreate = '/chamilo/run.php?go=create&application=cba&category=%s';
+        return htmlentities(sprintf($urlCreate, $category));
     }
     
     
