@@ -184,12 +184,12 @@ class InternshipOrganisationManager extends SubManager
             switch ($_POST['action'])
             {
                 //                case self :: PARAM_UNSUBSCRIBE_SELECTED :
-                //                    $this->set_organisation_action(self :: ACTION_UNSUBSCRIBE_USER_FROM_GROUP);
+                //                    $this->set_organisation_action(self :: ACTION_UNSUBSCRIBE_LOCATION_FROM_GROUP);
                 //                    $_GET[self :: PARAM_GROUP_REL_STUDENT_ID] = $selected_ids;
                 //                    break;
                 //                case self :: PARAM_SUBSCRIBE_SELECTED :
-                //                    $this->set_group_action(self :: ACTION_SUBSCRIBE_USER_TO_GROUP);
-                //                    $_GET[StsManager :: PARAM_USER_ID] = $selected_ids;
+                //                    $this->set_group_action(self :: ACTION_SUBSCRIBE_LOCATION_TO_GROUP);
+                //                    $_GET[StsManager :: PARAM_LOCATION_ID] = $selected_ids;
                 //                    break;
                 case self :: PARAM_DELETE_SELECTED_ORGANISATIONS :
                     $this->set_organisation_action(self :: ACTION_DELETE_ORGANISATION);
