@@ -14,27 +14,30 @@ class PiePchartReportingChartFormatter extends PchartReportingChartFormatter
 
     protected function render_chart()
     {
-        $all_data = $this->reporting_block->get_data();
-        $data = $all_data[0];
-        $datadescription = $all_data[1];
-        $width = $this->reporting_block->get_width() - 20;
-        $legend = sizeof($data) * 20;
-        $height = $this->reporting_block->get_height() - 50;
-        $data = $this->strip_data_names($data, 50);
+        $all_data = $this->get_block()->retrieve_data();
         
-        // Initialise the graph
-        $Test = new pChart($width, $height + $legend);
-        $Test->drawFilledRoundedRectangle(7, 7, $width - 7, $height - 7 + $legend, 5, 240, 240, 240);
-        
-        // This will draw a shadow under the pie chart
-        $Test->drawFilledCircle($width / 2, $height / 2, ($height - 2) * 0.4, 200, 200, 200);
-        
-        // Draw the pie chart
-        $Test->setFontProperties($this->font, 8);
-        $Test->drawBasicPieGraph($data, $datadescription, $width / 2, $height / 2, $height * 0.4, PIE_PERCENTAGE, 250, 250, 250);
-        $Test->drawPieLegend(15, $height - 10, $data, $datadescription, 250, 250, 250);
-        
-        return $Test;
+	    $data = $all_data[0];
+	    $datadescription = $all_data[1];
+	    //$width = $this->reporting_block->get_width() - 20;
+	    $width = 270;
+	    $legend = sizeof($data) * 20;
+	    //$height = $this->reporting_block->get_height() - 50;
+	    $height = 270;
+	    $data = $this->strip_data_names($data, 50);
+	        
+	    // Initialise the graph
+	    $Test = new pChart($width, $height + $legend);
+	    $Test->drawFilledRoundedRectangle(7, 7, $width - 7, $height - 7 + $legend, 5, 240, 240, 240);
+	        
+	    // This will draw a shadow under the pie chart
+	    $Test->drawFilledCircle($width / 2, $height / 2, ($height - 2) * 0.4, 200, 200, 200);
+	        
+	    // Draw the pie chart
+	    $Test->setFontProperties($this->font, 8);
+	    $Test->drawBasicPieGraph($data, $datadescription, $width / 2, $height / 2, $height * 0.4, PIE_PERCENTAGE, 250, 250, 250);
+	    $Test->drawPieLegend(15, $height - 10, $data, $datadescription, 250, 250, 250);
+	        
+	    return $Test;
     }
 
     /**
@@ -51,7 +54,7 @@ class PiePchartReportingChartFormatter extends PchartReportingChartFormatter
      */
     public function to_link($type = 'SYS')
     {
-        return parent :: render_link($this->render_chart(), 'piechart', $type);
+        return parent :: render_link($this->get_chart(), 'piechart', $type);
     } //to_link
 }
 ?>

@@ -92,7 +92,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
         
         $html[] = '<h3>' . htmlentities(Translation :: get('VersionQuota')) . '</h3>';
         
-        $table = new SortableTable('version_quota', array($this, 'get_registered_types_count'), array($this, 'get_registered_types_data'), 1, 30, SORT_ASC);
+        $table = new SortableTable('version_quota', array($this, 'get_registered_types_cout'), array($this, 'get_registered_types_data'), 1, 30, SORT_ASC);
         $table->set_additional_parameters($this->get_parameters());
         $table->set_header(0, null, false);
         $table->set_header(1, Translation :: get('Type'), false);
