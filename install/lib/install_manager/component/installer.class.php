@@ -21,8 +21,8 @@ class InstallManagerInstallerComponent extends InstallManagerComponent
     {
     	$already_installed = false;
     	// include the main Chamilo platform configuration file
-		$main_configuration_file_path = $includePath . '/configuration/configuration.php';
-		
+		$main_configuration_file_path = dirname(__FILE__) . '/../../../../common/configuration/configuration.php';
+
 		if (file_exists($main_configuration_file_path))
 		{
     		$already_installed = true;
