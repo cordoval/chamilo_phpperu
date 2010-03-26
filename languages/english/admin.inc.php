@@ -127,7 +127,6 @@ $lang['admin']['MysqlTitle'] = 'MySQL';
 $lang['admin']['WebserverTitle'] = 'Webserver';
 $lang['admin']['Section'] = 'Section';
 $lang['admin']['Setting'] = 'Setting';
-$lang['admin']['Current'] = 'Current';
 $lang['admin']['Expected'] = 'Expected';
 $lang['admin']['AllowAnnouncementCreation'] = 'Allow announcement creation';
 $lang['admin']['AllowAssessmentCreation'] = 'Allow assessment creation';
@@ -372,4 +371,9 @@ $lang['admin']['ImporterDescription'] = 'Importer description....';
 $lang['admin']['LanguagesAdded'] = 'Languages added';
 $lang['admin']['LanguageAdded'] = 'Language added';
 $lang['admin']['Logout'] = 'Log out';
+$lang['admin']['LanguageDeletionFailed'] = '';
+$lang['admin']['LanguageSuccessfullyDeleted'] = '';
+$lang['admin']['PackageIsAlreadyRegistered'] = '';
+$lang['admin']['LanguageRegistrationNotAdded'] = '';
+$lang['admin']['LanguageRegistrationAdded'] = '';
 ?>

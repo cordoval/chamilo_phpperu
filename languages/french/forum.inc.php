@@ -8,8 +8,8 @@ $lang['forum']['ViewForum'] = '';
 $lang['forum']['ForumUpdated'] = '';
 $lang['forum']['ForumNotUpdated'] = '';
 $lang['forum']['PublishForum'] = '';
-$lang['forum']['Logout'] = '';
-$lang['forum']['CategoryTypeName'] = '';
+$lang['forum']['Logout'] = 'Se déconnecter';
+$lang['forum']['CategoryTypeName'] = 'Sélectionner une catégorie';
 $lang['forum']['ForumPublicationCreated'] = '';
 $lang['forum']['SelectedForumPublicationsDeleted'] = '';
 ?>

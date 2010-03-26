@@ -127,7 +127,6 @@ $lang['admin']['MysqlTitle'] = 'MySQL';
 $lang['admin']['WebserverTitle'] = 'Webserver';
 $lang['admin']['Section'] = 'Sectie';
 $lang['admin']['Setting'] = 'Instelling';
-$lang['admin']['Current'] = 'Huidig';
 $lang['admin']['Expected'] = 'Verwacht';
 $lang['admin']['AllowAnnouncementCreation'] = 'Sta het aanmaken van announcements toe';
 $lang['admin']['AllowAssessmentCreation'] = 'Assessment opstellen is toegelaten';
@@ -372,4 +371,9 @@ $lang['admin']['ImporterDescription'] = '';
 $lang['admin']['LanguagesAdded'] = 'Talen toegevoegd';
 $lang['admin']['LanguageAdded'] = 'Taal toegevoegd';
 $lang['admin']['Logout'] = '';
+$lang['admin']['LanguageDeletionFailed'] = '';
+$lang['admin']['LanguageSuccessfullyDeleted'] = '';
+$lang['admin']['PackageIsAlreadyRegistered'] = '';
+$lang['admin']['LanguageRegistrationNotAdded'] = '';
+$lang['admin']['LanguageRegistrationAdded'] = '';
 ?>
