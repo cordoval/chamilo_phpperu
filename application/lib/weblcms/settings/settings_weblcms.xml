@@ -237,6 +237,13 @@
 					<option name="Old" value="Old" />
 				</options>
 			</setting>
+			<setting name="new_view_state_sub_division" field="radio" default="Mixed" user_setting="1">
+				<options type="static">
+					<option name="Open and closed mixed" value="Mixed" />
+					<option name="Open and closed seperated" value="Seperated" />
+					<option name="Open only" value="OpenOnly" />
+				</options>
+			</setting>
 		</category>
 	</settings>
 </application>
