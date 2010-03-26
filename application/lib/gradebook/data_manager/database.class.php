@@ -31,6 +31,11 @@ class DatabaseGradebookDatamanager extends GradebookDatamanager
 	{
 		return $this->database->create_storage_unit($name,$properties,$indexes);
 	}
+	
+	function create_gradebook_evaluation_format($evaluation_format)
+	{
+		return $this->database->create($evaluation_format);
+	}
 
 	//gradebook_items
 

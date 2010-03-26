@@ -56,10 +56,19 @@ class GradebookEvaluationFormat extends DataClass
     	return $this->get_default_property(self :: PROPERTY_ACTIVE);
     }
     
-
     static function get_table_name()
     {
         return self :: TABLE_NAME;
+    }
+    
+	function create()
+    {
+    	if(!parent :: create())
+    	{
+    		return false;
+    	}
+    	
+    	return true;
     }
 }
 ?>
