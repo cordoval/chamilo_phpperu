@@ -973,6 +973,10 @@ abstract class RepositoryDataManager
     abstract function update_external_repository_sync_info($external_repository_sync_info);
 
     abstract function delete_external_repository_sync_info($external_repository_sync_info);
+    
+    abstract function retrieve_doubles_in_repository($condition, $order_property, $offset, $count);
+    abstract function count_doubles_in_repository($condition);
+    abstract function retrieve_doubles_from_content_object($condition, $order_property, $offset, $count);
 
 }
 ?>

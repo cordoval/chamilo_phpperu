@@ -153,7 +153,13 @@ class ContentObject extends DataClass implements AccessibleContentObject
      */
     function get_type()
     {
-        return self :: class_to_type(get_class($this));
+        $type = $this->get_default_property(self :: PROPERTY_TYPE);
+    	if($type)
+        {
+        	return $type;	
+        }
+        
+    	return self :: class_to_type(get_class($this));
     }
 
     /**
