@@ -117,8 +117,6 @@ class ReportingExporter
         		case 'pdf' :
         			$data = implode("\n", $html);
 					$data = str_replace(Path :: get(WEB_PATH), Path :: get(SYS_PATH), $data);
-					dump($data);
-					exit;
 					$export->write_to_file_html($data);
 					break;
 

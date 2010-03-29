@@ -30,11 +30,8 @@
 			<setting name="institution_url" field="text"
 				default="http://www.chamilo.org" />
 			<setting name="no_reply_email" field="text" default="" />
-			<setting name="page_after_login" field="radio" default="home">
-				<options type="static">
-					<option name="homepage" value="home" />
-					<option name="courses" value="weblcms" />
-				</options>
+			<setting name="page_after_login" field="select" default="home">
+				<options type="dynamic" source="get_active_applications" />
 			</setting>
 			<setting name="public_pages_compliance_to_wai" field="checkbox"
 				default="0">
@@ -47,8 +44,7 @@
 					<option name="hide_dcda_markup" value="1" />
 				</options>
 			</setting>
-			<setting name="show_variable_in_translation" field="checkbox"
-				default="0">
+			<setting name="show_variable_in_translation" field="checkbox" default="0">
 				<options type="static">
 					<option name="show_variable_in_translation" value="1" />
 				</options>

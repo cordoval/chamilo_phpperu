@@ -42,46 +42,26 @@ class UserLogin extends UserBlock
             {
                 $html[] = $this->handle_login_failed();
             }
-            if (PlatformSetting :: get('allow_registration', 'user') || PlatformSetting :: get('allow_password_retrieval', 'user'))
-            {
-                $html[] = '<br />';
-                //$html[] = '<div class="menusection"><span class="menusectioncaption">'.Translation :: get('MenuUser').'</span><ul class="menulist">';
-                if (PlatformSetting :: get('allow_registration', 'user'))
-                {
-                    $links[] = '<a href="core.php?application=user&go=register">' . Translation :: get('Reg') . '</a>';
-                }
-                if (PlatformSetting :: get('allow_password_retrieval', 'user'))
-                {
-                    //display_lost_password_info();
-                    $links[] = '<a href="core.php?application=user&go=reset_password">' . Translation :: get('ResetPassword') . '</a>';
-                }
-
-                $html[] = implode(' - ', $links);
-                //$html[] = '</ul></div>';
-            }
         }
         else
         {
             $user = $this->get_user();
 
-            $html[] = '<br /><img src="' . $user->get_full_picture_url() . '" style="max-width: 100%;" />';
             $html[] = '<br />';
-            $html[] = '<br />';
+            $html[] = '<img src="' . $user->get_full_picture_url() . '" style="max-width: 100%;" />';
+            $html[] = '<br /><br />';
             $html[] = $user->get_fullname() . '<br />';
             $html[] = $user->get_email() . '<br />';
-            $html[] = '<br />';
-            $html[] = '<a href="index.php?logout=true">Logout</a>';
+            $html[] = '<br /><br />';
+            $html[] = '<a href="' . $link . '" class="button normal_button logout_button">' . Translation :: get('Logout') . '</a>';
+            $html[] = '<br /><br />';
 
-        /*if(PlatformSetting :: get('page_after_login') == 'weblcms')
-			{
-				//header('Location: run.php?application=weblcms');
-				header('Location: index_repository_manager.php');
-			}*/
+//            if(PlatformSetting :: get('page_after_login') == 'weblcms')
+//			{
+//				//header('Location: run.php?application=weblcms');
+//				header('Location: index_repository_manager.php');
+//			}
         }
-
-        //		$html[] = '<div class="note">';
-        //		$html[] = '</div>';
-
 
         return implode("\n", $html);
 
@@ -91,7 +71,9 @@ class UserLogin extends UserBlock
     {
         $message = Translation :: get("InvalidId");
         if (PlatformSetting :: get('allow_registration', 'user') == 'true')
+        {
             $message = Translation :: get("InvalidForSelfRegistration");
+        }
         return "<div id=\"login_fail\">" . $message . "</div>";
     }
 
@@ -99,15 +81,32 @@ class UserLogin extends UserBlock
     {
         $form = new FormValidator('formLogin');
         $renderer = & $form->defaultRenderer();
-        //$renderer->setElementTemplate('<div>{label}&nbsp;<!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required --></div><div>{element}</div>');
         $renderer->setElementTemplate('<div class="row">{label}<br />{element}</div>');
-        //$renderer->setElementTemplate('<div>{element}</div>','submitAuth');
         $form->setRequiredNote(null);
         $form->addElement('text', 'login', Translation :: get('UserName'), array('style' => 'width: 90%;', 'onclick' => 'this.value=\'\';'));
         $form->addRule('login', Translation :: get('ThisFieldIsRequired'), 'required');
         $form->addElement('password', 'password', Translation :: get('Password'), array('style' => 'width: 90%;', 'onclick' => 'this.value=\'\';'));
         $form->addRule('password', Translation :: get('ThisFieldIsRequired'), 'required');
-        $form->addElement('style_submit_button', 'submitAuth', Translation :: get('Login'), array('class' => 'positive login'));
+
+        $buttons = array();
+        $buttons[] = $form->createElement('style_submit_button', 'submitAuth', Translation :: get('Login'), array('class' => 'positive login'));
+
+        if (PlatformSetting :: get('allow_registration', 'user') || PlatformSetting :: get('allow_password_retrieval', 'user'))
+        {
+            if (PlatformSetting :: get('allow_registration', 'user'))
+            {
+                $link = Redirect :: get_link(UserManager :: APPLICATION_NAME, array(Application :: PARAM_ACTION => UserManager :: ACTION_REGISTER_USER), array(), false, Redirect :: TYPE_CORE);
+                $buttons[] = $form->createElement('static', null, null, '<a href="' . $link . '" class="button normal_button register_button">' . Translation :: get('Reg') . '</a>');
+            }
+            if (PlatformSetting :: get('allow_password_retrieval', 'user'))
+            {
+                $link = Redirect :: get_link(UserManager :: APPLICATION_NAME, array(Application :: PARAM_ACTION => UserManager :: ACTION_RESET_PASSWORD), array(), false, Redirect :: TYPE_CORE);
+                $buttons[] = $form->createElement('static', null, null, '<a href="' . $link . '" class="button normal_button help_button">' . Translation :: get('ResetPassword') . '</a>');
+            }
+        }
+
+        $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+
         $form->setDefaults(array('login' => Translation :: get('EnterUsername'), 'password' => '*******'));
         return $form->toHtml();
     }

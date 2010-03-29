@@ -250,6 +250,11 @@ button,a.button {
 	vertical-align: middle;
 }
 
+a.button {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
 button.positive,a.positive_button {
 	background-image: url(../images/common/buttons/button_confirm.png);
 	color: #529214;
@@ -318,6 +323,10 @@ button.select,a.select_button {
 
 button.login,a.login_button {
 	background-image: url(../images/common/buttons/button_login.png);
+}
+
+button.logout,a.logout_button {
+	background-image: url(../images/common/buttons/button_logout.png);
 }
 
 button.search,a.search_button {

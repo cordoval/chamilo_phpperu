@@ -219,7 +219,10 @@ class SortableTable extends HTML_Table
             $this->setCellContents(0, 0, Translation :: get('NoSearchResults'));
             $empty_table = true;
         }
-        if (! $empty_table)
+
+        dump($this->per_page);
+
+        if (! $empty_table && $this->per_page !== 0)
         {
             $form = $this->get_page_select_form();
             $nav = $this->get_navigation_html();
