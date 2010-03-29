@@ -1,13 +1,8 @@
 <?php
-/**
- * $Id: category_rel_user_browser_table_cell_renderer.class.php 224 2009-11-13 14:40:30Z kariboe $
- * @package categories.lib.category_manager.component.category_rel_user_browser
- */
-require_once dirname(__FILE__) . '/category_rel_user_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../category_rel_user_table/default_category_rel_user_table_cell_renderer.class.php';
-/**
- * Cell rendere for the learning object browser table
- */
+
+require_once dirname(__FILE__) . '/rel_location_browser_table_column_model.class.php';
+require_once dirname(__FILE__) . '/../../../tables/category_rel_location_table/default_category_rel_location_table_cell_renderer.class.php';
+
 class InternshipPlannerCategoryRelLocationBrowserTableCellRenderer extends DefaultInternshipPlannerCategoryRelLocationTableCellRenderer
 {
     /**
@@ -26,11 +21,11 @@ class InternshipPlannerCategoryRelLocationBrowserTableCellRenderer extends Defau
     }
 
     // Inherited
-    function render_cell($column, $categoryreluser)
+    function render_cell($column, $categoryrellocation)
     {
         if ($column === InternshipPlannerCategoryRelLocationBrowserTableColumnModel :: get_modification_column())
         {
-            return $this->get_modification_links($categoryreluser);
+            return $this->get_modification_links($categoryrellocation);
         }
         
         // Add special features here
@@ -38,13 +33,11 @@ class InternshipPlannerCategoryRelLocationBrowserTableCellRenderer extends Defau
         {
             // Exceptions that need post-processing go here ...
             case InternshipPlannerCategoryRelLocation :: PROPERTY_LOCATION_ID :
-                $user_id = parent :: render_cell($column, $categoryreluser);
-                $user = LocationManager :: retrieve_user($user_id);
-                //				return '<a href="' . Path :: get(WEB_PATH) . 'index_user.php?go=view&id=' . $user->get_id() .
-                //					'">' . $user->get_username() . '</a>';
-                return $user->get_fullname();
+                $location_id = parent :: render_cell($column, $categoryrellocation);
+                $location = InternshipPlannerDataManager ::get_instance()-> retrieve_location($location_id);
+                return $location->get_name();
         }
-        return parent :: render_cell($column, $categoryreluser);
+        return parent :: render_cell($column, $categoryrellocation);
     }
 
     /**
@@ -53,13 +46,18 @@ class InternshipPlannerCategoryRelLocationBrowserTableCellRenderer extends Defau
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($categoryreluser)
+    private function get_modification_links($categoryrellocation)
     {
         $toolbar_data = array();
         
-        $toolbar_data[] = array('href' => $this->browser->get_category_rel_user_unsubscribing_url($categoryreluser), 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        $toolbar_data[] = array('href' => $this->browser->get_category_rel_location_unsubscribing_url($categoryrellocation), 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         
         return Utilities :: build_toolbar($toolbar_data);
     }
+    
+    function render_id_cell($categoryrellocation){
+    	return $categoryrellocation->get_category_id() . '|' . $categoryrellocation->get_location_id();
+    }
+    
 }
 ?>

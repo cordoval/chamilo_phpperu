@@ -4,6 +4,8 @@
  */
 require_once dirname(__FILE__).'/internship_planner_manager_component.class.php';
 require_once dirname(__FILE__).'/../internship_planner_data_manager.class.php';
+require_once dirname(__FILE__).'/../internship_planner_utilities.class.php';
+
 
 require_once Path :: get_application_path() . 'lib/internship_planner/organisation_manager/organisation_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/organisation_manager/organisation_manager_component.class.php';
@@ -122,7 +124,7 @@ require_once Path :: get_application_path() . 'lib/internship_planner/category_m
 //	const ACTION_BROWSE_PLACES = 'browse_places';
 
 
-	const ACTION_LOCATION = 'location';
+//	const ACTION_LOCATION = 'location';
 	const ACTION_ORGANISATION = 'organisation';
 	const ACTION_CATEGORY = 'category';
 	

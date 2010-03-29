@@ -33,8 +33,6 @@ class DefaultInternshipPlannerCategoryTableCellRenderer implements ObjectTableCe
                 return $category->get_name();
             case InternshipPlannerCategory :: PROPERTY_DESCRIPTION :
                 return $category->get_description();
-            case InternshipPlannerCategory :: PROPERTY_CODE :
-                return $category->get_code();
             default :
                 return '&nbsp;';
         }

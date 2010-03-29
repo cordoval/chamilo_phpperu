@@ -26,7 +26,6 @@ class DefaultInternshipPlannerCategoryTableColumnModel extends ObjectTableColumn
     {
         $columns = array();
         $columns[] = new ObjectTableColumn(InternshipPlannerCategory :: PROPERTY_NAME);
-        $columns[] = new ObjectTableColumn(InternshipPlannerCategory :: PROPERTY_CODE);
         $columns[] = new ObjectTableColumn(InternshipPlannerCategory :: PROPERTY_DESCRIPTION);
         return $columns;
     }

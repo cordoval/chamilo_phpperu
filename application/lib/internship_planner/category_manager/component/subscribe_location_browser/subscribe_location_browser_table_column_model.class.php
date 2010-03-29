@@ -1,13 +1,9 @@
 <?php
-/**
- * $Id: subscribe_user_browser_table_column_model.class.php 224 2009-11-13 14:40:30Z kariboe $
- * @package categories.lib.category_manager.component.subscribe_user_browser
- */
-require_once Path :: get_user_path() . 'lib/user_table/default_user_table_column_model.class.php';
-/**
- * Table column model for the user browser table
- */
-class SubscribeLocationBrowserTableColumnModel extends DefaultLocationTableColumnModel
+
+require_once dirname(__FILE__) . '/../../../tables/location_table/default_location_table_column_model.class.php';
+
+
+class SubscribeLocationBrowserTableColumnModel extends DefaultInternshipLocationTableColumnModel
 {
     /**
      * The tables modification column
@@ -20,11 +16,7 @@ class SubscribeLocationBrowserTableColumnModel extends DefaultLocationTableColum
     function SubscribeLocationBrowserTableColumnModel()
     {
         parent :: __construct();
-        $this->add_column(new ObjectTableColumn(Location :: PROPERTY_LOCATIONNAME));
-        $this->add_column(new ObjectTableColumn(Location :: PROPERTY_EMAIL));
-        $this->add_column(new ObjectTableColumn(Location :: PROPERTY_STATUS));
-        $this->add_column(new ObjectTableColumn(Location :: PROPERTY_PLATFORMADMIN));
-        $this->set_default_order_column(1);
+        $this->set_default_order_column(0);
         $this->add_column(self :: get_modification_column());
     }
 

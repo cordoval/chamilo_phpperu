@@ -1,14 +1,5 @@
 <?php
-/**
- * $Id: category_rel_user_browser_table_data_provider.class.php 224 2009-11-13 14:40:30Z kariboe $
- * @package categories.lib.category_manager.component.category_rel_user_browser
- */
-/**
- * Data provider for a repository browser table.
- *
- * This class implements some functions to allow repository browser tables to
- * retrieve information about the learning objects to display.
- */
+
 class InternshipPlannerCategoryRelLocationBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
@@ -31,8 +22,7 @@ class InternshipPlannerCategoryRelLocationBrowserTableDataProvider extends Objec
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        $order_property = $this->get_order_property($order_property);
-        return $this->get_browser()->retrieve_category_rel_users($this->get_condition(), $offset, $count, $order_property);
+          return $this->get_browser()->retrieve_category_rel_locations($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -41,7 +31,7 @@ class InternshipPlannerCategoryRelLocationBrowserTableDataProvider extends Objec
      */
     function get_object_count()
     {
-        return $this->get_browser()->count_category_rel_users($this->get_condition());
+        return $this->get_browser()->count_category_rel_locations($this->get_condition());
     }
 }
 ?>

@@ -13,22 +13,7 @@ class InternshipPlannerCategoryManagerTruncaterComponent extends InternshipPlann
     function run()
     {
         $user = $this->get_user();
-        
-        if (! $user->is_platform_admin())
-        {
-            $trail = new BreadcrumbTrail();
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => InternshipPlannerCategoryManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('InternshipPlannerCategory')));
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_BROWSE_CATEGORIES)), Translation :: get('InternshipPlannerCategoryList')));
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('EmptyInternshipPlannerCategory')));
-            $trail->add_help('category general');
-            
-            $this->display_header($trail);
-            Display :: error_message(Translation :: get("NotAllowed"));
-            $this->display_footer();
-            exit();
-        }
-        
+               
         $ids = Request :: get(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID);
         $failures = 0;
         
@@ -46,10 +31,10 @@ class InternshipPlannerCategoryManagerTruncaterComponent extends InternshipPlann
                 {
                     $failures ++;
                 }
-                else
-                {
-                    Events :: trigger_event('empty', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
-                }
+//                else
+//                {
+//                    Events :: trigger_event('empty', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
+//                }
             }
             
             if ($failures)
@@ -77,9 +62,9 @@ class InternshipPlannerCategoryManagerTruncaterComponent extends InternshipPlann
             }
             
             if (count($ids) == 1)
-                $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => $ids[0]));
+                $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipPlannerCategoryManager :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => $ids[0]));
             else
-                $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_BROWSE_CATEGORIES));
+                $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipPlannerCategoryManager :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_BROWSE_CATEGORIES));
         }
         else
         {

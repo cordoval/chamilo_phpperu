@@ -1,9 +1,6 @@
 <?php
-/**
- * $Id: category_rel_user_browser_table_column_model.class.php 224 2009-11-13 14:40:30Z kariboe $
- * @package categories.lib.category_manager.component.category_rel_user_browser
- */
-require_once dirname(__FILE__) . '/../../../category_rel_user_table/default_category_rel_user_table_column_model.class.php';
+
+require_once dirname(__FILE__) . '/../../../tables/category_rel_location_table/default_category_rel_location_table_column_model.class.php';
 /**
  * Table column model for the user browser table
  */

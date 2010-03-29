@@ -78,21 +78,21 @@ abstract class InternshipPlannerDataManager
 
     
     
-    abstract function delete_category($category);
+    abstract function delete_internship_planner_category($category);
 
     abstract function delete_category_rel_location($categoryrellocation);
 
-    abstract function update_category($category);
+    abstract function update_internship_planner_category($category);
 
-    abstract function create_category($category);
+    abstract function create_internship_planner_category($category);
 
-    abstract function create_category_rel_location($categoryrellocation);
+    abstract function create_internship_planner_category_rel_location($categoryrellocation);
 
     abstract function count_categories($conditions = null);
 
     abstract function count_category_rel_locations($conditions = null);
 
-    abstract function retrieve_category($id);
+    abstract function retrieve_internship_planner_category($id);
 
     abstract function truncate_category($id);
 
@@ -104,11 +104,11 @@ abstract class InternshipPlannerDataManager
 
     abstract function retrieve_location_categories($location_id);
 
-    abstract function add_nested_values($previous_visited, $number_of_elements = 1);
+    abstract function add_internship_planner_category_nested_values($node, $previous_visited, $number_of_elements = 1, $condition);
 
-    abstract function delete_nested_values($category);
+    abstract function delete_internship_planner_category_nested_values($node, $previous_visited, $number_of_elements, $condition);
 
-    abstract function move_category($category, $new_parent_id, $new_previous_id = 0);
+    abstract function move_internship_planner_category($category, $new_parent_id, $new_previous_id = 0, $condition);
     
 //	abstract function get_next_location_category_id();
 //	abstract function create_location_category($location_category);

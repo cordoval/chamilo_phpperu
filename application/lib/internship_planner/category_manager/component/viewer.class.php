@@ -1,8 +1,7 @@
 <?php
-/**
- * $Id: viewer.class.php 224 2009-11-13 14:40:30Z kariboe $
- * @package category.lib.category_manager.component
- */
+
+require_once dirname ( __FILE__ ) . '/rel_location_browser/rel_location_browser_table.class.php';
+
 
 class InternshipPlannerCategoryManagerViewerComponent extends InternshipPlannerCategoryManagerComponent
 {
@@ -22,7 +21,7 @@ class InternshipPlannerCategoryManagerViewerComponent extends InternshipPlannerC
         {
             $this->category = $this->retrieve_category($id);
 
-            $this->root_category = $this->retrieve_categories(new EqualityCondition(InternshipPlannerCategory :: PROPERTY_PARENT, 0))->next_result();
+            $this->root_category = $this->retrieve_categories(new EqualityCondition(InternshipPlannerCategory :: PROPERTY_PARENT_ID, 0))->next_result();
 
             $category = $this->category;
 
@@ -30,9 +29,7 @@ class InternshipPlannerCategoryManagerViewerComponent extends InternshipPlannerC
             {
                 Display :: not_allowed();
             }
-
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => InternshipPlannerCategoryManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('InternshipPlannerCategory')));
+           
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_BROWSE_CATEGORIES)), Translation :: get('InternshipPlannerCategoryList')));
             $trail->add(new Breadcrumb($this->get_url(array(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => $id)), $category->get_name()));
             $trail->add_help('category general');
@@ -43,27 +40,27 @@ class InternshipPlannerCategoryManagerViewerComponent extends InternshipPlannerC
 
             echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_category.png);">';
             echo '<div class="title">' . Translation :: get('Details') . '</div>';
-            echo '<b>' . Translation :: get('Code') . '</b>: ' . $category->get_code();
+            echo '<b>' . Translation :: get('Name') . '</b>: ' . $category->get_name();
             echo '<br /><b>' . Translation :: get('Description') . '</b>: ' . $category->get_description();
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
 
-            $rdm = RightsDataManager :: get_instance();
-            $category_rights_templates = $category->get_rights_templates();
-
-            if ($category_rights_templates->size() > 0)
-            {
-                echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_rights.png);">';
-                echo '<div class="title">' . Translation :: get('RightsTemplates') . '</div>';
-                echo '<ul>';
-                while ($category_rights_template = $category_rights_templates->next_result())
-                {
-                    $rights_template = $rdm->retrieve_rights_template($category_rights_template->get_rights_template_id());
-                    echo '<li>' . $rights_template->get_name() . '</li>';
-                }
-                echo '</ul>';
-                echo '</div>';
-            }
+//            $rdm = RightsDataManager :: get_instance();
+//            $category_rights_templates = $category->get_rights_templates();
+//
+//            if ($category_rights_templates->size() > 0)
+//            {
+//                echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_rights.png);">';
+//                echo '<div class="title">' . Translation :: get('RightsTemplates') . '</div>';
+//                echo '<ul>';
+//                while ($category_rights_template = $category_rights_templates->next_result())
+//                {
+//                    $rights_template = $rdm->retrieve_rights_template($category_rights_template->get_rights_template_id());
+//                    echo '<li>' . $rights_template->get_name() . '</li>';
+//                }
+//                echo '</ul>';
+//                echo '</div>';
+//            }
 
             echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';
             echo '<div class="title">' . Translation :: get('Locations') . '</div>';
@@ -88,19 +85,20 @@ class InternshipPlannerCategoryManagerViewerComponent extends InternshipPlannerC
 
         if (isset($query) && $query != '')
         {
-            $or_conditions[] = new PatternMatchCondition(Location :: PROPERTY_FIRSTNAME, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(Location :: PROPERTY_LASTNAME, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(Location :: PROPERTY_LOCATIONNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_NAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_CITY, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_STREET, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
             $condition = new OrCondition($or_conditions);
 
-            $users = LocationDataManager :: get_instance()->retrieve_users($condition);
-            while ($user = $users->next_result())
+            $locations = InternshipPlannerDataManager::get_instance()->retrieve_locations($condition);
+            while ($location = $locations->next_result())
             {
-                $userconditions[] = new EqualityCondition(InternshipPlannerCategoryRelLocation :: PROPERTY_LOCATION_ID, $user->get_id());
+                $location_conditions[] = new EqualityCondition(InternshipPlannerCategoryRelLocation :: PROPERTY_LOCATION_ID, $location->get_id());
             }
 
-            if (count($userconditions))
-                $conditions[] = new OrCondition($userconditions);
+            if (count($location_conditions))
+                $conditions[] = new OrCondition($location_conditions);
             else
                 $conditions[] = new EqualityCondition(InternshipPlannerCategoryRelLocation :: PROPERTY_LOCATION_ID, 0);
 
@@ -127,12 +125,11 @@ class InternshipPlannerCategoryManagerViewerComponent extends InternshipPlannerC
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_category_delete_url($category), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddLocations'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_category_suscribe_user_browser_url($category), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_manage_category_rights_url($category), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddLocations'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_category_suscribe_location_browser_url($category), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         $condition = new EqualityCondition(InternshipPlannerCategoryRelLocation :: PROPERTY_CATEGORY_ID, $category->get_id());
-        $users = $this->retrieve_category_rel_users($condition);
-        $visible = ($users->size() > 0);
+        $locations = $this->retrieve_category_rel_locations($condition);
+        $visible = ($locations->size() > 0);
 
         if ($visible)
         {

@@ -1,25 +1,20 @@
 <?php
-/**
- * $Id: subscribe_user_browser_table.class.php 166 2009-11-12 11:03:06Z vanpouckesven $
- * @package categories.lib.category_manager.component.subscribe_user_browser
- */
 
-require_once dirname(__FILE__) . '/subscribe_user_browser_table_data_provider.class.php';
-require_once dirname(__FILE__) . '/subscribe_user_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/subscribe_user_browser_table_cell_renderer.class.php';
-/**
- * Table to display a list of users not subscribed to a course.
- */
+require_once dirname(__FILE__) . '/subscribe_location_browser_table_data_provider.class.php';
+require_once dirname(__FILE__) . '/subscribe_location_browser_table_column_model.class.php';
+require_once dirname(__FILE__) . '/subscribe_location_browser_table_cell_renderer.class.php';
+
 class SubscribeLocationBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'category_browser_table';
+    const DEFAULT_NAME = 'subcribe_location_browser_table';
 
     /**
      * Constructor
      */
     function SubscribeLocationBrowserTable($browser, $parameters, $condition)
     {
-        $model = new SubscribeLocationBrowserTableColumnModel();
+         	
+    	$model = new SubscribeLocationBrowserTableColumnModel();
         $renderer = new SubscribeLocationBrowserTableCellRenderer($browser);
         $data_provider = new SubscribeLocationBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, SubscribeLocationBrowserTable :: DEFAULT_NAME, $model, $renderer);

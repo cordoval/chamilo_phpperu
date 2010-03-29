@@ -50,9 +50,9 @@ class InternshipPlannerCategoryBrowserTableCellRenderer extends DefaultInternshi
                 //				}
                 return Utilities :: truncate_string($description);
             case Translation :: get('Locations') :
-                return $category->count_users(true, true);
+                return $category->count_locations(true, true);
             case Translation :: get('Subcategories') :
-                return $category->count_subcategories(true, true);
+                return $category->count_children(true);
         }
         
         return parent :: render_cell($column, $category);
@@ -70,11 +70,11 @@ class InternshipPlannerCategoryBrowserTableCellRenderer extends DefaultInternshi
         
         $toolbar_data[] = array('href' => $this->browser->get_category_editing_url($category), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         
-        $toolbar_data[] = array('href' => $this->browser->get_category_suscribe_user_browser_url($category), 'label' => Translation :: get('AddLocations'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
+        $toolbar_data[] = array('href' => $this->browser->get_category_suscribe_location_browser_url($category), 'label' => Translation :: get('AddLocations'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
         
         $condition = new EqualityCondition(InternshipPlannerCategoryRelLocation :: PROPERTY_CATEGORY_ID, $category->get_id());
-        $users = $this->browser->retrieve_category_rel_users($condition);
-        $visible = ($users->size() > 0);
+        $locations = $this->browser->retrieve_category_rel_locations($condition);
+        $visible = ($locations->size() > 0);
         
         if ($visible)
         {
@@ -88,8 +88,6 @@ class InternshipPlannerCategoryBrowserTableCellRenderer extends DefaultInternshi
         $toolbar_data[] = array('href' => $this->browser->get_category_delete_url($category), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         
         $toolbar_data[] = array('href' => $this->browser->get_move_category_url($category), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
-        
-        $toolbar_data[] = array('href' => $this->browser->get_manage_category_rights_url($category), 'label' => Translation :: get('ManageRightsTemplates'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
         
         return Utilities :: build_toolbar($toolbar_data);
     }

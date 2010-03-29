@@ -25,7 +25,7 @@ class InternshipPlannerCategoryManagerBrowserComponent extends InternshipPlanner
         $this->ab = $this->get_action_bar();
 
         $menu = $this->get_menu_html();
-        $output = $this->get_user_html();
+        $output = $this->get_browser_html();
 
         $this->display_header($trail);
         echo $this->ab->as_html() . '<br />';
@@ -34,11 +34,14 @@ class InternshipPlannerCategoryManagerBrowserComponent extends InternshipPlanner
         $this->display_footer();
     }
 
-    function get_user_html()
+    function get_browser_html()
     {
         $table = new InternshipPlannerCategoryBrowserTable($this, $this->get_parameters(), $this->get_condition());
 
         $html = array();
+//        $html[] = InternshipPlannerUtilities :: get_menu($this);
+//		$html[] = '<div id="tool_browser_right">';
+		$html[] = '<div>';
         $html[] = '<div style="float: right; width: 80%;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
@@ -95,7 +98,6 @@ class InternshipPlannerCategoryManagerBrowserComponent extends InternshipPlanner
             $or_conditions = array();
             $or_conditions[] = new PatternMatchCondition(InternshipPlannerCategory :: PROPERTY_NAME, '*' . $query . '*');
             $or_conditions[] = new PatternMatchCondition(InternshipPlannerCategory :: PROPERTY_DESCRIPTION, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipPlannerCategory :: PROPERTY_CODE, '*' . $query . '*');
             $or_condition = new OrCondition($or_conditions);
 
             $and_conditions = array();
