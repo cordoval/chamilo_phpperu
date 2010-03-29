@@ -1,10 +1,12 @@
 <?php
 require_once dirname(__FILE__).'/../gradebook_data_manager.class.php';
-require_once dirname(__FILE__).'/../gradebook_internal_evaluation.class.php';
-require_once dirname(__FILE__).'/../gradebook_external_evaluation.class.php';
-require_once dirname(__FILE__).'/../gradebook_evaluation_results.class.php';
-require_once dirname(__FILE__).'/../gradebook_evaluation_format.class.php';
-require_once dirname(__FILE__).'/../gradebook_last_used_evaluation_key.class.php';
+require_once dirname(__FILE__).'/../internal_item.class.php';
+require_once dirname(__FILE__).'/../external_item.class.php';
+require_once dirname(__FILE__).'/../evaluation.class.php';
+require_once dirname(__FILE__).'/../format.class.php';
+require_once dirname(__FILE__).'/../grade_evaluation.class.php';
+require_once dirname(__FILE__).'/../internal_item_instance.class.php';
+require_once dirname(__FILE__).'/../external_item_instance.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
@@ -17,11 +19,13 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	function initialize()
 	{   
 		$aliases = array();
-		$aliases[GradebookInternalEvaluation :: get_table_name()] = 'grin';
-		$aliases[GradebookExternalEvaluation :: get_table_name()] = 'gren';
-		$aliases[GradebookEvaluationResults :: get_table_name()] = 'grts';
-		$aliases[GradebookEvaluationFormat :: get_table_name()] = 'grat';
-		$aliases[GradebookLastUsedEvaluationKey :: get_table_name()] = 'grey';
+		$aliases[InternalItem :: get_table_name()] = 'inem';
+		$aliases[ExternalItem :: get_table_name()] = 'exem';
+		$aliases[Evaluation :: get_table_name()] = 'evon';
+		$aliases[Format :: get_table_name()] = 'foat';
+		$aliases[GradeEvaluation :: get_table_name()] = 'gron';
+		$aliases[InternalItemInstance :: get_table_name()] = 'ince';
+		$aliases[ExternalItemInstance :: get_table_name()] = 'exce';
 		
 		$this->database = new Database($aliases);
 		$this->database->set_prefix('gradebook_');
@@ -32,22 +36,22 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 		return $this->database->create_storage_unit($name,$properties,$indexes);
 	}
 	
-	// gradebook evaluation format items
-	function create_gradebook_evaluation_format($evaluation_format)
+// gradebook evaluation format items
+	function create_format($evaluation_format)
 	{
 		return $this->database->create($evaluation_format);
 	}
-	
-	function retrieve_all_evaluation_formats($condition = null, $offset = null, $count = null, $order_property = null)
-	{
-		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name(), $condition, $offset, $count, $order_property);
-	}
-	
-	function retrieve_all_active_evaluation_formats()
-	{
-		$condition = new EqualityCondition(GradebookEvaluationFormat :: PROPERTY_ACTIVE, GradebookEvaluationFormat :: EVALUATION_FORMAT_ACTIVE);
-		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name(), $condition);
-	}
+//	
+//	function retrieve_all_evaluation_formats($condition = null, $offset = null, $count = null, $order_property = null)
+//	{
+//		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name(), $condition, $offset, $count, $order_property);
+//	}
+//	
+//	function retrieve_all_active_evaluation_formats()
+//	{
+//		$condition = new EqualityCondition(GradebookEvaluationFormat :: PROPERTY_ACTIVE, GradebookEvaluationFormat :: EVALUATION_FORMAT_ACTIVE);
+//		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name(), $condition);
+//	}
 
 	//gradebook_items
 

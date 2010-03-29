@@ -61,11 +61,11 @@ class GradebookInstaller extends Installer
     				require_once $root . 'evaluation_format.class.php';
     				$ev = EvaluationFormat :: factory(ucfirst($folder));
     			}
-    			$gef = new GradebookEvaluationFormat();
-    			$gef->set_evaluation_format($folder);
-    			$gef->set_active($ev->get_default_active_value());
+    			$format = new Format();
+    			$format->set_title($folder);
+    			$format->set_active($ev->get_default_active_value());
 
-    			if($gef->create())
+    			if($format->create())
     			{
     				$this->add_message(self :: TYPE_NORMAL, Translation :: get('FormatAdded') . ' ' . $folder);
     			}
