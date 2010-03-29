@@ -33,8 +33,8 @@ class CbaManagerCompetencyEditorComponent extends CbaManagerComponent
 		//$count_links = $this->count_competencys_indicator($condition);
 		
 		$competency = $this->retrieve_competency(Request :: get(CbaManager :: PARAM_COMPETENCY));
-		$competency_indicator = 1;//$this->retrieve_competency_indicator(Request :: get(CbaManager :: PARAM_COMPETENCY));
-		//dump($competency);
+		$competency_indicator = $this->retrieve_competency_indicator(Request :: get(CbaManager :: PARAM_COMPETENCY));
+		//dump($competency_indicator);
 		//exit();
 		$form = new CompetencyForm(CompetencyForm :: TYPE_EDITOR_COMPETENCY, $competency, $competency_indicator, $this->get_url(array(CbaManager :: PARAM_COMPETENCY => $competency->get_id())), $this->get_user());
 

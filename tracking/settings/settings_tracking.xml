@@ -3,10 +3,9 @@
 	<settings>
 		<category name="general">
 			<setting name="last_time_archived" field="text" default="0" />
-			<setting name="enable_tracking" field="radio" default="1">
+			<setting name="enable_tracking" field="checkbox" default="1">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="enable_tracking" value="1" />
 				</options>
 			</setting>
 		</category>

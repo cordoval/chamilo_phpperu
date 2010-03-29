@@ -86,8 +86,8 @@ class CriteriaForm extends FormValidator
 		
 		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
-
-		$this->criteria_score_form(2);
+		
+		$this->criteria_score_form($count_links);
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -184,6 +184,7 @@ class CriteriaForm extends FormValidator
         }
         return $result;
     }
+    
     
 	function update_criteria()
     {

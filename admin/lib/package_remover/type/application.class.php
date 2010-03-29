@@ -14,6 +14,11 @@ class PackageApplicationRemover extends PackageRemover
         $registration = $adm->retrieve_registration($this->get_package());
         $this->registration = $registration;
         
+        if(!$this->registration)
+        {
+        	return $this->installation_failed('initilization', Translation :: get('ApplicationIsNotRegistered'));
+        }
+        
         // Deactivate the application, thus making it inaccesible
         $this->add_message(Translation :: get('DeactivatingApplication'));
         $registration->toggle_status();
@@ -48,14 +53,14 @@ class PackageApplicationRemover extends PackageRemover
         }
         
         // Remove reporting
-        if (! $this->remove_reporting())
+       /* if (! $this->remove_reporting())
         {
             return $this->installation_failed('reporting', Translation :: get('ReportingDeletionFailed'));
         }
         else
         {
             $this->installation_successful('reporting', Translation :: get('ReportingSuccessfullyDeleted'));
-        }
+        }*/
         
         // Remove tracking
         if (! $this->remove_tracking())
@@ -132,7 +137,7 @@ class PackageApplicationRemover extends PackageRemover
         
         $this->add_message(Translation :: get('RemovingReportingblocks'));
         $condition = new EqualityCondition(ReportingBlock :: PROPERTY_APPLICATION, $registration->get_name());
-        if (! $rdm->delete_reporting_blocks($condition))
+        if (! $rdm->delete($condition))
         {
             return false;
         }

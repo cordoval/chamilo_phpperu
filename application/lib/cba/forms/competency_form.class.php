@@ -39,7 +39,7 @@ class CompetencyForm extends FormValidator
 		}
     	elseif ($this->form_type == self :: TYPE_EDITOR_COMPETENCY)
 		{
-			$this->build_editor_competency_form();
+			$this->build_editor_competency_form($competency_indicator);
 			$this->setCompetencyDefaults();
 		}
 
@@ -85,7 +85,7 @@ class CompetencyForm extends FormValidator
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
-	function build_editor_competency_form()
+	function build_editor_competency_form($competency_indicator)
     {
     	$this->addElement('text', Competency :: PROPERTY_TITLE, Translation :: get('Title'));
 		$this->addRule(Competency :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -111,6 +111,20 @@ class CompetencyForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
 		$attributes['locale'] = $locale;
 		$attributes['defaults'] = array();
+
+		//dump($competency_indicator);
+		$indicator_id = $competency_indicator->get_indicator_id();
+		$cdm = CbaDataManager :: get_instance(); 
+		$indicator = $cdm->retrieve_indicator($indicator_id);
+		
+		$indicators = array();
+		$indicator_id_exclude = $indicator_id - 1;
+        $indicators['id'] = 'indicator_'.$indicator_id_exclude;
+        $indicators['classes'] = 'type type_cda_language';
+        $indicators['title'] = $indicator->get_title();
+        $indicators['description'] = $indicator->get_description();
+            
+        $attributes['defaults'][$indicators['id']] = $indicators;
 		
 		/*
     	$cdm = CbaDataManager :: get_instance();     

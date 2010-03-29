@@ -17,8 +17,8 @@ abstract class SurveyManagerComponent extends WebApplicationComponent {
 	 * @param Survey $survey The survey which
 	 * provides this component
 	 */
-	function SurveyManagerComponent($survey) {
-		parent::__construct ( $survey );
+	function SurveyManagerComponent($survey_manager) {
+		parent::__construct ( $survey_manager );
 	}
 	
 	//Data Retrieval

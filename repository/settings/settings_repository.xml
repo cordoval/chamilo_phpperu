@@ -2,10 +2,9 @@
 <application name="repository">
 	<settings>
 		<category name="administrator">
-			<setting name="description_required" field="radio" default="1">
+			<setting name="description_required" field="checkbox" default="1">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="description_required" value="1" />
 				</options>
 			</setting>
 		</category>

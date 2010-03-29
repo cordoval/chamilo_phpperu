@@ -147,7 +147,7 @@ abstract class DataClass
         {
             $dm = $this->get_data_manager();
             $class_name = $this->get_object_name();
-    
+    			
 //          $func = 'get_next_' . $class_name . '_id';
 //          $id = call_user_func(array($dm, $func));
 //          $this->set_id($id);

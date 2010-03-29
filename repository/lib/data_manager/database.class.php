@@ -1671,10 +1671,5 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     	return $this->database->count_result_set($sql, ContentObject :: get_table_name());
     }
     
-    function retrieve_doubles_from_content_object($condition, $order_property, $offset, $count)
-    {
-    	
-    }
-    
 }
 ?>

@@ -1051,7 +1051,7 @@ class RepositoryManager extends CoreApplication
             $shared['class'] = 'category';
             
             $doubles = array();
-            $doubles['title'] = Translation :: get('Doubles');
+            $doubles['title'] = Translation :: get('ViewDoubles');
             $doubles['url'] = $this->get_view_doubles_url();
             $doubles['class'] = 'doubles';
 

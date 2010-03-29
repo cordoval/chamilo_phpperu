@@ -62,7 +62,8 @@ class UserImportForm extends FormValidator
     function import_users()
     {
         $values = $this->exportValues();
-        
+        set_time_limit(0);
+        ini_set('memory_limit', '-1');
         $csvusers = $this->parse_file($_FILES['file']['tmp_name'], $_FILES['file']['type']);
         $validusers = array();
         
@@ -109,7 +110,6 @@ class UserImportForm extends FormValidator
 	            
 	            $user->set_password($pass);
 	            $user->set_email($csvuser[User :: PROPERTY_EMAIL]);
-	            $user->set_language($csvuser[User :: PROPERTY_LANGUAGE]);
 	            $user->set_status($csvuser[User :: PROPERTY_STATUS]);
 	            $user->set_active($csvuser[User :: PROPERTY_ACTIVE]);
 	            $user->set_official_code($csvuser[User :: PROPERTY_OFFICIAL_CODE]);
@@ -136,7 +136,9 @@ class UserImportForm extends FormValidator
 	            }
 	            else
 	            {
-	                $send_mail = intval($values['mail']['send_mail']);
+	                LocalSetting :: create_local_setting('platform_language', $csvuser['language'], 'admin', $user->get_id());
+	                
+	            	$send_mail = intval($values['mail']['send_mail']);
 	                if ($send_mail)
 	                {
 	                    $this->send_email($user);
@@ -152,7 +154,6 @@ class UserImportForm extends FormValidator
 	            $user->set_lastname($csvuser[User :: PROPERTY_LASTNAME]);
 	            
 	            $user->set_email($csvuser[User :: PROPERTY_EMAIL]);
-	            $user->set_language($csvuser[User :: PROPERTY_LANGUAGE]);
 	            $user->set_status($csvuser[User :: PROPERTY_STATUS]);
 	            $user->set_active($csvuser[User :: PROPERTY_ACTIVE]);
 	            $user->set_official_code($csvuser[User :: PROPERTY_OFFICIAL_CODE]);
@@ -183,6 +184,10 @@ class UserImportForm extends FormValidator
 	                $failures ++;
 	                $this->failedcsv[] = Translation :: get('UpdateFailed') . ': ' . implode($csvuser, ';');
 	            }
+	            else
+	            {
+	            	LocalSetting :: create_local_setting('platform_language', $csvuser['language'], 'admin', $user->get_id());
+	            }
         	}
         	elseif($action == 'D')
         	{
@@ -195,7 +200,7 @@ class UserImportForm extends FormValidator
         	}
         }
         if ($failures > 0)
-        {
+        { 
             return false;
         }
         else
@@ -261,14 +266,14 @@ class UserImportForm extends FormValidator
         if (! $csvuser[User :: PROPERTY_AUTH_SOURCE])
             $csvuser[User :: PROPERTY_AUTH_SOURCE] = 'platform';
         
-        if (! $csvuser[User :: PROPERTY_LANGUAGE])
-            $csvuser[User :: PROPERTY_LANGUAGE] = 'english';
+        if (! $csvuser['language'])
+            $csvuser['language'] = 'english';
         
         if (PlatformSetting :: get('require_email', UserManager :: APPLICATION_NAME) && (! $email || $email == ''))
         {
             $failures ++;
         }
-        
+      
         if ($failures > 0)
         {
             return false;
@@ -281,11 +286,11 @@ class UserImportForm extends FormValidator
 
     function parse_file($file_name, $file_type)
     {
-        
-        $this->users = array();
+        echo "test";
+        $this->users = array(); dump($file_type);
         if ($file_type == 'text/csv' || $file_type == 'application/vnd.ms-excel' || $file_type == 'application/octet-stream' || $file_type == 'application/force-download')
-        {
-            $this->users = Import :: csv_to_array($file_name);
+        {echo "test";
+            $this->users = Import :: csv_to_array($file_name); echo "test";
         }
         elseif ($file_type == 'text/xml')
         {

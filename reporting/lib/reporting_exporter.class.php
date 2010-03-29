@@ -7,7 +7,7 @@
 
 class ReportingExporter
 {
-    
+
     private $parent;
 
     public function ReportingExporter($parent)
@@ -15,16 +15,23 @@ class ReportingExporter
         $this->parent = $parent;
     }
 
-    public function export_reporting_block($rbi, $export, $params)
+    /**
+     * @see Application :: get_url()
+     */
+    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
-        $rep_block = ReportingDataManager :: get_instance()->retrieve_reporting_block($rbi);
+        return $this->parent->get_url($parameters, $filter, $encode_entities);
+    }
+
+    /*public function export_reporting_block($rbi, $export, $params)
+    {
+        $rep_block = ReportingDataManager :: get_instance()->retrieve_reporting_block_registration($rbi);
         $rep_block->set_function_parameters($params);
         $displaymode = $rep_block->get_displaymode();
         if (strpos($displaymode, 'Chart:') !== false)
         {
             $displaymode = 'image';
             $test = ReportingFormatter :: factory($rep_block)->to_html('SYS');
-            //$this->export_report($export, $link, $rep_block->get_name(), $displaymode);
         }
         else
         {
@@ -34,7 +41,7 @@ class ReportingExporter
             $data = $data[0];
             $series = sizeof($datadescription["Values"]);
             $orientation = $datadescription[Reporting :: PARAM_ORIENTATION];
-            
+
             $j = 0;
             foreach ($data as $key => $value)
             {
@@ -47,7 +54,7 @@ class ReportingExporter
                 $data[$key] = $value;
                 $j = 0;
             }
-            
+
             if ($orientation == Reporting :: ORIENTATION_HORIZONTAL)
             {
                 foreach ($data as $key => $value)
@@ -66,42 +73,63 @@ class ReportingExporter
                 }
                 $data = $data2;
             }
-            $test = $data;
-        //dump($data);
-        //dump($test);
-        //            $series = sizeof($datadescription["Values"]);
-        //            if($series==1)
-        //            {
-        //                foreach($data as $key => $value)
-        //                {
-        //                    $single_serie = array();
-        //                    $single_serie[] = $value['Name'];
-        //                    $single_serie[] = strip_tags($value['Serie1']);
-        //                    $test[] = $single_serie;
-        //                }
-        //            }else
-        //            {
-        //                foreach ($data as $key => $value)
-        //                {
-        //                    $test[0][] = $value['Name'];
-        //                    for ($i = 1;$i<count($value);$i++)
-        //                    {
-        //                        $test[$i][] = strip_tags($value['Serie'.$i]);
-        //                    }
-        //                }
-        //            }
         }
-        //        $test = '<html><head></head><body>';
-        //$test = Reporting :: generate_block_export($rep_block, $params);
-        //$test = ReportingFormatter :: factory($rep_block)->to_html();
-        //$test += '</body></html>';
-        //dump($test);
+        $test = $data;
         $temp = $test;
         $test = str_replace(Path :: get(WEB_PATH), Path :: get(SYS_PATH), $temp);
-        $this->export_report($export, $test, $rep_block->get_name(), /*$displaymode,*/ $rep_block);
+        $this->export_report($export, $test, $rep_block->get_name(), $rep_block);
+    }*/
+
+    public function get_template_id()
+    {
+    	return Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
     }
 
-    public function export_template($ti, $export, $params)
+    public function get_block_id()
+    {
+    	return Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
+    }
+
+    public function export()
+    {
+
+    	$export_type = Request :: get(ReportingManager :: PARAM_EXPORT_TYPE);
+
+    	if (Request :: get(ReportingManager :: PARAM_TEMPLATE_ID))
+    	{
+		    $ti = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
+			$template = ReportingTemplate::factory($this->get_template_id(), $this);
+			$template->add_parameters(ReportingManager::PARAM_TEMPLATE_ID,$this->get_template_id());
+			$html[] = $this->get_export_header();
+			$html[] = $template->export();
+			$html[] = $this->get_export_footer();
+    	}
+		$filename = $template->get_name() . date('_Y-m-d_H-i-s');
+    	$export = Export :: factory($export_type, $filename);
+
+        	switch( $export_type)
+        	{
+        		case 'xml' :
+        			$export->write_to_file($data);
+
+        			break;
+
+        		case 'pdf' :
+        			$data = implode("\n", $html);
+					$data = str_replace(Path :: get(WEB_PATH), Path :: get(SYS_PATH), $data);
+					dump($data);
+					exit;
+					$export->write_to_file_html($data);
+					break;
+
+        		case 'csv' :
+        			$export->write_to_file($data); break;
+
+        		default : $export->write_to_file_html($data);break;
+        	}
+    }
+
+    /*public function export_template($ti, $export, $params)
     {
         $rpdm = ReportingDataManager :: get_instance();
         if ($reporting_template_registration = $rpdm->retrieve_reporting_template_registration($ti))
@@ -109,12 +137,10 @@ class ReportingExporter
             $application = $reporting_template_registration->get_application();
             $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
             $file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($reporting_template_registration->get_classname()) . '.class.php';
-            
+
             require_once ($file);
             $classname = $reporting_template_registration->get_classname();
-            $template = new $classname($this->parent, $ti, $params, null/*, $params['assessment_publication']*/);
-            /*$template->set_reporting_blocks_function_parameters($params);
-            $template->set_registration_id($ti);*/
+            $template = new $classname($this->parent, $ti, $params, null);
             if (Request :: get('s'))
             {
                 $template->show_reporting_block(Request :: get('s'));
@@ -126,19 +152,26 @@ class ReportingExporter
             $display = $html;
             $this->export_report($export, $display, $reporting_template_registration->get_title(), null);
         }
-    }
+    }*/
 
     function get_export_header()
     {
-        $html .= '<html><head>';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/reporting.css" />';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common.css" />';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_form.css" />';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_menu.css" />';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_table.css" />';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_tree.css" />';
-        $html .= '</head><body>';
-        return $html;
+        $html = array();
+        $html[] = '<html><head>';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_common_css_path() .'" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_general.css" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_form.css" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_menu.css" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_table.css" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_tabs.css" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_tree.css" />';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common.css" />';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_form.css" />';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_menu.css" />';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_table.css" />';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_tree.css" />';
+        $html[] = '</head><body>';
+        return implode ("\n", $html);
     }
 
     function get_export_footer()
@@ -169,6 +202,11 @@ class ReportingExporter
             $export->write_to_file($data);
         }
         return;
+    }
+
+    function get_parameters()
+    {
+        return $this->parent->get_parameters();
     }
 }
 ?>

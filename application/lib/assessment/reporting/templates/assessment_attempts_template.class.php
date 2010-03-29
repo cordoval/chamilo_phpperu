@@ -25,7 +25,17 @@ class AssessmentAttemptsTemplate extends ReportingTemplate
         if ($this->assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
             $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('DownloadDocuments'), Theme :: get_common_image_path() . 'action_export.png', $parent->get_download_documents_url($this->pub), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
     }
-
+    
+	function display_context()
+	{
+		//publicatie, content_object, application ... 
+	}
+    
+	function get_application()
+    {
+    	return AssessmentManager::APPLICATION_NAME;
+    }
+    
     /**
      * @see ReportingTemplate -> get_properties()
      */
