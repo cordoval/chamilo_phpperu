@@ -14,7 +14,17 @@ class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
         
         parent :: __construct($parent, $id, $params, $trail);
     }
-
+    
+	function display_context()
+	{
+		//publicatie, content_object, application ... 
+	}
+	
+    function get_application()
+    {
+    	return AssessmentManager::APPLICATION_NAME;
+    }
+	
     /**
      * @see ReportingTemplate -> get_properties()
      */

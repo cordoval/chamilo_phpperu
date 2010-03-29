@@ -56,5 +56,13 @@ class UserDataReportingTemplate extends ReportingTemplate
         
         return implode("\n", $html);
     }
+    
+	function get_application()
+    {
+    	return UserManager::APPLICATION_NAME;
+    }
+    
+    function display_context()
+    {}
 }
 ?>

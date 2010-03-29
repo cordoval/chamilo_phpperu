@@ -18,7 +18,8 @@ class InternshipOrganisationManagerViewerComponent extends InternshipOrganisatio
 		$this->organisation = $this->retrieve_organisation($organisation_id);
 
 		$trail = new BreadcrumbTrail ();
-		$trail->add ( new Breadcrumb ( $this->get_url (), Translation::get ( 'BrowseOrganisations' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganisationManager::PARAM_ACTION => InternshipOrganisationManager :: ACTION_BROWSE_ORGANISATION) ), Translation::get ( 'BrowseOrganisations' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganisationManager::PARAM_ACTION => InternshipOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id)), $this->organisation->get_name()) );
 
 		$this->action_bar = $this->get_action_bar ();
 

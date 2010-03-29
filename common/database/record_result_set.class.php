@@ -52,7 +52,7 @@ class RecordResultSet extends ResultSet
 	 */
     function size()
     {
-        return $this->handle->numRows();
+    	return $this->handle->numRows();
     }
 
     function is_empty()

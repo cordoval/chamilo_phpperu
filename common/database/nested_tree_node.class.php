@@ -322,7 +322,7 @@ abstract class NestedTreeNode extends DataClass
     {
     	$dm = $this->get_data_manager();
         $parent_id = $this->get_parent_id();
-
+	
         $previous_visited = 0;
 
         if ($parent_id || $previous_id)
@@ -337,13 +337,14 @@ abstract class NestedTreeNode extends DataClass
         	if ($previous_id)
             {
             	$node = call_user_func(array($dm, $func), $previous_id);
-                $parent_id = $node->get_parent_id();
+               	$parent_id = $node->get_parent_id();
             }
             else
             {
-                $node = call_user_func(array($dm, $func), $parent_id);
+               $node = call_user_func(array($dm, $func), $parent_id);
+            	
             }
-
+			           
             // Set the new parent_id
             $this->set_parent_id($parent_id);
 
@@ -362,10 +363,12 @@ abstract class NestedTreeNode extends DataClass
             
             if (!call_user_func(array($dm, $func), $this, $previous_visited, 1))
             {
-                return false;
+              return false;
             }
         }
-
+		
+       
+        
         // Left and right values have been shifted so now we
         // want to really add the location itself, but first
         // we have to set it's left and right value.

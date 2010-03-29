@@ -12,9 +12,9 @@ class ReportingBlocks
      * @param array $array
      * @return ReportingBlock
      */
-    public static function create_reporting_block($array)
+    public static function create_reporting_block_registration($array)
     {
-        $reporting_block = new ReportingBlock();
+        $reporting_block = new ReportingBlockRegistration();
         $reporting_block->set_default_properties($array);
         if (! $reporting_block->create())
         {

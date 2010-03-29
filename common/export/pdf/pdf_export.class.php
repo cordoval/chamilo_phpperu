@@ -26,7 +26,7 @@ class PdfExport extends Export
 
     public function write_to_file_html($html)
     {
-        require_once Path :: get_plugin_path() . 'html2fpdf/html2fpdf.php';
+    	require_once Path :: get_plugin_path() . 'html2fpdf/html2fpdf.php';
         
         //$htmlFile = 'http://localhost/chamilo20/run.php?go=courseviewer&course=1&tool=reporting&application=weblcms';
         //$buffer = file_get_contents($htmlFile);

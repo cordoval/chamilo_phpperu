@@ -61,5 +61,15 @@ class CourseDataReportingTemplate extends ReportingTemplate
         
         return implode("\n", $html);
     }
+    
+	function display_context()
+	{
+		//publicatie, content_object, application ... 
+	}
+	
+	function get_application()
+    {
+    	return WeblcmsManager::APPLICATION_NAME;
+    }
 }
 ?>
