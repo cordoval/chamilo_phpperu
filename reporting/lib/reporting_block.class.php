@@ -7,50 +7,50 @@
 
 
 //class ReportingBlock extends DataClass
-    
+
 require_once dirname(__FILE__) . '/forms/reporting_formatter_form.class.php';
 
 abstract class ReportingBlock
 {
 	const CLASS_NAME = __CLASS__;
     const PARAM_DISPLAY_MODE = "display_mode";
-    
+
     private $data, $params, $parent;
 
 	function ReportingBlock($parent)
 	{
 		$this->parent = $parent;
 	}
-	
+
 	public function get_parent()
 	{
 		return $this->parent;
 	}
-	
+
 	public function set_parent($parent)
 	{
 		$this->parent = $parent;
 	}
-	
+
 	public abstract function count_data();
-	
+
 	public abstract function retrieve_data();
 
 	public abstract function get_data_manager();
 
 	public function display_footer()
 	{
-        
+
         $html[] = '<div class="reporting_footer">';
         $html[] = '<div class="reporting_footer_export">';
         $html[] = $this->get_export_links();
         $html[] = '</div>&nbsp;<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
 	}
-	
+
 	public function display_header()
 	{
 		$html[] = '<div id="' . $this->get_id() . '" class="reporting_block">';
@@ -77,29 +77,29 @@ abstract class ReportingBlock
         $html[] = '</select>';
         $html[] = '</form>';*/
         $html[] = '</div>';
-        
+
         $html[] = '<div class="clear">&nbsp;</div>';
-        
+
         $html[] = '</div>';
         return implode("\n", $html);
 	}
-	
+
 	public function render_block()
-	{	
-		$formatter = ReportingFormatter :: factory($this);		
-		return $formatter->to_html();		
+	{
+		$formatter = ReportingFormatter :: factory($this);
+		return $formatter->to_html();
 	}
-	
+
 	public function to_html()
 	{
 		$html[] = $this->display_header();
 		$html[] = $this->render_block();
 		$html[] = $this->display_footer();
-		return implode("\n", $html);		
+		return implode("\n", $html);
 	}
-	
+
 	function get_id()
-    {  	
+    {
         $conditions = array();
         $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_APPLICATION, $this->get_application());
         $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_BLOCK, $this->get_name());
@@ -109,12 +109,12 @@ abstract class ReportingBlock
         {
         	return $registrations->next_result()->get_id();
         }
-		else 
+		else
 		{
 			return 0;
 		}
     }
-    
+
 	public function export()
 	{
 		$html[] = '<b>' . Utilities::underscores_to_camelcase_with_spaces($this->get_name()) . '<br></br></b>';
@@ -122,7 +122,7 @@ abstract class ReportingBlock
 		$html[] = '<br></br>';
 		return implode("\n", $html);
 	}
-    
+
     static function factory($registration)
     {
         $type = $registration->get_block();
@@ -133,14 +133,14 @@ abstract class ReportingBlock
 
         return new $class($registration);
     }
-	
+
     abstract function get_application();
-    
+
     function get_name()
     {
     	return Utilities::camelcase_to_underscores(get_class($this));
     }
-	
+
     /**
      * Get the default properties
      * @return array The property names.
@@ -161,11 +161,11 @@ abstract class ReportingBlock
         $chartdata = $data[0];
         $names = sizeof($chartdata);
         $series = sizeof($datadescription["Values"]);
-        
+
         $modes = $this->get_available_displaymodes();
         $excluded = $this->get_excluded_displaymodes();
         $excluded = explode(',', $excluded);
-        
+
         if ($series == 1 && $names <= 1)
         {
             $excluded[] = 'Chart:Bar';
@@ -176,7 +176,7 @@ abstract class ReportingBlock
         {
             $excluded[] = 'Chart:Pie';
         }
-        
+
         if (in_array('Charts', $excluded))
         {
             unset($excluded[array_search('Charts', $excluded)]);
@@ -213,39 +213,32 @@ abstract class ReportingBlock
     public function get_export_links()
     {
         $list = Export :: get_supported_filetypes(array('ical'));
-        $array = array();
-        
+        $export_bar_items = array();
+
         foreach ($list as $export_format)
         {
-            $arr = array();
-            $file = Theme :: get_common_image_path() . 'export_' . $export_format . '.png';
-            $sys_file = Theme :: get_instance()->get_path(SYS_IMG_PATH) . 'common/export_' . $export_format . '.png';
             $parameters = array();
-            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS) ? Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS) : $_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS];
-            if (! file_exists($sys_file))
-                $file = Theme :: get_common_image_path() . 'export_unknown.png';
             $parameters [Application :: PARAM_ACTION ] = ReportingManager :: ACTION_EXPORT;
             $parameters [ReportingManager :: PARAM_REPORTING_BLOCK_ID] = $this->get_id();
             $parameters [ReportingManager:: PARAM_TEMPLATE_ID] = $this->get_parent()->get_id();
             $parameters [ReportingManager :: PARAM_EXPORT_TYPE] = $export_format;
             $parameters [ReportingFormatterForm::FORMATTER_TYPE] = $this->get_displaymode();
-            $arr[] = '<a href="'. Redirect::get_link(ReportingManager::APPLICATION_NAME, $parameters, array(), true, Redirect::TYPE_CORE) .'" />';
-            //$arr[] = '<img src="'.$file.'" border="0" title="'.$export_format.'" alt="'.$export_format.'" width="12" height="12" />';
-            $arr[] = $export_format;
-            $arr[] = '</a>';
-            
-            $array[] = implode("\n", $arr);
+
+            $link = Redirect::get_link(ReportingManager::APPLICATION_NAME, $parameters, array(), true, Redirect::TYPE_CORE);
+            $export_format_name = Translation :: get(Utilities :: underscores_to_camelcase($export_format));
+            $export_bar_items[] = new ToolbarItem($export_format_name, Theme :: get_common_image_path() . 'export_' . $export_format . '.png', $link, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         }
-        
-        $return = Translation :: get('Export') . ': ';
-        $return .= implode('|', $array);
-        return $return;
+
+        $export_bar = new Toolbar();
+        $export_bar->set_items($export_bar_items);
+        $export_bar->set_type(Toolbar :: TYPE_HORIZONTAL);
+        return $export_bar->as_html();
     }
 
     /**
      * Getters and setters
      */
-    
+
     public function get_data()
     {
         if (! $this->data)
@@ -274,7 +267,7 @@ abstract class ReportingBlock
     {
         return $this->params;
     }
-    
+
     function get_name_translation()
     {
     	return Utilities::underscores_to_camelcase($this->get_name());
