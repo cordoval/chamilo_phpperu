@@ -60,7 +60,7 @@ class IndicatorCriteria extends DataClass
 	{
 		if (! $this->target_criterias)
         {
-            $condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_COMPETENCY_ID, $this->get_indicator_id());
+            $condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $this->get_indicator_id());
             $criterias = CbaDataManager :: get_instance()->retrieve_indicators_criteria($condition);
 
             while ($criteria = $criterias->next_result())

@@ -200,7 +200,8 @@ class IndicatorForm extends FormValidator
     	
     	foreach($criterias as $key => $value)
     	{
-    		$criteria_id = substr($value, 10);
+    		
+    		$criteria_id = substr($value, 9);
     		$indicator_criteria->set_criteria_id($criteria_id);
 
     		$conditions = array();
