@@ -26,8 +26,6 @@ class CbaManagerIndicatorCreatorComponent extends CbaManagerComponent
 		{
 			$success_indicator = $form->create_indicator();
 			$success_indicator_criteria = $form->create_indicator_criteria();
-			dump($success_indicator_criteria);
-			exit();
 			if($success_indicator == $success_indicator_criteria)
 				$success = 1;
 			$this->redirect($success ? Translation :: get('IndicatorCreated') : Translation :: get('IndicatorNotCreated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_INDICATOR));
