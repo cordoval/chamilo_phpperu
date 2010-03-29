@@ -9,6 +9,7 @@
 //class ReportingBlock extends DataClass
 
 require_once dirname(__FILE__) . '/forms/reporting_formatter_form.class.php';
+require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
 
 abstract class ReportingBlock
 {
@@ -55,7 +56,7 @@ abstract class ReportingBlock
 	{
 		$html[] = '<div id="' . $this->get_id() . '" class="reporting_block">';
         $html[] = '<div class="reporting_header">';
-        $html[] = '<div class="reporting_header_title">' . Translation :: get(get_class($this)) . '</div>';
+        $html[] = '<div class="reporting_header_title">' . Translation::get(get_class($this)) . '</div>';
         $html[] = '<div class="reporting_header_displaymode">';
         $parameters = $this->parent->get_parameters();
         $bloc_parameters = array_merge($parameters, array(ReportingManager::PARAM_REPORTING_BLOCK_ID=>$this->get_id()));

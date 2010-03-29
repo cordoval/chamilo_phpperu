@@ -32,7 +32,7 @@ class DefaultReportingTemplateRegistrationTableCellRenderer implements ObjectTab
             case ReportingTemplateRegistration :: PROPERTY_APPLICATION :
                 return Translation :: get(Utilities :: underscores_to_camelcase($reporting_template_registration->get_application()));
             case ReportingTemplateRegistration :: PROPERTY_TEMPLATE :
-                return Translation :: get($reporting_template_registration->get_template());
+                return Translation :: get(Utilities :: underscores_to_camelcase($reporting_template_registration->get_template()));
             case ReportingTemplateRegistration :: PROPERTY_PLATFORM :
                 $description = strip_tags($reporting_template_registration->get_platform());
                 $description = Utilities :: truncate_string($description, 50);

@@ -142,6 +142,7 @@ class WeblcmsInstaller extends Installer
 			$course_module->set_name($course_tool);
 			$course_module->set_visible(1);
 			$course_module->set_section("basic");
+			$course_module->set_sort($index);
 			$course_modules[] = $course_module;
 		}
 

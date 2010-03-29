@@ -59,7 +59,7 @@ class AdminInstaller extends Installer
     		{
     			$language = new Language();
     			$xml_data = Utilities :: extract_xml_file($root . $folder . '/language.xml');
-;
+
     			$language->set_original_name($xml_data['original']);
     			$language->set_english_name($xml_data['english']);
     			$language->set_folder($xml_data['folder']);

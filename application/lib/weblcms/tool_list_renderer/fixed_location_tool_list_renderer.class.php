@@ -249,9 +249,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         
         foreach ($tools as $index => $tool)
         {
-            if (! PlatformSetting :: get($tool->name . '_active', 'weblcms') && $section->get_type() != CourseSection :: TYPE_ADMIN)
-                continue;
-            
             if ($tool->visible || $section->get_name() == 'course_admin')
             {
                 $lcms_action = 'make_invisible';

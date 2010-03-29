@@ -65,7 +65,7 @@ class CompetencyIndicator extends DataClass
 
             while ($indicators = $indicators->next_result())
             {
-                $this->target_indicators[] = $indicators->get_get_user();
+                $this->target_indicators[] = $indicators->get_id();
             }
         }
 

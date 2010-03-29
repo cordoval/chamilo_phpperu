@@ -1,6 +1,6 @@
 <?php
 
-require_once PATH :: get_reporting_path() . '/lib/reporting_template.class.php';
+require_once PATH :: get_reporting_path() . '/lib/reporting_template.clas.php';
 
 class AssessmentAttemptReportingTemplate extends ReportingTemplate
 {
@@ -14,11 +14,5 @@ class AssessmentAttemptReportingTemplate extends ReportingTemplate
 	{
 		//publicatie, content_object, application ... 
 	}
-	
-	function get_application()
-    {
-    	return AssessmentManager::APPLICATION_NAME;
-    }
-    
 }
 ?>

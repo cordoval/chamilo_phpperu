@@ -5,12 +5,22 @@ class CountriesReportingBlock extends UserReportingBlock
 {
 	public function count_data()
 	{
-		require_once (dirname(__FILE__) . '/../trackers/countries_tracker.class.php');
+		$reporting_data = new ReportingData();
+		require_once (dirname(__FILE__) . '/../../trackers/countries_tracker.class.php');
         $tracker = new CountriesTracker();
         $condition = new EqualityCondition(CountriesTracker :: PROPERTY_TYPE, 'country');
         $description[0] = Translation :: get('Countries');
 
-        return Reporting :: array_from_tracker($tracker, $condition, $description);
+        $data = Reporting :: array_from_tracker($tracker, $condition, $description);
+        $keys = array_keys($data);
+        $reporting_data->set_categories($keys);
+        $reporting_data->set_rows(array(Translation :: get('Countries')));
+        
+        foreach ($keys as $key => $name)
+        {
+            $reporting_data->add_data_category_row($name, Translation :: get('Countries'), $data[$name]);
+        }
+        return $reporting_data;
     }	
 	
 	public function retrieve_data()
@@ -26,13 +36,10 @@ class CountriesReportingBlock extends UserReportingBlock
 	public function get_available_displaymodes()
 	{
 		$modes = array();
-        $modes["Text"] = Translation :: get('Text');
-        $modes["Table"] = Translation :: get('Table');
-        $modes["Chart:Pie"] = Translation :: get('Chart:Pie');
-        $modes["Chart:Bar"] = Translation :: get('Chart:Bar');
-        $modes["Chart:Line"] = Translation :: get('Chart:Line');
-        $modes["Chart:FilledCubic"] = Translation :: get('Chart:FilledCubic');
-        return $modes;
+        $modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
+        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
+        $modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie');
+		return $modes;
 	}
 }
 ?>

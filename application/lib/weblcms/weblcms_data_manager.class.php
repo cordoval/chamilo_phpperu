@@ -540,6 +540,8 @@ abstract class WeblcmsDataManager
      */
     abstract function retrieve_course($course_code);
 
+    abstract function retrieve_course_module($course_module_id);
+    
     abstract function retrieve_course_settings($course_code);
 
     abstract function retrieve_course_layout($course_code);
@@ -572,7 +574,7 @@ abstract class WeblcmsDataManager
      * @return boolean True if the update succceeded, false otherwise.
      */
     abstract function update_course($course);
-
+    
     abstract function update_course_settings($course_settings);
 
     abstract function update_course_layout($course_layout);

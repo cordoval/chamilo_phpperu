@@ -14,26 +14,26 @@ abstract class ReportingTemplate
 {
 	//const PARAM_VISIBLE = 'visible';
     //const PARAM_DIMENSIONS = 'dimensions';
-
+    
     //const REPORTING_BLOCK_VISIBLE = 1;
     //const REPORTING_BLOCK_INVISIBLE = 0;
     //const REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS = 1;
     //const REPORTING_BLOCK_USE_BLOCK_DIMENSIONS = 0;
 
 	//const PARAM_BLOCK = 'block';
-
+	
     protected $action_bar;
-
+	
 	private $blocks = array();
 	private $parent;
 	private $parameters = array();
-
+	
 	function ReportingTemplate($parent)
 	{
-		$this->set_parent($parent);
+		$this->set_parent($parent);    
         $this->action_bar = $this->get_action_bar();
 	}
-
+	
 	public static function factory($reporting_template_id, $parent)
 	{
 		$registration = ReportingDataManager::get_instance()->retrieve_reporting_template_registration($reporting_template_id);
@@ -44,7 +44,7 @@ abstract class ReportingTemplate
         $new_template = Utilities :: underscores_to_camelcase($registration->get_template());
         return new $new_template($parent);
 	}
-
+	
 	function get_id()
     {
         $conditions = array();
@@ -56,19 +56,19 @@ abstract class ReportingTemplate
         {
         	return $registrations->next_result()->get_id();
         }
-		else
+		else 
 		{
 			return 0;
 		}
     }
-
+	
     abstract function get_application();
-
+    
     function get_name()
     {
     	return Utilities::camelcase_to_underscores(get_class($this));
     }
-
+    
 	public function to_html()
 	{
 		$html[] = $this->display_header();
@@ -78,17 +78,17 @@ abstract class ReportingTemplate
 		$html[] =  $this->display_footer();
 		return implode("\n", $html);
 	}
-
+	
 	public function get_menu()
 	{
 		$html = array();
 		$html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
 		$menu = new ReportingTemplateMenu($this);
-		$html[] = $menu->render_as_tree();
+		$html[] = $menu->render_as_tree();	
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}
-
+	
 	public function render_all_blocks()
 	{
 		$blocks = $this->get_reporting_blocks();
@@ -99,22 +99,27 @@ abstract class ReportingTemplate
 		}
 		return implode($html, "\n");
 	}
-
+	
 	public function render_blocks()
 	{
 		$html = array();
         $html[] = '<div style="float: right; width: 80%;">';
-
+        
 		$block = Request::get(ReportingManager::PARAM_REPORTING_BLOCK_ID);
 		if (isset($block))
 		{
 			$html[] = $this->get_reporting_block($block)->to_html();
 		}
+		else 
+		{
+			$keys = array_keys($this->get_reporting_blocks());
+			$html[] = $this->get_reporting_block($keys[0])->to_html();
+		}
 		$html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         return implode($html, "\n");
 	}
-
+	
 	public function export()
 	{
 		$block = Request::get(ReportingManager::PARAM_REPORTING_BLOCK_ID);
@@ -125,75 +130,75 @@ abstract class ReportingTemplate
 		else
 		{
 			$html[] = $this->display_context();
-			$html[] = $this->render_all_blocks();
+			$html[] = $this->render_all_blocks();	
 		}
 		return implode("\n", $html);
 	}
-
+	
 	public function display_footer()
 	{
 		$parameters = array();
         $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS);
-
+        
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' . '"></script>';
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' . '"></script>';
         return implode("\n", $html);
 	}
-
+	
 	public function display_header()
 	{
 		$html[] = '<br />' . $this->action_bar->as_html() . '<br />';
         return implode("\n", $html);
-	}
-
+	}		
+	
 	public function get_parent()
 	{
 		return $this->parent;
 	}
-
+	
 	public function set_parent($parent)
 	{
 		$this->parent = $parent;
-	}
+	}	
 
     public function get_reporting_blocks()
 	{
 		return $this->blocks;
 	}
-
+	
 	public function get_reporting_block($reporting_block_id)
 	{
 		return $this->blocks[$reporting_block_id];
 	}
-
+	
 	public function add_reporting_block($block)
 	{
 		$this->blocks[$block->get_id()] = $block;
-	}
-
+	}	
+	
 	public function get_parameters()
 	{
 		return $this->parameters;
 	}
-
+	
 	public function set_parameters($parameters)
 	{
-		$this->parameters = $parameters;
+		$this->parameters = $parameters;		
 	}
-
+	
 	public function add_parameters($key, $value)
 	{
 		$this->parameters[$key] = $value;
 	}
-
+	
 	public abstract function display_context();
 
-
+   
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $parameters = array();
-
+      
             $parameters [Application :: PARAM_ACTION ] = ReportingManager :: ACTION_EXPORT;
             $parameters [ReportingManager:: PARAM_TEMPLATE_ID] = $this->get_id();
             $parameters [ReportingManager :: PARAM_EXPORT_TYPE] = 'pdf';
@@ -203,12 +208,14 @@ abstract class ReportingTemplate
             	$parameters [ReportingFormatterForm::FORMATTER_TYPE] = $this->get_displaymode();
             }
             $url = Redirect::get_link(ReportingManager::APPLICATION_NAME, $parameters, array(), false, Redirect::TYPE_CORE);
-
+       
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), Theme :: get_common_image_path() . 'export_pdf.png', $url));
-
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToXml'), null, $url));
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToCsv'), null, $url));
+                
         return $action_bar;
     }
-
+    
     public function get_displaymode(){
 		$display = Request::post(ReportingFormatterForm::FORMATTER_TYPE);
     	$display_get = Request::get(ReportingFormatterForm::FORMATTER_TYPE);
@@ -225,7 +232,7 @@ abstract class ReportingTemplate
     /*
      * Reporting blocks
      */
-
+  
     /**
      * Sets the visible value to 1 for this reporting block & 0 for the rest
      * @param String $name
@@ -258,7 +265,7 @@ abstract class ReportingTemplate
         if (isset($this->params['course_id']))
             $html[] = '<b>Course: </b><i>' . $this->params['course_id'] . '</i>';
         $html[] = '</div><br /><br />';
-
+        
         $html[] = $this->get_visible_reporting_blocks(true);
         return implode("\n", $html);
     }
@@ -307,7 +314,7 @@ abstract class ReportingTemplate
             }
         }
     }*/
-
+    
     /*function get_reporting_block_template_properties($name)
     {
         $array = $this->get_reporting_blocks();
@@ -341,7 +348,7 @@ abstract class ReportingTemplate
         }
     }
 
-
+    
     function set_reporting_block_function_parameters($blockname, $params)
     {
         foreach ($this->get_reporting_blocks() as $key => $value)

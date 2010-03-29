@@ -12,7 +12,7 @@ class UserNoOfLoginsMonthReportingBlock extends UserReportingBlock
         $tracker = new LoginLogoutTracker();
         $trackerdata = $tracker->retrieve_tracker_items($condition);
 
-		$months_names = array(Translation :: get('January'), Translation :: get('Februari'), Translation :: get('March'),Translation :: get('April'),Translation :: get('May'),Translation :: get('June'),Translation :: get('July'),Translation :: get('August'),Translation :: get('September'),Translation :: get('October'), Translation :: get('November'),Translation :: get('December'));
+		$months_names = array(Translation :: get('January'), Translation :: get('February'), Translation :: get('March'),Translation :: get('April'),Translation :: get('May'),Translation :: get('June'),Translation :: get('July'),Translation :: get('August'),Translation :: get('September'),Translation :: get('October'), Translation :: get('November'),Translation :: get('December'));
         $months = UserReportingBlock :: getDateArray($trackerdata, 'n');
         
 		$reporting_data->set_categories($months_names);
