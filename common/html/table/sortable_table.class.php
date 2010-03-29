@@ -220,9 +220,7 @@ class SortableTable extends HTML_Table
             $empty_table = true;
         }
 
-        dump($this->per_page);
-
-        if (! $empty_table && $this->per_page !== 0)
+        if (! $empty_table)
         {
             $form = $this->get_page_select_form();
             $nav = $this->get_navigation_html();
