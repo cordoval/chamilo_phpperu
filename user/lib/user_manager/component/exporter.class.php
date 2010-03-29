@@ -63,7 +63,7 @@ class UserManagerExporterComponent extends UserManagerComponent
         $firstname_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_FIRSTNAME));
         $username_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_USERNAME));
         $email_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_EMAIL));
-        $language_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_LANGUAGE));
+        $language_title = Translation :: get(Utilities :: underscores_to_camelcase('language'));
         $status_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_STATUS));
         $active_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_ACTIVE));
         $official_code_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_OFFICIAL_CODE));
@@ -76,7 +76,7 @@ class UserManagerExporterComponent extends UserManagerComponent
         $user_array[$firstname_title] = $user->get_firstname();
         $user_array[$username_title] = $user->get_username();
         $user_array[$email_title] = $user->get_email();
-        $user_array[$language_title] = $user->get_language();
+        $user_array[$language_title] = LocalSetting :: get('platform_language');
         $user_array[$status_title] = $user->get_status();
         $user_array[$active_title] = $user->get_active();
         $user_array[$official_code_title] = $user->get_official_code();
@@ -106,7 +106,7 @@ class UserManagerExporterComponent extends UserManagerComponent
         $user_array[User :: PROPERTY_FIRSTNAME] = $user->get_firstname();
         $user_array[User :: PROPERTY_USERNAME] = $user->get_username();
         $user_array[User :: PROPERTY_EMAIL] = $user->get_email();
-        $user_array[User :: PROPERTY_LANGUAGE] = $user->get_language();
+        $user_array['language'] = LocalSetting :: get('platform_language');
         $user_array[User :: PROPERTY_STATUS] = $user->get_status();
         $user_array[User :: PROPERTY_ACTIVE] = $user->get_active();
         $user_array[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
