@@ -1,6 +1,6 @@
 <?php
-$lang['cda']['ManageLanguages'] = '';
-$lang['cda']['ManageLanguagesDescription'] = '';
+$lang['cda']['ManageLanguages'] = 'Gérer les langues';
+$lang['cda']['ManageLanguagesDescription'] = 'Liste toutes les langues disponibles et permet leur gestion au moyen de filtres, outils de recherche, d\'édition et suppression.';
 $lang['cda']['ManageLanguagePacks'] = '';
 $lang['cda']['ManageLanguagePacksDescription'] = '';
 $lang['cda']['ManageTranslatorApplications'] = '';
@@ -19,7 +19,7 @@ $lang['cda']['LanguagePacks'] = '';
 $lang['cda']['SelectBranchTitle'] = '';
 $lang['cda']['SelectBranchDescription'] = '';
 $lang['cda']['ChamiloClassic'] = '';
-$lang['cda']['ChamiloLCMS'] = '';
+$lang['cda']['ChamiloLCMS'] = 'Futura (2.x)';
 $lang['cda']['SelectLanguagePackTitle'] = '';
 $lang['cda']['SelectLanguagePackDescription'] = '';
 $lang['cda']['TranslationExporterNotFound'] = '';

@@ -55,7 +55,7 @@ class CriteriaForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-		$select = $this->add_select(Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+		$select = $this->add_select(Criteria :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->categories);
         $category_id = Request :: get(CbaManager :: PARAM_CATEGORY_ID);
 		$select->setSelected($category_id);
     	$this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -80,14 +80,14 @@ class CriteriaForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-        $select = $this->add_select(Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $select = $this->add_select(Criteria :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->categories);
         $select->setSelected($this->criteria->get_parent_id());
     	$this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->criteria_score_form();
+		$this->criteria_score_form(2);
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -273,7 +273,7 @@ class CriteriaForm extends FormValidator
 	
 	// Dynamic form options
 	
-	function criteria_score_form()
+	function criteria_score_form($number_options)
     {
         
         if (! $this->isSubmitted())
@@ -282,9 +282,14 @@ class CriteriaForm extends FormValidator
             unset($_SESSION['mc_skip_options']);
         }
         
+        $_SESSION['mc_number_of_options'] = $number_options;
         if (! isset($_SESSION['mc_number_of_options']))
         {
             $_SESSION['mc_number_of_options'] = 1;
+        }
+        else
+        {
+        	$_SESSION['mc_number_of_options'] = $number_options;
         }
         
         if (! isset($_SESSION['mc_skip_options']))
@@ -346,8 +351,7 @@ class CriteriaForm extends FormValidator
         $table_header[] = '</table>';
         $this->addElement('html', implode("\n", $table_header));*/
         
-      
-        for($option_number = 0; $option_number < $number_of_options; $option_number ++)
+        for($option_number = 0; $option_number < $number_of_options; $option_number++)
         {
             if (! in_array($option_number, $_SESSION['mc_skip_options']))
             {

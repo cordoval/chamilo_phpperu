@@ -34,12 +34,20 @@ class CbaManagerCriteriaEditorComponent extends CbaManagerComponent
 		$count_links = $this->count_criterias_score($condition);
 				
 		for($i = 0; $i < $count_links; $i++)
-		{	
-			$criteria_score = $this->retrieve_criteria_score($id);
-			//$criteria_score = $this->retrieve_criteria_score_new($id, /*PROPERTY_ID from criteria_score*/);
-			//dump($criteria_score);			
+		{
+			if($i == 0)
+			{	
+				$criteria_score0 = $this->retrieve_criteria_score($id);
+			}
+			$id_new = $criteria_score->get_id();
+			$id_new++;
+
+			$criteria_score1 = $this->retrieve_criteria_score_new($id, $id_new);
+			dump($criteria_score);
 		}
-		//exit();
+		
+		exit();
+		
 		$form = new CriteriaForm(CriteriaForm :: TYPE_EDITOR_CRITERIA, $criteria, $criteria_score, $this->get_url(array(CbaManager :: PARAM_CRITERIA => $criteria->get_id())), $this->get_user());
 
 		if($form->validate())

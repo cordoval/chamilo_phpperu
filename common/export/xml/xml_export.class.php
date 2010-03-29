@@ -15,7 +15,7 @@ class XmlExport extends Export
 
     public function write_to_file($data)
     {
-        $file = $this->get_path(SYS_TEMP_PATH) . Filesystem :: create_unique_name($this->get_path(SYS_TEMP_PATH), $this->get_filename());
+    	$file = $this->get_path(SYS_TEMP_PATH) . Filesystem :: create_unique_name($this->get_path(SYS_TEMP_PATH), $this->get_filename());
         $this->handle = fopen($file, 'a+');
         fwrite($this->handle, '<?xml version="1.0" encoding="ISO-8859-1"?>' . "\n");
         fwrite($this->handle, str_repeat("\t", $this->level) . '<rootItem>' . "\n");
@@ -30,6 +30,7 @@ class XmlExport extends Export
 
     public function write_array($row)
     {
+    	
         foreach ($row as $key => $value)
         {
             if (is_numeric($key))

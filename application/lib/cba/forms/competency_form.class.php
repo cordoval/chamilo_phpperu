@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../competency.class.php';
 require_once dirname(__FILE__) . '/../competency_indicator.class.php';
+
 /**
  * This class describes a CompetencyForm object
  * 
@@ -56,7 +57,7 @@ class CompetencyForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-    	$select = $this->add_select(Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+    	$select = $this->add_select(Competency :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->categories);
     	$category_id = Request :: get(CbaManager :: PARAM_CATEGORY_ID);   	
     	$select->setSelected($category_id);
         $this->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -75,7 +76,7 @@ class CompetencyForm extends FormValidator
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         
-        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
+        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
         
         
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
@@ -93,7 +94,7 @@ class CompetencyForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 
-        $select = $this->add_select(Competency :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $select = $this->add_select(Competency :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->categories);
         $select->setSelected($this->competency->get_parent_id());
         $this->addRule(Competency :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 		       
@@ -110,26 +111,27 @@ class CompetencyForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
 		$attributes['locale'] = $locale;
 		$attributes['defaults'] = array();
-		//Competency indicator (get indicator id)
-        //$attributes['exclude'] = array('indicator_' . $this->competency->get_id());
+		
+		/*
+    	$cdm = CbaDataManager :: get_instance();     
+        //$target_indicators = $this->competency_indicator->get_target_indicators();
         
-    	//$target_indicator = $this->competency;
-        //$cdm = CbaDataManager :: get_instance();
-        
-        //dump($target_indicator->get_id());
-        /*foreach ($target_indicator->get_indicator_id() as $competency_id)
+        $defaults[self :: PARAM_TARGET_ELEMENTS] = array();
+
+        foreach ($target_indicators as $target_indicator)
         {
-            $competency_indicator = $cdm->retrieve_competency_indicator($competency_id);
-            $default = array();
-            $default['id'] = 'indicator_' . $competency_id;
-            $default['classes'] = 'type type_cda_language';
-            $default['title'] = $competency_indicator->get_title();
-            $default['description'] = $competency_indicator->get_title();
+            $indicator = $cdm->retrieve_indicator($target_indicator);
             
-            $attributes['defaults'][] = $default;
-        }*/
+            $selected_indicator = array();
+            $selected_indicator['id'] = 'user_' . $indicator->get_id();
+            $selected_indicator['classes'] = 'type type_cda_language';
+            $selected_indicator['title'] = $indicator->get_title();
+            $selected_indicator['description'] = $indicator->get_description();
+            
+            $defaults[self :: PARAM_TARGET_ELEMENTS][$selected_indicator['id']] = $selected_indicator;
+        }*/	
         
-        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
+        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
     	
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -139,10 +141,9 @@ class CompetencyForm extends FormValidator
     
  	function add_indicators($elementName, $elementLabel, $attributes)
     {
-		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+		$element_finder = $this->createElement('element_finder', $elementName . '_elements', $elementLabel, $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
 		$element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder, $elementLabel);
-        //$this->addGroup($element_finder, null, $elementLabel);
     }
        
 	function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
@@ -215,6 +216,7 @@ class CompetencyForm extends FormValidator
             }
             else
             {
+            	$competency_indicator->set_target_indicators($indicators);
               	$result &= $competency_indicator->create();
             }
     	}   	
@@ -266,9 +268,7 @@ class CompetencyForm extends FormValidator
             {
               	$result &= $competency_indicator->update();
             }
-    	}
-        dump($competency_indicator);
-    	exit();   	
+    	} 	
     	return $result;
     }
     

@@ -42,5 +42,15 @@ class SurveyQuestionResultsTemplate extends ReportingTemplate
         
         return implode("\n", $html);
     }
+    
+	public function display_context()
+	{
+  
+	}
+	
+	function get_application()
+	{
+		return SurveyManager::APPLICATION_NAME;
+	}
 }
 ?>

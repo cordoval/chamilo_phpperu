@@ -55,7 +55,7 @@ class IndicatorForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-		$select = $this->add_select(Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+		$select = $this->add_select(Indicator :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->categories);
         $category_id = Request :: get(CbaManager :: PARAM_CATEGORY_ID);
 		$select->setSelected($category_id);
     	$this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -73,10 +73,9 @@ class IndicatorForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
+    
         
-        // DELETE ADD INDICATORS IN FORM VALIDATOR
-        
-        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
+        $this->add_criterias(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
         
     	
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
@@ -94,7 +93,7 @@ class IndicatorForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-    	$select = $this->add_select(Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+    	$select = $this->add_select(Indicator :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->categories);
         $select->setSelected($this->indicator->get_parent_id());
     	$this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
@@ -112,7 +111,7 @@ class IndicatorForm extends FormValidator
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         
-        $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
+        $this->add_criterias(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
     	
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -120,9 +119,9 @@ class IndicatorForm extends FormValidator
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
- 	function add_indicators($elementName, $elementLabel, $attributes)
+ 	function add_criterias($elementName, $elementLabel, $attributes)
     {
-		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+		$element_finder = $this->createElement('element_finder', $elementName . '_elements', $elementLabel, $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
 		$element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
     }
@@ -199,9 +198,7 @@ class IndicatorForm extends FormValidator
             {
               	$result &= $indicator_criteria->create();
             }
-    	}
-        //dump($competency_indicator);
-    	//exit();   	
+    	} 	
     	return $result;
     }
     
