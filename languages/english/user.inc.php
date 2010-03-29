@@ -117,4 +117,6 @@ $lang['user']['UserApproveBrowser'] = '';
 $lang['user']['Emailer'] = '';
 $lang['user']['ApproveList'] = '';
 $lang['user']['ApproveListDescription'] = '';
+$lang['user']['CsvUsersProcessed'] = 'Users imported';
+$lang['user']['CsvUsersNotProcessed'] = '{COUNT} users not imported';
 ?>

@@ -38,7 +38,7 @@ class IndicatorForm extends FormValidator
 		}
    	 	elseif ($this->form_type == self :: TYPE_EDITOR_INDICATOR)
 		{
-			$this->build_editor_indicator_form();
+			$this->build_editor_indicator_form($indicator_criteria);
 			$this->setIndicatorDefaults();
 		}
 
@@ -84,7 +84,7 @@ class IndicatorForm extends FormValidator
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
-	function build_editor_indicator_form()
+	function build_editor_indicator_form($indicator_criteria)
     {
     	$this->addElement('text', Indicator :: PROPERTY_TITLE, Translation :: get('Title'));
 		$this->addRule(Indicator :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -110,6 +110,26 @@ class IndicatorForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
+        
+    	if($indicator_criteria)
+		{
+			$cdm = CbaDataManager :: get_instance(); 
+			$target_criterias = $this->indicator_criteria->get_target_criterias();
+
+			
+			foreach($target_criterias as $index => $value)
+			{
+				$criteria = $cdm->retrieve_criteria($value + 1);
+				$indicators = array();
+	
+		        $criterias['id'] = 'criteria_'. $value;
+		        $criterias['classes'] = 'type type_cda_language';
+		        $criterias['title'] = $value + 1;
+		        $criterias['title'] = $criteria->get_title();
+		        $criterias['description'] = '';//$criteria->get_description();
+				$attributes['defaults'][$criterias['id']] = $criterias;
+			}
+		}
         
         $this->add_criterias(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
     	
@@ -196,6 +216,7 @@ class IndicatorForm extends FormValidator
             }
             else
             {
+            	$indicator_criteria->set_target_criterias($criterias);
               	$result &= $indicator_criteria->create();
             }
     	} 	

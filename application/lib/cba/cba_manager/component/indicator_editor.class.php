@@ -24,11 +24,15 @@ class CbaManagerIndicatorEditorComponent extends CbaManagerComponent
         }
 		
 		$indicator = $this->retrieve_indicator(Request :: get(CbaManager :: PARAM_INDICATOR));
+		$indicator_criteria = $this->retrieve_indicator_criteria(Request :: get(CbaManager :: PARAM_INDICATOR));
 		$form = new IndicatorForm(IndicatorForm :: TYPE_EDITOR_INDICATOR, $indicator, $this->get_url(array(CbaManager :: PARAM_INDICATOR => $indicator->get_id())), $this->get_user());
 
 		if($form->validate())
 		{
 			$success = $form->update_indicator();
+			$success_indicator_criteria = 1;//$form->update_indicator_criteria();
+			if($success_competency == $success_competency_indicator)
+				$success = 1;
 			
 			foreach ($ids as $id)
             {
