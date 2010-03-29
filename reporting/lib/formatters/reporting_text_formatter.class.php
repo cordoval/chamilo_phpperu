@@ -4,7 +4,6 @@
  * @package reporting.lib.formatters
  * @author Michael Kyndt
  */
-require_once dirname(__FILE__) . '/../reporting_data/reporting_text_data.class.php';
 class ReportingTextFormatter extends ReportingFormatter
 {
     private $reporting_block;

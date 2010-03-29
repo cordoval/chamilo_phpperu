@@ -72,7 +72,7 @@ class ReportingTemplateMenu extends HTML_Menu
         foreach($reporting_templates as $reporting_template)
         {
             $menu_item = array();
-            $menu_item['title'] = Translation::get(get_class($reporting_template));
+            $menu_item['title'] = Translation::get(get_class($reporting_template));   
             $menu_item['url'] = '#';
             $menu_item['class'] = 'category';
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $reporting_template->get_id();
