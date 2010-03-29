@@ -2,16 +2,15 @@
 /*
  * @author Ben Vanmassenhove
  */
-class GradebookInternalEvaluation extends DataClass
+class InternalItem extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    const TABLE_NAME = 'internal_evaluation';
+    const TABLE_NAME = 'internal_item';
     /**
      * GradebookEvaluation properties
      */
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_PUBLICATION_ID = 'publication_id';
-    const PROPERTY_FORMAT_ID = 'format_id';
     const PROPERTY_CALCULATED = 'calculated';
     
     /**
@@ -20,7 +19,7 @@ class GradebookInternalEvaluation extends DataClass
      */
     static function get_defualt_property_names()
     {
-    	return parent :: get_defualt_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_PUBLICATION));
+    	return parent :: get_defualt_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_CALCULATED));
     }
     
     function get_data_manager()
@@ -48,16 +47,6 @@ class GradebookInternalEvaluation extends DataClass
     function set_publication_id($publication_id)
     {
     	$this->set_default_property(self :: PROPERTY_PUBLICATION_ID, $publication_ID);
-    }
-
-    function get_format_id()
-    {
-    	return $this->get_default_property(self :: PROPERTY_FORMAT_ID);
-    }
-    
-    function set_format_id($format_id)
-    {
-    	$this->set_default_property(self :: PROPERTY_FORMAT_ID, $format_id);
     }
 
     function get_calculated()

@@ -376,4 +376,9 @@ $lang['admin']['LanguageSuccessfullyDeleted'] = '';
 $lang['admin']['PackageIsAlreadyRegistered'] = '';
 $lang['admin']['LanguageRegistrationNotAdded'] = '';
 $lang['admin']['LanguageRegistrationAdded'] = '';
+$lang['admin']['CourseTypeList'] = 'Course Type List';
+$lang['admin']['CreateType'] = 'Create Course Type';
+$lang['admin']['CourseTypeListDescription'] = 'Course Type List Description';
+$lang['admin']['CreateTypeDescription'] = 'Create Course Type Description';
+
 ?>

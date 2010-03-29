@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="grade_evaluation">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="score" type="text" length="255" notnull="1" />
+		<property name="comment" type="text" length="255" notnull="1" />
+	</properties>
+</object>

@@ -80,6 +80,11 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->retrieve_criteria_score($id);
 	}
 	
+	function retrieve_criteria_score_new($criteria_id, $id)
+	{
+		return $this->get_parent()->retrieve_criteria_score_new($criteria_id, $id);
+	}
+	
 	// Competency Indicator
  	function count_competencys_indicator($condition)
 	{

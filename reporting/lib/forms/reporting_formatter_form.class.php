@@ -7,7 +7,7 @@
 class ReportingFormatterForm extends FormValidator
 {
     const FORMATTER_TYPE = 'formatter';
-    
+
     private $manager;
     private $renderer;
 
@@ -21,12 +21,12 @@ class ReportingFormatterForm extends FormValidator
     function ReportingFormatterForm($manager, $url)
     {
         parent :: __construct('repository_filter_form', 'post', $url);
-        
-        $this->renderer = clone $this->defaultRenderer();
+
+        $this->renderer = $this->defaultRenderer();
         $this->manager = $manager;
-        
+
         $this->build_form();
-        
+
         $this->accept($this->renderer);
     }
 
@@ -36,14 +36,14 @@ class ReportingFormatterForm extends FormValidator
     private function build_form()
     {
         $this->renderer->setFormTemplate('<form {attributes}><div class="filter_form">{content}</div><div class="clear">&nbsp;</div></form>');
-        $this->renderer->setElementTemplate('<div class="row"><div class="formw">{label}&nbsp;{element}</div></div>');
-        
+        $this->renderer->setElementTemplate('<div class="row"><div class="formw">{element}</div></div>');
+
         $this->addElement('select', self :: FORMATTER_TYPE, null, $this->manager->get_displaymodes(), array('class' => 'postback'));
         $this->addElement('style_submit_button', 'submit', Translation :: get('Formatter'), array('class' => 'normal filter'));
-        
+
         $session_filter = Session :: retrieve(self :: FORMATTER_TYPE);
         $this->setDefaults(array(self :: FORMATTER_TYPE => $session_filter));
-        
+
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
     }
 
