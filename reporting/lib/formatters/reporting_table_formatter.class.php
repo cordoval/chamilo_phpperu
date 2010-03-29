@@ -78,7 +78,7 @@ class ReportingTableFormatter extends ReportingFormatter
         /*if ($this->get_block->is_sortable())
             $table = new SortableTable('table_' . $this->get_block->get_id(), 'count_data', 'retrieve_data', $column);
         else*/
-            $table = new SortableTableFromArray($this->convert_reporting_data(), null, 3, 'table_' . $this->get_block()->get_name());
+            $table = new SortableTableFromArray($this->convert_reporting_data(), null, 20, 'table_' . $this->get_block()->get_name());
             //Todo: not a sortable table
 
 
