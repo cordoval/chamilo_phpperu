@@ -15,15 +15,17 @@ class DoublesBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
      * The repository browser component
      */
     private $browser;
+    private $is_detail;
 
     /**
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function DoublesBrowserTableCellRenderer($browser)
+    function DoublesBrowserTableCellRenderer($browser, $is_detail)
     {
         parent :: __construct();
         $this->browser = $browser;
+        $this->is_detail = $is_detail;
     }
 
     // Inherited
@@ -38,6 +40,10 @@ class DoublesBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
         {
         	case 'Duplicates';
         		return $content_object->get_content_hash();
+        	case ContentObject :: PROPERTY_TITLE :
+                $title = parent :: render_cell($column, $content_object);
+                $title_short = Utilities :: truncate_string($title, 53, false);
+                return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
         }
         
         return parent :: render_cell($column, $content_object);
@@ -51,7 +57,20 @@ class DoublesBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
      */
     private function get_modification_links($content_object)
     {
-        return Utilities :: build_toolbar($toolbar_data);
+        if($this->is_detail)
+        {
+        	return '&nbsp;';
+        }
+        
+    	$toolbar = array();
+        
+        $view_item = array();
+        $view_item['href'] = $this->browser->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
+        $view_item['label'] = Translation :: get('ViewItem');
+        $view_item['img'] = Theme :: get_common_image_path() . 'action_browser.png';
+        
+        $toolbar[] = $view_item;
+    	return Utilities :: build_toolbar($toolbar);
     }
 }
 ?>

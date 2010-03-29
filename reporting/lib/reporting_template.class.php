@@ -209,7 +209,7 @@ abstract class ReportingTemplate
             }
             $url = Redirect::get_link(ReportingManager::APPLICATION_NAME, $parameters, array(), false, Redirect::TYPE_CORE);
        
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), null, $url));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), Theme :: get_common_image_path() . 'export_pdf.png', $url));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToXml'), null, $url));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToCsv'), null, $url));
                 

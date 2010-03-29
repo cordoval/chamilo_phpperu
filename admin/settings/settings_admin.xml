@@ -2,11 +2,10 @@
 <application name="admin">
 	<settings>
 		<category name="administrator">
-			<setting name="show_administrator_data" field="radio"
-				default="true">
+			<setting name="show_administrator_data" field="checkbox"
+				default="1">
 				<options type="static">
-					<option name="true" value="true" />
-					<option name="false" value="false" />
+					<option name="show_administrator_data" value="1" />
 				</options>
 			</setting>
 			<setting name="administrator_firstname" field="text" default="Chamilo" />
@@ -37,17 +36,15 @@
 					<option name="courses" value="weblcms" />
 				</options>
 			</setting>
-			<setting name="public_pages_compliance_to_wai" field="radio"
+			<setting name="public_pages_compliance_to_wai" field="checkbox"
 				default="0">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="public_pages_compliance_to_wai" value="1" />
 				</options>
 			</setting>
-			<setting name="hide_dcda_markup" field="radio" default="0">
+			<setting name="hide_dcda_markup" field="checkbox" default="0">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="hide_dcda_markup" value="1" />
 				</options>
 			</setting>
 			<setting name="show_variable_in_translation" field="checkbox"
@@ -85,10 +82,9 @@
 					<option name="TinyMCE" value="tinymce" />
 				</options>
 			</setting>
-			<setting name="reload_templates" field="radio" default="0">
+			<setting name="reload_templates" field="checkbox" default="0">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="reload_templates" value="1" />
 				</options>
 			</setting>
 			<setting name="portal_home" field="html_editor" default="" />
@@ -107,10 +103,9 @@
 				</options>
 			</setting>
 			<setting name="version" field="text" default="2.0" locked="true" />
-			<setting name="show_version_data" field="radio" default="0">
+			<setting name="show_version_data" field="checkbox" default="0">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="show_version_data" value="1" />
 				</options>
 			</setting>
 		</category>

@@ -157,15 +157,22 @@ class ReportingExporter
     
     function get_export_header()
     {
-        $html .= '<html><head>';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/reporting.css" />';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common.css" />';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_form.css" />';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_menu.css" />';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_table.css" />';
-        $html .= '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_tree.css" />';
-        $html .= '</head><body>';
-        return $html;
+        $html = array();
+        $html[] = '<html><head>';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_common_css_path() .'" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_general.css" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_form.css" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_menu.css" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_table.css" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_tabs.css" />';
+        $html[] = '<link rel="stylesheet" type="text/css" href="'. Theme :: get_theme_path() .'common_tree.css" />';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common.css" />';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_form.css" />';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_menu.css" />';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_table.css" />';
+//        $html[] = '<link rel="stylesheet" type="text/css" href="layout/aqua/css/common_tree.css" />';
+        $html[] = '</head><body>';
+        return implode ("\n", $html);
     }
 
     function get_export_footer()
@@ -196,6 +203,11 @@ class ReportingExporter
             $export->write_to_file($data);
         }
         return;
+    }
+
+    function get_parameters()
+    {
+        return $this->parent->get_parameters();
     }
 }
 ?>

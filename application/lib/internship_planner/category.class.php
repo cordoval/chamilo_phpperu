@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/internship_planner_data_manager.class.php';
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class Category extends NestedTreeNode
+class InternshipPlannerCategory extends NestedTreeNode
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -18,7 +18,7 @@ class Category extends NestedTreeNode
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
-
+	
 	/**
 	 * Get the default properties
 	 * @return array The property names.
@@ -86,7 +86,8 @@ class Category extends NestedTreeNode
 
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		 return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+//		return 'category';
 	}
 	
 	function get_data_manager() 
@@ -94,19 +95,51 @@ class Category extends NestedTreeNode
 		return InternshipPlannerDataManager :: get_instance();
 	}
 	
-	function create()
-	{
-		if(!$this->get_parent_id())
-		{
-			$root_category = InternshipPlannerDataManager :: get_instance()->retrieve_category_root($this->id());
-			if($root_category)
-			{
-				$this->set_parent_id($root_category->get_id());
-			}
-		}
+	function get_locations($include_subcategories = false, $recursive_subcategories = false)
+    {
+        $dm = $this->get_data_manager();
+
+        $categories = array();
+        $categories[] = $this->get_id();
+
+        if ($include_subcategories)
+        {
+            $subcategories = $dm->get_internship_planner_category_children($this, $recursive_subcategories);
+			
+            
+           while($subcategory = $subcategories->next_result())
+            {
+               $categories[] = $subcategory->get_id();
+            }
+        }
 		
-		return parent :: create();
-	}
+        $condition = new InCondition(InternshipPlannerCategoryRelLocation :: PROPERTY_CATEGORY_ID, $categories);
+        $category_rel_locations = $dm->retrieve_category_rel_locations($condition);
+        $locations = array();
+
+        while ($category_rel_location = $category_rel_locations->next_result())
+        {
+            $location_id = $category_rel_location->get_location_id();
+            if (! in_array($location_id, $locations))
+            {
+                $locations[] = $location_id;
+            }
+        }
+
+        return $locations;
+    }
+	
+	function count_locations($include_subcategories = false, $recursive_subcategories = false)
+    {
+        $locations = $this->get_locations($include_subcategories, $recursive_subcategories);
+
+        return count($locations);
+    }
+
+	function truncate()
+    {
+        return $this->get_data_manager()->truncate_category($this);
+    }
 }
 
 ?>

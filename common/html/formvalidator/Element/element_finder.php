@@ -139,6 +139,18 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		 */
         $html = array();
 
+        if ($this->isCollapsed())
+        {
+            //$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '.'onclick="document.getElementById(\''.$id.'\').style.display = \'\'; this.style.display = \'none\'; document.getElementById(\''.$this->getName().'_search_field\').focus();" id="'.$this->getName().'_expand_button" />';
+            $html[] = '<input type="button" value="' . htmlentities($this->locale['Display']) . '" ' . 'id="' . $this->getName() . '_expand_button" />';
+            $html[] = '<input style="display: none" type="button" value="' . htmlentities($this->locale['DisplayAlt']) . '" ' . 'id="' . $this->getName() . '_collapse_button" />';
+        }
+        else
+        {
+           $html[] = '<input style="display: none" type="button" value="' . htmlentities($this->locale['Display']) . '" ' . 'id="' . $this->getName() . '_expand_button" />';
+           $html[] = '<input type="button" value="' . htmlentities($this->locale['DisplayAlt']) . '" ' . 'id="' . $this->getName() . '_collapse_button" />';
+        }
+        
         $id = 'tbl_' . $this->getName();
 
         $html[] = '<div class="element_finder" id="' . $id . '" style="' . ($this->isCollapsed() ? ' display: none;' : '') . '">';
@@ -185,12 +197,6 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
         // Make sure everything is within the general div.
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-
-        if ($this->isCollapsed())
-        {
-            //$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '.'onclick="document.getElementById(\''.$id.'\').style.display = \'\'; this.style.display = \'none\'; document.getElementById(\''.$this->getName().'_search_field\').focus();" id="'.$this->getName().'_expand_button" />';
-            $html[] = '<input type="button" value="' . htmlentities($this->locale['Display']) . '" ' . 'id="' . $this->getName() . '_expand_button" />';
-        }
 
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js');
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.elementfinder.js');

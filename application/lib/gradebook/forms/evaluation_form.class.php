@@ -3,24 +3,30 @@
 class EvaluationForm extends FormValidator
 {/*
 	
-	private $auto_generate_evaluation_publications = array();
+	private $auto_generate_evaluation_applications = array('assessment',...);
 	
 	
-	static function build_evaluation_question($publication)
+	static function build_evaluation_question($form)
 	{
-		if(array_key_exists($publication, $auto_generate_evaluation_publications))
+		if(array_key_exists($publication, $auto_generate_evaluation_applications))
 		{
 		$choices = array();
         $choices[] = $this->createElement('checkbox', self :: EVALUATION, '', Translation :: get('Evaluation'));
-        $this->addGroup($choices, null, Translation :: get('IsEvaluation'), '<br />', false);
-        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . self :: EVALUATION . '_window">');
-        $this->addElement('html', '</div>');
-        dump('echo');
+        $form->addGroup($choices, null, Translation :: get('IsEvaluation'), '<br />', false);
+        $form->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . self :: EVALUATION . '_window">');
+        $form->addElement('html', '</div>');
+{
 		}
 		else
 		{
-			echo 'null';
+		$choices = array();
+        $choices[] = $this->createElement('checkbox', self :: EVALUATION, '', Translation :: get('Evaluation'));
+        $form->addGroup($choices, null, Translation :: get('IsEvaluation'), '<br />', false);
+        $form->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . self :: EVALUATION . '_window">');
+        $form->addElement('select', Translation :: get('FormatType') ,Translation :: get('FormatType') . ':', DatabaseGradebookDatamanager :: get_instance()->retrieve_all_active_evaluation_formats());
+        $form->addElement('html', '</div>');
 		}
+		return $form;
 	}*/
 }
 
