@@ -4,7 +4,7 @@
  * @package user.lib.forms
  */
 
-ini_set("max_execution_time", - 1);
+set_time_limit(0);
 ini_set("memory_limit", - 1);
 
 class UserImportForm extends FormValidator
@@ -62,13 +62,12 @@ class UserImportForm extends FormValidator
     function import_users()
     {
         $values = $this->exportValues();
-        set_time_limit(0);
-        ini_set('memory_limit', '-1');
+        
         $csvusers = $this->parse_file($_FILES['file']['tmp_name'], $_FILES['file']['type']);
         $validusers = array();
         
         $failures = 0;
-        //dump($csvusers);
+
         foreach ($csvusers as $csvuser)
         {
         	$validuser = $this->validate_data($csvuser);
@@ -83,7 +82,7 @@ class UserImportForm extends FormValidator
             	$validusers[] = $validuser;
             }
         }
-        
+      
     	if ($failures > 0)
         {
             return false;
@@ -211,7 +210,14 @@ class UserImportForm extends FormValidator
 
     function get_failed_csv()
     {
-        return implode($this->failedcsv, '<br />');
+        //return implode($this->failedcsv, '<br />');
+        $short_list = array_chunk($this->failedcsv, 10);
+        return implode($short_list[0], '<br />');
+    }
+    
+    function count_failed_items()
+    {
+    	return count($this->failedcsv);
     }
 
     function validate_data($csvuser)
@@ -286,11 +292,10 @@ class UserImportForm extends FormValidator
 
     function parse_file($file_name, $file_type)
     {
-        echo "test";
         $this->users = array(); dump($file_type);
         if ($file_type == 'text/csv' || $file_type == 'application/vnd.ms-excel' || $file_type == 'application/octet-stream' || $file_type == 'application/force-download')
-        {echo "test";
-            $this->users = Import :: csv_to_array($file_name); echo "test";
+        {
+            $this->users = Import :: csv_to_array($file_name);
         }
         elseif ($file_type == 'text/xml')
         {
