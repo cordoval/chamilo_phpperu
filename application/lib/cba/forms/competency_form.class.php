@@ -112,38 +112,25 @@ class CompetencyForm extends FormValidator
 		$attributes['locale'] = $locale;
 		$attributes['defaults'] = array();
 
-		//dump($competency_indicator);
-		$indicator_id = $competency_indicator->get_indicator_id();
-		$cdm = CbaDataManager :: get_instance(); 
-		$indicator = $cdm->retrieve_indicator($indicator_id);
-		
-		$indicators = array();
-		$indicator_id_exclude = $indicator_id - 1;
-        $indicators['id'] = 'indicator_'.$indicator_id_exclude;
-        $indicators['classes'] = 'type type_cda_language';
-        $indicators['title'] = $indicator->get_title();
-        $indicators['description'] = $indicator->get_description();
-            
-        $attributes['defaults'][$indicators['id']] = $indicators;
-		
-		/*
-    	$cdm = CbaDataManager :: get_instance();     
-        //$target_indicators = $this->competency_indicator->get_target_indicators();
-        
-        $defaults[self :: PARAM_TARGET_ELEMENTS] = array();
+		if($competency_indicator)
+		{
+			$cdm = CbaDataManager :: get_instance(); 
+			$target_indicators = $this->competency_indicator->get_target_indicators();
 
-        foreach ($target_indicators as $target_indicator)
-        {
-            $indicator = $cdm->retrieve_indicator($target_indicator);
-            
-            $selected_indicator = array();
-            $selected_indicator['id'] = 'user_' . $indicator->get_id();
-            $selected_indicator['classes'] = 'type type_cda_language';
-            $selected_indicator['title'] = $indicator->get_title();
-            $selected_indicator['description'] = $indicator->get_description();
-            
-            $defaults[self :: PARAM_TARGET_ELEMENTS][$selected_indicator['id']] = $selected_indicator;
-        }*/	
+			
+			foreach($target_indicators as $index => $value)
+			{
+				$indicator = $cdm->retrieve_indicator($value + 1);
+				$indicators = array();
+	
+		        $indicators['id'] = 'indicator_'. $value;
+		        $indicators['classes'] = 'type type_cda_language';
+		        $indicators['title'] = $value + 1;
+		        $indicators['title'] = $indicator->get_title();
+		        $indicators['description'] = '';//$indicator->get_description();
+				$attributes['defaults'][$indicators['id']] = $indicators;
+			}
+		}
         
         $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
     	
@@ -182,7 +169,7 @@ class CompetencyForm extends FormValidator
     {
         return $this->owner_id;
     }
-    
+ 
    
     // Create and Update functions (Competency)
     
@@ -298,6 +285,6 @@ class CompetencyForm extends FormValidator
     	$defaults[Competency :: PROPERTY_DESCRIPTION] = $competency->get_description();
     	
 		parent :: setDefaults($defaults);
-	}	
+	}
 }
 ?>
