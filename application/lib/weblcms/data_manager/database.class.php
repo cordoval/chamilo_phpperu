@@ -655,7 +655,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function get_course_modules($course_code)
 	{
-		$query = 'SELECT * FROM ' . $this->database->escape_table_name('course_module') . ' WHERE course_id = ' . $this->quote($course_code);
+		$query = 'SELECT * FROM ' . $this->database->escape_table_name('course_module') . ' WHERE course_id = ' . $this->quote($course_code) . ' ORDER BY sort';
 		$res = $this->query($query);
 		$modules = array();
 		$module = null;
@@ -679,6 +679,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(Course :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(Course :: get_table_name(), $condition);
+	}
+	
+	function retrieve_course_module($id)
+	{
+		$condition = new EqualityCondition(CourseModule :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(CourseModule :: get_table_name(), $condition);
 	}
 
 	function retrieve_course_settings($id)
@@ -822,7 +828,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 
 		$admin_tools = $this->get_tools('course_admin');
-		foreach($admin_tools as $tool_name)
+		foreach($admin_tools as $index => $tool_name)
 		{
 			$section_id = $sections[CourseSection :: TYPE_ADMIN][0]->get_id();
 			$module = new CourseModule();
@@ -830,6 +836,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$module->set_name($tool_name);
 			$module->set_visible(1);
 			$module->set_section($section_id);
+			$module->set_sort($index);
 			if(!$this->create_course_module($module))
 			return false;
 		}
@@ -1359,7 +1366,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$conditions[] = new EqualityCondition(CourseModule :: PROPERTY_NAME, $module);
 		$condition = new AndCondition($conditions);
 
-		$properties = array(CourseModule :: PROPERTY_VISIBLE, $visible);
+		$properties = array(CourseModule :: PROPERTY_VISIBLE => $visible);
 		return $this->database->update_objects(CourseModule :: get_table_name(), $properties, $condition);
 	}
 

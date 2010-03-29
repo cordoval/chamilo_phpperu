@@ -112,11 +112,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				switch ($component_action)
 				{
 					case 'make_visible' :
-						$wdm->set_module_visible($this->get_course_id(), $tool, true);
+						$wdm->set_module_visible($this->get_course_id(), $tool, 1);
 						$this->load_tools();
 						break;
 					case 'make_invisible' :
-						$wdm->set_module_visible($this->get_course_id(), $tool, false);
+						$wdm->set_module_visible($this->get_course_id(), $tool, 0);
 						$this->load_tools();
 						break;
 					case 'make_publication_invisible' :
@@ -329,7 +329,16 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			$title_short = substr($title_short, 0, 50) . '&hellip;';
 		}
 
-		if ($this->is_teacher() && $this->get_course()->get_student_view() == 1)
+		$wdm = WeblcmsDataManager :: get_instance();
+		$tools = $wdm->get_tools('course_admin');
+		$admin_tool = false;
+		foreach($tools as $tool)
+		{
+			if($tool_class == $tool)
+				$admin_tool = true;
+		}
+		
+		if ($this->is_teacher() && $this->get_course()->get_student_view() == 1 && !$admin_tool)
 		{
 			$studentview = Session :: retrieve('studentview');
 

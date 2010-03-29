@@ -491,7 +491,7 @@ class CourseForm extends FormValidator
 	function fill_course_tools($tools)
 	{
 		$tools_array = array();
-		foreach($tools as $tool)
+		foreach($tools as $index -> $tool)
 		{
 			if(!empty($this->course_type_id))
 				$tool = $tool->get_name();
@@ -501,6 +501,7 @@ class CourseForm extends FormValidator
 			$course_module->set_name($tool);
 			$course_module->set_visible($this->parse_checkbox_value($this->getSubmitValue($element_default)));
 			$course_module->set_section("basic");
+			$course_module->set_sort($index);
 			$tools_array[] = $course_module;
 		}
 		return $tools_array;
