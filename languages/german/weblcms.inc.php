@@ -309,7 +309,6 @@ $lang['weblcms']['PhysicalLocationFormTitle'] = '';
 $lang['weblcms']['PhysicalLocationFormDescription'] = '';
 $lang['weblcms']['PhysicalLocationFormProperties'] = '';
 $lang['weblcms']['NotYetAllowedToView'] = '';
-$lang['weblcms']['BuildComplexContentObject'] = '';
 $lang['weblcms']['ViewGlossary'] = '';
 $lang['weblcms']['UpNA'] = '';
 $lang['weblcms']['DownNA'] = '';

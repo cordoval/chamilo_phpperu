@@ -145,7 +145,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 
-		$success &= $wdm->create_course_modules($course_modules, 1);
+		$succes &= $wdm->create_course_modules($course_modules, 1);
 
 		return $succes;
 	}

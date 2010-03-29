@@ -2,7 +2,7 @@
 class GradebookLastUsedEvaluationKey extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    const TABLE_NAME = 'internal_evaluation';
+    const TABLE_NAME = 'last_used_evaluation_key';
     
 
     static function get_defualt_property_names()

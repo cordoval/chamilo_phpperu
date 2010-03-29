@@ -25,7 +25,17 @@ class AssessmentAttemptsTemplate extends ReportingTemplate
         if ($this->assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
             $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('DownloadDocuments'), Theme :: get_common_image_path() . 'action_export.png', $parent->get_download_documents_url($this->pub), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
     }
-
+    
+	function display_context()
+	{
+		//publicatie, content_object, application ... 
+	}
+    
+	function get_application()
+    {
+    	return AssessmentManager::APPLICATION_NAME;
+    }
+    
     /**
      * @see ReportingTemplate -> get_properties()
      */
@@ -43,18 +53,15 @@ class AssessmentAttemptsTemplate extends ReportingTemplate
      */
     function to_html()
     {
-        //template header
-        $html[] = $this->get_header();
-        //$html[] = '<div class="reporting_center">';
-        //show visible blocks
+        //$html[] = $this->get_header();
+        //$html[] = $this->get_content_object_data();
+        //$html[] = $this->get_visible_reporting_blocks();
+        //$html[] = $this->get_footer();
         
-
+        $html[] = $this->display_header();
         $html[] = $this->get_content_object_data();
-        
-        $html[] = $this->get_visible_reporting_blocks();
-        //$html[] = '</div>';
-        //template footer
-        $html[] = $this->get_footer();
+        $html[] = $this->render_blocks();
+        $html[] = $this->display_footer();
         
         return implode("\n", $html);
     }

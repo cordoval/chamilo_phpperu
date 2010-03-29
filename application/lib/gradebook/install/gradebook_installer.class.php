@@ -56,9 +56,14 @@ class GradebookInstaller extends Installer
     			{
     				return false;
     			}
+    			else
+    			{
+    				require_once $root . 'evaluation_format.class.php';
+    				$ev = EvaluationFormat :: factory(ucfirst($folder));
+    			}
     			$gef = new GradebookEvaluationFormat();
     			$gef->set_evaluation_format($folder);
-    			$gef->set_active(1);
+    			$gef->set_active($ev->get_default_active_value());
 
     			if($gef->create())
     			{

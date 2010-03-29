@@ -1628,6 +1628,53 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
     	return ($failures == 0);
     }
+    
+    function retrieve_doubles_in_repository($condition, $order_property, $offset, $count)
+    {
+    	$co_table = $this->database->escape_table_name(ContentObject :: get_table_name());
+    	$co_alias = $this->database->get_alias(ContentObject :: get_table_name());
+    	$version_table = $this->database->escape_table_name('content_object_version');
+    	$version_alias = $this->database->get_alias('content_object_version');
 
+    	$sql = 'SELECT ' . $co_alias . '.id, title, description, type, count(content_hash) as content_hash FROM ' . $co_table . ' as ' . $co_alias . ' 
+				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias  . '.id = ' . $version_alias . '.id';
+    	
+    	if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this->database, $co_alias);
+            $sql .= $translator->render_query($condition);
+        }
+	
+        $sql .= ' GROUP BY content_hash HAVING count(content_hash) > 1';
+    	
+    	return $this->database->retrieve_object_set($sql, ContentObject :: get_table_name(), null, $offset, $count, $order_property);
+    }
+    
+    function count_doubles_in_repository($condition)
+    {
+    	$co_table = $this->database->escape_table_name(ContentObject :: get_table_name());
+    	$co_alias = $this->database->get_alias(ContentObject :: get_table_name());
+    	$version_table = $this->database->escape_table_name('content_object_version');
+    	$version_alias = $this->database->get_alias('content_object_version');
+    	
+    	$sql = 'SELECT COUNT(*) FROM ' . $co_table . ' as ' . $co_alias . ' 
+				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias  . '.id = ' . $version_alias . '.id';
+    	
+    	if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this->database, $co_alias);
+            $sql .= $translator->render_query($condition);
+        }
+	
+        $sql .= ' GROUP BY content_hash HAVING count(content_hash) > 1';
+    	
+    	return $this->database->count_result_set($sql, ContentObject :: get_table_name());
+    }
+    
+    function retrieve_doubles_from_content_object($condition, $order_property, $offset, $count)
+    {
+    	
+    }
+    
 }
 ?>

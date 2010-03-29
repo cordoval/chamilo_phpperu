@@ -703,6 +703,7 @@ class Document extends ContentObject
                     $this->set_filesize($file_bytes);
                     $this->set_path($relative_path);
                     $this->set_hash($unique_hash);
+                    $this->set_content_hash(md5_file($path_to_save));
                 }
                 else
                 {

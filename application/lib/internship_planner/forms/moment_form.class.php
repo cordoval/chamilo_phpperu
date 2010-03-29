@@ -39,8 +39,8 @@ class MomentForm extends FormValidator
 		$this->addElement('text', Moment :: PROPERTY_ID, Translation :: get('Id'));
 		$this->addRule(Moment :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', Moment :: PROPERTY_USER_ID, Translation :: get('UserId'));
-		$this->addRule(Moment :: PROPERTY_USER_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', Moment :: PROPERTY_LOCATION_ID, Translation :: get('UserId'));
+		$this->addRule(Moment :: PROPERTY_LOCATION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
 		$this->addElement('text', Moment :: PROPERTY_BEGIN, Translation :: get('Begin'));
 		$this->addRule(Moment :: PROPERTY_BEGIN, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -81,7 +81,7 @@ class MomentForm extends FormValidator
     	$values = $this->exportValues();
 
     	$moment->set_id($values[Moment :: PROPERTY_ID]);
-    	$moment->set_user_id($values[Moment :: PROPERTY_USER_ID]);
+    	$moment->set_user_id($values[Moment :: PROPERTY_LOCATION_ID]);
     	$moment->set_begin($values[Moment :: PROPERTY_BEGIN]);
     	$moment->set_end($values[Moment :: PROPERTY_END]);
     	$moment->set_category_id($values[Moment :: PROPERTY_CATEGORY_ID]);
@@ -95,7 +95,7 @@ class MomentForm extends FormValidator
     	$values = $this->exportValues();
 
     	$moment->set_id($values[Moment :: PROPERTY_ID]);
-    	$moment->set_user_id($values[Moment :: PROPERTY_USER_ID]);
+    	$moment->set_user_id($values[Moment :: PROPERTY_LOCATION_ID]);
     	$moment->set_begin($values[Moment :: PROPERTY_BEGIN]);
     	$moment->set_end($values[Moment :: PROPERTY_END]);
     	$moment->set_category_id($values[Moment :: PROPERTY_CATEGORY_ID]);
@@ -112,7 +112,7 @@ class MomentForm extends FormValidator
 		$moment = $this->moment;
 
     	$defaults[Moment :: PROPERTY_ID] = $moment->get_id();
-    	$defaults[Moment :: PROPERTY_USER_ID] = $moment->get_user_id();
+    	$defaults[Moment :: PROPERTY_LOCATION_ID] = $moment->get_user_id();
     	$defaults[Moment :: PROPERTY_BEGIN] = $moment->get_begin();
     	$defaults[Moment :: PROPERTY_END] = $moment->get_end();
     	$defaults[Moment :: PROPERTY_CATEGORY_ID] = $moment->get_category_id();

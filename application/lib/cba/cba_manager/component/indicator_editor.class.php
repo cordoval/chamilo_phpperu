@@ -14,18 +14,29 @@ class CbaManagerIndicatorEditorComponent extends CbaManagerComponent
 	 */
 	function run()
 	{
-		//$trail = new BreadcrumbTrail();
-		//$trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('BrowseCba')));
-		//$trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CBAS)), Translation :: get('BrowseCbas')));
-		//$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateCompetency')));
-
+		$ids = Request :: get(CbaManager :: PARAM_INDICATOR);
+        if (! empty($ids))
+        {
+	        if (!is_array($ids))
+	        {
+	        	$ids = array($ids);
+	        }
+        }
+		
 		$indicator = $this->retrieve_indicator(Request :: get(CbaManager :: PARAM_INDICATOR));
 		$form = new IndicatorForm(IndicatorForm :: TYPE_EDITOR_INDICATOR, $indicator, $this->get_url(array(CbaManager :: PARAM_INDICATOR => $indicator->get_id())), $this->get_user());
 
 		if($form->validate())
 		{
 			$success = $form->update_indicator();
-			$this->redirect($success ? Translation :: get('IndicatorUpdated') : Translation :: get('IndicatorNotUpdated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_INDICATOR));
+			
+			foreach ($ids as $id)
+            {
+				$indicator = $this->retrieve_indicator($id);
+           		$new_category_id = $this->move_indicators_to_category($form, $ids, $indicator);	
+            }
+			
+			$this->redirect($success ? Translation :: get('IndicatorUpdated') : Translation :: get('IndicatorNotUpdated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_INDICATOR, 'category' => $new_category_id));// array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_INDICATOR));        
 		}
 		else
 		{
@@ -34,6 +45,19 @@ class CbaManagerIndicatorEditorComponent extends CbaManagerComponent
 		}
 		$this->display_footer();
 	}
+	
+	function move_indicators_to_category($form, $ids, $indicator)
+    {    	
+        $category = $form->exportValue(Indicator :: PROPERTY_PARENT_ID);
+        if (! is_array($ids))
+            $ids = array($ids);
+        
+        $condition = new InCondition(Indicator :: PROPERTY_ID, $ids);
+        $cdm = CbaDataManager :: get_instance()->retrieve_indicators($condition);        
+        $indicator->move($category);
+
+        return $category;
+    }
 	
 	function display_footer()
 	{

@@ -55,8 +55,10 @@ class CriteriaForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-    	$this->addElement('select', Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories); 	
-        $this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$select = $this->add_select(Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $category_id = Request :: get(CbaManager :: PARAM_CATEGORY_ID);
+		$select->setSelected($category_id);
+    	$this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
 		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -78,11 +80,9 @@ class CriteriaForm extends FormValidator
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-        $this->addElement('select', Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
-        
-        
-        
-        $this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+        $select = $this->add_select(Criteria :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
+        $select->setSelected($this->criteria->get_parent_id());
+    	$this->addRule(Criteria :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');

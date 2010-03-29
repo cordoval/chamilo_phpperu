@@ -9,9 +9,10 @@ require_once dirname(__FILE__) . '/../../reporting/reporting_survey.class.php';
 
 require_once dirname(__FILE__) . '/../../trackers/survey_question_answer_tracker.class.php';
 require_once dirname(__FILE__) . '/../../trackers/survey_participant_tracker.class.php';
-require_once (Path :: get_application_path() . 'lib/survey/reporting/templates/survey_participation_summary_template.class.php');
-require_once (Path :: get_application_path() . 'lib/survey/reporting/templates/survey_question_answers_template.class.php');
-require_once (Path :: get_application_path() . 'lib/survey/reporting/templates/survey_question_results_template.class.php');
+require_once PATH :: get_application_path() . '/lib/survey/reporting/templates/survey_attempt_reporting_template.class.php';
+//require_once (Path :: get_application_path() . 'lib/survey/reporting/templates/survey_participation_summary_template.class.php');
+//require_once (Path :: get_application_path() . 'lib/survey/reporting/templates/survey_question_answers_template.class.php');
+//require_once (Path :: get_application_path() . 'lib/survey/reporting/templates/survey_question_results_template.class.php');
 
 /**
  * Component to create a new survey_publication object
@@ -116,8 +117,8 @@ class SurveyManagerResultsViewerComponent extends SurveyManagerComponent
         $parameters[ReportingSurvey :: PARAM_SURVEY_CATEGORY] = $current_category;
         $parameters[ReportingSurvey :: PARAM_SURVEY_URL] =  $this->get_url();
         $parameters[ReportingSurvey :: PARAM_SURVEY_PARTICIPANT] = $this->get_user_id();
-        $template = new SurveyParticipationSummaryTemplate($this, 0, $parameters, null);
-        $template->set_reporting_blocks_function_parameters($parameters);
+        $template = new SurveyAttemptReportingTemplate($this);
+        //$template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();
     }
 
@@ -128,9 +129,10 @@ class SurveyManagerResultsViewerComponent extends SurveyManagerComponent
         $results_export_url = $this->get_results_exporter_url();
         $user_id = $this->get_user_id();
         
-        $parameters = array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid, 'url' => $url, 'results_export_url' => $results_export_url, 'user_id' => $user_id);
-        $template = new SurveyQuestionAnswersTemplate($this, 0, $parameters, null, $pid);
-        $template->set_reporting_blocks_function_parameters($parameters);
+        $parameters = array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid/*, 'url' => $url, 'results_export_url' => $results_export_url, 'user_id' => $user_id*/);
+        $template = new SurveyAttemptReportingTemplate($this);
+        $template->set_parameters($parameters);
+        //$template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();
     }
 

@@ -349,7 +349,7 @@ abstract class Installer
      */
     function register_reporting_block($array)
     {
-        return ReportingBlocks :: create_reporting_block($array);
+        return ReportingBlocks :: create_reporting_block_registration($array);
     }
 
     function register_reporting_template(&$props)
@@ -363,42 +363,40 @@ abstract class Installer
         
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
         
-        $file = $base_path . $application . '/reporting/reporting_blocks.xml';
-        
-        //$this->add_message(self :: TYPE_NORMAL, $file);
-        
-
-        if (file_exists($file))
+        $dirblock = $base_path . $application . '/reporting/blocks';
+        echo($dirblock);
+        if (is_dir($dirblock))
         {
-            $xml = $this->extract_xml_file($file);
-            
-            $block = $xml['reporting_block'];
-            if (array_key_exists('name', $block))
-            { //1 block only
-                if ($this->register_reporting_block($block)) //$value = array
-                {
-                    $this->add_message(self :: TYPE_NORMAL, 'Registered reporting block: <em>' . $block['name'] . '</em>');
-                }
-                else
-                {
-                    $this->installation_failed(Translation :: get('ReportingBlockRegistrationFailed') . ': <em>' . $block['name'] . '</em>');
-                }
-            }
-            else
+        $files = Filesystem :: get_directory_content($dirblock, Filesystem :: LIST_FILES);
+            print_r($files);
+            if (count($files) > 0)
             {
-                foreach ($xml["reporting_block"] as $key => $value)
+                foreach ($files as $file)
                 {
-                    if ($this->register_reporting_block($value)) //$value = array
+                    if ((substr($file, - 16) == '_block.class.php'))
                     {
-                        $this->add_message(self :: TYPE_NORMAL, 'Registered reporting block: <em>' . $value['name'] . '</em>');
-                    }
-                    else
-                    {
-                        $this->installation_failed(Translation :: get('ReportingBlockRegistrationFailed') . ': <em>' . $value['name'] . '</em>');
+                        require_once ($file);
+                        $bla = explode('.', basename($file));
+                        $classname = Utilities :: underscores_to_camelcase($bla[0]);
+                        $block = $bla[0];
+                        //$method = new ReflectionMethod($classname, 'get_properties');
+                        //$props = $method->invoke(null);
+                        $props = array();
+                        $props[ReportingBlockRegistration :: PROPERTY_APPLICATION] = $application;
+                        $props[ReportingBlockRegistration :: PROPERTY_BLOCK] = $block;
+                        if ($this->register_reporting_block($props))
+                        {
+                            $this->add_message(self :: TYPE_NORMAL, 'Registered reporting block: <em>' . $props['title'] . '</em>');
+                        }
+                        else
+                        {
+                            $this->installation_failed(Translation :: get('ReportingBlockRegistrationFailed') . ': <em>' . $props['title'] . '</em>');
+                        }
                     }
                 }
             }
         }
+        
         $dir = $base_path . $application . '/reporting/templates';
         if (is_dir($dir))
         {
@@ -413,10 +411,12 @@ abstract class Installer
                         require_once ($file);
                         $bla = explode('.', basename($file));
                         $classname = Utilities :: underscores_to_camelcase($bla[0]);
-                        $method = new ReflectionMethod($classname, 'get_properties');
-                        $props = $method->invoke(null);
+                        $template = $bla[0];
+                        //$method = new ReflectionMethod($classname, 'get_properties');
+                        //$props = $method->invoke(null);
+                        $props = array();
                         $props[ReportingTemplateRegistration :: PROPERTY_APPLICATION] = $application;
-                        $props[ReportingTemplateRegistration :: PROPERTY_CLASSNAME] = $classname;
+                        $props[ReportingTemplateRegistration :: PROPERTY_TEMPLATE] = $template;
                         if ($this->register_reporting_template($props))
                         {
                             $this->add_message(self :: TYPE_NORMAL, 'Registered reporting template: <em>' . $props['title'] . '</em>');
