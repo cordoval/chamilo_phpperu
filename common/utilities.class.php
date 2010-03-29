@@ -546,5 +546,18 @@ class Utilities
         Translation :: set_application($application);
         Theme :: set_application($application);
     }
+    
+    static function display_true_false_icon($value)
+    {
+    	if($value)
+    	{
+    		$icon =  'action_setting_true.png';
+    	}
+    	else
+    	{
+    		$icon = 'action_setting_false.png';
+    	}
+    	return '<img src="' . Theme :: get_common_image_path() . $icon . '">';
+    }
 }
 ?>

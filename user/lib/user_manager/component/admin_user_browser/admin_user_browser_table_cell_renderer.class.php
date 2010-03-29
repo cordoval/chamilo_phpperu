@@ -53,23 +53,9 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
                     return Translation :: get('Student');
                 }
             case User :: PROPERTY_PLATFORMADMIN :
-                if ($user->get_platformadmin() == '1')
-                {
-                    return Translation :: get('True');
-                }
-                else
-                {
-                    return Translation :: get('False');
-                }
+            	return Utilities :: display_true_false_icon($user->get_platformadmin());
             case User :: PROPERTY_ACTIVE:
-            	if($user->get_active())
-            	{
-            		return Translation :: get('True');
-            	}
-            	else
-            	{
-            		return Translation :: get('False');
-            	}
+            	return Utilities :: display_true_false_icon($user->get_active());
         }
         return parent :: render_cell($column, $user);
     }

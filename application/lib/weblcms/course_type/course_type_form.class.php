@@ -218,7 +218,7 @@ class CourseTypeForm extends FormValidator
 		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED, Translation :: get('CourseTypeLanguage'));
 		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED, Translation :: get('CourseTypeVisibility'));
 		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_ACCESS_FIXED, Translation :: get('CourseTypeAccess'));
-		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED , Translation :: get('CourseTypeMaxNumberOfMembers'));
+		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED , Translation :: get('MaximumNumberOfMembers'));
 		$this->addElement('category');
 
 		$this->addElement('html', "<script type=\"text/javascript\">
