@@ -17,11 +17,11 @@ class DoublesBrowserTable extends RepositoryBrowserTable
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
-    function DoublesBrowserTable($browser, $parameters, $condition)
+    function DoublesBrowserTable($browser, $parameters, $condition, $is_detail = false)
     {
-        $model = new DoublesBrowserTableColumnModel();
-        $renderer = new DoublesBrowserTableCellRenderer($browser);
-        $data_provider = new DoublesBrowserTableDataProvider($browser, $condition);
+        $model = new DoublesBrowserTableColumnModel($is_detail);
+        $renderer = new DoublesBrowserTableCellRenderer($browser, $is_detail);
+        $data_provider = new DoublesBrowserTableDataProvider($browser, $condition, $is_detail);
         parent :: ObjectTable($data_provider, DoublesBrowserTable :: DEFAULT_NAME, $model, $renderer);
         
         $actions = array();

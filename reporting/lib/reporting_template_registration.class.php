@@ -21,7 +21,7 @@ class ReportingTemplateRegistration extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_TEMPLATE, self :: PROPERTY_PLATFORM));
+    	return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_TEMPLATE, self :: PROPERTY_PLATFORM));
     }
 
     /**
@@ -56,7 +56,7 @@ class ReportingTemplateRegistration extends DataClass
 
     public function get_template()
     {
-        return $this->get_default_property(self :: PROPERTY_TEMPLATE);
+    	return $this->get_default_property(self :: PROPERTY_TEMPLATE);
     }
 
     public function set_template($value)
@@ -75,8 +75,8 @@ class ReportingTemplateRegistration extends DataClass
     }
 
     static function get_table_name()
-    {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    {   	
+    	return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 } //class ReportingTemplateRegistration
 ?>

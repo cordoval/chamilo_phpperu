@@ -119,9 +119,10 @@ class Reporting
         
         foreach ($trackerdata as $key => $value)
         {
-            $arr[$value->get_name()][] = $value->get_value();
+            $arr[$value->get_name()] = $value->get_value();
         }
-        return self :: get_serie_array($arr, $description);
+        return $arr;
+        //return self :: get_serie_array($arr, $description);
     } //array_from_tracker
 
     

@@ -2,15 +2,15 @@
 /*
  * @author Johan Janssens
  */
-class GradebookEvaluationFormat extends DataClass
+class Format extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
-    const TABLE_NAME = 'evaluation_format';
+    const TABLE_NAME = 'format';
     
     /**
-     * GradebookEvaluationFormat properties
+     * Format properties
      */
-    const PROPERTY_EVALUATION_FORMAT = 'evaluation_format';
+    const PROPERTY_TITLE = 'title';
     const PROPERTY_ACTIVE = 'active';
     /*
      * Possible active values
@@ -20,7 +20,7 @@ class GradebookEvaluationFormat extends DataClass
     
 	static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_EVALUATION_FORMAT, self :: PROPERTY_ACTIVE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TITLE, self :: PROPERTY_ACTIVE));
     }
 
     function get_data_manager()
@@ -29,30 +29,31 @@ class GradebookEvaluationFormat extends DataClass
     }
     // getters and setters
 	/**
-    * Sets the evaluation format of this GradebookEvaluationFormat.
+    * Sets the title of this Format.
+    * @param title.
     */	
-    function set_evaluation_format($evaluation_format)
+    function set_title($title)
     {
-    	$this->set_default_property(self :: PROPERTY_EVALUATION_FORMAT, $evaluation_format);
+    	$this->set_default_property(self :: PROPERTY_TITLE, $title);
     }  
 	/**
-    * Returns the evaluation format of this GradebookEvaluationFormat.
-    * @return the format.
+    * Returns the title of this Format.
+    * @return title.
     */	
-    function get_evaluation_form()
+    function get_title()
     {
-    	return $this->get_default_property(self :: PROPERTY_EVALUATION_FORMAT);
+    	return $this->get_default_property(self :: PROPERTY_TITLE);
     }
 
 	/**
-    * Sets the active property of this GradebookEvaluationFormat.
+    * Sets the active property of this Format.
     */	
     function set_active($active)
     {
     	$this->set_default_property(self :: PROPERTY_ACTIVE, $active);
     }  
 	/**
-    * Returns the active property of this GradebookEvaluationFormat.
+    * Returns the active property of this Format.
     * @return the format.
     */	
     function get_active()

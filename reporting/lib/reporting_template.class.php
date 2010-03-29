@@ -110,6 +110,11 @@ abstract class ReportingTemplate
 		{
 			$html[] = $this->get_reporting_block($block)->to_html();
 		}
+		else 
+		{
+			$keys = array_keys($this->get_reporting_blocks());
+			$html[] = $this->get_reporting_block($keys[0])->to_html();
+		}
 		$html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         return implode($html, "\n");
@@ -204,8 +209,10 @@ abstract class ReportingTemplate
             }
             $url = Redirect::get_link(ReportingManager::APPLICATION_NAME, $parameters, array(), false, Redirect::TYPE_CORE);
        
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), null, $url));
-        
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), Theme :: get_common_image_path() . 'export_pdf.png', $url));
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToXml'), null, $url));
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToCsv'), null, $url));
+                
         return $action_bar;
     }
     

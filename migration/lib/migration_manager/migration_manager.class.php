@@ -89,7 +89,7 @@ class MigrationManager extends CoreApplication
 		     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
         echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">' . "\n";
         echo '<head>' . "\n";
-        echo '<title>-- Dokeos Migration --</title>' . "\n";
+        echo '<title>-- Chamilo Migration --</title>' . "\n";
         echo '<link rel="stylesheet" href="../layout/aqua/css/common.css" type="text/css"/>' . "\n";
         echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . "\n";
         echo '</head>' . "\n";
@@ -100,7 +100,7 @@ class MigrationManager extends CoreApplication
         
         echo '<div id="header">  <!-- header section start -->' . "\n";
         echo '<div id="header1"> <!-- top of banner with institution name/hompage link -->' . "\n";
-        echo 'Dokeos Migration';
+        echo 'Chamilo Migration';
         
         echo '</div>' . "\n";
         echo '<div class="clear">&nbsp;</div>' . "\n";

@@ -14,14 +14,14 @@ class ReportingTableFormatter extends ReportingFormatter
     	$reporting_data = $this->get_block()->retrieve_data();
         /*$data = $reporting_data[0];
         $datadescription = $reporting_data[1];
-        
+
         if (Request :: get('table_' . $this->get_block->get_id() . '_column'))
         {
             $this->get_block->add_function_parameter('order_by', new ObjectTableOrder());
         }
-        
+
         $orientation = $datadescription[Reporting :: PARAM_ORIENTATION];
-        
+
         $j = 0;
         foreach ($data as $key => $value)
         {
@@ -34,7 +34,7 @@ class ReportingTableFormatter extends ReportingFormatter
             $data[$key] = $value;
             $j = 0;
         }
-        
+
         $table_headers = array();
         if ($orientation == Reporting :: ORIENTATION_HORIZONTAL)
         {
@@ -60,7 +60,7 @@ class ReportingTableFormatter extends ReportingFormatter
             $table_headers[] = '';
             foreach ($datadescription['Values'] as $serie)
             {
-                
+
                 if (array_key_exists($serie, $datadescription['Description']))
                 {
                     $table_headers[] = $datadescription['Description'][$serie];
@@ -69,18 +69,18 @@ class ReportingTableFormatter extends ReportingFormatter
                 {
                     $table_headers[] = $serie;
                 }
-            
+
             }
         }
-        
+
         $column = (isset($datadescription['default_sort_column'])) ? $datadescription['default_sort_column'] : 0;
         */
         /*if ($this->get_block->is_sortable())
             $table = new SortableTable('table_' . $this->get_block->get_id(), 'count_data', 'retrieve_data', $column);
         else*/
-            $table = new SortableTableFromArray($this->convert_reporting_data(), null, 5, 'table_' . $this->get_block()->get_name());
+            $table = new SortableTableFromArray($this->convert_reporting_data(), null, 20, 'table_' . $this->get_block()->get_name());
             //Todo: not a sortable table
-        
+
 
         /*foreach ($_GET as $key => $value)
         {
@@ -88,7 +88,7 @@ class ReportingTableFormatter extends ReportingFormatter
                 Request :: set_get($key, null);
         }
         $table->set_additional_parameters($_GET);
-        
+
         $j = 0;
         //foreach ($datadescription["Description"] as $key => $value)
         foreach ($table_headers as $key => $value)
@@ -99,7 +99,7 @@ class ReportingTableFormatter extends ReportingFormatter
                 $j ++;
             //}
         }
-        
+
         if (Request :: get('export'))
             return $table->toHTML_export();
             */
@@ -116,7 +116,7 @@ class ReportingTableFormatter extends ReportingFormatter
         }
         return $table->toHTML();
     }
-    
+
     public function convert_reporting_data()
     {
     	$reporting_data = $this->get_block()->retrieve_data();
@@ -133,7 +133,7 @@ class ReportingTableFormatter extends ReportingFormatter
     	}
     	return $table_data;
     }
-    
+
     function get_total_number_from_reporting_block()
     {
     	return $this->get_block->get_total_number();

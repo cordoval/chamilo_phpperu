@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<object name="last_used_evaluation_key">
-	<property name="id" type="integer" notnull="1" defualt="0" />
-</object>
