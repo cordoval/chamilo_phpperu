@@ -2,10 +2,9 @@
 <application name="menu">
 	<settings>
 		<category name="visual">
-			<setting name="show_sitemap" field="radio" default="0">
+			<setting name="show_sitemap" field="checkbox" default="0">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="show_sitemap" value="1" />
 				</options>
 			</setting>
 		</category>
