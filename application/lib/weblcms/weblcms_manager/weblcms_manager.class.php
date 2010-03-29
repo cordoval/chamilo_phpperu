@@ -953,7 +953,7 @@ class WeblcmsManager extends WebApplication
     
     function retrieve_active_course_types()
     {
-		return WeblcmsDataManager :: get_instance()->retrieve_active_course_type();
+		return WeblcmsDataManager :: get_instance()->retrieve_active_course_types();
     }
     
     function count_active_course_types()

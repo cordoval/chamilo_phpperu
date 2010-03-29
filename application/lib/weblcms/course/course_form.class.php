@@ -491,7 +491,8 @@ class CourseForm extends FormValidator
 	function fill_course_tools($tools)
 	{
 		$tools_array = array();
-		foreach($tools as $index -> $tool)
+		
+		foreach($tools as $index => $tool)
 		{
 			if(!empty($this->course_type_id))
 				$tool = $tool->get_name();

@@ -60,16 +60,16 @@ class CompetencyIndicator extends DataClass
 	{
 		if (! $this->target_indicators)
         {
-            $condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $this->get_id());
+            $condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $this->get_competency_id());
             $indicators = CbaDataManager :: get_instance()->retrieve_competencys_indicator($condition);
 
-            while ($indicators = $indicators->next_result())
+            while ($indicator = $indicators->next_result())
             {
-                $this->target_indicators[] = $indicators->get_id();
+                $this->target_indicators[] = $indicator->get_indicator_id();
             }
+            
         }
-
-        return $this->target_users;
+        return $this->target_indicators;
 	}
 	
 	function set_target_indicators($target_indicators)
