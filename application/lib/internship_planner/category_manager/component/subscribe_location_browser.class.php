@@ -61,17 +61,17 @@ class InternshipPlannerCategoryManagerSubscribeLocationBrowserComponent extends 
         $conditions = array();
         while ($category_rel_location = $category_rel_locations->next_result())
         {
-            $conditions[] = new NotCondition(new EqualityCondition(InternshipLocation :: PROPERTY_ID, $category_rel_location->get_location_id()));
+            $conditions[] = new NotCondition(new EqualityCondition(InternshipPlannerLocation :: PROPERTY_ID, $category_rel_location->get_location_id()));
         }
 
         $query = $this->ab->get_query();
 
         if (isset($query) && $query != '')
         {
-            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_NAME, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_CITY, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_STREET, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipPlannerLocation :: PROPERTY_NAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipPlannerLocation :: PROPERTY_CITY, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipPlannerLocation :: PROPERTY_STREET, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipPlannerLocation :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
             $conditions[] = new OrCondition($or_conditions);
         }
 

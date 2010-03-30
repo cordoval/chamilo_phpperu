@@ -34,22 +34,22 @@ class InternshipOrganisationManagerLocationDeleterComponent extends InternshipOr
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedInternshipLocationNotDeleted';
+					$message = 'SelectedInternshipPlannerLocationNotDeleted';
 				}
 				else
 				{
-					$message = 'Selected{InternshipLocationsNotDeleted';
+					$message = 'Selected{InternshipPlannerLocationsNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedInternshipLocationDeleted';
+					$message = 'SelectedInternshipPlannerLocationDeleted';
 				}
 				else
 				{
-					$message = 'SelectedInternshipLocationsDeleted';
+					$message = 'SelectedInternshipPlannerLocationsDeleted';
 				}
 			}
 
@@ -57,7 +57,7 @@ class InternshipOrganisationManagerLocationDeleterComponent extends InternshipOr
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoInternshipLocationsSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoInternshipPlannerLocationsSelected')));
 		}
 	}
 }

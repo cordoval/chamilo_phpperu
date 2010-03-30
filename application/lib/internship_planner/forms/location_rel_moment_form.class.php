@@ -2,11 +2,11 @@
 require_once dirname(__FILE__) . '/../location_rel_moment.class.php';
 
 /**
- * This class describes the form for a InternshipLocationRelMoment object.
+ * This class describes the form for a InternshipPlannerLocationRelMoment object.
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  **/
-class InternshipLocationRelMomentForm extends FormValidator
+class InternshipPlannerLocationRelMomentForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
@@ -14,7 +14,7 @@ class InternshipLocationRelMomentForm extends FormValidator
 	private $location_rel_moment;
 	private $user;
 
-    function InternshipLocationRelMomentForm($form_type, $location_rel_moment, $action, $user)
+    function InternshipPlannerLocationRelMomentForm($form_type, $location_rel_moment, $action, $user)
     {
     	parent :: __construct('location_rel_moment_settings', 'post', $action);
 
@@ -36,23 +36,23 @@ class InternshipLocationRelMomentForm extends FormValidator
 
     function build_basic_form()
     {
-		$this->addElement('text', InternshipLocationRelMoment :: PROPERTY_ID, Translation :: get('Id'));
-		$this->addRule(InternshipLocationRelMoment :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationRelMoment :: PROPERTY_ID, Translation :: get('Id'));
+		$this->addRule(InternshipPlannerLocationRelMoment :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', InternshipLocationRelMoment :: PROPERTY_MOMENT_ID, Translation :: get('MomentId'));
-		$this->addRule(InternshipLocationRelMoment :: PROPERTY_MOMENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationRelMoment :: PROPERTY_MOMENT_ID, Translation :: get('MomentId'));
+		$this->addRule(InternshipPlannerLocationRelMoment :: PROPERTY_MOMENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', InternshipLocationRelMoment :: PROPERTY_LOCATION_ID, Translation :: get('InternshipLocationId'));
-		$this->addRule(InternshipLocationRelMoment :: PROPERTY_LOCATION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationRelMoment :: PROPERTY_LOCATION_ID, Translation :: get('InternshipPlannerLocationId'));
+		$this->addRule(InternshipPlannerLocationRelMoment :: PROPERTY_LOCATION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', InternshipLocationRelMoment :: PROPERTY_MENTOR_ID, Translation :: get('MentorId'));
-		$this->addRule(InternshipLocationRelMoment :: PROPERTY_MENTOR_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationRelMoment :: PROPERTY_MENTOR_ID, Translation :: get('MentorId'));
+		$this->addRule(InternshipPlannerLocationRelMoment :: PROPERTY_MENTOR_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', InternshipLocationRelMoment :: PROPERTY_STATUS, Translation :: get('Status'));
-		$this->addRule(InternshipLocationRelMoment :: PROPERTY_STATUS, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationRelMoment :: PROPERTY_STATUS, Translation :: get('Status'));
+		$this->addRule(InternshipPlannerLocationRelMoment :: PROPERTY_STATUS, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', InternshipLocationRelMoment :: PROPERTY_PRIORITY, Translation :: get('Priority'));
-		$this->addRule(InternshipLocationRelMoment :: PROPERTY_PRIORITY, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationRelMoment :: PROPERTY_PRIORITY, Translation :: get('Priority'));
+		$this->addRule(InternshipPlannerLocationRelMoment :: PROPERTY_PRIORITY, Translation :: get('ThisFieldIsRequired'), 'required');
 
     }
 
@@ -60,7 +60,7 @@ class InternshipLocationRelMomentForm extends FormValidator
     {
     	$this->build_basic_form();
 
-    	//$this->addElement('hidden', InternshipLocationRelMoment :: PROPERTY_ID);
+    	//$this->addElement('hidden', InternshipPlannerLocationRelMoment :: PROPERTY_ID);
 
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -83,12 +83,12 @@ class InternshipLocationRelMomentForm extends FormValidator
     	$location_rel_moment = $this->location_rel_moment;
     	$values = $this->exportValues();
 
-    	$location_rel_moment->set_id($values[InternshipLocationRelMoment :: PROPERTY_ID]);
-    	$location_rel_moment->set_moment_id($values[InternshipLocationRelMoment :: PROPERTY_MOMENT_ID]);
-    	$location_rel_moment->set_location_id($values[InternshipLocationRelMoment :: PROPERTY_LOCATION_ID]);
-    	$location_rel_moment->set_mentor_id($values[InternshipLocationRelMoment :: PROPERTY_MENTOR_ID]);
-    	$location_rel_moment->set_status($values[InternshipLocationRelMoment :: PROPERTY_STATUS]);
-    	$location_rel_moment->set_priority($values[InternshipLocationRelMoment :: PROPERTY_PRIORITY]);
+    	$location_rel_moment->set_id($values[InternshipPlannerLocationRelMoment :: PROPERTY_ID]);
+    	$location_rel_moment->set_moment_id($values[InternshipPlannerLocationRelMoment :: PROPERTY_MOMENT_ID]);
+    	$location_rel_moment->set_location_id($values[InternshipPlannerLocationRelMoment :: PROPERTY_LOCATION_ID]);
+    	$location_rel_moment->set_mentor_id($values[InternshipPlannerLocationRelMoment :: PROPERTY_MENTOR_ID]);
+    	$location_rel_moment->set_status($values[InternshipPlannerLocationRelMoment :: PROPERTY_STATUS]);
+    	$location_rel_moment->set_priority($values[InternshipPlannerLocationRelMoment :: PROPERTY_PRIORITY]);
 
     	return $location_rel_moment->update();
     }
@@ -98,12 +98,12 @@ class InternshipLocationRelMomentForm extends FormValidator
     	$location_rel_moment = $this->location_rel_moment;
     	$values = $this->exportValues();
 
-    	$location_rel_moment->set_id($values[InternshipLocationRelMoment :: PROPERTY_ID]);
-    	$location_rel_moment->set_moment_id($values[InternshipLocationRelMoment :: PROPERTY_MOMENT_ID]);
-    	$location_rel_moment->set_location_id($values[InternshipLocationRelMoment :: PROPERTY_LOCATION_ID]);
-    	$location_rel_moment->set_mentor_id($values[InternshipLocationRelMoment :: PROPERTY_MENTOR_ID]);
-    	$location_rel_moment->set_status($values[InternshipLocationRelMoment :: PROPERTY_STATUS]);
-    	$location_rel_moment->set_priority($values[InternshipLocationRelMoment :: PROPERTY_PRIORITY]);
+    	$location_rel_moment->set_id($values[InternshipPlannerLocationRelMoment :: PROPERTY_ID]);
+    	$location_rel_moment->set_moment_id($values[InternshipPlannerLocationRelMoment :: PROPERTY_MOMENT_ID]);
+    	$location_rel_moment->set_location_id($values[InternshipPlannerLocationRelMoment :: PROPERTY_LOCATION_ID]);
+    	$location_rel_moment->set_mentor_id($values[InternshipPlannerLocationRelMoment :: PROPERTY_MENTOR_ID]);
+    	$location_rel_moment->set_status($values[InternshipPlannerLocationRelMoment :: PROPERTY_STATUS]);
+    	$location_rel_moment->set_priority($values[InternshipPlannerLocationRelMoment :: PROPERTY_PRIORITY]);
 
    		return $location_rel_moment->create();
     }
@@ -116,12 +116,12 @@ class InternshipLocationRelMomentForm extends FormValidator
 	{
 		$location_rel_moment = $this->location_rel_moment;
 
-    	$defaults[InternshipLocationRelMoment :: PROPERTY_ID] = $location_rel_moment->get_id();
-    	$defaults[InternshipLocationRelMoment :: PROPERTY_MOMENT_ID] = $location_rel_moment->get_moment_id();
-    	$defaults[InternshipLocationRelMoment :: PROPERTY_LOCATION_ID] = $location_rel_moment->get_location_id();
-    	$defaults[InternshipLocationRelMoment :: PROPERTY_MENTOR_ID] = $location_rel_moment->get_mentor_id();
-    	$defaults[InternshipLocationRelMoment :: PROPERTY_STATUS] = $location_rel_moment->get_status();
-    	$defaults[InternshipLocationRelMoment :: PROPERTY_PRIORITY] = $location_rel_moment->get_priority();
+    	$defaults[InternshipPlannerLocationRelMoment :: PROPERTY_ID] = $location_rel_moment->get_id();
+    	$defaults[InternshipPlannerLocationRelMoment :: PROPERTY_MOMENT_ID] = $location_rel_moment->get_moment_id();
+    	$defaults[InternshipPlannerLocationRelMoment :: PROPERTY_LOCATION_ID] = $location_rel_moment->get_location_id();
+    	$defaults[InternshipPlannerLocationRelMoment :: PROPERTY_MENTOR_ID] = $location_rel_moment->get_mentor_id();
+    	$defaults[InternshipPlannerLocationRelMoment :: PROPERTY_STATUS] = $location_rel_moment->get_status();
+    	$defaults[InternshipPlannerLocationRelMoment :: PROPERTY_PRIORITY] = $location_rel_moment->get_priority();
 
 		parent :: setDefaults($defaults);
 	}
