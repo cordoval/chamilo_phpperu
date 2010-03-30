@@ -1,10 +1,9 @@
 <?php
 require_once Path :: get_application_path() . 'lib/internship_planner/category_manager/component/browser/browser_table.class.php';
-require_once dirname ( __FILE__ ) . '/../category_menu.class.php';
+require_once dirname(__FILE__) . '/../category_menu.class.php';
 
 require_once Path :: get_application_path() . 'lib/internship_planner/category.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/category_rel_location.class.php';
-
 
 class InternshipPlannerCategoryManager extends SubManager
 {
@@ -112,8 +111,13 @@ class InternshipPlannerCategoryManager extends SubManager
     {
         return InternshipPlannerDataManager :: get_instance()->retrieve_internship_planner_category($id);
     }
-	
- 	function count_categories($conditions = null)
+
+    function retrieve_root_category()
+    {
+        return InternshipPlannerDataManager :: get_instance()->retrieve_root_category();
+    }
+
+    function count_categories($conditions = null)
     {
         return InternshipPlannerDataManager :: get_instance()->count_categories($conditions);
     }
@@ -122,9 +126,10 @@ class InternshipPlannerCategoryManager extends SubManager
     {
         return InternshipPlannerDataManager :: get_instance()->count_category_rel_locations($conditions);
     }
-    
+
     //url
     
+
     function get_category_editing_url($category)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CATEGORY, self :: PARAM_CATEGORY_ID => $category->get_id()));

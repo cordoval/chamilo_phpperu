@@ -112,14 +112,15 @@ abstract class NestedTreeNode extends DataClass
         }
         else
         {
-            $func = 'count_' . $this->get_object_name() . '_children';
-            
-            if(!method_exists($dm, $func))
-            {
-            	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-            }
-            
-        	return call_user_func(array($dm, $func), $this);
+        	return $dm->get_database()->count_children($this);
+//            $func = 'count_' . $this->get_object_name() . '_children';
+//            
+//            if(!method_exists($dm, $func))
+//            {
+//            	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//            }
+//            
+//        	return call_user_func(array($dm, $func), $this);
         }
     }
     
