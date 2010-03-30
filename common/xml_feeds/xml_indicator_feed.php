@@ -80,7 +80,7 @@ function dump_tree($indicator)
 	echo '<node id="indicator" classes="category unlinked" title="Indicators">', "\n";
 	foreach($indicator as $key => $value)
 	{
-		echo '<leaf id="indicator_'.$key.'" classes="type type_cda_language" title="'.$indicator[$key]->get_title().'" description=""/>' . "\n";	
+		echo '<leaf id="indicator_'.$indicator[$key]->get_id().'" classes="type type_cda_language" title="'.$indicator[$key]->get_title().'" description=""/>' . "\n";	
 	}
 	echo '</node>', "\n";
 }

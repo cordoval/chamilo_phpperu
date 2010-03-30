@@ -286,7 +286,7 @@ class CriteriaForm extends FormValidator
         $_SESSION['mc_number_of_options'] = $number_options;
         if (! isset($_SESSION['mc_number_of_options']))
         {
-            $_SESSION['mc_number_of_options'] = 1;
+            $_SESSION['mc_number_of_options'] = 2;
         }
         else
         {
@@ -301,6 +301,7 @@ class CriteriaForm extends FormValidator
         if (isset($_POST['add']))
         {
             $_SESSION['mc_number_of_options'] = $_SESSION['mc_number_of_options'] + 1;
+            $number_options++;
         }
         if (isset($_POST['remove']))
         {
@@ -360,10 +361,29 @@ class CriteriaForm extends FormValidator
 				$group[] = $this->add_option_number_field($option_number);
 				$group[] = $this->add_description_score_field($option_number);
                 $group[] = $this->add_score_field($option_number);
-				
+
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 1)
                 {
-                	$group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                	if($option_number == 0)
+                	{
+                		$group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                		$group[] = $this->createElement('image', 'up[' . $option_number . ']', Theme :: get_common_image_path() . 'action_up_na.png', array('class' => 'up_option', 'id' => 'up_' . $option_number)); 
+						$group[] = $this->createElement('image', 'down[' . $option_number . ']', Theme :: get_common_image_path() . 'action_down.png', array('class' => 'down_option', 'id' => 'down_' . $option_number)); 
+                	}
+                	elseif($option_number > 0)
+                	{
+                		$group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                		$group[] = $this->createElement('image', 'up[' . $option_number . ']', Theme :: get_common_image_path() . 'action_up.png', array('class' => 'up_option', 'id' => 'up_' . $option_number)); 
+
+                		if($number_of_options == ($option_number + 1))
+                		{
+                			$group[] = $this->createElement('image', 'down[' . $option_number . ']', Theme :: get_common_image_path() . 'action_down_na.png', array('class' => 'down_option', 'id' => 'down_' . $option_number));               
+                		}
+                		else
+                		{
+                			$group[] = $this->createElement('image', 'down[' . $option_number . ']', Theme :: get_common_image_path() . 'action_down.png', array('class' => 'down_option', 'id' => 'down_' . $option_number));               
+                		}
+                	}
                 }
                 $this->addGroup($group, PlatformCategory :: PROPERTY_NAME . $option_number, Translation :: get('CriteriaOptionNumber'), '&nbsp;', false);
 

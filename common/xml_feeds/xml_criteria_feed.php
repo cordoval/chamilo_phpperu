@@ -80,7 +80,7 @@ function dump_tree($criteria)
 	echo '<node id="criteria" classes="category unlinked" title="Criteria">', "\n";
 	foreach($criteria as $key => $value)
 	{
-		echo '<leaf id="criteria_'.$key.'" classes="type type_cda_language" title="'.$criteria[$key]->get_title().'" description=""/>' . "\n";	
+		echo '<leaf id="criteria_'.$criteria[$key]->get_id().'" classes="type type_cda_language" title="'.$criteria[$key]->get_title().'" description=""/>' . "\n";	
 	}
 	echo '</node>', "\n";
 }
