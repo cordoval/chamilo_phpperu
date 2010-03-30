@@ -66,7 +66,24 @@ class AdminManagerLogViewerComponent extends AdminManagerComponent
         $renderer = & $form->defaultRenderer();
         $renderer->setElementTemplate(' {element} ');
         
-        $types = array('chamilo' => Translation :: get('ChamiloLogs'), 'server' => Translation :: get('ServerLogs'));
+        $types = array('server' => Translation :: get('ServerLogs'));
+        
+        $file = Path :: get(SYS_FILE_PATH) . 'logs/';
+       	$scan_list = scandir($file);
+       	
+       	foreach($scan_list as $i => $item)
+       	{
+       		if(substr($item, 0, 1) == '.')
+       		{
+       			unset($scan_list[$i]);
+       		}
+       	}
+       	
+       	if(count($scan_list) > 0)
+        {
+        	$types['chamilo'] = Translation :: get('ChamiloLogs');		
+        }
+        
         $lines = array('10' => '10 ' . Translation :: get('lines'), '20' => '20 ' . Translation :: get('lines'), '50' => '50 ' . Translation :: get('lines'), 'all' => Translation :: get('AllLines'));
         
         $dir = Path :: get(SYS_FILE_PATH) . 'logs/';
