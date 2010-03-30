@@ -534,7 +534,9 @@ class Document extends ContentObject
 
     function send_as_download()
     {
-        header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
+        $filename = str_replace(' ', '_', $this->get_filename());
+        
+    	header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
         header('Cache-Control: public');
         header('Pragma: no-cache');
         header('Content-type: ' . $this->get_mime_type());
@@ -542,11 +544,11 @@ class Document extends ContentObject
         header('Content-length: ' . $this->get_filesize());
         if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
         {
-            header('Content-Disposition: filename= ' . $this->get_filename());
+            header('Content-Disposition: filename= ' . $filename);
         }
         else
         {
-            header('Content-Disposition: attachment; filename= ' . $this->get_filename());
+            header('Content-Disposition: attachment; filename= ' . $filename);
         }
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
         {
@@ -554,7 +556,7 @@ class Document extends ContentObject
             header('Cache-Control: ');
             header('Cache-Control: public'); // IE cannot download from sessions without a cache
         }
-        header('Content-Description: ' . $this->get_filename());
+        header('Content-Description: ' . $filename);
         header('Content-transfer-encoding: binary');
         $fp = fopen($this->get_full_path(), 'r');
         fpassthru($fp);

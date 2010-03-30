@@ -146,7 +146,6 @@ class UserForm extends FormValidator
         $url = Path :: get(WEB_PATH) . 'rights/xml_feeds/xml_rights_template_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('AddRightsTemplates');
-        $locale['DisplayAlt'] = Translation :: get('HideRightsTemplates');
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');

@@ -143,12 +143,12 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
         {
             //$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '.'onclick="document.getElementById(\''.$id.'\').style.display = \'\'; this.style.display = \'none\'; document.getElementById(\''.$this->getName().'_search_field\').focus();" id="'.$this->getName().'_expand_button" />';
             $html[] = '<input type="button" value="' . htmlentities($this->locale['Display']) . '" ' . 'id="' . $this->getName() . '_expand_button" />';
-            $html[] = '<input style="display: none" type="button" value="' . htmlentities($this->locale['DisplayAlt']) . '" ' . 'id="' . $this->getName() . '_collapse_button" />';
+            $html[] = '<input style="display: none" type="button" value="' . htmlentities(Translation :: get('Hide')) . '" ' . 'id="' . $this->getName() . '_collapse_button" />';
         }
         else
         {
            $html[] = '<input style="display: none" type="button" value="' . htmlentities($this->locale['Display']) . '" ' . 'id="' . $this->getName() . '_expand_button" />';
-           $html[] = '<input type="button" value="' . htmlentities($this->locale['DisplayAlt']) . '" ' . 'id="' . $this->getName() . '_collapse_button" />';
+           $html[] = '<input type="button" value="' . htmlentities(Translation :: get('Hide')) . '" ' . 'id="' . $this->getName() . '_collapse_button" />';
         }
         
         $id = 'tbl_' . $this->getName();
