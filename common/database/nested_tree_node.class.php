@@ -18,6 +18,7 @@
  * You can make use of nested tree database where most of these methods are predefined. You only need to define these methods as delegation methods then (unless you need some additional properties)
  *
  * @author Sven Vanpoucke
+ * @author Hans De Bisschop
  */
 
 abstract class NestedTreeNode extends DataClass
@@ -244,7 +245,7 @@ abstract class NestedTreeNode extends DataClass
     function get_siblings($include_self = true)
     {
     	$dm = $this->get_data_manager();
-    	return $this->get_database()->get_siblings($this, $include_self, $this->get_nested_tree_node_condition());
+    	return $dm->get_database()->get_siblings($this, $include_self, $this->get_nested_tree_node_condition());
     }
 
     /**
