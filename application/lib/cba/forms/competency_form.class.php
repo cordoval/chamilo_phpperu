@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../competency.class.php';
 require_once dirname(__FILE__) . '/../competency_indicator.class.php';
-
 /**
  * This class describes a CompetencyForm object
  * 
@@ -116,7 +115,6 @@ class CompetencyForm extends FormValidator
 		{
 			$cdm = CbaDataManager :: get_instance(); 
 			$target_indicators = $this->competency_indicator->get_target_indicators();
-
 			
 			foreach($target_indicators as $index => $value)
 			{
@@ -249,6 +247,9 @@ class CompetencyForm extends FormValidator
     	$result = true;
     	$indicators = $values[self :: PARAM_TARGET_ELEMENTS];
     	
+		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $competency->get_id());				
+		$count_indicators = $this->data_manager->count_competencys_indicator($condition);   
+    	
     	foreach($indicators as $key => $value)
     	{
     		$indicator_id = substr($value, 10);
@@ -259,17 +260,26 @@ class CompetencyForm extends FormValidator
         	$conditions[] = new EqualityCondition(CompetencyIndicator :: PROPERTY_INDICATOR_ID, $competency_indicator->get_indicator_id());
     		
             $condition = new AndCondition($conditions);
-           	$cats = $this->data_manager->count_competency_indicator($condition);
-                
-            if ($cats > 0)
+           	$count_indicators_update += $this->data_manager->count_competencys_indicator($condition);   
+           	
+            /*if ($cats > 0)
             {
                 $result = false;
             }
             else
             {
+            	$competency_indicator->set_target_indicators($indicators);
               	$result &= $competency_indicator->update();
-            }
-    	} 	
+            }*/
+           	
+    	} 
+
+		if($count_indicator_update > $count_indicators)
+		{
+				//$competency_indicator->set_target_indicators($indicators);
+              	$result &= $competency_indicator->update();
+		}
+    	
     	return $result;
     }
     

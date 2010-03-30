@@ -73,8 +73,7 @@ class IndicatorForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-    
-        
+           
         $this->add_criterias(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
         
     	
@@ -110,13 +109,12 @@ class IndicatorForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-        
+
     	if($indicator_criteria)
 		{
 			$cdm = CbaDataManager :: get_instance(); 
 			$target_criterias = $this->indicator_criteria->get_target_criterias();
 
-			
 			foreach($target_criterias as $index => $value)
 			{
 				$criteria = $cdm->retrieve_criteria($value + 1);
@@ -199,8 +197,7 @@ class IndicatorForm extends FormValidator
     	$criterias = $values[self :: PARAM_TARGET_ELEMENTS];
     	
     	foreach($criterias as $key => $value)
-    	{
-    		
+    	{   		
     		$criteria_id = substr($value, 9);
     		$indicator_criteria->set_criteria_id($criteria_id);
 
@@ -236,6 +233,43 @@ class IndicatorForm extends FormValidator
 		$indicator->move($parent);
 
     	return $indicator->update();
+    }
+    
+	function update_indicator_criteria()
+    {
+    	$indicator = $this->indicator;
+    	$indicator_criteria = $this->indicator_criteria;  
+    	$indicator_criteria->set_owner_id($this->get_owner_id());	
+    	$values = $this->exportValues();
+	   	
+    	$indicator_criteria->set_indicator_id($indicator->get_id());
+    	
+    	$result = true;
+    	$criterias = $values[self :: PARAM_TARGET_ELEMENTS];
+    	
+    	foreach($criterias as $key => $value)
+    	{
+    		$criteria_id = substr($value, 10);
+    		$indicator_criteria->set_criteria_id($criteria_id);
+
+    		$conditions = array();
+			$conditions[] = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $indicator->get_id());				
+        	$conditions[] = new EqualityCondition(IndicatorCriteria :: PROPERTY_CRITERIA_ID, $indicator_criteria->get_criteria_id());
+    		
+            $condition = new AndCondition($conditions);
+           	$cats = $this->data_manager->count_indicators_criteria($condition);
+                
+            if ($cats > 0)
+            {
+                $result = false;
+            }
+            else
+            {
+            	$indicator_criteria->set_target_criterias($criterias);
+              	$result &= $indicator_criteria->update();
+            }
+    	} 	
+    	return $result;
     }
 
     

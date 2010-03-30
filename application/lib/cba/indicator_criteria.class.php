@@ -66,10 +66,9 @@ class IndicatorCriteria extends DataClass
             while ($criteria = $criterias->next_result())
             {
                 $this->target_criterias[] = $criteria->get_criteria_id();
-            }
-            
+            }          
         }
-        return $this->target_indicators;
+        return $this->target_criterias;
 	}
 	
 	function set_target_criterias($target_criterias)

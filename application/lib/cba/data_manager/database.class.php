@@ -273,7 +273,6 @@ class DatabaseCbaDataManager extends CbaDataManager
 	
 	function retrieve_indicator_criteria($id)
 	{
-		//$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_ID, $id);
 		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $id);
 		return $this->database->retrieve_object(IndicatorCriteria :: get_table_name(), $condition);
 	}

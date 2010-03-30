@@ -22,6 +22,12 @@ class CbaManagerIndicatorEditorComponent extends CbaManagerComponent
 	        	$ids = array($ids);
 	        }
         }
+        
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('CBA')));
+        $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_INDICATOR)), Translation :: get('BrowseIndicator')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateIndicator')));
+		$this->display_header($trail, false, true);
 		
 		$indicator = $this->retrieve_indicator(Request :: get(CbaManager :: PARAM_INDICATOR));
 		$indicator_criteria = $this->retrieve_indicator_criteria(Request :: get(CbaManager :: PARAM_INDICATOR));
@@ -29,9 +35,9 @@ class CbaManagerIndicatorEditorComponent extends CbaManagerComponent
 
 		if($form->validate())
 		{
-			$success = $form->update_indicator();
-			$success_indicator_criteria = 1;//$form->update_indicator_criteria();
-			if($success_competency == $success_competency_indicator)
+			$success_indicator = $form->update_indicator();
+			$success_indicator_criteria = $form->update_indicator_criteria();
+			if($success_indicator == $success_indicator_criteria)
 				$success = 1;
 			
 			foreach ($ids as $id)
@@ -44,7 +50,6 @@ class CbaManagerIndicatorEditorComponent extends CbaManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
 			$form->display();
 		}
 		$this->display_footer();
