@@ -66,7 +66,8 @@ class InternshipPlannerCategoryRelPeriod extends DataClass
 
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return 'category_rel_period';
+//		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 

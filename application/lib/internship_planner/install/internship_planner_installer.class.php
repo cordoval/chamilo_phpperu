@@ -44,9 +44,9 @@ class InternshipPlannerInstaller extends Installer
         $category = new InternshipPlannerCategory();
         $category->set_name($values['organization_name']);
         $category->set_parent_id(0);
-        $category->create();
+        $succes = $category->create();
         
-        return true;
+        return $succes;
     }
 
     function get_path()

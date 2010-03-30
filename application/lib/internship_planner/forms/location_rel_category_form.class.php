@@ -2,11 +2,11 @@
 require_once dirname(__FILE__) . '/../location_rel_category.class.php';
 
 /**
- * This class describes the form for a InternshipLocationRelCategory object.
+ * This class describes the form for a InternshipPlannerLocationRelCategory object.
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  **/
-class InternshipLocationRelCategoryForm extends FormValidator
+class InternshipPlannerLocationRelCategoryForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
@@ -14,7 +14,7 @@ class InternshipLocationRelCategoryForm extends FormValidator
 	private $location_rel_category;
 	private $user;
 
-    function InternshipLocationRelCategoryForm($form_type, $location_rel_category, $action, $user)
+    function InternshipPlannerLocationRelCategoryForm($form_type, $location_rel_category, $action, $user)
     {
     	parent :: __construct('location_rel_category_settings', 'post', $action);
 
@@ -36,14 +36,14 @@ class InternshipLocationRelCategoryForm extends FormValidator
 
     function build_basic_form()
     {
-		$this->addElement('text', InternshipLocationRelCategory :: PROPERTY_ID, Translation :: get('Id'));
-		$this->addRule(InternshipLocationRelCategory :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationRelCategory :: PROPERTY_ID, Translation :: get('Id'));
+		$this->addRule(InternshipPlannerLocationRelCategory :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', InternshipLocationRelCategory :: PROPERTY_LOCATION_ID, Translation :: get('InternshipLocationId'));
-		$this->addRule(InternshipLocationRelCategory :: PROPERTY_LOCATION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationRelCategory :: PROPERTY_LOCATION_ID, Translation :: get('InternshipPlannerLocationId'));
+		$this->addRule(InternshipPlannerLocationRelCategory :: PROPERTY_LOCATION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', InternshipLocationRelCategory :: PROPERTY_CATEGORY_ID, Translation :: get('CategoryId'));
-		$this->addRule(InternshipLocationRelCategory :: PROPERTY_CATEGORY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationRelCategory :: PROPERTY_CATEGORY_ID, Translation :: get('CategoryId'));
+		$this->addRule(InternshipPlannerLocationRelCategory :: PROPERTY_CATEGORY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
     }
 
@@ -51,7 +51,7 @@ class InternshipLocationRelCategoryForm extends FormValidator
     {
     	$this->build_basic_form();
 
-    	//$this->addElement('hidden', InternshipLocationRelCategory :: PROPERTY_ID);
+    	//$this->addElement('hidden', InternshipPlannerLocationRelCategory :: PROPERTY_ID);
 
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -74,9 +74,9 @@ class InternshipLocationRelCategoryForm extends FormValidator
     	$location_rel_category = $this->location_rel_category;
     	$values = $this->exportValues();
 
-    	$location_rel_category->set_id($values[InternshipLocationRelCategory :: PROPERTY_ID]);
-    	$location_rel_category->set_location_id($values[InternshipLocationRelCategory :: PROPERTY_LOCATION_ID]);
-    	$location_rel_category->set_category_id($values[InternshipLocationRelCategory :: PROPERTY_CATEGORY_ID]);
+    	$location_rel_category->set_id($values[InternshipPlannerLocationRelCategory :: PROPERTY_ID]);
+    	$location_rel_category->set_location_id($values[InternshipPlannerLocationRelCategory :: PROPERTY_LOCATION_ID]);
+    	$location_rel_category->set_category_id($values[InternshipPlannerLocationRelCategory :: PROPERTY_CATEGORY_ID]);
 
     	return $location_rel_category->update();
     }
@@ -86,9 +86,9 @@ class InternshipLocationRelCategoryForm extends FormValidator
     	$location_rel_category = $this->location_rel_category;
     	$values = $this->exportValues();
 
-    	$location_rel_category->set_id($values[InternshipLocationRelCategory :: PROPERTY_ID]);
-    	$location_rel_category->set_location_id($values[InternshipLocationRelCategory :: PROPERTY_LOCATION_ID]);
-    	$location_rel_category->set_category_id($values[InternshipLocationRelCategory :: PROPERTY_CATEGORY_ID]);
+    	$location_rel_category->set_id($values[InternshipPlannerLocationRelCategory :: PROPERTY_ID]);
+    	$location_rel_category->set_location_id($values[InternshipPlannerLocationRelCategory :: PROPERTY_LOCATION_ID]);
+    	$location_rel_category->set_category_id($values[InternshipPlannerLocationRelCategory :: PROPERTY_CATEGORY_ID]);
 
    		return $location_rel_category->create();
     }
@@ -101,9 +101,9 @@ class InternshipLocationRelCategoryForm extends FormValidator
 	{
 		$location_rel_category = $this->location_rel_category;
 
-    	$defaults[InternshipLocationRelCategory :: PROPERTY_ID] = $location_rel_category->get_id();
-    	$defaults[InternshipLocationRelCategory :: PROPERTY_LOCATION_ID] = $location_rel_category->get_location_id();
-    	$defaults[InternshipLocationRelCategory :: PROPERTY_CATEGORY_ID] = $location_rel_category->get_category_id();
+    	$defaults[InternshipPlannerLocationRelCategory :: PROPERTY_ID] = $location_rel_category->get_id();
+    	$defaults[InternshipPlannerLocationRelCategory :: PROPERTY_LOCATION_ID] = $location_rel_category->get_location_id();
+    	$defaults[InternshipPlannerLocationRelCategory :: PROPERTY_CATEGORY_ID] = $location_rel_category->get_category_id();
 
 		parent :: setDefaults($defaults);
 	}

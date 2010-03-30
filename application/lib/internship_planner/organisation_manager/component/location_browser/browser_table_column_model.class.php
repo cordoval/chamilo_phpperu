@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../../../tables/location_table/default_location_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../location.class.php';
 
-class InternshipLocationBrowserTableColumnModel extends DefaultInternshipLocationTableColumnModel
+class InternshipPlannerLocationBrowserTableColumnModel extends DefaultInternshipPlannerLocationTableColumnModel
 {
     /**
      * The tables modification column
@@ -13,7 +13,7 @@ class InternshipLocationBrowserTableColumnModel extends DefaultInternshipLocatio
     /**
      * Constructor
      */
-    function InternshipLocationBrowserTableColumnModel()
+    function InternshipPlannerLocationBrowserTableColumnModel()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

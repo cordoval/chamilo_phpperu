@@ -2,11 +2,11 @@
 require_once dirname(__FILE__) . '/../location_group.class.php';
 
 /**
- * This class describes the form for a InternshipLocationGroup object.
+ * This class describes the form for a InternshipPlannerLocationGroup object.
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  **/
-class InternshipLocationGroupForm extends FormValidator
+class InternshipPlannerLocationGroupForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
@@ -14,7 +14,7 @@ class InternshipLocationGroupForm extends FormValidator
 	private $location_group;
 	private $user;
 
-    function InternshipLocationGroupForm($form_type, $location_group, $action, $user)
+    function InternshipPlannerLocationGroupForm($form_type, $location_group, $action, $user)
     {
     	parent :: __construct('location_group_settings', 'post', $action);
 
@@ -36,11 +36,11 @@ class InternshipLocationGroupForm extends FormValidator
 
     function build_basic_form()
     {
-		$this->addElement('text', InternshipLocationGroup :: PROPERTY_ID, Translation :: get('Id'));
-		$this->addRule(InternshipLocationGroup :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationGroup :: PROPERTY_ID, Translation :: get('Id'));
+		$this->addRule(InternshipPlannerLocationGroup :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', InternshipLocationGroup :: PROPERTY_NAME, Translation :: get('Name'));
-		$this->addRule(InternshipLocationGroup :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerLocationGroup :: PROPERTY_NAME, Translation :: get('Name'));
+		$this->addRule(InternshipPlannerLocationGroup :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
     }
 
@@ -48,7 +48,7 @@ class InternshipLocationGroupForm extends FormValidator
     {
     	$this->build_basic_form();
 
-    	//$this->addElement('hidden', InternshipLocationGroup :: PROPERTY_ID);
+    	//$this->addElement('hidden', InternshipPlannerLocationGroup :: PROPERTY_ID);
 
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -71,8 +71,8 @@ class InternshipLocationGroupForm extends FormValidator
     	$location_group = $this->location_group;
     	$values = $this->exportValues();
 
-    	$location_group->set_id($values[InternshipLocationGroup :: PROPERTY_ID]);
-    	$location_group->set_name($values[InternshipLocationGroup :: PROPERTY_NAME]);
+    	$location_group->set_id($values[InternshipPlannerLocationGroup :: PROPERTY_ID]);
+    	$location_group->set_name($values[InternshipPlannerLocationGroup :: PROPERTY_NAME]);
 
     	return $location_group->update();
     }
@@ -82,8 +82,8 @@ class InternshipLocationGroupForm extends FormValidator
     	$location_group = $this->location_group;
     	$values = $this->exportValues();
 
-    	$location_group->set_id($values[InternshipLocationGroup :: PROPERTY_ID]);
-    	$location_group->set_name($values[InternshipLocationGroup :: PROPERTY_NAME]);
+    	$location_group->set_id($values[InternshipPlannerLocationGroup :: PROPERTY_ID]);
+    	$location_group->set_name($values[InternshipPlannerLocationGroup :: PROPERTY_NAME]);
 
    		return $location_group->create();
     }
@@ -96,8 +96,8 @@ class InternshipLocationGroupForm extends FormValidator
 	{
 		$location_group = $this->location_group;
 
-    	$defaults[InternshipLocationGroup :: PROPERTY_ID] = $location_group->get_id();
-    	$defaults[InternshipLocationGroup :: PROPERTY_NAME] = $location_group->get_name();
+    	$defaults[InternshipPlannerLocationGroup :: PROPERTY_ID] = $location_group->get_id();
+    	$defaults[InternshipPlannerLocationGroup :: PROPERTY_NAME] = $location_group->get_name();
 
 		parent :: setDefaults($defaults);
 	}

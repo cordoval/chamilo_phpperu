@@ -43,15 +43,6 @@ abstract class InternshipPlannerDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    //	abstract function get_next_category_id();
-    //	abstract function create_category($category);
-    //	abstract function update_category($category);
-    //	abstract function delete_category($category);
-    //	abstract function count_categories($conditions = null);
-    //	abstract function retrieve_category($id);
-    //	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null);
-    
-
     abstract function create_internship_location($location);
 
     abstract function update_internship_location($location);
@@ -101,8 +92,6 @@ abstract class InternshipPlannerDataManager
     abstract function retrieve_category_rel_location($location_id, $category_id);
 
     abstract function retrieve_category_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function retrieve_location_categories($location_id);
 
     abstract function add_internship_planner_category_nested_values($node, $previous_visited, $number_of_elements = 1, $condition);
 

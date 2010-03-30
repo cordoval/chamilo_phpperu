@@ -5,18 +5,18 @@ require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/browser_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/../../organisation_manager.class.php';
 
-class InternshipLocationBrowserTable extends ObjectTable
+class InternshipPlannerLocationBrowserTable extends ObjectTable
 {
     const DEFAULT_NAME = 'location_browser_table';
 
     /**
      * Constructor
      */
-    function InternshipLocationBrowserTable($browser, $parameters, $condition)
+    function InternshipPlannerLocationBrowserTable($browser, $parameters, $condition)
     {
-        $model = new InternshipLocationBrowserTableColumnModel();
-        $renderer = new InternshipLocationBrowserTableCellRenderer($browser);
-        $data_provider = new InternshipLocationBrowserTableDataProvider($browser, $condition);
+        $model = new InternshipPlannerLocationBrowserTableColumnModel();
+        $renderer = new InternshipPlannerLocationBrowserTableCellRenderer($browser);
+        $data_provider = new InternshipPlannerLocationBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();

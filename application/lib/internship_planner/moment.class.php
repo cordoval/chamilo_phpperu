@@ -150,7 +150,8 @@ class InternshipPlannerMoment extends DataClass
 
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return 'moment';
+//		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 
