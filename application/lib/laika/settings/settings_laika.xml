@@ -3,6 +3,10 @@
 	<settings>
 		<category name="attempts">
 			<setting name="maximum_attempts" field="text" default="1" />
+				<validations>
+                    <validation rule="numeric" message="MustBeNumeric"/>
+                </validations>
+            </setting>
 		</category>
 		<category name="repository">
 			<setting name="allow_save" field="radio" default="0">

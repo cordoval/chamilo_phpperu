@@ -109,6 +109,10 @@
 				</options>
 			</setting>
 			<setting name="days_valid" field="text" default="366" />
+				<validations>
+                    <validation rule="numeric" message="MustBeNumeric"/>
+                </validations>
+            </setting>
 			<setting name="show_email_addresses" field="checkbox" default="1">
 				<options type="static">
 					<option name="show_email_addresses" value="1" />

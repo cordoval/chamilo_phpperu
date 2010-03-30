@@ -9,9 +9,13 @@
 				</options>
 			</setting>
 			<setting name="administrator_firstname" field="text" default="Chamilo" />
+			
 			<setting name="administrator_surname" field="text" default="Administrator" />
-			<setting name="administrator_email" field="text"
-				default="chamilo.admin@mychamilo.com" />
+			<setting name="administrator_email" field="text"default="chamilo.admin@mychamilo.com" />
+				<validations>
+                    <validation rule="email" message="MustBeAnEMailAddress"/>
+                </validations>
+            </setting>
 			<setting name="administrator_telephone" field="text" default="000/1234567" />
 		</category>
 		<category name="whoisonline">
@@ -23,6 +27,10 @@
 				</options>
 			</setting>
 			<setting name="timelimit" field="text" default="30" />
+			<validations>
+                    <validation rule="numeric" message="MustBeNumeric"/>
+                </validations>
+            </setting>
 		</category>
 		<category name="platform">
 			<setting name="site_name" field="text" default="Chamilo" />
@@ -30,6 +38,10 @@
 			<setting name="institution_url" field="text"
 				default="http://www.chamilo.org" />
 			<setting name="no_reply_email" field="text" default="" />
+			<validations>
+                    <validation rule="email" message="MustBeAnEMailAddress"/>
+                </validations>
+            </setting>
 			<setting name="page_after_login" field="select" default="home">
 				<options type="dynamic" source="get_active_applications" />
 			</setting>
@@ -121,6 +133,10 @@
 			</setting>
 			<setting name="replacement_extension" field="text" default="" />
 			<setting name="permissions_new_files" field="text" default="0660" />
+				<validations>
+                    <validation rule="numeric" message="MustBeNumeric"/>
+                </validations>
+            </setting>
 		</category>
 		<category name="authentication">
 			<setting name="enable_external_authentication" field="checkbox">
