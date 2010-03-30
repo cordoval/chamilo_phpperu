@@ -79,37 +79,41 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
         function get_active_course_type_tabs()
    		{
        		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-        	$courses = $this->retrieve_user_courses($condition);
+        	$courses_result = $this->retrieve_user_courses($condition);
         	$course_active_types = $this->retrieve_active_course_types();
         
         	$nieuw = array();
+        	$courses = array();
         	$html = array();
        	 	$html[] = '<div id="admin_tabs">';
        	 	$html[] = '<ul>';
        	 	
        	 	while($tab = $course_active_types->next_result())
        	 		$nieuw[] = $tab;
-       	 	//naam van de tabs
-			
+
+       	 	//naam van de tabs		
        	 	foreach($nieuw as $index => $tab)
 			{								
       			$html[] = '<li><a href="#admin_tabs-'.$index.'">';
           		$html[] = '<span class="category">';
-        		$html[] = '<span class="title">'.Translation :: get($tab->get_name()).'</span>';
+        		$html[] = '<span class="title">'.$tab->get_name().'</span>';
         		$html[] = '</span>';
         		$html[] = '</a></li>';
 			}
         	$html[] = '</ul>';
         	
+        	while($course = $courses_result->next_result())
+        		$courses[]=$course;
+        		
         	//per tab de inhoud weergeven
         	foreach($nieuw as $index => $tab)
         	{
         		$course_type_courses = array();
-        		while($course = $courses->next_result())
-        		{
-        			if($course->get_course_type_id() == $tab->get_id())
-        				$course_type_courses[] = $course;
-        		}
+        			foreach($courses as $course)
+        			{
+        	    		if($course->get_course_type_id() == $tab->get_id())
+        					$course_type_courses[] = $course;
+        			}
             	//$html[] = '<h2>' . $tab->get_name() . '</h2>';
         		$html[] = '<div class="admin_tab" id="admin_tabs-'.$index.'">';
         		$html[] = $this->display_courses($course_type_courses);
