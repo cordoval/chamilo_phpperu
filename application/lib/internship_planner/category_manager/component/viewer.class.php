@@ -85,10 +85,10 @@ class InternshipPlannerCategoryManagerViewerComponent extends InternshipPlannerC
 
         if (isset($query) && $query != '')
         {
-            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_NAME, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_CITY, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_STREET, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipLocation :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipPlannerLocation :: PROPERTY_NAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipPlannerLocation :: PROPERTY_CITY, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipPlannerLocation :: PROPERTY_STREET, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipPlannerLocation :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
             $condition = new OrCondition($or_conditions);
 
             $locations = InternshipPlannerDataManager::get_instance()->retrieve_locations($condition);

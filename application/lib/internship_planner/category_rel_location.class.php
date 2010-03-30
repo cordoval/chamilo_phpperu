@@ -4,7 +4,7 @@
  */
 
 /**
- * This class describes a InternshipLocationRelCategory data object
+ * This class describes a InternshipPlannerLocationRelCategory data object
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
@@ -34,7 +34,7 @@ class InternshipPlannerCategoryRelLocation extends DataClass
 	}
 
 	/**
-	 * Returns the location_id of this InternshipLocationRelCategory.
+	 * Returns the location_id of this InternshipPlannerLocationRelCategory.
 	 * @return the location_id.
 	 */
 	function get_location_id()
@@ -43,7 +43,7 @@ class InternshipPlannerCategoryRelLocation extends DataClass
 	}
 
 	/**
-	 * Sets the location_id of this InternshipLocationRelCategory.
+	 * Sets the location_id of this InternshipPlannerLocationRelCategory.
 	 * @param location_id
 	 */
 	function set_location_id($location_id)
@@ -52,7 +52,7 @@ class InternshipPlannerCategoryRelLocation extends DataClass
 	}
 
 	/**
-	 * Returns the category_id of this InternshipLocationRelCategory.
+	 * Returns the category_id of this InternshipPlannerLocationRelCategory.
 	 * @return the category_id.
 	 */
 	function get_category_id()
@@ -61,7 +61,7 @@ class InternshipPlannerCategoryRelLocation extends DataClass
 	}
 
 	/**
-	 * Sets the category_id of this InternshipLocationRelCategory.
+	 * Sets the category_id of this InternshipPlannerLocationRelCategory.
 	 * @param category_id
 	 */
 	function set_category_id($category_id)
@@ -72,7 +72,8 @@ class InternshipPlannerCategoryRelLocation extends DataClass
 
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return 'category_rel_location';
+//		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 

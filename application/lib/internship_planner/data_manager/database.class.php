@@ -2,16 +2,9 @@
 /**
  * @package internship_planner.datamanager
  */
-//require_once dirname ( __FILE__ ) . '/../category.class.php';
+require_once dirname ( __FILE__ ) . '/../category.class.php';
 require_once dirname ( __FILE__ ) . '/../location.class.php';
-//require_once dirname ( __FILE__ ) . '/../location_category.class.php';
-//require_once dirname ( __FILE__ ) . '/../location_rel_category.class.php';
-//require_once dirname ( __FILE__ ) . '/../location_rel_mentor.class.php';
-//require_once dirname ( __FILE__ ) . '/../location_rel_moment.class.php';
-//require_once dirname ( __FILE__ ) . '/../location_rel_type.class.php';
-//require_once dirname ( __FILE__ ) . '/../mentor.class.php';
-//require_once dirname ( __FILE__ ) . '/../moment.class.php';
-//require_once dirname ( __FILE__ ) . '/../period.class.php';
+require_once dirname ( __FILE__ ) . '/../category_rel_location.class.php';
 require_once dirname ( __FILE__ ) . '/../organisation.class.php';
 require_once 'MDB2.php';
 
@@ -20,7 +13,7 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager 
 	
 	function initialize() {
 		$this->database = new NestedTreeDatabase ();
-//		$this->database->set_prefix ( 'internship_planner_' );
+		$this->database->set_prefix ( 'internship_planner_' );
 	
 
 	}
@@ -37,26 +30,26 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager 
 	}
 	
 	function update_internship_location($location) {
-		$condition = new EqualityCondition ( InternshipLocation::PROPERTY_ID, $location->get_id () );
+		$condition = new EqualityCondition ( InternshipPlannerLocation::PROPERTY_ID, $location->get_id () );
 		return $this->database->update ( $location, $condition );
 	}
 	
 	function delete_internship_location($location) {
-		$condition = new EqualityCondition ( InternshipLocation::PROPERTY_ID, $location->get_id () );
+		$condition = new EqualityCondition ( InternshipPlannerLocation::PROPERTY_ID, $location->get_id () );
 		return $this->database->delete ( $location->get_table_name (), $condition );
 	}
 	
 	function count_locations($condition = null) {
-		return $this->database->count_objects ( InternshipLocation::get_table_name (), $condition );
+		return $this->database->count_objects ( InternshipPlannerLocation::get_table_name (), $condition );
 	}
 	
 	function retrieve_location($id) {
-		$condition = new EqualityCondition ( InternshipLocation::PROPERTY_ID, $id );
-		return $this->database->retrieve_object ( InternshipLocation::get_table_name (), $condition, null, InternshipLocation::CLASS_NAME );
+		$condition = new EqualityCondition ( InternshipPlannerLocation::PROPERTY_ID, $id );
+		return $this->database->retrieve_object ( InternshipPlannerLocation::get_table_name (), $condition, array(), InternshipPlannerLocation::CLASS_NAME );
 	}
 	
 	function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null) {
-		return $this->database->retrieve_objects ( InternshipLocation::get_table_name (), $condition, $offset, $max_objects, $order_by, InternshipLocation::CLASS_NAME );
+		return $this->database->retrieve_objects ( InternshipPlannerLocation::get_table_name (), $condition, $offset, $max_objects, $order_by, InternshipPlannerLocation::CLASS_NAME );
 	}
 	
 	//internship planner organisations
@@ -82,7 +75,7 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager 
 	
 	function retrieve_organisation($id) {
 		$condition = new EqualityCondition ( InternshipOrganisation::PROPERTY_ID, $id );
-		return $this->database->retrieve_object ( InternshipOrganisation::get_table_name (), $condition, null, InternshipOrganisation::CLASS_NAME );
+		return $this->database->retrieve_object ( InternshipOrganisation::get_table_name (), $condition, array(), InternshipOrganisation::CLASS_NAME );
 	}
 	
 	function retrieve_organisations($condition = null, $offset = null, $max_objects = null, $order_by = null) {
@@ -140,12 +133,12 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager 
 	}
 	
 	function retrieve_categories($condition = null, $offset = null, $max_objects = null, $order_by = null) {
-		return $this->database->retrieve_objects ( InternshipPlannerCategory::get_table_name (), $condition, $offset, $max_objects, $order_by );
+		return $this->database->retrieve_objects ( InternshipPlannerCategory::get_table_name (), $condition, $offset, $max_objects, $order_by , InternshipPlannerCategory :: CLASS_NAME);
 	}
 	
 	function retrieve_internship_planner_category($id) {
 		$condition = new EqualityCondition ( InternshipPlannerCategory::PROPERTY_ID, $id );
-		return $this->database->retrieve_object ( InternshipPlannerCategory::get_table_name (), $condition );
+		return $this->database->retrieve_object ( InternshipPlannerCategory::get_table_name (), $condition , array() ,InternshipPlannerCategory :: CLASS_NAME);
 	}
 	
 	function count_category_rel_locations($condition = null) {
@@ -153,7 +146,7 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager 
 	}
 	
 	function retrieve_category_rel_locations($condition = null, $offset = null, $max_objects = null, $order_by = null) {
-		return $this->database->retrieve_objects ( InternshipPlannerCategoryRelLocation::get_table_name (), $condition, $offset, $max_objects, $order_by );
+		return $this->database->retrieve_objects ( InternshipPlannerCategoryRelLocation::get_table_name (), $condition, $offset, $max_objects, $order_by , InternshipPlannerCategoryRelLocation :: CLASS_NAME);
 	}
 	
 	function retrieve_category_rel_location($location_id, $category_id) {
@@ -161,14 +154,9 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager 
 		$conditions [] = new EqualityCondition ( InternshipPlannerCategoryRelLocation::PROPERTY_LOCATION_ID, $location_id );
 		$conditions [] = new EqualityCondition ( InternshipPlannerCategoryRelLocation::PROPERTY_CATEGORY_ID, $category_id );
 		$condition = new AndCondition ( $conditions );
-		return $this->database->retrieve_object( InternshipPlannerCategoryRelLocation::get_table_name (), $condition );
+		return $this->database->retrieve_object( InternshipPlannerCategoryRelLocation::get_table_name (), $condition , array(), InternshipPlannerCategoryRelLocation :: CLASS_NAME);
 	}
-	
-	function retrieve_location_categories($location_id) {
-		$condition = new EqualityCondition ( InternshipPlannerCategoryRelLocation::PROPERTY_LOCATION_ID, $location_id );
-		return $this->database->retrieve_objects ( InternshipPlannerCategoryRelLocation::get_table_name (), $condition );
-	}
-	
+
 	function retrieve_category_by_name($name) {
 		$condition = new EqualityCondition ( InternshipPlannerCategory::PROPERTY_NAME, $name );
 		return $this->database->retrieve_object ( InternshipPlannerCategory::get_table_name (), $condition );
