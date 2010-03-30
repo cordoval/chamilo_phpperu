@@ -16,6 +16,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 
 	// Data Retrieval
 
+	
 	// Competency
 	function count_competencys($condition)
 	{
@@ -31,6 +32,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->retrieve_competency($id);
 	}
+	
 	
 	// Indicator
 	function count_indicators($condition)
@@ -48,6 +50,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->retrieve_indicator($id);
 	}
 	
+	
 	// Criteria
 	function count_criterias($condition)
 	{
@@ -64,6 +67,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->retrieve_criteria($id);
 	}
 	
+	
 	// Criteria Score
 	function count_criterias_score($condition)
 	{
@@ -79,11 +83,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->retrieve_criteria_score($id);
 	}
-	
-	function retrieve_criteria_score_new($criteria_id, $id)
-	{
-		return $this->get_parent()->retrieve_criteria_score_new($criteria_id, $id);
-	}
+
 	
 	// Competency Indicator
  	function count_competencys_indicator($condition)
@@ -100,6 +100,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->retrieve_competency_indicator($id);
 	}
+
 	
  	// Indicator Criteria
  	function count_indicators_criteria($condition)
@@ -118,8 +119,10 @@ abstract class CbaManagerComponent extends WebApplicationComponent
 	}
 	
 
+	
 	// Url Creation
 
+	
 	// Competency
 	function get_create_competency_url()
 	{
@@ -151,6 +154,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->get_competency_moving_url($competency);
     }
 	
+    
 	// Indicator
 	function get_create_indicator_url()
 	{
@@ -182,6 +186,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
         return $this->get_parent()->get_indicator_moving_url($indicator);
     }
 
+    
 	// Criteria
 	function get_create_criteria_url()
 	{
@@ -235,6 +240,7 @@ abstract class CbaManagerComponent extends WebApplicationComponent
     }
     
     
+    
 	// Categories 
 	
 	function retrieve_competency_categories($condition = null, $offset = null, $count = null, $order_property = null)
@@ -266,6 +272,5 @@ abstract class CbaManagerComponent extends WebApplicationComponent
     {
         return $this->database->count_objects(CriteriaCategory :: get_table_name(), $condition);
     }
-
 }
 ?>

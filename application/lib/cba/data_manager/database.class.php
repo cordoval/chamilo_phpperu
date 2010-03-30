@@ -196,14 +196,6 @@ class DatabaseCbaDataManager extends CbaDataManager
 		return $this->database->retrieve_object(CriteriaScore :: get_table_name(), $condition);
 	}
 	
-	function retrieve_criteria_score_new($criteria_id, $id)
-	{
-		$conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $id);
-		$conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $criteria_id);
-		$condition = new AndCondition($conditions);
-		return $this->database->retrieve_object(CriteriaScore :: get_table_name(), $condition);
-	}
-	
 	function retrieve_criterias_score($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return $this->database->retrieve_objects(CriteriaScore :: get_table_name(), $condition, $offset, $max_objects, $order_by);
@@ -290,6 +282,7 @@ class DatabaseCbaDataManager extends CbaDataManager
 	{
 		return $this->database->retrieve_objects(IndicatorCriteria :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
+	
 	
 	
 	// Categories

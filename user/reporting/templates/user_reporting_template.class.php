@@ -8,15 +8,14 @@
  * 2 listboxes: one with available reporting blocks for the app, one with
  * reporting blocks already in template.
  */
-require_once dirname (__FILE__) . '/../blocks/user_active_inactive_reporting_block.class.php';
-require_once dirname (__FILE__) . '/../blocks/user_no_of_logins_day_reporting_block.class.php';
-require_once dirname (__FILE__) . '/../blocks/user_no_of_logins_hour_reporting_block.class.php';
-require_once dirname (__FILE__) . '/../blocks/user_no_of_logins_month_reporting_block.class.php';
-require_once dirname (__FILE__) . '/../blocks/user_no_of_logins_reporting_block.class.php';
-require_once dirname (__FILE__) . '/../blocks/user_no_of_users_picture_reporting_block.class.php';
-require_once dirname (__FILE__) . '/../blocks/user_no_of_users_reporting_block.class.php';
-require_once dirname (__FILE__) . '/../blocks/user_no_of_users_subscribed_course_reporting_block.class.php';
-
+require_once dirname(__FILE__) . '/../blocks/user_active_inactive_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_day_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_hour_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_month_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/user_no_of_users_picture_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/user_no_of_users_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/user_no_of_users_subscribed_course_reporting_block.class.php';
 
 class UserReportingTemplate extends ReportingTemplate
 {
@@ -24,7 +23,7 @@ class UserReportingTemplate extends ReportingTemplate
     function UserReportingTemplate($parent)
     {
         parent :: __construct($parent);
-        
+
         $this->add_reporting_block(new UserActiveInactiveReportingBlock($this));
         $this->add_reporting_block(new UserNoOfLoginsDayReportingBlock($this));
         $this->add_reporting_block(new UserNoOfLoginsHourReportingBlock($this));
@@ -32,15 +31,16 @@ class UserReportingTemplate extends ReportingTemplate
         $this->add_reporting_block(new UserNoOfLoginsReportingBlock($this));
         $this->add_reporting_block(new UserNoOfUsersPictureReportingBlock($this));
         $this->add_reporting_block(new UserNoOfUsersReportingBlock($this));
-       // $this->add_reporting_block(new UserNoOfUsersSubscribedCourseReportingBlock($this));
+        // $this->add_reporting_block(new UserNoOfUsersSubscribedCourseReportingBlock($this));
     }
-   
-	function get_application()
+
+    function get_application()
     {
-    	return UserManager::APPLICATION_NAME;
+        return UserManager :: APPLICATION_NAME;
     }
-    
+
     function display_context()
-    {}
+    {
+    }
 }
 ?>

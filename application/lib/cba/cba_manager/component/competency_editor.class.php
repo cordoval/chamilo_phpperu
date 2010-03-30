@@ -28,14 +28,9 @@ class CbaManagerCompetencyEditorComponent extends CbaManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('BrowseCompetency')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateCompetency')));
 		$this->display_header($trail, false, true);
-
-		//$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $id);
-		//$count_links = $this->count_competencys_indicator($condition);
 		
 		$competency = $this->retrieve_competency(Request :: get(CbaManager :: PARAM_COMPETENCY));
 		$competency_indicator = $this->retrieve_competency_indicator(Request :: get(CbaManager :: PARAM_COMPETENCY));
-		//dump($competency_indicator);
-		//exit();
 		$form = new CompetencyForm(CompetencyForm :: TYPE_EDITOR_COMPETENCY, $competency, $competency_indicator, $this->get_url(array(CbaManager :: PARAM_COMPETENCY => $competency->get_id())), $this->get_user());
 
 		if($form->validate())

@@ -159,7 +159,7 @@ class CbaMenu extends HTML_Menu
         $menu[2] = $menu_item;
         
         
-        // See cba_manager.class.php for the other items
+        // See cba_manager.class.php for the other item(s)
         
         if (count($extra_items))
         {

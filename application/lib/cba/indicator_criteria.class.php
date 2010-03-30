@@ -56,6 +56,27 @@ class IndicatorCriteria extends DataClass
 		$this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
 	}
 	
+	function get_target_criterias()
+	{
+		if (! $this->target_criterias)
+        {
+            $condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $this->get_indicator_id());
+            $criterias = CbaDataManager :: get_instance()->retrieve_indicators_criteria($condition);
+
+            while ($criteria = $criterias->next_result())
+            {
+                $this->target_criterias[] = $criteria->get_criteria_id();
+            }
+            
+        }
+        return $this->target_indicators;
+	}
+	
+	function set_target_criterias($target_criterias)
+	{
+        $this->target_criterias = $target_criterias;
+	}
+	
 	static function get_table_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

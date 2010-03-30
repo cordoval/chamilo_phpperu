@@ -219,6 +219,7 @@ class SortableTable extends HTML_Table
             $this->setCellContents(0, 0, Translation :: get('NoSearchResults'));
             $empty_table = true;
         }
+
         if (! $empty_table)
         {
             $form = $this->get_page_select_form();
@@ -731,6 +732,21 @@ class SortableTable extends HTML_Table
     {
         $this->ajax_enabled = false;
     }
+
+    function get_per_page()
+    {
+        return $this->per_page;
+    }
+
+    function get_column()
+    {
+        return $this->column;
+    }
+
+    function get_direction()
+    {
+        return $this->direction;
+    }
 }
 /**
  * Sortable table which can be used for data available in an array
@@ -760,8 +776,8 @@ class SortableTableFromArray extends SortableTable
      */
     function get_table_data($from = 1)
     {
-        $content = TableSort :: sort_table($this->table_data, $this->column, $this->direction);
-        return array_slice($content, $from, $this->per_page);
+        $content = TableSort :: sort_table($this->table_data, $this->get_column(), $this->get_direction());
+        return array_slice($content, $from, $this->get_per_page());
     }
 
     /**

@@ -101,7 +101,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             }
             else
             {
-                if ($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() < 3)
+                if ($section->get_type() == CourseSection :: TYPE_DISABLED && ($this->course->get_layout() < 3 || !$this->is_course_admin))
                     continue;
                 
                 if ($section->get_type() == CourseSection :: TYPE_ADMIN && ! $this->is_course_admin)

@@ -26,8 +26,6 @@ class CbaManagerCompetencyCreatorComponent extends CbaManagerComponent
 		{
 			$success_competency = $form->create_competency();
 			$success_competency_indicator = $form->create_competency_indicator();
-			//dump($success_competency_indicator);
-			//exit();
 			if($success_competency == $success_competency_indicator)
 				$success = 1;
 			$this->redirect($success ? Translation :: get('CompetencyCreated') : Translation :: get('CompetencyNotCreated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY));

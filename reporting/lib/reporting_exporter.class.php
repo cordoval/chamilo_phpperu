@@ -7,7 +7,7 @@
 
 class ReportingExporter
 {
-    
+
     private $parent;
 
     public function ReportingExporter($parent)
@@ -41,7 +41,7 @@ class ReportingExporter
             $data = $data[0];
             $series = sizeof($datadescription["Values"]);
             $orientation = $datadescription[Reporting :: PARAM_ORIENTATION];
-            
+
             $j = 0;
             foreach ($data as $key => $value)
             {
@@ -54,7 +54,7 @@ class ReportingExporter
                 $data[$key] = $value;
                 $j = 0;
             }
-            
+
             if ($orientation == Reporting :: ORIENTATION_HORIZONTAL)
             {
                 foreach ($data as $key => $value)
@@ -79,15 +79,15 @@ class ReportingExporter
         $test = str_replace(Path :: get(WEB_PATH), Path :: get(SYS_PATH), $temp);
         $this->export_report($export, $test, $rep_block->get_name(), $rep_block);
     }*/
-    
+
     public function get_template_id()
     {
-        return Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
+    	return Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
     }
 
     public function get_block_id()
     {
-        return Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
+    	return Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
     }
 
     public function export()
@@ -138,7 +138,7 @@ class ReportingExporter
             $application = $reporting_template_registration->get_application();
             $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
             $file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($reporting_template_registration->get_classname()) . '.class.php';
-            
+
             require_once ($file);
             $classname = $reporting_template_registration->get_classname();
             $template = new $classname($this->parent, $ti, $params, null);
@@ -154,7 +154,7 @@ class ReportingExporter
             $this->export_report($export, $display, $reporting_template_registration->get_title(), null);
         }
     }*/
-    
+
     function get_export_header()
     {
         $html = array();
@@ -189,13 +189,13 @@ class ReportingExporter
         {
             if (isset($rep_block))
             {
-                $temp = Reporting :: generate_block_export($rep_block);
-                $data = str_replace(Path :: get(WEB_PATH), Path :: get(SYS_PATH), $temp);
+            	$temp = Reporting :: generate_block_export($rep_block);
+            	$data = str_replace(Path :: get(WEB_PATH), Path :: get(SYS_PATH), $temp);
                 $export->write_to_file_html($data);
             }
             else
             {
-                $export->write_to_file_html($data);
+            	$export->write_to_file_html($data);
             }
         }
         else

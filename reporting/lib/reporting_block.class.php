@@ -118,9 +118,9 @@ abstract class ReportingBlock
 
 	public function export()
 	{
-		$html[] = '<b>' . Utilities::underscores_to_camelcase_with_spaces($this->get_name()) . '<br></br></b>';
+		$html[] = '<b>' . Utilities::underscores_to_camelcase_with_spaces($this->get_name()) . '</b><br />';
 		$html[] = $this->render_block();
-		$html[] = '<br></br>';
+		$html[] = '<br />';
 		return implode("\n", $html);
 	}
 
@@ -225,7 +225,7 @@ abstract class ReportingBlock
             $parameters [ReportingManager :: PARAM_EXPORT_TYPE] = $export_format;
             $parameters [ReportingFormatterForm::FORMATTER_TYPE] = $this->get_displaymode();
 
-            $link = Redirect::get_link(ReportingManager::APPLICATION_NAME, $parameters, array(), true, Redirect::TYPE_CORE);
+            $link = Redirect::get_link(ReportingManager::APPLICATION_NAME, $parameters, array(), false, Redirect::TYPE_CORE);
             $export_format_name = Translation :: get(Utilities :: underscores_to_camelcase($export_format));
             $export_bar_items[] = new ToolbarItem($export_format_name, Theme :: get_common_image_path() . 'export_' . $export_format . '.png', $link, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         }

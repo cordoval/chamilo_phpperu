@@ -404,4 +404,12 @@ $lang['weblcms']['CourseType'] = 'CourseType';
 $lang['weblcms']['Extlink_name'] = 'Extlink_name';
 $lang['weblcms']['Extlink_url'] = 'Extlink_url';
 $lang['weblcms']['ToolName'] = 'ToolName';
+$lang['weblcms']['IncorrectNumber'] = 'Incorrent Number';
+$lang['weblcms']['CourseTypeUpdated'] = 'Course Type Updated';
+$lang['weblcms']['CourseTypeActivated'] = 'Course Type Activated';
+$lang['weblcms']['CourseTypeDeactivated'] = 'Course Type Deactivated';
+$lang['weblcms']['CourseTypesActivated'] = 'Course Types Activated';
+$lang['weblcms']['CourseTypesDeactivated'] = 'Course Types Deactivated';
+$lang['weblcms']['Select'] = 'Select';
+
 ?>

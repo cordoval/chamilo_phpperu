@@ -74,7 +74,7 @@ class WeblcmsManagerActivityChangerComponent extends WeblcmsManagerComponent
                     $success = false;
             }
             
-            $this->redirect(Translation :: get($success ? 'CourseTypeActivated' : 'CourseTypeDeactivated'), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER));
+            $this->redirect(Translation :: get($success ? 'CourseTypeUpdated' : 'CourseTypeNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER));
         }
     }
 
