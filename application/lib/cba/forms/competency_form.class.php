@@ -123,11 +123,11 @@ class CompetencyForm extends FormValidator
 	
 		        $indicators['id'] = 'indicator_'. $value;
 		        $indicators['classes'] = 'type type_cda_language';
-		        $indicators['title'] = $value + 1;
 		        $indicators['title'] = $indicator->get_title();
 		        $indicators['description'] = '';//$indicator->get_description();
 				$attributes['defaults'][$indicators['id']] = $indicators;
 			}
+			
 		}
         
         $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);

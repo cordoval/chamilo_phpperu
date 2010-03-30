@@ -122,7 +122,6 @@ class IndicatorForm extends FormValidator
 	
 		        $criterias['id'] = 'criteria_'. $value;
 		        $criterias['classes'] = 'type type_cda_language';
-		        $criterias['title'] = $value + 1;
 		        $criterias['title'] = $criteria->get_title();
 		        $criterias['description'] = '';//$criteria->get_description();
 				$attributes['defaults'][$criterias['id']] = $criterias;

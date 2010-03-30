@@ -60,7 +60,7 @@ if (Authentication :: is_valid())
 
 
     $udm = CbaDataManager :: get_instance();
-    $criteria_result_set = $udm->retrieve_criterias($criteria_condition, null, null, array(new ObjectTableOrder(Criteria :: PROPERTY_TITLE), new ObjectTableOrder(Criteria :: PROPERTY_DESCRIPTION)));
+    $criteria_result_set = $udm->retrieve_criterias($criteria_condition, null, null, array(new ObjectTableOrder(Criteria :: PROPERTY_ID)));
 
 	$criterias = array();
     while ($criteria = $criteria_result_set->next_result())
