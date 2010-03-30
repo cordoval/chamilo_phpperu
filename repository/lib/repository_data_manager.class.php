@@ -107,6 +107,12 @@ abstract class RepositoryDataManager
     {
         //echo $type; echo "test";
         $temp_class = ContentObject :: factory($type);
+        
+        if(!$temp_class)
+        {
+        	return false;
+        }
+        
         $has_additional_properties = count($temp_class->get_additional_property_names()) > 0;
         unset($temp_class);
         return $has_additional_properties;
@@ -771,7 +777,7 @@ abstract class RepositoryDataManager
      */
     abstract function count_objects_in_which_object_is_included($object);
 
-    abstract function retrieve_content_object_versions($object);
+    abstract function retrieve_content_object_versions($object, $include_last = true);
 
     abstract function get_latest_version_id($object);
 
@@ -967,6 +973,9 @@ abstract class RepositoryDataManager
     abstract function update_external_repository_sync_info($external_repository_sync_info);
 
     abstract function delete_external_repository_sync_info($external_repository_sync_info);
+    
+    abstract function retrieve_doubles_in_repository($condition, $order_property, $offset, $count);
+    abstract function count_doubles_in_repository($condition);
 
 }
 ?>

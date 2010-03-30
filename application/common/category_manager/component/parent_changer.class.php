@@ -143,7 +143,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
         {
             $cat->set_display_order($i);
             $cat->update();
-            $i ++;
+            $i++;
         }
     }
 

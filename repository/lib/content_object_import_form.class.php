@@ -15,6 +15,7 @@ class ContentObjectImportForm extends FormValidator
     private $category;
     private $user;
     private $import_type;
+    private $show_category;
 
     /**
      * Constructor.
@@ -22,12 +23,13 @@ class ContentObjectImportForm extends FormValidator
      * @param string $method The method to use ('post' or 'get').
      * @param string $action The URL to which the form should be submitted.
      */
-    function ContentObjectImportForm($form_name, $method = 'post', $action = null, $category, $user, $import_type = null)
+    function ContentObjectImportForm($form_name, $method = 'post', $action = null, $category, $user, $import_type = null, $show_category = true)
     {
         parent :: __construct($form_name, $method, $action);
         $this->category = $category;
         $this->import_type = $import_type;
         $this->user = $user;
+        $this->show_category = $show_category;
         $this->build_basic_form();
         $this->setDefaults();
     }
@@ -49,9 +51,17 @@ class ContentObjectImportForm extends FormValidator
      */
     private function build_basic_form()
     {
-        $this->add_select(RepositoryManager :: PARAM_CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
+        if($this->show_category)
+        {
+    		$this->add_select(RepositoryManager :: PARAM_CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
+        }
+        else
+        {
+        	$this->addElement('hidden', RepositoryManager :: PARAM_CATEGORY_ID);	
+        }
+        
+        $this->add_select('type', Translation :: get('Type'), $this->get_types());
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
- 		$this->add_select('type', Translation :: get('Type'), $this->get_types());
         //$this->addElement('submit', 'content_object_import', Translation :: get('Ok'));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
         //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));

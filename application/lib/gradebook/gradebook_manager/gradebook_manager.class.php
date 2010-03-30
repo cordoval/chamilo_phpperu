@@ -5,11 +5,11 @@ require_once dirname(__FILE__).'/../gradebook_data_manager.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 require_once Path :: get_application_path() . 'lib/gradebook/gradebook_rights.class.php';
-require_once dirname(__FILE__).'/component/gradebook_browser/gradebook_browser_table.class.php';
+/*require_once dirname(__FILE__).'/component/gradebook_browser/gradebook_browser_table.class.php';
 require_once dirname(__FILE__).'/component/gradebook_subscribe_user_browser/gradebook_subscribe_user_browser_table.class.php';
-require_once dirname(__FILE__).'/component/gradebook_rel_user_browser/gradebook_rel_user_browser_table.class.php';
+require_once dirname(__FILE__).'/component/gradebook_rel_user_browser/gradebook_rel_user_browser_table.class.php'*/;
 
-require_once dirname(__FILE__).'/../gradebook_utilities.class.php';
+//require_once dirname(__FILE__).'/../gradebook_utilities.class.php';
 
 class GradebookManager extends WebApplication
 {

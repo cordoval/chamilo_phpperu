@@ -119,15 +119,16 @@ class Reporting
         
         foreach ($trackerdata as $key => $value)
         {
-            $arr[$value->get_name()][] = $value->get_value();
+            $arr[$value->get_name()] = $value->get_value();
         }
-        return self :: getSerieArray($arr, $description);
+        return $arr;
+        //return self :: get_serie_array($arr, $description);
     } //array_from_tracker
 
     
-    public static function getSerieArray($arr, $description = null)
+    public static function get_serie_array($arr, $description = null)
     {
-        $len = 50;
+    	$len = 50;
         $array = array();
         $i = 0;
         if (! isset($arr) || count($arr) == 0)

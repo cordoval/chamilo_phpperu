@@ -26,16 +26,23 @@ class PdfExport extends Export
 
     public function write_to_file_html($html)
     {
-        require_once Path :: get_plugin_path() . 'html2fpdf/html2fpdf.php';
-        
+        require_once Path :: get_plugin_path() . 'html2pdf/html2pdf.class.php';
+//    	require_once Path :: get_plugin_path() . 'html2fpdf/html2fpdf.php';
+
         //$htmlFile = 'http://localhost/chamilo20/run.php?go=courseviewer&course=1&tool=reporting&application=weblcms';
         //$buffer = file_get_contents($htmlFile);
-        
-        $pdf = new HTML2FPDF('P', 'mm', 'a4');
-        $pdf->AddPage();
-        $pdf->WriteHTML($html);
+
+//        $pdf = new HTML2FPDF('P', 'mm', 'a4');
+//        $pdf->AddPage();
+//        $pdf->WriteHTML($html);
+//        $pdf->Output($this->get_filename(), 'D');
+
+        $pdf = new HTML2PDF('p', 'A4', 'en');
+//        $pdf->AddPage();
+//        $pdf->WriteHTML($html);
+        $pdf->WriteHTML($pdf->getHtmlFromPage($html));
         $pdf->Output($this->get_filename(), 'D');
-        
+
     //        require_once Path :: get_plugin_path().'dompdf/dompdf_config.inc.php';
     //        $theme = Theme :: get_instance();
     //        $dompdf = new DOMPDF();

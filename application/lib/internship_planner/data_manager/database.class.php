@@ -2,493 +2,230 @@
 /**
  * @package internship_planner.datamanager
  */
-//require_once dirname ( __FILE__ ) . '/../category.class.php';
-require_once dirname(__FILE__) . '/../location.class.php';
-//require_once dirname ( __FILE__ ) . '/../location_group.class.php';
-//require_once dirname ( __FILE__ ) . '/../location_rel_category.class.php';
-//require_once dirname ( __FILE__ ) . '/../location_rel_mentor.class.php';
-//require_once dirname ( __FILE__ ) . '/../location_rel_moment.class.php';
-//require_once dirname ( __FILE__ ) . '/../location_rel_type.class.php';
-//require_once dirname ( __FILE__ ) . '/../mentor.class.php';
-//require_once dirname ( __FILE__ ) . '/../moment.class.php';
-//require_once dirname ( __FILE__ ) . '/../period.class.php';
-require_once dirname(__FILE__) . '/../organisation.class.php';
+require_once dirname ( __FILE__ ) . '/../category.class.php';
+require_once dirname ( __FILE__ ) . '/../location.class.php';
+require_once dirname ( __FILE__ ) . '/../category_rel_location.class.php';
+require_once dirname ( __FILE__ ) . '/../organisation.class.php';
 require_once 'MDB2.php';
 
-class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager
-{
-    private $database;
+class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager {
+	private $database;
+	
+	function initialize() {
+		$this->database = new NestedTreeDatabase ();
+		$this->database->set_prefix ( 'internship_planner_' );
+	
 
-    function initialize()
-    {
-        $this->database = new Database();
-        $this->database->set_prefix('internship_planner_');
-    }
+	}
+	
+	function create_storage_unit($name, $properties, $indexes) {
+		return $this->database->create_storage_unit ( $name, $properties, $indexes );
+	}
+	
+	//internship planner locations
+	
 
-    function create_storage_unit($name, $properties, $indexes)
-    {
-        return $this->database->create_storage_unit($name, $properties, $indexes);
-    }
+	function create_internship_location($location) {
+		return $this->database->create ( $location );
+	}
+	
+	function update_internship_location($location) {
+		$condition = new EqualityCondition ( InternshipPlannerLocation::PROPERTY_ID, $location->get_id () );
+		return $this->database->update ( $location, $condition );
+	}
+	
+	function delete_internship_location($location) {
+		$condition = new EqualityCondition ( InternshipPlannerLocation::PROPERTY_ID, $location->get_id () );
+		return $this->database->delete ( $location->get_table_name (), $condition );
+	}
+	
+	function count_locations($condition = null) {
+		return $this->database->count_objects ( InternshipPlannerLocation::get_table_name (), $condition );
+	}
+	
+	function retrieve_location($id) {
+		$condition = new EqualityCondition ( InternshipPlannerLocation::PROPERTY_ID, $id );
+		return $this->database->retrieve_object ( InternshipPlannerLocation::get_table_name (), $condition, array(), InternshipPlannerLocation::CLASS_NAME );
+	}
+	
+	function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null) {
+		return $this->database->retrieve_objects ( InternshipPlannerLocation::get_table_name (), $condition, $offset, $max_objects, $order_by, InternshipPlannerLocation::CLASS_NAME );
+	}
+	
+	//internship planner organisations
+	
 
-    //	function get_next_category_id()
-    //	{
-    //		return $this->database->get_next_id(Category :: get_table_name());
-    //	}
-    //
-    //	function create_category($category)
-    //	{
-    //		return $this->database->create($category);
-    //	}
-    //
-    //	function update_category($category)
-    //	{
-    //		$condition = new EqualityCondition(Category :: PROPERTY_ID, $category->get_id());
-    //		return $this->database->update($category, $condition);
-    //	}
-    //
-    //	function delete_category($category)
-    //	{
-    //		$condition = new EqualityCondition(Category :: PROPERTY_ID, $category->get_id());
-    //		return $this->database->delete($category->get_table_name(), $condition);
-    //	}
-    //
-    //	function count_categories($condition = null)
-    //	{
-    //		return $this->database->count_objects(Category :: get_table_name(), $condition);
-    //	}
-    //
-    //	function retrieve_category($id)
-    //	{
-    //		$condition = new EqualityCondition(Category :: PROPERTY_ID, $id);
-    //		return $this->database->retrieve_object(Category :: get_table_name(), $condition);
-    //	}
-    //
-    //	function retrieve_categories($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    //	{
-    //		return $this->database->retrieve_objects(Category :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-    //	}
-    //
-    //	function get_next_location_id()
-    //	{
-    //		return $this->database->get_next_id(InternshipLocation :: get_table_name());
-    //	}
-    
+	function create_internship_organisation($organisation) {
+		return $this->database->create ( $organisation );
+	}
+	
+	function update_internship_organisation($organisation) {
+		$condition = new EqualityCondition ( InternshipOrganisation::PROPERTY_ID, $organisation->get_id () );
+		return $this->database->update ( $organisation, $condition );
+	}
+	
+	function delete_internship_organisation($organisation) {
+		$condition = new EqualityCondition ( InternshipOrganisation::PROPERTY_ID, $organisation->get_id () );
+		return $this->database->delete ( $organisation->get_table_name (), $condition );
+	}
+	
+	function count_organisations($condition = null) {
+		return $this->database->count_objects ( InternshipOrganisation::get_table_name (), $condition );
+	}
+	
+	function retrieve_organisation($id) {
+		$condition = new EqualityCondition ( InternshipOrganisation::PROPERTY_ID, $id );
+		return $this->database->retrieve_object ( InternshipOrganisation::get_table_name (), $condition, array(), InternshipOrganisation::CLASS_NAME );
+	}
+	
+	function retrieve_organisations($condition = null, $offset = null, $max_objects = null, $order_by = null) {
+		return $this->database->retrieve_objects ( InternshipOrganisation::get_table_name (), $condition, $offset, $max_objects, $order_by, InternshipOrganisation::CLASS_NAME );
+	}
+	
+	//internship planner categories
+	
 
-    function create_internship_location($location)
-    {
-        return $this->database->create($location);
-    }
+	function update_internship_planner_category($category) {
+		$condition = new EqualityCondition ( InternshipPlannerCategory::PROPERTY_ID, $category->get_id () );
+		return $this->database->update ( $category, $condition );
+	}
+	
+	function delete_internship_planner_category($category) {
+		$condition = new EqualityCondition ( InternshipPlannerCategory::PROPERTY_ID, $category->get_id () );
+		$bool = $this->database->delete ( $category->get_table_name (), $condition );
+		
+		$condition_subcategories = new EqualityCondition ( InternshipPlannerCategory::PROPERTY_PARENT_ID, $category->get_id () );
+		$categories = $this->retrieve_categories ( $condition_subcategories );
+		while ( $gr = $categories->next_result () ) {
+			$bool = $bool & $this->delete_category ( $gr );
+		}
+		
+		$this->truncate_category ( $category );
+		
+		return $bool;
+	
+	}
+	
+	function truncate_category($category) {
+		$condition = new EqualityCondition ( InternshipPlannerCategoryRelLocation::PROPERTY_CATEGORY_ID, $category->get_id () );
+		return $this->database->delete ( InternshipPlannerCategoryRelLocation::get_table_name (), $condition );
+	}
+	
+	function delete_category_rel_location($categoryrellocation) {
+		$conditions = array ();
+		$conditions [] = new EqualityCondition ( InternshipPlannerCategoryRelLocation::PROPERTY_CATEGORY_ID, $categoryrellocation->get_category_id () );
+		$conditions [] = new EqualityCondition ( InternshipPlannerCategoryRelLocation::PROPERTY_LOCATION_ID, $categoryrellocation->get_location_id () );
+		$condition = new AndCondition ( $conditions );
+		
+		return $this->database->delete ( $categoryrellocation->get_table_name (), $condition );
+	}
+	
+	function create_internship_planner_category($category) {
+		return $this->database->create ( $category );
+	}
+	
+	function create_internship_planner_category_rel_location($categoryrellocation) {
+		return $this->database->create ( $categoryrellocation );
+	}
+	
+	function count_categories($condition = null) {
+		return $this->database->count_objects ( InternshipPlannerCategory::get_table_name (), $condition );
+	}
+	
+	function retrieve_categories($condition = null, $offset = null, $max_objects = null, $order_by = null) {
+		return $this->database->retrieve_objects ( InternshipPlannerCategory::get_table_name (), $condition, $offset, $max_objects, $order_by , InternshipPlannerCategory :: CLASS_NAME);
+	}
+	
+	function retrieve_internship_planner_category($id) {
+		$condition = new EqualityCondition ( InternshipPlannerCategory::PROPERTY_ID, $id );
+		return $this->database->retrieve_object ( InternshipPlannerCategory::get_table_name (), $condition , array() ,InternshipPlannerCategory :: CLASS_NAME);
+	}
+	
+	function count_category_rel_locations($condition = null) {
+		return $this->database->count_objects ( InternshipPlannerCategoryRelLocation::get_table_name (), $condition );
+	}
+	
+	function retrieve_category_rel_locations($condition = null, $offset = null, $max_objects = null, $order_by = null) {
+		return $this->database->retrieve_objects ( InternshipPlannerCategoryRelLocation::get_table_name (), $condition, $offset, $max_objects, $order_by , InternshipPlannerCategoryRelLocation :: CLASS_NAME);
+	}
+	
+	function retrieve_category_rel_location($location_id, $category_id) {
+		$conditions = array ();
+		$conditions [] = new EqualityCondition ( InternshipPlannerCategoryRelLocation::PROPERTY_LOCATION_ID, $location_id );
+		$conditions [] = new EqualityCondition ( InternshipPlannerCategoryRelLocation::PROPERTY_CATEGORY_ID, $category_id );
+		$condition = new AndCondition ( $conditions );
+		return $this->database->retrieve_object( InternshipPlannerCategoryRelLocation::get_table_name (), $condition , array(), InternshipPlannerCategoryRelLocation :: CLASS_NAME);
+	}
 
-    function update_internship_location($location)
-    {
-        $condition = new EqualityCondition(InternshipLocation :: PROPERTY_ID, $location->get_id());
-        return $this->database->update($location, $condition);
-    }
-
-    function delete_internship_location($location)
-    {
-        $condition = new EqualityCondition(InternshipLocation :: PROPERTY_ID, $location->get_id());
-        return $this->database->delete($location->get_table_name(), $condition);
-    }
-
-    function count_locations($condition = null)
-    {
-        return $this->database->count_objects(InternshipLocation :: get_table_name(), $condition);
-    }
-
-    function retrieve_location($id)
-    {
-        $condition = new EqualityCondition(InternshipLocation :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(InternshipLocation :: get_table_name(), $condition, null, InternshipLocation :: CLASS_NAME);
-    }
-
-    function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-        return $this->database->retrieve_objects(InternshipLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipLocation :: CLASS_NAME);
-    }
-
-    function create_internship_organisation($organisation)
-    {
-        return $this->database->create($organisation);
-    }
-
-    function update_internship_organisation($organisation)
-    {
-        $condition = new EqualityCondition(InternshipOrganisation :: PROPERTY_ID, $organisation->get_id());
-        return $this->database->update($organisation, $condition);
-    }
-
-    function delete_internship_organisation($organisation)
-    {
-        $condition = new EqualityCondition(InternshipOrganisation :: PROPERTY_ID, $organisation->get_id());
-        return $this->database->delete($organisation->get_table_name(), $condition);
-    }
-
-    function count_organisations($condition = null)
-    {
-        return $this->database->count_objects(InternshipOrganisation :: get_table_name(), $condition);
-    }
-
-    function retrieve_organisation($id)
-    {
-        $condition = new EqualityCondition(InternshipOrganisation :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(InternshipOrganisation :: get_table_name(), $condition, null, InternshipOrganisation :: CLASS_NAME);
-    }
-
-    function retrieve_organisations($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-        return $this->database->retrieve_objects(InternshipOrganisation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganisation :: CLASS_NAME);
-    }
-    
-//	function get_next_location_group_id()
-//	{
-//		return $this->database->get_next_id(InternshipLocationGroup :: get_table_name());
-//	}
-//
-//	function create_location_group($location_group)
-//	{
-//		return $this->database->create($location_group);
-//	}
-//
-//	function update_location_group($location_group)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationGroup :: PROPERTY_ID, $location_group->get_id());
-//		return $this->database->update($location_group, $condition);
-//	}
-//
-//	function delete_location_group($location_group)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationGroup :: PROPERTY_ID, $location_group->get_id());
-//		return $this->database->delete($location_group->get_table_name(), $condition);
-//	}
-//
-//	function count_location_groups($condition = null)
-//	{
-//		return $this->database->count_objects(InternshipLocationGroup :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_location_group($id)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationGroup :: PROPERTY_ID, $id);
-//		return $this->database->retrieve_object(InternshipLocationGroup :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_location_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
-//	{
-//		return $this->database->retrieve_objects(InternshipLocationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-//	}
-//
-//	function get_next_location_rel_category_id()
-//	{
-//		return $this->database->get_next_id(InternshipLocationRelCategory :: get_table_name());
-//	}
-//
-//	function create_location_rel_category($location_rel_category)
-//	{
-//		return $this->database->create($location_rel_category);
-//	}
-//
-//	function update_location_rel_category($location_rel_category)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelCategory :: PROPERTY_ID, $location_rel_category->get_id());
-//		return $this->database->update($location_rel_category, $condition);
-//	}
-//
-//	function delete_location_rel_category($location_rel_category)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelCategory :: PROPERTY_ID, $location_rel_category->get_id());
-//		return $this->database->delete($location_rel_category->get_table_name(), $condition);
-//	}
-//
-//	function count_location_rel_categories($condition = null)
-//	{
-//		return $this->database->count_objects(InternshipLocationRelCategory :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_location_rel_category($id)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelCategory :: PROPERTY_ID, $id);
-//		return $this->database->retrieve_object(InternshipLocationRelCategory :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_location_rel_categories($condition = null, $offset = null, $max_objects = null, $order_by = null)
-//	{
-//		return $this->database->retrieve_objects(InternshipLocationRelCategory :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-//	}
-//
-//	function get_next_location_rel_mentor_id()
-//	{
-//		return $this->database->get_next_id(InternshipLocationRelMentor :: get_table_name());
-//	}
-//
-//	function create_location_rel_mentor($location_rel_mentor)
-//	{
-//		return $this->database->create($location_rel_mentor);
-//	}
-//
-//	function update_location_rel_mentor($location_rel_mentor)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelMentor :: PROPERTY_ID, $location_rel_mentor->get_id());
-//		return $this->database->update($location_rel_mentor, $condition);
-//	}
-//
-//	function delete_location_rel_mentor($location_rel_mentor)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelMentor :: PROPERTY_ID, $location_rel_mentor->get_id());
-//		return $this->database->delete($location_rel_mentor->get_table_name(), $condition);
-//	}
-//
-//	function count_location_rel_mentors($condition = null)
-//	{
-//		return $this->database->count_objects(InternshipLocationRelMentor :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_location_rel_mentor($id)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelMentor :: PROPERTY_ID, $id);
-//		return $this->database->retrieve_object(InternshipLocationRelMentor :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_location_rel_mentors($condition = null, $offset = null, $max_objects = null, $order_by = null)
-//	{
-//		return $this->database->retrieve_objects(InternshipLocationRelMentor :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-//	}
-//
-//	function get_next_location_rel_moment_id()
-//	{
-//		return $this->database->get_next_id(InternshipLocationRelMoment :: get_table_name());
-//	}
-//
-//	function create_location_rel_moment($location_rel_moment)
-//	{
-//		return $this->database->create($location_rel_moment);
-//	}
-//
-//	function update_location_rel_moment($location_rel_moment)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelMoment :: PROPERTY_ID, $location_rel_moment->get_id());
-//		return $this->database->update($location_rel_moment, $condition);
-//	}
-//
-//	function delete_location_rel_moment($location_rel_moment)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelMoment :: PROPERTY_ID, $location_rel_moment->get_id());
-//		return $this->database->delete($location_rel_moment->get_table_name(), $condition);
-//	}
-//
-//	function count_location_rel_moments($condition = null)
-//	{
-//		return $this->database->count_objects(InternshipLocationRelMoment :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_location_rel_moment($id)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelMoment :: PROPERTY_ID, $id);
-//		return $this->database->retrieve_object(InternshipLocationRelMoment :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_location_rel_moments($condition = null, $offset = null, $max_objects = null, $order_by = null)
-//	{
-//		return $this->database->retrieve_objects(InternshipLocationRelMoment :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-//	}
-//
-//	function get_next_location_rel_type_id()
-//	{
-//		return $this->database->get_next_id(InternshipLocationRelType :: get_table_name());
-//	}
-//
-//	function create_location_rel_type($location_rel_type)
-//	{
-//		return $this->database->create($location_rel_type);
-//	}
-//
-//	function update_location_rel_type($location_rel_type)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelType :: PROPERTY_ID, $location_rel_type->get_id());
-//		return $this->database->update($location_rel_type, $condition);
-//	}
-//
-//	function delete_location_rel_type($location_rel_type)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelType :: PROPERTY_ID, $location_rel_type->get_id());
-//		return $this->database->delete($location_rel_type->get_table_name(), $condition);
-//	}
-//
-//	function count_location_rel_types($condition = null)
-//	{
-//		return $this->database->count_objects(InternshipLocationRelType :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_location_rel_type($id)
-//	{
-//		$condition = new EqualityCondition(InternshipLocationRelType :: PROPERTY_ID, $id);
-//		return $this->database->retrieve_object(InternshipLocationRelType :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_location_rel_types($condition = null, $offset = null, $max_objects = null, $order_by = null)
-//	{
-//		return $this->database->retrieve_objects(InternshipLocationRelType :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-//	}
-//
-//	function get_next_mentor_id()
-//	{
-//		return $this->database->get_next_id(Mentor :: get_table_name());
-//	}
-//
-//	function create_mentor($mentor)
-//	{
-//		return $this->database->create($mentor);
-//	}
-//
-//	function update_mentor($mentor)
-//	{
-//		$condition = new EqualityCondition(Mentor :: PROPERTY_ID, $mentor->get_id());
-//		return $this->database->update($mentor, $condition);
-//	}
-//
-//	function delete_mentor($mentor)
-//	{
-//		$condition = new EqualityCondition(Mentor :: PROPERTY_ID, $mentor->get_id());
-//		return $this->database->delete($mentor->get_table_name(), $condition);
-//	}
-//
-//	function count_mentors($condition = null)
-//	{
-//		return $this->database->count_objects(Mentor :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_mentor($id)
-//	{
-//		$condition = new EqualityCondition(Mentor :: PROPERTY_ID, $id);
-//		return $this->database->retrieve_object(Mentor :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_mentors($condition = null, $offset = null, $max_objects = null, $order_by = null)
-//	{
-//		return $this->database->retrieve_objects(Mentor :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-//	}
-//
-//	function get_next_moment_id()
-//	{
-//		return $this->database->get_next_id(Moment :: get_table_name());
-//	}
-//
-//	function create_moment($moment)
-//	{
-//		return $this->database->create($moment);
-//	}
-//
-//	function update_moment($moment)
-//	{
-//		$condition = new EqualityCondition(Moment :: PROPERTY_ID, $moment->get_id());
-//		return $this->database->update($moment, $condition);
-//	}
-//
-//	function delete_moment($moment)
-//	{
-//		$condition = new EqualityCondition(Moment :: PROPERTY_ID, $moment->get_id());
-//		return $this->database->delete($moment->get_table_name(), $condition);
-//	}
-//
-//	function count_moments($condition = null)
-//	{
-//		return $this->database->count_objects(Moment :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_moment($id)
-//	{
-//		$condition = new EqualityCondition(Moment :: PROPERTY_ID, $id);
-//		return $this->database->retrieve_object(Moment :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_moments($condition = null, $offset = null, $max_objects = null, $order_by = null)
-//	{
-//		return $this->database->retrieve_objects(Moment :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-//	}
-//
-//	function get_next_period_id()
-//	{
-//		return $this->database->get_next_id(Period :: get_table_name());
-//	}
-//
-//	function create_period($period)
-//	{
-//		return $this->database->create($period);
-//	}
-//
-//	function update_period($period)
-//	{
-//		$condition = new EqualityCondition(Period :: PROPERTY_ID, $period->get_id());
-//		return $this->database->update($period, $condition);
-//	}
-//
-//	function delete_period($period)
-//	{
-//		$condition = new EqualityCondition(Period :: PROPERTY_ID, $period->get_id());
-//		return $this->database->delete($period->get_table_name(), $condition);
-//	}
-//
-//	function count_periods($condition = null)
-//	{
-//		return $this->database->count_objects(Period :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_period($id)
-//	{
-//		$condition = new EqualityCondition(Period :: PROPERTY_ID, $id);
-//		return $this->database->retrieve_object(Period :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_periods($condition = null, $offset = null, $max_objects = null, $order_by = null)
-//	{
-//		return $this->database->retrieve_objects(Period :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-//	}
-//
-//	function get_next_place_id()
-//	{
-//		return $this->database->get_next_id(Place :: get_table_name());
-//	}
-//
-//	function create_place($place)
-//	{
-//		return $this->database->create($place);
-//	}
-//
-//	function update_place($place)
-//	{
-//		$condition = new EqualityCondition(Place :: PROPERTY_ID, $place->get_id());
-//		return $this->database->update($place, $condition);
-//	}
-//
-//	function delete_place($place)
-//	{
-//		$condition = new EqualityCondition(Place :: PROPERTY_ID, $place->get_id());
-//		return $this->database->delete($place->get_table_name(), $condition);
-//	}
-//
-//	function count_places($condition = null)
-//	{
-//		return $this->database->count_objects(Place :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_place($id)
-//	{
-//		$condition = new EqualityCondition(Place :: PROPERTY_ID, $id);
-//		return $this->database->retrieve_object(Place :: get_table_name(), $condition);
-//	}
-//
-//	function retrieve_places($condition = null, $offset = null, $max_objects = null, $order_by = null)
-//	{
-//		return $this->database->retrieve_objects(Place :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-//	}
-//	
-//	function retrieve_category_root($id)
-// 	{
-// 		$conditions = array();
-// 		$conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, 0);
-// 		$condition = new AndCondition($conditions);
-// 		return $this->retrieve_categories($condition)->next_result();
-// 	}
+	function retrieve_category_by_name($name) {
+		$condition = new EqualityCondition ( InternshipPlannerCategory::PROPERTY_NAME, $name );
+		return $this->database->retrieve_object ( InternshipPlannerCategory::get_table_name (), $condition );
+	}
+	
+	function is_categoryname_available($categoryname, $category_id = null) {
+		$condition = new EqualityCondition ( InternshipPlannerCategory::PROPERTY_NAME, $categoryname );
+		
+		if ($category_id) {
+			$conditions = array ();
+			$conditions [] = new EqualityCondition ( InternshipPlannerCategory::PROPERTY_NAME, $categoryname );
+			$conditions = new EqualityCondition ( InternshipPlannerCategory::PROPERTY_ID, $category_id );
+			$condition = new AndCondition ( $conditions );
+		}
+		
+		return ! ($this->database->count_objects ( InternshipPlannerCategory::get_table_name (), $condition ) == 1);
+	}
+	
+	function add_internship_planner_category_nested_values($node, $previous_visited, $number_of_elements = 1, $condition) {
+		
+		return $this->database->add_nested_values ( $node, $previous_visited, $number_of_elements, $condition );
+	}
+	
+	function delete_internship_planner_category_nested_values($node, $previous_visited, $number_of_elements, $condition) {
+		return $this->database->add_nested_values ( $node, $previous_visited, $number_of_elements, $condition );
+	}
+	
+	function move_internship_planner_category($category, $new_parent_id, $new_previous_id = 0, $condition) {
+		return $this->database->move ( $category, $new_parent_id, $new_previous_id, $condition );
+	}
+	
+	function count_internship_planner_category_children($node, $condition) {
+		return $this->database->count_children ( $node, $condition );
+	}
+	
+	function get_internship_planner_category_children($node, $recursieve, $condition) {
+		return $this->database->get_children ( $node, $recursieve, $condition );
+	}
+	
+	function count_internship_planner_category_sibblings($node, $include_object, $condition) {
+		return $this->database->count_sibblings ( $node, $include_object, $condition );
+	}
+	
+	function get_internship_planner_category_sibblings($node, $include_object, $condition) {
+		return $this->database->get_sibblings ( $node, $include_object, $condition );
+	}
+	
+	function count_internship_planner_category_parents($node, $include_object, $condition) {
+		return $this->database->count_parents ( $node, $include_object, $condition );
+	}
+	
+	function get_internship_planner_category_parents($node, $recursieve, $include_object, $condition) {
+		return $this->database->get_parents ( $node, $recursieve, $include_object, $condition );
+	}
+	
+	function retrieve_root_category()
+ 	{
+ 		$conditions = array();
+ 		$conditions[] = new EqualityCondition(InternshipPlannerCategory :: PROPERTY_PARENT_ID, 0);
+ 		$condition = new AndCondition($conditions);
+ 		$root_category = $this->retrieve_categories($condition)->next_result();
+ 		if(! isset($root_category)){
+ 			$root_category = new InternshipPlannerCategory();
+ 			$root_category->set_name('ROOT');
+        	$root_category->set_parent_id(0);
+        	$root_category->create();
+ 		}
+ 		return $root_category;
+ 	}
 
 
 }

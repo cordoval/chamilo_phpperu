@@ -14,8 +14,8 @@ if (Authentication :: is_valid())
     $conditions = array();
     //	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
     $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
-    $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
-    $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
+    $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
+    $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
     $conditions[] = new OrCondition($or_conditions);
     $condition = new AndCondition($conditions);
 

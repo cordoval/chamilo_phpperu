@@ -20,9 +20,12 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	const PARAM_COMPETENCY = 'competency';
 	const PARAM_INDICATOR = 'indicator';
 	const PARAM_CRITERIA = 'criteria';
+	const PARAM_CRITERIA_SCORE = 'criteria_score';	
+	const PARAM_COMPETENCY_INDICATOR = 'competency_indicator';
+	const PARAM_INDICATOR_CRITERIA = 'indicator_criteria';
 	
 	const PARAM_CONTENT_OBJECT_TYPE = 'type';
-	const PARAM_CONTENT_OBJECT_ID = 'object';
+	//const PARAM_CONTENT_OBJECT_ID = 'object';
 	const PARAM_DELETE_SELECTED_COMPETENCYS = 'delete_selected_competencys';
 	const PARAM_DELETE_SELECTED_INDICATORS = 'delete_selected_indicators';
 	const PARAM_DELETE_SELECTED_CRITERIAS = 'delete_selected_criterias';
@@ -177,6 +180,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 		$component->run();
 	}
 
+	
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))
@@ -284,7 +288,9 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 		return self :: APPLICATION_NAME;
 	}
 
+	
 	// Data Retrieving
+	
 	
  	// Competency
  	function count_competencys($condition)
@@ -302,6 +308,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 		return CbaDataManager :: get_instance()->retrieve_competency($id);
 	}
 	
+	
 	// Indicator
  	function count_indicators($condition)
 	{
@@ -318,6 +325,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 		return CbaDataManager :: get_instance()->retrieve_indicator($id);
 	}
 	
+	
  	// Criteria
  	function count_criterias($condition)
 	{
@@ -333,7 +341,59 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	{
 		return CbaDataManager :: get_instance()->retrieve_criteria($id);
 	}
+	
+	
+ 	// Criteria Score
+ 	function count_criterias_score($condition)
+	{
+		return CbaDataManager :: get_instance()->count_criterias_score($condition);
+	}
+	
+ 	function retrieve_criterias_score($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return CbaDataManager :: get_instance()->retrieve_criterias_score($condition, $offset, $count, $order_property);
+	}
+	
+ 	function retrieve_criteria_score($id)
+	{
+		return CbaDataManager :: get_instance()->retrieve_criteria_score($id);
+	}
+	
+	
+ 	// Competency Indicator
+ 	function count_competencys_indicator($condition)
+	{
+		return CbaDataManager :: get_instance()->count_competencys_indicator($condition);
+	}
+	
+ 	function retrieve_competencys_indicator($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return CbaDataManager :: get_instance()->retrieve_competencys_indicator($condition, $offset, $count, $order_property);
+	}
+	
+ 	function retrieve_competency_indicator($id)
+	{
+		return CbaDataManager :: get_instance()->retrieve_competency_indicator($id);
+	}
+		
+	
+ 	// Indicator Criteria
+ 	function count_indicators_criteria($condition)
+	{
+		return CbaDataManager :: get_instance()->count_indicators_criteria($condition);
+	}
+	
+ 	function retrieve_indicators_criteria($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return CbaDataManager :: get_instance()->retrieve_indicators_criteria($condition, $offset, $count, $order_property);
+	}
+	
+ 	function retrieve_indicator_criteria($id)
+	{
+		return CbaDataManager :: get_instance()->retrieve_indicator_criteria($id);
+	}
 
+	
 	
 	// Url Creation
 	
@@ -393,6 +453,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE));
 	}
+	
 	
 	
 	//Url creation for the different categories
@@ -474,6 +535,8 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	}
 	
 	
+	// Header (Breadcrumbs + tree menu + title)
+	
  	function display_header($breadcrumbtrail, $display_search = false, $display_menu = true)
     {
         if (is_null($breadcrumbtrail))
@@ -486,6 +549,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 
         $title = $breadcrumbtrail->get_last()->get_name();
         $title_short = $title;
+        
         if (strlen($title_short) > 53)
         {
             $title_short = substr($title_short, 0, 50) . '&hellip;';
@@ -507,9 +571,9 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 
         echo '<div>';
         echo '<h3 style="float: left;" title="' . $title . '">' . $title_short . '</h3>';
-        
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
+        
         if ($msg = Request :: get(Application :: PARAM_MESSAGE))
         {
             $this->display_message($msg);
@@ -520,24 +584,27 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
         }
     }
     
-
-    private function determine_category_settings()
-    {
-        if (Request :: get(self :: PARAM_CATEGORY_ID))
-        {
-            $this->set_parameter(self :: PARAM_CATEGORY_ID, intval(Request :: get(self :: PARAM_CATEGORY_ID)));
-        }
-    }
     
+    // Display the tree menu with content from the category menu
+    
+  	private function display_content_object_categories()
+    {
+        echo $this->get_category_menu()->render_as_tree();
+    }  
+    
+    
+    // Get tree menu
     
     private function get_category_menu($force_search = false)
     {
         if (! isset($this->category_menu))
         {
-            $temp_replacement = '__CATEGORY_ID__';
+            $temp_replacement = '__CATEGORY_ID__';         
             $url_format = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_COMPETENCY, self :: PARAM_CATEGORY_ID => $temp_replacement));
             $url_format = str_replace($temp_replacement, '%s', $url_format);
+            
             $category = $this->get_parameter(self :: PARAM_CATEGORY_ID);
+            
             if (! isset($category))
             {
                 $category = $this->get_root_category_id();
@@ -546,7 +613,6 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
             
             $extra_items = array();
             
-
             $create = array();
             $create['title'] = Translation :: get('Create');
             $create['url'] = $this->get_create_url();
@@ -556,25 +622,19 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
             $line['title'] = '';
             $line['class'] = 'divider';
 
-
             $extra_items[] = $line;
             $extra_items[] = $create;
 			
 			$this->category_menu = new CbaMenu($this->get_user_id(), $category, $url_format, $extra_items);
+			
             if (isset($search_url))
             {
                 $this->category_menu->forceCurrentUrl($search_url, true);
-            }
-            
+            }         
         }
         return $this->category_menu;
     }
-    
- 	function get_root_category_id()
-    {
-		return 0;
-    }
-    
+
     
     // Renders a tree menu
     
@@ -585,12 +645,21 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
         return $renderer->toHTML();
     }
     
-    // Display the tree menu with content from the category menu
     
-  	private function display_content_object_categories()
+    // Root category
+    
+ 	function get_root_category_id()
     {
-        echo $this->get_category_menu()->render_as_tree();
+		return 0;
     }
     
+    
+    private function determine_category_settings()
+    {
+        if (Request :: get(self :: PARAM_CATEGORY_ID))
+        {
+            $this->set_parameter(self :: PARAM_CATEGORY_ID, intval(Request :: get(self :: PARAM_CATEGORY_ID)));
+        }
+    }
 }
 ?>

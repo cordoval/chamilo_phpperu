@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>CDA</name>
+		<name>Chamilo Translation Application</name>
 		<code>cda</code>
 		<section>application</section>
-		<category>research</category>
+		<category>collaboration</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/applications/c/cda/cda-1.0.0.zip</filename>

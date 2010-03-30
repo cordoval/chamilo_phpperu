@@ -100,7 +100,12 @@ class DatabaseReportingDataManager extends ReportingDataManager
         return $this->database->create($reporting_template_registration);
     } //create_reporting_template_registration
 
-
+    function create_reporting_block_registration($reporting_block_registration)
+    {
+        return $this->database->create($reporting_block_registration);
+    } //create_reporting_template_registration
+    
+    
     function update_reporting_template_registration($reporting_template_registration)
     {
         $condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_ID, $reporting_template_registration->get_id());
@@ -120,6 +125,10 @@ class DatabaseReportingDataManager extends ReportingDataManager
         return $this->database->retrieve_objects(ReportingTemplateRegistration :: get_table_name(), $condition, $offset, $max_objects, $order_property);
     } //retrieve_reporting_template_registrations
 
+    function retrieve_reporting_block_registrations($condition = null, $offset = null, $max_objects = null, $order_property = null)
+    {
+    	return $this->database->retrieve_objects(ReportingBlockRegistration :: get_table_name(), $condition, $offset, $max_objects, $order_property);
+    }
 
     function count_reporting_template_registrations($condition = null)
     {
@@ -133,6 +142,11 @@ class DatabaseReportingDataManager extends ReportingDataManager
         return $this->database->retrieve_object(ReportingTemplateRegistration :: get_table_name(), $condition);
     } //retrieve_reporting_template_registration
 
+    function retrieve_reporting_block_registration($reporting_block_registration_id)
+    {
+    	$condition = new EqualityCondition(ReportingBlockRegistration:: PROPERTY_ID, $reporting_block_registration_id);
+    	return $this->database->retrieve_object(ReportingBlockRegistration::get_table_name(), $condition);
+    }
 
     function delete_reporting_template_registrations($condition = null)
     {

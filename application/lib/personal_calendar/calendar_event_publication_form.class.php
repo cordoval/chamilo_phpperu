@@ -130,14 +130,16 @@ class CalendarEventPublicationForm extends FormValidator
     function create_content_object_publication()
     {
         $values = $this->exportValues();
-        $shares = $values[self :: PARAM_SHARE_ELEMENTS];
+
+        $users = $values[self :: PARAM_SHARE_ELEMENTS]['user'];
+        $groups = $values[self :: PARAM_SHARE_ELEMENTS]['group'];
 
         $pub = new CalendarEventPublication();
         $pub->set_calendar_event($this->content_object->get_id());
         $pub->set_publisher($this->form_user->get_id());
         $pub->set_published(time());
-        $pub->set_target_users($shares['user']);
-        $pub->set_target_groups($shares['group']);
+        $pub->set_target_users($users);
+        $pub->set_target_groups($groups);
 
         if ($pub->create())
         {
@@ -155,7 +157,8 @@ class CalendarEventPublicationForm extends FormValidator
 
         $ids = unserialize($values['ids']);
 
-        $shares = $values['share'];
+        $users = $values[self :: PARAM_SHARE_ELEMENTS]['user'];
+        $groups = $values[self :: PARAM_SHARE_ELEMENTS]['group'];
 
         foreach ($ids as $id)
         {
@@ -163,8 +166,8 @@ class CalendarEventPublicationForm extends FormValidator
             $pub->set_calendar_event($id);
             $pub->set_publisher($this->form_user->get_id());
             $pub->set_published(time());
-            $pub->set_target_users($shares['user']);
-            $pub->set_target_groups($shares['group']);
+            $pub->set_target_users($users);
+            $pub->set_target_groups($groups);
 
             if (! $pub->create())
             {
@@ -197,7 +200,7 @@ class CalendarEventPublicationForm extends FormValidator
             $selected_group['id'] = 'group_' . $group->get_id();
             $selected_group['classes'] = 'type type_group';
             $selected_group['title'] = $group->get_name();
-            $selected_group['description'] = $group->get_description();
+            $selected_group['description'] = $group->get_name();
 
             $defaults[self :: PARAM_SHARE_ELEMENTS][$selected_group['id']] = $selected_group;
         }

@@ -11,14 +11,19 @@
  */
 abstract class Mail
 {
-    const FROM_NAME = 'name';
-    const FROM_EMAIL = 'email';
-    
+    const NAME = 'name';
+    const EMAIL = 'email';
+     
     /**
      * The sender of the mail
      * An array containing the name AND the e-mail address
      */
     private $from;
+    /**
+     * The reply address of the mail
+     * An array containing the name AND the e-mail address
+     */
+    private $reply;
     /**
      * Array of receivers in the TO field of the mail
      */
@@ -127,13 +132,38 @@ abstract class Mail
 
     function get_from_name()
     {
-        return $this->from[self :: FROM_NAME];
+        return $this->from[self :: NAME];
     }
 
-    function get_from_email()
+	function get_from_email()
     {
-        return $this->from[self :: FROM_EMAIL];
+        return $this->from[self :: EMAIL];
     }
+    
+    /**
+     * Retrieves the reply-to of the email
+     * @return array
+     */
+    function get_reply()
+    {
+        return $this->from;
+    }
+
+    function set_reply($reply)
+    {
+        return $this->reply = $reply;
+    }
+
+    function get_reply_name()
+    {
+        return $this->reply[self :: NAME];
+    }
+	
+    function get_reply_email()
+    {
+        return $this->reply[self :: EMAIL];
+    }
+    
 
     /**
      * Send the email

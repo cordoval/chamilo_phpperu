@@ -301,5 +301,12 @@ class Text
     {
         return (substr($str, $pos, 1) !== false) ? substr($str, $pos, 1) : - 1;
     }
+
+    public static function remove_non_alphanumerical($string)
+    {
+        $string = str_replace (' ', '', $string);
+        $string = preg_replace('/[^a-zA-Z0-9\s]/', '', $string);
+        return Utilities :: camelcase_to_underscores($string);
+    }
 }
 ?>

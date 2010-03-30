@@ -62,6 +62,13 @@ class Translation
 
     /**
      * Returns the instance of this class.
+     * @param String $variable
+     * @param Array $parameters (always use capital letters)
+     * 
+     * Example:
+     * Translation :: get('UserCount', array('COUNT' => $usercount));
+     * $lang['user']['UserCount'] = There are {COUNT} users on the system;
+     * 
      * @return Translation The instance.
      */
     function get($variable, $parameters = array())
@@ -75,7 +82,7 @@ class Translation
         }
         else
         {
-            return preg_replace('#\{([A-Z0-9\-_]+)\}#e', 'isset($parameters[\'\\1\']) ? $parameters[\'\\1\'] : \'\'', $variable);
+        	return preg_replace('#\{([A-Z0-9\-_]+)\}#e', 'isset($parameters[\'\\1\']) ? $parameters[\'\\1\'] : \'\'', $translation);
         }
     }
 

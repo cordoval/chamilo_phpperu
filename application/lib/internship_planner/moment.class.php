@@ -1,14 +1,11 @@
 <?php 
-/**
- * internship_planner
- */
 
 /**
- * This class describes a Moment data object
+ * This class describes a InternshipMoment data object
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class Moment extends DataClass
+class InternshipPlannerMoment extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -16,10 +13,11 @@ class Moment extends DataClass
 	 * Moment properties
 	 */
 	const PROPERTY_ID = 'id';
-	const PROPERTY_USER_ID = 'user_id';
+	const PROPERTY_NAME = 'name';
+	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_BEGIN = 'begin';
 	const PROPERTY_END = 'end';
-	const PROPERTY_CATEGORY_ID = 'category_id';
+	const PROPERTY_AGREEMENT_ID = 'agreement_id';
 
 	/**
 	 * Get the default properties
@@ -27,7 +25,12 @@ class Moment extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_BEGIN, self :: PROPERTY_END, self :: PROPERTY_CATEGORY_ID);
+		return array (	self :: PROPERTY_ID, 
+						self :: PROPERTY_NAME, 
+						self :: PROPERTY_DESCRIPTION,
+						self :: PROPERTY_BEGIN, 
+						self :: PROPERTY_END, 
+						self :: PROPERTY_AGREEMENT_ID);
 	}
 
 	function get_data_manager()
@@ -36,7 +39,7 @@ class Moment extends DataClass
 	}
 
 	/**
-	 * Returns the id of this Moment.
+	 * Returns the id of this InternshipMoment.
 	 * @return the id.
 	 */
 	function get_id()
@@ -45,7 +48,7 @@ class Moment extends DataClass
 	}
 
 	/**
-	 * Sets the id of this Moment.
+	 * Sets the id of this InternshipMoment.
 	 * @param id
 	 */
 	function set_id($id)
@@ -54,25 +57,44 @@ class Moment extends DataClass
 	}
 
 	/**
-	 * Returns the user_id of this Moment.
-	 * @return the user_id.
+	 * Returns the name of this InternshipMoment.
+	 * @return the name.
 	 */
-	function get_user_id()
+	function get_name()
 	{
-		return $this->get_default_property(self :: PROPERTY_USER_ID);
+		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
 
 	/**
-	 * Sets the user_id of this Moment.
-	 * @param user_id
+	 * Sets the name of this InternshipMoment.
+	 * @param name
 	 */
-	function set_user_id($user_id)
+	function set_name($name)
 	{
-		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
+		$this->set_default_property(self :: PROPERTY_NAME, $name);
 	}
 
 	/**
-	 * Returns the begin of this Moment.
+	 * Returns the description of this InternshipMoment.
+	 * @return the description.
+	 */
+	function get_description()
+	{
+		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
+	}
+
+	/**
+	 * Sets the description of this InternshipMoment.
+	 * @param description
+	 */
+	function set_description($description)
+	{
+		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
+	}
+	
+	
+	/**
+	 * Returns the begin of this InternshipMoment.
 	 * @return the begin.
 	 */
 	function get_begin()
@@ -81,7 +103,7 @@ class Moment extends DataClass
 	}
 
 	/**
-	 * Sets the begin of this Moment.
+	 * Sets the begin of this InternshipMoment.
 	 * @param begin
 	 */
 	function set_begin($begin)
@@ -90,7 +112,7 @@ class Moment extends DataClass
 	}
 
 	/**
-	 * Returns the end of this Moment.
+	 * Returns the end of this InternshipMoment.
 	 * @return the end.
 	 */
 	function get_end()
@@ -99,7 +121,7 @@ class Moment extends DataClass
 	}
 
 	/**
-	 * Sets the end of this Moment.
+	 * Sets the end of this InternshipMoment.
 	 * @param end
 	 */
 	function set_end($end)
@@ -108,27 +130,28 @@ class Moment extends DataClass
 	}
 
 	/**
-	 * Returns the category_id of this Moment.
-	 * @return the category_id.
+	 * Returns the agreement_id of this InternshipMoment.
+	 * @return the agreement_id.
 	 */
-	function get_category_id()
+	function get_agreement_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_CATEGORY_ID);
+		return $this->get_default_property(self :: PROPERTY_AGREEMENT_ID);
 	}
 
 	/**
-	 * Sets the category_id of this Moment.
-	 * @param category_id
+	 * Sets the agreement_id of this InternshipMoment.
+	 * @param agreement_id
 	 */
-	function set_category_id($category_id)
+	function set_agreement_id($agreement_id)
 	{
-		$this->set_default_property(self :: PROPERTY_CATEGORY_ID, $category_id);
+		$this->set_default_property(self :: PROPERTY_AGREEMENT_ID, $agreement_id);
 	}
 
 
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return 'moment';
+//		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 

@@ -32,6 +32,8 @@ class Competency extends DataClass
     const PROPERTY_PARENT_ID = 'parent_id';
     const PROPERTY_STATE = 'state';
 
+    
+
 
 	static function get_default_property_names()
 	{

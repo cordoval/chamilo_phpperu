@@ -154,7 +154,7 @@ class InstallManager extends CoreApplication
         $links[] = Translation :: get('License');
         $links[] = Translation :: get('PrivacyPolicy');
         $links[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
-        $links[] = '&copy;&nbsp;' . date('Y');
+        $links[] = '&copy;&nbsp;' . @date('Y');
 
         $output[] = implode('&nbsp;|&nbsp;', $links);
         $output[] = '</div>';

@@ -288,7 +288,15 @@ class Diagnoser
         }
         
         $image = '<img src="' . $img_path . $img . '" alt="' . $status . '" />';
-        $url = $this->get_link($title, $url);
+        
+        if($url)
+        {
+        	$url = $this->get_link($title, $url);
+        }
+        else
+        {
+        	$url = $title;
+        }
         
         $formatted_current_value = $current_value;
         $formatted_expected_value = $expected_value;

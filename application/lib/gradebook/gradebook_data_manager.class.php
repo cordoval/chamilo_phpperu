@@ -46,8 +46,18 @@ abstract class GradebookDatamanager {
 	abstract function initialize();
 	
 	//gradebook_items
+	
+	//gradebook evaluation format items
+	
+	abstract function create_format($evaluation_format);
+	
+	abstract function create_internal_item($internal_item);
+//	
+//	abstract function retrieve_all_evaluation_formats();
+//	
+//	abstract function retrieve_all_active_evaluation_formats();
 
-	abstract function get_next_gradebook_id();
+	/*abstract function get_next_gradebook_id();
 
 	abstract function delete_gradebook($gradebook);
 
@@ -77,6 +87,6 @@ abstract class GradebookDatamanager {
 	abstract function retrieve_gradebook_rel_user($user_id, $gradebook_id);
 
 	abstract function retrieve_gradebook_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
-	
+	*/
 }
 ?>

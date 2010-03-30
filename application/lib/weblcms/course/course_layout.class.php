@@ -78,6 +78,24 @@ class CourseLayout extends DataClass
         return array(self :: BREADCRUMB_TITLE => Translation :: get('Title'), self :: BREADCRUMB_CODE => Translation :: get('Code'), self :: BREADCRUMB_COURSE_HOME => Translation :: get('CourseHome'));
     }
     
+    static function get_title($course)
+    {
+        switch ($course->get_breadcrumb())
+        {
+            case CourseLayout :: BREADCRUMB_TITLE :
+                return $course->get_name();
+                break;
+            case CourseLayout :: BREADCRUMB_CODE :
+                return $course->get_visual();
+                break;
+            case CourseLayout :: BREADCRUMB_COURSE_HOME :
+                return Translation :: get('CourseHome');
+                break;
+            default :
+                return $course->get_visual();
+                break;
+        }
+    }
     /**
      * Get the default properties of all courses.
      * @return array The property names.

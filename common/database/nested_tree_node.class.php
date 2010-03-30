@@ -112,14 +112,15 @@ abstract class NestedTreeNode extends DataClass
         }
         else
         {
-            $func = 'count_' . $this->get_object_name() . '_children';
-            
-            if(!method_exists($dm, $func))
-            {
-            	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-            }
-            
-        	return call_user_func(array($dm, $func), $this);
+        	return $dm->get_database()->count_children($this);
+//            $func = 'count_' . $this->get_object_name() . '_children';
+//            
+//            if(!method_exists($dm, $func))
+//            {
+//            	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//            }
+//            
+//        	return call_user_func(array($dm, $func), $this);
         }
     }
     
@@ -322,7 +323,7 @@ abstract class NestedTreeNode extends DataClass
     {
     	$dm = $this->get_data_manager();
         $parent_id = $this->get_parent_id();
-
+	
         $previous_visited = 0;
 
         if ($parent_id || $previous_id)
@@ -337,13 +338,14 @@ abstract class NestedTreeNode extends DataClass
         	if ($previous_id)
             {
             	$node = call_user_func(array($dm, $func), $previous_id);
-                $parent_id = $node->get_parent_id();
+               	$parent_id = $node->get_parent_id();
             }
             else
             {
-                $node = call_user_func(array($dm, $func), $parent_id);
+               $node = call_user_func(array($dm, $func), $parent_id);
+            	
             }
-
+			           
             // Set the new parent_id
             $this->set_parent_id($parent_id);
 
@@ -362,10 +364,12 @@ abstract class NestedTreeNode extends DataClass
             
             if (!call_user_func(array($dm, $func), $this, $previous_visited, 1))
             {
-                return false;
+              return false;
             }
         }
-
+		
+       
+        
         // Left and right values have been shifted so now we
         // want to really add the location itself, but first
         // we have to set it's left and right value.

@@ -50,6 +50,7 @@ class FormValidatorCkeditorHtmlEditor extends FormValidatorHtmlEditor
     {
         $javascript = array();
         $javascript[] = '<script type="text/javascript">';
+        $javascript[] = 'var web_path = \'' . Path :: get(WEB_PATH) . '\'';
         $javascript[] = '$(function ()';
         $javascript[] = '{';
         $javascript[] = '	$(document).ready(function ()';

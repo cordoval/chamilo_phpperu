@@ -52,4 +52,5 @@ $lang['group']['GroupUserCreateCsv'] = '';
 $lang['group']['ImportGroupUsers'] = '';
 $lang['group']['ImportGroupUsersDescription'] = '';
 $lang['group']['OnlyCSVAllowed'] = '';
+$lang['group']['ViewRoot'] = '';
 ?>

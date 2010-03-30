@@ -23,7 +23,7 @@ class ReportingToolViewerComponent extends ReportingToolComponent
         {
             $url[$key] = $param;
         }
-        
+        //dump($url); dump($this->get_url($url));
         header('location:' . $this->get_url($url));
     }
 }

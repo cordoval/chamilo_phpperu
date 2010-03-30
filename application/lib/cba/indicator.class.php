@@ -107,6 +107,11 @@ class Indicator extends DataClass
     	$cdm = CbaDataManager :: get_instance();
         return $cdm->update_indicator($this);
     }
+    
+    function delete($id)
+    {
+    	//Parent + condition (where, ...)
+    }
 }
 
 ?>

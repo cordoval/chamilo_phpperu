@@ -110,8 +110,8 @@ class ContentObjectTableDataProvider extends ObjectTableDataProvider
 
             if (isset($query) && $query != '')
             {
-                $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
-                $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
+                $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
+                $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
                 $conditions[] = new OrCondition($or_conditions);
             }
 

@@ -179,9 +179,9 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
         if (isset($query) && $query != '')
         {
             $conditions = array();
-            $conditions[] = new PatternMatchCondition(Course :: PROPERTY_ID, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(Course :: PROPERTY_VISUAL, '*' . $query . '*');
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*' . $query . '*');
-            $conditions[] = new PatternMatchCondition(Course :: PROPERTY_LANGUAGE, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(CourseSettings :: PROPERTY_LANGUAGE, '*' . $query . '*', CourseSettings :: get_table_name());
             
             $search_conditions = new OrCondition($conditions);
         }
@@ -204,6 +204,12 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
             }
         }
         
+        $visibility_condition = new EqualityCondition(CourseSettings :: PROPERTY_VISIBILITY, '1', CourseSettings :: get_table_name());
+        if(is_null($condition))
+        	$condition = $visibility_condition;
+        else
+        	$condition = new AndCondition($condition, $visibility_condition);
+        	
         return $condition;
     }
 }

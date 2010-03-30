@@ -3,7 +3,23 @@
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true"/>
   <property name="name" type="text" notnull="1" />
+  <property name="description" type="text" />
   <property name="begin" type="integer" notnull="1" />
   <property name="end" type="integer" notnull="1" />
+  <property name="owner" type="integer" notnull="1" />
+  <property name="parent_id" type="integer" unsigned="1"
+	notnull="1" />
+  <property name="left_value" type="integer" unsigned="1"
+	notnull="1" />
+  <property name="right_value" type="integer" unsigned="1"
+	notnull="1" />
  </properties>
+<index name="parent_id">
+	<indexproperty name="parent_id" />
+</index>
+<index name="position">
+		<indexproperty name="parent_id" />
+		<indexproperty name="left_value" />
+		<indexproperty name="right_value" />
+</index>
 </object>

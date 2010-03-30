@@ -4,7 +4,7 @@
  * @package user.lib.forms
  */
 
-ini_set("max_execution_time", - 1);
+set_time_limit(0);
 ini_set("memory_limit", - 1);
 
 class UserImportForm extends FormValidator
@@ -67,7 +67,7 @@ class UserImportForm extends FormValidator
         $validusers = array();
         
         $failures = 0;
-        //dump($csvusers);
+
         foreach ($csvusers as $csvuser)
         {
         	$validuser = $this->validate_data($csvuser);
@@ -82,7 +82,7 @@ class UserImportForm extends FormValidator
             	$validusers[] = $validuser;
             }
         }
-        
+      
     	if ($failures > 0)
         {
             return false;
@@ -109,7 +109,6 @@ class UserImportForm extends FormValidator
 	            
 	            $user->set_password($pass);
 	            $user->set_email($csvuser[User :: PROPERTY_EMAIL]);
-	            $user->set_language($csvuser[User :: PROPERTY_LANGUAGE]);
 	            $user->set_status($csvuser[User :: PROPERTY_STATUS]);
 	            $user->set_active($csvuser[User :: PROPERTY_ACTIVE]);
 	            $user->set_official_code($csvuser[User :: PROPERTY_OFFICIAL_CODE]);
@@ -136,7 +135,9 @@ class UserImportForm extends FormValidator
 	            }
 	            else
 	            {
-	                $send_mail = intval($values['mail']['send_mail']);
+	                LocalSetting :: create_local_setting('platform_language', $csvuser['language'], 'admin', $user->get_id());
+	                
+	            	$send_mail = intval($values['mail']['send_mail']);
 	                if ($send_mail)
 	                {
 	                    $this->send_email($user);
@@ -152,7 +153,6 @@ class UserImportForm extends FormValidator
 	            $user->set_lastname($csvuser[User :: PROPERTY_LASTNAME]);
 	            
 	            $user->set_email($csvuser[User :: PROPERTY_EMAIL]);
-	            $user->set_language($csvuser[User :: PROPERTY_LANGUAGE]);
 	            $user->set_status($csvuser[User :: PROPERTY_STATUS]);
 	            $user->set_active($csvuser[User :: PROPERTY_ACTIVE]);
 	            $user->set_official_code($csvuser[User :: PROPERTY_OFFICIAL_CODE]);
@@ -183,6 +183,10 @@ class UserImportForm extends FormValidator
 	                $failures ++;
 	                $this->failedcsv[] = Translation :: get('UpdateFailed') . ': ' . implode($csvuser, ';');
 	            }
+	            else
+	            {
+	            	LocalSetting :: create_local_setting('platform_language', $csvuser['language'], 'admin', $user->get_id());
+	            }
         	}
         	elseif($action == 'D')
         	{
@@ -195,7 +199,7 @@ class UserImportForm extends FormValidator
         	}
         }
         if ($failures > 0)
-        {
+        { 
             return false;
         }
         else
@@ -206,7 +210,14 @@ class UserImportForm extends FormValidator
 
     function get_failed_csv()
     {
-        return implode($this->failedcsv, '<br />');
+        //return implode($this->failedcsv, '<br />');
+        $short_list = array_chunk($this->failedcsv, 10);
+        return implode($short_list[0], '<br />');
+    }
+    
+    function count_failed_items()
+    {
+    	return count($this->failedcsv);
     }
 
     function validate_data($csvuser)
@@ -261,14 +272,14 @@ class UserImportForm extends FormValidator
         if (! $csvuser[User :: PROPERTY_AUTH_SOURCE])
             $csvuser[User :: PROPERTY_AUTH_SOURCE] = 'platform';
         
-        if (! $csvuser[User :: PROPERTY_LANGUAGE])
-            $csvuser[User :: PROPERTY_LANGUAGE] = 'english';
+        if (! $csvuser['language'])
+            $csvuser['language'] = 'english';
         
         if (PlatformSetting :: get('require_email', UserManager :: APPLICATION_NAME) && (! $email || $email == ''))
         {
             $failures ++;
         }
-        
+      
         if ($failures > 0)
         {
             return false;
@@ -281,8 +292,7 @@ class UserImportForm extends FormValidator
 
     function parse_file($file_name, $file_type)
     {
-        
-        $this->users = array();
+        $this->users = array(); dump($file_type);
         if ($file_type == 'text/csv' || $file_type == 'application/vnd.ms-excel' || $file_type == 'application/octet-stream' || $file_type == 'application/force-download')
         {
             $this->users = Import :: csv_to_array($file_name);

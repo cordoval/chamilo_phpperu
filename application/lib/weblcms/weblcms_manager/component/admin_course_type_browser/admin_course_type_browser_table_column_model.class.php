@@ -24,6 +24,7 @@ class AdminCourseTypeBrowserTableColumnModel extends DefaultCourseTypeTableColum
         parent :: __construct();
         $this->add_column(new ObjectTableColumn(CourseType :: PROPERTY_NAME));
         $this->add_column(new ObjectTableColumn(CourseType :: PROPERTY_DESCRIPTION));
+        $this->add_column(new ObjectTableColumn(CourseType :: PROPERTY_ACTIVE));
         $this->set_default_order_column(0);
         $this->add_column(self :: get_modification_column());
     }

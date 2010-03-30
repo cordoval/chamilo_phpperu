@@ -19,7 +19,7 @@ class GradebookManagerGradebookViewerComponent extends GradebookManagerComponent
 		{
 			$this->gradebook = $this->retrieve_gradebook($id);
 			$gradebook = $this->gradebook;
-						
+
 			if (!GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, GradebookRights :: LOCATION_VIEWER, 'gradebook_component'))
 			{
 				$this->display_header($trail);
@@ -27,16 +27,16 @@ class GradebookManagerGradebookViewerComponent extends GradebookManagerComponent
 				$this->display_footer();
 				exit;
 			}
-				
+
 			$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
 			$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('BrowseGradeBook')));
 			$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_GRADEBOOK, GradebookManager :: PARAM_GRADEBOOK_ID => $id)), $gradebook->get_name()));
 
 			$this->display_header($trail, false);
 			$this->ab = $this->get_action_bar();
-				
+
 			echo $this->get_browser_html($gradebook);
-				
+
 			$this->display_footer();
 		}
 		else
@@ -73,7 +73,7 @@ class GradebookManagerGradebookViewerComponent extends GradebookManagerComponent
 		$html = array();
 		$html[] = $table->as_html();
 		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/gradebook_ajax.js' .'"></script>';
-		
+
 		return implode("\n", $html);
 	}
 
@@ -86,9 +86,9 @@ class GradebookManagerGradebookViewerComponent extends GradebookManagerComponent
 
 		if(isset($query) && $query != '')
 		{
-			$or_conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
-			$or_conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
-			$or_conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
+			$or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+			$or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+			$or_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
 			$condition = new OrCondition($or_conditions);
 
 			$users = UserDataManager :: get_instance()->retrieve_users($condition);

@@ -8,7 +8,7 @@
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class Mentor extends DataClass
+class InternshipPlannerMentor extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -166,7 +166,9 @@ class Mentor extends DataClass
 
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		
+		return 'mentor'';
+//		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 

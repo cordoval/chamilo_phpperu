@@ -30,10 +30,10 @@ class SurveyForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->add_html_editor(Survey :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('IntroText'), false);
-        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('FinishingText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyHeaderText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFooterText'), false);
         $this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
-        $this->add_select(Survey :: PROPERTY_CONTEXT, Translation :: get('Context'), $this->get_contexts(), true);
+        $this->add_select(Survey :: PROPERTY_CONTEXT, Translation :: get('SurveyContext'), $this->get_contexts(), true);
         $this->addElement('category');
     }
 
@@ -42,24 +42,24 @@ class SurveyForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->add_html_editor(Survey :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('IntroText'), false);
-        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('FinishingText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyHeaderText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFooterText'), false);
         $this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
         
         $rdm = RepositoryDataManager :: get_instance();
         $survey = $this->get_content_object();
-        $allowed = $rdm->content_object_deletion_allowed($survey, 'Survey');
+        $allowed = $rdm->content_object_deletion_allowed($survey, 'Context');
         $atributes = array();
         if (! $allowed)
         {
            
         	
         	$this->addElement('hidden', Survey :: PROPERTY_CONTEXT, $survey->get_context()->get_type());
-        	$this->addElement('static', '', Translation :: get('Context'), $survey->get_context()->get_display_name());
+        	$this->addElement('static', '', Translation :: get('SurveyContext'), $survey->get_context()->get_display_name());
         	$this->add_warning_message('no_context_update', '', Translation :: get('CanNotUpdateSurveyContextBecauseSurveyIsPublished'));
             
         }else{
-        	$this->add_select(Survey :: PROPERTY_CONTEXT, Translation :: get('Context'), $this->get_contexts(), true);
+        	$this->add_select(Survey :: PROPERTY_CONTEXT, Translation :: get('SurveyContext'), $this->get_contexts(), true);
         }
         
         $this->addElement('category');

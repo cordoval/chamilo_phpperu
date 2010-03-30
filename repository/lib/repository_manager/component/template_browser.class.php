@@ -16,14 +16,14 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManagerCompone
     {
         $this->action_bar = $this->get_action_bar();
         $this->form = new RepositoryFilterForm($this, $this->get_url());
-        
+
         $trail = new BreadcrumbTrail(false);
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTemplates')));
-        
+
         $output = $this->get_table_html();
-        
+
         $session_filter = Session :: retrieve('filter');
-        
+
         if ($session_filter != null && ! $session_filter == 0)
         {
             if (is_numeric($session_filter))
@@ -35,7 +35,7 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManagerCompone
             else
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . Utilities :: underscores_to_camelcase(($session_filter))));
         }
-        
+
         $this->display_header($trail);
         echo $this->action_bar->as_html();
         echo '<br />' . $this->form->display() . '<br />';
@@ -55,33 +55,33 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManagerCompone
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, 0);
-        
+
         $cond = $this->form->get_filter_conditions();
         if ($cond)
         {
             $conditions[] = $cond;
         }
-        
+
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
-            $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
-            
+            $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+
             $conditions[] = new OrCondition($or_conditions);
         }
-        
+
         return new AndCondition($conditions);
-    
+
     }
 
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         $action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+
         return $action_bar;
     }
 

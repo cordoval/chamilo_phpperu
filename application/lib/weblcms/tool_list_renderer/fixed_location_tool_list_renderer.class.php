@@ -101,7 +101,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             }
             else
             {
-                if ($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() < 3)
+                if ($section->get_type() == CourseSection :: TYPE_DISABLED && ($this->course->get_layout() < 3 || !$this->is_course_admin))
                     continue;
                 
                 if ($section->get_type() == CourseSection :: TYPE_ADMIN && ! $this->is_course_admin)
@@ -249,9 +249,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         
         foreach ($tools as $index => $tool)
         {
-            if (! PlatformSetting :: get($tool->name . '_active', 'weblcms') && $section->get_type() != CourseSection :: TYPE_ADMIN)
-                continue;
-            
             if ($tool->visible || $section->get_name() == 'course_admin')
             {
                 $lcms_action = 'make_invisible';

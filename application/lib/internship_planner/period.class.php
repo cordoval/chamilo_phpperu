@@ -7,8 +7,9 @@
  * This class describes a Period data object
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
+ * @todo nested tree
  */
-class Period extends DataClass
+class InternshipPlannerPeriod extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -109,7 +110,8 @@ class Period extends DataClass
 
 	static function get_table_name()
 	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return 'period';
+//		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 

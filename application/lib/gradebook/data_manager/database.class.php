@@ -1,21 +1,33 @@
 <?php
 require_once dirname(__FILE__).'/../gradebook_data_manager.class.php';
-require_once dirname(__FILE__).'/../gradebook.class.php';
-require_once dirname(__FILE__).'/../gradebook_rel_user.class.php';
+require_once dirname(__FILE__).'/../internal_item.class.php';
+require_once dirname(__FILE__).'/../external_item.class.php';
+require_once dirname(__FILE__).'/../evaluation.class.php';
+require_once dirname(__FILE__).'/../format.class.php';
+require_once dirname(__FILE__).'/../grade_evaluation.class.php';
+require_once dirname(__FILE__).'/../internal_item_instance.class.php';
+require_once dirname(__FILE__).'/../external_item_instance.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
 
-class DatabaseGradebookDatamanager extends GradebookDatamanager
+class DatabaseGradebookDataManager extends GradebookDatamanager
 {
-	const ALIAS_GRADEBOOK_TABLE = 'gb';
-	const ALIAS_GRADEBOOK_REL_USER_TABLE = 'gbru';
 
 	private $database;
 
 	function initialize()
-	{
-		$this->database = new Database(array(Gradebook :: get_table_name() => self :: ALIAS_GRADEBOOK_TABLE, GradebookRelUser :: get_table_name() => self :: ALIAS_GRADEBOOK_REL_USER_TABLE));
+	{   
+		$aliases = array();
+		$aliases[InternalItem :: get_table_name()] = 'inem';
+		$aliases[ExternalItem :: get_table_name()] = 'exem';
+		$aliases[Evaluation :: get_table_name()] = 'evon';
+		$aliases[Format :: get_table_name()] = 'foat';
+		$aliases[GradeEvaluation :: get_table_name()] = 'gron';
+		$aliases[InternalItemInstance :: get_table_name()] = 'ince';
+		$aliases[ExternalItemInstance :: get_table_name()] = 'exce';
+		
+		$this->database = new Database($aliases);
 		$this->database->set_prefix('gradebook_');
 	}
 
@@ -23,10 +35,41 @@ class DatabaseGradebookDatamanager extends GradebookDatamanager
 	{
 		return $this->database->create_storage_unit($name,$properties,$indexes);
 	}
+	
+// gradebook evaluation format items
+	function create_format($evaluation_format)
+	{
+		return $this->database->create($evaluation_format);
+	}
+//	
+//	function retrieve_all_evaluation_formats($condition = null, $offset = null, $count = null, $order_property = null)
+//	{
+//		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name(), $condition, $offset, $count, $order_property);
+//	}
+//	
+	function retrieve_all_active_evaluation_formats()
+	{
+		$condition = new EqualityCondition(Format :: PROPERTY_ACTIVE, Format :: EVALUATION_FORMAT_ACTIVE);
+		return $this->database->retrieve_objects(Format :: get_table_name(), $condition);
+	}
+	
+	function create_internal_item($internal_item)
+	{
+		return $this->database->create($internal_item);
+	}
+//	
+//	function create_external_item($publication)
+//	{
+//		$internal_item = new InternalItem();
+//		$internal_item->set_application(str_replace('_publication', '',$publication->get_object_name()));
+//		$internal_item->set_publication_id($publication->get_id());
+//		$internal_item->set_calculated(true);
+//		return $this->database->create($internal_item);
+//	}
 
 	//gradebook_items
 
-	function get_next_gradebook_id(){
+	/*function get_next_gradebook_id(){
 		$id = $this->database->get_next_id(Gradebook :: get_table_name());
 		return $id;
 	}
@@ -118,6 +161,6 @@ class DatabaseGradebookDatamanager extends GradebookDatamanager
 	function get_database()
 	{
 		return $this->database;
-	}
+	}*/
 }
 ?>

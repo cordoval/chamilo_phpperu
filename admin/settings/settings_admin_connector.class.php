@@ -47,22 +47,44 @@ class SettingsAdminConnector
 
         return $options;
     }
-    
+
     function get_time_zones()
     {
 		$content = file_get_contents(dirname(__FILE__) . '/timezones.txt');
 		$content = explode("\n", $content);
-		
+
 		$timezones = array();
-		
+
 		foreach($content as $timezone)
 		{
 			$timezone = trim($timezone);
 			$timezones[$timezone] = $timezone;
 		}
-		
+
 		return $timezones;
     }
-    
+
+    function get_active_applications()
+    {
+        $adm = AdminDataManager :: get_instance();
+        $conditions = array();
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_STATUS, 1);
+        $condition = new AndCondition($conditions);
+
+        $registrations = $adm->retrieve_registrations($condition);
+
+        $options = array();
+        $options['home'] = Translation :: get('Homepage');
+
+        while($registration = $registrations->next_result())
+        {
+            $options[$registration->get_name()] = Translation :: get(Utilities :: underscores_to_camelcase($registration->get_name()));
+        }
+
+        asort($options);
+
+        return $options;
+    }
 }
 ?>

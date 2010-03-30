@@ -11,11 +11,9 @@ class ReportingTemplateRegistration extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
-    const PROPERTY_TITLE = 'title';
     const PROPERTY_APPLICATION = 'application';
-    const PROPERTY_CLASSNAME = 'class';
+    const PROPERTY_TEMPLATE = 'template';
     const PROPERTY_PLATFORM = 'platform';
-    const PROPERTY_DESCRIPTION = 'description';
 
     /**
      * Get the default properties
@@ -23,7 +21,7 @@ class ReportingTemplateRegistration extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TITLE, self :: PROPERTY_APPLICATION, self :: PROPERTY_CLASSNAME, self :: PROPERTY_PLATFORM, self :: PROPERTY_DESCRIPTION));
+    	return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_TEMPLATE, self :: PROPERTY_PLATFORM));
     }
 
     /**
@@ -33,7 +31,7 @@ class ReportingTemplateRegistration extends DataClass
     {
         return ReportingDataManager :: get_instance();
     }
-
+    
     /**
      * Checks if the reporting template registration is aplatform template.
      * @return int
@@ -46,17 +44,6 @@ class ReportingTemplateRegistration extends DataClass
     /*
  	 * Getters and setters
  	 */
-    
-    public function get_title()
-    {
-        return $this->get_default_property(self :: PROPERTY_TITLE);
-    }
-
-    public function set_title($value)
-    {
-        $this->set_default_property(self :: PROPERTY_TITLE, $value);
-    }
-
     public function get_application()
     {
         return $this->get_default_property(self :: PROPERTY_APPLICATION);
@@ -67,14 +54,14 @@ class ReportingTemplateRegistration extends DataClass
         $this->set_default_property(self :: PROPERTY_APPLICATION, $value);
     }
 
-    public function get_classname()
+    public function get_template()
     {
-        return $this->get_default_property(self :: PROPERTY_CLASSNAME);
+    	return $this->get_default_property(self :: PROPERTY_TEMPLATE);
     }
 
-    public function set_classname($value)
+    public function set_template($value)
     {
-        $this->set_default_property(self :: PROPERTY_CLASSNAME, $value);
+        $this->set_default_property(self :: PROPERTY_TEMPLATE, $value);
     }
 
     public function get_platform()
@@ -87,19 +74,9 @@ class ReportingTemplateRegistration extends DataClass
         $this->set_default_property(self :: PROPERTY_PLATFORM, $value);
     }
 
-    public function get_description()
-    {
-        return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
-    }
-
-    public function set_description($value)
-    {
-        $this->set_default_property(self :: PROPERTY_DESCRIPTION, $value);
-    }
-
     static function get_table_name()
-    {
-        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    {   	
+    	return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 } //class ReportingTemplateRegistration
 ?>

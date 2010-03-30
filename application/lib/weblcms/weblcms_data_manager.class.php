@@ -81,7 +81,7 @@ abstract class WeblcmsDataManager
 		}
 		return $course_modules;
 	}
-    
+
     abstract function retrieve_max_sort_value($table, $column, $condition = null);
 
     /**
@@ -166,7 +166,7 @@ abstract class WeblcmsDataManager
     abstract function count_content_object_publications_new($condition);
 
     //--Course_type_items--
-    
+
      /**
      * Count the number of course_types
      * @param Condition $condition
@@ -180,13 +180,13 @@ abstract class WeblcmsDataManager
      * @return boolean True if creation succceeded, false otherwise.
      */
     abstract function create_course_type($course_type);
-    
+
     abstract function create_course_type_settings($course_type_settings);
-    
+
     abstract function create_course_type_tool($course_type_tool);
-    
+
     abstract function create_course_type_layout($course_type_layout);
-    
+
     /**
     * Updates the specified course_type in persistent storage,
     * making any changes permanent.
@@ -198,41 +198,45 @@ abstract class WeblcmsDataManager
     abstract function update_course_type_settings($course_type_settings);
 
     abstract function update_course_type_layout($course_type_layout);
-    
+
     abstract function update_course_type_tool($course_type_tool);
-     
+
     abstract function delete_course_type($course_type_id);
-    
+
     /**
      * Deletes the given course_type_tool from the database related to this given course_type.
      * @param string $course_type_tool The course_type_tool
     */
     abstract function delete_course_type_tool($course_type_tool);
-         
+
     /**
      * Retrieves a single course_type from persistent storage.
      * @param int $id
      * @return CourseType The course_type
     */
     abstract function retrieve_course_type($id);
-    
+
     abstract function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null);
+
+    abstract function retrieve_active_course_types();
+    
+    abstract function count_active_course_types();
     
     abstract function retrieve_course_type_settings($id);
-    
+
     abstract function retrieve_course_type_layout($id);
-    
-    abstract function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null);   
-    
+
+    abstract function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null);
+
     //-- END -- Course_type_items--
-    
+
     /**
      * Count the number of courses
      * @param Condition $condition
      * @return int
-     */ 
+     */
     abstract function count_courses($conditions = null);
-    
+
     /**
      * Count the number of course categories
      * @param Condition $condition
@@ -261,6 +265,13 @@ abstract class WeblcmsDataManager
     abstract function count_course_user_relations($conditions = null);
 
     /**
+     * Count the number of course group relations
+     * @param Condition $condition
+     * @return int
+     */
+    abstract function count_course_group_relations($conditions = null);
+
+    /**
      * Count the number of course user categories
      * @param Condition $condition
      * @return int
@@ -273,15 +284,15 @@ abstract class WeblcmsDataManager
      * @return boolean True if creation succceeded, false otherwise.
      */
     abstract function create_course($course);
-    
+
     abstract function create_course_settings($course_settings);
-    
+
     abstract function create_course_layout($course_layout);
 
     abstract function create_course_group_user_relation($course_group_user_relation);
-    
+
     abstract function create_course_modules($course_modules, $course_code);
-    
+
     abstract function create_course_module($course_module);
 
     /**
@@ -300,18 +311,10 @@ abstract class WeblcmsDataManager
     function course_subscription_allowed($course, $user_id)
     {
         $already_subscribed = $this->is_subscribed($course, $user_id);
-        if ($course->get_visibility() == COURSE_VISIBILITY_CLOSED || $course->get_visibility() == COURSE_VISIBILITY_REGISTERED)
-        {
-            $visibility = false;
-        }
-        else
-        {
-            $visibility = true;
-        }
 
-        $subscription_allowed = ($course->get_subscribe_allowed() == 1 ? true : false);
+        $subscription_allowed = ($course->get_access() == 1 ? true : false);
 
-        if ($visibility && ! $already_subscribed && $subscription_allowed)
+        if (! $already_subscribed && $subscription_allowed)
         {
             return true;
         }
@@ -363,6 +366,22 @@ abstract class WeblcmsDataManager
      * @return boolean
      */
     abstract function unsubscribe_user_from_course($course, $user_id);
+
+    /**
+     * Subscribe a group to a course.
+     * @param Course $course
+     * @param int $group_id
+     * @return boolean
+     */
+    abstract function subscribe_group_to_course(Course $course, $group_id);
+
+    /**
+     * Unsubscribe a user from a course.
+     * @param Course $course
+     * @param int $group_id
+     * @return boolean
+     */
+    abstract function unsubscribe_group_from_course(Course $course, $group_id);
 
     /**
      * Checks whether a user is subscribed to a course.
@@ -520,6 +539,8 @@ abstract class WeblcmsDataManager
      * @return Course The course.
      */
     abstract function retrieve_course($course_code);
+
+    abstract function retrieve_course_module($course_module_id);
     
     abstract function retrieve_course_settings($course_code);
 
@@ -557,7 +578,7 @@ abstract class WeblcmsDataManager
     abstract function update_course_settings($course_settings);
 
     abstract function update_course_layout($course_layout);
-    
+
     abstract function update_course_module($course_module);
     /**
      * Updates the specified course category in persistent storage,
@@ -589,12 +610,14 @@ abstract class WeblcmsDataManager
      */
     abstract function delete_course($course_code);
 
+    abstract function delete_courses_by_course_type_id($course_type_id);
     /**
      * Deletes the given course category from the database.
      * @param CourseCategory $course_category The course category
      */
     abstract function delete_course_category($course_category);
 
+    abstract function delete_course_module($course_code, $course_name);
     /**
      * Sets the visibility of a course module.
      * @param string $course_code
@@ -713,7 +736,7 @@ abstract class WeblcmsDataManager
      * @param int id
      */
     abstract function retrieve_course_group($id);
-    
+
     /**
      * Retrieves the course_groups defined in a given course
      * @param string $course_code
@@ -797,22 +820,22 @@ abstract class WeblcmsDataManager
     abstract function count_course_sections($conditions = null);
 
     abstract function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null);
-    
+
     function get_user_course_groups($user, $course = null)
     {
         $course_groups = $this->retrieve_course_groups_from_user($user, $course)->as_array();
-        
+
         $course_groups_recursive = array();
-        
+
         foreach($course_groups as $course_group)
-        { 
+        {
         	if(!array_key_exists($course_group->get_id(), $course_groups_recursive))
         	{
         		$course_groups_recursive[$course_group->get_id()] = $course_group;
         	}
-        	
+
         	$parents = $course_group->get_parents(false);
-        	
+
         	foreach($parents as $parent)
         	{
 	        	if(!array_key_exists($parent->get_id(), $course_groups_recursive))

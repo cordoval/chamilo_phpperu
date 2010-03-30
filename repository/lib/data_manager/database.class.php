@@ -239,18 +239,22 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
     function count_type_content_objects($type, $condition = null)
     {
+        $content_object_alias = $this->get_database()->get_alias(ContentObject :: get_table_name());
+        $content_object_version_alias = $this->get_database()->get_alias('content_object_version');
+        $type_alias = $this->get_database()->get_alias($type);
+
         if ($this->is_extended_type($type))
         {
-            $query = 'SELECT COUNT(' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . ') FROM ' . $this->database->escape_table_name('content_object') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE . ' JOIN ' . $this->database->escape_table_name($type) . ' AS ' . $this->database->get_alias($type) . ' ON ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID) . ' = ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $this->database->get_alias($type));
+            $query = 'SELECT COUNT(' . $this->database->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER, $content_object_alias) . ') FROM ' . $this->database->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' JOIN ' . $this->get_database()->escape_table_name($type) . ' AS ' . $type_alias . ' ON ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $type_alias);
         }
         else
         {
-            $query = 'SELECT COUNT(' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . ') FROM ' . $this->database->escape_table_name('content_object') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE;
+            $query = 'SELECT COUNT(' . $this->database->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER, $content_object_alias) . ') FROM ' . $this->database->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias;
             $match = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
             $condition = isset($condition) ? new AndCondition(array($match, $condition)) : $match;
         }
 
-        $query .= ' JOIN ' . $this->database->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+        $query .= ' JOIN ' . $this->database->escape_table_name('content_object_version') . ' AS ' . $content_object_version_alias . ' ON ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_version_alias);
 
         return $this->database->count_result_set($query, ContentObject :: get_table_name(), $condition);
     }
@@ -535,7 +539,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     {
         $subselect_condition = new EqualityCondition('content_object_id', $object->get_id());
         $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'include_id', $this->database->escape_table_name('content_object_include'), $subselect_condition, $this->database->get_alias(ContentObject :: get_table_name()));
-        return $this->retrieve_content_objects($condition)->as_array();;
+        //return $this->retrieve_content_objects($condition)->as_array();;
+
+        return $this->database->retrieve_objects(ContentObject :: get_table_name(), $condition)->as_array();
     }
 
     function is_content_object_included($object)
@@ -556,20 +562,29 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
         return ($count > 0);
     }
 
-    function retrieve_content_object_versions($object)
+    function retrieve_content_object_versions($object, $include_last = true)
     {
         $object_number = $object->get_object_number();
-        $query = 'SELECT ' . $this->database->escape_column_name(ContentObject :: PROPERTY_ID) . ' FROM ' .
-        		 $this->database->escape_table_name('content_object') . ' WHERE ' .
-        		 $this->database->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . '=' . $this->quote($object_number) . ' AND ' .
-        		 $this->database->escape_column_name(ContentObject :: PROPERTY_STATE) . '=' . $this->quote($object->get_state());
-        $res = $this->query($query);
-        $versions = array();
-        while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
+
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $object_number);
+        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, $object->get_state());
+
+        if(!$include_last)
         {
-            $versions[] = $this->retrieve_content_object($record[0]);
+        	$subcond = new EqualityCondition('object_number', $object_number);
+        	$conditions[] = new NotCondition(new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', 'repository_content_object_version', $subcond));
         }
-        $res->free();
+
+        $condition = new AndCondition($conditions);
+
+        $objects = $this->database->retrieve_objects(ContentObject :: get_table_name(), $condition);
+
+        while($object = $objects->next_result())
+        {
+        	$versions[] = $this->retrieve_content_object($object->get_id());
+        }
+
         return $versions;
     }
 
@@ -1616,6 +1631,48 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
     	}
 
     	return ($failures == 0);
+    }
+
+    function retrieve_doubles_in_repository($condition, $order_property, $offset, $count)
+    {
+    	$co_table = $this->database->escape_table_name(ContentObject :: get_table_name());
+    	$co_alias = $this->database->get_alias(ContentObject :: get_table_name());
+    	$version_table = $this->database->escape_table_name('content_object_version');
+    	$version_alias = $this->database->get_alias('content_object_version');
+
+    	$sql = 'SELECT ' . $co_alias . '.id, title, description, type, count(content_hash) as content_hash FROM ' . $co_table . ' as ' . $co_alias . '
+				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias  . '.id = ' . $version_alias . '.id';
+
+    	if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this->database, $co_alias);
+            $sql .= $translator->render_query($condition);
+        }
+
+        $sql .= ' GROUP BY content_hash HAVING count(content_hash) > 1';
+
+    	return $this->database->retrieve_object_set($sql, ContentObject :: get_table_name(), null, $offset, $count, $order_property);
+    }
+
+    function count_doubles_in_repository($condition)
+    {
+    	$co_table = $this->database->escape_table_name(ContentObject :: get_table_name());
+    	$co_alias = $this->database->get_alias(ContentObject :: get_table_name());
+    	$version_table = $this->database->escape_table_name('content_object_version');
+    	$version_alias = $this->database->get_alias('content_object_version');
+
+    	$sql = 'SELECT COUNT(*) FROM ' . $co_table . ' as ' . $co_alias . '
+				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias  . '.id = ' . $version_alias . '.id';
+
+    	if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this->database, $co_alias);
+            $sql .= $translator->render_query($condition);
+        }
+
+        $sql .= ' GROUP BY content_hash HAVING count(content_hash) > 1';
+
+    	return $this->database->count_result_set($sql, ContentObject :: get_table_name());
     }
 
 }

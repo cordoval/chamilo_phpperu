@@ -17,7 +17,16 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
      */
     function LearningPathBrowserTableCellRenderer($browser, $condition)
     {
-        $this->count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
+        if($condition)
+        {
+    		$count_conditions[] = $condition;
+        }
+        
+        $subselect_condition = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'learning_path'));
+        $count_conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'repository_content_object', $subselect_condition);
+        $count_condition = new AndCondition($count_conditions);
+        
+    	$this->count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($count_condition);
         parent :: __construct($browser, $condition);
     }
 
@@ -109,9 +118,11 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
             $delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi, $this->browser->get_root());
             $moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
             $movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);
-
+			$change_parent_url = $this->browser->get_complex_content_object_parent_changer_url($cloi, $this->browser->get_root());
+			
             $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-
+		 	$toolbar_data[] = array('href' => $change_parent_url, 'label' => Translation :: get('ChangeParent'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+		 	
             $allowed = $this->check_move_allowed($cloi);
 
             if ($allowed["moveup"])

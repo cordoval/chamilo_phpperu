@@ -88,7 +88,7 @@ class NavigationItemMenu extends HTML_Menu
                 $navigation_item['url'] = $this->get_category_url($category->get_id());
                 $sub_navigation_items = $this->get_sub_navigation_items($categories, $category->get_id());
                 $navigation_item['sub'] = $sub_navigation_items;
-                $navigation_item['class'] = 'type_category';
+                $navigation_item['class'] = 'category';
                 $navigation_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
                 $sub_tree[] = $navigation_item;
             

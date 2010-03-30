@@ -19,8 +19,29 @@ class InstallManagerInstallerComponent extends InstallManagerComponent
      */
     function run()
     {
-        $wizard = new InstallWizard($this);
-        $wizard->run();
+    	$already_installed = false;
+    	// include the main Chamilo platform configuration file
+		$main_configuration_file_path = dirname(__FILE__) . '/../../../../common/configuration/configuration.php';
+
+		if (file_exists($main_configuration_file_path))
+		{
+    		$already_installed = true;
+		}
+		
+		if($already_installed && (PlatformSetting :: get('installation_blocked') == TRUE))
+		{
+			//display warning: installation is blocked by administrator	
+			$this->display_header();
+    		Display :: error_message(Translation:: get('InstallationBlockedByAdministrator'));
+    		$this->display_footer();
+			
+		}
+		else
+    	{
+        	$wizard = new InstallWizard($this);
+        	$wizard->run();	
+		}
+		
     }
 }
 ?>

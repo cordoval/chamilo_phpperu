@@ -11,11 +11,11 @@ class InternshipOrganisationManagerLocationBrowserComponent extends InternshipOr
     {
         $trail = new BreadcrumbTrail();
        
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseInternshipLocations')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseInternshipPlannerLocations')));
         
         $this->display_header($trail);
         
-        echo '<a href="' . $this->get_create_location_url() . '">' . Translation :: get('CreateInternshipLocation') . '</a>';
+        echo '<a href="' . $this->get_create_location_url() . '">' . Translation :: get('CreateInternshipPlannerLocation') . '</a>';
         echo '<br /><br />';
         
         $locations = $this->retrieve_locations();
@@ -23,8 +23,8 @@ class InternshipOrganisationManagerLocationBrowserComponent extends InternshipOr
         {
             echo '<div style="border: 1px solid grey; padding: 5px;">';
             dump($location);
-            echo '<br /><a href="' . $this->get_update_location_url($location) . '">' . Translation :: get('UpdateInternshipLocation') . '</a>';
-            echo ' | <a href="' . $this->get_delete_location_url($location) . '">' . Translation :: get('DeleteInternshipLocation') . '</a>';
+            echo '<br /><a href="' . $this->get_update_location_url($location) . '">' . Translation :: get('UpdateInternshipPlannerLocation') . '</a>';
+            echo ' | <a href="' . $this->get_delete_location_url($location) . '">' . Translation :: get('DeleteInternshipPlannerLocation') . '</a>';
             echo '</div><br /><br />';
         }
         

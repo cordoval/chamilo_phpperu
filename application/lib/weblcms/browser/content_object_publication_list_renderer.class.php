@@ -12,9 +12,9 @@
 abstract class ContentObjectPublicationListRenderer
 {
     protected $browser;
-    
+
     private $parameters;
-    
+
     private $actions;
 
     /**
@@ -99,16 +99,23 @@ abstract class ContentObjectPublicationListRenderer
         {
             $users = $publication->get_target_users();
             $course_groups = $publication->get_target_course_groups();
-            if (count($users) + count($course_groups) == 1)
+            $groups = $publication->get_target_groups();
+            if (count($users) + count($course_groups) + count($groups) == 1)
             {
                 if (count($users) == 1)
                 {
                     $user = $this->browser->get_user_info($users[0]);
                     return $user->get_firstname() . ' ' . $user->get_lastname() . $email_suffix;
                 }
+                elseif(count($groups) == 1)
+                {
+                    $gdm = GroupDataManager :: get_instance();
+                    $group = $gdm->retrieve_group($groups[0]);
+                    return $group->get_name();
+                }
                 else
                 {
-                    $wdm = WeblcmsDatamanager :: get_instance();
+                    $wdm = WeblcmsDataManager :: get_instance();
                     $course_group = $wdm->retrieve_course_group($course_groups[0]);
                     return $course_group->get_name();
                 }
@@ -122,10 +129,17 @@ abstract class ContentObjectPublicationListRenderer
             }
             foreach ($course_groups as $index => $course_group_id)
             {
-                $wdm = WeblcmsDatamanager :: get_instance();
+                $wdm = WeblcmsDataManager :: get_instance();
                 //Todo: make this more efficient. Get all course_groups using a single query
                 $course_group = $wdm->retrieve_course_group($course_group_id);
                 $target_list[] = '<option>' . $course_group->get_name() . '</option>';
+            }
+            foreach ($groups as $index => $group_id)
+            {
+                $gdm = GroupDataManager :: get_instance();
+                //Todo: make this more efficient. Get all course_groups using a single query
+                $group = $gdm->retrieve_group($group_id);
+                $target_list[] = '<option>' . $group->get_name() . '</option>';
             }
             $target_list[] = '</select>';
             return implode("\n", $target_list) . $email_suffix;
@@ -331,7 +345,7 @@ abstract class ContentObjectPublicationListRenderer
         }
         return '';
     }*/
-    
+
     function render_attachments($publication)
     {
         $object = $publication->get_content_object();
@@ -367,9 +381,9 @@ abstract class ContentObjectPublicationListRenderer
     {
         $html = array();
         $icons = array();
-        
+
         $html[] = '<span style="white-space: nowrap;">';
-        
+
         if ($this->is_allowed(DELETE_RIGHT))
         {
             $icons[] = $this->render_delete_action($publication);
@@ -382,9 +396,9 @@ abstract class ContentObjectPublicationListRenderer
             $icons[] = $this->render_down_action($publication, $last);
             $icons[] = $this->render_move_to_category_action($publication, $last);
         }
-        
+
         $icons[] = $this->render_feedback_action($publication);
-        
+
         //dump($icons);
         $html[] = implode('&nbsp;', $icons);
         $html[] = '</span>';
@@ -457,7 +471,7 @@ abstract class ContentObjectPublicationListRenderer
 
     function get_feedback()
     {
-        if ($this->browser->get_parent()->get_course()->get_allow_feedback())
+        //if ($this->browser->get_parent()->get_course()->get_allow_feedback())
         {
             $fbm = new FeedbackManager($this->browser->get_parent(), WeblcmsManager :: APPLICATION_NAME);
             return $fbm->as_html();
@@ -490,11 +504,11 @@ abstract class ContentObjectPublicationListRenderer
         $rgb['r'] = substr($color_number, 0, 3) % 255;
         $rgb['g'] = substr($color_number, 2, 3) % 255;
         $rgb['b'] = substr($color_number, 4, 3) % 255;
-        
+
         $rgb['fr'] = round(($rgb['r'] + 234) / 2);
         $rgb['fg'] = round(($rgb['g'] + 234) / 2);
         $rgb['fb'] = round(($rgb['b'] + 234) / 2);
-        
+
         return $rgb;
     }
 }

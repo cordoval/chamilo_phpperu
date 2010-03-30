@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: course_creator.class.php 218 2009-11-13 14:21:26Z kariboe $
+ * $Id: course_type_selector.class.php 218 2010-03-26 14:21:26Z Yannick & Tristan $
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
@@ -50,9 +50,10 @@ class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManagerComponent
         $course_type_id = $this->get_course_type()->get_id();
         $form = new CourseTypeSelectForm($this->get_url());
         
-        if ($form->validate())
+        if ($form->validate() || $form->get_size()==1)
         {
             $this->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $form->get_selected_id()));
+            
         }
         else
         {

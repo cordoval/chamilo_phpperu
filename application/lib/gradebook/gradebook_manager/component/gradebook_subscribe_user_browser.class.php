@@ -18,7 +18,7 @@ class GradebookManagerGradebookSubscribeUserBrowserComponent extends GradebookMa
 			$this->display_footer();
 			exit;
 		}
-			
+
 		$gradebook_id = $_GET[GradebookManager :: PARAM_GRADEBOOK_ID];
 		$this->gradebook = $this->retrieve_gradebook($gradebook_id);
 
@@ -54,13 +54,13 @@ class GradebookManagerGradebookSubscribeUserBrowserComponent extends GradebookMa
 	function get_condition()
 	{
 		$query = $this->ab->get_query();
-			
-			
+
+
 		if(isset($query) && $query != '')
 		{
-			$or_conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
-			$or_conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
-			$or_conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
+			$or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+			$or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+			$or_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
 			$search_conditions = new OrCondition($or_conditions);
 		}
 

@@ -96,14 +96,46 @@ if (Authentication :: is_valid())
     $group_result_set = $gdm->retrieve_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
     while ($group = $group_result_set->next_result())
     {
-        $groups[] = $group;
+        $group_parent_id = $group->get_parent();
+
+        if (!is_array($groups[$group_parent_id]))
+        {
+            $groups[$group_parent_id] = array();
+        }
+
+        if (!isset($groups[$group_parent_id][$group->get_id()]))
+        {
+            $groups[$group_parent_id][$group->get_id()] = $group;
+        }
+
+        if ($group_parent_id != 0)
+        {
+            $tree_parents = $group->get_parents(false);
+
+            while ($tree_parent = $tree_parents->next_result())
+            {
+                $tree_parent_parent_id = $tree_parent->get_parent();
+
+                if (!is_array($groups[$tree_parent_parent_id]))
+                {
+                    $groups[$tree_parent_parent_id] = array();
+                }
+
+                if (!isset($groups[$tree_parent_parent_id][$tree_parent->get_id()]))
+                {
+                    $groups[$tree_parent_parent_id][$tree_parent->get_id()] = $tree_parent;
+                }
+            }
+        }
     }
+
+    $groups_tree = get_group_tree(0, $groups);
 }
 
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="UTF-8"?>', "\n", '<tree>', "\n";
 
-dump_tree($users, $groups);
+dump_tree($users, $groups_tree);
 
 echo '</tree>';
 
@@ -113,7 +145,7 @@ function dump_tree($users, $groups)
     {
         if (contains_results($users))
         {
-            echo '<node id="user" classes="type_category unlinked" title="Users">', "\n";
+            echo '<node id="user" classes="category unlinked" title="Users">', "\n";
             foreach ($users as $user)
             {
                 echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlspecialchars($user->get_fullname()) . '" description="' . htmlentities($user->get_username()) . '"/>' . "\n";
@@ -123,14 +155,38 @@ function dump_tree($users, $groups)
 
         if (contains_results($groups))
         {
-            echo '<node id="group" classes="type_category unlinked" title="Groups">', "\n";
-            foreach ($groups as $group)
-            {
-                echo '<leaf id="group_' . $group->get_id() . '" classes="' . 'type type_group' . '" title="' . htmlspecialchars($group->get_name()) . '" description="' . htmlspecialchars($group->get_name()) . '"/>' . "\n";
-            }
-            echo '</node>', "\n";
+//            echo '<node id="group" classes="category unlinked" title="Groups">', "\n";
+            dump_groups_tree($groups);
+//            echo '</node>', "\n";
         }
     }
+}
+
+function dump_groups_tree($groups)
+{
+    foreach($groups as $group)
+    {
+        if (contains_results($group['children']))
+        {
+            echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
+            dump_groups_tree($group['children']);
+            echo '</node>', "\n";
+        }
+        else
+        {
+            echo '<leaf id="group_' . $group['group']->get_id() . '" classes="' . 'type type_group' . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '"/>' . "\n";
+        }
+    }
+}
+
+function get_group_tree($index, $groups)
+{
+    $tree = array();
+    foreach ($groups[$index] as $child)
+    {
+        $tree[] = array('group' => $child, 'children' => get_group_tree($child->get_id(), $groups));
+    }
+    return $tree;
 }
 
 function contains_results($objects)

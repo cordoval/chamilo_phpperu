@@ -3,6 +3,8 @@ require_once dirname(__FILE__).'/../competency.class.php';
 require_once dirname(__FILE__).'/../indicator.class.php';
 require_once dirname(__FILE__).'/../criteria.class.php';
 require_once dirname(__FILE__).'/../criteria_score.class.php';
+require_once dirname(__FILE__).'/../competency_indicator.class.php';
+require_once dirname(__FILE__).'/../indicator_criteria.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -23,6 +25,8 @@ class DatabaseCbaDataManager extends CbaDataManager
 		$aliases[Indicator :: get_table_name()] = 'indicator';
 		$aliases[Criteria :: get_table_name()] = 'criteria';
 		$aliases[CriteriaScore :: get_table_name()] = 'criteria_score';
+		$aliases[CompetencyIndicator :: get_table_name()] = 'competency_indicator';
+		$aliases[IndicatorCriteria :: get_table_name()] = 'indicator_criteria';
 
 		$this->database = new Database($aliases);
 		$this->database->set_prefix('cba_');
@@ -72,6 +76,7 @@ class DatabaseCbaDataManager extends CbaDataManager
 	{
 		return $this->database->retrieve_objects(Competency :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
+
 	
 	
 	// Indicator CRUD, ...
@@ -173,7 +178,7 @@ class DatabaseCbaDataManager extends CbaDataManager
 		return $this->database->update($criteria_score, $condition);
 	}
 	
-	function delete_criteria_score($criteri_scorea)
+	function delete_criteria_score($criteria_score)
 	{
 		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $criteria_score->get_id());
 		return $this->database->delete($criteria_score->get_table_name(), $condition);
@@ -186,13 +191,95 @@ class DatabaseCbaDataManager extends CbaDataManager
 	
 	function retrieve_criteria_score($id)
 	{
-		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $id);
+		//$condition = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $id);
+		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $id);
 		return $this->database->retrieve_object(CriteriaScore :: get_table_name(), $condition);
 	}
 	
 	function retrieve_criterias_score($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return $this->database->retrieve_objects(CriteriaScore :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+	}
+	
+	// Competency indicator CRUD, ...
+	
+	function get_next_competency_indicator_id()
+	{
+		return $this->database->get_next_id(CompetencyIndicator :: get_table_name());
+	}
+
+	function create_competency_indicator($competency_indicator)
+	{
+		return $this->database->create($competency_indicator);
+	}
+	
+	function update_competency_indicator($competency_indicator)
+	{
+		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_ID, $competency_indicator->get_id());
+		return $this->database->update($competency_indicator, $condition);
+	}
+	
+	function delete_competency_indicator($competency_indicator)
+	{
+		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_ID, $competency_indicator->get_id());
+		return $this->database->delete($competency_indicator->get_table_name(), $condition);
+	}
+
+	function count_competencys_indicator($condition = null)
+	{
+		return $this->database->count_objects(CompetencyIndicator :: get_table_name(), $condition);
+	}
+	
+	function retrieve_competency_indicator($id)
+	{
+		//$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_ID, $id);
+		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $id);
+		return $this->database->retrieve_object(CompetencyIndicator :: get_table_name(), $condition);
+	}
+	
+	function retrieve_competencys_indicator($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return $this->database->retrieve_objects(CompetencyIndicator :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+	}
+	
+	// Indicator criteria CRUD, ...
+	
+	function get_next_indicator_criteria_id()
+	{
+		return $this->database->get_next_id(IndicatorCriteria :: get_table_name());
+	}
+
+	function create_indicator_criteria($indicator_criteria)
+	{
+		return $this->database->create($indicator_criteria);
+	}
+	
+	function update_indicator_criteria($indicator_criteria)
+	{
+		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_ID, $indicator_criteria->get_id());
+		return $this->database->update($indicator_criteria, $condition);
+	}
+	
+	function delete_indicator_criteria($indicator_criteria)
+	{
+		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_ID, $indicator_criteria->get_id());
+		return $this->database->delete($indicator_criteria->get_table_name(), $condition);
+	}
+
+	function count_indicators_criteria($condition = null)
+	{
+		return $this->database->count_objects(IndicatorCriteria :: get_table_name(), $condition);
+	}
+	
+	function retrieve_indicator_criteria($id)
+	{
+		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $id);
+		return $this->database->retrieve_object(IndicatorCriteria :: get_table_name(), $condition);
+	}
+	
+	function retrieve_indicators_criteria($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return $this->database->retrieve_objects(IndicatorCriteria :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 	
 	

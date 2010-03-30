@@ -63,7 +63,7 @@ function dump_tree($cda_languages)
         return;
     }
 
-    echo '<node id="0" classes="type_category unlinked" title="' . Translation :: get('Languages') . '">' . "\n";
+    echo '<node id="0" classes="category unlinked" title="' . Translation :: get('Languages') . '">' . "\n";
 
     while ($cda_language = $cda_languages->next_result())
     {

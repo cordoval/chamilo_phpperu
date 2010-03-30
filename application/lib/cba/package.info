@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Cba</name>
+		<name>Competence Based Assessment</name>
 		<code>cba</code>
 		<section>application</section>
 		<category>evaluation</category>

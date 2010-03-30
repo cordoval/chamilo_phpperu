@@ -93,6 +93,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
     const PROPERTY_OBJECT_NUMBER = 'object_number';
     const PROPERTY_STATE = 'state';
     const PROPERTY_COMMENT = 'comment';
+    const PROPERTY_CONTENT_HASH = 'content_hash';
     /**#@-*/
 
     /**
@@ -152,7 +153,13 @@ class ContentObject extends DataClass implements AccessibleContentObject
      */
     function get_type()
     {
-        return self :: class_to_type(get_class($this));
+        $type = $this->get_default_property(self :: PROPERTY_TYPE);
+    	if($type)
+        {
+        	return $type;	
+        }
+        
+    	return self :: class_to_type(get_class($this));
     }
 
     /**
@@ -299,12 +306,12 @@ class ContentObject extends DataClass implements AccessibleContentObject
         return $this->includes;
     }
 
-    function get_content_object_versions()
+    function get_content_object_versions($include_last = true)
     {
         if (! is_array($this->versions))
         {
             $dm = RepositoryDataManager :: get_instance();
-            $this->versions = $dm->retrieve_content_object_versions($this);
+            $this->versions = $dm->retrieve_content_object_versions($this, $include_last);
         }
         return $this->versions;
     }
@@ -429,6 +436,16 @@ class ContentObject extends DataClass implements AccessibleContentObject
     function set_modification_date($modified)
     {
         $this->set_default_property(self :: PROPERTY_MODIFICATION_DATE, $modified);
+    }
+    
+    function get_content_hash()
+    {
+    	return $this->get_default_property(self :: PROPERTY_CONTENT_HASH);
+    }
+    
+    function set_content_hash($content_hash)
+    {
+    	$this->set_default_property(self :: PROPERTY_CONTENT_HASH, $content_hash);
     }
 
     /**
@@ -632,7 +649,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
         $this->set_creation_date($now);
         $this->set_modification_date($now);
         $this->set_object_number($dm->get_next_content_object_number());
-
+        
         if (! $dm->create_content_object($this, 'new'))
         {
             return false;
@@ -968,7 +985,10 @@ class ContentObject extends DataClass implements AccessibleContentObject
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_COMMENT));
+        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, 
+        								self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, 
+        								self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, 
+        								self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
     }
 
     static function get_additional_property_names()

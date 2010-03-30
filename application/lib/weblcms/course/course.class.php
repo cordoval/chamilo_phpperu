@@ -98,7 +98,7 @@ class Course extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
     }
-    
+
     /**
      * Returns the visual code of this course object
      * @return string the visual code
@@ -220,7 +220,7 @@ class Course extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $type);
     }
-    
+
     /**
      * Sets the visual code of this course object
      * @param String $visual The visual code
@@ -349,7 +349,7 @@ class Course extends DataClass
     /*
      * Getters and validation whether or not the property is readable from the course's own settings
      */
-    
+
     function get_language()
     {
     	if(!$this->get_language_fixed())
@@ -383,7 +383,7 @@ class Course extends DataClass
         else
         	return $this->get_course_type()->get_settings()->get_max_number_of_members();
     }
-    
+
     /**
      * Setters and validation to see whether they are writable
      */
@@ -397,8 +397,10 @@ class Course extends DataClass
     {
     	if(!$this->get_language_fixed())
         	$this->settings->set_language($language);
+        else
+        	$this->settings->set_language($this->course_type->get_settings()->get_language());
     }
-    
+
     function get_visibility_fixed()
     {
     	return $this->course_type->get_settings()->get_visibility_fixed();
@@ -408,6 +410,8 @@ class Course extends DataClass
     {
 		if(!$this->get_visibility_fixed())
         	$this->settings->set_visibility($visibility);
+        else
+        	$this->settings->set_visibility($this->course_type->get_settings()->get_visibility());
     }
 
     function get_access_fixed()
@@ -419,6 +423,8 @@ class Course extends DataClass
     {
 		if(!$this->get_access_fixed())
         	$this->settings->set_access($access);
+        else
+        	$this->settings->set_access($this->course_type->get_settings()->get_access());
     }
 
     function get_max_number_of_members_fixed($max_number_of_members)
@@ -430,8 +436,10 @@ class Course extends DataClass
     {
 		if(!$this->get_max_number_of_members_fixed())
         	$this->settings->set_max_number_of_members($max_number_of_members);
+        else
+        	$this->settings->set_max_number_of_members($this->course_type->get_settings()->get_max_number_of_members());
     }
-    
+
     /**
      * Direct access to the setters and getters for the course layout
      * All setters include a validation to see whether or not the property is writeable
@@ -532,6 +540,8 @@ class Course extends DataClass
     {
     	if(!$this->get_feedback_fixed())
     		$this->get_layout_settings()->set_feedback($feedback);
+    	else
+        	$this->get_layout_settings()->set_feedback($this->course_type->get_layout_settings()->get_feedback());
     }
 
     function get_layout_fixed()
@@ -543,6 +553,8 @@ class Course extends DataClass
     {
     	if(!$this->get_layout_fixed())
     		$this->get_layout_settings()->set_layout($layout);
+    	else
+        	$this->get_layout_settings()->set_layout($this->course_type->get_layout_settings()->get_layout());
     }
 
     function get_tool_shortcut_fixed()
@@ -554,6 +566,8 @@ class Course extends DataClass
     {
     	if(!$this->get_tool_shortcut_fixed())
     		$this->get_layout_settings()->set_tool_shortcut($tool_shortcut);
+    	else
+        	$this->get_layout_settings()->set_tool_shortcut($this->course_type->get_layout_settings()->get_tool_shortcut());
     }
 
     function get_menu_fixed()
@@ -565,6 +579,8 @@ class Course extends DataClass
     {
     	if(!$this->get_menu_fixed())
     		$this->get_layout_settings()->set_menu($menu);
+    	else
+        	$this->get_layout_settings()->set_menu($this->course_type->get_layout_settings()->get_menu());
     }
 
     function get_breadcrumb_fixed()
@@ -576,6 +592,8 @@ class Course extends DataClass
     {
     	if(!$this->get_breadcrumb_fixed())
     		$this->get_layout_settings()->set_breadcrumb($breadcrumb);
+    	else
+        	$this->get_layout_settings()->set_breadcrumb($this->course_type->get_layout_settings()->get_breadcrumb());
     }
 
     function get_intro_text_fixed()
@@ -587,6 +605,8 @@ class Course extends DataClass
     {
     	if(!$this->get_intro_text_fixed())
     		$this->get_layout_settings()->set_intro_text($intro_text);
+    	else
+        	$this->get_layout_settings()->set_intro_text($this->course_type->get_layout_settings()->get_intro_text());
     }
 
     function get_student_view_fixed()
@@ -598,6 +618,8 @@ class Course extends DataClass
     {
     	if(!$this->get_student_view_fixed())
     		$this->get_layout_settings()->set_student_view($student_view);
+    	else
+        	$this->get_layout_settings()->set_student_view($this->course_type->get_layout_settings()->get_student_view());
     }
 
     function get_course_code_visible_fixed()
@@ -609,6 +631,8 @@ class Course extends DataClass
     {
     	if(!$this->get_course_code_visible_fixed())
     		$this->get_layout_settings()->set_course_code_visible($course_code_visible);
+    	else
+        	$this->get_layout_settings()->set_course_code_visible($this->course_type->get_layout_settings()->get_course_code_visible());
     }
 
     function get_course_manager_name_visible_fixed()
@@ -620,6 +644,8 @@ class Course extends DataClass
     {
     	if(!$this->get_course_manager_name_visible_fixed())
     		$this->get_layout_settings()->set_course_manager_name_visible($course_manager_name_visible);
+    	else
+        	$this->get_layout_settings()->set_course_manager_name_visible($this->course_type->get_layout_settings()->get_course_manager_name_visible());
     }
 
     function get_course_languages_visible_fixed()
@@ -631,6 +657,8 @@ class Course extends DataClass
     {
     	if(!$this->get_course_languages_visible_fixed())
     		$this->get_layout_settings()->set_course_languages_visible($course_languages_visible);
+    	else
+        	$this->get_layout_settings()->set_course_languages_visible($this->course_type->get_layout_settings()->get_course_languages_visible());
     }
 
     /**
@@ -678,6 +706,11 @@ class Course extends DataClass
         {
             return false;
         }
+        
+    	if(!$this->create_root_course_group())
+        {
+        	return false;
+        }
 
         return true;
     }
@@ -718,19 +751,36 @@ class Course extends DataClass
         return (! is_null($this->get_layout()->get_theme()) ? true : false);
     }
 
+    function has_subscribed_users()
+    {
+        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        return $this->get_data_manager()->count_course_user_relations($relation_condition);
+    }
+
     /**
      * Gets the subscribed users of this course
      * @return array An array of CourseUserRelation objects
      */
     function get_subscribed_users()
     {
-        $wdm = WeblcmsDataManager :: get_instance();
+        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
+        return $this->get_data_manager()->retrieve_course_user_relations($relation_condition)->as_array();
+    }
 
-        $relation_conditions = array();
-        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
-        $relation_condition = new AndCondition($relation_conditions);
+    function has_subscribed_groups()
+    {
+        $relation_condition = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        return $this->get_data_manager()->count_course_group_relations($relation_condition);
+    }
 
-        return $wdm->retrieve_course_user_relations($relation_condition)->as_array();
+    /**
+     * Gets the subscribed groups of this course
+     * @return array An array of CourseGroupRelation objects
+     */
+    function get_subscribed_groups()
+    {
+        $relation_condition = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        return $this->get_data_manager()->retrieve_course_group_relations($relation_condition)->as_array();
     }
 
     /**
@@ -846,6 +896,14 @@ class Course extends DataClass
 //
 //        return $result;
 //    }
+
+    function create_root_course_group()
+    {
+    	$group = new CourseGroup();
+    	$group->set_course_code($this->get_id());
+    	$group->set_name($this->get_name());
+    	return $group->create();
+    }
 
 }
 ?>

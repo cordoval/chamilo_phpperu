@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../indicator.class.php';
+require_once dirname(__FILE__) . '/../indicator_criteria.class.php';
 /**
  * This class describes a IndicatorForm object
  * 
@@ -10,18 +11,25 @@ class IndicatorForm extends FormValidator
 	const TYPE_CREATOR_INDICATOR = 1;
 	const TYPE_EDITOR_INDICATOR = 2;
 	
+	const PARAM_TARGET = 'target_criterias';
+	const PARAM_TARGET_ELEMENTS = 'target_criterias_elements';
+	
 	private $indicator;
+	private $indicator_criteria;
 	private $user;
 	private $owner_id;
+	private $data_manager;
 
-    function IndicatorForm($form_type, $indicator, $action, $user)
+    function IndicatorForm($form_type, $indicator, $indicator_criteria, $action, $user)
     {
     	parent :: __construct('cba_settings', 'post', $action);
 
     	$this->indicator = $indicator;
+    	$this->indicator_criteria = $indicator_criteria;
     	$this->user = $user;
 		$this->form_type = $form_type;
 		$this->owner_id = $indicator->get_owner_id();
+		$this->data_manager = CbaDataManager :: get_instance();
 
 		if ($this->form_type == self :: TYPE_CREATOR_INDICATOR)
 		{
@@ -30,7 +38,7 @@ class IndicatorForm extends FormValidator
 		}
    	 	elseif ($this->form_type == self :: TYPE_EDITOR_INDICATOR)
 		{
-			$this->build_editor_indicator_form();
+			$this->build_editor_indicator_form($indicator_criteria);
 			$this->setIndicatorDefaults();
 		}
 
@@ -43,16 +51,31 @@ class IndicatorForm extends FormValidator
     	$this->addElement('text', Indicator :: PROPERTY_TITLE, Translation :: get('Title'));
 		$this->addRule(Indicator :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->add_html_editor(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
-		$this->addRule(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
-    	
 		$this->categories = array();
         $this->categories[0] = Translation :: get('Root');
         $this->retrieve_categories_recursive(0, 0);
 		
-    	$this->addElement('select', Indicator :: PROPERTY_PARENT_ID, Translation :: get('SelectCategory'), $this->categories);
-        $this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$select = $this->add_select(Indicator :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->categories);
+        $category_id = Request :: get(CbaManager :: PARAM_CATEGORY_ID);
+		$select->setSelected($category_id);
+    	$this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 		
+		$this->add_html_editor(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+		$this->addRule(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+
+		$attributes = array();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_criteria_feed.php';
+
+        $locale = array();
+        $locale['Display'] = Translation :: get('ShareWith');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+		$attributes['locale'] = $locale;
+        $attributes['defaults'] = array();
+           
+        $this->add_criterias(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
+        
     	
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -60,18 +83,65 @@ class IndicatorForm extends FormValidator
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
-	function build_editor_indicator_form()
+	function build_editor_indicator_form($indicator_criteria)
     {
     	$this->addElement('text', Indicator :: PROPERTY_TITLE, Translation :: get('Title'));
 		$this->addRule(Indicator :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$this->categories = array();
+        $this->categories[0] = Translation :: get('Root');
+        $this->retrieve_categories_recursive(0, 0);
+		
+    	$select = $this->add_select(Indicator :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->categories);
+        $select->setSelected($this->indicator->get_parent_id());
+    	$this->addRule(Indicator :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
 
 		$this->add_html_editor(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Indicator :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$attributes = array();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_criteria_feed.php';
+
+        $locale = array();
+        $locale['Display'] = Translation :: get('ShareWith');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+		$attributes['locale'] = $locale;
+        $attributes['defaults'] = array();
+
+    	if($indicator_criteria)
+		{
+			$cdm = CbaDataManager :: get_instance(); 
+			$target_criterias = $this->indicator_criteria->get_target_criterias();
+
+			foreach($target_criterias as $index => $value)
+			{
+				$criteria = $cdm->retrieve_criteria($value + 1);
+				$indicators = array();
+	
+		        $criterias['id'] = 'criteria_'. $value;
+		        $criterias['classes'] = 'type type_cda_language';
+		        $criterias['title'] = $value + 1;
+		        $criterias['title'] = $criteria->get_title();
+		        $criterias['description'] = '';//$criteria->get_description();
+				$attributes['defaults'][$criterias['id']] = $criterias;
+			}
+		}
+        
+        $this->add_criterias(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
     	
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    }
+    
+ 	function add_criterias($elementName, $elementLabel, $attributes)
+    {
+		$element_finder = $this->createElement('element_finder', $elementName . '_elements', $elementLabel, $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+		$element_finder->excludeElements($attributes['exclude']);
+        $this->addElement($element_finder);
     }
      
 	function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
@@ -114,16 +184,92 @@ class IndicatorForm extends FormValidator
    		return $indicator->create();
     }
     
+	function create_indicator_criteria()
+    {
+    	$indicator = $this->indicator;
+    	$indicator_criteria = $this->indicator_criteria;  
+    	$indicator_criteria->set_owner_id($this->get_owner_id());	
+    	$values = $this->exportValues();
+	   	
+    	$indicator_criteria->set_indicator_id($indicator->get_id());
+    	
+    	$result = true;
+    	$criterias = $values[self :: PARAM_TARGET_ELEMENTS];
+    	
+    	foreach($criterias as $key => $value)
+    	{   		
+    		$criteria_id = substr($value, 9);
+    		$indicator_criteria->set_criteria_id($criteria_id);
+
+    		$conditions = array();
+			$conditions[] = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $indicator->get_id());				
+        	$conditions[] = new EqualityCondition(IndicatorCriteria :: PROPERTY_CRITERIA_ID, $indicator_criteria->get_criteria_id());
+    		
+            $condition = new AndCondition($conditions);
+           	$cats = $this->data_manager->count_indicators_criteria($condition);
+                
+            if ($cats > 0)
+            {
+                $result = false;
+            }
+            else
+            {
+            	$indicator_criteria->set_target_criterias($criterias);
+              	$result &= $indicator_criteria->create();
+            }
+    	} 	
+    	return $result;
+    }
+    
 	function update_indicator()
     {
     	$indicator = $this->indicator;
     	$indicator->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
+    	$parent = $this->exportValue(Indicator :: PROPERTY_PARENT_ID);
 
     	$indicator->set_title($values[Indicator :: PROPERTY_TITLE]);
     	$indicator->set_description($values[Indicator :: PROPERTY_DESCRIPTION]);
+		$indicator->move($parent);
 
     	return $indicator->update();
+    }
+    
+	function update_indicator_criteria()
+    {
+    	$indicator = $this->indicator;
+    	$indicator_criteria = $this->indicator_criteria;  
+    	$indicator_criteria->set_owner_id($this->get_owner_id());	
+    	$values = $this->exportValues();
+	   	
+    	$indicator_criteria->set_indicator_id($indicator->get_id());
+    	
+    	$result = true;
+    	$criterias = $values[self :: PARAM_TARGET_ELEMENTS];
+    	
+    	foreach($criterias as $key => $value)
+    	{
+    		$criteria_id = substr($value, 10);
+    		$indicator_criteria->set_criteria_id($criteria_id);
+
+    		$conditions = array();
+			$conditions[] = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $indicator->get_id());				
+        	$conditions[] = new EqualityCondition(IndicatorCriteria :: PROPERTY_CRITERIA_ID, $indicator_criteria->get_criteria_id());
+    		
+            $condition = new AndCondition($conditions);
+           	$cats = $this->data_manager->count_indicators_criteria($condition);
+                
+            if ($cats > 0)
+            {
+                $result = false;
+            }
+            else
+            {
+            	$indicator_criteria->set_target_criterias($criterias);
+              	$result &= $indicator_criteria->update();
+            }
+    	} 	
+    	return $result;
     }
 
     

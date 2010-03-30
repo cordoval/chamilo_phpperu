@@ -2,11 +2,11 @@
 require_once dirname(__FILE__) . '/../location.class.php';
 
 /**
- * This class describes the form for a InternshipLocation object.
+ * This class describes the form for a InternshipPlannerLocation object.
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  **/
-class InternshipLocationForm extends FormValidator
+class InternshipPlannerLocationForm extends FormValidator
 {
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
@@ -14,7 +14,7 @@ class InternshipLocationForm extends FormValidator
     private $location;
     private $user;
 
-    function InternshipLocationForm($form_type, $location, $action, $user)
+    function InternshipPlannerLocationForm($form_type, $location, $action, $user)
     {
         parent :: __construct('location_settings', 'post', $action);
             
@@ -37,17 +37,17 @@ class InternshipLocationForm extends FormValidator
     function build_basic_form()
     {
         
-        $this->addElement('text', InternshipLocation :: PROPERTY_NAME, Translation :: get('Name'));
-        $this->addRule(InternshipLocation :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', InternshipPlannerLocation :: PROPERTY_NAME, Translation :: get('Name'));
+        $this->addRule(InternshipPlannerLocation :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->addElement('text', InternshipLocation :: PROPERTY_CITY, Translation :: get('City'));
-        $this->addRule(InternshipLocation :: PROPERTY_CITY, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', InternshipPlannerLocation :: PROPERTY_CITY, Translation :: get('City'));
+        $this->addRule(InternshipPlannerLocation :: PROPERTY_CITY, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->addElement('text', InternshipLocation :: PROPERTY_STREET, Translation :: get('Street'));
-        $this->addRule(InternshipLocation :: PROPERTY_STREET, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', InternshipPlannerLocation :: PROPERTY_STREET, Translation :: get('Street'));
+        $this->addRule(InternshipPlannerLocation :: PROPERTY_STREET, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->addElement('text', InternshipLocation :: PROPERTY_STREET_NUMBER, Translation :: get('StreetNumber'));
-        $this->addRule(InternshipLocation :: PROPERTY_STREET_NUMBER, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', InternshipPlannerLocation :: PROPERTY_STREET_NUMBER, Translation :: get('StreetNumber'));
+        $this->addRule(InternshipPlannerLocation :: PROPERTY_STREET_NUMBER, Translation :: get('ThisFieldIsRequired'), 'required');
         
     }
 
@@ -55,7 +55,7 @@ class InternshipLocationForm extends FormValidator
     {
         $this->build_basic_form();
         
-        //$this->addElement('hidden', InternshipLocation :: PROPERTY_ID);
+        //$this->addElement('hidden', InternshipPlannerLocation :: PROPERTY_ID);
         
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
@@ -79,10 +79,10 @@ class InternshipLocationForm extends FormValidator
         $location = $this->location;
         $values = $this->exportValues();
         
-        $location->set_name($values[InternshipLocation :: PROPERTY_NAME]);
-        $location->set_street($values[InternshipLocation :: PROPERTY_STREET]);
-        $location->set_street_number($values[InternshipLocation :: PROPERTY_STREET_NUMBER]);
-        $location->set_city($values[InternshipLocation :: PROPERTY_CITY]);
+        $location->set_name($values[InternshipPlannerLocation :: PROPERTY_NAME]);
+        $location->set_street($values[InternshipPlannerLocation :: PROPERTY_STREET]);
+        $location->set_street_number($values[InternshipPlannerLocation :: PROPERTY_STREET_NUMBER]);
+        $location->set_city($values[InternshipPlannerLocation :: PROPERTY_CITY]);
                 
         return $location->update();
     }
@@ -92,10 +92,10 @@ class InternshipLocationForm extends FormValidator
         $location = $this->location;
         $values = $this->exportValues();
         
-        $location->set_name($values[InternshipLocation :: PROPERTY_NAME]);
-        $location->set_street($values[InternshipLocation :: PROPERTY_STREET]);
-        $location->set_street_number($values[InternshipLocation :: PROPERTY_STREET_NUMBER]);
-        $location->set_city($values[InternshipLocation :: PROPERTY_CITY]);
+        $location->set_name($values[InternshipPlannerLocation :: PROPERTY_NAME]);
+        $location->set_street($values[InternshipPlannerLocation :: PROPERTY_STREET]);
+        $location->set_street_number($values[InternshipPlannerLocation :: PROPERTY_STREET_NUMBER]);
+        $location->set_city($values[InternshipPlannerLocation :: PROPERTY_CITY]);
 		
         dump($location);
         
@@ -110,10 +110,10 @@ class InternshipLocationForm extends FormValidator
     {
         $location = $this->location;
         
-        $defaults[InternshipLocation :: PROPERTY_NAME] = $location->get_name();
-        $defaults[InternshipLocation :: PROPERTY_STREET] = $location->get_street();
-        $defaults[InternshipLocation :: PROPERTY_STREET_NUMBER] = $location->get_street_number();
-        $defaults[InternshipLocation :: PROPERTY_CITY] = $location->get_city();
+        $defaults[InternshipPlannerLocation :: PROPERTY_NAME] = $location->get_name();
+        $defaults[InternshipPlannerLocation :: PROPERTY_STREET] = $location->get_street();
+        $defaults[InternshipPlannerLocation :: PROPERTY_STREET_NUMBER] = $location->get_street_number();
+        $defaults[InternshipPlannerLocation :: PROPERTY_CITY] = $location->get_city();
         
         parent :: setDefaults($defaults);
     }

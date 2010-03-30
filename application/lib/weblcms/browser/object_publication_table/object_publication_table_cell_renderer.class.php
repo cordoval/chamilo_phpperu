@@ -79,12 +79,19 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         {
             $users = $publication->get_target_users();
             $course_groups = $publication->get_target_course_groups();
-            if (count($users) + count($course_groups) == 1)
+            $groups = $publication->get_target_groups();
+            if (count($users) + count($course_groups) + count($groups) == 1)
             {
                 if (count($users) == 1)
                 {
                     $user = $this->retrieve_user($users[0]);
                     return $user->get_firstname() . ' ' . $user->get_lastname() . $email_suffix;
+                }
+                elseif(count($groups) == 1)
+                {
+                    $gdm = GroupDataManager :: get_instance();
+                    $group = $gdm->retrieve_group($groups[0]);
+                    return $group->get_name();
                 }
                 else
                 {
@@ -105,6 +112,13 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
                 $wdm = WeblcmsDatamanager :: get_instance();
                 $course_group = $wdm->retrieve_course_group($course_group_id);
                 $target_list[] = '<option>' . $course_group->get_name() . '</option>';
+            }
+            foreach ($groups as $index => $group_id)
+            {
+                $gdm = GroupDataManager :: get_instance();
+                //Todo: make this more efficient. Get all course_groups using a single query
+                $group = $gdm->retrieve_group($group_id);
+                $target_list[] = '<option>' . $group->get_name() . '</option>';
             }
             $target_list[] = '</select>';
             return implode("\n", $target_list) . $email_suffix;
@@ -134,7 +148,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
             {
                 $img = 'action_visible_na.png';
             }
-           
+
             if($publication->get_display_order_index() > 1)
             {
             	$actions[] = array(
@@ -150,7 +164,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
             		'img' => Theme :: get_common_image_path() . 'action_up_na.png'
             	);
             }
-            
+
             if($publication->get_display_order_index() < $this->object_count)
             {
             	$actions[] = array(

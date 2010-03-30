@@ -2,6 +2,7 @@
 {
 	var handle_drop = function(ev, ui) 
 	{ 
+		alert('yuw');
 	       //$(this).empty();
 		var target = $(this).attr("id");
 		var source = $(ui.draggable).attr("id");
@@ -15,7 +16,7 @@
 			source : source
 		},  function(data) 
 			{
-	    		//alert(data);
+	    		alert(data);
 	    		$("#" + target + " > * > .description").empty();
 	    		$("#" + target + " > * > .description").append(data);
 	    		$(".tooldrag").css('display', 'inline');
@@ -98,16 +99,22 @@
 		ui.helper.css("border", "0px solid #c0c0c0");
 	}
 	
-	function toolsSortableUpdate(e, ui) {
+	function toolsSortableUpdate(e, ui) 
+	{
 		var section = $(this).attr("id");
 		var order = $(this).sortable("serialize");
 
-		$.post("./application/lib/weblcms/ajax/block_sort.php", {
-			column : column,
+		$.post("./application/lib/weblcms/ajax/block_sort.php", 
+		{
+			section : section,
 			order : order
-		}// ,
-				// function(data){alert("Data Loaded: " + data);}
-				);
+		} , function(data)
+			{
+				
+			}
+		);
+		
+
 	}
 	
 	function toolsSortable() {
@@ -124,10 +131,10 @@
 			scroll : false,
 			start : toolsSortableStart,
 			beforeStop : toolSortableBeforeStop,
-			//update : toolSortableUpdate
+			update : toolsSortableUpdate
 		});
 	}
-
+	
 	$(document).ready( function() 
 	{
 		toolsSortable();
@@ -135,6 +142,7 @@
 		$(".tool_visible").bind('click', handle_visible_clicked);
 		
 		$(".tooldrag").css('display', 'inline');
+
 	});
 	
 })(jQuery);

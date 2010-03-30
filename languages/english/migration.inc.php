@@ -193,4 +193,5 @@ $lang['migration']['ForumPost'] = 'Forum post';
 $lang['migration']['Profile'] = 'Profile';
 $lang['migration']['ForumThread'] = 'Forum thread';
 $lang['migration']['LearningPathItems'] = 'Learning path items';
+$lang['migration']['CalendarEvents'] = '';
 ?>

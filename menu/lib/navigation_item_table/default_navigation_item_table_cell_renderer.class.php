@@ -31,8 +31,16 @@ class DefaultNavigationItemTableCellRenderer implements ObjectTableCellRenderer
         {
             case NavigationItem :: PROPERTY_TITLE :
                 return $navigation_item->get_title();
-            case Translation :: get(ucfirst(NavigationItem :: PROPERTY_TITLE)) :
-                return $navigation_item->get_title();
+            case 'Type':
+            	if($navigation_item->get_is_category())
+            	{
+            		$icon = 'category.png';
+            	}
+            	else
+            	{
+            		$icon = 'document.png';
+            	}
+            	return '<img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $icon . '" />';
             default :
                 return '&nbsp;';
         }
