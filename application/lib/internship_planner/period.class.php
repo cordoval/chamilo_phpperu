@@ -7,8 +7,9 @@
  * This class describes a Period data object
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
+ * @todo nested tree
  */
-class Period extends DataClass
+class InternshipPlannerPeriod extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 

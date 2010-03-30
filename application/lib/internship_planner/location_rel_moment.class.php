@@ -8,7 +8,7 @@
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class InternshipLocationRelMoment extends DataClass
+class InternshipPlannerLocationRelMoment extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
