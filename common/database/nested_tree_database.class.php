@@ -36,7 +36,7 @@ class NestedTreeDatabase extends Database
 	 * @param boolean $recursive - use recursive checks with left / right value or not recursive checks with parent_id
 	 * @param Condition $condition - additional conditions
 	 */
-	private function build_children_condition($node, $recursive = false, $condition = null)
+	function build_children_condition($node, $recursive = false, $condition = null)
 	{
 	 	$children_conditions = array();
 
@@ -91,7 +91,7 @@ class NestedTreeDatabase extends Database
 	 * @param boolean $include_object - if set to true the current node will be added to the parents list
 	 * @param Condition $condition - additional conditions
 	 */
-	private function build_parents_condition($node, $recursive = false, $include_object = false, $condition = null)
+	function build_parents_condition($node, $recursive = false, $include_object = false, $condition = null)
 	{
 		$parent_conditions = array();
 
@@ -127,31 +127,31 @@ class NestedTreeDatabase extends Database
 	 * @param boolean $include_object - if set to true the current node will be added to the count
 	 * @param Condition $condition - additional conditions
 	 */
-	function count_sibblings($node, $include_object = false, $condition = null)
+	function count_siblings($node, $include_object = false, $condition = null)
 	{
-		$condition = $this->build_sibblings_condition($node, $include_object, $condition);
+		$condition = $this->build_siblings_condition($node, $include_object, $condition);
 		return $this->count_objects($node->get_table_name(), $condition);
 	}
 
 	/**
-	 * Gets the sibblings of a tree node
+	 * Gets the siblings of a tree node
 	 * @param NestedTreeNode $node - the node
-	 * @param boolean $include_object - if set to true the current node will be added to the sibblings list
+	 * @param boolean $include_object - if set to true the current node will be added to the siblings list
 	 * @param Condition $condition - additional conditions
 	 */
-	function get_sibblings($node, $include_object = false, $condition = null)
+	function get_siblings($node, $include_object = false, $condition = null)
 	{
-		$condition = $this->build_sibblings_condition($node, $include_object, $condition);
+		$condition = $this->build_siblings_condition($node, $include_object, $condition);
         return $this->retrieve_objects($node->get_table_name(), $condition);
 	}
 
 	/**
-	 * Build the conditions for the get / count sibblings methods
+	 * Build the conditions for the get / count siblings methods
 	 * @param NestedTreeNode $node - the node
-	 * @param boolean $include_object - if set to true the current node will be added to the sibblings list
+	 * @param boolean $include_object - if set to true the current node will be added to the siblings list
 	 * @param Condition $condition - additional conditions
 	 */
-	private function build_sibblings_condition($node, $include_object = false, $condition = null)
+	function build_siblings_condition($node, $include_object = false, $condition = null)
 	{
 		$siblings_conditions = array();
 
@@ -325,7 +325,7 @@ class NestedTreeDatabase extends Database
 	 * @param String $table_name - the table name
 	 * @param int $id - the id of the node
 	 */
-	private function retrieve_node($table_name, $id)
+	function retrieve_node($table_name, $id)
 	{
 		$condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $id);
         return $this->retrieve_object($table_name, $condition);

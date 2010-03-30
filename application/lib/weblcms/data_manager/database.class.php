@@ -680,7 +680,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$condition = new EqualityCondition(Course :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(Course :: get_table_name(), $condition);
 	}
-	
+
 	function retrieve_course_module($id)
 	{
 		$condition = new EqualityCondition(CourseModule :: PROPERTY_ID, $id);
@@ -2055,14 +2055,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->get_parents($node, $recursive, $include_object, $this->get_course_group_nested_condition($node));
 	}
 
-	function count_course_group_sibblings($node, $include_object = false)
+	function count_course_group_siblings($node, $include_object = false)
 	{
-		return $this->database->count_sibblings($node, $include_object, $this->get_course_group_nested_condition($node));
+		return $this->database->count_siblings($node, $include_object, $this->get_course_group_nested_condition($node));
 	}
 
-	function get_course_group_sibblings($node, $include_object = false)
+	function get_course_group_siblings($node, $include_object = false)
 	{
-		return $this->database->get_sibblings($node, $include_object, $this->get_course_group_nested_condition($node));
+		return $this->database->get_siblings($node, $include_object, $this->get_course_group_nested_condition($node));
 	}
 
 	function move_course_group($node, $new_parent_id = 0, $new_previous_id = 0)
