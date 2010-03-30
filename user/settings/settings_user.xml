@@ -108,7 +108,7 @@
 					<option name="require_language" value="1" />
 				</options>
 			</setting>
-			<setting name="days_valid" field="text" default="366" />
+			<setting name="days_valid" field="text" default="366">
 				<validations>
                     <validation rule="numeric" message="MustBeNumeric"/>
                 </validations>
