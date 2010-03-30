@@ -8,7 +8,7 @@
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class InternshipLocationGroup extends DataClass
+class InternshipPlannerLocationGroup extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 

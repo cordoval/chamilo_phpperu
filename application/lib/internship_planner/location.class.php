@@ -1,6 +1,6 @@
 <?php
 
-class InternshipLocation extends DataClass {
+class InternshipPlannerLocation extends DataClass {
 	const CLASS_NAME = __CLASS__;
 	
 	/**

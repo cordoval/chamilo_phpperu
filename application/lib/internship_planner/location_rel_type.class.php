@@ -8,7 +8,7 @@
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class InternshipLocationRelType extends DataClass
+class InternshipPlannerLocationRelType extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 

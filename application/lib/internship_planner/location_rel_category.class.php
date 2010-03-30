@@ -8,7 +8,7 @@
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class InternshipLocationRelCategory extends DataClass
+class InternshipPlannerLocationRelCategory extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 
