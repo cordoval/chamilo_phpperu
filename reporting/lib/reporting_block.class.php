@@ -41,7 +41,7 @@ abstract class ReportingBlock
 
 	public function display_footer()
 	{
-
+	    $html = array();
         $html[] = '<div class="reporting_footer">';
         $html[] = '<div class="reporting_footer_export">';
         $html[] = $this->get_export_links();
@@ -54,41 +54,34 @@ abstract class ReportingBlock
 
 	public function display_header()
 	{
+        $parameters = $this->parent->get_parameters();
+        $bloc_parameters = array_merge($parameters, array(ReportingManager::PARAM_REPORTING_BLOCK_ID=>$this->get_id()));
+		$form = new ReportingFormatterForm($this, $this->get_parent()->get_parent()->get_url($bloc_parameters));
+
+	    $html = array();
 		$html[] = '<div id="' . $this->get_id() . '" class="reporting_block">';
         $html[] = '<div class="reporting_header">';
         $html[] = '<div class="reporting_header_title">' . Translation::get(get_class($this)) . '</div>';
         $html[] = '<div class="reporting_header_displaymode">';
-        $parameters = $this->parent->get_parameters();
-        $bloc_parameters = array_merge($parameters, array(ReportingManager::PARAM_REPORTING_BLOCK_ID=>$this->get_id()));
-		$form = new ReportingFormatterForm($this, $this->get_parent()->get_parent()->get_url($bloc_parameters));
         $html[] = $form->toHtml();
-        /*$html[] = '<form method=POST action="'.$this->get_parent()->get_parent()->get_url().'">';
-        $html[] = '<select name="charttype" class="charttype">';
-        foreach ($this->get_displaymodes() as $key => $value)
-        {
-            if ($key == $this->get_displaymode())
-            {
-                $html[] = '<option SELECTED value="' . $key . '">' . $value . '</option>';
-            }
-            else
-            {
-                $html[] = '<option value="' . $key . '">' . $value . '</option>';
-            }
-        }
-        $html[] = '</select>';
-        $html[] = '</form>';*/
         $html[] = '</div>';
-
         $html[] = '<div class="clear">&nbsp;</div>';
-
         $html[] = '</div>';
+
         return implode("\n", $html);
 	}
 
 	public function render_block()
 	{
-		$formatter = ReportingFormatter :: factory($this);
-		return $formatter->to_html();
+	    $formatter = ReportingFormatter :: factory($this);
+
+	    $html = array();
+	    $html[] = '<div class="reporting_content">';
+	    $html[] = $formatter->to_html();
+        $html[] = '<div class="clear">&nbsp;</div>';
+        $html[] = '</div>';
+
+		return implode("\n", $html);
 	}
 
 	public function to_html()
@@ -271,7 +264,7 @@ abstract class ReportingBlock
 
     function get_name_translation()
     {
-    	return Utilities::underscores_to_camelcase($this->get_name());
+    	return Translation :: get(Utilities::underscores_to_camelcase($this->get_name()));
     }
 
     /*public function get_name()

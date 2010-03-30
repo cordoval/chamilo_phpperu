@@ -499,7 +499,7 @@ class Database
             $query .= $translator->render_query($condition);
         }
 
-//        echo $query;
+//        dump($query);
 //        exit;
 
         $res = $this->query($query);
