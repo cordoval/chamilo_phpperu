@@ -1352,6 +1352,10 @@ div.block {
 	-webkit-border-radius: 10px;
 }
 
+div.coursehomeblock {
+	background-color: #fafcfc;
+}
+
 div.block div.title {
 	font-family: verdana, sans-serif;
 	font-weight: bold;

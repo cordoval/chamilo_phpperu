@@ -17,6 +17,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 	const SEPERATED = 'Seperated';
 	const OPEN_ONLY = 'OpenOnly';
 	
+	private $course_type;
+	
     /**
      * Runs this component and displays its output.
      */
@@ -81,54 +83,64 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
        		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
         	$courses_result = $this->retrieve_user_courses($condition);
         	$course_active_types = $this->retrieve_active_course_types();
-        
+            
         	$nieuw = array();
         	$courses = array();
         	$html = array();
-       	 	$html[] = '<div id="admin_tabs">';
-       	 	$html[] = '<ul>';
+       	 	
        	 	
        	 	while($tab = $course_active_types->next_result())
-       	 		$nieuw[] = $tab;
-
-       	 	//naam van de tabs		
-       	 	foreach($nieuw as $index => $tab)
-			{								
-      			$html[] = '<li><a href="#admin_tabs-'.$index.'">';
-          		$html[] = '<span class="category">';
-        		$html[] = '<span class="title">'.$tab->get_name().'</span>';
-        		$html[] = '</span>';
-        		$html[] = '</a></li>';
-			}
-        	$html[] = '</ul>';
-        	
-        	while($course = $courses_result->next_result())
-        		$courses[]=$course;
-        		
-        	//per tab de inhoud weergeven
-        	foreach($nieuw as $index => $tab)
+       	 	{
+       	 		$condition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID,$tab->get_id());
+       	 		if(($this->count_courses($condition)) != 0)
+					$nieuw[] = $tab;
+       	 	}
+       	 	
+			if(count($nieuw) == 0)
+        		$this->display_message(Translation :: get('NoCoursesFound'));
+        	else
         	{
-        		$course_type_courses = array();
-        			foreach($courses as $course)
-        			{
-        	    		if($course->get_course_type_id() == $tab->get_id())
-        					$course_type_courses[] = $course;
-        			}
-            	//$html[] = '<h2>' . $tab->get_name() . '</h2>';
-        		$html[] = '<div class="admin_tab" id="admin_tabs-'.$index.'">';
-        		$html[] = $this->display_courses($course_type_courses);
-        		$html[] = '<div class="clear"></div>';
-        		$html[] = '</div>';
-        	}
-
-        	$html[] = '</div>';
-        	$html[] = '<script type="text/javascript">';
-        	$html[] = '  var tabnumber = ' . $selected_tab . ';';
-        	$html[] = '</script>';
-
-        	$html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/admin_ajax.js' . '"></script>';
+        		$html[] = '<div id="admin_tabs">';
+       	 		$html[] = '<ul>';
+       	 		//naam van de tabs		
+       	 		foreach($nieuw as $index => $tab)
+				{								
+      				$html[] = '<li><a href="#admin_tabs-'.$index.'">';
+          			$html[] = '<span class="category">';
+        			$html[] = '<span class="title">'.$tab->get_name().'</span>';
+        			$html[] = '</span>';
+        			$html[] = '</a></li>';
+				}
+        		$html[] = '</ul>';
         	
-        	return implode($html, "\n");      
+        		while($course = $courses_result->next_result())
+        			$courses[]=$course;
+        		
+        		//per tab de inhoud weergeven
+        		foreach($nieuw as $index => $tab)
+        		{
+        			$course_type_courses = array();
+        				foreach($courses as $course)
+        				{
+        	    			if($course->get_course_type_id() == $tab->get_id())
+        						$course_type_courses[] = $course;
+        				}
+            		//$html[] = '<h2>' . $tab->get_name() . '</h2>';
+        			$html[] = '<div class="admin_tab" id="admin_tabs-'.$index.'">';
+        			$html[] = $this->display_courses($course_type_courses);
+        			$html[] = '<div class="clear"></div>';
+        			$html[] = '</div>';
+        		}
+
+        		$html[] = '</div>';
+        		$html[] = '<script type="text/javascript">';
+        		$html[] = '  var tabnumber = ' . $selected_tab . ';';
+        		$html[] = '</script>';
+
+        		$html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/admin_ajax.js' . '"></script>';
+        	}
+       
+        	return implode($html, "\n");     
     	}
 
     function display_menu()
@@ -284,7 +296,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
         if(count($courses) > 0)
         {
             $title = $course_category ? $course_category->get_title() : 'general';
-            $html[] = '<div class="block" id="courses_' . $title . '" style="background-image: url(' . Theme :: get_image_path('weblcms') . 'block_weblcms.png);">';
+            $html[] = '<div class="coursehomeblock block" id="courses_' . $title . '" style="background-image: url(' . Theme :: get_image_path('weblcms') . 'block_weblcms.png);">';
             $html[] = '<div class="title"><div style="float: left;">';
             
             if (isset($course_category))
