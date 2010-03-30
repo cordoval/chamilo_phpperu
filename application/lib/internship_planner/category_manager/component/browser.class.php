@@ -81,8 +81,7 @@ class InternshipPlannerCategoryManagerBrowserComponent extends InternshipPlanner
     {
     	if(!$this->root_category)
     	{
-    		$category = $this->retrieve_categories(new EqualityCondition(InternshipPlannerCategory :: PROPERTY_PARENT_ID, 0))->next_result();
-    		$this->root_category = $category;
+    		$this->root_category =$this->retrieve_root_category();
     	}
 
     	return $this->root_category;
