@@ -38,7 +38,7 @@ class InternshipOrganisationManagerViewerComponent extends InternshipOrganisatio
 	function get_table() {
 		$parameters = $this->get_parameters();
 		$parameters[InternshipOrganisationManager::PARAM_ORGANISATION_ID] = $this->organisation->get_id();
-		$table = new InternshipLocationBrowserTable ( $this, $parameters , $this->get_condition () );
+		$table = new InternshipPlannerLocationBrowserTable ( $this, $parameters , $this->get_condition () );
 		return $table->as_html ();
 	}
 
@@ -59,14 +59,14 @@ class InternshipOrganisationManagerViewerComponent extends InternshipOrganisatio
 		$query = $this->action_bar->get_query ();
 		$conditions = array();
 		$organisation_id = $this->organisation->get_id();
-		$conditions[] = new EqualityCondition(InternshipLocation::PROPERTY_ORGANISATION_ID, $organisation_id);
+		$conditions[] = new EqualityCondition(InternshipPlannerLocation::PROPERTY_ORGANISATION_ID, $organisation_id);
 
 		if (isset ( $query ) && $query != '') {
 			$search_conditions = array ();
-			$search_conditions [] = new PatternMatchCondition ( InternshipLocation::PROPERTY_NAME, '*' . $query . '*' );
-			$search_conditions [] = new PatternMatchCondition ( InternshipLocation::PROPERTY_STREET, '*' . $query . '*' );
-			$search_conditions [] = new PatternMatchCondition ( InternshipLocation::PROPERTY_STREET_NUMBER, '*' . $query . '*' );
-			$search_conditions [] = new PatternMatchCondition ( InternshipLocation::PROPERTY_CITY, '*' . $query . '*' );
+			$search_conditions [] = new PatternMatchCondition ( InternshipPlannerLocation::PROPERTY_NAME, '*' . $query . '*' );
+			$search_conditions [] = new PatternMatchCondition ( InternshipPlannerLocation::PROPERTY_STREET, '*' . $query . '*' );
+			$search_conditions [] = new PatternMatchCondition ( InternshipPlannerLocation::PROPERTY_STREET_NUMBER, '*' . $query . '*' );
+			$search_conditions [] = new PatternMatchCondition ( InternshipPlannerLocation::PROPERTY_CITY, '*' . $query . '*' );
 
 			$conditions[] = new OrCondition ( $search_conditions );
 		}

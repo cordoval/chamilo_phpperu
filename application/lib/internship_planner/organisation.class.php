@@ -83,7 +83,7 @@ class InternshipPlannerOrganisation extends DataClass
 
 	static function get_table_name()
 	{
-		return 'internship_planner_organisation';
+		return 'organisation';
 	}
 }
 

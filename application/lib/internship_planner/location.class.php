@@ -4,7 +4,7 @@ class InternshipPlannerLocation extends DataClass {
 	const CLASS_NAME = __CLASS__;
 	
 	/**
-	 * InternshipLocation properties
+	 * InternshipPlannerLocation properties
 	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_ORGANISATION_ID = 'organisation_id';
@@ -26,7 +26,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Returns the id of this InternshipLocation.
+	 * Returns the id of this InternshipPlannerLocation.
 	 * @return the id.
 	 */
 	function get_id() {
@@ -34,7 +34,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Sets the id of this InternshipLocation.
+	 * Sets the id of this InternshipPlannerLocation.
 	 * @param id
 	 */
 	function set_id($id) {
@@ -58,7 +58,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Returns the name of this InternshipLocation.
+	 * Returns the name of this InternshipPlannerLocation.
 	 * @return the name.
 	 */
 	function get_name() {
@@ -66,7 +66,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Sets the name of this InternshipLocation.
+	 * Sets the name of this InternshipPlannerLocation.
 	 * @param name
 	 */
 	function set_name($name) {
@@ -74,7 +74,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Returns the street of this InternshipLocation.
+	 * Returns the street of this InternshipPlannerLocation.
 	 * @return the street.
 	 */
 	function get_street() {
@@ -82,7 +82,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Sets the street of this InternshipLocation.
+	 * Sets the street of this InternshipPlannerLocation.
 	 * @param street
 	 */
 	function set_street($street) {
@@ -90,7 +90,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Returns the street_number of this InternshipLocation.
+	 * Returns the street_number of this InternshipPlannerLocation.
 	 * @return the street_number.
 	 */
 	function get_street_number() {
@@ -98,7 +98,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Sets the street_number of this InternshipLocation.
+	 * Sets the street_number of this InternshipPlannerLocation.
 	 * @param street_number
 	 */
 	function set_street_number($street_number) {
@@ -106,7 +106,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Returns the city of this InternshipLocation.
+	 * Returns the city of this InternshipPlannerLocation.
 	 * @return the city.
 	 */
 	function get_city() {
@@ -114,7 +114,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Sets the city of this InternshipLocation.
+	 * Sets the city of this InternshipPlannerLocation.
 	 * @param city
 	 */
 	function set_city($city) {
@@ -122,7 +122,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	static function get_table_name() {
-		return 'internship_planner_location';
+		return 'location';
 //		return Utilities::camelcase_to_underscores ( self::CLASS_NAME );
 	
 	}

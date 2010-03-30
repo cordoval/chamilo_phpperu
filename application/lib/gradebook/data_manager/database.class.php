@@ -52,6 +52,20 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 		$condition = new EqualityCondition(Format :: PROPERTY_ACTIVE, Format :: EVALUATION_FORMAT_ACTIVE);
 		return $this->database->retrieve_objects(Format :: get_table_name(), $condition);
 	}
+	
+	function create_internal_item($internal_item)
+	{
+		return $this->database->create($internal_item);
+	}
+//	
+//	function create_external_item($publication)
+//	{
+//		$internal_item = new InternalItem();
+//		$internal_item->set_application(str_replace('_publication', '',$publication->get_object_name()));
+//		$internal_item->set_publication_id($publication->get_id());
+//		$internal_item->set_calculated(true);
+//		return $this->database->create($internal_item);
+//	}
 
 	//gradebook_items
 

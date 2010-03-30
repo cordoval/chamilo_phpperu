@@ -5,13 +5,13 @@ require_once dirname(__FILE__) . '/../../../tables/location_table/default_locati
 require_once dirname(__FILE__) . '/../../../location.class.php';
 require_once dirname(__FILE__) . '/../../organisation_manager.class.php';
 
-class InternshipLocationBrowserTableCellRenderer extends DefaultInternshipLocationTableCellRenderer
+class InternshipPlannerLocationBrowserTableCellRenderer extends DefaultInternshipPlannerLocationTableCellRenderer
 {
    
     private $browser;
 
     
-    function InternshipLocationBrowserTableCellRenderer($browser)
+    function InternshipPlannerLocationBrowserTableCellRenderer($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -20,7 +20,7 @@ class InternshipLocationBrowserTableCellRenderer extends DefaultInternshipLocati
     // Inherited
     function render_cell($column, $location)
     {
-        if ($column === InternshipLocationBrowserTableColumnModel :: get_modification_column())
+        if ($column === InternshipPlannerLocationBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($location);
         }

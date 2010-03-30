@@ -2,13 +2,13 @@
 
 require_once dirname(__FILE__) . '/../../location.class.php';
 
-class DefaultInternshipLocationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultInternshipPlannerLocationTableCellRenderer implements ObjectTableCellRenderer
 {
 
     /**
      * Constructor
      */
-    function DefaultInternshipLocationTableCellRenderer()
+    function DefaultInternshipPlannerLocationTableCellRenderer()
     {
     }
 
@@ -17,11 +17,11 @@ class DefaultInternshipLocationTableCellRenderer implements ObjectTableCellRende
         
         switch ($column->get_name())
         {
-            case InternshipLocation :: PROPERTY_NAME :
+            case InternshipPlannerLocation :: PROPERTY_NAME :
                 return $location->get_name();
-            case InternshipLocation :: PROPERTY_CITY :
+            case InternshipPlannerLocation :: PROPERTY_CITY :
                 return $location->get_city();
-            case InternshipLocation :: PROPERTY_STREET :
+            case InternshipPlannerLocation :: PROPERTY_STREET :
                 return $location->get_street() . ' ' . $location->get_street_number();
             
             default :

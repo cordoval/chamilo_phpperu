@@ -2,12 +2,12 @@
 
 require_once dirname ( __FILE__ ) . '/../../location.class.php';
 
-class DefaultInternshipLocationTableColumnModel extends ObjectTableColumnModel {
+class DefaultInternshipPlannerLocationTableColumnModel extends ObjectTableColumnModel {
 	
 	/**
 	 * Constructor
 	 */
-	function DefaultInternshipLocationTableColumnModel() {
+	function DefaultInternshipPlannerLocationTableColumnModel() {
 		parent::__construct ( self::get_default_columns (), 0 );
 	}
 	
@@ -18,9 +18,9 @@ class DefaultInternshipLocationTableColumnModel extends ObjectTableColumnModel {
 	private static function get_default_columns() {
 		
 		$columns = array ();
-		$columns [] = new ObjectTableColumn ( InternshipLocation::PROPERTY_NAME, true );
-		$columns [] = new ObjectTableColumn ( InternshipLocation::PROPERTY_CITY, true );
-		$columns [] = new ObjectTableColumn ( InternshipLocation::PROPERTY_STREET, true );
+		$columns [] = new ObjectTableColumn ( InternshipPlannerLocation::PROPERTY_NAME, true );
+		$columns [] = new ObjectTableColumn ( InternshipPlannerLocation::PROPERTY_CITY, true );
+		$columns [] = new ObjectTableColumn ( InternshipPlannerLocation::PROPERTY_STREET, true );
 		return $columns;
 	}
 }

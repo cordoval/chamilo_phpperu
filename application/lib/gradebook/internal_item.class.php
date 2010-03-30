@@ -46,7 +46,7 @@ class InternalItem extends DataClass
     
     function set_publication_id($publication_id)
     {
-    	$this->set_default_property(self :: PROPERTY_PUBLICATION_ID, $publication_ID);
+    	$this->set_default_property(self :: PROPERTY_PUBLICATION_ID, $publication_id);
     }
 
     function get_calculated()
