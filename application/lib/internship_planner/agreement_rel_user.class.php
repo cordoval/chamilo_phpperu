@@ -10,7 +10,6 @@ class InternshipPlannerAgreementRelUser extends DataClass
 	/**
 	 * InternshipAgreementRelUser properties
 	 */
-	
 	const PROPERTY_AGREEMENT_ID = 'agreement_id';
 	const PROPERTY_USER_ID = 'user_id';
 
