@@ -11,12 +11,31 @@
  * 2 listboxes: one with available reporting blocks for the app, one with
  * reporting blocks already in template.
  */
+
+require_once (__FILE__) . '/blocks/weblcms_no_of_courses_reporting_block.class.php';
+require_once (__FILE__) . '/blocks/weblcms_most_active_inactive_last_visit_reporting_block.class.php';
+require_once (__FILE__) . '/blocks/weblcms_most_active_inactive_last_publication_reporting_block.class.php';
+require_once (__FILE__) . '/blocks/weblcms_most_active_inactive_last_detail_reporting_block.class.php';
+require_once (__FILE__) . '/blocks/weblcms_no_of_published_objects_per_type_reporting_block.class.php';
+require_once (__FILE__) . '/blocks/weblcms_no_of_objects_per_type_reporting_block.class.php';
+require_once (__FILE__) . '/../../../user/reporting/blocks/user_no_of_users_subscribed_course_reporting_block.class.php';
+
 class CourseDataReportingTemplate extends ReportingTemplate
 {
-
-    function CourseDataReportingTemplate($parent, $id, $params)
+    function CourseDataReportingTemplate($parent)
     {
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsNoOfCourses"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        parent :: __construct($parent);
+        $this->add_reporting_block(new WeblcmsNoOfCoursesReportingBlock($this));
+        $this->add_reporting_block(new WeblcmsNoOfCourseByLanguageReportingBlock($this));
+        $this->add_reporting_block(new WeblcmsMostActiveInactiveLastVisitReportingBlock($this));
+        $this->add_reporting_block(new WeblcmsMostActiveInactiveLastPublicationReportingBlock($this));
+        $this->add_reporting_block(new WeblcmsMostActiveInactiveLastDetailReportingBlock($this));
+        $this->add_reporting_block(new WeblcmsNoOfPublishedObjectsPerTypeReportingBlock($this));
+        $this->add_reporting_block(new WeblcmsNoOfObjectsPerTypeReportingBlock($this));
+        $this->add_reporting_block(new WeblcmsCoursePerCategoryReportingBlock($this));
+        $this->add_reporting_block(new WeblcmslastAccessToToolsPlatformReportingBlock($this));
+        $this->add_reporting_block(new UserNoOfUsersSubscribedCourseReportingBlock($this));
+        /*$this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsNoOfCourses"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsNoOfCoursesByLanguage"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsMostActiveInactiveLastVisit"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsMostActiveInactiveLastPublication"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
@@ -27,44 +46,12 @@ class CourseDataReportingTemplate extends ReportingTemplate
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsCoursesPerCategory"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLastAccessToToolsPlatform"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
         
-        parent :: __construct($parent, $id, $params);
+        parent :: __construct($parent, $id, $params);*/
     }
 
-    /**
-     * @see ReportingTemplate -> get_properties()
-     */
-    public static function get_properties()
-    {
-        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'CourseDataReportingTemplateTitle';
-        $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 1;
-        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'CourseDataReportingTemplateDescription';
-        
-        return $properties;
-    }
-
-    /**
-     * @see ReportingTemplate -> to_html()
-     */
-    function to_html()
-    {
-        //template header
-        $html[] = $this->get_header();
-        
-        //template menu
-        $html[] = $this->get_menu();
-        
-        //show visible blocks
-        $html[] = $this->get_visible_reporting_blocks();
-        
-        //template footer
-        $html[] = $this->get_footer();
-        
-        return implode("\n", $html);
-    }
-    
 	function display_context()
 	{
-		//publicatie, content_object, application ... 
+
 	}
 	
 	function get_application()
