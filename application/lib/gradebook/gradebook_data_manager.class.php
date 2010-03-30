@@ -50,6 +50,8 @@ abstract class GradebookDatamanager {
 	//gradebook evaluation format items
 	
 	abstract function create_format($evaluation_format);
+	
+	abstract function create_internal_item($internal_item);
 //	
 //	abstract function retrieve_all_evaluation_formats();
 //	

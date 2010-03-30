@@ -132,7 +132,8 @@ class InternshipPlannerCategoryManager extends SubManager
 
     function get_category_editing_url($category)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CATEGORY, self :: PARAM_CATEGORY_ID => $category->get_id()));
+        
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CATEGORY, self :: PARAM_CATEGORY_ID => $category->get_id()));
     }
 
     function get_create_category_url($parent_id)
