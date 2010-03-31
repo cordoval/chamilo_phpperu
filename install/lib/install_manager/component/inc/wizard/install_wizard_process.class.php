@@ -89,11 +89,12 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
         // 6. If all goes well we now show the link to the portal
         $message = '<a href="../index.php">' . Translation :: get('GoToYourNewlyCreatedPortal') . '</a>';
-        $this->process_result('finished', true, $message);
+        $this->process_result('finished', true, $message, false);
         flush();
 
         //$page->controller->container(true);
 
+		echo '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a>';        
 
         // Display the page footer
         $this->parent->display_footer();
@@ -130,6 +131,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $html[] = '</div>';
         $html[] = '</div></div>';
         $html[] = '<div class="clear"></div>';
+        $html[] = '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a><br />';
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/install_process.js');
         
         echo implode("\n", $html);
     }
@@ -418,14 +421,22 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         }
     }
 
-    function display_install_block_header($application)
+    function display_install_block_header($application, $result, $default_collapse)
     {
         $counter = $this->counter;
 
         $html = array();
         $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/images/admin/place_' . $application . '.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
         $html[] = '<div class="title">' . Translation :: get(Application :: application_to_class($application)) . '</div>';
-        $html[] = '<div class="description">';
+        
+        $collapse = '';
+        
+        if($result && $default_collapse)
+        {
+        	$collapse = ' collapse';
+        }
+        
+        $html[] = '<div class="description' . $collapse . '">';
 
         return implode("\n", $html);
     }
@@ -438,9 +449,9 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         return implode("\n", $html);
     }
 
-    function process_result($application, $result, $message)
+    function process_result($application, $result, $message, $default_collapse = true)
     {
-        echo $this->display_install_block_header($application);
+        echo $this->display_install_block_header($application, $result, $default_collapse);
         echo $message;
         echo $this->display_install_block_footer();
         if (! $result)
