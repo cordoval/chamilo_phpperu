@@ -372,56 +372,62 @@ class Dokeos185Course extends ImportCourse
      */
     function convert_to_lcms($parameters)
     {
-        //Course parameters
-        $mgdm = MigrationDataManager :: get_instance();
-        $lcms_course = new Course();
+    	//control if the weblcms application exists
+		$is_registered = AdminDataManager :: get_instance()->is_registered('weblcms');
+        // Convert profile fields to Profile object if the user has user profile data
+        if ($is_registered)
+        {	
+        	//Course parameters
+        	$mgdm = MigrationDataManager :: get_instance();
+        	$lcms_course = new Course();
         
-        if ($mgdm->is_language_available($this->get_course_language()))
-            $lcms_course->set_language($this->get_course_language());
-        else
-            $lcms_course->set_language('english');
+        	if ($mgdm->is_language_available($this->get_course_language()))
+            	$lcms_course->set_language($this->get_course_language());
+        	else
+            	$lcms_course->set_language('english');
         
-        $lcms_course->set_name($this->get_title());
-        $category_id = $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
-        if ($category_id)
-            $lcms_course->set_category($category_id);
-        else
-        {
+        	$lcms_course->set_name($this->get_title());
+        	$category_id = $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
+        	if ($category_id)
+            	$lcms_course->set_category($category_id);
+        	else
+        	{
         	
-        }
+        	}
         
-        unset($category_id);
+       		unset($category_id);
         
-        $lcms_course->set_visibility($this->get_visibility());
-        //titular id
-        $udm = UserDataManager :: get_instance();
-        $titular = $udm->retrieve_user_by_fullname($this->get_tutor_name());
-        if (!($titular) == NULL)
-            $titular_id = $titular->get_id();
-        else
-            $titular_id = 0;
+        	$lcms_course->set_visibility($this->get_visibility());
+        	//titular id
+        	$udm = UserDataManager :: get_instance();
+        	$titular = $udm->retrieve_user_by_fullname($this->get_tutor_name());
+        	if (!($titular) == NULL)
+            	$titular_id = $titular->get_id();
+        	else
+            	$titular_id = 0;
             
-        $lcms_course->set_titular($titular_id);
-        $this->check_visual_code($this->get_visual_code(), $lcms_course);
-        $lcms_course->set_extlink_name($this->get_department_name());
-        $lcms_course->set_extlink_url($this->get_department_url());
-        $lcms_course->set_subscribe_allowed($this->get_subscribe());
-        $lcms_course->set_unsubscribe_allowed($this->get_unsubscribe());
-        $lcms_course->set_default_property(Course :: PROPERTY_LAST_VISIT, $this->get_last_visit());
-        $lcms_course->set_default_property(Course :: PROPERTY_LAST_EDIT, $this->get_last_edit());
-        $lcms_course->set_default_property(Course :: PROPERTY_CREATION_DATE, $this->get_creation_date());
-        $lcms_course->set_default_property(Course :: PROPERTY_EXPIRATION_DATE, $this->get_expiration_date());
+        	$lcms_course->set_titular($titular_id);
+        	$this->check_visual_code($this->get_visual_code(), $lcms_course);
+       		$lcms_course->set_extlink_name($this->get_department_name());
+        	$lcms_course->set_extlink_url($this->get_department_url());
+        	$lcms_course->set_subscribe_allowed($this->get_subscribe());
+        	$lcms_course->set_unsubscribe_allowed($this->get_unsubscribe());
+        	$lcms_course->set_default_property(Course :: PROPERTY_LAST_VISIT, $this->get_last_visit());
+        	$lcms_course->set_default_property(Course :: PROPERTY_LAST_EDIT, $this->get_last_edit());
+        	$lcms_course->set_default_property(Course :: PROPERTY_CREATION_DATE, $this->get_creation_date());
+        	$lcms_course->set_default_property(Course :: PROPERTY_EXPIRATION_DATE, $this->get_expiration_date());
         
-        //create course in database
-        $lcms_course->create();
+        	//create course in database
+        	$lcms_course->create();
         
-        //Add id references to temp table
-        $old_code = $this->get_code();
-        $mgdm->add_id_reference($old_code, $lcms_course->get_id(), 'weblcms_course');
-        unset($old_code);
-        unset($mgdm);
+        	//Add id references to temp table
+        	$old_code = $this->get_code();
+        	$mgdm->add_id_reference($old_code, $lcms_course->get_id(), 'weblcms_course');
+        	unset($old_code);
+        	unset($mgdm);
         
-        return $lcms_course;
+        	return $lcms_course;
+    	}
     }
 
     /**
