@@ -196,12 +196,12 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager 
 		return $this->database->get_children ( $node, $recursieve, $condition );
 	}
 	
-	function count_internship_planner_category_sibblings($node, $include_object, $condition) {
-		return $this->database->count_sibblings ( $node, $include_object, $condition );
+	function count_internship_planner_category_siblings($node, $include_object, $condition) {
+		return $this->database->count_siblings ( $node, $include_object, $condition );
 	}
 	
-	function get_internship_planner_category_sibblings($node, $include_object, $condition) {
-		return $this->database->get_sibblings ( $node, $include_object, $condition );
+	function get_internship_planner_category_siblings($node, $include_object, $condition) {
+		return $this->database->get_siblings ( $node, $include_object, $condition );
 	}
 	
 	function count_internship_planner_category_parents($node, $include_object, $condition) {

@@ -118,16 +118,16 @@ class CompetencyForm extends FormValidator
 			
 			foreach($target_indicators as $index => $value)
 			{
-				$indicator = $cdm->retrieve_indicator($value + 1);
+				$indicator = $cdm->retrieve_indicator($value);
 				$indicators = array();
 	
 		        $indicators['id'] = 'indicator_'. $value;
 		        $indicators['classes'] = 'type type_cda_language';
-		        $indicators['title'] = $value + 1;
 		        $indicators['title'] = $indicator->get_title();
 		        $indicators['description'] = '';//$indicator->get_description();
 				$attributes['defaults'][$indicators['id']] = $indicators;
 			}
+			
 		}
         
         $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
@@ -262,7 +262,7 @@ class CompetencyForm extends FormValidator
             $condition = new AndCondition($conditions);
            	$count_indicators_update += $this->data_manager->count_competencys_indicator($condition);   
            	
-            /*if ($cats > 0)
+            if ($cats > 0)
             {
                 $result = false;
             }
@@ -270,15 +270,15 @@ class CompetencyForm extends FormValidator
             {
             	$competency_indicator->set_target_indicators($indicators);
               	$result &= $competency_indicator->update();
-            }*/
+            }
            	
     	} 
 
-		if($count_indicator_update > $count_indicators)
+		/*if($count_indicator_update > $count_indicators)
 		{
 				//$competency_indicator->set_target_indicators($indicators);
               	$result &= $competency_indicator->update();
-		}
+		}*/
     	
     	return $result;
     }

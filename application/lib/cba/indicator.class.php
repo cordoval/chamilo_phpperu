@@ -108,10 +108,10 @@ class Indicator extends DataClass
         return $cdm->update_indicator($this);
     }
     
-    function delete($id)
+    /*function delete($id)
     {
     	//Parent + condition (where, ...)
-    }
+    }*/
 }
 
 ?>

@@ -808,5 +808,9 @@ class Database
     {
         return $this->connection->setLimit($limit, $offset);
     }
+
+    /**************************************************************************
+     * FUNCTIONALITY THAT ENABLES NESTED TREES VIA NESTED_TREE_NODE.CLASS.PHP *
+     **************************************************************************/
 }
 ?>
