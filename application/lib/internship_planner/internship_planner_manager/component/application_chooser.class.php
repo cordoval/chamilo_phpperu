@@ -18,6 +18,8 @@ class InternshipPlannerManagerApplicationChooserComponent extends InternshipPlan
 		echo '<div>';
 		echo '<a href="' . $this->get_category_application_url(). '">' . 'Category Manager' . '</a><br/>';
 		echo '<a href="' . $this->get_organisation_application_url(). '">' . 'Organisation Manager' . '</a><br/>';
+		echo '<a href="' . $this->get_agreement_application_url(). '">' . 'Agreement Manager' . '</a><br/>';
+		
 		echo '</div>';
 	
 		$this->display_footer ();

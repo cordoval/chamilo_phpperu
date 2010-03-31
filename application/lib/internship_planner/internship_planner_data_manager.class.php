@@ -102,7 +102,33 @@ abstract class InternshipPlannerDataManager
     abstract function delete_internship_planner_category_nested_values($node, $previous_visited, $number_of_elements, $condition);
 
     abstract function move_internship_planner_category($category, $new_parent_id, $new_previous_id = 0, $condition);
+	
+    
+    abstract function create_internship_planner_moment($moment);
 
+    abstract function update_internship_planner_moment($moment);
+
+    abstract function delete_internship_planner_moment($moment);
+
+    abstract function count_moments($conditions = null);
+
+    abstract function retrieve_moment($id);
+
+    abstract function retrieve_moments($condition = null, $offset = null, $count = null, $order_property = null);
+
+    abstract function create_internship_planner_agreement($organisation);
+
+    abstract function update_internship_planner_agreement($organisation);
+
+    abstract function delete_internship_planner_agreement($organisation);
+
+    abstract function count_agreements($conditions = null);
+
+    abstract function retrieve_agreement($id);
+
+    abstract function retrieve_agreements($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    
 
 }
 ?>

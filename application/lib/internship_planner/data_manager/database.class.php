@@ -264,7 +264,67 @@ class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager 
  		}
  		return $root_category;
  	}
+	
+ 	//internship planner moments
+ 	
+ 	function create_internship_planner_moment($moment) {
+		return $this->database->create ( $moment );
+	}
+	
+	function update_internship_planner_moment($moment) {
+		$condition = new EqualityCondition ( InternshipPlannerMoment::PROPERTY_ID, $moment->get_id () );
+		return $this->database->update ( $moment, $condition );
+	}
+	
+	function delete_internship_planner_moment($moment) {
+		$condition = new EqualityCondition ( InternshipPlannerMoment::PROPERTY_ID, $moment->get_id () );
+		return $this->database->delete ( $moment->get_table_name (), $condition );
+	}
+	
+	function count_moments($condition = null) {
+		return $this->database->count_objects ( InternshipPlannerMoment::get_table_name (), $condition );
+	}
+	
+	function retrieve_moment($id) {
+		$condition = new EqualityCondition ( InternshipPlannerMoment::PROPERTY_ID, $id );
+		return $this->database->retrieve_object ( InternshipPlannerMoment::get_table_name (), $condition, array(), InternshipPlannerMoment::CLASS_NAME );
+	}
+	
+	function retrieve_moments($condition = null, $offset = null, $max_objects = null, $order_by = null) {
+		return $this->database->retrieve_objects ( InternshipPlannerMoment::get_table_name (), $condition, $offset, $max_objects, $order_by, InternshipPlannerMoment::CLASS_NAME );
+	}
+	
+	//internship planner agreements
+	
 
+	function create_internship_planner_agreement($agreement) {
+		return $this->database->create ( $agreement );
+	}
+	
+	function update_internship_planner_agreement($agreement) {
+		$condition = new EqualityCondition ( InternshipPlannerAgreement::PROPERTY_ID, $agreement->get_id () );
+		return $this->database->update ( $agreement, $condition );
+	}
+	
+	function delete_internship_planner_agreement($agreement) {
+		$condition = new EqualityCondition ( InternshipPlannerAgreement::PROPERTY_ID, $agreement->get_id () );
+		return $this->database->delete ( $agreement->get_table_name (), $condition );
+	}
+	
+	function count_agreements($condition = null) {
+		return $this->database->count_objects ( InternshipPlannerAgreement::get_table_name (), $condition );
+	}
+	
+	function retrieve_agreement($id) {
+		$condition = new EqualityCondition ( InternshipPlannerAgreement::PROPERTY_ID, $id );
+		return $this->database->retrieve_object ( InternshipPlannerAgreement::get_table_name (), $condition, array(), InternshipPlannerAgreement::CLASS_NAME );
+	}
+	
+	function retrieve_agreements($condition = null, $offset = null, $max_objects = null, $order_by = null) {
+		return $this->database->retrieve_objects ( InternshipPlannerAgreement::get_table_name (), $condition, $offset, $max_objects, $order_by, InternshipPlannerAgreement::CLASS_NAME );
+	}
+	
+ 	
 
 }
 ?>
