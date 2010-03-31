@@ -113,7 +113,15 @@ abstract class NestedTreeNode extends DataClass
         }
         else
         {
-            return $dm->get_database()->count_children($this, $this->get_nested_tree_node_condition());
+            $func = 'count_' . $this->get_object_name() . '_children';
+
+            if(!method_exists($dm, $func))
+            {
+            	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+            }
+
+        	return call_user_func(array($dm, $func), $this);
+            //return $dm->get_database()->count_children($this, $this->get_nested_tree_node_condition());
         }
     }
 
@@ -124,7 +132,15 @@ abstract class NestedTreeNode extends DataClass
     function get_children($recursive = true)
     {
     	$dm = $this->get_data_manager();
-    	return $dm->get_database()->get_children($this, $recursive, $this->get_nested_tree_node_condition());
+    	//return $dm->get_database()->get_children($this, $recursive, $this->get_nested_tree_node_condition());
+	    $func = 'get_' . $this->get_object_name() . '_children';
+
+    	if(!method_exists($dm, $func))
+        {
+         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+        }
+
+        return call_user_func(array($dm, $func), $this, $recursive);
     }
 
     /**
@@ -134,7 +150,15 @@ abstract class NestedTreeNode extends DataClass
 	function count_parents($include_self = true)
     {
     	$dm = $this->get_data_manager();
-    	return $dm->get_database()->count_parents($this, $include_self, $this->get_nested_tree_node_condition());
+    	//return $dm->get_database()->count_parents($this, $include_self, $this->get_nested_tree_node_condition());
+        $func = 'count_' . $this->get_object_name() . '_parents';
+
+    	if(!method_exists($dm, $func))
+        {
+         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+        }
+
+        return call_user_func(array($dm, $func), $this, $include_self);
     }
 
     /**
@@ -144,7 +168,15 @@ abstract class NestedTreeNode extends DataClass
     function get_parents($include_self = true)
     {
     	$dm = $this->get_data_manager();
-    	return $dm->get_database()->get_parents($this, true, $include_self, $this->get_nested_tree_node_condition());
+    	//return $dm->get_database()->get_parents($this, true, $include_self, $this->get_nested_tree_node_condition());
+        $func = 'get_' . $this->get_object_name() . '_parents';
+
+    	if(!method_exists($dm, $func))
+        {
+         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+        }
+
+        return call_user_func(array($dm, $func), $this, true, $include_self)->as_array();
     }
 
     /**
@@ -153,7 +185,15 @@ abstract class NestedTreeNode extends DataClass
 	function get_parent()
     {
     	$dm = $this->get_data_manager();
-    	return $dm->get_database()->get_parents($this, false, false, $this->get_nested_tree_node_condition());
+    	//return $dm->get_database()->get_parents($this, false, false, $this->get_nested_tree_node_condition());
+        $func = 'get_' . $this->get_object_name() . '_parents';
+
+    	if(!method_exists($dm, $func))
+        {
+         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+        }
+
+        return call_user_func(array($dm, $func), $this, false);
     }
 
     /**
@@ -235,7 +275,15 @@ abstract class NestedTreeNode extends DataClass
     function count_siblings($include_self = true)
     {
     	$dm = $this->get_data_manager();
-    	return $dm->get_database()->count_siblings($this, $include_self, $this->get_nested_tree_node_condition());
+    	//return $dm->get_database()->count_siblings($this, $include_self, $this->get_nested_tree_node_condition());
+    	$func = 'count_' . $this->get_object_name() . '_sibblings';
+
+    	if(!method_exists($dm, $func))
+        {
+         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+        }
+
+    	return call_user_func(array($dm, $func), $this, $include_self);
     }
 
     /**
@@ -245,7 +293,15 @@ abstract class NestedTreeNode extends DataClass
     function get_siblings($include_self = true)
     {
     	$dm = $this->get_data_manager();
-    	return $dm->get_database()->get_siblings($this, $include_self, $this->get_nested_tree_node_condition());
+    	//return $dm->get_database()->get_siblings($this, $include_self, $this->get_nested_tree_node_condition());
+    	$func = 'get_' . $this->get_object_name() . '_siblings';
+
+    	if(!method_exists($dm, $func))
+        {
+         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+        }
+
+    	return call_user_func(array($dm, $func), $this, $include_self);
     }
 
     /**
@@ -309,7 +365,15 @@ abstract class NestedTreeNode extends DataClass
 
         // Update the nested values so we can actually add the element
         // Return false if this failed
-        if (! $dm->get_database()->add_nested_values($this, $previous_visited, $number_of_elements, $this->get_nested_tree_node_condition()))
+        //if (! $dm->get_database()->add_nested_values($this, $previous_visited, $number_of_elements, $this->get_nested_tree_node_condition()))
+        $func = 'add_' . $this->get_object_name() . '_nested_values';
+
+        if(!method_exists($dm, $func))
+        {
+         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+        }
+
+        if (!call_user_func(array($dm, $func), $this, $previous_visited, $number_of_elements))
         {
             return false;
         }
@@ -395,7 +459,16 @@ abstract class NestedTreeNode extends DataClass
         }
 
         // Remove the subtree where the location was before
-        if (! $dm->get_database()->delete_nested_values($this, $this->get_nested_tree_node_condition()))
+        //if (! $dm->get_database()->delete_nested_values($this, $this->get_nested_tree_node_condition()))
+        $func = 'delete_' . $this->get_object_name() . '_nested_values';
+
+    	if(!method_exists($dm, $func))
+        {
+         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+        }
+
+        // Update left and right values
+        if (!call_user_func(array($dm, $func), $this))
         {
             return false;
         }
@@ -444,7 +517,15 @@ abstract class NestedTreeNode extends DataClass
 
             // Correct the left and right values wherever necessary.
             $dm = $this->get_data_manager();
-            if (!$dm->get_database()->add_nested_values($this, $previous_visited, 1, $this->get_nested_tree_node_condition()))
+            //if (!$dm->get_database()->add_nested_values($this, $previous_visited, 1, $this->get_nested_tree_node_condition()))
+            $func = 'add_' . $this->get_object_name() . '_nested_values';
+
+	        if(!method_exists($dm, $func))
+	        {
+	         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+	        }
+
+            if (!call_user_func(array($dm, $func), $this, $previous_visited, 1))
             {
                 return false;
             }
@@ -494,7 +575,16 @@ abstract class NestedTreeNode extends DataClass
         		return false;
         }
 
-	    if (!$dm->get_database()->delete_nested_values($this, $this->get_nested_tree_node_condition()))
+	    //if (!$dm->get_database()->delete_nested_values($this, $this->get_nested_tree_node_condition()))
+        $func = 'delete_' . $this->get_object_name() . '_nested_values';
+
+    	if(!method_exists($dm, $func))
+        {
+         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+        }
+
+        // Update left and right values
+        if (!call_user_func(array($dm, $func), $this))
 	    {
 	        return false;
 	    }
@@ -504,5 +594,5 @@ abstract class NestedTreeNode extends DataClass
         return true;
     }
 
-    abstract function get_nested_tree_node_condition();
+    //abstract function get_nested_tree_node_condition();
 }
