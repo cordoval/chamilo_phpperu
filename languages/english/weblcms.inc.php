@@ -411,5 +411,10 @@ $lang['weblcms']['CourseTypeDeactivated'] = 'Course Type Deactivated';
 $lang['weblcms']['CourseTypesActivated'] = 'Course Types Activated';
 $lang['weblcms']['CourseTypesDeactivated'] = 'Course Types Deactivated';
 $lang['weblcms']['Select'] = 'Select';
+$lang['weblcms']['DeleteAllCourses'] = 'Delete All Courses';
+$lang['weblcms']['Mixed'] = 'Mixed';
+$lang['weblcms']['Open'] = 'Open';
+$lang['weblcms']['Closed'] = 'Closed';
+
 
 ?>

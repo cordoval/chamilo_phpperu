@@ -15,7 +15,7 @@ class GradebookManager extends WebApplication
 {
 	const APPLICATION_NAME = 'gradebook';
 	const PARAM_ACTION = 'go';
-		
+//-------------IGNORE-----------------
 	const PARAM_USER_ID = 'user';
 	const PARAM_GRADEBOOK_ID = 'gradebook';
 	const PARAM_GRADEBOOK_REL_USER_ID = 'gradebook_rel_user_id';
@@ -37,6 +37,19 @@ class GradebookManager extends WebApplication
 	const ACTION_SUBSCRIBE_USER_TO_GRADEBOOK = 'subscribe_user_to_gradebook';
 	const ACTION_SUBSCRIBE_USER_BROWSER = 'subscribe_user_browser';
 	const ACTION_UNSUBSCRIBE_USER_FROM_GRADEBOOK = 'unsubscribe_user_from_gradebook';
+//--------------END IGNORE--------------
+	/*
+	 * Gradebook administration actions
+	 */
+	const ACTION_ADMIN_BROWSE_EVALUATION_FORMATS = 'admin_browse_evaluation_formats';
+	const ACTION_EDIT_EVALUATION_FORMAT = 'edit_evaluation_format';
+	const ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY = 'change_evaluation_format_active_property';
+	/*
+	 * Gradebook parameters
+	 */
+	const PARAM_ACTIVATE_SELECTED_EVALUATION_FORMAT = 'activate_selected_evaluation_format';
+	const PARAM_DEACTIVATE_SELECTED_EVALUATION_FORMAT = 'deactivate_selected_evaluation_format';
+	const PARAM_EVALUATION_FORMAT = 'evaluation_format';
 	
 	public function GradebookManager($user)
 	{
@@ -50,39 +63,48 @@ class GradebookManager extends WebApplication
 		$component = null;
 		switch ($action)
 		{
-			case self :: ACTION_BROWSE_GRADEBOOK :
-				$this->set_action(self :: ACTION_BROWSE_GRADEBOOK);
-				$component = GradebookManagerComponent :: factory('GradebookBrowser', $this);
-				break;
-			case self :: ACTION_CREATE_GRADEBOOK :
-				$this->set_action(self :: ACTION_CREATE_GRADEBOOK);
-				$component = GradebookManagerComponent :: factory('GradebookCreator', $this);
-				break;
-			case self :: ACTION_DELETE_GRADEBOOK :
-				$this->set_action(self :: ACTION_DELETE_GRADEBOOK);
-				$component = GradebookManagerComponent :: factory('GradebookDeleter', $this);
-				break;
-			case self :: ACTION_EDIT_GRADEBOOK :
-				$this->set_action(self :: ACTION_EDIT_GRADEBOOK);
-				$component = GradebookManagerComponent :: factory('GradebookEditor', $this);
-				break;
-			case self :: ACTION_VIEW_GRADEBOOK :
-				$this->set_action(self :: ACTION_VIEW_GRADEBOOK);
-				$component = GradebookManagerComponent :: factory('GradebookViewer', $this);
-				break;
-			case self :: ACTION_TRUNCATE_GRADEBOOK :
-				$component = GradebookManagerComponent :: factory('GradebookTruncater', $this);
+//			case self :: ACTION_BROWSE_GRADEBOOK :
+//				$this->set_action(self :: ACTION_BROWSE_GRADEBOOK);
+//				$component = GradebookManagerComponent :: factory('GradebookBrowser', $this);
+//				break;
+//			case self :: ACTION_CREATE_GRADEBOOK :
+//				$this->set_action(self :: ACTION_CREATE_GRADEBOOK);
+//				$component = GradebookManagerComponent :: factory('GradebookCreator', $this);
+//				break;
+//			case self :: ACTION_DELETE_GRADEBOOK :
+//				$this->set_action(self :: ACTION_DELETE_GRADEBOOK);
+//				$component = GradebookManagerComponent :: factory('GradebookDeleter', $this);
+//				break;
+//			case self :: ACTION_EDIT_GRADEBOOK :
+//				$this->set_action(self :: ACTION_EDIT_GRADEBOOK);
+//				$component = GradebookManagerComponent :: factory('GradebookEditor', $this);
+//				break;
+//			case self :: ACTION_VIEW_GRADEBOOK :
+//				$this->set_action(self :: ACTION_VIEW_GRADEBOOK);
+//				$component = GradebookManagerComponent :: factory('GradebookViewer', $this);
+//				break;
+//			case self :: ACTION_TRUNCATE_GRADEBOOK :
+//				$component = GradebookManagerComponent :: factory('GradebookTruncater', $this);
+//				break;	
+//			case self :: ACTION_SUBSCRIBE_USER_BROWSER :
+//				$this->set_action(self :: ACTION_SUBSCRIBE_USER_BROWSER);
+//				$component = GradebookManagerComponent :: factory('GradebookSubscribeUserBrowser', $this);
+//				break;
+//			case self :: ACTION_SUBSCRIBE_USER_TO_GRADEBOOK :
+//				$component = GradebookManagerComponent :: factory('GradebookSubscriber', $this);
+//				break;
+//			case self :: ACTION_UNSUBSCRIBE_USER_FROM_GRADEBOOK :
+//				$component = GradebookManagerComponent :: factory('GradebookUnsubscriber', $this);
+//				break;	
+			case self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS :
+				$component = GradebookManagerComponent :: factory('AdminEvaluationFormatsBrowser', $this);
 				break;	
-			case self :: ACTION_SUBSCRIBE_USER_BROWSER :
-				$this->set_action(self :: ACTION_SUBSCRIBE_USER_BROWSER);
-				$component = GradebookManagerComponent :: factory('GradebookSubscribeUserBrowser', $this);
-				break;
-			case self :: ACTION_SUBSCRIBE_USER_TO_GRADEBOOK :
-				$component = GradebookManagerComponent :: factory('GradebookSubscriber', $this);
-				break;
-			case self :: ACTION_UNSUBSCRIBE_USER_FROM_GRADEBOOK :
-				$component = GradebookManagerComponent :: factory('GradebookUnsubscriber', $this);
-				break;									
+			case self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY :
+				$component = GradebookManagerComponent :: factory('AdminActiveChanger', $this);
+				break;	
+			case self :: ACTION_EDIT_EVALUATION_FORMAT :
+				$component = GradebookManagerComponent :: factory('AdminEditEvaluationFormat', $this);
+				break;		
 			default :
 				$this->set_action(self :: ACTION_VIEW_HOME);
 				$component = GradebookManagerComponent :: factory('GradebookBrowser', $this);
@@ -91,7 +113,21 @@ class GradebookManager extends WebApplication
 		$component->run();
 	}
 	
-	
+  	public function get_application_platform_admin_links()
+    {
+        $links = array();
+        $links[] = array('name' => Translation :: get('EvaluationFormatTypeList'), 'description' => Translation :: get('EvaluationFormatTypeListDescription'), 'action' => 'list', 'url' => $this->get_admin_browse_evaluation_format_types_link());
+
+        $info = parent :: get_application_platform_admin_links();
+        $info['links'] = $links;
+        return $info;
+    }
+    
+	function get_application_name()
+	{
+		return self :: APPLICATION_NAME;
+	}
+//------------------IGNORE-------------------
 //gradebook
 
 	function retrieve_gradebook($id)
@@ -238,9 +274,6 @@ class GradebookManager extends WebApplication
 	 */
 	private function parse_input_from_table()
 	{
-	
-		
-		
 		if (isset ($_POST['action']))
 		{
 			if(isset($_POST[GradebookBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){ 
@@ -279,20 +312,43 @@ class GradebookManager extends WebApplication
 			}
 		}
 	}
-
-	/**
-	 * Helper function for the Application class,
-	 * pending access to class constants via variables in PHP 5.3
-	 * e.g. $name = $class :: APPLICATION_NAME
-	 *
-	 * DO NOT USE IN THIS APPLICATION'S CONTEXT
-	 * Instead use:
-	 * - self :: APPLICATION_NAME in the context of this class
-	 * - YourApplicationManager :: APPLICATION_NAME in all other application classes
-	 */
-	function get_application_name()
+//--------------------------------------END IGNORE-------------------------------------------------------------
+// Data retrieval
+// **************
+// evaluation formats
+	function count_evaluation_formats()
 	{
-		return self :: APPLICATION_NAME;
+		return GradebookDataManager :: get_instance()->count_evaluation_formats();
+	}
+	
+	function retrieve_evaluation_formats()
+	{
+		return GradebookDataManager :: get_instance()->retrieve_evaluation_formats();
+	}
+    
+	function retrieve_evaluation_format($id)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_evaluation_format($id);
+	}
+// URL creation
+	function get_admin_browse_evaluation_format_types_link()
+	{
+		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS));
+	}
+	
+	function get_evaluation_format_editing_url($evaluation_format)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_EVALUATION_FORMAT, self :: PARAM_EVALUATION_FORMAT => $evaluation_format->get_id()));
+	}
+	
+	function get_change_evaluation_format_activation_url($evaluation_format)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY, self :: PARAM_EVALUATION_FORMAT => $evaluation_format->get_id()));
+	}
+	
+	function get_evaluation_format_deleting_url()
+	{
+		return $this->get_url();
 	}
 }
 ?>

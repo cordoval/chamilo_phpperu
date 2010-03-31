@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/portfolio_publication_user.class.php';
 require_once dirname(__FILE__) . '/portfolio_publication_group.class.php';
-require_once dirname(__FILE__) . '/portfolio_rights.class.php';
+//require_once dirname(__FILE__) . '/portfolio_rights.class.php';
 /**
  * This class describes a PortfolioPublication data object
  *

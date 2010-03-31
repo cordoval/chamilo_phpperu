@@ -1,7 +1,6 @@
 <?php
 abstract class EvaluationFormat
 {
-	abstract function add_to_form($form);
     //returns how the evaluation should be shown on screen
 	abstract function get_evaluation();
 

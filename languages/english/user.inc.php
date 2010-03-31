@@ -119,4 +119,12 @@ $lang['user']['ApproveList'] = '';
 $lang['user']['ApproveListDescription'] = '';
 $lang['user']['CsvUsersProcessed'] = 'Users imported';
 $lang['user']['CsvUsersNotProcessed'] = '{COUNT} users not imported';
+$lang['user']['Viewer'] = 'Course Viewer';
+$lang['user']['ViewState'] = 'View State';
+$lang['user']['NewViewStateSubDivision'] = 'New View State Sub Division';
+$lang['user']['New'] = 'New';
+$lang['user']['Old'] = 'Old';
+$lang['user']['Open and closed mixed'] = 'Open and closed mixed';
+$lang['user']['Open and closed seperated'] = 'Open and closed seperated';
+$lang['user']['Open only'] = 'Open only';
 ?>
