@@ -41,21 +41,17 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	{
 		return $this->database->create($evaluation_format);
 	}
-//	
-//	function retrieve_all_evaluation_formats($condition = null, $offset = null, $count = null, $order_property = null)
-//	{
-//		return $this->database->retrieve_objects(GradebookEvaluationFormat :: get_table_name(), $condition, $offset, $count, $order_property);
-//	}
-//	
+	
+	function update_format($evaluation_format)
+	{
+		$condition = new EqualityCondition(Format :: PROPERTY_ID, $evaluation_format->get_id());
+		return $this->database->update($evaluation_format, $condition);
+	}
+	
 	function retrieve_all_active_evaluation_formats()
 	{
 		$condition = new EqualityCondition(Format :: PROPERTY_ACTIVE, Format :: EVALUATION_FORMAT_ACTIVE);
 		return $this->database->retrieve_objects(Format :: get_table_name(), $condition);
-	}
-	
-	function create_internal_item($internal_item)
-	{
-		return $this->database->create($internal_item);
 	}
 	
 	function retrieve_internal_item_by_publication($application, $publication_id)
@@ -75,6 +71,28 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 //		$internal_item->set_calculated(true);
 //		return $this->database->create($internal_item);
 //	}
+
+	function retrieve_evaluation_formats()
+	{
+		return $this->database->retrieve_objects(Format :: get_table_name());
+	}
+
+	function count_evaluation_formats()
+	{
+		return $this->database->count_objects(Format :: get_table_name());
+	}
+	
+	function retrieve_evaluation_format($id)
+	{
+		$condition = new EqualityCondition(Format :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(Format :: get_table_name(), $condition);
+	}
+	
+// gradebook internal item
+	function create_internal_item($internal_item)
+	{
+		return $this->database->create($internal_item);
+	}
 
 	//gradebook_items
 

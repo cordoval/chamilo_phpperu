@@ -34,11 +34,6 @@ class PointsEvaluationFormat extends EvaluationFormat
     {
     	return $this->get_score() . ' / ' . $this->get_base_score();
     }
-    
-	function add_to_form($form)
-	{
-		
-	}
 	
 	function get_default_active_value()
 	{
