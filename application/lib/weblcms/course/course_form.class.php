@@ -120,6 +120,7 @@ class CourseForm extends FormValidator
         $wdm = WeblcmsDataManager :: get_instance();
 		$course_type_objects = $wdm->retrieve_active_course_types();
         $course_types = array();
+        $course_types[0] = Translation :: get('ChooseCourseType');
         $this->size = $course_type_objects->size();
         if($this->size != 0)
         {
@@ -130,7 +131,8 @@ class CourseForm extends FormValidator
         		$course_types[$course_type->get_id()] = $course_type->get_name();
         		if(is_null($this->course_type_id) && count == 0)
         		{
-        			$this->parent->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $course_type->get_id()));
+        			$parameters = array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $course_type->get_id());
+        			$this->parent->simple_redirect($parameters);
         		}
         		elseif(!is_null($this->course_type_id))
         		{
@@ -138,13 +140,22 @@ class CourseForm extends FormValidator
         				$validation = true;
         		}
         	}
+        	$course_select_label = Translation :: get('CourseType');
         	if(!$validation)
-        		$this->parent->redirect(Translation :: get('UseCourseTypeNotAllowed'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
-        	$this->addElement('select', Course :: PROPERTY_COURSE_TYPE_ID, Translation :: get('CourseType'), $course_types, array('class' => 'course_type_selector'));
+        	{
+        		$this->addElement('static', 'course_type', Translation :: get('CurrentCourseType'), $this->course->get_course_type()->get_name());
+        		$course_select_label = Translation :: get('NewCourseType');
+        	}
+        	$this->addElement('select', Course :: PROPERTY_COURSE_TYPE_ID, $course_select_label, $course_types, array('class' => 'course_type_selector'));
         	$this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
         }
      	else
-       		$this->addElement('static', 'course_type', Translation :: get('CourseType'), Translation :: get('NoCourseType'));
+     	{
+       		$course_type_name = Translation :: get('NoCourseType');
+       		if(!is_null($this->course_type_id))
+       			$course_type_name = $this->course->get_course_type()->get_name();
+     		$this->addElement('static', 'course_type', Translation :: get('CourseType'), $course_type_name);
+     	}
 
         $this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
         $this->addRule(Course :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
