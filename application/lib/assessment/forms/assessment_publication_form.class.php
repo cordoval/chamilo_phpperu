@@ -28,7 +28,6 @@ class AssessmentPublicationForm extends FormValidator
     function AssessmentPublicationForm($form_type, $content_object, $user, $action)
     {
         parent :: __construct('assessment_publication_settings', 'post', $action);
-
         $this->content_object = $content_object;
         $this->user = $user;
         $this->form_type = $form_type;
@@ -42,7 +41,7 @@ class AssessmentPublicationForm extends FormValidator
                 $this->build_multi_form();
                 break;
         }
-
+        
         $this->add_footer();
         $this->setDefaults();
     }
@@ -54,6 +53,7 @@ class AssessmentPublicationForm extends FormValidator
      */
     function set_publication($publication)
     {
+    	
         $this->publication = $publication;
         $this->addElement('hidden', 'pid');
         $this->addElement('hidden', 'action');
@@ -138,10 +138,15 @@ class AssessmentPublicationForm extends FormValidator
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
-
+    	if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../../gradebook/forms/evaluation_form.class.php';
+        	EvaluationForm :: build_evaluation_question($this);
+        }
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
         $this->add_forever_or_timewindow();
         $this->addElement('checkbox', AssessmentPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
+
     }
 
     function add_footer()
@@ -225,7 +230,7 @@ class AssessmentPublicationForm extends FormValidator
             $pub->set_hidden($hidden);
             $pub->set_target_users($users);
             $pub->set_target_groups($groups);
-
+			
             if (! $pub->create())
             {
                 return false;
@@ -233,6 +238,11 @@ class AssessmentPublicationForm extends FormValidator
             else
             {
             	$this->publication = $pub;
+            }
+            if(Request :: post('evaluation'))
+            {
+            	require_once dirname (__FILE__) . '/../../gradebook/forms/evaluation_form.class.php';
+            	EvaluationForm :: get_internal_item($this->publication);
             }
         }
         return true;
@@ -263,7 +273,6 @@ class AssessmentPublicationForm extends FormValidator
         $pub->set_target_groups($groups);
         return $pub->update();
     }
-
     function get_publication()
     {
     	return $this->publication;

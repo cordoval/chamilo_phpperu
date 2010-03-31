@@ -400,6 +400,121 @@ EOT;
 					</script>\n");
     }
 
+
+
+    function add_receivers_extended($elementName, $elementLabel, $attributes, $no_selection = 'Everybody')
+    {
+        //made the id's variable so that multiple "receivers" items can be put on the same page
+        //addes options: "system defaults" & split "everybody" into "anonymous users" and "platform users"
+        //maybe an option "only me" should also be added?
+        $choices = array();
+
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SystemDefaultSettings'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('AnonymousUsers'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('PortalUsers'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver'));
+
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\''. $elementName .'receivers_window\')'));
+        $this->addGroup($choices, null, $elementLabel, '<br />', false);
+        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="'. $elementName .'receivers_window">');
+
+        $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+        $element_finder->excludeElements($attributes['exclude']);
+        $this->addElement($element_finder);
+        $this->addElement('html', '</div>');
+        $this->addElement('html', "<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					var expiration = document.getElementById('receiver');
+					if (expiration.checked)
+					{
+						receivers_hide('receivers_window');
+					}
+					function receivers_show(item) {
+						el = document.getElementById(item);
+						el.style.display='';
+					}
+					function receivers_hide(item) {
+						el = document.getElementById(item);
+						el.style.display='none';
+					}
+					/* ]]> */
+					</script>\n");
+    }
+
+
+        function add_receivers_variable($elementName, $elementLabel, $attributes, $radioArray, $defaultSelected)
+    {
+        //made the id's variable so that multiple "receivers" items can be put on the same page
+        //addes array for radio buttons
+        $choices = array();
+
+        if(! is_array($radioArray))
+        {
+            $radioArray = array($radioArray);
+        }
+
+        foreach ($radioArray as $radioType)
+        {
+            $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($radioType), $radioType, array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver'));
+
+        }
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'group'));
+        $this->addGroup($choices, null, $elementLabel, '<br />', false);
+        $idGroup = $elementName . 'group';
+        $nameWindow = $elementName .'receivers_window';
+        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="'. $elementName .'receivers_window">');
+
+        $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+        $element_finder->excludeElements($attributes['exclude']);
+     
+        $this->addElement($element_finder);
+        $this->addElement('html', '</div>');
+       
+            $this->addElement('html', "<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					var expiration = document.getElementById('$idGroup');
+					if (expiration.checked)
+					{
+						receivers_show('$nameWindow');
+					}
+                                        else
+                                        {
+                                                receivers_hide('$nameWindow')
+                                        }
+					function receivers_show(item) {
+						el = document.getElementById(item);
+						el.style.display='';
+					}
+					function receivers_hide(item) {
+						el = document.getElementById(item);
+						el.style.display='none';
+					}
+					/* ]]> */
+					</script>\n");
+         
+    }
+    
+	function add_indicators($elementName, $elementLabel, $attributes)
+    {
+        $this->addElement('html', '<div style="display: block;" id="receivers_window">');
+		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+		$element_finder->excludeElements($attributes['exclude']);
+        $this->addElement($element_finder);
+        $this->addElement('html', '</div>');
+        $this->addElement('html', "<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					function receivers_show(item) {
+						el = document.getElementById(item);
+						el.style.display='';
+					}
+					function receivers_hide(item) {
+						el = document.getElementById(item);
+						el.style.display='none';
+					}
+					/* ]]> */
+					</script>\n");
+    }
+
+
     /**
      * Add a button to the form to add resources.
      */

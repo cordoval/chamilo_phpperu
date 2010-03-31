@@ -13,7 +13,45 @@ abstract class GradebookManagerComponent extends WebApplicationComponent
     {
         parent :: __construct($gradebook_manager);
     }
-
+// Data retrieval
+//******************    
+// evaluation formats
+	function count_evaluation_formats()
+	{
+		return $this->get_parent()->count_evaluation_formats();
+	}
+	
+	function retrieve_evaluation_formats()
+	{
+		return $this->get_parent()->retrieve_evaluation_formats();
+	}
+    
+	function retrieve_evaluation_format($id)
+	{
+		return $this->get_parent()->retrieve_evaluation_format($id);
+	}
+	
+// URL creation
+	function get_admin_browse_evaluation_format_types_link()
+	{
+		return $this->get_parent()->get_admin_browse_evaluation_format_types_link();
+	}
+	
+	function get_evaluation_format_editing_url($evaluation_format)
+	{
+		return $this->get_parent()->get_evaluation_format_editing_url($evaluation_format);
+	}
+	
+	function get_change_evaluation_format_activation_url($evaluation_format)
+	{
+		return $this->get_parent()->get_change_evaluation_format_activation_url($evaluation_format);
+	}
+	
+	function get_evaluation_format_deleting_url($evaluation_format)
+	{
+		return $this->get_parent()->get_evaluation_format_deleting_url($evaluation_format);
+	}
+//------------------IGNORE--------------------------------
 //gradebook
 
 	function retrieve_gradebook($id)
@@ -86,5 +124,6 @@ abstract class GradebookManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_gradebook_rel_user_subscribing_url($gradebook, $user);
 	}
+//--------------------END IGNORE-------------------------------
 }
 ?>

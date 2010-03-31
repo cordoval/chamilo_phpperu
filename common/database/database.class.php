@@ -37,6 +37,16 @@ class Database
         $this->connection->setCharset('utf8');
     }
 
+    function set_aliases($aliases = array())
+    {
+        $this->aliases = $aliases;
+    }
+
+    function get_aliases()
+    {
+        return $this->aliases;
+    }
+
     /**
      * Returns the prefix
      * @return String the prefix
@@ -571,7 +581,7 @@ class Database
 
         $this->set_limit(intval($max_objects), intval($offset));
 
-        return $this->query($query);
+        return $this->query($query); 
     }
 
     function retrieve_object_set($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
@@ -808,5 +818,9 @@ class Database
     {
         return $this->connection->setLimit($limit, $offset);
     }
+
+    /**************************************************************************
+     * FUNCTIONALITY THAT ENABLES NESTED TREES VIA NESTED_TREE_NODE.CLASS.PHP *
+     **************************************************************************/
 }
 ?>

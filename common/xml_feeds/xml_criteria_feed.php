@@ -60,7 +60,7 @@ if (Authentication :: is_valid())
 
 
     $udm = CbaDataManager :: get_instance();
-    $criteria_result_set = $udm->retrieve_criterias($criteria_condition, null, null, array(new ObjectTableOrder(Criteria :: PROPERTY_TITLE), new ObjectTableOrder(Criteria :: PROPERTY_DESCRIPTION)));
+    $criteria_result_set = $udm->retrieve_criterias($criteria_condition, null, null, array(new ObjectTableOrder(Criteria :: PROPERTY_ID)));
 
 	$criterias = array();
     while ($criteria = $criteria_result_set->next_result())
@@ -80,7 +80,7 @@ function dump_tree($criteria)
 	echo '<node id="criteria" classes="category unlinked" title="Criteria">', "\n";
 	foreach($criteria as $key => $value)
 	{
-		echo '<leaf id="criteria_'.$key.'" classes="type type_cda_language" title="'.$criteria[$key]->get_title().'" description=""/>' . "\n";	
+		echo '<leaf id="criteria_'.$criteria[$key]->get_id().'" classes="type type_cda_language" title="'.$criteria[$key]->get_title().'" description=""/>' . "\n";	
 	}
 	echo '</node>', "\n";
 }

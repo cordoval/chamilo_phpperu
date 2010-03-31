@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
 require_once dirname(__FILE__).'/../cba_manager_component.class.php';
-
 require_once dirname(__FILE__).'/../../indicator_criteria.class.php';
 
 /**
@@ -27,22 +26,15 @@ class CbaManagerIndicatorDeleterComponent extends CbaManagerComponent
 
 			foreach ($ids as $id)
 			{
-				$cba = $this->retrieve_indicator($id);
-				
-				$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $id);
-				$count_links = $this->count_indicators_criteria($condition);
-				
-				for($i = 0; $i < $count_links; $i++)
-				{	
-					$cba_indicator_criteria = $this->retrieve_indicator_criteria($id);
-					// Delete doesn't work	
-					$cba_indicator_criteria->delete();					
-				}
+				/*$cba = $this->retrieve_indicator($id);
+				$cba->delete();
+				$cba_indicator_criteria = $this->retrieve_indicator_criteria($id);
+				$cba_indicator_criteria->delete();
 
-				if (!$cba->delete())
+				if (!$cba->delete() || !$cba_indicator_criteria->delete())
 				{
 					$failures++;
-				}
+				}*/	
 			}
 
 			if ($failures)
@@ -68,7 +60,8 @@ class CbaManagerIndicatorDeleterComponent extends CbaManagerComponent
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_INDICATOR));
+			// Redirect problem from a category when deleting via select all
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_MANAGE_CATEGORIES_INDICATOR));//ACTION_BROWSE_INDICATOR));
 		}
 		else
 		{

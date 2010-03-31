@@ -87,13 +87,14 @@ class CriteriaForm extends FormValidator
 		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->criteria_score_form($count_links);
+		$this->criteria_score_form();
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
+    
     
 	function retrieve_categories_recursive($parent, $exclude_category, $level = 1)
     {
@@ -184,8 +185,7 @@ class CriteriaForm extends FormValidator
         }
         return $result;
     }
-    
-    
+       
 	function update_criteria()
     {
     	$criteria = $this->criteria;
@@ -250,10 +250,11 @@ class CriteriaForm extends FormValidator
 		$criteria = $this->criteria;
 		
 		$criteria_score = $this->criteria_score;		
-		/*$values = $this->exportValues();
-		$parent = $this->exportValue(CriteriaScore :: PROPERTY_PARENT_ID);
+		$values = $this->exportValues();
+		//$parent = $this->exportValue(CriteriaScore :: PROPERTY_PARENT_ID);
+		//dump($values['name0']);
 		
-		foreach($values as $key => $value)
+		/*foreach($values as $key => $value)
 		{
 			echo $key . ': ';
 			echo $value;
@@ -261,7 +262,7 @@ class CriteriaForm extends FormValidator
 		}
 		exit();*/
 
-		$count = sizeof($criteria_score);				
+		$count = sizeof($criteria_score);		
 		for($i = 0; $i < $count; $i++)
 		{
 			$defaults[CriteriaScore :: PROPERTY_DESCRIPTION_SCORE . $i] = $criteria_score->get_description_score();
@@ -274,7 +275,7 @@ class CriteriaForm extends FormValidator
 	
 	// Dynamic form options
 	
-	function criteria_score_form($number_options)
+	function criteria_score_form()
     {
         
         if (! $this->isSubmitted())
@@ -283,14 +284,9 @@ class CriteriaForm extends FormValidator
             unset($_SESSION['mc_skip_options']);
         }
         
-        $_SESSION['mc_number_of_options'] = $number_options;
         if (! isset($_SESSION['mc_number_of_options']))
         {
             $_SESSION['mc_number_of_options'] = 1;
-        }
-        else
-        {
-        	$_SESSION['mc_number_of_options'] = $number_options;
         }
         
         if (! isset($_SESSION['mc_skip_options']))
@@ -301,69 +297,60 @@ class CriteriaForm extends FormValidator
         if (isset($_POST['add']))
         {
             $_SESSION['mc_number_of_options'] = $_SESSION['mc_number_of_options'] + 1;
+            $number_options++;
         }
         if (isset($_POST['remove']))
         {
             $indexes = array_keys($_POST['remove']);
             $_SESSION['mc_skip_options'][] = $indexes[0];
         }
+    	if (isset($_POST['up']))
+        {
+            //$indexes = array_keys($_POST['up']);
+            //$_SESSION['mc_skip_options'][] = $indexes[0];
+        }
+    	if (isset($_POST['down']))
+        {
+            //$indexes = array_keys($_POST['down']);
+            //$_SESSION['mc_skip_options'][] = $indexes[0];
+        }
         
         $number_of_options = intval($_SESSION['mc_number_of_options']);
-        
-		/*$table_header = array();
-        $table_header[] = '<table class="data_table">';
-        $table_header[] = '<thead>';
-        $table_header[] = '<tr>';
-        $table_header[] = '<th>' . Translation :: get('OmschrijvingScore') . '</th>';     
-        $table_header[] = '<th>' .Translation :: get('Score') . '</th>';
-        $table_header[] = '<th class="action"></th>';
-        $table_header[] = '</tr>';
-        $table_header[] = '</thead>';
-        $table_header[] = '<body>';
-        
-        for($option_number = 0; $option_number < $number_of_options; $option_number ++)
-        {           
-        	if (! in_array($option_number, $_SESSION['mc_skip_options']))
-            {
-           	$group = array();
-            
-	        $table_header[] = '<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">';      
-	        $table_header[] = '<td>';
-			$table_header[] = $option_number;
-	        $group[] = $this->add_description_score_field($option_number);
-	        $group[] = & $this->add_description_score_field($option_number);
-	        //$tabel_header[] = $this->createElement('text', PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('DescriptionScore'), array("size" => "70"));
-	        
-			$table_header[] = '</td>';
-	        $table_header[] = '<td>test2</td>';
-	        $table_header[] = '<td>';
-
-	        $table_header[] = '</td>';
-	        $table_header[] = '</tr>';
-            }
-
-        }
-        $table_header[] = '<tr><td>';
-        //$table_header[] = $this->add_name_field($option_number);   
-        //$this->addGroup($group, PlatformCategory :: PROPERTY_NAME . $option_number, Translation :: get('CategoryName'), '', false);
-                
-        $table_header[] = '</td><td></td><td></td></tr>';
-        $table_header[] = '</body>';
-        $table_header[] = '</table>';
-        $this->addElement('html', implode("\n", $table_header));*/
+       
         
         for($option_number = 0; $option_number < $number_of_options; $option_number++)
         {
             if (! in_array($option_number, $_SESSION['mc_skip_options']))
             {
                 $group = array();
-				$group[] = $this->add_option_number_field($option_number);
+				//$group[] = $this->add_option_number_field($option_number);
+				$group[] = $this->add_description_text($option_number);
 				$group[] = $this->add_description_score_field($option_number);
+				$group[] = $this->add_score_text($option_number);
                 $group[] = $this->add_score_field($option_number);
-				
+
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 1)
                 {
-                	$group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                	if($option_number == 0)
+                	{
+                		$group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                		$group[] = $this->createElement('image', 'up[' . $option_number . ']', Theme :: get_common_image_path() . 'action_up_na.png', array('class' => 'up_option', 'id' => 'up_' . $option_number));           
+						$group[] = $this->createElement('image', 'down[' . $option_number . ']', Theme :: get_common_image_path() . 'action_down.png', array('class' => 'down_option', 'id' => 'down_' . $option_number)); 
+                	}
+                	elseif($option_number > 0)
+                	{
+                		$group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
+                		$group[] = $this->createElement('image', 'up[' . $option_number . ']', Theme :: get_common_image_path() . 'action_up.png', array('class' => 'up_option', 'id' => 'up_' . $option_number)); 
+
+                		if($number_of_options == ($option_number + 1))
+                		{
+                			$group[] = $this->createElement('image', 'down[' . $option_number . ']', Theme :: get_common_image_path() . 'action_down_na.png', array('class' => 'down_option', 'id' => 'down_' . $option_number));               
+                		}
+                		else
+                		{
+                			$group[] = $this->createElement('image', 'down[' . $option_number . ']', Theme :: get_common_image_path() . 'action_down.png', array('class' => 'down_option', 'id' => 'down_' . $option_number));               
+                		}
+                	}
                 }
                 $this->addGroup($group, PlatformCategory :: PROPERTY_NAME . $option_number, Translation :: get('CriteriaOptionNumber'), '&nbsp;', false);
 
@@ -374,7 +361,7 @@ class CriteriaForm extends FormValidator
     }
 
     
-	function add_option_number_field($number = null)
+	/*function add_option_number_field($number = null)
     {
         $element = $this->createElement('text', PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('CriteriaOptionNumber'), array("size" => "3"));
 		if($element->getValue() == null)
@@ -383,12 +370,30 @@ class CriteriaForm extends FormValidator
         	$element->freeze();
 		}
         return $element;
+    }*/
+    
+	function add_description_text($number = null)
+    {
+        $element = $this->createElement('static', PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('CriteriaDescriptionText'));
+        $element->setValue(Translation :: get('Description'));
+        $element->freeze();
+
+        return $element;
     }
     
 	function add_description_score_field($number = null)
     {
-    	$element = $this->createElement('text', CriteriaScore :: PROPERTY_DESCRIPTION_SCORE . $number, Translation :: get('CriteriaDescriptionScore'), array("size" => "70"));
+    	$element = $this->createElement('text', CriteriaScore :: PROPERTY_DESCRIPTION_SCORE . $number, Translation :: get('CriteriaDescriptionScore'), array("size" => "62"));
 		return $element;
+    }
+    
+	function add_score_text($number = null)
+    {
+        $element = $this->createElement('static', PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('CriteriaScoreText'));
+        $element->setValue(Translation :: get('Score'));
+        $element->freeze();
+
+        return $element;
     }
     
 	function add_score_field($number = null)
@@ -399,7 +404,7 @@ class CriteriaForm extends FormValidator
     
 	function validate()
     {
-        if (isset($_POST['add']) || isset($_POST['remove']))
+        if (isset($_POST['add']) || isset($_POST['remove']) || isset($_POST['up']) || isset($_POST['down']))
         {
             return false;
         }

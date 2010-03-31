@@ -23,8 +23,8 @@ class DefaultProfilePublicationTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $udm = UserDataManager :: get_instance();
-        $user_alias = $udm->get_database()->get_alias(User :: get_table_name());
-        
+        $user_alias = $udm->get_alias(User :: get_table_name());
+
         $columns = array();
         $columns[] = new ObjectTableColumn(ProfilePublication :: PROPERTY_PROFILE);
         $columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true, $user_alias);

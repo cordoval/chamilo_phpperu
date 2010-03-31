@@ -22,10 +22,10 @@ class DefaultValidationTableColumnMod extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $udm = UserDataManager :: get_instance();
-        $user_alias = $udm->get_database()->get_alias(User :: get_table_name());
-        
+        $user_alias = $udm->get_alias(User :: get_table_name());
+
         $columns = array();
-        
+
         // TODO: Make this work by refactoring JOIN statements.
         $columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true, User :: get_table_name());
         $columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true, User :: get_table_name());

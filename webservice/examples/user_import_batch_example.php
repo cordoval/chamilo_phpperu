@@ -78,10 +78,7 @@ function login()
     
     $username = 'Samumon';
     //$username = 'Soliber';
-    
 
-    $password = hash('sha1', '193.190.172.141' . hash('sha1', '60d9efdb7c'));
-    //$password = hash('sha1','127.0.0.1'.hash('sha1','werk'));
     
 
     /*
