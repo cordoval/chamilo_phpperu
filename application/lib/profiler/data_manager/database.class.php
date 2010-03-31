@@ -63,9 +63,9 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         $publication_alias = $this->database->get_alias(ProfilePublication :: get_table_name());
 
         $query = 'SELECT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(ProfilePublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $udm->get_database()->escape_table_name(User :: get_table_name()) . ' AS ' . $this->database->get_alias(User :: get_table_name());
+        $query .= ' JOIN ' . $udm->escape_table_name(User :: get_table_name()) . ' AS ' . $this->database->get_alias(User :: get_table_name());
         $query .= ' ON ' . $this->database->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER, $publication_alias) . ' = ';
-        $query .= $udm->get_database()->escape_column_name(User :: PROPERTY_ID, $this->database->get_alias(User :: get_table_name()));
+        $query .= $udm->escape_column_name(User :: PROPERTY_ID, $this->database->get_alias(User :: get_table_name()));
 
         if (isset($condition))
         {
@@ -227,9 +227,9 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
 
             $publication_attr[] = $info;
         }
-        
+
         $res->free();
-        
+
         return $publication_attr;
     }
 
@@ -269,7 +269,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         $condition = new EqualityCondition(ProfilePublication :: PROPERTY_ID, $publication_id);
         return $this->database->delete(ProfilePublication :: get_table_name(), $condition);
     }
-    
+
     //Inherited.
     function create_profile_publication($publication)
     {
@@ -324,7 +324,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
-		
+
         return $record[0] + 1;
     }
 }

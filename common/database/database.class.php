@@ -37,6 +37,16 @@ class Database
         $this->connection->setCharset('utf8');
     }
 
+    function set_aliases($aliases = array())
+    {
+        $this->aliases = $aliases;
+    }
+
+    function get_aliases()
+    {
+        return $this->aliases;
+    }
+
     /**
      * Returns the prefix
      * @return String the prefix

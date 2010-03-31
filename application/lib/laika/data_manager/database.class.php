@@ -204,7 +204,7 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 
     function retrieve_laika_table_calculated_results($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $udm_database = UserDataManager :: get_instance()->get_database();
+        $udm_database = UserDataManager :: get_instance();
         $database = $this->database;
 
         $result_alias = $this->database->get_alias(LaikaCalculatedResult :: get_table_name());
@@ -221,7 +221,7 @@ class DatabaseLaikaDatamanager extends LaikaDatamanager
 
     function count_laika_table_calculated_results($condition = null)
     {
-        $udm_database = UserDataManager :: get_instance()->get_database();
+        $udm_database = UserDataManager :: get_instance();
         $database = $this->database;
 
         $result_alias = $this->database->get_alias(LaikaCalculatedResult :: get_table_name());
