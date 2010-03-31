@@ -57,6 +57,15 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	{
 		return $this->database->create($internal_item);
 	}
+	
+	function retrieve_internal_item_by_publication($application, $publication_id)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
+		$condition = new AndCondition($conditions);
+		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
+	}
 //	
 //	function create_external_item($publication)
 //	{

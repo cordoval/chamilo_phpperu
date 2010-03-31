@@ -65,6 +65,13 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
         
         $toolbar_data[] = array('href' => $this->browser->get_delete_wiki_publication_url($wiki_publication), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../../../../gradebook/gradebook_data_manager.class.php';
+        	if(GradebookDatamanager :: get_instance()->retrieve_internal_item_by_publication('wiki', $wiki_publication->get_id()))
+        		$toolbar_data[] = array('href' => $this->browser->get_evaluation_publication_url($wiki_publication), 'label' => Translation :: get('Evaluation'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png');
+        }
+        
         return Utilities :: build_toolbar($toolbar_data);
     }
 }

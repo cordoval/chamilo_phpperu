@@ -23,6 +23,7 @@ class WikiManager extends WebApplication
     const ACTION_CREATE_WIKI_PUBLICATION = 'create_wiki_publication';
     const ACTION_BROWSE_WIKI_PUBLICATIONS = 'browse_wiki_publications';
     const ACTION_VIEW_WIKI = 'view';
+    const ACTION_EVALUATE_WIKI_PUBLICATION = 'evaluate_wiki_publication';
 
     /**
      * Constructor
@@ -43,6 +44,9 @@ class WikiManager extends WebApplication
         $component = null;
         switch ($action)
         {
+        	case self :: ACTION_EVALUATE_WIKI_PUBLICATION :
+        		$component = WikiManagerComponent :: factory('WikiEvaluation', $this);
+        		break;
             case self :: ACTION_BROWSE_WIKI_PUBLICATIONS :
                 $component = WikiManagerComponent :: factory('WikiPublicationsBrowser', $this);
                 break;
@@ -61,7 +65,6 @@ class WikiManager extends WebApplication
             default :
                 $this->set_action(self :: ACTION_BROWSE_WIKI_PUBLICATIONS);
                 $component = WikiManagerComponent :: factory('WikiPublicationsBrowser', $this);
-        
         }
         $component->run();
     }
@@ -122,6 +125,11 @@ class WikiManager extends WebApplication
     function get_create_wiki_publication_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_WIKI_PUBLICATION));
+    }
+ 	
+    function get_evaluation_publication_url($wiki_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
     }
 
     function get_update_wiki_publication_url($wiki_publication)

@@ -200,6 +200,11 @@ abstract class WikiManagerComponent extends ApplicationComponent
     {
         return $this->get_parent()->get_update_wiki_publication_url($wiki_publication);
     }
+    
+    function get_evaluation_publication_url($wiki_publication)
+    {
+    	return $this->get_parent()->get_evaluation_publication_url($wiki_publication);
+    }
 
     function get_delete_wiki_publication_url($wiki_publication)
     {

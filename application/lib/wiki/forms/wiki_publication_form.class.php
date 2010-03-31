@@ -34,7 +34,6 @@ class WikiPublicationForm extends FormValidator
         $this->wiki_publication = $wiki_publication;
         $this->user = $user;
         $this->form_type = $form_type;
-
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -59,7 +58,11 @@ class WikiPublicationForm extends FormValidator
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
-
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../../gradebook/forms/evaluation_form.class.php';
+        	EvaluationForm :: build_evaluation_question($this);
+        }
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
 
         $this->add_forever_or_timewindow();
