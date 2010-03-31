@@ -171,6 +171,7 @@ class SortableTable extends HTML_Table
             $params['lastPagePost'] = '';
             $params['spacesBeforeSeparator'] = '';
             $params['spacesAfterSeparator'] = '';
+            $params['currentPage'] = $this->page_nr;
             $query_vars = array_keys($_GET);
             $query_vars_needed = array($this->param_prefix . 'column', $this->param_prefix . 'direction', $this->param_prefix . 'per_page');
             if (count($this->additional_parameters) > 0)

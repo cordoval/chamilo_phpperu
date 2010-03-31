@@ -22,11 +22,6 @@ class LettersEvaluationFormat extends EvaluationFormat
     	$this->get_score();
     }
 	
-	function add_to_form($form)
-	{
-		
-	}
-	
 	function get_default_active_value()
 	{
 		return self :: DEFAULT_ACTIVE_VALUE;
