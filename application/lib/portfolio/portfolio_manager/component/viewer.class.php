@@ -55,30 +55,33 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_USER_ID => $user_id)), Translation :: get('ViewPortfolio')));
         
         $this->display_header($trail);
-        
+        //view tab is ALWAYS shown. feedback and validation are shown when there is an object selected (only not shown when portfolio root is selected), no checks to the rights managment system. TODO: change this
         $actions = array('view');
         if ($this->selected_object)
         {
             $actions[] = 'feedback';
-            $actions[] = 'validation';
+            //validation feature: expectations and functionality have to be cleared out before further development
+            //$actions[] = 'validation';
         }
         
+        //TODO: this has to be changed as only checks if user is owner instead of using rights system. OK for properties: only to be set by owner but editing can be done bij others too
         if ($user_id == $this->get_user_id())
         {
             $this->action_bar = $this->get_action_bar();
             echo $this->action_bar->as_html();
-            
+
             if ($pid && ! $cid)
             {
                 $actions[] = 'edit';
                 $actions[] = 'properties';
             }
-            
+               //again: no checks TODO: change this
             if ($cid)
+            {
                 $actions[] = 'edit';
+                $actions[] = 'properties';
+            }
             //$actions[] = 'validation';
-        
-
         }
         
         echo '<div id="action_bar_browser">';
@@ -132,7 +135,14 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 
     function add_actionbar_item($item)
     {
-        $this->action_bar->add_tool_action($item);
+        //I think there should always be a check *somewhere* to see if there is indeed an action bar before adding an item
+        //I put it here because the feedbackmanager tries to put an item on the action bar even when there was no action bar created
+        //maybe the check should be put in the feedbackmanager but the properties are private and this would mean creating extra getters
+        //for the moment I think the portfolio application is the only one using the feedback manager so I put my check here and added a comment in the feedbackmanager(NathalieB)
+        if($this->action_bar!= null)
+        {
+            $this->action_bar->add_tool_action($item);
+        }
     }
 
     function get_action_bar()
@@ -142,8 +152,18 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishNewPortfolio'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_portfolio_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         if ($this->selected_object && $this->selected_object->get_type() == 'portfolio')
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddNewItemToPortfolio'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_portfolio_item_url($this->selected_object->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+        {
+            if($this->cid)
+            {
+                $portfolio = $this->cid;
+            }
+            else
+            {
+                $portfolio = $this->pid  ;
+            }
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddNewItemToPortfolio'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_portfolio_item_url($this->selected_object->get_id(), $portfolio), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+
         if ($this->selected_object)
         {
             if (! $this->cid)
@@ -239,9 +259,18 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
     function display_properties_page()
     {
         $html = array();
+
+         if ($this->cid)
+        {
+            $type = PortfolioPublicationForm::TYPE_PORTFOLIO_ITEM;
+        }
+        else
+        {
+            $type = PortfolioPublicationForm::TYPE_PORTFOLIO;
+        }
         
-        $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_EDIT, $this->publication, $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'properties')), $this->get_user());
-        
+       $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_EDIT, $this->publication, $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'properties')), $this->get_user(), $type);
+
         if ($form->validate())
         {
             $success = $form->update_portfolio_publication();

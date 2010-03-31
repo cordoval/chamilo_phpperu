@@ -270,7 +270,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
     function create_content_object_publications()
     {
         $values = $this->exportValues();
-        
+
         $ids = unserialize($values['ids']);
         
         foreach ($ids as $id)
@@ -288,7 +288,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
             
             $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
             $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-            
+
             $pub = new SystemAnnouncementPublication();
             $pub->set_content_object_id($id);
             $pub->set_publisher($this->form_user->get_id());

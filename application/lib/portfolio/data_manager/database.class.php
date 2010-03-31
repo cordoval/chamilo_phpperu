@@ -54,7 +54,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
     function create_portfolio_publication($portfolio_publication)
     {
         $succes = $this->database->create($portfolio_publication);
-
+        //TODO this code needs to be changed
         foreach ($portfolio_publication->get_target_groups() as $group)
         {
             $pfpg = new PortfolioPublicationGroup();

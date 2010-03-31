@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/portfolio_publication_user.class.php';
 require_once dirname(__FILE__) . '/portfolio_publication_group.class.php';
-
+require_once dirname(__FILE__) . '/portfolio_rights.class.php';
 /**
  * This class describes a PortfolioPublication data object
  *
@@ -19,15 +19,24 @@ class PortfolioPublication extends DataClass
     /**
      * PortfolioPublication properties
      */
+    //id of the content object that is being published in the portfolio
     const PROPERTY_CONTENT_OBJECT = 'content_object_id';
+   //id of the user who published the portfolio item
+    const PROPERTY_PUBLISHER = 'publisher_id';
+    //not to sure what this property means TODO:find out
+    const PROPERTY_PUBLISHED = 'published';
+    //id of the parent portfolio-item if there is any
+    const PROPERTY_PARENT_ID = 'parent_id';
+
+
+    //I don't think we need these properties from_date, to_date & hidden
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
     const PROPERTY_HIDDEN = 'hidden';
-    const PROPERTY_PUBLISHER = 'publisher_id';
-    const PROPERTY_PUBLISHED = 'published';
 
     private $target_groups;
     private $target_users;
+    private $location;
 
     /**
      * Get the default properties
@@ -71,6 +80,30 @@ class PortfolioPublication extends DataClass
     function get_from_date()
     {
         return $this->get_default_property(self :: PROPERTY_FROM_DATE);
+    }
+
+    function get_location()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Returns the numeric identifier of the learning object's parent learning
+     * object.
+     * @return int The identifier.
+     */
+    function get_parent_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_PARENT_ID);
+    }
+
+    /**
+     * Sets the ID of this learning object's parent learning object.
+     * @param int $parent The ID.
+     */
+    function set_parent_id($parent)
+    {
+        $this->set_default_property(self :: PROPERTY_PARENT_ID, $parent);
     }
 
     /**
@@ -164,6 +197,31 @@ class PortfolioPublication extends DataClass
         $this->target_users = $target_users;
     }
 
+    function set_target($rightType, $chosenOption, $groups, $users)
+    {
+        //TODO: implement the code here to store the rights for the different actions
+        
+    }
+
+    /*
+     * creates a location for the portfolio-publication under the user's portfolio-tree root.
+     * if necessary the root is created
+     * @return the location or "false"
+     */
+    function create_location()
+    {
+        $user = $this->get_publisher();
+        $parent_location = portfolioRights::get_portfolio_root_id($user);
+            if(!$parent_location)
+            {
+                $parent_location = portfolioRights::create_portfolio_root($user)->get_id();
+            }
+        $object = $this->get_id();
+            $this->location = portfolioRights::create_location_in_portfolio_tree('portfolio', 'portfolio', $object, $parent_location, $user, true, false);
+
+            return $this ->location;
+    }
+
     function get_target_groups()
     {
         if (! $this->target_groups)
@@ -249,7 +307,11 @@ class PortfolioPublication extends DataClass
     function create()
     {
         $dm = PortfolioDataManager :: get_instance();
-        return $dm->create_portfolio_publication($this);
+        $pub = $dm->create_portfolio_publication($this);
+
+        $this->create_location();
+
+        return $pub;
     }
 
     static function get_table_name()
