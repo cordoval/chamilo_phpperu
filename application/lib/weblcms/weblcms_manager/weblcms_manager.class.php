@@ -1136,7 +1136,7 @@ class WeblcmsManager extends WebApplication
 	 */
 	function get_course_editing_url($course)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'course_settings', 'previous' => 'admin'));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'course_settings', 'previous' => 'admin'));
 	}
 
 	/**

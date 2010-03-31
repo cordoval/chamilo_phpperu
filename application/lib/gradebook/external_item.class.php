@@ -9,7 +9,7 @@ class ExternalItem extends DataClass
     /*
      * GradebookEvaluationGrades properties
      */
-    const PROPERTY_TITEL = 'titel';
+    const PROPERTY_TITLE = 'title';
     const PROPERTY_DESCRIPTION = 'description';
 	/**
      * Get the default properties
@@ -17,7 +17,7 @@ class ExternalItem extends DataClass
      */
     static function get_defualt_property_names()
     {
-    	return parent :: get_defualt_property_names(array(self :: PROPERTY_TITEL, self :: PROPERTY_DESCRIPTION));
+    	return parent :: get_defualt_property_names(array(self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION));
     }
     
     function get_data_manager()
@@ -27,14 +27,14 @@ class ExternalItem extends DataClass
     
     // getters and setters
     
-    function get_titel()
+    function get_title()
     {
-    	return $this->get_default_property(self :: PROPERTY_TITEL);
+    	return $this->get_default_property(self :: PROPERTY_TITLE);
     }
     
-    function set_titel($titel)
+    function set_title($title)
     {
-    	$this->set_default_property(self :: PROPERTY_TITEL, $titel);
+    	$this->set_default_property(self :: PROPERTY_TITLE, $title);
     }
     
     function get_description()
