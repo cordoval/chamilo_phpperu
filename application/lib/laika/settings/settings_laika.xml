@@ -2,7 +2,7 @@
 <application name="laika">
 	<settings>
 		<category name="attempts">
-			<setting name="maximum_attempts" field="text" default="1" />
+			<setting name="maximum_attempts" field="text" default="1">
 				<validations>
                     <validation rule="numeric" message="MustBeNumeric"/>
                 </validations>

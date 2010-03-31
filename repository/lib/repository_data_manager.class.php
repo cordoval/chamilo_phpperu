@@ -6,16 +6,16 @@
 require_once dirname(__FILE__) . '/data_manager/database/database_content_object_result_set.class.php';
 
 /**
- *	This is a skeleton for a data manager for the learning object repository.
- *	Data managers must extend this class and implement its abstract methods.
- *	If the user configuration dictates that the "database" data manager is to
- *	be used, this class will automatically attempt to instantiate
- *	"DatabaseRepositoryDataManager"; hence, this naming convention must be
- *	respected for all extensions of this class.
+ * This is a skeleton for a data manager for the learning object repository.
+ * Data managers must extend this class and implement its abstract methods.
+ * If the user configuration dictates that the "database" data manager is to
+ * be used, this class will automatically attempt to instantiate
+ * "DatabaseRepositoryDataManager"; hence, this naming convention must be
+ * respected for all extensions of this class.
  *
- *	@author Tim De Pauw
- *  @author Hans De Bisschop
- *  @author Dieter De Neef
+ * @author Tim De Pauw
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 abstract class RepositoryDataManager
 {
@@ -101,18 +101,18 @@ abstract class RepositoryDataManager
      * Checks if a type name corresponds to an extended learning object type.
      * @param string $type The type name.
      * @return boolean True if the corresponding type is extended, false
-     *                 otherwise.
+     * otherwise.
      */
     function is_extended_type($type)
     {
         //echo $type; echo "test";
         $temp_class = ContentObject :: factory($type);
-        
-        if(!$temp_class)
+
+        if (! $temp_class)
         {
-        	return false;
+            return false;
         }
-        
+
         $has_additional_properties = count($temp_class->get_additional_property_names()) > 0;
         unset($temp_class);
         return $has_additional_properties;
@@ -155,7 +155,7 @@ abstract class RepositoryDataManager
      * published in any of the registered applications.
      * @param int $id The ID of the learning object.
      * @return boolean True if the learning object has been published anywhere,
-     *                 false otherwise.
+     * false otherwise.
      */
     function content_object_is_published($id)
     {
@@ -206,7 +206,7 @@ abstract class RepositoryDataManager
      * Get the attributes of the learning object publication
      * @param int $id The ID of the learning object.
      * @return array An array of ContentObjectPublicationAttributes objects;
-     *               empty if the object has not been published anywhere.
+     * empty if the object has not been published anywhere.
      */
     function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null)
     {
@@ -236,7 +236,7 @@ abstract class RepositoryDataManager
      * Get the attribute of the learning object publication
      * @param int $id The ID of the learning object.
      * @return array An array of ContentObjectPublicationAttributes objects;
-     *               empty if the object has not been published anywhere.
+     * empty if the object has not been published anywhere.
      */
     function get_content_object_publication_attribute($id, $application, $user)
     {
@@ -424,43 +424,43 @@ abstract class RepositoryDataManager
      * persistent storage.
      * As far as ordering goes, there are two things to take into account:
      * - If, after applying the passed conditions, there is no order between
-     *   two learning objects, the display order index should be taken into
-     *   account.
+     * two learning objects, the display order index should be taken into
+     * account.
      * - Regardless of what the order specification states, learning objects
-     *   of the "category" types must always come before others.
+     * of the "category" types must always come before others.
      * Finally, there are some limitations to this method:
      * - For now, you can only use the standard learning object properties,
-     *   not the type-specific ones IF you do not specify a single type of
-     *   learning object to retrieve.
+     * not the type-specific ones IF you do not specify a single type of
+     * learning object to retrieve.
      * - Future versions may include statistical functions.
      * @param string $type The type of learning objects to retrieve, if any.
-     *                     If you do not specify a type, or the type is not
-     *                     known in advance, you will only be able to select
-     *                     on default properties; also, there will be a
-     *                     significant performance decrease. In this case,
-     *                     the values of the additional properties will not
-     *                     yet be known; they will be retrieved JIT, i.e.
-     *                     right before they are accessed.
+     * If you do not specify a type, or the type is not
+     * known in advance, you will only be able to select
+     * on default properties; also, there will be a
+     * significant performance decrease. In this case,
+     * the values of the additional properties will not
+     * yet be known; they will be retrieved JIT, i.e.
+     * right before they are accessed.
      * @param Condition $condition The condition to use for learning object
-     *                             selection, structured as a Condition
-     *                             object. Please consult the appropriate
-     *                             documentation.
+     * selection, structured as a Condition
+     * object. Please consult the appropriate
+     * documentation.
      * @param array $order_by An array of properties to sort the learning
-     *                       objects on.
+     * objects on.
      * @param int $offset The index of the first object to return. If
-     *                    omitted or negative, the result set will start
-     *                    from the first object.
+     * omitted or negative, the result set will start
+     * from the first object.
      * @param int $max_objects The maximum number of objects to return. If
-     *                        omitted or non-positive, every object from the
-     *                        first index will be returned.
+     * omitted or non-positive, every object from the
+     * first index will be returned.
      * @param int $state The state the learning objects should have. Any of
-     *                   the ContentObject :: STATE_* constants. A negative
-     *                   number means the state should be ignored. Defaults
-     *                   to ContentObject :: STATE_NORMAL. You can just as
-     *                   easily use your own condition for this; this
-     *                   parameter is merely for convenience, and to ensure
-     *                   that the function does not apply to recycled objects
-     *                   by default.
+     * the ContentObject :: STATE_* constants. A negative
+     * number means the state should be ignored. Defaults
+     * to ContentObject :: STATE_NORMAL. You can just as
+     * easily use your own condition for this; this
+     * parameter is merely for convenience, and to ensure
+     * that the function does not apply to recycled objects
+     * by default.
      * @return ResultSet A set of matching learning objects.
      */
     abstract function retrieve_content_objects($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
@@ -470,7 +470,7 @@ abstract class RepositoryDataManager
     /**
      * Retrieves the additional properties of the given learning object.
      * @param ContentObject $content_object The learning object for which to
-     *                                        fetch additional properties.
+     * fetch additional properties.
      * @return array The properties as an associative array.
      */
     abstract function retrieve_additional_content_object_properties($content_object);
@@ -479,22 +479,22 @@ abstract class RepositoryDataManager
      * Returns the number of learning objects that match the given criteria.
      * This method has the same limitations as retrieve_content_objects.
      * @param string $type The type of learning objects to search for, if any.
-     *                     If you do not specify a type, or the type is not
-     *                     known in advance, you will only be able to select
-     *                     on default properties; also, there will be a
-     *                     significant performance decrease.
+     * If you do not specify a type, or the type is not
+     * known in advance, you will only be able to select
+     * on default properties; also, there will be a
+     * significant performance decrease.
      * @param Condition $condition The condition to use for learning object
-     *                             selection, structured as a Condition
-     *                             object. Please consult the appropriate
-     *                             documentation.
+     * selection, structured as a Condition
+     * object. Please consult the appropriate
+     * documentation.
      * @param int $state The state the learning objects should have. Any of
-     *                   the ContentObject :: STATE_* constants. A negative
-     *                   number means the state should be ignored. Defaults
-     *                   to ContentObject :: STATE_NORMAL. You can just as
-     *                   easily use your own condition for this; this
-     *                   parameter is merely for convenience, and to ensure
-     *                   that the function does not apply to recycled objects
-     *                   by default.
+     * the ContentObject :: STATE_* constants. A negative
+     * number means the state should be ignored. Defaults
+     * to ContentObject :: STATE_NORMAL. You can just as
+     * easily use your own condition for this; this
+     * parameter is merely for convenience, and to ensure
+     * that the function does not apply to recycled objects
+     * by default.
      * @return int The number of matching learning objects.
      */
     abstract function count_content_objects($condition = null);
@@ -505,22 +505,22 @@ abstract class RepositoryDataManager
      * Returns the number of learning objects that match the given criteria.
      * This method has the same limitations as retrieve_content_objects.
      * @param string $type The type of learning objects to search for, if any.
-     *                     If you do not specify a type, or the type is not
-     *                     known in advance, you will only be able to select
-     *                     on default properties; also, there will be a
-     *                     significant performance decrease.
+     * If you do not specify a type, or the type is not
+     * known in advance, you will only be able to select
+     * on default properties; also, there will be a
+     * significant performance decrease.
      * @param Condition $condition The condition to use for learning object
-     *                             selection, structured as a Condition
-     *                             object. Please consult the appropriate
-     *                             documentation.
+     * selection, structured as a Condition
+     * object. Please consult the appropriate
+     * documentation.
      * @param int $state The state the learning objects should have. Any of
-     *                   the ContentObject :: STATE_* constants. A negative
-     *                   number means the state should be ignored. Defaults
-     *                   to ContentObject :: STATE_NORMAL. You can just as
-     *                   easily use your own condition for this; this
-     *                   parameter is merely for convenience, and to ensure
-     *                   that the function does not apply to recycled objects
-     *                   by default.
+     * the ContentObject :: STATE_* constants. A negative
+     * number means the state should be ignored. Defaults
+     * to ContentObject :: STATE_NORMAL. You can just as
+     * easily use your own condition for this; this
+     * parameter is merely for convenience, and to ensure
+     * that the function does not apply to recycled objects
+     * by default.
      * @return int The number of matching learning objects.
      */
     function count_publication_attributes($user, $object_id, $condition = null)
@@ -574,15 +574,15 @@ abstract class RepositoryDataManager
      * Deletes the given learning object from persistent storage.
      * This function deletes
      * - all children of the given learning object (using this function
-     *   recursively)
+     * recursively)
      * - links from this object to other objects (so called attachments)
      * - links from other objects to this object (so called attachments)
      * - the object itself
      * @param ContentObject $object The learning object.
      * @return boolean True if the given object was succesfully deleted, false
-     *                 otherwise. Deletion fails when the object is used
-     *                 somewhere in an application or if one of its children
-     *                 is in use.
+     * otherwise. Deletion fails when the object is used
+     * somewhere in an application or if one of its children
+     * is in use.
      */
     abstract function delete_content_object($object);
 
@@ -635,9 +635,9 @@ abstract class RepositoryDataManager
      * - the latest version entry if necessary
      * @param ContentObject $object The learning object.
      * @return boolean True if the given version was succesfully deleted, false
-     *                 otherwise. Deletion fails when the version is used
-     *                 somewhere in an application or if one of its children
-     *                 is in use.
+     * otherwise. Deletion fails when the version is used
+     * somewhere in an application or if one of its children
+     * is in use.
      */
     abstract function delete_content_object_version($object);
 
@@ -685,28 +685,28 @@ abstract class RepositoryDataManager
 
     function delete_content_object_publication($application, $publication_id)
     {
-    	 //require_once (Path :: get(SYS_PATH) . 'application/lib/' . $application . '/' . $application . '_manager/' . $application . '_manager.class.php');
-    	 $application = Application :: factory($application, null, true);
-         return $application->delete_content_object_publication($publication_id);
+        //require_once (Path :: get(SYS_PATH) . 'application/lib/' . $application . '/' . $application . '_manager/' . $application . '_manager.class.php');
+        $application = Application :: factory($application, null, true);
+        return $application->delete_content_object_publication($publication_id);
     }
 
     abstract function delete_content_object_attachments($object);
-    
+
     abstract function delete_content_object_includes($object);
-    
+
     abstract function delete_assisting_content_objects($object);
 
     /**
      * Deletes all known learning objects from persistent storage.
      * @note Only for testing purpuses. This function also deletes the root
-     *       category of a user's repository.
+     * category of a user's repository.
      */
     abstract function delete_all_content_objects();
 
     /**
      * Gets the next available index in the display order.
      * @param int $parent The numeric identifier of the learning object's
-     *                    parent learning object.
+     * parent learning object.
      * @param string $type The type of learning object.
      * @return int The requested display order index.
      */
@@ -729,7 +729,7 @@ abstract class RepositoryDataManager
      * Returns the learning objects that are attached to the learning object
      * with the given ID.
      * @param ContentObject $object The learning object for which to retrieve
-     *                               attachments.
+     * attachments.
      * @return array The attached learning objects.
      */
     abstract function retrieve_attached_content_objects($object);
@@ -754,7 +754,7 @@ abstract class RepositoryDataManager
      * Returns the learning objects that are included into the learning object
      * with the given ID.
      * @param ContentObject $object The learning object for which to retrieve
-     *                               includes.
+     * includes.
      * @return array The included learning objects.
      */
     abstract function retrieve_included_content_objects($object);
@@ -784,7 +784,7 @@ abstract class RepositoryDataManager
     /**
      * Adds a learning object to another's attachment list.
      * @param ContentObject $object The learning object to attach the other
-     *                               learning object to.
+     * learning object to.
      * @param int $attachment_id The ID of the object to attach.
      */
     abstract function attach_content_object($object, $attachment_id);
@@ -792,17 +792,17 @@ abstract class RepositoryDataManager
     /**
      * Removes a learning object from another's attachment list.
      * @param ContentObject $object The learning object to detach the other
-     *                               learning object from.
+     * learning object from.
      * @param int $attachment_id The ID of the object to detach.
      * @return boolean True if the attachment was removed, false if it did not
-     *                 exist.
+     * exist.
      */
     abstract function detach_content_object($object, $attachment_id);
 
     /**
      * Adds a learning object to another's include list.
      * @param ContentObject $object The learning object to include into the other
-     *                               learning object.
+     * learning object.
      * @param int $attachment_id The ID of the object to include.
      */
     abstract function include_content_object($object, $include_id);
@@ -810,10 +810,10 @@ abstract class RepositoryDataManager
     /**
      * Removes a learning object from another's include list.
      * @param ContentObject $object The learning object to exclude from the other
-     *                               learning object.
+     * learning object.
      * @param int $attachment_id The ID of the object to exclude.
      * @return boolean True if the include was removed, false if it did not
-     *                 exist.
+     * exist.
      */
     abstract function exclude_content_object($object, $include_id);
 
@@ -850,7 +850,7 @@ abstract class RepositoryDataManager
      * Checks if an identifier is a valid name for a learning object type.
      * @param string $name The name.
      * @return boolean True if a valid learning object type name was passed,
-     *                 false otherwise.
+     * false otherwise.
      */
     static function is_content_object_type_name($name)
     {
@@ -973,8 +973,9 @@ abstract class RepositoryDataManager
     abstract function update_external_repository_sync_info($external_repository_sync_info);
 
     abstract function delete_external_repository_sync_info($external_repository_sync_info);
-    
+
     abstract function retrieve_doubles_in_repository($condition, $order_property, $offset, $count);
+
     abstract function count_doubles_in_repository($condition);
 
 }

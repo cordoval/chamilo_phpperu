@@ -231,10 +231,6 @@ class AssessmentPublicationForm extends FormValidator
             $pub->set_target_users($users);
             $pub->set_target_groups($groups);
 			
-
-            
-            
-            
             if (! $pub->create())
             {
                 return false;
@@ -277,7 +273,6 @@ class AssessmentPublicationForm extends FormValidator
         $pub->set_target_groups($groups);
         return $pub->update();
     }
-
     function get_publication()
     {
     	return $this->publication;

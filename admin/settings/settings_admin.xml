@@ -2,8 +2,7 @@
 <application name="admin">
 	<settings>
 		<category name="administrator">
-			<setting name="show_administrator_data" field="checkbox"
-				default="1">
+			<setting name="show_administrator_data" field="checkbox" default="1">
 				<options type="static">
 					<option name="show_administrator_data" value="1" />
 				</options>
@@ -11,7 +10,7 @@
 			<setting name="administrator_firstname" field="text" default="Chamilo" />
 			
 			<setting name="administrator_surname" field="text" default="Administrator" />
-			<setting name="administrator_email" field="text"default="chamilo.admin@mychamilo.com" />
+			<setting name="administrator_email" field="text" default="chamilo.admin@mychamilo.com">
 				<validations>
                     <validation rule="email" message="MustBeAnEMailAddress"/>
                 </validations>
@@ -26,22 +25,25 @@
 					<option name="registered" value="2" />
 				</options>
 			</setting>
-			<setting name="timelimit" field="text" default="30" />
-			<validations>
-                    <validation rule="numeric" message="MustBeNumeric"/>
-                </validations>
-            </setting>
+			<setting name="timelimit" field="text" default="30">
+				<validations>
+					<validation rule="numeric" message="MustBeNumeric"/>
+				</validations>
+			</setting>
 		</category>
 		<category name="platform">
 			<setting name="site_name" field="text" default="Chamilo" />
 			<setting name="institution" field="text" default="Chamilo" />
-			<setting name="institution_url" field="text"
-				default="http://www.chamilo.org" />
-			<setting name="no_reply_email" field="text" default="" />
-			<validations>
-                    <validation rule="email" message="MustBeAnEMailAddress"/>
-                </validations>
-            </setting>
+			<setting name="institution_url" field="text" default="http://www.chamilo.org">
+				<validations>
+						<validation rule="regex" format="/http:\/\/.*/" message="MustStartWithHTTP" />
+					</validations>
+			</setting>
+			<setting name="no_reply_email" field="text" default="" >
+				<validations>
+	                    <validation rule="email" message="MustBeAnEMailAddress"/>
+	                </validations>
+	            </setting>
 			<setting name="page_after_login" field="select" default="home">
 				<options type="dynamic" source="get_active_applications" />
 			</setting>
@@ -132,7 +134,7 @@
 				</options>
 			</setting>
 			<setting name="replacement_extension" field="text" default="" />
-			<setting name="permissions_new_files" field="text" default="0660" />
+			<setting name="permissions_new_files" field="text" default="0660">
 				<validations>
                     <validation rule="numeric" message="MustBeNumeric"/>
                 </validations>

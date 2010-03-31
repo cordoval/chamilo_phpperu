@@ -18,6 +18,7 @@ class PortfolioManager extends WebApplication
     const PARAM_PORTFOLIO_ITEM = 'portfolio_item';
     const PARAM_USER_ID = 'user_id';
     const PARAM_PARENT = 'parent';
+    const PARAM_PARENT_PORTFOLIO = 'parent_portfolio';
     
     const ACTION_DELETE_PORTFOLIO_PUBLICATION = 'delete_portfolio_publication';
     const ACTION_DELETE_PORTFOLIO_ITEM = 'delete_portfolio_item';
@@ -145,9 +146,9 @@ class PortfolioManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PORTFOLIO_PUBLICATION, self :: PARAM_PORTFOLIO_PUBLICATION => $portfolio_publication));
     }
 
-    function get_create_portfolio_item_url($parent_id)
+    function get_create_portfolio_item_url($parent_id, $pid)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PORTFOLIO_ITEM, self :: PARAM_PARENT => $parent_id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PORTFOLIO_ITEM, self :: PARAM_PARENT => $parent_id, self :: PARAM_PARENT_PORTFOLIO => $pid));
     }
 
     function get_delete_portfolio_item_url($portfolio_item_cid)

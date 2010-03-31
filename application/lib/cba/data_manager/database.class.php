@@ -221,7 +221,7 @@ class DatabaseCbaDataManager extends CbaDataManager
 	
 	function delete_competency_indicator($competency_indicator)
 	{
-		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_ID, $competency_indicator->get_id());
+		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $competency_indicator->get_competency_id());
 		return $this->database->delete($competency_indicator->get_table_name(), $condition);
 	}
 
@@ -262,7 +262,7 @@ class DatabaseCbaDataManager extends CbaDataManager
 	
 	function delete_indicator_criteria($indicator_criteria)
 	{
-		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_ID, $indicator_criteria->get_id());
+		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $indicator_criteria->get_indicator_id());
 		return $this->database->delete($indicator_criteria->get_table_name(), $condition);
 	}
 
