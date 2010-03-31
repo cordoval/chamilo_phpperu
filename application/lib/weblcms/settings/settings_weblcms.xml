@@ -16,7 +16,7 @@
 			</setting>
 		</category>
 		<category name = "viewer">
-			<setting name="view_state" field="radio" default="New" user_setting="1">
+			<setting name="view_state" field="radio" default="New_View" user_setting="1">
 				<options type="static">
 					<option name="New" value="New_View" />
 					<option name="Old" value="Old_View" />
