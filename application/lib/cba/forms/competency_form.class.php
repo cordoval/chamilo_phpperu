@@ -236,50 +236,43 @@ class CompetencyForm extends FormValidator
     }
     
 	function update_competency_indicator()
-    {
+    {	   	
+    	$result = true;
     	$competency = $this->competency;
-    	$competency_indicator = $this->competency_indicator;  
+    	$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $competency->get_id());
+        $indicators_db = $this->data_manager->count_competencys_indicator($condition); 	
+    	  
+    	if($indicators_db == 0)
+    	{
+    		$competency_indicator = new CompetencyIndicator();
+    	}
+    	else
+    	{
+    		$competency_indicator = $this->competency_indicator;
+    	}
+    	
     	$competency_indicator->set_owner_id($this->get_owner_id());	
     	$values = $this->exportValues();
-	   	
-    	$competency_indicator->set_competency_id($competency->get_id());
     	
-    	$result = true;
-    	$indicators = $values[self :: PARAM_TARGET_ELEMENTS];
+    	$indicators = $values['target_indicators_elements'];
     	
-		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $competency->get_id());				
-		$count_indicators = $this->data_manager->count_competencys_indicator($condition);   
-    	
-    	foreach($indicators as $key => $value)
+         	
+    	if($indicators_db > 0)
+    	{
+    		// Delete all
+    		$cba = $this->data_manager->retrieve_competency_indicator($competency->get_id());
+        	$cba->delete();
+    	}
+
+    	// Create items
+        foreach($indicators as $key => $value)
     	{
     		$indicator_id = substr($value, 10);
+    		$competency_indicator->set_competency_id($competency->get_id());
     		$competency_indicator->set_indicator_id($indicator_id);
+            $result &= $competency_indicator->create();
+    	}
 
-    		$conditions = array();
-			$conditions[] = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $competency->get_id());				
-        	$conditions[] = new EqualityCondition(CompetencyIndicator :: PROPERTY_INDICATOR_ID, $competency_indicator->get_indicator_id());
-    		
-            $condition = new AndCondition($conditions);
-           	$count_indicators_update += $this->data_manager->count_competencys_indicator($condition);   
-           	
-            if ($cats > 0)
-            {
-                $result = false;
-            }
-            else
-            {
-            	$competency_indicator->set_target_indicators($indicators);
-              	$result &= $competency_indicator->update();
-            }
-           	
-    	} 
-
-		/*if($count_indicator_update > $count_indicators)
-		{
-				//$competency_indicator->set_target_indicators($indicators);
-              	$result &= $competency_indicator->update();
-		}*/
-    	
     	return $result;
     }
     

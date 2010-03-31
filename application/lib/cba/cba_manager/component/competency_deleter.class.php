@@ -1,11 +1,10 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
 require_once dirname(__FILE__).'/../cba_manager_component.class.php';
-
 require_once dirname(__FILE__) . '/../../competency_indicator.class.php';
 
 /**
- * Component to delete competency objects
+ * Component to delete competency objects + competency_indicator objects
  * @author Nick Van Loocke
  */
 class CbaManagerCompetencyDeleterComponent extends CbaManagerComponent
@@ -61,6 +60,7 @@ class CbaManagerCompetencyDeleterComponent extends CbaManagerComponent
 				}
 			}
 
+			// Redirect problem from a category when deleting via select all
 			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY));
 		}
 		else

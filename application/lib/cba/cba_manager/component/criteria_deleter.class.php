@@ -67,6 +67,7 @@ class CbaManagerCriteriaDeleterComponent extends CbaManagerComponent
 				}
 			}
 
+			// Redirect problem from a category when deleting via select all
 			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA));
 		}
 		else
