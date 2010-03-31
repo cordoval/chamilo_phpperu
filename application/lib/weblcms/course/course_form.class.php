@@ -31,7 +31,13 @@ class CourseForm extends FormValidator
         $this->user = $user;
 		$this->parent = $parent;
         $this->form_type = $form_type;
-        $this->course_type_id = $this->course->get_course_type()->get_id();
+        $this->course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
+        
+        $wdm = WeblcmsDataManager :: get_instance();
+        if(!is_null($this->course_type_id))
+        	$this->course->set_course_type($wdm->retrieve_course_type($this->course_type_id));
+        else
+        	$this->course_type_id = $this->course->get_course_type()->get_id();
 
         if ($this->form_type == self :: TYPE_EDIT)
         {
@@ -109,8 +115,36 @@ class CourseForm extends FormValidator
 
         $this->addElement('category', Translation :: get('CourseSettings'));
 
-       	$this->addElement('static', 'course_type', Translation :: get('CourseType'), $this->course->get_course_type()->get_name());
-       	$this->addElement('hidden', Course :: PROPERTY_COURSE_TYPE_ID, $this->course->get_course_type()->get_id());
+        $this->addElement('hidden', Course :: PROPERTY_ID, '', array('class' => 'course_id'));
+        
+        $wdm = WeblcmsDataManager :: get_instance();
+		$course_type_objects = $wdm->retrieve_active_course_types();
+        $course_types = array();
+        $this->size = $course_type_objects->size();
+        if($this->size != 0)
+        {
+        	$count = 0;
+        	$validation = false;
+        	while($course_type = $course_type_objects->next_result())
+        	{
+        		$course_types[$course_type->get_id()] = $course_type->get_name();
+        		if(is_null($this->course_type_id) && count == 0)
+        		{
+        			$this->parent->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $course_type->get_id()));
+        		}
+        		elseif(!is_null($this->course_type_id))
+        		{
+        			if($this->course_type_id == $course_type->get_id())
+        				$validation = true;
+        		}
+        	}
+        	if(!$validation)
+        		$this->parent->redirect(Translation :: get('UseCourseTypeNotAllowed'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+        	$this->addElement('select', Course :: PROPERTY_COURSE_TYPE_ID, Translation :: get('CourseType'), $course_types, array('class' => 'course_type_selector'));
+        	$this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
+        }
+     	else
+       		$this->addElement('static', 'course_type', Translation :: get('CourseType'), Translation :: get('NoCourseType'));
 
         $this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
         $this->addRule(Course :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -301,8 +335,6 @@ class CourseForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $this->addElement('hidden', Course :: PROPERTY_ID);
-
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
@@ -359,7 +391,7 @@ class CourseForm extends FormValidator
     function build_creation_form()
     {
         $this->build_basic_form();
-
+        
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
@@ -517,6 +549,8 @@ class CourseForm extends FormValidator
     function setDefaults($defaults = array ())
     {
         $course = $this->course;
+        $defaults[Course :: PROPERTY_ID] = $course->get_id();
+        $defaults[Course :: PROPERTY_COURSE_TYPE_ID] = $this->course_type_id;
         $defaults[Course :: PROPERTY_VISUAL] = $course->get_visual();
         $defaults[Course :: PROPERTY_TITULAR] = !is_null($course->get_titular())?$course->get_titular():$this->user->get_id();
         $defaults[Course :: PROPERTY_NAME] = $course->get_name();
