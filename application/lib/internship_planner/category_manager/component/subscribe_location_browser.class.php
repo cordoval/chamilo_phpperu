@@ -15,19 +15,22 @@ class InternshipPlannerCategoryManagerSubscribeLocationBrowserComponent extends 
     {
         $trail = new BreadcrumbTrail();
        
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_BROWSE_CATEGORIES)), Translation :: get('InternshipPlannerCategoryList')));
-        $trail->add_help('category subscribe locations');
+        $trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipPlannerCategories')));
+        
+       
 
+        
         $category_id = Request :: get(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID);
-
-        if (isset($category_id))
-        {
-            $this->category = $this->retrieve_category($category_id);
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => $category_id)), $this->category->get_name()));
-        }
-
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('AddLocations')));
+        $this->category = $this->retrieve_category($category_id);
+           
+        
+        $trail->add(new Breadcrumb($this->get_category_viewing_url($this->category), $this->category->get_name()));
       
+
+        $trail->add(new Breadcrumb($this->get_category_suscribe_location_browser_url($this->category), Translation :: get('AddLocations')));
+      	
+        $trail->add_help('category subscribe locations');
+        
         $this->ab = $this->get_action_bar();
         $output = $this->get_location_subscribe_html();
 
@@ -96,10 +99,9 @@ class InternshipPlannerCategoryManagerSubscribeLocationBrowserComponent extends 
 
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->set_search_url($this->get_url(array(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => $category->get_id())));
+        $action_bar->set_search_url($this->get_category_suscribe_location_browser_url($category));
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => $category->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowInternshipPlannerCategory'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Application :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_BROWSE_CATEGORIES, InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => $category->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL)));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_category_suscribe_location_browser_url($category), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

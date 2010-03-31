@@ -43,11 +43,13 @@ abstract class InternshipPlannerDataManager
 
     abstract function create_storage_unit($name, $properties, $indexes);
 
-    abstract function create_internship_location($location);
+    abstract function get_database();
+    
+    abstract function create_internship_planner_location($location);
 
-    abstract function update_internship_location($location);
+    abstract function update_internship_planner_location($location);
 
-    abstract function delete_internship_location($location);
+    abstract function delete_internship_planner_location($location);
 
     abstract function count_locations($conditions = null);
 
@@ -55,11 +57,11 @@ abstract class InternshipPlannerDataManager
 
     abstract function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null);
 
-    abstract function create_internship_organisation($organisation);
+    abstract function create_internship_planner_organisation($organisation);
 
-    abstract function update_internship_organisation($organisation);
+    abstract function update_internship_planner_organisation($organisation);
 
-    abstract function delete_internship_organisation($organisation);
+    abstract function delete_internship_planner_organisation($organisation);
 
     abstract function count_organisations($conditions = null);
 

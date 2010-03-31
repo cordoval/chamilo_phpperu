@@ -2,15 +2,14 @@
 
 require_once dirname ( __FILE__ ) . '/../organisation_manager.class.php';
 require_once dirname ( __FILE__ ) . '/../organisation_manager_component.class.php';
-
 require_once dirname ( __FILE__ ) . '/browser/browser_table.class.php';
 
-class InternshipOrganisationManagerBrowserComponent extends InternshipOrganisationManagerComponent {
+class InternshipPlannerOrganisationManagerBrowserComponent extends InternshipPlannerOrganisationManagerComponent {
 	private $action_bar;
 
 	function run() {
 		$trail = new BreadcrumbTrail ();
-		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganisationManager::PARAM_ACTION => InternshipOrganisationManager :: ACTION_BROWSE_ORGANISATION) ), Translation::get ( 'BrowseOrganisations' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipPlannerOrganisationManager::PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_BROWSE_ORGANISATION) ), Translation::get ( 'BrowseOrganisations' ) ) );
 
 		$this->action_bar = $this->get_action_bar ();
 
@@ -28,7 +27,7 @@ class InternshipOrganisationManagerBrowserComponent extends InternshipOrganisati
 
 	function get_table() {
 		$parameters = $this->get_parameters();
-		$table = new InternshipOrganisationBrowserTable ( $this, $parameters , $this->get_condition () );
+		$table = new InternshipPlannerOrganisationBrowserTable ( $this, $parameters , $this->get_condition () );
 		return $table->as_html ();
 	}
 
@@ -51,8 +50,8 @@ class InternshipOrganisationManagerBrowserComponent extends InternshipOrganisati
 
 		if (isset ( $query ) && $query != '') {
 			$search_conditions = array ();
-			$search_conditions [] = new PatternMatchCondition ( InternshipOrganisation::PROPERTY_NAME, '*' . $query . '*' );
-			$search_conditions [] = new PatternMatchCondition ( InternshipOrganisation::PROPERTY_DESCRIPTION, '*' . $query . '*' );
+			$search_conditions [] = new PatternMatchCondition ( InternshipPlannerOrganisation::PROPERTY_NAME, '*' . $query . '*' );
+			$search_conditions [] = new PatternMatchCondition ( InternshipPlannerOrganisation::PROPERTY_DESCRIPTION, '*' . $query . '*' );
 			$condition = new OrCondition ( $search_conditions );
 		}
 		return $condition;

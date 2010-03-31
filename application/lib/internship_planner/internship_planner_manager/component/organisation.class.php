@@ -8,7 +8,7 @@ class InternshipPlannerManagerOrganisationComponent extends InternshipPlannerMan
      */
     function run()
     {
-        $organisation_manager = new InternshipOrganisationManager($this->get_parent());
+        $organisation_manager = new InternshipPlannerOrganisationManager($this->get_parent());
         $organisation_manager->run();
     }
 }

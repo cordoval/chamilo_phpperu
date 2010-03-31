@@ -5,12 +5,12 @@ require_once dirname(__FILE__) . '/../../../tables/organisation_table/default_or
 require_once dirname(__FILE__) . '/../../../organisation.class.php';
 require_once dirname(__FILE__) . '/../../organisation_manager.class.php';
 
-class InternshipOrganisationBrowserTableCellRenderer extends DefaultInternshipOrganisationTableCellRenderer
+class InternshipPlannerOrganisationBrowserTableCellRenderer extends DefaultInternshipPlannerOrganisationTableCellRenderer
 {
     
     private $browser;
 
-    function InternshipOrganisationBrowserTableCellRenderer($browser)
+    function InternshipPlannerOrganisationBrowserTableCellRenderer($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -19,7 +19,7 @@ class InternshipOrganisationBrowserTableCellRenderer extends DefaultInternshipOr
     // Inherited
     function render_cell($column, $organisation)
     {
-        if ($column === InternshipOrganisationBrowserTableColumnModel :: get_modification_column())
+        if ($column === InternshipPlannerOrganisationBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($organisation);
         }

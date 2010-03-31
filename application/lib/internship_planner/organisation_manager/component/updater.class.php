@@ -5,7 +5,7 @@ require_once Path :: get_application_path().'lib/internship_planner/internship_p
 require_once Path :: get_application_path().'lib/internship_planner/forms/organisation_form.class.php';
 
 
-class InternshipOrganisationManagerUpdaterComponent extends InternshipOrganisationManagerComponent
+class InternshipPlannerOrganisationManagerUpdaterComponent extends InternshipPlannerOrganisationManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -13,16 +13,16 @@ class InternshipOrganisationManagerUpdaterComponent extends InternshipOrganisati
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganisationManager :: PARAM_ACTION => InternshipOrganisationManager :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganisations')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateInternshipOrganisation')));
+		$trail->add(new Breadcrumb($this->get_url(array(InternshipPlannerOrganisationManager :: PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipPlannerOrganisations')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateInternshipPlannerOrganisation')));
 
-		$organisation = $this->retrieve_organisation(Request :: get(InternshipOrganisationManager :: PARAM_ORGANISATION_ID));
-		$form = new InternshipOrganisationForm(InternshipOrganisationForm :: TYPE_EDIT, $organisation, $this->get_url(array(InternshipOrganisationManager :: PARAM_ORGANISATION_ID => $organisation->get_id())), $this->get_user());
+		$organisation = $this->retrieve_organisation(Request :: get(InternshipPlannerOrganisationManager :: PARAM_ORGANISATION_ID));
+		$form = new InternshipPlannerOrganisationForm(InternshipPlannerOrganisationForm :: TYPE_EDIT, $organisation, $this->get_url(array(InternshipPlannerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation->get_id())), $this->get_user());
 
 		if($form->validate())
 		{
 			$success = $form->update_organisation();
-			$this->redirect($success ? Translation :: get('InternshipOrganisationUpdated') : Translation :: get('InternshipOrganisationNotUpdated'), !$success, array(InternshipOrganisationManager :: PARAM_ACTION => InternshipOrganisationManager :: ACTION_BROWSE_ORGANISATION));
+			$this->redirect($success ? Translation :: get('InternshipPlannerOrganisationUpdated') : Translation :: get('InternshipPlannerOrganisationNotUpdated'), !$success, array(InternshipPlannerOrganisationManager :: PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_BROWSE_ORGANISATION));
 		}
 		else
 		{

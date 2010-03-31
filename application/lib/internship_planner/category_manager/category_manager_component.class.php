@@ -27,6 +27,17 @@ class InternshipPlannerCategoryManagerComponent extends SubManagerComponent
     {
         return $this->get_parent()->count_category_rel_locations($conditions);
     }
+    
+	function retrieve_full_category_rel_locations($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->get_parent()->retrieve_full_category_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
+    }
+
+    function count_full_category_rel_locations($conditions = null)
+    {
+        return $this->get_parent()->count_full_category_rel_locations($conditions);
+    }
+    
 
     function retrieve_category($id)
     {
@@ -38,9 +49,23 @@ class InternshipPlannerCategoryManagerComponent extends SubManagerComponent
         return $this->get_parent()->retrieve_root_category();
     }
 
+    //url
+    
+
+    function get_browse_categories_url()
+    {
+        return $this->get_parent()->get_browse_categories_url();
+    }
+
     function get_category_editing_url($category)
     {
         return $this->get_parent()->get_category_editing_url($category);
+    }
+
+    function get_category_create_url()
+    {
+        return $this->get_parent()->get_category_create_url();
+    
     }
 
     function get_create_category_url($parent)

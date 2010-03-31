@@ -3,14 +3,14 @@
 require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager_component.class.php';
 
-class InternshipOrganisationManagerDeleterComponent extends InternshipOrganisationManagerComponent
+class InternshipPlannerOrganisationManagerDeleterComponent extends InternshipPlannerOrganisationManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[InternshipOrganisationManager :: PARAM_ORGANISATION_ID];
+		$ids = $_GET[InternshipPlannerOrganisationManager :: PARAM_ORGANISATION_ID];
 		$failures = 0;
 
 		if (!empty ($ids))
@@ -34,30 +34,30 @@ class InternshipOrganisationManagerDeleterComponent extends InternshipOrganisati
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedInternshipOrganisationNotDeleted';
+					$message = 'SelectedInternshipPlannerOrganisationNotDeleted';
 				}
 				else
 				{
-					$message = 'Selected{InternshipOrganisationsNotDeleted';
+					$message = 'Selected{InternshipPlannerOrganisationsNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedInternshipOrganisationDeleted';
+					$message = 'SelectedInternshipPlannerOrganisationDeleted';
 				}
 				else
 				{
-					$message = 'SelectedInternshipOrganisationsDeleted';
+					$message = 'SelectedInternshipPlannerOrganisationsDeleted';
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganisationManager :: PARAM_ACTION => InternshipOrganisationManager :: ACTION_BROWSE_ORGANISATION));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipPlannerOrganisationManager :: PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_BROWSE_ORGANISATION));
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoInternshipOrganisationsSelected')));
+			$this->display_error_page(htmlentities(Translation :: get('NoInternshipPlannerOrganisationsSelected')));
 		}
 	}
 }

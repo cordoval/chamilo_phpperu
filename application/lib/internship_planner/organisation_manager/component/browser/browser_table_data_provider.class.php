@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganisationBrowserTableDataProvider extends ObjectTableDataProvider
+class InternshipPlannerOrganisationBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
     /**
@@ -8,7 +8,7 @@ class InternshipOrganisationBrowserTableDataProvider extends ObjectTableDataProv
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function InternshipOrganisationBrowserTableDataProvider($browser, $condition)
+    function InternshipPlannerOrganisationBrowserTableDataProvider($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

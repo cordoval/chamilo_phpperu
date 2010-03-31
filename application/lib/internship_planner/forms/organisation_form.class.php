@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../organisation.class.php';
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  **/
-class InternshipOrganisationForm extends FormValidator
+class InternshipPlannerOrganisationForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
@@ -14,7 +14,7 @@ class InternshipOrganisationForm extends FormValidator
 	private $organisation;
 	private $user;
 
-    function InternshipOrganisationForm($form_type, $organisation, $action, $user)
+    function InternshipPlannerOrganisationForm($form_type, $organisation, $action, $user)
     {
     	parent :: __construct('organisation_settings', 'post', $action);
 
@@ -37,11 +37,11 @@ class InternshipOrganisationForm extends FormValidator
     function build_basic_form()
     {
 		
-		$this->addElement('text', InternshipOrganisation :: PROPERTY_NAME, Translation :: get('Name'));
-		$this->addRule(InternshipOrganisation :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerOrganisation :: PROPERTY_NAME, Translation :: get('Name'));
+		$this->addRule(InternshipPlannerOrganisation :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', InternshipOrganisation :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
-		$this->addRule(InternshipOrganisation :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipPlannerOrganisation :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
+		$this->addRule(InternshipPlannerOrganisation :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 
     }
 
@@ -70,8 +70,8 @@ class InternshipOrganisationForm extends FormValidator
     	$organisation = $this->organisation;
     	$values = $this->exportValues();
 
-    	$organisation->set_name($values[InternshipOrganisation :: PROPERTY_NAME]);
-    	$organisation->set_description($values[InternshipOrganisation :: PROPERTY_DESCRIPTION]);
+    	$organisation->set_name($values[InternshipPlannerOrganisation :: PROPERTY_NAME]);
+    	$organisation->set_description($values[InternshipPlannerOrganisation :: PROPERTY_DESCRIPTION]);
 
     	return $organisation->update();
     }
@@ -81,8 +81,8 @@ class InternshipOrganisationForm extends FormValidator
     	$organisation = $this->organisation;
     	$values = $this->exportValues();
 
-    	$organisation->set_name($values[InternshipOrganisation :: PROPERTY_NAME]);
-    	$organisation->set_description($values[InternshipOrganisation :: PROPERTY_DESCRIPTION]);
+    	$organisation->set_name($values[InternshipPlannerOrganisation :: PROPERTY_NAME]);
+    	$organisation->set_description($values[InternshipPlannerOrganisation :: PROPERTY_DESCRIPTION]);
     	    	
    		return $organisation->create();
     }
@@ -95,8 +95,8 @@ class InternshipOrganisationForm extends FormValidator
 	{
     	$organisation = $this->organisation;
 		
-    	$defaults[InternshipOrganisation :: PROPERTY_NAME] = $organisation->get_name();
-    	$defaults[InternshipOrganisation :: PROPERTY_DESCRIPTION] = $organisation->get_description();
+    	$defaults[InternshipPlannerOrganisation :: PROPERTY_NAME] = $organisation->get_name();
+    	$defaults[InternshipPlannerOrganisation :: PROPERTY_DESCRIPTION] = $organisation->get_description();
     
 		parent :: setDefaults($defaults);
 	}

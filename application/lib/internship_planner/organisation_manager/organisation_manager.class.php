@@ -2,7 +2,7 @@
 require_once Path :: get_application_path() . 'lib/internship_planner/organisation_manager/component/browser/browser_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/organisation.class.php';
 
-class InternshipOrganisationManager extends SubManager
+class InternshipPlannerOrganisationManager extends SubManager
 {
     
     const PARAM_ACTION = 'action';
@@ -23,7 +23,7 @@ class InternshipOrganisationManager extends SubManager
     const ACTION_EDIT_LOCATION = 'edit_location';
     const ACTION_DELETE_LOCATION = 'delete_location';
 
-    function InternshipOrganisationManager($internship_manager)
+    function InternshipPlannerOrganisationManager($internship_manager)
     {
         parent :: __construct($internship_manager);
         $action = Request :: get(self :: PARAM_ACTION);
@@ -43,34 +43,34 @@ class InternshipOrganisationManager extends SubManager
         {
             
             case self :: ACTION_UPDATE_ORGANISATION :
-                $component = InternshipOrganisationManagerComponent :: factory('Updater', $this);
+                $component = InternshipPlannerOrganisationManagerComponent :: factory('Updater', $this);
                 break;
             case self :: ACTION_DELETE_ORGANISATION :
-                $component = InternshipOrganisationManagerComponent :: factory('Deleter', $this);
+                $component = InternshipPlannerOrganisationManagerComponent :: factory('Deleter', $this);
                 break;
             case self :: ACTION_CREATE_ORGANISATION :
-                $component = InternshipOrganisationManagerComponent :: factory('Creator', $this);
+                $component = InternshipPlannerOrganisationManagerComponent :: factory('Creator', $this);
                 break;
             case self :: ACTION_VIEW_ORGANISATION :
-                $component = InternshipOrganisationManagerComponent :: factory('Viewer', $this);
+                $component = InternshipPlannerOrganisationManagerComponent :: factory('Viewer', $this);
                 break;
             case self :: ACTION_BROWSE_ORGANISATION :
-                $component = InternshipOrganisationManagerComponent :: factory('Browser', $this);
+                $component = InternshipPlannerOrganisationManagerComponent :: factory('Browser', $this);
                 break;
             case self :: ACTION_EDIT_LOCATION :
-                $component = InternshipOrganisationManagerComponent :: factory('LocationUpdater', $this);
+                $component = InternshipPlannerOrganisationManagerComponent :: factory('LocationUpdater', $this);
                 break;
             case self :: ACTION_DELETE_LOCATION :
-                $component = InternshipOrganisationManagerComponent :: factory('LocationDeleter', $this);
+                $component = InternshipPlannerOrganisationManagerComponent :: factory('LocationDeleter', $this);
                 break;
             case self :: ACTION_CREATE_LOCATION :
-               	$component = InternshipOrganisationManagerComponent :: factory('LocationCreator', $this);
+               	$component = InternshipPlannerOrganisationManagerComponent :: factory('LocationCreator', $this);
                 break;
             case self :: ACTION_BROWSE_LOCATIONS :
-                $component = InternshipOrganisationManagerComponent :: factory('LocationBrowser', $this);
+                $component = InternshipPlannerOrganisationManagerComponent :: factory('LocationBrowser', $this);
                 break;
             default :
-                $component = InternshipOrganisationManagerComponent :: factory('Browser', $this);
+                $component = InternshipPlannerOrganisationManagerComponent :: factory('Browser', $this);
                 break;
         }
         
@@ -168,9 +168,9 @@ class InternshipOrganisationManager extends SubManager
         if (isset($_POST['action']))
         {
             
-            if (isset($_POST[InternshipOrganisationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
+            if (isset($_POST[InternshipPlannerOrganisationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
             {
-                $selected_ids = $_POST[InternshipOrganisationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+                $selected_ids = $_POST[InternshipPlannerOrganisationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
             }
             
             if (empty($selected_ids))

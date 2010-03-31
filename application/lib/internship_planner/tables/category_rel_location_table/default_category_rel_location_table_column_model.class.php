@@ -15,7 +15,7 @@ class DefaultInternshipPlannerCategoryRelLocationTableColumnModel extends Object
      */
     function DefaultInternshipPlannerCategoryRelLocationTableColumnModel()
     {
-        parent :: __construct(self :: get_default_columns(), 1);
+        parent :: __construct(self :: get_default_columns());
     }
 
     /**
@@ -24,8 +24,19 @@ class DefaultInternshipPlannerCategoryRelLocationTableColumnModel extends Object
      */
     private static function get_default_columns()
     {
-        $columns = array();
-        $columns[] = new ObjectTableColumn(InternshipPlannerCategoryRelLocation :: PROPERTY_LOCATION_ID, false);
+        $dm = InternshipPlannerDataManager :: get_instance();
+        $organisation_alias = $dm->get_database()->get_alias(InternshipPlannerOrganisation :: get_table_name());
+        $location_alias = $dm->get_database()->get_alias(InternshipPlannerLocation :: get_table_name());
+        
+        
+    	$columns = array();
+        $columns[] = new ObjectTableColumn(InternshipPlannerOrganisation :: PROPERTY_NAME, true, $organisation_alias);
+        $columns[] = new ObjectTableColumn(InternshipPlannerOrganisation :: PROPERTY_DESCRIPTION, true, $organisation_alias);
+        $columns[] = new ObjectTableColumn(InternshipPlannerLocation :: PROPERTY_NAME, true, $location_alias);
+        $columns[] = new ObjectTableColumn(InternshipPlannerLocation:: PROPERTY_CITY, true, $location_alias);
+        $columns[] = new ObjectTableColumn(InternshipPlannerLocation:: PROPERTY_STREET, true, $location_alias);
+        
+        
         return $columns;
     }
 }

@@ -11,17 +11,11 @@ class InternshipPlannerCategoryManagerCreatorComponent extends InternshipPlanner
     function run()
     {
         $trail = new BreadcrumbTrail();
+         $trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipPlannerCategories')));
         
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateInternshipPlannerCategory')));
+        $trail->add(new Breadcrumb($this->get_category_create_url, Translation :: get('CreateInternshipPlannerCategory')));
         $trail->add_help('category general');
-        
-        if (! $this->get_user()->is_platform_admin())
-        {
-            $this->display_header($trail, false);
-            Display :: warning_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
+             
         $category = new InternshipPlannerCategory();
         $category->set_parent_id(Request :: get(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID));
         $form = new InternshipPlannerCategoryForm(InternshipPlannerCategoryForm :: TYPE_CREATE, $category, $this->get_url(array(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => Request :: get(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID))), $this->get_user());

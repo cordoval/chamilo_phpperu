@@ -4,7 +4,7 @@ require_once Path :: get_application_path() . 'lib/internship_planner/internship
 require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager_component.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/forms/organisation_form.class.php';
 
-class InternshipOrganisationManagerCreatorComponent extends InternshipOrganisationManagerComponent
+class InternshipPlannerOrganisationManagerCreatorComponent extends InternshipPlannerOrganisationManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -12,16 +12,16 @@ class InternshipOrganisationManagerCreatorComponent extends InternshipOrganisati
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganisationManager :: PARAM_ACTION => InternshipOrganisationManager :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganisations')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateInternshipOrganisation')));
+		$trail->add(new Breadcrumb($this->get_url(array(InternshipPlannerOrganisationManager :: PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipPlannerOrganisations')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateInternshipPlannerOrganisation')));
 
-		$organisation = new InternshipOrganisation();
-		$form = new InternshipOrganisationForm(InternshipOrganisationForm :: TYPE_CREATE, $organisation, $this->get_url(), $this->get_user());
+		$organisation = new InternshipPlannerOrganisation();
+		$form = new InternshipPlannerOrganisationForm(InternshipPlannerOrganisationForm :: TYPE_CREATE, $organisation, $this->get_url(), $this->get_user());
 
 		if($form->validate())
 		{
 			$success = $form->create_organisation();
-			$this->redirect($success ? Translation :: get('InternshipOrganisationCreated') : Translation :: get('InternshipOrganisationNotCreated'), !$success, array(InternshipOrganisationManager :: PARAM_ACTION => InternshipOrganisationManager :: ACTION_BROWSE_ORGANISATION));
+			$this->redirect($success ? Translation :: get('InternshipPlannerOrganisationCreated') : Translation :: get('InternshipPlannerOrganisationNotCreated'), !$success, array(InternshipPlannerOrganisationManager :: PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_BROWSE_ORGANISATION));
 		}
 		else
 		{

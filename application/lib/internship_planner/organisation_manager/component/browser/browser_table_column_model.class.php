@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../../../tables/organisation_table/default_organisation_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../organisation.class.php';
 
-class InternshipOrganisationBrowserTableColumnModel extends DefaultInternshipOrganisationTableColumnModel
+class InternshipPlannerOrganisationBrowserTableColumnModel extends DefaultInternshipPlannerOrganisationTableColumnModel
 {
     /**
      * The tables modification column
@@ -13,7 +13,7 @@ class InternshipOrganisationBrowserTableColumnModel extends DefaultInternshipOrg
     /**
      * Constructor
      */
-    function InternshipOrganisationBrowserTableColumnModel()
+    function InternshipPlannerOrganisationBrowserTableColumnModel()
     {
         parent :: __construct();
         $this->set_default_order_column(0);

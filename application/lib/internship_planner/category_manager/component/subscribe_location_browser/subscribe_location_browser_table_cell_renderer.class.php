@@ -25,10 +25,10 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipPlanner
         return parent :: render_cell($column, $location);
     }
 
-//    function render_id_cell($location){
-//    	$category = $this->browser->get_category();
-//    	return $category->get_id() . '|' . $location->get_id();
-//    }
+    function render_id_cell($location){
+    	$category = $this->browser->get_category();
+    	return $category->get_id() . '|' . $location->get_id();
+    }
     
     /**
      * Gets the action links to display

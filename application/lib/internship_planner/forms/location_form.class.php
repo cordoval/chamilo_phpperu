@@ -96,9 +96,7 @@ class InternshipPlannerLocationForm extends FormValidator
         $location->set_street($values[InternshipPlannerLocation :: PROPERTY_STREET]);
         $location->set_street_number($values[InternshipPlannerLocation :: PROPERTY_STREET_NUMBER]);
         $location->set_city($values[InternshipPlannerLocation :: PROPERTY_CITY]);
-		
-        dump($location);
-        
+	     
         return $location->create();
     }
 

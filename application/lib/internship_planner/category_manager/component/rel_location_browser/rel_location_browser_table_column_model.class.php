@@ -17,7 +17,7 @@ class InternshipPlannerCategoryRelLocationBrowserTableColumnModel extends Defaul
     function InternshipPlannerCategoryRelLocationBrowserTableColumnModel()
     {
         parent :: __construct();
-        $this->set_default_order_column(1);
+        $this->set_default_order_column(0);
         $this->add_column(self :: get_modification_column());
     }
 

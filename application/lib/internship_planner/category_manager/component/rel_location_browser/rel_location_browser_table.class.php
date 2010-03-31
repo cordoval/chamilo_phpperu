@@ -24,7 +24,7 @@ class InternshipPlannerCategoryRelLocationBrowserTable extends ObjectTable
         $actions[] = new ObjectTableFormAction(InternshipPlannerCategoryManager :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);
         
         $this->set_form_actions($actions);
-        $this->set_default_row_count(20);
+//        $this->set_default_row_count(20);
     }
 
     /**

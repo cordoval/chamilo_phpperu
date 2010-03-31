@@ -17,7 +17,7 @@ class InternshipPlannerCategoryManagerMoverComponent extends InternshipPlannerCa
                 
         $category = $this->retrieve_categories(new EqualityCondition(InternshipPlannerCategory :: PROPERTY_ID, Request :: get(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID)))->next_result();
         
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipPlannerCategoryManager :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => Request :: get(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID))), $category->get_name()));
+        $trail->add(new Breadcrumb($this->get_category_viewing_url($category), $category->get_name()));
         
         $form = new InternshipPlannerCategoryMoveForm($category, $this->get_url(array(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => Request :: get(InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID))), $this->get_user());
         
@@ -25,13 +25,13 @@ class InternshipPlannerCategoryManagerMoverComponent extends InternshipPlannerCa
         {
             $success = $form->move_category();
             $parent = $form->get_new_parent();
-            $this->redirect($success ? Translation :: get('InternshipPlannerCategoryMoved') : Translation :: get('InternshipPlannerCategoryNotMoved'), $success ? (false) : true, array(InternshipPlannerCategoryManager :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_BROWSE_CATEGORIES, InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => $parent));
+            $this->redirect($success ? Translation :: get('CategoryMoved') : Translation :: get('CategoryNotMoved'), $success ? (false) : true, array(InternshipPlannerCategoryManager :: PARAM_ACTION => InternshipPlannerCategoryManager :: ACTION_BROWSE_CATEGORIES, InternshipPlannerCategoryManager :: PARAM_CATEGORY_ID => $parent));
         }
         else
         {
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
             $this->display_header($trail);
-            echo Translation :: get('InternshipPlannerCategory') . ': ' . $category->get_name();
+            echo Translation :: get('Category') . ': ' . $category->get_name();
             $form->display();
             $this->display_footer();
         }

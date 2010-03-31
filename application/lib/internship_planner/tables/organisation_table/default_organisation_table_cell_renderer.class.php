@@ -2,13 +2,13 @@
 
 require_once dirname(__FILE__) . '/../../organisation.class.php';
 
-class DefaultInternshipOrganisationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultInternshipPlannerOrganisationTableCellRenderer implements ObjectTableCellRenderer
 {
 
     /**
      * Constructor
      */
-    function DefaultInternshipOrganisationTableCellRenderer()
+    function DefaultInternshipPlannerOrganisationTableCellRenderer()
     {
     }
 
@@ -17,9 +17,9 @@ class DefaultInternshipOrganisationTableCellRenderer implements ObjectTableCellR
         
         switch ($column->get_name())
         {
-            case InternshipOrganisation :: PROPERTY_NAME :
+            case InternshipPlannerOrganisation :: PROPERTY_NAME :
                 return $organisation->get_name();
-            case InternshipOrganisation :: PROPERTY_DESCRIPTION :
+            case InternshipPlannerOrganisation :: PROPERTY_DESCRIPTION :
                 $description = Utilities :: truncate_string($organisation->get_description(), 200);
                 return $description;
             default :

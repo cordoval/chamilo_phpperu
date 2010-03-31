@@ -42,7 +42,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Returns the id of this InternshipOrganisation.
+	 * Returns the id of this InternshipPlannerOrganisation.
 	 * @return the id.
 	 */
 	function get_organisation_id() {
@@ -50,7 +50,7 @@ class InternshipPlannerLocation extends DataClass {
 	}
 	
 	/**
-	 * Sets the id of this InternshipOrganisation.
+	 * Sets the id of this InternshipPlannerOrganisation.
 	 * @param id
 	 */
 	function set_organisation_id($id) {
@@ -119,6 +119,10 @@ class InternshipPlannerLocation extends DataClass {
 	 */
 	function set_city($city) {
 		$this->set_default_property ( self::PROPERTY_CITY, $city );
+	}
+	
+	function get_organisation(){
+		return $this->get_data_manager()->retrieve_organisation($this->get_organisation_id());
 	}
 	
 	static function get_table_name() {

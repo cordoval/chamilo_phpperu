@@ -21,7 +21,7 @@ class InternshipPlannerLocationBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(InternshipOrganisationManager :: PARAM_DELETE_SELECTED_LOCATIONS, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(InternshipPlannerOrganisationManager :: PARAM_DELETE_SELECTED_LOCATIONS, Translation :: get('RemoveSelected'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

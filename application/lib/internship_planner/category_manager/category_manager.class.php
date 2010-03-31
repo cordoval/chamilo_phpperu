@@ -1,5 +1,9 @@
 <?php
+
 require_once Path :: get_application_path() . 'lib/internship_planner/category_manager/component/browser/browser_table.class.php';
+require_once Path :: get_application_path() . 'lib/internship_planner/category_manager/component/rel_location_browser/rel_location_browser_table.class.php';
+require_once Path :: get_application_path() . 'lib/internship_planner/category_manager/component/subscribe_location_browser/subscribe_location_browser_table.class.php';
+
 require_once dirname(__FILE__) . '/../category_menu.class.php';
 
 require_once Path :: get_application_path() . 'lib/internship_planner/category.class.php';
@@ -79,7 +83,7 @@ class InternshipPlannerCategoryManager extends SubManager
                 $component = InternshipPlannerCategoryManagerComponent :: factory('SubscribeLocationBrowser', $this);
                 break;
             default :
-                $this->set_action(self :: ACTION_BROWSE_CATEGORIES);
+                $this->set_category_action(self :: ACTION_BROWSE_CATEGORIES);
                 $component = InternshipPlannerCategoryManagerComponent :: factory('Browser', $this);
         }
         
@@ -100,6 +104,16 @@ class InternshipPlannerCategoryManager extends SubManager
     function retrieve_category_rel_locations($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return InternshipPlannerDataManager :: get_instance()->retrieve_category_rel_locations($condition, $offset, $count, $order_property);
+    }
+
+    function retrieve_full_category_rel_locations($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return InternshipPlannerDataManager :: get_instance()->retrieve_full_category_rel_locations($condition, $offset, $count, $order_property);
+    }
+
+    function count_full_category_rel_locations($condition = null)
+    {
+        return InternshipPlannerDataManager :: get_instance()->count_full_category_rel_locations($condition);
     }
 
     function retrieve_category_rel_location($location_id, $category_id)
@@ -130,10 +144,21 @@ class InternshipPlannerCategoryManager extends SubManager
     //url
     
 
+    function get_browse_categories_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CATEGORIES));
+    }
+
     function get_category_editing_url($category)
     {
         
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CATEGORY, self :: PARAM_CATEGORY_ID => $category->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CATEGORY, self :: PARAM_CATEGORY_ID => $category->get_id()));
+    }
+
+    function get_category_create_url()
+    {
+        
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CATEGORY));
     }
 
     function get_create_category_url($parent_id)
@@ -182,7 +207,16 @@ class InternshipPlannerCategoryManager extends SubManager
         if (isset($_POST['action']))
         {
             
-            $selected_ids = $_POST[CategoryRelLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+                 
+            if (isset($_POST[InternshipPlannerCategoryRelLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
+            {
+                $selected_ids = $_POST[InternshipPlannerCategoryRelLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+            }
+            
+            if (isset($_POST[SubscribeLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
+            {
+                $selected_ids = $_POST[SubscribeLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+            }
             
             if (empty($selected_ids))
             {
@@ -192,6 +226,7 @@ class InternshipPlannerCategoryManager extends SubManager
             {
                 $selected_ids = array($selected_ids);
             }
+                        
             switch ($_POST['action'])
             {
                 case self :: PARAM_UNSUBSCRIBE_SELECTED :
@@ -200,7 +235,16 @@ class InternshipPlannerCategoryManager extends SubManager
                     break;
                 case self :: PARAM_SUBSCRIBE_SELECTED :
                     $this->set_category_action(self :: ACTION_SUBSCRIBE_LOCATION_TO_CATEGORY);
-                    Request :: set_get(self :: PARAM_LOCATION_ID, $selected_ids);
+                    $location_ids = array();
+                    
+                    foreach ($selected_ids as $selected_id)
+                    {
+                        $ids = explode('|', $selected_id);
+                        $location_ids[] = $ids[1];
+                        $category_id = $ids[0];
+                    }
+                    Request :: set_get(self :: PARAM_CATEGORY_ID, $category_id);
+                    Request :: set_get(self :: PARAM_LOCATION_ID, $location_ids);
                     break;
                 case self :: PARAM_REMOVE_SELECTED :
                     $this->set_category_action(self :: ACTION_DELETE_CATEGORY);

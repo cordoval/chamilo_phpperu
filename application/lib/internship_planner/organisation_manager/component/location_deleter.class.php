@@ -3,14 +3,14 @@
 require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_planner/internship_planner_manager/internship_planner_manager_component.class.php';
 
-class InternshipOrganisationManagerLocationDeleterComponent extends InternshipOrganisationManagerComponent
+class InternshipPlannerOrganisationManagerLocationDeleterComponent extends InternshipPlannerOrganisationManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[InternshipOrganisationManager :: PARAM_LOCATION_ID];
+		$ids = $_GET[InternshipPlannerOrganisationManager :: PARAM_LOCATION_ID];
 		$failures = 0;
 
 		if (!empty ($ids))
@@ -53,7 +53,7 @@ class InternshipOrganisationManagerLocationDeleterComponent extends InternshipOr
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganisationManager :: PARAM_ACTION => InternshipOrganisationManager :: ACTION_VIEW_ORGANISATION));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipPlannerOrganisationManager :: PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_VIEW_ORGANISATION));
 		}
 		else
 		{

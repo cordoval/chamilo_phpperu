@@ -28,15 +28,15 @@ class InternshipPlannerCategoryRelLocationBrowserTableCellRenderer extends Defau
             return $this->get_modification_links($categoryrellocation);
         }
         
+       
         // Add special features here
-        switch ($column->get_name())
-        {
-            // Exceptions that need post-processing go here ...
-            case InternshipPlannerCategoryRelLocation :: PROPERTY_LOCATION_ID :
-                $location_id = parent :: render_cell($column, $categoryrellocation);
-                $location = InternshipPlannerDataManager ::get_instance()-> retrieve_location($location_id);
-                return $location->get_name();
-        }
+//        switch ($column->get_name())
+//        {
+//            // Exceptions that need post-processing go here ...
+//            case InternshipPlannerCategoryRelLocation :: PROPERTY_LOCATION_ID :
+//               
+//                return $location->get_name();
+//        }
         return parent :: render_cell($column, $categoryrellocation);
     }
 
@@ -56,7 +56,7 @@ class InternshipPlannerCategoryRelLocationBrowserTableCellRenderer extends Defau
     }
     
     function render_id_cell($categoryrellocation){
-    	return $categoryrellocation->get_category_id() . '|' . $categoryrellocation->get_location_id();
+    	return $categoryrellocation->get_location_id();
     }
     
 }

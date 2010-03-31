@@ -14,7 +14,7 @@ class InternshipPlannerCategoryForm extends FormValidator
 
     function InternshipPlannerCategoryForm($form_type, $category, $action, $user)
     {
-        parent :: __construct('categories_settings', 'post', $action);
+        parent :: __construct('create_category', 'post', $action);
         
         $this->category = $category;
         $this->user = $user;
@@ -36,7 +36,7 @@ class InternshipPlannerCategoryForm extends FormValidator
         $this->addElement('text', InternshipPlannerCategory :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
         $this->addRule(InternshipPlannerCategory :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
                
-        $this->addElement('select', InternshipPlannerCategory :: PROPERTY_PARENT_ID, Translation :: get('Location'), $this->get_categories());
+        $this->addElement('select', InternshipPlannerCategory :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->get_categories());
         $this->addRule(InternshipPlannerCategory :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $this->add_html_editor(InternshipPlannerCategory :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);

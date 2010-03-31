@@ -12,10 +12,8 @@ class InternshipPlannerCategoryManagerSubscriberComponent extends InternshipPlan
 	function run() {
 		$user = $this->get_user ();
 		$category_id = Request::get ( InternshipPlannerCategoryManager::PARAM_CATEGORY_ID );
-		dump($category_id);
 		$locations = Request::get ( InternshipPlannerCategoryManager::PARAM_LOCATION_ID );
-		dump($locations); 
-		exit;
+		
 		$failures = 0;
 		
 		if (! empty ( $locations )) {

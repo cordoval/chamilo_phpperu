@@ -7,19 +7,19 @@ require_once dirname ( __FILE__ ) . '/../organisation_manager_component.class.ph
 require_once Path :: get_application_path(). 'lib/internship_planner/organisation_manager/component/location_browser/browser_table.class.php';
 
 
-class InternshipOrganisationManagerViewerComponent extends InternshipOrganisationManagerComponent {
+class InternshipPlannerOrganisationManagerViewerComponent extends InternshipPlannerOrganisationManagerComponent {
 
 	private $action_bar;
 	private $organisation;
 
 	function run() {
 
-		$organisation_id = $_GET[InternshipOrganisationManager::PARAM_ORGANISATION_ID];
+		$organisation_id = $_GET[InternshipPlannerOrganisationManager::PARAM_ORGANISATION_ID];
 		$this->organisation = $this->retrieve_organisation($organisation_id);
 
 		$trail = new BreadcrumbTrail ();
-		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganisationManager::PARAM_ACTION => InternshipOrganisationManager :: ACTION_BROWSE_ORGANISATION) ), Translation::get ( 'BrowseOrganisations' ) ) );
-		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganisationManager::PARAM_ACTION => InternshipOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id)), $this->organisation->get_name()) );
+		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipPlannerOrganisationManager::PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_BROWSE_ORGANISATION) ), Translation::get ( 'BrowseOrganisations' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipPlannerOrganisationManager::PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipPlannerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id)), $this->organisation->get_name()) );
 
 		$this->action_bar = $this->get_action_bar ();
 
@@ -37,7 +37,7 @@ class InternshipOrganisationManagerViewerComponent extends InternshipOrganisatio
 
 	function get_table() {
 		$parameters = $this->get_parameters();
-		$parameters[InternshipOrganisationManager::PARAM_ORGANISATION_ID] = $this->organisation->get_id();
+		$parameters[InternshipPlannerOrganisationManager::PARAM_ORGANISATION_ID] = $this->organisation->get_id();
 		$table = new InternshipPlannerLocationBrowserTable ( $this, $parameters , $this->get_condition () );
 		return $table->as_html ();
 	}
@@ -49,7 +49,7 @@ class InternshipOrganisationManagerViewerComponent extends InternshipOrganisatio
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddLocation'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_location_url($this->organisation), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
-		$action_bar->set_search_url ( $this->get_url (array(InternshipOrganisationManager::PARAM_ORGANISATION_ID => $this->organisation->get_id())) );
+		$action_bar->set_search_url ( $this->get_url (array(InternshipPlannerOrganisationManager::PARAM_ORGANISATION_ID => $this->organisation->get_id())) );
 
 		return $action_bar;
 	}
