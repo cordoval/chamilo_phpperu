@@ -375,7 +375,7 @@ class Dokeos185Course extends ImportCourse
     	//control if the weblcms application exists
 		$is_registered = AdminDataManager :: get_instance()->is_registered('weblcms');
         // Convert profile fields to Profile object if the user has user profile data
-        if ($is_registered)
+        if ($is_registered )
         {	
         	//Course parameters
         	$mgdm = MigrationDataManager :: get_instance();
