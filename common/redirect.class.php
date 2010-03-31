@@ -13,6 +13,8 @@ class Redirect
     const TYPE_CORE = 'core';
     const TYPE_APPLICATION = 'application';
 
+    const ARGUMENT_SEPARATOR = '&';
+
     static function link($application, $parameters = array (), $filter = array(), $encode_entities = false, $type = self :: TYPE_APPLICATION)
     {
         $link = self :: get_link($application, $parameters, $filter, $encode_entities, $type);
@@ -54,7 +56,10 @@ class Redirect
 
         if (count($parameters))
         {
-            $link .= '?' . http_build_query($parameters);
+            // Because the argument separator can be defined in the php.ini
+            // file, we explicitly add it as a parameter here to avoid
+            // trouble when parsing the resulting urls
+            $link .= '?' . http_build_query($parameters, '', self :: ARGUMENT_SEPARATOR);
         }
 
         if ($encode_entities)
@@ -90,7 +95,10 @@ class Redirect
 
         if (count($parameters))
         {
-            $url .= '?' . http_build_query($parameters);
+            // Because the argument separator can be defined in the php.ini
+            // file, we explicitly add it as a parameter here to avoid
+            // trouble when parsing the resulting urls
+            $url .= '?' . http_build_query($parameters, '', self :: ARGUMENT_SEPARATOR);
         }
 
         if ($encode_entities)
