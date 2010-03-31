@@ -167,7 +167,7 @@ abstract class DataClass
         {
             $dm = $this->get_data_manager();
             $class_name = $this->get_object_name();
-    
+            
             $func = 'update_' . $class_name;
             return call_user_func(array($dm, $func), $this);
         }

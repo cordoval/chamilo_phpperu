@@ -235,38 +235,42 @@ class IndicatorForm extends FormValidator
     
 	function update_indicator_criteria()
     {
+    	$result = true;
     	$indicator = $this->indicator;
-    	$indicator_criteria = $this->indicator_criteria;  
+    	$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $indicator->get_id());
+        $criterias_db = $this->data_manager->count_indicators_criteria($condition); 	
+    	  
+    	if($criterias_db == 0)
+    	{
+    		$indicator_criteria = new IndicatorCriteria();
+    	}
+    	else
+    	{
+    		$indicator_criteria = $this->indicator_criteria;
+    	}
+    	
     	$indicator_criteria->set_owner_id($this->get_owner_id());	
     	$values = $this->exportValues();
-	   	
-    	$indicator_criteria->set_indicator_id($indicator->get_id());
     	
-    	$result = true;
-    	$criterias = $values[self :: PARAM_TARGET_ELEMENTS];
+    	$criterias = $values['target_criterias_elements'];
     	
-    	foreach($criterias as $key => $value)
+         	
+    	if($criterias_db > 0)
     	{
-    		$criteria_id = substr($value, 10);
-    		$indicator_criteria->set_criteria_id($criteria_id);
+    		// Delete all
+    		$cba = $this->data_manager->retrieve_indicator_criteria($indicator->get_id());
+        	$cba->delete();
+    	}
 
-    		$conditions = array();
-			$conditions[] = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $indicator->get_id());				
-        	$conditions[] = new EqualityCondition(IndicatorCriteria :: PROPERTY_CRITERIA_ID, $indicator_criteria->get_criteria_id());
-    		
-            $condition = new AndCondition($conditions);
-           	$cats = $this->data_manager->count_indicators_criteria($condition);  
-           	
-            if ($cats > 0)
-            {
-                $result = false;
-            }
-            else
-            {
-            	$indicator_criteria->set_target_criterias($criterias);
-              	$result &= $indicator_criteria->update();
-            }
-    	} 	
+    	// Create items
+        foreach($criterias as $key => $value)
+    	{
+    		$criteria_id = substr($value, 9);
+    		$indicator_criteria->set_indicator_id($indicator->get_id());
+    		$indicator_criteria->set_criteria_id($criteria_id);
+            $result &= $indicator_criteria->create();
+    	}
+
     	return $result;
     }
 
