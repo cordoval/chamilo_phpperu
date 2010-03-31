@@ -25,7 +25,8 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsToolComponent
        	$course_type_id = Request::get('course_type');
         if(!is_null($course_type_id))
         	$parameters['course_type'] = $course_type_id;
-        $form = new CourseForm(CourseForm :: TYPE_EDIT, $this->get_course(), $this->get_user(), $this->get_url($parameters), $this);
+        $url = $this->get_url($parameters);
+        $form = new CourseForm(CourseForm :: TYPE_EDIT, $this->get_course(), $this->get_user(), $url, $this);
         
         if ($form->validate())
         {

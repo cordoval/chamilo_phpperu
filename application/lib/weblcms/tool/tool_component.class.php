@@ -165,6 +165,11 @@ abstract class ToolComponent
     {
         return $this->tool->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
     }
+    
+    function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $redirect_type = Redirect :: TYPE_URL, $application_type = Redirect :: TYPE_APPLICATION)
+    {
+        return $this->tool->simple_redirect($parameters, $filter, $encode_entities , $redirect_type , $application_type);
+    }
 
     /**
      * Check if the current user has a given right in this tool
