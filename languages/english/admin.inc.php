@@ -179,6 +179,7 @@ $lang['admin']['LinkActive'] = 'Link active';
 $lang['admin']['NoteActive'] = 'Note active';
 $lang['admin']['UserActive'] = 'User active';
 $lang['admin']['ContentObject'] = 'Object';
+$lang['admin']['Object'] = 'Object';
 $lang['admin']['SystemAnnouncementFormTitle'] = 'Title';
 $lang['admin']['SystemAnnouncementFormDescription'] = 'Message';
 $lang['admin']['SystemAnnouncementFormProperties'] = 'Properties';
