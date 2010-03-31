@@ -99,51 +99,62 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
         $courses_result = $this->retrieve_user_courses($condition);
         $course_active_types = $this->retrieve_active_course_types();
             
-        $nieuw = array();
+        $tabs = array();
         $courses = array();
         $html = array();      	 	
+       	$total = 0;	
+       	
+       	while($course = $courses_result->next_result())
+        	$courses[]=$course;
+       	
+       	while($course_type = $course_active_types->next_result())
+       	{
+       		$condition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID,$course_type->get_id());
+       		$count = $this->count_courses($condition);
+       	 	if($count != 0)
+       	 	{
+				$tabs[$course_type->get_id()] = $course_type->get_name();
+				$total += $count;
+       	 	}
+       	}
+       	
+       	if($total < count($courses))
+       		$tabs[0] = Translation :: get('Others');
        	 	
-       	 while($tab = $course_active_types->next_result())
-       	 {
-       	 	$condition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID,$tab->get_id());
-       	 	if(($this->count_courses($condition)) != 0)
-				$nieuw[] = $tab;
-       	 }
-       	 	
-		if(count($nieuw) == 0)
+		if(count($tabs) == 0)
         	$this->display_message(Translation :: get('NoCoursesFound'));
         else
         {
         	$html[] = '<div id="admin_tabs">';
        	 	$html[] = '<ul>';
        	 			
-       	 	foreach($nieuw as $index => $tab)
+       	 	foreach($tabs as $index => $tab)
 			{								
       			$html[] = '<li><a href="#admin_tabs-'.$index.'">';
           		$html[] = '<span class="category">';
-        		$html[] = '<span class="title">'.$tab->get_name().'</span>';
+        		$html[] = '<span class="title">'.$tab.'</span>';
         		$html[] = '</span>';
         		$html[] = '</a></li>';
 			}
         	$html[] = '</ul>';
-        	
-        	while($course = $courses_result->next_result())
-        		$courses[]=$course;
 
-        	foreach($nieuw as $index => $tab)
+        	foreach($tabs as $index => $tab)
         	{
         		$course_type_courses = array();
-        			foreach($courses as $course)
-        			{
-        	    		if($course->get_course_type_id() == $tab->get_id())
-        					$course_type_courses[] = $course;
-        			}
+        		foreach($courses as $course_index => $course)
+        		{
+        	    	if($course->get_course_type_id() == $index)
+        	    	{
+        				$course_type_courses[] = $course;
+        				unset($courses[$course_index]);
+        	    	}
+        		}
         		$html[] = '<div class="admin_tab" id="admin_tabs-'.$index.'">';
         		$html[] = $this->display_courses($course_type_courses);
         		$html[] = '<div class="clear"></div>';
         		$html[] = '</div>';
         	}
-
+        	
         	$html[] = '</div>';
         	$html[] = '<script type="text/javascript">';
         	$html[] = '  var tabnumber = ' . $selected_tab . ';';
