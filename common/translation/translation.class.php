@@ -61,14 +61,15 @@ class Translation
     }
 
     /**
+     * TODO: This comment does not fit here.
      * Returns the instance of this class.
      * @param String $variable
      * @param Array $parameters (always use capital letters)
-     * 
+     *
      * Example:
      * Translation :: get('UserCount', array('COUNT' => $usercount));
      * $lang['user']['UserCount'] = There are {COUNT} users on the system;
-     * 
+     *
      * @return Translation The instance.
      */
     function get($variable, $parameters = array())
@@ -111,6 +112,7 @@ class Translation
     }
 
     /**
+     * This comment does not fit here.
      * Gets a parameter from the configuration.
      * @param string $section The name of the section in which the parameter
      *                        is located.
@@ -122,9 +124,12 @@ class Translation
         $instance = self :: get_instance();
 
         $language = $instance->language;
-        $strings = $instance->strings;
-		$value = '';
-		
+        // Modified by Ivan Tcholakov, 31-MAR-2010, see BUG #743
+        //$strings = $instance->strings;
+        $strings = & $instance->strings;
+        //
+        $value = '';
+
         if (! isset($strings[$language]))
         {
             $instance->add_language_file_to_array($language, 'common');
@@ -146,7 +151,8 @@ class Translation
             $instance->add_language_file_to_array($language, $application);
         }
 
-        $strings = $instance->strings;
+        // Removed by Ivan Tcholakov, 31-MAR-2010, see BUG #743
+        //$strings = $instance->strings;
 
         if (isset($strings[$language][$application][$variable]))
         {
@@ -159,14 +165,14 @@ class Translation
         else
         {
         	$packages = array('application_common', 'repository');
-        	
+
         	foreach($packages as $package)
         	{
 	        	if(!isset($strings[$language][$package]))
 	        	{
 	        		$instance->add_language_file_to_array($language, $package);
 	        	}
-	        	
+
 		        if (isset($strings[$language][$package][$variable]))
 		        {
 		            $value = $strings[$language][$package][$variable];
@@ -174,8 +180,8 @@ class Translation
 		        }
         	}
         }
-        
-        if(!$value || $value == '' || $value == ' ')
+
+        if (!$value || $value == '' || $value == ' ')
         {
             if ( (Request :: get('install_running') != 1 && file_exists(dirname(__FILE__) . '/../configuration/configuration.php')) && PlatformSetting :: get('hide_dcda_markup'))
             {
