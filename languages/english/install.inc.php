@@ -88,5 +88,6 @@ $lang['install']['Gradebook'] = 'Gradebook';
 $lang['install']['Installation'] = '';
 $lang['install']['InstallationDescription'] = '';
 $lang['install']['Refresh'] = '';
+$lang['install']['HideAll'] = 'Hide all';
 $lang['install']['AfterApproval'] = '';
 ?>
