@@ -18,7 +18,13 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
         $trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManager')));
-        $trail->add(new Breadcrumb($this->get_url(array('section' => Request :: get('section'), 'package' => Request :: get('package'), 'type' => Request :: get('type'))), Translation :: get('PackageInstallation')));
+        
+        $type = Request :: get('type');
+        
+        $action = (($type == 'local') ? PackageManager :: ACTION_LOCAL_PACKAGE : PackageManager :: ACTION_REMOTE_PACKAGE);
+        
+        $trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => $action)), Translation :: get('Install')));
+        $trail->add(new Breadcrumb($this->get_url(array('section' => Request :: get('section'), 'package' => Request :: get('package'), 'type' => $type)), Translation :: get('PackageInstallation')));
         $trail->add_help('administration install');
         
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
