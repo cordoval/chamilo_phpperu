@@ -192,7 +192,7 @@ class Dokeos185PersonalAgenda extends ImportPersonalAgenda
     function convert_to_lcms($parameters)
     {
     	//control if the personal_agenda application exists
-		$is_registered = AdminDataManager :: get_instance()->is_registered('personal_agenda');
+		$is_registered = AdminDataManager :: get_instance()->is_registered('personal_calendar');
         // Convert profile fields to Profile object if the user has user profile data
         if ($is_registered)
         {
