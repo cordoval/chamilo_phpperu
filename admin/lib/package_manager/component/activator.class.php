@@ -40,7 +40,7 @@ class PackageManagerActivatorComponent extends PackageManagerComponent
             {
                 $registration = $this->get_parent()->retrieve_registration($id);
                 
-                $registration->toggle_status();
+                $registration->set_status(Registration :: STATUS_ACTIVE);
                 if (! $registration->update())
                 {
                     $failures ++;
