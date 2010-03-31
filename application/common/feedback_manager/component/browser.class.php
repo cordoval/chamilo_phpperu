@@ -145,7 +145,8 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent
     {
         $create_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_FEEDBACK, 'pid' => $this->pid, 'cid' => $this->cid));
         $item = new ToolbarItem(Translation :: get('CreateFeedback'), Theme :: get_common_image_path() . 'action_create.png', $create_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
-        $this->get_parent()->add_actionbar_item($item);
+       //there should be a check in the component to see if there is indeed an action bar before adding an item to it! (NathalieB)
+       $this->get_parent()->add_actionbar_item($item);
     }
 
     function render_publication_information($feedback)

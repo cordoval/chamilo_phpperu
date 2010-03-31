@@ -43,21 +43,17 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
             exit();
         }
         
-        $course = $this->get_course();
-        $course_type_id = $course->get_course_type()->get_id();
-        
-        if(empty($course_type_id) && WeblcmsDataManager :: get_instance()->count_active_course_types())
-        	$this->simple_redirect(array('go' => WeblcmsManager :: ACTION_SELECT_COURSE_TYPE));
-        else
-        {        
-        	$id = $course->get_id();
-	        if(empty($id))
-		        $form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url(), $this);
-	        else
-		        $form = new CourseForm(CourseForm :: TYPE_EDIT, $course, $this->get_user(), $this->get_url(), $this);
-        }
-        
-
+        $course = $this->get_course();     
+        $id = $course->get_id();
+        $parameters = array();
+        $course_type_id = Request::get('course_type');
+        if(!is_null($course_type_id))
+        	$parameters = array('course_type'=>$course_type_id);
+        $url = $this->get_url($parameters);
+	     if(empty($id))
+		     $form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $url, $this);
+	     else
+		      $form = new CourseForm(CourseForm :: TYPE_EDIT, $course, $this->get_user(), $url, $this);
         
         if ($form->validate())
         {
@@ -82,7 +78,9 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         {
             $this->display_header($trail, false, true);
             echo '<div class="clear"></div><br />';
+            echo '<div id="form_container">';
             $form->display();
+            echo '</div>';
             $this->display_footer();
         }
     }

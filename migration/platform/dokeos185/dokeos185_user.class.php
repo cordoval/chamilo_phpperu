@@ -485,9 +485,10 @@ class Dokeos185User extends Import
         else
             LocalSetting :: create_local_setting('platform_language', 'english', 'admin', $lcms_user->get_id());
 
-
+        //control if the profiler application exists
+		$is_registered = AdminDataManager :: get_instance()->is_registered('profiler');
         // Convert profile fields to Profile object if the user has user profile data
-        if ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL)
+        if ($is_registered && ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL))
         {
         	$lcms_category_id = $mgdm->get_repository_category_by_name($lcms_user->get_id(),Translation :: get('Profile'));
         	$lcms_repository_profile = new Profile();

@@ -18,8 +18,8 @@
 		<category name = "viewer">
 			<setting name="view_state" field="radio" default="New" user_setting="1">
 				<options type="static">
-					<option name="New" value="New" />
-					<option name="Old" value="Old" />
+					<option name="New" value="New_View" />
+					<option name="Old" value="Old_View" />
 				</options>
 			</setting>
 			<setting name="new_view_state_sub_division" field="radio" default="Mixed" user_setting="1">

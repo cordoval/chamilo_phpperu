@@ -139,7 +139,7 @@ class WeblcmsManager extends WebApplication
 		$this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
 		$this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
 		$this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
-		$this->set_parameter(self :: PARAM_COURSE_TYPE, Request :: get(self :: PARAM_COURSE_TYPE));
+		//$this->set_parameter(self :: PARAM_COURSE_TYPE, Request :: get(self :: PARAM_COURSE_TYPE));
 		$this->set_parameter(self :: PARAM_TOOL, Request :: get(self :: PARAM_TOOL));
 
 		$this->parse_input_from_table();
@@ -615,21 +615,16 @@ class WeblcmsManager extends WebApplication
 	{
 		if($id == null)
 			$id = $this->get_parameter(self :: PARAM_COURSE);
+		$wdm = WeblcmsDataManager :: get_instance();
 		if (! is_null($id))
 		{
-			$wdm = WeblcmsDataManager :: get_instance();
 			$this->course = $wdm->retrieve_course($id);
-			if(empty($this->course))
+			if(!$this->course)
 				$this->redirect(Translation :: get('CourseDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
-			$this->course->set_settings($wdm->retrieve_course_settings($id));
-			$this->course->set_layout_settings($wdm->retrieve_course_layout($id));
-			$this->course->set_course_type($this->load_course_type($this->course->get_course_type_id()));
 		}
 		else
 		{
-			$this->course = new Course();
-			$this->course->set_settings(new CourseSettings());
-			$this->course->set_layout_settings(new CourseLayout());
+			$this->course = $wdm->retrieve_empty_course();
 			$this->course->set_course_type($this->course_type);
 		}
 		$this->load_tools();
@@ -655,38 +650,19 @@ class WeblcmsManager extends WebApplication
 	{
 		$course_type = null;
 		if(is_null($id))
-			$id = $this->get_parameter(self :: PARAM_COURSE_TYPE);
+			$id = Request :: get(self :: PARAM_COURSE_TYPE);
+		$wdm = WeblcmsDataManager :: get_instance();
 		if (! is_null($id) && strlen($id) > 0)
 		{
-			$wdm = WeblcmsDataManager :: get_instance();
 			$course_type = $wdm->retrieve_course_type($id);
-			if(empty($course_type))
-			{
-				return $this->load_empty_course_type();
-				//$this->redirect(Translation :: get('CourseTypeDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
-			}
-			else
-			{
-				$course_type->set_settings($wdm->retrieve_course_type_settings($id));
-				$course_type->set_layout_settings($wdm->retrieve_course_type_layout($id));
-				$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
-				$course_type->set_tools($wdm->retrieve_all_course_type_tools($condition));
-			}
 		}
 		else
 		{
-			$course_type = $this->load_empty_course_type();
+			$course_type = $wdm->retrieve_empty_course_type();
 		}
 		return $course_type;
 	}
 
-	private function load_empty_course_type()
-	{
-		$course_type = new CourseType();
-		$course_type->set_settings(new CourseTypeSettings());
-		$course_type->set_layout_settings(new CourseTypeLayout());
-		return $course_type;
-	}
 	/**
 	 * Determines whether or not the given name is a valid tool name.
 	 * @param string $name The name to evaluate.
@@ -1160,7 +1136,7 @@ class WeblcmsManager extends WebApplication
 	 */
 	function get_course_editing_url($course)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'course_settings', 'previous' => 'admin'));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_COURSE, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_TOOL => 'course_settings', 'previous' => 'admin'));
 	}
 
 	/**
