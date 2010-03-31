@@ -153,6 +153,7 @@ class CommonAutoloader
 					  'object_result_set' => 'database/object_result_set.class.php',
 					  'record_result_set' => 'database/record_result_set.class.php',
 					  'database_alias_generator' => 'database/database_alias_generator.class.php',
+					  'data_manager_interface' => 'database/data_manager_interface.class.php',
 					  'data_class' => 'database/data_class.class.php',
 					  'nested_tree_node' => 'database/nested_tree_node.class.php',
 					  'nested_tree_database' => 'database/nested_tree_database.class.php',

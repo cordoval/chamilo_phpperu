@@ -49,7 +49,7 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
         return $this->database->delete_objects(Setting :: get_table_name(), $condition);
     }
-    
+
 	function delete_language($language)
     {
         $condition = new EqualityCondition(Language :: PROPERTY_ID, $language->get_id());
@@ -362,9 +362,9 @@ class DatabaseAdminDataManager extends AdminDataManager
             $info->set_publication_object_id($record['content_object_id']);
             $publication_attr[] = $info;
         }
-        
+
         $res->free();
-        
+
         return $publication_attr;
     }
 
@@ -410,7 +410,7 @@ class DatabaseAdminDataManager extends AdminDataManager
         $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         $this->database->delete('system_announcement_publication', $condition);
     }
-    
+
 	public function delete_content_object_publication($publication_id)
     {
         $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $publication_id);
@@ -523,8 +523,7 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
     	$val_table = $this->database->escape_table_name(Validation :: get_table_name());
     	$val_table_alias = $this->database->get_alias(Validation :: get_table_name());
-    	$udm = UserDataManager :: get_instance()->get_database();
-    	$user_table = $udm->escape_table_name(User :: get_table_name());
+    	$user_table = UserDataManager :: get_instance()->escape_table_name(User :: get_table_name());
     	$user_table_alias = $this->database->get_alias(User :: get_table_name());
 
     	$query = 'SELECT * FROM ' . $val_table . ' AS ' . $val_table_alias .
@@ -539,7 +538,7 @@ class DatabaseAdminDataManager extends AdminDataManager
     }
 
     // Dynamic Forms
-    
+
     function delete_dynamic_form($dynamic_form)
     {
     	$condition = new EqualityCondition(DynamicForm :: PROPERTY_ID, $dynamic_form->get_id());
@@ -566,8 +565,8 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
     	 return $this->database->retrieve_objects(DynamicForm :: get_table_name(), $condition, $offset, $count, $order_property);
     }
-    
-    
+
+
     function delete_dynamic_form_element($dynamic_form_element)
     {
     	$condition = new EqualityCondition(DynamicFormElement :: PROPERTY_ID, $dynamic_form_element->get_id());
@@ -594,14 +593,14 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
     	return $this->database->retrieve_objects(DynamicFormElement :: get_table_name(), $condition, $offset, $count, $order_property);
     }
-    
+
 	function select_next_dynamic_form_element_order($dynamic_form_id)
     {
     	$condition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $dynamic_form_id);
     	return $this->database->retrieve_next_sort_value(DynamicFormElement :: get_table_name(), DynamicFormElement :: PROPERTY_DISPLAY_ORDER, $condition);
     }
-    
-    
+
+
     function delete_dynamic_form_element_option($dynamic_form_element_option)
     {
     	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_ID, $dynamic_form_element_option->get_id());
@@ -628,19 +627,19 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
     	return $this->database->retrieve_objects(DynamicFormElementOption :: get_table_name(), $condition, $offset, $count, $order_property);
     }
-    
+
     function select_next_dynamic_form_element_option_order($dynamic_form_element_id)
     {
     	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, $dynamic_form_element_id);
     	return $this->database->retrieve_next_sort_value(DynamicFormElementOption :: get_table_name(), DynamicFormElementOption :: PROPERTY_DISPLAY_ORDER, $condition);
     }
-    
+
     function delete_all_options_from_form_element($dynamic_form_element_id)
     {
     	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, $dynamic_form_element_id);
         return $this->database->delete(DynamicFormElementOption :: get_table_name(), $condition);
     }
-    
+
     function delete_dynamic_form_element_value($dynamic_form_element_value)
     {
     	$condition = new EqualityCondition(DynamicFormElementValue :: PROPERTY_ID, $dynamic_form_element_value->get_id());
@@ -667,11 +666,11 @@ class DatabaseAdminDataManager extends AdminDataManager
     {
     	return $this->database->retrieve_objects(DynamicFormElementValue :: get_table_name(), $condition, $offset, $count, $order_property);
     }
-    
+
     function delete_dynamic_form_element_values_from_form($dynamic_form_id)
     {
     	$subcondition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $dynamic_form_id);
-    	$subselect = new SubselectCondition(DynamicFormElementValue :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, DynamicFormElement :: PROPERTY_ID, 
+    	$subselect = new SubselectCondition(DynamicFormElementValue :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, DynamicFormElement :: PROPERTY_ID,
     										'admin_' . DynamicFormElement :: get_table_name(), $subcondition);
 
 		return $this->database->delete(DynamicFormElementValue :: get_table_name(), $subselect);

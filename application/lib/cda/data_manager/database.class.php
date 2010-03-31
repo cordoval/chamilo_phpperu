@@ -420,9 +420,9 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$cda_language_alias = $this->database->get_alias(CdaLanguage :: get_table_name());
 		$cda_language_table = $this->database->escape_table_name(CdaLanguage :: get_table_name());
 
-		$udm = UserDataMAnager :: get_instance();
-		$user_alias = $udm->get_database()->get_alias(User :: get_table_name());
-		$user_table = $udm->get_database()->escape_table_name(User :: get_table_name());
+		$udm = UserDataManager :: get_instance();
+		$user_alias = $udm->get_alias(User :: get_table_name());
+		$user_table = $udm->escape_table_name(User :: get_table_name());
 
         $query = 'SELECT ' . $translator_application_alias . '.* FROM ' . $translator_application_table . ' AS ' . $translator_application_alias;
         $query .= ' JOIN ' . $cda_language_table . ' AS ' . $cda_language_alias . ' ON ' . $translator_application_alias . '.source_language_id = ' . $cda_language_alias . '.id';
@@ -456,7 +456,7 @@ class DatabaseCdaDataManager extends CdaDataManager
         }
 
         $result->free();
-        
+
         return $number_of_translations;
 	}
 

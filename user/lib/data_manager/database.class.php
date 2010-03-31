@@ -4,54 +4,36 @@
  * @package user.lib.data_manager
  */
 require_once 'MDB2.php';
+require_once dirname(__FILE__) . '/../user_data_manager_interface.class.php';
 
 /**
 ==============================================================================
- *	This is a data manager that uses a database for storage. It was written
- *	for MySQL, but should be compatible with most SQL flavors.
+ *	This is a data manager that uses a database for storage.
  *
  *	@author Tim De Pauw
  *	@author Bart Mollet
+ *	@author Hans De Bisschop
 ==============================================================================
  */
 
-class DatabaseUserDataManager extends UserDataManager
+class DatabaseUserDataManager extends Database implements UserDataManagerInterface
 {
 	const ALIAS_USER = 'user';
-
-	/**
-	 * @var Database
-	 */
-	private $database;
 
 	/**
 	 * Initializes the connection
 	 */
 	function initialize()
 	{
-		$this->database = new Database(array(User :: get_table_name() => self :: ALIAS_USER,'user_quota' => 'uq', 'user_rights_template' => 'urt', 'buddy_list_category' => 'blc', 'buddy_list_item' => 'bli'));
-		$this->database->set_prefix('user_');
+	    parent :: initialize();
+		$this->set_aliases(array(User :: get_table_name() => self :: ALIAS_USER,'user_quota' => 'uq', 'user_rights_template' => 'urt', 'buddy_list_category' => 'blc', 'buddy_list_item' => 'bli'));
+		$this->set_prefix('user_');
 	}
-
-	function quote($value)
-    {
-    	return $this->database->quote($value);
-    }
-
-    function query($query)
-    {
-    	return $this->database->query($query);
-    }
-
-    function get_database()
-    {
-        return $this->database;
-    }
 
 	function update_user($user)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
-		return $this->database->update($user, $condition);
+		return $this->update($user, $condition);
 	}
 
 	function update_user_quota($user_quota)
@@ -61,12 +43,12 @@ class DatabaseUserDataManager extends UserDataManager
 		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_CONTENT_OBJECT_TYPE, $user_quota->get_content_object_type());
 		$condition = new AndCondition($conditions);
 
-		return $this->database->update($user_quota, $condition);
+		return $this->update($user_quota, $condition);
 	}
 
 	function create_user_quota($user_quota)
 	{
-		return $this->database->create($user_quota);
+		return $this->create($user_quota);
 	}
 
 	function delete_user($user)
@@ -74,12 +56,12 @@ class DatabaseUserDataManager extends UserDataManager
 		// @Todo: review the user's objects on deletion
 		// (currently: when the user is deleted, the user's objects remain, and refer to an invalid user)
 		$condition = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
-		return $this->database->delete($user->get_table_name(), $condition);
+		return $this->delete($user->get_table_name(), $condition);
 	}
 
 	function delete_user_rights_templates($condition)
 	{
-		return $this->database->delete(UserRightsTemplate :: get_table_name(), $condition);
+		return $this->delete(UserRightsTemplate :: get_table_name(), $condition);
 	}
 
 	function delete_user_rights_template($user_rights_template)
@@ -89,11 +71,11 @@ class DatabaseUserDataManager extends UserDataManager
 	    $conditions[] = new EqualityCondition(UserRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $user_rights_template->get_rights_template_id());
 	    $condition   = new AndCondition($conditions);
 
-		return $this->database->delete($user_rights_template->get_table_name(), $condition);
+		return $this->delete($user_rights_template->get_table_name(), $condition);
 	}
 
 	function create_user_rights_template($user_rights_template){
-		return $this->database->create($user_rights_template);
+		return $this->create($user_rights_template);
 	}
 
 	function delete_all_users()
@@ -109,7 +91,7 @@ class DatabaseUserDataManager extends UserDataManager
 	{
 		//add rss id to user
 		$user->set_security_token(sha1(time().uniqid()));
-		$this->database->create($user);
+		$this->create($user);
 
 		// Create the user's root category for the repository
 		RepositoryRights :: create_user_root($user);
@@ -120,38 +102,38 @@ class DatabaseUserDataManager extends UserDataManager
 	// Inherited.
 	function create_storage_unit($name, $properties, $indexes)
 	{
-		return $this->database->create_storage_unit($name, $properties, $indexes);
+		return $this->create_storage_unit($name, $properties, $indexes);
 	}
 
 
 	function retrieve_user($id)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(User :: get_table_name(), $condition);
+		return $this->retrieve_object(User :: get_table_name(), $condition);
 	}
 
 	function retrieve_user_by_username($username)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_USERNAME, $username);
-		return $this->database->retrieve_object(User :: get_table_name(), $condition);
+		return $this->retrieve_object(User :: get_table_name(), $condition);
 	}
 
 	function retrieve_user_by_external_uid($external_uid)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_EXTERNAL_UID, $external_uid);
-		return $this->database->retrieve_object(User :: get_table_name(), $condition);
+		return $this->retrieve_object(User :: get_table_name(), $condition);
 	}
-	
+
 	function retrieve_user_by_security_token($security_token)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_SECURITY_TOKEN, $security_token);
-		return $this->database->retrieve_object(User :: get_table_name(), $condition);
+		return $this->retrieve_object(User :: get_table_name(), $condition);
 	}
 
 	function retrieve_users_by_email($email)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_EMAIL, $email);
-		$users = $this->database->retrieve_objects(User :: get_table_name(), $condition);
+		$users = $this->retrieve_objects(User :: get_table_name(), $condition);
 		return $users->next_result();
 	}
 
@@ -166,7 +148,7 @@ class DatabaseUserDataManager extends UserDataManager
 			$conditions = new EqualityCondition(User :: PROPERTY_ID, $user_id);
 			$condition = new AndCondition($conditions);
 		}
-		return !($this->database->count_objects(User :: get_table_name(), $condition) == 1);
+		return !($this->count_objects(User :: get_table_name(), $condition) == 1);
 	}
 
 	function retrieve_user_info($username)
@@ -181,24 +163,24 @@ class DatabaseUserDataManager extends UserDataManager
 		{
 			$conditions[] = $condition;
 		}
-		
+
 		$conditions[] = new EqualityCondition(User :: PROPERTY_APPROVED, 1);
 		$condition = new AndCondition($conditions);
-		
-		return $this->database->count_objects(User :: get_table_name(), $condition);
+
+		return $this->count_objects(User :: get_table_name(), $condition);
 	}
-	
+
 	function count_approval_users($condition = null)
 	{
 		if($condition)
 		{
 			$conditions[] = $condition;
 		}
-		
+
 		$conditions[] = new EqualityCondition(User :: PROPERTY_APPROVED, 0);
 		$condition = new AndCondition($conditions);
-		
-		return $this->database->count_objects(User :: get_table_name(), $condition);
+
+		return $this->count_objects(User :: get_table_name(), $condition);
 	}
 
 	function retrieve_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -207,24 +189,24 @@ class DatabaseUserDataManager extends UserDataManager
 		{
 			$conditions[] = $condition;
 		}
-		
+
 		$conditions[] = new EqualityCondition(User :: PROPERTY_APPROVED, 1);
 		$condition = new AndCondition($conditions);
-		
-		return $this->database->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+
+		return $this->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
-	
+
 	function retrieve_approval_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
 		if($condition)
 		{
 			$conditions[] = $condition;
 		}
-		
+
 		$conditions[] = new EqualityCondition(User :: PROPERTY_APPROVED, 0);
 		$condition = new AndCondition($conditions);
-		
-		return $this->database->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+
+		return $this->retrieve_objects(User :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	//Inherited.
@@ -235,11 +217,11 @@ class DatabaseUserDataManager extends UserDataManager
 		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_CONTENT_OBJECT_TYPE, $type);
 		$condition = new AndCondition($conditions);
 
-		$version_type_quota_set = $this->database->count_objects(UserQuota :: get_table_name(), $condition) > 0;
+		$version_type_quota_set = $this->count_objects(UserQuota :: get_table_name(), $condition) > 0;
 
 		if ($version_type_quota_set)
 		{
-			$user_quotum = $this->database->retrieve_object(UserQuota :: get_table_name(), $condition);
+			$user_quotum = $this->retrieve_object(UserQuota :: get_table_name(), $condition);
 			return $user_quotum->get_user_quota();
 		}
 		else
@@ -250,7 +232,7 @@ class DatabaseUserDataManager extends UserDataManager
 
 	function retrieve_user_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(UserRightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+		return $this->retrieve_objects(UserRightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function add_rights_template_link($user, $rights_template_id)
@@ -258,8 +240,8 @@ class DatabaseUserDataManager extends UserDataManager
 		$props = array();
 		$props[UserRightsTemplate :: PROPERTY_USER_ID] = $user->get_id();
 		$props[UserRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID] = $rights_template_id;
-		$this->database->get_connection()->loadModule('Extended');
-		return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(UserRightsTemplate :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
+		$this->get_connection()->loadModule('Extended');
+		return $this->get_connection()->extended->autoExecute($this->get_table_name(UserRightsTemplate :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
 	}
 
 	function delete_rights_template_link($user, $rights_template_id)
@@ -269,7 +251,7 @@ class DatabaseUserDataManager extends UserDataManager
 		$conditions = new EqualityCondition(UserRightsTemplate :: PROPERTY_RIGHTS_TEMPLATE_ID, $rights_template_id);
 		$condition = new AndCondition($conditions);
 
-		return $this->database->delete(UserRightsTemplate :: get_table_name(), $condition);
+		return $this->delete(UserRightsTemplate :: get_table_name(), $condition);
 	}
 
 	function update_rights_template_links($user, $rights_templates)
@@ -280,7 +262,7 @@ class DatabaseUserDataManager extends UserDataManager
 		$conditions = new EqualityCondition(UserRightsTemplate :: PROPERTY_USER_ID, $user->get_id());
 		$condition = new AndCondition($conditions);
 
-		$success = $this->database->delete(UserRightsTemplate :: get_table_name(), $condition);
+		$success = $this->delete(UserRightsTemplate :: get_table_name(), $condition);
 		if (!$success)
 		{
 			return false;
@@ -313,23 +295,23 @@ class DatabaseUserDataManager extends UserDataManager
 
 	function create_buddy_list_category($buddy_list_category)
 	{
-		return $this->database->create($buddy_list_category);
+		return $this->create($buddy_list_category);
 	}
 
 	function update_buddy_list_category($buddy_list_category)
 	{
 		$condition = new EqualityCondition(BuddyListCategory :: PROPERTY_ID, $buddy_list_category->get_id());
-		return $this->database->update($buddy_list_category, $condition);
+		return $this->update($buddy_list_category, $condition);
 	}
 
 	function delete_buddy_list_category($buddy_list_category)
 	{
 		$condition = new EqualityCondition(BuddyListCategory :: PROPERTY_ID, $buddy_list_category->get_id());
-		$succes = $this->database->delete(BuddyListCategory :: get_table_name(), $condition);
+		$succes = $this->delete(BuddyListCategory :: get_table_name(), $condition);
 
-		$query = 'UPDATE '.$this->database->escape_table_name('buddy_list_item').' SET '.
-				 $this->database->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=0 WHERE'.
-				 $this->database->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=' . $this->quote($buddy_list_category->get_id());
+		$query = 'UPDATE '.$this->escape_table_name('buddy_list_item').' SET '.
+				 $this->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=0 WHERE'.
+				 $this->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=' . $this->quote($buddy_list_category->get_id());
 
 		$res = $this->query($query);
 		$res->free();
@@ -338,12 +320,12 @@ class DatabaseUserDataManager extends UserDataManager
 
 	function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects(BuddyListCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+		return $this->retrieve_objects(BuddyListCategory :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 
 	function create_buddy_list_item($buddy_list_item)
 	{
-		return $this->database->create($buddy_list_item);
+		return $this->create($buddy_list_item);
 	}
 
 	function update_buddy_list_item($buddy_list_item)
@@ -353,7 +335,7 @@ class DatabaseUserDataManager extends UserDataManager
 		$conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_BUDDY_ID, $buddy_list_item->get_buddy_id());
 		$condition = new AndCondition($conditions);
 
-		return $this->database->update($buddy_list_item, $condition);
+		return $this->update($buddy_list_item, $condition);
 	}
 
 	function delete_buddy_list_item($buddy_list_item)
@@ -363,34 +345,34 @@ class DatabaseUserDataManager extends UserDataManager
 		$conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_BUDDY_ID, $buddy_list_item->get_buddy_id());
 		$condition = new AndCondition($conditions);
 
-		return $this->database->delete(BuddyListItem :: get_table_name(), $condition);
+		return $this->delete(BuddyListItem :: get_table_name(), $condition);
 	}
 
 	function retrieve_buddy_list_items($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects(BuddyListItem :: get_table_name(), $condition, $offset, $count, $order_property);
+		return $this->retrieve_objects(BuddyListItem :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 
 	function create_chat_message($chat_message)
 	{
-		return $this->database->create($chat_message);
+		return $this->create($chat_message);
 	}
 
 	function update_chat_message($chat_message)
 	{
 		$condition = new EqualityCondition(ChatMessage :: PROPERTY_ID, $chat_message->get_id());
-		return $this->database->update($chat_message, $condition);
+		return $this->update($chat_message, $condition);
 	}
 
 	function delete_chat_message($chat_message)
 	{
 		$condition = new EqualityCondition(ChatMessage :: PROPERTY_ID, $chat_message->get_id());
-		return $this->database->delete(ChatMessage :: get_table_name(), $condition);
+		return $this->delete(ChatMessage :: get_table_name(), $condition);
 	}
 
 	function retrieve_chat_messages($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects(ChatMessage :: get_table_name(), $condition, $offset, $count, $order_property);
+		return $this->retrieve_objects(ChatMessage :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 
 	function retrieve_user_by_fullname($fullname)
@@ -412,45 +394,45 @@ class DatabaseUserDataManager extends UserDataManager
 		$conditions[] = new AndCondition($conditions2);
 
 		$condition = new OrCondition($conditions);
-		$object = $this->database->retrieve_object(User :: get_table_name(), $condition);
+		$object = $this->retrieve_object(User :: get_table_name(), $condition);
 
 		return $object;
 	}
-	
+
 	function create_user_setting($user_setting)
 	{
-		return $this->database->create($user_setting);
+		return $this->create($user_setting);
 	}
-	
+
 	function update_user_setting($user_setting)
 	{
 		$condition = new EqualityCondition(UserSetting :: PROPERTY_ID, $user_setting->get_id());
-		return $this->database->update($user_setting, $condition);
+		return $this->update($user_setting, $condition);
 	}
-	
+
 	function delete_user_setting($user_setting)
 	{
 		$condition = new EqualityCondition(UserSetting :: PROPERTY_ID, $user_setting->get_id());
-		return $this->database->delete(UserSetting :: get_table_name(), $condition);
+		return $this->delete(UserSetting :: get_table_name(), $condition);
 	}
-	
+
 	function retrieve_user_settings($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return $this->database->retrieve_objects(UserSetting :: get_table_name(), $condition, $offset, $count, $order_property, UserSetting :: get_class_name());
+		return $this->retrieve_objects(UserSetting :: get_table_name(), $condition, $offset, $count, $order_property, UserSetting :: get_class_name());
 	}
-	
+
 	function retrieve_user_setting($user_id, $setting_id)
 	{
 		$conditions[] = new EqualityCondition(UserSetting :: PROPERTY_SETTING_ID, $setting_id);
 		$conditions[] = new EqualityCondition(UserSetting :: PROPERTY_USER_ID, $user_id);
 		$condition = new AndCondition($conditions);
-		
-		return $this->database->retrieve_object(UserSetting :: get_table_name(), $condition, null, UserSetting :: get_class_name());
+
+		return $this->retrieve_object(UserSetting :: get_table_name(), $condition, null, UserSetting :: get_class_name());
 	}
-	
+
 	function count_user_settings($condition = null)
 	{
-		return $this->database->count_objects(UserSetting :: get_table_name(), $condition);
+		return $this->count_objects(UserSetting :: get_table_name(), $condition);
 	}
 }
 ?>
