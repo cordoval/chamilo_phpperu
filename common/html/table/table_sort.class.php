@@ -2,7 +2,7 @@
 /**
  * @package common.html.table
  */
-// $Id: table_sort.class.php 128 2009-11-09 13:13:20Z vanpouckesven $ 
+// $Id: table_sort.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
 
 define('SORT_DATE', 3);
 define('SORT_IMAGE', 4);
@@ -14,7 +14,7 @@ class TableSort
      * @param string $txt The string to convert
      * @author Ren� Haentjens
      * This  function is 8859-1 specific and should be adapted when Chamilo is
-     * used with other charsets. 
+     * used with other charsets.
      */
     function strtolower_keepaccents($txt)
     {
@@ -40,8 +40,8 @@ class TableSort
      * @param string $txt The string to convert
      * @author Ren� Haentjens
      * This  function is 8859-1 specific and should be adapted when Chamilo is
-     * used with other charsets. 
-     * See http://anubis.dkuug.dk/CEN/TC304/EOR/eorhome.html 
+     * used with other charsets.
+     * See http://anubis.dkuug.dk/CEN/TC304/EOR/eorhome.html
      * Function 'orderingstring' can be used to implement EOR level 1 ordering,
      * for 8859- 1.
      */
@@ -76,25 +76,30 @@ class TableSort
         {
             return $data;
         } // probably an attack
+
         $compare_function = '';
-        
+        if ($type == SORT_REGULAR)
+        {
+            if (TableSort :: is_image_column($data, $column))
+            {
+                $type = SORT_IMAGE;
+            }
+            elseif (TableSort :: is_date_column($data, $column))
+            {
+                $type = SORT_DATE;
+            }
+            elseif (TableSort :: is_numeric_column($data, $column))
+            {
+                $type = SORT_NUMERIC;
+            }
+            else
+            {
+            	$type = SORT_STRING;
+            }
+        }
+
         switch ($type)
         {
-            case SORT_REGULAR :
-                if (TableSort :: is_image_column($data, $column))
-                {
-                    return TableSort :: sort_table($data, $column, $direction, SORT_IMAGE);
-                }
-                elseif (TableSort :: is_date_column($data, $column))
-                {
-                    return TableSort :: sort_table($data, $column, $direction, SORT_DATE);
-                }
-                elseif (TableSort :: is_numeric_column($data, $column))
-                {
-                    return TableSort :: sort_table($data, $column, $direction, SORT_NUMERIC);
-                }
-                
-                return TableSort :: sort_table($data, $column, $direction, SORT_STRING);
             case SORT_NUMERIC :
                 $compare_function = 'strip_tags($el1) > strip_tags($el2)';
                 break;
@@ -108,7 +113,8 @@ class TableSort
                 $compare_function = 'strnatcmp(TableSort::orderingstring(strip_tags($el1)),TableSort::orderingstring(strip_tags($el2))) > 0';
                 break;
         }
-        $function_body = '$el1 = $a[' . $column . ']; $el2 = $b[' . $column . ']; return (' . $direction . ' == SORT_ASC ? (' . $compare_function . ') : !(' . $compare_function . '));';
+        $function_body = '$el1 = $a['.$column.']; $el2 = $b['.$column.']; return '.($direction == SORT_ASC ? ' ' : ' !').'('.$compare_function.');';
+
         // Sort the content
         usort($data, create_function('$a,$b', $function_body));
         return $data;
@@ -122,12 +128,16 @@ class TableSort
      * @todo Take locale into account (eg decimal point or comma ?)
      * @author digitaal-leren@hogent.be
      */
-    function is_numeric_column($data, $column)
+    function is_numeric_column(& $data, $column)
     {
         $is_numeric = true;
-        foreach ($data as $index => $row)
+        foreach ($data as $index => & $row)
         {
             $is_numeric &= is_numeric(strip_tags($row[$column]));
+            if (!$is_numeric)
+            {
+            	break;
+            }
         }
         return $is_numeric;
     }
@@ -139,21 +149,25 @@ class TableSort
      * @return bool true if column contains only dates, false otherwise
      * @author digitaal-leren@hogent.be
      */
-    function is_date_column($data, $column)
+    function is_date_column(& $data, $column)
     {
         $is_date = true;
-        foreach ($data as $index => $row)
+        foreach ($data as $index => & $row)
         {
             if (strlen(strip_tags($row[$column])) != 0)
             {
                 $check_date = strtotime(strip_tags($row[$column]));
-                // strtotime Returns a timestamp on success, FALSE otherwise. 
-                // Previous to PHP 5.1.0, this function would return -1 on failure. 
+                // strtotime Returns a timestamp on success, FALSE otherwise.
+                // Previous to PHP 5.1.0, this function would return -1 on failure.
                 $is_date &= ($check_date != - 1 && $check_date != false);
             }
             else
             {
                 $is_date &= false;
+            }
+            if (!$is_date)
+            {
+            	break;
             }
         }
         return $is_date;
@@ -167,13 +181,17 @@ class TableSort
      * @return bool true if column contains only images, false otherwise
      * @author digitaal-leren@hogent.be
      */
-    function is_image_column($data, $column)
+    function is_image_column(& $data, $column)
     {
         $is_image = true;
-        foreach ($data as $index => $row)
+        foreach ($data as $index => & $row)
         {
             $is_image &= strlen(trim(strip_tags($row[$column], '<img>'))) > 0; // at least one img-tag
             $is_image &= strlen(trim(strip_tags($row[$column]))) == 0; // and no text outside attribute-values
+            if (!$is_image)
+            {
+            	break;
+            }
         }
         return $is_image;
     }
