@@ -211,29 +211,67 @@ class CriteriaForm extends FormValidator
     	$criteria_score = $this->criteria_score;
     	$criteria_score->set_owner_id($this->get_owner_id());
         $values = $this->exportValues();
+        $result = true;
+        
+        $condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $criteria->get_id());
+        $scores_db = $this->data_manager->count_criterias_score($condition);
 
+    	if($scores_db > 0)
+    	{
+	    	$cdm = CbaDataManager :: get_instance(); 
+			$target_scores = $this->criteria_score->get_target_scores();
+			
+	    	foreach($target_scores as $index => $value)
+			{
+				$id = $value;
+				$criteria_id = $this->criteria->get_id();
+				$criteria_score = $cdm->retrieve_criteria_score_unique($id, $criteria_id);
+	
+				$criteria_score->delete();
+			}
+    	}
+    	
         
-		$count = sizeof($criteria_score);
-		for($i = 0; $i < $count; $i++)
-		{	
-    		$criteria_score->set_description_score($values[CriteriaScore :: PROPERTY_DESCRIPTION_SCORE .$i]);
-    		$criteria_score->set_score($values[CriteriaScore :: PROPERTY_SCORE .$i]);
-		}
-        
-        $conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $criteria->get_id());				
-        $conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_DESCRIPTION_SCORE, $criteria_score->get_description_score());
-		$conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_SCORE, $criteria_score->get_score());
+    	foreach ($values as $key => $value)
+        {     
+        	
+            if (strpos($key, 'description_score') !== false)
+            {
+            	$scores = $values[$key];
+            	
+            	$description_score = array();
+            	$description_score[] = $value;    
+            	$criteria_score->set_description_score($value);  	      	
+            }
+            
+        	if(strpos($key, 'description_score') === false)
+        	{
+        		if(strpos($key, 'score') !== false)
+        		{
+	        		$criteria_score->set_criteria_id($criteria->get_id());
+	                $criteria_score->set_score($value);
+	                
+	                $conditions = array();
+					$conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $criteria->get_id());				
+	                $conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_DESCRIPTION_SCORE, $criteria_score->get_description_score());
+					$conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_SCORE, $criteria_score->get_score());
 						
-        $condition = new AndCondition($conditions);
-        $cats = $this->data_manager->count_criterias_score($condition);
-
-        
-        if ($cats > 0)
-        {
-            return false;
+	                $condition = new AndCondition($conditions);
+	                $cats = $this->data_manager->count_criterias_score($condition);
+	                
+	                if ($cats > 0)
+	                {
+	                    $result = false;
+	                }
+	                else
+	                {
+	                	$criteria_score->set_target_scores($scores);
+	                    $result &= $criteria_score->create();
+	                }
+        		}
+        	}
         }
-        
-        return $criteria_score->update();
+		return $result;
     }
 
     
