@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: database.class.php 232 2009-11-16 10:11:48Z vanpouckesven $
+ * $Id: database_group_data_manager.class.php 232 2009-11-16 10:11:48Z vanpouckesven $
  * @package group.lib.datamanager
  */
 require_once 'MDB2.php';
@@ -14,6 +14,7 @@ require_once dirname(__FILE__) . '/../group_data_manager_interface.class.php';
  *	@author Tim De Pauw
  *	@author Bart Mollet
  *  @author Sven Vanpoucke
+ *  @author Hans De Bisschop
 ==============================================================================
  */
 

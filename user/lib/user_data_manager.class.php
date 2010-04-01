@@ -1,14 +1,11 @@
 <?php
 /**
  * $Id: user_data_manager.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
+ * @author Hans De Bisschop
  * @author Sven Vanpoucke
  * @package user.lib
- */
-//require_once Path :: get_application_path().'/lib/weblcms/data_manager/database.class.php';
-/**
- * This is a skeleton for a data manager for the Users table.
- * Data managers must extend this class and implement its abstract methods.
-
+ *
+ * This is a skeleton for a data manager for the User application.
  */
 class UserDataManager
 {
@@ -28,8 +25,8 @@ class UserDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '.class.php';
-            $class = $type . 'UserDataManager';
+            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_user_data_manager.class.php';
+            $class = Utilities :: underscores_to_camelcase($type) . 'UserDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
