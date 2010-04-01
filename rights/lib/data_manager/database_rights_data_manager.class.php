@@ -26,18 +26,6 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $this->set_prefix('rights_');
     }
 
-    function debug()
-    {
-//        $args = func_get_args();
-//        // Do something with the arguments
-//        if ($args[1] == 'query')
-//        {
-//            echo '<pre>';
-//            print_r($args[2]);
-//            echo '</pre>';
-//        }
-    }
-
     function update_rights_template_right_location($rights_templaterightlocation)
     {
         $conditions = array();

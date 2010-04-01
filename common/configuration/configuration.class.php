@@ -16,7 +16,7 @@ class Configuration
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
-    
+
     /**
      * Parameters defined in the configuration. Stored as an associative array.
      */

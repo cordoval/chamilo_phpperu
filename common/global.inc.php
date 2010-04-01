@@ -283,8 +283,7 @@ if ($user)
 }
 
 $language_interface = LocalSetting :: get('platform_language');
-$adm = AdminDataManager :: get_instance();
-if(!$adm->is_language_active($language_interface))
+if(!AdminDataManager :: is_language_active($language_interface))
 {
 	$language_interface = PlatformSetting :: get('platform_language');
 }

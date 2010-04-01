@@ -32,11 +32,11 @@ class InstallWizardProcess extends HTML_QuickForm_Action
     }
 
     function perform($page, $actionName)
-    { 
+    {
         if(array_key_exists('config_file', $_FILES))
         {
         	$values = array();
-        	
+
         	require_once($_FILES['config_file']['tmp_name']);
         	$this->values = $values;
         }
@@ -49,7 +49,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $this->applications['extra'] = Filesystem :: get_directory_content(Path :: get_application_path() . 'lib/', Filesystem :: LIST_DIRECTORIES, false);
 
         $this->display_header($page);
-        
+
         // Display the page header
         echo '<h3>' . Translation :: get('PreProduction') . '</h3>';
 
@@ -94,7 +94,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
         //$page->controller->container(true);
 
-		echo '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a>';        
+		echo '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a>';
 
         // Display the page footer
         $this->parent->display_footer();
@@ -102,27 +102,29 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
     function display_header($page)
     {
+        $values = $this->values;
+
     	$this->parent->display_header(array(), "install");
     	$all_pages = $page->controller->_pages;
 
         $total_number_of_pages = count($all_pages) + 1;
-        
+
         $html[] = '<div id="progressbox">';
         $html[] = '<ul id="progresstrail">';
-        
+
         $page_number = 1;
-        
+
         foreach($all_pages as $page)
         {
         	 $html[] = '<li class="active"><a href="#">' . $page_number . '.&nbsp;&nbsp;' . $page->get_title() . '</a></li>';
         	 $page_number++;
         }
-        
+
         $html[] = '<li class="active"><a href="#">' . $total_number_of_pages . '.&nbsp;&nbsp;' . Translation :: get('Installation') . '</a></li>';
         $html[] = '</ul>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-        
+
         $html[] = '<div id="theForm" style="margin: 10px;">';
         $html[] = '<div id="select" class="row"><div class="formc formc_no_margin">';
         $html[] = '<b>' . Translation :: get('Step') . ' ' . $total_number_of_pages . ' ' . Translation :: get('of') . ' ' . $total_number_of_pages . ' &ndash; ' . Translation :: get('Installation') . '</b><br />';
@@ -132,11 +134,11 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $html[] = '</div></div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a><br />';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/install_process.js');
-        
+        $html[] = ResourceManager :: get_instance()->get_resource_html($values['platform_url'] . 'common/javascript/install_process.js');
+
         echo implode("\n", $html);
     }
-    
+
     function create_database()
     {
         $values = $this->values;
@@ -428,14 +430,14 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $html = array();
         $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/images/admin/place_' . $application . '.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
         $html[] = '<div class="title">' . Translation :: get(Application :: application_to_class($application)) . '</div>';
-        
+
         $collapse = '';
-        
+
         if($result && $default_collapse)
         {
         	$collapse = ' collapse';
         }
-        
+
         $html[] = '<div class="description' . $collapse . '">';
 
         return implode("\n", $html);
