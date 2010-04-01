@@ -12,6 +12,10 @@ require_once Path::get_application_path () . 'lib/internship_planner/organisatio
 require_once Path::get_application_path () . 'lib/internship_planner/category_manager/category_manager.class.php';
 require_once Path::get_application_path () . 'lib/internship_planner/category_manager/category_manager_component.class.php';
 
+require_once Path::get_application_path () . 'lib/internship_planner/agreement_manager/agreement_manager.class.php';
+require_once Path::get_application_path () . 'lib/internship_planner/agreement_manager/agreement_manager_component.class.php';
+
+
 class InternshipPlannerManager extends WebApplication {
 	const APPLICATION_NAME = 'internship_planner';
 	
