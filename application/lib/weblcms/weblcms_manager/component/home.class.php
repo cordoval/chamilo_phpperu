@@ -45,6 +45,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 	    	case self :: OLD_VIEW:
 	    			echo $this->get_old_view();
 	    			break;
+	    	default: echo $this->get_old_view();
+	    			break;
 	    }
 	    
         
