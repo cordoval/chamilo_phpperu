@@ -1,10 +1,10 @@
 <?php
 /**
- * $Id: database.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
+ * $Id: database_tracking_data_manager.class.php 231 2009-11-16 09:53:00Z vanpouckesven $
  * @package tracking.lib.data_manager
  */
-
 require_once 'MDB2.php';
+require_once dirname(__FILE__) . '/../tracking_data_manager_interface.class.php';
 
 /**
 ==============================================================================
@@ -14,45 +14,13 @@ require_once 'MDB2.php';
 ==============================================================================
  */
 
-class DatabaseTrackingDataManager extends TrackingDataManager
+class DatabaseTrackingDataManager extends Database implements TrackingDataManagerInterface
 {
-    const ALIAS_EVENTS_TABLE = 'ev';
-    const ALIAS_TRACKER_REGISTRATION_TABLE = 'tr';
-    const ALIAS_TRACKER_TABLE = 'trk';
-    const ALIAS_TRACKER_SETTINGS_TABLE = 'trs';
-    const ALIAS_TRACKER_EVENT_TABLE = 'tre';
-
-    /**
-     * The database connection.
-     * @var Database
-     */
-    private $database;
-
     // Inherited.
     function initialize()
     {
-        $this->database = new Database();
-        $this->database->set_prefix('tracking_');
-    }
-
-	function quote($value)
-    {
-    	return $this->database->quote($value);
-    }
-
-    function query($query)
-    {
-    	return $this->database->query($query);
-    }
-
-    function get_database()
-    {
-        return $this->database;
-    }
-
-    function create_storage_unit($name, $properties, $indexes)
-    {
-        return $this->database->create_storage_unit($name, $properties, $indexes);
+        parent :: initialize();
+        $this->set_prefix('tracking_');
     }
 
     /**
@@ -60,8 +28,8 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function get_tables()
     {
-        $this->database->get_connection()->loadModule('Manager');
-        $manager = $this->database->get_connection()->manager;
+        $this->get_connection()->loadModule('Manager');
+        $manager = $this->get_connection()->manager;
         return $manager->listTables();
     }
 
@@ -71,7 +39,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function create_event($event)
     {
-        return $this->database->create($event);
+        return $this->create($event);
     }
 
     /**
@@ -80,7 +48,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function create_tracker_registration($tracker_registration)
     {
-        return $this->database->create($tracker_registration);
+        return $this->create($tracker_registration);
     }
 
     /**
@@ -89,7 +57,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function create_event_tracker_relation($event_tracker_relation)
     {
-        return $this->database->create($event_tracker_relation);
+        return $this->create($event_tracker_relation);
     }
 
     /**
@@ -98,7 +66,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function create_tracker_setting($tracker_setting)
     {
-        return $this->database->create($tracker_setting);
+        return $this->create($tracker_setting);
     }
 
     /**
@@ -108,7 +76,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
     function update_event($event)
     {
         $condition = new EqualityCondition(Event :: PROPERTY_ID, $event->get_id());
-        return $this->database->update($event, $condition);
+        return $this->update($event, $condition);
     }
 
     /**
@@ -122,7 +90,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
         $conditions[] = new EqualityCondition(EventRelTracker :: PROPERTY_TRACKER_ID, $eventtrackerrelation->get_tracker_id());
         $condition = new AndCondition($conditions);
 
-        return $this->database->update($event_tracker_relation, $condition);
+        return $this->update($event_tracker_relation, $condition);
     }
 
     /**
@@ -132,7 +100,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
     function update_tracker_setting($tracker_setting)
     {
         $condition = new EqualityCondition(TrackerSetting :: PROPERTY_ID, $tracker_setting->get_id());
-        return $this->database->update($tracker_setting, $condition);
+        return $this->update($tracker_setting, $condition);
     }
 
     /**
@@ -152,7 +120,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(Event :: get_table_name(), $condition);
+        return $this->retrieve_object(Event :: get_table_name(), $condition);
     }
 
     /**
@@ -185,7 +153,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 
     function retrieve_event_tracker_relations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(EventRelTracker :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(EventRelTracker :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     /**
@@ -201,7 +169,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
         $conditions[] = new EqualityCondition(EventRelTracker :: PROPERTY_EVENT_ID, $event_id);
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(EventRelTracker :: get_table_name(), $condition);
+        return $this->retrieve_object(EventRelTracker :: get_table_name(), $condition);
     }
 
     /**
@@ -212,7 +180,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
     function retrieve_tracker_registration($tracker_id, $active)
     {
         $condition = new EqualityCondition(TrackerRegistration :: PROPERTY_ID, $tracker_id);
-        $tracker = $this->database->retrieve_object(TrackerRegistration :: get_table_name(), $condition);
+        $tracker = $this->retrieve_object(TrackerRegistration :: get_table_name(), $condition);
         $tracker->set_active($active);
         return $tracker;
     }
@@ -223,7 +191,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function retrieve_events($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(Event :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(Event :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     /**
@@ -233,7 +201,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function count_events($condition = null)
     {
-        return $this->database->count_objects(Event :: get_table_name(), $condition);
+        return $this->count_objects(Event :: get_table_name(), $condition);
     }
 
     /**
@@ -244,7 +212,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
     function retrieve_event($event_id)
     {
         $condition = new EqualityCondition(Event :: PROPERTY_ID, $event_id);
-        return $this->database->retrieve_object(Event :: get_table_name(), $condition);
+        return $this->retrieve_object(Event :: get_table_name(), $condition);
     }
 
     /** Creates a tracker item in the database
@@ -254,7 +222,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function create_tracker_item($tablename, $tracker_item)
     {
-        return $this->database->create($tracker_item);
+        return $this->create($tracker_item);
     }
 
     /**
@@ -266,19 +234,19 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function retrieve_tracker_items($table_name, $classname, $condition)
     {
-        //$items = $this->database->retrieve_objects($table_name, $condition);
-        $items = $this->database->retrieve_objects($table_name, $condition, null, null, array(), $classname);
+        //$items = $this->retrieve_objects($table_name, $condition);
+        $items = $this->retrieve_objects($table_name, $condition, null, null, array(), $classname);
         return $items->as_array();
     }
 
     function retrieve_tracker_items_result_set($table_name, $classname, $condition, $order_by)
     {
-        return $this->database->retrieve_objects($table_name, $condition, null, null, $order_by, $classname);
+        return $this->retrieve_objects($table_name, $condition, null, null, $order_by, $classname);
     }
 
     function count_tracker_items($tablename, $condition)
     {
-        return $this->database->count_objects($tablename, $condition);
+        return $this->count_objects($tablename, $condition);
     }
 
     /**
@@ -303,7 +271,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
     function update_tracker_item($tablename, $tracker_item)
     {
         $condition = new EqualityCondition('id', $tracker_item->get_id());
-        return $this->database->update($tracker_item, $condition);
+        return $this->update($tracker_item, $condition);
     }
 
     /**
@@ -313,7 +281,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function remove_tracker_items($tablename, $condition)
     {
-        return $this->database->delete_objects($tablename, $condition);
+        return $this->delete_objects($tablename, $condition);
     }
 
     /**
@@ -323,7 +291,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
      */
     function create_archive_controller_item($archive_controller_item)
     {
-        return $this->database->create($archive_controller_item);
+        return $this->create($archive_controller_item);
     }
 
     /**
@@ -341,19 +309,19 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 
     function delete_events($condition = null)
     {
-        return $this->database->delete_objects(Event :: get_table_name(), $condition);
+        return $this->delete_objects(Event :: get_table_name(), $condition);
     }
 
     function delete_tracker_registrations($condition = null)
     {
-        return $this->database->delete_objects(TrackerRegistration :: get_table_name(), $condition);
+        return $this->delete_objects(TrackerRegistration :: get_table_name(), $condition);
     }
 
     function delete_orphaned_event_rel_tracker()
     {
-        $query = 'DELETE FROM ' . $this->database->escape_table_name(EventRelTracker :: get_table_name()) . ' WHERE ';
-        $query .= $this->database->escape_column_name(EventRelTracker :: PROPERTY_EVENT_ID) . ' NOT IN (SELECT ' . $this->database->escape_column_name(Event :: PROPERTY_ID) . ' FROM ' . $this->database->escape_table_name(Event :: get_table_name()) . ') OR ';
-        $query .= $this->database->escape_column_name(EventRelTracker :: PROPERTY_TRACKER_ID) . ' NOT IN (SELECT ' . $this->database->escape_column_name(TrackerRegistration :: PROPERTY_ID) . ' FROM ' . $this->database->escape_table_name(TrackerRegistration :: get_table_name()) . ')';
+        $query = 'DELETE FROM ' . $this->escape_table_name(EventRelTracker :: get_table_name()) . ' WHERE ';
+        $query .= $this->escape_column_name(EventRelTracker :: PROPERTY_EVENT_ID) . ' NOT IN (SELECT ' . $this->escape_column_name(Event :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name(Event :: get_table_name()) . ') OR ';
+        $query .= $this->escape_column_name(EventRelTracker :: PROPERTY_TRACKER_ID) . ' NOT IN (SELECT ' . $this->escape_column_name(TrackerRegistration :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name(TrackerRegistration :: get_table_name()) . ')';
 		return $this->query($query);
     }
 }
