@@ -92,6 +92,26 @@ class CriteriaScore extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_STATE, $state);
 	}
+	
+	function get_target_scores()
+	{
+		if (! $this->target_scores)
+        {
+            $condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $this->get_criteria_id());
+            $scores = CbaDataManager :: get_instance()->retrieve_criterias_score($condition, null, null, new ObjectTableOrder(IndicatorCriteria :: PROPERTY_CRITERIA_ID));
+
+            while ($score = $scores->next_result())
+            {
+                $this->target_scores[] = $score->get_id();
+            }          
+        }
+        return $this->target_scores;
+	}
+	
+	function set_target_scores($target_scores)
+	{
+        $this->target_scores = $target_scores;
+	}
 
 	static function get_table_name()
 	{

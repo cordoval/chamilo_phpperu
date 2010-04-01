@@ -1078,7 +1078,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
     {
         if(!AdminDataManager :: is_registered($type, 'content_object'))
         {
-        	return null;
+        	return null;//here is the problem with the repository
         }
 
     	$class = self :: type_to_class($type);

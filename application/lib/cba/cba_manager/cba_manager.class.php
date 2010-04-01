@@ -359,6 +359,11 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 		return CbaDataManager :: get_instance()->retrieve_criteria_score($id);
 	}
 	
+ 	function retrieve_criteria_score_unique($id, $criteria_id)
+	{
+		return CbaDataManager :: get_instance()->retrieve_criteria_score_unique($id, $criteria);
+	}
+	
 	
  	// Competency Indicator
  	function count_competencys_indicator($condition)
@@ -451,7 +456,9 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 	
 	function get_create_url()
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE));
+		//return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE));
+		$urlCreate = '/chamilo/run.php?go=create&application=cba&category=%s';
+        return htmlentities(sprintf($urlCreate, $category));
 	}
 	
 	
@@ -613,15 +620,15 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
             
             $extra_items = array();
             
+            $line = array();
+            $line['title'] = '';
+            $line['class'] = 'divider';
+            
             $create = array();
             $create['title'] = Translation :: get('Create');
             $create['url'] = $this->get_create_url();
             $create['class'] = 'create';
             
-            $line = array();
-            $line['title'] = '';
-            $line['class'] = 'divider';
-
             $extra_items[] = $line;
             $extra_items[] = $create;
 			

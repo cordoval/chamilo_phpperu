@@ -84,6 +84,7 @@ abstract class CbaDataManager
 	abstract function delete_criteria_score($criteria_score);
 	abstract function count_criterias_score($conditions = null);
 	abstract function retrieve_criteria_score($id);
+	abstract function retrieve_criteria_score_unique($id, $criteria_id);
 	abstract function retrieve_criterias_score($condition = null, $offset = null, $count = null, $order_property = null);
 	
 	

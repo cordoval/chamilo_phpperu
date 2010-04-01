@@ -1,6 +1,6 @@
 <?php
 
-class InternshipPlannerManagerOrganisationComponent extends InternshipPlannerManagerComponent
+class InternshipPlannerManagerAgreementComponent extends InternshipPlannerManagerComponent
 {
 
     /**

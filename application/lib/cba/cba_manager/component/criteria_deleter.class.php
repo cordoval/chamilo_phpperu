@@ -28,6 +28,7 @@ class CbaManagerCriteriaDeleterComponent extends CbaManagerComponent
 			foreach ($ids as $id)
 			{
 				$cba = $this->retrieve_criteria($id);
+				$category_id = $cba->get_parent_id();
 				
 				$condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $id);
 				$count_scores = $this->count_criterias_score($condition);
@@ -67,8 +68,7 @@ class CbaManagerCriteriaDeleterComponent extends CbaManagerComponent
 				}
 			}
 
-			// Redirect problem from a category when deleting via select all
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA, 'category' => $category_id));
 		}
 		else
 		{
