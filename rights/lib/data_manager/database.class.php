@@ -4,6 +4,7 @@
  * @package rights.lib.data_manager
  */
 require_once 'MDB2.php';
+require_once dirname(__FILE__) . '/../rights_data_manager_interface.class.php';
 
 /**
  ==============================================================================
@@ -12,29 +13,17 @@ require_once 'MDB2.php';
  *
  *	@author Tim De Pauw
  *	@author Bart Mollet
+ *  @author Hans De Bisschop
  ==============================================================================
  */
 
-class DatabaseRightsDataManager extends RightsDataManager
+class DatabaseRightsDataManager extends Database implements RightsDataManagerInterface
 {
-    const ALIAS_USER_TABLE = 'u';
-
-    private $database;
-
-    /**
-     * The table name prefix, if any.
-     */
-    private $prefix;
 
     function initialize()
     {
-        $this->database = new Database();
-        $this->database->set_prefix('rights_');
-    }
-
-    function get_database()
-    {
-        return $this->database;
+        parent :: initialize();
+        $this->set_prefix('rights_');
     }
 
     function debug()
@@ -56,7 +45,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new EqualityCondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, $rights_templaterightlocation->get_rights_template_id());
         $condition = new AndCondition($conditions);
 
-        return $this->database->update($rights_templaterightlocation, $condition);
+        return $this->update($rights_templaterightlocation, $condition);
     }
 
     function delete_rights_template_right_location($rights_template_right_location)
@@ -67,44 +56,39 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new EqualityCondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, $rights_template_right_location->get_location_id());
         $condition = new AndCondition($conditions);
 
-        return $this->database->delete(RightsTemplateRightLocation :: get_table_name(), $condition);
+        return $this->delete(RightsTemplateRightLocation :: get_table_name(), $condition);
     }
 
     function delete_rights_template_right_locations($condition)
     {
-        return $this->database->delete_objects(RightsTemplateRightLocation :: get_table_name(), $condition);
+        return $this->delete_objects(RightsTemplateRightLocation :: get_table_name(), $condition);
     }
 
     //Inherited.
     function create_location($location)
     {
-        return $this->database->create($location);
+        return $this->create($location);
     }
 
     function create_right($right)
     {
-        return $this->database->create($right);
+        return $this->create($right);
     }
 
     function create_rights_template($rights_template)
     {
-        return $this->database->create($rights_template);
+        return $this->create($rights_template);
     }
 
     function create_rights_template_right_location($rights_template_right_location)
     {
-        return $this->database->create($rights_template_right_location);
-    }
-
-    function create_storage_unit($name, $properties, $indexes)
-    {
-        return $this->database->create_storage_unit($name, $properties, $indexes);
+        return $this->create($rights_template_right_location);
     }
 
     function retrieve_location_id_from_location_string($location)
     {
         $condition = new PatternMatchCondition(Location :: PROPERTY_NAME, $location);
-        return $this->database->retrieve_object(Location :: get_table_name(), $condition, array(), Location :: CLASS_NAME);
+        return $this->retrieve_object(Location :: get_table_name(), $condition, array(), Location :: CLASS_NAME);
     }
 
     /**
@@ -123,7 +107,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new EqualityCondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, $location_id);
         $condition = new AndCondition($conditions);
 
-        $res = $this->database->retrieve_object(RightsTemplateRightLocation :: get_table_name(), $condition, array(), RightsTemplateRightLocation :: CLASS_NAME);
+        $res = $this->retrieve_object(RightsTemplateRightLocation :: get_table_name(), $condition, array(), RightsTemplateRightLocation :: CLASS_NAME);
 
         if (!$res)
         {
@@ -146,51 +130,51 @@ class DatabaseRightsDataManager extends RightsDataManager
 
     function retrieve_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(RightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by, RightsTemplate :: CLASS_NAME);
+        return $this->retrieve_objects(RightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by, RightsTemplate :: CLASS_NAME);
     }
 
     function retrieve_location($id)
     {
         $condition = new EqualityCondition(Location :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(Location :: get_table_name(), $condition, array(), Location :: CLASS_NAME);
+        return $this->retrieve_object(Location :: get_table_name(), $condition, array(), Location :: CLASS_NAME);
     }
 
     function retrieve_right($id)
     {
         $condition = new EqualityCondition(Right :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(Right :: get_table_name(), $condition, array(), Right :: CLASS_NAME);
+        return $this->retrieve_object(Right :: get_table_name(), $condition, array(), Right :: CLASS_NAME);
     }
 
     function retrieve_rights_template($id)
     {
         $condition = new EqualityCondition(RightsTemplate :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(RightsTemplate :: get_table_name(), $condition, array(), RightsTemplate :: CLASS_NAME);
+        return $this->retrieve_object(RightsTemplate :: get_table_name(), $condition, array(), RightsTemplate :: CLASS_NAME);
     }
 
     function retrieve_rights($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(Right :: get_table_name(), $condition, $offset, $max_objects, $order_by, Right :: CLASS_NAME);
+        return $this->retrieve_objects(Right :: get_table_name(), $condition, $offset, $max_objects, $order_by, Right :: CLASS_NAME);
     }
 
     function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(Location :: get_table_name(), $condition, $offset, $max_objects, $order_by, Location :: CLASS_NAME);
+        return $this->retrieve_objects(Location :: get_table_name(), $condition, $offset, $max_objects, $order_by, Location :: CLASS_NAME);
     }
 
     function count_locations($condition = null)
     {
-        return $this->database->count_objects(Location :: get_table_name(), $condition);
+        return $this->count_objects(Location :: get_table_name(), $condition);
     }
 
     function count_rights_templates($condition = null)
     {
-        return $this->database->count_objects(RightsTemplate :: get_table_name(), $condition);
+        return $this->count_objects(RightsTemplate :: get_table_name(), $condition);
     }
 
     function update_location($location)
     {
         $condition = new EqualityCondition(Location :: PROPERTY_ID, $location->get_id());
-        return $this->database->update($location, $condition);
+        return $this->update($location, $condition);
     }
 
     function add_nested_values($location, $previous_visited, $number_of_elements = 1)
@@ -203,8 +187,8 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $condition = new AndCondition($conditions);
 
-        $properties = array(Location :: PROPERTY_LEFT_VALUE => $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->database->quote($number_of_elements * 2));
-        $res = $this->database->update_objects(Location :: get_table_name(), $properties, $condition);
+        $properties = array(Location :: PROPERTY_LEFT_VALUE => $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
+        $res = $this->update_objects(Location :: get_table_name(), $properties, $condition);
 
         if (!$res)
         {
@@ -219,8 +203,8 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
         $condition = new AndCondition($conditions);
 
-        $properties = array(Location :: PROPERTY_RIGHT_VALUE => $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->database->quote($number_of_elements * 2));
-        $res = $this->database->update_objects(Location :: get_table_name(), $properties, $condition);
+        $properties = array(Location :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
+        $res = $this->update_objects(Location :: get_table_name(), $properties, $condition);
 
         if (!$res)
         {
@@ -240,7 +224,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $location->get_right_value());
         $condition = new AndCondition($conditions);
 
-        return $this->database->delete_objects(Location :: get_table_name(), $condition);
+        return $this->delete_objects(Location :: get_table_name(), $condition);
     }
 
     function delete_nested_values($location)
@@ -256,9 +240,9 @@ class DatabaseRightsDataManager extends RightsDataManager
         $condition = new AndCondition($conditions);
 
         $properties = array();
-        $properties[Location :: PROPERTY_LEFT_VALUE] = $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' - ' . $this->database->quote($delta);
-        $properties[Location :: PROPERTY_RIGHT_VALUE] = $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->database->quote($delta);
-        $res = $this->database->update_objects(Location :: get_table_name(), $properties, $condition);
+        $properties[Location :: PROPERTY_LEFT_VALUE] = $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' - ' . $this->quote($delta);
+        $properties[Location :: PROPERTY_RIGHT_VALUE] = $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta);
+        $res = $this->update_objects(Location :: get_table_name(), $properties, $condition);
 
         if (!$res)
         {
@@ -274,8 +258,8 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_right_value());
         $condition = new AndCondition($conditions);
 
-        $properties = array(Location :: PROPERTY_RIGHT_VALUE => $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->database->quote($delta));
-        $res = $this->database->update_objects(Location :: get_table_name(), $properties, $condition);
+        $properties = array(Location :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta));
+        $res = $this->update_objects(Location :: get_table_name(), $properties, $condition);
 
         if (!$res)
         {
@@ -387,9 +371,9 @@ class DatabaseRightsDataManager extends RightsDataManager
         $condition = new AndCondition($conditions);
 
         $properties = array();
-        $properties[Location :: PROPERTY_LEFT_VALUE] = $this->database->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->database->quote($offset);
-        $properties[Location :: PROPERTY_RIGHT_VALUE] = $this->database->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->database->quote($offset);
-        $res = $this->database->update_objects(Location :: get_table_name(), $properties, $condition);
+        $properties[Location :: PROPERTY_LEFT_VALUE] = $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($offset);
+        $properties[Location :: PROPERTY_RIGHT_VALUE] = $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($offset);
+        $res = $this->update_objects(Location :: get_table_name(), $properties, $condition);
 
         if (!$res)
         {
@@ -408,7 +392,7 @@ class DatabaseRightsDataManager extends RightsDataManager
     function update_rights_template($rights_template)
     {
         $condition = new EqualityCondition(RightsTemplate :: PROPERTY_ID, $rights_template->get_id());
-        return $this->database->update($rights_template, $condition);
+        return $this->update($rights_template, $condition);
     }
 
     function delete_rights_template($rights_template)
@@ -434,80 +418,80 @@ class DatabaseRightsDataManager extends RightsDataManager
         // Delete the actual rights_template
 
         $condition = new EqualityCondition(RightsTemplate :: PROPERTY_ID, $rights_template->get_id());
-        return $this->database->delete(RightsTemplate :: get_table_name(), $condition);
+        return $this->delete(RightsTemplate :: get_table_name(), $condition);
     }
 
     function delete_locations($condition = null)
     {
-        return $this->database->delete_objects(Location :: get_table_name(), $condition);
+        return $this->delete_objects(Location :: get_table_name(), $condition);
     }
 
     function delete_orphaned_rights_template_right_locations()
     {
         $conditions = array();
-        $conditions[] = new NotCondition(new SubselectCondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->database->escape_table_name(Location :: get_table_name())));
-        $conditions[] = new NotCondition(new SubselectCondition(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID, RightsTemplate :: PROPERTY_ID, $this->database->escape_table_name(RightsTemplate :: get_table_name())));
+        $conditions[] = new NotCondition(new SubselectCondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->escape_table_name(Location :: get_table_name())));
+        $conditions[] = new NotCondition(new SubselectCondition(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID, RightsTemplate :: PROPERTY_ID, $this->escape_table_name(RightsTemplate :: get_table_name())));
         $condition = new OrCondition($conditions);
 
-        return $this->database->delete_objects(RightsTemplateRightLocation :: get_table_name(), $condition);
+        return $this->delete_objects(RightsTemplateRightLocation :: get_table_name(), $condition);
     }
 
     function retrieve_shared_content_objects_for_user($user_id, $rights)
     {
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
-        $conditions[] = new SubSelectcondition(UserRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->database->escape_table_name(Location :: get_table_name()), $subcondition);
+        $conditions[] = new SubSelectcondition(UserRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->escape_table_name(Location :: get_table_name()), $subcondition);
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user_id);
         $conditions[] = new InCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $rights);
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_VALUE, 1);
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_objects(UserRightLocation :: get_table_name(), $condition, null, null, array(), UserRightLocation :: CLASS_NAME);
+        return $this->retrieve_objects(UserRightLocation :: get_table_name(), $condition, null, null, array(), UserRightLocation :: CLASS_NAME);
     }
 
     function retrieve_shared_content_objects_for_groups($group_ids, $rights)
     {
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
-        $conditions[] = new SubSelectcondition(GroupRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->database->escape_table_name(Location :: get_table_name()), $subcondition);
+        $conditions[] = new SubSelectcondition(GroupRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->escape_table_name(Location :: get_table_name()), $subcondition);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group_ids);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_RIGHT_ID, $rights);
         $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_VALUE, 1);
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_objects(GroupRightLocation :: get_table_name(), $condition, null, null, array(), GroupRightLocation :: CLASS_NAME);
+        return $this->retrieve_objects(GroupRightLocation :: get_table_name(), $condition, null, null, array(), GroupRightLocation :: CLASS_NAME);
     }
 
     function create_user_right_location($user_right_location)
     {
-        return $this->database->create($user_right_location);
+        return $this->create($user_right_location);
     }
 
     function create_group_right_location($group_right_location)
     {
-        return $this->database->create($group_right_location);
+        return $this->create($group_right_location);
     }
 
     function delete_user_right_location($user_right_location)
     {
         $condition = new EqualityCondition(UserRightLocation :: PROPERTY_ID, $user_right_location->get_id());
-        return $this->database->delete(UserRightLocation :: get_table_name(), $condition);
+        return $this->delete(UserRightLocation :: get_table_name(), $condition);
     }
 
     function delete_group_right_location($group_right_location)
     {
         $condition = new EqualityCondition(GroupRightLocation :: PROPERTY_ID, $group_right_location->get_id());
-        return $this->database->delete(GroupRightLocation :: get_table_name(), $condition);
+        return $this->delete(GroupRightLocation :: get_table_name(), $condition);
     }
 
     function update_user_right_location($user_right_location)
     {
         $condition = new EqualityCondition(UserRightLocation :: PROPERTY_ID, $user_right_location->get_id());
-        return $this->database->update($user_right_location, $condition);
+        return $this->update($user_right_location, $condition);
     }
 
     function update_group_right_location($group_right_location)
     {
         $condition = new EqualityCondition(GroupRightLocation :: PROPERTY_ID, $group_right_location->get_id());
-        return $this->database->update($group_right_location, $condition);
+        return $this->update($group_right_location, $condition);
     }
 
     function retrieve_user_right_location($right_id, $user_id, $location_id)
@@ -518,7 +502,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_LOCATION_ID, $location_id);
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(UserRightLocation :: get_table_name(), $condition);
+        return $this->retrieve_object(UserRightLocation :: get_table_name(), $condition);
     }
 
     function retrieve_group_right_location($right_id, $group_id, $location_id)
@@ -529,17 +513,17 @@ class DatabaseRightsDataManager extends RightsDataManager
         $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_LOCATION_ID, $location_id);
         $condition = new AndCondition($conditions);
 
-        return $this->database->retrieve_object(GroupRightLocation :: get_table_name(), $condition);
+        return $this->retrieve_object(GroupRightLocation :: get_table_name(), $condition);
     }
 
     function retrieve_user_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(UserRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(UserRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(GroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(GroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 }
 ?>
