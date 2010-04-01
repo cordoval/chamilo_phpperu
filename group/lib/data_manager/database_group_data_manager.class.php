@@ -124,11 +124,6 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         return $this->retrieve_object(Group :: get_table_name(), $condition);
     }
 
-    function create_storage_unit($name, $properties, $indexes)
-    {
-        return $this->create_storage_unit($name, $properties, $indexes);
-    }
-
     function retrieve_group_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(GroupRightsTemplate :: get_table_name(), $condition, $offset, $max_objects, $order_by);

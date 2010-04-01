@@ -24,11 +24,6 @@ class DatabaseMenuDataManager extends Database implements MenuDataManagerInterfa
         $this->set_prefix('menu_');
     }
 
-    function create_storage_unit($name, $properties, $indexes)
-    {
-        return $this->create_storage_unit($name, $properties, $indexes);
-    }
-
     function count_navigation_items($condition = null)
     {
         return $this->count_objects(NavigationItem :: get_table_name(), $condition);
@@ -112,11 +107,6 @@ class DatabaseMenuDataManager extends Database implements MenuDataManagerInterfa
         $res->free();
 
         return $succes;
-    }
-
-    function retrieve_max_sort_value($table, $column, $condition = null)
-    {
-        return $this->retrieve_max_sort_value($table, $column, $condition);
     }
 
     function create_navigation_item($navigation_item)

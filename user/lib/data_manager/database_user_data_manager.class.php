@@ -99,13 +99,6 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 		return true;
 	}
 
-	// Inherited.
-	function create_storage_unit($name, $properties, $indexes)
-	{
-		return $this->create_storage_unit($name, $properties, $indexes);
-	}
-
-
 	function retrieve_user($id)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_ID, $id);

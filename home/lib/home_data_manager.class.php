@@ -26,8 +26,8 @@ class HomeDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '.class.php';
-            $class = $type . 'HomeDataManager';
+            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_home_data_manager.class.php';
+            $class = Utilities :: underscores_to_camelcase($type) . 'HomeDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
@@ -66,7 +66,7 @@ class HomeDataManager
 
     function create_block_properties($block)
     {
-        $homeblockconfigs = $this->retrieve_block_properties($block->get_application(), $block->get_component());
+        $homeblockconfigs = self :: retrieve_block_properties($block->get_application(), $block->get_component());
 
         foreach ($homeblockconfigs as $variable => $value)
         {
