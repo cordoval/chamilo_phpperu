@@ -28,6 +28,9 @@ class CriteriaForm extends FormValidator
 		$this->owner_id = $criteria->get_owner_id();
 		$this->data_manager = CbaDataManager :: get_instance();
 		
+		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $criteria->get_id());
+		$options = $this->data_manager->count_criterias_score($condition);
+		
 		if ($this->form_type == self :: TYPE_CREATOR_CRITERIA)
 		{
 			$this->build_creator_criteria_form();
@@ -36,7 +39,7 @@ class CriteriaForm extends FormValidator
 		}
     	elseif ($this->form_type == self :: TYPE_EDITOR_CRITERIA)
 		{
-			$this->build_editor_criteria_form();
+			$this->build_editor_criteria_form($options);
 			$this->setCriteriaDefaults();
 			$this->setCriteriaScoreDefaults();
 		}
@@ -71,7 +74,7 @@ class CriteriaForm extends FormValidator
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
-	function build_editor_criteria_form()
+	function build_editor_criteria_form($options)
     {
     	$this->addElement('text', Criteria :: PROPERTY_TITLE, Translation :: get('Title'));
 		$this->addRule(Criteria :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -87,7 +90,7 @@ class CriteriaForm extends FormValidator
 		$this->add_html_editor(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		$this->addRule(Criteria :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->criteria_score_form();
+		$this->criteria_score_form($options);
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -143,8 +146,8 @@ class CriteriaForm extends FormValidator
     	$criteria = $this->criteria;
     	$criteria_score = $this->criteria_score; 	
     	$criteria_score->set_owner_id($this->get_owner_id());
-    	$values = $this->exportValues();	
-    	
+    	$values = $this->exportValues();
+
     	$result = true;
 
         foreach ($values as $key => $value)
@@ -248,11 +251,8 @@ class CriteriaForm extends FormValidator
 	function setCriteriaScoreDefaults($defaults = array ())
 	{
 		$criteria = $this->criteria;
-		
-		$criteria_score = $this->criteria_score;		
+		$criteria_score = $this->criteria_score;	
 		$values = $this->exportValues();
-		//$parent = $this->exportValue(CriteriaScore :: PROPERTY_PARENT_ID);
-		//dump($values['name0']);
 		
 		/*foreach($values as $key => $value)
 		{
@@ -261,8 +261,10 @@ class CriteriaForm extends FormValidator
 			echo '<br/>';		
 		}
 		exit();*/
-
-		$count = sizeof($criteria_score);		
+		
+		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $criteria->get_id());
+		$count = $this->data_manager->count_criterias_score($condition);
+	
 		for($i = 0; $i < $count; $i++)
 		{
 			$defaults[CriteriaScore :: PROPERTY_DESCRIPTION_SCORE . $i] = $criteria_score->get_description_score();
@@ -275,18 +277,27 @@ class CriteriaForm extends FormValidator
 	
 	// Dynamic form options
 	
-	function criteria_score_form()
+	function criteria_score_form($options)
     {
         
         if (! $this->isSubmitted())
         {
             unset($_SESSION['mc_number_of_options']);
             unset($_SESSION['mc_skip_options']);
+            unset($_SESSION['mc_up_option']);
+            unset($_SESSION['mc_down_option']);
         }
         
         if (! isset($_SESSION['mc_number_of_options']))
         {
-            $_SESSION['mc_number_of_options'] = 1;
+        	if($options == null)
+        	{
+            	$_SESSION['mc_number_of_options'] = 1;
+        	}
+        	else
+        	{
+        		$_SESSION['mc_number_of_options'] = $options;
+        	}
         }
         
         if (! isset($_SESSION['mc_skip_options']))
@@ -294,10 +305,19 @@ class CriteriaForm extends FormValidator
             $_SESSION['mc_skip_options'] = array();
         }
         
+        if(! isset($_SESSION['mc_up_option']))
+        {
+        	$_SESSION['mc_up_option'] = array();
+        }
+        
+    	if(! isset($_SESSION['mc_down_option']))
+        {
+        	$_SESSION['mc_down_option'] = array();
+        }
+        
         if (isset($_POST['add']))
         {
             $_SESSION['mc_number_of_options'] = $_SESSION['mc_number_of_options'] + 1;
-            $number_options++;
         }
         if (isset($_POST['remove']))
         {
@@ -306,13 +326,30 @@ class CriteriaForm extends FormValidator
         }
     	if (isset($_POST['up']))
         {
-            //$indexes = array_keys($_POST['up']);
-            //$_SESSION['mc_skip_options'][] = $indexes[0];
+            $indexes = array_keys($_POST['up']);
+            $count = $_SESSION['mc_number_of_options'];
+            for($i = 1; $i <= $count; $i++)
+            {
+            	if($i == $indexes[0])
+            	{
+            		$j = $i;
+            		$i = $i - 1;
+            	}
+            }
+            
         }
     	if (isset($_POST['down']))
         {
-            //$indexes = array_keys($_POST['down']);
-            //$_SESSION['mc_skip_options'][] = $indexes[0];
+        	$indexes = array_keys($_POST['down']);
+        	$count = $_SESSION['mc_number_of_options'];
+            for($i = 1; $i <= $count; $i++)
+            {
+            	if($i == $indexes[0])
+            	{
+            		$j = $i;
+            		$i = $i + 1;
+            	}
+            }
         }
         
         $number_of_options = intval($_SESSION['mc_number_of_options']);
