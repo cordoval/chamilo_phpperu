@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: database.class.php 235 2009-11-16 12:08:00Z scaramanga $
+ * $Id: database_rights_data_manager.class.php 235 2009-11-16 12:08:00Z scaramanga $
  * @package rights.lib.data_manager
  */
 require_once 'MDB2.php';
@@ -28,14 +28,14 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
 
     function debug()
     {
-        $args = func_get_args();
-        // Do something with the arguments
-        if ($args[1] == 'query')
-        {
-            echo '<pre>';
-            print_r($args[2]);
-            echo '</pre>';
-        }
+//        $args = func_get_args();
+//        // Do something with the arguments
+//        if ($args[1] == 'query')
+//        {
+//            echo '<pre>';
+//            print_r($args[2]);
+//            echo '</pre>';
+//        }
     }
 
     function update_rights_template_right_location($rights_templaterightlocation)
