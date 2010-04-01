@@ -359,6 +359,11 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 		return CbaDataManager :: get_instance()->retrieve_criteria_score($id);
 	}
 	
+ 	function retrieve_criteria_score_unique($id, $criteria_id)
+	{
+		return CbaDataManager :: get_instance()->retrieve_criteria_score_unique($id, $criteria);
+	}
+	
 	
  	// Competency Indicator
  	function count_competencys_indicator($condition)

@@ -147,23 +147,24 @@ class CriteriaForm extends FormValidator
     	$criteria_score = $this->criteria_score; 	
     	$criteria_score->set_owner_id($this->get_owner_id());
     	$values = $this->exportValues();
-
     	$result = true;
 
         foreach ($values as $key => $value)
-        {     	
+        {     
+        	
             if (strpos($key, 'description_score') !== false)
             {
+            	$scores = $values[$key];
+            	
             	$description_score = array();
             	$description_score[] = $value;    
-            	$criteria_score->set_description_score($value);        	
+            	$criteria_score->set_description_score($value);  	      	
             }
             
         	if(strpos($key, 'description_score') === false)
         	{
         		if(strpos($key, 'score') !== false)
         		{
-	        	
 	        		$criteria_score->set_criteria_id($criteria->get_id());
 	                $criteria_score->set_score($value);
 	                
@@ -181,6 +182,7 @@ class CriteriaForm extends FormValidator
 	                }
 	                else
 	                {
+	                	$criteria_score->set_target_scores($scores);
 	                    $result &= $criteria_score->create();
 	                }
         		}
@@ -253,23 +255,19 @@ class CriteriaForm extends FormValidator
 		$criteria = $this->criteria;
 		$criteria_score = $this->criteria_score;	
 		$values = $this->exportValues();
+				
+		$cdm = CbaDataManager :: get_instance(); 
+		$target_scores = $this->criteria_score->get_target_scores();
 		
-		/*foreach($values as $key => $value)
+    	foreach($target_scores as $index => $value)
 		{
-			echo $key . ': ';
-			echo $value;
-			echo '<br/>';		
-		}
-		exit();*/
-		
-		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $criteria->get_id());
-		$count = $this->data_manager->count_criterias_score($condition);
-	
-		for($i = 0; $i < $count; $i++)
-		{
-			$defaults[CriteriaScore :: PROPERTY_DESCRIPTION_SCORE . $i] = $criteria_score->get_description_score();
-			$defaults[CriteriaScore :: PROPERTY_SCORE . $i] = $criteria_score->get_score();
-		}
+			$id = $value;
+			$criteria_id = $this->criteria->get_id();
+			$criteria_score = $cdm->retrieve_criteria_score_unique($id, $criteria_id);
+
+			$defaults[CriteriaScore :: PROPERTY_DESCRIPTION_SCORE . $index] = $criteria_score->get_description_score();
+			$defaults[CriteriaScore :: PROPERTY_SCORE . $index] = $criteria_score->get_score();
+		}		
 		parent :: setDefaults($defaults);
 	}
 	
