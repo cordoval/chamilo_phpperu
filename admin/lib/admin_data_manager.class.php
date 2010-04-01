@@ -38,7 +38,7 @@ class AdminDataManager
         $languages = self :: get_instance()->retrieve_languages();
         while ($language = $languages->next_result())
         {
-    		if(self :: get_instance()->is_language_active($language->get_english_name()))
+    		if(self :: is_language_active($language->get_english_name()))
     		{
         		$options[$language->get_folder()] = $language->get_original_name();
     		}
