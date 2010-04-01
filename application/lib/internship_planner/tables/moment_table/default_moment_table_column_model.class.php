@@ -19,8 +19,9 @@ class DefaultInternshipPlannerMomentTableColumnModel extends ObjectTableColumnMo
 		
 		$columns = array ();
 		$columns [] = new ObjectTableColumn ( InternshipPlannerMoment::PROPERTY_NAME, true );
-		$columns [] = new ObjectTableColumn ( InternshipPlannerMoment::PROPERTY_CITY, true );
-		$columns [] = new ObjectTableColumn ( InternshipPlannerMoment::PROPERTY_STREET, true );
+		$columns [] = new ObjectTableColumn ( InternshipPlannerMoment::PROPERTY_DESCRIPTION, true );
+		$columns [] = new ObjectTableColumn ( InternshipPlannerMoment::PROPERTY_BEGIN, true );
+		$columns [] = new ObjectTableColumn ( InternshipPlannerMoment::PROPERTY_END, true );
 		return $columns;
 	}
 }
