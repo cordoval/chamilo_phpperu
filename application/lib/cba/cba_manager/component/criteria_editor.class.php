@@ -29,34 +29,7 @@ class CbaManagerCriteriaEditorComponent extends CbaManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA)), Translation :: get('BrowseCriteria')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateCriteria')));
 		$this->display_header($trail, false, true);
-		
-		/*$id = Request :: get(CbaManager :: PARAM_CRITERIA);
-		$criteria = $this->retrieve_criteria($id);		
-		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $id);		
-		$count_links = $this->count_criterias_score($condition);
-
-		for($i = 0; $i < $count_links; $i++)
-		{
-			if($count_links == 1)
-			{	
-				$criteria_score[$i] = $this->retrieve_criteria_score($id);
-			}
-			elseif($count_links > 1)
-			{
-				$criteria_score[$i] = $this->retrieve_criteria_score($id);
-			}
-			dump($criteria_score[$i]);
-		}
-
-		$condition = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $this->get_criteria_id());
-        $scores = CbaDataManager :: get_instance()->retrieve_criterias_score($condition, null, null, new ObjectTableOrder(CriteriaScore :: PROPERTY_CRITERIA_ID));
-
-        while ($score = $scores->next_result())
-        {
-            $this->target_criterias[] = $criteria->get_criteria_id();
-        }
-		
-		exit();*/
+	
 		
 		$criteria = $this->retrieve_criteria(Request :: get(CbaManager :: PARAM_CRITERIA));
 		$criteria_score = $this->retrieve_criteria_score(Request :: get(CbaManager :: PARAM_CRITERIA));

@@ -157,6 +157,7 @@ class CbaMenu extends HTML_Menu
         $menu_item['class'] = 'category';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
         $menu[2] = $menu_item;
+   
         
         
         // See cba_manager.class.php for the other item(s)

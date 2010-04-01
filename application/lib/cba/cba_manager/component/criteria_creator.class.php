@@ -28,7 +28,8 @@ class CbaManagerCriteriaCreatorComponent extends CbaManagerComponent
 			$success_criteria_score = $form->create_criteria_score();
 			if($success_criteria == $success_criteria_score)
 				$success = 1;
-			$this->redirect($success ? Translation :: get('CriteriaCreated') : Translation :: get('CriteriaNotCreated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA));
+				$new_category_id = $form->exportValue(Criteria :: PROPERTY_PARENT_ID);
+			$this->redirect($success ? Translation :: get('CriteriaCreated') : Translation :: get('CriteriaNotCreated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA, 'category' => $new_category_id));
 		}
 		else
 		{

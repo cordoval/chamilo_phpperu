@@ -28,7 +28,8 @@ class CbaManagerCompetencyCreatorComponent extends CbaManagerComponent
 			$success_competency_indicator = $form->create_competency_indicator();
 			if($success_competency == $success_competency_indicator)
 				$success = 1;
-			$this->redirect($success ? Translation :: get('CompetencyCreated') : Translation :: get('CompetencyNotCreated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY));
+				$new_category_id = $form->exportValue(Competency :: PROPERTY_PARENT_ID);
+			$this->redirect($success ? Translation :: get('CompetencyCreated') : Translation :: get('CompetencyNotCreated'), !$success, array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY, 'category' => $new_category_id));
 		}
 		else
 		{
@@ -36,6 +37,7 @@ class CbaManagerCompetencyCreatorComponent extends CbaManagerComponent
 		}
 		$this->display_footer();
 	}
+
 	
 	function display_footer()
 	{

@@ -26,7 +26,8 @@ class CbaManagerIndicatorDeleterComponent extends CbaManagerComponent
 
 			foreach ($ids as $id)
 			{
-				/*$cba = $this->retrieve_indicator($id);
+				$cba = $this->retrieve_indicator($id);
+				$category_id = $cba->get_parent_id();
 				$cba->delete();
 				$cba_indicator_criteria = $this->retrieve_indicator_criteria($id);
 				$cba_indicator_criteria->delete();
@@ -34,7 +35,7 @@ class CbaManagerIndicatorDeleterComponent extends CbaManagerComponent
 				if (!$cba->delete() || !$cba_indicator_criteria->delete())
 				{
 					$failures++;
-				}*/	
+				}
 			}
 
 			if ($failures)
@@ -59,9 +60,8 @@ class CbaManagerIndicatorDeleterComponent extends CbaManagerComponent
 					$message = 'SelectedIndicatorsDeleted';
 				}
 			}
-
-			// Redirect problem from a category when deleting via select all
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_MANAGE_CATEGORIES_INDICATOR));//ACTION_BROWSE_INDICATOR));
+ 
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_INDICATOR, 'category' => $category_id));
 		}
 		else
 		{
