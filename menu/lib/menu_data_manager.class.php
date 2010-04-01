@@ -18,19 +18,6 @@ abstract class MenuDataManager
     private static $instance;
 
     /**
-     * Constructor.
-     */
-    protected function MenuDataManager()
-    {
-        $this->initialize();
-    }
-
-    /**
-     * Initializes the data manager.
-     */
-    abstract function initialize();
-
-    /**
      * Uses a singleton pattern and a factory pattern to return the data
      * manager. The configuration determines which data manager class is to
      * be instantiated.

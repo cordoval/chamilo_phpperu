@@ -19,18 +19,18 @@ interface MenuDataManagerInterface
      * @param array $indexes The indexes which should be defined in the created
      * storage unit
      */
-    abstract function create_storage_unit($name, $properties, $indexes);
+    function create_storage_unit($name, $properties, $indexes);
 
-    abstract function count_navigation_items($condition = null);
+    function count_navigation_items($condition = null);
 
-    abstract function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null);
+    function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null);
 
-    abstract function retrieve_navigation_item($id);
+    function retrieve_navigation_item($id);
 
-    abstract function retrieve_navigation_item_at_sort($parent, $sort, $direction);
+    function retrieve_navigation_item_at_sort($parent, $sort, $direction);
 
-    abstract function update_navigation_item($menuitem);
+    function update_navigation_item($menuitem);
 
-    abstract function delete_navigation_items($condition = null);
+    function delete_navigation_items($condition = null);
 }
 ?>

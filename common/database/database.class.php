@@ -581,7 +581,7 @@ class Database
 
         $this->set_limit(intval($max_objects), intval($offset));
 
-        return $this->query($query); 
+        return $this->query($query);
     }
 
     function retrieve_object_set($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
