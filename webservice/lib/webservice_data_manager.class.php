@@ -21,7 +21,7 @@ abstract class WebserviceDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '.class.php';
+            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_webservice_data_manager.class.php';
             $class = $type . 'WebserviceDataManager';
             self :: $instance = new $class();
         }
