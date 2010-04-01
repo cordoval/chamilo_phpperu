@@ -140,6 +140,7 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManagerComponent
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
 		$action_bar->set_search_url($this->get_url(array(WeblcmsManager :: PARAM_COURSE_TYPE => $course_type->get_id())));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_course_type_editing_url($course_type), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_course_type_deleting_url($course_type), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('DeleteAllCourses'), Theme :: get_common_image_path().'action_delete.png', $this->get_course_type_deleting_all_courses_url($course_type), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
