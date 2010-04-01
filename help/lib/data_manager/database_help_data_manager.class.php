@@ -18,11 +18,12 @@ require_once dirname(__FILE__) . '/../help_data_manager_interface.class.php';
 ==============================================================================
  */
 
-class DatabaseHelpDataManager extends DataManager implements HelpDataManagerInterface
+class DatabaseHelpDataManager extends Database implements HelpDataManagerInterface
 {
 
     function initialize()
     {
+        parent :: initialize();
         $this->set_prefix('help_');
     }
 
