@@ -13,10 +13,7 @@ class SettingsAdminConnector
 
     function get_languages()
     {
-        $adm = AdminDataManager :: get_instance();
-        $options = $adm->get_languages();
-
-        return $options;
+        return AdminDataManager :: get_languages();
     }
 
     function get_themes()

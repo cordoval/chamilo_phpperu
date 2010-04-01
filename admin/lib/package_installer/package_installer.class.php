@@ -11,7 +11,7 @@ class PackageInstaller
     const TYPE_CONFIRM = '2';
     const TYPE_WARNING = '3';
     const TYPE_ERROR = '4';
-    
+
     private $source;
     private $message;
     private $html;
@@ -24,22 +24,22 @@ class PackageInstaller
     }
 
     function run()
-    { 	
+    {
     	$installer_source = PackageInstallerSource :: factory($this, $this->source);
         if (! $installer_source->process())
         {
             return $this->installation_failed('source', Translation :: get('PackageRetrievalFailed'));
         }
         else
-        { 
-            $is_registered = AdminDataManager :: get_instance()->is_registered($installer_source->get_attributes()->get_name(), $installer_source->get_attributes()->get_section()); 
+        {
+            $is_registered = AdminDataManager :: is_registered($installer_source->get_attributes()->get_name(), $installer_source->get_attributes()->get_section());
             if($is_registered)
             {
            		return $this->installation_failed('source', Translation :: get('PackageIsAlreadyRegistered'));
             }
-            
+
         	$this->process_result('Source');
-            
+
             $attributes = $installer_source->get_attributes();
             $package = PackageInstallerType :: factory($this, $attributes->get_section(), $installer_source);
             if (! $package->install())

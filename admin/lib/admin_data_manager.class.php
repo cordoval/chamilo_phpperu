@@ -6,7 +6,7 @@
  * @author Dieter De Neef
  */
 
-abstract class AdminDataManager
+class AdminDataManager
 {
     /**
      * Instance of this class for the singleton pattern.
@@ -38,7 +38,7 @@ abstract class AdminDataManager
         $languages = self :: get_instance()->retrieve_languages();
         while ($language = $languages->next_result())
         {
-    		if($this->is_language_active($language->get_english_name()))
+    		if(self :: get_instance()->is_language_active($language->get_english_name()))
     		{
         		$options[$language->get_folder()] = $language->get_original_name();
     		}

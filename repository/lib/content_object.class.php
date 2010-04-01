@@ -156,9 +156,9 @@ class ContentObject extends DataClass implements AccessibleContentObject
         $type = $this->get_default_property(self :: PROPERTY_TYPE);
     	if($type)
         {
-        	return $type;	
+        	return $type;
         }
-        
+
     	return self :: class_to_type(get_class($this));
     }
 
@@ -437,12 +437,12 @@ class ContentObject extends DataClass implements AccessibleContentObject
     {
         $this->set_default_property(self :: PROPERTY_MODIFICATION_DATE, $modified);
     }
-    
+
     function get_content_hash()
     {
     	return $this->get_default_property(self :: PROPERTY_CONTENT_HASH);
     }
-    
+
     function set_content_hash($content_hash)
     {
     	$this->set_default_property(self :: PROPERTY_CONTENT_HASH, $content_hash);
@@ -649,7 +649,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
         $this->set_creation_date($now);
         $this->set_modification_date($now);
         $this->set_object_number($dm->get_next_content_object_number());
-        
+
         if (! $dm->create_content_object($this, 'new'))
         {
             return false;
@@ -985,9 +985,9 @@ class ContentObject extends DataClass implements AccessibleContentObject
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, 
-        								self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, 
-        								self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, 
+        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE,
+        								self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE,
+        								self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE,
         								self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
     }
 
@@ -1076,7 +1076,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
      */
     static function factory($type, $defaultProperties = array(), $additionalProperties = array())
     {
-        if(!AdminDataManager :: get_instance()->is_registered($type, 'content_object'))
+        if(!AdminDataManager :: is_registered($type, 'content_object'))
         {
         	return null;
         }
