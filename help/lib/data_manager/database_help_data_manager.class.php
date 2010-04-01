@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: database.class.php 226 2009-11-13 14:44:03Z chellee $
+ * $Id: database_help_data_manager.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib.data_manager
  */
 require_once 'MDB2.php';
