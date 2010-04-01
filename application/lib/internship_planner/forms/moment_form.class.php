@@ -38,7 +38,7 @@ class InternshipPlannerMomentForm extends FormValidator
         $this->addElement('text', InternshipPlannerMoment :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
         $this->addRule(InternshipPlannerMoment :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->add_datepickerElement(InternshipPlannerMoment :: PROPERTY_BEGIN, Translation :: get('Begin'));
+        $this->add_datepicker(InternshipPlannerMoment :: PROPERTY_BEGIN, Translation :: get('Begin'));
         $this->addRule(InternshipPlannerMoment :: PROPERTY_BEGIN, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $this->add_datepicker(InternshipPlannerMoment :: PROPERTY_END, Translation :: get('End'));

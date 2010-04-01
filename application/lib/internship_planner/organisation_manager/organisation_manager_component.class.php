@@ -64,9 +64,9 @@ class InternshipPlannerOrganisationManagerComponent extends SubManagerComponent
         return $this->get_parent()->retrieve_location($id);
     }
 
-    function get_create_location_url($organisation)
+    function get_create_location_url($location)
     {
-        return $this->get_parent()->get_create_location_url($organisation);
+        return $this->get_parent()->get_create_location_url($location);
     }
 
     function get_update_location_url($location)

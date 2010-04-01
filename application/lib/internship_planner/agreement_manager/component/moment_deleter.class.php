@@ -12,7 +12,7 @@ class InternshipPlannerAgreementManagerMomentDeleterComponent extends Internship
 	{
 		$ids = $_GET[InternshipPlannerAgreementManager :: PARAM_MOMENT_ID];
 		$failures = 0;
-
+				
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
@@ -23,7 +23,7 @@ class InternshipPlannerAgreementManagerMomentDeleterComponent extends Internship
 			foreach ($ids as $id)
 			{
 				$moment = $this->retrieve_moment($id);
-
+				$agreement_id = $moment->get_agreement_id();	
 				if (!$moment->delete())
 				{
 					$failures++;
@@ -53,7 +53,7 @@ class InternshipPlannerAgreementManagerMomentDeleterComponent extends Internship
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipPlannerAgreementManager :: PARAM_ACTION => InternshipPlannerAgreementManager :: ACTION_VIEW_AGREEMENT));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipPlannerAgreementManager :: PARAM_ACTION => InternshipPlannerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipPlannerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id));
 		}
 		else
 		{

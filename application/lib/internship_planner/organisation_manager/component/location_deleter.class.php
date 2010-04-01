@@ -23,7 +23,8 @@ class InternshipPlannerOrganisationManagerLocationDeleterComponent extends Inter
 			foreach ($ids as $id)
 			{
 				$location = $this->retrieve_location($id);
-
+				$organisation_id = $location->get_organisation_id();
+				
 				if (!$location->delete())
 				{
 					$failures++;
@@ -53,7 +54,7 @@ class InternshipPlannerOrganisationManagerLocationDeleterComponent extends Inter
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipPlannerOrganisationManager :: PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_VIEW_ORGANISATION));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipPlannerOrganisationManager :: PARAM_ACTION => InternshipPlannerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipPlannerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id));
 		}
 		else
 		{

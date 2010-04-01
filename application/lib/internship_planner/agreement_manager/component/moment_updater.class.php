@@ -12,17 +12,20 @@ class InternshipPlannerAgreementManagerMomentUpdaterComponent extends Internship
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(InternshipPlannerAgreementManager :: PARAM_ACTION => InternshipPlannerAgreementManager :: ACTION_BROWSE_MOMENTS)), Translation :: get('BrowseInternshipPlannerMoments')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateInternshipPlannerMoment')));
-
+		
 		$moment = $this->retrieve_moment(Request :: get(InternshipPlannerAgreementManager :: PARAM_MOMENT_ID));
+		
+		
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_view_agreement_url($moment->get_agreement()), Translation :: get('ViewAgreement')));
+		$trail->add(new Breadcrumb($this->get_update_moment_url($moment), Translation :: get('UpdateMoment')));
+
 		$form = new InternshipPlannerMomentForm(InternshipPlannerMomentForm :: TYPE_EDIT, $moment, $this->get_url(array(InternshipPlannerAgreementManager :: PARAM_MOMENT_ID => $moment->get_id())), $this->get_user());
 
 		if($form->validate())
 		{
 			$success = $form->update_moment();
-			$this->redirect($success ? Translation :: get('InternshipPlannerMomentUpdated') : Translation :: get('InternshipPlannerMomentNotUpdated'), !$success, array(InternshipPlannerAgreementManager :: PARAM_ACTION => InternshipPlannerAgreementManager :: ACTION_BROWSE_MOMENTS));
+			$this->redirect($success ? Translation :: get('InternshipPlannerMomentUpdated') : Translation :: get('InternshipPlannerMomentNotUpdated'), !$success, array(InternshipPlannerAgreementManager :: PARAM_ACTION => InternshipPlannerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipPlannerAgreementManager :: PARAM_AGREEMENT_ID => $moment->get_agreement_id()));
 		}
 		else
 		{

@@ -64,9 +64,9 @@ class InternshipPlannerAgreementManagerComponent extends SubManagerComponent
         return $this->get_parent()->retrieve_moment($id);
     }
 
-    function get_create_moment_url($agreement)
+    function get_create_moment_url($moment)
     {
-        return $this->get_parent()->get_create_moment_url($agreement);
+        return $this->get_parent()->get_create_moment_url($moment);
     }
 
     function get_update_moment_url($moment)

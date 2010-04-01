@@ -149,12 +149,12 @@ class InternshipPlannerOrganisationManager extends SubManager
 
     function get_update_location_url($location)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_LOCATION, self :: PARAM_LOCATION => $location->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_LOCATION, self :: PARAM_LOCATION_ID => $location->get_id()));
     }
 
     function get_delete_location_url($location)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_LOCATION, self :: PARAM_LOCATION => $location->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_LOCATION, self :: PARAM_LOCATION_ID => $location->get_id()));
     }
 
     function get_browse_locations_url()

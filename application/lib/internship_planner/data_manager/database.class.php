@@ -6,6 +6,9 @@ require_once dirname ( __FILE__ ) . '/../category.class.php';
 require_once dirname ( __FILE__ ) . '/../location.class.php';
 require_once dirname ( __FILE__ ) . '/../category_rel_location.class.php';
 require_once dirname ( __FILE__ ) . '/../organisation.class.php';
+require_once dirname ( __FILE__ ) . '/../agreement.class.php';
+require_once dirname ( __FILE__ ) . '/../moment.class.php';
+
 require_once 'MDB2.php';
 
 class DatabaseInternshipPlannerDataManager extends InternshipPlannerDataManager {

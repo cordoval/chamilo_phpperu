@@ -149,12 +149,12 @@ class InternshipPlannerAgreementManager extends SubManager
 
     function get_update_moment_url($moment)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_MOMENT, self :: PARAM_MOMENT => $moment->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_MOMENT, self :: PARAM_MOMENT_ID => $moment->get_id()));
     }
 
     function get_delete_moment_url($moment)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_MOMENT, self :: PARAM_MOMENT => $moment->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_MOMENT, self :: PARAM_MOMENT_ID => $moment->get_id()));
     }
 
     function get_browse_moments_url()

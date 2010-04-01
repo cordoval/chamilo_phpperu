@@ -147,7 +147,10 @@ class InternshipPlannerMoment extends DataClass
 		$this->set_default_property(self :: PROPERTY_AGREEMENT_ID, $agreement_id);
 	}
 
-
+	function get_agreement(){
+		return $this->get_data_manager()->retrieve_agreement($this->get_agreement_id());
+	}
+	
 	static function get_table_name()
 	{
 		return 'moment';
