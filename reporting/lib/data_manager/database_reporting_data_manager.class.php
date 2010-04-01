@@ -1,4 +1,5 @@
 <?php
+require_once 'MDB2.php';
 require_once dirname(__FILE__) . '/../reporting_data_manager_interface.class.php';
 /**
  * $Id: database_reporting_data_manager.class.php 232 2009-11-16 10:11:48Z vanpouckesven $
