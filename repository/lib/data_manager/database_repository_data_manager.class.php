@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: database.class.php 234 2009-11-16 11:34:07Z vanpouckesven $
+ * $Id: database_repository_data_manager.class.php 234 2009-11-16 11:34:07Z vanpouckesven $
  * @package repository.lib.data_manager
  */
 require_once dirname(__FILE__) . '/database/database_content_object_result_set.class.php';

@@ -678,8 +678,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_registered_types($only_master_types = false)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->get_registered_types($only_master_types);
+        return RepositoryDataManager :: get_registered_types($only_master_types);
     }
 
     /**
@@ -865,8 +864,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_types($only_master_types = false)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->get_registered_types($only_master_types);
+        return RepositoryDataManager :: get_registered_types($only_master_types);
     }
 
     /**
@@ -1049,7 +1047,7 @@ class RepositoryManager extends CoreApplication
             $shared['title'] = Translation :: get('SharedContentObjects');
             $shared['url'] = $this->get_shared_content_objects_url();
             $shared['class'] = 'category';
-            
+
             $doubles = array();
             $doubles['title'] = Translation :: get('ViewDoubles');
             $doubles['url'] = $this->get_view_doubles_url();
@@ -1338,7 +1336,7 @@ class RepositoryManager extends CoreApplication
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_DOUBLES));
     }
-    
+
     function get_delete_link_url($type, $object_id, $link_id)
     {
     	$parameters = array();
