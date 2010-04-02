@@ -614,7 +614,6 @@ abstract class WeblcmsDataManager
      */
     abstract function delete_course($course_code);
 
-    abstract function delete_courses_by_course_type_id($course_type_id);
     /**
      * Deletes the given course category from the database.
      * @param CourseCategory $course_category The course category
