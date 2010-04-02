@@ -41,35 +41,41 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
     }
             
     function get_active_course_type_tabs()
-   	{
-       	$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-        $courses_result = $this->retrieve_user_courses($condition);
-        $course_active_types = $this->retrieve_active_course_types();
-            
+   	{       
         $tabs = array();
         $courses = array();
         $html = array();      	 	
        	$total = 0;	
-       	$count_courses = $courses_result->size();
-       	
-       	while($course = $courses_result->next_result())
-        	$courses[]=$course;
-       	
+
+       	$course_active_types = $this->retrieve_active_course_types();
        	while($course_type = $course_active_types->next_result())
        	{
-       		$condition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID,$course_type->get_id());
-       		$count = $this->count_courses($condition);
-       	 	if($count != 0)
+       		$conditions = array();
+       		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+       		$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+       		$condition = new AndCondition($conditions);
+       		$courses_result = $this->retrieve_user_courses($condition);
+       	 	if($courses_result->size() > 0)
        	 	{
-				$tabs[$course_type->get_id()] = $course_type->get_name();
-				$total += $count;
+				$tabs[$course_type->get_id()][0] = $courses_result;
+				$tabs[$course_type->get_id()][1] = $course_type->get_name();
        	 	}
        	}
-       	
-       	if($total <  $count_courses && count($tabs) > 0)
-       		$tabs[0] = Translation :: get('Others');
+
+   	    $conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+        $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
+       	$condition = new AndCondition($conditions);
+       	$courses_result = $this->retrieve_user_courses($condition);
+       	if($courses_result->size() > 0)
+       	{
+       		$tab_name = Translation :: get('Others');
+       		if(count($tabs) == 0) $tab_name = null;
+			$tabs[0][0] = $courses_result;
+			$tabs[0][1] = $tab_name;
+       	 }
        	 	
-		if($count_courses == 0)
+		if(count($tabs) == 0)
         	$this->display_message(Translation :: get('NoCoursesFound'));
         else
         {
@@ -77,36 +83,22 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
        	 	$html[] = '<ul>';
        	 			
        	 	foreach($tabs as $index => $tab)
-			{								
-      			$html[] = '<li><a href="#admin_tabs-'.$index.'">';
-          		$html[] = '<span class="category">';
-        		$html[] = '<span class="title">'.$tab.'</span>';
-        		$html[] = '</span>';
-        		$html[] = '</a></li>';
+			{
+				if(!is_null($tab))
+				{								
+	      			$html[] = '<li><a href="#admin_tabs-'.$index.'">';
+	          		$html[] = '<span class="category">';
+	        		$html[] = '<span class="title">'.$tab[1].'</span>';
+	        		$html[] = '</span>';
+	        		$html[] = '</a></li>';
+				}
 			}
         	$html[] = '</ul>';
 
         	foreach($tabs as $index => $tab)
         	{
-        		$course_type_courses = array();
-        		foreach($courses as $course_index => $course)
-        		{
-        	    	if($course->get_course_type_id() == $index && $index != 0)
-        	    	{
-        				$course_type_courses[] = $course;
-        				unset($courses[$course_index]);
-        	    	}
-        		}
         		$html[] = '<div class="admin_tab" id="admin_tabs-'.$index.'">';
-        		$html[] = $this->display_courses($course_type_courses);
-        		$html[] = '<div class="clear"></div>';
-        		$html[] = '</div>';
-        	}
-        	
-        	if(count($courses)>0)
-        	{
-        		$html[] = '<div class="admin_tab" id="admin_tabs-0">';
-        		$html[] = $this->display_courses($courses);
+        		$html[] = $this->display_courses($tab[0]);
         		$html[] = '<div class="clear"></div>';
         		$html[] = '</div>';
         	}
@@ -188,7 +180,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 	    $courses_category_0 = array();
 	    $courses_category_1 = array();
 	    
-        foreach($courses as $course)
+        while($course = $courses->next_result())
 	    {
 	    	$this->get_parent()->load_course($course->get_id());
 	    	$course = $this->get_parent()->get_course();
