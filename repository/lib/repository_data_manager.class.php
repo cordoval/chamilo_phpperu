@@ -445,7 +445,7 @@ class RepositoryDataManager
      * saving the types and their properties in the database when the learning
      * object type is installed on the system.
      */
-    public static private function load_types()
+    public static function load_types()
     {
         $path = Path :: get_repository_path() . 'lib/content_object/';
 
