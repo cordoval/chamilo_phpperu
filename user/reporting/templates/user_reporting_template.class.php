@@ -15,7 +15,6 @@ require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_month_reporting_b
 require_once dirname(__FILE__) . '/../blocks/user_no_of_logins_reporting_block.class.php';
 require_once dirname(__FILE__) . '/../blocks/user_no_of_users_picture_reporting_block.class.php';
 require_once dirname(__FILE__) . '/../blocks/user_no_of_users_reporting_block.class.php';
-require_once dirname(__FILE__) . '/../blocks/user_no_of_users_subscribed_course_reporting_block.class.php';
 
 class UserReportingTemplate extends ReportingTemplate
 {
@@ -31,7 +30,6 @@ class UserReportingTemplate extends ReportingTemplate
         $this->add_reporting_block(new UserNoOfLoginsReportingBlock($this));
         $this->add_reporting_block(new UserNoOfUsersPictureReportingBlock($this));
         $this->add_reporting_block(new UserNoOfUsersReportingBlock($this));
-        // $this->add_reporting_block(new UserNoOfUsersSubscribedCourseReportingBlock($this));
     }
 
     function get_application()

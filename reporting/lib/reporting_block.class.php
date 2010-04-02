@@ -105,7 +105,7 @@ abstract class ReportingBlock
         }
 		else
 		{
-			return 0;
+			throw new Exception(Translation :: get('RegistrationCannotBeNull'));;
 		}
     }
 

@@ -11,65 +11,164 @@
  * 2 listboxes: one with available reporting blocks for the app, one with
  * reporting blocks already in template.
  */
+
+require_once dirname(__FILE__) . '/../blocks/weblcms_no_of_courses_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_no_of_courses_by_language_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_courses_per_category_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_most_active_inactive_last_visit_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_most_active_inactive_last_publication_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_most_active_inactive_last_detail_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_no_of_published_objects_per_type_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_no_of_objects_per_type_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_last_access_to_tools_platform_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_no_of_users_subscribed_course_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../../weblcms_manager/weblcms_manager.class.php';
+
 class CourseDataReportingTemplate extends ReportingTemplate
 {
-
-    function CourseDataReportingTemplate($parent, $id, $params)
+    function CourseDataReportingTemplate($parent)
     {
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsNoOfCourses"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsNoOfCoursesByLanguage"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsMostActiveInactiveLastVisit"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsMostActiveInactiveLastPublication"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsMostActiveInactiveDetail"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserNoOfUsersSubscribedCourse"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsNoOfPublishedObjectsPerType"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsNoOfObjectsPerType"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsCoursesPerCategory"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLastAccessToToolsPlatform"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-        
-        parent :: __construct($parent, $id, $params);
+        parent :: __construct($parent);
+        $this->add_reporting_block($this->get_no_of_courses());
+        $this->add_reporting_block($this->get_no_of_courses_by_language());
+        $this->add_reporting_block($this->get_most_active_inactive_last_visit());
+        $this->add_reporting_block($this->get_most_active_inactive_last_publication());
+        $this->add_reporting_block($this->get_most_active_inactive_last_detail());
+        //$this->add_reporting_block($this->get_no_of_objects_per_type());
+        $this->add_reporting_block($this->get_no_of_published_objects_per_type());
+        $this->add_reporting_block($this->get_courses_per_category());
+        $this->add_reporting_block($this->get_last_access_to_tools_platform());
+		$this->add_reporting_block($this->get_no_of_users());
     }
 
-    /**
-     * @see ReportingTemplate -> get_properties()
-     */
-    public static function get_properties()
-    {
-        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'CourseDataReportingTemplateTitle';
-        $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 1;
-        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'CourseDataReportingTemplateDescription';
-        
-        return $properties;
-    }
-
-    /**
-     * @see ReportingTemplate -> to_html()
-     */
-    function to_html()
-    {
-        //template header
-        $html[] = $this->get_header();
-        
-        //template menu
-        $html[] = $this->get_menu();
-        
-        //show visible blocks
-        $html[] = $this->get_visible_reporting_blocks();
-        
-        //template footer
-        $html[] = $this->get_footer();
-        
-        return implode("\n", $html);
-    }
-    
 	function display_context()
 	{
-		//publicatie, content_object, application ... 
+
 	}
 	
 	function get_application()
     {
     	return WeblcmsManager::APPLICATION_NAME;
+    }
+    
+    function get_no_of_courses()
+    {
+    	$course_weblcms_block = new WeblcmsNoOfCoursesReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$course_weblcms_block->set_course_id($course_id);
+    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
+    }
+    
+    function get_no_of_courses_by_language()
+    {
+    	$course_weblcms_block = new WeblcmsNoOfCoursesByLanguageReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$course_weblcms_block->set_course_id($course_id);
+    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
+    }
+    
+    function get_most_active_inactive_last_visit()
+    {
+        $course_weblcms_block = new WeblcmsMostActiveInactiveLastVisitReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$course_weblcms_block->set_course_id($course_id);
+    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}   
+    	return $course_weblcms_block;	
+    }
+    
+    function get_most_active_inactive_last_publication()
+    {
+        $course_weblcms_block = new WeblcmsMostActiveInactiveLastPublicationReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$course_weblcms_block->set_course_id($course_id);
+    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
+    }
+    
+    function get_most_active_inactive_last_detail()
+    {
+        $course_weblcms_block = new WeblcmsMostActiveInactiveLastDetailReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$course_weblcms_block->set_course_id($course_id);
+    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
+    }
+    
+    function get_no_of_objects_per_type()
+    {
+        $course_weblcms_block = new WeblcmsNoOfObjectsPerTypeReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$course_weblcms_block->set_course_id($course_id);
+    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
+    }
+    
+    function get_no_of_published_objects_per_type()
+    {
+    $course_weblcms_block = new WeblcmsNoOfPublishedObjectsPerTypeReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$course_weblcms_block->set_course_id($course_id);
+    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
+    }
+    
+    function get_courses_per_category()
+    {
+        $course_weblcms_block = new WeblcmsCoursesPerCategoryReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$course_weblcms_block->set_course_id($course_id);
+    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
+    }
+    
+    function get_last_access_to_tools_platform()
+    {
+        $course_weblcms_block = new WeblcmsLastAccessToToolsPlatformReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$course_weblcms_block->set_course_id($course_id);
+    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
+    }
+    
+	function get_no_of_users()
+    {
+        $course_weblcms_block = new WeblcmsNoOfUsersSubscribedCourseReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$course_weblcms_block->set_course_id($course_id);
+    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
     }
 }
 ?>

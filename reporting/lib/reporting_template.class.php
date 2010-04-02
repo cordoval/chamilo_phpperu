@@ -12,19 +12,6 @@ require_once dirname(__FILE__) . '/reporting_template_menu.class.php';
 
 abstract class ReportingTemplate
 {
-    //const PARAM_VISIBLE = 'visible';
-    //const PARAM_DIMENSIONS = 'dimensions';
-
-
-    //const REPORTING_BLOCK_VISIBLE = 1;
-    //const REPORTING_BLOCK_INVISIBLE = 0;
-    //const REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS = 1;
-    //const REPORTING_BLOCK_USE_BLOCK_DIMENSIONS = 0;
-
-
-    //const PARAM_BLOCK = 'block';
-
-
     protected $action_bar;
 
     private $blocks = array();
@@ -34,6 +21,7 @@ abstract class ReportingTemplate
     function ReportingTemplate($parent)
     {
         $this->set_parent($parent);
+        $this->parameters = array();
         $this->action_bar = $this->get_action_bar();
     }
 
@@ -176,7 +164,7 @@ abstract class ReportingTemplate
 
     public function add_reporting_block($block)
     {
-        $this->blocks[$block->get_id()] = $block;
+    	$this->blocks[$block->get_id()] = $block;
     }
 
     public function get_parameters()
@@ -186,7 +174,7 @@ abstract class ReportingTemplate
 
     public function set_parameters($parameters)
     {
-        $this->parameters = $parameters;
+    	$this->parameters = $parameters;
     }
 
     public function set_parameter($key, $value)
@@ -196,7 +184,7 @@ abstract class ReportingTemplate
 
     public function add_parameters($key, $value)
     {
-        $this->parameters[$key] = $value;
+    	$this->parameters[$key] = $value;
     }
 
     public abstract function display_context();
