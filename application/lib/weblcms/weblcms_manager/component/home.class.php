@@ -50,6 +50,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
         $courses = array();
         $html = array();      	 	
        	$total = 0;	
+       	$count_courses = $courses_result->size();
        	
        	while($course = $courses_result->next_result())
         	$courses[]=$course;
@@ -65,10 +66,10 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
        	 	}
        	}
        	
-       	if($total < count($courses))
+       	if($total <  $count_courses && count($tabs) > 0)
        		$tabs[0] = Translation :: get('Others');
        	 	
-		if(count($tabs) == 0)
+		if($count_courses == 0)
         	$this->display_message(Translation :: get('NoCoursesFound'));
         else
         {
@@ -90,7 +91,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
         		$course_type_courses = array();
         		foreach($courses as $course_index => $course)
         		{
-        	    	if($course->get_course_type_id() == $index)
+        	    	if($course->get_course_type_id() == $index && $index != 0)
         	    	{
         				$course_type_courses[] = $course;
         				unset($courses[$course_index]);
@@ -98,6 +99,14 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
         		}
         		$html[] = '<div class="admin_tab" id="admin_tabs-'.$index.'">';
         		$html[] = $this->display_courses($course_type_courses);
+        		$html[] = '<div class="clear"></div>';
+        		$html[] = '</div>';
+        	}
+        	
+        	if(count($courses)>0)
+        	{
+        		$html[] = '<div class="admin_tab" id="admin_tabs-0">';
+        		$html[] = $this->display_courses($courses);
         		$html[] = '<div class="clear"></div>';
         		$html[] = '</div>';
         	}
