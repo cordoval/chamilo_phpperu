@@ -428,8 +428,7 @@ class ReportingWeblcms
      */
     public static function getNoOfPublishedObjectsPerType($params)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        $list = $rdm->get_registered_types();
+        $list = RepositoryDataManager :: get_registered_types();
         foreach ($list as $key => $value)
         {
             $arr[$value][0] = 0;
@@ -458,8 +457,7 @@ class ReportingWeblcms
      */
     public static function getNoOfObjectsPerType($params)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        $list = $rdm->get_registered_types();
+        $list = RepositoryDataManager :: get_registered_types();
         foreach ($list as $key => $value)
         {
             $arr[$value][0] = 0;

@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/data_manager/database/database_content_object
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-abstract class RepositoryDataManager
+class RepositoryDataManager
 {
     /**
      * Instance of this class for the singleton pattern.
@@ -34,17 +34,19 @@ abstract class RepositoryDataManager
      * Array which contains the registered applications running on top of this
      * repositorydatamanager
      */
-    private $applications;
+    private static $applications = array();
+
+    private static $number_of_categories;
 
     /**
      * Constructor.
      */
     protected function RepositoryDataManager()
     {
-        $this->initialize();
-        $this->typeProperties = array();
-        $this->load_types();
-        $this->applications = array();
+        //        $this->initialize();
+        //        $this->typeProperties = array();
+        self :: load_types();
+        self :: $applications = array();
     }
 
     /**
@@ -58,8 +60,8 @@ abstract class RepositoryDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '.class.php';
-            $class = $type . 'RepositoryDataManager';
+            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_repository_data_manager.class.php';
+            $class = Utilities :: underscores_to_camelcase($type) . 'RepositoryDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
@@ -72,7 +74,7 @@ abstract class RepositoryDataManager
      * by default.
      * @return array The types.
      */
-    function get_registered_types($only_master_types = false)
+    public static function get_registered_types($only_master_types = false)
     {
         $adm = AdminDataManager :: get_instance();
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
@@ -91,21 +93,13 @@ abstract class RepositoryDataManager
     }
 
     /**
-     * Is the learning object attached to another one ?
-     * @param ContentObject The learning object.
-     * @return boolean Is Attached.
-     */
-    abstract function is_attached($object, $type = null);
-
-    /**
      * Checks if a type name corresponds to an extended learning object type.
      * @param string $type The type name.
      * @return boolean True if the corresponding type is extended, false
      * otherwise.
      */
-    function is_extended_type($type)
+    public static function is_extended_type($type)
     {
-        //echo $type; echo "test";
         $temp_class = ContentObject :: factory($type);
 
         if (! $temp_class)
@@ -119,47 +113,15 @@ abstract class RepositoryDataManager
     }
 
     /**
-     * Returns the root category of a user's repository.
-     * @param int $owner The user ID of the owner.
-     * @return Category The root category of this user's repository.
-     */
-    //	function retrieve_root_category($owner)
-    //	{
-    //		$condition1 = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner);
-    //		$condition2 = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
-    //		$condition = new AndCondition($condition1, $condition2);
-    //		$objects = $this->retrieve_content_objects('category', $condition, null, 0, 1, -1);
-    //		return $objects->next_result();
-    //	}
-
-
-    /**
-     * Creates a root category for the given user
-     * @param int $user_id The id of the user for which the category should be
-     * created.
-     * @return Categroy The newly created root category of the user's repository
-     */
-    //	function create_root_category($user_id)
-    //	{
-    //		$object = new Category();
-    //		$object->set_owner_id($user_id);
-    //		$object->set_title(Translation :: get('MyRepository'));
-    //		$object->set_description('...');
-    //		$object->create();
-    //		return $object;
-    //	}
-
-
-    /**
      * Determines whether the learning object with the given ID has been
      * published in any of the registered applications.
      * @param int $id The ID of the learning object.
      * @return boolean True if the learning object has been published anywhere,
      * false otherwise.
      */
-    function content_object_is_published($id)
+    public static function content_object_is_published($id)
     {
-        $applications = $this->get_registered_applications();
+        $applications = self :: get_registered_applications();
         $result = false;
         foreach ($applications as $index => $application_name)
         {
@@ -179,9 +141,9 @@ abstract class RepositoryDataManager
      * @return boolean True if one of the given learning objects has been
      * published anywhere, false otherwise.
      */
-    function any_content_object_is_published($ids)
+    public static function any_content_object_is_published($ids)
     {
-        $applications = $this->get_registered_applications();
+        $applications = self :: get_registered_applications();
         $result = false;
         foreach ($applications as $index => $application_name)
         {
@@ -208,9 +170,9 @@ abstract class RepositoryDataManager
      * @return array An array of ContentObjectPublicationAttributes objects;
      * empty if the object has not been published anywhere.
      */
-    function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null)
+    public static function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null)
     {
-        $applications = $this->get_registered_applications();
+        $applications = self :: get_registered_applications();
         $info = array();
         foreach ($applications as $application_name)
         {
@@ -238,7 +200,7 @@ abstract class RepositoryDataManager
      * @return array An array of ContentObjectPublicationAttributes objects;
      * empty if the object has not been published anywhere.
      */
-    function get_content_object_publication_attribute($id, $application, $user)
+    public static function get_content_object_publication_attribute($id, $application, $user)
     {
         $application = Application :: factory($application, $user, true);
         return $application->get_content_object_publication_attribute($id);
@@ -252,7 +214,7 @@ abstract class RepositoryDataManager
      * @param ContentObject $object
      * @return boolean True if the given learning object can be deleted
      */
-    function content_object_deletion_allowed($object, $type = null, $user)
+    public static function content_object_deletion_allowed($object, $type = null, $user)
     {
         if ($object->get_owner_id() == 0)
             return true;
@@ -269,7 +231,7 @@ abstract class RepositoryDataManager
 
         if (isset($type))
         {
-            if ($this->is_attached($object, 'version'))
+            if (self :: get_instance()->is_attached($object, 'version'))
             {
                 return false;
             }
@@ -278,18 +240,18 @@ abstract class RepositoryDataManager
         }
         else
         {
-            if ($this->is_attached($object))
+            if (self :: get_instance()->is_attached($object))
             {
                 return false;
             }
             $children = array();
-            //$children = $this->get_children_ids($object);
+            //$children = self :: get_instance()->get_children_ids($object);
             $versions = array();
-            $versions = $this->get_version_ids($object);
+            $versions = self :: get_instance()->get_version_ids($object);
             $forbidden = array_merge($children, $versions);
         }
 
-        if ($this->is_content_object_included($object))
+        if (self :: get_instance()->is_content_object_included($object))
         {
             return false;
         }
@@ -298,47 +260,47 @@ abstract class RepositoryDataManager
         $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $object->get_id());
         $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexContentObjectItem :: get_table_name());
         $condition = new OrCondition($conditions);
-        $count_wrapper_items = $this->count_complex_content_object_items($condition);
+        $count_wrapper_items = self :: get_instance()->count_complex_content_object_items($condition);
         if ($count_wrapper_items > 0)
         {
             return false;
         }
 
-        $count_portfolio_wrapper_items = $this->count_type_content_objects('portfolio_item', new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $object->get_id(), 'portfolio_item'));
+        $count_portfolio_wrapper_items = self :: get_instance()->count_type_content_objects('portfolio_item', new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $object->get_id(), 'portfolio_item'));
         if ($count_portfolio_wrapper_items > 0)
         {
             return false;
         }
 
-        $count_learning_path_wrapper_items = $this->count_type_content_objects('learning_path_item', new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $object->get_id(), 'learning_path_item'));
+        $count_learning_path_wrapper_items = self :: get_instance()->count_type_content_objects('learning_path_item', new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $object->get_id(), 'learning_path_item'));
         if ($count_learning_path_wrapper_items > 0)
         {
             return false;
         }
 
-        $count_children = $this->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexContentObjectItem :: get_table_name()));
+        $count_children = self :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexContentObjectItem :: get_table_name()));
         if ($count_children > 0)
         {
             return false;
         }
 
-        return ! $this->any_content_object_is_published($forbidden);
+        return ! self :: any_content_object_is_published($forbidden);
     }
 
     /**
      * Copies a complex learning object
      */
-    function copy_complex_content_object($clo)
+    public static function copy_complex_content_object($clo)
     {
         $clo->create_all();
-        $this->copy_complex_children($clo);
+        self :: copy_complex_children($clo);
         return $clo;
     }
 
-    function copy_complex_children($clo)
+    public static function copy_complex_children($clo)
     {
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $clo->get_id(), ComplexContentObjectItem :: get_table_name());
-        $items = $this->retrieve_complex_content_object_items($condition);
+        $items = self :: get_instance()->retrieve_complex_content_object_items($condition);
         while ($item = $items->next_result())
         {
             $nitem = new ComplexContentObjectItem();
@@ -347,13 +309,13 @@ abstract class RepositoryDataManager
             $nitem->set_parent($clo->get_id());
             $nitem->set_ref($item->get_ref());
             $nitem->create();
-            $lo = $this->retrieve_content_object($item->get_ref());
+            $lo = self :: get_instance()->retrieve_content_object($item->get_ref());
             if ($lo->is_complex_content_object())
             {
                 $lo->create_all();
                 $nitem->set_ref($lo->get_id());
                 $nitem->update();
-                $this->copy_complex_content_object($lo);
+                self :: copy_complex_content_object($lo);
             }
         }
     }
@@ -363,119 +325,12 @@ abstract class RepositoryDataManager
      * @param ContentObject $object
      * @return boolean True if the given learning object version can be reverted
      */
-    function content_object_revert_allowed($object)
+    public static function content_object_revert_allowed($object)
     {
-        return ! $this->is_latest_version($object);
+        return ! self :: get_instance()->is_latest_version($object);
     }
 
     /**
-     * Determines whether a learning object can be edited.
-     * @param ContentObject $object
-     * @return boolean True if the given learning object can be edited
-     */
-    abstract function is_latest_version($object);
-
-    /**
-     * Gets all ids of all children/grandchildren/... of a given learning
-     * object.
-     * @param ContentObject $object The learning object
-     * @return array The requested id's
-     */
-    abstract function get_children_ids($object);
-
-    /**
-     * Get number of times a physical document is used by a learning object's versions.
-     * @param String $path The document path
-     * @return boolean True if the physical document occurs only once, else False.
-     */
-    abstract function is_only_document_occurence($path);
-
-    /**
-     * Gets all ids of all versions of a given learning object.
-     * @param ContentObject $object The learning object
-     * @return array The requested id's
-     */
-    abstract function get_version_ids($object);
-
-    /**
-     * Initializes the data manager.
-     */
-    abstract function initialize();
-
-    /**
-     * Determines the type of the learning object with the given ID.
-     * @param int $id The ID of the learning object.
-     * @return string The learning object type.
-     */
-    abstract function determine_content_object_type($id);
-
-    /**
-     * Retrieves the learning object with the given ID from persistent
-     * storage. If the type of learning object is known, it should be
-     * passed in order to save time.
-     * @param int $id The ID of the learning object.
-     * @param string $type The type of the learning object. May be omitted.
-     * @return ContentObject The learning object.
-     */
-    abstract function retrieve_content_object($id, $type = null);
-
-    /**
-     * Retrieves the learning objects that match the given criteria from
-     * persistent storage.
-     * As far as ordering goes, there are two things to take into account:
-     * - If, after applying the passed conditions, there is no order between
-     * two learning objects, the display order index should be taken into
-     * account.
-     * - Regardless of what the order specification states, learning objects
-     * of the "category" types must always come before others.
-     * Finally, there are some limitations to this method:
-     * - For now, you can only use the standard learning object properties,
-     * not the type-specific ones IF you do not specify a single type of
-     * learning object to retrieve.
-     * - Future versions may include statistical functions.
-     * @param string $type The type of learning objects to retrieve, if any.
-     * If you do not specify a type, or the type is not
-     * known in advance, you will only be able to select
-     * on default properties; also, there will be a
-     * significant performance decrease. In this case,
-     * the values of the additional properties will not
-     * yet be known; they will be retrieved JIT, i.e.
-     * right before they are accessed.
-     * @param Condition $condition The condition to use for learning object
-     * selection, structured as a Condition
-     * object. Please consult the appropriate
-     * documentation.
-     * @param array $order_by An array of properties to sort the learning
-     * objects on.
-     * @param int $offset The index of the first object to return. If
-     * omitted or negative, the result set will start
-     * from the first object.
-     * @param int $max_objects The maximum number of objects to return. If
-     * omitted or non-positive, every object from the
-     * first index will be returned.
-     * @param int $state The state the learning objects should have. Any of
-     * the ContentObject :: STATE_* constants. A negative
-     * number means the state should be ignored. Defaults
-     * to ContentObject :: STATE_NORMAL. You can just as
-     * easily use your own condition for this; this
-     * parameter is merely for convenience, and to ensure
-     * that the function does not apply to recycled objects
-     * by default.
-     * @return ResultSet A set of matching learning objects.
-     */
-    abstract function retrieve_content_objects($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
-
-    abstract function retrieve_type_content_objects($type, $condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
-
-    /**
-     * Retrieves the additional properties of the given learning object.
-     * @param ContentObject $content_object The learning object for which to
-     * fetch additional properties.
-     * @return array The properties as an associative array.
-     */
-    abstract function retrieve_additional_content_object_properties($content_object);
-
-    /**
      * Returns the number of learning objects that match the given criteria.
      * This method has the same limitations as retrieve_content_objects.
      * @param string $type The type of learning objects to search for, if any.
@@ -497,35 +352,9 @@ abstract class RepositoryDataManager
      * by default.
      * @return int The number of matching learning objects.
      */
-    abstract function count_content_objects($condition = null);
-
-    abstract function count_type_content_objects($type, $condition = null);
-
-    /**
-     * Returns the number of learning objects that match the given criteria.
-     * This method has the same limitations as retrieve_content_objects.
-     * @param string $type The type of learning objects to search for, if any.
-     * If you do not specify a type, or the type is not
-     * known in advance, you will only be able to select
-     * on default properties; also, there will be a
-     * significant performance decrease.
-     * @param Condition $condition The condition to use for learning object
-     * selection, structured as a Condition
-     * object. Please consult the appropriate
-     * documentation.
-     * @param int $state The state the learning objects should have. Any of
-     * the ContentObject :: STATE_* constants. A negative
-     * number means the state should be ignored. Defaults
-     * to ContentObject :: STATE_NORMAL. You can just as
-     * easily use your own condition for this; this
-     * parameter is merely for convenience, and to ensure
-     * that the function does not apply to recycled objects
-     * by default.
-     * @return int The number of matching learning objects.
-     */
-    function count_publication_attributes($user, $object_id, $condition = null)
+    public static function count_publication_attributes($user, $object_id, $condition = null)
     {
-        $applications = $this->get_registered_applications();
+        $applications = self :: get_registered_applications();
         $info = 0;
         foreach ($applications as $index => $application_name)
         {
@@ -540,111 +369,15 @@ abstract class RepositoryDataManager
     }
 
     /**
-     * Returns the next available learning object number.
-     * @return int The ID.
-     */
-    abstract function get_next_content_object_number();
-
-    /**
-     * Makes the given learning object persistent.
-     * @param ContentObject $object The learning object.
-     * @return boolean True if creation succceeded, false otherwise.
-     */
-    abstract function create_content_object($object, $type);
-
-    /**
-     * Updates the given learning object in persistent storage.
-     * @param ContentObject $object The learning object.
-     * @return boolean True if the update succceeded, false otherwise.
-     */
-    abstract function update_content_object($object);
-
-    /**
      * Updates the given learning object publications learning object id.
      * @param ContentObjectPublicationAttribute $object The learning object publication attribute.
      * @return boolean True if the update succceeded, false otherwise.
      */
-    function update_content_object_publication_id($publication_attr)
+    public static function update_content_object_publication_id($publication_attr)
     {
         $application = Application :: factory($publication_attr->get_application());
         return $application->update_content_object_publication_id($publication_attr);
     }
-
-    /**
-     * Deletes the given learning object from persistent storage.
-     * This function deletes
-     * - all children of the given learning object (using this function
-     * recursively)
-     * - links from this object to other objects (so called attachments)
-     * - links from other objects to this object (so called attachments)
-     * - the object itself
-     * @param ContentObject $object The learning object.
-     * @return boolean True if the given object was succesfully deleted, false
-     * otherwise. Deletion fails when the object is used
-     * somewhere in an application or if one of its children
-     * is in use.
-     */
-    abstract function delete_content_object($object);
-
-    /**
-     * Creates a new complex learning object in the database
-     * @param ComplexContentObject $clo - The complex learning object
-     * @return True if success
-     */
-    abstract function create_complex_content_object_item($clo_item);
-
-    /**
-     * Updates a complex learning object in the database
-     * @param ComplexContentObject $clo - The complex learning object
-     * @return True if success
-     */
-    abstract function update_complex_content_object_item($clo_item);
-
-    /**
-     * Deletes a complex learning object in the database
-     * @param ComplexContentObject $clo - The complex learning object
-     * @return True if success
-     */
-    abstract function delete_complex_content_object_item($clo_item);
-
-    /**
-     * Retrieves a complex learning object from the database with a given id
-     * @param Int $clo_id
-     * @return The complex learning object
-     */
-    abstract function retrieve_complex_content_object_item($clo_item_id);
-
-    /**
-     * Counts the available complex learning objects with the given condition
-     * @param Condition $condition
-     * @return Int the amount of complex learning objects
-     */
-    abstract function count_complex_content_object_items($condition);
-
-    /**
-     * Retrieves the complex learning object items with the given condition
-     * @param Condition
-     */
-    abstract function retrieve_complex_content_object_items($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
-
-    /**
-     * Deletes the given learning object version from persistent storage.
-     * This function deletes
-     * - the selected version
-     * This function updates
-     * - the latest version entry if necessary
-     * @param ContentObject $object The learning object.
-     * @return boolean True if the given version was succesfully deleted, false
-     * otherwise. Deletion fails when the version is used
-     * somewhere in an application or if one of its children
-     * is in use.
-     */
-    abstract function delete_content_object_version($object);
-
-    /**
-     * Gets all learning objects from this user id, and removes them
-     */
-    abstract function retrieve_content_object_by_user($user_id);
 
     /**
      * Deletes all learning objects a user_id has:
@@ -652,12 +385,12 @@ abstract class RepositoryDataManager
      * deletes the publications made with these object(s),
      * and finally, deletes the object itself.
      */
-    function delete_content_object_by_user($user_id)
+    public static function delete_content_object_by_user($user_id)
     {
-        $content_object = $this->retrieve_content_object_by_user($user_id);
+        $content_object = self :: get_instance()->retrieve_content_object_by_user($user_id);
         while ($object = $content_object->next_result())
         {
-            if (! $this->delete_content_object_publications($object))
+            if (! self :: delete_content_object_publications($object))
             {
                 return false;
             }
@@ -669,9 +402,9 @@ abstract class RepositoryDataManager
         return true;
     }
 
-    function delete_content_object_publications($object)
+    public static function delete_content_object_publications($object)
     {
-        $applications = $this->get_registered_applications();
+        $applications = self :: get_registered_applications();
         foreach ($applications as $index => $application_name)
         {
             $application = Application :: factory($application_name);
@@ -683,34 +416,12 @@ abstract class RepositoryDataManager
         return true;
     }
 
-    function delete_content_object_publication($application, $publication_id)
+    public static function delete_content_object_publication($application, $publication_id)
     {
         //require_once (Path :: get(SYS_PATH) . 'application/lib/' . $application . '/' . $application . '_manager/' . $application . '_manager.class.php');
         $application = Application :: factory($application, null, true);
         return $application->delete_content_object_publication($publication_id);
     }
-
-    abstract function delete_content_object_attachments($object);
-
-    abstract function delete_content_object_includes($object);
-
-    abstract function delete_assisting_content_objects($object);
-
-    /**
-     * Deletes all known learning objects from persistent storage.
-     * @note Only for testing purpuses. This function also deletes the root
-     * category of a user's repository.
-     */
-    abstract function delete_all_content_objects();
-
-    /**
-     * Gets the next available index in the display order.
-     * @param int $parent The numeric identifier of the learning object's
-     * parent learning object.
-     * @param string $type The type of learning object.
-     * @return int The requested display order index.
-     */
-    abstract function get_next_content_object_display_order_index($parent, $type);
 
     /**
      * Sets the given learning object's display order index to the next
@@ -718,114 +429,12 @@ abstract class RepositoryDataManager
      * @param ContentObject $object The learning object.
      * @return int The newly assigned index.
      */
-    function assign_content_object_display_order_index($object)
+    public static function assign_content_object_display_order_index($object)
     {
-        $index = $this->get_next_content_object_display_order_index($object->get_parent_id(), $object->get_type());
+        $index = self :: get_instance()->get_next_content_object_display_order_index($object->get_parent_id(), $object->get_type());
         $object->set_display_order_index($index);
         return $index;
     }
-
-    /**
-     * Returns the learning objects that are attached to the learning object
-     * with the given ID.
-     * @param ContentObject $object The learning object for which to retrieve
-     * attachments.
-     * @return array The attached learning objects.
-     */
-    abstract function retrieve_attached_content_objects($object);
-
-    /**
-     * Counts the content objects to which the selected content object are attached to
-     *
-     * @param ContentObject $object The content object
-     * @return int The count
-     */
-    abstract function count_objects_to_which_object_is_attached($object);
-
-    /**
-     * Returns the content objects to which the selected content object are attached to
-     *
-     * @param ContentObject $object The content object
-     * @return array The the content objects to which the selected content object are attached to
-     */
-    abstract function retrieve_objects_to_which_object_is_attached($object);
-
-    /**
-     * Returns the learning objects that are included into the learning object
-     * with the given ID.
-     * @param ContentObject $object The learning object for which to retrieve
-     * includes.
-     * @return array The included learning objects.
-     */
-    abstract function retrieve_included_content_objects($object);
-
-    /**
-     * Returns the content objects in which the selected content object are included
-     *
-     * @param ContentObject $object The content object
-     * @return array The the content objects in which the selected content object are included
-     */
-    abstract function retrieve_objects_in_which_object_is_included($object);
-
-    abstract function is_content_object_already_included($content_object, $include_object_id);
-
-    /**
-     * Counts the content objects in which the selected content object are included
-     *
-     * @param ContentObject $object The content object
-     * @return int The count
-     */
-    abstract function count_objects_in_which_object_is_included($object);
-
-    abstract function retrieve_content_object_versions($object, $include_last = true);
-
-    abstract function get_latest_version_id($object);
-
-    /**
-     * Adds a learning object to another's attachment list.
-     * @param ContentObject $object The learning object to attach the other
-     * learning object to.
-     * @param int $attachment_id The ID of the object to attach.
-     */
-    abstract function attach_content_object($object, $attachment_id);
-
-    /**
-     * Removes a learning object from another's attachment list.
-     * @param ContentObject $object The learning object to detach the other
-     * learning object from.
-     * @param int $attachment_id The ID of the object to detach.
-     * @return boolean True if the attachment was removed, false if it did not
-     * exist.
-     */
-    abstract function detach_content_object($object, $attachment_id);
-
-    /**
-     * Adds a learning object to another's include list.
-     * @param ContentObject $object The learning object to include into the other
-     * learning object.
-     * @param int $attachment_id The ID of the object to include.
-     */
-    abstract function include_content_object($object, $include_id);
-
-    /**
-     * Removes a learning object from another's include list.
-     * @param ContentObject $object The learning object to exclude from the other
-     * learning object.
-     * @param int $attachment_id The ID of the object to exclude.
-     * @return boolean True if the include was removed, false if it did not
-     * exist.
-     */
-    abstract function exclude_content_object($object, $include_id);
-
-    /**
-     * Sets the requested learning objects' state to one of the STATE_*
-     * constants defined in the ContentObject class. This function's main use
-     * is to make a learning object's children inherit its state.
-     * @param array $object_ids The learning object IDs.
-     * @param int $state The new state.
-     * @return boolean True upon success, false upon failure.
-     */
-    abstract function set_content_object_states($object_ids, $state);
 
     /**
      * Automagically loads all the available types of learning objects
@@ -835,11 +444,11 @@ abstract class RepositoryDataManager
      * saving the types and their properties in the database when the learning
      * object type is installed on the system.
      */
-    private function load_types()
+    public static function load_types()
     {
         $path = Path :: get_repository_path() . 'lib/content_object/';
 
-        foreach ($this->get_registered_types(true) as $content_object_type)
+        foreach (self :: get_registered_types(true) as $content_object_type)
         {
             $content_object_path = $path . $content_object_type . '/' . $content_object_type . '.class.php';
             require_once $content_object_path;
@@ -852,7 +461,7 @@ abstract class RepositoryDataManager
      * @return boolean True if a valid learning object type name was passed,
      * false otherwise.
      */
-    static function is_content_object_type_name($name)
+    public static function is_content_object_type_name($name)
     {
         return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
     }
@@ -862,121 +471,40 @@ abstract class RepositoryDataManager
      * repository datamanager.
      * @return array The applications.
      */
-    function get_registered_applications()
+    public static function get_registered_applications()
     {
-        if (! isset($this->applications) || count($this->applications) == 0)
+        if (! isset(self :: $applications) || count(self :: $applications) == 0)
         {
-            $this->applications = WebApplication :: load_all();
+            self :: $applications = WebApplication :: load_all();
         }
 
-        return $this->applications;
+        return self :: $applications;
     }
 
-    function delete_clois_for_content_object($content_object)
+    public static function delete_clois_for_content_object($content_object)
     {
         $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $content_object->get_id());
         $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $content_object->get_id(), ComplexContentObjectItem :: get_table_name());
         $condition = new OrCondition($conditions);
 
-        return $this->delete_complex_content_object_items($condition);
+        return self :: get_instance()->delete_complex_content_object_items($condition);
     }
-
-    /**
-     * Gets the disk space consumed by the given user.
-     * @param int $user The user ID.
-     * @return int The number of bytes used.
-     */
-    abstract function get_used_disk_space($user);
-
-    /**
-     * Creates a storage unit
-     * @param string $name Name of the storage unit
-     * @param array $properties Properties of the storage unit
-     * @param array $indexes The indexes which should be defined in the created
-     * storage unit
-     */
-    abstract function create_storage_unit($name, $properties, $indexes);
-
-    abstract function select_next_category_display_order($parent_category_id, $user_id);
-
-    abstract function delete_category($category);
-
-    abstract function update_category($category);
-
-    abstract function create_category($category);
-
-    abstract function count_categories($conditions = null);
-
-    abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function delete_user_view($user_view);
-
-    abstract function update_user_view($user_view);
-
-    abstract function create_user_view($user_view);
-
-    abstract function count_user_views($conditions = null);
-
-    abstract function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function update_user_view_rel_content_object($user_view_rel_content_object);
-
-    abstract function create_user_view_rel_content_object($user_view_rel_content_object);
-
-    abstract function create_content_object_pub_feedback($content_object_publication_feedback);
-
-    abstract function update_content_object_pub_feedback($content_object_publication_feedback);
-
-    abstract function delete_content_object_pub_feedback($content_object_publication_feedback);
-
-    abstract function retrieve_user_view_rel_content_objects($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function retrieve_content_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null);
 
     /**
      * Gets the number of categories the user has defined in his repository
      * @param int $user_id
      * @return int
      */
-    function get_number_of_categories($user_id)
+    public static function get_number_of_categories($user_id)
     {
-        if (! isset($this->number_of_categories{$user_id}))
+        if (! isset(self :: $number_of_categories{$user_id}))
         {
             $condition = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $user_id);
-            //$this->number_of_categories{$user_id} = $this->count_type_content_objects('category', $condition);
-            $this->number_of_categories[$user_id] = $this->count_categories($condition);
+            //self :: get_instance()->number_of_categories{$user_id} = self :: get_instance()->count_type_content_objects('category', $condition);
+            self :: $number_of_categories[$user_id] = self :: get_instance()->count_categories($condition);
         }
-        return $this->number_of_categories{$user_id};
+        return self :: $number_of_categories{$user_id};
 
     }
-
-    abstract function retrieve_last_post($forum_id);
-
-    abstract function create_content_object_metadata($content_object_metadata);
-
-    abstract function delete_content_object_metadata($content_object_metadata);
-
-    abstract function update_content_object_metadata($content_object_metadata);
-
-    abstract function retrieve_content_object_metadata($condition = null, $offset = null, $max_objects = null, $order_by = null);
-
-    abstract function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value);
-
-    abstract function retrieve_external_repository($condition = null, $offset = null, $max_objects = null, $order_by = null);
-
-    abstract function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null);
-
-    abstract function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null);
-
-    abstract function create_external_repository_sync_info($external_repository_sync_info);
-
-    abstract function update_external_repository_sync_info($external_repository_sync_info);
-
-    abstract function delete_external_repository_sync_info($external_repository_sync_info);
-
-    abstract function retrieve_doubles_in_repository($condition, $order_property, $offset, $count);
-
-    abstract function count_doubles_in_repository($condition);
-
 }
 ?>
