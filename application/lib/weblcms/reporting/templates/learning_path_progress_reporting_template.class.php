@@ -34,13 +34,23 @@ class LearningPathProgressReportingTemplate extends ReportingTemplate
     
     function get_learning_path_progress()
     {
-    	$course_weblcms_block = new WeblcmsLearningPathAttemptsReportingBlock($this);
+    	$course_weblcms_block = new WeblcmsLearningPathProgressReportingBlock($this);
     	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
     	if ($course_id)
     	{
     		$course_weblcms_block->set_course_id($course_id);
     		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
+    	
+    	$tool = Request :: get(WeblcmsManager::PARAM_TOOL);
+    	$course_weblcms_block->set_tool($tool);
+    	
+    	$user_id = Request :: get(WeblcmsManager::PARAM_USERS);
+    	$course_weblcms_block->set_course_id($user_id);
+    	
+    	$attempt_id = Request :: get(LearningPathTool::PARAM_ATTEMPT_ID);
+    	$course_weblcms_block->set_attempt_id($attempt_id);
+    	
     	return $course_weblcms_block;
     }
 }

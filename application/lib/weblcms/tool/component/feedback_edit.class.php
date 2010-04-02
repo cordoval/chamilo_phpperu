@@ -51,9 +51,9 @@ class ToolFeedbackEditComponent extends ToolComponent
                     }
                     
                     $params = array();
-                    if (Request :: get('pid') != null)
+                    if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
                     {
-                        $params['pid'] = Request :: get('pid');
+                        $params[Tool :: PARAM_PUBLICATION_ID] = Request :: get(Tool :: PARAM_PUBLICATION_ID);
                         $params['tool_action'] = 'view';
                     }
                     if (Request :: get('cid') != null)

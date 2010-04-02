@@ -132,10 +132,10 @@ class ContentObjectPublicationForm extends FormValidator
     function set_publication($publication)
     {
         $this->publication = $publication;
-        $this->addElement('hidden', 'pid');
+        $this->addElement('hidden', Tool :: PARAM_PUBLICATION_ID);
         $this->addElement('hidden', 'action');
         $defaults['action'] = 'edit';
-        $defaults['pid'] = $publication->get_id();
+        $defaults[Tool :: PARAM_PUBLICATION_ID] = $publication->get_id();
         $defaults[ContentObjectPublication :: PROPERTY_FROM_DATE] = $publication->get_from_date();
         $defaults[ContentObjectPublication :: PROPERTY_TO_DATE] = $publication->get_to_date();
         if ($defaults[ContentObjectPublication :: PROPERTY_FROM_DATE] != 0)

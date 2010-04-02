@@ -17,9 +17,9 @@ class LinkBrowser extends ContentObjectPublicationBrowser
     {
         parent :: __construct($parent, 'link');
         
-        if (Request :: get('pid'))
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
-            $this->set_publication_id(Request :: get('pid'));
+            $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
             //$renderer = new ContentObjectPublicationDetailsRenderer($this);
             $renderer = new LinkDetailsRenderer($this);
         }

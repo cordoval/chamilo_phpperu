@@ -25,9 +25,9 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
     function CalendarBrowser($parent)
     {
         parent :: __construct($parent, 'calendar');
-        if (Request :: get('pid'))
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
-            $this->set_publication_id(Request :: get('pid'));
+            $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
             //$renderer = new ContentObjectPublicationDetailsRenderer($this);
             $renderer = new CalendarDetailsRenderer($this);
         }
@@ -196,7 +196,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
 
     public function as_html()
     {
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             $minimonthcalendar = new MiniMonthCalendarContentObjectPublicationListRenderer($this);
             $minimonthcalendar->set_display_time($this->time);

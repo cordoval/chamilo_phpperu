@@ -72,7 +72,7 @@ class DayCalendarContentObjectPublicationListRenderer extends ContentObjectPubli
         static $color_cache;
         $table_end_date = strtotime('+' . $calendar_table_hour_step . ' hours', $table_start_date);
         $event = $publication->get_content_object();
-        $event_url = $this->get_url(array('pid' => $publication->get_id()), array(), true);
+        $event_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
         $start_date = $event->get_start_date();
         $end_date = $event->get_end_date();
         if ($start_date >= $table_end_date || $end_date <= $table_start_date)

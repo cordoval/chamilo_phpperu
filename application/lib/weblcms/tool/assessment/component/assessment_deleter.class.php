@@ -64,7 +64,7 @@ class AssessmentToolDeleterComponent extends AssessmentToolComponent
         
         }
         
-        $this->redirect($message, (! $success), array('pid' => null));
+        $this->redirect($message, (! $success), array(Tool :: PARAM_PUBLICATION_ID => null));
     }
 }
 ?>

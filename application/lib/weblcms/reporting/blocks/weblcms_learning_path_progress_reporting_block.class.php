@@ -1,9 +1,21 @@
 <?php
-require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
+require_once dirname (__FILE__) . '/../weblcms_tool_reporting_block.class.php';
 require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
 
-class WeblcmsLearningPathProgressReportingBlock extends WeblcmsCourseReportingBlock
+class WeblcmsLearningPathProgressReportingBlock extends WeblcmsToolReportingBlock
 {
+	private $attempt_id;
+	
+	public function get_attempt_id()
+	{
+		return $this->attempt_id;
+	}
+	
+	public function set_attempt_id($attempt_id)
+	{
+		$this->attempt_id = $attempt_id;
+	} 
+	
 	public function count_data()
 	{
 		$reporting_data = new ReportingData();
@@ -11,21 +23,28 @@ class WeblcmsLearningPathProgressReportingBlock extends WeblcmsCourseReportingBl
 		$data = array();
         $objects = $params['objects'];
         $attempt_data = $params['attempt_data'];
-        $cid = $params['cid'];
         $url = $params['url'];
         $total = 0;
-
-        if ($cid)
+        
+        $course_id = $this->get_course_id();
+        $tool = $this->get_tool();
+        $user_id = $this->get_user_id();
+        $attempt_id = $this->get_attempt_id();
+        
+        if ($course_id)
         {
-            $object = $objects[$cid];
-            $tracker_datas = $attempt_data[$cid];
+            $tracker = $this->retrieve_tracker($attempt_id);
+            $attempt_data = $this->retrieve_tracker_items($tracker);
+        	
+        	$object = $objects[$course_id];
+            $tracker_datas = $attempt_data[$course_id];
 
             foreach ($tracker_datas['trackers'] as $tracker)
             {
-                if (get_class($object) == 'Assessment')
+                /*if (get_class($object) == 'Assessment')
                 {
-                    $data[' '][] = '<a href="' . $url . '&cid=' . $cid . '&details=' . $tracker->get_id() . '">' . Theme :: get_common_image('action_view_results') . '</a>';
-                }
+                    $data[' '][] = '<a href="' . $url . '&cid=' . $course_id . '&details=' . $tracker->get_id() . '">' . Theme :: get_common_image('action_view_results') . '</a>';
+                }*/
 
                 $data[Translation :: get('LastStartTime')][] = Utilities :: to_db_date($tracker->get_start_time());
                 $data[Translation :: get('Status')][] = Translation :: get($tracker->get_status() == 'completed' ? 'Completed' : 'Incomplete');

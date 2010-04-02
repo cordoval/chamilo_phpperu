@@ -18,7 +18,7 @@ class BlogToolViewerComponent extends BlogToolComponent
             return;
         }
 
-        $pid = Request :: get('pid');
+        $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
@@ -31,7 +31,7 @@ class BlogToolViewerComponent extends BlogToolComponent
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
         $this->introduction_text = $publications->next_result();
 
-        $this->action_bar = $this->get_action_bar(Request :: get('pid'));
+        $this->action_bar = $this->get_action_bar(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 
         $browser = new BlogBrowser($this);
         $trail = new BreadcrumbTrail();
@@ -48,11 +48,11 @@ class BlogToolViewerComponent extends BlogToolComponent
         }
 
         //needed when viewing a blog item, to access the breadcrumbs of the categories
-        if (Request :: get('tool_action') == 'view' && Request :: get('pid') != null)
+        if (Request :: get('tool_action') == 'view' && Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
         {
             if (Request :: get('pcattree') != 0)
                 $this->add_pcattree_breadcrumbs(Request :: get('pcattree'), $trail);
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
         }
 
         $this->display_header($trail, true);

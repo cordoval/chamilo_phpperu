@@ -107,8 +107,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             else
             {
                 $parameters = array('objects' => $objects, 'attempt_data' => $lpi_attempt_data, 'cid' => $cid, 'url' => $url);
-                $template = new LearningPathProgressReportingTemplate($this, 0, $parameters, $trail, $objects[$cid]);
-                $template->set_reporting_blocks_function_parameters($parameters);
+                $template = new LearningPathProgressReportingTemplate($this);
                 $display = $template->to_html();
             }
         }

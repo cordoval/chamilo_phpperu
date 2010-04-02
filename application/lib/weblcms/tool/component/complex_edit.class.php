@@ -27,16 +27,16 @@ class ToolComplexEditComponent extends ToolComponent
                 $trail = new BreadcrumbTrail();
                 if (Request :: get('tool') == 'learning_path')
                 {
-                    $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_clo', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $datamanager->retrieve_content_object(Request :: get('pid'))->get_title()));
-                    $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_clo', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $content_object->get_title()));
+                    $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_clo', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), $datamanager->retrieve_content_object(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_title()));
+                    $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_clo', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $content_object->get_title()));
                 }
                 else
                 {
-                    $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), RepositoryDataManager :: get_instance()->retrieve_content_object(Request :: get('pid'))->get_title()));
-                    $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $content_object->get_title()));
+                    $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), RepositoryDataManager :: get_instance()->retrieve_content_object(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_title()));
+                    $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $content_object->get_title()));
                 }
                 
-                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), Translation :: get('Edit')));
+                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), Translation :: get('Edit')));
                 $trail->add_help('courses general');
                 
                 if ($form->validate() || Request :: get('validated'))
@@ -51,14 +51,14 @@ class ToolComplexEditComponent extends ToolComponent
                     $message = htmlentities(Translation :: get('ContentObjectUpdated'));
                     
                     $params = array();
-                    if (Request :: get('pid') != null)
+                    if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
                     {
-                        $params['pid'] = Request :: get('pid');
+                        $params[Tool :: PARAM_PUBLICATION_ID] = Request :: get(Tool :: PARAM_PUBLICATION_ID);
                         $params['tool_action'] = 'view';
                     }
                     if (Request :: get('cid') != null)
                     {
-                        $params['pid'] = Request :: get('pid');
+                        $params[Tool :: PARAM_PUBLICATION_ID] = Request :: get(Tool :: PARAM_PUBLICATION_ID);
                         $params['cid'] = Request :: get('cid');
                         $params['tool_action'] = 'view_item';
                     }

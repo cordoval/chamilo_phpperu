@@ -13,7 +13,7 @@ class ToolComplexCreatorComponent extends ToolComponent
     {
         if ($this->is_allowed(ADD_RIGHT))
         {
-            $pid = Request :: get('pid');
+            $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             if (! $pid)
             {
                 $this->display_header(new BreadcrumbTrail());
@@ -23,22 +23,22 @@ class ToolComplexCreatorComponent extends ToolComponent
             else
             {
                 $trail = new BreadcrumbTrail();
-                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
-                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'), 'type' => Request :: get('type'))), Translation :: get('Create')));
+                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
+                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'), 'type' => Request :: get('type'))), Translation :: get('Create')));
             }
             
             $type = Request :: get('type');
             
             $pub = new ContentObjectRepoViewer($this, $type, true);
             $pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_CREATE_CLOI);
-            $pub->set_parameter('pid', $pid);
+            $pub->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
             $pub->set_parameter('type', $type);
             
             $object_id = Request :: get('object');
             
             if (! isset($object_id))
             {
-                $html[] = '<p><a href="' . $this->get_url(array('type' => $type, 'pid' => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
+                $html[] = '<p><a href="' . $this->get_url(array('type' => $type, Tool :: PARAM_PUBLICATION_ID => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();
                 $this->display_header($trail);
                 echo implode("\n", $html);
@@ -84,7 +84,7 @@ class ToolComplexCreatorComponent extends ToolComponent
         $message = htmlentities(Translation :: get('ContentObjectCreated'));
         
         $params = array();
-        $params['pid'] = $pid;
+        $params[Tool :: PARAM_PUBLICATION_ID] = $pid;
         $params['tool_action'] = 'view';
         
         $this->redirect($message, '', $params);

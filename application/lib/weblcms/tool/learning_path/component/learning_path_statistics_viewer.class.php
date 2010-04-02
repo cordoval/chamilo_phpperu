@@ -12,6 +12,10 @@ require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_tree.class
 class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponent
 {
 
+	const PARAM_STAT = 'stats_action';
+	const ACTION_DELETE_LP_ATTEMPT = 'delete_lp_attempt';
+	const ACTION_DELETE_LPI_ATTEMPT = 'delete_lpi_attempt';
+	const ACTION_DELETE_LPI_ATTEMPTS = 'delete_lpi_attempts';
     function run()
     {
         $trail = new BreadcrumbTrail();
@@ -26,16 +30,16 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
             $this->display_footer();
         }
         
-        $stats_action = Request :: get('stats_action');
+        $stats_action = Request :: get(self :: PARAM_STAT);
         switch ($stats_action)
         {
-            case 'delete_lp_attempt' :
-                $this->delete_lp_attempt(Request :: get('attempt_id'));
+            case  self :: ACTION_DELETE_LP_ATTEMPT :
+                $this->delete_lp_attempt(Request :: get(LearningPathTool :: PARAM_ATTEMPT_ID));
                 exit();
-            case 'delete_lpi_attempts' :
+            case  self :: ACTION_DELETE_LPI_ATTEMPTS :
                 $this->delete_lpi_attempts_from_item(Request :: get('item_id'));
                 exit();
-            case 'delete_lpi_attempt' :
+            case self :: ACTION_DELETE_LPI_ATTEMPT :
                 $this->delete_lpi_attempt(Request :: get('delete_id'));
                 exit();
         }
@@ -49,7 +53,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
         
         $trail->add(new Breadcrumb($url, Translation :: get('Statistics') . ' ' . Translation :: get('of') . ' ' . $root_object->get_title()));
         
-        $attempt_id = Request :: get('attempt_id');
+        $attempt_id = Request :: get(LearningPathTool :: PARAM_ATTEMPT_ID);
         
         if ($attempt_id)
         {
@@ -57,7 +61,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
             $attempt_data = $this->retrieve_tracker_items($tracker);
             $menu = $this->get_menu($root_object->get_id(), null, $pid, $attempt_data);
             
-            $parameters['attempt_id'] = $attempt_id;
+            $parameters[LearningPathTool :: PARAM_ATTEMPT_ID] = $attempt_id;
             $url = $this->get_url($parameters);
             $trail->add(new Breadcrumb($url, Translation :: get('AttemptDetails')));
             
@@ -78,7 +82,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
                 $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('AssessmentResult')));
                 $this->set_parameter('tool_action', 'stats');
                 $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
-                $this->set_parameter('attempt_id', $attempt_id);
+                $this->set_parameter(LearningPathTool :: PARAM_ATTEMPT_ID, $attempt_id);
                 $this->set_parameter('cid', $cid);
                 $this->set_parameter('details', $details);
                 $_GET['display_action'] = 'view_result';
@@ -92,7 +96,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
             {
                 require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
                 $parameters = array('objects' => $menu->get_objects(), 'attempt_data' => $attempt_data, 'cid' => $cid, 'url' => $url, 'delete' => true);
-                $template = new LearningPathProgressReportingTemplate($this, 0, $parameters, $trail, $objects[$cid]);
+                $template = new LearningPathProgressReportingTemplate($this);
                 $display = $template->to_html();
             }
         }
@@ -190,7 +194,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
         foreach ($trackers as $tracker)
             $tracker->delete();
         
-        $params = array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'attempt_id' => Request :: get('attempt_id'), 'cid' => Request :: get('cid'));
+        $params = array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), LearningPathTool :: PARAM_ATTEMPT_ID => Request :: get(LearningPathTool :: PARAM_ATTEMPT_ID), 'cid' => Request :: get('cid'));
         
         $this->redirect(Translation :: get('LpiAttemptDeleted'), false, $params, array());
     }
@@ -203,7 +207,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
         foreach ($trackers as $tracker)
             $tracker->delete();
         
-        $params = array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'attempt_id' => Request :: get('attempt_id'));
+        $params = array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), LearningPathTool :: PARAM_ATTEMPT_ID => Request :: get(LearningPathTool :: PARAM_ATTEMPT_ID));
         
         $this->redirect(Translation :: get('LpiAttemptsDeleted'), false, $params, array());
     }

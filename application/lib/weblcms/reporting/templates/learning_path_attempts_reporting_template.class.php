@@ -45,6 +45,13 @@ class LearningPathAttemptsReportingTemplate extends ReportingTemplate
     		$course_weblcms_block->set_pid($pid);
     		$this->add_parameters(WeblcmsManager::PARAM_PUBLICATION, $pid);
     	}
+    	
+    	$tool = Request :: get(WeblcmsManager::PARAM_TOOL);
+    	if ($tool)
+    	{
+    		$course_weblcms_block->set_tool($tool);
+    		$this->add_parameters(WeblcmsManager::PARAM_TOOL, $tool);
+    	}
     	return $course_weblcms_block;
     }
 }
