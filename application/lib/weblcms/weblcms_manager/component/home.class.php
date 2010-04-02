@@ -16,8 +16,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 	const MIXED = 'Mixed';
 	const SEPERATED = 'Seperated';
 	const OPEN_ONLY = 'OpenOnly';
-	const NEW_VIEW = 'New_View';
-	const OLD_VIEW = 'Old_View';
 	
     /**
      * Runs this component and displays its output.
@@ -30,71 +28,18 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
                
         $this->display_header($trail, false, true);
         echo '<div class="clear"></div>';  
-        
-        
+             
         echo $this->display_menu();
               
-        //echo '<div class="maincontent">';
-        echo '<div id="tool_browser_right">';
-        $view = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
-    	switch($view)
-	    {
-	    	case self :: NEW_VIEW: 
-	    			echo $this->get_active_course_type_tabs();
-	    			break;
-	    	case self :: OLD_VIEW:
-	    			echo $this->get_old_view();
-	    			break;
-	    	default: echo $this->get_old_view();
-	    			break;
-	    }
+        echo '<div id="tool_browser_right">'; 
 	    
-        
-        //echo $this->get_active_course_type_tabs();
-        //echo $this->get_old_view();
+        echo $this->get_active_course_type_tabs();
+	    			
         echo '</div>';
         
         $this->display_footer();
     }
-        
-    
-    function get_old_view()
-    {
-    	$course_categories = $this->retrieve_course_user_categories(null, null, null, new ObjectTableOrder(CourseUserCategory :: PROPERTY_SORT));
-		$conditions = array();
-		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0, CourseUserRelation :: get_table_name());
-       	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-        $condition = new AndCondition($conditions);
-        $courses = $this->retrieve_user_courses($condition);
-        if($courses->size()>0)
-        {
-	        echo $this->display_course_view_old($courses);
-	        
-	        while ($course_category = $course_categories->next_result())
-	        {
-	            $conditions = array();
-	            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id(), CourseUserRelation :: get_table_name());
-	            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-	            $condition = new AndCondition($conditions);
-	            $courses = $this->retrieve_user_courses($condition);
-	            
-	            echo $this->display_course_view_old($courses, $course_category);
-	        }
-	        
-	        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
-	        
-	        if ($_SESSION['toolbar_state'] == 'hide')
-	            $html[] = '<script type="text/javascript">var hide = "true";</script>';
-	        else
-	            $html[] = '<script type="text/javascript">var hide = "false";</script>';
-	        
-	        echo implode("\n", $html);
-        }
-        else
-        	$this->display_message(Translation :: get('NoCoursesFound'));
-        	
-    }
-        
+            
     function get_active_course_type_tabs()
    	{
        	$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
@@ -211,7 +156,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 
     function display_courses($courses)
     {
-    	$setting = LocalSetting :: get('new_view_state_sub_division', WeblcmsManager :: APPLICATION_NAME);
+    	$setting = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
 		
     	$category_0 = null;
 	    $category_1 = null;
@@ -449,7 +394,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
     	}	
     }
     
-function display_course_view_old($courses, $course_category = null)
+	function display_course_view_old($courses, $course_category = null)
     {
         $html = array();
 
