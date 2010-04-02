@@ -117,7 +117,7 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
 		}*/
         $subselect_condition = new AndCondition($subselect_conditions);
         
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         $condition = new AndCondition($conditions);
         
         $publications = $datamanager->retrieve_content_object_publications_new($condition);

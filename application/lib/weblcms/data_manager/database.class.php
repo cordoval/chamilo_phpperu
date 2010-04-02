@@ -21,7 +21,7 @@ require_once dirname(__FILE__) . '/../course/course_module_last_access.class.php
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group_user_relation.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type.class.php';
-require_once dirname(__FILE__) . '/../../../../repository/lib/data_manager/database.class.php';
+require_once dirname(__FILE__) . '/../../../../repository/lib/data_manager/database_repository_data_manager.class.php';
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
@@ -233,12 +233,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$publication_alias = $this->database->get_alias(ContentObjectPublication :: get_table_name());
 		$publication_user_alias = $this->database->get_alias('content_object_publication_user');
 		$publication_group_alias = $this->database->get_alias('content_object_publication_course_group');
-		$lo_table_alias = RepositoryDataManager :: get_instance()->get_database()->get_alias('content_object');
+		$lo_table_alias = RepositoryDataManager :: get_instance()->get_alias('content_object');
 
 		$query = 'SELECT DISTINCT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
 		$query .= ' LEFT JOIN ' . $this->database->escape_table_name('content_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
 		$query .= ' LEFT JOIN ' . $this->database->escape_table_name('content_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication_id';
-		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('content_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
+		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
 
 		return $this->database->retrieve_object_set($query, ContentObjectPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
@@ -253,12 +253,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$publication_alias = $this->database->get_alias(ContentObjectPublication :: get_table_name());
 		$publication_user_alias = $this->database->get_alias('content_object_publication_user');
 		$publication_group_alias = $this->database->get_alias('content_object_publication_course_group');
-		$lo_table_alias = RepositoryDataManager :: get_instance()->get_database()->get_alias('content_object');
+		$lo_table_alias = RepositoryDataManager :: get_instance()->get_alias('content_object');
 
 		$query = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
 		$query .= ' LEFT JOIN ' . $this->database->escape_table_name('content_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
 		$query .= ' LEFT JOIN ' . $this->database->escape_table_name('content_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication_id';
-		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('content_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
+		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
 
 		return $this->database->count_result_set($query, ContentObjectPublication :: get_table_name(), $condition);
 	}

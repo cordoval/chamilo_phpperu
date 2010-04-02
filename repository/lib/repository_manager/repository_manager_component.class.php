@@ -152,8 +152,7 @@ abstract class RepositoryManagerComponent extends CoreApplicationComponent
     {
         if (! isset($this->number_of_categories))
         {
-            $datamanager = RepositoryDataManager :: get_instance();
-            $this->number_of_categories = $datamanager->get_number_of_categories($this->get_user_id());
+            $this->number_of_categories = RepositoryDataManager :: get_number_of_categories($this->get_user_id());
         }
         return $this->number_of_categories;
 

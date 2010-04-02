@@ -324,7 +324,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     // Inherited.
     function delete_content_object($object)
     {
-        if (! $this->content_object_deletion_allowed($object))
+        if (! RepositoryDataManager :: content_object_deletion_allowed($object))
         {
             return false;
         }
@@ -381,7 +381,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     // Inherited.
     function delete_content_object_version($object)
     {
-        if (! $this->content_object_deletion_allowed($object, 'version'))
+        if (! RepositoryDataManager :: content_object_deletion_allowed($object, 'version'))
         {
             return false;
         }
@@ -426,7 +426,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     // Inherited.
     function delete_all_content_objects()
     {
-        foreach ($this->get_registered_types() as $type)
+        foreach (RepositoryDataManager :: get_registered_types() as $type)
         {
             if (RepositoryDataManager :: is_extended_type($type))
             {
@@ -790,7 +790,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function get_used_disk_space($owner)
     {
         $condition_owner = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner);
-        $types = $this->get_registered_types();
+        $types = RepositoryDataManager :: get_registered_types();
         foreach ($types as $index => $type)
         {
             $class = ContentObject :: type_to_class($type);
@@ -1577,7 +1577,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     		while($assisting_object = $assisting_objects->next_result())
     		{
-    			if(!$this->delete_clois_for_content_object($assisting_object))
+    			if(!RepositoryDataManager :: delete_clois_for_content_object($assisting_object))
     			{
     				$failures++;
     			}

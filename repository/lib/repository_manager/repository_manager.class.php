@@ -651,8 +651,7 @@ class RepositoryManager extends CoreApplication
 
     function count_publication_attributes($user, $type = null, $condition = null)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->count_publication_attributes($user, $type, $condition);
+        return RepositoryDataManager :: count_publication_attributes($user, $type, $condition);
     }
 
     /**
@@ -660,8 +659,7 @@ class RepositoryManager extends CoreApplication
      */
     function content_object_deletion_allowed($content_object, $type = null)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->content_object_deletion_allowed($content_object, $type);
+        return RepositoryDataManager :: content_object_deletion_allowed($content_object, $type);
     }
 
     /**
@@ -669,8 +667,7 @@ class RepositoryManager extends CoreApplication
      */
     function content_object_revert_allowed($content_object)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->content_object_revert_allowed($content_object);
+        return RepositoryDataManager :: content_object_revert_allowed($content_object);
     }
 
     /**
@@ -686,8 +683,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->get_content_object_publication_attributes($user, $id, $type, $offset, $count, $order_property);
+        return RepositoryDataManager :: get_content_object_publication_attributes($user, $id, $type, $offset, $count, $order_property);
     }
 
     /**
@@ -695,8 +691,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_publication_attribute($id, $application)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->get_content_object_publication_attribute($id, $application);
+        return RepositoryDataManager :: get_content_object_publication_attribute($id, $application);
     }
 
     function get_publication_update_url($publication_attribute)

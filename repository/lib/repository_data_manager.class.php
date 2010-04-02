@@ -59,9 +59,12 @@ class RepositoryDataManager
     {
         if (! isset(self :: $instance))
         {
+            self :: load_types();
+            
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_repository_data_manager.class.php';
             $class = Utilities :: underscores_to_camelcase($type) . 'RepositoryDataManager';
+            
             self :: $instance = new $class();
         }
         return self :: $instance;
