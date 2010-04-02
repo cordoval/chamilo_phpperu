@@ -6,6 +6,7 @@
 require_once dirname(__FILE__) . '/database/database_content_object_result_set.class.php';
 require_once dirname(__FILE__) . '/database/database_complex_content_object_item_result_set.class.php';
 require_once dirname(__FILE__) . '/../category_manager/repository_category.class.php';
+require_once dirname(__FILE__) . '/../repository_data_manager_interface.class.php';
 
 require_once 'MDB2.php';
 
@@ -21,7 +22,7 @@ require_once 'MDB2.php';
 ==============================================================================
  */
 
-class DatabaseRepositoryDataManager extends RepositoryDataManager
+class DatabaseRepositoryDataManager extends Database implements RepositoryDataManagerInterface
 {
     const ALIAS_CONTENT_OBJECT_PUB_FEEDBACK_TABLE = 'lopf';
     const ALIAS_CONTENT_OBJECT_TABLE = 'coct';
