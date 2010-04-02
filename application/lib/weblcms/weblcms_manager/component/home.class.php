@@ -270,7 +270,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
             
             if (isset($course_category))
             {
-                //$html[] = '<ul class="user_course_category"><li>'.htmlentities($course_category->get_title()).'</li></ul>';
                 $html[] = htmlentities($course_category->get_title());
             }
             else
@@ -291,14 +290,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
                 $tools = $weblcms->get_course()->get_tools();
                 
                 $html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_home.png);"><a style="top: -2px; position: relative;" href="' . $this->get_course_viewing_url($course) . '">' . $course->get_name() . '</a>';
-                /*$html[] = '<br />'. $course->get_id();
 
-				$course_titular = $course->get_titular_string();
-				if (!is_null($course_titular))
-				{
-					$html[] = ' - ' . $course_titular;
-				}*/
-                
                 foreach ($tools as $index => $tool)
                 {
                     if ($tool->visible && $weblcms->tool_has_new_publications($tool->name))
@@ -393,104 +385,5 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 					break;
     	}	
     }
-    
-	function display_course_view_old($courses, $course_category = null)
-    {
-        $html = array();
-
-        if(count($courses)>0)
-        {
-            $title = $course_category ? $course_category->get_title() : 'general';
-            $html[] = '<div class="coursehomeblock block" id="courses_' . $title . '" style="background-image: url(' . Theme :: get_image_path('weblcms') . 'block_weblcms.png);">';
-            $html[] = '<div class="title"><div style="float: left;">';
-            
-            if (isset($course_category))
-            {
-                //$html[] = '<ul class="user_course_category"><li>'.htmlentities($course_category->get_title()).'</li></ul>';
-                $html[] = htmlentities($course_category->get_title());
-            }
-            else
-            {
-                $html[] = Translation :: get('GeneralCourses');
-            }
-            
-            $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
-            $html[] = '<div style="clear: both;"></div></div>';
-            $html[] = '<div class="description">';
-            $html[] = '<ul style="margin-left: -20px;">';
-            //foreach($courses as $course)
-            while($course = $courses->next_result())
-            {
-                
-                $weblcms = $this->get_parent();
-                $weblcms->load_course($course->get_id());
-                $course = $weblcms->get_course();
-                $tools = $weblcms->get_course()->get_tools();
-                
-                $html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_home.png);"><a style="top: -2px; position: relative;" href="' . $this->get_course_viewing_url($course) . '">' . $course->get_name() . '</a>';
-                /*$html[] = '<br />'. $course->get_id();
-
-				$course_titular = $course->get_titular_string();
-				if (!is_null($course_titular))
-				{
-					$html[] = ' - ' . $course_titular;
-				}*/
-                
-                foreach ($tools as $index => $tool)
-                {
-                    if ($tool->visible && $weblcms->tool_has_new_publications($tool->name))
-                    {
-                        $params[WeblcmsManager :: PARAM_TOOL] = $tool->name;
-                        $params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();
-                        $params[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_VIEW_COURSE;
-                        $url = $weblcms->get_url($params);
-                        $html[] = '<a href="' . $url . '"><img src="' . Theme :: get_image_path() . 'tool_' . $tool->name . '_new.png" alt="' . Translation :: get('New') . '"/></a>';
-                    }
-                }
-                
-                $text = array();
-                
-                if ($course->get_course_code_visible())
-                {
-                    $text[] = $course->get_visual();
-                }
-                
-                if ($course->get_course_manager_name_visible())
-                {
-                    $user = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
-                    if($user)
-                    {
-                    	$text[] = $user->get_fullname();
-                    }
-                    else 
-                    {
-                    	$text[] = Translation :: get('NoTitular');
-                    }
-                }
-                
-                if ($course->get_course_languages_visible())
-                {
-                    $text[] = ucfirst($course->get_language());
-                }
-                
-                if (count($text) > 0)
-                {
-                    $html[] = '<br />' . implode(' - ', $text);
-                }
-                
-                $html[] = '</li>';
-                $weblcms->set_course(null);
-            }
-            $html[] = '</ul>';
-            
-            $html[] = '<div style="clear: both;"></div>';
-            $html[] = '</div>';
-            $html[] = '</div>';
-            $html[] = '<br />';
-        }
-        
-        return implode($html, "\n");
-    }
-
 }
 ?>
