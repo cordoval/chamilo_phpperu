@@ -32,7 +32,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
         $trail->add_help('courses learnpath tool');
         
         // Check and retrieve publication
-        $pid = Request :: get('pid');
+        $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->pid = $pid;
         
         if (! $pid)
@@ -77,7 +77,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
         // Retrieve correct display and show it on screen
         if (Request :: get('lp_action') == 'view_progress')
         {
-            $url = $this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress'));
+            $url = $this->get_url(array('tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress'));
             require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
             
             $cid = Request :: get('cid');
@@ -85,15 +85,15 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             
             if ($cid)
             {
-                $trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress', 'cid' => $cid)), Translation :: get('ItemDetails')));
+                $trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid)), Translation :: get('ItemDetails')));
             }
             
             if ($details)
             {
-                $trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult')));
+                $trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult')));
                 
                 $this->set_parameter('tool_action', 'view');
-                $this->set_parameter('pid', $pid);
+                $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
                 $this->set_parameter('lp_action', 'view_progress');
                 $this->set_parameter('cid', $cid);
                 $this->set_parameter('details', $details);
@@ -189,7 +189,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
      */
     private function get_menu($root_object_id, $selected_object_id, $pid, $lp_tracker)
     {
-        $menu = new LearningPathTree($root_object_id, $selected_object_id, Path :: get(WEB_PATH) . 'run.php?go=courseviewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=view&pid=' . $pid . '&' . LearningPathTool :: PARAM_LP_STEP . '=%s', $lp_tracker);
+        $menu = new LearningPathTree($root_object_id, $selected_object_id, Path :: get(WEB_PATH) . 'run.php?go=courseviewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=view&publication=' . $pid . '&' . LearningPathTool :: PARAM_LP_STEP . '=%s', $lp_tracker);
         
         return $menu;
     }
@@ -227,7 +227,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
     {
         if (! $current_step)
         {
-            $previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'step' => $total_steps));
+            $previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $total_steps));
             
             $actions[] = array('href' => $previous_url, 'label' => Translation :: get('Previous'), 'img' => Theme :: get_common_image_path() . 'action_prev.png');
             
@@ -248,7 +248,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             
             if ($current_step > 1 && $menu->get_previous_url())
             {
-                //$previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'step' => $current_step - 1));
+                //$previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $current_step - 1));
                 $previous_url = $menu->get_previous_url();
                 
                 if (! in_array('previous', $hide_lms_ui))
@@ -274,7 +274,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             
             if (($current_step < $total_steps))
             {
-                //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'step' => $current_step + 1));
+                //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $current_step + 1));
                 
 
                 $continue_url = $menu->get_continue_url();
@@ -290,7 +290,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             }
             else
             {
-                //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'lp_action' => 'view_progress'));
+                //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'lp_action' => 'view_progress'));
                 
 
                 $continue_url = $menu->get_continue_url();

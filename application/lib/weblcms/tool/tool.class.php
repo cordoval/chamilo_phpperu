@@ -16,7 +16,7 @@ require_once Path :: get_library_path() . 'utilities.class.php';
 abstract class Tool
 {
     const PARAM_ACTION = 'tool_action';
-    const PARAM_PUBLICATION_ID = 'pid';
+    const PARAM_PUBLICATION_ID = 'publication';
     const PARAM_COMPLEX_ID = 'cid';
     const PARAM_MOVE = 'move';
     const PARAM_VISIBILITY = 'visible';
