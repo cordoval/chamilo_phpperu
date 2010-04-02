@@ -43,8 +43,8 @@ class RepositoryDataManager
      */
     protected function RepositoryDataManager()
     {
-//        $this->initialize();
-//        $this->typeProperties = array();
+        //        $this->initialize();
+        //        $this->typeProperties = array();
         self :: load_types();
         self :: $applications = array();
     }
@@ -100,7 +100,6 @@ class RepositoryDataManager
      */
     public static function is_extended_type($type)
     {
-        //echo $type; echo "test";
         $temp_class = ContentObject :: factory($type);
 
         if (! $temp_class)

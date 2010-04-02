@@ -63,7 +63,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $id);
 
-        if ($this->is_extended_type($type))
+        if (RepositoryDataManager :: is_extended_type($type))
         {
             $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
 
@@ -90,7 +90,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database);
+            $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
 
@@ -141,7 +141,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database);
+            $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
 
@@ -170,7 +170,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_additional_content_object_properties($content_object)
     {
         $type = $content_object->get_type();
-        if (! $this->is_extended_type($type))
+        if (! RepositoryDataManager :: is_extended_type($type))
         {
             return array();
         }
@@ -205,13 +205,13 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function count_type_content_objects($type, $condition = null)
     {
-        $content_object_alias = $this->get_database()->get_alias(ContentObject :: get_table_name());
-        $content_object_version_alias = $this->get_database()->get_alias('content_object_version');
-        $type_alias = $this->get_database()->get_alias($type);
+        $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
+        $content_object_version_alias = $this->get_alias('content_object_version');
+        $type_alias = $this->get_alias($type);
 
-        if ($this->is_extended_type($type))
+        if (RepositoryDataManager :: is_extended_type($type))
         {
-            $query = 'SELECT COUNT(' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER, $content_object_alias) . ') FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' JOIN ' . $this->get_database()->escape_table_name($type) . ' AS ' . $type_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $type_alias);
+            $query = 'SELECT COUNT(' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER, $content_object_alias) . ') FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' JOIN ' . $this->escape_table_name($type) . ' AS ' . $type_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $type_alias);
         }
         else
         {
@@ -345,7 +345,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $this->delete_objects('content_object_include', $condition);
 
         //Delete extended properties record
-        if ($this->is_extended_type(Utilities :: camelcase_to_underscores(get_class($object))))
+        if (RepositoryDataManager :: is_extended_type(Utilities :: camelcase_to_underscores(get_class($object))))
         {
             $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
             $this->delete_objects(Utilities :: camelcase_to_underscores(get_class($object)), $condition);
@@ -428,7 +428,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         foreach ($this->get_registered_types() as $type)
         {
-            if ($this->is_extended_type($type))
+            if (RepositoryDataManager :: is_extended_type($type))
             {
                 $this->delete_objects($this->get_table_name($type));
             }
@@ -808,7 +808,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             {
                 $sum[] = 'SUM(' . $this->escape_column_name($property) . ')';
             }
-            if ($this->is_extended_type($type))
+            if (RepositoryDataManager :: is_extended_type($type))
             {
                 $query = 'SELECT ' . implode('+', $sum) . ' AS disk_space FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE . ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . ' = ' . self :: ALIAS_TYPE_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID);
                 $condition = $condition_owner;
@@ -822,7 +822,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
             if (isset($condition))
             {
-                $translator = new ConditionTranslator($this->database, $this->get_alias(ContentObject :: get_table_name()));
+                $translator = new ConditionTranslator($this, $this->get_alias(ContentObject :: get_table_name()));
                 $query .= $translator->render_query($condition);
             }
 
@@ -964,7 +964,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database);
+            $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
 
@@ -981,7 +981,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
             if (isset($condition))
             {
-                $translator = new ConditionTranslator($this->database);
+                $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
             }
 
@@ -1020,7 +1020,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database);
+            $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
 
@@ -1078,7 +1078,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
             if (isset($condition))
             {
-                $translator = new ConditionTranslator($this->database);
+                $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
             }
 
@@ -1130,13 +1130,13 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
                     $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . ' = ' . self :: ALIAS_TYPE_TABLE . '.' . $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID);
             }
         }
-        $lo_alias = $this->get_database()->get_alias(ContentObject :: get_table_name());
+        $lo_alias = $this->get_alias(ContentObject :: get_table_name());
 
         $query .= ' JOIN ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $lo_alias . ' ON ' . $alias . '.ref_id=' . $lo_alias . '.id';
 
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database, self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE);
+            $translator = new ConditionTranslator($this, self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE);
             $query .= $translator->render_query($condition);
         }
 
@@ -1605,7 +1605,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     	if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database, $co_alias);
+            $translator = new ConditionTranslator($this, $co_alias);
             $sql .= $translator->render_query($condition);
         }
 
@@ -1626,7 +1626,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     	if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database, $co_alias);
+            $translator = new ConditionTranslator($this, $co_alias);
             $sql .= $translator->render_query($condition);
         }
 

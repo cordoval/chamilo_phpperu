@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_repository_path().'lib/data_manager/database.class.php';
+require_once Path :: get_repository_path().'lib/data_manager/database_repository_data_manager.class.php';
 
 abstract class SurveyContextDataManager extends DataBaseRepositoryDataManager
 {
@@ -35,11 +35,11 @@ abstract class SurveyContextDataManager extends DataBaseRepositoryDataManager
         return self :: $instance;
     }
 
-   
+
     abstract function retrieve_survey_contexts($condition = null, $offset = null, $count = null, $order_property = null);
-    
+
     abstract function retrieve_survey_context_by_id($context_id, $type);
-        
+
     abstract function delete_survey_context($survey_context);
 
     abstract function update_survey_context($survey_context);
@@ -47,9 +47,9 @@ abstract class SurveyContextDataManager extends DataBaseRepositoryDataManager
     abstract function create_survey_context($survey_context);
 
     abstract function count_survey_context($condition = null);
-    
+
     abstract function retrieve_additional_survey_context_properties($survey_context);
-    
-    
+
+
 }
 ?>
