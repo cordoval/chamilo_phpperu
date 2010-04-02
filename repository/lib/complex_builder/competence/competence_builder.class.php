@@ -8,22 +8,22 @@ require_once dirname(__FILE__) . '/competence_builder_component.class.php';
 class CompetenceBuilder extends ComplexBuilder
 {
 
-//    function run()
-//    {
-//        $action = $this->get_action();
-//        
-//        switch ($action)
-//        {
-//            case ComplexBuilder :: ACTION_BROWSE_CLO :
-//                $component = CompetenceBuilderComponent :: factory('Browser', $this);
-//                break;
-//        }
-//        
-//        if (! $component)
-//            parent :: run();
-//        else
-//            $component->run();
-//    }
+    function run()
+    {
+        $action = $this->get_action();
+        
+        switch ($action)
+        {
+            case ComplexBuilder :: ACTION_CREATE_CLOI :
+                $component = CompetenceBuilderComponent :: factory('Creator', $this);
+                break;
+        }
+        
+        if (! $component)
+            parent :: run();
+        else
+            $component->run();
+    }
 }
 
 ?>
