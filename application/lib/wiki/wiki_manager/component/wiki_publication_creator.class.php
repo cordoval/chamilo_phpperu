@@ -93,8 +93,12 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
         $wiki_publication->create();
 		if(Request :: post('evaluation'))
 		{
-			require_once dirname (__FILE__) . '/../../../gradebook/forms/evaluation_form.class.php';
-		    EvaluationForm :: get_internal_item($wiki_publication);
+			require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+			$parameters['type'] = 'internal_item';
+			$parameters['application'] = Request :: get('application');
+			$parameters['publication_id'] = $wiki_publication->get_id();
+			$parameters['calculated'] = 'false';
+			$evaluation_manager = new EvaluationManager($this, EvaluationManager :: ACTION_CREATE, $parameters);
 		} 
         return $wiki_publication;
     }
