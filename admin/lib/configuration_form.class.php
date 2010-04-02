@@ -49,7 +49,7 @@ class ConfigurationForm extends FormValidator
         $application = $this->application;
         $base_path = $this->base_path;
         $configuration = $this->configuration;
-
+        
         if (count($configuration['settings']) > 0)
         {
             require_once $base_path . $application . '/settings/settings_' . $application . '_connector.class.php';
@@ -79,6 +79,24 @@ class ConfigurationForm extends FormValidator
                     elseif ($setting['field'] == 'text')
                     {
                         $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name)), ($setting['required'] == 'true'));
+                        
+                        $validations = $setting['validations'];
+	                    if($validations)
+	                    {
+	                    	foreach($validations as $validation)
+	                    	{
+	                    		if($this->is_valid_validation_method($validation['rule']))
+	                    		{
+	                    			if($validation['rule'] != 'regex')
+	                    			{
+	                    				$validation['format'] = NULL;
+	                    			}
+	                    			
+	                    			$this->addRule($name, Translation :: get($validation['message']), $validation['rule'], $validation['format']);
+	                    		}
+	                    	}
+	                    } 
+                        
                     }
                     elseif ($setting['field'] == 'html_editor')
                     {
@@ -182,24 +200,45 @@ class ConfigurationForm extends FormValidator
                     if ($property->hasChildNodes())
                     {
                         $property_options = $property->getElementsByTagname('options')->item(0);
-                        $property_options_attributes = array('type', 'source');
-                        foreach ($property_options_attributes as $index => $options_attribute)
+                        
+                        if($property_options)
                         {
-                            if ($property_options->hasAttribute($options_attribute))
-                            {
-                                $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
-                            }
+	                        $property_options_attributes = array('type', 'source');
+	                        
+                        	foreach ($property_options_attributes as $index => $options_attribute)
+	                        {
+	                            if ($property_options->hasAttribute($options_attribute))
+	                            {
+	                                $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
+	                            }
+	                        }
+	
+	                        if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+	                        {
+	                            $options = $property_options->getElementsByTagname('option');
+	                            $options_info = array();
+	                            foreach ($options as $option)
+	                            {
+	                                $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
+	                            }
+	                            $property_info['options']['values'] = $options_info;
+	                        }
                         }
-
-                        if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+                        
+                        $property_validations = $property->getElementsByTagname('validations')->item(0);
+                        
+                        if($property_validations)
                         {
-                            $options = $property_options->getElementsByTagname('option');
-                            $options_info = array();
-                            foreach ($options as $option)
-                            {
-                                $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
-                            }
-                            $property_info['options']['values'] = $options_info;
+                        	if($property_validations->hasChildNodes())
+                        	{
+                        		$validations = $property_validations->getElementsByTagname('validation');
+	                            $validation_info = array();
+	                            foreach ($validations as $validation)
+	                            {
+	                                $validation_info[] = array('rule' => $validation->getAttribute('rule'), 'message' => $validation->getAttribute('message'), 'format' => $validation->getAttribute('format'));
+	                            } 
+	                            $property_info['validations'] = $validation_info;
+                        	}
                         }
                     }
                     $category_properties[$property->getAttribute('name')] = $property_info;
@@ -327,6 +366,12 @@ class ConfigurationForm extends FormValidator
     	}
 
     	return true;
+    }
+    
+    private function is_valid_validation_method($validation_method)
+    {
+    	$available_validation_methods = array('regex', 'email', 'lettersonly', 'alphanumeric', 'numeric');
+    	return in_array($validation_method, $available_validation_methods);
     }
 }
 ?>

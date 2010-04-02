@@ -53,7 +53,7 @@ class UserLogin extends UserBlock
             $html[] = $user->get_fullname() . '<br />';
             $html[] = $user->get_email() . '<br />';
             $html[] = '<br /><br />';
-            $html[] = '<a href="' . $link . '" class="button normal_button logout_button">' . Translation :: get('Logout') . '</a>';
+            $html[] = '<a href="' . Path :: get(WEB_PATH) . 'index.php?logout=true" class="button normal_button logout_button">' . Translation :: get('Logout') . '</a>';
             $html[] = '<br /><br />';
 
 //            if(PlatformSetting :: get('page_after_login') == 'weblcms')

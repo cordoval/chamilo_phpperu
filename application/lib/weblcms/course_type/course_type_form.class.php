@@ -83,14 +83,14 @@ class CourseTypeForm extends FormValidator
 
 		//Tools defaults
 		$course_type_tools = $this->course_type->get_tools();
-			
+
 		foreach ($tools as $index => $tool)
 		{
 			$tool_data = array();
-				
+
 			$element_name_arr = array('class'=>'iphone '.$tool);
 			$element_default_arr = array('class'=>'viewablecheckbox', 'style'=>'width=80%');
-				
+
 			if($this->form_type == self::TYPE_CREATE)
 			{
 				$element_name_arr['checked'] = "checked";
@@ -108,7 +108,7 @@ class CourseTypeForm extends FormValidator
 					}
 				}
 			}
-				
+
 			$tool_image_src = Theme :: get_image_path() . 'tool_mini_' . $tool . '.png';
 			$tool_image = $tool . "_image";
 			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool) . 'Title'));
@@ -166,7 +166,7 @@ class CourseTypeForm extends FormValidator
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT_FIXED, Translation :: get('ToolShortcut'));
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_MENU_FIXED, Translation :: get('Menu'));
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED, Translation :: get('Breadcrumb'));
-	  
+
 		$this->add_information_message('', '', Translation :: get('LockedFunctionalityDescription'), true);
 		if (PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME))
 		{
@@ -192,8 +192,7 @@ class CourseTypeForm extends FormValidator
 		// Course settings
 		$this->addElement('category', Translation :: get('CourseTypeDefaultProperties'));
 
-		$adm = AdminDataManager :: get_instance();
-		$lang_options = $adm->get_languages();
+		$lang_options = AdminDataManager :: get_languages();
 		$this->addElement('select', CourseTypeSettings :: PROPERTY_LANGUAGE, Translation :: get('CourseTypeLanguage'), $lang_options);
 
 		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_VISIBILITY, Translation :: get('CourseTypeVisibility'));
@@ -311,16 +310,16 @@ class CourseTypeForm extends FormValidator
 			{
 				$this->parent->get_parent()->load_course($course->get_id());
 				$course = $this->parent->get_parent()->get_course();
-				
+
 				dump($course);
-				
+
 				$course_settings = $this->fill_course_settings($course);
 				if(!$course_settings->update())
 					return false;
 				$course_layout = $this->fill_course_layout($course);
 				if(!$course_layout->update())
 					return false;
-				
+
 				$selected_tools = $this->fill_course_type_tools($tools);
 				$course_tools = $course->get_tools();
 				$course_modules = array();
@@ -353,7 +352,7 @@ class CourseTypeForm extends FormValidator
 					if(!$wdm->delete_course_module($tool->course_id, $tool->name))
 						return false;
 				}
-				
+
 				if(!$wdm->create_course_modules($course_modules, $course->get_id()))
 					return false;
 
@@ -579,25 +578,25 @@ class CourseTypeForm extends FormValidator
 
 		$layout_fixed = $course_type->get_layout_settings()->get_layout_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_LAYOUT_FIXED] = $layout_fixed;
-		
+
 		$tool_shortcut = $course_type->get_layout_settings()->get_tool_shortcut();
 		$defaults[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut ? $tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
 
 		$tool_shortcut_fixed = $course_type->get_layout_settings()->get_tool_shortcut_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT_FIXED] = $tool_shortcut_fixed;
-		
+
 		$menu = $course_type->get_layout_settings()->get_menu();
 		$defaults[CourseTypeLayout :: PROPERTY_MENU] = $menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
 
 		$menu_fixed = $course_type->get_layout_settings()->get_menu_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_MENU_FIXED] = $menu_fixed;
-		
+
 		$breadcrumb = $course_type->get_layout_settings()->get_breadcrumb();
 		$defaults[CourseTypeLayout :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
 
 		$breadcrumb_fixed = $course_type->get_layout_settings()->get_breadcrumb_fixed();
 		$defaults[CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED] = $breadcrumb_fixed;
-		
+
 		$feedback = $course_type->get_layout_settings()->get_feedback();
 		$defaults[CourseTypeLayout :: PROPERTY_FEEDBACK] = $course_type_id?$feedback:1;
 

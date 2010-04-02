@@ -678,9 +678,34 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function retrieve_course($id)
 	{
 		$condition = new EqualityCondition(Course :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(Course :: get_table_name(), $condition);
+		$course = $this->database->retrieve_object(Course :: get_table_name(), $condition);
+		if(empty($course))
+			return false;
+			//$this->redirect(Translation :: get('CourseDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+		$course_settings = $this->retrieve_course_settings($id);
+		if(empty($course_settings))
+			return false;
+			//$this->redirect(Translation :: get('CourseCorrupt'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+		$course->set_settings($course_settings);
+		$course_layout_settings = $this->retrieve_course_layout($id);
+		if(empty($course_layout_settings))
+			return false;
+			//$this->redirect(Translation :: get('CourseCorrupt'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+		$course->set_layout_settings($course_layout_settings);
+		
+		$course->set_course_type($this->retrieve_course_type($course->get_course_type_id()));
+		return $course;
 	}
 	
+	function retrieve_empty_course()
+	{	
+		$course = new Course();
+		$course->set_settings(new CourseSettings());
+		$course->set_layout_settings(new CourseLayout());
+		$course->set_course_type($this->retrieve_empty_course_type());
+		return $course;
+	}
+
 	function retrieve_course_module($id)
 	{
 		$condition = new EqualityCondition(CourseModule :: PROPERTY_ID, $id);
@@ -1558,9 +1583,33 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function retrieve_course_type($id)
 	{
 		$condition = new EqualityCondition(CourseType :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(CourseType :: get_table_name(), $condition);
+		$course_type = $this->database->retrieve_object(CourseType :: get_table_name(), $condition);
+		if(empty($course_type))
+			return $this->retrieve_empty_course_type();
+			//$this->redirect(Translation :: get('CourseTypeDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+		$course_type_settings = $this->retrieve_course_type_settings($id);
+		if(empty($course_type_settings))
+			return $this->retrieve_empty_course_type();
+		$course_type->set_settings($course_type_settings);
+		
+		$course_type_layout_settings = $this->retrieve_course_type_layout($id);
+		if(empty($course_type_layout_settings))
+			return $this->retrieve_empty_course_type();
+		$course_type->set_layout_settings($course_type_layout_settings);
+		
+		$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
+		$course_type->set_tools($this->retrieve_all_course_type_tools($condition));
+		return $course_type;
 	}
-
+	
+	function retrieve_empty_course_type()
+	{
+		$course_type = new CourseType();
+		$course_type->set_settings(new CourseTypeSettings());
+		$course_type->set_layout_settings(new CourseTypeLayout());
+		return $course_type;
+	}
+	
 	function retrieve_course_types($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
 		$order_by[] = new ObjectTableOrder(CourseType :: PROPERTY_NAME);
@@ -2055,14 +2104,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->get_parents($node, $recursive, $include_object, $this->get_course_group_nested_condition($node));
 	}
 
-	function count_course_group_sibblings($node, $include_object = false)
+	function count_course_group_siblings($node, $include_object = false)
 	{
-		return $this->database->count_sibblings($node, $include_object, $this->get_course_group_nested_condition($node));
+		return $this->database->count_siblings($node, $include_object, $this->get_course_group_nested_condition($node));
 	}
 
-	function get_course_group_sibblings($node, $include_object = false)
+	function get_course_group_siblings($node, $include_object = false)
 	{
-		return $this->database->get_sibblings($node, $include_object, $this->get_course_group_nested_condition($node));
+		return $this->database->get_siblings($node, $include_object, $this->get_course_group_nested_condition($node));
 	}
 
 	function move_course_group($node, $new_parent_id = 0, $new_previous_id = 0)

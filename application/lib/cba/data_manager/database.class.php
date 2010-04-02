@@ -196,6 +196,14 @@ class DatabaseCbaDataManager extends CbaDataManager
 		return $this->database->retrieve_object(CriteriaScore :: get_table_name(), $condition);
 	}
 	
+	function retrieve_criteria_score_unique($id, $criteria_id)
+	{
+		$conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_ID, $id);
+		$conditions[] = new EqualityCondition(CriteriaScore :: PROPERTY_CRITERIA_ID, $criteria_id);
+		$condition = new AndCondition($conditions);
+		return $this->database->retrieve_object(CriteriaScore :: get_table_name(), $condition);
+	}
+	
 	function retrieve_criterias_score($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return $this->database->retrieve_objects(CriteriaScore :: get_table_name(), $condition, $offset, $max_objects, $order_by);
@@ -221,7 +229,7 @@ class DatabaseCbaDataManager extends CbaDataManager
 	
 	function delete_competency_indicator($competency_indicator)
 	{
-		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_ID, $competency_indicator->get_id());
+		$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $competency_indicator->get_competency_id());
 		return $this->database->delete($competency_indicator->get_table_name(), $condition);
 	}
 
@@ -262,7 +270,7 @@ class DatabaseCbaDataManager extends CbaDataManager
 	
 	function delete_indicator_criteria($indicator_criteria)
 	{
-		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_ID, $indicator_criteria->get_id());
+		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $indicator_criteria->get_indicator_id());
 		return $this->database->delete($indicator_criteria->get_table_name(), $condition);
 	}
 
@@ -273,7 +281,6 @@ class DatabaseCbaDataManager extends CbaDataManager
 	
 	function retrieve_indicator_criteria($id)
 	{
-		//$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_ID, $id);
 		$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $id);
 		return $this->database->retrieve_object(IndicatorCriteria :: get_table_name(), $condition);
 	}

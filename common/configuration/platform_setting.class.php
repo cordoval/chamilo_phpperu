@@ -55,7 +55,7 @@ class PlatformSetting
     {
         $instance = self :: get_instance();
 
-        $params = $instance->params;
+        $params = & $instance->params;
 
         if (isset($params[$application]))
         {

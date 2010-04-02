@@ -73,10 +73,8 @@ class IndicatorForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-    
         
         $this->add_criterias(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
-        
     	
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -110,25 +108,23 @@ class IndicatorForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
 		$attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-        
+
     	if($indicator_criteria)
 		{
 			$cdm = CbaDataManager :: get_instance(); 
 			$target_criterias = $this->indicator_criteria->get_target_criterias();
-
-			
 			foreach($target_criterias as $index => $value)
 			{
-				$criteria = $cdm->retrieve_criteria($value + 1);
+				$criteria = $cdm->retrieve_criteria($value);
 				$indicators = array();
 	
 		        $criterias['id'] = 'criteria_'. $value;
 		        $criterias['classes'] = 'type type_cda_language';
-		        $criterias['title'] = $value + 1;
 		        $criterias['title'] = $criteria->get_title();
 		        $criterias['description'] = '';//$criteria->get_description();
 				$attributes['defaults'][$criterias['id']] = $criterias;
 			}
+			
 		}
         
         $this->add_criterias(self :: PARAM_TARGET, Translation :: get('AddCriterias'), $attributes);
@@ -192,16 +188,15 @@ class IndicatorForm extends FormValidator
     	$indicator_criteria = $this->indicator_criteria;  
     	$indicator_criteria->set_owner_id($this->get_owner_id());	
     	$values = $this->exportValues();
-	   	
     	$indicator_criteria->set_indicator_id($indicator->get_id());
     	
     	$result = true;
     	$criterias = $values[self :: PARAM_TARGET_ELEMENTS];
     	
     	foreach($criterias as $key => $value)
-    	{
-    		
+    	{   		
     		$criteria_id = substr($value, 9);
+    		
     		$indicator_criteria->set_criteria_id($criteria_id);
 
     		$conditions = array();
@@ -236,6 +231,47 @@ class IndicatorForm extends FormValidator
 		$indicator->move($parent);
 
     	return $indicator->update();
+    }
+    
+	function update_indicator_criteria()
+    {
+    	$result = true;
+    	$indicator = $this->indicator;
+    	$condition = new EqualityCondition(IndicatorCriteria :: PROPERTY_INDICATOR_ID, $indicator->get_id());
+        $criterias_db = $this->data_manager->count_indicators_criteria($condition); 	
+    	  
+    	if($criterias_db == 0)
+    	{
+    		$indicator_criteria = new IndicatorCriteria();
+    	}
+    	else
+    	{
+    		$indicator_criteria = $this->indicator_criteria;
+    	}
+    	
+    	$indicator_criteria->set_owner_id($this->get_owner_id());	
+    	$values = $this->exportValues();
+    	
+    	$criterias = $values['target_criterias_elements'];
+    	
+         	
+    	if($criterias_db > 0)
+    	{
+    		// Delete all
+    		$cba = $this->data_manager->retrieve_indicator_criteria($indicator->get_id());
+        	$cba->delete();
+    	}
+
+    	// Create items
+        foreach($criterias as $key => $value)
+    	{
+    		$criteria_id = substr($value, 9);
+    		$indicator_criteria->set_indicator_id($indicator->get_id());
+    		$indicator_criteria->set_criteria_id($criteria_id);
+            $result &= $indicator_criteria->create();
+    	}
+
+    	return $result;
     }
 
     

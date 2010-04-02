@@ -49,8 +49,10 @@ class MenuManagerSorterComponent extends MenuManagerComponent
                 break;
             case 'add_category' :
                 $this->add_category_navigation_item();
+                break;
             case 'edit_category' :
                 $this->edit_category_navigation_item();
+                break;
             case 'move' :
                 $this->move_navigation_item();
                 break;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="transcoding">
+	<properties>
+		<property name="clip_id" type="integer" unsigned="1" notnull="1"/>
+                <property name="source_file" type="text" length="255" fixed="true" notnull="1" />
+                <property name="start_time" type="integer" unsigned="1" />
+                <property name="end_time" type="integer" unsigned="1" />
+        </properties>
+        <index name="clip_id" type="primary">
+		<indexproperty name="clip_id" />
+	</index>
+</object>

@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../competency.class.php';
 require_once dirname(__FILE__) . '/../competency_indicator.class.php';
-
 /**
  * This class describes a CompetencyForm object
  * 
@@ -116,20 +115,19 @@ class CompetencyForm extends FormValidator
 		{
 			$cdm = CbaDataManager :: get_instance(); 
 			$target_indicators = $this->competency_indicator->get_target_indicators();
-
 			
 			foreach($target_indicators as $index => $value)
 			{
-				$indicator = $cdm->retrieve_indicator($value + 1);
+				$indicator = $cdm->retrieve_indicator($value);
 				$indicators = array();
 	
 		        $indicators['id'] = 'indicator_'. $value;
 		        $indicators['classes'] = 'type type_cda_language';
-		        $indicators['title'] = $value + 1;
 		        $indicators['title'] = $indicator->get_title();
 		        $indicators['description'] = '';//$indicator->get_description();
 				$attributes['defaults'][$indicators['id']] = $indicators;
 			}
+			
 		}
         
         $this->add_indicators(self :: PARAM_TARGET, Translation :: get('AddIndicators'), $attributes);
@@ -238,38 +236,43 @@ class CompetencyForm extends FormValidator
     }
     
 	function update_competency_indicator()
-    {
+    {	   	
+    	$result = true;
     	$competency = $this->competency;
-    	$competency_indicator = $this->competency_indicator;  
+    	$condition = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $competency->get_id());
+        $indicators_db = $this->data_manager->count_competencys_indicator($condition); 	
+    	  
+    	if($indicators_db == 0)
+    	{
+    		$competency_indicator = new CompetencyIndicator();
+    	}
+    	else
+    	{
+    		$competency_indicator = $this->competency_indicator;
+    	}
+    	
     	$competency_indicator->set_owner_id($this->get_owner_id());	
     	$values = $this->exportValues();
-	   	
-    	$competency_indicator->set_competency_id($competency->get_id());
     	
-    	$result = true;
-    	$indicators = $values[self :: PARAM_TARGET_ELEMENTS];
+    	$indicators = $values['target_indicators_elements'];
     	
-    	foreach($indicators as $key => $value)
+         	
+    	if($indicators_db > 0)
+    	{
+    		// Delete all
+    		$cba = $this->data_manager->retrieve_competency_indicator($competency->get_id());
+        	$cba->delete();
+    	}
+
+    	// Create items
+        foreach($indicators as $key => $value)
     	{
     		$indicator_id = substr($value, 10);
+    		$competency_indicator->set_competency_id($competency->get_id());
     		$competency_indicator->set_indicator_id($indicator_id);
+            $result &= $competency_indicator->create();
+    	}
 
-    		$conditions = array();
-			$conditions[] = new EqualityCondition(CompetencyIndicator :: PROPERTY_COMPETENCY_ID, $competency->get_id());				
-        	$conditions[] = new EqualityCondition(CompetencyIndicator :: PROPERTY_INDICATOR_ID, $competency_indicator->get_indicator_id());
-    		
-            $condition = new AndCondition($conditions);
-           	$cats = $this->data_manager->count_competency_indicator($condition);
-                
-            if ($cats > 0)
-            {
-                $result = false;
-            }
-            else
-            {
-              	$result &= $competency_indicator->update();
-            }
-    	} 	
     	return $result;
     }
     

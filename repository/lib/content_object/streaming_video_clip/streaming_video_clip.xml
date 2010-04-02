@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="streaming_video_clip">
+ <properties>
+  <property name="id" type="integer" unsigned="1" notnull="1"/>
+  <property name="aspect_ratio" type="float" unsigned="1" notnull="0"/>
+  <property name="duration" type="integer" unsigned="1" notnull="0"/>
+  <property name="conversion_state" type="integer" unsigned="1" notnull="1"/>
+ </properties>
+ <index name="id" type="primary">
+  <indexproperty name="id"/>
+ </index>
+ <index name="conversion_state">
+  <indexproperty name="conversion_state"/>
+ </index>
+</object>

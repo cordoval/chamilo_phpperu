@@ -57,9 +57,7 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
                 	if(!$this->create_wiki_publication($object, $values))
                 		$failures++;
                 }
-                
-                $message = $this->get_result($failures, count($objects), 'WikiPublicationNotCreated', 'WikiPublicationsNotCreated', 'WikiPublicationCreated', 'WikiPublicationsCreated');
-                
+                $message = $this->get_result($failures, count($objects), 'WikiPublicationNotCreated', 'WikiPublicationsNotCreated', 'WikiPublicationCreated', 'WikiPublicationsCreated');               
                 $this->redirect($message, $failures, array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
             }
             else
@@ -92,8 +90,17 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
         $wiki_publication->set_published(time());
         $wiki_publication->set_modified(time());
         $wiki_publication->set_display_order(0);
-
-        return $wiki_publication->create();
+        $wiki_publication->create();
+		if(Request :: post('evaluation'))
+		{
+			require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+			$parameters['type'] = 'internal_item';
+			$parameters['application'] = Request :: get('application');
+			$parameters['publication_id'] = $wiki_publication->get_id();
+			$parameters['calculated'] = 'false';
+			$evaluation_manager = new EvaluationManager($this, EvaluationManager :: ACTION_CREATE, $parameters);
+		} 
+        return $wiki_publication;
     }
 }
 ?>

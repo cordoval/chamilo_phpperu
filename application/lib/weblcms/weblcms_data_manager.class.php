@@ -216,6 +216,8 @@ abstract class WeblcmsDataManager
     */
     abstract function retrieve_course_type($id);
 
+    abstract function retrieve_empty_course_type();
+    
     abstract function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function retrieve_active_course_types();
@@ -539,6 +541,8 @@ abstract class WeblcmsDataManager
      * @return Course The course.
      */
     abstract function retrieve_course($course_code);
+    
+    abstract function retrieve_empty_course();
 
     abstract function retrieve_course_module($course_module_id);
     

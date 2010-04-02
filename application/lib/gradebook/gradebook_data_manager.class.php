@@ -3,7 +3,7 @@
  * This abstract class provides the necessary functionality to connect a
  * gradebook to a storage system.
  */
-abstract class GradebookDatamanager {
+abstract class GradebookDataManager {
 
 	/**
 	 * Instance of the class, for the singleton pattern.
@@ -50,6 +50,16 @@ abstract class GradebookDatamanager {
 	//gradebook evaluation format items
 	
 	abstract function create_format($evaluation_format);
+	
+	abstract function update_format($evaluation_format);
+	
+	abstract function retrieve_all_active_evaluation_formats();
+	
+	abstract function retrieve_evaluation_formats();
+	
+	abstract function count_evaluation_formats();
+	
+	abstract function retrieve_evaluation_format($id);
 //	
 //	abstract function retrieve_all_evaluation_formats();
 //	

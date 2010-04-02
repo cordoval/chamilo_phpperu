@@ -208,8 +208,7 @@ else
 // Login
 if (isset($_POST['login']))
 {
-    $udm = UserDataManager :: get_instance();
-    $user = $udm->login($_POST['login'], $_POST['password']);
+    $user = UserDataManager :: login($_POST['login'], $_POST['password']);
     if (get_class($user) == 'User')
     {
         Session :: register('_uid', $user->get_id());
@@ -260,8 +259,7 @@ if (Request :: get('logout'))
         $udm = UserDataManager :: get_instance();
         $user = $udm->retrieve_user(Session :: get_user_id());
 
-        $udm = UserDataManager :: get_instance();
-        $udm->logout();
+        $udm = UserDataManager :: logout();
         Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
     }
 
@@ -285,8 +283,7 @@ if ($user)
 }
 
 $language_interface = LocalSetting :: get('platform_language');
-$adm = AdminDataManager :: get_instance();
-if(!$adm->is_language_active($language_interface))
+if(!AdminDataManager :: is_language_active($language_interface))
 {
 	$language_interface = PlatformSetting :: get('platform_language');
 }

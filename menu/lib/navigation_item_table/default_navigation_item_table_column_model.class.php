@@ -22,7 +22,8 @@ class DefaultNavigationItemTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(NavigationItem :: PROPERTY_TITLE)));
+        $columns[] = new ObjectTableColumn('Type', false);
+        $columns[] = new ObjectTableColumn(NavigationItem :: PROPERTY_TITLE, false);
         return $columns;
     }
 }

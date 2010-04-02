@@ -455,7 +455,11 @@ abstract class Tool
     {
         return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
     }
-
+    
+    function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $redirect_type = Redirect :: TYPE_URL, $application_type = Redirect :: TYPE_APPLICATION)
+    {
+        return $this->get_parent()->simple_redirect($parameters, $filter, $encode_entities, $redirect_type, $application_type);
+    }
     /**
      * Check if the current user has a given right in this tool
      * @param int $right

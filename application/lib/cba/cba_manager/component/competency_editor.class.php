@@ -36,7 +36,7 @@ class CbaManagerCompetencyEditorComponent extends CbaManagerComponent
 		if($form->validate())
 		{
 			$success_competency = $form->update_competency();
-			$success_competency_indicator = 1;//$form->update_competency_indicator();
+			$success_competency_indicator = $form->update_competency_indicator();
 			if($success_competency == $success_competency_indicator)
 				$success = 1;
 				

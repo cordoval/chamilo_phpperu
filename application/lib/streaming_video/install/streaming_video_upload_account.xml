@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="upload_account">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+                <property name="username" type="text" length="255" fixed="1" notnull="1" />
+                <property name="expires" type="integer" unsigned="1" notnull="1" />
+		<property name="upload_password" type="text" length="40" fixed="true" notnull="1"/>
+                <property name="homedir" type="text" length="255" fixed="1" notnull="1" />
+	</properties>
+        <index name="username">
+		<indexproperty name="username" />
+	</index>
+         <index name="expires">
+		<indexproperty name="expires" />
+	</index>
+</object>

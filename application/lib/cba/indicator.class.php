@@ -4,7 +4,7 @@
  * 
  * @author Nick Van Loocke
  */
-class Indicator extends DataClass
+class IndicatorOld extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 	
@@ -108,10 +108,10 @@ class Indicator extends DataClass
         return $cdm->update_indicator($this);
     }
     
-    function delete($id)
+    /*function delete($id)
     {
     	//Parent + condition (where, ...)
-    }
+    }*/
 }
 
 ?>
