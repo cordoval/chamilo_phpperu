@@ -93,7 +93,6 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
                 require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
                 $parameters = array('objects' => $menu->get_objects(), 'attempt_data' => $attempt_data, 'cid' => $cid, 'url' => $url, 'delete' => true);
                 $template = new LearningPathProgressReportingTemplate($this, 0, $parameters, $trail, $objects[$cid]);
-                $template->set_reporting_blocks_function_parameters($parameters);
                 $display = $template->to_html();
             }
         }
@@ -101,8 +100,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
         {
             require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempts_reporting_template.class.php');
             $parameters = array('publication' => $publication, 'course' => $this->get_course_id(), 'url' => $url);
-            $template = new LearningPathAttemptsReportingTemplate($this, 0, $parameters, $trail);
-            $template->set_reporting_blocks_function_parameters($parameters);
+            $template = new LearningPathAttemptsReportingTemplate($this);
             $display = $template->to_html();
         }
         
