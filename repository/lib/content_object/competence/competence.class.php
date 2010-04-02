@@ -9,6 +9,9 @@
  */
 class Competence extends ContentObject
 {
-
+	function get_allowed_types()
+    {
+        return array('indicator');
+    }
 }
 ?>

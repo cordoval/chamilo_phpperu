@@ -7,5 +7,9 @@
 
 class ComplexIndicator extends ComplexContentObjectItem
 {
+	function get_allowed_types()
+    {
+        return array('criteria');
+    }
 }
 ?>

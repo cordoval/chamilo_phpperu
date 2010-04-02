@@ -9,6 +9,9 @@
  */
 class Indicator extends ContentObject
 {
-
+	function get_allowed_types()
+    {
+        return array('criteria');
+    }
 }
 ?>
