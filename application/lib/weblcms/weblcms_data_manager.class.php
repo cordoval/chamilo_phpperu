@@ -570,7 +570,7 @@ abstract class WeblcmsDataManager
      * @return CourseResultSet
      */
     abstract function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null);
-
+    
     /**
      * Updates the specified course in persistent storage,
      * making any changes permanent.
