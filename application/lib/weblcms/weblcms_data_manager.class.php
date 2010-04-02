@@ -119,6 +119,8 @@ abstract class WeblcmsDataManager
      */
     abstract function get_content_object_publication_attribute($publication_id);
 
+    abstract function delete_courses_by_course_type_id($course_type_id);
+    
     /**
      * Counts the publication attributes
      * @param string $type Type of retrieval

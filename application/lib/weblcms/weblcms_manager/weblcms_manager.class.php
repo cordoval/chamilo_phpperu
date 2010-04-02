@@ -351,6 +351,10 @@ class WeblcmsManager extends WebApplication
 		return $this->course_group;
 	}
 
+	function get_course_type_deleting_all_courses_url($course_type)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COURSES_BY_COURSE_TYPE, self :: PARAM_COURSE_TYPE =>$course_type->get_id()));
+	}
 	/**
 	 * Returns the course_group that is being used.
 	 * @return string The course_group.
