@@ -21,9 +21,9 @@ class NoteBrowser extends ContentObjectPublicationBrowser
     function NoteBrowser($parent)
     {
         parent :: __construct($parent, 'note');
-        if (Request :: get('pid') && $parent->get_action() == 'view')
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) && $parent->get_action() == 'view')
         {
-            $this->set_publication_id(Request :: get('pid'));
+            $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
             $parent->set_parameter(Tool :: PARAM_ACTION, NoteTool :: ACTION_VIEW_NOTES);
             $renderer = new ContentObjectPublicationDetailsRenderer($this);
         }

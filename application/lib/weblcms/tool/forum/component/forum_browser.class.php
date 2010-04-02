@@ -185,7 +185,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
             
             if ($last_post)
             {
-                //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $last_post->get_id())) . '#post_' . $last_post->get_id();
+                //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,Tool :: PARAM_PUBLICATION_ID => $this->pid, 'cid' => $last_post->get_id())) . '#post_' . $last_post->get_id();
                 $table->setCellContents($row, 4, $last_post->get_add_date() . '<br />' . UserDataManager :: get_instance()->retrieve_user($last_post->get_user_id())->get_fullname()); // .
             //' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') .
             //'" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
@@ -212,18 +212,18 @@ class ForumToolBrowserComponent extends ForumToolComponent
     {
         if ($this->is_allowed(DELETE_RIGHT))
         {
-            $delete = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DELETE)), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+            $delete = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DELETE)), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
         }
         
         if ($this->is_allowed(EDIT_RIGHT))
         {
             if ($publication->is_hidden())
             {
-                $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Show'), 'img' => Theme :: get_common_image_path() . 'action_invisible.png');
+                $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Show'), 'img' => Theme :: get_common_image_path() . 'action_invisible.png');
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
+                $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
             }
             
             if ($first)
@@ -232,7 +232,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => - 1)), 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+                $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => - 1)), 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
             }
             
             if ($last)
@@ -241,12 +241,12 @@ class ForumToolBrowserComponent extends ForumToolComponent
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => 1)), 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+                $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => 1)), 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
             }
             
-            $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY)), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+            $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY)), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
             
-            $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT)), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT)), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
             
             $actions[] = $delete;
         

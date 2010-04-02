@@ -15,7 +15,7 @@ class DocumentBrowser extends ContentObjectPublicationBrowser
     {
         parent :: __construct($parent, 'document');
         
-        $this->set_publication_id(Request :: get('pid'));
+        $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
         $renderer = new ContentObjectPublicationDetailsRenderer($this);
         $this->set_publication_list_renderer($renderer);
     

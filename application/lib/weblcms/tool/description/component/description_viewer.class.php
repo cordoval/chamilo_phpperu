@@ -37,13 +37,13 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses description tool');
 
-        if (Request :: get('pid') != null && Request :: get('tool_action') == 'view')
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null && Request :: get('tool_action') == 'view')
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
         $this->display_header($trail, true);
 
         //echo '<br /><a name="top"></a>';
         //echo $this->perform_requested_actions();
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             if (PlatformSetting :: get('enable_introduction', 'weblcms'))
             {
@@ -71,7 +71,7 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             $action_bar->set_search_url($this->get_url());
             if ($this->is_allowed(ADD_RIGHT))

@@ -19,13 +19,13 @@ class WeblcmsPublicationAccessReportingBlock extends WeblcmsToolReportingBlock
 
         if (isset($user_id))
         {
-            $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*pid=' . $pid . '*');
+            $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*' . Tool::PARAM_PUBLICATION_ID . '=' . $pid . '*');
             $conditions[] = new EqualityCondition(VisitTracker :: PROPERTY_USER_ID, $user_id);
             $condition = new AndCondition($conditions);
         }
         else
         {
-            $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&pid=' . $pid . '*');
+            $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&' . Tool::PARAM_PUBLICATION_ID . '=' . $pid . '*');
         }
         $user = $udm->retrieve_user($user_id);
 

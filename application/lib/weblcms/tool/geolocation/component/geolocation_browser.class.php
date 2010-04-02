@@ -38,9 +38,9 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
 
         $trail = new BreadcrumbTrail();
 
-        if (Request :: get('pid') != null)
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
         {
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => GeolocationTool :: ACTION_BROWSE, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => GeolocationTool :: ACTION_BROWSE, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
             $browser = new GeolocationBrowser($this);
             $html = $browser->as_html();
 
@@ -54,7 +54,7 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
         $trail->add_help('courses geolocation tool');
         $this->display_header($trail, true);
 
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             if (PlatformSetting :: get('enable_introduction', 'weblcms'))
             {
@@ -66,7 +66,7 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
         echo '<div id="action_bar_browser">';
         echo $html;
 
-        if (Request :: get('pid') == null)
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) == null)
         {
             $conditions = array();
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
@@ -114,7 +114,7 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             $action_bar->set_search_url($this->get_url());
             if ($this->is_allowed(ADD_RIGHT))

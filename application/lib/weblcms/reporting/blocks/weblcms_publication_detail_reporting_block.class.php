@@ -34,7 +34,7 @@ class WeblcmsPublicationDetailReportingBlock extends WeblcmsToolReportingBlock
             $descr = $lop->get_content_object()->get_description();
         }
 
-        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*pid=' . $pid . '*');
+        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*' . Tool::PARAM_PUBLICATION_ID . '=' . $pid . '*');
         $trackerdata = $tracker->retrieve_tracker_items($condition);
 
         foreach ($trackerdata as $key => $value)
@@ -42,7 +42,7 @@ class WeblcmsPublicationDetailReportingBlock extends WeblcmsToolReportingBlock
             if ($value->get_leave_date() > $lastaccess)
                 $lastaccess = $value->get_leave_date();
         }
-        $url = 'run.php?go=courseviewer&course=' . $course_id . '&tool=' . $tool . '&application=weblcms&pid=' . $id . '&tool_action=view';
+        $url = 'run.php?go=courseviewer&course=' . $course_id . '&tool=' . $tool . '&application=weblcms&' . Tool::PARAM_PUBLICATION_ID . '=' . $id . '&tool_action=view';
         
         /*$arr[Translation :: get('Title')][] = '<a href="' . $url . '">' . $title . '</a>';
         $arr[Translation :: get('Description')][] = Utilities :: truncate_string($descr, 50);

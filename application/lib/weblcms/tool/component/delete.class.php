@@ -36,7 +36,7 @@ class ToolDeleteComponent extends ToolComponent
                 $message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
             }
             
-            $this->redirect($message, '', array('pid' => null, 'tool_action' => null));
+            $this->redirect($message, '', array(Tool :: PARAM_PUBLICATION_ID => null, 'tool_action' => null));
         }
     }
 

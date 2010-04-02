@@ -48,7 +48,7 @@ class WikiPublicationTableCellRenderer extends DefaultContentObjectTableCellRend
                     if (empty($homepage))
                         $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
                     else
-                        $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'cid' => $homepage->get_id(), 'pid' => $publication->get_id()));
+                        $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'cid' => $homepage->get_id(), Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
                     if ($publication->is_hidden())
                         return '<a class="invisible" href="' . $url . '">' . htmlspecialchars($content_object->get_title()) . '</a>';
                     else

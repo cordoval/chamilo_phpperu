@@ -28,7 +28,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
             $this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             $this->pub = $this->datamanager->retrieve_content_object_publication($this->pid);
             $this->assessment = $this->pub->get_content_object();
-            $this->set_parameter('pid', $this->pid);
+            $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $this->pid);
         }
         
         if (Request :: get(AssessmentTool :: PARAM_INVITATION_ID))

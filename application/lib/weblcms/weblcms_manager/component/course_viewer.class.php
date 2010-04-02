@@ -120,17 +120,17 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 						$this->load_tools();
 						break;
 					case 'make_publication_invisible' :
-						$publication = $wdm->retrieve_content_object_publication(Request :: get('pid'));
+						$publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 						$publication->set_hidden(1);
 						$publication->update();
 						break;
 					case 'make_publication_visible' :
-						$publication = $wdm->retrieve_content_object_publication(Request :: get('pid'));
+						$publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 						$publication->set_hidden(0);
 						$publication->update();
 						break;
 					case 'delete_publication' :
-						$publication = $wdm->retrieve_content_object_publication(Request :: get('pid'));
+						$publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 						$publication->set_show_on_homepage(0);
 						$publication->update();
 						break;
@@ -157,7 +157,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			else
 			{
 				$trail = new BreadcrumbTrail();
-				$this->set_parameter('pid', null);
+				$this->set_parameter(Tool :: PARAM_PUBLICATION_ID, null);
 				$this->set_parameter('tool_action', null);
 				$this->set_parameter('course_group', null);
 
@@ -344,13 +344,13 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 			if ($studentview == 1)
 			{
-				$breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array('studentview' => '0', 'pid' => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-				//echo '<a href="' . $this->get_url(array('studentview' => '0', 'pid' => Request :: get('pid'))) . '">' . Translation :: get('TeacherView') . '</a>';
+				$breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array('studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+				//echo '<a href="' . $this->get_url(array('studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))) . '">' . Translation :: get('TeacherView') . '</a>';
 			}
 			else
 			{
-				$breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array('studentview' => '1', 'pid' => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-				//echo '<a href="' . $this->get_url(array('studentview' => '1', 'pid' => Request :: get('pid'))) . '">' . Translation :: get('StudentView') . '</a>';
+				$breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array('studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+				//echo '<a href="' . $this->get_url(array('studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))) . '">' . Translation :: get('StudentView') . '</a>';
 			}
 		}
 

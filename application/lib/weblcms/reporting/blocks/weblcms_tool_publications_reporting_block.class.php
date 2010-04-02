@@ -35,7 +35,7 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
         
         while ($lop = $lops->next_result())
         {
-            $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*course=' . $course_id . '*pid=' . $lop->get_id() . '*');
+            $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*course=' . $course_id . '*' . Tool::PARAM_PUBLICATION_ID . '=' . $lop->get_id() . '*');
             $trackerdata = $tracker->retrieve_tracker_items($condition);
 
             foreach ($trackerdata as $key => $value)

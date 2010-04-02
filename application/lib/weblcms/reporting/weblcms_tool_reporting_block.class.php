@@ -47,7 +47,7 @@ abstract class WeblcmsToolReportingBlock extends WeblcmsCourseReportingBlock
 		$this->params['course_id'] = $course_id;
 		$this->params['user_id'] = $user_id;
 		$this->params['tool'] = $tool;
-		$this->params['pid'] = $pid;
+		$this->params[Tool :: PARAM_PUBLICATION_ID] = $pid;
 	}
 }
 ?>

@@ -44,14 +44,14 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
         $trail = new BreadcrumbTrail();
         if (Request :: get('tool_action') == 'view')
         {
-            $publication = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'));
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $publication->get_content_object()->get_title()));
+            $publication = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), $publication->get_content_object()->get_title()));
         }
         $trail->add_help('courses announcement tool');
         $this->display_header($trail, true);
 
         //echo $this->perform_requested_actions();
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             if (PlatformSetting :: get('enable_introduction', 'weblcms'))
             {
@@ -77,7 +77,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             $action_bar->set_search_url($this->get_url());
             if ($this->is_allowed(ADD_RIGHT))

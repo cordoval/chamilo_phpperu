@@ -74,7 +74,7 @@ class ToolEditComponent extends ToolComponent
                     $params = array();
                     if ($show_details == 1)
                     {
-                        $params['pid'] = $pid;
+                        $params[Tool :: PARAM_PUBLICATION_ID] = $pid;
                         $params['tool_action'] = 'view';
                     }
                     
@@ -82,7 +82,7 @@ class ToolEditComponent extends ToolComponent
                     {
                         $params['tool_action'] = null;
                         $params['display_action'] = 'view';
-                        $params['pid'] = Request :: get('pid');
+                        $params[Tool :: PARAM_PUBLICATION_ID] = Request :: get(Tool :: PARAM_PUBLICATION_ID);
                     }
                     
                     if (! isset($show_details) && $tool != 'learning_path')

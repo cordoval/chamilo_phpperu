@@ -22,9 +22,9 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
     function DescriptionBrowser($parent, $types)
     {
         parent :: __construct($parent, 'description');
-        if (Request :: get('pid') && $parent->get_action() == 'view')
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) && $parent->get_action() == 'view')
         {
-            $this->set_publication_id(Request :: get('pid'));
+            $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
             $parent->set_parameter(Tool :: PARAM_ACTION, DescriptionTool :: ACTION_VIEW_DESCRIPTIONS);
             $renderer = new ContentObjectPublicationDetailsRenderer($this);
         }

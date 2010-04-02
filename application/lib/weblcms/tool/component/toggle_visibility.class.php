@@ -55,7 +55,7 @@ class ToolToggleVisibilityComponent extends ToolComponent
             $params['tool_action'] = null;
             if (Request :: get('details') == 1)
             {
-                $params['pid'] = $pid;
+                $params[Tool :: PARAM_PUBLICATION_ID] = $pid;
                 $params['tool_action'] = 'view';
             }
             

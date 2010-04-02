@@ -21,7 +21,7 @@ class WeblcmsPublicationUserAccessReportingBlock extends WeblcmsToolReportingBlo
 		
         $conditions = array();
         $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID, $user_id); 
-        $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*pid=' . $pid . '*');
+        $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*' . Tool::PARAM_PUBLICATION_ID . '=' . $pid . '*');
         $condition = new AndCondition($conditions);
 
         $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);

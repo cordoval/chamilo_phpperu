@@ -17,7 +17,7 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         parent :: ContentObjectPublicationListRenderer($browser, $parameters, $actions);
         //if ($browser->get_parent()->get_course()->get_allow_feedback())
         {
-            //$item = new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+            //$item = new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         //$browser->get_parent()->add_actionbar_item($item);
         }
     }
@@ -31,8 +31,8 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         $publication_id = $this->browser->get_publication_id();
         $dm = WeblcmsDataManager :: get_instance();
         $publication = $dm->retrieve_content_object_publication($publication_id);
-        //$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE,new AbstractContentObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
-        $this->browser->get_parent()->set_parameter('pid', $publication_id);
+        //$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE,new AbstractContentObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID=>$this->browser->get_publication_id())));
+        $this->browser->get_parent()->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
         //$pub = new ContentObjectPublisher($this->browser->get_parent(), 'feedback', true);
         
 

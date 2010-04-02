@@ -45,7 +45,7 @@ class WikiToolBrowserComponent extends WikiToolComponent
         $trail->add_help('courses wiki tool');
 
         $this->display_header($trail, true);
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             if (PlatformSetting :: get('enable_introduction', 'weblcms'))
             {
