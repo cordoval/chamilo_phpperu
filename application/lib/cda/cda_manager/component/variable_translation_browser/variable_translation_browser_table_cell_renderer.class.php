@@ -42,23 +42,14 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 		switch ($column->get_name())
 		{
 			case Translation :: get('EnglishTranslation') :
-
-			$translation = $this->browser->retrieve_english_translation($variable_translation->get_variable_id());
-			if($translation)
-			{
-				return $translation->get_translation();
-			}else
-			{
-				return '';
-			}
+				$translation = $this->browser->retrieve_english_translation($variable_translation->get_variable_id());
+				return $translation ? $translation->get_translation() : '';
 
 			case Variable :: PROPERTY_VARIABLE :
-				$variable_id = $variable_translation->get_variable_id();
-				$variable = $this->browser->retrieve_variable($variable_id);
-				return $variable->get_variable();
+				return $this->browser->retrieve_variable($variable_translation->get_variable_id())->get_variable();
+
 			case VariableTranslation :: PROPERTY_RATING :
-				$percentage = $variable_translation->get_relative_rating() * 10;
-				return Display :: get_rating_bar($percentage, false);
+				return Display :: get_rating_bar($variable_translation->get_relative_rating() * 10, false);
 		}
 
 		return parent :: render_cell($column, $variable_translation);
@@ -86,38 +77,38 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 				'img' => Theme :: get_image_path().'action_translate.png'
 			);
 
-		    if ($variable_translation->is_outdated())
-        	{
-    			$toolbar_data[] = array(
-    				'href' => $this->browser->get_verify_variable_translation_url($variable_translation),
-    				'label' => Translation :: get('Verify'),
-    				'img' => Theme :: get_image_path().'action_verify.png',
-    			    'confirm' => true
-    			);
+			if ($variable_translation->is_outdated())
+			{
+				$toolbar_data[] = array(
+					'href' => $this->browser->get_verify_variable_translation_url($variable_translation),
+					'label' => Translation :: get('Verify'),
+					'img' => Theme :: get_image_path().'action_verify.png',
+					'confirm' => true
+				);
 
-    			$toolbar_data[] = array(
-    				'label' => Translation :: get('DeprecationNotPossible'),
-    				'img' => Theme :: get_image_path().'action_deprecate_na.png'
-    			);
-        	}
-        	else
-        	{
-    			$toolbar_data[] = array(
-    				'label' => Translation :: get('VerificationNotPossible'),
-    				'img' => Theme :: get_image_path().'action_verify_na.png'
-    			);
+				$toolbar_data[] = array(
+					'label' => Translation :: get('DeprecationNotPossible'),
+					'img' => Theme :: get_image_path().'action_deprecate_na.png'
+				);
+			}
+			else
+			{
+				$toolbar_data[] = array(
+					'label' => Translation :: get('VerificationNotPossible'),
+					'img' => Theme :: get_image_path().'action_verify_na.png'
+				);
 
-    			$toolbar_data[] = array(
-    				'href' => $this->browser->get_deprecate_variable_translation_url($variable_translation),
-    				'label' => Translation :: get('Deprecate'),
-    				'img' => Theme :: get_image_path().'action_deprecate.png',
-    			    'confirm' => true
-    			);
-        	}
+				$toolbar_data[] = array(
+					'href' => $this->browser->get_deprecate_variable_translation_url($variable_translation),
+					'label' => Translation :: get('Deprecate'),
+					'img' => Theme :: get_image_path().'action_deprecate.png',
+					'confirm' => true
+				);
+			}
 		}
 		elseif($can_translate && $variable_translation->is_locked())
 		{
-        	$toolbar_data[] = array(
+			$toolbar_data[] = array(
 				'label' => Translation :: get('Lock'),
 				'img' => Theme :: get_common_image_path().'action_lock.png'
 			);
@@ -126,21 +117,21 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 		if ($can_lock)
 		{
 			if(!$variable_translation->is_locked())
-	        {
-	        	$toolbar_data[] = array(
+			{
+				$toolbar_data[] = array(
 					'href' => $this->browser->get_lock_variable_translation_url($variable_translation),
 					'label' => Translation :: get('Lock'),
 					'img' => Theme :: get_common_image_path().'action_lock.png'
 				);
-	        }
-	        else
-	        {
-	        	$toolbar_data[] = array(
+			}
+			else
+			{
+				$toolbar_data[] = array(
 					'href' => $this->browser->get_unlock_variable_translation_url($variable_translation),
 					'label' => Translation :: get('Unlock'),
 					'img' => Theme :: get_common_image_path().'action_unlock.png'
 				);
-	        }
+			}
 		}
 
 		$toolbar_data[] = array(

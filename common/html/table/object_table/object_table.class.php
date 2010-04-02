@@ -77,7 +77,7 @@ class ObjectTable
      * The form actions to use in this table
      */
     private $form_actions;
-    
+
     /**
      * Whether or not this table can be sorted via AJAX
      */
@@ -118,7 +118,7 @@ class ObjectTable
         $prefix = $this->get_name() . '_';
         $out = array();
         $param = array_merge($_GET, $_POST);
-        foreach ($param as $k => $v)
+        foreach ($param as $k => & $v)
         {
             if (strpos($k, $prefix) === false)
             {
@@ -136,7 +136,7 @@ class ObjectTable
     {
         $table = new SortableTable($this->get_name(), array($this, 'get_object_count'), array($this, 'get_objects'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction(), $this->get_ajax_enabled());
         $table->set_additional_parameters($this->get_additional_parameters());
-        
+
         if ($this->has_form_actions())
         {
             $table->set_form_actions($this->get_form_actions(), $this->get_checkbox_name());
@@ -148,7 +148,7 @@ class ObjectTable
             $column = $this->get_column_model()->get_column($i);
             $table->set_header(($this->has_form_actions() ? $i + 1 : $i), htmlentities($column->get_title()), $column->is_sortable());
         }
-        
+
         return $table->as_html();
     }
 
