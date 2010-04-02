@@ -64,6 +64,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_TOOL_ACTION = 'tool_action';
 	const PARAM_STATUS = 'user_status';
 	const PARAM_EXTRA = 'extra';
+	const PARAM_PUBLICATION = 'publication';
 
 	const ACTION_SUBSCRIBE = 'subscribe';
 	const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
@@ -1571,9 +1572,11 @@ class WeblcmsManager extends WebApplication
 		return $links;
 	}
 
-	function get_reporting_url($classname, $params)
+	function get_reporting_url($params)
 	{
-		return $this->get_url(array('application' => 'weblcms', self :: PARAM_TOOL => null, self :: PARAM_ACTION => self :: ACTION_REPORTING, ReportingManager :: PARAM_TEMPLATE_NAME => $classname, ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
+		$array = array(Application::PARAM_APPLICATION => self :: APPLICATION_NAME, self :: PARAM_TOOL => null, self :: PARAM_ACTION => self :: ACTION_REPORTING);
+		$array = array_merge($array, $params);
+		return $this->get_url($array);
 	}
 
 	/**

@@ -1,17 +1,21 @@
 <?php
+require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
+require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
 
-require_once dirname (__FILE__) . '/../weblcms_reporting_block.class.php';
-
-class WeblcmsNoOfCoursesReportingBlock extends WeblcmsReportingBlock
+class WeblcmsNoOfCoursesReportingBlock extends WeblcmsCourseReportingBlock
 {
 	public function count_data()
 	{
-		$wdm = WeblcmsDataManager :: get_instance();
+		$reporting_data = new ReportingData();
+		$wdm = WeblcmsDataManager :: get_instance();		
         $count = $wdm->count_courses();
 
-        $arr[Translation :: get('CourseCount')] = $count;
+        $reporting_data->set_categories(array(Translation :: get('CourseCount')));
+        $reporting_data->set_rows(array(Translation :: get('count')));
 
-        return Reporting :: getSerieArray($arr);
+        $reporting_data->add_data_category_row(Translation :: get('CourseCount'), Translation :: get('count'), $count);
+        
+        return $reporting_data;
 	}	
 	
 	public function retrieve_data()
@@ -21,7 +25,7 @@ class WeblcmsNoOfCoursesReportingBlock extends WeblcmsReportingBlock
 	
 	function get_application()
 	{
-		return UserManager::APPLICATION_NAME;
+		return WeblcmsManager::APPLICATION_NAME;
 	}
 	
 	public function get_available_displaymodes()

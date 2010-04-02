@@ -1,32 +1,37 @@
 <?php
+require_once PATH::get_reporting_path() . '/lib/reporting_data.class.php';
+require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
 
-require_once dirname (__FILE__) . '/../weblcms_reporting_block.class.php';
-
-class WeblcmsNoOfPublishedObjectsPerTypeReportingBlock extends WeblcmsReportingBlock
+class WeblcmsNoOfPublishedObjectsPerTypeReportingBlock extends WeblcmsCourseReportingBlock
 {
 	public function count_data()
 	{
+		$reporting_data = new ReportingData();
 		$rdm = RepositoryDataManager :: get_instance();
         $list = $rdm->get_registered_types();
         foreach ($list as $key => $value)
         {
-            $arr[$value][0] = 0;
+            $arr[$value] = 0;
         }
 
         $wdm = WeblcmsDataManager :: get_instance();
         $content_objects = $wdm->retrieve_content_object_publications_new();
         while ($content_object = $content_objects->next_result())
         {
-            $arr[$content_object->get_content_object()->get_type()][0] ++;
+            $arr[$content_object->get_content_object()->get_type()] ++;
         }
 
-        foreach ($arr as $key => $value)
+        $reporting_data->set_rows(array(Translation :: get('count')));
+
+        foreach ($list as $key => $value)
         {
-            $arr[Translation :: get(Utilities :: underscores_to_camelcase($key))] = $arr[$key];
-            unset($arr[$key]);
+        	$type_name = Translation::get(Utilities :: underscores_to_camelcase($value) . 'TypeName'); 
+        	$reporting_data->add_category($type_name);
+        	$reporting_data->add_data_category_row($type_name, Translation :: get('count'), $arr[$value]);
+        	
         }
+        return $reporting_data;
 
-        return Reporting :: getSerieArray($arr);
 	}	
 	
 	public function retrieve_data()
@@ -36,7 +41,7 @@ class WeblcmsNoOfPublishedObjectsPerTypeReportingBlock extends WeblcmsReportingB
 	
 	function get_application()
 	{
-		return UserManager::APPLICATION_NAME;
+		return WeblcmsManager::APPLICATION_NAME;
 	}
 	
 	public function get_available_displaymodes()

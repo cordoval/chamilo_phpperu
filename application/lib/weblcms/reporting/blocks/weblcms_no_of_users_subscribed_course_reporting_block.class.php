@@ -1,7 +1,7 @@
 <?php
-require_once dirname (__FILE__) . '/../user_reporting_block.class.php';
+require_once dirname (__FILE__) . '/../weblcms_course_reporting_block.class.php';
 
-class UserNoOfUsersSubscribedCourseReportingBlock extends UserReportingBlock
+class WeblcmsNoOfUsersSubscribedCourseReportingBlock extends WeblcmsCourseReportingBlock
 {
 	public function count_data()
 	{
@@ -28,7 +28,7 @@ class UserNoOfUsersSubscribedCourseReportingBlock extends UserReportingBlock
 	
 	function get_application()
 	{
-		return UserManager::APPLICATION_NAME;
+		return WeblcmsManager::APPLICATION_NAME;
 	}
 	
 	public function get_available_displaymodes()

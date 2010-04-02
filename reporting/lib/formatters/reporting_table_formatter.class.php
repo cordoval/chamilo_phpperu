@@ -113,6 +113,7 @@ class ReportingTableFormatter extends ReportingFormatter
         foreach($reporting_data->get_rows() as $row)
         {
         	$table->set_header($j, $row);
+        	$j++;
         }
         return $table->toHTML();
     }

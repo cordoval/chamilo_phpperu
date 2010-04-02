@@ -672,7 +672,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	// DEPRECATED
 	function get_all_course_modules()
 	{
-		return $this->database->retrieve_distinct(CourseModule :: get_table_name(), CourseModule :: PROPERTY_NAME)->as_array();
+		return $this->database->retrieve_distinct(CourseModule :: get_table_name(), CourseModule :: PROPERTY_NAME);
 	}
 
 	function retrieve_course($id)

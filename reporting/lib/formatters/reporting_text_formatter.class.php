@@ -36,7 +36,8 @@ class ReportingTextFormatter extends ReportingFormatter
             
         	foreach ($reporting_data->get_rows() as $row_id => $row_name)
         	{
-	        	$html[] = $row_name . '<br />';
+	        	//$html[] = $row_name . '<br />';
+	        	$html[] = '<h4>' . $row_name . '</h4>';
         		$categories = $reporting_data->get_categories();
 	            foreach($categories as $category_id => $category_name)
 	            {

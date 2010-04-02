@@ -15,6 +15,13 @@ abstract class WeblcmsReportingBlock extends ReportingBlock
 	}
 	
 	public function get_available_diplaymodes()
-	{}
+	{
+		
+	}
+	
+	function get_application()
+	{
+		return WeblcmsManager::APPLICATION_NAME;
+	}
 }
 ?>

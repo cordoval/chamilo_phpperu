@@ -18,7 +18,7 @@ class ReportingTemplateViewer
      * by registration id
      * @param <type> $reporting_template_registration_id
      */
-    public function show_reporting_template($reporting_template_registration_id/*, $params*/)
+    public function show_reporting_template($reporting_template_registration_id)
     {
         $rpdm = ReportingDataManager :: get_instance();
         if (! $reporting_template_registration = $rpdm->retrieve_reporting_template_registration($reporting_template_registration_id))
@@ -27,14 +27,14 @@ class ReportingTemplateViewer
             exit();
         }
         
-        $this->show_reporting_template_by_name($reporting_template_registration->get_template()/*, $params*/);
+        $this->show_reporting_template_by_name($reporting_template_registration->get_template());
     }
 
     /**
      * by class name
      * @param <type> $reporting_template_name
      */
-    public function show_reporting_template_by_name($template/*, $params*/)
+    public function show_reporting_template_by_name($template)
     {
         $condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_TEMPLATE, $template);
         $rpdm = ReportingDataManager :: get_instance();

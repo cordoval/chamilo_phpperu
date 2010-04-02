@@ -16,7 +16,7 @@ class ReportingManagerViewComponent extends ReportingManagerComponent
     {
         //$template = $this->template = Request :: get('template');
         $template = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
-        $params = Reporting :: get_params($this);
+        //$params = Reporting :: get_params($this);
         
         $reporting_template_registration = $this->retrieve_reporting_template_registration($template);
         
@@ -30,7 +30,7 @@ class ReportingManagerViewComponent extends ReportingManagerComponent
         $rtv = new ReportingTemplateViewer($this);
         
         $this->display_header($trail);
-        $rtv->show_reporting_template($template, $params);
+        $rtv->show_reporting_template($template);
         $this->display_footer();
         //		if (!isset($template))
     //		{
