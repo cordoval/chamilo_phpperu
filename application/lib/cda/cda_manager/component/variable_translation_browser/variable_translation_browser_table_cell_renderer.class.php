@@ -69,12 +69,15 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 		$can_translate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $variable_translation->get_language_id(), 'cda_language');
 		$can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $variable_translation->get_language_id(), 'cda_language');
 
+		$theme_image_path = Theme :: get_image_path();
+		$theme_common_image_path = Theme :: get_common_image_path();
+
 		if (($can_translate && !$variable_translation->is_locked()) || $can_lock)
 		{
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_update_variable_translation_url($variable_translation),
 				'label' => Translation :: get('Translate'),
-				'img' => Theme :: get_image_path().'action_translate.png'
+				'img' => $theme_image_path.'action_translate.png'
 			);
 
 			if ($variable_translation->is_outdated())
@@ -82,46 +85,46 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 				$toolbar_data[] = array(
 					'href' => $this->browser->get_verify_variable_translation_url($variable_translation),
 					'label' => Translation :: get('Verify'),
-					'img' => Theme :: get_image_path().'action_verify.png',
+					'img' => $theme_image_path.'action_verify.png',
 					'confirm' => true
 				);
 
 				$toolbar_data[] = array(
 					'label' => Translation :: get('DeprecationNotPossible'),
-					'img' => Theme :: get_image_path().'action_deprecate_na.png'
+					'img' => $theme_image_path.'action_deprecate_na.png'
 				);
 			}
 			else
 			{
 				$toolbar_data[] = array(
 					'label' => Translation :: get('VerificationNotPossible'),
-					'img' => Theme :: get_image_path().'action_verify_na.png'
+					'img' => $theme_image_path.'action_verify_na.png'
 				);
 
 				$toolbar_data[] = array(
 					'href' => $this->browser->get_deprecate_variable_translation_url($variable_translation),
 					'label' => Translation :: get('Deprecate'),
-					'img' => Theme :: get_image_path().'action_deprecate.png',
+					'img' => $theme_image_path.'action_deprecate.png',
 					'confirm' => true
 				);
 			}
 		}
-		elseif($can_translate && $variable_translation->is_locked())
+		elseif ($can_translate && $variable_translation->is_locked())
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Lock'),
-				'img' => Theme :: get_common_image_path().'action_lock.png'
+				'img' => $theme_common_image_path.'action_lock.png'
 			);
 		}
 
 		if ($can_lock)
 		{
-			if(!$variable_translation->is_locked())
+			if (!$variable_translation->is_locked())
 			{
 				$toolbar_data[] = array(
 					'href' => $this->browser->get_lock_variable_translation_url($variable_translation),
 					'label' => Translation :: get('Lock'),
-					'img' => Theme :: get_common_image_path().'action_lock.png'
+					'img' => $theme_common_image_path.'action_lock.png'
 				);
 			}
 			else
@@ -129,7 +132,7 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 				$toolbar_data[] = array(
 					'href' => $this->browser->get_unlock_variable_translation_url($variable_translation),
 					'label' => Translation :: get('Unlock'),
-					'img' => Theme :: get_common_image_path().'action_unlock.png'
+					'img' => $theme_common_image_path.'action_unlock.png'
 				);
 			}
 		}
@@ -137,13 +140,13 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_rate_variable_translation_url($variable_translation),
 			'label' => Translation :: get('Rate'),
-			'img' => Theme :: get_common_image_path().'action_statistics.png'
+			'img' => $theme_common_image_path.'action_statistics.png'
 		);
 
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_view_variable_translation_url($variable_translation),
 			'label' => Translation :: get('View'),
-			'img' => Theme :: get_common_image_path().'action_browser.png'
+			'img' => $theme_common_image_path.'action_browser.png'
 		);
 
 		return Utilities :: build_toolbar($toolbar_data);

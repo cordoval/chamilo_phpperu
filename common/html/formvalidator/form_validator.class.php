@@ -118,9 +118,9 @@ EOT;
 EOT;
         $renderer->setRequiredNoteTemplate($required_note_template);
 
-        foreach ($this->_submitValues as $index => $value)
+        foreach ($this->_submitValues as $index => & $value)
         {
-            $this->_submitValues[$index] = Security :: remove_XSS($value);
+            $value = Security :: remove_XSS($value);
         }
     }
 
@@ -441,7 +441,7 @@ EOT;
     }
 
 
-        function add_receivers_variable($elementName, $elementLabel, $attributes, $radioArray, $defaultSelected)
+    function add_receivers_variable($elementName, $elementLabel, $attributes, $radioArray, $defaultSelected)
     {
         //made the id's variable so that multiple "receivers" items can be put on the same page
         //addes array for radio buttons
@@ -465,10 +465,10 @@ EOT;
 
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
         $element_finder->excludeElements($attributes['exclude']);
-     
+
         $this->addElement($element_finder);
         $this->addElement('html', '</div>');
-       
+
             $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
 					var expiration = document.getElementById('$idGroup');
@@ -490,9 +490,9 @@ EOT;
 					}
 					/* ]]> */
 					</script>\n");
-         
+
     }
-    
+
 	function add_indicators($elementName, $elementLabel, $attributes)
     {
         $this->addElement('html', '<div style="display: block;" id="receivers_window">');
@@ -536,7 +536,7 @@ EOT;
     function add_progress_bar($delay = 2)
     {
         $this->with_progress_bar = true;
-        $this->updateAttributes("onsubmit=\"myUpload.start('dynamic_div','" . Theme :: get_common_image_path() . "action_progress_bar.gif','" . Translation :: get('PleaseStandBy') . "','" . $this->getAttribute('id') . "')\"");
+        $this->updateAttributes("onsubmit=\"javascript: myUpload.start('dynamic_div','" . Theme :: get_common_image_path() . "action_progress_bar.gif','" . Translation :: get('PleaseStandBy') . "','" . $this->getAttribute('id') . "');\"");
         $this->addElement('html', '<script src="' . Path :: get(WEB_LIB_PATH) . 'javascript/upload.js" type="text/javascript"></script>');
         $this->addElement('html', '<script type="text/javascript">var myUpload = new upload(' . (abs(intval($delay)) * 1000) . ');</script>');
     }
@@ -613,7 +613,7 @@ EOT;
 
 	function parse_checkbox_value($value = null)
 	{
-		if(isset($value) && $value == 1)
+		if (isset($value) && $value == 1)
 		{
 		    return 1;
 		}
