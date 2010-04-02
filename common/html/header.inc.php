@@ -25,7 +25,7 @@ $header->add_default_headers();
 $header->set_page_title(PlatformSetting :: get('institution') . ' - ' . PlatformSetting :: get('site_name'));
 if (isset($httpHeadXtra) && $httpHeadXtra)
 {
-    foreach ($httpHeadXtra as $thisHttpHead)
+    foreach ($httpHeadXtra as & $thisHttpHead)
     {
         $header->add_http_header($thisHttpHead);
     }
@@ -33,7 +33,7 @@ if (isset($httpHeadXtra) && $httpHeadXtra)
 
 if (isset($htmlHeadXtra) && $htmlHeadXtra)
 {
-    foreach ($htmlHeadXtra as $this_html_head)
+    foreach ($htmlHeadXtra as & $this_html_head)
     {
         $header->add_html_header($this_html_head);
     }
