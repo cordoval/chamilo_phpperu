@@ -10,9 +10,10 @@ class TableSort
 {
 
     /**
-     * String to lowercase (keep accents).
+     * TODO: Not UTF-8 compatible
+     * Changes a string to lowercase (keep accents).
      * @param string $txt The string to convert
-     * @author Ren� Haentjens
+     * @author René Haentjens
      * This  function is 8859-1 specific and should be adapted when Chamilo is
      * used with other charsets.
      */
@@ -22,9 +23,10 @@ class TableSort
     }
 
     /**
-     * String to lowercase.
+     * TODO: Not UTF-8 compatible
+     * Changes a string to lowercase.
      * @param string $txt The string to convert
-     * @author Ren� Haentjens
+     * @author René Haentjens
      * This  function is 8859-1 specific and should be adapted when Chamilo is
      * used with other charsets.
      */
@@ -32,13 +34,14 @@ class TableSort
     {
         return str_replace(array("�", "�"), array("ae", "ss"), strtr(TableSort :: strtolower_keepaccents($txt), "�����������������������������", "aaaaaaceeeeiiiidnoooooouuuuyy"));
         // do not replace "�" by "th", leave it at the end of the alphabet...
-    // do not replace any of "$&��������", though they resemble letters...
+        // do not replace any of "$&��������", though they resemble letters...
     }
 
     /**
-     * Create a string to use in sorting.
+     * TODO: Not UTF-8 compatible
+     * Creates a string to use in sorting.
      * @param string $txt The string to convert
-     * @author Ren� Haentjens
+     * @author René Haentjens
      * This  function is 8859-1 specific and should be adapted when Chamilo is
      * used with other charsets.
      * See http://anubis.dkuug.dk/CEN/TC304/EOR/eorhome.html
@@ -51,7 +54,7 @@ class TableSort
     }
 
     /**
-     * Sort 2-dimensional table.
+     * Sorts a 2-dimensional table.
      * @param array $data The data to be sorted.
      * @param int $column The column on which the data should be sorted (default =
      * 0)
@@ -64,20 +67,21 @@ class TableSort
      */
     function sort_table($data, $column = 0, $direction = SORT_ASC, $type = SORT_REGULAR)
     {
-        if (! is_array($data) or count($data) == 0)
+        if (! is_array($data) || empty($data))
         {
             return array();
         }
         if ($column != strval(intval($column)))
         {
+        	// Probably an attack
             return $data;
-        } //probably an attack
+        }
         if (! in_array($direction, array(SORT_ASC, SORT_DESC)))
         {
+        	// Probably an attack
             return $data;
-        } // probably an attack
+        }
 
-        $compare_function = '';
         if ($type == SORT_REGULAR)
         {
             if (TableSort :: is_image_column($data, $column))
@@ -98,30 +102,30 @@ class TableSort
             }
         }
 
+        $compare_operator = $direction == SORT_ASC ? '>' : '<=';
         switch ($type)
         {
             case SORT_NUMERIC :
-                $compare_function = 'strip_tags($el1) > strip_tags($el2)';
+                $compare_function = 'return strip_tags($a['.$column.']) '.$compare_operator.' strip_tags($b['.$column.']);';
                 break;
             case SORT_IMAGE :
-                $compare_function = 'strnatcmp(TableSort::orderingstring(strip_tags($el1,"<img>")),TableSort::orderingstring(strip_tags($el2,"<img>"))) > 0';
+                $compare_function = 'return api_strnatcmp(api_strtolower(strip_tags($a['.$column.'], "<img>")), api_strtolower(strip_tags($b['.$column.'], "<img>"))) '.$compare_operator.' 0;';
                 break;
             case SORT_DATE :
-                $compare_function = 'strtotime(strip_tags($el1)) > strtotime(strip_tags($el2))';
+                $compare_function = 'return strtotime(strip_tags($a['.$column.'])) '.$compare_operator.' strtotime(strip_tags($b['.$column.']));';
             case SORT_STRING :
             default :
-                $compare_function = 'strnatcmp(TableSort::orderingstring(strip_tags($el1)),TableSort::orderingstring(strip_tags($el2))) > 0';
+                $compare_function = 'return api_strnatcmp(api_strtolower(strip_tags($a['.$column.'])), api_strtolower(strip_tags($b['.$column.']))) '.$compare_operator.' 0;';
                 break;
         }
-        $function_body = '$el1 = $a['.$column.']; $el2 = $b['.$column.']; return '.($direction == SORT_ASC ? ' ' : ' !').'('.$compare_function.');';
 
         // Sort the content
-        usort($data, create_function('$a,$b', $function_body));
+        usort($data, create_function('$a, $b', $compare_function));
         return $data;
     }
 
     /**
-     * Checks if a column of a 2D-array contains only numeric values
+     * Checks whether a column of a 2D-array contains only numeric values
      * @param array $data The data-array
      * @param int $column The index of the column to check
      * @return bool true if column contains only dates, false otherwise
@@ -143,7 +147,7 @@ class TableSort
     }
 
     /**
-     * Checks if a column of a 2D-array contains only dates (GNU date syntax)
+     * Checks whether a column of a 2D-array contains only dates (GNU date syntax)
      * @param array $data The data-array
      * @param int $column The index of the column to check
      * @return bool true if column contains only dates, false otherwise
@@ -174,7 +178,7 @@ class TableSort
     }
 
     /**
-     * Checks if a column of a 2D-array contains only images (<img src="
+     * Checks whether a column of a 2D-array contains only images (<img src="
      * path/file.ext" alt=".."/>)
      * @param array $data The data-array
      * @param int $column The index of the column to check
