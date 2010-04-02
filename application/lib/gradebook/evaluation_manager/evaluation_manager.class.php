@@ -1,55 +1,66 @@
 <?php
+require_once dirname(__FILE__) . '/evaluation_manager_component.class.php';
+
 class EvaluationManager extends SubManager
 {
 	const PARAM_ACTION = 'action';
 	
-	const ACTION_BROWSE_EVALUATIONS = 'browse_evaluations';
-	const ACTION_CREATE_EVALUATIONS = 'create_evaluation';
-	const ACTION_DELETE_EVALUATIONS = 'delete_evaluation';
-	const ACTION_UPDATE_EVALUATIONS = 'update_evaluation';
+	const ACTION_CREATE = 'creator';
+	const ACTION_UPDATE = 'updater';
+	const ACTION_DELETE = 'deleter';
 	
-	const EVALUATION_PARAMETERS = 'evaluation_parameters';
+	const TYPE_INTERNAL_ITEM = 'internal_item';
 	
-	function EvaluationManager($gradebook_manager)
+	private $parameters;
+	
+	function EvaluationManager($parent, $action, $parameters)
 	{
-		$action = Request :: get(self :: PARAM_ACTION);
+        parent :: __construct($parent);
         if ($action)
         {
             $this->set_parameter(self :: PARAM_ACTION, $action);
         }
-        $this->parse_input_from_table();
+        
+        $this->set_parameters($parameters);
+        $this->run();
 	}
 	
 	function run()
 	{
-		$action = $this->get_parameter( self::PARAM_ACTION );
-		
-		switch ($action)
-		{
-			case self :: ACTION_BROWSE_EVALUATIONS:
-				$component = EvaluationManagerComponent :: factory('Browser', $this);
-				break;
-			case self :: ACTION_CREATE_EVALUATIONS:
-				$component = EvaluationManagerComponent :: factory('Creator', $this);
-				break;
-			case self :: ACTION_DELETE_EVALUATIONS:
-				$component = EvaluationManagerComponent :: factory('Deleter', $this);
-				break;
-			case self :: ACTION_UPDATE_EVALUATIONS:
-				$component = EvaluationManagerComponent :: factory('Updater', $this);
-				break;
-		}
-		$component->run();
+        $action = $this->get_parameter(self :: PARAM_ACTION);
+        switch ($action)
+        {
+            case self :: ACTION_CREATE :
+                $component = EvaluationManagerComponent :: factory('Creator', $this);
+                break;
+            case self :: ACTION_DELETE :
+                $component = EvaluationManagerComponent :: factory('Deleter', $this);
+                break;
+            case self :: ACTION_UPDATE :
+                $component = EvaluationManagerComponent :: factory('Updater', $this);
+                break; 
+            default :
+                $component = EvaluationManagerComponent :: factory('Browser', $this);
+                break;
+        }
+        $component->run();
 	}
-	
-	function get_application_component_path()
-	{
-		return Path :: get_application_path . 'lib/gradebook/evaluation_manager/component/';
-	}
-	
-	private function parse_input_from_table()
-	{
-		
-	}
+
+    function get_application_component_path()
+    {
+        return Path :: get_application_path() . 'lib/gradebook/evaluation_manager/component/';
+    }
+    
+    function set_parameters($parameters)
+    {
+    	$this->parameters = $parameters;
+    }
+    
+    function get_parameters()
+    {
+    	return $this->parameters;
+    }
+    
+    //url creation
 }
 ?>

@@ -4,7 +4,7 @@
  * 
  * @author Nick Van Loocke
  */
-class Criteria extends DataClass
+class CriteriaOld extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 

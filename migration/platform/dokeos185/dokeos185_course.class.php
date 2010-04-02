@@ -19,7 +19,7 @@ class Dokeos185Course extends ImportCourse
     /**
      * Migration data manager
      */
-    
+
     /**
      * course properties
      */
@@ -45,13 +45,13 @@ class Dokeos185Course extends ImportCourse
     const PROPERTY_SUBSCRIBE = 'subscribe';
     const PROPERTY_UNSUBSCRIBE = 'unsubscribe';
     const PROPERTY_REGISTRATION_CODE = 'registration_code';
-    
+
     /**
      * Alfanumeric identifier of the course object.
      */
     private $code;
     private $index = 0;
-    
+
     /**
      * Default properties of the course object, stored in an associative
      * array.
@@ -128,7 +128,7 @@ class Dokeos185Course extends ImportCourse
     /**
      * COURSE GETTERS AND SETTERS
      */
-    
+
     /**
      * Returns the code of this course.
      * @return String The code.
@@ -337,7 +337,7 @@ class Dokeos185Course extends ImportCourse
 
     /**
      * Check if the course is valid
-     * @return true if the blog is valid 
+     * @return true if the blog is valid
      */
     function is_valid($parameters)
     {
@@ -347,7 +347,7 @@ class Dokeos185Course extends ImportCourse
             $mgdm->add_failed_element($this->get_code(), 'dokeos_main.course');
             return false;
         }
-        
+
         return true;
     }
 
@@ -355,7 +355,7 @@ class Dokeos185Course extends ImportCourse
     function check_visual_code($visual_code, $course)
     {
         $mgdm = MigrationDataManager :: get_instance();
-        
+
         if ($mgdm->visual_code_available($visual_code))
             $course->set_visual($visual_code);
         else
@@ -363,7 +363,7 @@ class Dokeos185Course extends ImportCourse
             $index = $this->index ++;
             $this->check_visual_code($visual_code . '+' . $index, $course);
         }
-    
+
     }
 
     /**
@@ -373,30 +373,30 @@ class Dokeos185Course extends ImportCourse
     function convert_to_lcms($parameters)
     {
     	//control if the weblcms application exists
-		$is_registered = AdminDataManager :: get_instance()->is_registered('weblcms');
+		$is_registered = AdminDataManager :: is_registered('weblcms');
         // Convert profile fields to Profile object if the user has user profile data
         if ($is_registered )
-        {	
+        {
         	//Course parameters
         	$mgdm = MigrationDataManager :: get_instance();
         	$lcms_course = new Course();
-        
+
         	if ($mgdm->is_language_available($this->get_course_language()))
             	$lcms_course->set_language($this->get_course_language());
         	else
             	$lcms_course->set_language('english');
-        
+
         	$lcms_course->set_name($this->get_title());
         	$category_id = $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
         	if ($category_id)
             	$lcms_course->set_category($category_id);
         	else
         	{
-        	
+
         	}
-        
+
        		unset($category_id);
-        
+
         	$lcms_course->set_visibility($this->get_visibility());
         	//titular id
         	$udm = UserDataManager :: get_instance();
@@ -405,7 +405,7 @@ class Dokeos185Course extends ImportCourse
             	$titular_id = $titular->get_id();
         	else
             	$titular_id = 0;
-            
+
         	$lcms_course->set_titular($titular_id);
         	$this->check_visual_code($this->get_visual_code(), $lcms_course);
        		$lcms_course->set_extlink_name($this->get_department_name());
@@ -416,16 +416,16 @@ class Dokeos185Course extends ImportCourse
         	$lcms_course->set_default_property(Course :: PROPERTY_LAST_EDIT, $this->get_last_edit());
         	$lcms_course->set_default_property(Course :: PROPERTY_CREATION_DATE, $this->get_creation_date());
         	$lcms_course->set_default_property(Course :: PROPERTY_EXPIRATION_DATE, $this->get_expiration_date());
-        
+
         	//create course in database
         	$lcms_course->create();
-        
+
         	//Add id references to temp table
         	$old_code = $this->get_code();
         	$mgdm->add_id_reference($old_code, $lcms_course->get_id(), 'weblcms_course');
         	unset($old_code);
         	unset($mgdm);
-        
+
         	return $lcms_course;
     	}
     }
@@ -438,7 +438,7 @@ class Dokeos185Course extends ImportCourse
     static function get_all($parameters)
     {
         $old_mgdm = $parameters['old_mgdm'];
-        
+
         $db = 'main_database';
         $tablename = 'course';
         $classname = 'Dokeos185Course';

@@ -36,11 +36,10 @@ class SettingsWeblcmsConnector
     {
         return CourseLayout :: get_breadcrumb_options();
     }
-    
+
     function get_languages()
     {
-    	$adm = AdminDataManager :: get_instance();
-		return $adm->get_languages();
+		return AdminDataManager :: get_languages();
     }
 }
 ?>

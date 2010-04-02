@@ -2,7 +2,7 @@
 /**
  * $Id: installer.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager.component
- * 
+ *
  * @author Hans De Bisschop
  */
 require_once dirname(__FILE__) . '/../install_manager.class.php';
@@ -27,21 +27,20 @@ class InstallManagerInstallerComponent extends InstallManagerComponent
 		{
     		$already_installed = true;
 		}
-		
+
 		if($already_installed && (PlatformSetting :: get('installation_blocked') == TRUE))
 		{
-			//display warning: installation is blocked by administrator	
+			//display warning: installation is blocked by administrator
 			$this->display_header();
     		Display :: error_message(Translation:: get('InstallationBlockedByAdministrator'));
     		$this->display_footer();
-			
 		}
 		else
     	{
         	$wizard = new InstallWizard($this);
-        	$wizard->run();	
+        	$wizard->run();
 		}
-		
+
     }
 }
 ?>

@@ -4,7 +4,7 @@
  * 
  * @author Nick Van Loocke
  */
-class Competency extends DataClass
+class CompetencyOld extends DataClass
 {
 	const CLASS_NAME = __CLASS__;
 

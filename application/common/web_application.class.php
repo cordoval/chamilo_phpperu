@@ -73,7 +73,7 @@ abstract class WebApplication extends Application
     {
         return true;
     }
-    
+
     function delete_content_object_publication($publication_id)
     {
     	return true;
@@ -114,21 +114,16 @@ abstract class WebApplication extends Application
         $applications = array();
         $path = dirname(__FILE__) . '/../lib/';
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
-        
-        if ($only_registered_applications)
-        {
-        	$adm = AdminDataManager :: get_instance();
-        }
-        
+
         foreach ($directories as $directory)
         {
             $application_name = basename($directory);
-            
-            if($only_registered_applications && !$adm->is_registered($application_name))
+
+            if($only_registered_applications && !AdminDataManager :: is_registered($application_name))
             {
             	continue;
             }
-            
+
             if (Application :: is_application_name($application_name))
             {
                 if (! in_array($application_name, $applications))
@@ -149,10 +144,10 @@ abstract class WebApplication extends Application
         $path = Path :: get_application_path() . 'lib';
         $adm = AdminDataManager :: get_instance();
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
-        
+
         $applications = $adm->retrieve_registrations($condition);
         $active_applications = array();
-        
+
         while ($application = $applications->next_result())
         {
             if ($include_application_classes)
@@ -161,7 +156,7 @@ abstract class WebApplication extends Application
             }
             $active_applications[] = $application->get_name();
         }
-        
+
         return $active_applications;
     }
 
@@ -190,12 +185,12 @@ abstract class WebApplication extends Application
         if (self :: is_application($application))
         {
             $adm = AdminDataManager :: get_instance();
-            
+
             $conditions = array();
             $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, 'application');
             $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $application);
             $condition = new AndCondition($conditions);
-            
+
             $registrations = $adm->retrieve_registrations($condition);
             if ($registrations->size() > 0)
             {
@@ -237,7 +232,7 @@ abstract class WebApplication extends Application
         require_once $manager_path;
         return parent :: factory($application, $user);
     }
-    
+
     function get_additional_user_information($user)
     {
     	return null;

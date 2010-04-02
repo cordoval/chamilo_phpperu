@@ -27,6 +27,7 @@ class CbaManagerCompetencyDeleterComponent extends CbaManagerComponent
 			foreach ($ids as $id)
 			{
 				$cba = $this->retrieve_competency($id);
+				$category_id = $cba->get_parent_id();
 				$cba->delete();
 				$cba_competency_indicator = $this->retrieve_competency_indicator($id);
 				$cba_competency_indicator->delete();					
@@ -60,8 +61,7 @@ class CbaManagerCompetencyDeleterComponent extends CbaManagerComponent
 				}
 			}
 
-			// Redirect problem from a category when deleting via select all
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY, 'category' => $category_id));
 		}
 		else
 		{
