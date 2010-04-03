@@ -31,7 +31,7 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManagerCompon
 			{
 				$translator_application = $this->retrieve_translator_application($id);
 				$can_activate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $translator_application->get_destination_language_id(), 'cda_language');
-				
+
 				if (!$can_activate)
 				{
 					$failures++;
@@ -76,13 +76,13 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManagerCompon
 			$this->display_error_page(htmlentities(Translation :: get('NoTranslatorApplicationsSelected')));
 		}
 	}
-	
+
 	function notify($translator_application)
     {
     	$user = UserDataManager :: get_instance()->retrieve_user($translator_application->get_user_id());
     	$source_language = $this->retrieve_cda_language($translator_application->get_source_language_id());
     	$destination_language = $this->retrieve_cda_language($translator_application->get_destination_language_id());
-    	
+
     	$html[] = Translation :: get('Dear') . ' ' . $user->get_fullname();
     	$html[] = '';
     	$html[] = Translation :: get('YouHaveBeenAcceptedAsTranslatorFor');
@@ -97,11 +97,11 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManagerCompon
     	$html[] =  '';
     	$html[] = 'Chamilo Support Team';
     	$html[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
-    	
+
     	$subject = '[CDA] ' . Translation :: get('TranslationApplicationAccepted');
     	$content = implode("<br />", $html);
     	$to = $user->get_email();
-    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info@chamilo.org', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
+    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: NAME => 'info@chamilo.org', Mail :: EMAIL => 'info@chamilo.org'));
     	$mail->send();
     }
 }
