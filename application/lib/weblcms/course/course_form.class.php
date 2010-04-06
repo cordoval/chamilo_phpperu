@@ -390,8 +390,8 @@ class CourseForm extends FormValidator
         $table = new SortableTableFromArray($data);
         $table->set_header(0, '', false);
         $table->set_header(1, Translation :: get('ToolName'), false);
-        $table->set_header(2, Translation :: get('IsToolVisible'), false, null, array('style'=>'width: 20%; text-align: center;'));
-        $this->addElement('html', '<div style="width:50%; margin-left:15%;">'.$table->as_html().'</div>');
+        $table->set_header(2, Translation :: get('IsToolVisible'), false, null, array('style'=>'width: 30%; text-align: center;'));
+        $this->addElement('html', '<div style="width:60%; margin-left:15%;">'.$table->as_html().'</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
 					var common_image_path = '".Theme :: get_common_image_path()."';
