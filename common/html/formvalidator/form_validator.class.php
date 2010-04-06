@@ -366,10 +366,10 @@ EOT;
     function add_receivers($elementName, $elementLabel, $attributes, $no_selection = 'Everybody', $legend = null)
     {
         $choices = array();
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($no_selection), '0', array('onclick' => 'javascript:receivers_hide(\'receivers_window\')', 'id' => 'receiver'));
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'receivers_window\')'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($no_selection), '0', array('onclick' => 'javascript:receivers_hide(\'receivers_window_'.$elementName.'\')', 'id' => 'receiver_'.$elementName));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'receivers_window_'.$elementName.'\')'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
-        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="receivers_window">');
+        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="receivers_window_'.$elementName.'">');
 
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
         $element_finder->excludeElements($attributes['exclude']);
@@ -383,10 +383,10 @@ EOT;
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
-					var expiration = document.getElementById('receiver');
+					var expiration = document.getElementById('receiver_".$elementName."');
 					if (expiration.checked)
 					{
-						receivers_hide('receivers_window');
+						receivers_hide('receivers_window_".$elementName."');
 					}
 					function receivers_show(item) {
 						el = document.getElementById(item);

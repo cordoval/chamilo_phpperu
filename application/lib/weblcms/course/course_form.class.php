@@ -16,6 +16,8 @@ class CourseForm extends FormValidator
     const RESULT_ERROR = 'ObjectUpdateFailed';
 
    	const UNLIMITED_MEMBERS = 'unlimited_members';
+   	const DIRECT_TARGET = 'direct_target_groups';
+   	const REQUEST_TARGET = 'request_target_groups';
 
     private $parent;
     private $course;
@@ -53,6 +55,26 @@ class CourseForm extends FormValidator
         $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_form.js'));
     }
 
+    function build_creation_form()
+    {
+        $this->build_basic_form();
+
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    }
+
+    function build_editing_form()
+    {
+        $this->build_basic_form();
+
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    }
+
     private $categories;
     private $level = 1;
 
@@ -81,7 +103,7 @@ class CourseForm extends FormValidator
 		$selected_tab = 0;
 		$this->add_tabs($tabs, $selected_tab);
     }
-
+    
     function build_general_settings_form()
     {
         $user_options = array();
@@ -255,7 +277,6 @@ class CourseForm extends FormValidator
 			$this->addElement('select', CourseLayout :: PROPERTY_LAYOUT, Translation :: get('Layout'), CourseLayout :: get_layouts());
 		}
 
-
 		$tool_shortcut = $this->course->get_course_type()->get_layout_settings()->get_tool_shortcut_options();
 		$tool_shortcut_disabled = $this->course->get_tool_shortcut_fixed();
 		if($tool_shortcut_disabled)
@@ -289,7 +310,6 @@ class CourseForm extends FormValidator
 		{
 			$this->addElement('select', CourseLayout :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), CourseLayout :: get_breadcrumb_options());
 		}
-
 
 		$this->addElement('category');
 
@@ -333,24 +353,7 @@ class CourseForm extends FormValidator
 			$attr_array = array('disabled' => 'disabled');
 		$this->addElement('checkbox', CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE, Translation :: get('CourseLanguageVisible'), '', $attr_array);
 		$this->addElement('category');
-		//$this->addElement('html', '<div style="clear: both;"></div>');
-
-		//$this->addElement('html', '</div>')
-
-		//$this->addElement('html', '<div style="clear: both;"></div>');
-
-		//$this->addElement('html', '</div>');
 	}
-
-    function build_editing_form()
-    {
-        $this->build_basic_form();
-
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-    }
 
 	function build_tools_form()
 	{
@@ -398,16 +401,32 @@ class CourseForm extends FormValidator
 					/* ]]> */
 					</script>\n");
 	}
+	
+	function build_rights_form()
+	{
+		$attributes = array();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('SelectRecipients');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        $attributes['locale'] = $locale;
+       // $attributes['exclude'] = array('user_' . $this->tool->get_user_id());
+        $attributes['defaults'] = array();
 
-    function build_creation_form()
-    {
-        $this->build_basic_form();
+        $legend_items = array();
+        $legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        $legend_items[] = new ToolbarItem(Translation :: get('LinkedUser'), Theme :: get_common_image_path() . 'treemenu/user_platform.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        $legend_items[] = new ToolbarItem(Translation :: get('UserGroup'), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $legend = new Toolbar();
+        $legend->set_items($legend_items);
+        $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
-        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-    }
+        $this->add_receivers(self :: DIRECT_TARGET, Translation :: get('DirectSubscribeFor'), $attributes, 'Everybody');
+        $this->add_receivers(self :: REQUEST_TARGET, Translation :: get('RequestSubscribeFor'), $attributes, 'Everybody');
+	}
 
 	function save_course()
 	{
@@ -592,47 +611,6 @@ class CourseForm extends FormValidator
 
         parent :: setDefaults($defaults);
     }
-
-	/**
-	 * Function add_row_elements_required adds a row of small elements e.g. checkbox, text for a small number
-	 * @param array $arrayelements
-	 */
-
-	function add_row_elements_required($arrayelements)
-	{
-		$renderer = $this->defaultRenderer();
-
-		$element_template = array();
-		$element_template[] = '<div class="row">';
-		$element_template[] = '<div class="label" style="width: 64%;">';
-		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="' . Theme :: get_common_image_path() . 'action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
-		$element_template[] = '</div>';
-		$element_template[] = '<div class="formw" style="width: 30%;">';
-		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
-		$element_template[] = '<div class="form_feedback"></div></div>';
-		$element_template[] = '<div class="clear">&nbsp;</div>';
-		$element_template[] = '</div>';
-		$element_template = implode("\n", $element_template);
-
-		foreach($arrayelements as $value)
-		{
-			$renderer->setElementTemplate($element_template, $value->getName());
-		}
-
-		foreach($arrayelements as $index => $value)
-		{
-			if($index == 0)
-				$this->addElement('html', '<div class="row"><div style="width: 28.5%; float: left;">');
-			else
-				$this->addElement('html', '<div style="width: 20%; float: left;">');
-			$this->addElement($value);
-			if($value->getType() != 'checkbox' && $value->getName() != CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS)
-				$this->addRule($value->getName(), Translation :: get('ThisFieldIsRequired'), 'required');
-			$this->addElement('html', '</div>');
-
-		}
-		$this->addElement('html', '<div class="clear">&nbsp;</div></div>');
-	}
 
 	function get_form_type()
 	{
