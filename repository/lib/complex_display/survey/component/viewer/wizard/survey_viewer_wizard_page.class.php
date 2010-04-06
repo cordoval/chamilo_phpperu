@@ -19,7 +19,7 @@ abstract class SurveyViewerWizardPage extends FormValidatorPage
      */
     public function SurveyViewerWizardPage($name, $parent)
     {
-        $this->parent = $parent;
+       	$this->parent = $parent;
         parent :: FormValidatorPage($name, 'post');
         $this->updateAttributes(array('action' => $parent->get_parent()->get_url()));
     }
