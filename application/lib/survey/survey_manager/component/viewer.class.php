@@ -1,8 +1,4 @@
 <?php
-/**
- * $Id: viewer.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component
- */
 
 require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
 require_once Path :: get_application_path() . 'lib/survey/trackers/survey_question_answer_tracker.class.php';
@@ -74,13 +70,13 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
         $trail = new BreadcrumbTrail();
         if ($this->pub->is_test())
         {
-            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TESTCASE, TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseTestCaseSurveyPublications')));
+            $trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
             $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TESTCASE, TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PARTICIPANTS, TestcaseManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('BrowseTestCaseSurveyParticipants')));
         
         }
         else
         {
-            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
+            $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
         
         }
         $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('TakeSurvey')));

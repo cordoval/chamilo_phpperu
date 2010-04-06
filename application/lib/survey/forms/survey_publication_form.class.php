@@ -1,14 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../survey_publication.class.php';
-/**
- * $Id: survey_publication_form.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.forms
- */
-/**
- * This class describes the form for a SurveyPublication object.
- * @author Sven Vanpoucke
- * @author 
- **/
+
 class SurveyPublicationForm extends FormValidator
 {
     const TYPE_SINGLE = 1;
@@ -20,7 +12,6 @@ class SurveyPublicationForm extends FormValidator
     const PARAM_FOREVER = 'forever';
     const PARAM_FROM_DATE = 'from_date';
     const PARAM_TO_DATE = 'to_date';
-    const PARAM_TEST = 'test';
     
     private $publication;
     private $content_object;
@@ -74,8 +65,7 @@ class SurveyPublicationForm extends FormValidator
         }
         
         $defaults['hidden'] = $publication->is_hidden();
-        //$defaults['test'] = $publication->is_test();
-        
+              
         $udm = UserDataManager :: get_instance();
         $gdm = GroupDataManager :: get_instance();
         
@@ -183,7 +173,7 @@ class SurveyPublicationForm extends FormValidator
       
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-        
+              
         $pub = new SurveyPublication();
         $pub->set_content_object($this->content_object->get_id());
         $pub->set_publisher($this->form_user->get_id());
@@ -221,7 +211,7 @@ class SurveyPublicationForm extends FormValidator
         
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-        
+               
         $ids = unserialize($values['ids']);
         
         foreach ($ids as $id)

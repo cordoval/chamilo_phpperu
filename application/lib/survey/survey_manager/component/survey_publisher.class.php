@@ -14,7 +14,9 @@ class SurveyManagerSurveyPublisherComponent extends SurveyManagerComponent
 
     function get_publications_form($ids)
     {
-        if (is_null($ids))
+        
+    	
+    	if (is_null($ids))
             return '';
 
         if (! is_array($ids))
@@ -28,9 +30,7 @@ class SurveyManagerSurveyPublisherComponent extends SurveyManagerComponent
         {
             $condition = new InCondition(ContentObject :: PROPERTY_ID, $ids, ContentObject :: get_table_name());
             $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
-            //Utilities :: order_content_objects_by_title($content_objects);
-
-
+            
             $html[] = '<div class="content_object padding_10">';
             $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
             $html[] = '<div class="description">';

@@ -9,6 +9,7 @@ require_once Path :: get_application_path() . 'lib/survey/testcase_manager/testc
 require_once dirname ( __FILE__ ) . '/component/survey_publication_browser/survey_publication_browser_table.class.php';
 
 class SurveyManager extends WebApplication {
+	
 	const APPLICATION_NAME = 'survey';
 	
 	const PARAM_SURVEY_PUBLICATION = 'survey_publication';
@@ -22,8 +23,6 @@ class SurveyManager extends WebApplication {
 	const ACTION_CREATE_SURVEY_PUBLICATION = 'create';
 	const ACTION_BROWSE_SURVEY_PUBLICATIONS = 'browse';
 	const ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES = 'manage_categories';
-	//	const ACTION_BROWSE_TEST_SURVEY_PUBLICATION = 'browse_test';
-	//	const ACTION_BROWSE_TEST_SURVEY_PARTICIPANTS = 'browse_participants';
 	const ACTION_VIEW_SURVEY_PUBLICATION = 'view';
 	const ACTION_VIEW_SURVEY_PUBLICATION_RESULTS = 'view_results';
 	const ACTION_IMPORT_SURVEY = 'import_survey';
@@ -216,7 +215,7 @@ class SurveyManager extends WebApplication {
 	}
 	
 	function get_browse_survey_publications_url() {
-		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_SURVEY_PUBLICATIONS ) );
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_SURVEY_PUBLICATIONS ), array(self::PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION) );
 	}
 	
 	function get_manage_survey_publication_categories_url() {
@@ -224,7 +223,7 @@ class SurveyManager extends WebApplication {
 	}
 	
 	function get_testcase_url() {
-		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_TESTCASE ) );
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_TESTCASE) , array( TestcaseManager :: PARAM_ACTION, TestcaseManager:: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
 	}
 	
 	function get_survey_publication_viewer_url($survey_publication) {
