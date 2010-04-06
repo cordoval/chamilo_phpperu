@@ -25,7 +25,8 @@ class TestcaseManagerBrowserComponent extends TestcaseManagerComponent
 
     function get_table()
     {
-        $table = new TestcaseSurveyPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => 'survey', Application :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS), $this->get_condition());
+        $parameters = $this->get_parameters();
+       	$table = new TestcaseSurveyPublicationBrowserTable($this, $parameters, $this->get_condition());
         return $table->as_html();
     }
 

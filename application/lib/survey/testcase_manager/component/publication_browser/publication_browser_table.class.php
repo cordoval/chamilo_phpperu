@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/publication_browser_table_cell_renderer.class
 
 class TestcaseSurveyPublicationBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'survey_publication_browser_table';
+    const DEFAULT_NAME = 'survey_test_case_publication_browser_table';
 
     /**
      * Constructor
