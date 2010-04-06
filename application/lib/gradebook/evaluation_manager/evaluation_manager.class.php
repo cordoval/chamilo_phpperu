@@ -4,7 +4,9 @@ require_once dirname(__FILE__) . '/evaluation_manager_component.class.php';
 class EvaluationManager extends SubManager
 {
 	const PARAM_ACTION = 'action';
+	const PARAM_EVALUATION = 'evaluation';
 	
+	const ACTION_BROWSE = 'browser';
 	const ACTION_CREATE = 'creator';
 	const ACTION_UPDATE = 'updater';
 	const ACTION_DELETE = 'deleter';
@@ -66,6 +68,18 @@ class EvaluationManager extends SubManager
     {
     	GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication($publication_id);
     }
+    
+    function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return GradebookDatamanager :: get_instance()->retrieve_evaluation($condition, $offset, $count, $order_property);
+    }
+
+    function retrieve_evaluation($id)
+    {
+        return GradebookDatamanager :: get_instance()->retrieve_evaluation($id);
+    }
+    
+
     
     //url creation
     function get_evaluation_publication_url($wiki_publication)

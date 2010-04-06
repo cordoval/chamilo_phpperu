@@ -10,4 +10,9 @@ class EvaluationManagerComponent extends SubManagerComponent
     {
         parent :: __construct($evaluation_manager);
     }
+    
+    function retrieve_evaluation($id)
+    {
+        return $this->get_parent()->retrieve_evaluation($id);
+    }
 }

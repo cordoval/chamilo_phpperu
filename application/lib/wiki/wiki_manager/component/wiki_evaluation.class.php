@@ -1,6 +1,5 @@
 <?php
 require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
-require_once dirname (__FILE__) . '/../../../gradebook/forms/evaluation_form.class.php';
 
 class WikiManagerWikiEvaluationComponent extends WikiManagerComponent
 {
@@ -13,7 +12,6 @@ class WikiManagerWikiEvaluationComponent extends WikiManagerComponent
         if (Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION))
         {
         	$wiki_publication = $this->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
-        	
         	$evaluation_manager = new EvaluationManager($this);
         }  
         else

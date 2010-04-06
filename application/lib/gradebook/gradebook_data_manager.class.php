@@ -85,12 +85,12 @@ abstract class GradebookDataManager {
 	
 	abstract function truncate_gradebook($id);
 	
-	abstract function count_gradebooks($conditions = null);
+	abstract function count_gradebooks($conditions = null);*/
 
-	abstract function retrieve_gradebook($id);
+	abstract function retrieve_evaluation($id);
 
-	abstract function retrieve_gradebooks($condition = null, $offset = null, $count = null, $order_property = null);
-
+	abstract function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null);
+/*
 
 	//gradebook_items rel user
 
