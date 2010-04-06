@@ -1,17 +1,16 @@
 <?php
 /**
- * $Id: complex_assessment_fill_in_blanks_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.fill_in_blanks_question
+ * $Id: complex_fill_in_blanks_question_form.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * @package repository.lib.question_types.fill_in_blanks_question
  */
-require_once PATH::get_repository_path() . '/question_types/fill_in_blanks_question/complex_fill_in_blanks_question_form.class.php';
-
+require_once dirname(__FILE__) . '/complex_fill_in_blanks_question.class.php';
 /**
  * This class represents a form to create or update complex assessments
  */
-class ComplexAssessmentFillInBlanksQuestionForm extends ComplexFillInBlanksQuestionForm
+class ComplexFillInBlanksQuestionForm extends ComplexContentObjectItemForm
 {
-	
-public function get_elements()
+
+    public function get_elements()
     {
         $elements[] = $this->createElement('text', ComplexAssessmentFillInBlanksQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
         return $elements;
@@ -60,6 +59,6 @@ public function get_elements()
         $cloi->set_weight($values[ComplexAssessmentFillInBlanksQuestion :: PROPERTY_WEIGHT]);
         return parent :: update_complex_content_object_item();
     }
-	
+
 }
 ?>

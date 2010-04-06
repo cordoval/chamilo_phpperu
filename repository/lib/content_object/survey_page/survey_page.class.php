@@ -41,7 +41,6 @@ class SurveyPage extends ContentObject
         $allowed_types = array();
         $allowed_types[] = 'survey_rating_question';
         $allowed_types[] = 'survey_open_question';
-        //$allowed_types[] = 'survey_fill_in_blanks_question';
         $allowed_types[] = 'survey_multiple_choice_question';
         $allowed_types[] = 'survey_matching_question';
         $allowed_types[] = 'survey_select_question';

@@ -11,14 +11,14 @@ class MatchingQuestionForm extends ContentObjectForm
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matching_question.js'));
+//        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matching_question.js'));
         $this->build_options_and_matches();
     }
 
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matching_question.js'));
+//        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matching_question.js'));
         $this->build_options_and_matches();
     }
 

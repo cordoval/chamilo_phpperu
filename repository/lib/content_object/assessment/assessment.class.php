@@ -84,14 +84,13 @@ class Assessment extends ContentObject
         $allowed_types[] = 'assessment_rating_question';
         $allowed_types[] = 'assessment_open_question';
         $allowed_types[] = 'hotspot_question';
-        $allowed_types[] = 'assessment_fill_in_blanks_question';
+        $allowed_types[] = 'fill_in_blanks_question';
         $allowed_types[] = 'assessment_multiple_choice_question';
         $allowed_types[] = 'assessment_matching_question';
         $allowed_types[] = 'assessment_select_question';
         $allowed_types[] = 'assessment_matrix_question';
         $allowed_types[] = 'match_question';
         $allowed_types[] = 'ordering_question';
-        //$allowed_types[] = '';
         return $allowed_types;
     }
 

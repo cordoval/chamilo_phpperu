@@ -10,7 +10,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/multiple_choice_question.js'));
+//        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/multiple_choice_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -19,7 +19,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/multiple_choice_question.js'));
+//        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/multiple_choice_question.js'));
         $this->add_options();
         $this->addElement('category');
     }

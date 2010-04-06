@@ -89,11 +89,11 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         }
     }
 
-    function create_content_object($object)
+    function create_content_object()
     {
         $values = $this->exportValues();
         
-        //$object = new FillInBlanksQuestion();
+        $object = new FillInBlanksQuestion();
         $this->set_content_object($object);
         $object->set_answer_text($values['answer']);
         $object->set_question_type($values[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE]);
@@ -107,7 +107,6 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         $object = $this->get_content_object();
         $object->set_answer_text($values['answer']);
         $object->set_question_type($values[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE]);
-        
         $this->add_options_to_object();
         return parent :: update_content_object();
     }
@@ -119,9 +118,9 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         
         $matches = array();
         preg_match_all('/\[[a-zA-Z0-9_êëûüôöîïéèà\s\-\x22\x27]*\]/', $source, $matches, PREG_OFFSET_CAPTURE);
-
+        
         $results = array();
-
+        
         foreach ($matches[0] as $match)
         {
             $results[$match[1]] = $match[0];
@@ -225,5 +224,28 @@ class FillInBlanksQuestionForm extends ContentObjectForm
         
         $this->setDefaults($defaults);
     }
+
+    function add_options_to_object()
+    {
+        $object = $this->get_content_object();
+        $values = $this->exportValues();
+        
+        $matches = $this->get_matches($values['answer']);
+        
+        $i = 0;
+        foreach ($matches as $position => $match)
+        {
+            $weight = $values['match_weight'][$i];
+            $comment = $values['comment'][$i];
+            $size = $values['size'][$i];
+            $value = substr($match, 1, strlen($match) - 2);
+            
+            $options[] = new FillInBlanksQuestionAnswer($match, $weight, $comment, $size, $position);
+            $i ++;
+        }
+        
+        $object->set_answers($options);
+    }
+
 }
 ?>
