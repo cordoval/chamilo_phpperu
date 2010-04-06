@@ -16,6 +16,22 @@ class CourseForm extends FormValidator
     const RESULT_ERROR = 'ObjectUpdateFailed';
 
    	const UNLIMITED_MEMBERS = 'unlimited_members';
+   	
+   	const SUBSCRIBE_DIRECT_TARGET = 'direct_target_groups';
+   	const SUBSCRIBE_DIRECT_TARGET_ELEMENTS = 'direct_target_groups_elements';
+   	const SUBSCRIBE_DIRECT_TARGET_OPTION = 'direct_target_groups_option';
+   	
+   	const SUBSCRIBE_REQUEST_TARGET = 'request_target_groups';
+   	const SUBSCRIBE_REQUEST_TARGET_ELEMENTS = 'request_target_groups_elements';
+   	const SUBSCRIBE_REQUEST_TARGET_OPTION = 'request_target_groups_option';
+   	
+   	const SUBSCRIBE_CODE_TARGET = 'code_target_groups';
+   	const SUBSCRIBE_CODE_TARGET_ELEMENTS = 'code_target_groups_elements';
+   	const SUBSCRIBE_CODE_TARGET_OPTION = 'code_target_groups_option';
+   	
+   	const UNSUBSCRIBE_TARGET = 'unsubscribe_target_groups';
+   	const UNSUBSCRIBE_TARGET_ELEMENTS = 'unsubscribe_target_groups_elements';
+   	const UNSUBSCRIBE_TARGET_OPTION = 'unsubscribe_target_groups_option';
 
     private $parent;
     private $course;
@@ -53,6 +69,26 @@ class CourseForm extends FormValidator
         $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_form.js'));
     }
 
+    function build_creation_form()
+    {
+        $this->build_basic_form();
+
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    }
+
+    function build_editing_form()
+    {
+        $this->build_basic_form();
+
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    }
+
     private $categories;
     private $level = 1;
 
@@ -81,7 +117,7 @@ class CourseForm extends FormValidator
 		$selected_tab = 0;
 		$this->add_tabs($tabs, $selected_tab);
     }
-
+    
     function build_general_settings_form()
     {
         $user_options = array();
@@ -255,7 +291,6 @@ class CourseForm extends FormValidator
 			$this->addElement('select', CourseLayout :: PROPERTY_LAYOUT, Translation :: get('Layout'), CourseLayout :: get_layouts());
 		}
 
-
 		$tool_shortcut = $this->course->get_course_type()->get_layout_settings()->get_tool_shortcut_options();
 		$tool_shortcut_disabled = $this->course->get_tool_shortcut_fixed();
 		if($tool_shortcut_disabled)
@@ -289,7 +324,6 @@ class CourseForm extends FormValidator
 		{
 			$this->addElement('select', CourseLayout :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), CourseLayout :: get_breadcrumb_options());
 		}
-
 
 		$this->addElement('category');
 
@@ -333,24 +367,7 @@ class CourseForm extends FormValidator
 			$attr_array = array('disabled' => 'disabled');
 		$this->addElement('checkbox', CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE, Translation :: get('CourseLanguageVisible'), '', $attr_array);
 		$this->addElement('category');
-		//$this->addElement('html', '<div style="clear: both;"></div>');
-
-		//$this->addElement('html', '</div>')
-
-		//$this->addElement('html', '<div style="clear: both;"></div>');
-
-		//$this->addElement('html', '</div>');
 	}
-
-    function build_editing_form()
-    {
-        $this->build_basic_form();
-
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-    }
 
 	function build_tools_form()
 	{
@@ -390,24 +407,42 @@ class CourseForm extends FormValidator
         $table = new SortableTableFromArray($data);
         $table->set_header(0, '', false);
         $table->set_header(1, Translation :: get('ToolName'), false);
-        $table->set_header(2, Translation :: get('IsToolVisible'), false, null, array('style'=>'width: 20%; text-align: center;'));
-        $this->addElement('html', '<div style="width:50%; margin-left:15%;">'.$table->as_html().'</div>');
+        $table->set_header(2, Translation :: get('IsToolVisible'), false, null, array('style'=>'width: 30%; text-align: center;'));
+        $this->addElement('html', '<div style="width:60%; margin-left:15%;">'.$table->as_html().'</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
 					var common_image_path = '".Theme :: get_common_image_path()."';
 					/* ]]> */
 					</script>\n");
 	}
+	
+	function build_rights_form()
+	{
+		$attributes = array();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('SelectRecipients');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        $attributes['locale'] = $locale;
+       // $attributes['exclude'] = array('user_' . $this->tool->get_user_id());
+        $attributes['defaults'] = array();
 
-    function build_creation_form()
-    {
-        $this->build_basic_form();
+        $legend_items = array();
+        //$legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        //$legend_items[] = new ToolbarItem(Translation :: get('LinkedUser'), Theme :: get_common_image_path() . 'treemenu/user_platform.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        $legend_items[] = new ToolbarItem(Translation :: get('UserGroup'), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $legend = new Toolbar();
+        $legend->set_items($legend_items);
+        $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
-        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-    }
+        $this->add_receivers(self :: SUBSCRIBE_DIRECT_TARGET, Translation :: get('DirectSubscribeFor'), $attributes, 'Everybody');
+        $this->add_receivers(self :: SUBSCRIBE_REQUEST_TARGET, Translation :: get('RequestSubscribeFor'), $attributes, 'Everybody');
+        $this->add_receivers(self :: SUBSCRIBE_CODE_TARGET, Translation :: get('CodeSubscribeFor'), $attributes, 'Everybody');
+        $this->add_receivers(self :: UNSUBSCRIBE_TARGET, Translation :: get('UnsubscribeFor'), $attributes, 'Everybody');
+	}
 
 	function save_course()
 	{
@@ -439,7 +474,21 @@ class CourseForm extends FormValidator
 		$course_layout = $this->fill_course_layout();
 		if(!$course_layout->update())
 			return false;
-
+			
+		$course_subscribe_rights = $this->fill_course_subscribe_rights();
+		foreach($course_subscribe_rights as $right)
+		{
+			if(!$right->update())
+				return false;
+		}
+		
+		$course_unsubscribe_rights = $this->fill_course_unsubscribe_rights();
+		foreach($course_unsubscribe_rights as $right)
+		{
+			if(!$right->update())
+				return false;
+		}
+		
 		return true;
     }
 
@@ -470,7 +519,23 @@ class CourseForm extends FormValidator
 
 		if(!$wdm->create_course_modules($selected_tools, $this->course->get_id()))
 			return false;
-
+    	
+		$course_subscribe_rights = $this->fill_course_subscribe_rights();
+		foreach($course_subscribe_rights as $right)
+		{
+			dump($right);
+			if(!$right->create())
+				return false;
+		}
+		
+		$course_unsubscribe_rights = $this->fill_course_unsubscribe_rights();
+		foreach($course_unsubscribe_rights as $right)
+		{
+			dump($right);
+			if(!$right->create())
+				return false;
+		}
+		
         if (! $this->user->is_platform_admin())
             $user_id = $this->user->get_id();
         else
@@ -550,6 +615,91 @@ class CourseForm extends FormValidator
 		}
 		return $tools_array;
 	}
+	
+	function fill_course_subscribe_rights()
+	{
+		$values = $this->exportValues();
+		$groups_array = array();
+		$group_key_check = array();
+		
+		for($i=0;$i<3;$i++)
+		{
+			$option = null;
+			$target = null;
+			$subscribe = null;
+			switch($i)
+			{
+				case 0: $target = self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS;
+						$option = self :: SUBSCRIBE_DIRECT_TARGET_OPTION;
+						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_DIRECT;
+						break;
+				case 1: $target = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS;
+						$option = self :: SUBSCRIBE_REQUEST_TARGET_OPTION;
+						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_REQUEST;
+						break;
+				case 2: $target = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS;
+						$option = self :: SUBSCRIBE_CODE_TARGET_OPTION;
+						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_CODE;
+						break;
+			}
+			if($values[$option])
+			{
+				foreach($values[$target]['group'] as $value)
+				{
+					if(!in_array($value, $group_key_check) && !in_array(1, $group_key_check))
+					{
+						$course_group_rights = new CourseGroupSubscribeRight();
+						$course_group_rights->set_course_id($this->course->get_id());
+						$course_group_rights->set_group_id($value);
+						$course_group_rights->set_subscribe($subscribe);
+						$groups_array[] = $course_group_rights;
+						$group_key_check[] = $value;
+					}
+				}
+			}
+			else
+			{
+				if(!in_array(1, $group_key_check))
+				{
+					$course_group_rights = new CourseGroupSubscribeRight();
+					$course_group_rights->set_course_id($this->course->get_id());
+					$course_group_rights->set_group_id(1);
+					$course_group_rights->set_subscribe($subscribe);
+					$groups_array[] = $course_group_rights;
+					$group_key_check[] = 1;
+				}
+			}
+		}
+		return $groups_array;
+	}
+	
+	function fill_course_unsubscribe_rights()
+	{
+		$values = $this->exportValues();
+		$groups_array = array();
+		
+		if($values[self :: UNSUBSCRIBE_TARGET_OPTION])
+		{
+			foreach($values[self :: UNSUBSCRIBE_TARGET_ELEMENTS]['group'] as $value)
+			{
+				$course_group_rights = new CourseGroupUnsubscribeRight();
+				$course_group_rights->set_course_id($this->course->get_id());
+				$course_group_rights->set_group_id($value);
+				$course_group_rights->set_unsubscribe(1);
+				$groups_array[] = $course_group_rights;
+			}
+		}
+		else
+		{
+			$course_group_rights = new CourseGroupUnsubscribeRight();
+			$course_group_rights->set_course_id($this->course->get_id());
+			$course_group_rights->set_group_id(1);
+			$course_group_rights->set_unsubscribe(1);
+			$groups_array[] = $course_group_rights;
+		}
+		
+		return $groups_array;
+	}
 
     /**
      * Sets default values. Traditionally, you will want to extend this method
@@ -590,49 +740,64 @@ class CourseForm extends FormValidator
 		$defaults[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE] = $course_layout->get_course_manager_name_visible();
 		$defaults[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = $course_layout->get_course_languages_visible();
 
+		$defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '0';
+		$defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '0';
+		$defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '0';
+		
+		if(!is_null($course->get_id()))
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			$course_group_subscribe_rights = $wdm->retrieve_course_group_subscribe_rights($course);
+			$course_group_unsubscribe_rights = $wdm->retrieve_course_group_unsubscribe_rights($course);
+			
+			while($right = $course_group_subscribe_rights->next_result())
+			{
+				if($right->get_group_id() != 1)
+				{
+					$element = null;
+					switch($right->get_subscribe())
+					{
+						case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT: $element = self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS; break;
+						case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST: $element = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS; break;
+						case CourseGroupSubscribeRight :: SUBSCRIBE_CODE: $element = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS; break;
+					}
+					
+					$gdm = GroupDataManager :: get_instance();
+					$group = $gdm->retrieve_group($right->get_group_id());
+					$selected_group = array();
+		           	$selected_group['id'] = 'group_' . $group->get_id();
+		            $selected_group['classes'] = 'type type_group';
+		           	$selected_group['title'] = $group->get_name();
+		            $selected_group['description'] = $group->get_name();
+					
+		            $defaults[$element][$selected_group['id']] = $selected_group;
+				}
+			}
+			
+			if (count($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]) > 0)
+	            $defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '1';
+	        
+	    	if (count($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]) > 0)
+	            $defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '1';
+	        
+	    	if (count($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]) > 0)
+	        {
+	            $defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '1';
+	        }
+	
+	        $active = $this->getElement(self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS);
+	        $active->_elements[0]->setValue(serialize($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]));
+	        
+	        $active = $this->getElement(self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS);
+	        $active->_elements[0]->setValue(serialize($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]));
+	        
+	        $active = $this->getElement(self :: SUBSCRIBE_CODE_TARGET_ELEMENTS);
+	        $active->_elements[0]->setValue(serialize($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]));
+			
+		}
+		
         parent :: setDefaults($defaults);
     }
-
-	/**
-	 * Function add_row_elements_required adds a row of small elements e.g. checkbox, text for a small number
-	 * @param array $arrayelements
-	 */
-
-	function add_row_elements_required($arrayelements)
-	{
-		$renderer = $this->defaultRenderer();
-
-		$element_template = array();
-		$element_template[] = '<div class="row">';
-		$element_template[] = '<div class="label" style="width: 64%;">';
-		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="' . Theme :: get_common_image_path() . 'action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
-		$element_template[] = '</div>';
-		$element_template[] = '<div class="formw" style="width: 30%;">';
-		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
-		$element_template[] = '<div class="form_feedback"></div></div>';
-		$element_template[] = '<div class="clear">&nbsp;</div>';
-		$element_template[] = '</div>';
-		$element_template = implode("\n", $element_template);
-
-		foreach($arrayelements as $value)
-		{
-			$renderer->setElementTemplate($element_template, $value->getName());
-		}
-
-		foreach($arrayelements as $index => $value)
-		{
-			if($index == 0)
-				$this->addElement('html', '<div class="row"><div style="width: 28.5%; float: left;">');
-			else
-				$this->addElement('html', '<div style="width: 20%; float: left;">');
-			$this->addElement($value);
-			if($value->getType() != 'checkbox' && $value->getName() != CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS)
-				$this->addRule($value->getName(), Translation :: get('ThisFieldIsRequired'), 'required');
-			$this->addElement('html', '</div>');
-
-		}
-		$this->addElement('html', '<div class="clear">&nbsp;</div></div>');
-	}
 
 	function get_form_type()
 	{

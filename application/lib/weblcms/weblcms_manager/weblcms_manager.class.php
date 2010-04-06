@@ -11,6 +11,8 @@ require_once dirname(__FILE__) . '/../tool/tool.class.php';
 require_once dirname(__FILE__) . '/../tool_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
 require_once dirname(__FILE__) . '/../course/course_settings.class.php';
+require_once dirname(__FILE__) . '/../course/course_group_subscribe_right.class.php';
+require_once dirname(__FILE__) . '/../course/course_group_unsubscribe_right.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/component/admin_course_browser/admin_course_browser_table.class.php';

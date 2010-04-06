@@ -295,6 +295,10 @@ abstract class WeblcmsDataManager
 
     abstract function create_course_group_user_relation($course_group_user_relation);
 
+    abstract function create_course_group_subscribe_right($course_group_subscribe_right);
+    
+    abstract function create_course_group_unsubscribe_right($course_group_unsubscribe_right);
+    
     abstract function create_course_modules($course_modules, $course_code);
 
     abstract function create_course_module($course_module);
@@ -551,6 +555,10 @@ abstract class WeblcmsDataManager
     abstract function retrieve_course_settings($course_code);
 
     abstract function retrieve_course_layout($course_code);
+        
+    abstract function retrieve_course_group_subscribe_rights($course);
+    
+    abstract function retrieve_course_group_unsubscribe_rights($course);
     /**
      * Retrieve a series of courses
      * @param User $user
@@ -586,6 +594,10 @@ abstract class WeblcmsDataManager
     abstract function update_course_layout($course_layout);
 
     abstract function update_course_module($course_module);
+    
+    abstract function update_course_group_subscribe_right($course_group_subscribe_right);
+     
+    abstract function update_course_group_unsubscribe_right($course_group_unsubscribe_right);
     /**
      * Updates the specified course category in persistent storage,
      * making any changes permanent.
@@ -741,6 +753,7 @@ abstract class WeblcmsDataManager
      * @param int id
      */
     abstract function retrieve_course_group($id);
+
 
     /**
      * Retrieves the course_groups defined in a given course
