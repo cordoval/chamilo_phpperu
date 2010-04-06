@@ -4,13 +4,13 @@
   <property name="id" type="integer" unsigned="1" notnull="1" autoincrement="1"/>
   <property name="language_id" type="integer" unsigned="1" notnull="1" />
   <property name="variable_id" type="integer" unsigned="1" notnull="1" />
-  <property name="translation" type="text" notnull="1" />
-  <property name="date" type="timestamp" notnull="0" />
+  <property name="status" type="integer" length="1" unsigned="1" notnull="1" default="0"/>
+  <property name="translated" type="boolean" default="0"/>
   <property name="user_id" type="integer" unsigned="1" notnull="0" />
   <property name="rating" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="rated" type="integer" unsigned="1" notnull="1" default="0"/>
-  <property name="status" type="integer" length="1" unsigned="1" notnull="1" default="0"/>
-  <property name="translated" type="boolean" default="0"/>
+  <property name="date" type="timestamp" notnull="0" />
+  <property name="translation" type="text" notnull="1" />
  </properties>
  <index name="language_variable" type="unique">
 	<indexproperty name="language_id" />
