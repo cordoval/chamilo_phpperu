@@ -1721,6 +1721,18 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $user_ids;
 	}
 
+	function retrieve_course_group_subscribe_rights($course)
+	{
+		$condition = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course->get_id());
+		return $this->database->retrieve_objects(CourseGroupSubscribeRight :: get_table_name(), $condition);
+	}
+	
+	function retrieve_course_group_unsubscribe_rights($course)
+	{
+		$condition = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course->get_id());
+		return $this->database->retrieve_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition);
+	}
+	
 	// Inherited
 	function retrieve_course_groups_from_user($user, $course = null)
 	{

@@ -740,6 +740,62 @@ class CourseForm extends FormValidator
 		$defaults[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE] = $course_layout->get_course_manager_name_visible();
 		$defaults[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = $course_layout->get_course_languages_visible();
 
+		$defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '0';
+		$defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '0';
+		$defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '0';
+		
+		if(!is_null($course->get_id()))
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			$course_group_subscribe_rights = $wdm->retrieve_course_group_subscribe_rights($course);
+			$course_group_unsubscribe_rights = $wdm->retrieve_course_group_unsubscribe_rights($course);
+			
+			while($right = $course_group_subscribe_rights->next_result())
+			{
+				if($right->get_group_id() != 1)
+				{
+					$element = null;
+					switch($right->get_subscribe())
+					{
+						case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT: $element = self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS; break;
+						case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST: $element = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS; break;
+						case CourseGroupSubscribeRight :: SUBSCRIBE_CODE: $element = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS; break;
+					}
+					
+					$gdm = GroupDataManager :: get_instance();
+					$group = $gdm->retrieve_group($right->get_group_id());
+					$selected_group = array();
+		           	$selected_group['id'] = 'group_' . $group->get_id();
+		            $selected_group['classes'] = 'type type_group';
+		           	$selected_group['title'] = $group->get_name();
+		            $selected_group['description'] = $group->get_name();
+					
+		            $defaults[$element][$selected_group['id']] = $selected_group;
+				}
+			}
+			
+			if (count($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]) > 0)
+	            $defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '1';
+	        
+	    	if (count($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]) > 0)
+	            $defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '1';
+	        
+	    	if (count($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]) > 0)
+	        {
+	            $defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '1';
+	        }
+	
+	        $active = $this->getElement(self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS);
+	        $active->_elements[0]->setValue(serialize($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]));
+	        
+	        $active = $this->getElement(self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS);
+	        $active->_elements[0]->setValue(serialize($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]));
+	        
+	        $active = $this->getElement(self :: SUBSCRIBE_CODE_TARGET_ELEMENTS);
+	        $active->_elements[0]->setValue(serialize($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]));
+			
+		}
+		
         parent :: setDefaults($defaults);
     }
 
