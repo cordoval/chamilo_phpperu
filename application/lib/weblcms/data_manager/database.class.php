@@ -893,6 +893,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return $this->database->create($course_type_settings);
 	}
+	
+	function create_course_group_subscribe_right($course_group_subscribe_right)
+	{
+		return $this->database->create($course_group_subscribe_right);
+	}
+	
+	function create_course_group_unsubscribe_right($course_group_unsubscribe_right)
+	{
+		return $this->database->create($course_group_unsubscribe_right);
+	}
+	
 
 	function create_course_type_tool($course_type_tool)
 	{
@@ -1164,6 +1175,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $course_layout->get_course_id());
 		return $this->database->update($course_layout, $condition);
+	}
+	
+	function update_course_group_subscribe_right($course_group_subscribe_right)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course_group_subscribe_right->get_course_id());
+		$conditions[] = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_GROUP_ID, $course_group_subscribe_right->get_group_id());
+		$condition = new AndCondition($conditions);
+		return $this->database->update($course_group_subscribe_right);
+	}
+	
+	function update_course_group_unsubscribe_right($course_group_unsubscribe_right)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_group_unsubscribe_right->get_course_code());
+		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_GROUP_ID, $course_group_unsubscribe_right->get_group_id());
+		$condition = new AndCondition($conditions);
+		return $this->database->update($course_group_unsubscribe_right);
 	}
 
 	function update_course_type($course_type)

@@ -16,8 +16,22 @@ class CourseForm extends FormValidator
     const RESULT_ERROR = 'ObjectUpdateFailed';
 
    	const UNLIMITED_MEMBERS = 'unlimited_members';
-   	const DIRECT_TARGET = 'direct_target_groups';
-   	const REQUEST_TARGET = 'request_target_groups';
+   	
+   	const SUBSCRIBE_DIRECT_TARGET = 'direct_target_groups';
+   	const SUBSCRIBE_DIRECT_TARGET_ELEMENTS = 'direct_target_groups_elements';
+   	const SUBSCRIBE_DIRECT_TARGET_OPTION = 'direct_target_groups_option';
+   	
+   	const SUBSCRIBE_REQUEST_TARGET = 'request_target_groups';
+   	const SUBSCRIBE_REQUEST_TARGET_ELEMENTS = 'request_target_groups_elements';
+   	const SUBSCRIBE_REQUEST_TARGET_OPTION = 'request_target_groups_option';
+   	
+   	const SUBSCRIBE_CODE_TARGET = 'code_target_groups';
+   	const SUBSCRIBE_CODE_TARGET_ELEMENTS = 'code_target_groups_elements';
+   	const SUBSCRIBE_CODE_TARGET_OPTION = 'code_target_groups_option';
+   	
+   	const UNSUBSCRIBE_TARGET = 'unsubscribe_target_groups';
+   	const UNSUBSCRIBE_TARGET_ELEMENTS = 'unsubscribe_target_groups_elements';
+   	const UNSUBSCRIBE_TARGET_OPTION = 'unsubscribe_target_groups_option';
 
     private $parent;
     private $course;
@@ -416,16 +430,18 @@ class CourseForm extends FormValidator
         $attributes['defaults'] = array();
 
         $legend_items = array();
-        $legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
-        $legend_items[] = new ToolbarItem(Translation :: get('LinkedUser'), Theme :: get_common_image_path() . 'treemenu/user_platform.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        //$legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        //$legend_items[] = new ToolbarItem(Translation :: get('LinkedUser'), Theme :: get_common_image_path() . 'treemenu/user_platform.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
         $legend_items[] = new ToolbarItem(Translation :: get('UserGroup'), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
 
         $legend = new Toolbar();
         $legend->set_items($legend_items);
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
-        $this->add_receivers(self :: DIRECT_TARGET, Translation :: get('DirectSubscribeFor'), $attributes, 'Everybody');
-        $this->add_receivers(self :: REQUEST_TARGET, Translation :: get('RequestSubscribeFor'), $attributes, 'Everybody');
+        $this->add_receivers(self :: SUBSCRIBE_DIRECT_TARGET, Translation :: get('DirectSubscribeFor'), $attributes, 'Everybody');
+        $this->add_receivers(self :: SUBSCRIBE_REQUEST_TARGET, Translation :: get('RequestSubscribeFor'), $attributes, 'Everybody');
+        $this->add_receivers(self :: SUBSCRIBE_CODE_TARGET, Translation :: get('CodeSubscribeFor'), $attributes, 'Everybody');
+        $this->add_receivers(self :: UNSUBSCRIBE_TARGET, Translation :: get('UnsubscribeFor'), $attributes, 'Everybody');
 	}
 
 	function save_course()
@@ -458,7 +474,21 @@ class CourseForm extends FormValidator
 		$course_layout = $this->fill_course_layout();
 		if(!$course_layout->update())
 			return false;
-
+			
+		$course_subscribe_rights = $this->fill_course_subscribe_rights();
+		foreach($course_subscribe_rights as $right)
+		{
+			if(!$right->update())
+				return false;
+		}
+		
+		$course_unsubscribe_rights = $this->fill_course_unsubscribe_rights();
+		foreach($course_unsubscribe_rights as $right)
+		{
+			if(!$right->update())
+				return false;
+		}
+		
 		return true;
     }
 
@@ -489,7 +519,23 @@ class CourseForm extends FormValidator
 
 		if(!$wdm->create_course_modules($selected_tools, $this->course->get_id()))
 			return false;
-
+    	
+		$course_subscribe_rights = $this->fill_course_subscribe_rights();
+		foreach($course_subscribe_rights as $right)
+		{
+			dump($right);
+			if(!$right->create())
+				return false;
+		}
+		
+		$course_unsubscribe_rights = $this->fill_course_unsubscribe_rights();
+		foreach($course_unsubscribe_rights as $right)
+		{
+			dump($right);
+			if(!$right->create())
+				return false;
+		}
+		
         if (! $this->user->is_platform_admin())
             $user_id = $this->user->get_id();
         else
@@ -568,6 +614,91 @@ class CourseForm extends FormValidator
 			$tools_array[] = $course_module;
 		}
 		return $tools_array;
+	}
+	
+	function fill_course_subscribe_rights()
+	{
+		$values = $this->exportValues();
+		$groups_array = array();
+		$group_key_check = array();
+		
+		for($i=0;$i<3;$i++)
+		{
+			$option = null;
+			$target = null;
+			$subscribe = null;
+			switch($i)
+			{
+				case 0: $target = self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS;
+						$option = self :: SUBSCRIBE_DIRECT_TARGET_OPTION;
+						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_DIRECT;
+						break;
+				case 1: $target = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS;
+						$option = self :: SUBSCRIBE_REQUEST_TARGET_OPTION;
+						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_REQUEST;
+						break;
+				case 2: $target = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS;
+						$option = self :: SUBSCRIBE_CODE_TARGET_OPTION;
+						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_CODE;
+						break;
+			}
+			if($values[$option])
+			{
+				foreach($values[$target]['group'] as $value)
+				{
+					if(!in_array($value, $group_key_check) && !in_array(1, $group_key_check))
+					{
+						$course_group_rights = new CourseGroupSubscribeRight();
+						$course_group_rights->set_course_id($this->course->get_id());
+						$course_group_rights->set_group_id($value);
+						$course_group_rights->set_subscribe($subscribe);
+						$groups_array[] = $course_group_rights;
+						$group_key_check[] = $value;
+					}
+				}
+			}
+			else
+			{
+				if(!in_array(1, $group_key_check))
+				{
+					$course_group_rights = new CourseGroupSubscribeRight();
+					$course_group_rights->set_course_id($this->course->get_id());
+					$course_group_rights->set_group_id(1);
+					$course_group_rights->set_subscribe($subscribe);
+					$groups_array[] = $course_group_rights;
+					$group_key_check[] = 1;
+				}
+			}
+		}
+		return $groups_array;
+	}
+	
+	function fill_course_unsubscribe_rights()
+	{
+		$values = $this->exportValues();
+		$groups_array = array();
+		
+		if($values[self :: UNSUBSCRIBE_TARGET_OPTION])
+		{
+			foreach($values[self :: UNSUBSCRIBE_TARGET_ELEMENTS]['group'] as $value)
+			{
+				$course_group_rights = new CourseGroupUnsubscribeRight();
+				$course_group_rights->set_course_id($this->course->get_id());
+				$course_group_rights->set_group_id($value);
+				$course_group_rights->set_unsubscribe(1);
+				$groups_array[] = $course_group_rights;
+			}
+		}
+		else
+		{
+			$course_group_rights = new CourseGroupUnsubscribeRight();
+			$course_group_rights->set_course_id($this->course->get_id());
+			$course_group_rights->set_group_id(1);
+			$course_group_rights->set_unsubscribe(1);
+			$groups_array[] = $course_group_rights;
+		}
+		
+		return $groups_array;
 	}
 
     /**

@@ -295,6 +295,10 @@ abstract class WeblcmsDataManager
 
     abstract function create_course_group_user_relation($course_group_user_relation);
 
+    abstract function create_course_group_subscribe_right($course_group_subscribe_right);
+    
+    abstract function create_course_group_unsubscribe_right($course_group_unsubscribe_right);
+    
     abstract function create_course_modules($course_modules, $course_code);
 
     abstract function create_course_module($course_module);
@@ -586,6 +590,10 @@ abstract class WeblcmsDataManager
     abstract function update_course_layout($course_layout);
 
     abstract function update_course_module($course_module);
+    
+    abstract function update_course_group_subscribe_right($course_group_subscribe_right);
+     
+    abstract function update_course_group_unsubscribe_right($course_group_unsubscribe_right);
     /**
      * Updates the specified course category in persistent storage,
      * making any changes permanent.
