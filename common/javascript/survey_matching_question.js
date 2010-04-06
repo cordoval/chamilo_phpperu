@@ -131,12 +131,12 @@ $(function ()
 	
 		fieldMatches =  '<select name="matches_to[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';		
 		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
-		fieldComment = renderHtmlEditor(editorNameComment, parameters);
-		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
+//		fieldComment = renderHtmlEditor(editorNameComment, parameters);
+//		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_option_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[' + numberOfOptions + ']" />';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldMatches + '</td><td>' + 
-				fieldComment + '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
+				fieldDelete + '</td></tr>';
 		
 		$('.data_table.options > tbody').append(string);
 		

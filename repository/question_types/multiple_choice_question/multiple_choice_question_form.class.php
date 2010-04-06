@@ -6,6 +6,7 @@
 require_once dirname(__FILE__) . '/multiple_choice_question.class.php';
 class MultipleChoiceQuestionForm extends ContentObjectForm
 {
+
     protected function build_creation_form()
     {
         parent :: build_creation_form();
@@ -22,7 +23,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
         $this->addElement('category');
     }
 
-	function setDefaults($defaults = array ())
+    function setDefaults($defaults = array ())
     {
         if (! $this->isSubmitted())
         {
@@ -33,7 +34,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
 
                 foreach ($options as $index => $option)
                 {
-                    $defaults[MultipleChoiceQuestionOption::PROPERTY_VALUE][$index] = $option->get_value();
+                    $defaults[MultipleChoiceQuestionOption :: PROPERTY_VALUE][$index] = $option->get_value();
                 }
             }
             else
@@ -66,12 +67,12 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
         return parent :: validate();
     }
 
-	function add_options_to_object()
+    function add_options_to_object()
     {
         $object = $this->get_content_object();
         $values = $this->exportValues();
         $options = array();
-        foreach ($values[MultipleChoiceQuestionOption::PROPERTY_VALUE] as $option_id => $value)
+        foreach ($values[MultipleChoiceQuestionOption :: PROPERTY_VALUE] as $option_id => $value)
         {
             $options[] = new MultipleChoiceQuestionOption($value);
         }
@@ -147,7 +148,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
-        $html_editor_options['show_toolbar'] = false;
+        $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
 
@@ -169,7 +170,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
             {
                 $group = array();
 
-                $group[] = $this->create_html_editor(MultipleChoiceQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
+                $group[] = $this->create_html_editor(MultipleChoiceQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
 
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
                 {
@@ -180,10 +181,10 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
                     $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
 
-                $this->addGroup($group, MultipleChoiceQuestionOption::PROPERTY_VALUE . '_' . $option_number, null, '', false);
+                $this->addGroup($group, MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
 
-                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', MultipleChoiceQuestionOption::PROPERTY_VALUE . '_' . $option_number);
-                $renderer->setGroupElementTemplate('<td>{element}</td>', MultipleChoiceQuestionOption::PROPERTY_VALUE . '_' . $option_number);
+                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
+                $renderer->setGroupElementTemplate('<td>{element}</td>', MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
             }
         }
 

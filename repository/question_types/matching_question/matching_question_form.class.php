@@ -33,6 +33,10 @@ class MatchingQuestionForm extends ContentObjectForm
     function setDefaults($defaults = array ())
     {
         $object = $this->get_content_object();
+
+//        dump($object->get_options());
+//        dump($object->get_matches());
+
         if (! is_null($object))
         {
             $options = $object->get_options();

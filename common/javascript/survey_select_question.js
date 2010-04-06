@@ -136,14 +136,16 @@ $(function ()
 		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
 		editorName = 'comment[' + numberOfOptions + ']';
 		
-		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
+//		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
 		fieldAnswer = '<input type="text" name="option[' + numberOfOptions + ']" style="width: 300px;" />';
-		fieldComment = renderHtmlEditor(editorName, parameters);
-		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
-		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/images/common/action_delete.png" name="remove[' + numberOfOptions + ']" />';
+//		fieldComment = renderHtmlEditor(editorName, parameters);
+//		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
+		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		
-		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
-				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
+//		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
+//				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
+		
+		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldDelete + '</td></tr>';
 		
 		$('.data_table > tbody').append(string);
 		

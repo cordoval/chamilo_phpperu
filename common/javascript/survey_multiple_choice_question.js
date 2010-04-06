@@ -137,14 +137,16 @@ $(function ()
 		editorNameAnswer = 'option[' + numberOfOptions + ']';
 		editorNameComment = 'comment[' + numberOfOptions + ']';
 		
-		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
+//		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
 		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
-		fieldComment = renderHtmlEditor(editorNameComment, parameters);
-		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
+//		fieldComment = renderHtmlEditor(editorNameComment, parameters);
+//		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		
-		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
-				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
+//		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
+//				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
+		
+		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldDelete + '</td></tr>';
 		
 		$('.data_table > tbody').append(string);
 		
