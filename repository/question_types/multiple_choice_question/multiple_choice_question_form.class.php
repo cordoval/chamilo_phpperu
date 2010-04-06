@@ -10,7 +10,6 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/multiple_choice_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -19,7 +18,6 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/multiple_choice_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -32,7 +30,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
             if (! is_null($object))
             {
                 $options = $object->get_options();
-                
+
                 foreach ($options as $index => $option)
                 {
                     $defaults[MultipleChoiceQuestionOption::PROPERTY_VALUE][$index] = $option->get_value();
@@ -58,7 +56,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
         $this->add_options_to_object();
         return parent :: update_content_object();
     }
-    
+
     function validate()
     {
         if (isset($_POST['add']) || isset($_POST['remove']) || isset($_POST['change_answer_type']))
@@ -88,7 +86,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
     function add_options()
     {
         $renderer = $this->defaultRenderer();
-        
+
         if (! $this->isSubmitted())
         {
             unset($_SESSION['mc_number_of_options']);
@@ -127,7 +125,7 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
             $_SESSION['mc_answer_type'] = $object->get_answer_type();
         }
         $number_of_options = intval($_SESSION['mc_number_of_options']);
-        
+
         if ($_SESSION['mc_answer_type'] == 'radio')
         {
             $switch_label = Translation :: get('SwitchToCheckboxes');
@@ -136,23 +134,23 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
         {
             $switch_label = Translation :: get('SwitchToRadioButtons');
         }
-        
+
         $this->addElement('hidden', 'mc_answer_type', $_SESSION['mc_answer_type'], array('id' => 'mc_answer_type'));
         $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array('id' => 'mc_number_of_options'));
-        
+
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch change_answer_type'));
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        
+
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
         $html_editor_options['show_toolbar'] = false;
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
-        
+
         $table_header = array();
         $table_header[] = '<table class="data_table">';
         $table_header[] = '<thead>';
@@ -164,15 +162,15 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
-        
+
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
             if (! in_array($option_number, $_SESSION['mc_skip_options']))
             {
                 $group = array();
-                
+
                 $group[] = $this->create_html_editor(MultipleChoiceQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
-                
+
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
                 {
                     $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
@@ -181,20 +179,20 @@ class MultipleChoiceQuestionForm extends ContentObjectForm
                 {
                     $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
-                
+
                 $this->addGroup($group, MultipleChoiceQuestionOption::PROPERTY_VALUE . '_' . $option_number, null, '', false);
-                
+
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', MultipleChoiceQuestionOption::PROPERTY_VALUE . '_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', MultipleChoiceQuestionOption::PROPERTY_VALUE . '_' . $option_number);
             }
         }
-        
+
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->addElement('html', implode("\n", $table_footer));
-        
+
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        
+
         $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
     }
