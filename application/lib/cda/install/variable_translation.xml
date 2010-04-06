@@ -28,7 +28,7 @@
 	<indexproperty name="language_id" />
 	<indexproperty name="variable_id" />
  </index>
- <index name="status_translated_variable" type="unique">
+ <index name="status_translated_variable">
 	<indexproperty name="status" />
 	<indexproperty name="translated" />
 	<indexproperty name="variable_id" />
