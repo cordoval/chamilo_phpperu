@@ -12,17 +12,39 @@
   <property name="date" type="timestamp" notnull="0" />
   <property name="translation" type="text" notnull="1" />
  </properties>
- <index name="language_variable" type="unique">
-	<indexproperty name="language_id" />
-	<indexproperty name="variable_id" />
- </index>
- <index name="user_id">
-	<indexproperty name="user_id" />
- </index>
  <index name="status">
  	<indexproperty name="status" />
  </index>
  <index name="translated">
  	<indexproperty name="translated" />
  </index>
+ <index name="language_id">
+ 	<indexproperty name="language_id" />
+ </index>
+ <index name="variable_id">
+ 	<indexproperty name="variable_id" />
+ </index>
+ <index name="language_variable" type="unique">
+	<indexproperty name="language_id" />
+	<indexproperty name="variable_id" />
+ </index>
+ <index name="status_translated_variable" type="unique">
+	<indexproperty name="status" />
+	<indexproperty name="translated" />
+	<indexproperty name="variable_id" />
+ </index>
+ <index name="language_variable_translated" type="unique">
+	<indexproperty name="language_id" />
+	<indexproperty name="translated" />
+	<indexproperty name="variable_id" />
+ </index>
+ <index name="language_variable_status" type="unique">
+	<indexproperty name="language_id" />
+	<indexproperty name="status" />
+	<indexproperty name="variable_id" />
+ </index>
+ <index name="user_id">
+	<indexproperty name="user_id" />
+ </index>
+ 
 </object>
