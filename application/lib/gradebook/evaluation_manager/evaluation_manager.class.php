@@ -61,6 +61,16 @@ class EvaluationManager extends SubManager
     	return $this->parameters;
     }
     
+    // database
+    function retrieve_all_evaluations_on_publication($publication_id)
+    {
+    	GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication($publication_id);
+    }
+    
     //url creation
+    function get_evaluation_publication_url($wiki_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
+    }
 }
 ?>

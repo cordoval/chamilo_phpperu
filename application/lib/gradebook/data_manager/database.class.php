@@ -53,15 +53,6 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 		$condition = new EqualityCondition(Format :: PROPERTY_ACTIVE, Format :: EVALUATION_FORMAT_ACTIVE);
 		return $this->database->retrieve_objects(Format :: get_table_name(), $condition);
 	}
-//	
-//	function create_external_item($publication)
-//	{
-//		$internal_item = new InternalItem();
-//		$internal_item->set_application(str_replace('_publication', '',$publication->get_object_name()));
-//		$internal_item->set_publication_id($publication->get_id());
-//		$internal_item->set_calculated(true);
-//		return $this->database->create($internal_item);
-//	}
 
 	function retrieve_evaluation_formats()
 	{
@@ -87,6 +78,10 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	
 	function retrieve_internal_item_by_publication($application, $publication_id)
 	{
+		$gdm = GradebookDataManager :: get_instance();
+		$gradebook_evaluation_alias = $gdm->get_database()->get_alias(Evaluation :: get_table_name());
+		$gradebook_internal_item_alias = $gdm->get_database()->get_alias(InternalItem :: get_table_name());
+		$gradebook_internal_item_instance_alias = $gdm->get_database()->get_alias(InternalItemInstance :: get_table_name()); 
 		$conditions = array();
 		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
 		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
@@ -99,6 +94,18 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	function create_evaluation($evaluation)
 	{
 		return $this->database->create($evaluation);
+	}
+	
+	function retrieve_all_evaluations_on_publication($publication_id)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_ID, InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
+		$conditions[] = new EqualityCondition(InternalItemInstance :: PROPERTY_EVALUATION_ID, Evaluation :: PROPERTY_ID);
+		$conditions[] = new EqualityCondition(Evaluation :: PROPERTY_EVALUATOR_ID, User :: PROPERTY_ID);
+		$conditions[] = new EqualityCondition(Evaluation :: PROPERTY_FORMAT_ID, FORMAT :: PROPERTY_ID);
+		
+		return $this->database->retrieve_object(,$conditions)
 	}
 
 	//gradebook_items
