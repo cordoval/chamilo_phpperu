@@ -21,7 +21,7 @@ class TestcaseSurveyPublicationBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(SurveyManager :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(TestcaseManager :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS, Translation :: get('RemoveSelected'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
