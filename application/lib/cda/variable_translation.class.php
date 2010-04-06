@@ -24,6 +24,7 @@ class VariableTranslation extends DataClass
 	const PROPERTY_RATING = 'rating';
 	const PROPERTY_RATED = 'rated';
 	const PROPERTY_STATUS = 'status';
+	const PROPERTY_TRANSLATED = 'translated';
 
 	const STATUS_NORMAL = 1;
 	const STATUS_BLOCKED = 2;
@@ -35,7 +36,8 @@ class VariableTranslation extends DataClass
 	 */
 	static function get_default_property_names()
 	{
-		return parent :: get_default_property_names(array (self :: PROPERTY_LANGUAGE_ID, self :: PROPERTY_VARIABLE_ID, self :: PROPERTY_TRANSLATION, self :: PROPERTY_DATE, self :: PROPERTY_USER_ID, self :: PROPERTY_RATING, self :: PROPERTY_RATED, self :: PROPERTY_STATUS));
+		return parent :: get_default_property_names(array (self :: PROPERTY_LANGUAGE_ID, self :: PROPERTY_VARIABLE_ID, self :: PROPERTY_TRANSLATION, self :: PROPERTY_DATE, self :: PROPERTY_USER_ID, 
+			self :: PROPERTY_RATING, self :: PROPERTY_RATED, self :: PROPERTY_STATUS, self :: PROPERTY_TRANSLATED));
 	}
 
 	function get_data_manager()
@@ -191,6 +193,24 @@ class VariableTranslation extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_STATUS, $status);
 	}
+	
+	/**
+	 * Returns the translated of this VariableTranslation.
+	 * @return the translated.
+	 */
+	function get_translated()
+	{
+		return $this->get_default_property(self :: PROPERTY_TRANSLATED);
+	}
+
+	/**
+	 * Sets the translated of this VariableTranslation.
+	 * @param translated
+	 */
+	function set_translated($translated)
+	{
+		$this->set_default_property(self :: PROPERTY_TRANSLATED, $translated);
+	}
 
 	function get_relative_rating()
 	{
@@ -294,7 +314,32 @@ class VariableTranslation extends DataClass
 			$this->set_status(self :: STATUS_NORMAL); // Ivan, 25-FEB-2010: This choice seems to be better.
 		}
 
+		$translation = trim($this->get_translation());
+		if($translation == '')
+		{
+			$this->set_translated(0);
+		}
+		else
+		{
+			$this->set_translated(1);
+		}
+		
 		return parent :: update();
+	}
+	
+	function create()
+	{
+		$translation = trim($this->get_translation());
+		if($translation == '')
+		{
+			$this->set_translated(0);
+		}
+		else
+		{
+			$this->set_translated(1);
+		}
+		
+		return parent :: create();
 	}
 }
 

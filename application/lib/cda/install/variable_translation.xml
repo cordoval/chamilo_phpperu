@@ -10,6 +10,7 @@
   <property name="rating" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="rated" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="status" type="integer" length="1" unsigned="1" notnull="1" default="0"/>
+  <property name="translated" type="boolean" default="0"/>
  </properties>
  <index name="language_variable" type="unique">
 	<indexproperty name="language_id" />
@@ -17,5 +18,11 @@
  </index>
  <index name="user_id">
 	<indexproperty name="user_id" />
+ </index>
+ <index name="status">
+ 	<indexproperty name="status" />
+ </index>
+ <index name="translated">
+ 	<indexproperty name="translated" />
  </index>
 </object>

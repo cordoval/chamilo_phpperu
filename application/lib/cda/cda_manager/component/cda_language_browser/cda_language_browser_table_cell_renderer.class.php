@@ -162,7 +162,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 					$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_NORMAL);
 				}
 				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $cda_language->get_id());
-				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATED, 0);
 				$condition = new AndCondition($conditions);
 				$translation = $this->browser->retrieve_variable_translations($condition, 0, 1)->next_result();
 

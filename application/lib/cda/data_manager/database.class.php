@@ -266,7 +266,8 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$total_languages = $this->count_variable_translations($condition);
 
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
-		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
+		//$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATED, 1);
 		$condition = new AndCondition($conditions);
 
 		$translated_variables = $this->count_variable_translations($condition);
@@ -300,7 +301,7 @@ class DatabaseCdaDataManager extends CdaDataManager
 		{
 			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		}
-		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATED, 1);
 		$condition = new AndCondition($conditions);
 
 		$translated_variables = $this->database->count_result_set($query, VariableTranslation :: get_table_name(), $condition);
@@ -320,7 +321,8 @@ class DatabaseCdaDataManager extends CdaDataManager
 	function get_status_for_language($language)
 	{
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
-		$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
+		//$conditions[] = new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
+		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATED, 1);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_OUTDATED);
 		$condition = new AndCondition($conditions);
 
