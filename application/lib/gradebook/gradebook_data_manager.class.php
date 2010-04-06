@@ -60,6 +60,16 @@ abstract class GradebookDataManager {
 	abstract function count_evaluation_formats();
 	
 	abstract function retrieve_evaluation_format($id);
+	
+	// internal items
+	
+	abstract function retrieve_internal_item_by_publication($application, $publication_id);
+	
+	abstract function create_internal_item($internal_item);
+	
+	// evaluation
+	
+	abstract function create_evaluation($evaluation);	
 //	
 //	abstract function retrieve_all_evaluation_formats();
 //	

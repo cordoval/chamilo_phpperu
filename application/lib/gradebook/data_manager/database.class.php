@@ -53,15 +53,6 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 		$condition = new EqualityCondition(Format :: PROPERTY_ACTIVE, Format :: EVALUATION_FORMAT_ACTIVE);
 		return $this->database->retrieve_objects(Format :: get_table_name(), $condition);
 	}
-	
-	function retrieve_internal_item_by_publication($application, $publication_id)
-	{
-		$conditions = array();
-		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
-		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
-		$condition = new AndCondition($conditions);
-		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
-	}
 //	
 //	function create_external_item($publication)
 //	{
@@ -92,6 +83,22 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	function create_internal_item($internal_item)
 	{
 		return $this->database->create($internal_item);
+	}
+	
+	function retrieve_internal_item_by_publication($application, $publication_id)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
+		$condition = new AndCondition($conditions);
+		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
+	}
+
+// gradebook evaluation
+	
+	function create_evaluation($evaluation)
+	{
+		return $this->database->create($evaluation);
 	}
 
 	//gradebook_items
