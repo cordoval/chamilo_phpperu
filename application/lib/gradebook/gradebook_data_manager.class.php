@@ -95,8 +95,8 @@ abstract class GradebookDataManager {
 
 	abstract function retrieve_evaluation($id);
 
-	abstract function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null);/*
-/*
+	abstract function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null);
+
 
 	//gradebook_items rel user
 
@@ -105,6 +105,8 @@ abstract class GradebookDataManager {
 	abstract function retrieve_grade_evaluation($id);
 	
 	abstract function delete_grade_evaluation($grade_evaluation);
+	
+	abstract function update_grade_evaluation($grade_evaluation);
 	
 	/*
 	abstract function create_gradebook_rel_user($gradebookreluser);
