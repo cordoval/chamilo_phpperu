@@ -1,17 +1,9 @@
 <?php
-/**
- * $Id: updater.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component
- */
+
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/survey_publication_form.class.php';
 
-/**
- * Component to edit an existing survey_publication object
- * @author Sven Vanpoucke
- * @author 
- */
 class SurveyManagerUpdaterComponent extends SurveyManagerComponent
 {
     
@@ -34,11 +26,11 @@ class SurveyManagerUpdaterComponent extends SurveyManagerComponent
         
         if ($this->testcase)
         {
-            $trail->add(new Breadcrumb($this->get_url(array(TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseTestCaseSurveyPublications')));
+            $trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
         }
         else
         {
-            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
+            $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
         }
         
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateSurveyPublication')));

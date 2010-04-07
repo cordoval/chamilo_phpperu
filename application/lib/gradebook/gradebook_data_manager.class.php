@@ -12,7 +12,7 @@ abstract class GradebookDataManager {
 	/**
 	 * Constructor. Initializes the data manager.
 	 */
-	protected function GradebookDatamanager()
+	protected function GradebookDataManager()
 	{
 		$this->initialize();
 	}
@@ -70,6 +70,12 @@ abstract class GradebookDataManager {
 	// evaluation
 	
 	abstract function create_evaluation($evaluation);	
+	
+	abstract function delete_evaluation($evaluation);
+	
+	abstract function update_evaluation($evaluation);
+	
+	abstract function retrieve_all_evaluations_on_publication($publication_id);
 //	
 //	abstract function retrieve_all_evaluation_formats();
 //	
@@ -89,11 +95,18 @@ abstract class GradebookDataManager {
 
 	abstract function retrieve_evaluation($id);
 
-	abstract function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null);
+	abstract function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null);/*
 /*
 
 	//gradebook_items rel user
 
+	//gradebook grade evaluation
+	
+	abstract function retrieve_grade_evaluation($id);
+	
+	abstract function delete_grade_evaluation($grade_evaluation);
+	
+	/*
 	abstract function create_gradebook_rel_user($gradebookreluser);
 
 	abstract function delete_gradebook_rel_user($gradebookreluser);

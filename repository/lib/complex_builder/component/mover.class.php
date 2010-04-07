@@ -21,17 +21,17 @@ class ComplexBuilderMoverComponent extends ComplexBuilderComponent
         $parent_cloi = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
         $direction = Request :: get(ComplexBuilder :: PARAM_DIRECTION);
         $succes = true;
-        
+             
         if (isset($id))
         {
             $rdm = RepositoryDataManager :: get_instance();
             $cloi = $rdm->retrieve_complex_content_object_item($id);
             $parent = $cloi->get_parent();
-            $max = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent));
+            $max = $rdm->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent));
             
             $display_order = $cloi->get_display_order();
             $new_place = ($display_order + ($direction == RepositoryManager :: PARAM_DIRECTION_UP ? - 1 : 1));
-            
+                       
             if($new_place > 0 && $new_place <= $max)
             { 
 	            $cloi->set_display_order($new_place);

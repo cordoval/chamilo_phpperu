@@ -18,7 +18,7 @@ class TestcaseManagerParticipantBrowserComponent extends TestcaseManagerComponen
             $this->pid = Request :: post(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         }
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseTestCaseSurveyPublications')));
+        $trail->add(new Breadcrumb($this->get_browse_survey_publication_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestCaseSurveyParticipants')));
         
         $this->action_bar = $this->get_action_bar();
@@ -52,15 +52,8 @@ class TestcaseManagerParticipantBrowserComponent extends TestcaseManagerComponen
         $parameters[SurveyManager :: PARAM_SURVEY_PUBLICATION] = $this->pid;
         
         $action_bar->set_search_url($this->get_url($parameters));
-        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_manage_survey_publication_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-//        $action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseSurveys'), Theme :: get_common_image_path() . 'action_category.png', $this->get_parent()->get_parent()->get_browse_survey_publications_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
-        //        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewTestcaseResultsSummary'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_survey_results_viewer_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportSurvey'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_survey_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
-
+       
         return $action_bar;
     }
 

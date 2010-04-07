@@ -11,7 +11,7 @@ class EvaluationManagerUpdaterComponent extends SubManagerComponent
             if (! Request :: get('validated'))
                 $success = $form->update_content_object();
             
-            $pub_form = new EvaluationForm(WikiPublicationForm :: TYPE_EDIT, $evaluation, $this->get_url(array(EvaluationManager :: PARAM_EVALUATION => $evaluation->get_id(), 'validated' => 1)), $this->get_user());
+            $pub_form = new EvaluationForm(EvaluationForm :: TYPE_EDIT, $evaluation, $this->get_url(array(EvaluationManager :: PARAM_EVALUATION => $evaluation->get_id(), 'validated' => 1)), $this->get_user());
             if ($pub_form->validate())
             {
                 $success = $pub_form->update_evaluation();

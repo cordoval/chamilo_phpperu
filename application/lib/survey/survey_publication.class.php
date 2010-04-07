@@ -324,8 +324,9 @@ class SurveyPublication extends DataClass
 
     function get_target_users()
     {
-        if (! $this->target_users)
+        if (! isset($this->target_users))
         {
+            $this->target_users = array();
             $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $this->get_id());
             $users = $this->get_data_manager()->retrieve_survey_publication_users($condition);
             
@@ -334,7 +335,6 @@ class SurveyPublication extends DataClass
                 $this->target_users[] = $user->get_user();
             }
         }
-        
         return $this->target_users;
     }
 
@@ -348,11 +348,13 @@ class SurveyPublication extends DataClass
             $gdm = GroupDataManager :: get_instance();
             foreach ($groups as $group_id)
             {
+                
                 $group = $gdm->retrieve_group($group_id);
                 $user_ids = array_merge($user_ids, $group->get_users(true, true));
             }
         }
         $user_ids = array_merge($user_ids, $this->get_target_users());
+        
         return $user_ids;
     }
 

@@ -78,7 +78,7 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	
 	function retrieve_internal_item_by_publication($application, $publication_id)
 	{
-		$gdm = GradebookDataManager :: get_instance();
+		/*$gdm = GradebookDataManager :: get_instance();
 		$gradebook_evaluation_alias = $gdm->get_database()->get_alias(Evaluation :: get_table_name());
 		$gradebook_internal_item_alias = $gdm->get_database()->get_alias(InternalItem :: get_table_name());
 		$gradebook_internal_item_instance_alias = $gdm->get_database()->get_alias(InternalItemInstance :: get_table_name()); 
@@ -86,7 +86,8 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
 		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
 		$condition = new AndCondition($conditions);
-		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
+		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);*/
+		return 0;
 	}
 // internal item instance
 	
@@ -170,6 +171,20 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null){
 		return $this->database->retrieve_objects(Evaluation :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
+/**
+	 * @param unknown_type $evaluation
+	 */
+	function update_evaluation($evaluation) {
+		
+	}
+
+/**
+	 * @param unknown_type $publication_id
+	 */
+	function retrieve_all_evaluations_on_publication($publication_id) {
+		
+	}
+
 
 /*
 	//gradebook_items rel user

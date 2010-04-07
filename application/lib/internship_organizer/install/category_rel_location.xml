@@ -3,7 +3,8 @@
 	<properties>
 		<property name="category_id" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="location_id" type="integer" unsigned="1" notnull="1" />
+		<property name="location_id" type="integer" unsigned="1"
+			notnull="1" />
 	</properties>
 	<index name="location_id" type="primary">
 		<indexproperty name="location_id" />

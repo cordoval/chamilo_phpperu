@@ -1,16 +1,7 @@
 <?php
-/**
- * $Id: mover.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component
- */
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
 
-/**
- * Component to create a new survey_publication object
- * @author Sven Vanpoucke
- * @author 
- */
 class SurveyManagerMoverComponent extends SurveyManagerComponent
 {
 
@@ -19,7 +10,7 @@ class SurveyManagerMoverComponent extends SurveyManagerComponent
      */
     function run()
     {
-        $pid = Request :: get('survey_publication');
+        $pid = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         if (! $pid || (is_array($pid) && count($pid) == 0))
         {
             $this->not_allowed();
@@ -50,8 +41,8 @@ class SurveyManagerMoverComponent extends SurveyManagerComponent
         else
         {
             $trail = new BreadcrumbTrail();
-            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
-            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_MOVE_SURVEY_PUBLICATION, SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid)), Translation :: get('MoveSurveyPublications')));
+            $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+            $trail->add(new Breadcrumb($this->get_move_survey_publication_url($publication), Translation :: get('MoveSurveyPublications')));
             
             $this->display_header($trail, true);
             
