@@ -45,6 +45,7 @@ abstract class Tool
     const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
     const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
+    const ACTION_VIEW = 'view';
 
     /**
      * The action of the tool

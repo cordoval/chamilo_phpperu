@@ -141,22 +141,21 @@ abstract class WebApplication extends Application
 
     public static function load_all($include_application_classes = true)
     {
-        $path = Path :: get_application_path() . 'lib';
+    	$path = Path :: get_application_path() . 'lib';
         $adm = AdminDataManager :: get_instance();
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
-
         $applications = $adm->retrieve_registrations($condition);
         $active_applications = array();
 
         while ($application = $applications->next_result())
         {
-            if ($include_application_classes)
+        	if ($include_application_classes)
             {
                 require_once $path . '/' . $application->get_name() . '/' . $application->get_name() . '_manager/' . $application->get_name() . '_manager.class.php';
             }
             $active_applications[] = $application->get_name();
+            
         }
-
         return $active_applications;
     }
 

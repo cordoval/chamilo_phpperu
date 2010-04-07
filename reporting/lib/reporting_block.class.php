@@ -325,51 +325,6 @@ abstract class ReportingBlock
         }
     }
 
-    /*public function set_displaymode($value)
-    {
-        $this->set_default_property(self :: PROPERTY_DISPLAYMODE, $value);
-    }
-
-    public function get_excluded_displaymodes()
-    {
-        return $this->get_default_property(self :: PROPERTY_EXCLUDE_DISPLAYMODES);
-    }
-
-    public function set_excluded_displaymodes($value)
-    {
-        $this->set_default_property(self :: PROPERTY_EXCLUDE_DISPLAYMODES, $value);
-    }
-
-    /*public function get_width()
-    {
-        return $this->get_default_property(self :: PROPERTY_WIDTH);
-    }
-
-    public function set_width($value)
-    {
-        $this->set_default_property(self :: PROPERTY_WIDTH, $value);
-    }
-
-    public function get_height()
-    {
-        return $this->get_default_property(self :: PROPERTY_HEIGHT);
-    }
-
-    public function set_height($value)
-    {
-        $this->set_default_property(self :: PROPERTY_HEIGHT, $value);
-    }
-
-    /*public function get_sortable()
-    {
-        return $this->get_default_property(self :: PROPERTY_SORTABLE);
-    }
-
-    public function set_sortable($value)
-    {
-        $this->set_default_property(self :: PROPERTY_SORTABLE, $value);
-    }
-*/
     public function is_sortable()
     {
         return false;

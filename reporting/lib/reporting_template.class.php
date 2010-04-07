@@ -30,7 +30,13 @@ abstract class ReportingTemplate
         $registration = ReportingDataManager :: get_instance()->retrieve_reporting_template_registration($reporting_template_id);
         $application = $registration->get_application();
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
-        $file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($registration->get_template()) . '.class.php';
+        if ($application == 'weblcms')
+        {
+        	$file = $file = $base_path . $application . '/reporting/templates/course_data_reporting.class.php';
+        }
+        else {
+        	$file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($registration->get_template()) . '.class.php';
+        }
         require_once ($file);
         $new_template = Utilities :: underscores_to_camelcase($registration->get_template());
         return new $new_template($parent);
@@ -208,7 +214,6 @@ abstract class ReportingTemplate
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToXml'), null, $url));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToCsv'), null, $url));
 
-
         return $action_bar;
     }
 
@@ -226,33 +231,6 @@ abstract class ReportingTemplate
         }
     }
 
-    /*
-     * Reporting blocks
-     */
-
-    /**
-     * Sets the visible value to 1 for this reporting block & 0 for the rest
-     * @param String $name
-     */
-    /*function show_reporting_block($name)
-    {
-        foreach ($this->blocks as $key => $value)
-        {
-            if ($value[0]->get_name() == $name)
-            {
-                $value[1][self :: PARAM_VISIBLE] = self :: REPORTING_BLOCK_VISIBLE;
-            }
-            else
-            {
-                $value[1][self :: PARAM_VISIBLE] = self :: REPORTING_BLOCK_INVISIBLE;
-            }
-            $this->blocks[$key] = $value;
-        }
-    }*/
-
-    //abstract function to_html();
-
-
     function to_html_export()
     {
         $html[] = '<div class="template-data">';
@@ -267,95 +245,10 @@ abstract class ReportingTemplate
         $html[] = $this->get_visible_reporting_blocks(true);
         return implode("\n", $html);
     }
-
-/**
- * Generates all the visible reporting blocks
- * @return html
- */
-/*function get_visible_reporting_blocks($export = false)
+    
+    function is_platform()
     {
-        foreach ($this->get_reporting_blocks() as $key => $value)
-        {
-            // check if reporting block is visible
-            if ($value[1][self :: PARAM_VISIBLE] == self :: REPORTING_BLOCK_VISIBLE)
-            {
-                if ($export)
-                    $html[] = Reporting :: generate_block_export($value[0], $this->get_reporting_block_template_properties($value[0]->get_name()));
-                else
-                    $html[] = Reporting :: generate_block($value[0], $this->get_reporting_block_template_properties($value[0]->get_name()));
-                $html[] = '<div class="clear">&nbsp;</div>';
-            }
-        }
-        return implode("\n", $html);
-    }*/
-
-/*function get_reporting_block_html($name)
-    {
-        $array = $this->get_reporting_blocks();
-        foreach ($array as $key => $value)
-        {
-            if ($value[0]->get_name() == $name)
-            {
-                return Reporting :: generate_block($value[0], $this->get_reporting_block_template_properties($name));
-            }
-        }
-    }*/
-
-/*function set_reporting_block_template_properties($name, $params)
-    {
-        $array = $this->get_reporting_blocks();
-        foreach ($array as $key => $value)
-        {
-            if ($value[0]->get_name() == $name)
-            {
-                $value[1] = $params;
-            }
-        }
-    }*/
-
-/*function get_reporting_block_template_properties($name)
-    {
-        $array = $this->get_reporting_blocks();
-        foreach ($array as $key => $value)
-        {
-            if ($value[0]->get_name() == $name)
-            {
-                return $value[1];
-            }
-        }
-    }*/
-
-/**
- * Returns all reporting blocks for this reporting template
- * @return an array of reporting blocks
- */
-/*function retrieve_reporting_blocks()
-    {
-        return $this->blocks;
-    }*/
-
-/*function set_reporting_blocks_function_parameters($params)
-    {
-        $this->params = $params;
-        foreach ($this->get_reporting_blocks() as $key => $value)
-        {
-            foreach ($params as $key2 => $value2)
-            {
-                $value[0]->add_function_parameter($key2, $value2);
-            }
-        }
+    	return false;
     }
-
-
-    function set_reporting_block_function_parameters($blockname, $params)
-    {
-        foreach ($this->get_reporting_blocks() as $key => $value)
-        {
-            if ($value[0]->get_name() == $blockname)
-            {
-                $value[0]->set_function_parameters($params);
-            }
-        }
-    }*/
 }
 ?>

@@ -1,19 +1,19 @@
 <?php
 /**
- * $Id: learning_path_progress_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
+ * $Id: learning_path_attempt_progress_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
  */
 /**
  * @author Michael Kyndt
  */
-require_once dirname(__FILE__) . '/../blocks/weblcms_learning_path_progress_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_learning_path_attempt_progress_reporting_block.class.php';
 require_once dirname(__FILE__) . '/../../weblcms_manager/weblcms_manager.class.php';
 
-class LearningPathProgressReportingTemplate extends ReportingTemplate
+class LearningPathAttemptProgressReportingTemplate extends ReportingTemplate
 {
     private $object;
 
-    function LearningPathProgressReportingTemplate($parent /*$id, $params, $trail, $object*/)
+    function LearningPathAttemptProgressReportingTemplate($parent /*$id, $params, $trail, $object*/)
     {
         //$this->object = $object;
         parent :: __construct($parent);
@@ -34,7 +34,7 @@ class LearningPathProgressReportingTemplate extends ReportingTemplate
     
     function get_learning_path_progress()
     {
-    	$course_weblcms_block = new WeblcmsLearningPathProgressReportingBlock($this);
+    	$course_weblcms_block = new WeblcmsLearningPathAttemptProgressReportingBlock($this);
     	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
     	if ($course_id)
     	{
@@ -46,10 +46,22 @@ class LearningPathProgressReportingTemplate extends ReportingTemplate
     	$course_weblcms_block->set_tool($tool);
     	
     	$user_id = Request :: get(WeblcmsManager::PARAM_USERS);
-    	$course_weblcms_block->set_course_id($user_id);
+    	$course_weblcms_block->set_user_id($user_id);
     	
     	$attempt_id = Request :: get(LearningPathTool::PARAM_ATTEMPT_ID);
-    	$course_weblcms_block->set_attempt_id($attempt_id);
+    	if ($attempt_id)
+        {
+	    	$course_weblcms_block->set_attempt_id($attempt_id);
+	    	$this->add_parameters(LearningPathTool::PARAM_ATTEMPT_ID, $attempt_id);
+        }
+        else
+        {
+        	$this->add_parameters('lp_action', 'view_progress');
+        }
+        
+    	$pid = Request :: get(Tool::PARAM_PUBLICATION_ID);
+    	$course_weblcms_block->set_pid($pid);
+    	$this->add_parameters(Tool::PARAM_PUBLICATION_ID, $pid);
     	
     	return $course_weblcms_block;
     }

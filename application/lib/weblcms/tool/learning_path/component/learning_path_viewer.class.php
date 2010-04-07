@@ -78,7 +78,8 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
         if (Request :: get('lp_action') == 'view_progress')
         {
             $url = $this->get_url(array('tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress'));
-            require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
+            require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_reporting_template.class.php');
+            require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_details_reporting_template.class.php');        
             
             $cid = Request :: get('cid');
             $details = Request :: get('details');
@@ -106,9 +107,15 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             }
             else
             {
-                $parameters = array('objects' => $objects, 'attempt_data' => $lpi_attempt_data, 'cid' => $cid, 'url' => $url);
-                $template = new LearningPathProgressReportingTemplate($this);
-                $display = $template->to_html();
+                if ($cid)
+                {
+                	$template = new LearningPathAttemptProgressDetailsReportingTemplate($this);
+                }
+                else 
+                {
+                	$template = new LearningPathAttemptProgressReportingTemplate($this);
+                }
+            	$display = $template->to_html();
             }
         }
         else
