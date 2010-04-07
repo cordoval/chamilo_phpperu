@@ -68,9 +68,13 @@ $(function ()
 			rows;
 		
 		id = id.replace('remove_', '');
-//		$('tr#option_' + id, tableBody).remove();
-		$('tr#option_' + id, tableBody).hide();
-//		alert($('tr#option_' + id, tableBody).html());
+		
+		if ( typeof CKEDITOR != 'undefined' )
+		{
+			$('textarea.html_editor[name=\'value['+ id +']\']').ckeditorGet().destroy();
+		}
+		
+		$('tr#option_' + id, tableBody).remove();
 		
 		rows = $('tr', tableBody);
 		
@@ -121,7 +125,7 @@ $(function ()
 		
 		$('.data_table > tbody').append(string);
 		
-//		processOptions();
+		processOptions();
 	}
 
 	$(document).ready( function() 

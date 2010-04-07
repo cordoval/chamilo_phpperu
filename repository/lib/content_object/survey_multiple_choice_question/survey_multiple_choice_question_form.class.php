@@ -22,23 +22,14 @@ class SurveyMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
 
     function add_options_to_object()
     {
-//        dump($_POST);
         $object = $this->get_content_object();
         $values = $this->exportValues();
-
-//        dump($values);
 
         $options = array();
         foreach ($values[SurveyMultipleChoiceQuestionOption :: PROPERTY_VALUE] as $option_id => $value)
         {
-            $options[$option_id] = new SurveyMultipleChoiceQuestionOption($value);
+            $options[] = new SurveyMultipleChoiceQuestionOption($value);
         }
-
-//        dump($options);
-
-//        dump($_SESSION);
-//        dump($_POST);
-//        exit;
 
         $object->set_answer_type($_SESSION['mc_answer_type']);
         $object->set_options($options);
