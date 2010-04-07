@@ -40,5 +40,10 @@ class UserReportingTemplate extends ReportingTemplate
     function display_context()
     {
     }
+    
+	function is_platform()
+    {
+    	return true;
+    }
 }
 ?>

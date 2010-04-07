@@ -347,12 +347,12 @@ abstract class Installer
      */
     function register_reporting_block($array)
     {
-        return ReportingBlocks :: create_reporting_block_registration($array);
+        return Reporting :: create_reporting_block_registration($array);
     }
 
     function register_reporting_template(&$props)
     {
-        return ReportingTemplates :: create_reporting_template_registration($props);
+        return Reporting :: create_reporting_template_registration($props);
     }
 
     function register_reporting()
@@ -408,9 +408,8 @@ abstract class Installer
                         $bla = explode('.', basename($file));
                         $classname = Utilities :: underscores_to_camelcase($bla[0]);
                         $template = $bla[0];
-                        //$method = new ReflectionMethod($classname, 'get_properties');
-                        //$props = $method->invoke(null);
                         $props = array();
+                        $props[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = call_user_func(array($classname, 'is_platform'));
                         $props[ReportingTemplateRegistration :: PROPERTY_APPLICATION] = $application;
                         $props[ReportingTemplateRegistration :: PROPERTY_TEMPLATE] = $template;
                         if ($this->register_reporting_template($props))

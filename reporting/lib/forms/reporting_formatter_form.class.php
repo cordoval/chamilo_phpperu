@@ -40,8 +40,18 @@ class ReportingFormatterForm extends FormValidator
 
         $this->addElement('select', self :: FORMATTER_TYPE, null, $this->manager->get_displaymodes(), array('class' => 'postback'));
         $this->addElement('style_submit_button', 'submit', Translation :: get('Formatter'), array('class' => 'normal filter'));
-
-        $session_filter = Session :: retrieve(self :: FORMATTER_TYPE);
+        
+   	    $display = Request::post(self::FORMATTER_TYPE);
+    	$display_get = Request::get(self::FORMATTER_TYPE);
+        if (isset($display))
+        {
+        	$session_filter = $display;
+        }
+        elseif (isset($display_get))
+        {
+        	$session_filter = $display_get;
+        }
+        
         $this->setDefaults(array(self :: FORMATTER_TYPE => $session_filter));
 
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));

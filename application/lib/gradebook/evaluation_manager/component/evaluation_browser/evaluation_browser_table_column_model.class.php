@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__).'/../../../tables/evaluation_formats_table/default_evaluation_formats_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../tables/evaluation_browser_table/default_evaluation_browser_table_column_model.class.php';
 
-class EvaluationFormatsBrowserTableColumnModel extends DefaultEvaluationBrowserTableColumnModel
+class EvaluationBrowserTableColumnModel extends DefaultEvaluationBrowserTableColumnModel
 {
 	/**
 	 * The tables modification column

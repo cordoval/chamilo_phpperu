@@ -8,14 +8,13 @@
 require_once dirname(__FILE__) . '/../streaming_video_data_manager.class.php';
 
 //TODO : creates streaming_video_ftp_accounts view in db if not possible with XML
-class StreamingVideoInstaller extends Installer{
-
-   
-
+class StreamingVideoInstaller extends Installer
+{
     /**
      * Constructor
      */
-    function StreamingVideoInstaller(){
+    function StreamingVideoInstaller($values)
+    {
         parent :: __construct($values, StreamingVideoDataManager :: get_instance());
 
     }

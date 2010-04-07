@@ -57,11 +57,10 @@ class ReportingTemplateViewer
         
         $application = $reporting_template_registration->get_application();
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
-        $file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($reporting_template_registration->get_template()) . '.class.php';
+       	$file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($reporting_template_registration->get_template()) . '.class.php';
         require_once ($file);
         $new_template = Utilities :: underscores_to_camelcase($template);
         $temp = new $new_template($this->parent);
-        //$temp = new $template($this->parent/*, $reporting_template_registration->get_id(), $params*/);
         if (Request :: get('s'))
         {
             $temp->show_reporting_block(Request :: get('s'));

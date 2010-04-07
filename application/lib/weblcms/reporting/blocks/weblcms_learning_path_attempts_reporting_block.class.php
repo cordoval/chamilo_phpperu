@@ -47,9 +47,6 @@ class WeblcmsLearningPathAttemptsReportingBlock extends WeblcmsToolReportingBloc
             $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('Progress'), $tracker->get_progress() . '%');
             $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('Details'), $action);
         }
-		
-      	
-      	
         return $reporting_data;
 	}	
 	

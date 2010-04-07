@@ -99,7 +99,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		$component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
 		$category = $this->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
 
-		if (is_null($category))
+		if (!$category)
 		{
 			$category = 0;
 		}

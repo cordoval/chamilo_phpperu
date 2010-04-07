@@ -91,7 +91,6 @@ class ReportingTemplateMenu extends HTML_Menu
                     $bloc_parameters = array_merge($parameters, array(ReportingManager::PARAM_REPORTING_BLOCK_ID=>$reporting_block->get_id()));
                     $sub_menu_item['url'] = $reporting_template->get_parent()->get_url($bloc_parameters);
                     $sub_menu_item['class'] = 'category';
-//                    $sub_menu_item['class'] = 'reporting_block';
                     $sub_menu_item[OptionsMenuRenderer :: KEY_ID] = $reporting_block->get_id();
 
                     $sub_menu_items[] = $sub_menu_item;
