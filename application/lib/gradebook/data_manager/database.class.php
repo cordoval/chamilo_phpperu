@@ -121,19 +121,26 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 //		return $this->database->retrieve_object(,$conditions);
 //	}
 
-	//gradebook_items
+
 
 	/*function get_next_gradebook_id(){
 		$id = $this->database->get_next_id(Gradebook :: get_table_name());
 		return $id;
 	}
 */
-	function delete_evaluation($evaluation){
+	function delete_evaluation($evaluation)
+	{
 		$condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $evaluation->get_id());
 		$bool = $this->database->delete($evaluation->get_table_name(), $condition);
 		
 		$internal_item_instance = $this->retrieve_internal_item_instance_by_evaluation($evaluation->get_id());
 		$bool = $bool & $this->delete_internal_item_instance($internal_item_instance);
+	}
+	
+	function update_evaluation($evaluation)
+	{
+		$condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $evaluation->get_id());
+		$bool = $this->database->update($evaluation, $condition);
 	}
 	/*
 	
@@ -171,9 +178,21 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 		return $this->database->retrieve_objects(Evaluation :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 
-/*
-	//gradebook_items rel user
 
+	//gradebook grade evaluation
+	
+	function retrieve_grade_evaluation($id)
+	{
+		$condition = new EqualityCondition(GradeEvaluation :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(GradeEvaluation :: get_table_name(), $condition);
+	}
+	
+	function delete_grade_evaluation($grade_evaluation)
+	{
+		$condition = new EqualityCondition(GradeEvaluation :: PROPERTY_ID, $grade_evaluation->get_id());
+		return $this->database->delete(GradeEvaluation :: get_table_name(), $condition);		
+	}
+/*
 	function create_gradebook_rel_user($gradebookreluser){
 		return $this->database->create($gradebookreluser);
 	}

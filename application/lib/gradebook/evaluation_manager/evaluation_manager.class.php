@@ -41,6 +41,9 @@ class EvaluationManager extends SubManager
             case self :: ACTION_UPDATE :
                 $component = EvaluationManagerComponent :: factory('Updater', $this);
                 break; 
+            case self :: ACTION_BROWSE :
+            	$component = EvaluationManagerComponent :: factory('Browser', $this);
+                break;
             default :
                 $component = EvaluationManagerComponent :: factory('Browser', $this);
                 break;
