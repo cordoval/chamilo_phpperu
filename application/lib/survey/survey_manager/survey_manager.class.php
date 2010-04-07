@@ -267,6 +267,8 @@ class SurveyManager extends WebApplication {
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BUILD_SURVEY, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
 	}
 	
+	//publications
+	
 	function content_object_is_published($object_id) {
 		return SurveyDataManager::get_instance ()->content_object_is_published ( $object_id );
 	}
@@ -311,8 +313,17 @@ class SurveyManager extends WebApplication {
 		return array ();
 	}
 	
-	function publish_content_object($content_object, $location) {
-		$publication = new SurveyPublication ();
+	function publish_content_object($content_object, $location, $options) {
+		
+		dump($content_object);
+		dump('loc');
+		dump($location);
+		dump('options');
+		dump($options);
+		
+		exit;
+		
+		$publication = new SurveyPublication();
 		$publication->set_content_object ( $content_object->get_id () );
 		$publication->set_publisher ( Session::get_user_id () );
 		$publication->set_published ( time () );
