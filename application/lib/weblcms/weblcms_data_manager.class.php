@@ -119,6 +119,8 @@ abstract class WeblcmsDataManager
      */
     abstract function get_content_object_publication_attribute($publication_id);
 
+    abstract function delete_courses_by_course_type_id($course_type_id);
+    
     /**
      * Counts the publication attributes
      * @param string $type Type of retrieval
@@ -293,6 +295,10 @@ abstract class WeblcmsDataManager
 
     abstract function create_course_group_user_relation($course_group_user_relation);
 
+    abstract function create_course_group_subscribe_right($course_group_subscribe_right);
+    
+    abstract function create_course_group_unsubscribe_right($course_group_unsubscribe_right);
+    
     abstract function create_course_modules($course_modules, $course_code);
 
     abstract function create_course_module($course_module);
@@ -549,6 +555,10 @@ abstract class WeblcmsDataManager
     abstract function retrieve_course_settings($course_code);
 
     abstract function retrieve_course_layout($course_code);
+        
+    abstract function retrieve_course_group_subscribe_rights($course);
+    
+    abstract function retrieve_course_group_unsubscribe_rights($course);
     /**
      * Retrieve a series of courses
      * @param User $user
@@ -570,7 +580,7 @@ abstract class WeblcmsDataManager
      * @return CourseResultSet
      */
     abstract function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null);
-
+    
     /**
      * Updates the specified course in persistent storage,
      * making any changes permanent.
@@ -584,6 +594,10 @@ abstract class WeblcmsDataManager
     abstract function update_course_layout($course_layout);
 
     abstract function update_course_module($course_module);
+    
+    abstract function update_course_group_subscribe_right($course_group_subscribe_right);
+     
+    abstract function update_course_group_unsubscribe_right($course_group_unsubscribe_right);
     /**
      * Updates the specified course category in persistent storage,
      * making any changes permanent.
@@ -614,7 +628,6 @@ abstract class WeblcmsDataManager
      */
     abstract function delete_course($course_code);
 
-    abstract function delete_courses_by_course_type_id($course_type_id);
     /**
      * Deletes the given course category from the database.
      * @param CourseCategory $course_category The course category
@@ -740,6 +753,7 @@ abstract class WeblcmsDataManager
      * @param int id
      */
     abstract function retrieve_course_group($id);
+
 
     /**
      * Retrieves the course_groups defined in a given course

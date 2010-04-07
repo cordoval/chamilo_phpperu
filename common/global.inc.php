@@ -187,7 +187,9 @@ else
 	- full fake register globals block
 	--------------------------------------------
 	*/
+	// TODO: Restore the normal error reporting for production software release.
     //error_reporting(E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR);
+	// The following error reporting setting is for software under development, these lines are to be disabled.
 	if (phpversion() >= 5.3)
 	{
 		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);

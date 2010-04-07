@@ -111,5 +111,7 @@ abstract class CdaDataManager
 	abstract function retrieve_translator_applications($condition = null, $offset = null, $count = null, $order_property = null);
 	abstract function get_number_of_translations_for_user($user_id);
 	abstract function get_number_of_translations_by_user();
+	
+	abstract function retrieve_first_untranslated_variable_translation($language_id, $language_pack_id = null, $status = null);
 }
 ?>

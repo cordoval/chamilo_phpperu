@@ -7,7 +7,6 @@ require_once PATH :: get_repository_path() . '/question_types/select_question/se
 
 class SurveySelectQuestionForm extends SelectQuestionForm
 {
-
     protected function build_creation_form()
     {
         parent :: build_creation_form();
@@ -23,7 +22,7 @@ class SurveySelectQuestionForm extends SelectQuestionForm
     function create_content_object()
     {
         $object = new SurveySelectQuestion();
-        return parent :: create_content_object($object);
+		return parent :: create_content_object($object);
     }
 }
 ?>

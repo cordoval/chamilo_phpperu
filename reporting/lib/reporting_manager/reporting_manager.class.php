@@ -145,9 +145,9 @@ class ReportingManager extends CoreApplication
         return $url;
     }
 
-    function get_reporting_template_registration_url_content($parent, $classname, $params)
+    function get_reporting_template_registration_url_content($parent, $params)
     {
-        $_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
-        return $parent->get_parent()->get_reporting_url($classname, $params);
+        //$_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
+        return $parent->get_parent()->get_reporting_url($params);
     }
 }

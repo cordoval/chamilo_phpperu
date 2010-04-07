@@ -16,7 +16,7 @@ class GeolocationBrowser extends ContentObjectPublicationBrowser
     {
         parent :: __construct($parent, 'geolocation');
         
-        $this->set_publication_id(Request :: get('pid'));
+        $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
         $renderer = new GeolocationDetailsRenderer($this);
         
         $this->set_publication_list_renderer($renderer);

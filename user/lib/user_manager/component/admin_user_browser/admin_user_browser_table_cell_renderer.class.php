@@ -112,7 +112,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
             if (UserDataManager :: get_instance()->user_deletion_allowed($user))
             {
                 $toolbar_data[] = array('href' => $this->browser->get_user_delete_url($user), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-            }
+        	}
             
             $toolbar_data[] = array('href' => $this->browser->get_change_user_url($user), 'label' => Translation :: get('LoginAsUser'), 'img' => Theme :: get_common_image_path() . 'action_login.png');
         }

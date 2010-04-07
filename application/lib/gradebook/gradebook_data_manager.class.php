@@ -60,6 +60,20 @@ abstract class GradebookDataManager {
 	abstract function count_evaluation_formats();
 	
 	abstract function retrieve_evaluation_format($id);
+	
+	// internal items
+	
+	abstract function retrieve_internal_item_by_publication($application, $publication_id);
+	
+	abstract function create_internal_item($internal_item);
+	
+	// evaluation
+	
+	abstract function create_evaluation($evaluation);	
+	
+	abstract function delete_evaluation($evaluation);
+	
+	abstract function update_evaluation($evaluation);
 //	
 //	abstract function retrieve_all_evaluation_formats();
 //	
@@ -75,15 +89,20 @@ abstract class GradebookDataManager {
 	
 	abstract function truncate_gradebook($id);
 	
-	abstract function count_gradebooks($conditions = null);
+	abstract function count_gradebooks($conditions = null);*/
 
-	abstract function retrieve_gradebook($id);
+	abstract function retrieve_evaluation($id);
 
-	abstract function retrieve_gradebooks($condition = null, $offset = null, $count = null, $order_property = null);
+	abstract function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null);
 
 
-	//gradebook_items rel user
-
+	//gradebook grade evaluation
+	
+	abstract function retrieve_grade_evaluation($id);
+	
+	abstract function delete_grade_evaluation($grade_evaluation);
+	
+	/*
 	abstract function create_gradebook_rel_user($gradebookreluser);
 
 	abstract function delete_gradebook_rel_user($gradebookreluser);

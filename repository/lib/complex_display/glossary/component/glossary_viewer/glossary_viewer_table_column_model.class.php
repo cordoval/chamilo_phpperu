@@ -32,7 +32,7 @@ class GlossaryViewerTableColumnModel extends ObjectTableColumnModel
         $columns = array();
         //$columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(GlossaryItem :: PROPERTY_TITLE)));
         //$columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(GlossaryItem :: PROPERTY_DESCRIPTION)));
-        $alias = RepositoryDataManager :: get_instance()->get_database()->get_alias(ContentObject :: get_table_name());
+        $alias = RepositoryDataManager :: get_instance()->get_alias(ContentObject :: get_table_name());
         $columns[] = new ObjectTableColumn(GlossaryItem :: PROPERTY_TITLE, true, $alias);
         $columns[] = new ObjectTableColumn(GlossaryItem :: PROPERTY_DESCRIPTION, true, $alias);
         $columns[] = self :: get_action_column();

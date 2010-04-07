@@ -31,8 +31,8 @@ class ContentObjectRepoViewer extends RepoViewer
         }
         else
             $this->set_parameter(Tool :: PARAM_ACTION, $action);
-        if (Request :: get('pid') != null)
-            $this->set_parameter('pid', Request :: get('pid'));
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
+            $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, Request :: get(Tool :: PARAM_PUBLICATION_ID));
         $this->set_repo_viewer_actions(array('creator', 'browser'));
         $this->parse_input_from_table();
     }

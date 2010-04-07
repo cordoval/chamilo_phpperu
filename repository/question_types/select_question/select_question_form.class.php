@@ -10,7 +10,6 @@ class SelectQuestionForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
-//        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/select_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -19,7 +18,6 @@ class SelectQuestionForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
-//        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/select_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -66,7 +64,7 @@ class SelectQuestionForm extends ContentObjectForm
         }
         return parent :: validate();
     }
-    
+
 	function add_options_to_object()
     {
         $object = $this->get_content_object();
@@ -166,7 +164,7 @@ class SelectQuestionForm extends ContentObjectForm
             {
                 $group = array();
                 $group[] = & $this->createElement('text', SelectQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), array('style' => 'width: 300px;'));
-                
+
                 if ($number_of_options - count($_SESSION['select_skip_options']) > 2)
                 {
                     $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));

@@ -16,7 +16,7 @@ require_once Path :: get_library_path() . 'utilities.class.php';
 abstract class Tool
 {
     const PARAM_ACTION = 'tool_action';
-    const PARAM_PUBLICATION_ID = 'pid';
+    const PARAM_PUBLICATION_ID = 'publication';
     const PARAM_COMPLEX_ID = 'cid';
     const PARAM_MOVE = 'move';
     const PARAM_VISIBILITY = 'visible';
@@ -109,7 +109,7 @@ abstract class Tool
                 case self :: ACTION_DELETE_CLOI :
                     $this->set_action(self :: ACTION_DELETE_CLOI);
                     Request :: set_get(self :: PARAM_COMPLEX_ID, $_POST['page_table_id']);
-                    Request :: set_get(self :: PARAM_PUBLICATION_ID, Request :: get('pid'));
+                    Request :: set_get(self :: PARAM_PUBLICATION_ID, Request :: get(self :: PARAM_PUBLICATION_ID));
                     break;
 
                 case self :: ACTION_HIDE :
@@ -273,8 +273,8 @@ abstract class Tool
                 break;
         }
 
-        $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'tool' => null, 'course' => null, 'pid' => null)), Translation :: get('MyCourses')));
-        $trail->add(new Breadcrumb($this->get_url(array('tool' => null, 'tool_action' => null, 'pid' => null)), $title));
+        $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'tool' => null, 'course' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get('MyCourses')));
+        $trail->add(new Breadcrumb($this->get_url(array('tool' => null, 'tool_action' => null, self :: PARAM_PUBLICATION_ID => null)), $title));
 
         // TODO: do this by overriding display_header in the course_group tool
 
@@ -293,7 +293,7 @@ abstract class Tool
         // TODO: make this the default
         if ($this->get_tool_id() != 'course_group')
         {
-            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null, 'view' => null, 'time' => null, 'pid' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
+            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null, 'view' => null, 'time' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
         }
 
         $breadcrumbs = $breadcrumbtrail->get_breadcrumbs();
@@ -577,10 +577,10 @@ abstract class Tool
 
     function get_access_details_toolbar_item($parent)
     {
-        if (Request :: get('pid'))
+        if (Request :: get(self :: PARAM_PUBLICATION_ID))
         {
             //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
-            $url = $this->parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), ReportingManager :: PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));
+            $url = $this->parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID), ReportingManager :: PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));
             return new ToolbarItem(Translation :: get('AccessDetails'), Theme :: get_common_image_path() . 'action_reporting.png', $url);
         }
         else

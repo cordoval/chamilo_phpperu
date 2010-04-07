@@ -23,10 +23,10 @@ class ToolFeedbackDeleterComponent extends ToolComponent
             else
                 $this->cid = $_POST['cid'];
             
-            if (Request :: get('pid'))
-                $this->pid = Request :: get('pid');
+            if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
+                $this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             else
-                $this->pid = $_POST['pid'];
+                $this->pid = $_POST[Tool :: PARAM_PUBLICATION_ID];
             
             if (! is_array($feedback_ids))
             {
@@ -66,7 +66,7 @@ class ToolFeedbackDeleterComponent extends ToolComponent
                     break;
             }
             
-            $this->redirect($message, '', array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => Request :: get('display_action'), 'pid' => $this->pid, 'cid' => $this->cid));
+            $this->redirect($message, '', array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => Request :: get('display_action'), Tool :: PARAM_PUBLICATION_ID => $this->pid, 'cid' => $this->cid));
         }
     }
 

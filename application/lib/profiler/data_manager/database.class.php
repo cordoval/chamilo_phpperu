@@ -5,7 +5,7 @@
  */
 require_once Path :: get_application_path() . 'lib/profiler/profiler_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/profiler/profile_publication.class.php';
-require_once Path :: get_repository_path() . 'lib/data_manager/database.class.php';
+require_once Path :: get_repository_path() . 'lib/data_manager/database_repository_data_manager.class.php';
 require_once 'MDB2.php';
 
 class DatabaseProfilerDataManager extends ProfilerDataManager

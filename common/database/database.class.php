@@ -18,6 +18,8 @@ class Database
     private $prefix;
     private $aliases;
 
+    private $is_migration;
+
     /**
      * Constructor
      */
@@ -35,6 +37,8 @@ class Database
         $this->connection = Connection :: get_instance()->get_connection();
         $this->connection->setOption('debug_handler', array(get_class($this), 'debug'));
         $this->connection->setCharset('utf8');
+
+        $this->is_migration = strpos($_SERVER['PHP_SELF'], '/migration/index.php') !== false || strpos($_SERVER['PHP_SELF'], '_command_line_migration.php') !== false;
     }
 
     function set_aliases($aliases = array())
@@ -151,7 +155,7 @@ class Database
      */
     function get_table_name($name)
     {
-        if(strpos($_SERVER['PHP_SELF'], '/migration/index.php') !== false || strpos($_SERVER['PHP_SELF'], '_command_line_migration.php') !== false)
+        if ($this->is_migration)
         {
         	$dsn = $this->connection->getDSN('array');
         	return $dsn['database'] . '.' . $this->prefix . $name;
@@ -167,7 +171,7 @@ class Database
      */
     function escape_table_name($name)
     {
-    	if(strpos($_SERVER['PHP_SELF'], '/migration/index.php') !== false || strpos($_SERVER['PHP_SELF'], '_command_line_migration.php') !== false)
+    	if ($this->is_migration)
         {
         	$dsn = $this->connection->getDSN('array');
         	return $dsn['database'] . '.' . $this->prefix . $name;
@@ -385,7 +389,10 @@ class Database
 
             foreach ($order_by as $order)
             {
-                $orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                if($order)
+                {
+            		$orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                }
             }
             if (count($orders))
             {
@@ -567,8 +574,11 @@ class Database
         }
 
         foreach ($order_by as $order)
-        {
-            $orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        { 
+        	if($order)
+        	{
+            	$orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+        	}
         }
         if (count($orders))
         {
@@ -683,7 +693,10 @@ class Database
 
         foreach ($order_by as $order)
         {
-            $orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+            if($order)
+            {
+        		$orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+            }
         }
         if (count($orders))
         {
@@ -781,7 +794,7 @@ class Database
     {
         $possible_name = '';
         $parts = explode('_', $name);
-        foreach($parts as $part)
+        foreach ($parts as & $part)
         {
             $possible_name .= $part{0};
         }

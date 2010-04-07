@@ -249,9 +249,9 @@ class Utilities
         $class_names[] = 'toolbar';
         $html = array();
         $html[] = '<ul class="' . implode(' ', $class_names) . '"' . (isset($css) ? ' style="' . $css . '"' : '') . '>';
-        foreach ($toolbar_data as $index => $elmt)
+        foreach ($toolbar_data as $index => & $elmt)
         {
-            $label = (isset($elmt['label']) ? htmlentities($elmt['label']) : null);
+            $label = (isset($elmt['label']) ? htmlentities($elmt['label'], ENT_QUOTES, 'UTF-8') : null);
             if (! array_key_exists('display', $elmt))
             {
                 $elmt['display'] = self :: TOOLBAR_DISPLAY_ICON;
@@ -270,7 +270,7 @@ class Utilities
             {
                 $class = isset($elmt['class']) ? 'class="' . $elmt['class'] . '" ' : '';
                 $id = isset($elmt['id']) ? 'id="' . $elmt['id'] . '" ' : '';
-                $button = '<a ' . $id . $class . 'href="' . htmlentities($elmt['href']) . '" title="' . $label . '"' . ($elmt['confirm'] ? ' onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"' : '') . '>' . $button . '</a>';
+                $button = '<a ' . $id . $class . 'href="' . htmlentities($elmt['href']) . '" title="' . $label . '"' . ($elmt['confirm'] ? ' onclick="javascript: return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'), ENT_QUOTES, 'UTF-8')) . '\');"' : '') . '>' . $button . '</a>';
             }
 
             $classes = array();
@@ -546,7 +546,7 @@ class Utilities
         Translation :: set_application($application);
         Theme :: set_application($application);
     }
-    
+
     static function display_true_false_icon($value)
     {
     	if($value)

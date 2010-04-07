@@ -58,12 +58,14 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         
         $toolbar_data[] = array('href' => $this->browser->get_course_editing_url($course), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         $toolbar_data[] = array('href' => $this->browser->get_course_deleting_url($course), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        $toolbar_data[] = array('href' => $this->browser->get_move_course_url($course), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
         
         $toolbar_data[] = array('href' => $this->browser->get_course_maintenance_url($course), 'label' => Translation :: get('Maintenance'), 'img' => Theme :: get_common_image_path() . 'action_maintenance.png');
         
         $params = array();
-        $params[ReportingManager :: PARAM_COURSE_ID] = $course->get_id();
-        $url = ReportingManager :: get_reporting_template_registration_url_content($this->browser, 'CourseStudentTrackerReportingTemplate', $params);
+        $params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();
+        $params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration(Utilities::camelcase_to_underscores('CourseStudentTrackerReportingTemplate'), WeblcmsManager::APPLICATION_NAME)->get_id();
+        $url = ReportingManager :: get_reporting_template_registration_url_content($this->browser, $params);
         //$unsubscribe_url = $this->browser->get_url($parameters);
         $toolbar_data[] = array('href' => $url, 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
         

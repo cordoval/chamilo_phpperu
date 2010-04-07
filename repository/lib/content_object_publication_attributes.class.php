@@ -208,8 +208,7 @@ class ContentObjectPublicationAttributes
 
     function update()
     {
-        $dm = RepositoryDataManager :: get_instance();
-        $success = $dm->update_content_object_publication_id($this);
+        $success = RepositoryDataManager :: update_content_object_publication_id($this);
         if (! $success)
         {
             return false;

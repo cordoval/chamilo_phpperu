@@ -46,7 +46,6 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
             if ($form->validate())
             {
                 $values = $form->exportValues();
-                
             	$failures = 0;
             	
             	if(!is_array($objects))
@@ -54,7 +53,7 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
             	
                 foreach($objects as $object)
                 {
-                	if(!$this->create_wiki_publication($object, $values))
+                	if(!$form->create_wiki_publication($object, $values))
                 		$failures++;
                 }
                 $message = $this->get_result($failures, count($objects), 'WikiPublicationNotCreated', 'WikiPublicationsNotCreated', 'WikiPublicationCreated', 'WikiPublicationsCreated');               
@@ -68,35 +67,6 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
         
         //		echo implode("\n",$html);
         $this->display_footer();
-    }
-    
-    function create_wiki_publication($object, $values)
-    {
-    	$wiki_publication = new WikiPublication();
-		$wiki_publication->set_content_object($object);
-		
-        if ($values['forever'] != 0)
-        {
-            $wiki_publication->set_from_date(0);
-            $wiki_publication->set_to_date(0);
-        }
-        else
-        {
-            $wiki_publication->set_from_date(Utilities :: time_from_datepicker($values['from_date']));
-            $wiki_publication->set_to_date(Utilities :: time_from_datepicker($values['to_date']));
-        }
-        $wiki_publication->set_hidden($values['hidden'] ? 1 : 0);
-        $wiki_publication->set_publisher($this->get_user_id());
-        $wiki_publication->set_published(time());
-        $wiki_publication->set_modified(time());
-        $wiki_publication->set_display_order(0);
-        $wiki_publication->create();
-		if(Request :: post('evaluation'))
-		{
-			require_once dirname (__FILE__) . '/../../../gradebook/forms/evaluation_form.class.php';
-		    EvaluationForm :: get_internal_item($wiki_publication);
-		} 
-        return $wiki_publication;
     }
 }
 ?>
