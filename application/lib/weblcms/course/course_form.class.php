@@ -474,21 +474,50 @@ class CourseForm extends FormValidator
 		$course_layout = $this->fill_course_layout();
 		if(!$course_layout->update())
 			return false;
+
+		$wdm = WeblcmsDataManager::get_instance();
+		$previous_rights = null;
+		$course_rights = null;
+		for($i=0;$i<2;$i++)
+		{
+			switch($i)
+			{
+				case 0:
+					$previous_rights = $wdm->retrieve_course_group_subscribe_rights($this->course);
+					$course_rights = $this->fill_course_subscribe_rights();
+					break;
+				case 1:
+					$previous_rights = $wdm->retrieve_course_group_unsubscribe_rights($this->course);
+					$course_rights = $this->fill_course_unsubscribe_rights();
+					break;
+			}
+			while($previous_right = $previous_rights->next_result())
+			{
+				$validation = false;
+				foreach($course_rights as $index => $right)
+				{
+					if($right->get_group_id() == $previous_right->get_group_id())
+					{
+						if(!$right->update())
+							return false;
+						unset($course_rights[$index]);
+						$validation = true;
+					}
+				}
+				if(!$validation)
+				{
+					if(!$previous_right->delete())
+						return false;
+				}
+			}
 			
-		$course_subscribe_rights = $this->fill_course_subscribe_rights();
-		foreach($course_subscribe_rights as $right)
-		{
-			if(!$right->update())
-				return false;
+			foreach($course_rights as $right)
+			{
+				if(!$right->create())
+					return false;
+			}
 		}
-		
-		$course_unsubscribe_rights = $this->fill_course_unsubscribe_rights();
-		foreach($course_unsubscribe_rights as $right)
-		{
-			if(!$right->update())
-				return false;
-		}
-		
+
 		return true;
     }
 
@@ -523,7 +552,6 @@ class CourseForm extends FormValidator
 		$course_subscribe_rights = $this->fill_course_subscribe_rights();
 		foreach($course_subscribe_rights as $right)
 		{
-			dump($right);
 			if(!$right->create())
 				return false;
 		}
@@ -531,7 +559,6 @@ class CourseForm extends FormValidator
 		$course_unsubscribe_rights = $this->fill_course_unsubscribe_rights();
 		foreach($course_unsubscribe_rights as $right)
 		{
-			dump($right);
 			if(!$right->create())
 				return false;
 		}
@@ -545,7 +572,7 @@ class CourseForm extends FormValidator
             return true;
         else
             return false;
-        }
+    }
 
     function fill_course_general_settings()
     {
@@ -743,6 +770,7 @@ class CourseForm extends FormValidator
 		$defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '0';
 		$defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '0';
 		$defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '0';
+		$defaults[self :: UNSUBSCRIBE_TARGET_OPTION] = '0';
 		
 		if(!is_null($course->get_id()))
 		{
@@ -762,41 +790,64 @@ class CourseForm extends FormValidator
 						case CourseGroupSubscribeRight :: SUBSCRIBE_CODE: $element = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS; break;
 					}
 					
-					$gdm = GroupDataManager :: get_instance();
-					$group = $gdm->retrieve_group($right->get_group_id());
-					$selected_group = array();
-		           	$selected_group['id'] = 'group_' . $group->get_id();
-		            $selected_group['classes'] = 'type type_group';
-		           	$selected_group['title'] = $group->get_name();
-		            $selected_group['description'] = $group->get_name();
-					
+					$selected_group = $this->get_group_array($right->get_group_id());
+		            $defaults[$element][$selected_group['id']] = $selected_group;
+				}
+			}
+			
+			while($right = $course_group_unsubscribe_rights->next_result())
+			{
+				if($right->get_group_id() != 1)
+				{
+					$element = self :: UNSUBSCRIBE_TARGET_ELEMENTS;
+					$selected_group = $this->get_group_array($right->get_group_id());
 		            $defaults[$element][$selected_group['id']] = $selected_group;
 				}
 			}
 			
 			if (count($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]) > 0)
+			{
 	            $defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '1';
+	            $active = $this->getElement(self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS);
+	        	$active->setValue($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]);
+			}
 	        
 	    	if (count($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]) > 0)
+	    	{
 	            $defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '1';
+	            $active = $this->getElement(self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS);
+	        	$active->setValue($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]);
+	    	}
 	        
 	    	if (count($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]) > 0)
 	        {
 	            $defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '1';
+	            $active = $this->getElement(self :: SUBSCRIBE_CODE_TARGET_ELEMENTS);
+	        	$active->setValue($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]);
 	        }
-	
-	        $active = $this->getElement(self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS);
-	        $active->_elements[0]->setValue(serialize($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]));
 	        
-	        $active = $this->getElement(self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS);
-	        $active->_elements[0]->setValue(serialize($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]));
-	        
-	        $active = $this->getElement(self :: SUBSCRIBE_CODE_TARGET_ELEMENTS);
-	        $active->_elements[0]->setValue(serialize($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]));
+			if (count($defaults[self :: UNSUBSCRIBE_TARGET_ELEMENTS]) > 0)
+	        {
+	            $defaults[self :: UNSUBSCRIBE_TARGET_OPTION] = '1';
+	            $active = $this->getElement(self :: UNSUBSCRIBE_TARGET_ELEMENTS);
+	        	$active->setValue($defaults[self :: UNSUBSCRIBE_TARGET_ELEMENTS]);
+	        }
 			
 		}
 		
         parent :: setDefaults($defaults);
+    }
+    
+    function get_group_array($group_id)
+    {
+    	$gdm = GroupDataManager :: get_instance();
+    	$group = $gdm->retrieve_group($group_id);
+		$selected_group = array();
+		$selected_group['id'] = 'group_' . $group->get_id();
+		$selected_group['classes'] = 'type type_group';
+		$selected_group['title'] = $group->get_name();
+		$selected_group['description'] = $group->get_name();
+		return $selected_group;
     }
 
 	function get_form_type()

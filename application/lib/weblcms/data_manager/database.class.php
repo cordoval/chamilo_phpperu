@@ -1183,16 +1183,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$conditions[] = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course_group_subscribe_right->get_course_id());
 		$conditions[] = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_GROUP_ID, $course_group_subscribe_right->get_group_id());
 		$condition = new AndCondition($conditions);
-		return $this->database->update($course_group_subscribe_right);
+		return $this->database->update($course_group_subscribe_right, $condition);
 	}
 	
 	function update_course_group_unsubscribe_right($course_group_unsubscribe_right)
 	{
 		$conditions = array();
-		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_group_unsubscribe_right->get_course_code());
+		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_group_unsubscribe_right->get_course_id());
 		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_GROUP_ID, $course_group_unsubscribe_right->get_group_id());
 		$condition = new AndCondition($conditions);
-		return $this->database->update($course_group_unsubscribe_right);
+		return $this->database->update($course_group_unsubscribe_right, $condition);
 	}
 
 	function update_course_type($course_type)
@@ -1349,7 +1349,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		//        $statement = $this->database->get_connection()->prepare($sql);
 		//        $statement->execute($course_code);
 
-
+		//Delete rights
+		$condition = new EqualityCondition(CourseSubscribeRight :: PROPERTY_COURSE_ID, $course_code);
+		if (! $this->database->delete_objects(CourseSubscribeRight :: get_table_name(), $condition))
+		{
+			return false;
+		}
+		
+		$condition = new EqualityCondition(CourseUnsubscribeRight :: PROPERTY_COURSE_ID, $course_code);
+		if (! $this->database->delete_objects(CourseUnsubscribeRight :: get_table_name(), $condition))
+		{
+			return false;
+		}
+		
+		
 		// Delete subscriptions of users in the course
 		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_code);
 		if (! $this->database->delete_objects(CourseUserRelation :: get_table_name(), $condition))
@@ -1372,6 +1385,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		//$bool = $bool && $this->database->delete(CourseSettings :: get_table_name(), $condition_settings);
 	}
 
+	function delete_course_group_subscribe_right($course_subscribe_right)
+	{
+		$conditions = array();
+		$conditions[] = New EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course_subscribe_right->get_course_id());
+		$conditions[] = New EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_GROUP_ID, $course_subscribe_right->get_group_id());
+		$condition = New AndCondition($conditions);
+		return $this->database->delete_objects(CourseGroupSubscribeRight :: get_table_name(), $condition);
+	}
+	
+	function delete_course_group_unsubscribe_right($course_unsubscribe_right)
+	{
+		$conditions = array();
+		$conditions[] = New EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_unsubscribe_right->get_course_id());
+		$conditions[] = New EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_GROUP_ID, $course_unsubscribe_right->get_group_id());
+		$condition = New AndCondition($conditions);
+		return $this->database->delete_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition);
+	}
+	
 	function delete_course_type($course_type)
 	{
 		// Delete course_type
