@@ -171,6 +171,20 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null){
 		return $this->database->retrieve_objects(Evaluation :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
+/**
+	 * @param unknown_type $evaluation
+	 */
+	function update_evaluation($evaluation) {
+		
+	}
+
+/**
+	 * @param unknown_type $publication_id
+	 */
+	function retrieve_all_evaluations_on_publication($publication_id) {
+		
+	}
+
 
 /*
 	//gradebook_items rel user
