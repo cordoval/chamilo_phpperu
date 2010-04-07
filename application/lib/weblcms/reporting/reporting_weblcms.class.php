@@ -428,8 +428,7 @@ class ReportingWeblcms
      */
     public static function getNoOfPublishedObjectsPerType($params)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        $list = $rdm->get_registered_types();
+        $list = RepositoryDataManager :: get_registered_types();
         foreach ($list as $key => $value)
         {
             $arr[$value][0] = 0;
@@ -458,8 +457,7 @@ class ReportingWeblcms
      */
     public static function getNoOfObjectsPerType($params)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        $list = $rdm->get_registered_types();
+        $list = RepositoryDataManager :: get_registered_types();
         foreach ($list as $key => $value)
         {
             $arr[$value][0] = 0;
@@ -564,9 +562,9 @@ class ReportingWeblcms
             $parameter = 'wiki_publication';
         }
         else
-            $parameter = 'pid';
+            $parameter = Tool :: PARAM_PUBLICATION_ID;
 
-        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*display_action=view_item*&' . $parameter . '=' . $params['pid'] . '*');
+        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*display_action=view_item*&' . $parameter . '=' . $params[Tool :: PARAM_PUBLICATION_ID] . '*');
         $items = $tdm->retrieve_tracker_items('visit_tracker', 'VisitTracker', $condition);
         if (empty($items))
             return Reporting :: getSerieArray($arr);
@@ -608,7 +606,7 @@ class ReportingWeblcms
                 if (in_array($key, array_keys($cloi_refs)))
                 {
                     $page = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi_refs[$key]);
-                    $url = (Redirect :: get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => $tool_action, 'display_action' => 'view_item', 'pid' => $params['pid'], 'selected_cloi' => $keys[0])));
+                    $url = (Redirect :: get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => $tool_action, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $params[Tool :: PARAM_PUBLICATION_ID], 'selected_cloi' => $keys[0])));
                     $arr[Translation :: get('MostVisitedPage')][] = '<a href="' . $url . '">' . htmlspecialchars($page->get_title()) . '</a>';
                     $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
                     break;
@@ -622,7 +620,7 @@ class ReportingWeblcms
     public static function getWikiMostEditedPage($params)
     {
         require_once Path :: get_application_path() . 'lib/weblcms/data_manager/database.class.php';
-        $wiki = RepositoryDataManager :: get_instance()->retrieve_content_object($params['pid']);
+        $wiki = RepositoryDataManager :: get_instance()->retrieve_content_object($params[Tool :: PARAM_PUBLICATION_ID]);
 
         $clois = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $wiki->get_id(), ComplexContentObjectItem :: get_table_name()), $params['order_by'])->as_array();
 
@@ -641,7 +639,7 @@ class ReportingWeblcms
         }
         arsort($edits);
         $keys = array_keys($edits);
-        $url = (Redirect :: get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view', 'display_action' => 'view_item', 'pid' => $wiki->get_id(), 'cid' => $page_ids[$keys[0]])));
+        $url = (Redirect :: get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $wiki->get_id(), 'cid' => $page_ids[$keys[0]])));
         $arr[Translation :: get('MostEditedPage')][] = '<a href="' . $url . '">' . htmlspecialchars($keys[0]) . '</a>';
         $arr[Translation :: get('NumberOfEdits')][] = $edits[$keys[0]];
         return Reporting :: getSerieArray($arr);
@@ -689,7 +687,7 @@ class ReportingWeblcms
             $arr[Translation :: get('Description')][] = Utilities :: truncate_string($des, 50);
             $arr[Translation :: get('LastAccess')][] = $lastaccess;
             $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
-            $params['pid'] = $lop->get_id();
+            $params[Tool :: PARAM_PUBLICATION_ID] = $lop->get_id();
             $url = Reporting :: get_weblcms_reporting_url('PublicationDetailReportingTemplate', $params);
             $arr[Translation :: get('PublicationDetails')][] = '<a href="' . $url . '">' . Translation :: get('AccessDetails') . '</a>';
         }
@@ -706,7 +704,7 @@ class ReportingWeblcms
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
         $user_id = $params[ReportingManager :: PARAM_USER_ID];
         $tool = $params['tool'];
-        $pid = $params['pid'];
+        $pid = $params[Tool :: PARAM_PUBLICATION_ID];
 
         $tracker = new VisitTracker();
         $wdm = WeblcmsDataManager :: get_instance();
@@ -753,7 +751,7 @@ class ReportingWeblcms
         require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
         $user_id = $params[ReportingManager :: PARAM_USER_ID];
-        $pid = $params['pid'];
+        $pid = $params[Tool :: PARAM_PUBLICATION_ID];
         $tool = $params['tool'];
 
         $udm = UserDataManager :: get_instance();
@@ -788,7 +786,7 @@ class ReportingWeblcms
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
         $user_id = $params[ReportingManager :: PARAM_USER_ID];
         $tool = $params['tool'];
-        $pid = $params['pid'];
+        $pid = $params[Tool :: PARAM_PUBLICATION_ID];
 
         $udm = UserDataManager :: get_instance();
         $user = $udm->retrieve_user($user_id);

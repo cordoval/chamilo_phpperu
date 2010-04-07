@@ -53,24 +53,6 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 		$condition = new EqualityCondition(Format :: PROPERTY_ACTIVE, Format :: EVALUATION_FORMAT_ACTIVE);
 		return $this->database->retrieve_objects(Format :: get_table_name(), $condition);
 	}
-	
-	function retrieve_internal_item_by_publication($application, $publication_id)
-	{
-		$conditions = array();
-		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
-		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
-		$condition = new AndCondition($conditions);
-		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
-	}
-//	
-//	function create_external_item($publication)
-//	{
-//		$internal_item = new InternalItem();
-//		$internal_item->set_application(str_replace('_publication', '',$publication->get_object_name()));
-//		$internal_item->set_publication_id($publication->get_id());
-//		$internal_item->set_calculated(true);
-//		return $this->database->create($internal_item);
-//	}
 
 	function retrieve_evaluation_formats()
 	{
@@ -93,6 +75,52 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	{
 		return $this->database->create($internal_item);
 	}
+	
+	function retrieve_internal_item_by_publication($application, $publication_id)
+	{
+		/*$gdm = GradebookDataManager :: get_instance();
+		$gradebook_evaluation_alias = $gdm->get_database()->get_alias(Evaluation :: get_table_name());
+		$gradebook_internal_item_alias = $gdm->get_database()->get_alias(InternalItem :: get_table_name());
+		$gradebook_internal_item_instance_alias = $gdm->get_database()->get_alias(InternalItemInstance :: get_table_name()); 
+		$conditions = array();
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
+		$condition = new AndCondition($conditions);
+		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);*/
+		return 0;
+	}
+// internal item instance
+	
+	function delete_internal_item_instance($internal_item_instance)
+	{
+		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_ID, $internal_item_instance->get_id());
+		return $this->database->delete(InternalItemInstance :: get_table_name(), $condition);
+	}
+	
+	function retrieve_internal_item_instance_by_evaluation($evaluation_id)
+	{
+		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_EVALUATION_ID, $evaluation_id);
+		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
+	}
+
+// gradebook evaluation
+	
+	function create_evaluation($evaluation)
+	{
+		return $this->database->create($evaluation);
+	}
+	
+//	function retrieve_all_evaluations_on_publication($publication_id)
+//	{
+//		$conditions = array();
+//		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
+//		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_ID, InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
+//		$conditions[] = new EqualityCondition(InternalItemInstance :: PROPERTY_EVALUATION_ID, Evaluation :: PROPERTY_ID);
+//		$conditions[] = new EqualityCondition(Evaluation :: PROPERTY_EVALUATOR_ID, User :: PROPERTY_ID);
+//		$conditions[] = new EqualityCondition(Evaluation :: PROPERTY_FORMAT_ID, FORMAT :: PROPERTY_ID);
+//		
+//		return $this->database->retrieve_object(,$conditions);
+//	}
 
 	//gradebook_items
 
@@ -100,18 +128,20 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 		$id = $this->database->get_next_id(Gradebook :: get_table_name());
 		return $id;
 	}
-
-	function delete_gradebook($gradebook){
-		$condition = new EqualityCondition(Gradebook :: PROPERTY_ID, $gradebook->get_id());
-		$bool = $this->database->delete($gradebook->get_table_name(), $condition);
-
-		$condition_rel_users = new EqualityCondition(GradebookRelUser :: PROPERTY_GRADEBOOK_ID, $gradebook->get_id());
-		$gradebook_rel_users = $this->retrieve_gradebook_rel_users($condition_rel_users);
-		while($gradebook_rel_user = $gradebook_rel_users->next_result())
-		{
-			$bool = $bool & $this->delete_gradebook_rel_user($gradebook_rel_user);
-		}
-		return $bool;
+*/
+	function delete_evaluation($evaluation){
+		$condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $evaluation->get_id());
+		$bool = $this->database->delete($evaluation->get_table_name(), $condition);
+		
+		$internal_item_instance = $this->retrieve_internal_item_instance_by_evaluation($evaluation->get_id());
+		$bool = $bool & $this->delete_internal_item_instance($internal_item_instance);
+	}
+	/*
+	
+	function delete_external_item_instance($external_item_instance)
+	{
+		$condition = new EqualityCondition(ExternalItemInstance :: PROPERTY_ID, $external_item_instance->get_id());
+		return $this->database->delete(ExternalItemInstance :: get_table_name(), $condition);
 	}
 
 	function update_gradebook($gradebook){
@@ -132,17 +162,17 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	function count_gradebooks($conditions = null){
 		return $this->database->count_objects(Gradebook :: get_table_name(), $condition);
 	}
-
-	function retrieve_gradebook($id){
+*/
+	function retrieve_evaluation($id){
 		$condition = new EqualityCondition(Gradebook :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(Gradebook :: get_table_name(), $condition);
+		return $this->database->retrieve_object(Evaluation :: get_table_name(), $condition);
 	}
 
-	function retrieve_gradebooks($condition = null, $offset = null, $count = null, $order_property = null){
-		return $this->database->retrieve_objects(Gradebook :: get_table_name(), $condition, $offset, $count, $order_property);
+	function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null){
+		return $this->database->retrieve_objects(Evaluation :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 
-
+/*
 	//gradebook_items rel user
 
 	function create_gradebook_rel_user($gradebookreluser){

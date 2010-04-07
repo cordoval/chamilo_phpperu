@@ -207,8 +207,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
                         $action_bar->add_common_action($force_delete_button);
                     }
 
-                    $dm = RepositoryDataManager :: get_instance();
-                    if ($dm->get_number_of_categories($this->get_user_id()) > 1)
+                    if (RepositoryDataManager :: get_number_of_categories($this->get_user_id()) > 1)
                     {
                         $move_url = $this->get_content_object_moving_url($object);
                         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));

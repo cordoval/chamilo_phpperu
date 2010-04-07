@@ -21,7 +21,7 @@ require_once dirname(__FILE__) . '/../course/course_module_last_access.class.php
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group_user_relation.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type.class.php';
-require_once dirname(__FILE__) . '/../../../../repository/lib/data_manager/database.class.php';
+require_once dirname(__FILE__) . '/../../../../repository/lib/data_manager/database_repository_data_manager.class.php';
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
@@ -233,12 +233,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$publication_alias = $this->database->get_alias(ContentObjectPublication :: get_table_name());
 		$publication_user_alias = $this->database->get_alias('content_object_publication_user');
 		$publication_group_alias = $this->database->get_alias('content_object_publication_course_group');
-		$lo_table_alias = RepositoryDataManager :: get_instance()->get_database()->get_alias('content_object');
+		$lo_table_alias = RepositoryDataManager :: get_instance()->get_alias('content_object');
 
 		$query = 'SELECT DISTINCT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
 		$query .= ' LEFT JOIN ' . $this->database->escape_table_name('content_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
 		$query .= ' LEFT JOIN ' . $this->database->escape_table_name('content_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication_id';
-		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('content_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
+		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
 
 		return $this->database->retrieve_object_set($query, ContentObjectPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
@@ -253,12 +253,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$publication_alias = $this->database->get_alias(ContentObjectPublication :: get_table_name());
 		$publication_user_alias = $this->database->get_alias('content_object_publication_user');
 		$publication_group_alias = $this->database->get_alias('content_object_publication_course_group');
-		$lo_table_alias = RepositoryDataManager :: get_instance()->get_database()->get_alias('content_object');
+		$lo_table_alias = RepositoryDataManager :: get_instance()->get_alias('content_object');
 
 		$query = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
 		$query .= ' LEFT JOIN ' . $this->database->escape_table_name('content_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
 		$query .= ' LEFT JOIN ' . $this->database->escape_table_name('content_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication_id';
-		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->get_database()->escape_table_name('content_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
+		$query .= ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
 
 		return $this->database->count_result_set($query, ContentObjectPublication :: get_table_name(), $condition);
 	}
@@ -672,7 +672,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	// DEPRECATED
 	function get_all_course_modules()
 	{
-		return $this->database->retrieve_distinct(CourseModule :: get_table_name(), CourseModule :: PROPERTY_NAME)->as_array();
+		return $this->database->retrieve_distinct(CourseModule :: get_table_name(), CourseModule :: PROPERTY_NAME);
 	}
 
 	function retrieve_course($id)
@@ -893,6 +893,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return $this->database->create($course_type_settings);
 	}
+	
+	function create_course_group_subscribe_right($course_group_subscribe_right)
+	{
+		return $this->database->create($course_group_subscribe_right);
+	}
+	
+	function create_course_group_unsubscribe_right($course_group_unsubscribe_right)
+	{
+		return $this->database->create($course_group_unsubscribe_right);
+	}
+	
 
 	function create_course_type_tool($course_type_tool)
 	{
@@ -1165,6 +1176,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$condition = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $course_layout->get_course_id());
 		return $this->database->update($course_layout, $condition);
 	}
+	
+	function update_course_group_subscribe_right($course_group_subscribe_right)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course_group_subscribe_right->get_course_id());
+		$conditions[] = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_GROUP_ID, $course_group_subscribe_right->get_group_id());
+		$condition = new AndCondition($conditions);
+		return $this->database->update($course_group_subscribe_right);
+	}
+	
+	function update_course_group_unsubscribe_right($course_group_unsubscribe_right)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_group_unsubscribe_right->get_course_code());
+		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_GROUP_ID, $course_group_unsubscribe_right->get_group_id());
+		$condition = new AndCondition($conditions);
+		return $this->database->update($course_group_unsubscribe_right);
+	}
 
 	function update_course_type($course_type)
 	{
@@ -1226,17 +1255,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	}
 
 	function delete_courses_by_course_type_id($course_type_id)
-	{
-		$condition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
-		$resultset = $this->retrieve_courses($condition);
-		while($result = $resultset->next_result())
-		{
-			if(!$this->delete_course($result->get_id()))
-				return false;
-		}
-		return true;
-	}
-	
+ 	{
+ 		$condition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+ 		$resultset = $this->retrieve_courses($condition);
+ 		while($result = $resultset->next_result())
+ 		{
+ 			if(!$this->delete_course($result->get_id()))
+ 				return false;
+ 		}
+ 			return true;
+ 	}
+ 
 	function delete_course($course_code)
 	{
 		// Delete publication target users
@@ -1692,6 +1721,18 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $user_ids;
 	}
 
+	function retrieve_course_group_subscribe_rights($course)
+	{
+		$condition = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course->get_id());
+		return $this->database->retrieve_objects(CourseGroupSubscribeRight :: get_table_name(), $condition);
+	}
+	
+	function retrieve_course_group_unsubscribe_rights($course)
+	{
+		$condition = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course->get_id());
+		return $this->database->retrieve_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition);
+	}
+	
 	// Inherited
 	function retrieve_course_groups_from_user($user, $course = null)
 	{

@@ -78,9 +78,9 @@ class VariableTranslationBrowserFilterForm extends FormValidator
      	switch($filter_translation)
      	{
      		case 1:
-     			return new NotCondition(new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' '));
+     			return new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATED, 1);
      		case 2:
-     			return new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+     			return new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATED, 0);
      		case 3:
      		    return new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_OUTDATED);
      	}

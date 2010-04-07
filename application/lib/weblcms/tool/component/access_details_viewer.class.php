@@ -30,8 +30,8 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
         if (Request :: get('pcattree') != null && Request :: get('pcattree') > 0)
             $this->add_pcattree_breadcrumbs(Request :: get('pcattree'), $trail);
             
-        //        if(Request :: get('pid') != null && Request :: get('template_name')!='CourseStudentTrackerReportingTemplate' && Request :: get('template_name')!='CourseTrackerReportingTemplate')
-        //        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
+        //        if(Request :: get(Tool :: PARAM_PUBLICATION_ID) != null && Request :: get('template_name')!='CourseStudentTrackerReportingTemplate' && Request :: get('template_name')!='CourseTrackerReportingTemplate')
+        //        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
         
 
         if (! empty($params['user_id']) && Request :: get('template_name') == 'CourseStudentTrackerDetailReportingTemplate')
@@ -44,11 +44,11 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
         {
             $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item(Request :: get('cid'));
             $wp = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref());
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool') == 'learning_path' ? 'view_clo' : 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $wp->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool') == 'learning_path' ? 'view_clo' : 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $wp->get_title()));
         
         }
         
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'), 'template_name' => Request :: get('template_name'))), Translation :: get('Reporting')));
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'), 'template_name' => Request :: get('template_name'))), Translation :: get('Reporting')));
         
         $this->display_header($trail, true);
         $rtv->show_reporting_template_by_name($classname, $params);

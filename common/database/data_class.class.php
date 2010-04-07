@@ -16,7 +16,7 @@ abstract class DataClass
     private $defaultProperties;
 
     private $errors;
-    
+
     /**
      * Creates a new data class object.
      * @param array $defaultProperties The default properties of the data class
@@ -33,14 +33,9 @@ abstract class DataClass
      */
     function get_default_property($name)
     {
-        if(isset($this->defaultProperties) && array_key_exists($name, $this->defaultProperties))
-        {
-            return $this->defaultProperties[$name];
-        }
-        else
-        {
-            return null;
-        }
+        return (isset($this->defaultProperties) && array_key_exists($name, $this->defaultProperties))
+        	? $this->defaultProperties[$name]
+        	: null;
     }
 
     /**
@@ -113,14 +108,7 @@ abstract class DataClass
     function is_identified()
     {
         $id = $this->get_id();
-        if (isset($id) && strlen($id) > 0 && $id != self :: NO_UID)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return isset($id) && strlen($id) > 0 && $id != self :: NO_UID;
     }
 
     function save()
@@ -130,51 +118,44 @@ abstract class DataClass
             return $this->update();
         }
         else
-        {    
+        {
             return $this->create();
         }
     }
 
     function get_object_name()
     {
-        $class = get_class($this);
-        return Utilities :: camelcase_to_underscores($class);
+        return Utilities :: camelcase_to_underscores(get_class($this));
     }
 
     function create()
     {
-        if($this->check_before_save())
+        if ($this->check_before_save())
         {
             $dm = $this->get_data_manager();
             $class_name = $this->get_object_name();
-    			
+
 //          $func = 'get_next_' . $class_name . '_id';
 //          $id = call_user_func(array($dm, $func));
 //          $this->set_id($id);
-    
+
             $func = 'create_' . $class_name;
             return call_user_func(array($dm, $func), $this);
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     function update()
     {
-        if($this->check_before_save())
+        if ($this->check_before_save())
         {
             $dm = $this->get_data_manager();
             $class_name = $this->get_object_name();
-            
+
             $func = 'update_' . $class_name;
             return call_user_func(array($dm, $func), $this);
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     function delete()
@@ -189,56 +170,49 @@ abstract class DataClass
 	/**
      * Check wether the object contains all mandatory properties to be saved in datasource
      * This method should be overriden in classes inheriting from DataClass
-     * 
-     * @return boolean Return true if the object can be saved, false otherwise 
+     *
+     * @return boolean Return true if the object can be saved, false otherwise
      */
     protected function check_before_save()
     {
         /*
          * Example: object with mandatory title
-         * 
+         *
          * if(StringUtilities :: is_null_or_empty($this->get_title()))
          * {
          *    $this->add_error(Translation :: get('TitleIsRequired'));
          * }
-         *  
+         *
          */
-        
+
         return !$this->has_errors();
     }
-    
+
     public function add_error($error_msg)
     {
-        if(!isset($this->errors))
+        if (!isset($this->errors))
         {
             $this->errors = array();
         }
-        
+
         $this->errors[] = $error_msg;
     }
-    
+
     public function has_errors()
     {
-        if(isset($this->errors) && count($this->errors) > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return isset($this->errors) && count($this->errors) > 0;
     }
-    
+
     public function get_errors()
     {
-        return isset($this->errors) ? $this->errors : array(); 
+        return isset($this->errors) ? $this->errors : array();
     }
-    
+
     public function clear_errors()
     {
         unset($this->errors);
     }
-    
+
     abstract function get_data_manager();
 
     static function is_extended_type()

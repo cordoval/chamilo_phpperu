@@ -647,6 +647,11 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		return CdaDataManager :: get_instance()->retrieve_historic_variable_translation($historic_variable_translation_id);
 	}
+	
+	function retrieve_first_untranslated_variable_translation($language_id, $language_pack_id = null, $status = null)
+	{
+		return CdaDataManager :: get_instance()->retrieve_first_untranslated_variable_translation($language_id, $language_pack_id, $status);
+	}
 
  	function get_delete_historic_variable_translation_url($historic_variable_translation)
 	{

@@ -43,7 +43,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'announcement');
             $subselect_condition = new EqualityCondition('type', 'announcement');
-            $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+            $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
             $condition = new AndCondition($conditions);
             
             $publications = $dm->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
@@ -74,7 +74,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
             foreach ($items as $item)
             {
                 
-                $html[] = '<li><a href="' . $weblcms->get_link(array('go' => 'courseviewer', 'application' => 'weblcms', 'tool' => 'announcement', 'tool_action' => 'view', 'pid' => $item['id'], 'course' => $item['course'])) . '">' . $item['title'] . '</a>';
+                $html[] = '<li><a href="' . $weblcms->get_link(array('go' => 'courseviewer', 'application' => 'weblcms', 'tool' => 'announcement', 'tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $item['id'], 'course' => $item['course'])) . '">' . $item['title'] . '</a>';
                 $html[] = '</li>';
             }
             $html[] = '</ul>';

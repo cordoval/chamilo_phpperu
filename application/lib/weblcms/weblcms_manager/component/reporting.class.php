@@ -14,19 +14,17 @@ class WeblcmsManagerReportingComponent extends WeblcmsManagerComponent
     {
         $rtv = new ReportingTemplateViewer($this);
         
-        $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
-        
-        $params = Reporting :: get_params($this);
+        $template = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
         
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses reporting');
-        $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'pcattree' => null, 'course' => null)), Translation :: get('MyCourses')));
-        $trail->add(new Breadcrumb($this->get_url(array('go' => 'courseviewer', 'pcattree' => null, 'tool' => null)), WebLcmsDataManager :: get_instance()->retrieve_course(Request :: get('course'))->get_name()));
+        $trail->add(new Breadcrumb($this->get_url(array(Application::PARAM_ACTION => null, 'pcattree' => null, WeblcmsManager::PARAM_COURSE => null)), Translation :: get('MyCourses')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application::PARAM_ACTION => WeblcmsManager::ACTION_VIEW_COURSE, 'pcattree' => null, WeblcmsManager::PARAM_TOOL => null)), WebLcmsDataManager :: get_instance()->retrieve_course(Request :: get(WeblcmsManager :: PARAM_COURSE))->get_name()));
         if ($trail->get_last() != new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')))
             $trail->add(new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')));
         
         $this->display_header($trail, false, true);
-        $rtv->show_reporting_template_by_name($classname, $params);
+        $rtv->show_reporting_template($template);
         $this->display_footer();
     }
 }

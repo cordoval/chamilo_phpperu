@@ -26,7 +26,7 @@ class LinkToolViewerComponent extends LinkToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'link');
 
         $subselect_condition = new EqualityCondition('type', 'introduction');
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         $condition = new AndCondition($conditions);
 
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
@@ -45,12 +45,12 @@ class LinkToolViewerComponent extends LinkToolComponent
                 $trail->add(new Breadcrumb($this->get_url(), $breadcrumb->get_name()));
             }
         }*/
-        if (Request :: get('pid') != null)
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
         $this->display_header($trail, true);
 
         //echo '<br /><a name="top"></a>';
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             if (PlatformSetting :: get('enable_introduction', 'weblcms'))
             {
@@ -75,7 +75,7 @@ class LinkToolViewerComponent extends LinkToolComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             $action_bar->set_search_url($this->get_url());
 
@@ -87,7 +87,7 @@ class LinkToolViewerComponent extends LinkToolComponent
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (! Request :: get('pid') && $this->is_allowed(EDIT_RIGHT))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID) && $this->is_allowed(EDIT_RIGHT))
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         if (! $this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms') && $this->is_allowed(EDIT_RIGHT))

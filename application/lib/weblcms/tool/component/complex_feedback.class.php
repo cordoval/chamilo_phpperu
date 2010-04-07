@@ -34,22 +34,22 @@ class ToolComplexFeedbackComponent extends ToolComponent
                 break;
         }
         
-        if (Request :: get('pid'))
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
-            $this->pub->set_parameter('pid', Request :: get('pid'));
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
+            $this->pub->set_parameter(Tool :: PARAM_PUBLICATION_ID, Request :: get(Tool :: PARAM_PUBLICATION_ID));
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
         }
         
         if (Request :: get('cid'))
         {
             $this->pub->set_parameter('cid', Request :: get('cid'));
             $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item(Request :: get('cid'));
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $cloi->get_id())), RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref())->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => $cloi->get_id())), RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref())->get_title()));
         }
         
         if (Request :: get('tool') == 'wiki' || Request :: get('tool') == 'learning_path')
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'discuss', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), Translation :: get('Discuss')));
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_FEEDBACK_CLOI, 'pid' => Request :: get('pid'), 'cid' => Request :: get('cid'))), Translation :: get('AddFeedback')));
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'discuss', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), Translation :: get('Discuss')));
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_FEEDBACK_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'cid' => Request :: get('cid'))), Translation :: get('AddFeedback')));
         
         if (! isset($object))
         {
@@ -65,7 +65,7 @@ class ToolComplexFeedbackComponent extends ToolComponent
             $feedback->set_id($object);
             $this->fid = $feedback->get_id();
             $this->cid = Request :: get('cid');
-            $this->pid = Request :: get('pid');
+            $this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             
             /*
              * change in the feedback, create new tabel linking the feedback object to the wiki_page
@@ -90,9 +90,9 @@ class ToolComplexFeedbackComponent extends ToolComponent
             
             $content_object_pub_feedback->create();
             if (Request :: get('tool') == 'wiki' || Request :: get('tool') == 'learning_path')
-                $this->redirect(Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('tool') == 'learning_path' ? 'view_clo' : 'view', 'display_action' => Request :: get('cid') != null ? 'discuss' : 'view_item', Request :: get('cid') != null ? 'cid' : 'pid' => $this->cid, 'pid' => $this->pid));
+                $this->redirect(Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('tool') == 'learning_path' ? 'view_clo' : 'view', 'display_action' => Request :: get('cid') != null ? 'discuss' : 'view_item', Request :: get('cid') != null ? 'cid' : Tool :: PARAM_PUBLICATION_ID => $this->cid, Tool :: PARAM_PUBLICATION_ID => $this->pid));
             else
-                $this->redirect(Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('cid') != null ? 'discuss' : 'view_item', Request :: get('cid') != null ? 'cid' : 'pid' => $this->cid, 'pid' => $this->pid));
+                $this->redirect(Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('cid') != null ? 'discuss' : 'view_item', Request :: get('cid') != null ? 'cid' : Tool :: PARAM_PUBLICATION_ID => $this->cid, Tool :: PARAM_PUBLICATION_ID => $this->pid));
         
         }
     }

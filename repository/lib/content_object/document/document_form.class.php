@@ -186,10 +186,11 @@ class DocumentForm extends ContentObjectForm
                     $object->set_filename(basename($entry));
                     $object->set_filesize(Filesystem :: get_disk_space($full_path));
                     $object->set_hash($hash);
-
-                    $this->set_content_object($object);
+					$object->set_title(basename($url));
+					$object->set_content_hash(md5_file($full_path));
+					
+	                $this->set_content_object($object);
                     $object = parent :: create_content_object();
-                    $object->set_title(basename($url));
                     if (isset($created_directories[dirname($url)]))
                     {
                         $object->set_parent_id($created_directories[dirname($url)]);

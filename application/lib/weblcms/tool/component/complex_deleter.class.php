@@ -50,11 +50,11 @@ class ToolComplexDeleterComponent extends ToolComponent
             switch (Request :: get('tool'))
             {
                 case 'wiki' :
-                    $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, 'pid' => Request :: get('pid')));
+                    $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID)));
                     break;
                 
                 case 'learning_path' :
-                    $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view_clo', 'pid' => Request :: get('pid')));
+                    $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view_clo', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID)));
             }
         }
     }

@@ -33,6 +33,7 @@ class PeerAssessmentPublicationBrowserTable extends ObjectTable
     function get_objects($offset, $count, $order_property = null)
     {
         $objects = $this->get_data_provider()->get_objects($offset, $count, $order_property);
+        dump($objects);
         $table_data = array();
         $column_count = $this->get_column_model()->get_column_count();
         foreach ($objects as $object)
@@ -41,7 +42,7 @@ class PeerAssessmentPublicationBrowserTable extends ObjectTable
             if ($this->has_form_actions())
             {
                 $row[] = $this->get_cell_renderer()->render_id_cell($object);
-                //$row[] = $object->get_id();
+                $row[] = $object->get_id();
             }
             for($i = 0; $i < $column_count; $i ++)
             {

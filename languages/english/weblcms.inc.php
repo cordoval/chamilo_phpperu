@@ -415,6 +415,4 @@ $lang['weblcms']['DeleteAllCourses'] = 'Delete All Courses';
 $lang['weblcms']['Mixed'] = 'Mixed';
 $lang['weblcms']['Open'] = 'Open';
 $lang['weblcms']['Closed'] = 'Closed';
-
-
 ?>

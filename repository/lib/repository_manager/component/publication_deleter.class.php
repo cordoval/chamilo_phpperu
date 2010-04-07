@@ -20,7 +20,7 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComp
         
         if (! empty($id) && !empty($application))
         {
-            $succes = RepositoryDataManager :: get_instance()->delete_content_object_publication($application, $id);
+            $succes = RepositoryDataManager :: delete_content_object_publication($application, $id);
 
             if ($succes)
             {

@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * $Id: wiki_publication_form.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.forms
@@ -60,8 +60,9 @@ class WikiPublicationForm extends FormValidator
         $attributes['defaults'] = array();
         if(WebApplication :: is_active('gradebook'))
         {
-        	require_once dirname (__FILE__) . '/../../gradebook/forms/evaluation_form.class.php';
-        	EvaluationForm :: build_evaluation_question($this);
+        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
+        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+        	$gradebook_internal_item_form->build_evaluation_question($this);
         }
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
 
@@ -118,6 +119,35 @@ class WikiPublicationForm extends FormValidator
         $wiki_publication->set_email_sent($values[WikiPublication :: PROPERTY_EMAIL_SENT] ? $values[WikiPublication :: PROPERTY_EMAIL_SENT] : 0);
 
         return $wiki_publication->update();
+    }
+    
+    function create_wiki_publication($object, $values)
+    {
+    	$wiki_publication = new WikiPublication();
+		$wiki_publication->set_content_object($object);
+		
+        if ($values['forever'] != 0)
+        {
+            $wiki_publication->set_from_date(0);
+            $wiki_publication->set_to_date(0);
+        }
+        else
+        {
+            $wiki_publication->set_from_date(Utilities :: time_from_datepicker($values['from_date']));
+            $wiki_publication->set_to_date(Utilities :: time_from_datepicker($values['to_date']));
+        }
+        $wiki_publication->set_hidden($values['hidden'] ? 1 : 0);
+        $wiki_publication->set_publisher(Session :: get_user_id());
+        $wiki_publication->set_published(time());
+        $wiki_publication->set_modified(time());
+        $wiki_publication->set_display_order(0);
+        $wiki_publication->create();
+		if($values['evaluation'] == true)
+		{
+        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+        	$gradebook_internal_item_form->create_internal_item($wiki_publication->get_id(), false);
+		} 
+        return $wiki_publication;
     }
 
     /**

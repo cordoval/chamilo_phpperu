@@ -97,7 +97,7 @@ class ContentObjectPublicationFeedback extends ContentObjectPublication
 
     function create()
     {
-        if (Request :: get('pid'))
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
             $this->update_parent_modified_date();
         return parent :: create();
     }

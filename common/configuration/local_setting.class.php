@@ -16,7 +16,7 @@ class LocalSetting
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
-    
+
     /**
      * Parameters defined in the configuration. Stored as an associative array.
      */
@@ -53,17 +53,17 @@ class LocalSetting
     static function get($variable, $application = 'admin')
     {
         $instance = self :: get_instance();
-        
-        $params = $instance->params;
-        
+
+        $params = & $instance->params;
+
         if(!$params)
         {
         	return PlatformSetting :: get($variable, $application);
         }
-        
+
         if (isset($params[$application]) && isset($params[$application][$variable]))
         {
-           return $instance->params[$application][$variable];
+           return $params[$application][$variable];
         }
         else
         {
@@ -78,9 +78,9 @@ class LocalSetting
         {
         	return null;
         }
-        
+
         $params = array();
-        
+
         $condition = new EqualityCondition(UserSetting :: PROPERTY_USER_ID, $user_id);
         $user_settings = UserDataManager :: get_instance()->retrieve_user_settings($condition);
         while($user_setting = $user_settings->next_result())
@@ -89,17 +89,17 @@ class LocalSetting
         	$setting = AdminDataManager :: get_instance()->retrieve_settings($condition)->next_result();
         	$params[$setting->get_application()][$setting->get_variable()] = $user_setting->get_value();
         }
-        
+
         return $params;
     }
-    
+
     static function create_local_setting($variable, $value, $application = 'admin', $user_id = null)
     {
     	if(!$user_id)
     	{
     		$user_id = Session :: get_user_id();
     	}
-    	
+
     	$setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name($variable, $application);
     	if($setting && $setting->get_user_setting() == 1)
     	{

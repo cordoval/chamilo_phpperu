@@ -7,5 +7,9 @@
 
 class ComplexPeerAssessment extends ComplexContentObjectItem
 {
+	function get_allowed_types()
+    {
+        return array('competence');
+    }
 }
 ?>

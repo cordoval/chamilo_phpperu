@@ -9,6 +9,9 @@
  */
 class PeerAssessment extends ContentObject
 {
-
+	function get_allowed_types()
+    {
+        return array('competence');
+    }
 }
 ?>

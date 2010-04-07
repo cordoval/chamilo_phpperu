@@ -34,11 +34,18 @@ class Theme
      */
     private $template;
 
+    /**
+     * Cache for results of get_path() method.
+     */
+    private $path;
+
     function Theme()
     {
         $this->theme = PlatformSetting :: get('theme');
         $this->template = new Phpbb2TemplateWrapper($this->theme);
 //        $this->template = ChamiloTemplate :: get_instance($this->theme);
+
+        $this->path = array();
     }
 
     /**
@@ -63,6 +70,8 @@ class Theme
         $template = $instance->get_template();
         $template->set_theme($theme);
         $template->reset();
+
+        $this->path = array();
     }
 
     function get_application()
@@ -78,20 +87,25 @@ class Theme
 
     function get_path($path_type)
     {
+    	if (isset($this->path[$path_type]))
+    	{
+    		return $this->path[$path_type];
+    	}
+
         switch ($path_type)
         {
             case WEB_IMG_PATH :
-                return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/images/';
+                return $this->path[$path_type] = Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/images/';
             case SYS_IMG_PATH :
-                return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/images/';
+                return $this->path[$path_type] = Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/images/';
             case WEB_CSS_PATH :
-                return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/css/';
+                return $this->path[$path_type] = Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/css/';
             case SYS_CSS_PATH :
-                return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/css/';
+                return $this->path[$path_type] = Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/css/';
             case WEB_THEME_PATH :
-                return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/';
+                return $this->path[$path_type] = Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/';
             case SYS_THEME_PATH :
-                return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/';
+                return $this->path[$path_type] = Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/';
         }
     }
 
@@ -100,8 +114,7 @@ class Theme
      */
     function get_theme_path()
     {
-        $instance = self :: get_instance();
-        return $instance->get_path(WEB_THEME_PATH);
+        return self :: get_instance()->get_path(WEB_THEME_PATH);
     }
 
     /**
@@ -118,8 +131,7 @@ class Theme
      */
     function get_common_css_path()
     {
-        $instance = self :: get_instance();
-        return $instance->get_path(WEB_CSS_PATH) . 'common.css';
+        return self :: get_instance()->get_path(WEB_CSS_PATH) . 'common.css';
     }
 
     /**
@@ -147,8 +159,7 @@ class Theme
      */
     static function get_common_image_path()
     {
-        $instance = self :: get_instance();
-        return $instance->get_path(WEB_IMG_PATH) . 'common/';
+        return self :: get_instance()->get_path(WEB_IMG_PATH) . 'common/';
     }
 
     /**
@@ -156,8 +167,7 @@ class Theme
      */
     static function get_common_image_system_path()
     {
-        $instance = self :: get_instance();
-        return $instance->get_path(SYS_IMG_PATH) . 'common/';
+        return self :: get_instance()->get_path(SYS_IMG_PATH) . 'common/';
     }
 
     static function get_instance()
@@ -176,7 +186,7 @@ class Theme
         $path = Path :: get(SYS_LAYOUT_PATH);
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
 
-        foreach ($directories as $index => $directory)
+        foreach ($directories as $index => & $directory)
         {
             if (substr($directory, 0, 1) != '.')
             {
@@ -189,36 +199,29 @@ class Theme
 
     static function get_common_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
-        $image = self :: get_common_image_path() . $image . '.' . $extension;
-
-        $icon = new ToolbarItem($label, $image, $href, $display, $confirmation);
+        $icon = new ToolbarItem($label, self :: get_common_image_path() . $image . '.' . $extension, $href, $display, $confirmation);
         return $icon->as_html();
     }
 
     static function get_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
-        $image = self :: get_image_path() . $image . '.' . $extension;
-
-        $icon = new ToolbarItem($label, $image, $href, $display, $confirmation);
+        $icon = new ToolbarItem($label, self :: get_image_path() . $image . '.' . $extension, $href, $display, $confirmation);
         return $icon->as_html();
     }
 
     function get_content_object_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
-        $image = 'content_object/' . $image;
-        return self :: get_common_image($image, $extension, $label, $href, $display, $confirmation);
+        return self :: get_common_image('content_object/' . $image, $extension, $label, $href, $display, $confirmation);
     }
 
     function get_treemenu_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
-        $image = 'treemenu/' . $image;
-        return self :: get_common_image($image, $extension, $label, $href, $display, $confirmation);
+        return self :: get_common_image('treemenu/' . $image, $extension, $label, $href, $display, $confirmation);
     }
 
     function get_treemenu_type_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
-        $image = 'treemenu_types/' . $image;
-        return self :: get_common_image($image, $extension, $label, $href, $display, $confirmation);
+        return self :: get_common_image('treemenu_types/' . $image, $extension, $label, $href, $display, $confirmation);
     }
 }
 ?>

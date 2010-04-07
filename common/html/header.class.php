@@ -142,14 +142,14 @@ class Header
      */
     public function toHtml()
     {
-        foreach ($this->http_headers as $index => $http_header)
+        foreach ($this->http_headers as $index => & $http_header)
         {
             header($http_header);
         }
         $output[] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
         $output[] = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="' . $this->language_code . '" lang="' . $this->language_code . '">';
         $output[] = ' <head>';
-        foreach ($this->html_headers as $index => $html_header)
+        foreach ($this->html_headers as $index => & $html_header)
         {
             $output[] = '  ' . $html_header;
         }

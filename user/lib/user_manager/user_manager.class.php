@@ -352,8 +352,7 @@ class UserManager extends CoreApplication
      */
     function user_deletion_allowed($user)
     {
-        $udm = UserDataManager :: get_instance();
-        return $udm->user_deletion_allowed($user);
+        return UserDataManager :: user_deletion_allowed($user);
     }
 
     /**

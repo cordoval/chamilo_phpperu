@@ -12,6 +12,9 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
             case $type == 'internal_item' :
                 $this->create_internal_item();
                 break;
+            case $type == 'evaluation' : 
+            	$this->create_evaluation();
+            	break;
 //            case self :: ACTION_DELETE :
 //                $component = EvaluationManagerComponent :: factory('Deleter', $this);
 //                break;
@@ -24,12 +27,15 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
         }
 	}
 	
-	function create_internal_item()
+	function create_evaluation()
 	{
-		$internal_item = new InternalItem();
-		$internal_item->set_application($this->parameters['application']);
-		$internal_item->set_publication_id($this->parameters['publication_id']);
-		$internal_item->set_calculated($this->parameters['calculated']);
-		$internal_item->create();
+       	$evaluation = new Evaluation();
+        $evaluation->set_user_id($this->parameters['user_id']);
+        $evaluation->set_evaluator_id($this->get_user_id());
+        $evaluation->set_format_id($this->parameters['values']['format_list']);
+        $evaluation->set_evaluation_date(mktime(date()));
+        $evaluation->create();
+        echo $evaluation->get_id();
+        exit;
 	}
 }
