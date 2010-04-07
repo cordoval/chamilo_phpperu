@@ -13,8 +13,8 @@ class WikiManagerWikiEvaluationComponent extends WikiManagerComponent
         {
 			$wiki_publication = Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION);
         	$evaluation_manager = new EvaluationManager($this, $wiki_publication);
-        	$test = $evaluation_manager->retrieve_all_evaluations_on_publication();
-        	dump($test);
+//        	$test = $evaluation_manager->retrieve_all_evaluations_on_publication();
+//        	dump($test);
         }  
         else
         {

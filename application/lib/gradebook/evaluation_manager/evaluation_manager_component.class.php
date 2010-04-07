@@ -15,4 +15,14 @@ class EvaluationManagerComponent extends SubManagerComponent
     {
         return $this->get_parent()->retrieve_evaluation($id);
     }
+    
+    function retrieve_all_evaluations_on_publication($offset = null, $count = null, $order_property = null)
+    {
+    	return $this->get_parent()->retrieve_all_evaluations_on_publication($offset, $count, $order_property);
+    }
+    
+    function count_all_evaluations_on_publication()
+    {
+    	return $this->get_parent()->count_all_evaluations_on_publication();
+    }
 }

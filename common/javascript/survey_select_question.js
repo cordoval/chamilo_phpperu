@@ -184,11 +184,10 @@ $(function ()
 		
 		rows.each(function ()
 		{
-			var weightField, weightFieldName, id, appendField;
+			var rowName, id, appendField;
 		    
-			weightField = $('input[name*="option_weight"]', this);
-			weightFieldName = weightField.attr('name');
-		    id = weightFieldName.substr(14, weightFieldName.length - 15);
+			rowName = $(this).attr('id');
+		    id = rowName.substr(7);
 		    appendField = deleteField.replace(/\$option_number/g, id);
 	
 		    $('.remove_option', this).remove();
@@ -210,28 +209,6 @@ $(function ()
 			newType = 'checkbox';
 			newLabel = getTranslation('SwitchToSingleSelect', 'repository');
 		}
-		
-		$('.option').each(function ()
-		{
-			var id, correct, value, newField, parent;
-			
-			id = $(this).attr('id');
-			correct = 'correct[' + counter + ']';
-			value = 1;
-			
-			if (newType === 'radio')
-			{
-				correct = 'correct';
-				value = counter;
-			}
-			
-			newField = '<input id="' + id + '" class="option" type="' + newType + '" value="' + value + '" name="' + correct + '" />';
-			parent = $(this).parent();
-			parent.empty();
-			parent.append(newField);
-			counter += 1;
-			
-		});
 		
 		$('#select_answer_type').val(newType);
 		setMemory('select_answer_type', newType);
@@ -280,8 +257,7 @@ $(function ()
 			name = 'correct[' + numberOfOptions + ']',
 			id = name,
 			value = 1,
-			fieldOption, fieldAnswer, fieldComment, fieldScore, fieldDelete, string,
-			parameters, editorName;
+			fieldAnswer, fieldDelete, string;
 		
 		setMemory('select_number_of_options', newNumber);
 		
@@ -293,17 +269,8 @@ $(function ()
 			value = numberOfOptions;
 		}
 		
-		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
-		editorName = 'comment[' + numberOfOptions + ']';
-		
-//		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
-		fieldAnswer = '<input type="text" name="option[' + numberOfOptions + ']" style="width: 300px;" />';
-//		fieldComment = renderHtmlEditor(editorName, parameters);
-//		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
+		fieldAnswer = '<input type="text" name="value[' + numberOfOptions + ']" style="width: 300px;" />';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
-		
-//		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
-//				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldDelete + '</td></tr>';
 		

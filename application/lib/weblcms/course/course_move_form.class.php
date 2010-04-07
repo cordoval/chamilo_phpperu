@@ -30,7 +30,7 @@ class CourseMoveForm extends FormValidator
 
     function build_form()
     {
-    	//$this->addElement('hidden', Course :: PROPERTY_ID);
+    	$this->addElement('hidden', Course :: PROPERTY_ID);
         $this->addElement('select', self :: SELECT_COURSE_TYPE, Translation :: get('New Course Type'), $this->get_course_types());
         $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
                  
