@@ -51,6 +51,11 @@ class CourseDataReportingTemplate extends ReportingTemplate
     	return WeblcmsManager::APPLICATION_NAME;
     }
     
+    function is_platform()
+    {
+    	return true;
+    }
+    
     function get_no_of_courses()
     {
     	$course_weblcms_block = new WeblcmsNoOfCoursesReportingBlock($this);

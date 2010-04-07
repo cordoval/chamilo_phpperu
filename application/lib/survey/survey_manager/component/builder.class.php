@@ -1,8 +1,4 @@
 <?php
-/**
- * $Id: builder.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component
- */
 
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
@@ -39,12 +35,12 @@ class SurveyManagerBuilderComponent extends SurveyManagerComponent
         
         if ($testcase)
         {
-            $new_trail->add(new Breadcrumb($this->get_url(array(TestCaseManager :: PARAM_ACTION => TestCaseManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
+            $new_trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
         
         }
         else
         {
-            $new_trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
+            $new_trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
         
         }
         

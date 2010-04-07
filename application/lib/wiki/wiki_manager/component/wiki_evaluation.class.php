@@ -11,8 +11,10 @@ class WikiManagerWikiEvaluationComponent extends WikiManagerComponent
         $this->display_header($trail);
         if (Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION))
         {
-        	$wiki_publication = $this->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
-        	$evaluation_manager = new EvaluationManager($this);
+			$wiki_publication = Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION);
+        	$evaluation_manager = new EvaluationManager($this, $wiki_publication);
+//        	$test = $evaluation_manager->retrieve_all_evaluations_on_publication();
+//        	dump($test);
         }  
         else
         {

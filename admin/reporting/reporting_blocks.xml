@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<application name="admin">
-	<reporting_block name="AdminNoOfApplications"
-		application="admin" function="getNoOfApplications" displaymode="Text"
-		width="500px" height="500px" />
-	<reporting_block name="AdminMostUsedApplications"
-		application="admin" function="getMostUsedApplications" displaymode="Text"
-		width="500px" height="500px" />
-</application>

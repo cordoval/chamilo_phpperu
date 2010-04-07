@@ -1,28 +1,19 @@
 <?php
-/**
- * $Id: visibility_changer.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component
- */
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
 
-/**
- * Component to create a new survey_publication object
- * @author Sven Vanpoucke
- * @author 
- */
 class SurveyManagerVisibilityChangerComponent extends SurveyManagerComponent
 {
-	
-	const MESSAGE_VISIBILITY_CHANGED = 'VisibilityChanged';
-	const MESSAGE_VISIBILITY_NOT_CHANGED = 'VisibilityNotChanged';
-	
+    
+    const MESSAGE_VISIBILITY_CHANGED = 'VisibilityChanged';
+    const MESSAGE_VISIBILITY_NOT_CHANGED = 'VisibilityNotChanged';
+
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $pid = Request :: get('survey_publication');
+        $pid = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         
         if ($pid)
         {

@@ -20,6 +20,10 @@ class FilledCubicPchartReportingChartFormatter extends PchartReportingChartForma
 
         //$width = $this->reporting_block->get_width()-20;
         $width = 100 + count($data) * 30;
+   		if ($width < 500)
+        {
+        	$width = 500;
+        }
         //$height = $this->reporting_block->get_height() - 50;
         $height = 270;
         $legend = 30 + sizeof($datadescription["Values"]) * 30;

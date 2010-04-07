@@ -63,7 +63,10 @@ abstract class ReportingBlock
         $html[] = '<div class="reporting_header">';
         $html[] = '<div class="reporting_header_title">' . Translation::get(get_class($this)) . '</div>';
         $html[] = '<div class="reporting_header_displaymode">';
-        $html[] = $form->toHtml();
+        if (count($this->get_available_displaymodes()) > 1)
+        {
+        	$html[] = $form->toHtml();
+        }
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
@@ -301,13 +304,20 @@ abstract class ReportingBlock
     {
     	$display = Request::post(ReportingFormatterForm::FORMATTER_TYPE);
     	$display_get = Request::get(ReportingFormatterForm::FORMATTER_TYPE);
+    	$display_mode = $this->get_displaymodes();
         if (isset($display))
         {
-        	return $display;
+        	if (array_key_exists($display, $display_mode))
+        	{
+        		return $display;
+        	}
+        	else {
+        		$array_keys = array_keys($display_mode);
+        		return $array_keys[0];
+        	}
         }
         elseif (isset($display_get))
         {
-        	$display_mode = $this->get_displaymodes();
         	if (array_key_exists($display_get, $display_mode))
         	{
         		return $display_get;
@@ -319,57 +329,11 @@ abstract class ReportingBlock
         }
         else
         {
-        	$display_mode = $this->get_displaymodes();
         	$array_keys = array_keys($display_mode);
         	return $array_keys[0];
         }
     }
 
-    /*public function set_displaymode($value)
-    {
-        $this->set_default_property(self :: PROPERTY_DISPLAYMODE, $value);
-    }
-
-    public function get_excluded_displaymodes()
-    {
-        return $this->get_default_property(self :: PROPERTY_EXCLUDE_DISPLAYMODES);
-    }
-
-    public function set_excluded_displaymodes($value)
-    {
-        $this->set_default_property(self :: PROPERTY_EXCLUDE_DISPLAYMODES, $value);
-    }
-
-    /*public function get_width()
-    {
-        return $this->get_default_property(self :: PROPERTY_WIDTH);
-    }
-
-    public function set_width($value)
-    {
-        $this->set_default_property(self :: PROPERTY_WIDTH, $value);
-    }
-
-    public function get_height()
-    {
-        return $this->get_default_property(self :: PROPERTY_HEIGHT);
-    }
-
-    public function set_height($value)
-    {
-        $this->set_default_property(self :: PROPERTY_HEIGHT, $value);
-    }
-
-    /*public function get_sortable()
-    {
-        return $this->get_default_property(self :: PROPERTY_SORTABLE);
-    }
-
-    public function set_sortable($value)
-    {
-        $this->set_default_property(self :: PROPERTY_SORTABLE, $value);
-    }
-*/
     public function is_sortable()
     {
         return false;

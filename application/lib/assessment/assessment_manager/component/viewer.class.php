@@ -119,7 +119,7 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
 
     function get_user_id()
     {
-        if ($this->assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
+        if ($this->assessment->get_assessment_type() == Assessment :: TYPE_SURVEY)
         {
             //if ($this->assessment->get_anonymous() == true)
             return 0;

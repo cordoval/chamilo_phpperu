@@ -9,7 +9,8 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 
     public function SurveyViewerWizardProcess($parent)
     {
-        $this->parent = $parent;
+    	$this->parent = $parent->get_parent();
+    	
     }
 
     function perform($page, $actionName)

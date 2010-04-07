@@ -17,21 +17,37 @@ class IcalImport extends ContentObjectImport
 
     public function import_content_object()
     {
+    	
+    	
         $file = $this->get_content_object_file();
 
         $content = file_get_contents($file['tmp_name']);
-        $lines = explode("\n", $content);
-        $count = count($lines);
+        $read_lines = explode("\n", $content);
+        $count = count($read_lines);
 
+        //unset empty line
+        $counter = 0;
+    	for($i = 0; $i < $count; $i ++)
+        {
+            $line = trim($read_lines[$i]);
+            if ($line != '')
+            {
+                $lines[$counter] = $read_lines[$i];
+                $counter++;
+            }
+        }
+ 
         for($i = 0; $i < $count; $i ++)
         {
-            $line = $lines[$i];
+            $line = rtrim($lines[$i]);
+            
+            
             if ($line == 'BEGIN:VEVENT')
             {
                 $i = $this->import_event($lines, $i, $count);
             }
         }
-
+        
         return $this->calendar_event_ids;
     }
 
@@ -45,7 +61,16 @@ class IcalImport extends ContentObjectImport
 
         for($i; $i < $count; $i ++)
         {
-            $line = $lines[$i];
+            $line = trim($lines[$i]);
+
+            while((substr($lines[$i+1], 0, 2) == '\t') || (substr($lines[$i+1], 0, 1) == ' '))
+            {
+            	$trimmed_line = trim($lines[$i+1]);
+            	$i++;
+            	$line .= $trimmed_line;
+
+            }
+            
             if ($line == 'END:VEVENT')
             {
                 break;
@@ -64,15 +89,37 @@ class IcalImport extends ContentObjectImport
             if (substr($line, 0, 7) == 'DTSTART')
             {
                 $start = substr($line, 8);
-                $time = strtotime($start);
-                $calendar_event->set_start_date($time);
+                
+                $timezone = substr($start, 0, 4);
+                if($timezone == 'TZID')
+                {
+                	$time_part = substr($start,strrpos($start,':')+1);
+                	$time = strtotime($time_part);
+                	$calendar_event->set_start_date($time);
+            	}
+            	else
+            	{
+                	$time = strtotime($start);
+                	$calendar_event->set_start_date($time);
+            	}
+               
             }
 
             if (substr($line, 0, 5) == 'DTEND')
             {
-                $end = substr($line, 6);
-                $time = strtotime($end);
-                $calendar_event->set_end_date($time);
+            	$end = substr($line, 6);
+                $timezone = substr($end, 0, 4);
+                if($timezone == 'TZID')
+                {
+                	$time_part = substr($end,strrpos($end,':')+1);
+                	$time = strtotime($time_part);
+                	$calendar_event->set_end_date($time);
+            	}
+            	else
+            	{
+	               	$time = strtotime($end);
+                	$calendar_event->set_end_date($time);
+            	}
             }
 
             if (substr($line, 0, 5) == 'RRULE')
@@ -134,7 +181,7 @@ class IcalImport extends ContentObjectImport
             }
 
         }
-
+        
         $calendar_event->create();
         $this->calendar_event_ids[] = $calendar_event->get_id();
 
