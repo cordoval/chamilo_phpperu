@@ -78,7 +78,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
         }
 
         $subselect_condition = new AndCondition($subselect_conditions);
-        $conditions[] = new SubselectCondition(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $conditions[] = new SubselectCondition(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 
         $access = array();
         $access[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
@@ -109,7 +109,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
     function get_introduction()
     {
         $subselect_condition = new EqualityCondition('type', 'introduction');
-        $condition = new SubselectCondition(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $condition = new SubselectCondition(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 
         $publications = AlexiaDataManager :: get_instance()->retrieve_alexia_publications($condition);
         if (! $publications->is_empty())

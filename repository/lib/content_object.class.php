@@ -625,8 +625,7 @@ class ContentObject extends DataClass implements AccessibleContentObject
             $index = $this->get_display_order_index();
             if (! $index)
             {
-                $dm = RepositoryDataManager :: get_instance();
-                return $dm->assign_content_object_display_order_index($this);
+                return RepositoryDataManager :: assign_content_object_display_order_index($this);
             }
             return $index;
         }
@@ -826,8 +825,8 @@ class ContentObject extends DataClass implements AccessibleContentObject
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        if ($rdm->delete_content_object_publications($this) && $rdm->delete_content_object_attachments($this) &&
-        	$rdm->delete_content_object_includes($this) && $rdm->delete_clois_for_content_object($this) && $rdm->delete_assisting_content_objects($this))
+        if (RepositoryDataManager :: delete_content_object_publications($this) && $rdm->delete_content_object_attachments($this) &&
+        	$rdm->delete_content_object_includes($this) && RepositoryDataManager :: delete_clois_for_content_object($this) && $rdm->delete_assisting_content_objects($this))
         {
             return true;
         }

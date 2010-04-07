@@ -1,20 +1,9 @@
 <?php
-/**
- * $Id: browser.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey.survey_manager.component
- */
-
-
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../survey_publication_category_menu.class.php';
 require_once dirname(__FILE__) . '/survey_publication_browser/survey_publication_browser_table.class.php';
 
-/**
- * survey component which allows the user to browse his survey_publications
- * @author Sven Vanpoucke
- * @author 
- */
 class SurveyManagerBrowserComponent extends SurveyManagerComponent
 {
     private $action_bar;
@@ -22,7 +11,7 @@ class SurveyManagerBrowserComponent extends SurveyManagerComponent
     function run()
     {
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseSurveyPublications')));
+        $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
         
         $this->action_bar = $this->get_action_bar();
         $menu = $this->get_menu();
@@ -43,13 +32,13 @@ class SurveyManagerBrowserComponent extends SurveyManagerComponent
 
     function get_table()
     {
-        $table = new SurveyPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => 'survey', Application :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS), $this->get_condition());
+        $table = new SurveyPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => SurveyManager :: APPLICATION_NAME, Application :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS), $this->get_condition());
         return $table->as_html();
     }
 
     function get_menu()
     {
-        $current_category = Request :: get('category');
+        $current_category = Request :: get(SurveyPublicationCategoryMenu :: PARAM_CATEGORY);
         $current_category = $current_category ? $current_category : 0;
         $menu = new SurveyPublicationCategoryMenu($current_category);
         return $menu;
@@ -77,7 +66,7 @@ class SurveyManagerBrowserComponent extends SurveyManagerComponent
 
     function get_condition()
     {
-        $current_category = Request :: get('category');
+        $current_category = Request :: get(SurveyPublicationCategoryMenu :: PARAM_CATEGORY);
         $current_category = $current_category ? $current_category : 0;
         
         $query = $this->action_bar->get_query();
@@ -105,13 +94,13 @@ class SurveyManagerBrowserComponent extends SurveyManagerComponent
             $search_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
             $search_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
             $subselect_condition = new OrCondition($search_conditions);
-            $conditions[] = new SubselectCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+            $conditions[] = new SubselectCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         }
         
         $access = array();
         $access[] = new InCondition(SurveyPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(SurveyPublicationUser :: get_table_name()));
         $access[] = new InCondition(SurveyPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(SurveyPublicationGroup :: get_table_name()));
-        $access[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $user->get_id() ); //= );
+        $access[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $user->get_id() );
         
         
         if (! empty($user_id) || ! empty($groups))

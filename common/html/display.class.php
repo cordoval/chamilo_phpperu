@@ -281,13 +281,14 @@ class Display
         }
         if ($titleElement['subTitle'])
         {
-            echo '<br><small>' . $titleElement['subTitle'] . '</small>';
+            echo '<br /><small>' . $titleElement['subTitle'] . '</small>';
         }
         echo '</h3>';
     }
 
     public static function get_progress_bar($percent, $step = 2)
     {
+    	/*
         $html = '<div class="progress_information">';
         $html .= '<div class="progress_bar">';
         for($i = 0; $i < 100; $i += $step)
@@ -306,10 +307,18 @@ class Display
         $html .= '<div class="progress_status">' . round($percent, 2) . ' %</div>';
         $html .= '</div>';
         return $html;
+        */
+    	$done = (int)($percent / $step);
+    	$rest = (int)(100.0 / $step) - $done;
+        return '<div class="progress_information"><div class="progress_bar">' .
+            str_repeat('<div class="done"></div>', $done) .
+            str_repeat('<div class=""></div>', $rest) .
+            '</div><div class="progress_status">' . round($percent, 2) . ' %</div></div>';
     }
 
     public static function get_rating_bar($percent, $show_text = true, $step = 2)
     {
+    	/*
         $html = '<div class="rating_information">';
         $html .= '<div class="rating_bar">';
         for($i = 0; $i < 100; $i += $step)
@@ -342,6 +351,13 @@ class Display
         }
         $html .= '</div>';
         return $html;
+        */
+    	$done = (int)($percent / $step);
+    	$rest = (int)(100.0 / $step) - $done;
+        return '<div class="rating_information"><div class="rating_bar">' .
+            str_repeat('<div class="' . ($percent <= 50 ? 'bad' : $percent <= 75 ? 'average' : 'good') . '"></div>', $done) .
+            str_repeat('<div class=""></div>', $rest) .
+            '</div>' . ($show_text ? '<div class="rating_status">' . round($percent, 2) . ' %</div>' : '') . '</div>';
     }
 
     static function form_category($title = null, $extra_classes = null)

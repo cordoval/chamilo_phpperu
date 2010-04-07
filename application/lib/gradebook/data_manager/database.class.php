@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'condition/condition_translator.class.ph
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
 
-class DatabaseGradebookDataManager extends GradebookDatamanager
+class DatabaseGradebookDataManager extends GradebookDataManager
 {
 
 	private $database;
@@ -36,6 +36,11 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 		return $this->database->create_storage_unit($name,$properties,$indexes);
 	}
 	
+	function get_database()
+	{
+		return $this->database;
+	}
+	
 // gradebook evaluation format items
 	function create_format($evaluation_format)
 	{
@@ -53,24 +58,6 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 		$condition = new EqualityCondition(Format :: PROPERTY_ACTIVE, Format :: EVALUATION_FORMAT_ACTIVE);
 		return $this->database->retrieve_objects(Format :: get_table_name(), $condition);
 	}
-	
-	function retrieve_internal_item_by_publication($application, $publication_id)
-	{
-		$conditions = array();
-		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
-		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
-		$condition = new AndCondition($conditions);
-		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
-	}
-//	
-//	function create_external_item($publication)
-//	{
-//		$internal_item = new InternalItem();
-//		$internal_item->set_application(str_replace('_publication', '',$publication->get_object_name()));
-//		$internal_item->set_publication_id($publication->get_id());
-//		$internal_item->set_calculated(true);
-//		return $this->database->create($internal_item);
-//	}
 
 	function retrieve_evaluation_formats()
 	{
@@ -93,25 +80,134 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	{
 		return $this->database->create($internal_item);
 	}
-
-	//gradebook_items
-
-	/*function get_next_gradebook_id(){
-		$id = $this->database->get_next_id(Gradebook :: get_table_name());
-		return $id;
+	
+	function retrieve_internal_item_by_publication($application, $publication_id)
+	{
+//		$gdm = GradebookDataManager :: get_instance();
+//		$gradebook_evaluation_alias = $gdm->get_database()->get_alias(Evaluation :: get_table_name());
+//		$gradebook_internal_item_alias = $gdm->get_database()->get_alias(InternalItem :: get_table_name());
+//		$gradebook_internal_item_instance_alias = $gdm->get_database()->get_alias(InternalItemInstance :: get_table_name()); 
+		$conditions = array();
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id);
+		$condition = new AndCondition($conditions);
+		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
+	}
+// internal item instance
+	
+	function delete_internal_item_instance($internal_item_instance)
+	{
+		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_ID, $internal_item_instance->get_id());
+		return $this->database->delete(InternalItemInstance :: get_table_name(), $condition);
+	}
+	
+	function retrieve_internal_item_instance_by_evaluation($evaluation_id)
+	{
+		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_EVALUATION_ID, $evaluation_id);
+		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
 	}
 
-	function delete_gradebook($gradebook){
-		$condition = new EqualityCondition(Gradebook :: PROPERTY_ID, $gradebook->get_id());
-		$bool = $this->database->delete($gradebook->get_table_name(), $condition);
-
-		$condition_rel_users = new EqualityCondition(GradebookRelUser :: PROPERTY_GRADEBOOK_ID, $gradebook->get_id());
-		$gradebook_rel_users = $this->retrieve_gradebook_rel_users($condition_rel_users);
-		while($gradebook_rel_user = $gradebook_rel_users->next_result())
+// gradebook evaluation
+	
+	function create_evaluation($evaluation)
+	{
+		return $this->database->create($evaluation);
+	}
+	
+	function retrieve_all_evaluations_on_publication($publication_id, $offset = null, $max_objects = null, $order_by = null)
+	{
+		$gdm = GradebookDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
+		
+		$gradebook_evaluation_alias = $gdm->get_database()->get_alias(Evaluation :: get_table_name());
+		$gradebook_internal_item_alias = $gdm->get_database()->get_alias(InternalItem :: get_table_name());
+		$gradebook_internal_item_instance_alias = $gdm->get_database()->get_alias(InternalItemInstance :: get_table_name()); 
+		$gradebook_grade_evaluation_alias = $gdm->get_database()->get_alias(GradeEvaluation :: get_table_name());  
+		$user_alias = $gdm->get_database()->get_alias(User :: get_table_name());   
+		$gradebook_format_alias = $gdm->get_database()->get_alias(Format :: get_table_name());
+		
+		$query = 'SELECT ' . $gradebook_evaluation_alias . '.' . $this->database->escape_column_name(Evaluation :: PROPERTY_EVALUATION_DATE); 
+		$query .= ', CONCAT(' . $user_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_LASTNAME) . ', " ",' . $user_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_FIRSTNAME) . ') AS user';
+		$query .= ', CONCAT(' . $user_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_LASTNAME) . ', " ",' . $user_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_FIRSTNAME) . ') AS evaluator';
+		$query .= ', ' . $gradebook_format_alias . '.' . $this->database->escape_column_name(Format :: PROPERTY_TITLE); 
+		$query .= ', ' . $gradebook_grade_evaluation_alias . '.' . $this->database->escape_column_name(GradeEvaluation :: PROPERTY_SCORE);
+		$query .= ' FROM ' . $this->database->escape_table_name(InternalItem :: get_table_name()) . ' AS ' . $gradebook_internal_item_alias;
+		$query .= ' JOIN ' . $this->database->escape_table_name(InternalItemInstance :: get_table_name()) . ' AS ' . $gradebook_internal_item_instance_alias . ' ON ' . $this->database->escape_column_name(InternalItem :: PROPERTY_ID, $gradebook_internal_item_alias) . ' = ' . $this->database->escape_column_name(InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID, $gradebook_internal_item_instance_alias); 
+		$query .= ' JOIN ' . $this->database->escape_table_name(Evaluation :: get_table_name()) . ' AS ' . $gradebook_evaluation_alias . ' ON ' . $this->database->escape_column_name(Evaluation :: PROPERTY_ID, $gradebook_evaluation_alias) . ' = ' . $this->database->escape_column_name(InternalItemInstance :: PROPERTY_EVALUATION_ID, $gradebook_internal_item_instance_alias); 
+		$query .= ' JOIN ' . $this->database->escape_table_name(GradeEvaluation :: get_table_name()) . ' AS ' . $gradebook_grade_evaluation_alias . ' ON ' . $this->database->escape_column_name(GradeEvaluation :: PROPERTY_ID, $gradebook_grade_evaluation_alias) . ' = ' . $this->database->escape_column_name(Evaluation :: PROPERTY_ID, $gradebook_evaluation_alias); 
+		$query .= ' JOIN ' . $udm->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $udm->escape_column_name(User :: PROPERTY_ID, $user_alias) . ' = ' . $this->database->escape_column_name(Evaluation :: PROPERTY_USER_ID, $gradebook_evaluation_alias);
+		$query .= ' JOIN ' . $this->database->escape_table_name(Format :: get_table_name()) . ' AS ' . $gradebook_format_alias . ' ON ' . $this->database->escape_column_name(Format :: PROPERTY_ID, $gradebook_format_alias) . ' = ' . $this->database->escape_column_name(Evaluation :: PROPERTY_FORMAT_ID, $gradebook_evaluation_alias);
+		
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id, InternalItem :: get_table_name());
+		$translator = new ConditionTranslator($this->database);
+		
+        return $this->database->retrieve_object_set($query, Evaluation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternalItem :: CLASS_NAME);
+	}
+	
+	function count_all_evaluations_on_publication($publication_id)
+	{
+		$gdm = GradebookDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
+		
+		$gradebook_evaluation_alias = $gdm->get_database()->get_alias(Evaluation :: get_table_name());
+		$gradebook_internal_item_alias = $gdm->get_database()->get_alias(InternalItem :: get_table_name());
+		$gradebook_internal_item_instance_alias = $gdm->get_database()->get_alias(InternalItemInstance :: get_table_name()); 
+		$gradebook_grade_evaluation_alias = $gdm->get_database()->get_alias(GradeEvaluation :: get_table_name());  
+		$user_alias = $gdm->get_database()->get_alias(User :: get_table_name());   
+		$gradebook_format_alias = $gdm->get_database()->get_alias(Format :: get_table_name());
+		
+		$query = 'SELECT ' . $gradebook_evaluation_alias . '.' . $this->database->escape_column_name(Evaluation :: PROPERTY_EVALUATION_DATE); 
+		$query .= ', CONCAT(' . $user_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_LASTNAME) . ', " ",' . $user_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_FIRSTNAME) . ') AS user';
+		$query .= ', CONCAT(' . $user_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_LASTNAME) . ', " ",' . $user_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_FIRSTNAME) . ') AS evaluator';
+		$query .= ', ' . $gradebook_format_alias . '.' . $this->database->escape_column_name(Format :: PROPERTY_TITLE); 
+		$query .= ', ' . $gradebook_grade_evaluation_alias . '.' . $this->database->escape_column_name(GradeEvaluation :: PROPERTY_SCORE);
+		$query .= ' FROM ' . $this->database->escape_table_name(InternalItem :: get_table_name()) . ' AS ' . $gradebook_internal_item_alias;
+		$query .= ' JOIN ' . $this->database->escape_table_name(InternalItemInstance :: get_table_name()) . ' AS ' . $gradebook_internal_item_instance_alias . ' ON ' . $this->database->escape_column_name(InternalItem :: PROPERTY_ID, $gradebook_internal_item_alias) . ' = ' . $this->database->escape_column_name(InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID, $gradebook_internal_item_instance_alias); 
+		$query .= ' JOIN ' . $this->database->escape_table_name(Evaluation :: get_table_name()) . ' AS ' . $gradebook_evaluation_alias . ' ON ' . $this->database->escape_column_name(Evaluation :: PROPERTY_ID, $gradebook_evaluation_alias) . ' = ' . $this->database->escape_column_name(InternalItemInstance :: PROPERTY_EVALUATION_ID, $gradebook_internal_item_instance_alias); 
+		$query .= ' JOIN ' . $this->database->escape_table_name(GradeEvaluation :: get_table_name()) . ' AS ' . $gradebook_grade_evaluation_alias . ' ON ' . $this->database->escape_column_name(GradeEvaluation :: PROPERTY_ID, $gradebook_grade_evaluation_alias) . ' = ' . $this->database->escape_column_name(Evaluation :: PROPERTY_ID, $gradebook_evaluation_alias); 
+		$query .= ' JOIN ' . $udm->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $udm->escape_column_name(User :: PROPERTY_ID, $user_alias) . ' = ' . $this->database->escape_column_name(Evaluation :: PROPERTY_USER_ID, $gradebook_evaluation_alias);
+		$query .= ' JOIN ' . $this->database->escape_table_name(Format :: get_table_name()) . ' AS ' . $gradebook_format_alias . ' ON ' . $this->database->escape_column_name(Format :: PROPERTY_ID, $gradebook_format_alias) . ' = ' . $this->database->escape_column_name(Evaluation :: PROPERTY_FORMAT_ID, $gradebook_evaluation_alias);
+		
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id, InternalItem :: get_table_name());
+		$translator = new ConditionTranslator($this->database);
+		
+        return $this->database->count_result_set($query, InternalItem :: get_table_name(), $condition);
+	}
+	
+	function delete_evaluation($evaluation)
+	{
+		
+		$internal_item_instance = $this->retrieve_internal_item_instance_by_evaluation($evaluation->get_id());
+		if (! $this->delete_internal_item_instance($internal_item_instance))
 		{
-			$bool = $bool & $this->delete_gradebook_rel_user($gradebook_rel_user);
+			return false;
 		}
-		return $bool;
+		$grade_evaluation = $this->retrieve_grade_evaluation($evaluation->get_id());
+		if (! $this->delete_grade_evaluation($grade_evaluation))
+		{
+			return false;
+		}
+		$condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $evaluation->get_id());
+		return $this->database->delete($evaluation->get_table_name(), $condition);
+	}
+	
+	function update_evaluation($evaluation)
+	{
+		
+		$grade_evaluation = $this->retrieve_grade_evaluation($evaluation->get_id());
+		if (! $this->update_grade_evaluation($grade_evaluation))
+		{
+			return false;
+		}
+		$condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $evaluation->get_id());
+		return $this->database->update($evaluation, $condition);
+	}
+	/*
+	
+	function delete_external_item_instance($external_item_instance)
+	{
+		$condition = new EqualityCondition(ExternalItemInstance :: PROPERTY_ID, $external_item_instance->get_id());
+		return $this->database->delete(ExternalItemInstance :: get_table_name(), $condition);
 	}
 
 	function update_gradebook($gradebook){
@@ -132,17 +228,36 @@ class DatabaseGradebookDataManager extends GradebookDatamanager
 	function count_gradebooks($conditions = null){
 		return $this->database->count_objects(Gradebook :: get_table_name(), $condition);
 	}
-
-	function retrieve_gradebook($id){
+*/
+	function retrieve_evaluation($id){
 		$condition = new EqualityCondition(Gradebook :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(Gradebook :: get_table_name(), $condition);
+		return $this->database->retrieve_object(Evaluation :: get_table_name(), $condition);
 	}
 
-	function retrieve_gradebooks($condition = null, $offset = null, $count = null, $order_property = null){
-		return $this->database->retrieve_objects(Gradebook :: get_table_name(), $condition, $offset, $count, $order_property);
+	function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null){
+		return $this->database->retrieve_objects(Evaluation :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
-
-
+		
+	//gradebook grade evaluation
+	
+	function retrieve_grade_evaluation($id)
+	{
+		$condition = new EqualityCondition(GradeEvaluation :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(GradeEvaluation :: get_table_name(), $condition);
+	}
+	
+	function delete_grade_evaluation($grade_evaluation)
+	{
+		$condition = new EqualityCondition(GradeEvaluation :: PROPERTY_ID, $grade_evaluation->get_id());
+		return $this->database->delete(GradeEvaluation :: get_table_name(), $condition);		
+	}
+	
+	function update_grade_evaluation($grade_evaluation)
+	{
+		$condition = new EqualityCondition(GradeEvaluation :: PROPERTY_ID, $grade_evaluation->get_id());
+		return $this->database->update(GradeEvaluation :: get_table_name(), $condition);
+	}
+/*
 	//gradebook_items rel user
 
 	function create_gradebook_rel_user($gradebookreluser){

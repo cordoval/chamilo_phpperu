@@ -54,13 +54,12 @@ class RepositoryManagerLinkDeleterComponent extends RepositoryManagerComponent
     
     function delete_publication($object_id, $link_ids)
     {
-    	$rdm = RepositoryDataManager :: get_instance();
     	$failures = 0;
     	
     	foreach($link_ids as $link_id)
     	{
     		list($application, $publication_id) = explode("|", $link_id);
-    		if(!$rdm->delete_content_object_publication($application, $publication_id))
+    		if(!RepositoryDataManager :: delete_content_object_publication($application, $publication_id))
     			$failures++;
     	}	
     	

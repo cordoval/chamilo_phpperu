@@ -11,6 +11,8 @@ require_once dirname(__FILE__) . '/../tool/tool.class.php';
 require_once dirname(__FILE__) . '/../tool_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
 require_once dirname(__FILE__) . '/../course/course_settings.class.php';
+require_once dirname(__FILE__) . '/../course/course_group_subscribe_right.class.php';
+require_once dirname(__FILE__) . '/../course/course_group_unsubscribe_right.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/component/admin_course_browser/admin_course_browser_table.class.php';
@@ -56,6 +58,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_REMOVE_SELECTED_COURSE_TYPES ='remove selected coursetypes';
 	const PARAM_ACTIVATE_SELECTED_COURSE_TYPES = 'activate selected coursetypes';
 	const PARAM_DEACTIVATE_SELECTED_COURSE_TYPES = 'deactivate selected coursetypes';
+	const PARAM_MOVE_SELECTED_COURSES = 'move selected courses';
 	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED_AS_STUDENT = 'subscribe_selected_as_student';
@@ -67,6 +70,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_PUBLICATION = 'publication';
 
 	const ACTION_SUBSCRIBE = 'subscribe';
+	const ACTION_MOVE_COURSE = 'coursemover';
 	const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
 	const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
 	const ACTION_SUBSCRIBE_GROUP_USERS = 'subscribe_group_users';
@@ -185,6 +189,9 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_SUBSCRIBE_GROUP :
 				$component = WeblcmsManagerComponent :: factory('GroupSubscribe', $this);
 				break;
+			case self :: ACTION_MOVE_COURSE :
+                $component = WeblcmsManagerComponent :: factory('CourseMove', $this);
+                break;
 			case self :: ACTION_UNSUBSCRIBE_GROUP :
 				$component = WeblcmsManagerComponent :: factory('GroupUnsubscribe', $this);
 				break;
@@ -363,6 +370,11 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->course_type;
 	}
+	
+	function get_move_course_url($course)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_COURSE, self :: PARAM_COURSE => $course->get_id()));
+    }
 	
 	function get_course_type_deleting_url($course_type)
     {
@@ -1467,7 +1479,10 @@ class WeblcmsManager extends WebApplication
 					Request :: set_get(self :: PARAM_COURSE_TYPE, $selected_course_type_ids);
 					Request :: set_get(self :: PARAM_ACTIVE, 0);
 					break;
-					
+				case self :: PARAM_MOVE_SELECTED_COURSES :
+					$this->set_action(self :: ACTION_MOVE_COURSE);
+					Request :: set_get(self :: PARAM_COURSE, $selected_course_ids);
+					break;
 			}
 		}
 	}

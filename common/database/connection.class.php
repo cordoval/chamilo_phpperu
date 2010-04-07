@@ -31,7 +31,11 @@ class Connection
     private function Connection()
     {
         $configuration = Configuration :: get_instance();
+
+        // The following line is for software under development, to be disabled, see below:
         $this->connection = MDB2 :: connect($configuration->get_parameter('database', 'connection_string'), array('debug' => 3));
+        // TODO: The following line is for production systems, debugging feature is disabled:
+        //$this->connection = MDB2 :: connect($configuration->get_parameter('database', 'connection_string'), array('debug' => 0));
     }
 
     /**

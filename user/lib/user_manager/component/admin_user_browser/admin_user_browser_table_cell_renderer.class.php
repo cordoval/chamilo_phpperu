@@ -32,7 +32,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         {
             return $this->get_modification_links($user);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -69,13 +69,13 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
     private function get_modification_links($user)
     {
         $toolbar_data = array();
-        
+
         $toolbar_data[] = array('href' => $this->browser->get_user_editing_url($user), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        
+
         $toolbar_data[] = array('href' => $this->browser->get_user_quota_url($user), 'label' => Translation :: get('VersionQuota'), 'img' => Theme :: get_common_image_path() . 'action_statistics.png');
-        
+
         $toolbar_data[] = array('href' => $this->browser->get_manage_user_rights_url($user), 'label' => Translation :: get('ManageRightsTemplates'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
-        
+
         $params = array();
         //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
         //$params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
@@ -84,7 +84,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         //$url =
 
 		//$unsubscribe_url = $this->browser->get_url($parameters);
-		
+
 		/*$toolbar_data[] = array(
 			'href' => $this->browser->get_reporting_url('UserReportingTemplate',$params),
 			'label' => Translation :: get('Report'),
@@ -99,25 +99,25 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 
         //$unsubscribe_url = $this->browser->get_url($parameters);
         $toolbar_data[] = array('href' => $this->browser->get_reporting_url('UserReportingTemplate', $params), 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
-        
+
         $toolbar_data[] = array('href' => $this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, 'user_id' => $user->get_id())), 'label' => Translation :: get('ViewQuota'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-        
+
     	if(PlatformSetting :: get('active_online_email_editor'))
         {
         	$toolbar_data[] = array('href' => $this->browser->get_email_user_url($user), 'label' => Translation :: get('SendEmail'), 'img' => Theme :: get_common_image_path() . 'action_email.png');
         }
-        
+
         if ($user->get_id() != Session :: get_user_id())
         {
-            if (UserDataManager :: get_instance()->user_deletion_allowed($user))
+            if (UserDataManager :: user_deletion_allowed($user))
             {
                 $toolbar_data[] = array('href' => $this->browser->get_user_delete_url($user), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
         	}
-            
+
             $toolbar_data[] = array('href' => $this->browser->get_change_user_url($user), 'label' => Translation :: get('LoginAsUser'), 'img' => Theme :: get_common_image_path() . 'action_login.png');
         }
-        
-		        
+
+
         return Utilities :: build_toolbar($toolbar_data);
     }
 }

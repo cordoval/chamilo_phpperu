@@ -46,9 +46,8 @@ class SurveyForm extends ContentObjectForm
         $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFooterText'), false);
         $this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
         
-        $rdm = RepositoryDataManager :: get_instance();
         $survey = $this->get_content_object();
-        $allowed = $rdm->content_object_deletion_allowed($survey, 'Context');
+        $allowed = RepositoryDataManager :: content_object_deletion_allowed($survey, 'Context');
         $atributes = array();
         if (! $allowed)
         {

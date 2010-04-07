@@ -55,7 +55,7 @@ CKEDITOR.editorConfig = function( config )
 
 	config.toolbar_RepositoryQuestion =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor','-','Image','Chamiloflash']
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor','-','Image','Chamiloflash','Chamiloyoutube','Chamilovideo','Chamiloaudio','-','Templates']
 		] ;
 
 	config.toolbar_Assessment =

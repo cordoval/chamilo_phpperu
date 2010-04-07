@@ -255,6 +255,12 @@ class ContentObjectPublicationForm extends FormValidator
      */
     function build_form()
     {
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../gradebook/forms/gradebook_internal_item_form.class.php';
+        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+        	$gradebook_internal_item_form->build_evaluation_question($this);
+        }
         $this->categories[0] = Translation :: get('Root');
         $this->get_categories(0);
 
@@ -487,12 +493,17 @@ class ContentObjectPublicationForm extends FormValidator
             $pub->set_display_order_index($index);
             $pub->set_email_sent(false);
             $pub->set_show_on_homepage($values[ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
-
+			
+ 
             if (! $pub->create())
             {
                 return false;
             }
-
+			if($values['evaluation'] == true)
+			{
+	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+	        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), false);
+			} 
             if ($this->email_option && $values[self :: PARAM_EMAIL])
             {
                 $display = ContentObjectDisplay :: factory($content_object);

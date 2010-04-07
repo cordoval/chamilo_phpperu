@@ -3,7 +3,7 @@
  * $Id: webservice_data_manager.class.php 208 2009-11-13 13:14:39Z vanpouckesven $
  * @package webservices.lib
  */
-abstract class WebserviceDataManager
+class WebserviceDataManager
 {
     /**
      * Instance of this class for the singleton pattern.

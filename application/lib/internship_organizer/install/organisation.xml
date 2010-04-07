@@ -5,8 +5,8 @@
 			autoincrement="true" />
 		<property name="name" type="text" length="255" notnull="1"
 			default="" />
-		<property name="description" type="text" length="255" notnull="1"
-			default="" />
+		<property name="description" type="text" length="255"
+			notnull="1" default="" />
 	</properties>
 
 </object>

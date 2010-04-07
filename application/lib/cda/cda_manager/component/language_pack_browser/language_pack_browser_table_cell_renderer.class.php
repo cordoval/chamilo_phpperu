@@ -106,7 +106,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 		{
 			if ($can_lock)
 			{
-				if($this->browser->can_language_pack_be_locked($language_pack, $this->browser->get_cda_language()))
+				if($this->browser->can_language_pack_be_locked($language_pack, $cda_language_id))
 		        {
 		        	$toolbar_data[] = array(
 						'href' => $this->browser->get_lock_language_pack_url($language_pack, $cda_language_id),
@@ -122,7 +122,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 					);
 		        }
 
-		        if($this->browser->can_language_pack_be_unlocked($language_pack, $this->browser->get_cda_language()))
+		        if($this->browser->can_language_pack_be_unlocked($language_pack, $cda_language_id))
 		        {
 		        	$toolbar_data[] = array(
 						'href' => $this->browser->get_unlock_language_pack_url($language_pack, $cda_language_id),
@@ -143,17 +143,11 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 			{
 				if (!$can_lock)
 				{
-					$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_STATUS, VariableTranslation :: STATUS_NORMAL);
+					$status = VariableTranslation :: STATUS_NORMAL;
 				}
 
-				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $this->browser->get_cda_language());
-				$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
-				$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID,
-													   'cda_' . Variable :: get_table_name(), $subcondition);
-				$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
-				$condition = new AndCondition($conditions);
-				$translation = $this->browser->retrieve_variable_translations($condition, 0, 1)->next_result();
-
+				$translation = $this->browser->retrieve_first_untranslated_variable_translation($cda_language_id, $language_pack->get_id(), $status);
+				
 				if($translation)
 				{
 					$toolbar_data[] = array(

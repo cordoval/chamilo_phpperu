@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/publication_browser_table_cell_renderer.class
 
 class TestcaseSurveyPublicationBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'survey_publication_browser_table';
+    const DEFAULT_NAME = 'survey_test_case_publication_browser_table';
 
     /**
      * Constructor
@@ -21,7 +21,7 @@ class TestcaseSurveyPublicationBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(SurveyManager :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(TestcaseManager :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS, Translation :: get('RemoveSelected'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

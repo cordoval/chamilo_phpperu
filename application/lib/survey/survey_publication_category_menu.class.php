@@ -1,19 +1,14 @@
 <?php
-/**
- * $Id: survey_publication_category_menu.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey
- */
+
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once dirname(__FILE__) . '/category_manager/survey_publication_category.class.php';
 require_once dirname(__FILE__) . '/survey_data_manager.class.php';
-/**
- * This class provides a navigation menu to allow a user to browse through
- * categories of courses.
- * @author Bart Mollet
- */
+
 class SurveyPublicationCategoryMenu extends HTML_Menu
 {
+    
+    const PARAM_CATEGORY = 'category';
     /**
      * The string passed to sprintf() to format category URLs
      */

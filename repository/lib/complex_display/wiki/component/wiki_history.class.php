@@ -67,7 +67,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
         foreach ($versions as $version)
         {
             // If this learning object is published somewhere in an application, these locations are listed here.
-            $publications = $dm->get_content_object_publication_attributes($this->get_user(), $version->get_id());
+            $publications = RepositoryDataManager :: get_content_object_publication_attributes($this->get_user(), $version->get_id());
             $publication_attr = array_merge($publication_attr, $publications);
         }
         
