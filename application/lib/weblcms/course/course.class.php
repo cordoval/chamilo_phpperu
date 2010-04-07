@@ -81,6 +81,9 @@ class Course extends DataClass
         			  self :: PROPERTY_LAST_EDIT,
         			  self :: PROPERTY_LAST_VISIT));
     }
+    
+    
+    
 
     /**
      * inherited
@@ -904,6 +907,5 @@ class Course extends DataClass
     	$group->set_name($this->get_name());
     	return $group->create();
     }
-
 }
 ?>

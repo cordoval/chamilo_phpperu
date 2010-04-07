@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . '/../../course/course_move_form.class.php';
 class WeblcmsManagerCourseMoveComponent extends WeblcmsManagerComponent
 {
 
+	private $form;
     /**
      * Runs this component and displays its output.
      */
@@ -31,11 +32,12 @@ class WeblcmsManagerCourseMoveComponent extends WeblcmsManagerComponent
             exit();
         }        
         $course = $this->retrieve_courses(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)))->next_result();
-        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => Request :: get(WeblcmsManager :: PARAM_COURSE))), $course->get_name()));
-
-        $form = new CourseMoveForm($this->get_url(),$course);
+        
+        $this->form = new CourseMoveForm($this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_codes)), $course);
+      
         dump(count($course_codes));
-        if ($form->validate())
+        
+        if ($this->form->validate())
         {   	        	
         	if (! empty($course_codes))
         	{
@@ -46,8 +48,8 @@ class WeblcmsManagerCourseMoveComponent extends WeblcmsManagerComponent
             
             	foreach ($course_codes as $course_code)
             	{
-            		$success = $form->move_course();           
-                	if (! $course->update())
+            	       
+                	if (! $this->move_course($course_code))
                 	{
                     	$failures ++;
                 	}
@@ -75,8 +77,8 @@ class WeblcmsManagerCourseMoveComponent extends WeblcmsManagerComponent
               	      $message = 'SelectedCoursesMoved';
               	   }
             	}
-            	$parent = $form->get_new_parent();
-            	$this->redirect($success ? Translation :: get('CourseMoved') : Translation :: get('CourseNotMoved'), $success ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent));    	
+            	$parent = $this->form->get_new_parent();
+            	$this->redirect(!$failures ? Translation :: get('CourseMoved') : Translation :: get('CourseNotMoved'), !$failures ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent));    	
             }
             else
             {
@@ -88,9 +90,19 @@ class WeblcmsManagerCourseMoveComponent extends WeblcmsManagerComponent
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
             $this->display_header($trail);
             //echo Translation :: get('Course') . ': ' . $course->get_name();
-            $form->display();
+            $this->form->display();
             $this->display_footer();
         }
+        
+    	
     }
+	function move_course($course_code)
+    	{
+        	$new_course_type = $this->form->get_selected_course_type();       	
+        	$wdm = WeblcmsDataManager :: get_instance();
+        	$course = $wdm->retrieve_course($course_code);
+        	$course->set_course_type_id($new_course_type);
+        	return $course->update($course);
+    	}
 }
 ?>
