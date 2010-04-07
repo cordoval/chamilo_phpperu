@@ -19,7 +19,7 @@ class PiePchartReportingChartFormatter extends PchartReportingChartFormatter
 	    $data = $all_data[0];
 	    $datadescription = $all_data[1];
 	    //$width = $this->reporting_block->get_width() - 20;
-	    $width = 350;
+	    $width = 500;
 	    $legend = sizeof($data) * 20;
 	    //$height = $this->reporting_block->get_height() - 50;
 	    $height = 270;

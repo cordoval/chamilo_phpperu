@@ -4,7 +4,7 @@
  * @package reporting.lib.formatters
  * @author Michael Kyndt
  */
-abstract class ReportingChartFormatter extends ReportingFormatter
+class ReportingChartFormatter extends ReportingFormatter
 {
     private $instance;
 	const DISPLAY_PIE = '3_1';
@@ -40,7 +40,8 @@ abstract class ReportingChartFormatter extends ReportingFormatter
     	}
     }
     
-	abstract function convert_reporting_data();
+	function convert_reporting_data()
+	{}
     
     public function get_chart_instance()
     {

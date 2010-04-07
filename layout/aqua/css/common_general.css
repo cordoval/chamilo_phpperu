@@ -1638,7 +1638,7 @@ a.modalCloseImg {
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 	border: 1px solid #ccc;
-	margin: 4px;
+	margin: 4px 4px 20px 4px;
 	padding: 4px;
 	overflow: auto;
 }
