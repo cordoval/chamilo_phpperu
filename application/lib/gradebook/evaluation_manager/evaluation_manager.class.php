@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/evaluation_manager_component.class.php';
+require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
 
 class EvaluationManager extends SubManager
 {
@@ -14,15 +15,16 @@ class EvaluationManager extends SubManager
 	const TYPE_INTERNAL_ITEM = 'internal_item';
 	
 	private $parameters;
+	private $publication_id;
 	
-	function EvaluationManager($parent, $action, $parameters)
+	function EvaluationManager($parent, $publication_id, $action, $parameters)
 	{
         parent :: __construct($parent);
         if ($action)
         {
             $this->set_parameter(self :: PARAM_ACTION, $action);
         }
-        
+        $this->set_publication_id($publication_id);
         $this->set_parameters($parameters);
         $this->run();
 	}
@@ -66,10 +68,20 @@ class EvaluationManager extends SubManager
     	return $this->parameters;
     }
     
-    // database
-    function retrieve_all_evaluations_on_publication($publication_id)
+    function set_publication_id($publication_id)
     {
-    	GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication($publication_id);
+    	$this->publication_id = $publication_id;
+    }
+    
+    function get_publication_id()
+    {
+    	return $this->publication_id;
+    }
+    
+    // database
+    function retrieve_all_evaluations_on_publication()
+    {
+    	GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication($this->get_publication_id());
     }
     
     function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null)

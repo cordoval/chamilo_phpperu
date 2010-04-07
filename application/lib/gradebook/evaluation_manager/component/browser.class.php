@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__) . '/evaluation_browser/evaluation_browser_table.class.php';
+
 class EvaluationManagerBrowserComponent extends EvaluationManagerComponent
 {
     private $action_bar;
@@ -9,8 +11,7 @@ class EvaluationManagerBrowserComponent extends EvaluationManagerComponent
         $this->action_bar = $this->get_toolbar();
         echo $this->action_bar->as_html();
         
-        echo $this->get_table();
-        
+        //echo $this->get_table();
     }
 
     function get_table()
