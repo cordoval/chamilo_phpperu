@@ -1,8 +1,9 @@
 <?php
-require_once dirname(__FILE__) . '/../forms/peer_assessment_publication_form.class.php';
 /**
- *	@author Nick Van Loocke
+ * author: Nick Van Loocke
  */
+
+require_once dirname(__FILE__) . '/../forms/peer_assessment_publication_form.class.php';
 
 class PeerAssessmentPublicationPublisher
 {
@@ -15,24 +16,31 @@ class PeerAssessmentPublicationPublisher
 
     function publish($object)
     {
-        $author = $this->parent->get_user();
+        $author = $this->parent->get_user_id();
+        $date = mktime(date());
         
-        if (! is_array($object))
+        $pb = new PeerAssessmentPublication();
+        $pb->set_content_object($object);
+        $pb->set_parent_id($author);
+        $pb->set_category(0);
+        $pb->set_published($date);
+        $pb->set_modified($date);
+        
+        if (! $pb->create())
         {
-            $object = array($object);
+            $error = true;
         }
         
-        $form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_CREATE, new PeerAssessmentPublication(), $this->parent->get_url(array('object' => $object)), $author);
-        if ($form->validate())
+        if ($error)
         {
-            $succes = $form->create_peer_assessment_publications($object);
-            $message = $succes ? 'PeerAssessmentPublicationCreated' : 'PeerAssessmentPublicationNotCreated';
-            $this->parent->redirect(Translation :: get($message), ! $succes, array(PeerAssessmentManager :: PARAM_ACTION => null));
+            $message = Translation :: get('ObjectNotPublished');
         }
         else
         {
-            return $form->toHtml();
+            $message = Translation :: get('ObjectPublished');
         }
+        
+        $this->parent->redirect($message, false);
     }
 }
 ?>

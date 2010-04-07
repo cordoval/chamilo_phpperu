@@ -1,7 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_publication.class.php';
-require_once dirname(__FILE__) . '/../category_manager/peer_assessment_publication_category.class.php';
+require_once dirname(__FILE__) . '/../peer_assessment_pub_feedback.class.php';
 require_once 'MDB2.php';
+
 /**
  *	This is a data manager that uses a database for storage. It was written
  *	for MySQL, but should be compatible with most SQL flavors.
@@ -16,7 +17,8 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     function initialize()
     {
         $aliases = array();
-        $aliases[PeerAssessmentPublication :: get_table_name()] = 'peer_assessment';
+        $aliases[PeerAssessmentPublication :: get_table_name()] = 'wion';
+        $aliases[PeerAssessmentPubFeedback :: get_table_name()] = 'wpf';
 
         $this->database = new Database($aliases);
         $this->database->set_prefix('peer_assessment_');
@@ -57,7 +59,9 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     function retrieve_peer_assessment_publication($id)
     {
         $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(PeerAssessmentPublication :: get_table_name(), $condition);
+        $object = $this->database->retrieve_object(PeerAssessmentPublication :: get_table_name(), $condition);
+        $object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
+        return $object;
     }
 
     function retrieve_peer_assessment_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -65,66 +69,37 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
         return $this->database->retrieve_objects(PeerAssessmentPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
-    function move_peer_assessment_publication($publication, $places)
+    function retrieve_peer_assessment_pub_feedback($id)
     {
-        $oldIndex = $publication->get_display_order();
-        $newIndex = $oldIndex + $places;
+        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $id);
+        $object = $this->database->retrieve_object(PeerAssessmentPubFeedback :: get_table_name(), $condition);
 
-        $publications = $this->retrieve_peer_assessment_publications();
-
-        while ($pub = $publications->next_result())
-        {
-            $index = $pub->get_display_order();
-
-            if ($index == $newIndex)
-                $pub->set_display_order($index - $places);
-
-            $pub->update();
-        }
-
-        $publication->set_display_order($newIndex);
-        $publication->update();
+        return $object;
     }
 
-    function create_peer_assessment_publication_category($peer_assessment_publication_category)
+    function retrieve_peer_assessment_pub_feedbacks($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->create($peer_assessment_publication_category);
+        return $this->database->retrieve_objects(PeerAssessmentPubFeedback :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
-    function update_peer_assessment_publication_category($peer_assessment_publication_category)
+    function create_peer_assessment_pub_feedback($feedback)
     {
-        $condition = new EqualityCondition(PeerAssessmentPublicationCategory :: PROPERTY_ID, $peer_assessment_publication_category->get_id());
-        return $this->database->update($peer_assessment_publication_category, $condition);
+        return $this->database->create($feedback);
     }
 
-    function delete_peer_assessment_publication_category($peer_assessment_publication_category)
+    function update_peer_assessment_pub_feedback($feedback)
     {
-        $condition = new EqualityCondition(PeerAssessmentPublicationCategory :: PROPERTY_ID, $peer_assessment_publication_category->get_id());
-        return $this->database->delete($peer_assessment_publication_category->get_table_name(), $condition);
+        $condition = new EqualityCondition(PeerAssessmentPubFeedback :: PROPERTY_ID, $feedback->get_id());
+        return $this->database->update($feedback, $condition);
     }
 
-    function count_peer_assessment_publication_categories($conditions = null)
+    function delete_peer_assessment_pub_feedback($feedback)
     {
-        return $this->database->count_objects(PeerAssessmentPublicationCategory :: get_table_name(), $conditions);
+        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $feedback->get_id());
+        return $this->database->delete(PeerAssessmentPubFeedback :: get_table_name(), $condition);
     }
 
-    function retrieve_peer_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return $this->database->retrieve_objects(PeerAssessmentPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
-    }
-
-    function get_next_publication_display_order($parent_id)
-    {
-        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_CATEGORY_ID, $parent_id);
-        return $this->database->retrieve_next_sort_value(PeerAssessmentPublication :: get_table_name(), PeerAssessmentPublication :: PROPERTY_DISPLAY_ORDER, $condition);
-    }
-
-    function retrieve_max_sort_value($table_name, $column, $condition)
-    {
-        return $this->database->retrieve_max_sort_value($table_name, $column, $condition);
-    }
-
-	//Publication attributes
+	// Publication attributes
 
 	function content_object_is_published($object_id)
     {
@@ -133,7 +108,7 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
 
     function any_content_object_is_published($object_ids)
     {
-        $condition = new InCondition(PeerAssessmentPublication :: PROPERTY_PEER_ASSESSMENT_ID, $object_ids);
+        $condition = new InCondition(PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT, $object_ids);
         return $this->database->count_objects(PeerAssessmentPublication :: get_table_name(), $condition) >= 1;
     }
 
@@ -150,10 +125,10 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
             	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
                 		 $this->database->escape_table_name(PeerAssessmentPublication :: get_table_name()) . ' AS ' . $pub_alias .
                 		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
-                		 ' ON ' . $this->database->escape_column_name(PeerAssessmentPublication :: PROPERTY_PEER_ASSESSMENT_ID, $pub_alias) . '=' .
+                		 ' ON ' . $this->database->escape_column_name(PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' .
                 		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 
-                $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_AUTHOR, Session :: get_user_id());
+                $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this->database);
                 $query .= $translator->render_query($condition);
 
@@ -186,7 +161,7 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
         else
         {
             $query = 'SELECT * FROM ' . $this->database->escape_table_name(PeerAssessmentPublication :: get_table_name());
-           	$condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_PEER_ASSESSMENT_ID, $object_id);
+           	$condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
            	$translator = new ConditionTranslator($this->database);
            	$query .= $translator->render_query($condition);
 
@@ -199,13 +174,13 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
         {
             $info = new ContentObjectPublicationAttributes();
             $info->set_id($record[PeerAssessmentPublication :: PROPERTY_ID]);
-            $info->set_publisher_user_id($record[PeerAssessmentPublication :: PROPERTY_AUTHOR]);
+            $info->set_publisher_user_id($record[PeerAssessmentPublication :: PROPERTY_PUBLISHER]);
             $info->set_publication_date($record[PeerAssessmentPublication :: PROPERTY_PUBLISHED]);
-            $info->set_application('alexia');
+            $info->set_application('peer_assessment');
             //TODO: i8n location string
             $info->set_location(Translation :: get('PeerAssessment'));
-            $info->set_url('run.php?application=alexia&go=browse');
-            $info->set_publication_object_id($record[PeerAssessmentPublication :: PROPERTY_PEER_ASSESSMENT_ID]);
+            $info->set_url('run.php?application=peer_assessment&go=browse');
+            $info->set_publication_object_id($record[PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT]);
 
             $publication_attr[] = $info;
         }
@@ -224,18 +199,18 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
-        $res->free();
-        
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[PeerAssessmentPublication :: PROPERTY_ID]);
-        $publication_attr->set_publisher_user_id($record[PeerAssessmentPublication :: PROPERTY_AUTHOR]);
+        $publication_attr->set_publisher_user_id($record[PeerAssessmentPublication :: PROPERTY_PUBLISHER]);
         $publication_attr->set_publication_date($record[PeerAssessmentPublication :: PROPERTY_PUBLISHED]);
-        $publication_attr->set_application('alexia');
+        $publication_attr->set_application('peer_assessment');
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('PeerAssessment'));
-        $publication_attr->set_url('run.php?application=alexia&go=browse');
-        $publication_attr->set_publication_object_id($record[PeerAssessmentPublication :: PROPERTY_PEER_ASSESSMENT_ID]);
+        $publication_attr->set_url('run.php?application=peer_assessment&go=browse');
+        $publication_attr->set_publication_object_id($record[PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT]);
 
+        $res->free();
+        
         return $publication_attr;
     }
 
@@ -243,19 +218,19 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     {
         if(!$object_id)
         {
-    		$condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_AUTHOR, $user->get_id());
+    		$condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_PUBLISHER, $user->get_id());
         }
         else
         {
-        	$condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_PEER_ASSESSMENT_ID, $object_id);
+        	$condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
         }
         return $this->database->count_objects(PeerAssessmentPublication :: get_table_name(), $condition);
     }
 
     function delete_content_object_publications($object_id)
     {
-        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_PEER_ASSESSMENT_ID, $object_id);
-        $publications = $this->retrieve_alexia_publications($condition);
+        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+        $publications = $this->retrieve_peer_assessment_publications($condition);
 
         $succes = true;
 
@@ -266,12 +241,18 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
 
         return $succes;
     }
+    
+	function delete_content_object_publication($publication_id)
+    {
+        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $publication_id);
+        return $this->database->delete(PeerAssessmentPublication :: get_table_name(), $condition);
+    }
 
     function update_content_object_publication_id($publication_attr)
     {
         $where = $this->database->escape_column_name(PeerAssessmentPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->database->escape_column_name(PeerAssessmentPublication :: PROPERTY_PEER_ASSESSMENT_ID)] = $publication_attr->get_publication_object_id();
+        $props[$this->database->escape_column_name(PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT)] = $publication_attr->get_publication_object_id();
         $this->database->get_connection()->loadModule('Extended');
         if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name(PeerAssessmentPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
         {
@@ -281,6 +262,11 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
         {
             return false;
         }
+    }
+    
+    function query($query)
+    {
+    	return $this->database->query($query);
     }
 
 }

@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../peer_assessment_publication.class.php';
 
 /**
  * Default column model for the peer_assessment_publication table
- * @author Sven Vanpoucke & Stefan Billiet
+ * @author Nick Van Loocke
  */
 class DefaultPeerAssessmentPublicationTableColumnModel extends ObjectTableColumnModel
 {

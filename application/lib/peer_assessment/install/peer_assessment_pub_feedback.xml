@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="peer_assessment_pub_feedback">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="peer_assessment_publication_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="complex_id" type="integer" />
+		<property name="feedback_id" type="integer" />
+	</properties>
+</object>
+
