@@ -98,6 +98,41 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
         $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $feedback->get_id());
         return $this->database->delete(PeerAssessmentPubFeedback :: get_table_name(), $condition);
     }
+    
+    // Categories
+    
+     function create_peer_assessment_publication_category($peer_assessment_publication_category)
+    {
+        return $this->database->create($peer_assessment_publication_category);
+    }
+
+    function update_peer_assessment_publication_category($peer_assessment_publication_category)
+    {
+        $condition = new EqualityCondition(PeerAssessmentPublicationCategory :: PROPERTY_ID, $peer_assessment_publication_category->get_id());
+        return $this->database->update($peer_assessment_publication_category, $condition);
+    }
+
+    function delete_peer_assessment_publication_category($peer_assessment_publication_category)
+    {
+        $condition = new EqualityCondition(PeerAssessmentPublicationCategory :: PROPERTY_ID, $peer_assessment_publication_category->get_id());
+        return $this->database->delete($peer_assessment_publication_category->get_table_name(), $condition);
+    }
+
+    function count_peer_assessment_publication_categories($conditions = null)
+    {
+        return $this->database->count_objects(PeerAssessmentPublicationCategory :: get_table_name(), $conditions);
+    }
+
+    function retrieve_peer_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->database->retrieve_objects(PeerAssessmentPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+	function retrieve_max_sort_value($table_name, $column, $condition)
+    {
+        return $this->database->retrieve_max_sort_value($table_name, $column, $condition);
+    }
+    
 
 	// Publication attributes
 

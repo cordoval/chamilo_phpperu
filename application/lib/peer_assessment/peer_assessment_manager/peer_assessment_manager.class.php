@@ -20,6 +20,8 @@ class PeerAssessmentManager extends WebApplication
     const ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS = 'browse_peer_assessment_publications';
     const ACTION_VIEW_PEER_ASSESSMENT = 'view';
     const ACTION_EVALUATE_PEER_ASSESSMENT_PUBLICATION = 'evaluate_peer_assessment_publication';
+    
+    const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 
     /**
      * Constructor
@@ -57,6 +59,9 @@ class PeerAssessmentManager extends WebApplication
                 break;
             case self :: ACTION_VIEW_PEER_ASSESSMENT :
                 $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentViewer', $this);
+                break;
+            case self :: ACTION_MANAGE_CATEGORIES :
+                $component = PeerAssessmentManagerComponent :: factory('CategoryManager', $this);
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS);
@@ -142,7 +147,12 @@ class PeerAssessmentManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
     }
-
+    
+	function get_category_manager_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES));
+    }
+    
     function is_allowed()
     {
         return true;

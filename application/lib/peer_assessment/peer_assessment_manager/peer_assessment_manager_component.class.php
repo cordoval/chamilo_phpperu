@@ -214,6 +214,11 @@ abstract class PeerAssessmentManagerComponent extends ApplicationComponent
     {
         return $this->get_parent()->get_browse_peer_assessment_publications_url();
     }
+    
+	function get_category_manager_url()
+    {
+        return $this->get_parent()->get_category_manager_url();
+    }
 
     private function load_rights()
     {
