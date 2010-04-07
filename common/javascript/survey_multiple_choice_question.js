@@ -24,11 +24,10 @@ $(function ()
 		
 		rows.each(function ()
 		{
-			var weightField, weightFieldName, id, appendField;
+			var rowName, id, appendField;
 		    
-			weightField = $('input[name*="option_weight"]', this);
-			weightFieldName = weightField.attr('name');
-		    id = weightFieldName.substr(14, weightFieldName.length - 15);
+			rowName = $(this).attr('id');
+		    id = rowName.substr(7);
 		    appendField = deleteField.replace(/\$option_number/g, id);
 	
 		    $('.remove_option', this).remove();
@@ -51,28 +50,6 @@ $(function ()
 			newLabel = getTranslation('SwitchToRadioButtons', 'repository');
 		}
 		
-		$('.option').each(function ()
-		{
-			var id, correct, value, newField, parent;
-			
-			id = $(this).attr('id');
-			correct = 'correct[' + counter + ']';
-			value = 1;
-			
-			if (newType === 'radio')
-			{
-				correct = 'correct';
-				value = counter;
-			}
-			
-			newField = '<input id="' + id + '" class="option" type="' + newType + '" value="' + value + '" name="' + correct + '" />';
-			parent = $(this).parent();
-			parent.empty();
-			parent.append(newField);
-			counter += 1;
-			
-		});
-		
 		$('#mc_answer_type').val(newType);
 		setMemory('mc_answer_type', newType);
 		
@@ -91,7 +68,9 @@ $(function ()
 			rows;
 		
 		id = id.replace('remove_', '');
-		$('tr#option_' + id, tableBody).remove();
+//		$('tr#option_' + id, tableBody).remove();
+		$('tr#option_' + id, tableBody).hide();
+//		alert($('tr#option_' + id, tableBody).html());
 		
 		rows = $('tr', tableBody);
 		
@@ -117,11 +96,10 @@ $(function ()
 			newNumber = (parseInt(numberOfOptions, 10) + 1),
 			mcAnswerType = $('#mc_answer_type').val(),
 			rowClass = (numberOfOptions - skippedOptions) % 2 === 0 ? 'row_even' : 'row_odd',
-			name = 'correct[' + numberOfOptions + ']',
 			id = name,
 			value = 1,
-			fieldOption, fieldAnswer, fieldComment, fieldScore, fieldDelete, string,
-			parameters, editorNameAnswer, editorNameComment;
+			fieldAnswer, fieldDelete, string,
+			parameters, editorNameAnswer;
 		
 		setMemory('mc_number_of_options', newNumber);
 		
@@ -134,23 +112,16 @@ $(function ()
 		}
 		
 		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
-		editorNameAnswer = 'option[' + numberOfOptions + ']';
-		editorNameComment = 'comment[' + numberOfOptions + ']';
+		editorNameAnswer = 'value[' + numberOfOptions + ']';
 		
-//		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
 		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
-//		fieldComment = renderHtmlEditor(editorNameComment, parameters);
-//		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
-		
-//		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
-//				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldDelete + '</td></tr>';
 		
 		$('.data_table > tbody').append(string);
 		
-		processOptions();
+//		processOptions();
 	}
 
 	$(document).ready( function() 
