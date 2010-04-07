@@ -92,6 +92,7 @@ class WeblcmsLearningPathAttemptProgressReportingBlock extends WeblcmsToolReport
         $reporting_data->add_data_category_row($category_name, Translation :: get('Score'), '');
         $reporting_data->add_data_category_row($category_name, Translation :: get('Time'), '<span style="font-weight: bold;">' . Utilities :: format_seconds_to_hours($total) . '</span>');
         
+        $reporting_data->hide_categories();
         return $reporting_data;
     }
 
@@ -103,7 +104,7 @@ class WeblcmsLearningPathAttemptProgressReportingBlock extends WeblcmsToolReport
     public function get_available_displaymodes()
     {
         $modes = array();
-        $modes[ReportingFormatter :: DISPLAY_TEXT] = Translation :: get('Text');
+        //$modes[ReportingFormatter :: DISPLAY_TEXT] = Translation :: get('Text');
         $modes[ReportingFormatter :: DISPLAY_TABLE] = Translation :: get('Table');
         return $modes;
     }

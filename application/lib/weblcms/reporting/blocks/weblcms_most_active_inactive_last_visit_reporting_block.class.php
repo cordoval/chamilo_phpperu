@@ -85,7 +85,7 @@ class WeblcmsMostActiveInactiveLastVisitReportingBlock extends WeblcmsCourseRepo
 	public function get_available_displaymodes()
 	{
 		$modes = array();
-        $modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
+        //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
         $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
         return $modes;
 	}
