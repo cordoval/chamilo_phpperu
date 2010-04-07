@@ -13,7 +13,8 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 {
     private $content_objects;
     private $type;
-
+	private $apps;
+    
     public function LocationSelectionPublisherWizardPage($name, $parent)
     {
         parent :: PublisherWizardPage($name, $parent);
@@ -128,7 +129,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         $this->addElement('html', $html);
         
         $applications = WebApplication :: load_all_from_filesystem(true, true);
-        $apps = array();
+        $this->apps = array();
         
         $location_count = 0;
         
@@ -160,7 +161,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
             $this->addElement('html', '<div class="warning-message">' . Translation :: get('NoLocationsFound') . '</div>');
         }
         
-        if (count($apps) > 1)
+        if (count($this->apps) > 1)
         {
             $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%"  onclick="setCheckbox(\'\', true); return false;">' . Translation :: get('SelectAll') . '</a>');
             $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'\', false); return false;">' . Translation :: get('UnSelectAll') . '</a>');
@@ -174,9 +175,12 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
     
     function add_locations($application, $application_name, $locations)
     {
-    	if (count($locations) == 0)
-        	return;
-                
+    	if (count($locations) == 0){
+    		return;
+    	}
+		
+    	$this->apps[] = $application;
+    	
     	$this->addElement('html', '<div class="block" id="block_introduction" style="background-image: url(' . Theme :: get_image_path('home') . 'block_' . $application_name . '.png);">');
         $this->addElement('html', '<div class="title"><div style="float:left;">' . Translation :: get(Application :: application_to_class($application_name)));
         $this->addElement('html', '</div><div style="float:right;"><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png" /><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a></div><div class="clear">&nbsp;</div></div>');
