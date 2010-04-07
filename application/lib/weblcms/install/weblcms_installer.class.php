@@ -132,6 +132,11 @@ class WeblcmsInstaller extends Installer
 		$course_layout->set_course_languages_visible(1);
 		$succes = $succes && $course_layout->create();
 		
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id(1);
+		$course_rights->set_direct_subscribe_available(1);
+		$succes = $succes && $course_rights->create();
+		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = $wdm->get_tools('basic');
 		$course_modules = array();
@@ -182,6 +187,11 @@ class WeblcmsInstaller extends Installer
 		$course_layout->set_course_languages_visible(1);
 		$succes = $succes && $course_layout->create();
 		
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id(2);
+		$course_rights->set_direct_subscribe_available(1);
+		$succes = $succes && $course_rights->create();
+		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = $wdm->get_tools('basic');
 		$course_modules = array();
@@ -231,6 +241,11 @@ class WeblcmsInstaller extends Installer
 		$course_layout->set_course_manager_name_visible(1);
 		$course_layout->set_course_languages_visible(1);
 		$succes = $succes && $course_layout->create();
+		
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id(3);
+		$course_rights->set_direct_subscribe_available(1);
+		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = $wdm->get_tools('basic');
@@ -283,6 +298,11 @@ class WeblcmsInstaller extends Installer
 		$course_layout->set_course_languages_visible(1);
 		$succes = $succes && $course_layout->create();
 		
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id(4);
+		$course_rights->set_direct_subscribe_available(1);
+		$succes = $succes && $course_rights->create();
+		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = $wdm->get_tools('basic');
 		$course_modules = array();
@@ -332,6 +352,11 @@ class WeblcmsInstaller extends Installer
 		$course_layout->set_course_manager_name_visible(1);
 		$course_layout->set_course_languages_visible(1);
 		$succes = $succes && $course_layout->create();
+		
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id(5);
+		$course_rights->set_direct_subscribe_available(1);
+		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = $wdm->get_tools('basic');
@@ -383,6 +408,11 @@ class WeblcmsInstaller extends Installer
 		$course_layout->set_course_languages_visible(1);
 		$succes = $succes && $course_layout->create();
 		
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id(6);
+		$course_rights->set_direct_subscribe_available(1);
+		$succes = $succes && $course_rights->create();
+		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = $wdm->get_tools('basic');
 		$course_modules = array();
@@ -431,6 +461,11 @@ class WeblcmsInstaller extends Installer
 		$course_layout->set_course_manager_name_visible(1);
 		$course_layout->set_course_languages_visible(1);
 		$succes = $succes && $course_layout->create();
+		
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id(7);
+		$course_rights->set_direct_subscribe_available(1);
+		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = $wdm->get_tools('basic');
@@ -481,6 +516,11 @@ class WeblcmsInstaller extends Installer
 		$course_layout->set_course_languages_visible(1);
 		$succes = $succes && $course_layout->create();
 		
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id(8);
+		$course_rights->set_direct_subscribe_available(1);
+		$succes = $succes && $course_rights->create();
+		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = $wdm->get_tools('basic');
 		$course_modules = array();
@@ -530,6 +570,11 @@ class WeblcmsInstaller extends Installer
 		$course_layout->set_course_languages_visible(1);
 		$succes = $succes && $course_layout->create();
 		
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id(9);
+		$course_rights->set_direct_subscribe_available(1);
+		$succes = $succes && $course_rights->create();
+		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = $wdm->get_tools('basic');
 		$course_modules = array();
@@ -578,6 +623,11 @@ class WeblcmsInstaller extends Installer
 		$course_layout->set_course_manager_name_visible(1);
 		$course_layout->set_course_languages_visible(1);
 		$succes = $succes && $course_layout->create();
+		
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id(10);
+		$course_rights->set_direct_subscribe_available(1);
+		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = $wdm->get_tools('basic');

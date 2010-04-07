@@ -692,7 +692,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			return false;
 			//$this->redirect(Translation :: get('CourseCorrupt'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
 		$course->set_layout_settings($course_layout_settings);
-		
+		$course_rights = $this->retrieve_course_rights($id);
+		if(empty($course_rights))
+			return false;
+			//$this->redirect(Translation :: get('CourseCorrupt'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+		$course->set_rights($course_rights);
 		$course->set_course_type($this->retrieve_course_type($course->get_course_type_id()));
 		return $course;
 	}
@@ -703,9 +707,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$course->set_settings(new CourseSettings());
 		$course->set_layout_settings(new CourseLayout());
 		$course->set_course_type($this->retrieve_empty_course_type());
+		$course->set_rights(new CourseRights());
 		return $course;
 	}
 
+	function retrieve_course_rights($id)
+	{
+		$condition = new EqualityCondition(CourseRights :: PROPERTY_COURSE_ID, $id);
+		return $this->database->retrieve_object(CourseRights :: get_table_name(), $condition);
+	}
+	
 	function retrieve_course_module($id)
 	{
 		$condition = new EqualityCondition(CourseModule :: PROPERTY_ID, $id);
@@ -892,6 +903,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function create_course_type_settings($course_type_settings)
 	{
 		return $this->database->create($course_type_settings);
+	}
+	
+	function create_course_rights($course_rights)
+	{
+		return $this->database->create($course_rights);
 	}
 	
 	function create_course_group_subscribe_right($course_group_subscribe_right)
@@ -1175,6 +1191,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $course_layout->get_course_id());
 		return $this->database->update($course_layout, $condition);
+	}
+	
+	function update_course_rights($course_rights)
+	{
+		$condition = new EqualityCondition(CourseRights :: PROPERTY_COURSE_ID, $course_rights->get_course_id());
+		return $this->database->update($course_rights, $condition);
 	}
 	
 	function update_course_group_subscribe_right($course_group_subscribe_right)

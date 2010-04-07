@@ -11,6 +11,7 @@ require_once dirname(__FILE__) . '/../tool/tool.class.php';
 require_once dirname(__FILE__) . '/../tool_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
 require_once dirname(__FILE__) . '/../course/course_settings.class.php';
+require_once dirname(__FILE__) . '/../course/course_rights.class.php';
 require_once dirname(__FILE__) . '/../course/course_group_subscribe_right.class.php';
 require_once dirname(__FILE__) . '/../course/course_group_unsubscribe_right.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
@@ -632,7 +633,7 @@ class WeblcmsManager extends WebApplication
 		{
 			$this->course = $wdm->retrieve_course($id);
 			if(!$this->course)
-				$this->redirect(Translation :: get('CourseDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+				$this->redirect(Translation :: get('CourseCorrupt'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
 		}
 		else
 		{

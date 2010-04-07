@@ -180,26 +180,30 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 	    $courses_category_0 = array();
 	    $courses_category_1 = array();
 	    
+	    $wdm = WeblcmsDataManager::get_instance();
         while($course = $courses->next_result())
 	    {
-	    	$this->get_parent()->load_course($course->get_id());
-	    	$course = $this->get_parent()->get_course();
-	    	switch($setting)
-	    	{
-		    	case self :: MIXED:
-		    			$courses_category_0[] = $course;
-		    			break;
-		    	case self :: SEPERATED:
-		    			if($course->get_access())
-		    				$courses_category_0[] = $course;
-		    			else
-		    				$courses_category_1[] = $course;
-		    			break;
-		    	case self :: OPEN_ONLY:
-		    			if($course->get_access())
-		    				$courses_category_0[] = $course;
-		    			break;
-	    	}
+	    	
+            $course = $wdm->retrieve_course($course->get_id());
+            if($course)
+            {
+		    	switch($setting)
+		    	{
+			    	case self :: MIXED:
+			    			$courses_category_0[] = $course;
+			    			break;
+			    	case self :: SEPERATED:
+			    			if($course->get_access())
+			    				$courses_category_0[] = $course;
+			    			else
+			    				$courses_category_1[] = $course;
+			    			break;
+			    	case self :: OPEN_ONLY:
+			    			if($course->get_access())
+			    				$courses_category_0[] = $course;
+			    			break;
+		    	}
+            }
 	    }
 	    $html = array();
     	switch($setting)
@@ -285,10 +289,9 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
             foreach($courses as $course)
             {
                 
-                $weblcms = $this->get_parent();
-                $weblcms->load_course($course->get_id());
-                $course = $weblcms->get_course();
-                $tools = $weblcms->get_course()->get_tools();
+                $wdm = WeblcmsDataManager::get_instance();
+                $course = $wdm->retrieve_course($course->get_id());
+                $tools = $course->get_tools();
                 
                 $html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_home.png);"><a style="top: -2px; position: relative;" href="' . $this->get_course_viewing_url($course) . '">' . $course->get_name() . '</a>';
 
@@ -335,7 +338,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
                 }
                 
                 $html[] = '</li>';
-                $weblcms->set_course(null);
             }
             $html[] = '</ul>';
             

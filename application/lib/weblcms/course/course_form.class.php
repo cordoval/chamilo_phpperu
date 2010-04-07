@@ -438,10 +438,27 @@ class CourseForm extends FormValidator
         $legend->set_items($legend_items);
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
+        $this->addElement('category', Translation :: get('Subscribe'));
+        $this->addElement('checkbox', CourseRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE, Translation :: get('DirectSubscribeAvailable'), '', array('class' => 'available DirectSubscribe'));
+        $this->addElement('html', '<div id="DirectSubscribeBlock">');
         $this->add_receivers(self :: SUBSCRIBE_DIRECT_TARGET, Translation :: get('DirectSubscribeFor'), $attributes, 'Everybody');
+        $this->addElement('html', '</div>');
+        $this->addElement('checkbox', CourseRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE, Translation :: get('RequestSubscribeAvailable'), '', array('class' => 'available RequestSubscribe'));
+        $this->addElement('html', '<div id="RequestSubscribeBlock">');
         $this->add_receivers(self :: SUBSCRIBE_REQUEST_TARGET, Translation :: get('RequestSubscribeFor'), $attributes, 'Everybody');
+        $this->addElement('html', '</div>');
+        $this->addElement('checkbox', CourseRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE, Translation :: get('CodeSubscribeAvailable'), '', array('class' => 'available CodeSubscribe'));
+        $this->addElement('html', '<div id="CodeSubscribeBlock">');
+        $this->addElement('text', CourseRights :: PROPERTY_CODE, Translation :: get('EnterCode'), array("size" => "50"));
         $this->add_receivers(self :: SUBSCRIBE_CODE_TARGET, Translation :: get('CodeSubscribeFor'), $attributes, 'Everybody');
+        $this->addElement('html', '</div>');
+        $this->addElement('category');
+        $this->addElement('category', Translation :: get('Unsubscribe'));
+        $this->addElement('checkbox', CourseRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE, Translation :: get('UnsubscribeAvailable'), '', array('class' => 'available Unsubscribe'));
+        $this->addElement('html', '<div id="UnsubscribeBlock">');
         $this->add_receivers(self :: UNSUBSCRIBE_TARGET, Translation :: get('UnsubscribeFor'), $attributes, 'Everybody');
+        $this->addElement('html', '</div>');
+        $this->addElement('category');
 	}
 
 	function save_course()
@@ -475,6 +492,10 @@ class CourseForm extends FormValidator
 		if(!$course_layout->update())
 			return false;
 
+		$course_rights = $this->fill_course_rights();
+		if(!$course_rights->update())
+			return false;
+			
 		$wdm = WeblcmsDataManager::get_instance();
 		$previous_rights = null;
 		$course_rights = null;
@@ -549,6 +570,11 @@ class CourseForm extends FormValidator
 		if(!$wdm->create_course_modules($selected_tools, $this->course->get_id()))
 			return false;
     	
+		$course_rights = $this->fill_course_rights();
+		dump($course_rights);
+		if(!$course_rights->create())
+			return false;
+			
 		$course_subscribe_rights = $this->fill_course_subscribe_rights();
 		foreach($course_subscribe_rights as $right)
 		{
@@ -641,6 +667,19 @@ class CourseForm extends FormValidator
 			$tools_array[] = $course_module;
 		}
 		return $tools_array;
+	}
+	
+	function fill_course_rights()
+	{
+		$values = $this->exportValues();
+		$course_rights = new CourseRights();
+		$course_rights->set_course_id($this->course->get_id());
+		$course_rights->set_direct_subscribe_available($this->parse_checkbox_value($values[CourseRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE]));
+		$course_rights->set_request_subscribe_available($this->parse_checkbox_value($values[CourseRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE]));
+		$course_rights->set_code_subscribe_available($this->parse_checkbox_value($values[CourseRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE]));
+		$course_rights->set_unsubscribe_available($this->parse_checkbox_value($values[CourseRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE]));
+		$course_rights->set_code($values[CourseRights :: PROPERTY_CODE]);
+		return $course_rights;
 	}
 	
 	function fill_course_subscribe_rights()
@@ -767,6 +806,14 @@ class CourseForm extends FormValidator
 		$defaults[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE] = $course_layout->get_course_manager_name_visible();
 		$defaults[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = $course_layout->get_course_languages_visible();
 
+		$course_rights = $course->get_rights();
+        //if(is_null($course->get_id())) $course_rights = $course->get_rights();
+		$defaults[CourseRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE] = $course_rights->get_direct_subscribe_available();
+		$defaults[CourseRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE] = $course_rights->get_request_subscribe_available();
+		$defaults[CourseRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE] = $course_rights->get_code_subscribe_available();
+		$defaults[CourseRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE] = $course_rights->get_unsubscribe_available();
+		$defaults[CourseRights :: PROPERTY_CODE] = $course_rights->get_code();
+		
 		$defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '0';
 		$defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '0';
 		$defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '0';
