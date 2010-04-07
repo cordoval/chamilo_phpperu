@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'condition/condition_translator.class.ph
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
 
-class DatabaseGradebookDataManager extends GradebookDatamanager
+class DatabaseGradebookDataManager extends GradebookDataManager
 {
 
 	private $database;
