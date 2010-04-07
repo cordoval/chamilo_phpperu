@@ -16,7 +16,7 @@ class EvaluationManagerBrowserComponent extends EvaluationManagerComponent
 
     function get_table()
     {
-        $table = new EvaluationBrowserTable($this, array(Application :: PARAM_APPLICATION => EvaluationManager :: APPLICATION_NAME, Application :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE), null);
+        $table = new EvaluationBrowserTable($this/*, array(Application :: PARAM_APPLICATION => EvaluationManager :: APPLICATION_NAME, Application :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE), null*/);
         return $table->as_html();
     }
 

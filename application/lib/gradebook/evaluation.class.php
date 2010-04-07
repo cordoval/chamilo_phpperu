@@ -10,7 +10,7 @@ class Evaluation extends DataClass
      * Evaluation properties
      */
      const PROPERTY_USER_ID = 'user_id';
-     const PROPERTY_EVALUATOR = 'evaluator_id';
+     const PROPERTY_EVALUATOR_ID = 'evaluator_id';
      const PROPERTY_FORMAT_ID = 'format_id';
      const PROPERTY_EVALUATION_DATE = 'evaluation_date';
      
@@ -56,7 +56,7 @@ class Evaluation extends DataClass
      */
     function set_evaluator_id($evaluator_id)
     {
-    	$this->set_default_property(self :: PROPERTY_EVALUATOR, $evaluator_id);
+    	$this->set_default_property(self :: PROPERTY_EVALUATOR_ID, $evaluator_id);
     }
 	/**
     * Returns the format_id of this Evaluation.
