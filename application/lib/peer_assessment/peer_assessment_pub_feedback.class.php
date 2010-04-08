@@ -1,15 +1,11 @@
 <?php
-/**
- * $Id: wiki_pub_feedback.class.php 210 2009-11-13 13:18:50Z kariboe $
- * @package application.lib.wiki
- */
-require_once Path :: get_application_path() . 'lib/wiki/data_manager/database.class.php';
+require_once Path :: get_application_path() . 'lib/peer_assessment/data_manager/database.class.php';
 
-class WikiPubFeedback extends ContentObject
+class PeerAssessmentPubFeedback extends ContentObject
 {
     const CLASS_NAME = __CLASS__;
     const PROPERTY_ID = 'id';
-    const PROPERTY_WIKI_PUBLICATION_ID = 'wiki_publication_id';
+    const PROPERTY_PEER_ASSESSMENT_PUBLICATION_ID = 'peer_assessment_publication_id';
     const PROPERTY_CLOI_ID = 'complex_id';
     const PROPERTY_FEEDBACK_ID = 'feedback_id';
 
@@ -19,7 +15,7 @@ class WikiPubFeedback extends ContentObject
      */
     private $defaultProperties;
 
-    function ContentObjectPubFeedback($wiki_publication_id = 0, $cloi_id = 0, $feedback_id = 0, $defaultProperties = array ())
+    function ContentObjectPubFeedback($peer_assessment_publication_id = 0, $cloi_id = 0, $feedback_id = 0, $defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -41,7 +37,7 @@ class WikiPubFeedback extends ContentObject
 
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_WIKI_PUBLICATION_ID, self :: PROPERTY_CLOI_ID, self :: PROPERTY_FEEDBACK_ID);
+        return array(self :: PROPERTY_ID, self :: PROPERTY_PEER_ASSESSMENT_PUBLICATION_ID, self :: PROPERTY_CLOI_ID, self :: PROPERTY_FEEDBACK_ID);
     }
 
     function set_default_property($name, $value)
@@ -59,9 +55,9 @@ class WikiPubFeedback extends ContentObject
         return $this->get_default_property(self :: PROPERTY_ID);
     }
 
-    function get_wiki_publication_id()
+    function get_peer_assessment_publication_id()
     {
-        return $this->get_default_property(self :: PROPERTY_WIKI_PUBLICATION_ID);
+        return $this->get_default_property(self :: PROPERTY_PEER_ASSESSMENT_PUBLICATION_ID);
     }
 
     function get_cloi_id()
@@ -79,9 +75,9 @@ class WikiPubFeedback extends ContentObject
         $this->set_default_property(self :: PROPERTY_ID, $id);
     }
 
-    function set_wiki_publication_id($wiki_publication_id)
+    function set_peer_assessment_publication_id($peer_assessment_publication_id)
     {
-        $this->set_default_property(self :: PROPERTY_WIKI_PUBLICATION_ID, $wiki_publication_id);
+        $this->set_default_property(self :: PROPERTY_PEER_ASSESSMENT_PUBLICATION_ID, $peer_assessment_publication_id);
     }
 
     function set_cloi_id($cloi_id)
@@ -96,20 +92,20 @@ class WikiPubFeedback extends ContentObject
 
     function delete()
     {
-        return WikiDataManager :: get_instance()->delete_wiki_pub_feedback($this);
+        return PeerAssessmentDataManager :: get_instance()->delete_peer_assessment_pub_feedback($this);
     }
 
     function create()
     {
-        $wdm = WikiDataManager :: get_instance();
+        $wdm = PeerAssessmentDataManager :: get_instance();
 
-        return $wdm->create_wiki_pub_feedback($this);
+        return $wdm->create_peer_assessment_pub_feedback($this);
     }
 
     function update()
     {
-        $wdm = WikiDataManager :: get_instance();
-        $success = $wdm->update_wiki_pub_feedback($this);
+        $wdm = PeerAssessmentDataManager :: get_instance();
+        $success = $wdm->update_peer_assessment_pub_feedback($this);
         if (! $success)
         {
             return false;
