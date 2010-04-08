@@ -17,6 +17,9 @@ class CourseRights extends DataClass
     const PROPERTY_UNSUBSCRIBE_AVAILABLE = 'unsubscribe_available';
     const PROPERTY_CODE = 'code';
 
+    private $group_subscribe_rights = array();
+    private $goup_unsubscribe_rights = array();
+    
     /**
      * Get the default properties of all courses.
      * @return array The property names.
@@ -31,7 +34,7 @@ class CourseRights extends DataClass
         			  self :: PROPERTY_UNSUBSCRIBE_AVAILABLE,
         			  self :: PROPERTY_CODE));
     }
-
+    
     /**
      * inherited
      */
@@ -104,6 +107,65 @@ class CourseRights extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-
+    
+    //Subscribe/Unsubscribe getters and setters
+	function can_group_subscribe($group_id)
+	{
+		if($this->get_direct_subscribe_available() && $this->get_request_subscribe_available() && $this->get_code_subscribe_available())
+		{
+			if(is_set($group_subscribe_rights[$group_id]))
+				return $group_subscribe_rights[$group_id]->get_subscribe();
+			else
+			{
+				$right = WeblcmsDatamanager::get_instance()->retrieve_group_subscribe_right($this->get_course_id(), $group_id);
+				if(!is_empty($right))
+				{
+					switch($right->get_subscribe())
+					{
+						case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT:
+							if(!$this->get_direct_subscribe_available())
+								$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
+							break;
+						case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST:
+							if(!$this->get_request_subscribe_available())
+								$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
+							break;
+						case CourseGroupSubscribeRight :: SUBSCRIBE_CODE:
+							if(!$this->get_code_subscribe_available())
+								$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
+							break;
+					}
+					$group_subscribe_rights[$group_id] = $right;
+					return $right->get_subscribe();
+				}
+				else
+				{
+					$right = new CourseGroupSubscribeRight();
+					$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
+					$group_subscribe_rights[$group_id] = $right;
+					return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+				}
+			}
+		}
+		else return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+	}
+	
+	function can_group_unsubscribe($group_id)
+	{
+		if($this->get_unsubscribe_available())
+		{
+			if(is_set($group_unsubscribe_rights[$group_id]))
+				return $group_unsubscribe_rights[$group_id]->get_unsubscribe();
+			else
+			{
+				$right = WeblcmsDatamanager::get_instance()->retrieve_group_unsubscribe_right($this->get_course_id(), $group_id);
+				if(is_empty($right))
+					$right = new CourseGroupUnsubscribeRight();
+				$group_unsubscribe_rights[$group_id] = $right;
+				return $right->get_unsubscribe();
+			}
+		}
+		else return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+	}
 }
 ?>
