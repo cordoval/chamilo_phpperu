@@ -200,7 +200,13 @@ class CourseForm extends FormValidator
         $this->addRule(Course :: PROPERTY_VISUAL, Translation :: get('ThisFieldIsRequired'), 'required');
 
         $this->get_categories(0);
-        $this->addElement('select', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
+        if(count($this->categories)>0)
+        	$this->addElement('select', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
+        else
+        {
+        	$category_name = Translation :: get('NoCategories');
+        	$this->addElement('static', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $category_name);
+        }
 
        	$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $user_options);
         $this->addRule(Course :: PROPERTY_TITULAR, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -402,7 +408,7 @@ class CourseForm extends FormValidator
 		    $tool_data = array();
 
 			$element_default_arr = array('class'=>'viewablecheckbox', 'style'=>'width=80%');
-			if(!empty($this->course_type_id) && $course_type_tool->get_visible_default())
+			if(empty($this->course_type_id) || $course_type_tool->get_visible_default())
 				$element_default_arr['checked'] = "checked";
 
 			$tool_image_src = Theme :: get_image_path() . 'tool_mini_' . $tool . '.png';
@@ -802,8 +808,8 @@ class CourseForm extends FormValidator
         $course_settings = $course;
         if(is_null($course->get_id())) $course_settings = $course->get_course_type()->get_settings();
         $defaults[CourseSettings :: PROPERTY_LANGUAGE] = !is_null($course_settings->get_language())?$course_settings->get_language():LocalSetting :: get('platform_language');
-		$defaults[CourseSettings :: PROPERTY_VISIBILITY] = $course_settings->get_visibility();
-		$defaults[CourseSettings :: PROPERTY_ACCESS] = $course_settings->get_access();
+		$defaults[CourseSettings :: PROPERTY_VISIBILITY] = !is_null($course_settings->get_visibility())?$course_settings->get_visibility():1;
+		$defaults[CourseSettings :: PROPERTY_ACCESS] = !is_null($course_settings->get_access())? $course_settings->get_access():1;
 		$defaults[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $course_settings->get_max_number_of_members();
 		$defaults[self :: UNLIMITED_MEMBERS] = ($course_settings->get_max_number_of_members() == 0)? 1:0;
 
