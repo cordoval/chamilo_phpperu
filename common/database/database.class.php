@@ -193,15 +193,27 @@ class Database
             throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
         }
         $default_properties = array();
+        $optional_properties = array();
 
-        $object = new $class_name($default_properties);
+        $object = new $class_name();
 
         foreach ($object->get_default_property_names() as $property)
         {
             $default_properties[$property] = $record[$property];
+            unset($record[$property]);
         }
 
         $object->set_default_properties($default_properties);
+        
+        if(count($record) > 0)
+        {
+	        foreach($record as $optional_property_name => $optional_property_value)
+	        {
+	        	$optional_properties[$optional_property_name] = $optional_property_value;
+	        }
+	        
+	        $object->set_optional_properties($optional_properties);
+        }
         return $object;
     }
 

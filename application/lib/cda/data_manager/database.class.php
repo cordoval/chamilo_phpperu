@@ -194,8 +194,18 @@ class DatabaseCdaDataManager extends CdaDataManager
 
 	function retrieve_variable_translation_by_parameters($language_id, $variable_id)
 	{
-		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_id);
+		
+		if(!is_numeric($language_id))
+		{
+			$subcondition = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, $language_id);
+			$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, CdaLanguage :: PROPERTY_ID, 'cda_' . CdaLanguage :: get_table_name(), $subcondition);
+		}
+		else
+		{
+			$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);			
+		}
+		
 		$condition = new AndCondition($conditions);
 
 		return $this->database->retrieve_object(VariableTranslation :: get_table_name(), $condition);
@@ -208,7 +218,8 @@ class DatabaseCdaDataManager extends CdaDataManager
 		$variable_alias = $this->database->get_alias(Variable :: get_table_name());
 		$variable_table = $this->database->escape_table_name(Variable :: get_table_name());
 
-        $query = 'SELECT ' . $variable_translation_alias . '.* FROM ' . $variable_translation_table . ' AS ' . $variable_translation_alias;
+        $query = 'SELECT ' . $variable_translation_alias . '.*, ' . $variable_alias . '.variable FROM ' . $variable_translation_table . ' AS ' . $variable_translation_alias;
+        //$query = 'SELECT * FROM ' . $variable_translation_table . ' AS ' . $variable_translation_alias;
         $query .= ' JOIN ' . $variable_table . ' AS ' . $variable_alias . ' ON ' . $variable_translation_alias . '.variable_id = ' . $variable_alias . '.id';
 
         return $this->database->retrieve_object_set($query, VariableTranslation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
