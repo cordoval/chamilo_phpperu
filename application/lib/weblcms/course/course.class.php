@@ -37,10 +37,8 @@ class Course extends DataClass
     const PROPERTY_VISUAL = 'visual_code';
     const PROPERTY_NAME = 'title';
     const PROPERTY_TITULAR = 'titular_id';
-
     const PROPERTY_EXTLINK_URL = 'department_url';
     const PROPERTY_EXTLINK_NAME = 'department_name';
-
     const PROPERTY_CATEGORY = 'category_id';
 
     // Remnants from the old Chamilo system
