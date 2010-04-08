@@ -73,18 +73,28 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
      */
     function toHtml()
     {
-        $html = parent :: toHtml();
+        $parent_html = parent :: toHtml();
         $class = array('A' => 'current', 'P' => 'current_path');
-        $html = preg_replace('/(?<=<li)><!--([AP])-->/e', '\' class="\'.$class[\1].\'">\'', $html);
-        $html = preg_replace('/\s*\b(onclick|id)="\s*"\s*/', ' ', $html);
+        $parent_html = preg_replace('/(?<=<li)><!--([AP])-->/e', '\' class="\'.$class[\1].\'">\'', $parent_html);
+        $parent_html = preg_replace('/\s*\b(onclick|id)="\s*"\s*/', ' ', $parent_html);
         
         if (self :: $initialized)
         {
-            return $html;
+            return $parent_html;
         }
+       
         self :: $initialized = true;
-        //return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/treemenu.js') . $html;
-        return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/tree_menu.js') . $html;
+        
+        $html[] = $parent_html;
+        //return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/tree_menu.js') . $html;
+        
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.tree_menu.js');
+        
+        $html[] = '<script type="text/javascript">';
+        $html[] = '$(".tree-menu").tree_menu({search: "' . '' . '" });';
+        $html[] = '</script>';
+        
+        return implode("\n", $html);
     }
 }
 ?>
