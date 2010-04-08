@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../evaluation.class.php';
+require_once dirname(__FILE__).'/../../grade_evaluation.class.php';
 
 class DefaultEvaluationBrowserTableColumnModel extends ObjectTableColumnModel
 {
@@ -17,9 +18,15 @@ class DefaultEvaluationBrowserTableColumnModel extends ObjectTableColumnModel
 	 */
 	private static function get_default_columns()
 	{
+		$gdm = GradebookDataManager :: get_instance();
+		$evaluation_alias = $gdm->get_database()->get_alias(Evaluation :: get_table_name());
+		$grade_evaluation_alias = $gdm->get_database()->get_alias(GradeEvaluation :: get_table_name());
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Evaluation :: PROPERTY_EVALUATION_DATE);
-		$columns[] = new ObjectTableColumn(Evaluation :: PROPERTY_EVALUATOR_ID);
+		$columns[] = new ObjectTableColumn(Evaluation :: PROPERTY_EVALUATION_DATE, true, $evaluation_alias);
+		$columns[] = new ObjectTableColumn(Translation :: get('user'), false);
+		$columns[] = new ObjectTableColumn(Translation :: get('evaluator'), false);
+		$columns[] = new ObjectTableColumn(GradeEvaluation :: PROPERTY_SCORE, false, $grade_evaluation_alias);
+		$columns[] = new ObjectTableColumn(GradeEvaluation :: PROPERTY_COMMENT, false, $grade_evaluation_alias);
 		return $columns;
 	}
 }

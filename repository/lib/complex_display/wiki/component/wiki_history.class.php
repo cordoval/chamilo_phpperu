@@ -56,6 +56,8 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
         $publication_attr = array();
         $versions = $wiki_page->get_content_object_versions();
         
+        $this->display_header(new BreadcrumbTrail());
+        
         $this->action_bar = $this->get_parent()->get_toolbar($this, Request :: get('pid'), $this->get_root_lo(), $this->cid);
         echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
         echo '<div style="float:left; width: 135px;">' . $this->action_bar->as_html() . '</div>';
@@ -145,6 +147,8 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
         }
         
         echo '</div>';
+        
+        $this->display_footer();
     }
 }
 ?>

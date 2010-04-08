@@ -119,18 +119,16 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
             $display = $template->to_html();
         }
         
-        $this->display_header($trail, true);
-        
         if (get_class($display) == 'AssessmentDisplay')
         {
             $display->run();
         }
         else
         {
-            echo $display;
+            $this->display_header($trail, true);
+        	echo $display;
+        	$this->display_footer();
         }
-        
-        $this->display_footer();
     }
 
     private function get_menu($root_object_id, $selected_object_id, $pid, $lpi_tracker_data)

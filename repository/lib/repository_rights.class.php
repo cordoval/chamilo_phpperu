@@ -24,14 +24,14 @@ class RepositoryRights
         return RightsUtilities :: is_allowed($right, $location, $type, RepositoryManager :: APPLICATION_NAME);
     }
 
-    function get_location_by_identifier($type, $identifier)
+    function get_location_by_identifier($type, $identifier, $tree_identifier = '0', $tree_type = 'root')
     {
-        return RightsUtilities :: get_location_by_identifier(RepositoryManager :: APPLICATION_NAME, $type, $identifier);
+        return RightsUtilities :: get_location_by_identifier(RepositoryManager :: APPLICATION_NAME, $type, $identifier, $tree_identifier, $tree_type);
     }
 
-    function get_location_id_by_identifier($type, $identifier)
+    function get_location_id_by_identifier($type, $identifier, $tree_identifier = '0', $tree_type = 'root')
     {
-        return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, $type, $identifier);
+        return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, $type, $identifier, $tree_identifier, $tree_type);
     }
 
     function get_root_id()
@@ -53,17 +53,17 @@ class RepositoryRights
     {
     	return RightsUtilities :: create_location($name, RepositoryManager :: APPLICATION_NAME, $type, $identifier, 0, $parent, 0, $user_id, 'user_tree');
     }
-    
+
     function get_user_root_id($user_id)
     {
         return RightsUtilities :: get_root_id(RepositoryManager :: APPLICATION_NAME, 'user_tree', $user_id);
     }
-    
+
 	static function get_location_id_by_identifier_from_user_subtree($type, $identifier, $user_id)
     {
     	return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, $type, $identifier, $user_id, 'user_tree');
     }
-    
+
 	static function is_allowed_in_user_subtree($right, $location, $type, $user_id)
     {
     	 return RightsUtilities :: is_allowed($right, $location, $type, RepositoryManager :: APPLICATION_NAME, null, $user_id, 'user_tree');

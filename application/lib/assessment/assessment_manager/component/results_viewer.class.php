@@ -16,13 +16,14 @@ require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts
 class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
 {
     private $current_attempt_id;
-
+	private $trail;
+	
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $this->trail = $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
         
@@ -87,13 +88,26 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
             }
         }
         
-        $this->display_header($trail);
         if (is_object($html))
+        {
             $html->run();
-        else
-            echo $html;
-        
-        $this->display_footer();
+        }
+        else 
+        {
+            $this->display_header();
+        	echo $html;
+        	$this->display_footer();
+        }
+    }
+    
+    function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	parent :: display_header($this->trail);
     }
 
     function display_summary_results()

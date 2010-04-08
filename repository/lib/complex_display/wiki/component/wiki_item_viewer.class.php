@@ -42,6 +42,8 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
             $this->wiki_page = $dm->retrieve_content_object($cloi->get_ref());
         }
         
+        $this->display_header(new BreadcrumbTrail());
+        
         $this->action_bar = $this->get_parent()->get_toolbar($this, Request :: get('pid'), $this->get_root_lo(), $this->cid); //$this->get_toolbar();
         echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
         echo '<div style="float:left; width: 135px;">' . $this->action_bar->as_html() . '</div>';
@@ -60,6 +62,8 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
          */
         echo '<div ><a href=#top>' . 'back to top' . '</a></div>';
         echo '</div>';
+        
+        $this->display_footer();
     }
 }
 ?>

@@ -11,7 +11,8 @@
  */
 class GlossaryToolViewerComponent extends GlossaryToolComponent
 {
-
+	private $trail;
+	
     function run()
     {
         if (! $this->is_allowed(VIEW_RIGHT))
@@ -30,14 +31,24 @@ class GlossaryToolViewerComponent extends GlossaryToolComponent
         
         $this->set_parameter(Tool :: PARAM_ACTION, GlossaryTool :: ACTION_VIEW_GLOSSARY);
         
-        $trail = new BreadcrumbTrail();
+        $this->$trail = $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewGlossary')));
         
-        $this->display_header($trail);
+        //$this->display_header($trail);
         
         $display = ComplexDisplay :: factory($this, $object->get_type());
         $display->run();
-        $this->display_footer();
+        //$this->display_footer();
+    }
+    
+	function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	return parent :: display_header($this->trail);
     }
 }
 

@@ -18,6 +18,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
     private $trackers;
     private $lpi_attempt_data;
     private $cloi;
+    private $trail;
 
     function run()
     {
@@ -28,7 +29,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             return;
         }
         
-        $trail = new BreadcrumbTrail();
+        $this->trail = $trail = new BreadcrumbTrail();
         $trail->add_help('courses learnpath tool');
         
         // Check and retrieve publication
@@ -37,7 +38,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
         
         if (! $pid)
         {
-            $this->display_header($trail, true);
+            parent :: display_header($trail, true);
             $this->display_error_message(Translation :: get('NoObjectSelected'));
             $this->display_footer();
         }
@@ -155,14 +156,14 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             }
             else
             {
-                $this->display_header($trail, true);
+                parent :: display_header($trail, true);
                 $this->display_error_message(Translation :: get('EmptyLearningPath'));
                 $this->display_footer();
                 exit();
             }
         }
         
-        $this->display_header($trail, true);
+        parent :: display_header($trail, true);
         //echo '<br />';
         echo '<div style="width: 17%; overflow: auto; float: left;">';
         echo $menu->render_as_tree() . '<br /><br />';
@@ -182,6 +183,16 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
         $this->display_footer();
+    }
+    
+    function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	return parent :: display_header($this->trail);
     }
 
     /**

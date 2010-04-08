@@ -12,9 +12,11 @@ class AssessmentMatrixQuestionOption extends MatrixQuestionOption
 {
 	const PROPERTY_SCORE = 'score';
 	const PROPERTY_FEEDBACK = 'feedback';
-	
+	const PROPERTY_MATCHES = 'matches';
+
     private $score;
     private $feedback;
+    private $matches;
 
     /**
      * Creates a new option for a matrix question
@@ -24,9 +26,10 @@ class AssessmentMatrixQuestionOption extends MatrixQuestionOption
      */
     function AssessmentMatrixQuestionOption($value = '', $matches = array(), $score = 1, $feedback = '')
     {
-		parent :: MatrixQuestionOption($value, $matches);
+		parent :: MatrixQuestionOption($value);
         $this->score = $score;
         $this->comment = $feedback;
+        $this->matches = $matches;
     }
     /**
      * Gets the score of this answer
@@ -39,6 +42,15 @@ class AssessmentMatrixQuestionOption extends MatrixQuestionOption
     function get_feedback()
     {
         return $this->feedback;
+    }
+
+    /**
+     * Gets the index of the match corresponding to this option
+     * @return int
+     */
+    function get_matches()
+    {
+        return unserialize($this->matches);
     }
 }
 ?>

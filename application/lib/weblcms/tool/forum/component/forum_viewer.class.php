@@ -8,7 +8,8 @@ require_once dirname(__FILE__) . '/../forum_tool_component.class.php';
 
 class ForumToolViewerComponent extends ForumToolComponent
 {
-
+	private $trail;
+	
     function run()
     {
         if (! $this->is_allowed(VIEW_RIGHT))
@@ -21,13 +22,13 @@ class ForumToolViewerComponent extends ForumToolComponent
         $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         
         $this->set_parameter(Tool :: PARAM_ACTION, ForumTool :: ACTION_VIEW_FORUM);
-        
-        $this->display_header(new BreadcrumbTrail());
+        $this->trail = $trail = new BreadcrumbTrail();
+       // $this->display_header(new BreadcrumbTrail());
         
         $cd = ComplexDisplay :: factory($this, 'forum');
         $cd->run();
         
-        $this->display_footer();
+        //$this->display_footer();
         
         switch ($cd->get_action())
         {
@@ -35,6 +36,16 @@ class ForumToolViewerComponent extends ForumToolComponent
                 Events :: trigger_event('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $pid, 'forum_topic_id' => $cid));
                 break;
         }
+    }
+    
+	function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	return parent :: display_header($this->trail);
     }
 
     function get_url($parameters = array (), $filter = array(), $encode_entities = false)

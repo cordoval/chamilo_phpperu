@@ -69,13 +69,11 @@ $(function ()
 		
 		rows.each(function ()
 		{
-			var weightField, weightFieldName, id, appendField;
-			
-			weightField = $('input[name*="option_weight"]', this);
-			weightFieldName = weightField.attr('name');
-			id = weightFieldName.substr(14, weightFieldName.length - 15);
-			
-			appendField = deleteField.replace(/\$option_number/g, id);
+			var rowName, id, appendField;
+		    
+			rowName = $(this).attr('id');
+		    id = rowName.substr(7);
+		    appendField = deleteField.replace(/\$option_number/g, id);
 			
 		    $('.remove_option', this).remove();
 		    $('td:last', this).append(appendField);
@@ -93,10 +91,11 @@ $(function ()
 			id = $(this).attr('id').replace('remove_option_', ''),
 			row = 0, rows;
 		
+		destroyHtmlEditor('value['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 		doAjaxPost("./common/javascript/ajax/matching_question.php", { action: 'skip_option', value: id });
 		
-		rows = $('tr', tableBody);
+		rows = $('tr.row_even, tr.row_odd', tableBody);
 		rows.each(function ()
 		{
 			var rowClass = row % 2 === 0 ? 'row_even' : 'row_odd';
@@ -126,16 +125,13 @@ $(function ()
 		$('#mq_number_of_options').val(newNumber);
 		
 		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
-		editorNameAnswer = 'option[' + numberOfOptions + ']';
+		editorNameAnswer = 'value[' + numberOfOptions + ']';
 		editorNameComment = 'comment[' + numberOfOptions + ']';
-	
-		fieldMatches =  '<select name="matches_to[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';		
+			
 		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
-//		fieldComment = renderHtmlEditor(editorNameComment, parameters);
-//		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_option_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[' + numberOfOptions + ']" />';
 		
-		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldMatches + '</td><td>' + 
+		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + 
 				fieldDelete + '</td></tr>';
 		
 		$('.data_table.options > tbody').append(string);
@@ -152,11 +148,12 @@ $(function ()
 			row = 0, rows,
 			selectBox;
 		
+		destroyHtmlEditor('match['+ id +']');
 		$('tr#match_' + id, tableBody).remove();
 		
 		doAjaxPost("./common/javascript/ajax/matching_question.php", { action: 'skip_match', value: id });
 		
-		rows = $('tr', tableBody);
+		rows = $('tr.row_even, tr.row_odd', tableBody);
 		rows.each(function ()
 		{
 			var rowClass = row % 2 === 0 ? 'row_even' : 'row_odd';

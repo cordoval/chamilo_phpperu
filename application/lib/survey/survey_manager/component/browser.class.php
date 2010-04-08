@@ -54,13 +54,10 @@ class SurveyManagerBrowserComponent extends SurveyManagerComponent
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_manage_survey_publication_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('TestSurveys'), Theme :: get_common_image_path() . 'action_category.png', $this->get_testcase_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
-        
-//        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewResultsSummary'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_survey_results_viewer_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-//        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportSurvey'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_survey_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewResultsSummary'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_survey_results_viewer_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportSurvey'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_survey_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
 
-
-   
         return $action_bar;
     }
 
@@ -74,58 +71,46 @@ class SurveyManagerBrowserComponent extends SurveyManagerComponent
         $user = $this->get_user();
         $datamanager = SurveyDataManager :: get_instance();
         
+        $conditions = array();
+        $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_TEST, false);
+        $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_CATEGORY, $current_category);
+        
+        if (isset($query) && $query != '')
+        {
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+            $subselect_condition = new OrCondition($search_conditions);
+            $conditions[] = new SubselectCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        }
+        
         if ($user->is_platform_admin())
         {
-            $user_id = array();
-            $groups = array();
+            return new AndCondition($conditions);
         }
         else
         {
             $user_id = $user->get_id();
             $groups = $user->get_groups(true);
-        }
-
-        $conditions = array();
-		$conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_TEST, false );
-        
-        if (isset($query) && $query != '')
-        {
-            $search_conditions = array();
-            $search_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
-            $search_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
-            $subselect_condition = new OrCondition($search_conditions);
-            $conditions[] = new SubselectCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
-        }
-        
-        $access = array();
-        $access[] = new InCondition(SurveyPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(SurveyPublicationUser :: get_table_name()));
-        $access[] = new InCondition(SurveyPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(SurveyPublicationGroup :: get_table_name()));
-        $access[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $user->get_id() );
-        
-        
-        if (! empty($user_id) || ! empty($groups))
-        {
-            $access[] = new AndCondition(array( new InCondition(SurveyPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(SurveyPublicationGroup :: get_table_name())),new EqualityCondition(SurveyPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(SurveyPublicationUser :: get_table_name()))));
-        }
-        $conditions[] = new OrCondition($access);
-                
-        if (! $user->is_platform_admin())
-        {
-            $visibility = array();
-            $visibility[] = new EqualityCondition(SurveyPublication :: PROPERTY_HIDDEN, false);
-            $visibility[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $user->get_id());
-            $conditions[] = new OrCondition($visibility);
+            
+            $access = array();
+            $access[] = new InCondition(SurveyPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(SurveyPublicationUser :: get_table_name()));
+            $access[] = new InCondition(SurveyPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(SurveyPublicationGroup :: get_table_name()));
+            $access[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $user->get_id());
+            $conditions[] = new OrCondition($access);
+            
+            $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_HIDDEN, false);
             
             $dates = array();
-            $dates[] = new AndCondition(array(new InequalityCondition(SurveyPublication :: PROPERTY_FROM_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time()), new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time())));
-            $dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0)));
-            $dates[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $user->get_id());
+            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
+           	$interval[]	= new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
+            $dates[] = new AndCondition($interval);
+          	$dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0)));
             $conditions[] = new OrCondition($dates);
+
+            return new AndCondition($conditions);
         }
         
-        $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_CATEGORY, $current_category);
-              
-        return new AndCondition($conditions);
     }
 }
 ?>

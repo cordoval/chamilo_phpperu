@@ -15,9 +15,19 @@ class LearningPathToolCloViewerComponent extends LearningPathToolComponent
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $object_id);
         $display = ComplexDisplay :: factory($this, $object->get_type());
         $display->set_root_lo($object);
-        Display :: small_header();
+        //Display :: small_header();
         $display->run();
     
+    }
+    
+	function display_header($trail)
+    {
+    	return Display :: small_header();
+    }
+    
+    function display_footer()
+    {
+    	return null;
     }
 
 }

@@ -51,7 +51,9 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
             if (! isset($object_ids))
             {
                 $html[] = $pub->as_html();
+                $this->display_header(new BreadcrumbTrail());
                 echo implode("\n", $html);
+                $this->display_footer();
             }
             else
             {
