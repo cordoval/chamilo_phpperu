@@ -129,12 +129,13 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         $this->addElement('html', $html);
         
         $applications = WebApplication :: load_all_from_filesystem(true, true);
+               
         $this->apps = array();
         
         $location_count = 0;
         
         $adm = AdminDataManager :: get_instance();
-        
+              
         foreach ($applications as $application_name)
         {
         	$application = Application :: factory($application_name);
@@ -174,7 +175,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
     }
     
     function add_locations($application, $application_name, $locations)
-    {
+    {    	
     	if (count($locations) == 0){
     		return;
     	}
@@ -187,7 +188,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         $this->addElement('html', '<div class="description"><br />');
             
         $application_name = Utilities :: underscores_to_camelcase($application_name);
-            
+        
         $application->add_publication_attributes_elements($this);
             
         foreach ($locations as $id => $location)
