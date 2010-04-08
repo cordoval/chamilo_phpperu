@@ -1,8 +1,9 @@
 <?php
-class EvaluationManagerDeleteComponent extends EvaluationManagerComponent
+class EvaluationManagerDeleterComponent extends EvaluationManagerComponent
 {
 	function run()
 	{
+		$publication = $this->get_publication();
 		$ids = $_GET[EvaluationManager :: PARAM_EVALUATION];
         $failures = 0;
         
@@ -31,14 +32,14 @@ class EvaluationManagerDeleteComponent extends EvaluationManagerComponent
                 }
                 else
                 {
-                    $message = 'SelectedEvaluationDeleted';
+                    $message = 'SelectedEvaluationsDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedEvaluationsDeleted';
+                    $message = 'SelectedEvaluationDeleted';
                 }
                 else
                 {
@@ -46,7 +47,7 @@ class EvaluationManagerDeleteComponent extends EvaluationManagerComponent
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE));
+		$this->redirect($message, $failures, array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE,EvaluationManager :: PARAM_PUBLICATION => $publication->get_id()));        
         }
         else
         {

@@ -105,11 +105,22 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$query = 'SELECT ' . $this->database->escape_column_name(InternalItemInstance :: PROPERTY_EVALUATION_ID,$internal_item_instance_alias) . ' FROM ' . $this->database->escape_table_name(InternalItemInstance :: get_table_name()) .  ' AS ' . $internal_item_instance_alias;
 		return $this->database->retrieve_object_set($query, InternalItemInstance :: get_table_name(), $condition);
 	}
+	function retrieve_internal_item_instance_by_evaluation($evaluation_id)
+	{
+		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_EVALUATION_ID, $evaluation_id);
+		return $this->database->retrieve_object(InternalItemInstance :: get_table_name(), $condition);
+	}
 	
 	function create_internal_item_instance($internal_item_instance)
 	{
 		return $this->database->create($internal_item_instance);
 	}
+	function update_internal_item_instance($internal_item_instance)
+	{
+		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_ID, $internal_item_instance->get_id());
+		return $this->database->update($internal_item_instance, $condition);
+	}
+	
 
 // gradebook evaluation
 	
@@ -165,7 +176,6 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	
 	function delete_evaluation($evaluation)
 	{
-		
 		$internal_item_instance = $this->retrieve_internal_item_instance_by_evaluation($evaluation->get_id());
 		if (! $this->delete_internal_item_instance($internal_item_instance))
 		{
@@ -182,11 +192,13 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	
 	function update_evaluation($evaluation)
 	{
-		$grade_evaluation = $this->retrieve_grade_evaluation($evaluation->get_id());
-		if (! $this->update_grade_evaluation($grade_evaluation))
-		{
-			return false;
-		}
+//		dump($evaluation);
+//		$grade_evaluation = $this->retrieve_grade_evaluation($evaluation->get_id());
+//		dump($grade_evaluation);
+//		if (! $this->update_grade_evaluation($grade_evaluation))
+//		{
+//			return false;
+//		}
 		$condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $evaluation->get_id());
 		return $this->database->update($evaluation, $condition);
 	}
@@ -218,7 +230,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	}
 */
 	function retrieve_evaluation($id){
-		$condition = new EqualityCondition(Gradebook :: PROPERTY_ID, $id);
+		$condition = new EqualityCondition(Evaluation :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(Evaluation :: get_table_name(), $condition);
 	}
 
@@ -247,7 +259,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	function update_grade_evaluation($grade_evaluation)
 	{
 		$condition = new EqualityCondition(GradeEvaluation :: PROPERTY_ID, $grade_evaluation->get_id());
-		return $this->database->update(GradeEvaluation :: get_table_name(), $condition);
+		return $this->database->update($grade_evaluation, $condition);
 	}
 /*
 	//gradebook_items rel user
