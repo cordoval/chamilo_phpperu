@@ -212,9 +212,7 @@ class SurveyPublicationForm extends FormValidator
     function create_content_object_publications()
     {
         $values = $this->exportValues();
-        
-        dump($values);
-        
+               
         if ($values[self :: PARAM_FOREVER] != 0)
         {
             $from = $to = 0;
