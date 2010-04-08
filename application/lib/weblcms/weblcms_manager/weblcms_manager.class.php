@@ -275,7 +275,7 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->get_parameter(self :: PARAM_TOOL);
 	}
-	
+
  	/**
      * Retrieves the change active url
      * @return the change active component url
@@ -286,7 +286,7 @@ class WeblcmsManager extends WebApplication
         $parameters[self :: PARAM_ACTION] = self :: ACTION_CHANGE_ACTIVE;
         $parameters[self :: PARAM_TYPE] = $type;
         $parameters[self :: PARAM_COURSE_TYPE] = $course_type_id;
-        
+
         return $this->get_url($parameters);
     }
 
@@ -370,12 +370,12 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->course_type;
 	}
-	
+
 	function get_move_course_url($course)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_COURSE, self :: PARAM_COURSE => $course->get_id()));
     }
-	
+
 	function get_course_type_deleting_url($course_type)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COURSE_TYPE, self :: PARAM_COURSE_TYPE => $course_type->get_id()));
@@ -947,12 +947,12 @@ class WeblcmsManager extends WebApplication
     {
     		return WeblcmsDataManager :: get_instance()->retrieve_course_types($condition, $offset, $count, $order_property);
     }
-    
+
     function retrieve_active_course_types()
     {
 		return WeblcmsDataManager :: get_instance()->retrieve_active_course_types();
     }
-    
+
     function count_active_course_types()
     {
     	return WeblcmsDataManager :: get_instance()->count_active_course_type();
@@ -1384,12 +1384,12 @@ class WeblcmsManager extends WebApplication
 	private function parse_input_from_table()
 	{
 		$action = $_POST['action'];
-		
+
 		if (isset($action))
 		{
-			
+
 			$action = $_POST['action'];
-			
+
 			$selected_course_ids = $_POST[AdminCourseBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty($selected_course_ids))
 			{
@@ -1425,18 +1425,18 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_course_type_ids = array();
 			}
-			
+
 			elseif (! is_array($selected_course_type_ids))
 			{
 				$selected_course_type_ids = array($selected_course_type_ids);
 			}
-			
+
 			$selected_course_type_id = $_POST[AdminCourseTypeBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if ($action == 'enable' || $action == 'disable')
             {
                 $this->redirect('url', null, null, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CHANGE_ACTIVE, WeblcmsManager :: PARAM_COURSE_TYPE => $selected_course_type_id, WeblcmsManager :: PARAM_TYPE => 'course_type', WeblcmsManager :: PARAM_EXTRA => $action));
             }
-            
+
 			switch ($action)
 			{
 				case self :: PARAM_REMOVE_SELECTED :
