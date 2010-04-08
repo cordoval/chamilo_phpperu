@@ -101,9 +101,9 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
             $display = ComplexDisplay :: factory($this, $this->assessment->get_type());
             $display->set_root_lo($this->assessment);
             
-            $this->display_header($trail);
+            //$this->display_header($trail);
             $display->run();
-            $this->display_footer();
+            //$this->display_footer();
         }
     
     }

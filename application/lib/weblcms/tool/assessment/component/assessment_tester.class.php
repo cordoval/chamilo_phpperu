@@ -95,9 +95,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
             $display = ComplexDisplay :: factory($this, $this->assessment->get_type());
             $display->set_root_lo($this->assessment);
             
-            $this->display_header(new BreadcrumbTrail());
+            //$this->display_header(new BreadcrumbTrail());
             $display->run();
-            $this->display_footer();
+            //$this->display_footer();
         }
     
     }

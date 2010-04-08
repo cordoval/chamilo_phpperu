@@ -22,12 +22,12 @@ class ForumToolViewerComponent extends ForumToolComponent
         
         $this->set_parameter(Tool :: PARAM_ACTION, ForumTool :: ACTION_VIEW_FORUM);
         
-        $this->display_header(new BreadcrumbTrail());
+       // $this->display_header(new BreadcrumbTrail());
         
         $cd = ComplexDisplay :: factory($this, 'forum');
         $cd->run();
         
-        $this->display_footer();
+        //$this->display_footer();
         
         switch ($cd->get_action())
         {

@@ -26,7 +26,7 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
         $display = ComplexDisplay :: factory($this, $object->get_type());
         $display->set_root_lo($object);
         
-        Display :: small_header();
+        //Display :: small_header();
         $display->run();
     }
 

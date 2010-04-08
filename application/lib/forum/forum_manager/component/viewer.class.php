@@ -26,12 +26,12 @@ class ForumManagerViewerComponent extends ForumManagerComponent
         
         $cid = Request :: get('cid');
         
-        $this->display_header($trail);
+        //$this->display_header($trail);
         
         $cd = ComplexDisplay :: factory($this, 'forum');
         $cd->run();
         
-        $this->display_footer();
+        //$this->display_footer();
         
         switch ($cd->get_action())
         {

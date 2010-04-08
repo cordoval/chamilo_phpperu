@@ -33,11 +33,11 @@ class GlossaryToolViewerComponent extends GlossaryToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewGlossary')));
         
-        $this->display_header($trail);
+        //$this->display_header($trail);
         
         $display = ComplexDisplay :: factory($this, $object->get_type());
         $display->run();
-        $this->display_footer();
+        //$this->display_footer();
     }
 }
 

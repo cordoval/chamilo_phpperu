@@ -98,14 +98,16 @@ class SurveyManagerResultsViewerComponent extends SurveyManagerComponent
             }
         }
         
-        $this->display_header($trail);
-        
         if (is_object($html))
+        {
             $html->run();
-        else
-            echo $html;
-        
-        $this->display_footer();
+        }
+        else 
+        {
+            $this->display_header($trail);
+        	echo $html;
+        	$this->display_footer();
+        }
     }
 
     function display_summary_results()
