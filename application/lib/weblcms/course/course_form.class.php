@@ -236,7 +236,7 @@ class CourseForm extends FormValidator
 				$access_name = Translation :: get('Open');
 			else
 				$access_name = Translation :: get('Closed');
-			$this->addElement('static', 'static_member', Translation :: get('MaximumNumberOfMembers'), $acces_name);
+			$this->addElement('static', 'static_member', Translation :: get('CourseTypeAccess'), $access_name);
 			$this->addElement('hidden', CourseTypeSettings :: PROPERTY_ACCESS, $access );
 		}
 		else
