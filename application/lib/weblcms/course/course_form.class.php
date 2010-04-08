@@ -191,6 +191,7 @@ class CourseForm extends FormValidator
        		if(!is_null($this->course_type_id))
        			$course_type_name = $this->course->get_course_type()->get_name();
      		$this->addElement('static', 'course_type', Translation :: get('CourseType'), $course_type_name);
+        	$this->addElement('hidden', Course :: PROPERTY_COURSE_TYPE_ID, 0 );
      	}
 
         $this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
@@ -205,7 +206,8 @@ class CourseForm extends FormValidator
         else
         {
         	$category_name = Translation :: get('NoCategories');
-        	$this->addElement('static', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $category_name);
+        	$this->addElement('static', 'Category_Static', Translation :: get('Category'), $category_name);
+        	$this->addElement('hidden', Course :: PROPERTY_CATEGORY, 0 );
         }
 
        	$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $user_options);
