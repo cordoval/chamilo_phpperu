@@ -15,11 +15,6 @@ $(function ()
     {
 		return $('.data_table.options > tbody > tr:first > td:last .remove_option').attr('src').replace('_na.png', '.png');
     }
-    
-    function getSelectOptions()
-    {
-		return $('.data_table.options > tbody > tr:first select[name*="matches_to"]').html();
-    }
 	
 	function processMatches()
 	{
@@ -93,6 +88,7 @@ $(function ()
 			id = $(this).attr('id').replace('remove_option_', ''),
 			row = 0, rows;
 		
+		destroyHtmlEditor('value['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 		doAjaxPost("./common/javascript/ajax/matching_question.php", { action: 'skip_option', value: id });
 		
@@ -126,16 +122,13 @@ $(function ()
 		$('#mq_number_of_options').val(newNumber);
 		
 		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
-		editorNameAnswer = 'option[' + numberOfOptions + ']';
+		editorNameAnswer = 'value[' + numberOfOptions + ']';
 		editorNameComment = 'comment[' + numberOfOptions + ']';
-	
-		fieldMatches =  '<select name="matches[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';		
+			
 		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
-//		fieldComment = renderHtmlEdito(editorNameComment, parameters);
-//		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_option_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[' + numberOfOptions + ']" />';
 		
-		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldMatches + '</td><td>' + fieldDelete + '</td></tr>';
+		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldDelete + '</td></tr>';
 		
 		$('.data_table.options > tbody').append(string);
 		
@@ -151,6 +144,7 @@ $(function ()
 			row = 0, rows,
 			selectBox;
 		
+		destroyHtmlEditor('match['+ id +']');
 		$('tr#match_' + id, tableBody).remove();
 		
 		doAjaxPost("./common/javascript/ajax/matching_question.php", { action: 'skip_match', value: id });

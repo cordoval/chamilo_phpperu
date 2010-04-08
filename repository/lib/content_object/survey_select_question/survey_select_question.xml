@@ -2,8 +2,7 @@
 <object name="survey_select_question">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="answer_type" type="text" notnull="1" length="8"
-			fixed="true" />
+		<property name="answer_type" type="text" notnull="1" length="8" fixed="true" />
 		<property name="options" type="text" notnull="1" />
 	</properties>
 	<index name="id" type="primary">
