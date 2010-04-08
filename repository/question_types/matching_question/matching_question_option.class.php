@@ -9,10 +9,8 @@
 class MatchingQuestionOption
 {
     const PROPERTY_VALUE = 'value';
-    const PROPERTY_MATCH = 'match';
-	
+
 	private $value;
-    private $match;
 
     /**
      * Creates a new option for a matching question
@@ -23,7 +21,6 @@ class MatchingQuestionOption
     function MatchingQuestionOption($value, $match)
     {
         $this->value = $value;
-        $this->match = $match;
     }
 
     /**
@@ -33,15 +30,6 @@ class MatchingQuestionOption
     function get_value()
     {
         return $this->value;
-    }
-
-    /**
-     * Gets the index of the match corresponding to this option
-     * @return int
-     */
-    function get_match()
-    {
-        return $this->match;
     }
 }
 ?>
