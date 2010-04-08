@@ -12,13 +12,14 @@ require_once dirname(__FILE__) . '/../forum_manager_component.class.php';
  */
 class ForumManagerViewerComponent extends ForumManagerComponent
 {
-
+	private $trail;
+	
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $this->trail = $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_parent()->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
         
         $pid = Request :: get('pid');
@@ -39,6 +40,16 @@ class ForumManagerViewerComponent extends ForumManagerComponent
                 Events :: trigger_event('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $pid, 'forum_topic_id' => $cid));
                 break;
         }
+    }
+    
+    function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	return parent :: display_header($this->trail);
     }
 
     function get_url($parameters = array (), $filter = array(), $encode_entities = false)

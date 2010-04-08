@@ -18,6 +18,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
     private $iid;
     private $pid;
     private $active_tracker;
+    private $trail;
 
     function run()
     {
@@ -100,6 +101,16 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
             //$this->display_footer();
         }
     
+    }
+    
+	function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	return parent :: display_header($this->trail);
     }
 
     function create_tracker()
