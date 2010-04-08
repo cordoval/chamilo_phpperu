@@ -185,3 +185,4 @@ class ComplexMenu extends HTML_Menu
         return $renderer->toHTML();
     }
 }
+?>

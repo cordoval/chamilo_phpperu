@@ -65,6 +65,13 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
             $p = $this->rdm->retrieve_content_object($parent);
         	$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities:: underscores_to_camelcase($t)), Translation :: get(Utilities:: underscores_to_camelcase($p->get_type())), $p->get_title()) . '</h4><br />'; 
         	$html[] = $pub->as_html();
+        
+        	$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'root_lo' => $root_lo, 'publish' => Request :: get('publish'))), RepositoryDataManager :: get_instance()->retrieve_content_object($root_lo)->get_title()));
+	        $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_cloi', 'type' => Request :: get('type'), 'root_lo' => $root_lo, 'publish' => Request :: get('publish'))), Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))));
+	        
+	        $this->display_header($trail);
+	        echo '<br />' . implode("\n", $html);
+	        $this->display_footer();
         }
         else
         {
@@ -90,12 +97,6 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
             
             $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish')));
         }
-        $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'root_lo' => $root_lo, 'publish' => Request :: get('publish'))), RepositoryDataManager :: get_instance()->retrieve_content_object($root_lo)->get_title()));
-        $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_cloi', 'type' => Request :: get('type'), 'root_lo' => $root_lo, 'publish' => Request :: get('publish'))), Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))));
-        
-        $this->display_header($trail);
-        echo '<br />' . implode("\n", $html);
-        $this->display_footer();
     }
 
     private function retrieve_used_items($parent)
