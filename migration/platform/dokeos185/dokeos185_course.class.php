@@ -387,6 +387,7 @@ class Dokeos185Course extends ImportCourse
        		$lcms_course->set_extlink_name($this->get_department_name());
         	$lcms_course->set_extlink_url($this->get_department_url());
        		
+        	//Course - Settings
        		if ($mgdm->is_language_available($this->get_course_language()))
         	{
             	$lcms_course->set_language($this->get_course_language());
@@ -395,13 +396,14 @@ class Dokeos185Course extends ImportCourse
             {
             	$lcms_course->set_language('english');
             }
-
-            //Courses - Lay-out
+            $lcms_course->set_visibility($this->get_visibility());
+            $lcms_course->set_max_number_of_members(0);
             
-            //Courses - Tools
+            //Course - Lay-out
             
-            //Courses - Rights
-        	$lcms_course->set_visibility($this->get_visibility());
+            //Course - Tools
+            
+            //Course - Rights
         	$lcms_course->set_subscribe_allowed($this->get_subscribe());
         	$lcms_course->set_unsubscribe_allowed($this->get_unsubscribe());
         	
