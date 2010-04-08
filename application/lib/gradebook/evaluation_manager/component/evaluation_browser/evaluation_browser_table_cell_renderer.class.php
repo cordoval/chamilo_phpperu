@@ -11,7 +11,7 @@ class EvaluationBrowserTableCellRenderer extends DefaultEvaluationBrowserTableCe
 	 * Constructor
 	 * @param ApplicationComponent $browser
 	 */
-	function EvaluationFormatsBrowserTableCellRenderer($browser)
+	function EvaluationBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
@@ -25,16 +25,6 @@ class EvaluationBrowserTableCellRenderer extends DefaultEvaluationBrowserTableCe
 			return $this->get_modification_links($evaluation);
 		}
 
-		switch ($column->get_name())
-		{
-			case Evaluation :: PROPERTY_EVALUATION_DATE :
-				return $format->get_evaluation_date();
-				break;
-			case Evaluation :: PROPERTY_EVLUATOR_ID :
-				return $format->get_evaluator_id();
-				break;
-		}
-
 		return parent :: render_cell($column, $evaluation);
 	}
 
@@ -44,14 +34,12 @@ class EvaluationBrowserTableCellRenderer extends DefaultEvaluationBrowserTableCe
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
-	private function get_modification_links($evaluation_format)
+	private function get_modification_links($evaluation)
 	{
 		$toolbar_data = array();
 		
-        $toolbar_data[] = array('href' => $this->browser->get_evaluation_format_editing_url($evaluation_format), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        $toolbar_data[] = array('href' => $this->browser->get_evaluation_format_deleting_url($evaluation_format), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        $toolbar_data[] = array('href' => $this->browser->get_change_evaluation_format_activation_url($evaluation_format), 'label' => ($evaluation_format->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'), 'confirm' => false, 'img' => ($evaluation_format->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png');
-        
+        $toolbar_data[] = array('href' => $this->browser->get_evaluation_editing_url($evaluation), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $toolbar_data[] = array('href' => $this->browser->get_evaluation_deleting_url($evaluation), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
 		return Utilities :: build_toolbar($toolbar_data);
 	}
 }

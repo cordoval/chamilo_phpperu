@@ -7,10 +7,8 @@ class EvaluationManagerBrowserComponent extends EvaluationManagerComponent
 
     function run()
     {    	
-        
         $this->action_bar = $this->get_toolbar();
         echo $this->action_bar->as_html();
-        
         echo $this->get_table();
     }
 

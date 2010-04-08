@@ -30,4 +30,16 @@ class EvaluationManagerComponent extends SubManagerComponent
     {
     	return $this->get_parent()->get_publication();
     }
+    
+    // URL's
+    function get_evaluation_editing_url($evaluation)
+    {
+    	return $this->get_parent()->get_evaluation_editing_url($evaluation); 
+    }
+    
+    function get_evaluation_deleting_url($evaluation)
+    {
+    	
+    	return $this->get_parent()->get_evaluation_deleting_url($evaluation);
+    }
 }
