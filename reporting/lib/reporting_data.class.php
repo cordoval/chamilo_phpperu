@@ -4,10 +4,26 @@ class ReportingData
 	private $data = array();
 	private $rows = array();
 	private $categories = array();
+	private $show_categories = true;
 
 	function get_data()
 	{
 		return $this->data;
+	}
+	
+	function show_categories()
+	{
+		$this->show_categories = true;
+	}
+	
+	function hide_categories()
+	{
+		$this->show_categories = false;
+	}
+	
+	function is_categories_visible()
+	{
+		return $this->show_categories;
 	}
 	
 	function get_data_category_row($category_id, $row_id)

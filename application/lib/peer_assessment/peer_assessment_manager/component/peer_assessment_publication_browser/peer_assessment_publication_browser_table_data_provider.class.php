@@ -3,9 +3,9 @@
  * Data provider for a peer_assessment_publication table
  * @author Nick Van Loocke
  */
-
 class PeerAssessmentPublicationBrowserTableDataProvider extends ObjectTableDataProvider
 {
+
     /**
      * Constructor
      * @param ApplicationComponent $browser
@@ -30,7 +30,7 @@ class PeerAssessmentPublicationBrowserTableDataProvider extends ObjectTableDataP
         $publications = $this->get_browser()->retrieve_peer_assessment_publications($this->get_condition(), $offset, $count)->as_array();
         foreach ($publications as &$publication)
         {
-            //$publication->set_content_object(RepositoryDataManager :: get_instance()->retrieve_content_object($publication->get_content_object()));
+            $publication->set_content_object(RepositoryDataManager :: get_instance()->retrieve_content_object($publication->get_content_object()));
         }
         return $publications;
     }

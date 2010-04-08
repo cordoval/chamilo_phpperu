@@ -108,8 +108,13 @@ class ReportingTableFormatter extends ReportingFormatter
         $parameters[ReportingFormatterForm::FORMATTER_TYPE] = $this->get_block()->get_displaymode();
         $parameters = array_merge($this->get_block()->get_parent()->get_parent()->get_parameters(), $parameters);
         $table->set_additional_parameters($parameters);
-        $j = 1;
-        $table->set_header(0, '', false);
+        $j = 0;
+        if ($reporting_data->is_categories_visible())
+        {
+        	$table->set_header(0, '', false);
+        	$j++;
+        }
+        
         foreach($reporting_data->get_rows() as $row)
         {
         	$table->set_header($j, $row);
@@ -125,7 +130,10 @@ class ReportingTableFormatter extends ReportingFormatter
     	foreach($reporting_data->get_categories() as $category_id => $category_name)
     	{
     		$category_array = array();
-    		$category_array[] = $category_name;
+    		if ($reporting_data->is_categories_visible())
+    		{
+    			$category_array[] = $category_name;
+    		}
     		foreach ($reporting_data->get_rows() as $row_id => $row_name)
     		{
     			$category_array[] = $reporting_data->get_data_category_row($category_id, $row_id);

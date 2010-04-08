@@ -63,6 +63,10 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $this->process_result('config', $config_file['success'], $config_file['message']);
         flush();
 
+        //Sets the correct database before installing applications
+        $connection = Connection :: get_instance();
+        $connection->get_connection()->setDatabase($this->values['database_name']);
+        
         $this->counter ++;
 
         // 3. Installing the applications

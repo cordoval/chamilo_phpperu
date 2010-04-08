@@ -20,7 +20,7 @@ class EvaluationBrowserTableDataProvider extends ObjectTableDataProvider
     {
 		$order_property = $this->get_order_property($order_property);
 
-     	return $this->get_browser()->retrieve_all_evaluations_on_publication($this->get_condition(), $offset, $count, $order_property);
+     	return $this->get_browser()->retrieve_all_evaluations_on_publication($offset, $count, $order_property);
     }
   /**
    * Gets the number of objects in the table
@@ -28,7 +28,7 @@ class EvaluationBrowserTableDataProvider extends ObjectTableDataProvider
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_evaluation_formats();
+      return $this->get_browser()->count_all_evaluations_on_publication();
     }
 }
 ?>

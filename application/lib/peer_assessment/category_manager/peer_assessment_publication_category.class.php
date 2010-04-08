@@ -13,10 +13,10 @@ class PeerAssessmentPublicationCategory extends PlatformCategory
     {
         $fdm = PeerAssessmentDataManager :: get_instance();
 
+
         $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $this->get_parent());
         $sort = $fdm->retrieve_max_sort_value(self :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
         $this->set_display_order($sort + 1);
-
         return $fdm->create_peer_assessment_publication_category($this);
     }
 

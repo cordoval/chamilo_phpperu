@@ -295,6 +295,8 @@ abstract class WeblcmsDataManager
 
     abstract function create_course_group_user_relation($course_group_user_relation);
 
+    abstract function create_course_rights($course_rights);
+    
     abstract function create_course_group_subscribe_right($course_group_subscribe_right);
     
     abstract function create_course_group_unsubscribe_right($course_group_unsubscribe_right);
@@ -627,6 +629,10 @@ abstract class WeblcmsDataManager
      * @param string $course_code The course code
      */
     abstract function delete_course($course_code);
+    
+    abstract function delete_course_group_subscribe_right($course_subscribe_right);
+    
+    abstract function delete_course_group_unsubscribe_right($course_unsubscribe_right);
 
     /**
      * Deletes the given course category from the database.

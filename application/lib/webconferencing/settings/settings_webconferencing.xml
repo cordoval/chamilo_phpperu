@@ -168,7 +168,7 @@
 			<setting name="default_featureprivatechat" field="checkbox"
 				default="1">
 				<options type="static">
-					<option name=""default_featureprivatechat"" value="1" />
+					<option name="default_featureprivatechat" value="1" />
 				</options>
 			</setting>
 			<setting name="default_featurepublicchat" field="checkbox"

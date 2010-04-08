@@ -16,6 +16,9 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 	const ACTION_DELETE_LP_ATTEMPT = 'delete_lp_attempt';
 	const ACTION_DELETE_LPI_ATTEMPT = 'delete_lpi_attempt';
 	const ACTION_DELETE_LPI_ATTEMPTS = 'delete_lpi_attempts';
+	const PARAM_ITEM_ID = 'item_id';
+	const PARAM_DELETE_ID = 'delete_id';
+	
     function run()
     {
         $trail = new BreadcrumbTrail();
@@ -94,10 +97,18 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
             }
             else
             {
-                require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
-                $parameters = array('objects' => $menu->get_objects(), 'attempt_data' => $attempt_data, 'cid' => $cid, 'url' => $url, 'delete' => true);
-                $template = new LearningPathProgressReportingTemplate($this);
-                $display = $template->to_html();
+            	if ($cid)
+            	{
+            		require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_details_reporting_template.class.php');
+	                $template = new LearningPathAttemptProgressDetailsReportingTemplate($this);
+	                $display = $template->to_html();
+            	}
+            	else 
+            	{
+	                require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_reporting_template.class.php');
+	                $template = new LearningPathAttemptProgressReportingTemplate($this);
+	                $display = $template->to_html();
+	            }
             }
         }
         else

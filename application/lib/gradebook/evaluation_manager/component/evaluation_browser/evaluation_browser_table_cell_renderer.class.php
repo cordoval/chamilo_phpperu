@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__).'/../../../tables/evaluation_browser_table/default_evaluation_browser_table_cell_renderer.class.php';
+
 class EvaluationBrowserTableCellRenderer extends DefaultEvaluationBrowserTableCellRenderer
 {/**
 	 * The browser component
