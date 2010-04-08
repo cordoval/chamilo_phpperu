@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.ph
 
 /**
  * Component to delete peer_assessment_publications objects
- * @author Sven Vanpoucke & Stefan Billiet
+ * @author Nick Van Loocke
  */
 class PeerAssessmentManagerPeerAssessmentPublicationDeleterComponent extends PeerAssessmentManagerComponent
 {

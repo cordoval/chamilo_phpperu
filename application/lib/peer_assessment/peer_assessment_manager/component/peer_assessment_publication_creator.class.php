@@ -6,7 +6,7 @@ require_once Path :: get_application_path() . '/lib/weblcms/content_object_repo_
 
 /**
  * Component to create a new peer_assessment_publication object
- * @author Sven Vanpoucke & Stefan Billiet
+ * @author Nick Van Loocke
  */
 class PeerAssessmentManagerPeerAssessmentPublicationCreatorComponent extends PeerAssessmentManagerComponent
 {

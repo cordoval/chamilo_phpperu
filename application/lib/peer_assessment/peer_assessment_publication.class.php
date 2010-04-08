@@ -21,7 +21,6 @@ class PeerAssessmentPublication extends DataClass
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_MODIFIED = 'modified';
     const PROPERTY_DISPLAY_ORDER = 'display_order';
-    const PROPERTY_EMAIL_SENT = 'email_sent';
 
     /**
      * Get the default properties
@@ -29,7 +28,7 @@ class PeerAssessmentPublication extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_EMAIL_SENT));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER));
     }
 
     /**
@@ -229,24 +228,6 @@ class PeerAssessmentPublication extends DataClass
     function set_display_order($display_order)
     {
         $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
-    }
-
-    /**
-     * Returns the email_sent of this PeerAssessmentPublication.
-     * @return the email_sent.
-     */
-    function get_email_sent()
-    {
-        return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
-    }
-
-    /**
-     * Sets the email_sent of this PeerAssessmentPublication.
-     * @param email_sent
-     */
-    function set_email_sent($email_sent)
-    {
-        $this->set_default_property(self :: PROPERTY_EMAIL_SENT, $email_sent);
     }
 
     static function get_table_name()
