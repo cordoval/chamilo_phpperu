@@ -34,7 +34,9 @@ class ComplexDisplayContentObjectUpdaterComponent extends ComplexDisplayComponen
             }
             else
             {
-                $form->display();
+                $this->display_header(new BreadcrumbTrail());
+            	$form->display();
+            	$this->display_footer();
             }
         }
     }

@@ -49,6 +49,9 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
         
         $this->action_bar = $this->get_action_bar();
         $table = $this->get_posts_table();
+        
+        $this->display_header($trail);
+        
         echo '<a name="top"></a>';
         
         echo $this->action_bar->as_html();
@@ -56,6 +59,8 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
         echo '<div class="clear"></div><br />';
         echo $table->toHtml();
         echo '<br />';
+        
+        $this->display_footer();
     }
 
     private function retrieve_children_trail($forum)

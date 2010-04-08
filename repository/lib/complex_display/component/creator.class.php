@@ -37,7 +37,9 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
             {
                 $html[] = '<p><a href="' . $this->get_url(array('type' => $type, 'pid' => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();
+                $this->display_header(new BreadcrumbTrail());
                 echo implode("\n", $html);
+                $this->display_footer();
             }
             else
             {
@@ -59,8 +61,9 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
                     }
                     else
                     {
-                        $cloi_form->display();
-                    
+                        $this->display_header(new BreadcrumbTrail());
+                    	$cloi_form->display();
+                    	$this->display_footer();
                     }
                 }
                 else

@@ -19,8 +19,9 @@ class ForumDisplayForumSubforumEditorComponent extends ForumDisplayComponent
             
             if (! $pid || ! $subforum)
             {
-                //trail here
+                $this->display_header(new BreadcrumbTrail());
                 $this->display_error_message(Translation :: get('NoParentSelected'));
+                $this->display_footer();
             }
             
             $url = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_EDIT_SUBFORUM, 'pid' => $pid, 'subforum' => $subforum, 'is_subforum' => $is_subforum, 'forum' => $forum));
@@ -53,8 +54,9 @@ class ForumDisplayForumSubforumEditorComponent extends ForumDisplayComponent
             }
             else
             {
-                //trail here
+                $this->display_header(new BreadcrumbTrail());
                 $form->display();
+                $this->display_footer();
             }
         }
     }

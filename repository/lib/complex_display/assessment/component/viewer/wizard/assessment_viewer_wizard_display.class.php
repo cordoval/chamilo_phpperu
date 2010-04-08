@@ -32,7 +32,8 @@ class AssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
         //		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
         //		$current_page->accept($renderer);
         
-
+		$this->parent->get_parent()->display_header();
+    	
         echo '<div class="assessment">';
         echo '<h2>' . $this->parent->get_assessment()->get_title() . '</h2>';
         
@@ -56,6 +57,8 @@ class AssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
         echo '<div style="width: 100%; text-align: center;">';
         echo $current_page->get_page_number() . ' / ' . $this->parent->get_total_pages();
         echo '</div>';
+        
+        $this->parent->get_parent()->display_footer();
     }
 }
 ?>

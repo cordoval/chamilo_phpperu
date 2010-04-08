@@ -23,6 +23,8 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
     {
         $dm = RepositoryDataManager :: get_instance();
 
+        $this->display_header(new BreadcrumbTrail());
+        
         $this->action_bar = $this->get_parent()->get_toolbar($this, $this->get_root_lo()->get_id(), $this->get_root_lo(), null);
         echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
         echo '<div style="float:left; width: 135px;">' . $this->action_bar->as_html() . '</div>';
@@ -33,6 +35,8 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
             $table = new WikiPageTable($this, $this->get_root_lo()->get_id());
             echo $table->as_html() . '</div>';
         }
+        
+        $this->display_footer();
     }
 
     function get_condition()
