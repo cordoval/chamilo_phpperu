@@ -72,15 +72,12 @@ $(function ()
 		destroyHtmlEditor('value['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 		
-		rows = $('tr', tableBody);
+		rows = $('tr.row_odd, tr.row_even', tableBody);
 		
 		doAjaxPost("./common/javascript/ajax/mc_question.php", { action: 'skip_option', value: id });
 		
 		rows.each(function ()
-		{
-//			alert(row % 2 == 0);
-			alert($(this).html());
-			
+		{			
 			var row_class = (row % 2 === 0 ? 'row_even' : 'row_odd');
 			$(this).attr('class', row_class);
 			row += 1;
