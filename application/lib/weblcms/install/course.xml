@@ -5,8 +5,6 @@
 		<property name="course_type_id" type="integer" default="0"/>
 		<property name="title" type="text" length="250" fixed="true" />
 		<property name="category_id" type="integer" notnull="1" />
-		<property name="show_score" type="integer" notnull="1"
-			default="1" />
 		<property name="titular_id" type="integer" />
 		<property name="visual_code" type="text" length="40" fixed="true"
 			notnull="1" />
@@ -14,7 +12,6 @@
 			fixed="true" />
 		<property name="department_url" type="text" length="180"
 			fixed="true" />
-		<property name="disk_quota" type="integer" unsigned="1" />
 		<property name="last_visit" type="timestamp" />
 		<property name="last_edit" type="timestamp" />
 		<property name="creation_date" type="timestamp" />

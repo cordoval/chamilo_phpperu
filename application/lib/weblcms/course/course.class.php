@@ -42,8 +42,6 @@ class Course extends DataClass
     const PROPERTY_EXTLINK_NAME = 'department_name';
 
     const PROPERTY_CATEGORY = 'category_id';
-    const PROPERTY_SHOW_SCORE = 'show_score';
-    const PROPERTY_DISK_QUOTA = 'disk_quota';
 
     // Remnants from the old Chamilo system
     const PROPERTY_LAST_VISIT = 'last_visit';
@@ -73,11 +71,9 @@ class Course extends DataClass
         			  self :: PROPERTY_VISUAL,
         			  self :: PROPERTY_CATEGORY,
         			  self :: PROPERTY_NAME,
-        			  self :: PROPERTY_SHOW_SCORE,
         			  self :: PROPERTY_TITULAR,
         			  self :: PROPERTY_EXTLINK_URL,
         			  self :: PROPERTY_EXTLINK_NAME,
-        			  self :: PROPERTY_DISK_QUOTA,
         			  self :: PROPERTY_CREATION_DATE,
         			  self :: PROPERTY_EXPIRATION_DATE,
         			  self :: PROPERTY_LAST_EDIT,
@@ -283,16 +279,6 @@ class Course extends DataClass
     function set_extlink_name($name)
     {
         $this->set_default_property(self :: PROPERTY_EXTLINK_NAME, $name);
-    }
-
-    function get_show_score()
-    {
-        return $this->get_default_property(self :: PROPERTY_SHOW_SCORE);
-    }
-
-    function set_show_score()
-    {
-        return $this->set_default_property(self :: PROPERTY_SHOW_SCORE);
     }
 
     function set_creation_date($creation_date)
