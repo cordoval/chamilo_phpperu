@@ -12,9 +12,11 @@ class AssessmentMatchingQuestionOption extends MatchingQuestionOption
 {
 	const PROPERTY_SCORE = 'score';
 	const PROPERTY_FEEDBACK = 'feedback';
-	
+	const PROPERTY_MATCH = 'match';
+
 	private $score;
     private $feedback;
+    private $match;
 
     /**
      * Creates a new option for a matching question
@@ -24,9 +26,10 @@ class AssessmentMatchingQuestionOption extends MatchingQuestionOption
      */
     function AssessmentMatchingQuestionOption($value, $match, $score, $feedback)
     {
-        parent :: MatchingQuestionOption($value, $match);
+        parent :: MatchingQuestionOption($value);
         $this->score = $score;
         $this->feedback = $feedback;
+        $this->match = $match;
     }
 
     /**
@@ -40,6 +43,15 @@ class AssessmentMatchingQuestionOption extends MatchingQuestionOption
     function get_feedback()
     {
         return $this->feedback;
+    }
+
+    /**
+     * Gets the index of the match corresponding to this option
+     * @return int
+     */
+    function get_match()
+    {
+        return $this->match;
     }
 }
 ?>

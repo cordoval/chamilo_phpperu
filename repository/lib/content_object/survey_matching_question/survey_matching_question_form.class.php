@@ -21,6 +21,34 @@ class SurveyMatchingQuestionForm extends MatchingQuestionForm
     }
 
     /**
+     * Adds the answer to the current learning object.
+     * This function adds the list of possible options and matches and the
+     * relation between the options and the matches to the question.
+     */
+    function add_answer()
+    {
+        $object = $this->get_content_object();
+        $values = $this->exportValues();
+        $options = array();
+        $matches = array();
+
+        //Get an array with a mapping from the match-id to its index in the $values['match'] array
+        $matches_indexes = array_flip(array_keys($values['match']));
+        foreach ($values[MatchingQuestionOption::PROPERTY_VALUE] as $option_id => $value)
+        {
+            //Create the option with it corresponding match
+            $options[] = new SurveyMatchingQuestionOption($value);
+        }
+
+        foreach ($values['match'] as $match)
+        {
+            $matches[] = $match;
+        }
+        $object->set_options($options);
+        $object->set_matches($matches);
+    }
+
+    /**
      * Adds the options and matches to the form
      */
     function create_content_object()
