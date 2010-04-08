@@ -28,10 +28,6 @@ class Dokeos185CourseCategory extends ImportCourseCategory
     const PROPERTY_NAME = 'name';
     const PROPERTY_CODE = 'code';
     const PROPERTY_PARENT_ID = 'parent_id';
-    const PROPERTY_TREE_POS = 'tree_pos';
-    const PROPERTY_CHILDREN_COUNT = 'children_cont';
-    const PROPERTY_AUTH_COURSE_CHILD = 'auth_course_child';
-    const PROPERTY_AUTH_CAT_CHILD = 'auth_cat_child';
     
     /**
      * Alfanumeric identifier of the course object.
@@ -78,7 +74,7 @@ class Dokeos185CourseCategory extends ImportCourseCategory
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_CODE, self :: PROPERTY_PARENT_ID, self :: PROPERTY_TREE_POS, self :: PROPERTY_CHILDREN_COUNT, self :: PROPERTY_AUTH_COURSE_CHILD, self :: PROPERTY_AUTH_CAT_CHILD);
+        return array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_CODE, self :: PROPERTY_PARENT_ID);
     }
 
     /**
@@ -152,42 +148,6 @@ class Dokeos185CourseCategory extends ImportCourseCategory
     }
 
     /**
-     * Returns the tree_pos of this category.
-     * @return int The tree_pos.
-     */
-    function get_tree_pos()
-    {
-        return $this->get_default_property(self :: PROPERTY_TREE_POS);
-    }
-
-    /**
-     * Returns the children_count of this category.
-     * @return int The children_count.
-     */
-    function get_children_count()
-    {
-        return $this->get_default_property(self :: PROPERTY_CHILDREN_COUNT);
-    }
-
-    /**
-     * Returns the auth_course_child of this category.
-     * @return Boolean The auth_course_child.
-     */
-    function get_auth_course_child()
-    {
-        return $this->get_default_property(self :: PROPERTY_AUTH_COURSE_CHILD);
-    }
-
-    /**
-     * Returns the auth_cat_child of this category.
-     * @return Boolean The auth_cat_child.
-     */
-    function get_auth_cat_child()
-    {
-        return $this->get_default_property(self :: PROPERTY_AUTH_CAT_CHILD);
-    }
-
-    /**
      * Sets the code of this category.
      * @param String $code The code.
      */
@@ -241,18 +201,9 @@ class Dokeos185CourseCategory extends ImportCourseCategory
             unset($parent_id);
         }
         else
+        {
             $lcms_course_category->set_parent(0);
-            
-        //setters are not yet supported
-        $lcms_course_category->set_default_property('tree_pos', $this->get_tree_pos());
-        
-        if ($this->get_children_count())
-            $lcms_course_category->set_default_property('children_count', $this->get_children_count());
-        else
-            $lcms_course_category->set_default_property('children_count', 0);
-        
-        $lcms_course_category->set_default_property('auth_course_child', $this->get_auth_course_child() ? 1 : 0);
-        $lcms_course_category->set_default_property('auth_cat_child', $this->get_auth_cat_child() ? 1 : 0);
+        }    
         
         //create course_category in database
         $lcms_course_category->create();
