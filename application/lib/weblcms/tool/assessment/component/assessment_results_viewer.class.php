@@ -138,9 +138,9 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
         $display = ComplexDisplay :: factory($this, $object->get_type());
         $display->set_root_lo($object);
         
-        $this->display_header($crumbs);
+        //$this->display_header($crumbs);
         $display->run();
-        $this->display_footer();
+        //$this->display_footer();
     }
 
     function retrieve_assessment_results()

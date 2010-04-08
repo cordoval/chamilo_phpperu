@@ -26,9 +26,9 @@ class WikiToolViewerComponent extends WikiToolComponent
         else
             $o = $o->get_content_object();
         $this->cd->set_root_lo($o);
-        $this->display_header(new BreadcrumbTrail());
+        //$this->display_header(new BreadcrumbTrail());
         $this->cd->run();
-        $this->display_footer();
+        //$this->display_footer();
     }
 
 }

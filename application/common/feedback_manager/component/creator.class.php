@@ -16,7 +16,11 @@ class FeedbackManagerCreatorComponent extends FeedbackManagerComponent
 
     function run()
     {
-        echo $this->as_html();
+        $html = $this->as_html();
+        
+    	$this->display_header();
+    	echo $html;
+    	$this->display_footer();
     }
 
     function as_html()
