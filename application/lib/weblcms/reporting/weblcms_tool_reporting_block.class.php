@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/weblcms_course_reporting_block.class.php';
+
 abstract class WeblcmsToolReportingBlock extends WeblcmsCourseReportingBlock
 {
 	private $user_id;

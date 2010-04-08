@@ -47,7 +47,7 @@ class WeblcmsNoOfPublishedObjectsPerTypeReportingBlock extends WeblcmsCourseRepo
 	public function get_available_displaymodes()
 	{
 		$modes = array();
-        $modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
+        //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
         $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
         $modes[ReportingChartFormatter::DISPLAY_BAR] = Translation :: get('Chart:Bar');
         $modes[ReportingChartFormatter::DISPLAY_LINE] = Translation :: get('Chart:Line');

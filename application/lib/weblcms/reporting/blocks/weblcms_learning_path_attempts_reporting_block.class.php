@@ -47,9 +47,6 @@ class WeblcmsLearningPathAttemptsReportingBlock extends WeblcmsToolReportingBloc
             $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('Progress'), $tracker->get_progress() . '%');
             $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('Details'), $action);
         }
-		
-      	
-      	
         return $reporting_data;
 	}	
 	
@@ -61,7 +58,7 @@ class WeblcmsLearningPathAttemptsReportingBlock extends WeblcmsToolReportingBloc
 	public function get_available_displaymodes()
 	{
 		$modes = array();
-        $modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
+        //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
         $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
         return $modes;
 	}

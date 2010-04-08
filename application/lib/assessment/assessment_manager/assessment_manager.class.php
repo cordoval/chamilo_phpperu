@@ -310,7 +310,7 @@ class AssessmentManager extends WebApplication
 
     function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array('assessment', 'survey', 'hotpotatoes');
+        $allowed_types = array('assessment', 'hotpotatoes');
         
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))

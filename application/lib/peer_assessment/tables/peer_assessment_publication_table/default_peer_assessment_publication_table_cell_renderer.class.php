@@ -28,11 +28,11 @@ class DefaultPeerAssessmentPublicationTableCellRenderer implements ObjectTableCe
         switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_TITLE :
-                	//return $peer_assessment_publication->get_content_object()->get_title();
-                //$url = $this->browser->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_VIEW_PEER_ASSESSMENT, PeerAssessmentDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
-                //return '<a href="' . $url . '">' . htmlspecialchars($peer_assessment_publication->get_content_object()->get_title()) . '</a>';
+                //return $peer_assessment_publication->get_content_object()->get_title();
+                $url = $this->browser->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_VIEW_PEER_ASSESSMENT, PeerAssessmentDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+                return '<a href="' . $url . '">' . htmlspecialchars($peer_assessment_publication->get_content_object()->get_title()) . '</a>';
             case ContentObject :: PROPERTY_DESCRIPTION :
-                //return $peer_assessment_publication->get_content_object()->get_description();
+                return $peer_assessment_publication->get_content_object()->get_description();
             default :
                 return '&nbsp;';
         }

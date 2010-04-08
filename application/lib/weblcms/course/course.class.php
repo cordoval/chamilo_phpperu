@@ -56,6 +56,8 @@ class Course extends DataClass
 	private $layout;
 
 	private $tools;
+	
+	private $rights;
 
 	private $course_type;
 
@@ -81,6 +83,9 @@ class Course extends DataClass
         			  self :: PROPERTY_LAST_EDIT,
         			  self :: PROPERTY_LAST_VISIT));
     }
+    
+    
+    
 
     /**
      * inherited
@@ -205,6 +210,11 @@ class Course extends DataClass
     function get_tools()
     {
         return $this->tools;
+    }
+    
+ 	function get_rights()
+    {
+        return $this->rights;
     }
 
     function get_course_type()
@@ -331,7 +341,15 @@ class Course extends DataClass
     {
         $this->tools = $tools;
     }
-
+    
+    /**
+     * Sets the rights of this course object
+     * @param array $rights the rights of this course object
+     */
+    function set_rights($rights)
+    {
+        $this->rights = $rights;
+    }
     /**
      * Sets the course_type of this course object
      * @param array $course_type the course_type of this course object
@@ -824,79 +842,6 @@ class Course extends DataClass
         return true;
     }
 
-//    function initialize_settings()
-//    {
-//    	$file = Path :: get_application_path() . '/settings/settings_weblcms_course_type.xml';
-//        $result = array();
-//
-//        if (file_exists($file))
-//        {
-//            $doc = new DOMDocument();
-//            $doc->load($file);
-//            $object = $doc->getElementsByTagname('application')->item(0);
-//            $name = $object->getAttribute('name');
-//
-//            // Get categories
-//            $categories = $doc->getElementsByTagname('category');
-//            $settings = array();
-//
-//            foreach ($categories as $index => $category)
-//            {
-//                $category_name = $category->getAttribute('name');
-//                $category_properties = array();
-//
-//                // Get settings in category
-//                $properties = $category->getElementsByTagname('setting');
-//                $attributes = array('field', 'default');
-//
-//                foreach ($properties as $index => $property)
-//                {
-//                    $property_info = array();
-//
-//                    foreach ($attributes as $index => $attribute)
-//                    {
-//                        if ($property->hasAttribute($attribute))
-//                        {
-//                            $property_info[$attribute] = $property->getAttribute($attribute);
-//                        }
-//                    }
-//
-//                    if ($property->hasChildNodes())
-//                    {
-//                        $property_options = $property->getElementsByTagname('options')->item(0);
-//                        $property_options_attributes = array('type', 'source');
-//                        foreach ($property_options_attributes as $index => $options_attribute)
-//                        {
-//                            if ($property_options->hasAttribute($options_attribute))
-//                            {
-//                                $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
-//                            }
-//                        }
-//
-//                        if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
-//                        {
-//                            $options = $property_options->getElementsByTagname('option');
-//                            $options_info = array();
-//                            foreach ($options as $option)
-//                            {
-//                                $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
-//                            }
-//                            $property_info['options']['values'] = $options_info;
-//                        }
-//                    }
-//                    $category_properties[$property->getAttribute('name')] = $property_info;
-//                }
-//
-//                $settings[$category_name] = $category_properties;
-//            }
-//
-//            $result['name'] = $name;
-//            $result['settings'] = $settings;
-//        }
-//
-//        return $result;
-//    }
-
     function create_root_course_group()
     {
     	$group = new CourseGroup();
@@ -904,6 +849,5 @@ class Course extends DataClass
     	$group->set_name($this->get_name());
     	return $group->create();
     }
-
 }
 ?>

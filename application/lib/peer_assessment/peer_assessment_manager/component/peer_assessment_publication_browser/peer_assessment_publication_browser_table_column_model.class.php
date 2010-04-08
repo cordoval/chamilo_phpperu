@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../tables/peer_assessment_publication_table/default_peer_assessment_publication_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../peer_assessment_publication.class.php';
+
 /**
  * Table column model for the peer_assessment_publication browser table
  * @author Nick Van Loocke

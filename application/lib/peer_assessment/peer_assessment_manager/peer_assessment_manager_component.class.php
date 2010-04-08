@@ -1,10 +1,8 @@
 <?php
 /**
- * Basic functionality of a component to talk with the peer_assessment application
- * @author Nick Van Loocke
+ *	author: Nick Van Loocke
  */
-
-abstract class PeerAssessmentManagerComponent
+abstract class PeerAssessmentManagerComponent extends ApplicationComponent
 {
     /**
      * The number of components allready instantiated
@@ -20,6 +18,8 @@ abstract class PeerAssessmentManagerComponent
      * The id of this component
      */
     private $id;
+    
+    private $rights;
 
     /**
      * Constructor
@@ -30,6 +30,7 @@ abstract class PeerAssessmentManagerComponent
     {
         $this->pm = $peer_assessment;
         $this->id = ++ self :: $component_count;
+        $this->load_rights();
     }
 
     /**
@@ -198,6 +199,11 @@ abstract class PeerAssessmentManagerComponent
     {
         return $this->get_parent()->get_update_peer_assessment_publication_url($peer_assessment_publication);
     }
+    
+    function get_evaluation_publication_url($peer_assessment_publication)
+    {
+    	return $this->get_parent()->get_evaluation_publication_url($peer_assessment_publication);
+    }
 
     function get_delete_peer_assessment_publication_url($peer_assessment_publication)
     {
@@ -208,20 +214,29 @@ abstract class PeerAssessmentManagerComponent
     {
         return $this->get_parent()->get_browse_peer_assessment_publications_url();
     }
-
-    function get_category_manager_url()
+    
+	function get_category_manager_url()
     {
         return $this->get_parent()->get_category_manager_url();
     }
 
-    function get_browse_url()
+    private function load_rights()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+        /**
+         * Here we set the rights depending on the user status in the course.
+         * This completely ignores the roles-rights library.
+         * TODO: WORK NEEDED FOR PROPPER ROLES-RIGHTS LIBRARY
+         */
+        
+        $this->rights[VIEW_RIGHT] = true;
+        $this->rights[EDIT_RIGHT] = true;
+        $this->rights[ADD_RIGHT] = true;
+        $this->rights[DELETE_RIGHT] = true;
     }
 
     function is_allowed($right)
     {
-        return $this->get_parent()->is_allowed($right);
+        return $this->rights[$right];
     }
 
     /**

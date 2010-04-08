@@ -8,11 +8,7 @@ require_once Path :: get_application_path() . 'lib/weblcms/course/course.class.p
 
 class CourseMoveForm extends FormValidator
 {
-    //const PROPERTY_LOCATION = 'location';
     const SELECT_COURSE_TYPE = 'course_type';
-    //private $course_type;
-    //private $locations = array();
-    private $level = 1;
     private $size;
     private $single_course_type_id;
     private $course;
@@ -30,7 +26,7 @@ class CourseMoveForm extends FormValidator
 
     function build_form()
     {
-    	//$this->addElement('hidden', Course :: PROPERTY_ID);
+    	$this->addElement('hidden', Course :: PROPERTY_ID);
         $this->addElement('select', self :: SELECT_COURSE_TYPE, Translation :: get('New Course Type'), $this->get_course_types());
         $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
                  
@@ -39,11 +35,9 @@ class CourseMoveForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 	
-	function move_course()
+	function get_selected_course_type()
     {
-        $new_course_type = $this->exportValue(self :: SELECT_COURSE_TYPE);
-        $this->course->set_course_type_id($new_course_type);
-        return $this->course->update($course);
+        return $this->exportValue(self :: SELECT_COURSE_TYPE);
     }
     
     function get_course_types()

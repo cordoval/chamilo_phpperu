@@ -1,11 +1,12 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
+
 /**
+ * Component to delete peer_assessment_publications objects
  * @author Nick Van Loocke
  */
-
-class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerPeerAssessmentPublicationDeleterComponent extends PeerAssessmentManagerComponent
 {
 
     /**
@@ -13,7 +14,7 @@ class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManagerCompone
      */
     function run()
     {
-        $ids = Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION);
+        $ids = $_GET[PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION];
         $failures = 0;
         
         if (! empty($ids))
@@ -56,7 +57,7 @@ class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManagerCompone
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
         }
         else
         {

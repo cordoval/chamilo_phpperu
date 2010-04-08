@@ -140,5 +140,37 @@ class Reporting
     		return null;
     	}
     }
+    
+	/**
+     * Creates a reporting template registration in the database
+     * @param array $props
+     * @return ReportingTemplateRegistration
+     */
+    public static function create_reporting_template_registration($props)
+    {
+    	$reporting_template_registration = new ReportingTemplateRegistration();
+        $reporting_template_registration->set_default_properties($props);
+        if (! $reporting_template_registration->create())
+        {
+            return false;
+        }
+        return $reporting_template_registration;
+    }
+    
+    /**
+     * Creates a reporting block in the database
+     * @param array $array
+     * @return ReportingBlock
+     */
+    public static function create_reporting_block_registration($array)
+    {
+        $reporting_block = new ReportingBlockRegistration();
+        $reporting_block->set_default_properties($array);
+        if (! $reporting_block->create())
+        {
+            return false;
+        }
+        return $reporting_block;
+    }    
 } //class reporting
 ?>

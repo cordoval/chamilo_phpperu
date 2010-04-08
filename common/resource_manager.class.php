@@ -18,6 +18,11 @@ class ResourceManager
     {
         $this->resources = array();
     }
+    
+    function get_resources()
+    {
+    	return $this->resources;
+    }
 
     function resource_loaded($path)
     {
