@@ -50,11 +50,6 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
             $this->selected_object = $rdm->retrieve_content_object($publication->get_content_object());
         }
         
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_USER_ID => $user_id)), Translation :: get('ViewPortfolio')));
-        
-        $this->display_header($trail);
         //view tab is ALWAYS shown. feedback and validation are shown when there is an object selected (only not shown when portfolio root is selected), no checks to the rights managment system. TODO: change this
         $actions = array('view');
         if ($this->selected_object)
@@ -68,7 +63,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         if ($user_id == $this->get_user_id())
         {
             $this->action_bar = $this->get_action_bar();
-            echo $this->action_bar->as_html();
+            $html[] = $this->action_bar->as_html();
 
             if ($pid && ! $cid)
             {
@@ -84,52 +79,58 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
             //$actions[] = 'validation';
         }
         
-        echo '<div id="action_bar_browser">';
+        $html[] = '<div id="action_bar_browser">';
         
-        echo '<div style="width: 18%; float: left; overflow: auto;">';
+        $html[] = '<div style="width: 18%; float: left; overflow: auto;">';
         
         if (PlatformSetting :: get('display_user_picture', 'portfolio'))
         {
             $user = UserDataManager :: get_instance()->retrieve_user($user_id);
             
-            echo '<div style="text-align: center;">';
-            echo '<img src="' . $user->get_full_picture_url() . '" />';
-            echo '</div><br />';
+            $html[] = '<div style="text-align: center;">';
+            $html[] = '<img src="' . $user->get_full_picture_url() . '" />';
+            $html[] = '</div><br />';
         }
         
         $menu = new PortfolioMenu($this->get_user(), 'run.php?go=view_portfolio&application=portfolio&user_id=' . $user_id . '&pid=%s&cid=%s', $pid, $cid, $user_id);
-        echo $menu->render_as_tree();
-        echo '</div>';
+        $html[] = $menu->render_as_tree();
+        $html[] = '</div>';
         
-        echo '<div style="width: 80%; overflow: auto;">';
-        echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
+        $html[] = '<div style="width: 80%; overflow: auto;">';
+        $html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
         
         $current_action = Request :: get('action') ? Request :: get('action') : 'view';
         
         foreach ($actions as $action)
         {
-            echo '<li><a';
+            $html[] = '<li><a';
             if ($action == $current_action)
             {
-                echo ' class="current"';
+                $html[] = ' class="current"';
             }
             
-            echo ' href="' . $this->get_url(array('pid' => $pid, 'cid' => $cid, 'user_id' => $user_id, 'action' => $action)) . '">' . htmlentities(Translation :: get(ucfirst($action) . 'Title'));
+            $html[] = ' href="' . $this->get_url(array('pid' => $pid, 'cid' => $cid, 'user_id' => $user_id, 'action' => $action)) . '">' . htmlentities(Translation :: get(ucfirst($action) . 'Title'));
             if ($action == 'feedback')
             {
-                echo '[' . AdminDataManager :: get_instance()->count_feedback_publications($pid, $cid, 'portfolio') . ']';
+                $html[] = '[' . AdminDataManager :: get_instance()->count_feedback_publications($pid, $cid, 'portfolio') . ']';
             }
-            echo '</a></li>';
+            $html[] = '</a></li>';
         
         }
         
-        echo '</ul><div class="tabbed-pane-content">';
+        $html[] = '</ul><div class="tabbed-pane-content">';
         
-        echo call_user_func(array($this, 'display_' . $current_action . '_page'));
-        echo '</div></div>';
-        echo '</div>';
-        echo '</div>';
+        $html[] = call_user_func(array($this, 'display_' . $current_action . '_page'));
+        $html[] = '</div></div>';
+        $html[] = '</div>';
+        $html[] = '</div>';
         
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_USER_ID => $user_id)), Translation :: get('ViewPortfolio')));
+        
+        $this->display_header($trail);
+        echo implode("\n", $html);
         $this->display_footer();
     }
 
@@ -214,7 +215,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         
         $html = array();
         $fbm = new ValidationManager($this, PortfolioManager :: APPLICATION_NAME);
-        $fbm->run();
+        $html[] = $fbm->as_html();
         
         return implode("\n", $html);
     }

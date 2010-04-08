@@ -30,8 +30,9 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
 
         if (! isset($object))
         {
+            $html = $pub->as_html();
             $this->display_header($trail);
-            echo $pub->as_html();
+            echo $html;
             $this->display_footer();
         }
         else

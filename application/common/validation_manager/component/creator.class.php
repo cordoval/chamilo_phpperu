@@ -12,7 +12,16 @@
 class ValidationManagerCreatorComponent extends ValidationManagerComponent
 {
 
-    function run()
+	function run()
+    {
+    	$html = $this->as_html();
+    	
+    	$this->display_header(new BreadcrumbTrail());
+    	echo $html;
+    	$this->display_footer();
+    }
+    
+    function as_html()
     {
         
         $pid = Request :: get('pid');
@@ -28,6 +37,7 @@ class ValidationManagerCreatorComponent extends ValidationManagerComponent
             $this->display_footer();
             exit();
         }
+        
         $id = $this->get_user()->get_id();
         $conditions = array();
         $conditions[] = new EqualityCondition(Validation :: PROPERTY_PID, $pid);
@@ -35,17 +45,15 @@ class ValidationManagerCreatorComponent extends ValidationManagerComponent
         $conditions[] = new EqualityCondition(Validation :: PROPERTY_OWNER, $this->get_user_id());
         $conditions[] = new EqualityCondition(Validation :: PROPERTY_APPLICATION, PortfolioManager :: APPLICATION_NAME);
         $condition = new AndCondition($conditions);
-        dump($condition);
-        echo $this->count_validations($condition);
+
         if ($this->count_validations($condition) == 0)
         {
-            
             $val = new Validation();
             $val->set_cid($cid);
             $val->set_pid($pid);
             $val->set_application($application);
             $val->set_owner($this->get_user()->get_id());
-            $val->set_validated($validated);
+            $val->set_validated(1);
             $today = date('Y-m-d G:i:s');
             $now = time();
             
@@ -70,7 +78,6 @@ class ValidationManagerCreatorComponent extends ValidationManagerComponent
         {
             
             $val = $this->retrieve_validations($condition)->next_result();
-            dump($val);
             $val->set_validated(time());
             if ($val->update())
             {
