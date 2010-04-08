@@ -228,11 +228,25 @@ class CourseForm extends FormValidator
 		$this->addElement('checkbox', CourseSettings :: PROPERTY_VISIBILITY, Translation :: get('CourseTypeVisibility'), '', $attr_array);
 
 		$access_disabled = $this->course->get_access_fixed();
-		$attr_array = array();
+		//Accessibility
 		if($access_disabled)
-			$attr_array = array('disabled' => 'disabled');
-		$this->addElement('checkbox', CourseSettings :: PROPERTY_ACCESS, Translation :: get('CourseTypeAccess'), '', $attr_array);
-
+		{
+			$access = $this->course->get_access();
+			if($access)
+				$access_name = Translation :: get('Open');
+			else
+				$access_name = Translation :: get('Closed');
+			$this->addElement('static', 'static_member', Translation :: get('MaximumNumberOfMembers'), $acces_name);
+			$this->addElement('hidden', CourseTypeSettings :: PROPERTY_ACCESS, $access );
+		}
+		else
+		{
+			$choices = array();
+			$choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Open'), 1);
+			$choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Closed'), 0);
+			$this->addGroup($choices, 'access_choices', Translation :: get('CourseTypeAccess'), '<br />', false);
+		}
+		
 		$members_disabled = $this->course->get_max_number_of_members_fixed();
 		$max = "Unlimited";
 		if($this->course->get_course_type()->get_settings()->get_max_number_of_members()>0)

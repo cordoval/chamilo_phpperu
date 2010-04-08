@@ -197,7 +197,11 @@ class CourseTypeForm extends FormValidator
 
 		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_VISIBILITY, Translation :: get('CourseTypeVisibility'));
 
-		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_ACCESS, Translation :: get('CourseTypeAccess'));
+		//Accessibility
+		$choices = array();
+		$choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Open'), 1);
+		$choices[] = $this->createElement('radio', CourseTypeSettings :: PROPERTY_ACCESS, '', Translation :: get('Closed'), 0);
+		$this->addGroup($choices, 'access_choices', Translation :: get('CourseTypeAccess'), '<br />', false);
 
 		// Number of members
 		$choices = array();
@@ -434,12 +438,12 @@ class CourseTypeForm extends FormValidator
 		$course_type_settings->set_language_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED]));
 		$course_type_settings->set_visibility($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY]));
 		$course_type_settings->set_visibility_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED]));
-		$course_type_settings->set_access($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
+		$course_type_settings->set_access($values[CourseTypeSettings :: PROPERTY_ACCESS]);
 		$course_type_settings->set_access_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS_FIXED]));
 		if($values[self::UNLIMITED_MEMBERS])
-		$members = 0;
+			$members = 0;
 		else
-		$members = $values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS];
+			$members = $values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS];
 		$course_type_settings->set_max_number_of_members($members);
 		$course_type_settings->set_max_number_of_members_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED]));
 		return $course_type_settings;
