@@ -13,8 +13,7 @@ require_once (PATH :: get(SYS_LIB_PATH) . 'html/formvalidator/Rule/HTML.php');
 //$language_code = Database :: get_language_isocode($language_interface);
 $language_code = 'en';
 header('Content-Type: text/html; charset=' . $charset);
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xml:lang="<?php
 echo $language_code;
@@ -29,8 +28,7 @@ echo $charset?>" />
 <title>
 <?php
 echo Translation :: get('AllowedHTMLTags');
-?>
-</title>
+?></title>
 <link rel="stylesheet" type="text/css"
 	href="<?php
 echo Theme :: get_common_css_path();
@@ -44,8 +42,7 @@ echo Translation :: get('Close');
 <h4>
 <?php
 echo Translation :: get('AllowedHTMLTags');
-?>
-</h4>
+?></h4>
 <?php
 
 $html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML : STUDENT_HTML;
@@ -81,8 +78,7 @@ foreach ($table_header as $index => $header_item)
 }
 $table->display();
 
-?>
-<div style="text-align: right;"><a href="javascript:window.close();"><?php
+?><div style="text-align: right;"><a href="javascript:window.close();"><?php
 echo Translation :: get('Close');
 ?></a></div>
 </div>

@@ -99,8 +99,7 @@ class StreamingVideoWebService {
 		header('Content-Type: text/xml; charset=UTF-8');
 		$url = htmlspecialchars($this->get_uri());
 		echo <<<END
-<?xml version="1.0" encoding="UTF-8"?>
-<definitions
+<?xml version="1.0" encoding="UTF-8"?><definitions
 	xmlns="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"

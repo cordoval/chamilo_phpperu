@@ -128,8 +128,7 @@ END;
 		$jnlp_relative_url = htmlspecialchars($jnlp_relative_url);
 		$uploader_codebase_url = htmlspecialchars($uploader_codebase_url);
 		return <<<END
-<?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0+" codebase="$jnlp_codebase_url" href="$jnlp_relative_url">
+<?xml version="1.0" encoding="utf-8"?><jnlp spec="1.0+" codebase="$jnlp_codebase_url" href="$jnlp_relative_url">
 	<information>
 		<title>Clip Uploader</title>
 		<vendor>Ovis</vendor>
