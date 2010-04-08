@@ -690,7 +690,13 @@ class WeblcmsInstaller extends Installer
 		$course_type_layout->set_course_languages_visible(1);
 		$course_type_layout->set_course_languages_visible_fixed(0);
 		$succes = $succes && $course_type_layout->create();
-		 
+		
+		$course_type_rights = new CourseTypeRights();
+		$course_type_rights->set_course_type_id(1);
+		$course_type_rights->set_direct_subscribe_available(1);
+		$course_type_rights->set_unsubscribe_available(1);
+		$succes = $succes && $course_type_rights->create();
+		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$tools = $wdm->get_tools('basic');
 		foreach($tools as $tool)
@@ -744,6 +750,12 @@ class WeblcmsInstaller extends Installer
 		$course_type_layout->set_course_languages_visible_fixed(1);
 		$succes = $succes && $course_type_layout->create();
 		 
+		$course_type_rights = new CourseTypeRights();
+		$course_type_rights->set_course_type_id(2);
+		$course_type_rights->set_direct_subscribe_available(1);
+		$course_type_rights->set_unsubscribe_available(1);
+		$succes = $succes && $course_type_rights->create();
+		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$tools = $wdm->get_tools('basic');
 		foreach($tools as $tool)

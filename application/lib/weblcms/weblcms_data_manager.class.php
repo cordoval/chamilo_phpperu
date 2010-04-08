@@ -188,6 +188,8 @@ abstract class WeblcmsDataManager
     abstract function create_course_type_tool($course_type_tool);
 
     abstract function create_course_type_layout($course_type_layout);
+    
+    abstract function create_course_type_rights($course_type_rights);
 
     /**
     * Updates the specified course_type in persistent storage,
@@ -202,6 +204,8 @@ abstract class WeblcmsDataManager
     abstract function update_course_type_layout($course_type_layout);
 
     abstract function update_course_type_tool($course_type_tool);
+    
+    abstract function update_course_type_rights($course_type_rights);
 
     abstract function delete_course_type($course_type_id);
 
