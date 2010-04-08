@@ -106,6 +106,11 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_EVALUATION_ID, $evaluation_id);
 		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
 	}
+	
+	function create_internal_item_instance($internal_item_instance)
+	{
+		return $this->database->create($internal_item_instance);
+	}
 
 // gradebook evaluation
 	
@@ -239,6 +244,10 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	}
 		
 	//gradebook grade evaluation
+	function create_grade_evaluation($grade_evaluation)
+	{
+		return $this->database->create($grade_evaluation);
+	}
 	
 	function retrieve_grade_evaluation($id)
 	{

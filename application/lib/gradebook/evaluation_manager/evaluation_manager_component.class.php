@@ -25,4 +25,9 @@ class EvaluationManagerComponent extends SubManagerComponent
     {
     	return $this->get_parent()->count_all_evaluations_on_publication();
     }
+    
+    function get_publication()
+    {
+    	return $this->get_parent()->get_publication();
+    }
 }
