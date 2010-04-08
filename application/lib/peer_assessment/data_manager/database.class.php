@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_publication.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_pub_feedback.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -18,7 +17,6 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     {
         $aliases = array();
         $aliases[PeerAssessmentPublication :: get_table_name()] = 'wion';
-        $aliases[PeerAssessmentPubFeedback :: get_table_name()] = 'wpf';
 
         $this->database = new Database($aliases);
         $this->database->set_prefix('peer_assessment_');
@@ -67,36 +65,6 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     function retrieve_peer_assessment_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->database->retrieve_objects(PeerAssessmentPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-    }
-
-    function retrieve_peer_assessment_pub_feedback($id)
-    {
-        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $id);
-        $object = $this->database->retrieve_object(PeerAssessmentPubFeedback :: get_table_name(), $condition);
-
-        return $object;
-    }
-
-    function retrieve_peer_assessment_pub_feedbacks($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-        return $this->database->retrieve_objects(PeerAssessmentPubFeedback :: get_table_name(), $condition, $offset, $max_objects, $order_by);
-    }
-
-    function create_peer_assessment_pub_feedback($feedback)
-    {
-        return $this->database->create($feedback);
-    }
-
-    function update_peer_assessment_pub_feedback($feedback)
-    {
-        $condition = new EqualityCondition(PeerAssessmentPubFeedback :: PROPERTY_ID, $feedback->get_id());
-        return $this->database->update($feedback, $condition);
-    }
-
-    function delete_peer_assessment_pub_feedback($feedback)
-    {
-        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $feedback->get_id());
-        return $this->database->delete(PeerAssessmentPubFeedback :: get_table_name(), $condition);
     }
     
     // Categories

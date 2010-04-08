@@ -10,21 +10,10 @@ class PeerAssessmentDisplay extends ComplexDisplay
     const PARAM_PEER_ASSESSMENT_ID = 'peer_assessment_id';
     const PARAM_PEER_ASSESSMENT_PAGE_ID = 'peer_assessment_page_id';
     
-    const ACTION_BROWSE_PEER_ASSESSMENTS = 'browse';
-    const ACTION_VIEW_PEER_ASSESSMENT = 'view';
-    const ACTION_VIEW_PEER_ASSESSMENT_PAGE = 'view_item';
+    const ACTION_VIEW_PEER_ASSESSMENT = 'view';   
+    const ACTION_UPDATE = 'update';
+    const ACTION_DELETE = 'delete';
     const ACTION_PUBLISH = 'publish';
-    const ACTION_CREATE_PAGE = 'create_page';
-    const ACTION_SET_AS_HOMEPAGE = 'set_as_homepage';
-    const ACTION_DELETE_PEER_ASSESSMENT_CONTENTS = 'delete_peer_assessment_contents';
-    const ACTION_DISCUSS = 'discuss';
-    const ACTION_HISTORY = 'history';
-    const ACTION_PAGE_STATISTICS = 'page_statistics';
-    const ACTION_COMPARE = 'compare';
-    const ACTION_STATISTICS = 'statistics';
-    const ACTION_ACCESS_DETAILS = 'access_details';
-    const ACTION_LOCK = 'lock';
-    const ACTION_ADD_LINK = 'add_peer_assessment_link';
 
     /**
      * Inherited.
@@ -32,67 +21,22 @@ class PeerAssessmentDisplay extends ComplexDisplay
     function run()
     {
         //peer_assessment tool
-        $action = $this->get_action(); //Request :: get('display_action');
+        $action = $this->get_action();
         
 
         switch ($action)
         {
+            case self :: ACTION_VIEW_PEER_ASSESSMENT :
+                $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentViewer', $this);
+                break;
             case self :: ACTION_UPDATE :
                 $component = ComplexDisplayComponent :: factory(null, 'Updater', $this);
-                break;
-            case self :: ACTION_UPDATE_LO :
-                $component = ComplexDisplayComponent :: factory(null, 'ContentObjectUpdater', $this);
                 break;
             case self :: ACTION_DELETE :
                 $component = ComplexDisplayComponent :: factory(null, 'Deleter', $this);
                 break;
-            case self :: ACTION_VIEW_PEER_ASSESSMENT :
-                $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentViewer', $this);
-                break;
-            case self :: ACTION_VIEW_PEER_ASSESSMENT_PAGE :
-                $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentItemViewer', $this);
-                break;
-            case self :: ACTION_CREATE_PAGE :
-                $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentPageCreator', $this);
-                break;
-            case self :: ACTION_SET_AS_HOMEPAGE :
-                $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentHomepageSetter', $this);
-                break;
-            case self :: ACTION_DISCUSS :
-                $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentDiscuss', $this);
-                break;
-            case self :: ACTION_HISTORY :
-                $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentHistory', $this);
-                break;
-            case self :: ACTION_PAGE_STATISTICS :
-                $component = ComplexDisplayComponent :: factory(null, 'ReportingTemplateViewer', $this);
-                $component->set_template_name('PeerAssessmentPageReportingTemplate');
-                break;
-            case self :: ACTION_STATISTICS :
-                $component = ComplexDisplayComponent :: factory(null, 'ReportingTemplateViewer', $this);
-                $component->set_template_name('PeerAssessmentReportingTemplate');
-                break;
-            case self :: ACTION_ACCESS_DETAILS :
-                $component = ComplexDisplayComponent :: factory(null, 'ReportingTemplateViewer', $this);
-                $component->set_template_name('PublicationDetailReportingTemplate');
-                break;
-            case self :: ACTION_FEEDBACK_CLOI :
-                if (Request :: get('application') == 'peer_assessment')
-                    $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentPubFeedbackCreator', $this);
-                else
-                    $component = ComplexDisplayComponent :: factory(null, 'ComplexFeedback', $this);
-                break;
-            case self :: ACTION_EDIT_FEEDBACK :
-                if (Request :: get('application') == 'peer_assessment')
-                    $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentPubFeedbackEditor', $this);
-                else
-                    $component = ComplexDisplayComponent :: factory(null, 'FeedbackEdit', $this);
-                break;
-            case self :: ACTION_DELETE_FEEDBACK :
-                if (Request :: get('application') == 'peer_assessment')
-                    $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentPubFeedbackDeleter', $this);
-                else
-                    $component = ComplexDisplayComponent :: factory(null, 'FeedbackDeleter', $this);
+            case self :: ACTION_PUBLISH :
+                $component = ComplexDisplayComponent :: factory(null, 'Publisher', $this);
                 break;
             default :
                 $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentViewer', $this);
@@ -103,21 +47,6 @@ class PeerAssessmentDisplay extends ComplexDisplay
     static function get_allowed_types()
     {
         return array('peer_assessment');
-    }
-
-    static function is_peer_assessment_locked($peer_assessment_id)
-    {
-        $peer_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($peer_assessment_id);
-        return $peer_assessment->get_locked() == 1;
-    }
-
-    static function get_peer_assessment_homepage($peer_assessment_id)
-    {
-        require_once Path :: get_repository_path() . '/lib/content_object/peer_assessment_page/complex_peer_assessment_page.class.php';
-        $conditions[] = new EqualityCondition(ComplexPeerAssessmentPage :: PROPERTY_PARENT, $peer_assessment_id);
-        $conditions[] = new EqualityCondition(ComplexPeerAssessmentPage :: PROPERTY_IS_HOMEPAGE, 1);
-        $peer_assessment_homepage = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new AndCondition($conditions), array(), 0, - 1, 'complex_peer_assessment_page')->as_array();
-        return $peer_assessment_homepage[0];
     }
 
     public function get_toolbar($parent, $pid, $lo, $selected_cloi)
@@ -228,7 +157,7 @@ class PeerAssessmentDisplay extends ComplexDisplay
         return $action_bar;
     }
 
-    function get_breadcrumbtrail()
+    /*function get_breadcrumbtrail()
     {
         $trail = new BreadcrumbTrail(false);
         $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_CLO, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'))), $this->get_root_lo()->get_title()));
@@ -242,12 +171,6 @@ class PeerAssessmentDisplay extends ComplexDisplay
             case PeerAssessmentDisplay :: ACTION_UPDATE_LO :
                 $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_UPDATE_LO, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'))), Translation :: get('Edit')));
                 break;
-            case PeerAssessmentDisplay :: ACTION_STATISTICS :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_STATISTICS, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Reporting')));
-                break;
-            case PeerAssessmentDisplay :: ACTION_ACCESS_DETAILS :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_ACCESS_DETAILS, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Reporting')));
-                break;
             case PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT_PAGE :
                 $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
                 break;
@@ -255,26 +178,10 @@ class PeerAssessmentDisplay extends ComplexDisplay
                 $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
                 $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_UPDATE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Edit')));
                 break;
-            case PeerAssessmentDisplay :: ACTION_DISCUSS :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => Request :: get(ComplexDisplay :: PARAM_DISPLAY_ACTION), ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Discuss')));
-                break;
-            case PeerAssessmentDisplay :: ACTION_HISTORY :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => Request :: get(ComplexDisplay :: PARAM_DISPLAY_ACTION), ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('History')));
-                break;
-            case PeerAssessmentDisplay :: ACTION_PAGE_STATISTICS :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_PAGE_STATISTICS, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Reporting')));
-                break;
-            case PeerAssessmentDisplay :: ACTION_FEEDBACK_CLOI :
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_DISCUSS, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Discuss')));
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => Request :: get(ComplexDisplay :: PARAM_DISPLAY_ACTION), ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('AddFeedback')));
-                break;
+
         }
         return $trail;
-    }
+    }*/
 
     private function get_lo_from_cid($cid)
     {

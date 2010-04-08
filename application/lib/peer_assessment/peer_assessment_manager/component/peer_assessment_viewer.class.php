@@ -15,9 +15,9 @@ class PeerAssessmentManagerPeerAssessmentViewerComponent extends PeerAssessmentM
             return;
         }
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PeerAssessment_PUBLICATIONS)), Translation :: get('PeerAssessment')));
+        $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('PeerAssessment')));
         
-        $this->set_parameter(PeerAssessmentManager :: PARAM_ACTION, PeerAssessmentManager :: ACTION_VIEW_PeerAssessment);
+        $this->set_parameter(PeerAssessmentManager :: PARAM_ACTION, PeerAssessmentManager :: ACTION_VIEW_PEER_ASSESSMENT);
         $this->set_parameter(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION, Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION));
         
         $this->cd = ComplexDisplay :: factory($this, 'peer_assessment');
