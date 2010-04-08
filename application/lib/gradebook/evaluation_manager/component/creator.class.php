@@ -4,16 +4,24 @@ require_once dirname(__FILE__) . '/../../forms/evaluation_form.class.php';
 class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
 {
     function run()
-    {        
+    {      
+    	  
     	$publication = $this->get_publication();
-    	
-    	$form = new EvaluationForm(EvaluationForm :: TYPE_CREATE, $publication, $this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_CREATE, WikiManager :: PARAM_WIKI_PUBLICATION => Request :: get('wiki_publication'))), $this->get_user());
+    	$failures = 0;
+		
+    	$form = new EvaluationForm(EvaluationForm :: TYPE_CREATE, $publication, $this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_CREATE, 'publication' => Request :: get('publication'))), $this->get_user());
     	if($form->validate())
 		{
-			$form->create_evaluation();
+			if(!$form->create_evaluation())
+				$failures++;
+		    $message = $this->get_result($failures, count($objects), 'EvaluationNotCreated', 'EvaluationsNotCreated', 'EvaluationCreated', 'EvaluationsCreated');
+		                   
+            $this->redirect($message, $failures, array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, 'publication' => $publication->get_id()));
 		}
 		else
     		$form->display();
+    	
+    	 
     		
 //		$this->parameters = $this->get_parameters();
 //		$type = $this->parameters['type'];

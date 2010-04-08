@@ -88,17 +88,29 @@ class EvaluationForm extends FormValidator
 		$evaluation->set_user_id($this->publication->get_publisher());
 		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
 		$evaluation->set_format_id($values['format_list']);
-		$evaluation->create();
+		if(!$evaluation->create())
+		{
+			return false;
+		}
 		
 		$internal_item_instance = new InternalItemInstance();
 		$internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication($this->publication->get_content_object()->get_type(), $this->publication->get_id())->get_id());
 		$internal_item_instance->set_evaluation_id($evaluation->get_id());
-		$internal_item_instance->create();
+		if(!$internal_item_instance->create())
+		{
+			return false;
+		}
 		
 		$grade_evaluation = new GradeEvaluation();
 		$grade_evaluation->set_score($values['score']);
 		$grade_evaluation->set_comment($values['comment']);
-		$grade_evaluation->create();
+		$grade_evaluation->set_id($evaluation->get_id());
+		if(!$grade_evaluation->create())
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }
 ?>
