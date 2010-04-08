@@ -21,14 +21,15 @@ class CourseRights extends DataClass
      * Get the default properties of all courses.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
-        return array(self :: PROPERTY_COURSE_ID,
-        			  self :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE,
+        if(empty($extended_property_names)) $extended_property_names = array(self :: PROPERTY_COURSE_ID);
+        return array_merge($extended_property_names,
+        		array(self :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE,
         			  self :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE,
         			  self :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE,
         			  self :: PROPERTY_UNSUBSCRIBE_AVAILABLE,
-        			  self :: PROPERTY_CODE);
+        			  self :: PROPERTY_CODE));
     }
 
     /**

@@ -409,7 +409,7 @@ abstract class Installer
                         $classname = Utilities :: underscores_to_camelcase($bla[0]);
                         $template = $bla[0];
                         $props = array();
-                        $props[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = call_user_func(array($classname, 'is_platform'));
+                        //$props[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = call_user_func(array($classname, 'is_platform'));
                         $props[ReportingTemplateRegistration :: PROPERTY_APPLICATION] = $application;
                         $props[ReportingTemplateRegistration :: PROPERTY_TEMPLATE] = $template;
                         if ($this->register_reporting_template($props))

@@ -905,6 +905,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->create($course_type_settings);
 	}
 	
+	function create_course_type_rights($course_type_rights)
+	{
+		return $this->database->create($course_type_rights);
+	}
+	
 	function create_course_rights($course_rights)
 	{
 		return $this->database->create($course_rights);
@@ -1234,6 +1239,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$condition = new EqualityCondition(CourseTypeLayout :: PROPERTY_COURSE_TYPE_ID, $course_type_layout->get_course_type_id());
 		return $this->database->update($course_type_layout, $condition);
 	}
+	
+	function update_course_type_rights($course_type_rights)
+	{
+		$condition = new EqualityCondition(CourseTypeRights :: PROPERTY_COURSE_TYPE_ID, $course_type_rights->get_course_type_id());
+		return $this->database->update($course_type_rights, $condition);
+	}
 
 	function update_course_type_tool($course_type_tool)
 	{
@@ -1437,9 +1448,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$condition = new EqualityCondition(CourseTypeSettings :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
 		$bool = $bool && $this->database->delete(CourseTypeSettings :: get_table_name(), $condition);
 
+		$condition = new EqualityCondition(CourseTypeRights :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+		$bool = $bool && $this->database->delete(CourseTypeRights :: get_table_name(), $condition);
+		
 		$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
 		$bool = $bool && $this->database->delete(CourseTypeTool :: get_table_name(), $condition);
-
+		
 		return $bool;
 
 		//return $bool;
@@ -1691,6 +1705,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			return $this->retrieve_empty_course_type();
 		$course_type->set_layout_settings($course_type_layout_settings);
 		
+		$course_type_rights = $this->retrieve_course_type_rights($id);
+		if(empty($course_type_rights))
+			return $this->retrieve_empty_course_type();
+		$course_type->set_rights($course_type_rights);
+		
 		$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
 		$course_type->set_tools($this->retrieve_all_course_type_tools($condition));
 		return $course_type;
@@ -1701,6 +1720,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$course_type = new CourseType();
 		$course_type->set_settings(new CourseTypeSettings());
 		$course_type->set_layout_settings(new CourseTypeLayout());
+		$course_type->set_rights(new CourseTypeRights());
 		return $course_type;
 	}
 	
@@ -1715,6 +1735,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(CourseTypeSettings :: PROPERTY_COURSE_TYPE_ID, $id);
 		return $this->database->retrieve_object(CourseTypeSettings :: get_table_name(), $condition);
+	}
+	
+	// Inherited
+	function retrieve_course_type_rights($id)
+	{
+		$condition = new EqualityCondition(CourseTypeRights :: PROPERTY_COURSE_TYPE_ID, $id);
+		return $this->database->retrieve_object(CourseTypeRights :: get_table_name(), $condition);
 	}
 
 	// Inherited

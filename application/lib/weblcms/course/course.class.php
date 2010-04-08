@@ -663,6 +663,105 @@ class Course extends DataClass
         	$this->get_layout_settings()->set_course_languages_visible($this->course_type->get_layout_settings()->get_course_languages_visible());
     }
 
+	/**
+     * Direct access to the setters and getters for the rights settings
+     * All setters include a validation to see whether or not the property is writeable
+     */
+
+    /*
+     * Getters and validation whether or not the property is readable from the course's own settings
+     */
+/*
+    function get_language()
+    {
+    	if(!$this->get_language_fixed())
+    	{
+        	return $this->settings->get_language();
+    	}
+        else
+        	return $this->get_course_type()->get_settings()->get_language();
+    }
+
+    function get_visibility()
+    {
+    	if(!$this->get_visibility_fixed())
+        	return $this->settings->get_visibility();
+        else
+        	return $this->get_course_type()->get_settings()->get_visibility();
+    }
+
+	function get_access()
+    {
+    	if(!$this->get_access_fixed())
+        	return $this->settings->get_access();
+        else
+        	return $this->get_course_type()->get_settings()->get_access();
+    }
+
+    function get_max_number_of_members()
+    {
+    	if(!$this->get_max_number_of_members_fixed())
+        	return $this->settings->get_max_number_of_members();
+        else
+        	return $this->get_course_type()->get_settings()->get_max_number_of_members();
+    }
+
+    /**
+     * Setters and validation to see whether they are writable
+     */
+/*
+    function get_language_fixed()
+    {
+    	return $this->course_type->get_settings()->get_language_fixed();
+    }
+
+    function set_language($language)
+    {
+    	if(!$this->get_language_fixed())
+        	$this->settings->set_language($language);
+        else
+        	$this->settings->set_language($this->course_type->get_settings()->get_language());
+    }
+
+    function get_visibility_fixed()
+    {
+    	return $this->course_type->get_settings()->get_visibility_fixed();
+    }
+
+    function set_visibility($visibility)
+    {
+		if(!$this->get_visibility_fixed())
+        	$this->settings->set_visibility($visibility);
+        else
+        	$this->settings->set_visibility($this->course_type->get_settings()->get_visibility());
+    }
+
+    function get_access_fixed()
+    {
+    	return $this->course_type->get_settings()->get_access_fixed();
+    }
+
+    function set_access($access)
+    {
+		if(!$this->get_access_fixed())
+        	$this->settings->set_access($access);
+        else
+        	$this->settings->set_access($this->course_type->get_settings()->get_access());
+    }
+
+    function get_max_number_of_members_fixed($max_number_of_members)
+    {
+		return $this->course_type->get_settings()->get_max_number_of_members_fixed();
+    }
+
+    function set_max_number_of_members($max_number_of_members)
+    {
+		if(!$this->get_max_number_of_members_fixed())
+        	$this->settings->set_max_number_of_members($max_number_of_members);
+        else
+        	$this->settings->set_max_number_of_members($this->course_type->get_settings()->get_max_number_of_members());
+    }
+    
     /**
      * Creates the course object in persistent storage
      * @return boolean
