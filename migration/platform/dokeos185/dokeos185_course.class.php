@@ -322,7 +322,7 @@ class Dokeos185Course extends ImportCourse
     function is_valid($parameters)
     {
         $mgdm = MigrationDataManager :: get_instance();
-        if (! $this->get_code() || $this->get_show_score() == NULL || $mgdm->get_failed_element('dokeos_main.course_category', $this->get_category_code()))
+        if (! $this->get_code() || $mgdm->get_failed_element('dokeos_main.course_category', $this->get_category_code()))
         {
             $mgdm->add_failed_element($this->get_code(), 'dokeos_main.course');
             return false;

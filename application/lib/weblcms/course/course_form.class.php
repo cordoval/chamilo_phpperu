@@ -585,7 +585,7 @@ class CourseForm extends FormValidator
 			return false;
     	
 		$course_rights = $this->fill_course_rights();
-		dump($course_rights);
+		//dump($course_rights);
 		if(!$course_rights->create())
 			return false;
 			
