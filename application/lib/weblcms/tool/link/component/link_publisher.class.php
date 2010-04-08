@@ -26,7 +26,8 @@ class LinkToolPublisherComponent extends LinkToolComponent
         {
             foreach (Tool :: get_pcattree_parents(Request :: get('pcattree')) as $breadcrumb)
             {
-                $trail->add(new Breadcrumb($this->get_url(), $breadcrumb->get_name()));
+            	if($breadcrumb)
+                	$trail->add(new Breadcrumb($this->get_url(), $breadcrumb->get_name()));
             }
         }
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publish')));
