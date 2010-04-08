@@ -57,6 +57,11 @@ CKEDITOR.editorConfig = function( config )
 		[
 		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor','-','Image','Chamiloflash','Chamiloyoutube','Chamilovideo','Chamiloaudio','-','Templates']
 		] ;
+	
+	config.toolbar_RepositorySurveyQuestion =
+		[
+		 	['Maximize','-','Bold','Italic','Underline','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','NumberedList', 'BulletedList','-','TextColor','BGColor']
+		] ;
 
 	config.toolbar_Assessment =
 		[

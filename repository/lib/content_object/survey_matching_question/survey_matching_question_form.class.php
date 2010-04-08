@@ -7,6 +7,7 @@ require_once PATH :: get_repository_path() . '/question_types/matching_question/
 
 class SurveyMatchingQuestionForm extends MatchingQuestionForm
 {
+
     protected function build_creation_form()
     {
         parent :: build_creation_form();

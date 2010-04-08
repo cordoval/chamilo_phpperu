@@ -8,6 +8,7 @@ require_once PATH :: get_repository_path() . '/question_types/matrix_question/ma
 
 class SurveyMatrixQuestionForm extends MatrixQuestionForm
 {
+
     protected function build_creation_form()
     {
         parent :: build_creation_form();
@@ -20,7 +21,7 @@ class SurveyMatrixQuestionForm extends MatrixQuestionForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/survey_matrix_question.js'));
     }
 
- 	function create_content_object()
+    function create_content_object()
     {
         $object = new SurveyMatrixQuestion();
         return parent :: create_content_object($object);

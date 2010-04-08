@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . '/survey_multiple_choice_question_option.class.
 
 class SurveyMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
 {
+
     protected function build_creation_form()
     {
         parent :: build_creation_form();
@@ -35,7 +36,7 @@ class SurveyMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
         $object->set_options($options);
     }
 
-	function create_content_object()
+    function create_content_object()
     {
         $object = new SurveyMultipleChoiceQuestion();
         return parent :: create_content_object($object);
