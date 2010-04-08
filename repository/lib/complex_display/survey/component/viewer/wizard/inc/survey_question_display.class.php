@@ -68,6 +68,7 @@ abstract class SurveyQuestionDisplay
             $formvalidator->addElement('html', implode("\n", $header));
         }
         $this->add_question_form();
+        
         if ($this->add_borders())
         {
             $footer = array();
@@ -83,11 +84,7 @@ abstract class SurveyQuestionDisplay
     function add_header()
     {
         $formvalidator = $this->formvalidator;
-        /*$clo_question = $this->get_clo_question();
-
-		$number_of_questions = $formvalidator->get_number_of_questions();
-		$current_question = $this->question_nr;*/
-        
+     
         $html[] = '<div class="question">';
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
@@ -97,7 +94,6 @@ abstract class SurveyQuestionDisplay
         $html[] = '</div>';
         $html[] = '<div class="text">';
         $html[] = '<div class="bevel">';
-        //$html[] = '<img src="'. Theme :: get_common_image_path(). 'treemenu_types/' .$this->question->get_icon_name().'.png" />';
         $title = $this->question->get_title();
         $html[] = $this->parse($title);
         
