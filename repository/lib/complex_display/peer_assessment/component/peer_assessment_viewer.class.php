@@ -6,5 +6,10 @@ require_once 'HTML/Table.php';
 class PeerAssessmentDisplayPeerAssessmentViewerComponent extends PeerAssessmentDisplayComponent
 {
    
+	function run()
+	{
+		
+	}
+	
 }
 ?>

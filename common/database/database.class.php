@@ -199,8 +199,11 @@ class Database
 
         foreach ($object->get_default_property_names() as $property)
         {
-            $default_properties[$property] = $record[$property];
-            unset($record[$property]);
+            if(array_key_exists($property, $record))
+            {
+        		$default_properties[$property] = $record[$property];
+            	unset($record[$property]);
+            }
         }
 
         $object->set_default_properties($default_properties);

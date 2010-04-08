@@ -20,8 +20,7 @@ if (empty($document_language))
     //if there was no valid iso-code, use the english one
     $iso_lang = 'en';
 }
-?>
-<!DOCTYPE html
+?><!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -131,16 +130,14 @@ foreach ($MonthsLong as $index => $month)
 {
     echo '"' . $month . '",';
 }
-?>
-"");
+?>"");
 var day_names = new Array(
 <?php
 foreach ($DaysShort as $index => $day)
 {
     echo '"' . $day . '",';
 }
-?>
-"");
+?>"");
 /* ]]> */
 </script>
 </head>
