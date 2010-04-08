@@ -199,7 +199,7 @@ class Database
 
         foreach ($object->get_default_property_names() as $property)
         {
-            if(in_array($property, $record))
+            if(array_key_exists($property, $record))
             {
         		$default_properties[$property] = $record[$property];
             	unset($record[$property]);
