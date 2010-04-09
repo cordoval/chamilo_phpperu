@@ -22,7 +22,7 @@ class SurveyDescriptionDisplay extends SurveyQuestionDisplay
         }
         
         $detail = implode("\n", $html);
-        //$formvalidator->addElement('html', $detail);
+        $formvalidator->addElement('html', $detail);
     }
 
     function get_instruction()
