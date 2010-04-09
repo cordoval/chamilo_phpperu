@@ -52,7 +52,7 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
             $url = Redirect::get_url($params);
             
             $des = $lop->get_content_object()->get_description();
-            $this->set_pid($lop->get_id());
+            $this->get_parent()->set_parameter($lop->get_id());
             $this->set_params($course_id, $user_id, $tool, $this->get_pid());
 
 			$params = $this->get_parent()->get_parameters();	
@@ -81,9 +81,7 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
 	public function get_available_displaymodes()
 	{
 		$modes = array();
-        //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
         $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
-        $modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie');
         return $modes;
 	}
 }

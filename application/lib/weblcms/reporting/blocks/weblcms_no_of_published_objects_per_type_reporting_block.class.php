@@ -7,7 +7,7 @@ class WeblcmsNoOfPublishedObjectsPerTypeReportingBlock extends WeblcmsCourseRepo
 	public function count_data()
 	{
 		$reporting_data = new ReportingData();
-		$rdm = RepositoryDataManager :: get_instance();
+		/*$rdm = RepositoryDataManager :: get_instance();
         $list = $rdm->get_registered_types();
         foreach ($list as $key => $value)
         {
@@ -29,7 +29,7 @@ class WeblcmsNoOfPublishedObjectsPerTypeReportingBlock extends WeblcmsCourseRepo
         	$reporting_data->add_category($type_name);
         	$reporting_data->add_data_category_row($type_name, Translation :: get('count'), $arr[$value]);
         	
-        }
+        }*/
         return $reporting_data;
 
 	}	

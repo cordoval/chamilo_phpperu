@@ -21,6 +21,7 @@ class Utilities
     private static $us_camel_map = array();
     private static $us_camel_map_with_spaces = array();
     private static $camel_us_map = array();
+    private static $camel_us_map_with_spaces = array();
 
     /**
      * Splits a Google-style search query. For example, the query
@@ -207,7 +208,7 @@ class Utilities
         }
         return self :: $camel_us_map[$string];
     }
-
+    
     /**
      * Builds an HTML representation of a toolbar, i.e. a list of clickable
      * icons. The icon data is passed as an array with the following structure:

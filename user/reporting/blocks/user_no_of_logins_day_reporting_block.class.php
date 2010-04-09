@@ -8,7 +8,15 @@ class  UserNoOfLoginsDayReportingBlock extends UserReportingBlock
 	{
 		$reporting_data = new ReportingData();
 		require_once (dirname(__FILE__) . '/../../trackers/login_logout_tracker.class.php');
-        $condition = new EqualityCondition(LoginLogoutTracker :: PROPERTY_TYPE, 'login');
+        $conditions = array();
+		$conditions[] = new EqualityCondition(LoginLogoutTracker :: PROPERTY_TYPE, 'login');
+		$user_id = $this->get_user_id();
+		if (isset($user_id))
+		{
+			$conditions[] = new EqualityCondition(LoginLogoutTracker::PROPERTY_USER_ID, $user_id); 
+		}
+		$condition = new AndCondition($conditions);
+		
         $tracker = new LoginLogoutTracker();
         $trackerdata = $tracker->retrieve_tracker_items($condition);
 

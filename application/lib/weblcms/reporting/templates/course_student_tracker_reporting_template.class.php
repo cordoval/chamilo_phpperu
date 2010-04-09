@@ -36,8 +36,7 @@ class CourseStudentTrackerReportingTemplate extends ReportingTemplate
     	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	return $course_weblcms_block;
     }

@@ -40,13 +40,11 @@ class CourseTrackerReportingTemplate extends ReportingTemplate
     	$user_id = request :: get(WeblcmsManager::PARAM_USERS);
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	if ($user_id)
     	{
-    		$course_weblcms_block->set_user_id($user_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	return $course_weblcms_block;
     }
@@ -57,8 +55,7 @@ class CourseTrackerReportingTemplate extends ReportingTemplate
     	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	return $course_weblcms_block;
     }
@@ -69,8 +66,7 @@ class CourseTrackerReportingTemplate extends ReportingTemplate
     	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	return $course_weblcms_block;
     }

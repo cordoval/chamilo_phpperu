@@ -11,9 +11,7 @@ class WeblcmsManagerReportingComponent extends WeblcmsManagerComponent
      * Runs this component and displays its output.
      */
     function run()
-    {
-        $rtv = new ReportingTemplateViewer($this);
-        
+    {      
         $template = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
         
         $trail = new BreadcrumbTrail();
@@ -23,9 +21,12 @@ class WeblcmsManagerReportingComponent extends WeblcmsManagerComponent
         if ($trail->get_last() != new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')))
             $trail->add(new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')));
         
-        $this->display_header($trail, false, true);
-        $rtv->show_reporting_template($template);
-        $this->display_footer();
+  		$rtv = new ReportingViewer($this);
+        $rtv->add_template_by_id($template);
+        $rtv->set_breadcrumb_trail($trail);
+         $rtv->show_all_blocks();
+        
+        $rtv->run();
     }
 }
 ?>

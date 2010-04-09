@@ -3,16 +3,9 @@ require_once dirname(__FILE__) . '/weblcms_reporting_block.class.php';
 
 abstract class WeblcmsCourseReportingBlock extends WeblcmsReportingBlock
 {
-	private $course_id;
-
 	function get_course_id()
 	{
-		return $this->course_id;
-	}
-	
-	function set_course_id($course_id)
-	{
-		$this->course_id = $course_id;
+		return $this->get_parent()->get_parameter(WeblcmsManager::PARAM_COURSE);
 	}
 	
     static function get_total_time($trackerdata)
@@ -27,7 +20,6 @@ abstract class WeblcmsCourseReportingBlock extends WeblcmsReportingBlock
         return $time;
     }
 	
-    
 	public static function visit_tracker_to_array($condition, $user, $order_by)
     {
         require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';

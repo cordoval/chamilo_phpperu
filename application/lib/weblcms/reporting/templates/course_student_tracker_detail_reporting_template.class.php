@@ -29,16 +29,6 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
         $this->add_reporting_block($this->get_course_user_exercise_information());
         $this->add_reporting_block($this->get_last_access_to_tools());
         $this->add_reporting_block($this->get_last_access());
-
-        /*$this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserInformation"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserCourseStatistics"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseInformation"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseUserLearningpathInformation"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseUserExerciseInformation"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLastAccessToTools"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLatestAccess"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));*/
-        
-        
     }
     
 	function display_context()
@@ -58,13 +48,11 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
     	$user_id = request :: get(WeblcmsManager::PARAM_USERS);
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	if ($user_id)
     	{
-    		$course_weblcms_block->set_user_id($user_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	return $course_weblcms_block;
     }
@@ -75,15 +63,13 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
     	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	
     	$user_id = request :: get(WeblcmsManager::PARAM_USERS);
     	if ($user_id)
     	{
-    		$course_weblcms_block->set_user_id($user_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	return $course_weblcms_block;
     }
@@ -94,8 +80,7 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
     	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	return $course_weblcms_block;
     }
@@ -130,8 +115,7 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
     	$user_id = Request :: get(WeblcmsManager::PARAM_USERS);
     	if ($user_id)
     	{
-    		$course_weblcms_block->set_user_id($user_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	return $course_weblcms_block;
     }
@@ -142,15 +126,13 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
     	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	
     	$user_id = Request :: get(WeblcmsManager::PARAM_USERS);
     	if ($user_id)
     	{
-    		$course_weblcms_block->set_user_id($user_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	return $course_weblcms_block;
     }

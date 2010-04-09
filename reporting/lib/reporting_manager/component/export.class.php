@@ -28,7 +28,11 @@ class ReportingManagerExportComponent extends ReportingManagerComponent
         /*$_SESSION[ReportingManager :: PARAM_REPORTING_PARENT] = $this;*/
         //$params['export'] = true;
         $export = Request :: get(ReportingManager :: PARAM_EXPORT_TYPE);
-        $rte->export();
+        
+        $rtv = new ReportingExporter($this);
+        $rtv->add_export($export);
+        $rtv->export();
+        //$rte->export();
         /*if (isset($rbi))
         {
             $rte->export_reporting_block($rbi, $export, $params);

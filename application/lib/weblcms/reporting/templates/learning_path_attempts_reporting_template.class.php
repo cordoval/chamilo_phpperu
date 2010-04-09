@@ -36,21 +36,18 @@ class LearningPathAttemptsReportingTemplate extends ReportingTemplate
     	$pid = Request :: get(WeblcmsManager::PARAM_PUBLICATION);
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	
     	if ($pid)
     	{
-    		$course_weblcms_block->set_pid($pid);
-    		$this->add_parameters(WeblcmsManager::PARAM_PUBLICATION, $pid);
+    		$this->set_parameter(WeblcmsManager::PARAM_PUBLICATION, $pid);
     	}
     	
     	$tool = Request :: get(WeblcmsManager::PARAM_TOOL);
     	if ($tool)
     	{
-    		$course_weblcms_block->set_tool($tool);
-    		$this->add_parameters(WeblcmsManager::PARAM_TOOL, $tool);
+    		$this->set_parameter(WeblcmsManager::PARAM_TOOL, $tool);
     	}
     	return $course_weblcms_block;
     }

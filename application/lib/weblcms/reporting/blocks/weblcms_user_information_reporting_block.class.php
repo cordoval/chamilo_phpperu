@@ -8,7 +8,8 @@ class WeblcmsUserInformationReportingBlock extends WeblcmsToolReportingBlock
 	{
 		$reporting_data = new ReportingData();
 		$uid = $this->get_user_id();
-        require_once Path :: get_admin_path() . '/trackers/online_tracker.class.php';
+        
+		require_once Path :: get_admin_path() . '/trackers/online_tracker.class.php';
         $udm = UserDataManager :: get_instance();
         $tracking = new OnlineTracker();
 
@@ -20,15 +21,9 @@ class WeblcmsUserInformationReportingBlock extends WeblcmsToolReportingBlock
                 $online = 1;
             }
         }
-
+        
         $user = $udm->retrieve_user($uid);
 
-        
-        /*$arr[Translation :: get('Name')][] = $user->get_fullname();
-        $arr[Translation :: get('Email')][] = '<a href="mailto:' . $user->get_email() . '" >' . $user->get_email() . '</a>';
-        $arr[Translation :: get('Phone')][] = $user->get_phone();
-        $arr[Translation :: get('Online')][] = ($online) ? Translation :: get('Online') : Translation :: get('Offline');
-		*/
         $reporting_data->set_categories(array(Translation :: get('Name'), Translation :: get('Email'), Translation :: get('Phone'), Translation :: get('Online')));
         $reporting_data->set_rows(array(Translation :: get('count')));
 
@@ -48,7 +43,6 @@ class WeblcmsUserInformationReportingBlock extends WeblcmsToolReportingBlock
 	public function get_available_displaymodes()
 	{
 		$modes = array();
-		//$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
         $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
         return $modes;
 	}

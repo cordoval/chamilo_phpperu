@@ -214,14 +214,14 @@ abstract class ReportingBlock
 
         foreach ($list as $export_format)
         {
-            $parameters = array();
-            $parameters [Application :: PARAM_ACTION ] = ReportingManager :: ACTION_EXPORT;
+            $parameters = $this->get_parent()->get_parameters();
+            $parameters [ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
             $parameters [ReportingManager :: PARAM_REPORTING_BLOCK_ID] = $this->get_id();
             $parameters [ReportingManager:: PARAM_TEMPLATE_ID] = $this->get_parent()->get_id();
             $parameters [ReportingManager :: PARAM_EXPORT_TYPE] = $export_format;
             $parameters [ReportingFormatterForm::FORMATTER_TYPE] = $this->get_displaymode();
 
-            $link = Redirect::get_link(ReportingManager::APPLICATION_NAME, $parameters, array(), false, Redirect::TYPE_CORE);
+            $link = Redirect::get_url($parameters, array(), false);
             $export_format_name = Translation :: get(Utilities :: underscores_to_camelcase($export_format));
             $export_bar_items[] = new ToolbarItem($export_format_name, Theme :: get_common_image_path() . 'export_' . $export_format . '.png', $link, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         }

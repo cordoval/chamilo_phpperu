@@ -125,12 +125,14 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
                 //$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
                 $params = array();
                 //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
-                $params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
-                $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
-                $unsubscribe_url = ReportingManager :: get_reporting_template_registration_url_content($this->browser, 'CourseStudentTrackerDetailReportingTemplate', $params);
-                $unsubscribe_url = str_replace('go=reporting', 'go=courseviewer', $unsubscribe_url) . '&tool_action=view_reporting_template&tool=reporting';
+                $params[WeblcmsManager :: PARAM_COURSE] = $this->browser->get_course_id();
+                $params[WeblcmsManager::PARAM_USERS] = $user->get_id();
+				$params[Application::PARAM_ACTION] = WeblcmsManager::ACTION_REPORTING;
+				$params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration(Utilities::camelcase_to_underscores('CourseStudentTrackerDetailReportingTemplate'), WeblcmsManager::APPLICATION_NAME)->get_id();
+   
+                $reporting_url = $this->browser->get_url($params, array(WeblcmsManager::PARAM_TOOL));
                 //$unsubscribe_url = $this->browser->get_url($parameters);
-                $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
+                $toolbar_data[] = array('href' => $reporting_url, 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
             }
         }
         return Utilities :: build_toolbar($toolbar_data);
