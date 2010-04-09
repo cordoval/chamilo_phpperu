@@ -47,7 +47,11 @@ class CourseMoveForm extends FormValidator
         $course_types = array();
         $this->size = $course_type_objects->size();
         if($this->size == 1)
-        	$this->single_course_type_id = $course_type_objects->next_result()->get_id();
+        {
+        	$course_type = $course_type_objects->next_result();
+        	$course_types[$course_type->get_id()] = $course_type->get_name();
+        	$this->single_course_type_id = $course_type->get_id();
+        }
         else
         {
         	while($course_type = $course_type_objects->next_result())
