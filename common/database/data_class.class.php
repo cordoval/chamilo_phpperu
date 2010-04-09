@@ -6,6 +6,8 @@
 
 abstract class DataClass
 {
+    const CLASS_NAME = __CLASS__;
+
     const PROPERTY_ID = 'id';
     const NO_UID = - 1;
 
@@ -14,7 +16,7 @@ abstract class DataClass
      * array.
      */
     private $defaultProperties;
-    
+
     /**
      * Optional properties of the data class object, stored in an associative
      * array. This is used when retrieving data from joins so we don't need to execute other query's for retrieving optional data which we already retrieved with joins.
@@ -59,7 +61,7 @@ abstract class DataClass
     {
         $this->defaultProperties = $defaultProperties;
     }
-    
+
     /**
      * Get the default properties of all data classes.
      * @return array The property names.
@@ -91,7 +93,7 @@ abstract class DataClass
     {
         return in_array($name, self :: get_default_property_names());
     }
-    
+
 	/**
      * Gets the optional properties of this data class.
      * @return array An associative array containing the properties.
@@ -105,7 +107,7 @@ abstract class DataClass
     {
         $this->optionalProperties = $optionalProperties;
     }
-    
+
 	/**
      * Gets a optional property of this data class object by name.
      * @param string $name The name of the property.
@@ -116,7 +118,7 @@ abstract class DataClass
         	? $this->optionalProperties[$name]
         	: null;
     }
-    
+
 	/**
      * Sets a optional property of this data class by name.
      * @param string $name The name of the property.

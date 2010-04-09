@@ -1,11 +1,11 @@
 <?php
 /**
- * $Id: open_question.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * $Id: assessment_open_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.viewer.wizard.inc.question_display
  */
 require_once dirname(__FILE__) . '/../question_display.class.php';
 
-class OpenQuestionDisplay extends QuestionDisplay
+class AssessmentOpenQuestionDisplay extends QuestionDisplay
 {
 
     function add_question_form()
@@ -17,13 +17,13 @@ class OpenQuestionDisplay extends QuestionDisplay
 
         switch ($type)
         {
-            case OpenQuestion :: TYPE_DOCUMENT :
+            case AssessmentOpenQuestion :: TYPE_DOCUMENT :
                 $this->add_document($clo_question, $formvalidator);
                 break;
-            case OpenQuestion :: TYPE_OPEN :
+            case AssessmentOpenQuestion :: TYPE_OPEN :
                 $this->add_html_editor($clo_question, $formvalidator);
                 break;
-            case OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT :
+            case AssessmentOpenQuestion :: TYPE_OPEN_WITH_DOCUMENT :
                 $this->add_html_editor($clo_question, $formvalidator);
                 $this->add_document($clo_question, $formvalidator);
                 break;
