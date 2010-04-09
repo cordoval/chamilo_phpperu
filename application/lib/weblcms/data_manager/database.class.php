@@ -1401,14 +1401,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		//        $statement->execute($course_code);
 
 		//Delete rights
-		$condition = new EqualityCondition(CourseSubscribeRight :: PROPERTY_COURSE_ID, $course_code);
-		if (! $this->database->delete_objects(CourseSubscribeRight :: get_table_name(), $condition))
+		$condition = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course_code);
+		if (! $this->database->delete_objects(CourseGroupSubscribeRight :: get_table_name(), $condition))
 		{
 			return false;
 		}
 		
-		$condition = new EqualityCondition(CourseUnsubscribeRight :: PROPERTY_COURSE_ID, $course_code);
-		if (! $this->database->delete_objects(CourseUnsubscribeRight :: get_table_name(), $condition))
+		$condition = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_code);
+		if (! $this->database->delete_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition))
 		{
 			return false;
 		}
