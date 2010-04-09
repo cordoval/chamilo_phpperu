@@ -51,6 +51,6 @@ $lang['survey']['SurveyStarted'] = 'Started survey';
 $lang['survey']['SurveyFinished'] = 'Finished survey';
 
 $lang['survey']['BrowseSurvey'] = 'Browse survey';
-
+$lang['survey']['SurveyHeaderText'] = 'Header';
 
 ?>
