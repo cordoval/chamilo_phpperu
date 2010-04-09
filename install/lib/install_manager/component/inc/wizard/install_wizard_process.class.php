@@ -96,7 +96,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $this->process_result('finished', true, $message, false);
         flush();
 
-        //$page->controller->container(true);
+//        $page->controller->container(true);
 
 		echo '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a>';
 

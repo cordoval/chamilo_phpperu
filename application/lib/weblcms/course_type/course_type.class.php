@@ -21,6 +21,8 @@ class CourseType extends DataClass
     
     private $tools;
     
+    private $rights;
+    
     /**
      * Get the default properties of all courses.
      * @return array The property names.
@@ -83,6 +85,15 @@ class CourseType extends DataClass
     }
     
 	/**
+     * Returns the rights of this coursetype object
+     * @return CourseTypeRights the layout
+     */
+    function get_rights()
+    {
+        return $this->rights;
+    }
+    
+	/**
      * Returns the tools of this coursetype object
      * @return array the tools
      */
@@ -130,6 +141,15 @@ class CourseType extends DataClass
     function set_layout_settings($layout)
     {
         $this->layout = $layout;
+    }
+    
+    /**
+     * Sets the rights of this coursetype object
+     * @param CourseTypeRights $rights the rights of this coursetype object
+     */
+    function set_rights($rights)
+    {
+        $this->rights = $rights;
     }
     
     /**

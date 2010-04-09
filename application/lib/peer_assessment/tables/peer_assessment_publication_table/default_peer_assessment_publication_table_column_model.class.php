@@ -20,7 +20,7 @@ class DefaultPeerAssessmentPublicationTableColumnModel extends ObjectTableColumn
      * Gets the default columns for this model
      * @return Array(ObjectTableColumn)
      */
-    private static function get_default_columns()
+    /*private static function get_default_columns()
     {
         $columns = array();
         
@@ -37,6 +37,23 @@ class DefaultPeerAssessmentPublicationTableColumnModel extends ObjectTableColumn
         //		$columns[] = new ObjectTableColumn(PeerAssessmentPublication :: PROPERTY_MODIFIED);
         //		$columns[] = new ObjectTableColumn(PeerAssessmentPublication :: PROPERTY_DISPLAY_ORDER);
         //		$columns[] = new ObjectTableColumn(PeerAssessmentPublication :: PROPERTY_EMAIL_SENT);
+        
+
+        return $columns;
+    }*/
+    
+	private static function get_default_columns()
+    {
+        $rdm = RepositoryDataManager :: get_instance();
+        $content_object_alias = $rdm->get_alias(ContentObject :: get_table_name());
+        
+        $columns = array();
+        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, true, $content_object_alias);
+        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION, true, $content_object_alias);
+        $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TYPE, true, $content_object_alias);
+        //$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_FROM_DATE);
+        //$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_TO_DATE);
+        //		$columns[] = new ObjectTableColumn(AssessmentPublication :: PROPERTY_PUBLISHER);
         
 
         return $columns;

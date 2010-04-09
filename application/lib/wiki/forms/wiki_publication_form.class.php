@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * $Id: wiki_publication_form.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.forms

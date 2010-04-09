@@ -14,6 +14,7 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
     private $assessment;
     private $pid;
     private $active_tracker;
+    private $trail;
 
     function run()
     {
@@ -77,7 +78,7 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
             $this->active_tracker = $this->create_tracker();
         }
         
-        $trail = new BreadcrumbTrail();
+        $this->trail = $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $this->pid)), Translation :: get('TakeAssessment')));
         
@@ -101,13 +102,23 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
             $display = ComplexDisplay :: factory($this, $this->assessment->get_type());
             $display->set_root_lo($this->assessment);
             
-            $this->display_header($trail);
+            //$this->display_header($trail);
             $display->run();
-            $this->display_footer();
+            //$this->display_footer();
         }
     
     }
 
+    function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	parent :: display_header($this->trail);
+    }
+    
     function create_tracker()
     {
         $args = array('assessment_id' => $this->pid, 'user_id' => $this->get_user_id(), 'total_score' => 0);

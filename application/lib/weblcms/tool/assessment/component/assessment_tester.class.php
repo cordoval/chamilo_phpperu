@@ -18,6 +18,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
     private $iid;
     private $pid;
     private $active_tracker;
+    private $trail;
 
     function run()
     {
@@ -95,11 +96,21 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
             $display = ComplexDisplay :: factory($this, $this->assessment->get_type());
             $display->set_root_lo($this->assessment);
             
-            $this->display_header(new BreadcrumbTrail());
+            //$this->display_header(new BreadcrumbTrail());
             $display->run();
-            $this->display_footer();
+            //$this->display_footer();
         }
     
+    }
+    
+	function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	return parent :: display_header($this->trail);
     }
 
     function create_tracker()

@@ -12,6 +12,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class ReservationsMenu extends HTML_Menu
 {
+    const TREE_NAME = __CLASS__;
     
     private $current_item;
     /**
@@ -133,10 +134,15 @@ class ReservationsMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-    function render_as_tree()
+	function render_as_tree()
     {
-        $renderer = new TreeMenuRenderer();
+        $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
+    }
+    
+    static function get_tree_name()
+    {
+    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }

@@ -114,6 +114,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
     }
     
     private $user_assessment;
+    private $trail;
 
     function view_single_result()
     {
@@ -124,9 +125,10 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
         $user_assessments = $track->retrieve_tracker_items($condition);
         $this->user_assessment = $user_assessments[0];
         
-        $crumbs[] = new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults'));
-        $crumbs[] = new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $this->user_assessment->get_assessment_id())), Translation :: get('AssessmentResults'));
-        $crumbs[] = new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid)), Translation :: get('Details'));
+        $this->trail = $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults')));
+        $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $this->user_assessment->get_assessment_id())), Translation :: get('AssessmentResults')));
+        $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid)), Translation :: get('Details')));
         
         $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($this->user_assessment->get_assessment_id());
         $object = $publication->get_content_object();
@@ -138,10 +140,20 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
         $display = ComplexDisplay :: factory($this, $object->get_type());
         $display->set_root_lo($object);
         
-        $this->display_header($crumbs);
+        //$this->display_header($crumbs);
         $display->run();
-        $this->display_footer();
+        //$this->display_footer();
     }
+    
+	/*function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	return parent :: display_header($this->trail);
+    }*/
 
     function retrieve_assessment_results()
     {

@@ -10,6 +10,7 @@ require_once PATH :: get_repository_path() . '/question_types/open_question/open
  */
 class SurveyOpenQuestionForm extends OpenQuestionForm
 {
+
     // Inherited
     function create_content_object()
     {

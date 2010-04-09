@@ -19,8 +19,9 @@ class ForumDisplayForumPostQuoterComponent extends ForumDisplayComponent
             
             if (! $pid || ! $cid || ! $quote)
             {
-                //trail here
+                $this->display_header(new BreadcrumbTrail());
                 $this->display_error_message(Translation :: get('NoParentSelected'));
+                $this->display_footer();
             }
             
             $rdm = RepositoryDataManager :: get_instance();
@@ -61,8 +62,9 @@ class ForumDisplayForumPostQuoterComponent extends ForumDisplayComponent
             }
             else
             {
-                //trail here
+                $this->display_header(new BreadcrumbTrail());
                 $form->display();
+                $this->display_footer();
             }
         
         }

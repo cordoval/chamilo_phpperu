@@ -11,7 +11,7 @@ class EvaluationBrowserTableColumnModel extends DefaultEvaluationBrowserTableCol
 	/**
 	 * Constructor
 	 */
-	function DefaultEvaluationBrowserTableColumnModel($browser)
+	function EvaluationBrowserTableColumnModel($browser)
 	{
 		parent :: __construct();
         $this->set_default_order_column(0);
@@ -26,7 +26,7 @@ class EvaluationBrowserTableColumnModel extends DefaultEvaluationBrowserTableCol
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new StaticTableColumn('');
+			self :: $modification_column = new StaticTableColumn(Translation :: get('action'));
 		}
 		return self :: $modification_column;
 	}

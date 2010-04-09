@@ -12,11 +12,19 @@
 class ValidationManagerDeleterComponent extends ValidationManagerComponent
 {
 
-    function run()
+	function run()
+    {
+    	$html = $this->as_html();
+    	
+    	$this->display_header(new BreadcrumbTrail());
+    	echo $html;
+    	$this->display_footer();
+    }
+    
+    function as_html()
     {
         //fouten opvang en id dynamisch ophalen
         //$id = Request :: get(FeedbackPublication :: PROPERTY_ID);
-        
 
         $pid = Request :: get('pid');
         $user_id = Request :: get('user_id');

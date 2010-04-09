@@ -54,5 +54,15 @@ abstract class PeerAssessmentDataManager
 
     abstract function retrieve_peer_assessment_publications($condition = null, $offset = null, $count = null, $order_property = null);
 
+    abstract function create_peer_assessment_publication_category($peer_assessment_publication);
+
+    abstract function update_peer_assessment_publication_category($peer_assessment_publication);
+
+    abstract function delete_peer_assessment_publication_category($peer_assessment_publication);
+
+    abstract function count_peer_assessment_publication_categories($conditions = null);
+
+    abstract function retrieve_peer_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
+    
 }
 ?>

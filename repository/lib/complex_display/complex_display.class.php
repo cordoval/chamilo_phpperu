@@ -85,7 +85,7 @@ abstract class ComplexDisplay
             }*/
             $file = dirname(__FILE__) . '/' . $name . '/' . $name . '_display.class.php';
             require_once $file;
-            $class = ucfirst($name) . 'Display';
+            $class = Utilities :: underscores_to_camelcase($name) . 'Display';
             self :: $instance = new $class($parent);
         }
         

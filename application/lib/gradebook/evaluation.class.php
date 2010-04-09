@@ -16,7 +16,7 @@ class Evaluation extends DataClass
      
 	static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_EVALUATOR, self :: PROPERTY_FORMAT_ID, self :: PROPERTY_EVALUATION_DATE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_EVALUATOR_ID, self :: PROPERTY_FORMAT_ID, self :: PROPERTY_EVALUATION_DATE));
     }
 
     function get_data_manager()

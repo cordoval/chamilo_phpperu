@@ -19,12 +19,19 @@ class DefaultEvaluationBrowserTableCellRenderer implements ObjectTableCellRender
 	 */
 	function render_cell($column, $evaluation)
 	{ 
+		$optional_properties = $evaluation->get_optional_properties();
 		switch ($column->get_name())
 		{
 			case Evaluation :: PROPERTY_EVALUATION_DATE :
-				return $format->get_evaluation_date();
-			case Evaluation :: PROPERTY_EVLUATOR_ID :
-				return $format->get_evaluator_id();
+				return $evaluation->get_evaluation_date();
+			case Translation :: get('user'):
+				return $optional_properties['user'];
+			case Translation :: get('evaluator'):
+				return $optional_properties['evaluator'];
+			case GradeEvaluation :: PROPERTY_SCORE:
+				return $optional_properties['score'];
+			case GradeEvaluation :: PROPERTY_COMMENT:
+				return $optional_properties['comment'];
 		}
 	}
 

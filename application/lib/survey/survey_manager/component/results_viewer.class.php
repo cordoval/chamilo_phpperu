@@ -23,13 +23,14 @@ class SurveyManagerResultsViewerComponent extends SurveyManagerComponent
 {
     
     private $question_id;
+    private $trail;
 
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $this->trail = $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
         
@@ -98,14 +99,26 @@ class SurveyManagerResultsViewerComponent extends SurveyManagerComponent
             }
         }
         
-        $this->display_header($trail);
-        
         if (is_object($html))
+        {
             $html->run();
-        else
-            echo $html;
-        
-        $this->display_footer();
+        }
+        else 
+        {
+            $this->display_header();
+        	echo $html;
+        	$this->display_footer();
+        }
+    }
+    
+	function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	return parent :: display_header($this->trail);
     }
 
     function display_summary_results()

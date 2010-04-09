@@ -169,8 +169,8 @@ abstract class PeerAssessmentManagerComponent extends ApplicationComponent
         return $this->get_parent()->get_user_id();
     }
 
-    //Data Retrieval
     
+    //Data Retrieval
 
     function count_peer_assessment_publications($condition)
     {
@@ -187,8 +187,8 @@ abstract class PeerAssessmentManagerComponent extends ApplicationComponent
         return $this->get_parent()->retrieve_peer_assessment_publication($id);
     }
 
-    // Url Creation
     
+    // Url Creation   
 
     function get_create_peer_assessment_publication_url()
     {
@@ -213,6 +213,36 @@ abstract class PeerAssessmentManagerComponent extends ApplicationComponent
     function get_browse_peer_assessment_publications_url()
     {
         return $this->get_parent()->get_browse_peer_assessment_publications_url();
+    }
+    
+	function get_category_manager_url()
+    {
+        return $this->get_parent()->get_category_manager_url();
+    }
+    
+	function get_change_peer_assessment_publication_visibility_url($peer_assessment_publication)
+    {
+        return $this->get_parent()->get_change_peer_assessment_publication_visibility_url($peer_assessment_publication);
+    }
+
+    function get_move_peer_assessment_publication_url($peer_assessment_publication)
+    {
+        return $this->get_parent()->get_move_peer_assessment_publication_url($peer_assessment_publication);
+    }
+    
+	function get_peer_assessment_publication_viewer_url($peer_assessment_publication)
+    {
+        return $this->get_parent()->get_peer_assessment_publication_viewer_url($peer_assessment_publication);
+    }
+
+    function get_peer_assessment_results_viewer_url($peer_assessment_publication)
+    {
+        return $this->get_parent()->get_peer_assessment_results_viewer_url($peer_assessment_publication);
+    }
+    
+	function get_build_peer_assessment_url($peer_assessment_publication)
+    {
+    	return $this->get_parent()->get_build_peer_assessment_url($peer_assessment_publication);
     }
 
     private function load_rights()

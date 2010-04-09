@@ -5,8 +5,7 @@
  */
 require_once dirname(__FILE__) . '/action_bar_search_form.class.php';
 require_once dirname(__FILE__) . '/condition_property.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/wiki/component/wiki_actionbar.class.php';
-
+require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_actionbar.class.php';
 /**
  * Class that renders an action bar divided in 3 parts, a left menu for actions, a middle menu for actions
  * and a right menu for a search bar.

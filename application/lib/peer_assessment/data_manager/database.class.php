@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_publication.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_pub_feedback.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -18,7 +17,6 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     {
         $aliases = array();
         $aliases[PeerAssessmentPublication :: get_table_name()] = 'wion';
-        $aliases[PeerAssessmentPubFeedback :: get_table_name()] = 'wpf';
 
         $this->database = new Database($aliases);
         $this->database->set_prefix('peer_assessment_');
@@ -68,36 +66,41 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     {
         return $this->database->retrieve_objects(PeerAssessmentPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
-
-    function retrieve_peer_assessment_pub_feedback($id)
+    
+    // Categories
+    
+     function create_peer_assessment_publication_category($peer_assessment_publication_category)
     {
-        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $id);
-        $object = $this->database->retrieve_object(PeerAssessmentPubFeedback :: get_table_name(), $condition);
-
-        return $object;
+        return $this->database->create($peer_assessment_publication_category);
     }
 
-    function retrieve_peer_assessment_pub_feedbacks($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    function update_peer_assessment_publication_category($peer_assessment_publication_category)
     {
-        return $this->database->retrieve_objects(PeerAssessmentPubFeedback :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        $condition = new EqualityCondition(PeerAssessmentPublicationCategory :: PROPERTY_ID, $peer_assessment_publication_category->get_id());
+        return $this->database->update($peer_assessment_publication_category, $condition);
     }
 
-    function create_peer_assessment_pub_feedback($feedback)
+    function delete_peer_assessment_publication_category($peer_assessment_publication_category)
     {
-        return $this->database->create($feedback);
+        $condition = new EqualityCondition(PeerAssessmentPublicationCategory :: PROPERTY_ID, $peer_assessment_publication_category->get_id());
+        return $this->database->delete($peer_assessment_publication_category->get_table_name(), $condition);
     }
 
-    function update_peer_assessment_pub_feedback($feedback)
+    function count_peer_assessment_publication_categories($conditions = null)
     {
-        $condition = new EqualityCondition(PeerAssessmentPubFeedback :: PROPERTY_ID, $feedback->get_id());
-        return $this->database->update($feedback, $condition);
+        return $this->database->count_objects(PeerAssessmentPublicationCategory :: get_table_name(), $conditions);
     }
 
-    function delete_peer_assessment_pub_feedback($feedback)
+    function retrieve_peer_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $feedback->get_id());
-        return $this->database->delete(PeerAssessmentPubFeedback :: get_table_name(), $condition);
+        return $this->database->retrieve_objects(PeerAssessmentPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
     }
+    
+	function retrieve_max_sort_value($table_name, $column, $condition)
+    {
+        return $this->database->retrieve_max_sort_value($table_name, $column, $condition);
+    }
+    
 
 	// Publication attributes
 

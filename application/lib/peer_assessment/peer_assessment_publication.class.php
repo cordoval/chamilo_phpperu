@@ -21,7 +21,6 @@ class PeerAssessmentPublication extends DataClass
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_MODIFIED = 'modified';
     const PROPERTY_DISPLAY_ORDER = 'display_order';
-    const PROPERTY_EMAIL_SENT = 'email_sent';
 
     /**
      * Get the default properties
@@ -29,7 +28,7 @@ class PeerAssessmentPublication extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_EMAIL_SENT));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER));
     }
 
     /**
@@ -230,29 +229,69 @@ class PeerAssessmentPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
     }
-
-    /**
-     * Returns the email_sent of this PeerAssessmentPublication.
-     * @return the email_sent.
-     */
-    function get_email_sent()
+    
+	function toggle_visibility()
     {
-        return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
-    }
-
-    /**
-     * Sets the email_sent of this PeerAssessmentPublication.
-     * @param email_sent
-     */
-    function set_email_sent($email_sent)
-    {
-        $this->set_default_property(self :: PROPERTY_EMAIL_SENT, $email_sent);
+    	// Error when use this function
+        //$this->set_hidden(! $this->get_hidden());
     }
 
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+	function is_visible_for_target_user($user)
+    {
+        if ($user->is_platform_admin() || $user->get_id() == $this->get_publisher())
+        {
+            return true;
+        }
+        
+        if ($this->get_target_groups() || $this->get_target_users())
+        {
+            $allowed = false;
+            
+            if (in_array($user->get_id(), $this->get_target_users()))
+            {
+                $allowed = true;
+            }
+            
+            if (! $allowed)
+            {
+                $user_groups = $user->get_groups();
+                
+                while ($user_group = $user_groups->next_result())
+                {
+                    if (in_array($user_group->get_id(), $this->get_target_groups()))
+                    {
+                        $allowed = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (! $allowed)
+            {
+                return false;
+            }
+        }
+        
+        if ($this->get_hidden())
+        {
+            return false;
+        }
+        
+        $time = time();
+        
+        if ($time < $this->get_from_date() || $time > $this->get_to_date() && !$this->is_forever())
+        {
+            return false;
+        }
+        
+        return true;
+    }
+
 }
 
 ?>

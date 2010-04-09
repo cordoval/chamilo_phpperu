@@ -29,8 +29,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
         
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $object->get_title()));
-        //$this->display_header($trail);
-        
+        $this->display_header($trail);
 
         echo $this->action_bar->as_html();
         
@@ -49,7 +48,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
             }
         }
         
-    //$this->display_footer();
+    	$this->display_footer();
     }
 
     function display_content_object($lo, $cloi)

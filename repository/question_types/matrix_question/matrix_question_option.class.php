@@ -9,20 +9,17 @@
 class MatrixQuestionOption
 {
 	const PROPERTY_VALUE = 'value';
-	const PROPERTY_MATCHES = 'matches';
-	
+
     private $value;
-    private $matches;
 
     /**
      * Creates a new option for a matrix question
      * @param string $value The value of the option
      * @param int $matches The index of the match corresponding to this option
      */
-    function MatrixQuestionOption($value = '', $matches = array())
+    function MatrixQuestionOption($value = '')
     {
         $this->value = $value;
-        $this->matches = $matches;
     }
 
     /**
@@ -32,15 +29,6 @@ class MatrixQuestionOption
     function get_value()
     {
         return $this->value;
-    }
-
-    /**
-     * Gets the index of the match corresponding to this option
-     * @return int
-     */
-    function get_matches()
-    {
-        return unserialize($this->matches);
     }
 }
 ?>

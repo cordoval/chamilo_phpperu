@@ -193,15 +193,30 @@ class Database
             throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
         }
         $default_properties = array();
+        $optional_properties = array();
 
-        $object = new $class_name($default_properties);
+        $object = new $class_name();
 
         foreach ($object->get_default_property_names() as $property)
         {
-            $default_properties[$property] = $record[$property];
+            if(array_key_exists($property, $record))
+            {
+        		$default_properties[$property] = $record[$property];
+            	unset($record[$property]);
+            }
         }
 
         $object->set_default_properties($default_properties);
+
+        if(count($record) > 0 && is_a($object, DataClass :: CLASS_NAME))
+        {
+	        foreach($record as $optional_property_name => $optional_property_value)
+	        {
+	        	$optional_properties[$optional_property_name] = $optional_property_value;
+	        }
+
+	        $object->set_optional_properties($optional_properties);
+        }
         return $object;
     }
 
@@ -574,7 +589,7 @@ class Database
         }
 
         foreach ($order_by as $order)
-        { 
+        {
         	if($order)
         	{
             	$orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');

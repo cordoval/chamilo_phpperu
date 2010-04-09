@@ -16,13 +16,18 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
      * Boolean to check if this tree menu is allready initialized
      */
     private static $initialized;
+    private $search_url;
+    private $tree_name;
 
     /**
      * Constructor.
      */
-    function TreeMenuRenderer()
+    function TreeMenuRenderer($tree_name = '', $search_url = '')
     {
-        //$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>');
+        $this->search_url = $search_url;
+        $this->tree_name = $tree_name;
+        
+    	//$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>');
         $entryTemplates = array();
         $entryTemplates[HTML_MENU_ENTRY_INACTIVE] = '<div class="{children}"><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></div>';
         $entryTemplates[HTML_MENU_ENTRY_ACTIVE] = '<!--A--><div><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></div>';
@@ -40,7 +45,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
         $root = ($level == 0);
         if ($root)
         {
-            $this->setLevelTemplate('<ul class="tree-menu">' . "\n", '</ul>' . "\n");
+            $this->setLevelTemplate('<ul id="' . $this->tree_name . '" class="tree-menu">' . "\n", '</ul>' . "\n");
         }
         parent :: finishLevel($level);
         if ($root)
@@ -73,18 +78,19 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
      */
     function toHtml()
     {
-        $html = parent :: toHtml();
+        $parent_html = parent :: toHtml();
         $class = array('A' => 'current', 'P' => 'current_path');
-        $html = preg_replace('/(?<=<li)><!--([AP])-->/e', '\' class="\'.$class[\1].\'">\'', $html);
-        $html = preg_replace('/\s*\b(onclick|id)="\s*"\s*/', ' ', $html);
+        $parent_html = preg_replace('/(?<=<li)><!--([AP])-->/e', '\' class="\'.$class[\1].\'">\'', $parent_html);
+        $parent_html = preg_replace('/\s*\b(onclick|id)="\s*"\s*/', ' ', $parent_html);
+
+        $html[] = $parent_html;
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.tree_menu.js');
         
-        if (self :: $initialized)
-        {
-            return $html;
-        }
-        self :: $initialized = true;
-        //return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/treemenu.js') . $html;
-        return ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/tree_menu.js') . $html;
+        $html[] = '<script type="text/javascript">';
+        $html[] = '$("#' . $this->tree_name . '").tree_menu({search: "' . $this->search_url . '" });';
+        $html[] = '</script>';
+        
+        return implode("\n", $html);
     }
 }
 ?>

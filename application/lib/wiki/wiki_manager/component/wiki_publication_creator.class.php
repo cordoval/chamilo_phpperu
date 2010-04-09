@@ -34,11 +34,13 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
         /*
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object
          */
-        $this->display_header($trail, true);
         
         if (empty($objects))
         {
-            echo $pub->as_html();
+            $html = $pub->as_html();
+            $this->display_header($trail, true);
+            echo $html;
+            $this->display_footer();
         }
         else
         {
@@ -61,12 +63,14 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
             }
             else
             {
-                $form->display();
+                $this->display_header($trail, true);
+            	$form->display();
+            	$this->display_footer();
             }
         }
         
         //		echo implode("\n",$html);
-        $this->display_footer();
+       
     }
 }
 ?>

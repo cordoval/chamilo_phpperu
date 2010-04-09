@@ -133,7 +133,7 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
-        $html_editor_options['show_toolbar'] = false;
+        $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
 
@@ -212,7 +212,7 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
-        $html_editor_options['show_toolbar'] = false;
+        $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
 

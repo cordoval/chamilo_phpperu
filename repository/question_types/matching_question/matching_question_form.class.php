@@ -43,7 +43,6 @@ class MatchingQuestionForm extends ContentObjectForm
             foreach ($options as $index => $option)
             {
                 $defaults[MatchingQuestionOption::PROPERTY_VALUE][$index] = $option->get_value();
-                $defaults[MatchingQuestionOption::PROPERTY_MATCH][$index] = $option->get_match();
             }
             $matches = $object->get_matches();
             foreach ($matches as $index => $match)
@@ -96,7 +95,7 @@ class MatchingQuestionForm extends ContentObjectForm
         foreach ($values[MatchingQuestionOption::PROPERTY_VALUE] as $option_id => $value)
         {
             //Create the option with it corresponding match
-            $options[] = new MatchingQuestionOption($value, $matches_indexes[$values[MatchingQuestionOption::PROPERTY_MATCH][$option_id]]);
+            $options[] = new MatchingQuestionOption($value);
         }
 
         foreach ($values['match'] as $match)
@@ -206,7 +205,7 @@ class MatchingQuestionForm extends ContentObjectForm
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
         $table_header[] = '<th>' . Translation :: get('Options') . '</th>';
-        $table_header[] = '<th class="code">' . Translation :: get('Matches') . '</th>';
+//        $table_header[] = '<th class="code">' . Translation :: get('Matches') . '</th>';
         $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
@@ -216,7 +215,7 @@ class MatchingQuestionForm extends ContentObjectForm
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
-        $html_editor_options['show_toolbar'] = false;
+        $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
 
@@ -230,7 +229,6 @@ class MatchingQuestionForm extends ContentObjectForm
                 $visual_number ++;
                 $group[] = $this->createElement('static', null, null, $visual_number);
                 $group[] = $this->create_html_editor(MatchingQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
-                $group[] = $this->createElement('select', MatchingQuestionOption::PROPERTY_MATCH . '[' . $option_number . ']', Translation :: get('Matches'), $matches);
 
                 if ($number_of_options - count($_SESSION['mq_skip_options']) > 2)
                 {
@@ -292,7 +290,7 @@ class MatchingQuestionForm extends ContentObjectForm
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
-        $html_editor_options['show_toolbar'] = false;
+        $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
 

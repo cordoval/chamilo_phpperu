@@ -57,8 +57,9 @@ class ForumDisplayForumPostEditorComponent extends ForumDisplayComponent
             }
             else
             {
-                //trail here
+                $this->display_header(new BreadcrumbTrail());
                 $form->display();
+                $this->display_footer();
             }
         
         }

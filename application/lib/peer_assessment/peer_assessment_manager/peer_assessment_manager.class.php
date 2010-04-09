@@ -20,6 +20,14 @@ class PeerAssessmentManager extends WebApplication
     const ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS = 'browse_peer_assessment_publications';
     const ACTION_VIEW_PEER_ASSESSMENT = 'view';
     const ACTION_EVALUATE_PEER_ASSESSMENT_PUBLICATION = 'evaluate_peer_assessment_publication';
+    
+    const ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY = 'change_visibility';
+    const ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION = 'move';
+    const ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION = 'view_publication';
+    const ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS = 'view_publication_results';
+    const ACTION_BUILD_PEER_ASSESSMENT = 'build';
+    
+    const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 
     /**
      * Constructor
@@ -58,6 +66,15 @@ class PeerAssessmentManager extends WebApplication
             case self :: ACTION_VIEW_PEER_ASSESSMENT :
                 $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentViewer', $this);
                 break;
+            case self :: ACTION_MANAGE_CATEGORIES :
+                $component = PeerAssessmentManagerComponent :: factory('CategoryManager', $this);
+                break;
+            case self :: ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY :
+            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationVisibilityChanger', $this);
+            	break;
+            case self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION :
+            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationMover', $this);
+            	break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS);
                 $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationsBrowser', $this);
@@ -142,7 +159,12 @@ class PeerAssessmentManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
     }
-
+    
+	function get_category_manager_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES));
+    }
+    
     function is_allowed()
     {
         return true;
@@ -187,6 +209,32 @@ class PeerAssessmentManager extends WebApplication
     function update_content_object_publication_id($publication_attr)
     {
     	return PeerAssessmentDataManager :: get_instance()->update_content_object_publication_id($publication_attr);
+    }
+    
+	function get_change_peer_assessment_publication_visibility_url($peer_assessment_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+    }
+
+    function get_move_peer_assessment_publication_url($peer_assessment_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+    }
+    
+	function get_peer_assessment_publication_viewer_url($peer_assessment_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+    }
+
+    function get_peer_assessment_results_viewer_url($peer_assessment_publication)
+    {
+        $id = $peer_assessment_publication ? $peer_assessment_publication->get_id() : null;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $id));
+    }
+    
+    function get_build_peer_assessment_url($peer_assessment_publication)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_PEER_ASSESSMENT, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
 	function get_content_object_publication_locations($content_object)

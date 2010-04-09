@@ -55,7 +55,14 @@ class DefaultCourseTableCellRenderer implements ObjectTableCellRenderer
             case Course :: PROPERTY_CATEGORY :
                 $cat_id = $course->get_category();
                 $cat = WeblcmsDataManager :: get_instance()->retrieve_course_category($cat_id);
-                return $cat->get_name();
+                if($cat)
+                {
+                	return $cat->get_name();
+                }
+                else
+                {
+                	return '&nbsp;';
+                }
             default :
                 return '&nbsp;';
         }

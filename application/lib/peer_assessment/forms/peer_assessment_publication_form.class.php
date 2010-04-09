@@ -1,4 +1,4 @@
- <?php
+<?php
 require_once dirname(__FILE__) . '/../peer_assessment_publication.class.php';
 
 /**
@@ -18,7 +18,6 @@ class PeerAssessmentPublicationForm extends FormValidator
     const PARAM_FROM_DATE = 'from_date';
     const PARAM_TO_DATE = 'to_date';
     const PARAM_HIDDEN = 'hidden';
-    const PARAM_EMAIL = 'email';
 
     private $peer_assessment_publication;
     private $user;
@@ -54,20 +53,19 @@ class PeerAssessmentPublicationForm extends FormValidator
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
+        
+        // Gradebook
         if(WebApplication :: is_active('gradebook'))
         {
         	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
         	$gradebook_internal_item_form = new GradebookInternalItemForm();
         	$gradebook_internal_item_form->build_evaluation_question($this);
         }
+        
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
 
         $this->add_forever_or_timewindow();
         $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
-        if ($this->email_option)
-        {
-            $this->addElement('checkbox', self :: PARAM_EMAIL, Translation :: get('SendByEMail'));
-        }
     }
 
     function build_editing_form()
@@ -112,7 +110,6 @@ class PeerAssessmentPublicationForm extends FormValidator
         $peer_assessment_publication->set_published(time());
         $peer_assessment_publication->set_modified(time());
         $peer_assessment_publication->set_display_order(0);
-        $peer_assessment_publication->set_email_sent($values[PeerAssessmentPublication :: PROPERTY_EMAIL_SENT] ? $values[PeerAssessmentPublication :: PROPERTY_EMAIL_SENT] : 0);
 
         return $peer_assessment_publication->update();
     }
@@ -138,11 +135,14 @@ class PeerAssessmentPublicationForm extends FormValidator
         $peer_assessment_publication->set_modified(time());
         $peer_assessment_publication->set_display_order(0);
         $peer_assessment_publication->create();
+        
+        // Gradebook
 		if($values['evaluation'] == true)
 		{
         	$gradebook_internal_item_form = new GradebookInternalItemForm();
         	$gradebook_internal_item_form->create_internal_item($peer_assessment_publication->get_id(), false);
 		} 
+		
         return $peer_assessment_publication;
     }
 

@@ -23,11 +23,11 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
         $table_header[] = '<table class="data_table take_assessment">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        $table_header[] = '<th class="caption"></th>';
+        $table_header[] = '<th class="caption" style="width: 300px;"></th>';
         
         foreach ($matches as $match)
         {
-            $table_header[] = '<th class="center">' . $match . '</th>';
+            $table_header[] = '<th class="center">' . strip_tags($match) . '</th>';
         }
         
         $table_header[] = '</tr>';
@@ -41,7 +41,8 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
         {
             $group = array();
             
-            $group[] = $formvalidator->createElement('static', null, null, $option->get_value());
+            $row_name = $question_id . '_' . $i . '_title_'.$this->get_page_nr();
+            $group[] = $formvalidator->createElement('static', $row_name, null, $option->get_value());
             
             foreach ($matches as $j => $match)
             {
@@ -61,6 +62,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
             
             $renderer->setElementTemplate('<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'matrix_option_' . $i);
             $renderer->setGroupElementTemplate('<td style="text-align: center;">{element}</td>', 'matrix_option_' . $i);
+//            $renderer->setElementTemplate('<td>{element}</td>', $row_name);
         }
         
         $table_footer[] = '</tbody>';

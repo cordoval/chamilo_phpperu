@@ -129,7 +129,7 @@ class WikiManager extends WebApplication
  	
     function get_evaluation_publication_url($wiki_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, 'publication' => $wiki_publication->get_id()));
     }
 
     function get_update_wiki_publication_url($wiki_publication)

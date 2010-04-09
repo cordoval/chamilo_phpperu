@@ -8,11 +8,7 @@ require_once Path :: get_application_path() . 'lib/weblcms/course/course.class.p
 
 class CourseMoveForm extends FormValidator
 {
-    //const PROPERTY_LOCATION = 'location';
     const SELECT_COURSE_TYPE = 'course_type';
-    //private $course_type;
-    //private $locations = array();
-    private $level = 1;
     private $size;
     private $single_course_type_id;
     private $course;
@@ -39,11 +35,9 @@ class CourseMoveForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 	
-	function move_course()
+	function get_selected_course_type()
     {
-        $new_course_type = $this->exportValue(self :: SELECT_COURSE_TYPE);
-        $this->course->set_course_type_id($new_course_type);
-        return $this->course->update($course);
+        return $this->exportValue(self :: SELECT_COURSE_TYPE);
     }
     
     function get_course_types()
@@ -53,7 +47,11 @@ class CourseMoveForm extends FormValidator
         $course_types = array();
         $this->size = $course_type_objects->size();
         if($this->size == 1)
-        	$this->single_course_type_id = $course_type_objects->next_result()->get_id();
+        {
+        	$course_type = $course_type_objects->next_result();
+        	$course_types[$course_type->get_id()] = $course_type->get_name();
+        	$this->single_course_type_id = $course_type->get_id();
+        }
         else
         {
         	while($course_type = $course_type_objects->next_result())

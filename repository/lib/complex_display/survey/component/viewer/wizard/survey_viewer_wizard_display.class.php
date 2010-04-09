@@ -9,12 +9,12 @@
  */
 class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 {
-    
+
     private $parent;
 
     public function SurveyViewerWizardDisplay($parent)
     {
-        
+
         $this->parent = $parent;
     }
 
@@ -24,97 +24,94 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
      */
     function _renderForm($current_page)
     {
-        
-    	
-        
-    	if ($current_page->get_page_number() != 0)
+        $html = array();
+        $this->parent->get_parent()->display_header();
+
+        if ($current_page->get_page_number() != 0)
         {
-            $html = array();
             $html[] = '<div class="assessment">';
             $html[] = '<h2>' . $this->parent->get_survey()->get_title() . '</h2>';
-            
+
             //            if ($this->parent->get_survey()->has_description() && $current_page->get_page_number() == 1)
             //            {
             //                $html[] = '<div class="description">';
             //                $description = $this->parent->get_survey()->get_description();
-            //                
+            //
             //                $html[] = $this->parent->get_parent()->parse($description);
-            //                
+            //
             //                $html[] = '</div>';
             //            }
-            
+
 
             $html[] = '<br />';
-            
+
             $html[] = '<div style="width: 100%; text-align: center;">';
             $html[] = $current_page->get_page_number() . ' / ' . $this->parent->get_total_pages();
             $html[] = '</div>';
-            
+
             $html[] = '<br />';
-            
+
             if (strlen($this->parent->get_survey()->get_introduction_text()) > 0)
             {
                 $html[] = '<div class="description">';
                 $introduction = $this->parent->get_survey()->get_introduction_text();
-                
+
                 $html[] = $this->parent->get_parent()->parse($introduction);
                 $html[] = '</div>';
             }
-            
+
             $html[] = '<br />';
-            
+
             if (strlen($this->parent->get_page($current_page->get_page_number())->get_introduction_text()) > 0)
             {
                 $html[] = '<div class="description">';
                 $introduction = $this->parent->get_page($current_page->get_page_number())->get_introduction_text();
-                
+
                 $html[] = $this->parent->get_parent()->parse($introduction);
-                
+
                 $html[] = '</div>';
             }
-            
+
             $html[] = '</div>';
-            
+
             $html[] = '<div>';
             $html[] = $current_page->toHtml();
             $html[] = '</div>';
-            
+
             $html[] = '<br />';
-            
+
             $html[] = '<div class="assessment">';
-            
+
             if (strlen($this->parent->get_page($current_page->get_page_number())->get_finish_text()) > 0)
             {
                 $html[] = '<div class="description">';
                 $finishtext = $this->parent->get_page($current_page->get_page_number())->get_finish_text();
-                
+
                 $html[] = $this->parent->get_parent()->parse($finishtext);
-                
+
                 $html[] = '</div>';
             }
-            
+
             $html[] = '<br />';
-            
+
             if (strlen($this->parent->get_survey()->get_finish_text()) > 0)
             {
                 $html[] = '<div class="description">';
                 $finishtext = $this->parent->get_survey()->get_finish_text();
-                
+
                 $html[] = $this->parent->get_parent()->parse($finishtext);
                 $html[] = '</div>';
             }
-            
-            
-            
+
             $html[] = '<br />';
-            
+
             $html[] = '<div style="width: 100%; text-align: center;">';
             $html[] = $current_page->get_page_number() . ' / ' . $this->parent->get_total_pages();
             $html[] = '</div>';
-            
-             $html[] = '</div>';
-            
-            return implode("\n", $html);
+
+            $html[] = '</div>';
+
+            echo implode("\n", $html);
         }
         else
         {
@@ -122,9 +119,11 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
             $html[] = '<div style="width: 100%; text-align: center;">';
             $html[] = Translation :: get('NoSurveyPageAddedToSurvey');
             $html[] = '</div>';
-            return implode("\n", $html);
+            echo implode("\n", $html);
         }
-    
+
+        $this->parent->get_parent()->display_footer();
+
     }
 }
 ?>

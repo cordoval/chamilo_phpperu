@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../../forms/peer_assessment_publication_form.
 
 /**
  * Component to edit an existing peer_assessment_publication object
- * @author Sven Vanpoucke & Stefan Billiet
+ * @author Nick Van Loocke
  */
 class PeerAssessmentManagerPeerAssessmentPublicationUpdaterComponent extends PeerAssessmentManagerComponent
 {

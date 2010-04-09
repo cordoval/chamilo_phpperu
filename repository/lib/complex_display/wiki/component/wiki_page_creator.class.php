@@ -29,10 +29,12 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
 
         if (empty($object))
         {
-            echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
+            $html[] = '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
             $html[] = $this->pub->as_html();
-            //$this->get_parent()->get_parent()->display_header($trail, true);
+           
+            $this->display_header(new BreadcrumbTrail());
             echo implode("\n", $html);
+            $this->display_footer();
 
         }
         else
@@ -52,9 +54,10 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
             }
             else
             {
-                $this->get_parent()->get_parent()->display_header($trail, true);
+                $this->display_header(new BreadcrumbTrail());
                 $this->display_error_message(Translation :: get('WikiPageTitleError'));
                 echo $this->pub->as_html();
+                $this->display_footer();
             }
         }
 

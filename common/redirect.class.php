@@ -110,7 +110,11 @@ class Redirect
     }
 
     static function write_header($url)
-    {
+    {  
+    	if(headers_sent($filename, $line))
+    	{
+    		throw new Exception('headers already sent in ' . $filename . ' on line ' . $line);
+    	}
         header('Location: ' . $url);
         exit();
     }

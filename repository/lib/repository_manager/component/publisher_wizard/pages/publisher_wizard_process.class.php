@@ -67,7 +67,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
                 $split = explode('|', $location);
                 $application_name = $split[0];
                 $location_id = $split[1];
-                
+                               
                 if ($application_name != $previous_application)
                 {
                     if ($previous_application != '')
@@ -86,7 +86,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
                 }
             }
         }
-        
+               
         $this->process_result($previous_application, true, $message);
         
         $url = $this->parent->get_url(array(RepositoryManager :: PARAM_ACTION => null));

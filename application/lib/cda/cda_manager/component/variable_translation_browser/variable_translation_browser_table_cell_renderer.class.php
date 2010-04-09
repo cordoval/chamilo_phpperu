@@ -46,8 +46,8 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 				return $translation ? $translation->get_translation() : '';
 
 			case Variable :: PROPERTY_VARIABLE :
-				return $this->browser->retrieve_variable($variable_translation->get_variable_id())->get_variable();
-
+				//return $this->browser->retrieve_variable($variable_translation->get_variable_id())->get_variable();
+				return $variable_translation->get_optional_property(Variable :: PROPERTY_VARIABLE);
 			case VariableTranslation :: PROPERTY_RATING :
 				return Display :: get_rating_bar($variable_translation->get_relative_rating() * 10, false);
 		}

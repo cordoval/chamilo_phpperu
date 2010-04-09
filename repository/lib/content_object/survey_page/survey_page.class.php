@@ -45,6 +45,7 @@ class SurveyPage extends ContentObject
         $allowed_types[] = 'survey_matching_question';
         $allowed_types[] = 'survey_select_question';
         $allowed_types[] = 'survey_matrix_question';
+        $allowed_types[] = 'survey_description';
        
         return $allowed_types;
     }

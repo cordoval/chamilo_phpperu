@@ -15,6 +15,7 @@ class EvaluationForm extends FormValidator
     function EvaluationForm($form_type, $publication, $action, $user)
     {
     	parent :: __construct('evaluation_publication_settings', 'post', $action);
+    	
     	$this->publication = $publication;
         $this->user = $user;
         $this->form_type = $form_type;
@@ -43,13 +44,14 @@ class EvaluationForm extends FormValidator
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
 		
-        $formats = GradebookDatamanager :: get_instance()->retrieve_all_active_evaluation_formats();
+        $formats = GradebookDataManager :: get_instance()->retrieve_all_active_evaluation_formats();
 		while($format = $formats->next_result())
 		{
 			$formats_array[$format->get_id()] = $format->get_title();
 		}
 		$this->addElement('select', self :: PROPERTY_FORMAT_LIST ,Translation :: get('EvaluationFormat'), $formats_array);
-		$this->add_textfield(PARAM_SCORE,'score');
+		$this->add_textfield('score','score');
+		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get(get_class($this) . 'Comment'), $required, $htmleditor_options);
     }
     
     function build_editing_form()
@@ -72,11 +74,76 @@ class EvaluationForm extends FormValidator
 			
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
-    
-    static function create_internal_item($publication)
-    {
-    	$paramaters['publication'] = $publication;
-    	$evaluation_manager = new EvaluationManager($this, EvaluationManager :: ACTION_CREATE_INTERNAL_ITEM, $parameters);
-    }
+//    
+//    static function create_internal_item($publication)
+//    {
+//    	$paramaters['publication'] = $publication;
+//    	$evaluation_manager = new EvaluationManager($this, EvaluationManager :: ACTION_CREATE_INTERNAL_ITEM, $parameters);
+//    }
+	function create_evaluation()
+	{
+		$values = $this->exportValues();
+		$evaluation = new Evaluation();
+		$evaluation->set_evaluator_id($this->user->get_id());
+		$evaluation->set_user_id($this->publication->get_publisher());
+		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
+		$evaluation->set_format_id($values['format_list']);
+		if(!$evaluation->create())
+		{
+			return false;
+		}
+		
+		$internal_item_instance = new InternalItemInstance();
+		$internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication($this->publication->get_content_object()->get_type(), $this->publication->get_id())->get_id());
+		$internal_item_instance->set_evaluation_id($evaluation->get_id());
+		if(!$internal_item_instance->create())
+		{
+			return false;
+		}
+		
+		$grade_evaluation = new GradeEvaluation();
+		$grade_evaluation->set_score($values['score']);
+		$grade_evaluation->set_comment($values['comment']);
+		$grade_evaluation->set_id($evaluation->get_id());
+		if(!$grade_evaluation->create())
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	function update_evaluation($evaluation_id)
+	{
+		$values = $this->exportValues();
+		$evaluation = new Evaluation();
+		$evaluation->set_id($evaluation_id);
+		$evaluation->set_evaluator_id($this->user->get_id());
+		$evaluation->set_user_id($this->publication->get_publisher());
+		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
+		$evaluation->set_format_id($values['format_list']);
+		if(!$evaluation->update())
+		{
+			return false;
+		}
+		
+		$internal_item_instance = new InternalItemInstance();
+		$internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication($this->publication->get_content_object()->get_type(), $this->publication->get_id())->get_id());
+		$internal_item_instance->set_evaluation_id($evaluation_id);
+		if(!$internal_item_instance->update())
+		{
+			return false;
+		}
+		
+		$grade_evaluation = new GradeEvaluation();
+		$grade_evaluation->set_score($values['score']);
+		$grade_evaluation->set_comment($values['comment']);
+		$grade_evaluation->set_id($evaluation->get_id());
+		if(!$grade_evaluation->update())
+		{
+			return false;
+		}
+		return true;
+	}
 }
 ?>

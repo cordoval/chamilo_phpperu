@@ -6,6 +6,8 @@
 
 abstract class DataClass
 {
+    const CLASS_NAME = __CLASS__;
+
     const PROPERTY_ID = 'id';
     const NO_UID = - 1;
 
@@ -15,6 +17,13 @@ abstract class DataClass
      */
     private $defaultProperties;
 
+    /**
+     * Optional properties of the data class object, stored in an associative
+     * array. This is used when retrieving data from joins so we don't need to execute other query's for retrieving optional data which we already retrieved with joins.
+     * @var array[String] = String
+     */
+    private $optionalProperties;
+
     private $errors;
 
     /**
@@ -22,9 +31,10 @@ abstract class DataClass
      * @param array $defaultProperties The default properties of the data class
      *                                 object. Associative array.
      */
-    function DataClass($defaultProperties = array ())
+    function DataClass($defaultProperties = array (), $optionalProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
+        $this->optionalProperties = $optionalProperties;
     }
 
     /**
@@ -82,6 +92,41 @@ abstract class DataClass
     static function is_default_property_name($name)
     {
         return in_array($name, self :: get_default_property_names());
+    }
+
+	/**
+     * Gets the optional properties of this data class.
+     * @return array An associative array containing the properties.
+     */
+    function get_optional_properties()
+    {
+        return $this->optionalProperties;
+    }
+
+    function set_optional_properties($optionalProperties)
+    {
+        $this->optionalProperties = $optionalProperties;
+    }
+
+	/**
+     * Gets a optional property of this data class object by name.
+     * @param string $name The name of the property.
+     */
+    function get_optional_property($name)
+    {
+        return (isset($this->optionalProperties) && array_key_exists($name, $this->optionalProperties))
+        	? $this->optionalProperties[$name]
+        	: null;
+    }
+
+	/**
+     * Sets a optional property of this data class by name.
+     * @param string $name The name of the property.
+     * @param mixed $value The new value for the property.
+     */
+    function set_optional_property($name, $value)
+    {
+        $this->optionalProperties[$name] = $value;
     }
 
     /**

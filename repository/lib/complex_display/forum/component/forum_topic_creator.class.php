@@ -35,8 +35,10 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
             {
                 $html[] = '<p><a href="' . $this->get_url(array('forum' => $forum, 'pid' => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();
-                //trail here
+                
+                $this->display_header(new BreadcrumbTrail());
                 echo implode("\n", $html);
+                $this->display_footer();
             }
             else
             {

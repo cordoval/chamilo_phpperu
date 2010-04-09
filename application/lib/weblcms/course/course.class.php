@@ -37,13 +37,9 @@ class Course extends DataClass
     const PROPERTY_VISUAL = 'visual_code';
     const PROPERTY_NAME = 'title';
     const PROPERTY_TITULAR = 'titular_id';
-
     const PROPERTY_EXTLINK_URL = 'department_url';
     const PROPERTY_EXTLINK_NAME = 'department_name';
-
     const PROPERTY_CATEGORY = 'category_id';
-    const PROPERTY_SHOW_SCORE = 'show_score';
-    const PROPERTY_DISK_QUOTA = 'disk_quota';
 
     // Remnants from the old Chamilo system
     const PROPERTY_LAST_VISIT = 'last_visit';
@@ -56,6 +52,10 @@ class Course extends DataClass
 	private $layout;
 
 	private $tools;
+	
+	private $rights;
+	
+	private $order;
 
 	private $course_type;
 
@@ -71,16 +71,17 @@ class Course extends DataClass
         			  self :: PROPERTY_VISUAL,
         			  self :: PROPERTY_CATEGORY,
         			  self :: PROPERTY_NAME,
-        			  self :: PROPERTY_SHOW_SCORE,
         			  self :: PROPERTY_TITULAR,
         			  self :: PROPERTY_EXTLINK_URL,
         			  self :: PROPERTY_EXTLINK_NAME,
-        			  self :: PROPERTY_DISK_QUOTA,
         			  self :: PROPERTY_CREATION_DATE,
         			  self :: PROPERTY_EXPIRATION_DATE,
         			  self :: PROPERTY_LAST_EDIT,
         			  self :: PROPERTY_LAST_VISIT));
     }
+    
+    
+    
 
     /**
      * inherited
@@ -196,6 +197,11 @@ class Course extends DataClass
     {
         return $this->settings;
     }
+    
+    function get_order()
+    {
+    	return $this->order;
+    }
 
     function get_layout_settings()
     {
@@ -205,6 +211,11 @@ class Course extends DataClass
     function get_tools()
     {
         return $this->tools;
+    }
+    
+ 	function get_rights()
+    {
+        return $this->rights;
     }
 
     function get_course_type()
@@ -275,16 +286,6 @@ class Course extends DataClass
         $this->set_default_property(self :: PROPERTY_EXTLINK_NAME, $name);
     }
 
-    function get_show_score()
-    {
-        return $this->get_default_property(self :: PROPERTY_SHOW_SCORE);
-    }
-
-    function set_show_score()
-    {
-        return $this->set_default_property(self :: PROPERTY_SHOW_SCORE);
-    }
-
     function set_creation_date($creation_date)
     {
         $this->set_default_property(self :: PROPERTY_CREATION_DATE, $creation_date);
@@ -313,6 +314,11 @@ class Course extends DataClass
     {
         $this->settings = $settings;
     }
+    
+    function set_order($order)
+    {
+    	$this->order = $order;
+    }
 
     /**
      * Sets the layout of this course object
@@ -331,7 +337,15 @@ class Course extends DataClass
     {
         $this->tools = $tools;
     }
-
+    
+    /**
+     * Sets the rights of this course object
+     * @param array $rights the rights of this course object
+     */
+    function set_rights($rights)
+    {
+        $this->rights = $rights;
+    }
     /**
      * Sets the course_type of this course object
      * @param array $course_type the course_type of this course object
@@ -661,6 +675,146 @@ class Course extends DataClass
         	$this->get_layout_settings()->set_course_languages_visible($this->course_type->get_layout_settings()->get_course_languages_visible());
     }
 
+	/**
+     * Direct access to the setters and getters for the rights settings
+     * All setters include a validation to see whether or not the property is writeable
+     */
+
+    /*
+     * Getters and validation whether or not the property is readable from the course's own settings
+     */
+
+    function can_group_subscribe($group_id)
+    {
+    	$right = $this->rights->can_group_subscribe($group_id);
+    	switch($right)
+    	{
+    		case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT :
+    			if(!$this->get_direct_subscribe_available())
+    				return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+    			break;
+    		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :
+    			if(!$this->get_request_subscribe_available())
+    				return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+    			break;
+    		case CourseGroupSubscribeRight :: SUBSCRIBE_CODE :
+    			if(!$this->get_code_subscribe_available())
+    				return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+    			break;
+    		default : return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+    	}
+    	return $right;
+    }
+    
+    function can_group_unsubscribe($group_id)
+    {
+    	if($this->get_unsubscribe_available())
+    		return $this->rights->can_group_unsubscribe($group_id);
+    	else
+    		return 0;
+    }
+
+    function get_code()
+    {
+    	return $this->get_rights->get_code();
+    }
+
+    function get_direct_subscribe_available()
+    {
+    	if(!$this->get_direct_subscribe_fixed())
+        	return $this->rights->get_direct_subscribe_available();
+        else
+        	return $this->course_type->get_rights()->get_direct_subscribe_available();
+    }
+
+    function get_request_subscribe_available()
+    {
+    	if(!$this->get_request_subscribe_fixed())
+        	return $this->rights->get_request_subscribe_available();
+        else
+        	return $this->course_type->get_rights()->get_request_subscribe_available();
+    }
+
+    function get_code_subscribe_available()
+    {
+    	if(!$this->get_code_subscribe_fixed())
+        	return $this->rights->get_code_subscribe_available();
+        else
+        	return $this->course_type->get_rights()->get_code_subscribe_available();
+    }
+
+    function get_unsubscribe_available()
+    {
+    	if(!$this->get_unsubscribe_fixed())
+        	return $this->rights->get_unsubscribe_available();
+        else
+        	return $this->course_type->get_rights()->get_unsubscribe_available();
+    }
+    
+    /**
+     * Setters and validation to see whether they are writable
+     */
+    
+    function set_code($code)
+    {
+    	if($this->get_code_subscribe_available())
+    		$this->get_rights->set_code($code);
+    	else
+    		$this->get_rights->set_code(null);
+    }
+
+    function get_direct_subscribe_fixed()
+    {
+    	return $this->course_type->get_rights()->get_direct_subscribe_fixed();
+    }
+
+    function set_direct_subscribe_available($direct)
+    {
+    	if(!$this->get_direct_subscribe_fixed())
+        	$this->rights->set_direct_subscribe_available($direct);
+        else
+        	$this->rights->set_direct_subscribe_available($this->course_type->get_rights()->get_direct_subscribe_available());
+    }
+
+    function get_request_subscribe_fixed()
+    {
+    	return $this->course_type->get_rights()->get_request_subscribe_fixed();
+    }
+
+    function set_request_subscribe_available($request)
+    {
+    	if(!$this->get_request_subscribe_fixed())
+        	$this->rights->set_request_subscribe_available($request);
+        else
+        	$this->rights->set_request_subscribe_available($this->course_type->get_rights()->get_request_subscribe_available());
+    }
+
+    function get_code_subscribe_fixed()
+    {
+    	return $this->course_type->get_rights()->get_code_subscribe_fixed();
+    }
+
+    function set_code_subscribe_available($code)
+    {
+    	if(!$this->get_code_subscribe_fixed())
+        	$this->rights->set_code_subscribe_available($code);
+        else
+        	$this->rights->set_code_subscribe_available($this->course_type->get_rights()->get_code_subscribe_available());
+    }
+    
+    function get_unsubscribe_fixed()
+    {
+    	return $this->course_type->get_rights()->get_unsubscribe_fixed();
+    }
+
+    function set_unsubscribe_available($code)
+    {
+    	if(!$this->get_unsubscribe_fixed())
+        	$this->rights->set_unsubscribe_available($code);
+        else
+        	$this->rights->set_unsubscribe_available($this->course_type->get_rights()->get_unsubscribe_available());
+    }
+    
     /**
      * Creates the course object in persistent storage
      * @return boolean
@@ -824,79 +978,6 @@ class Course extends DataClass
         return true;
     }
 
-//    function initialize_settings()
-//    {
-//    	$file = Path :: get_application_path() . '/settings/settings_weblcms_course_type.xml';
-//        $result = array();
-//
-//        if (file_exists($file))
-//        {
-//            $doc = new DOMDocument();
-//            $doc->load($file);
-//            $object = $doc->getElementsByTagname('application')->item(0);
-//            $name = $object->getAttribute('name');
-//
-//            // Get categories
-//            $categories = $doc->getElementsByTagname('category');
-//            $settings = array();
-//
-//            foreach ($categories as $index => $category)
-//            {
-//                $category_name = $category->getAttribute('name');
-//                $category_properties = array();
-//
-//                // Get settings in category
-//                $properties = $category->getElementsByTagname('setting');
-//                $attributes = array('field', 'default');
-//
-//                foreach ($properties as $index => $property)
-//                {
-//                    $property_info = array();
-//
-//                    foreach ($attributes as $index => $attribute)
-//                    {
-//                        if ($property->hasAttribute($attribute))
-//                        {
-//                            $property_info[$attribute] = $property->getAttribute($attribute);
-//                        }
-//                    }
-//
-//                    if ($property->hasChildNodes())
-//                    {
-//                        $property_options = $property->getElementsByTagname('options')->item(0);
-//                        $property_options_attributes = array('type', 'source');
-//                        foreach ($property_options_attributes as $index => $options_attribute)
-//                        {
-//                            if ($property_options->hasAttribute($options_attribute))
-//                            {
-//                                $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
-//                            }
-//                        }
-//
-//                        if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
-//                        {
-//                            $options = $property_options->getElementsByTagname('option');
-//                            $options_info = array();
-//                            foreach ($options as $option)
-//                            {
-//                                $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
-//                            }
-//                            $property_info['options']['values'] = $options_info;
-//                        }
-//                    }
-//                    $category_properties[$property->getAttribute('name')] = $property_info;
-//                }
-//
-//                $settings[$category_name] = $category_properties;
-//            }
-//
-//            $result['name'] = $name;
-//            $result['settings'] = $settings;
-//        }
-//
-//        return $result;
-//    }
-
     function create_root_course_group()
     {
     	$group = new CourseGroup();
@@ -904,6 +985,5 @@ class Course extends DataClass
     	$group->set_name($this->get_name());
     	return $group->create();
     }
-
 }
 ?>

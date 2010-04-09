@@ -26,8 +26,18 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
         $display = ComplexDisplay :: factory($this, $object->get_type());
         $display->set_root_lo($object);
         
-        Display :: small_header();
+        //Display :: small_header();
         $display->run();
+    }
+    
+	function display_header($trail)
+    {
+    	return Display :: small_header();
+    }
+    
+    function display_footer()
+    {
+    	return null;
     }
 
     function save_answer($complex_question_id, $answer, $score)

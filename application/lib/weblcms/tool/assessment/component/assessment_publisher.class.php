@@ -32,19 +32,19 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
         
         if (! $pub->any_object_selected())
         {
-            $this->display_header($trail, true);
-            echo $pub->as_html();
-            $this->display_footer();
+            $html[] = $pub->as_html();
         }
         else
         {
             $object_id = Request :: get('object');
             
             $publisher = new ContentObjectPublisher($pub);
-            $this->display_header($trail, true);
-            echo $publisher->get_publications_form($object_id);
-            $this->display_footer();
+            $html[] = $publisher->get_publications_form($object_id);
         }
+        
+        $this->display_header($trail, true);
+        echo implode("\n", $html);
+        $this->display_footer();
     }
 }
 

@@ -10,6 +10,7 @@ require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_disp
 class WikiManagerWikiViewerComponent extends WikiManagerComponent
 {
     private $cd;
+    private $trail;
 
     function run()
     {
@@ -18,7 +19,7 @@ class WikiManagerWikiViewerComponent extends WikiManagerComponent
             Display :: not_allowed();
             return;
         }
-        $trail = new BreadcrumbTrail();
+        $this->trail = $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('Wiki')));
         
         $this->set_parameter(WikiManager :: PARAM_ACTION, WikiManager :: ACTION_VIEW_WIKI);
@@ -29,9 +30,19 @@ class WikiManagerWikiViewerComponent extends WikiManagerComponent
         $pub = WikiDataManager :: get_instance()->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         
         $this->cd->set_root_lo($pub->get_content_object());
-        $this->display_header($trail, false);
+        //$this->display_header($trail, false);
         $this->cd->run();
-        $this->display_footer();
+        //$this->display_footer();
+    }
+    
+	function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	return parent :: display_header($this->trail);
     }
 
 }
