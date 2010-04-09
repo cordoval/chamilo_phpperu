@@ -14,36 +14,35 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
         $renderer = $this->get_renderer();
         $clo_question = $this->get_clo_question();
         $question = $this->get_question();
-        
+
         $options = $question->get_options();
         $matches = $question->get_matches();
         $type = $question->get_matrix_type();
-        
+
         $table_header = array();
         $table_header[] = '<table class="data_table take_assessment">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        $table_header[] = '<th class="caption" style="width: 300px;"></th>';
-        
+        $table_header[] = '<th class="caption" style="width: 30%;"></th>';
+
         foreach ($matches as $match)
         {
             $table_header[] = '<th class="center">' . strip_tags($match) . '</th>';
         }
-        
+
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $formvalidator->addElement('html', implode("\n", $table_header));
-        
+
         $question_id = $clo_question->get_id();
-        
+
         foreach ($options as $i => $option)
         {
             $group = array();
-            
-            $row_name = $question_id . '_' . $i . '_title_'.$this->get_page_nr();
-            $group[] = $formvalidator->createElement('static', $row_name, null, $option->get_value());
-            
+
+            $group[] = $formvalidator->createElement('static', null, null, '<div style="text-align: left;">' . $option->get_value() . '</div>');
+
             foreach ($matches as $j => $match)
             {
                 if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
@@ -57,14 +56,13 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
                     $group[] = $formvalidator->createElement('checkbox', $answer_name);
                 }
             }
-            
+
             $formvalidator->addGroup($group, 'matrix_option_' . $i, null, '', false);
-            
+
             $renderer->setElementTemplate('<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'matrix_option_' . $i);
             $renderer->setGroupElementTemplate('<td style="text-align: center;">{element}</td>', 'matrix_option_' . $i);
-//            $renderer->setElementTemplate('<td>{element}</td>', $row_name);
         }
-        
+
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
@@ -77,7 +75,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
 
     function get_instruction()
     {
-    
+
     }
 }
 ?>
