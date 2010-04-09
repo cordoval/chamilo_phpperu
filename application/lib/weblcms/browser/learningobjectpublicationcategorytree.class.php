@@ -9,6 +9,8 @@ require_once 'HTML/Menu.php';
  */
 class ContentObjectPublicationCategoryTree extends HTML_Menu
 {
+    const TREE_NAME = __CLASS__;
+    
     /**
      * The browser to which this category tree is associated
      */
@@ -39,15 +41,16 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
         $this->forceCurrentUrl($this->get_category_url($this->get_current_category_id()));
     }
 
-    /**
-     * Returns the HTML output of this category tree.
-     * @return string The HTML output
-     */
-    function as_html()
+	function as_html()
     {
-        $renderer = & new TreeMenuRenderer();
+        $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
-        return $renderer->toHtml();
+        return $renderer->toHTML();
+    }
+    
+    static function get_tree_name()
+    {
+    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 
     /**

@@ -156,12 +156,11 @@ class CourseForm extends FormValidator
         $wdm = WeblcmsDataManager :: get_instance();
 		$course_type_objects = $wdm->retrieve_active_course_types();
         $course_types = array();
-        $course_types[0] = Translation :: get('ChooseCourseType');
+        $course_types[0] = Translation :: get('NoCourseType');
         $this->size = $course_type_objects->size();
         if($this->size != 0)
         {
         	$count = 0;
-        	$validation = false;
         	while($course_type = $course_type_objects->next_result())
         	{
         		$course_types[$course_type->get_id()] = $course_type->get_name();
@@ -170,19 +169,8 @@ class CourseForm extends FormValidator
         			$parameters = array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $course_type->get_id());
         			$this->parent->simple_redirect($parameters);
         		}
-        		elseif(!is_null($this->course_type_id))
-        		{
-        			if($this->course_type_id == $course_type->get_id())
-        				$validation = true;
-        		}
         	}
-        	$course_select_label = Translation :: get('CourseType');
-        	if(!$validation)
-        	{
-        		$this->addElement('static', 'course_type', Translation :: get('CurrentCourseType'), $this->course->get_course_type()->get_name());
-        		$course_select_label = Translation :: get('NewCourseType');
-        	}
-        	$this->addElement('select', Course :: PROPERTY_COURSE_TYPE_ID, $course_select_label, $course_types, array('class' => 'course_type_selector'));
+        	$this->addElement('select', Course :: PROPERTY_COURSE_TYPE_ID,  Translation :: get('CourseType'), $course_types, array('class' => 'course_type_selector'));
         	$this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
         }
      	else

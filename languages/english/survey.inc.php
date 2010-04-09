@@ -41,16 +41,66 @@ $lang['survey']['SurveyReplyEmailAddress'] = 'Reply address';
 $lang['survey']['SurveyEmailTitle'] = 'Subject';
 $lang['survey']['SurveyEmailContent'] = 'Body';
 $lang['survey']['SurveyMailAttention'] = 'Attention';
-$lang['survey']['SurveyAttentionSendMailInfo'] = 'Sending a large number of emails will take som time !';
-$lang['survey']['NoSurveyParticipantMailsSend'] = 'No mails send to participant';
-$lang['survey']['NotAllSurveyParticipantMailsSend'] = 'Not all mails send to participants';
-$lang['survey']['AllSurveyParticipantMailsSend'] = 'All mails send to participants';
+$lang['survey']['SurveyAttentionSendMailInfo'] = 'Sending a large number of emails will take some time!';
+$lang['survey']['NoSurveyParticipantMailsSend'] = 'No mails sent to participant(s)';
+$lang['survey']['NotAllSurveyParticipantMailsSend'] = 'Not all mails sent to participants';
+$lang['survey']['AllSurveyParticipantMailsSend'] = 'All mails sent to participants';
+$lang['survey']['SelectedSurveyPublicationsDeleted'] = 'Selected Survey Publications deleted';
+$lang['survey']['SurveyPublicationUpdated'] = 'Survey publication updated';
 
-$lang['survey']['SurveyNotStarted'] = 'Not started survey';
+$lang['survey']['SurveyAddContentObject'] = 'Add Content Object';
+
+$lang['survey']['SurveyPageTypeName'] = 'Survey Page';
+$lang['survey']['SurveyPage'] = 'Survey Page';
+$lang['survey']['SurveyPageFormTitle'] = 'Title';
+$lang['survey']['SurveyPageFormDescription'] = 'Description';
+$lang['survey']['SurveyPageFormProperties'] = 'Survey Page Properties';
+$lang['survey']['SurveyPageHeaderText'] = 'Header Text';
+$lang['survey']['SurveyPageFooterText'] = 'Footer Text';
+
+$lang['survey']['SurveyPageAddContentObject'] = 'Survey Page Add Content Object';
+
+$lang['survey']['SurveyRatingQuestionTypeName'] = 'Rating Question';
+$lang['survey']['SurveyRatingQuestion'] = 'Rating Question';
+$lang['survey']['SurveyRatingQuestionFormTitle'] = 'Title';
+$lang['survey']['SurveyRatingQuestionFormDescription'] = 'Description';
+$lang['survey']['SurveyRatingQuestionFormProperties'] = 'Rating Question Properties';
+$lang['survey']['SurveyRatingType'] = 'Rating Type';
+
+$lang['survey']['SurveyOpenQuestionTypeName'] = 'Open Question';
+$lang['survey']['SurveyOpenQuestion'] = 'Open Question';
+$lang['survey']['SurveyOpenQuestionFormTitle'] = 'Title';
+$lang['survey']['SurveyOpenQuestionFormDescription'] = 'Description';
+
+$lang['survey']['SurveyMultipleChoiceQuestionTypeName'] = 'Multiple Choice Question';
+$lang['survey']['SurveyMultipleChoiceQuestion'] = 'Multiple Choice Question';
+$lang['survey']['SurveyMultipleChoiceQuestionFormTitle'] = 'Title';
+$lang['survey']['SurveyMultipleChoiceQuestionFormDescription'] = 'Description';
+$lang['survey']['SurveyMultipleChoiceQuestionFormOptions'] = 'Options';
+
+$lang['survey']['SurveyMatchingQuestionTypeName'] = 'Matching Question';
+$lang['survey']['SurveyMatchingQuestion'] = 'Matching Question';
+$lang['survey']['SurveyMatchingQuestionFormTitle'] = 'Title';
+$lang['survey']['SurveyMatchingQuestionFormDescription'] = 'Description';
+
+$lang['survey']['SurveySelectQuestionTypeName'] = 'Select Question';
+$lang['survey']['SurveySelectQuestion'] = 'Select Question';
+$lang['survey']['SurveySelectQuestionFormTitle'] = 'Title';
+$lang['survey']['SurveySelectQuestionFormDescription'] = 'Description';
+$lang['survey']['SurveySelectQuestionFormOptions'] = 'Options';
+
+$lang['survey']['SurveyMatrixQuestionTypeName'] = 'Matrix Question';
+$lang['survey']['SurveyMatrixQuestion'] = 'Matrix Question';
+$lang['survey']['SurveyMatrixQuestionFormTitle'] = 'Title';
+$lang['survey']['SurveyMatrixQuestionFormDescription'] = 'Description';
+
+$lang['survey']['SurveyNotStarted'] = 'Servey not started';
 $lang['survey']['SurveyStarted'] = 'Started survey';
 $lang['survey']['SurveyFinished'] = 'Finished survey';
 
 $lang['survey']['BrowseSurvey'] = 'Browse survey';
+
+$lang['survey']['Logout'] = 'Logout';
 
 
 ?>

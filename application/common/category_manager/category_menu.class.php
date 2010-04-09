@@ -12,6 +12,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class CategoryMenu extends HTML_Menu
 {
+    const TREE_NAME = __CLASS__;
     
     private $current_item;
     /**
@@ -125,22 +126,15 @@ class CategoryMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-    function render_as_tree()
+	function render_as_tree()
     {
-        /*$renderer = new DragAndDropTreeMenuRenderer('category_changer', $this->current_item);
-        $this->render($renderer, 'sitemap');
-        
-        $html[] = '<script type="text/javascript">';
-        $html[] = '';
-        $html[] = 'var mover_url="' . $this->category_manager->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_AJAX_MOVE_CATEGORIES)) . '";';
-        $html[] = 'var deleter_url="' . $this->category_manager->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_AJAX_DELETE_CATEGORIES)) . '";';
-        $html[] = '';
-        $html[] = '</script>';
-        
-        return implode("\n", $html) . $renderer->toHTML();*/
-    	
-    	$renderer = new TreeMenuRenderer();
+        $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
+    }
+    
+    static function get_tree_name()
+    {
+    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }
