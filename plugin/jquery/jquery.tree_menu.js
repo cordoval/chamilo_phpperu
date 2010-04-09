@@ -31,36 +31,97 @@
 			function expandItem(e) 
 			{
 				$("ul:first", $(this).parent()).show();
-				if ($(this).hasClass("lastExpand"))
+				changeExpandItemIcon($(this));
+			}
+			
+			function changeExpandItemIcon(item)
+			{
+				if (item.hasClass("lastExpand"))
 				{
-					$(this).removeClass("lastExpand");
-					$(this).addClass("lastCollapse");
+					item.removeClass("lastExpand");
+					item.addClass("lastCollapse");
 				}
-				else if ($(this).hasClass("expand"))
+				else if (item.hasClass("expand"))
 				{
-					$(this).removeClass("expand");
-					$(this).addClass("collapse");
+					item.removeClass("expand");
+					item.addClass("collapse");
 				}
 			}
 			
-			function processTree()
+			function expandItemAndLoadChildren(e)
 			{
-				$("ul li:last-child > div").addClass("last"); 
-				$("ul li:last-child > div.expand").addClass("lastExpand");
-				$("ul li:last-child > div.expand").removeClass("expand");
-				$("ul li:last-child > ul").css("background-image", "none");
+				var id = $('a', $(this)).attr("id");
+				var parent = $(this).parent();
+				var children = getChildren(id);
 				
-				$("ul li:not(:last-child):has(ul) > div").addClass("collapse");
-				$("ul li:last-child:has(ul) > div").addClass("lastCollapse");
-				
-				$("ul li:has(ul) > div").toggle(collapseItem, expandItem);
-				$("ul li:has(ul) > div > a").click(function(e){e.stopPropagation();});
+				if(children)
+				{
+					parent.append(children);
+					changeExpandItemIcon($(this));
+					$(this).unbind('click');
+					processTree($(this).parent().parent().parent());
+				}
 			}
-
+			
+			function getChildren(parent_id)
+			{
+				if(settings.search == '')
+				{
+					return '';
+				}
+				
+				var ul = $('<ul></ul>');
+				var response = loadChildren(parent_id);
+				var tree = $.xml2json(response, true);
+				
+				if((tree.leaf && $(tree.leaf).size() > 0))
+				{
+					$.each(tree.leaf, function(i, the_leaf)
+					{
+						var expand = '';
+						if(the_leaf.has_children == '1')
+						{
+							expand = ' class="expand"';
+						}
+						var li = $('<li><div' + expand + '><a href="#" id="' + the_leaf.id + '" class="' + the_leaf.classes + '">' + the_leaf.title + '</a></div></li>');
+						$(ul).append(li);
+					});
+					
+					return ul;
+				}
+			}
+			
+			function loadChildren(parent_id)
+			{
+				var response = $.ajax({
+					type: "GET",
+					dataType: "xml",
+					url: settings.search,
+					data: { parent_id: parent_id },
+					async: false
+				}).responseText;
+				
+				return response;
+			}
+			
+			function processTree(parent)
+			{
+				$("ul li:last-child > div", parent).addClass("last"); 
+				$("ul li:last-child > div.expand", parent).addClass("lastExpand");
+				$("ul li:last-child > div.expand", parent).removeClass("expand");
+				$("ul li:last-child > ul", parent).css("background-image", "none");
+				
+				$("ul li:not(:last-child):has(ul) > div", parent).addClass("collapse");
+				$("ul li:last-child:has(ul) > div", parent).addClass("lastCollapse");
+				
+				$("ul li:has(ul) > div", parent).toggle(collapseItem, expandItem);
+				$("div.lastExpand, div.expand", $("ul li:not(:has(ul))", parent)).bind('click', expandItemAndLoadChildren);
+				$("ul li:has(ul) > div > a", parent).click(function(e){e.stopPropagation();});
+			}
 			
 			function init()
 			{
-				processTree();
+				processTree(self.parent());
 			}
 			
 			return this.each(init);
