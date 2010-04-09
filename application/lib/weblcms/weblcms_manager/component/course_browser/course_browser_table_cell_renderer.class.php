@@ -52,14 +52,12 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
     private function get_modification_links($course)
     {
         $toolbar_data = array();
-        
+       
         $course_subscription_url = $this->browser->get_course_subscription_url($course);
         
         if ($course_subscription_url)
         {
             $toolbar_data[] = array('href' => $course_subscription_url, 'label' => Translation :: get('Subscribe'), 'confirm' => false, 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
-            
-            return Utilities :: build_toolbar($toolbar_data);
         }
         elseif ($this->browser->is_subscribed($course, $this->browser->get_user_id()))
         {
@@ -67,8 +65,12 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         }
         else
         {
-            return Translation :: get('SubscriptionNotAllowed');
+            //$course_order_form_url = $this->browser->get_course_order_form_url($course);
+        	//$toolbar_data[] = array('href' => $course_order_form_url, 'label' => Translation :: get('OrderForm'), 'img' => Theme :: get_common_image_path() . 'action_start.png');
+        	return Translation :: get('SubscriptionNotAllowed');	
         }
+        return Utilities :: build_toolbar($toolbar_data);
+        
     
     }
 }

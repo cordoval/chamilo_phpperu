@@ -1401,14 +1401,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		//        $statement->execute($course_code);
 
 		//Delete rights
-		$condition = new EqualityCondition(CourseSubscribeRight :: PROPERTY_COURSE_ID, $course_code);
-		if (! $this->database->delete_objects(CourseSubscribeRight :: get_table_name(), $condition))
+		$condition = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course_code);
+		if (! $this->database->delete_objects(CourseGroupSubscribeRight :: get_table_name(), $condition))
 		{
 			return false;
 		}
 		
-		$condition = new EqualityCondition(CourseUnsubscribeRight :: PROPERTY_COURSE_ID, $course_code);
-		if (! $this->database->delete_objects(CourseUnsubscribeRight :: get_table_name(), $condition))
+		$condition = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_code);
+		if (! $this->database->delete_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition))
 		{
 			return false;
 		}
@@ -1710,9 +1710,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(CourseType :: PROPERTY_ID, $id);
 		$course_type = $this->database->retrieve_object(CourseType :: get_table_name(), $condition);
+		
 		if(empty($course_type))
 			return $this->retrieve_empty_course_type();
 			//$this->redirect(Translation :: get('CourseTypeDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+		
 		$course_type_settings = $this->retrieve_course_type_settings($id);
 		if(empty($course_type_settings))
 			return $this->retrieve_empty_course_type();
@@ -1723,9 +1725,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			return $this->retrieve_empty_course_type();
 		$course_type->set_layout_settings($course_type_layout_settings);
 		
+		//todo
 		$course_type_rights = $this->retrieve_course_type_rights($id);
 		if(empty($course_type_rights))
-			return $this->retrieve_empty_course_type();
+			$course_type_rights = new CourseTypeRights();
 		$course_type->set_rights($course_type_rights);
 		
 		$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);

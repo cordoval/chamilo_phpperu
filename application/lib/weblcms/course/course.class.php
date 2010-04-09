@@ -54,6 +54,8 @@ class Course extends DataClass
 	private $tools;
 	
 	private $rights;
+	
+	private $order;
 
 	private $course_type;
 
@@ -195,6 +197,11 @@ class Course extends DataClass
     {
         return $this->settings;
     }
+    
+    function get_order()
+    {
+    	return $this->order;
+    }
 
     function get_layout_settings()
     {
@@ -306,6 +313,11 @@ class Course extends DataClass
     function set_settings($settings)
     {
         $this->settings = $settings;
+    }
+    
+    function set_order($order)
+    {
+    	$this->order = $order;
     }
 
     /**
