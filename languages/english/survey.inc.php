@@ -100,6 +100,8 @@ $lang['survey']['SurveyFinished'] = 'Finished survey';
 
 $lang['survey']['BrowseSurvey'] = 'Browse survey';
 
+$lang['survey']['ContextName'] = 'Context Name';
+
 $lang['survey']['SelectYourChoice'] = 'Select your choice';
 $lang['survey']['SelectYourChoices'] = 'Select your choices';
 $lang['survey']['ChooseYourRating'] = 'Choose your rating';
