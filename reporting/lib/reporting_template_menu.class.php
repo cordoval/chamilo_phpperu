@@ -18,7 +18,7 @@ class ReportingTemplateMenu
     /**
      * The reporting_templates
      */
-    private $reporting_templates;
+    private $reporting_template;
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -40,22 +40,19 @@ class ReportingTemplateMenu
      * root.
      * @param string[] $filter_count_on_types - Array to define the types on which the count on the categories should be filtered
      */
-    function ReportingTemplateMenu($reporting_templates = array(), $current_block, $url_format = '?block=%s')
+    function ReportingTemplateMenu(ReportingTemplate $reporting_template, $current_block, $url_format = '?block=%s')
     {
-        if (! is_array($reporting_templates))
-        {
-            $reporting_templates = array($reporting_templates);
-        }
-        
-        $this->reporting_templates = $reporting_templates;
+        $this->reporting_template = $reporting_template;
         $this->url_format = $url_format;
         
-        //$menu = $this->get_menu_items();
-        
-        //parent :: __construct($menu);
-        
-        //$this->array_renderer = new HTML_Menu_ArrayRenderer();
-        //$this->forceCurrentUrl($this->get_reporting_block_url($current_block));
+    //$menu = $this->get_menu_items();
+    
+
+    //parent :: __construct($menu);
+    
+
+    //$this->array_renderer = new HTML_Menu_ArrayRenderer();
+    //$this->forceCurrentUrl($this->get_reporting_block_url($current_block));
     }
 
     /**
@@ -69,46 +66,24 @@ class ReportingTemplateMenu
     private function get_menu_items()
     {
         $html = array();
-        $reporting_templates = $this->reporting_templates;
+        $reporting_template = $this->reporting_template;
         
-        foreach ($reporting_templates as $reporting_template)
+        $html[] = '<ul>';
+        //$html[] = '<li class="tool_list_menu title">' . Translation :: get(get_class($reporting_template)) . '</li>';
+        
+        $parameters = $reporting_template->get_parameters();
+        
+        $reporting_blocks = $reporting_template->get_reporting_blocks();
+        
+        if (count($reporting_blocks) > 0)
         {
-            $html[] = '<ul>';
-            $html[] = '<li class="tool_list_menu title">' .Translation :: get(get_class($reporting_template)) . '</li>';
-        	/*$menu_item = array();
-            $menu_item['title'] = Translation :: get(get_class($reporting_template));
-            $menu_item['url'] = '#';
-            $menu_item['class'] = 'category';
-            $menu_item[OptionsMenuRenderer :: KEY_ID] = $reporting_template->get_id();*/
-            $parameters = $reporting_template->get_parameters();
-            
-            $reporting_blocks = $reporting_template->get_reporting_blocks();
-            
-            if (count($reporting_blocks) > 0)
+            foreach ($reporting_blocks as $reporting_block)
             {
-                //$sub_menu_items = array();
+                $bloc_parameters = array_merge($parameters, array(ReportingManager :: PARAM_REPORTING_BLOCK_ID => $reporting_block->get_id()));
                 
-                foreach ($reporting_blocks as $reporting_block)
-                {
-                    $bloc_parameters = array_merge($parameters, array(ReportingManager :: PARAM_REPORTING_BLOCK_ID => $reporting_block->get_id()));
-                	
-                	$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_chart.png)"><a href="' . $reporting_template->get_parent()->get_url($bloc_parameters) . '">' . Translation :: get(get_class($reporting_block)) . '</a></li>';
-                	
-                	/*$sub_menu_item = array();
-                    $sub_menu_item['title'] = Translation :: get(get_class($reporting_block));
-                    $sub_menu_item['url'] = $reporting_template->get_parent()->get_url($bloc_parameters);
-                    $sub_menu_item['class'] = 'category';
-                    $sub_menu_item[OptionsMenuRenderer :: KEY_ID] = $reporting_block->get_id();
-                    
-                    $sub_menu_items[] = $sub_menu_item;*/
-                }
-                
-                //$menu_item['sub'] = $sub_menu_items;
+                $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_chart.png)"><a href="' . $reporting_template->get_parent()->get_url($bloc_parameters) . '">' . Translation :: get(get_class($reporting_block)) . '</a></li>';
             }
-            
-            //$menu[] = $menu_item;
         }
-        
         return implode("\n", $html);
     }
 
@@ -170,7 +145,7 @@ class ReportingTemplateMenu
         $html[] = '</div>';
         
         $html[] = '<div class="tool_menu">';
-        $html[] = $this->get_menu_items(); 
+        $html[] = $this->get_menu_items();
         $html[] = '</div>';
         
         $html[] = '</div>';

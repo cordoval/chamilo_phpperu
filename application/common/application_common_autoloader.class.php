@@ -37,6 +37,7 @@ class ApplicationCommonAutoloader
 		$list = array('category_manager' => 'category_manager/category_manager.class.php',
 					  'feedback_manager' => 'feedback_manager/feedback_manager.class.php',
 					  'repo_viewer' => 'repo_viewer/repo_viewer.class.php',
+					  'reporting_viewer' => 'reporting_viewer/reporting_viewer.class.php',
 				      'dynamic_form_manager' => 'dynamic_form_manager/dynamic_form_manager.class.php',
 				      'rights_editor_manager' => 'rights_editor_manager/rights_editor_manager.class.php',
 					  'validation_manager' => 'validation_manager/validation_manager.class.php',

@@ -13,13 +13,10 @@ class LearningPathAttemptProgressReportingTemplate extends ReportingTemplate
 {
     private $object;
 
-    function LearningPathAttemptProgressReportingTemplate($parent /*$id, $params, $trail, $object*/)
+    function LearningPathAttemptProgressReportingTemplate($parent)
     {
-        //$this->object = $object;
         parent :: __construct($parent);
         $this->add_reporting_block($this->get_learning_path_progress());
-        
-        //parent :: __construct($parent, $id, $params, $trail);
     }
     
 	function display_context()
@@ -38,30 +35,27 @@ class LearningPathAttemptProgressReportingTemplate extends ReportingTemplate
     	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	
     	$tool = Request :: get(WeblcmsManager::PARAM_TOOL);
-    	$course_weblcms_block->set_tool($tool);
+ 		$this->set_parameter(WeblcmsManager::PARAM_TOOL, $tool);
     	
     	$user_id = Request :: get(WeblcmsManager::PARAM_USERS);
-    	$course_weblcms_block->set_user_id($user_id);
+		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	
     	$attempt_id = Request :: get(LearningPathTool::PARAM_ATTEMPT_ID);
     	if ($attempt_id)
         {
-	    	$course_weblcms_block->set_attempt_id($attempt_id);
-	    	$this->add_parameters(LearningPathTool::PARAM_ATTEMPT_ID, $attempt_id);
+	    	$this->set_parameter(LearningPathTool::PARAM_ATTEMPT_ID, $attempt_id);
         }
         else
         {
-        	$this->add_parameters('lp_action', 'view_progress');
+        	$this->set_parameter('lp_action', 'view_progress');
         }
         
     	$pid = Request :: get(Tool::PARAM_PUBLICATION_ID);
-    	$course_weblcms_block->set_pid($pid);
-    	$this->add_parameters(Tool::PARAM_PUBLICATION_ID, $pid);
+    	$this->set_parameter(Tool::PARAM_PUBLICATION_ID, $pid);
     	
     	return $course_weblcms_block;
     }

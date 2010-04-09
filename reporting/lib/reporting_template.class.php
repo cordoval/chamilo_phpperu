@@ -11,33 +11,20 @@
 require_once dirname(__FILE__) . '/reporting_template_menu.class.php';
 
 abstract class ReportingTemplate
-{
-    protected $action_bar;
-    
+{   
     private $blocks = array();
     private $parent;
-    private $parameters = array();
 
     function ReportingTemplate($parent)
     {
         $this->set_parent($parent);
-        $this->parameters = array();
-        $this->action_bar = $this->get_action_bar();
     }
 
-    public static function factory($reporting_template_id, $parent)
+    public static function factory($registration, $parent)
     {
-        $registration = ReportingDataManager :: get_instance()->retrieve_reporting_template_registration($reporting_template_id);
-        $application = $registration->get_application();
+    	$application = $registration->get_application();
         $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
-        if ($application == 'weblcms')
-        {
-            $file = $file = $base_path . $application . '/reporting/templates/course_data_reporting.class.php';
-        }
-        else
-        {
-            $file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($registration->get_template()) . '.class.php';
-        }
+        $file = $base_path . $application . '/reporting/templates/' . Utilities :: camelcase_to_underscores($registration->get_template()) . '.class.php';
         require_once ($file);
         $new_template = Utilities :: underscores_to_camelcase($registration->get_template());
         return new $new_template($parent);
@@ -67,9 +54,11 @@ abstract class ReportingTemplate
         return Utilities :: camelcase_to_underscores(get_class($this));
     }
 
-    public function to_html($display_all = false)
+    public function to_html()
     {
-        $html[] = $this->display_header();
+        $display_all = $this->get_parent()->are_all_blocks_visible();
+        
+    	$html[] = $this->display_header();
 
         if ($display_all)
         {
@@ -144,22 +133,28 @@ abstract class ReportingTemplate
         {
             $html[] = '<div id="tool_browser_left">';
         }
-        $block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
-        if (isset($block))
-        {
-            $html[] = $this->get_reporting_block($block)->to_html();
-        }
-        else
-        {
-            $keys = array_keys($this->get_reporting_blocks());
-            $html[] = $this->get_reporting_block($keys[0])->to_html();
-        }
+       
+        $html[] = $this->get_current_block()->to_html();
         if ($this->get_number_of_reporting_blocks() > 1)
         {
             $html[] = '</div>';
         }
         $html[] = '<div class="clear"></div>';
         return implode($html, "\n");
+    }
+    
+    public function get_current_block()
+    {
+    	$block = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
+        if (isset($block))
+        {
+            return $this->get_reporting_block($block);
+        }
+        else
+        {
+            $keys = array_keys($this->get_reporting_blocks());
+            return $this->get_reporting_block($keys[0]);
+        }
     }
 
     public function export()
@@ -189,7 +184,7 @@ abstract class ReportingTemplate
 
     public function display_header()
     {
-        $html[] = '<br />' . $this->action_bar->as_html() . '<br />';
+        $html[] = '<br />' . $this->get_action_bar()->as_html() . '<br />';
         return implode("\n", $html);
     }
 
@@ -198,7 +193,12 @@ abstract class ReportingTemplate
         return $this->parent;
     }
 
-    public function set_parent($parent)
+	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+    {
+        return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+    }
+    
+	public function set_parent($parent)
     {
         $this->parent = $parent;
     }
@@ -220,40 +220,45 @@ abstract class ReportingTemplate
 
     public function get_parameters()
     {
-        return $this->parameters;
+        return $this->get_parent()->get_parameters();
+    }
+    
+    public function get_parameter($key)
+    {
+    	return $this->get_parent()->get_parameter($key);
     }
 
     public function set_parameters($parameters)
     {
-        $this->parameters = $parameters;
+        $this->get_parent()->set_parameters($parameters);
     }
 
     public function set_parameter($key, $value)
     {
-        $this->parameters[$key] = $value;
+        $this->get_parent()->set_parameter($key, $value);
     }
 
-    public function add_parameters($key, $value)
-    {
-        $this->parameters[$key] = $value;
-    }
+//    public function add_parameters($key, $value)
+//    {
+//        $this->parameters[$key] = $value;
+//    }
 
     public abstract function display_context();
 
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $parameters = array();
-        
-        $parameters[Application :: PARAM_ACTION] = ReportingManager :: ACTION_EXPORT;
+        $parameters = $this->get_parameters();
+        $parameters [ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
         $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $this->get_id();
         $parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'pdf';
+       
         $display_mode = $this->get_displaymode();
         if (isset($display_mode))
         {
             $parameters[ReportingFormatterForm :: FORMATTER_TYPE] = $this->get_displaymode();
         }
-        $url = Redirect :: get_link(ReportingManager :: APPLICATION_NAME, $parameters, array(), false, Redirect :: TYPE_CORE);
+        $url = Redirect :: get_url($parameters, array(), false);
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), Theme :: get_common_image_path() . 'export_pdf.png', $url));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToXml'), null, $url));

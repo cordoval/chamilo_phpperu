@@ -98,9 +98,8 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			);
 
         //$unsubscribe_url = $this->browser->get_url($parameters);
-        $toolbar_data[] = array('href' => $this->browser->get_reporting_url('UserReportingTemplate', $params), 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
-
-        $toolbar_data[] = array('href' => $this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, 'user_id' => $user->get_id())), 'label' => Translation :: get('ViewQuota'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+        $toolbar_data[] = array('href' => $this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_REPORTING, UserManager::PARAM_USER_USER_ID => $user->get_id())), 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
+        $toolbar_data[] = array('href' => $this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, UserManager::PARAM_USER_USER_ID => $user->get_id())), 'label' => Translation :: get('ViewQuota'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
 
     	if(PlatformSetting :: get('active_online_email_editor'))
         {

@@ -17,13 +17,11 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
      * Runs this component and displays its output.
      */
     function run()
-    {
-        $rtv = new ReportingTemplateViewer($this);
-        
+    {      
         $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
         
         $params = Reporting :: get_params($this);
-        
+
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses reporting');
         
@@ -50,9 +48,16 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
         
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'), 'template_name' => Request :: get('template_name'))), Translation :: get('Reporting')));
         
-        $this->display_header($trail, true);
+        /*$this->display_header($trail, true);
         $rtv->show_reporting_template_by_name($classname, $params);
-        $this->display_footer();
+        $this->display_footer();*/
+        
+        $rtv = new ReportingViewer($this);
+        $rtv->add_template_by_name($classname, UserManager::APPLICATION_NAME);
+        $rtv->set_breadcrumb_trail($trail);
+        $rtv->show_all_blocks();
+        
+        $rtv->run();
     }
 
     private function add_pcattree_breadcrumbs($pcattree, &$trail)

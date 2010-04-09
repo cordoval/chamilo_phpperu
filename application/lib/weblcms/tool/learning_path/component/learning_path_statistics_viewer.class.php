@@ -11,14 +11,14 @@ require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_tree.class
 
 class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponent
 {
+    
+    const PARAM_STAT = 'stats_action';
+    const ACTION_DELETE_LP_ATTEMPT = 'delete_lp_attempt';
+    const ACTION_DELETE_LPI_ATTEMPT = 'delete_lpi_attempt';
+    const ACTION_DELETE_LPI_ATTEMPTS = 'delete_lpi_attempts';
+    const PARAM_ITEM_ID = 'item_id';
+    const PARAM_DELETE_ID = 'delete_id';
 
-	const PARAM_STAT = 'stats_action';
-	const ACTION_DELETE_LP_ATTEMPT = 'delete_lp_attempt';
-	const ACTION_DELETE_LPI_ATTEMPT = 'delete_lpi_attempt';
-	const ACTION_DELETE_LPI_ATTEMPTS = 'delete_lpi_attempts';
-	const PARAM_ITEM_ID = 'item_id';
-	const PARAM_DELETE_ID = 'delete_id';
-	
     function run()
     {
         $trail = new BreadcrumbTrail();
@@ -36,10 +36,10 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
         $stats_action = Request :: get(self :: PARAM_STAT);
         switch ($stats_action)
         {
-            case  self :: ACTION_DELETE_LP_ATTEMPT :
+            case self :: ACTION_DELETE_LP_ATTEMPT :
                 $this->delete_lp_attempt(Request :: get(LearningPathTool :: PARAM_ATTEMPT_ID));
                 exit();
-            case  self :: ACTION_DELETE_LPI_ATTEMPTS :
+            case self :: ACTION_DELETE_LPI_ATTEMPTS :
                 $this->delete_lpi_attempts_from_item(Request :: get('item_id'));
                 exit();
             case self :: ACTION_DELETE_LPI_ATTEMPT :
@@ -97,26 +97,45 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
             }
             else
             {
-            	if ($cid)
-            	{
-            		require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_details_reporting_template.class.php');
+                if ($cid)
+                {
+                    /*require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_details_reporting_template.class.php');
 	                $template = new LearningPathAttemptProgressDetailsReportingTemplate($this);
-	                $display = $template->to_html();
-            	}
-            	else 
-            	{
-	                require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_reporting_template.class.php');
+	                $display = $template->to_html();*/
+                    $rtv = new ReportingViewer($this);
+                    $rtv->add_template_by_name('learning_path_attempt_progress_details_reporting_template', WeblcmsManager :: APPLICATION_NAME);
+                    $rtv->set_breadcrumb_trail($trail);
+                    
+                    $rtv->run();
+                    exit();
+                }
+                else
+                {
+                    /*require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_reporting_template.class.php');
 	                $template = new LearningPathAttemptProgressReportingTemplate($this);
-	                $display = $template->to_html();
-	            }
+	                $display = $template->to_html();*/
+                    $rtv = new ReportingViewer($this);
+                    $rtv->add_template_by_name('learning_path_attempt_progress_reporting_template', WeblcmsManager :: APPLICATION_NAME);
+                    $rtv->set_breadcrumb_trail($trail);
+                    
+                    $rtv->run();
+                    exit();
+                }
             }
         }
         else
         {
-            require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempts_reporting_template.class.php');
+            /*require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempts_reporting_template.class.php');
             $parameters = array('publication' => $publication, 'course' => $this->get_course_id(), 'url' => $url);
             $template = new LearningPathAttemptsReportingTemplate($this);
-            $display = $template->to_html();
+            $display = $template->to_html();*/
+            
+            $rtv = new ReportingViewer($this);
+            $rtv->add_template_by_name('learning_path_attempts_reporting_template', WeblcmsManager :: APPLICATION_NAME);
+            $rtv->set_breadcrumb_trail($trail);
+            
+            $rtv->run();
+            exit();
         }
         
         if (get_class($display) == 'AssessmentDisplay')

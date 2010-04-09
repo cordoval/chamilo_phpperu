@@ -42,23 +42,19 @@ class PublicationDetailReportingTemplate extends ReportingTemplate
     	
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	if ($user_id)
     	{
-    		$course_weblcms_block->set_user_id($user_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	if ($tool)
     	{
-    		$course_weblcms_block->set_tool($tool);
-    		$this->add_parameters(WeblcmsManager::PARAM_TOOL, $tool);
+    		$this->set_parameter(WeblcmsManager::PARAM_TOOL, $tool);
     	}
     	if ($pid)
     	{
-    		$course_weblcms_block->set_pid($pid);
-    		$this->add_parameters(WeblcmsManager::PARAM_PUBLICATION, $pid);
+    		$this->set_parameter(WeblcmsManager::PARAM_PUBLICATION, $pid);
     	}
     	return $course_weblcms_block;
     }
@@ -66,30 +62,26 @@ class PublicationDetailReportingTemplate extends ReportingTemplate
     function get_publication_access()
     {
     	$course_weblcms_block = new WeblcmsPublicationAccessReportingBlock($this);
-        	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+        $course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
     	$user_id = Request :: get(WeblcmsManager::PARAM_USERS);
     	$tool = Request :: get(WeblcmsManager::PARAM_TOOL);
     	$pid = Request :: get(WeblcmsManager::PARAM_PUBLICATION);
     	
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	if ($user_id)
     	{
-    		$course_weblcms_block->set_user_id($user_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	if ($tool)
     	{
-    		$course_weblcms_block->set_tool($tool);
-    		$this->add_parameters(WeblcmsManager::PARAM_TOOL, $tool);
+    		$this->set_parameter(WeblcmsManager::PARAM_TOOL, $tool);
     	}
     	if ($pid)
     	{
-    		$course_weblcms_block->set_pid($pid);
-    		$this->add_parameters(WeblcmsManager::PARAM_PUBLICATION, $pid);
+    		$this->set_parameter(WeblcmsManager::PARAM_PUBLICATION, $pid);
     	}
     	return $course_weblcms_block;
     }
@@ -104,23 +96,19 @@ class PublicationDetailReportingTemplate extends ReportingTemplate
     	
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	if ($user_id)
     	{
-    		$course_weblcms_block->set_user_id($user_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	if ($tool)
     	{
-    		$course_weblcms_block->set_tool($tool);
-    		$this->add_parameters(WeblcmsManager::PARAM_TOOL, $tool);
+    		$this->set_parameter(WeblcmsManager::PARAM_TOOL, $tool);
     	}
     	if ($pid)
     	{
-    		$course_weblcms_block->set_pid($pid);
-    		$this->add_parameters(WeblcmsManager::PARAM_PUBLICATION, $pid);
+    		$this->set_parameter(WeblcmsManager::PARAM_PUBLICATION, $pid);
     	}
     	return $course_weblcms_block;
     }

@@ -28,11 +28,8 @@ class WeblcmsLearningPathAttemptsReportingBlock extends WeblcmsToolReportingBloc
         {
         	$params = $this->get_parent()->get_parameters();
         	$params[LearningPathTool::PARAM_ATTEMPT_ID] = $tracker->get_id();
-        	$params[Application::PARAM_ACTION] = WeblcmsManager::ACTION_VIEW_COURSE;
-            $params[Application::PARAM_APPLICATION] = WeblcmsManager::APPLICATION_NAME;
-            $params[Tool::PARAM_ACTION] = LearningPathTool::ACTION_VIEW_STATISTICS;
 
-            $url = Redirect :: get_url($params);
+            $url = Redirect :: get_url($params, array(ReportingManager::PARAM_TEMPLATE_ID));
             
             $params[LearningPathToolStatisticsViewerComponent::PARAM_STAT] = LearningPathToolStatisticsViewerComponent::ACTION_DELETE_LP_ATTEMPT;
             $delete_url = Redirect :: get_url($params);

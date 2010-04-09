@@ -8,6 +8,11 @@ abstract class UserReportingBlock extends ReportingBlock
 		return UserDataManager::get_instance();
 	}
 	
+	function get_user_id()
+	{
+		return $this->get_parent()->get_parameter(UserManager::PARAM_USER_USER_ID);	
+	}
+	
 	public static function getDateArray($data, $format)
     {
     	foreach ($data as $key => $value)

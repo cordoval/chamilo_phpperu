@@ -8,11 +8,19 @@ class UserNoOfLoginsMonthReportingBlock extends UserReportingBlock
 	{
 		$reporting_data = new ReportingData();
 		require_once (dirname(__FILE__) . '/../../trackers/login_logout_tracker.class.php');
-        $condition = new EqualityCondition(LoginLogoutTracker :: PROPERTY_TYPE, 'login');
+        $conditions = array();
+		$conditions[] = new EqualityCondition(LoginLogoutTracker :: PROPERTY_TYPE, 'login');
+		$user_id = $this->get_user_id();
+		if (isset($user_id))
+		{
+			$conditions[] = new EqualityCondition(LoginLogoutTracker::PROPERTY_USER_ID, $user_id); 
+		}
+		$condition = new AndCondition($conditions);
+
         $tracker = new LoginLogoutTracker();
         $trackerdata = $tracker->retrieve_tracker_items($condition);
 
-		$months_names = array(Translation :: get('January'), Translation :: get('February'), Translation :: get('March'),Translation :: get('April'),Translation :: get('May'),Translation :: get('June'),Translation :: get('July'),Translation :: get('August'),Translation :: get('September'),Translation :: get('October'), Translation :: get('November'),Translation :: get('December'));
+		$months_names = array(Translation :: get('JanuaryLong'), Translation :: get('FebruaryLong'), Translation :: get('MarchLong'),Translation :: get('AprilLong'),Translation :: get('MayLong'),Translation :: get('JuneLong'),Translation :: get('JulyLong'),Translation :: get('AugustLong'),Translation :: get('SeptemberLong'),Translation :: get('OctoberLong'), Translation :: get('NovemberLong'),Translation :: get('DecemberLong'));
         $months = UserReportingBlock :: getDateArray($trackerdata, 'n');
         
 		$reporting_data->set_categories($months_names);

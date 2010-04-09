@@ -9,7 +9,6 @@ class WeblcmsLastAccessToToolsReportingBlock extends WeblcmsToolReportingBlock
 		$reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('Tool'), Translation :: get('LastAccess'), Translation :: get('Clicks'), Translation :: get('Publications')));
 		
-
 		require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
 
         $wdm = WeblcmsDataManager :: get_instance();
@@ -58,14 +57,12 @@ class WeblcmsLastAccessToToolsReportingBlock extends WeblcmsToolReportingBlock
 
             $trackerdata = $tracker->retrieve_tracker_items($condition);
 
-            //$arr[$link][] = $date;
-            //$arr[$link][] = count($trackerdata);
-            //$params['tool'] = $name;
             $params = $this->get_parent()->get_parameters();
         	$params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration(Utilities::camelcase_to_underscores('ToolPublicationsDetailReportingTemplate'), WeblcmsManager::APPLICATION_NAME)->get_id();
         	$params[WeblcmsManager::PARAM_USERS] = $user_id;
         	$params[WeblcmsManager::PARAM_TOOL] = $name;
-            $url = ReportingManager :: get_reporting_template_registration_url_content($this->get_parent()->get_parent(), $params);
+            //$url = ReportingManager :: get_reporting_template_registration_url_content($this->get_parent()->get_parent(), $params);
+            $url = $this->get_parent()->get_url($params);
             
             $link_pub = '<a href="' . $url . '">' . Translation :: get('ViewPublications') . '</a>';
             $reporting_data->add_category($tool);

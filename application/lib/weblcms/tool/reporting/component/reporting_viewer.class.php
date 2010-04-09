@@ -11,24 +11,7 @@ class ReportingToolViewerComponent extends ReportingToolComponent
 {
 
     function run()
-    {
-        /*$classname = 'CourseStudentTrackerReportingTemplate';
-        
-        $params = Reporting :: get_params($this);
-        $url = array();
-        $url[Tool :: PARAM_ACTION] = 'view_reporting_template';
-        $url['template_name'] = $classname;
-        foreach ($params as $key => $param)
-        {
-            $url[$key] = $param;
-        }
-        //dump($url); dump($this->get_url($url));
-        header('location:' . $this->get_url($url));*/
-        
-        
-		$template_id = Reporting :: get_name_registration(Utilities :: camelcase_to_underscores('CourseStudentTrackerReportingTemplate'), WeblcmsManager::APPLICATION_NAME)->get_id();
-        $rtv = new ReportingTemplateViewer($this);
- 
+    {        
         $trail = new BreadcrumbTrail();
         /*$trail->add_help('courses reporting');
         $trail->add(new Breadcrumb($this->get_url(array(Application::PARAM_ACTION => null, 'pcattree' => null, WeblcmsManager::PARAM_COURSE => null)), Translation :: get('MyCourses')));
@@ -36,10 +19,12 @@ class ReportingToolViewerComponent extends ReportingToolComponent
         if ($trail->get_last() != new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')))
             $trail->add(new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')));
         */
-        $this->display_header($trail, false, true);
-        $rtv->show_reporting_template($template_id);
-        $this->display_footer();
-
+		$rtv = new ReportingViewer($this);
+        $rtv->add_template_by_name('course_student_tracker_reporting_template', WeblcmsManager::APPLICATION_NAME);
+        $rtv->set_breadcrumb_trail($trail);
+        $rtv->show_all_blocks();
+        
+        $rtv->run();
     }
 }
 ?>

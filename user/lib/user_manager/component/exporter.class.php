@@ -42,6 +42,7 @@ class UserManagerExporterComponent extends UserManagerComponent
             	else
             	{
             		$user_array = $this->prepare_for_other_export($user);
+            		
             	}
             	
                 Events :: trigger_event('export', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));

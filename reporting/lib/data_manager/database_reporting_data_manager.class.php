@@ -122,6 +122,11 @@ class DatabaseReportingDataManager extends Database implements ReportingDataMana
         return $this->retrieve_object(ReportingTemplateRegistration :: get_table_name(), $condition);
     } //retrieve_reporting_template_registration
 
+    function retrieve_reporting_template_registration_by_condition($condition)
+    {
+        return $this->retrieve_object(ReportingTemplateRegistration :: get_table_name(), $condition);
+    } 
+    
     function retrieve_reporting_block_registration($reporting_block_registration_id)
     {
     	$condition = new EqualityCondition(ReportingBlockRegistration:: PROPERTY_ID, $reporting_block_registration_id);

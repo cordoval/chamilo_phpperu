@@ -38,18 +38,15 @@ class ToolPublicationsDetailReportingTemplate extends ReportingTemplate
     	
     	if ($course_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_COURSE, $course_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
     	}
     	if ($user_id)
     	{
-    		$course_weblcms_block->set_user_id($user_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	if ($tool)
     	{
-    		$course_weblcms_block->set_tool($tool);
-    		$this->add_parameters(WeblcmsManager::PARAM_TOOL, $tool);
+    		$this->set_parameter(WeblcmsManager::PARAM_TOOL, $tool);
     	}
     	return $course_weblcms_block;
     }

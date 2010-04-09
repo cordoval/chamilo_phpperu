@@ -165,6 +165,11 @@ $lang['reporting']['LastPublication'] = 'Last publication';
 $lang['reporting']['Tool'] = 'Tool';
 $lang['reporting']['PublicationDetails'] = 'Publication details';
 $lang['reporting']['NumberOfApplications'] = 'Number of applications';
-$lang['reporting'][''] = '';
-
+$lang['reporting']['CourseGroup'] = 'Course group';
+$lang['reporting']['CourseSections'] = 'Course sections';
+$lang['reporting']['Geolocation'] = 'Geolocation';
+$lang['reporting']['LearningPath'] = 'Learning path';
+$lang['reporting']['Link'] = 'Link';
+$lang['reporting']['Maintenance'] = 'Maintenance';
+$lang['reporting']['Wiki'] = 'Wiki';
 ?>

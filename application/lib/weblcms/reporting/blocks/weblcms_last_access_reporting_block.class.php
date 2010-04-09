@@ -39,9 +39,7 @@ class WeblcmsLastAccessReportingBlock extends WeblcmsToolReportingBlock
 	public function get_available_displaymodes()
 	{
 		$modes = array();
-        //$modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
         $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
-        //$modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie');
         return $modes;
 	}
 }

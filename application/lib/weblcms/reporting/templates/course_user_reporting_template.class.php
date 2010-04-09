@@ -47,8 +47,7 @@ class CourseUserReportingTemplate extends ReportingTemplate
     	$course_user_id = Request :: get(WeblcmsManager::PARAM_USERS);
     	if ($course_user_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	return $course_weblcms_block;
     }
@@ -59,8 +58,7 @@ class CourseUserReportingTemplate extends ReportingTemplate
     	$course_user_id = Request :: get(WeblcmsManager::PARAM_USERS);
     	if ($course_user_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	return $course_weblcms_block;
     }
@@ -71,8 +69,7 @@ class CourseUserReportingTemplate extends ReportingTemplate
     	$course_user_id = Request :: get(WeblcmsManager::PARAM_USERS);
     	if ($course_user_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	return $course_weblcms_block;
     }*/
@@ -83,8 +80,7 @@ class CourseUserReportingTemplate extends ReportingTemplate
     	$course_user_id = Request :: get(WeblcmsManager::PARAM_USERS);
     	if ($course_user_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	return $course_weblcms_block;
     }
@@ -95,8 +91,7 @@ class CourseUserReportingTemplate extends ReportingTemplate
     	$course_user_id = Request :: get(WeblcmsManager::PARAM_USERS);
     	if ($course_user_id)
     	{
-    		$course_weblcms_block->set_course_id($course_id);
-    		$this->add_parameters(WeblcmsManager::PARAM_USERS, $user_id);
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
     	}
     	return $course_weblcms_block;
     }

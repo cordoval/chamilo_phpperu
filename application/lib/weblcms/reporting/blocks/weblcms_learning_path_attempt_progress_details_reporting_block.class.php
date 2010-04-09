@@ -9,29 +9,19 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
 
     public function get_attempt_id()
     {
-        return $this->attempt_id;
-    }
-
-    public function set_attempt_id($attempt_id)
-    {
-        $this->attempt_id = $attempt_id;
+        return $this->get_parent()->get_parameter(LearningPathTool::PARAM_ATTEMPT_ID);
     }
     
     public function get_parent_id()
     {
-    	return $this->parent_id;
-    }
-    
-    public function set_parent_id($parent_id)
-    {
-    	$this->parent_id = $parent_id;
+    	return $this->get_parent()->get_parameter(Tool::PARAM_COMPLEX_ID);
     }
 
     public function count_data()
     {
         $reporting_data = new ReportingData();
         $reporting_data->set_rows(array(Translation :: get('LastStartTime'), Translation :: get('Status'), Translation :: get('Score'), Translation :: get('Time')));
-    	if ($this->get_parent()->get_parent()->get_action() == LearningPathTool :: ACTION_VIEW_STATISTICS)
+    	if ($this->get_parent()->get_parameter(Tool::PARAM_ACTION) == LearningPathTool :: ACTION_VIEW_STATISTICS)
         {
             $reporting_data->add_row(Translation :: get('Action'));
         }
@@ -78,7 +68,7 @@ class WeblcmsLearningPathAttemptProgressDetailsReportingBlock extends WeblcmsToo
             $reporting_data->add_data_category_row($category_name, Translation :: get('Score'), $tracker->get_score() . '%');
             $reporting_data->add_data_category_row($category_name, Translation :: get('Time'), Utilities :: format_seconds_to_hours($tracker->get_total_time()));
             
-            if ($this->get_parent()->get_parent()->get_action() == LearningPathTool :: ACTION_VIEW_STATISTICS)
+            if ($this->get_parent()->get_parameter(Tool::PARAM_ACTION) == LearningPathTool :: ACTION_VIEW_STATISTICS)
             {
                 $params = $this->get_parent()->get_parameters();
 	        	$params[Application::PARAM_ACTION] = WeblcmsManager::ACTION_VIEW_COURSE;
