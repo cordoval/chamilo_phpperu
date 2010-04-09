@@ -34,8 +34,6 @@ class WeblcmsManagerCourseMoveComponent extends WeblcmsManagerComponent
         $course = $this->retrieve_courses(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)))->next_result();
         
         $this->form = new CourseMoveForm($this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_codes)), $course);
-      
-        dump(count($course_codes));
         
         if ($this->form->validate())
         {   	        	
