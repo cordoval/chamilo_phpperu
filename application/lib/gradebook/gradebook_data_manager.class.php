@@ -72,6 +72,8 @@ abstract class GradebookDataManager {
 	
 	abstract function retrieve_evaluation_ids_by_internal_item_id($internal_item_id);
 	
+	abstract function update_internal_item_instance($internal_item_instance);
+	
 	// evaluation
 	
 	abstract function create_evaluation($evaluation);	

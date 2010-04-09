@@ -112,5 +112,38 @@ class EvaluationForm extends FormValidator
 		
 		return true;
 	}
+	
+	function update_evaluation($evaluation_id)
+	{
+		$values = $this->exportValues();
+		$evaluation = new Evaluation();
+		$evaluation->set_id($evaluation_id);
+		$evaluation->set_evaluator_id($this->user->get_id());
+		$evaluation->set_user_id($this->publication->get_publisher());
+		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
+		$evaluation->set_format_id($values['format_list']);
+		if(!$evaluation->update())
+		{
+			return false;
+		}
+		
+		$internal_item_instance = new InternalItemInstance();
+		$internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication($this->publication->get_content_object()->get_type(), $this->publication->get_id())->get_id());
+		$internal_item_instance->set_evaluation_id($evaluation_id);
+		if(!$internal_item_instance->update())
+		{
+			return false;
+		}
+		
+		$grade_evaluation = new GradeEvaluation();
+		$grade_evaluation->set_score($values['score']);
+		$grade_evaluation->set_comment($values['comment']);
+		$grade_evaluation->set_id($evaluation->get_id());
+		if(!$grade_evaluation->update())
+		{
+			return false;
+		}
+		return true;
+	}
 }
 ?>

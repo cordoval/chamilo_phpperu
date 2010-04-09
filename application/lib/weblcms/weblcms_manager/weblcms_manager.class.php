@@ -630,7 +630,7 @@ class WeblcmsManager extends WebApplication
 		if($id == null)
 			$id = $this->get_parameter(self :: PARAM_COURSE);
 		$wdm = WeblcmsDataManager :: get_instance();
-		if (! is_null($id) && !is_array($id))
+		if (! is_null($id) && !is_array($id) && $id != '')
 		{
 			$this->course = $wdm->retrieve_course($id);
 			if(!$this->course)

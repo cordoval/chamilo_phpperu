@@ -671,95 +671,136 @@ class Course extends DataClass
     /*
      * Getters and validation whether or not the property is readable from the course's own settings
      */
-/*
-    function get_language()
+
+    function can_group_subscribe($group_id)
     {
-    	if(!$this->get_language_fixed())
+    	$right = $this->rights->can_group_subscribe($group_id);
+    	switch($right)
     	{
-        	return $this->settings->get_language();
+    		case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT :
+    			if(!$this->get_direct_subscribe_available())
+    				return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+    			break;
+    		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :
+    			if(!$this->get_request_subscribe_available())
+    				return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+    			break;
+    		case CourseGroupSubscribeRight :: SUBSCRIBE_CODE :
+    			if(!$this->get_code_subscribe_available())
+    				return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+    			break;
+    		default : return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
     	}
-        else
-        	return $this->get_course_type()->get_settings()->get_language();
+    	return $right;
     }
-
-    function get_visibility()
+    
+    function can_group_unsubscribe($group_id)
     {
-    	if(!$this->get_visibility_fixed())
-        	return $this->settings->get_visibility();
-        else
-        	return $this->get_course_type()->get_settings()->get_visibility();
+    	if($this->get_unsubscribe_available())
+    		return $this->rights->can_group_unsubscribe($group_id);
+    	else
+    		return 0;
     }
 
-	function get_access()
+    function get_code()
     {
-    	if(!$this->get_access_fixed())
-        	return $this->settings->get_access();
-        else
-        	return $this->get_course_type()->get_settings()->get_access();
+    	return $this->get_rights->get_code();
     }
 
-    function get_max_number_of_members()
+    function get_direct_subscribe_available()
     {
-    	if(!$this->get_max_number_of_members_fixed())
-        	return $this->settings->get_max_number_of_members();
+    	if(!$this->get_direct_subscribe_fixed())
+        	return $this->rights->get_direct_subscribe_available();
         else
-        	return $this->get_course_type()->get_settings()->get_max_number_of_members();
+        	return $this->course_type->get_rights()->get_direct_subscribe_available();
     }
 
+    function get_request_subscribe_available()
+    {
+    	if(!$this->get_request_subscribe_fixed())
+        	return $this->rights->get_request_subscribe_available();
+        else
+        	return $this->course_type->get_rights()->get_request_subscribe_available();
+    }
+
+    function get_code_subscribe_available()
+    {
+    	if(!$this->get_code_subscribe_fixed())
+        	return $this->rights->get_code_subscribe_available();
+        else
+        	return $this->course_type->get_rights()->get_code_subscribe_available();
+    }
+
+    function get_unsubscribe_available()
+    {
+    	if(!$this->get_unsubscribe_fixed())
+        	return $this->rights->get_unsubscribe_available();
+        else
+        	return $this->course_type->get_rights()->get_unsubscribe_available();
+    }
+    
     /**
      * Setters and validation to see whether they are writable
      */
-/*
-    function get_language_fixed()
+    
+    function set_code($code)
     {
-    	return $this->course_type->get_settings()->get_language_fixed();
+    	if($this->get_code_subscribe_available())
+    		$this->get_rights->set_code($code);
+    	else
+    		$this->get_rights->set_code(null);
     }
 
-    function set_language($language)
+    function get_direct_subscribe_fixed()
     {
-    	if(!$this->get_language_fixed())
-        	$this->settings->set_language($language);
+    	return $this->course_type->get_rights()->get_direct_subscribe_fixed();
+    }
+
+    function set_direct_subscribe_available($direct)
+    {
+    	if(!$this->get_direct_subscribe_fixed())
+        	$this->rights->set_direct_subscribe_available($direct);
         else
-        	$this->settings->set_language($this->course_type->get_settings()->get_language());
+        	$this->rights->set_direct_subscribe_available($this->course_type->get_rights()->get_direct_subscribe_available());
     }
 
-    function get_visibility_fixed()
+    function get_request_subscribe_fixed()
     {
-    	return $this->course_type->get_settings()->get_visibility_fixed();
+    	return $this->course_type->get_rights()->get_request_subscribe_fixed();
     }
 
-    function set_visibility($visibility)
+    function set_request_subscribe_available($request)
     {
-		if(!$this->get_visibility_fixed())
-        	$this->settings->set_visibility($visibility);
+    	if(!$this->get_request_subscribe_fixed())
+        	$this->rights->set_request_subscribe_available($request);
         else
-        	$this->settings->set_visibility($this->course_type->get_settings()->get_visibility());
+        	$this->rights->set_request_subscribe_available($this->course_type->get_rights()->get_request_subscribe_available());
     }
 
-    function get_access_fixed()
+    function get_code_subscribe_fixed()
     {
-    	return $this->course_type->get_settings()->get_access_fixed();
+    	return $this->course_type->get_rights()->get_code_subscribe_fixed();
     }
 
-    function set_access($access)
+    function set_code_subscribe_available($code)
     {
-		if(!$this->get_access_fixed())
-        	$this->settings->set_access($access);
+    	if(!$this->get_code_subscribe_fixed())
+        	$this->rights->set_code_subscribe_available($code);
         else
-        	$this->settings->set_access($this->course_type->get_settings()->get_access());
+        	$this->rights->set_code_subscribe_available($this->course_type->get_rights()->get_code_subscribe_available());
+    }
+    
+    function get_unsubscribe_fixed()
+    {
+    	return $this->course_type->get_rights()->get_unsubscribe_fixed();
     }
 
-    function get_max_number_of_members_fixed($max_number_of_members)
+    function set_unsubscribe_available($code)
     {
-		return $this->course_type->get_settings()->get_max_number_of_members_fixed();
-    }
-
-    function set_max_number_of_members($max_number_of_members)
-    {
-		if(!$this->get_max_number_of_members_fixed())
-        	$this->settings->set_max_number_of_members($max_number_of_members);
+    	if(!$this->get_unsubscribe_fixed())
+        	$this->rights->set_unsubscribe_available($code);
         else
-        	$this->settings->set_max_number_of_members($this->course_type->get_settings()->get_max_number_of_members());
+        	$this->rights->set_unsubscribe_available($this->course_type->get_rights()->get_unsubscribe_available());
     }
     
     /**

@@ -10,7 +10,6 @@
 		<property name="code_subscribe_fixed" type="boolean" default="0" />
 		<property name="unsubscribe_available" type="boolean" default="0" />
 		<property name="unsubscribe_fixed" type="boolean" default="0" />
-		<property name="code" type="text" length="20" fixed="true" />
 	</properties>
 	<index name="course_type_id" type="primary">
 		<indexproperty name="course_type_id" />

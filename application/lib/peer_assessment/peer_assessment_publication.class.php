@@ -229,11 +229,69 @@ class PeerAssessmentPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
     }
+    
+	function toggle_visibility()
+    {
+    	// Error when use this function
+        //$this->set_hidden(! $this->get_hidden());
+    }
 
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+	function is_visible_for_target_user($user)
+    {
+        if ($user->is_platform_admin() || $user->get_id() == $this->get_publisher())
+        {
+            return true;
+        }
+        
+        if ($this->get_target_groups() || $this->get_target_users())
+        {
+            $allowed = false;
+            
+            if (in_array($user->get_id(), $this->get_target_users()))
+            {
+                $allowed = true;
+            }
+            
+            if (! $allowed)
+            {
+                $user_groups = $user->get_groups();
+                
+                while ($user_group = $user_groups->next_result())
+                {
+                    if (in_array($user_group->get_id(), $this->get_target_groups()))
+                    {
+                        $allowed = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (! $allowed)
+            {
+                return false;
+            }
+        }
+        
+        if ($this->get_hidden())
+        {
+            return false;
+        }
+        
+        $time = time();
+        
+        if ($time < $this->get_from_date() || $time > $this->get_to_date() && !$this->is_forever())
+        {
+            return false;
+        }
+        
+        return true;
+    }
+
 }
 
 ?>

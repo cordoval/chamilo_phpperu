@@ -9,14 +9,14 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
     	$publication = $this->get_publication();
     	$failures = 0;
 		
-    	$form = new EvaluationForm(EvaluationForm :: TYPE_CREATE, $publication, $this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_CREATE, 'publication' => Request :: get('publication'))), $this->get_user());
+    	$form = new EvaluationForm(EvaluationForm :: TYPE_CREATE, $publication, $this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_CREATE, EvaluationManager :: PARAM_PUBLICATION => $publication->get_id())), $this->get_user());
     	if($form->validate())
 		{
 			if(!$form->create_evaluation())
 				$failures++;
 		    $message = $this->get_result($failures, count($objects), 'EvaluationNotCreated', 'EvaluationsNotCreated', 'EvaluationCreated', 'EvaluationsCreated');
 		                   
-            $this->redirect($message, $failures, array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, 'publication' => $publication->get_id()));
+            $this->redirect($message, $failures, array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, EvaluationManager :: PARAM_PUBLICATION => $publication->get_id()));
 		}
 		else
     		$form->display();

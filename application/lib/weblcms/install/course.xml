@@ -4,7 +4,7 @@
 		<property name="id" type="integer" notnull="1" autoincrement="true" />
 		<property name="course_type_id" type="integer" default="0"/>
 		<property name="title" type="text" length="250" fixed="true" />
-		<property name="category_id" type="integer" notnull="1" />
+		<property name="category_id" type="integer" default="0"/>
 		<property name="titular_id" type="integer" />
 		<property name="visual_code" type="text" length="40" fixed="true"
 			notnull="1" />
