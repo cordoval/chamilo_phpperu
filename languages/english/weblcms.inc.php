@@ -289,7 +289,7 @@ $lang['weblcms']['NothingPublished'] = 'Nothing published';
 $lang['weblcms']['LastVisit'] = 'Last visit';
 $lang['weblcms']['LastPublication'] = 'Last publication';
 $lang['weblcms']['Object'] = 'Object';
-$lang['weblcms']['LearningPath'] = 'Learning Path';
+$lang['weblcms']['LearningPath'] = 'Learningpath';
 $lang['weblcms']['Average'] = 'Average';
 $lang['weblcms']['MostActiveUser'] = 'Most active user';
 $lang['weblcms']['NumberOfContributions'] = 'Number of contributions';
@@ -427,9 +427,9 @@ $lang['weblcms']['WeblcmsCourseUserExerciseInformationReportingBlock'] = 'Course
 $lang['weblcms']['WeblcmsLastAccessToToolsReportingBlock'] = 'Last access to tools';
 $lang['weblcms']['WeblcmsLastAccessReportingBlock'] = 'Last access';
 $lang['weblcms']['WeblcmsToolPublicationsReportingBlock'] = 'Tool publications';
-$lang['weblcms']['WeblcmsLearningPathAttemptsReportingBlock'] = 'Learningpath attemps';
-$lang['weblcms']['WeblcmsLearningPathAttemptProgressReportingBlock'] = 'Learningpath attemp progress';
-$lang['weblcms']['WeblcmsLearningPathAttemptProgressDetailsReportingBlock'] = 'Learningpath attemp progress details';
+$lang['weblcms']['WeblcmsLearningPathAttemptsReportingBlock'] = 'Learningpath attempts';
+$lang['weblcms']['WeblcmsLearningPathAttemptProgressReportingBlock'] = 'Learningpath attempt progress';
+$lang['weblcms']['WeblcmsLearningPathAttemptProgressDetailsReportingBlock'] = 'Learningpath attempt progress details';
 $lang['weblcms']['access'] = 'Access';
 $lang['weblcms']['Announcement'] = 'Announcement';
 $lang['weblcms']['Blog'] = 'Blog';
@@ -443,4 +443,8 @@ $lang['weblcms']['Wiki'] = 'Wiki';
 $lang['weblcms']['ToolPublicationsDetailReportingTemplate'] = 'Tool publications detail reporting';
 $lang['weblcms']['CourseStudentTrackerReportingTemplate'] = 'Course student tracker reporting';
 $lang['weblcms']['CourseStudentTrackerDetailReportingTemplate'] = 'Course student tracker detail reporting';
+$lang['weblcms']['LearningPathAttemptProgressReportingTemplate'] = 'Learningpath attempt progress reporting';
+$lang['weblcms']['LearningPathAttemptProgressDetailsReportingTemplate'] = 'Learningpath attempt progress details reporting';
+
+
 ?>
