@@ -5,14 +5,14 @@ class SurveyPublicationForm extends FormValidator
 {
     const TYPE_SINGLE = 1;
     const TYPE_MULTI = 2;
-
+    
     const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
     const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
     const PARAM_FOREVER = 'forever';
     const PARAM_FROM_DATE = 'from_date';
     const PARAM_TO_DATE = 'to_date';
-
+    
     private $publication;
     private $content_object;
     private $user;
@@ -21,17 +21,17 @@ class SurveyPublicationForm extends FormValidator
     function SurveyPublicationForm($form_type, $content_object, $user, $action)
     {
         parent :: __construct('survey_publication_settings', 'post', $action);
-
+        
         $action = Request :: get(SurveyManager :: PARAM_ACTION);
         if ($action === SurveyManager :: ACTION_TESTCASE)
         {
             $this->testcase = 1;
         }
-
+        
         $this->content_object = $content_object;
         $this->user = $user;
         $this->form_type = $form_type;
-
+        
         switch ($this->form_type)
         {
             case self :: TYPE_SINGLE :
@@ -41,7 +41,7 @@ class SurveyPublicationForm extends FormValidator
                 $this->build_multi_form();
                 break;
         }
-
+        
         $this->add_footer();
         $this->setDefaults();
     }
@@ -64,49 +64,49 @@ class SurveyPublicationForm extends FormValidator
         {
             $defaults['forever'] = 0;
         }
-
+        
         $defaults['hidden'] = $publication->is_hidden();
-
+        
         $udm = UserDataManager :: get_instance();
         $gdm = GroupDataManager :: get_instance();
-
+        
         $target_groups = $this->publication->get_target_groups();
         $target_users = $this->publication->get_target_users();
-
+        
         $defaults[self :: PARAM_TARGET_ELEMENTS] = array();
         foreach ($target_groups as $target_group)
         {
             $group = $gdm->retrieve_group($target_group);
-
+            
             $selected_group = array();
             $selected_group['id'] = 'group_' . $group->get_id();
             $selected_group['classes'] = 'type type_group';
             $selected_group['title'] = $group->get_name();
             $selected_group['description'] = $group->get_description();
-
+            
             $defaults[self :: PARAM_TARGET_ELEMENTS][$selected_group['id']] = $selected_group;
         }
         foreach ($target_users as $target_user)
         {
             $user = $udm->retrieve_user($target_user);
-
+            
             $selected_user = array();
             $selected_user['id'] = 'user_' . $user->get_id();
             $selected_user['classes'] = 'type type_user';
             $selected_user['title'] = $user->get_fullname();
             $selected_user['description'] = $user->get_username();
-
+            
             $defaults[self :: PARAM_TARGET_ELEMENTS][$selected_user['id']] = $selected_user;
         }
-
+        
         if (count($defaults[self :: PARAM_TARGET_ELEMENTS]) > 0)
         {
             $defaults[self :: PARAM_TARGET_OPTION] = '1';
         }
-
+        
         $active = $this->getElement(self :: PARAM_TARGET_ELEMENTS);
         $active->_elements[0]->setValue(serialize($defaults[self :: PARAM_TARGET_ELEMENTS]));
-
+        
         parent :: setDefaults($defaults);
     }
 
@@ -127,7 +127,7 @@ class SurveyPublicationForm extends FormValidator
     function build_form()
     {
         $targets = array();
-
+        
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
         $locale = array();
@@ -137,14 +137,14 @@ class SurveyPublicationForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-
+        
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
         if ($this->testcase != 1)
         {
             $this->add_forever_or_timewindow();
             $this->addElement('checkbox', SurveyPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
         }
-
+    
     }
 
     function add_footer()
@@ -152,7 +152,7 @@ class SurveyPublicationForm extends FormValidator
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-
+    
     }
 
     /**
@@ -172,7 +172,7 @@ class SurveyPublicationForm extends FormValidator
             $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
         }
         $hidden = ($values[SurveyPublication :: PROPERTY_HIDDEN] ? 1 : 0);
-
+        
         if ($values[self :: PARAM_TARGET_OPTION] != 0)
         {
             $user_ids = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
@@ -187,7 +187,7 @@ class SurveyPublicationForm extends FormValidator
                 $user_ids[] = $user->get_id();
             }
         }
-
+        
         $pub = new SurveyPublication();
         $pub->set_content_object($this->content_object->get_id());
         $pub->set_publisher($this->form_user->get_id());
@@ -198,7 +198,7 @@ class SurveyPublicationForm extends FormValidator
         $pub->set_test($this->testcase);
         $pub->set_target_users($user_ids);
         $pub->set_target_groups($group_ids);
-
+        
         if ($pub->create())
         {
             return true;
@@ -212,9 +212,7 @@ class SurveyPublicationForm extends FormValidator
     function create_content_object_publications()
     {
         $values = $this->exportValues();
-
-//        dump($values);
-
+               
         if ($values[self :: PARAM_FOREVER] != 0)
         {
             $from = $to = 0;
@@ -225,7 +223,7 @@ class SurveyPublicationForm extends FormValidator
             $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
         }
         $hidden = ($values[SurveyPublication :: PROPERTY_HIDDEN] ? 1 : 0);
-
+        
         if ($values[self :: PARAM_TARGET_OPTION] != 0)
         {
             $user_ids = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
@@ -240,9 +238,9 @@ class SurveyPublicationForm extends FormValidator
                 $user_ids[] = $user->get_id();
             }
         }
-
+        
         $ids = unserialize($values['ids']);
-
+        
         foreach ($ids as $id)
         {
             $pub = new SurveyPublication();
@@ -255,7 +253,7 @@ class SurveyPublicationForm extends FormValidator
             $pub->set_test($this->testcase);
             $pub->set_target_users($user_ids);
             $pub->set_target_groups($group_ids);
-
+            
             if (! $pub->create())
             {
                 return false;
@@ -267,7 +265,7 @@ class SurveyPublicationForm extends FormValidator
     function update_content_object_publication()
     {
         $values = $this->exportValues();
-
+        
         if ($values[self :: PARAM_FOREVER] != 0)
         {
             $from = $to = 0;
@@ -278,7 +276,7 @@ class SurveyPublicationForm extends FormValidator
             $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
         }
         $hidden = ($values[SurveyPublication :: PROPERTY_HIDDEN] ? 1 : 0);
-
+        
         if ($values[self :: PARAM_TARGET_OPTION] != 0)
         {
             $user_ids = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
@@ -293,16 +291,16 @@ class SurveyPublicationForm extends FormValidator
                 $user_ids[] = $user->get_id();
             }
         }
-
+        
         $pub = $this->publication;
         $pub->set_from_date($from);
         $pub->set_to_date($to);
         $pub->set_hidden($hidden);
-
+        
         $pub->set_target_users($user_ids);
         $pub->set_target_groups($group_ids);
         return $pub->update();
-
+    
     }
 
     /**
