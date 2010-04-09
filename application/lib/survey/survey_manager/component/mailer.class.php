@@ -18,7 +18,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-        $trail->add(new Breadcrumb($this->get_mail_survey_participant_url(), Translation :: get('MailParticipants')));
+//        $trail->add(new Breadcrumb($this->get_mail_survey_participant_url(), Translation :: get('MailParticipants')));
         
         $ids = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         
@@ -29,6 +29,11 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
                 $ids = array($ids);
             }
             
+            if(count($ids) == 1){
+            	$survey_publication = $this->retrieve_survey_publication($ids[0]);
+            	$trail->add(new Breadcrumb($this->get_mail_survey_participant_url($survey_publication), Translation :: get('MailParticipants')));
+            }
+                       
             $surveys = array();
             
             $this->not_started = array();
