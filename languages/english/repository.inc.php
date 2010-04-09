@@ -602,7 +602,12 @@ $lang['repository']['NoPagesSelected'] = '';
 $lang['repository']['PagesAdded'] = '';
 $lang['repository']['PagesNotAdded'] = '';
 $lang['repository']['EditDocument'] = '';
-$lang['repository']['DefaultContext'] = '';
-$lang['repository']['Context'] = '';
-$lang['repository']['CanNotUpdateSurveyContextBecauseSurveyIsPublished'] = '';
+$lang['repository']['SurveyHeaderText'] = 'Survey Header Text';
+$lang['repository']['SurveyFooterText'] = 'Survey Footer Text';
+$lang['repository']['SurveyContext'] = 'Survey Context';
+$lang['repository']['DefaultContext'] = 'Default Context';
+$lang['repository']['Context'] = 'Context';
+$lang['repository']['CanNotUpdateSurveyContextBecauseSurveyIsPublished'] = 'Can not update Survey Context because Survey is published';
+$lang['repository']['ViewDoubles'] = 'View Doubles';
+$lang['repository']['Logout'] = 'Logout';
 ?>
