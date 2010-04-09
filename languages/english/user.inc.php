@@ -5,6 +5,7 @@ $lang['user']['UserCreateExport'] = 'Export user';
 $lang['user']['UserRegister'] = 'Register user';
 $lang['user']['UserCreate'] = 'Create user';
 $lang['user']['Username'] = 'Username';
+$lang['user']['UserCreated'] = 'UserCreated';
 $lang['user']['AddRightsTemplates'] = 'Add Rights Templates';
 $lang['user']['UserList'] = 'User list';
 $lang['user']['UserUpdate'] = 'Update user';
