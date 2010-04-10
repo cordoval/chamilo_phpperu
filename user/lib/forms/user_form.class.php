@@ -116,7 +116,7 @@ class UserForm extends FormValidator
         $group = array();
         $group[] = & $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN, null, Translation :: get('Yes'), 1);
         $group[] = & $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN, null, Translation :: get('No'), 0);
-        $this->addGroup($group, 'admin', Translation :: get('PlatformAdmin'), '&nbsp;');
+        $this->addGroup($group, 'admin', Translation :: get('PlatformAdministrator'), '&nbsp;');
 
         //  Send email
         $group = array();

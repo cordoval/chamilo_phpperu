@@ -42,7 +42,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
             case User :: PROPERTY_STATUS :
                /* if ($user->get_platformadmin() == '1')
                 {
-                    return Translation :: get('PlatformAdmin');
+                    return Translation :: get('PlatformAdministrator');
                 }*/
                 if ($user->get_status() == '1')
                 {

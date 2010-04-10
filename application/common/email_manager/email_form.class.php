@@ -26,10 +26,10 @@ class EmailForm extends FormValidator
     {
 		$this->addElement('category', Translation :: get('Email'));
 		
-    	$this->addElement('text', 'title', Translation :: get('Title'), array('size' => '50'));
+    	$this->addElement('text', 'title', Translation :: get('EmailTitle'), array('size' => '50'));
 		$this->addRule('title', Translation :: get('ThisFieldIsRequired'), 'required');        
 		
-		$this->add_html_editor('message', Translation :: get('Message'), true, array('height' => 500, 'width' => 750));
+		$this->add_html_editor('message', Translation :: get('EmailMessage'), true, array('height' => 500, 'width' => 750));
 		
 		$this->addElement('category');
 		

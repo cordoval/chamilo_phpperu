@@ -665,7 +665,7 @@ class User extends DataClass
     {
         if ($this->get_platformadmin() == '1')
         {
-            return Translation :: get('PlatformAdmin');
+            return Translation :: get('PlatformAdministrator');
         }
         if ($this->get_status() == '1')
         {

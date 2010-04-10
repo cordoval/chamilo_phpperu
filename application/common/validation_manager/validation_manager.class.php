@@ -194,7 +194,7 @@ class ValidationManager
         $aantalval = $adm->count_validations($condition);
         $create_url = $this->get_url(array(ValidationManager :: PARAM_ACTION => ValidationManager :: ACTION_CREATE_VALIDATION, 'pid' => $pid, 'cid' => $cid, 'user_id' => $user_id, 'action' => 'validation'));
         $create_button = $aantalval != 0 ? Theme :: get_common_image_path() . 'buttons/button_confirm.png"' : Theme :: get_common_image_path() . 'action_create.png"';
-        $create_link = '<a href="' . $create_url . '"onclick="if (' . $aantalval . '!=0 ) return confirm(\'' . addslashes(htmlentities(Translation :: get('VatidationExists'))) . '\');"><img src="' . $create_button . '  alt=""/></a>';
+        $create_link = '<a href="' . $create_url . '"onclick="if (' . $aantalval . '!=0 ) return confirm(\'' . addslashes(htmlentities(Translation :: get('ValidationExists'))) . '\');"><img src="' . $create_button . '  alt=""/></a>';
         return $create_link;
     }
 

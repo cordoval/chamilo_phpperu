@@ -149,7 +149,7 @@ abstract class RepoViewerComponent
 
         if (! file_exists($path) || ! is_file($path))
         {
-            $message = Translation :: get('ComponentFailedToLoad') . ': ' . Translation :: get($type);
+            $message = Translation :: get('ComponentFailedToLoad') . ': ' . $type;
             Display :: error_message($message);
         }
 
