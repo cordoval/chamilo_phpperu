@@ -77,7 +77,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
                     $parameters = array();
                     $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                     $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $parent;
-                    $this->redirect(Translation :: get('ObjectCreated'), false, $parameters);
+                    $message = Utilities :: underscores_to_camelcase($object->get_type()) . 'TypeNameCreated';
+                    $this->redirect(Translation :: get($message), false, $parameters);
                 }
             }
             else
