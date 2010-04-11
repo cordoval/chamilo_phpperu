@@ -341,38 +341,39 @@ img {
 
 /* Message boxes */
 .normal-message,.error-message,.warning-message {
-	position: relative;
-	margin: 10px auto;
-	margin-left: -285px;
-	width: 500px;
-	min-height: 32px;
-	left: 50%;
-	right: 50%;
-	border-width: 1px;
-	border-style: dotted;
+	position: fixed;
+	/*margin: 10px auto;
+	margin-left: -285px;*/
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	/*min-height: 22px;*/
+	border-bottom: 1px dotted;
 	background-repeat: no-repeat;
-	background-position: 10px 10px;
-	padding: 10px;
-	padding-left: 50px;
+	background-position: 7px 50%;
+	padding: 7px 30px 7px 30px;
+	clear: both;
+	z-index: 4000;
+	text-align: justify;
 }
 
 .normal-message {
-	background-image: url('../images/common/status_confirmation_medium.png');
+	background-image: url('../images/common/status_confirmation_mini.png');
 	background-color: #E5EDF9;
-	border: 1px solid #b9d0ef;
+	border-bottom: 1px solid #b9d0ef;
 	color: #272761;
 }
 
 .error-message {
-	background-image: url('../images/common/status_error.png');
+	background-image: url('../images/common/status_error_mini.png');
 	background-color: #FFD1D1;
-	border: 1px solid #ff9b9d;
+	border-bottom: 1px solid #ff9b9d;
 	color: #b40404;
 }
 
 .warning-message {
-	background-image: url('../images/common/status_warning.png');
-	border: 1px solid #ffd89b;
+	background-image: url('../images/common/status_warning_mini.png');
+	border-bottom: 1px solid #ffd89b;
 	background-color: #fff8aa;
 	color: #996900;
 }
@@ -1576,29 +1577,33 @@ a.modalCloseImg {
 	display: inline-block;
 }
 
-#closeNormalMessage,#closeErrorMessage,#closeWarningMessage {
-	width: 34px;
-	height: 34px;
-	display: none;
+.close_message, .close_normal_message,.close_error_message,.close_warning_message {
+	float: right;
+	width: 16px;
+	height: 16px;
 	z-index: 3200;
 	position: absolute;
-	top: -12px;
-	right: -12px;
+	top: 50%;
+	right: 7px;
+	margin-top: -8px;
 	cursor: pointer;
 }
 
-#closeNormalMessage {
-	background: url(../images/common/action_close_normal_message.png) no-repeat
-		;
+.close_message
+{
+	background: url(../images/common/action_close_message.png) no-repeat;	
 }
 
-#closeErrorMessage {
+.close_normal_message {
+	background: url(../images/common/action_close_normal_message.png) no-repeat;
+}
+
+.close_error_message {
 	background: url(../images/common/action_close_error_message.png) no-repeat;
 }
 
-#closeWarningMessage {
-	background: url(../images/common/action_close_warning_message.png)
-		no-repeat;
+.close_warning_message {
+	background: url(../images/common/action_close_warning_message.png) no-repeat;
 }
 
 .rightTrue {

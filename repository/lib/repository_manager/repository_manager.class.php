@@ -430,15 +430,6 @@ class RepositoryManager extends CoreApplication
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
 
-        /*$categories = $this->breadcrumbs;
-		if (count($categories) > 0 && $this->get_action() == self :: ACTION_BROWSE_CONTENT_OBJECTS)
-		{
-			foreach($categories as $category)
-			{
-				$breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
-			}
-		}*/
-
         if ($display_menu)
         {
             if (Request :: get('category'))
@@ -477,13 +468,23 @@ class RepositoryManager extends CoreApplication
         }
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
-        if ($msg = Request :: get(Application :: PARAM_MESSAGE))
+        
+        $message = Request :: get(self :: PARAM_MESSAGE);
+        if ($message)
         {
-            $this->display_message($msg);
+            $this->display_message($message);
         }
-        if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
+        
+        $message = Request :: get(self :: PARAM_ERROR_MESSAGE);
+        if ($message)
         {
-            $this->display_error_message($msg);
+            $this->display_error_message($message);
+        }
+        
+        $message = Request :: get(self :: PARAM_WARNING_MESSAGE);
+        if ($message)
+        {
+            $this->display_warning_message($message);
         }
     }
 
