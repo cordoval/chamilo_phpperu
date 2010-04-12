@@ -44,7 +44,7 @@ class NoteToolViewerComponent extends NoteToolComponent
         //echo $this->perform_requested_actions();
         if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
-            if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+            if ($this->get_course()->get_intro_text())
             {
                 echo $this->display_introduction_text($this->introduction_text);
             }
@@ -79,7 +79,7 @@ class NoteToolViewerComponent extends NoteToolComponent
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (! $this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms') && $this->is_allowed(EDIT_RIGHT))
+        if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(NoteTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

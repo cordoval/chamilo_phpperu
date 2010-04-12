@@ -45,7 +45,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupToolComponent
 
         //echo '<br /><a name="top"></a>';
 
-        if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+        if ($this->get_course()->get_intro_text())
         {
             echo $this->display_introduction_text();
         }

@@ -53,7 +53,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
         //echo $this->perform_requested_actions();
         if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
-            if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+            if ($this->get_course()->get_intro_text())
             {
                 echo $this->display_introduction_text($this->introduction_text);
             }
@@ -88,7 +88,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (! $this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
+        if (! $this->introduction_text && $this->get_course()->get_intro_text())
         {
             if ($this->is_allowed(EDIT_RIGHT))
             {
