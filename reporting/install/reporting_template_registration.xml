@@ -7,7 +7,7 @@
 		<property name="template" length="100" type="text" fixed="true"
 			unsigned="1" notnull="1" />
 		<property name="platform" type="integer" unsigned="1"
-			notnull="1" default="1" />
+			notnull="1" default="0" />
 	</properties>
 	<index name="application">
 		<indexproperty name="application" />

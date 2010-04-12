@@ -1,4 +1,0 @@
-lastname;firstname;username;email;language;status;active;official_code;phone;activation_date;expiration_date;auth_source
-Anonymous;Mr;anonymous;admin@localhost.localdomain;english;1;1;ANONYMOUS;;0;0;platform
-Doe;John;admin;admin@localhost.localdomain;english;1;1;ADMIN;;0;0;platform
-Doe;John;JohnDoe;john.doe@nowhere.org;english;1;1;TEST_USER;;0;0;platform
