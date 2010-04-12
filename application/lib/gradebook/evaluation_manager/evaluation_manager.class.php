@@ -104,6 +104,11 @@ class EvaluationManager extends SubManager
         return GradebookDataManager :: get_instance()->retrieve_evaluation($id);
     }
     
+    function retrieve_grade_evaluation($id)
+    {
+    	return GradebookDataManager :: get_instance()->retrieve_grade_evaluation($id);
+    }
+    
     function retrieve_internal_item_by_publication($application, $publication_id)
     {
     	return GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication($application, $publication_id);

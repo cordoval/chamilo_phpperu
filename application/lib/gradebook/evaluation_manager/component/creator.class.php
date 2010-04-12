@@ -1,5 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../forms/evaluation_form.class.php';
+require_once dirname(__FILE__) . '/../../evaluation.class.php';
+require_once dirname(__FILE__) . '/../../grade_evaluation.class.php';
 
 class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
 {
@@ -7,9 +9,11 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
     {
 	    $publication = $this->get_publication();
 	    $failures = 0;
-		$parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $publication->get_id();
+	    $parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $publication->get_id();
 		$parameter_string = base64_encode(serialize($parameters));
-	    $form = new EvaluationForm(EvaluationForm :: TYPE_CREATE, $publication, $this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_CREATE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), $this->get_user());
+		$evaluation = new Evaluation();
+		$grade_evaluation = new GradeEvaluation();
+    	$form = new EvaluationForm(EvaluationForm :: TYPE_CREATE, $evaluation, $grade_evaluation, $publication, $this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_CREATE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), $this->get_user());
     	if(!$form->validate())
     	{
 	        $trail = new BreadcrumbTrail();
@@ -27,7 +31,10 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
 		                   
             $this->redirect($message, $failures, array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string));
 		}
+
     	
+    	 
+    		
 //		$this->parameters = $this->get_parameters();
 //		$type = $this->parameters['type'];
 //        switch ($type)
