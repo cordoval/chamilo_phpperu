@@ -52,7 +52,7 @@ class LinkToolViewerComponent extends LinkToolComponent
         //echo '<br /><a name="top"></a>';
         if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
-            if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+            if ($this->get_course()->get_intro_text())
             {
                 echo $this->display_introduction_text($this->introduction_text);
             }
@@ -90,7 +90,7 @@ class LinkToolViewerComponent extends LinkToolComponent
         if (! Request :: get(Tool :: PARAM_PUBLICATION_ID) && $this->is_allowed(EDIT_RIGHT))
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (! $this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms') && $this->is_allowed(EDIT_RIGHT))
+        if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

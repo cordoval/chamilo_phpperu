@@ -36,7 +36,7 @@ class LearningPathToolBrowserComponent extends LearningPathToolComponent
         $trail->add_help('courses learnpath tool');
         $this->display_header($trail, true);
 
-        if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+        if ($this->get_course()->get_intro_text())
         {
             echo $this->display_introduction_text($this->introduction_text);
         }
@@ -62,7 +62,7 @@ class LearningPathToolBrowserComponent extends LearningPathToolComponent
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Browse'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_BROWSE_LEARNING_PATHS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (! $this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms') && $this->is_allowed(EDIT_RIGHT))
+        if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

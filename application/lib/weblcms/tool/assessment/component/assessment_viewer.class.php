@@ -47,7 +47,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 
         $this->action_bar = $this->get_toolbar(true);
 
-        if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+        if ($this->get_course()->get_intro_text())
         {
             echo $this->display_introduction_text($this->introduction_text);
         }
@@ -89,7 +89,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
         {
             $bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-            if (! $this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
+            if (! $this->introduction_text && $this->get_course()->get_intro_text())
             {
                 $bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }

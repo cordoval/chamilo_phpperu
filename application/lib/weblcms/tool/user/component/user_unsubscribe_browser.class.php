@@ -40,7 +40,7 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 
         //echo '<br /><a name="top"></a>';
         //echo $this->perform_requested_actions();
-        if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+        if ($this->get_course()->get_intro_text())
         {
             echo $this->display_introduction_text();
         }
