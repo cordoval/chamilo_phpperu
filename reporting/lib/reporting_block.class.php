@@ -210,26 +210,46 @@ abstract class ReportingBlock
     public function get_export_links()
     {
         $list = Export :: get_supported_filetypes(array('ical'));
-        $export_bar_items = array();
+        $download_bar_items = array();
+        $save_bar_items = array();
 
         foreach ($list as $export_format)
         {
             $parameters = $this->get_parent()->get_parameters();
-            $parameters [ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
             $parameters [ReportingManager :: PARAM_REPORTING_BLOCK_ID] = $this->get_id();
             $parameters [ReportingManager:: PARAM_TEMPLATE_ID] = $this->get_parent()->get_id();
             $parameters [ReportingManager :: PARAM_EXPORT_TYPE] = $export_format;
             $parameters [ReportingFormatterForm::FORMATTER_TYPE] = $this->get_displaymode();
-
+            $parameters [ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_SAVE_TEMPLATE;
+            
             $link = Redirect::get_url($parameters, array(), false);
             $export_format_name = Translation :: get(Utilities :: underscores_to_camelcase($export_format));
-            $export_bar_items[] = new ToolbarItem($export_format_name, Theme :: get_common_image_path() . 'export_' . $export_format . '.png', $link, ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+            $save_bar_items[] = new ToolbarItem($export_format_name, Theme :: get_common_image_path() . 'export_' . $export_format . '.png', $link, ToolbarItem :: DISPLAY_ICON);
+
+            $parameters [ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
+            
+            $link = Redirect::get_url($parameters, array(), false);
+            $export_format_name = Translation :: get(Utilities :: underscores_to_camelcase($export_format));
+            $download_bar_items[] = new ToolbarItem($export_format_name, Theme :: get_common_image_path() . 'export_' . $export_format . '.png', $link, ToolbarItem :: DISPLAY_ICON);
+            
+            
         }
 
-        $export_bar = new Toolbar();
-        $export_bar->set_items($export_bar_items);
-        $export_bar->set_type(Toolbar :: TYPE_HORIZONTAL);
-        return $export_bar->as_html();
+        $download_bar = new Toolbar();
+        $download_bar->set_items($download_bar_items);
+        $download_bar->set_type(Toolbar :: TYPE_HORIZONTAL);
+        $save_bar = new Toolbar();
+        $save_bar->set_items($save_bar_items);
+        $save_bar->set_type(Toolbar :: TYPE_HORIZONTAL);
+        
+        $html = array();
+        $html[] = '<div style="float:left;">' . Translation::get('Download') . ' : ';
+        $html[] = $download_bar->as_html() . '</div>';
+        $html[] = '<div style="float:left;">&nbsp;|&nbsp;';
+        $html[] = Translation::get('Save') . ' : ';
+        $html[] = $save_bar->as_html() . '</div>';
+        
+        return implode("\n", $html);
     }
 
     /**
