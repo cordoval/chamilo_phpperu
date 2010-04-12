@@ -42,11 +42,13 @@ class AssessmentManagerResultsExporterComponent extends AssessmentManagerCompone
 
     function export($type, $id, $filetype)
     {
-        $exporter = Export :: factory($filetype, 'export_' . $type . $id);
+        
         $results_exporter = ResultsExport :: factory($filetype);
         
         $data = $results_exporter->export_results($type, $id);
-        $exporter->write_to_file($data);
+        $exporter = Export :: factory($filetype, $data);
+        $exporter->set_filename('export_' . $type . $id);
+        $exporter->send_to_browser();
     }
 
 }

@@ -59,13 +59,15 @@ class GroupManagerExporterComponent extends GroupManagerComponent
     }
 
     function export_groups($file_type, $data)
-    {
+    {       
         $filename = 'export_groups_' . date('Y-m-d_H-i-s');
-        $export = Export :: factory($file_type, $filename);
-        if ($file_type == 'pdf')
-            $data = array(array('key' => 'users', 'data' => $data));
-        $export->write_to_file($data);
-        return;
+    	if ($file_type == 'pdf')
+        {
+            $data = array(array('key' => 'groups', 'data' => $data));
+        }
+        $export = Export :: factory($file_type, $data);
+        $export->set_filename($filename);
+        $export->send_to_browser();
     }
 }
 ?>
