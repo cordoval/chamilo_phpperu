@@ -145,7 +145,6 @@ class CourseTypeForm extends FormValidator
 		$this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
 					var image_path = '".Theme :: get_image_path()."';
-					var common_image_path = '".Theme :: get_common_image_path()."';
 					/* ]]> */
 					</script>\n");
 	}
@@ -288,7 +287,6 @@ class CourseTypeForm extends FormValidator
         $this->addElement('html', '</div>');
         $this->addElement('checkbox', CourseTypeRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE, Translation :: get('CodeSubscribeAvailable'), '', array('class' => 'available CodeSubscribe'));
         $this->addElement('html', '<div id="CodeSubscribeBlock">');
-        $this->addElement('text', CourseTypeRights :: PROPERTY_CODE, Translation :: get('EnterCode'), array("size" => "50"));
         $this->add_receivers(self :: SUBSCRIBE_CODE_TARGET, Translation :: get('CodeSubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');
         $this->addElement('category');
@@ -329,10 +327,52 @@ class CourseTypeForm extends FormValidator
 		}
 
 		$course_type_rights = $this->fill_course_type_rights();
-
 		if (!$course_type_rights->update())
 		{
 			return false;
+		}
+		
+		$wdm = WeblcmsDataManager::get_instance();
+		$previous_rights = null;
+		$course_type_rights = null;
+		for($i=0;$i<2;$i++)
+		{
+			switch($i)
+			{
+				case 0:
+					$previous_rights = $wdm->retrieve_course_type_group_subscribe_rights($this->course_type);
+					$course_type_rights = $this->fill_course_type_subscribe_rights();
+					break;
+				case 1:
+					$previous_rights = $wdm->retrieve_course_type_group_unsubscribe_rights($this->course_type);
+					$course_type_rights = $this->fill_course_type_unsubscribe_rights();
+					break;
+			}
+			while($previous_right = $previous_rights->next_result())
+			{
+				$validation = false;
+				foreach($course_type_rights as $index => $right)
+				{
+					if($right->get_group_id() == $previous_right->get_group_id())
+					{
+						if(!$right->update())
+							return false;
+						unset($course_type_rights[$index]);
+						$validation = true;
+					}
+				}
+				if(!$validation)
+				{
+					if(!$previous_right->delete())
+						return false;
+				}
+			}
+			
+			foreach($course_type_rights as $right)
+			{
+				if(!$right->create())
+					return false;
+			}
 		}
 		
 		$course_type_settings = $this->fill_course_type_settings();
@@ -385,8 +425,6 @@ class CourseTypeForm extends FormValidator
 			{
 				$this->parent->get_parent()->load_course($course->get_id());
 				$course = $this->parent->get_parent()->get_course();
-
-				dump($course);
 
 				$course_settings = $this->fill_course_settings($course);
 				if(!$course_settings->update())
@@ -456,6 +494,20 @@ class CourseTypeForm extends FormValidator
 		if (!$course_type_rights->create())
 		{
 			return false;
+		}
+		
+		$course_type_subscribe_rights = $this->fill_course_type_subscribe_rights();
+		foreach($course_type_subscribe_rights as $right)
+		{
+			if(!$right->create())
+				return false;
+		}
+		
+		$course_type_unsubscribe_rights = $this->fill_course_type_unsubscribe_rights();
+		foreach($course_type_unsubscribe_rights as $right)
+		{
+			if(!$right->create())
+				return false;
 		}
 		
 		$course_type_settings = $this->fill_course_type_settings();
@@ -571,7 +623,6 @@ class CourseTypeForm extends FormValidator
 		$course_type_rights->set_code_subscribe_fixed($this->parse_checkbox_value($values[CourseTypeRights :: PROPERTY_CODE_SUBSCRIBE_FIXED]));
 		$course_type_rights->set_unsubscribe_available($this->parse_checkbox_value($values[CourseTypeRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE]));
 		$course_type_rights->set_unsubscribe_fixed($this->parse_checkbox_value($values[CourseTypeRights :: PROPERTY_UNSUBSCRIBE_FIXED]));
-		$course_type_rights->set_code($values[CourseTypeRights :: PROPERTY_CODE]);
 		return $course_type_rights;
 	}
 
@@ -593,6 +644,91 @@ class CourseTypeForm extends FormValidator
 			}
 		}
 		return $tools_array;
+	}
+	
+	function fill_course_type_subscribe_rights()
+	{
+		$values = $this->exportValues();
+		$groups_array = array();
+		$group_key_check = array();
+		
+		for($i=0;$i<3;$i++)
+		{
+			$option = null;
+			$target = null;
+			$subscribe = null;
+			switch($i)
+			{
+				case 0: $target = self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS;
+						$option = self :: SUBSCRIBE_DIRECT_TARGET_OPTION;
+						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_DIRECT;
+						break;
+				case 1: $target = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS;
+						$option = self :: SUBSCRIBE_REQUEST_TARGET_OPTION;
+						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_REQUEST;
+						break;
+				case 2: $target = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS;
+						$option = self :: SUBSCRIBE_CODE_TARGET_OPTION;
+						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_CODE;
+						break;
+			}
+			if($values[$option])
+			{
+				foreach($values[$target]['group'] as $value)
+				{
+					if(!in_array($value, $group_key_check) && !in_array(1, $group_key_check))
+					{
+						$course_type_group_rights = new CourseTypeGroupSubscribeRight();
+						$course_type_group_rights->set_course_type_id($this->course_type->get_id());
+						$course_type_group_rights->set_group_id($value);
+						$course_type_group_rights->set_subscribe($subscribe);
+						$groups_array[] = $course_type_group_rights;
+						$group_key_check[] = $value;
+					}
+				}
+			}
+			else
+			{
+				if(!in_array(1, $group_key_check))
+				{
+					$course_type_group_rights = new CourseTypeGroupSubscribeRight();
+					$course_type_group_rights->set_course_type_id($this->course_type->get_id());
+					$course_type_group_rights->set_group_id(1);
+					$course_type_group_rights->set_subscribe($subscribe);
+					$groups_array[] = $course_type_group_rights;
+					$group_key_check[] = 1;
+				}
+			}
+		}
+		return $groups_array;
+	}
+	
+	function fill_course_type_unsubscribe_rights()
+	{
+		$values = $this->exportValues();
+		$groups_array = array();
+		
+		if($values[self :: UNSUBSCRIBE_TARGET_OPTION])
+		{
+			foreach($values[self :: UNSUBSCRIBE_TARGET_ELEMENTS]['group'] as $value)
+			{
+				$course_type_group_rights = new CourseTypeGroupUnsubscribeRight();
+				$course_type_group_rights->set_course_type_id($this->course_type->get_id());
+				$course_type_group_rights->set_group_id($value);
+				$course_type_group_rights->set_unsubscribe(1);
+				$groups_array[] = $course_type_group_rights;
+			}
+		}
+		else
+		{
+			$course_type_group_rights = new CourseTypeGroupUnsubscribeRight();
+			$course_type_group_rights->set_course_type_id($this->course_type->get_id());
+			$course_type_group_rights->set_group_id(1);
+			$course_type_group_rights->set_unsubscribe(1);
+			$groups_array[] = $course_type_group_rights;
+		}
+		
+		return $groups_array;
 	}
 
 	function fill_course_settings($course)
@@ -639,7 +775,7 @@ class CourseTypeForm extends FormValidator
 		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED]))
 			$course->set_course_languages_visible($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]));
 		return $course->get_layout_settings();
-	}	
+	}
 	/**
 	 * Sets default values. Traditionally, you will want to extend this method
 	 * so it sets default for your learning object type's additional
@@ -667,7 +803,6 @@ class CourseTypeForm extends FormValidator
 
 		$course_type_id = $course_type->get_rights()->get_course_type_id();
 		$course_type_rights = $course_type->get_rights();
-        //if(is_null($course->get_id())) $course_rights = $course->get_rights();
 		$defaults[CourseTypeRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE] = $course_type_id?$course_type_rights->get_direct_subscribe_available():1;
 		$defaults[CourseTypeRights :: PROPERTY_DIRECT_SUBSCRIBE_FIXED] = $course_type_rights->get_direct_subscribe_fixed();
 		$defaults[CourseTypeRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE] = $course_type_rights->get_request_subscribe_available();
@@ -677,6 +812,74 @@ class CourseTypeForm extends FormValidator
 		$defaults[CourseTypeRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE] = $course_type_id?$course_type_rights->get_unsubscribe_available():1;
 		$defaults[CourseTypeRights :: PROPERTY_UNSUBSCRIBE_FIXED] = $course_type_rights->get_unsubscribe_fixed();
 		$defaults[CourseTypeRights :: PROPERTY_CODE] = $course_type_rights->get_code();
+		
+		$defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '0';
+		$defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '0';
+		$defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '0';
+		$defaults[self :: UNSUBSCRIBE_TARGET_OPTION] = '0';
+		
+		if(!is_null($course_type->get_id()))
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			$course_type_group_subscribe_rights = $wdm->retrieve_course_type_group_subscribe_rights($course_type);
+			$course_type_group_unsubscribe_rights = $wdm->retrieve_course_type_group_unsubscribe_rights($course_type);
+			
+			while($right = $course_type_group_subscribe_rights->next_result())
+			{
+				if($right->get_group_id() != 1)
+				{
+					$element = null;
+					switch($right->get_subscribe())
+					{
+						case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT: $element = self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS; break;
+						case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST: $element = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS; break;
+						case CourseGroupSubscribeRight :: SUBSCRIBE_CODE: $element = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS; break;
+					}
+					
+					$selected_group = $this->get_group_array($right->get_group_id());
+		            $defaults[$element][$selected_group['id']] = $selected_group;
+				}
+			}
+			
+			while($right = $course_type_group_unsubscribe_rights->next_result())
+			{
+				if($right->get_group_id() != 1)
+				{
+					$element = self :: UNSUBSCRIBE_TARGET_ELEMENTS;
+					$selected_group = $this->get_group_array($right->get_group_id());
+		            $defaults[$element][$selected_group['id']] = $selected_group;
+				}
+			}
+			
+			if (count($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]) > 0)
+			{
+	            $defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '1';
+	            $active = $this->getElement(self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS);
+	        	$active->setValue($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]);
+			}
+	        
+	    	if (count($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]) > 0)
+	    	{
+	            $defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '1';
+	            $active = $this->getElement(self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS);
+	        	$active->setValue($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]);
+	    	}
+	        
+	    	if (count($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]) > 0)
+	        {
+	            $defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '1';
+	            $active = $this->getElement(self :: SUBSCRIBE_CODE_TARGET_ELEMENTS);
+	        	$active->setValue($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]);
+	        }
+	        
+			if (count($defaults[self :: UNSUBSCRIBE_TARGET_ELEMENTS]) > 0)
+	        {
+	            $defaults[self :: UNSUBSCRIBE_TARGET_OPTION] = '1';
+	            $active = $this->getElement(self :: UNSUBSCRIBE_TARGET_ELEMENTS);
+	        	$active->setValue($defaults[self :: UNSUBSCRIBE_TARGET_ELEMENTS]);
+	        }
+			
+		}
 		
 		//Layout defaults.
 		$course_type_id = $course_type->get_layout_settings()->get_course_type_id();
@@ -743,6 +946,18 @@ class CourseTypeForm extends FormValidator
 		parent :: setDefaults($defaults);
 	}
 
+    function get_group_array($group_id)
+    {
+    	$gdm = GroupDataManager :: get_instance();
+    	$group = $gdm->retrieve_group($group_id);
+		$selected_group = array();
+		$selected_group['id'] = 'group_' . $group->get_id();
+		$selected_group['classes'] = 'type type_group';
+		$selected_group['title'] = $group->get_name();
+		$selected_group['description'] = $group->get_name();
+		return $selected_group;
+    }
+	
 	function get_form_type()
 	{
 		return $this->form_type;

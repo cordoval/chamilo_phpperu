@@ -26,13 +26,12 @@ class CourseRights extends DataClass
      */
     static function get_default_property_names($extended_property_names = array())
     {
-        if(empty($extended_property_names)) $extended_property_names = array(self :: PROPERTY_COURSE_ID);
+        if(empty($extended_property_names)) $extended_property_names = array(self :: PROPERTY_COURSE_ID, self :: PROPERTY_CODE);
         return array_merge($extended_property_names,
         		array(self :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE,
         			  self :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE,
         			  self :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE,
-        			  self :: PROPERTY_UNSUBSCRIBE_AVAILABLE,
-        			  self :: PROPERTY_CODE));
+        			  self :: PROPERTY_UNSUBSCRIBE_AVAILABLE));
     }
     
     /**

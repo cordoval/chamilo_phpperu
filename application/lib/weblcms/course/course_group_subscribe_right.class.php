@@ -39,11 +39,12 @@ class CourseGroupSubscribeRight extends DataClass
      * Get the default properties of all courses.
      * @return array The property names.
      */
-    static function get_default_property_names()
+    static function get_default_property_names($extended_property_names = array())
     {
-        return array(self :: PROPERTY_COURSE_ID,
-        		  	 self :: PROPERTY_GROUP_ID,
-        		  	 self :: PROPERTY_SUBSCRIBE);
+        if(empty($extended_property_names)) $extended_property_names = array(self :: PROPERTY_COURSE_ID);
+        return array_merge($extended_property_names,
+        	array(	self :: PROPERTY_GROUP_ID,
+        		  	self :: PROPERTY_SUBSCRIBE));
     }
     
     /*
