@@ -81,8 +81,8 @@ if (Authentication :: is_valid())
         $udm = UserDataManager :: get_instance();
         $wdm = WeblcmsDataManager :: get_instance();
 
-        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course);
-        $course_user_relation_result_set = $wdm->retrieve_course_user_relations();
+        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course->get_id());
+        $course_user_relation_result_set = $wdm->retrieve_course_user_relations($relation_condition);
 
         $user_ids = array();
         while ($course_user = $course_user_relation_result_set->next_result())
