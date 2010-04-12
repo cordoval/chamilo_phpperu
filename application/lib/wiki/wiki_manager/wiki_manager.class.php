@@ -129,7 +129,13 @@ class WikiManager extends WebApplication
  	
     function get_evaluation_publication_url($wiki_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, 'publication' => $wiki_publication->get_id()));
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        	$parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $wiki_publication->get_id();
+        	$parameter_string = base64_encode(serialize($parameters));
+        	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, EvaluationManager :: PARAM_PARAMETERS => $parameter_string));
+        }
     }
 
     function get_update_wiki_publication_url($wiki_publication)

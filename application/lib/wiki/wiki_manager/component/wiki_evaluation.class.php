@@ -5,22 +5,20 @@ class WikiManagerWikiEvaluationComponent extends WikiManagerComponent
 {
     function run()
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('Wiki')));
-        $trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, 'publication' => Request :: get('publication'))), Translation :: get('WikiEvaluation')));
-        $this->display_header($trail);
-        if (Request :: get('publication'))
+        if (Request :: get('parameters'))
         {
-        	$wiki_publication_id = Request :: get('publication');
-        	$wiki_publication = $this->retrieve_wiki_publication($wiki_publication_id);
-
+        	$parameter_string = Request :: get('parameters');
+        	$parameters = unserialize(base64_decode($parameter_string));
+        }
+        if ($parameters[EvaluationManager :: PARAM_PUBLICATION_ID])
+        {
+        	$wiki_publication = $this->retrieve_wiki_publication($parameters[EvaluationManager :: PARAM_PUBLICATION_ID]);
 			$evaluation_manager = new EvaluationManager($this, $wiki_publication, Request :: get('action'));
         }  
         else
         {
-        	echo 'no wiki publication selected';
+            $this->display_error_message(Translation :: get('NoWikiPublicationsSelected'));
         }
-        $this->display_footer();
     }    
 }
 ?>

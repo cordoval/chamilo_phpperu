@@ -4,7 +4,9 @@ class EvaluationManagerDeleterComponent extends EvaluationManagerComponent
 	function run()
 	{
 		$publication = $this->get_publication();
-		$ids = $_GET[EvaluationManager :: PARAM_EVALUATION];
+		$parameter_string = Request :: get('parameters');
+		$parameters = unserialize(base64_decode($parameter_string));
+		$ids = $parameters[EvaluationManager :: PARAM_EVALUATION_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -47,7 +49,7 @@ class EvaluationManagerDeleterComponent extends EvaluationManagerComponent
                 }
             }
             
-		$this->redirect($message, $failures, array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE,EvaluationManager :: PARAM_PUBLICATION => $publication->get_id()));        
+		$this->redirect($message, $failures, array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE,EvaluationManager :: PARAM_PARAMETERS => $parameter_string));        
         }
         else
         {
