@@ -7,9 +7,7 @@ class EvaluationManagerBrowserComponent extends EvaluationManagerComponent
 
     function run()
     {   
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array())));
-        $trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, 'publication' => Request :: get('publication'))), Translation :: get('WikiEvaluation')));
+    	$trail = $this->get_parent()->get_trail();
     	$this->display_header($trail);
         $this->action_bar = $this->get_toolbar();
         echo $this->action_bar->as_html();
@@ -33,16 +31,6 @@ class EvaluationManagerBrowserComponent extends EvaluationManagerComponent
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateEvaluation'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_CREATE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
-    }
-    
-    function display_header()
-    {
-    	$this->get_parent()->display_header();
-    }
-    
-    function display_footer()
-    {
-    	$this->get_parent()->display_footer();
     }
 }
 ?>

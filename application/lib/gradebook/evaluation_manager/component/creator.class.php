@@ -16,9 +16,8 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
     	$form = new EvaluationForm(EvaluationForm :: TYPE_CREATE, $evaluation, $grade_evaluation, $publication, $this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_CREATE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), $this->get_user());
     	if(!$form->validate())
     	{
-	        $trail = new BreadcrumbTrail();
-	        $trail->add(new Breadcrumb($this->get_url(array())));
-	        $trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, 'publication' => Request :: get('publication'))), Translation :: get('Evaluation')));
+    		$trail = $this->get_parent()->get_trail();
+    		$trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), Translation :: get('CreateEvaluation')));
 	    	$this->display_header($trail);
     		$form->display();
     		$this->display_footer();
@@ -56,16 +55,6 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
 //                break;
 //        }
 	}
-    
-    function display_header()
-    {
-    	$this->get_parent()->display_header();
-    }
-    
-    function display_footer()
-    {
-    	$this->get_parent()->display_footer();
-    }
 //	
 //	function create_evaluation()
 //	{

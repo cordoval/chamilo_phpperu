@@ -21,8 +21,9 @@ class EvaluationManager extends SubManager
 	
 	private $parameters;
 	private $publication;
+	private $trail;
 	
-	function EvaluationManager($parent, $publication, $action)
+	function EvaluationManager($parent, $publication, $action, $trail)
 	{
         parent :: __construct($parent);
         if ($action)
@@ -30,6 +31,7 @@ class EvaluationManager extends SubManager
             $this->set_parameter(self :: PARAM_ACTION, $action);
         }
         $this->set_publication($publication);
+        $this->set_trail($trail);
 //        $this->set_parameters($parameters);
         $this->run();
 	}
@@ -81,6 +83,16 @@ class EvaluationManager extends SubManager
     function get_publication()
     {
     	return $this->publication;
+    }
+    
+    function set_trail($trail)
+    {
+    	$this->trail = $trail;
+    }
+    
+    function get_trail()
+    {
+    	return $this->trail;
     }
     
     // database
