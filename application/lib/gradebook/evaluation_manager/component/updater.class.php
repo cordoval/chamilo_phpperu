@@ -22,7 +22,12 @@ class EvaluationManagerUpdaterComponent extends EvaluationManagerComponent
             }
             else
             {
+		        $trail = new BreadcrumbTrail();
+		        $trail->add(new Breadcrumb($this->get_url(array())));
+		        $trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, 'publication' => Request :: get('publication'))), Translation :: get('WikiEvaluation')));
+            	$this->display_header($trail);
                 $pub_form->display();
+            	$this->display_footer();
             }
         
         /*}
