@@ -19,15 +19,6 @@ class ReportingChartFormatter extends ReportingFormatter
         return $this->get_chart_instance()->to_html();
     } //to_html
 
-    
-    /**
-     * Returns the link to the image without html
-     */
-    public function to_link()
-    {
-        return $this->get_chart_instance()->to_link();
-    }
-
     function get_type_name($value)
     {
     	switch($value)
