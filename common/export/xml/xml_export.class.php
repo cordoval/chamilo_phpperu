@@ -10,27 +10,22 @@ require_once dirname(__FILE__) . '/../export.class.php';
  */
 class XmlExport extends Export
 {
-    private $handle;
     private $level = 0;
-
-    public function write_to_file($data)
+    const EXPORT_TYPE = 'xml';
+    
+    public function render_data()
     {
-    	$file = $this->get_path(SYS_TEMP_PATH) . Filesystem :: create_unique_name($this->get_path(SYS_TEMP_PATH), $this->get_filename());
-        $this->handle = fopen($file, 'a+');
-        fwrite($this->handle, '<?xml version="1.0" encoding="ISO-8859-1"?>' . "\n");
-        fwrite($this->handle, str_repeat("\t", $this->level) . '<rootItem>' . "\n");
+    	$all = '<?xml version="1.0" encoding="ISO-8859-1"?>' . "\n";
+        $all .= str_repeat("\t", $this->level) . '<rootItem>' . "\n";
         $this->level ++;
-        $this->write_array($data);
+        $all .= $this->write_array($this->get_data());
         $this->level --;
-        fwrite($this->handle, str_repeat("\t", $this->level) . '</rootItem>' . "\n");
-        fclose($this->handle);
-        Filesystem :: file_send_for_download($file, true, $file);
-        exit();
+        $all .= str_repeat("\t", $this->level) . '</rootItem>' . "\n";
+        return $all;
     }
 
     public function write_array($row)
     {
-    	
         foreach ($row as $key => $value)
         {
             if (is_numeric($key))
@@ -38,17 +33,23 @@ class XmlExport extends Export
             
             if (is_array($value))
             {
-                fwrite($this->handle, str_repeat("\t", $this->level) . '<' . $key . '>' . "\n");
+                $all .= str_repeat("\t", $this->level) . '<' . $key . '>' . "\n";
                 $this->level ++;
-                $this->write_array($value);
+                $all .= $this->write_array($value);
                 $this->level --;
-                fwrite($this->handle, str_repeat("\t", $this->level) . '</' . $key . '>' . "\n");
+                $all .= str_repeat("\t", $this->level) . '</' . $key . '>' . "\n";
             }
             else
             {
-                fwrite($this->handle, str_repeat("\t", $this->level) . '<' . $key . '>' . $value . '</' . $key . '>' . "\n");
+                $all .=  str_repeat("\t", $this->level) . '<' . $key . '>' . $value . '</' . $key . '>' . "\n";
             }
         }
+        return $all;
     }
+    
+	 function get_type()
+	 {
+	 	return self :: EXPORT_TYPE;
+	 }
 }
 ?>

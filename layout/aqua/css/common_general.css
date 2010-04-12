@@ -1643,6 +1643,12 @@ a.modalCloseImg {
 	overflow: auto;
 }
 
+.reporting_block div.toolbar {
+	display: inline;
+	float: right;
+	clear: none;
+}
+
 .reporting_header {
 	margin: 0px;
 	padding: 5px;

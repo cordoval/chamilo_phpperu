@@ -30,6 +30,8 @@ abstract class ReportingExporter
     
     abstract function export();
     
+    abstract function save();
+    
     function get_template()
     {
     	return $this->template;

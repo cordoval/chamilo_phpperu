@@ -9,50 +9,36 @@ require_once dirname(__FILE__) . '/../export.class.php';
  */
 class PdfExport extends Export
 {
-
-    public function write_to_file($data)
+	const EXPORT_TYPE = 'pdf';
+	
+    public function render_data()
     {
-        require_once Path :: get_plugin_path() . 'ezpdf/class.ezpdf.php';
-        $pdf = & new Cezpdf();
-        $pdf->selectFont(Path :: get_plugin_path() . 'ezpdf/fonts/Helvetica.afm');
-        foreach ($data as $datapair)
-        {
-            $title = $datapair['key'];
-            $table_data = $datapair['data'];
-            $pdf->ezTable($table_data, null, $title, array('fontSize' => 5));
-        }
-        $pdf->ezStream();
+    	$data = $this->get_data();
+    	if (is_array($data))
+    	{
+	    	require_once Path :: get_plugin_path() . 'ezpdf/class.ezpdf.php';
+	        $pdf = & new Cezpdf();
+	        $pdf->selectFont(Path :: get_plugin_path() . 'ezpdf/fonts/Helvetica.afm');
+	        foreach ($data as $datapair)
+	        {
+	            $title = $datapair['key'];
+	            $table_data = $datapair['data'];
+	            $pdf->ezTable($table_data, null, $title, array('fontSize' => 5));
+	        }
+	        return $pdf->ezOutput();
+    	}
+    	else
+    	{
+    		require_once Path :: get_plugin_path() . 'html2pdf/html2pdf.class.php';
+        	$pdf = new HTML2PDF('p', 'A4', 'en');
+        	$pdf->WriteHTML($pdf->getHtmlFromPage($data));
+        	return $pdf->Output('', 'S');
+    	}
     }
-
-    public function write_to_file_html($html)
-    {
-        require_once Path :: get_plugin_path() . 'html2pdf/html2pdf.class.php';
-//    	require_once Path :: get_plugin_path() . 'html2fpdf/html2fpdf.php';
-
-        //$htmlFile = 'http://localhost/chamilo20/run.php?go=courseviewer&course=1&tool=reporting&application=weblcms';
-        //$buffer = file_get_contents($htmlFile);
-
-//        $pdf = new HTML2FPDF('P', 'mm', 'a4');
-//        $pdf->AddPage();
-//        $pdf->WriteHTML($html);
-//        $pdf->Output($this->get_filename(), 'D');
-
-        $pdf = new HTML2PDF('p', 'A4', 'en');
-//        $pdf->AddPage();
-//        $pdf->WriteHTML($html);
-        $pdf->WriteHTML($pdf->getHtmlFromPage($html));
-        $pdf->Output($this->get_filename(), 'D');
-
-    //        require_once Path :: get_plugin_path().'dompdf/dompdf_config.inc.php';
-    //        $theme = Theme :: get_instance();
-    //        $dompdf = new DOMPDF();
-    //        $dompdf->load_html($html);
-    //        //$dompdf->set_base_path($theme->get_path(WEB_CSS_PATH));
-    //        //echo $dompdf->get_base_path();
-    //        //echo Theme :: get_css_path();
-    //        $dompdf->render();
-    //        $dompdf->stream("sample.pdf");
-    }
-
+    
+	 function get_type()
+	 {
+	 	return self :: EXPORT_TYPE;
+	 }
 }
 ?>

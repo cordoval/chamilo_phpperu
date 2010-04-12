@@ -3,13 +3,20 @@ class ReportingCsvExporter extends ReportingExporter
 {
 	function export()
     {
-        $file = $this->get_file_name();
-        $export = Export :: factory('csv', $file);
-
-        $data = $this->convert_data();
-		$export->write_to_file($data); 
+		$file = $this->get_file_name();
+        $export = Export :: factory('csv', $this->convert_data());
+        $export->set_filename($this->get_file_name());
+    	$export->send_to_browser(); 
     }
     
+    function save()
+    {
+    	$file = $this->get_file_name();
+        $export = Export :: factory('csv', $this->convert_data());
+        $export->set_filename($this->get_file_name());
+    	return $export->render_data(); 
+    }
+
     function convert_data()
     {
     	$template = $this->get_template();
