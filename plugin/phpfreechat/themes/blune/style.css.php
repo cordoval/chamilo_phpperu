@@ -23,6 +23,11 @@ span.pfc_nick {
   color:#2A4064;
 }
 
+span.pfc_heure 
+{
+  color:#000000;
+}
+
 div#pfc_errors {
   display: none;
   margin-top: 5px;
