@@ -52,7 +52,12 @@ class EvaluationForm extends FormValidator
 		{
 			$formats_array[$format->get_id()] = $format->get_title();
 		}
-		$this->addElement('select', Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array);
+		$select = $this->add_select(Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array);
+        $select->setSelected($this->evaluation->get_format_id());
+        
+        
+       // dump($this->evaluation->get_format_id() = $formats_array[$this->evaluation->get_format_id()]);exit;
+        
 		$this->add_textfield(GradeEvaluation :: PROPERTY_SCORE, Translation :: get('EvaluationScore'), true);
 		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('Comment'), true);
     }
@@ -91,7 +96,7 @@ class EvaluationForm extends FormValidator
 		$evaluation->set_evaluator_id($this->user->get_id());
 		$evaluation->set_user_id($this->publication->get_publisher());
 		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
-		$evaluation->set_format_id($values['format_list']);
+		$evaluation->set_format_id($values['format_id']);
 		if(!$evaluation->create())
 		{
 			return false;
@@ -125,7 +130,7 @@ class EvaluationForm extends FormValidator
 		$evaluation->set_evaluator_id($this->user->get_id());
 		$evaluation->set_user_id($this->publication->get_publisher());
 		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
-		$evaluation->set_format_id($values['format_list']);
+		$evaluation->set_format_id($values['format_id']);
 		if(!$evaluation->update())
 		{
 			return false;
