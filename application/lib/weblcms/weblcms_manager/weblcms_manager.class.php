@@ -27,6 +27,8 @@ require_once dirname(__FILE__) . '/../course_type/course_type_layout.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_settings.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_tool.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_rights.class.php';
+require_once dirname(__FILE__) . '/../course_type/course_type_group_subscribe_right.class.php';
+require_once dirname(__FILE__) . '/../course_type/course_type_group_unsubscribe_right.class.php';
 
 /**
  ==============================================================================
