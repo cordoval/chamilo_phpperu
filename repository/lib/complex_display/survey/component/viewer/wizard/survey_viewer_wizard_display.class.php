@@ -40,7 +40,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             $html[] = '<br />';
 
-            if (strlen($this->parent->get_survey()->get_introduction_text()) > 0)
+            if (strlen(strip_tags($this->parent->get_survey()->get_introduction_text(), '<img>')) > 0)
             {
                 $html[] = '<div class="description">';
                 $introduction = $this->parent->get_survey()->get_introduction_text();
@@ -51,7 +51,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             $html[] = '<br />';
 
-            if (strlen($this->parent->get_page($current_page->get_page_number())->get_introduction_text()) > 0)
+            if (strlen(strip_tags($this->parent->get_page($current_page->get_page_number())->get_introduction_text(), '<img>')) > 0)
             {
                 $html[] = '<div class="description">';
                 $introduction = $this->parent->get_page($current_page->get_page_number())->get_introduction_text();
@@ -71,9 +71,9 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             $html[] = '<div class="assessment">';
 
-            if (strlen($this->parent->get_page($current_page->get_page_number())->get_finish_text()) > 0)
+            if (strlen(strip_tags($this->parent->get_page($current_page->get_page_number())->get_finish_text(), '<img>')) > 0)
             {
-           	
+
             	$html[] = '<div class="description">';
                 $finishtext = $this->parent->get_page($current_page->get_page_number())->get_finish_text();
 
@@ -84,9 +84,9 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             $html[] = '<br />';
 
-            if (strlen($this->parent->get_survey()->get_finish_text()) > 0)
+            if (strlen(strip_tags($this->parent->get_survey()->get_finish_text(), '<img>')) > 0)
             {
-                
+
             	$html[] = '<div class="description">';
                 $finishtext = $this->parent->get_survey()->get_finish_text();
 

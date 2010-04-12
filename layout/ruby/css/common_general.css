@@ -2008,6 +2008,13 @@ div.assessment div.description
 	background-color: #f4f4f4;
 }
 
+div.assessment div.information
+{
+	padding: 6px 10px 6px 10px;
+	border: 1px solid #cecece;
+	background-color: #f4f4f4;
+}
+
 div.assessment div.description p
 {
 	margin: 0px;
