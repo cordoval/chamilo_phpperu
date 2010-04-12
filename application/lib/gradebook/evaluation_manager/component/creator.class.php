@@ -18,7 +18,7 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
     	{
 	        $trail = new BreadcrumbTrail();
 	        $trail->add(new Breadcrumb($this->get_url(array())));
-	        $trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, 'publication' => Request :: get('publication'))), Translation :: get('WikiEvaluation')));
+	        $trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, 'publication' => Request :: get('publication'))), Translation :: get('Evaluation')));
 	    	$this->display_header($trail);
     		$form->display();
     		$this->display_footer();

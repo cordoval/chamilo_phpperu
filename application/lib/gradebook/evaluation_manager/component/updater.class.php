@@ -19,7 +19,7 @@ class EvaluationManagerUpdaterComponent extends EvaluationManagerComponent
          //   if (! Request :: get('validated'))
           //      $success = $form->update_content_object();
             
-            $pub_form = new EvaluationForm(EvaluationForm :: TYPE_EDIT, $evaluation, $grade_evaluation, $publication, $this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ID => $evaluation->get_id(), 'validated' => 1, EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), $this->get_user());
+            $pub_form = new EvaluationForm(EvaluationForm :: TYPE_EDIT, $evaluation, $grade_evaluation, $publication, $this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ID => $evaluation->get_id(), EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), $this->get_user());
             if ($pub_form->validate())
             {
                 $success = $pub_form->update_evaluation($evaluation->get_id());

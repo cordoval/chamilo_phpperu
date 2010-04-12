@@ -33,7 +33,7 @@ class EvaluationForm extends FormValidator
         {
             $this->build_creation_form();
         }
-
+		$this->setEvaluationDefaults();
     }
     
     function build_basic_form()
@@ -47,13 +47,12 @@ class EvaluationForm extends FormValidator
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();*/
-		
         $formats = GradebookDataManager :: get_instance()->retrieve_all_active_evaluation_formats();
 		while($format = $formats->next_result())
 		{
 			$formats_array[$format->get_id()] = $format->get_title();
 		}
-		$this->addElement('select', self :: PARAM_FORMAT_LIST, Translation :: get('EvaluationFormat'), $formats_array);
+		$this->addElement('select', Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array);
 		$this->add_textfield(GradeEvaluation :: PROPERTY_SCORE, Translation :: get('EvaluationScore'), true);
 		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('Comment'), true);
     }
@@ -148,7 +147,7 @@ class EvaluationForm extends FormValidator
 		{
 			return false;
 		}
-		$this->setEvaluationDefaults();
+		
 		return true;
 	}
     // Default values (setter)
