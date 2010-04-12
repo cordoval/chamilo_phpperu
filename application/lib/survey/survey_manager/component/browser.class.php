@@ -49,10 +49,23 @@ class SurveyManagerBrowserComponent extends SurveyManagerComponent
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         $action_bar->set_search_url($this->get_url());
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        if (SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', 'survey_component'))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_manage_survey_publication_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('TestSurveys'), Theme :: get_common_image_path() . 'action_category.png', $this->get_testcase_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        if (SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'category_manager', 'survey_component'))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_manage_survey_publication_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
+        if (SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'testcase_browser', 'survey_component'))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('TestSurveys'), Theme :: get_common_image_path() . 'action_category.png', $this->get_testcase_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
         
         //        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewResultsSummary'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_survey_results_viewer_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         //        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportSurvey'), Theme :: get_common_image_path() . 'action_import.png', $this->get_import_survey_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -103,14 +116,14 @@ class SurveyManagerBrowserComponent extends SurveyManagerComponent
             
             $dates = array();
             $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
-           	$interval[]	= new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
+            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
             $dates[] = new AndCondition($interval);
-          	$dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0)));
+            $dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0)));
             $conditions[] = new OrCondition($dates);
-
+            
             return new AndCondition($conditions);
         }
-        
+    
     }
 }
 ?>

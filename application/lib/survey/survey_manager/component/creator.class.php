@@ -13,7 +13,15 @@ class SurveyManagerCreatorComponent extends SurveyManagerComponent
     function run()
     {
         
-        $action = Request :: get(SurveyManager :: PARAM_ACTION);
+    	if (! SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', 'sts_component'))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+    	
+    	$action = Request :: get(SurveyManager :: PARAM_ACTION);
         $testcase = false;
         if ($action === SurveyManager :: ACTION_TESTCASE)
         {

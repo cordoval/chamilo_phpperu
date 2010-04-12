@@ -20,17 +20,17 @@ class SurveyRights
 
     function is_allowed($right, $location, $type)
     {
-        return RightsUtilities :: is_allowed($right, $location, $type, SurveyManager :: APPLICATION_NAME);
+        return RightsUtilities :: is_allowed($right, $location, $type, SurveyManager :: APPLICATION_NAME );
     }
 
-    function get_location_by_identifier($type, $identifier)
+    function get_location_by_identifier($type, $identifier, $tree_identifier = '0', $tree_type = 'root')
     {
-        return RightsUtilities :: get_location_by_identifier(SurveyManager :: APPLICATION_NAME, $type, $identifier);
+        return RightsUtilities :: get_location_by_identifier(SurveyManager :: APPLICATION_NAME, $type, $identifier, $tree_identifier, $tree_type);
     }
 
-    function get_location_id_by_identifier($type, $identifier)
+    function get_location_id_by_identifier($type, $identifier, $tree_identifier = '0', $tree_type = 'root')
     {
-        return RightsUtilities :: get_location_id_by_identifier(SurveyManager :: APPLICATION_NAME, $type, $identifier);
+        return RightsUtilities :: get_location_id_by_identifier(SurveyManager :: APPLICATION_NAME, $type, $identifier, $tree_identifier, $tree_type);
     }
 
     function get_root_id()
