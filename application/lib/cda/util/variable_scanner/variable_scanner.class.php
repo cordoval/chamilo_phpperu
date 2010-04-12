@@ -27,7 +27,7 @@ class VariableScanner
 			$this->log_handle = null;
 		}
 		
-		$this->log_handle = fopen(dirname(__FILE__) . '/logs/' . $language_pack_name . '.log', 'w');
+		$this->log_handle = fopen(dirname(__FILE__) . '/logs/' . $language_pack_name . '.log', 'w+');
 		
 		$this->scan_directory($root);
 	}
@@ -45,7 +45,7 @@ class VariableScanner
 			
 			if(substr($file, -4) == '.php')
 			{
-				$this->log('Scanning file: ' . realpath($file));
+//				$this->log('Scanning file: ' . realpath($file));
 				
 				$contents = file_get_contents($file); 
 				
@@ -58,13 +58,13 @@ class VariableScanner
 				
 		        if($count == 0)
 		        {
-		        	$this->log('No variables found');
+//		        	$this->log('No variables found');
 		        }
 			}
 		}
 		
-		$this->log('Total valid variables: ' . $total_valid_variables);
-		$this->log('Total invalid variables: ' . $total_invalid_variables);
+//		$this->log('Total valid variables: ' . $total_valid_variables);
+//		$this->log('Total invalid variables: ' . $total_invalid_variables);
 	}
 	
 	private function scan_for_valid_variables($contents)
@@ -75,7 +75,7 @@ class VariableScanner
         
         foreach($matches[2] as $match)
         {
-        	$this->log('Variable found: ' . $match);
+//        	$this->log('Variable found: ' . $match);
         	$this->handle_variable($match);
         }
         

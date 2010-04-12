@@ -560,5 +560,10 @@ class Utilities
     	}
     	return '<img src="' . Theme :: get_common_image_path() . $icon . '">';
     }
+    
+    static function htmlentities($string)
+    {
+    	return htmlentities($string, ENT_COMPAT, 'UTF-8');
+    }
 }
 ?>

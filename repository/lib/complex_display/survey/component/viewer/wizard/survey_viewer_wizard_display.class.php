@@ -32,17 +32,6 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
             $html[] = '<div class="assessment">';
             $html[] = '<h2>' . $this->parent->get_survey()->get_title() . '</h2>';
 
-            //            if ($this->parent->get_survey()->has_description() && $current_page->get_page_number() == 1)
-            //            {
-            //                $html[] = '<div class="description">';
-            //                $description = $this->parent->get_survey()->get_description();
-            //
-            //                $html[] = $this->parent->get_parent()->parse($description);
-            //
-            //                $html[] = '</div>';
-            //            }
-
-
             $html[] = '<br />';
 
             $html[] = '<div style="width: 100%; text-align: center;">';
@@ -84,7 +73,8 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             if (strlen($this->parent->get_page($current_page->get_page_number())->get_finish_text()) > 0)
             {
-                $html[] = '<div class="description">';
+           	
+            	$html[] = '<div class="description">';
                 $finishtext = $this->parent->get_page($current_page->get_page_number())->get_finish_text();
 
                 $html[] = $this->parent->get_parent()->parse($finishtext);
@@ -96,7 +86,8 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             if (strlen($this->parent->get_survey()->get_finish_text()) > 0)
             {
-                $html[] = '<div class="description">';
+                
+            	$html[] = '<div class="description">';
                 $finishtext = $this->parent->get_survey()->get_finish_text();
 
                 $html[] = $this->parent->get_parent()->parse($finishtext);

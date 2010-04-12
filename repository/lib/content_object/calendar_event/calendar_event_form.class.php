@@ -129,6 +129,8 @@ class CalendarEventForm extends ContentObjectForm
             else
             {
                 $defaults[self :: PARAM_REPEAT] = 0;
+                $defaults[CalendarEvent :: PROPERTY_START_DATE] = time();
+            	$defaults[CalendarEvent :: PROPERTY_END_DATE] = strtotime('+1 Hour', time());
             }
         }
         else

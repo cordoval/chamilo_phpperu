@@ -246,11 +246,12 @@ class AssessmentPublicationForm extends FormValidator
             {
             	$this->publication = $pub;
             }
-            if(Request :: post('evaluation'))
-            {
-            	require_once dirname (__FILE__) . '/../../gradebook/forms/evaluation_form.class.php';
-            	EvaluationForm :: get_internal_item($this->publication);
-            }
+			if(Request :: post('evaluation'))
+			{
+		        require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
+		        $gradebook_internal_item_form = new GradebookInternalItemForm();
+		        $gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
+			}
         }
         return true;
     }

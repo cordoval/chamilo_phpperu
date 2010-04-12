@@ -65,9 +65,10 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         }
         else
         {
-            //$course_order_form_url = $this->browser->get_course_order_form_url($course);
-        	//$toolbar_data[] = array('href' => $course_order_form_url, 'label' => Translation :: get('OrderForm'), 'img' => Theme :: get_common_image_path() . 'action_start.png');
-        	return Translation :: get('SubscriptionNotAllowed');	
+            $course_request_form_url = $this->browser->get_course_request_form_url($course);
+           
+        	$toolbar_data[] = array('href' => $course_request_form_url, 'label' => Translation :: get('RequestForm'), 'img' => Theme :: get_common_image_path() . 'place_publications.png');
+        	//return Translation :: get('SubscriptionNotAllowed');	
         }
         return Utilities :: build_toolbar($toolbar_data);
         

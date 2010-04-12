@@ -311,7 +311,7 @@ class RepoViewer
                     {
                         if (count($selected_publication_ids) > $this->get_maximum_select())
                         {
-                            Request :: set_get('message', sprintf(Translation :: get('MaximumSelectableLOReached'), count($selected_publication_ids), $this->get_maximum_select()));
+                            Request :: set_get('message', sprintf(Translation :: get('MaximumSelectableContentObjectsReached'), count($selected_publication_ids), $this->get_maximum_select()));
                             $_POST['action'] = null;
                             Request :: set_get('action', null);
                             return;

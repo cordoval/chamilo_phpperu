@@ -50,7 +50,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             case User :: PROPERTY_PLATFORMADMIN :
                 if ($user->get_platformadmin() == '1')
                 {
-                    return Translation :: get('PlatformAdmin');
+                    return Translation :: get('PlatformAdministrator');
                 }
                 else
                 {

@@ -128,11 +128,15 @@ class MenuToolListRenderer extends ToolListRenderer
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
 
         if ($_SESSION['toolbar_state'] == 'hide')
+        {
             $html[] = '<script type="text/javascript">var hide = "true";</script>';
+        }
         else
+        {
             $html[] = '<script type="text/javascript">var hide = "false";</script>';
+        }
 
-        $html[] = '<div class="clear"></div>';
+        $html[] = '<div class="clear">&nbsp;</div>';
 
         echo implode("\n", $html);
     }

@@ -1,25 +1,30 @@
 <?php
 require_once dirname(__FILE__) . '/../evaluation_manager/evaluation_manager.class.php';
+
 class EvaluationForm extends FormValidator
 {
-	const PROPERTY_FORMAT_LIST = 'format_list';
+	const PARAM_FORMAT_LIST = 'format_list';
 	const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
     
     const PARAM_SCORE = 'score';
-    const PARAM_DESCRIPTION = 'description';
+    const PARAM_COMMENT = 'comment';
 	
     private $publication;
     private $user;
+    private $grade_evaluation;
+    private $evaluation;
 
-    function EvaluationForm($form_type, $publication, $action, $user)
+    function EvaluationForm($form_type, $evaluation, $grade_evaluation, $publication, $action, $user)
     {
     	parent :: __construct('evaluation_publication_settings', 'post', $action);
     	
+    	$this->evaluation = $evaluation;
+    	$this->grade_evaluation = $grade_evaluation;
     	$this->publication = $publication;
         $this->user = $user;
         $this->form_type = $form_type;
-
+        
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -28,13 +33,12 @@ class EvaluationForm extends FormValidator
         {
             $this->build_creation_form();
         }
-
-        $this->setDefaults();
+		$this->setEvaluationDefaults();
     }
     
     function build_basic_form()
     {
-        $attributes = array();
+        /*$attributes = array();
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
         $locale['Searching'] = Translation :: get('Searching');
@@ -42,16 +46,15 @@ class EvaluationForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
-        $attributes['defaults'] = array();
-		
+        $attributes['defaults'] = array();*/
         $formats = GradebookDataManager :: get_instance()->retrieve_all_active_evaluation_formats();
 		while($format = $formats->next_result())
 		{
 			$formats_array[$format->get_id()] = $format->get_title();
 		}
-		$this->addElement('select', self :: PROPERTY_FORMAT_LIST ,Translation :: get('EvaluationFormat'), $formats_array);
-		$this->add_textfield('score','score');
-		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get(get_class($this) . 'Comment'), $required, $htmleditor_options);
+		$this->addElement('select', Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array);
+		$this->add_textfield(GradeEvaluation :: PROPERTY_SCORE, Translation :: get('EvaluationScore'), true);
+		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('Comment'), true);
     }
     
     function build_editing_form()
@@ -83,7 +86,8 @@ class EvaluationForm extends FormValidator
 	function create_evaluation()
 	{
 		$values = $this->exportValues();
-		$evaluation = new Evaluation();
+		
+		$evaluation = $this->evaluation;
 		$evaluation->set_evaluator_id($this->user->get_id());
 		$evaluation->set_user_id($this->publication->get_publisher());
 		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
@@ -101,7 +105,7 @@ class EvaluationForm extends FormValidator
 			return false;
 		}
 		
-		$grade_evaluation = new GradeEvaluation();
+		$grade_evaluation = $this->grade_evaluation;
 		$grade_evaluation->set_score($values['score']);
 		$grade_evaluation->set_comment($values['comment']);
 		$grade_evaluation->set_id($evaluation->get_id());
@@ -109,14 +113,14 @@ class EvaluationForm extends FormValidator
 		{
 			return false;
 		}
-		
+		$this->setEvaluationDefaults();
 		return true;
 	}
 	
 	function update_evaluation($evaluation_id)
 	{
 		$values = $this->exportValues();
-		$evaluation = new Evaluation();
+		$evaluation = $this->evaluation;
 		$evaluation->set_id($evaluation_id);
 		$evaluation->set_evaluator_id($this->user->get_id());
 		$evaluation->set_user_id($this->publication->get_publisher());
@@ -135,7 +139,7 @@ class EvaluationForm extends FormValidator
 			return false;
 		}
 		
-		$grade_evaluation = new GradeEvaluation();
+		$grade_evaluation = $this->grade_evaluation;
 		$grade_evaluation->set_score($values['score']);
 		$grade_evaluation->set_comment($values['comment']);
 		$grade_evaluation->set_id($evaluation->get_id());
@@ -143,7 +147,27 @@ class EvaluationForm extends FormValidator
 		{
 			return false;
 		}
+		
 		return true;
+	}
+    // Default values (setter)
+    
+	function setEvaluationDefaults($defaults = array ())
+	{
+		
+		$grade_evaluation = $this->grade_evaluation;
+		$evaluation = $this->evaluation;
+		$defaults[GradeEvaluation :: PROPERTY_SCORE] = $grade_evaluation->get_score();
+	    $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
+	    $defaults[GradeEvaluation :: PROPERTY_ID] = $grade_evaluation->get_id();
+
+	    $defaults[Evaluation :: PROPERTY_FORMAT_ID] = $evaluation->get_format_id();
+	    $defaults[Evaluation :: PROPERTY_EVALUATION_DATE] = $evaluation->get_evaluation_date();
+	    $defaults[Evaluation :: PROPERTY_USER_ID] = $evaluation->get_user_id();
+	    $defaults[Evaluation :: PROPERTY_EVALUATOR_ID] = $evaluation->get_evaluator_id();
+	    
+		parent :: setDefaults($defaults);
+		
 	}
 }
 ?>

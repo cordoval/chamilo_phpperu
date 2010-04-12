@@ -361,7 +361,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			if ($display_title)
 			{
 				echo '<div style="float: left;">';
-				Display :: tool_title(htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($tool_class) . 'Title')));
+				Display :: tool_title(Utilities :: htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($tool_class) . 'Title')));
 				echo '</div>';
 			}
 
@@ -372,12 +372,12 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			{
 				
 				//echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
-				echo '<h3 style="float: left;">' . htmlentities($title) . '</h3>';
+				echo '<h3 style="float: left;">' . Utilities :: htmlentities($title) . '</h3>';
 				// TODO: Add department name and url here somewhere ?
 			}
 			else
 			{
-				echo '<h3 style="float: left;">' . htmlentities($title) . '</h3>';
+				echo '<h3 style="float: left;">' . Utilities :: htmlentities($title) . '</h3>';
 				if ($display_search)
 				{
 					$this->display_search_form();

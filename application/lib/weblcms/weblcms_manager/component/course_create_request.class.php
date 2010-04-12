@@ -1,13 +1,13 @@
 <?php
 /**
- * $Id: order.class.php 224 2010-04-06 14:40:30Z Yannick $
+ * $Id: request.class.php 224 2010-04-06 14:40:30Z Yannick $
  * @package applicatie.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
-require_once dirname(__FILE__) . '/../../course/course_order_form.class.php';
+require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 
-class WeblcmsManagerCourseCreateOrderComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseCreateRequestComponent extends WeblcmsManagerComponent
 {
 
 	private $form;
@@ -22,7 +22,7 @@ class WeblcmsManagerCourseCreateOrderComponent extends WeblcmsManagerComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseSubscribe')));
-        $trail->add_help('courses subscribe');
+        $trail->add_help('course request');
         
         if (! $this->get_user()->is_platform_admin())
         {
@@ -31,9 +31,9 @@ class WeblcmsManagerCourseCreateOrderComponent extends WeblcmsManagerComponent
             $this->display_footer();
             exit();
         }        
-        $course = $this->retrieve_course(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)));
-        
-        $this->form = new CourseOrderForm(CourseOrderForm :: TYPE_CREATE,$this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)),$course,$this);
+        //$course = $this->retrieve_course(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)));
+        $course = $this->get_course();
+        $this->form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE,$this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)),$course,$this);
         /*
         if ($this->form->validate())
         {   	        	
@@ -86,7 +86,7 @@ class WeblcmsManagerCourseCreateOrderComponent extends WeblcmsManagerComponent
         else
         {
         */
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('OrderForm')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('RequestForm')));
             $this->display_header($trail);
             //echo Translation :: get('Course') . ': ' . $course->get_name();
             $this->form->display();

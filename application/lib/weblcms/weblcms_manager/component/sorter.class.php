@@ -304,7 +304,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         {
             $html[] = '<div class="user_course_category">';
             $html[] = '<div class="title">';
-            $html[] = htmlentities($course_category->get_title());
+            $html[] = Utilities :: htmlentities($course_category->get_title());
             $html[] = '</div>';
             $html[] = '<div class="options">';
             $html[] = $this->get_category_modification_links($course_category, $cat_key, $cat_count);

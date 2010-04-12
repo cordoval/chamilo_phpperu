@@ -70,7 +70,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 
         if ($this->get_maximum_select() > RepoViewer :: SELECT_SINGLE)
         {
-            $html[] = '<b>' . sprintf(Translation :: get('SelectMaximumLO'), $this->get_maximum_select()) . '</b><br />';
+            $html[] = '<b>' . sprintf(Translation :: get('SelectMaximumNumberOfContentObjects'), $this->get_maximum_select()) . '</b><br />';
         }
 
         $menu = $this->get_menu();

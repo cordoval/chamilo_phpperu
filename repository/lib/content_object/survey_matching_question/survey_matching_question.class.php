@@ -4,6 +4,8 @@
  * @package repository.lib.content_object.survey_matching_question
  */
 require_once PATH :: get_repository_path() . '/question_types/matching_question/matching_question.class.php';
+require_once dirname(__FILE__) . '/survey_matching_question_option.class.php';
+
 
 class SurveyMatchingQuestion extends MatchingQuestion
 {

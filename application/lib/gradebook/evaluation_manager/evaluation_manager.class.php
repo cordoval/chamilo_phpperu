@@ -7,8 +7,10 @@ class EvaluationManager extends SubManager
 	const APPLICATION_NAME = 'evaluation';
 	
 	const PARAM_ACTION = 'action';
-	const PARAM_EVALUATION = 'evaluation';
-	const PARAM_PUBLICATION = 'publication';
+	const PARAM_EVALUATION_ID = 'evaluation_id';
+	const PARAM_PUBLICATION_ID = 'publication_id';
+	
+	const PARAM_PARAMETERS = 'parameters';
 	
 	const ACTION_BROWSE = 'browser';
 	const ACTION_CREATE = 'creator';
@@ -102,6 +104,11 @@ class EvaluationManager extends SubManager
         return GradebookDataManager :: get_instance()->retrieve_evaluation($id);
     }
     
+    function retrieve_grade_evaluation($id)
+    {
+    	return GradebookDataManager :: get_instance()->retrieve_grade_evaluation($id);
+    }
+    
     function retrieve_internal_item_by_publication($application, $publication_id)
     {
     	return GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication($application, $publication_id);
@@ -110,12 +117,18 @@ class EvaluationManager extends SubManager
     //url creation
     function get_evaluation_editing_url($evaluation)
     {
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE, self :: PARAM_EVALUATION => $evaluation->get_id(), self :: PARAM_PUBLICATION => $this->get_publication()->get_id()));
+    	$parameters[self :: PARAM_EVALUATION_ID] = $evaluation->get_id();
+    	$parameters[self :: PARAM_PUBLICATION_ID] = $this->get_publication()->get_id();
+    	$code = base64_encode(serialize($parameters));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE, self :: PARAM_PARAMETERS => $code));
     }
     
     function get_evaluation_deleting_url($evaluation)
     {
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_EVALUATION => $evaluation->get_id(), self :: PARAM_PUBLICATION => $this->get_publication()->get_id()));
+    	$parameters[self :: PARAM_EVALUATION_ID] = $evaluation->get_id();
+    	$parameters[self :: PARAM_PUBLICATION_ID] = $this->get_publication()->get_id();
+    	$code = base64_encode(serialize($parameters));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_PARAMETERS => $code));
     }
 }
 ?>

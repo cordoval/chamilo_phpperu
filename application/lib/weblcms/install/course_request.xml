@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="course_order">
+<object name="course_request">
 	<properties>
 		<property name="course_id" type="integer" notnull="1" />
 		<property name="title" type="text" length="50"  fixed="true" />

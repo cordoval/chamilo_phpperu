@@ -3,16 +3,16 @@
 // $Id: display.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
 /**
 ==============================================================================
- *	This is a display library for Chamilo.
+ * This is a display library for Chamilo.
  *
- *	Include/require it in your code to use its functionality.
- *	There are also several display functions in the main api library.
+ * Include/require it in your code to use its functionality.
+ * There are also several display functions in the main api library.
  *
- *	All functions static functions inside a class called Display,
- *	so you use them like this: e.g.
- *	Display :: normal_message($message)
+ * All functions static functions inside a class called Display,
+ * so you use them like this: e.g.
+ * Display :: normal_message($message)
  *
- *	@package common.html
+ * @package common.html
 ==============================================================================
  */
 /*
@@ -25,11 +25,11 @@ define("CHAMILOLIGHTGREY", "#E6E6E6");
 /** plain white colour*/
 define("HTML_WHITE", "white");
 /**
- *	Display class
- *	contains several functions dealing with the display of
- *	table data, messages, help topics, ...
+ * Display class
+ * contains several functions dealing with the display of
+ * table data, messages, help topics, ...
  *
- *	@version 1.0.4
+ * @version 1.0.4
  */
 
 class Display
@@ -41,28 +41,26 @@ class Display
      *
      * @author Roan Embrechts
      * @author Tim De Pauw
+     * @author Hans De Bisschop
      * @param string $message - include any additional html
-     *                          tags if you need them
+     * tags if you need them
      * @param boolean $return
      * @return mixed
      */
     public static function normal_message($message, $return = false)
     {
-        $out = '';
-//        if (! headers_sent())
-//        {
-//            $out .= '<style type="text/css" media="screen, projection">
-///*<![CDATA[*/
-//@import "' . Path :: get(WEB_CSS_PATH) . 'default.css";
-///*]]>*/
-//</style>';
-//        }
-        $out .= '<div class="normal-message">' . $message . '</div>';
+        $html = array();
+        $html[] = '<div class="normal-message">';
+        $html[] = $message;
+        $html[] = '<div class="close_message" id="closeMessage"></div>';
+        $html[] = '</div>';
+        
         if ($return)
         {
-            return $out;
+            return implode("\n", $html);
         }
-        echo $out;
+        
+        echo implode("\n", $html);
     }
 
     /**
@@ -72,28 +70,26 @@ class Display
      * @author Hugues Peeters
      * @author Roan Embrechts
      * @author Tim De Pauw
+     * @author Hans De Bisschop
      * @param string $message - include any additional html
-     *                          tags if you need them
+     * tags if you need them
      * @param boolean $return
      * @return mixed
      */
     public static function error_message($message, $return = false)
     {
-        $out = '';
-//        if (! headers_sent())
-//        {
-//            $out .= '<style type="text/css" media="screen, projection">
-///*<![CDATA[*/
-//@import "' . Theme :: get_common_css_path() . '";
-///*]]>*/
-//</style>';
-//        }
-        $out .= '<div class="error-message">' . $message . '</div>';
+        $html = array();
+        $html[] = '<div class="error-message">';
+        $html[] = $message;
+        $html[] = '<div class="close_message" id="closeMessage"></div>';
+        $html[] = '</div>';
+        
         if ($return)
         {
-            return $out;
+            return implode("\n", $html);
         }
-        echo $out;
+        
+        echo implode("\n", $html);
     }
 
     /**
@@ -105,27 +101,24 @@ class Display
      * @author Tim De Pauw
      * @author Hans De Bisschop
      * @param string $message - include any additional html
-     *                          tags if you need them
+     * tags if you need them
      * @param boolean $return
      * @return mixed
      */
     public static function warning_message($message, $return = false)
     {
-        $out = '';
-//        if (! headers_sent())
-//        {
-//            $out .= '<style type="text/css" media="screen, projection">
-///*<![CDATA[*/
-//@import "' . Path :: get(WEB_CSS_PATH) . 'default.css";
-///*]]>*/
-//</style>';
-//        }
-        $out .= '<div class="warning-message">' . $message . '</div>';
+        $html = array();
+        $html[] = '<div class="warning-message">';
+        $html[] = $message;
+        $html[] = '<div class="close_message" id="closeMessage"></div>';
+        $html[] = '</div>';
+        
         if ($return)
         {
-            return $out;
+            return implode("\n", $html);
         }
-        echo $out;
+        
+        echo implode("\n", $html);
     }
 
     /**
@@ -145,7 +138,7 @@ class Display
         //mailto already present?
         if (substr($email, 0, 7) != 'mailto:')
             $email = 'mailto:' . $email;
-
+            
         //class (stylesheet) defined?
         if ($style_class != '')
         {
@@ -155,12 +148,12 @@ class Display
         {
             $style_class = ' class="full_url_print"';
         }
-
+        
         //encrypt email
         $hmail = '';
         for($i = 0; $i < strlen($email); $i ++)
             $hmail .= '&#' . ord($email{$i}) . ';';
-
+            
         //encrypt clickable text if @ is present
         if (strpos($clickable_text, '@'))
         {
@@ -171,7 +164,7 @@ class Display
         {
             $hclickable_text = htmlspecialchars($clickable_text);
         }
-
+        
         //return encrypted mailto hyperlink
         return '<a href="' . $hmail . '"' . $style_class . '>' . $hclickable_text . '</a>';
     }
@@ -197,14 +190,14 @@ class Display
             //if there was no valid iso-code, use the english one
             $document_language = 'en';
         }
-
+        
         $header = new Header($document_language);
         $header->add_default_headers();
-//        $header->add_javascript_file_header(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/fckeditor/fckeditor.js');
+        //        $header->add_javascript_file_header(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/fckeditor/fckeditor.js');
         $header->set_page_title(PlatformSetting :: get('site_name'));
         $header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
         $header->display();
-
+        
         echo '<body>' . "\n";
     }
 
@@ -231,14 +224,14 @@ class Display
         }
         self :: header($trail);
         $home_url = Path :: get(WEB_PATH);
-
+        
         $html[] = Translation :: get('NotAllowed');
-
+        
         if ($show_login_form)
         {
             $html[] = self :: display_login_form();
         }
-
+        
         self :: error_message(implode("\n", $html));
         $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
         self :: footer();
@@ -288,7 +281,7 @@ class Display
 
     public static function get_progress_bar($percent, $step = 2)
     {
-    	/*
+        /*
         $html = '<div class="progress_information">';
         $html .= '<div class="progress_bar">';
         for($i = 0; $i < 100; $i += $step)
@@ -308,17 +301,14 @@ class Display
         $html .= '</div>';
         return $html;
         */
-    	$done = (int)($percent / $step);
-    	$rest = (int)(100.0 / $step) - $done;
-        return '<div class="progress_information"><div class="progress_bar">' .
-            str_repeat('<div class="done"></div>', $done) .
-            str_repeat('<div class=""></div>', $rest) .
-            '</div><div class="progress_status">' . round($percent, 2) . ' %</div></div>';
+        $done = (int) ($percent / $step);
+        $rest = (int) (100.0 / $step) - $done;
+        return '<div class="progress_information"><div class="progress_bar">' . str_repeat('<div class="done"></div>', $done) . str_repeat('<div class=""></div>', $rest) . '</div><div class="progress_status">' . round($percent, 2) . ' %</div></div>';
     }
 
     public static function get_rating_bar($percent, $show_text = true, $step = 2)
     {
-    	/*
+        /*
         $html = '<div class="rating_information">';
         $html .= '<div class="rating_bar">';
         for($i = 0; $i < 100; $i += $step)
@@ -352,18 +342,15 @@ class Display
         $html .= '</div>';
         return $html;
         */
-    	$done = (int)($percent / $step);
-    	$rest = (int)(100.0 / $step) - $done;
-        return '<div class="rating_information"><div class="rating_bar">' .
-            str_repeat('<div class="' . ($percent <= 50 ? 'bad' : $percent <= 75 ? 'average' : 'good') . '"></div>', $done) .
-            str_repeat('<div class=""></div>', $rest) .
-            '</div>' . ($show_text ? '<div class="rating_status">' . round($percent, 2) . ' %</div>' : '') . '</div>';
+        $done = (int) ($percent / $step);
+        $rest = (int) (100.0 / $step) - $done;
+        return '<div class="rating_information"><div class="rating_bar">' . str_repeat('<div class="' . ($percent <= 50 ? 'bad' : $percent <= 75 ? 'average' : 'good') . '"></div>', $done) . str_repeat('<div class=""></div>', $rest) . '</div>' . ($show_text ? '<div class="rating_status">' . round($percent, 2) . ' %</div>' : '') . '</div>';
     }
 
     static function form_category($title = null, $extra_classes = null)
     {
         $html = array();
-
+        
         if ($title != null)
         {
             $html[] = '<div class="configuration_form' . ($extra_classes ? ' ' . $extra_classes : '') . '" >';
@@ -374,22 +361,22 @@ class Display
             $html[] = '<div style="clear: both;"></div>';
             $html[] = '</div>';
         }
-
+        
         return implode("\n", $html);
     }
 
     static function form_row($label = null, $value = null)
     {
         $html = array();
-
+        
         $html[] = '<div class="row">';
-        $html[] = '<div class="label">'. $label .'</div>';
+        $html[] = '<div class="label">' . $label . '</div>';
         $html[] = '<div class="formw">';
-        $html[] = '<div class="element">'. $value .'</div>';
+        $html[] = '<div class="element">' . $value . '</div>';
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
-
+        
         return implode("\n", $html);
     }
 }
