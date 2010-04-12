@@ -32,28 +32,37 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerCompone
 		$html[] = '<p><a href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 		$html[] =  $pub->as_html();*/
         
-        $object = Request :: get('object');
-        $pub = new ContentObjectRepoViewer($this, 'introduction', true);
+        $objects = Request :: get('object');
+        $pub = new ContentObjectRepoViewer($this, 'introduction', false, RepoViewer :: SELECT_SINGLE);
         
-        if (! isset($object))
+        if (! isset($objects))
         {
             $html[] = $pub->as_html();
         }
         else
         {
-            $dm = WeblcmsDataManager :: get_instance();
-            $do = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool_id(), 0);
+            if(!is_array($objects))
+            {
+            	$objects = array($objects);
+            }
             
-            $pub = new ContentObjectPublication();
-            $pub->set_content_object_id($object);
-            $pub->set_course_id($this->get_course_id());
-            $pub->set_tool('introduction');
-            $pub->set_publisher_id(Session :: get_user_id());
-            $pub->set_publication_date(time());
-            $pub->set_modified_date(time());
-            $pub->set_hidden(false);
-            $pub->set_display_order_index($do);
-            $pub->create();
+        	$dm = WeblcmsDataManager :: get_instance();
+        	
+        	foreach($objects as $object_id)
+        	{
+	            $do = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool_id(), 0);
+	            
+	            $pub = new ContentObjectPublication();
+	            $pub->set_content_object_id($object_id);
+	            $pub->set_course_id($this->get_course_id());
+	            $pub->set_tool('introduction');
+	            $pub->set_publisher_id(Session :: get_user_id());
+	            $pub->set_publication_date(time());
+	            $pub->set_modified_date(time());
+	            $pub->set_hidden(false);
+	            $pub->set_display_order_index($do);
+	            $pub->create();
+        	}
             
             $parameters = $this->get_parameters();
             $parameters['go'] = WeblcmsManager :: ACTION_VIEW_COURSE;
