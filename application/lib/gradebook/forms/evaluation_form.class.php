@@ -3,7 +3,6 @@ require_once dirname(__FILE__) . '/../evaluation_manager/evaluation_manager.clas
 
 class EvaluationForm extends FormValidator
 {
-	const PARAM_FORMAT_LIST = 'format_list';
 	const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
     
@@ -55,11 +54,9 @@ class EvaluationForm extends FormValidator
 		$select = $this->add_select(Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array);
         $select->setSelected($this->evaluation->get_format_id());
         
-        
-       // dump($this->evaluation->get_format_id() = $formats_array[$this->evaluation->get_format_id()]);exit;
-        
 		$this->add_textfield(GradeEvaluation :: PROPERTY_SCORE, Translation :: get('EvaluationScore'), true);
 		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('Comment'), true);
+		$this->addRule(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('ThisFieldIsRequired'), 'required');
     }
     
     function build_editing_form()
