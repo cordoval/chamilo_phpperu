@@ -1,12 +1,12 @@
 <?php
 /**
- * $Id: course_order.class.php 216 2010-02-25 11:06:00Z Yannick & Tristan$
+ * $Id: course_request.class.php 216 2010-02-25 11:06:00Z Yannick & Tristan$
  * @package application.lib.weblcms.course
  */
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
 
-class CourseOrder extends DataClass
+class CourseRequest extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
@@ -17,15 +17,15 @@ class CourseOrder extends DataClass
     const PROPERTY_CREATIONDATE = 'creationdate';
     const PROPERTY_ALLOWEDDATE = 'alloweddate';
 
-    static function get_default_property_names($extended_property_names = array())
+    static function get_default_property_names()
     {
-    	if(empty($extended_property_names)) $extended_property_names = array(self :: PROPERTY_COURSE_ID);
-        return array_merge($extended_property_names,
-        	array(self :: PROPERTY_NAME_USER,
+    	//if(empty($extended_property_names)) $extended_property_names = array(self :: PROPERTY_COURSE_ID);
+        return array(self :: PROPERTY_COURSE_ID,
+         		  self :: PROPERTY_NAME_USER,
         		  self :: PROPERTY_TITLE,
         		  self :: PROPERTY_MOTIVATION,
         		  self :: PROPERTY_CREATIONDATE,
-        		  self :: PROPERTY_ALLOWEDDATE));
+        		  self :: PROPERTY_ALLOWEDDATE);
     }
 
     function get_data_manager()
