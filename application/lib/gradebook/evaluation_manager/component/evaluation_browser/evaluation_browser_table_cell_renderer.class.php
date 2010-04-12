@@ -37,9 +37,12 @@ class EvaluationBrowserTableCellRenderer extends DefaultEvaluationBrowserTableCe
 	private function get_modification_links($evaluation)
 	{
 		$toolbar_data = array();
-		
-        $toolbar_data[] = array('href' => $this->browser->get_evaluation_editing_url($evaluation), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        $toolbar_data[] = array('href' => $this->browser->get_evaluation_deleting_url($evaluation), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+		if ($evaluation->get_evaluator_id() == $this->browser->get_user_id())
+		{
+        	$toolbar_data[] = array('href' => $this->browser->get_evaluation_editing_url($evaluation), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        	$toolbar_data[] = array('href' => $this->browser->get_evaluation_deleting_url($evaluation), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+		}
+        
 		return Utilities :: build_toolbar($toolbar_data);
 	}
 }
