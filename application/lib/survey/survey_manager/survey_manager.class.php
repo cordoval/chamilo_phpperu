@@ -16,6 +16,7 @@ class SurveyManager extends WebApplication
     
     const PARAM_SURVEY_PUBLICATION = 'survey_publication';
     const PARAM_SURVEY_PARTICIPANT = 'survey_participant';
+    const PARAM_SURVEY_PAGE = 'survey_page';
     const PARAM_SURVEY_QUESTION = 'survey_question';
     const PARAM_MAIL_PARTICIPANTS = 'mail_participant';
     const PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS = 'delete_selected_survey_publications';
@@ -28,6 +29,8 @@ class SurveyManager extends WebApplication
     const ACTION_EDIT_SURVEY_PUBLICATION = 'edit';
     const ACTION_CREATE_SURVEY_PUBLICATION = 'create';
     const ACTION_BROWSE_SURVEY_PUBLICATIONS = 'browse';
+    const ACTION_BROWSE_SURVEY_PAGES = 'browse_pages';
+    const ACTION_BROWSE_SURVEY_PAGE_QUESTIONs = 'browse_page_questions';
     const ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES = 'manage_categories';
     const ACTION_VIEW_SURVEY_PUBLICATION = 'view';
     const ACTION_VIEW_SURVEY_PUBLICATION_RESULTS = 'view_results';
