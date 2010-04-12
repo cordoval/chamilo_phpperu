@@ -91,7 +91,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_ADMIN_COURSE_BROWSER = 'adminbrowser';
 	const ACTION_ADMIN_COURSE_TYPE_CREATOR = 'admincoursetypecreator';
 	const ACTION_ADMIN_COURSE_TYPE_BROWSER = 'admincoursetypebrowser';
-	const ACTION_ADMIN_MANAGE_ORDER_FORMS = 'adminmanageorderforms';
+	const ACTION_COURSE_CREATE_REQUEST = 'admincoursecreaterequest';
 	const ACTION_SELECT_COURSE_TYPE = 'selectcoursetype';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
 	const ACTION_DELETE_COURSES_BY_COURSE_TYPE = 'coursetypecoursesdeleter';
@@ -250,8 +250,8 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_CHANGE_ACTIVE :
 				$component = WeblcmsManagerComponent :: factory('ActivityChanger', $this);
 				break;
-			case self :: ACTION_COURSE_CREATE_ORDER : 
-				$component = WeblcmsManagerComponent :: factory('CourseCreateOrder', $this);
+			case self :: ACTION_COURSE_CREATE_REQUEST : 
+				$component = WeblcmsManagerComponent :: factory('CourseCreateRequest', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
@@ -1196,9 +1196,9 @@ class WeblcmsManager extends WebApplication
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SUBSCRIBE, self :: PARAM_COURSE => $course->get_id()));
 	}
 	
-	function get_course_order_form_url($course)
+	function get_course_request_form_url($course)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_CREATE_ORDER, self :: PARAM_COURSE => $course->get_id()));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_CREATE_REQUEST, self :: PARAM_COURSE => $course->get_id()));
    
 	}
 
