@@ -30,6 +30,8 @@ class SurveyManager extends WebApplication
     const ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES = 'manage_categories';
     const ACTION_VIEW_SURVEY_PUBLICATION = 'view';
     const ACTION_VIEW_SURVEY_PUBLICATION_RESULTS = 'view_results';
+    const ACTION_REPORTING = 'reporting';
+    
     const ACTION_IMPORT_SURVEY = 'import_survey';
     const ACTION_EXPORT_SURVEY = 'export_survey';
     const ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY = 'change_visibility';
@@ -85,6 +87,9 @@ class SurveyManager extends WebApplication
             case self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS :
                 $component = SurveyManagerComponent :: factory('ResultsViewer', $this);
                 break;
+             case self :: ACTION_REPORTING :
+                $component = SurveyManagerComponent :: factory('Reporting', $this);
+                break;    
             case self :: ACTION_IMPORT_SURVEY :
                 $component = SurveyManagerComponent :: factory('SurveyImporter', $this);
                 break;
@@ -272,7 +277,12 @@ class SurveyManager extends WebApplication
         $id = $survey_publication ? $survey_publication->get_id() : null;
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS, self :: PARAM_SURVEY_PUBLICATION => $id));
     }
-
+	
+	function get_reporting_survey_publication_url($survey_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+    }
+    
     function get_import_survey_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_SURVEY));
