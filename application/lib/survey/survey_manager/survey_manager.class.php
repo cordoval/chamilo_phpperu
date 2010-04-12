@@ -3,6 +3,7 @@
 require_once dirname(__FILE__) . '/survey_manager_component.class.php';
 require_once dirname(__FILE__) . '/../survey_data_manager.class.php';
 
+require_once Path :: get_application_path() . 'lib/survey/survey_rights.class.php';
 require_once Path :: get_application_path() . 'lib/survey/testcase_manager/testcase_manager.class.php';
 require_once Path :: get_application_path() . 'lib/survey/testcase_manager/testcase_manager_component.class.php';
 
@@ -87,9 +88,9 @@ class SurveyManager extends WebApplication
             case self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS :
                 $component = SurveyManagerComponent :: factory('ResultsViewer', $this);
                 break;
-             case self :: ACTION_REPORTING :
+            case self :: ACTION_REPORTING :
                 $component = SurveyManagerComponent :: factory('Reporting', $this);
-                break;    
+                break;
             case self :: ACTION_IMPORT_SURVEY :
                 $component = SurveyManagerComponent :: factory('SurveyImporter', $this);
                 break;
@@ -277,12 +278,12 @@ class SurveyManager extends WebApplication
         $id = $survey_publication ? $survey_publication->get_id() : null;
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS, self :: PARAM_SURVEY_PUBLICATION => $id));
     }
-	
-	function get_reporting_survey_publication_url($survey_publication)
+
+    function get_reporting_survey_publication_url($survey_publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
     }
-    
+
     function get_import_survey_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_SURVEY));
@@ -415,7 +416,12 @@ class SurveyManager extends WebApplication
 
     function publish_content_object($content_object, $location, $attributes)
     {
-
+        
+        if (! SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', 'sts_component'))
+        {
+            return Translation :: get('NoRightsForSurveyPublication');
+        }
+        
         $publication = new SurveyPublication();
         $publication->set_content_object($content_object->get_id());
         $publication->set_publisher(Session :: get_user_id());

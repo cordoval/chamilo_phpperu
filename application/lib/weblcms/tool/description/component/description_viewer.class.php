@@ -39,6 +39,9 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null && Request :: get('tool_action') == 'view')
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
+
+        $html = $browser->as_html();    
+            
         $this->display_header($trail, true);
 
         //echo '<br /><a name="top"></a>';
@@ -56,7 +59,7 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
         }
         echo $this->action_bar->as_html() . '<br />';
         echo '<div style="width:100%; float:right;">';
-        echo $browser->as_html();
+        echo $html;
         echo '</div>';
 
         $this->display_footer();

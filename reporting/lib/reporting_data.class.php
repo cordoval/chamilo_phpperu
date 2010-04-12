@@ -142,5 +142,10 @@ class ReportingData
 		$this->data[$category_id][$row_id] = $value;
 	}
 
+	function is_empty()
+	{
+		$data = $this->get_data();
+		return empty($data);
+	}
 }
 ?>

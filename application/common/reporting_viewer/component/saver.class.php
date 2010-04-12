@@ -40,17 +40,17 @@ class ReportingViewerSaverComponent extends ReportingViewerComponent
                 $message = 'SavedToRepository';
                 $error = false;
             }
-        
         }
         else
         {
             $message = 'DocumentNotAvailable';
             $error = true;
         }
-        $parameters = $template->get_parameters();
+        $parameters = $template->get_parameters(); 
         $parameters[ReportingViewer :: PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer :: ACTION_VIEW_TEMPLATE;
+        $parameters[ReportingManager :: PARAM_REPORTING_BLOCK_ID] = $template->get_current_block()->get_id();
+        $parameters[ReportingFormatterForm::FORMATTER_TYPE] = $template->get_current_block()->get_displaymode();
         $this->redirect(Translation :: get($message), $error, $parameters);
-        //$this->display_footer();
     }
 }
 ?>

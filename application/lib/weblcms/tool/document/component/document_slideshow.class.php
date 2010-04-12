@@ -26,9 +26,11 @@ class DocumentToolSlideshowComponent extends DocumentToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses document tool');
         
+        $html = $browser->as_html();
+        
         $this->display_header($trail, true);
         echo $this->action_bar->as_html();
-        echo $browser->as_html();
+        echo $html;
         $this->display_footer();
     }
 
