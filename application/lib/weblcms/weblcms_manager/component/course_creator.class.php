@@ -31,7 +31,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         }
         else
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+        
         $trail->add_help('courses create');
         
         if (! $this->get_user()->is_teacher() && ! $this->get_user()->is_platform_admin())
@@ -47,13 +47,32 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
         $id = $course->get_id();
         $parameters = array();
         $course_type_id = Request::get('course_type');
+        
         if(!is_null($course_type_id))
+        {
         	$parameters = array('course_type'=>$course_type_id);
+        }
+        
         $url = $this->get_url($parameters);
-	     if(empty($id))
-		     $form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $url, $this);
-	     else
-		      $form = new CourseForm(CourseForm :: TYPE_EDIT, $course, $this->get_user(), $url, $this);
+        
+        if(!$id)
+        {
+        	$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+        }
+        else
+        {
+        	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)), Translation :: get('CourseList')));
+        	$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Update')));
+        }
+        
+	    if(empty($id))
+	    {
+			$form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $url, $this);	     	
+	    }
+	    else
+	    {
+		    $form = new CourseForm(CourseForm :: TYPE_EDIT, $course, $this->get_user(), $url, $this);
+	    }
         
         if ($form->validate())
         {
