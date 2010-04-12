@@ -76,7 +76,8 @@ class TestcaseSurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPub
             //            $toolbar_data[] = array('href' => $this->browser->get_move_survey_publication_url($survey_publication), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
             //$toolbar_data[] = array('href' => $this->browser->get_publish_survey_url($survey_publication), 'label' => Translation :: get('InviteUsers'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
             
-
+			$toolbar_data[] = array('href' => $this->browser->get_reporting_survey_publication_url($survey_publication), 'label' => Translation :: get('ViewReport'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+            
             $toolbar_data[] = array('href' => $this->browser->get_build_survey_url($survey_publication), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseComplex'));
         
         }
