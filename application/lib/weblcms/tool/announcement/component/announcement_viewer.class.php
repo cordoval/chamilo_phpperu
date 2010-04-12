@@ -48,6 +48,9 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), $publication->get_content_object()->get_title()));
         }
         $trail->add_help('courses announcement tool');
+        
+        $html = $browser->as_html();
+        
         $this->display_header($trail, true);
 
         //echo $this->perform_requested_actions();
@@ -59,7 +62,6 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
             }
         }
 
-        $html = $browser->as_html();
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
         echo $html;
