@@ -1,10 +1,10 @@
 <?php
 /**
- * $Id: calendar_event_publication_form.class.php 201 2009-11-13 12:34:51Z chellee $
+ * $Id: personal_calendar_publication_form.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar
  */
 
-require_once dirname(__FILE__) . '/calendar_event_publication.class.php';
+require_once dirname(__FILE__) . '/personal_calendar_publication.class.php';
 require_once Path :: get_plugin_path() . 'html2text/class.html2text.inc';
 /**
  * This class represents a form to allow a user to publish a learning object.
@@ -12,7 +12,7 @@ require_once Path :: get_plugin_path() . 'html2text/class.html2text.inc';
  * The form allows the user to set some properties of the publication
  * (publication dates, target users, visibility, ...)
  */
-class CalendarEventPublicationForm extends FormValidator
+class PersonalCalendarPublicationForm extends FormValidator
 {
     /**#@+
      * Constant defining a form parameter
@@ -50,7 +50,7 @@ class CalendarEventPublicationForm extends FormValidator
      * @param boolean $email_option Add option in form to send the learning
      * object by email to the receivers
      */
-    function CalendarEventPublicationForm($form_type, $content_object, $form_user, $action)
+    function PersonalCalendarPublicationForm($form_type, $content_object, $form_user, $action)
     {
         parent :: __construct('publish', 'post', $action);
         $this->form_type = $form_type;
@@ -134,8 +134,8 @@ class CalendarEventPublicationForm extends FormValidator
         $users = $values[self :: PARAM_SHARE_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_SHARE_ELEMENTS]['group'];
 
-        $pub = new CalendarEventPublication();
-        $pub->set_calendar_event($this->content_object->get_id());
+        $pub = new PersonalCalendarPublication();
+        $pub->set_content_object_id($this->content_object->get_id());
         $pub->set_publisher($this->form_user->get_id());
         $pub->set_published(time());
         $pub->set_target_users($users);
@@ -162,8 +162,8 @@ class CalendarEventPublicationForm extends FormValidator
 
         foreach ($ids as $id)
         {
-            $pub = new CalendarEventPublication();
-            $pub->set_calendar_event($id);
+            $pub = new PersonalCalendarPublication();
+            $pub->set_content_object_id($id);
             $pub->set_publisher($this->form_user->get_id());
             $pub->set_published(time());
             $pub->set_target_users($users);

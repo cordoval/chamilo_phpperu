@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_manager_component.class.php';
-require_once dirname(__FILE__) . '/../../publisher/calendar_event_publisher.class.php';
+require_once dirname(__FILE__) . '/../../publisher/personal_calendar_publisher.class.php';
 
 class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManagerComponent
 {
@@ -21,7 +21,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManagerC
         $trail->add_help('personal calender general');
         
         $object = Request :: get('object');
-        $pub = new RepoViewer($this, 'calendar_event', true);
+        $pub = new RepoViewer($this, array('calendar_event', 'task'), true);
         
         if (! isset($object))
         {
@@ -30,7 +30,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManagerC
         else
         {
             //$html[] = 'ContentObject: ';
-            $publisher = new CalendarEventPublisher($pub);
+            $publisher = new PersonalCalendarPublisher($pub);
             $html[] = $publisher->get_publications_form($object);
         }
         

@@ -1,10 +1,10 @@
 <?php
 /**
- * $Id: calendar_event_publisher.class.php 201 2009-11-13 12:34:51Z chellee $
+ * $Id: personal_calendar_publisher.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.publisher
  */
 //require_once Path :: get_application_library_path() . 'publisher/component/multipublisher.class.php';
-require_once dirname(__FILE__) . '/../calendar_event_publication_form.class.php';
+require_once dirname(__FILE__) . '/../personal_calendar_publication_form.class.php';
 
 //require_once Path :: get_application_library_path() . 'publisher/component/publication_candidate_table/publication_candidate_table.class.php';
 
@@ -13,11 +13,11 @@ require_once dirname(__FILE__) . '/../calendar_event_publication_form.class.php'
  * This class represents a profile publisher component which can be used
  * to preview a learning object in the learning object publisher.
  */
-class CalendarEventPublisher
+class PersonalCalendarPublisher
 {
     private $parent;
 
-    function CalendarEventPublisher($parent)
+    function PersonalCalendarPublisher($parent)
     {
         $this->parent = $parent;
     }
@@ -59,7 +59,7 @@ class CalendarEventPublisher
         $parameters = $this->parent->get_parameters();
         $parameters['object'] = $ids;
 
-        $form = new CalendarEventPublicationForm(CalendarEventPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url($parameters));
+        $form = new PersonalCalendarPublicationForm(PersonalCalendarPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url($parameters));
         if ($form->validate())
         {
             $publication = $form->create_content_object_publications();

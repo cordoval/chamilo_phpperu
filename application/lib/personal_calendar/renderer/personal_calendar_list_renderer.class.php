@@ -78,7 +78,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 
     function get_publication_actions($event)
     {
-        $toolbar_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $event->get_id())), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+        $toolbar_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $event->get_id())), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
 
         $toolbar_data[] = array('href' => $this->get_parent()->get_publication_editing_url($event), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         $toolbar_data[] = array('href' => $this->get_parent()->get_publication_deleting_url($event), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);

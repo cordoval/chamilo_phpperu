@@ -14,7 +14,7 @@ class PersonalCalendarManagerIcalExporterComponent extends PersonalCalendarManag
      */
     function run()
     {
-        $id = Request :: get(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID);
+        $id = Request :: get(PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID);
         
         if ($id)
         {
