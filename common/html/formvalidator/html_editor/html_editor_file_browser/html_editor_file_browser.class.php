@@ -24,18 +24,34 @@ class HtmlEditorFileBrowser
 
       if (!$repo_viewer->is_ready_to_be_published())
       {
-          echo $repo_viewer->as_html();
+          $html = $repo_viewer->as_html();
+          $this->display_header();
+          echo $html;
+          $this->display_footer();
       }
       else
       {
           $processor = HtmlEditorProcessor :: factory($plugin, $this, $repo_viewer->get_selected_objects());
+
+          $this->display_header();
           $processor->run();
+          $this->display_footer();
 
           // Go to real processing depending on selected editor.
 //          echo "<script type='text/javascript'>window.opener.CKEDITOR.tools.callFunction(" . $this->get_parameter('CKEditorFuncNum') . ", 'image.jpg', 'Message !');</script>";
       }
     }
 
+    function display_header()
+    {
+    	Display :: small_header();
+    }
+    
+    function display_footer()
+    {
+    	Display :: small_footer();
+    }
+    
     function get_plugin()
     {
         return Request :: get(self :: PARAM_PLUGIN);
