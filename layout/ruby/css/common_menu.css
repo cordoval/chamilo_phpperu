@@ -1,84 +1,71 @@
 /*************************************************************/
-/*   Design:   Multiflex-3 Update-7 / Drop-Down Menu         */
-/*-----------------------------------------------------------*/
-/*   Author:   Wolfgang, based on Stu Nichols ingenious      */
-/*             designs over at www.cssplay.co.uk             */
-/*   Date:     January 15, 2007                              */
-/*   Homepage: wwww.1-2-3-4.info                             */
-/*-----------------------------------------------------------*/
-/*   License:  Public domain.                                */
-/*************************************************************/
-
-/*Basic Setup*/
-
-/*Color navigation bar normal mode*/
-#header1 div.applications
-{
+	/*   Design:   Multiflex-3 Update-7 / Drop-Down Menu         */
+	/*-----------------------------------------------------------*/
+	/*   Author:   Wolfgang, based on Stu Nichols ingenious      */
+	/*             designs over at www.cssplay.co.uk             */
+	/*   Date:     January 15, 2007                              */
+	/*   Homepage: wwww.1-2-3-4.info                             */
+	/*-----------------------------------------------------------*/
+	/*   License:  Public domain.                                */
+	/*************************************************************/
+	/*Basic Setup*/ /*Color navigation bar normal mode*/
+#header1 div.applications {
 	display: inline;
 	/*overflow: hidden;*/
-	
 	position: absolute;
 	bottom: 0px;
 	right: 0px;
 	padding: 0px;
 	height: 24px;
-	
 	color: white;
 	text-decoration: none;
 	font-size: 98%;
 	font-weight: bold;
 }
 
-#header1 div.applications ul
-{
+#header1 div.applications ul {
 	display: inline;
 	margin: 0px;
 	padding: 0px;
 	list-style-type: none;
 }
 
-#header1 div.applications ul li
-{
+#header1 div.applications ul li {
 	display: inline;
-	float:left;
-	position:relative;
+	float: left;
+	position: relative;
 	white-space: nowrap;
 	padding: 0px;
 	margin-left: 3px;
-	
 	-moz-border-radius-topright: 10px;
 	-moz-border-radius-topleft: 10px;
 	-webkit-border-top-right-radius: 10px;
 	-webkit-border-top-left-radius: 10px;
-	
 	background-color: #a00007;
 }
 
-#header1 div.applications ul li.current
-{
-	background: #f2f2f2 url(../images/common/background_header_current.png) repeat-x bottom left;
+#header1 div.applications ul li.current {
+	background: #f2f2f2 url(../images/common/background_header_current.png)
+		repeat-x bottom left;
 	border-left: 1px solid #FFFFFF;
 	border-top: 1px solid #FFFFFF;
 	border-bottom: 1px solid #f2f2f2;
-	z-index:1000;
+	z-index: 1000;
 }
 
-#header1 div.applications ul li:hover
-{
+#header1 div.applications ul li:hover {
 	background-color: #b40009;
 }
 
-#header1 div.applications ul li form
-{
+#header1 div.applications ul li form {
 	float: left;
 	height: 16px;
 	line-height: 16px;
-	text-decoration:none;
+	text-decoration: none;
 }
 
-#header1 div.applications ul li input
-{
-	float:left;
+#header1 div.applications ul li input {
+	float: left;
 	margin: 0;
 	padding: 0;
 	height: 16px;
@@ -88,13 +75,11 @@
 	color: white;
 	background-color: transparent;
 	border: 0px;
-	
 	font-family: arial, verdana, helvetica, sans-serif;
 	font-size: 10px;
 }
 
-#header1 div.applications ul li a
-{
+#header1 div.applications ul li a {
 	float: none !important /*Non-IE6*/;
 	float: left /*IE-6*/;
 	display: block;
@@ -107,28 +92,24 @@
 	color: white;
 }
 
-#header1 div.applications ul li ul
-{
+#header1 div.applications ul li ul {
 	display: none;
 	width: 12.0em;
 	border: 1px solid white;
 }
 
-#header1 div.applications ul li a.current
-{
+#header1 div.applications ul li a.current {
 	color: #444444;
 	text-decoration: none;
 }
 
-#header1 div.applications ul li:hover a.current
-{
+#header1 div.applications ul li:hover a.current {
 	color: #444444;
 	text-decoration: none;
 }
 
-#header1 div.applications ul li:hover ul,
-#header1 div.applications ul li.current:hover ul
-{
+#header1 div.applications ul li:hover ul,#header1 div.applications ul li.current:hover ul
+	{
 	display: block;
 	position: absolute;
 	z-index: 999;
@@ -142,29 +123,25 @@
 	-webkit-border-radius: 0px;
 }
 
-#header1 div.applications ul li.current:hover ul
-{
+#header1 div.applications ul li.current:hover ul {
 	background-color: #f2f2f2;
 }
 
 /*Color subcells normal mode*/
-#header1 div.applications ul li:hover ul li,
-#header1 div.applications ul li.current:hover ul li
-{
+#header1 div.applications ul li:hover ul li,#header1 div.applications ul li.current:hover ul li
+	{
 	margin-left: 0px;
 	background-color: #b40009;
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
 }
 
-#header1 div.applications ul li.current:hover ul li
-{
+#header1 div.applications ul li.current:hover ul li {
 	background-color: #f2f2f2;
 }
 
-#header1 div.applications ul li:hover ul li a,
-#header1 div.applications ul li.current:hover ul li a
-{
+#header1 div.applications ul li:hover ul li a,#header1 div.applications ul li.current:hover ul li a
+	{
 	display: block;
 	width: 12.0em;
 	height: 16px;
@@ -174,46 +151,39 @@
 	color: #FFFFFF;
 }
 
-#header1 div.applications ul li.current:hover ul li a
-{
+#header1 div.applications ul li.current:hover ul li a {
 	border-bottom: 1px dotted white;
 	color: #444444;
 }
 
-#header1 div.applications ul li:hover ul li a.last_subitem
-{
+#header1 div.applications ul li:hover ul li a.last_subitem {
 	border-bottom: 0px solid white;
 }
 
 /*Color subcells hovering mode*/
-#header1 div.applications ul li:hover ul li a:hover,
-#header1 div.applications ul li.current:hover ul li a:hover
-{
+#header1 div.applications ul li:hover ul li a:hover,#header1 div.applications ul li.current:hover ul li a:hover
+	{
 	text-decoration: none;
 	color: #d9d9d9;
 }
 
-#header1 div.applications ul li.current:hover ul li a:hover
-{
+#header1 div.applications ul li.current:hover ul li a:hover {
 	color: red;
 }
 
 /*Color main cells hovering mode*/
-#header1 div.applications ul li a:hover
-{
+#header1 div.applications ul li a:hover {
 	color: #d9d9d9;
 	text-decoration: none;
 	outline: none;
 }
 
-#header1 div.applications ul li a:active
-{
+#header1 div.applications ul li a:active {
 	color: #fa8500;
 	outline: none;
 }
 
-#header1 div.applications ul li a:hover ul
-{
+#header1 div.applications ul li a:hover ul {
 	display: block;
 	width: 12.0em;
 	position: absolute;
@@ -225,8 +195,7 @@
 }
 
 /*Color subcells normal mode*/
-#header1 div.applications ul li a:hover ul li a
-{
+#header1 div.applications ul li a:hover ul li a {
 	display: block;
 	w\idth: 12.0em;
 	height: 1px;
@@ -236,7 +205,6 @@
 }
 
 /*Color subcells hovering mode*/
-#header1 div.applications ul li a:hover ul li a:hover
-{
+#header1 div.applications ul li a:hover ul li a:hover {
 	text-decoration: none;
 }

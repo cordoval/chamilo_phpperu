@@ -28,9 +28,19 @@ class WikiManagerWikiPublicationDeleterComponent extends WikiManagerComponent
                 $ids = array($ids);
             }
             
+//            if (retrieve_evaluation_ids_by_publication($this->get_parent()->APPLICATION_NAME))
+//            {
+//            	$button = '<a ' . $id . $class . 'href="' . htmlentities($elmt['href']) . '" title="' . $label . '"' . ($elmt['confirm'] ? ' onclick="javascript: return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'), ENT_QUOTES, 'UTF-8')) . '\');"' : '') . '>' . $button . '</a>';
+//            }
+            
             foreach ($ids as $id)
             {
-                $wiki_publication = $this->retrieve_wiki_publication($id);
+            	$wiki_publication = $this->retrieve_wiki_publication($id);
+            	if($this->get_parent()->retrieve_evaluation_ids_by_publication($id))
+            	{
+            		if(!$this->get_parent()->move_internal_to_external($wiki_publication))
+            			$message = 'internal database error';
+            	}
                 
                 if (! $wiki_publication->delete())
                 {

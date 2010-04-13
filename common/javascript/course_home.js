@@ -56,18 +56,24 @@
 		var old_class = tool_text.attr('class');
 		var old_tool_img = tool_img.attr('src');
 		
+		var old_parent = parent.parent();
+		
 		// Changes icons and classes
 		imgtag.attr('src', new_img);
    		if(new_visible == 0)
    		{
    			tool_text.addClass('invisible');
    			var new_src = src.replace('.png', '_na.png');
+   			var new_parent = $('div.description', $('div.disabledblock'));
    		}
    		else
    		{
    			tool_text.removeClass('invisible');
    			var new_src = src.replace('_na.png', '.png');
+   			var new_parent = $('div.description', $('div.toolblock:first'));
    		}
+   		
+   		new_parent.prepend(parent);
    		
    		tool_img.attr('src', new_src);
 		
@@ -84,6 +90,7 @@
 	    			imgtag.attr('src', old_img);
 	    			tool_text.attr('class', old_class);
 	    			tool_img.attr('src', old_tool_img);
+	    			old_parent.prepend(parent);
 	    		}
 	    	}
 	    );

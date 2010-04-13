@@ -126,6 +126,16 @@ class EvaluationManager extends SubManager
     	return GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication($application, $publication_id);
     }
     
+ 	function retrieve_evaluation_ids_by_publication($application, $publication_id)
+ 	{
+ 		return GradebookDataManager :: get_instance()->retrieve_evaluation_ids_by_publication($application, $publication_id);
+ 	}
+ 	
+ 	function move_internal_to_external($application, $publication)
+ 	{
+ 		return GradebookDataManager :: get_instance()->move_internal_to_external($application, $publication);
+ 	}
+    
     //url creation
     function get_evaluation_editing_url($evaluation)
     {

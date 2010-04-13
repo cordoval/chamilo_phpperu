@@ -79,7 +79,7 @@ class SearchToolSearcherComponent extends SearchToolComponent
                 {
                     $lo = $publication->get_content_object();
                     $lo_title = $lo->get_title();
-                    $lo_description = $lo->get_description();
+                    $lo_description = strip_tags($lo->get_description());
 
                     if (stripos($lo_title, $query) !== false || stripos($lo_description, $query) !== false)
                         $objects[] = $publication;
@@ -94,10 +94,18 @@ class SearchToolSearcherComponent extends SearchToolComponent
                     foreach ($objects as $index => $pub)
                     {
                         $object = $pub->get_content_object();
-                        $url = $this->get_url(array(WeblcmsManager :: PARAM_TOOL => $tool, Tool :: PARAM_PUBLICATION_ID => $pub->get_id(), Tool :: PARAM_ACTION => 'view'));
+                        if($object->get_type() != 'introduction')
+                        {
+                        	$url = $this->get_url(array(WeblcmsManager :: PARAM_TOOL => $tool, Tool :: PARAM_PUBLICATION_ID => $pub->get_id(), Tool :: PARAM_ACTION => 'view'));
+                        }
+                        else
+                        {
+                        	$url = '#';
+                        }
+                        
                         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_icon_name() . '.png);">';
                         $html[] = '<div class="title"><a href="' . $url . '">' . Text :: highlight($object->get_title(), $query, 'yellow') . '</a></div>';
-                        $html[] = '<div class="description">' . Text :: highlight($object->get_description(), $query, 'yellow') . '</div>';
+                        $html[] = '<div class="description">' . Text :: highlight(strip_tags($object->get_description()), $query, 'yellow') . '</div>';
                         $html[] = '</div>';
                     }
                 }
