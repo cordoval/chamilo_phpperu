@@ -13,9 +13,9 @@ require_once dirname(__FILE__) . '/../../course/course_user_category.class.php';
 class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 {
 
-	const MIXED = 'Mixed';
-	const SEPERATED = 'Seperated';
-	const OPEN_ONLY = 'OpenOnly';
+	const MIXED = 0;
+	const SEPERATED = 1;
+	const OPEN_ONLY = 2;
 	
     /**
      * Runs this component and displays its output.
