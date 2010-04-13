@@ -2,9 +2,9 @@
 
 require_once PATH :: get_reporting_path() . 'lib/reporting_template.class.php';
 
-class AssessmentAttemptReportingTemplate extends ReportingTemplate
+class AssessmentAttemptsReportingTemplate extends ReportingTemplate
 {
-	function AssessmentAttemptReportingTemplate($parent)
+	function AssessmentAttemptsReportingTemplate($parent)
 	{
 		super::$parent;
 		$this->add_reporting_block(new AssessmentAttemptsReportingBlock());

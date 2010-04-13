@@ -1,6 +1,6 @@
 <?php
 
-require_once PATH :: get_reporting_path() . '/lib/reporting_template.clas.php';
+require_once PATH :: get_reporting_path() . '/lib/reporting_template.class.php';
 
 class AssessmentAttemptReportingTemplate extends ReportingTemplate
 {
