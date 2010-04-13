@@ -14,5 +14,12 @@ class AssessmentAttemptReportingTemplate extends ReportingTemplate
 	{
 		//publicatie, content_object, application ... 
 	}
+/**
+	 * 
+	 */
+	function get_application() {
+		
+	}
+
 }
 ?>
