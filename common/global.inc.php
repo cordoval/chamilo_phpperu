@@ -226,9 +226,13 @@ if (isset($_POST['login']))
         }
 
         $login_page = PlatformSetting :: get('page_after_login');
-        if ($login_page == 'weblcms')
+        if ($login_page == 'home')
         {
-            header('Location: run.php?application=weblcms');
+            header('Location: index.php');
+        }
+        else
+        {
+            header('Location: run.php?application=' . $login_page);
         }
     }
     else
