@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: calendar_event_publication.class.php 201 2009-11-13 12:34:51Z chellee $
+ * $Id: personal_calendar_publication.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar
  */
 require_once Path :: get_application_path() . '/lib/personal_calendar/personal_calendar_data_manager.class.php';
@@ -16,12 +16,12 @@ require_once Path :: get_application_path() . '/lib/personal_calendar/personal_c
  *	@author Hans de Bisschop
  *	@author Dieter De Neef
  */
-class CalendarEventPublication extends DataClass
+class PersonalCalendarPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
 
-    const PROPERTY_CALENDAR_EVENT = 'calendar_event_id';
+    const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
 
@@ -34,7 +34,7 @@ class CalendarEventPublication extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CALENDAR_EVENT, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
     }
 
     /**
@@ -49,9 +49,9 @@ class CalendarEventPublication extends DataClass
      * Returns the learning object id from this CalendarEventPublication object
      * @return int The CalendarEvent ID
      */
-    function get_calendar_event()
+    function get_content_object_id()
     {
-        return $this->get_default_property(self :: PROPERTY_CALENDAR_EVENT);
+        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_ID);
     }
 
     /**
@@ -76,9 +76,9 @@ class CalendarEventPublication extends DataClass
      * Sets the learning object id of this CalendarEventPublication.
      * @param Int $id the calendar_event ID.
      */
-    function set_calendar_event($id)
+    function set_content_object_id($id)
     {
-        $this->set_default_property(self :: PROPERTY_CALENDAR_EVENT, $id);
+        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_ID, $id);
     }
 
     /**
@@ -102,7 +102,7 @@ class CalendarEventPublication extends DataClass
     function get_publication_object()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_content_object($this->get_calendar_event());
+        return $rdm->retrieve_content_object($this->get_content_object_id());
     }
 
     function get_publication_publisher()
@@ -122,7 +122,7 @@ class CalendarEventPublication extends DataClass
         $now = time();
         $this->set_published($now);
         $pcdm = PersonalCalendarDataManager :: get_instance();
-        return $pcdm->create_calendar_event_publication($this);
+        return $pcdm->create_personal_calendar_publication($this);
     }
 
     /**
@@ -131,7 +131,7 @@ class CalendarEventPublication extends DataClass
     function create_all()
     {
         $pmdm = PersonalCalendarDataManager :: get_instance();
-        return $pmdm->create_calendar_event_publication($this);
+        return $pmdm->create_personal_calendar_publication($this);
     }
 
     function get_target_users()
@@ -139,7 +139,7 @@ class CalendarEventPublication extends DataClass
         if (! isset($this->target_users))
         {
             $pcdm = PersonalCalendarDataManager :: get_instance();
-            $this->target_users = $pcdm->retrieve_calendar_event_publication_target_users($this);
+            $this->target_users = $pcdm->retrieve_personal_calendar_publication_target_users($this);
         }
 
         return $this->target_users;
@@ -150,7 +150,7 @@ class CalendarEventPublication extends DataClass
         if (! isset($this->target_groups))
         {
             $pcdm = PersonalCalendarDataManager :: get_instance();
-            $this->target_groups = $pcdm->retrieve_calendar_event_publication_target_groups($this);
+            $this->target_groups = $pcdm->retrieve_personal_calendar_publication_target_groups($this);
         }
 
         return $this->target_groups;

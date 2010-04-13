@@ -16,9 +16,9 @@ abstract class PersonalCalendarManagerComponent extends WebApplicationComponent
         parent :: __construct($pcm);
     }
 
-    function retrieve_calendar_event_publication($publication_id)
+    function retrieve_personal_calendar_publication($publication_id)
     {
-        return $this->get_parent()->retrieve_calendar_event_publication($publication_id);
+        return $this->get_parent()->retrieve_personal_calendar_publication($publication_id);
     }
 
     function get_events($from_date, $to_date)

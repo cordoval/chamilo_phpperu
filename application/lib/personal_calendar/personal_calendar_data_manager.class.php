@@ -92,7 +92,7 @@ abstract class PersonalCalendarDataManager
      * @param int $id
      * @return ProfilePublication
      */
-    abstract function retrieve_calendar_event_publication($id);
+    abstract function retrieve_personal_calendar_publication($id);
 
     /**
      * Retrieve a series of profile publications
@@ -102,45 +102,45 @@ abstract class PersonalCalendarDataManager
      * @param int $max_objects
      * @return ProfilePublicationResultSet
      */
-    abstract function retrieve_calendar_event_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
+    abstract function retrieve_personal_calendar_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
     /**
      * Update the publication
      * @param ProfilePublication $profile_publication
      * @return boolean
      */
-    abstract function update_calendar_event_publication($publication);
+    abstract function update_personal_calendar_publication($publication);
 
     /**
      * Delete the publication
      * @param ProfilePublication $profile_publication
      * @return boolean
      */
-    abstract function delete_calendar_event_publication($publication);
+    abstract function delete_personal_calendar_publication($publication);
 
     /**
      * Delete the publications
      * @param Array $object_id An array of publication ids
      * @return boolean
      */
-    abstract function delete_calendar_event_publications($object_id);
+    abstract function delete_personal_calendar_publications($object_id);
 
     /**
      * Update the publication id
      * @param ContentObjectPublicationAttribure $publication_attr
      * @return boolean
      */
-    abstract function update_calendar_event_publication_id($publication_attr);
+    abstract function update_personal_calendar_publication_id($publication_attr);
 
     /**
      * Create a publication
      * @param PersonalMessagePublication $publication
      * @return boolean
      */
-    abstract function create_calendar_event_publication($publication);
+    abstract function create_personal_calendar_publication($publication);
 
-    abstract function retrieve_calendar_event_publication_target_groups($calendar_event_publication);
+    abstract function retrieve_personal_calendar_publication_target_groups($calendar_event_publication);
 
-    abstract function retrieve_calendar_event_publication_target_users($calendar_event_publication);
+    abstract function retrieve_personal_calendar_publication_target_users($calendar_event_publication);
 }
 ?>

@@ -44,6 +44,7 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
         $minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
         $html[] = '<div class="mini_calendar">';
         $html[] = $minimonthcalendar->render();
+
         $html[] = '</div>';
         $html[] = '<div class="normal_calendar">';
         $show_calendar = true;

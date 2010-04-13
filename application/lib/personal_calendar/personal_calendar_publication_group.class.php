@@ -1,24 +1,24 @@
 <?php
 /**
- * $Id: calendar_event_publication_user.class.php 201 2009-11-13 12:34:51Z chellee $
+ * $Id: personal_calendar_publication_group.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar
  */
 
 /**
- * This class describes a ContentObjectPublicationUser data object
+ * This class describes a ContentObjectPublicationCourseGroup data object
  *
  * @author Hans De Bisschop
  */
-class CalendarEventPublicationUser
+class PersonalCalendarPublicationGroup
 {
     const CLASS_NAME = __CLASS__;
-    const TABLE_NAME = 'publication_user';
+    const TABLE_NAME = 'publication_group';
     
     /**
-     * ContentObjectPublicationUser properties
+     * ContentObjectPublicationCourseGroup properties
      */
     const PROPERTY_PUBLICATION = 'publication_id';
-    const PROPERTY_USER = 'user_id';
+    const PROPERTY_GROUP_ID = 'group_id';
     
     /**
      * Default properties stored in an associative array.
@@ -26,10 +26,10 @@ class CalendarEventPublicationUser
     private $defaultProperties;
 
     /**
-     * Creates a new ContentObjectPublicationUser object
+     * Creates a new ContentObjectPublicationCourseGroup object
      * @param array $defaultProperties The default properties
      */
-    function CalendarEventPublicationUser($defaultProperties = array ())
+    function PersonalCalendarPublicationGroup($defaultProperties = array ())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -58,7 +58,7 @@ class CalendarEventPublicationUser
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_PUBLICATION, self :: PROPERTY_USER);
+        return array(self :: PROPERTY_PUBLICATION, self :: PROPERTY_GROUP_ID);
     }
 
     /**
@@ -80,7 +80,7 @@ class CalendarEventPublicationUser
     }
 
     /**
-     * Returns the publication of this ContentObjectPublicationUser.
+     * Returns the publication of this ContentObjectPublicationCourseGroup.
      * @return the publication.
      */
     function get_publication()
@@ -89,7 +89,7 @@ class CalendarEventPublicationUser
     }
 
     /**
-     * Sets the publication of this ContentObjectPublicationUser.
+     * Sets the publication of this ContentObjectPublicationCourseGroup.
      * @param publication
      */
     function set_publication($publication)
@@ -98,39 +98,39 @@ class CalendarEventPublicationUser
     }
 
     /**
-     * Returns the user of this ContentObjectPublicationUser.
-     * @return the user.
+     * Returns the course_group_id of this ContentObjectPublicationCourseGroup.
+     * @return the course_group_id.
      */
-    function get_user()
+    function get_group_id()
     {
-        return $this->get_default_property(self :: PROPERTY_USER);
+        return $this->get_default_property(self :: PROPERTY_GROUP_ID);
     }
 
     /**
-     * Sets the user of this ContentObjectPublicationUser.
-     * @param user
+     * Sets the course_group_id of this ContentObjectPublicationCourseGroup.
+     * @param course_group_id
      */
-    function set_user($user)
+    function set_group_id($group_id)
     {
-        $this->set_default_property(self :: PROPERTY_USER, $user);
+        $this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
     }
 
     function delete()
     {
         $dm = PersonalCalendarDataManager :: get_instance();
-        return $dm->delete_calendar_event_publication_user($this);
+        return $dm->delete_calendar_event_publication_group($this);
     }
 
     function create()
     {
         $dm = PersonalCalendarDataManager :: get_instance();
-        return $dm->create_calendar_event_publication_user($this);
+        return $dm->create_calendar_event_publication_group($this);
     }
 
     function update()
     {
         $dm = PersonalCalendarDataManager :: get_instance();
-        return $dm->update_calendar_event_publication_user($this);
+        return $dm->update_calendar_event_publication_group($this);
     }
 
     static function get_table_name()
