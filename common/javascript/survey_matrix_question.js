@@ -57,24 +57,22 @@ $(function ()
 		deleteField = '<input id="remove_option_$option_number" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[$option_number]" />';
 		rows = $('.data_table.options > tbody > tr');
 
-		if (rows.size() <= 2)
+		if (rows.size() <= 1)
 		{
 			deleteField = deleteImage;
 		}
 		
 		rows.each(function ()
 		{
-			var weightField, weightFieldName, id, appendField;
-			
-			weightField = $('input[name*="option_weight"]', this);
-			weightFieldName = weightField.attr('name');
-			id = weightFieldName.substr(14, weightFieldName.length - 15);
-			
-			appendField = deleteField.replace(/\$option_number/g, id);
-			
+			var rowName, id, appendField;
+		    
+			rowName = $(this).attr('id');
+		    id = rowName.substr(7);
+		    appendField = deleteField.replace(/\$option_number/g, id);
+	
 		    $('.remove_option', this).remove();
 		    $('td:last', this).append(appendField);
-		    $('td:first', this).html(counter);
+			$('td:first', this).html(counter);
 			
 			counter += 1;
 		});

@@ -204,7 +204,7 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         //$table_name = $dummy->get_table_name();
         //$result = $database->retrieve_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
         //$condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $result);
-        return $dummy->retrieve_tracker_items_result_set($condition);
+        return $dummy->retrieve_tracker_items_result_set($condition, $offset , $max_objects, $order_by);
     
     }
 
