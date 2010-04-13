@@ -1,7 +1,7 @@
 /*****************************************************
  *  DATA TABLE STYLES                                *
  *****************************************************/
-.data_table, div.table {
+.data_table,div.table {
 	width: 100%;
 	padding: 0;
 	margin: 0;
@@ -11,7 +11,7 @@
 	border-spacing: 0px;
 }
 
-.data_table th, div.header{
+.data_table th,div.header {
 	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #4171b5;
 	border-top: 1px solid white;
@@ -25,19 +25,20 @@
 		repeat-x;
 }
 
-.data_table tr.row_even, div.row_even {
+.data_table tr.row_even,div.row_even {
 	background: #fff;
 }
 
-.data_table tr.row_even:hover,.data_table tr.row_odd:hover, div.row_even:hover, div.row_odd:hover {
+.data_table tr.row_even:hover,.data_table tr.row_odd:hover,div.row_even:hover,div.row_odd:hover
+	{
 	background-color: #f0f0f0;
 }
 
-.data_table tr.row_odd, div.row_odd {
+.data_table tr.row_odd,div.row_odd {
 	background-color: #eef5fa;
 }
 
-.data_table td, div.cell {
+.data_table td,div.cell {
 	border-right: 1px solid #b5cae7;
 	border-top: 1px solid #b5cae7;
 	padding: 6px 10px 6px 10px;
