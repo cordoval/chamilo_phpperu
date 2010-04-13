@@ -89,6 +89,13 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$condition = new AndCondition($conditions);
 		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
 	}
+	
+	function delete_internal_item($internal_item)
+	{
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $internal_item->get_id());
+		return $this->database->delete(InternalItem :: get_table_name(), $condition);
+	}
+	
 // internal item instance
 	
 	function delete_internal_item_instance($internal_item_instance)
@@ -103,7 +110,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
         
 		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID, $internal_item_id);
 		$query = 'SELECT ' . $this->database->escape_column_name(InternalItemInstance :: PROPERTY_EVALUATION_ID,$internal_item_instance_alias) . ' FROM ' . $this->database->escape_table_name(InternalItemInstance :: get_table_name()) .  ' AS ' . $internal_item_instance_alias;
-		return $this->database->retrieve_object_set($query, InternalItemInstance :: get_table_name(), $condition);
+		return $this->database->retrieve_record_set($query, InternalItemInstance :: get_table_name(), $condition);
 	}
 	function retrieve_internal_item_instance_by_evaluation($evaluation_id)
 	{
@@ -162,6 +169,12 @@ class DatabaseGradebookDataManager extends GradebookDataManager
         return $this->database->retrieve_object_set($query, Evaluation :: get_table_name(), $condition, $offset, $max_objects, $order_by, Evaluation :: CLASS_NAME);
 	}
 	
+	function retrieve_evaluation_ids_by_publication($application, $publication_id)
+	{
+		$internal_item = $this->retrieve_internal_item_by_publication($application, $publication_id);
+		return $this->retrieve_evaluation_ids_by_internal_item_id($internal_item->get_id());
+	}
+	
 	function count_all_evaluations_on_publication($publication_id)
 	{
 		$gdm = GradebookDataManager :: get_instance();
@@ -172,6 +185,18 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$internal_item_id = $this->retrieve_internal_item_by_publication(Request :: get('application'),$publication_id)->get_id();
 		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID, $internal_item_id);
         return $this->database->count_result_set($query, InternalItemInstance :: get_table_name(), $condition);
+	}
+	
+	function move_internal_to_external($application, $publication)
+	{
+		$internal_item = $this->retrieve_internal_item_by_publication($application, $publication->get_id());
+		$evaluations_id = $this->retrieve_evaluation_ids_by_internal_item_id($internal_item->get_id())->as_array();
+		$external_item = $this->create_external_item_by_publication($publication);
+		$ext_item_inst = $this->create_external_item_instance_by_moving($external_item, $evaluations_id);
+		$del_internal_item = $this->delete_internal_item($internal_item);
+		if(!($internal_item || $evaluations_id || $external_item || $ext_item_inst || $del_internal_item))
+			return false;
+		return true;
 	}
 	
 	function delete_evaluation($evaluation)
@@ -261,6 +286,40 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$condition = new EqualityCondition(GradeEvaluation :: PROPERTY_ID, $grade_evaluation->get_id());
 		return $this->database->update($grade_evaluation, $condition);
 	}
+	
+	//gradebook external item
+	
+	function create_external_item_by_publication($publication)
+	{
+		$external_item = new ExternalItem();
+		$external_item->set_title($publication->get_content_object()->get_title());
+		$external_item->set_description($publication->get_content_object()->get_description());
+		$this->database->create($external_item);
+		return $external_item;
+	}
+	
+	
+	//gradebook external item instance
+	
+	function create_external_item_instance_by_moving($external_item, $evaluations_id)
+	{
+		for($i = 0;$i<count($evaluations_id);$i++)
+		{
+			$id = $evaluations_id[$i]['evaluation_id'];
+			$external_item_instance = new ExternalItemInstance();
+			$external_item_instance->set_external_item_id($external_item->get_id());
+			$external_item_instance->set_evaluation_id($id);
+			if($this->database->create($external_item_instance))
+			{
+				if(!$this->delete_internal_item_instance($this->retrieve_internal_item_instance_by_evaluation($id)))
+					return false;
+			}
+			else 
+				return false;
+		}
+		return true;
+	}
+	
 /*
 	//gradebook_items rel user
 
