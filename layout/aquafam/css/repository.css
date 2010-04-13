@@ -1,25 +1,21 @@
 @CHARSET "ISO-8859-1";
 
-tr.recycled td
-{
-	/*text-decoration:line-through;*/
-	color:#cccccc;
+tr.recycled td { /*text-decoration:line-through;*/
+	color: #cccccc;
 }
-tr.recycled td a
-{
-	color:#cccccc;
+
+tr.recycled td a {
+	color: #cccccc;
 }
-tr.recycled td a:hover
-{
+
+tr.recycled td a:hover {
 	color: #ff7777;
 }
 
 /**********************************************
  * LEARNING PATH BUILDER PREREQUISUITE STYLES *
  **********************************************/
- 
-div.prerequisite_group
-{
+div.prerequisite_group {
 	clear: both;
 	margin: 20px 2px 2px 2px;
 	padding: 0px;
@@ -30,8 +26,7 @@ div.prerequisite_group
 	-webkit-border-bottom-left-radius: 10px;
 }
 
-div.prerequisite_group div.header
-{
+div.prerequisite_group div.header {
 	-moz-border-radius-topright: 10px;
 	-webkit-border-top-right-radius: 10px;
 	background-color: #EEF5FA;
@@ -43,23 +38,19 @@ div.prerequisite_group div.header
 	padding: 10px;
 }
 
-div.prerequisite_group div.header div.operator
-{
+div.prerequisite_group div.header div.operator {
 	float: left;
 }
 
-div.prerequisite_group div.header div.title
-{
+div.prerequisite_group div.header div.title {
 	float: left;
 }
 
-div.prerequisite_group div.header div.actions
-{
+div.prerequisite_group div.header div.actions {
 	float: right;
 }
 
-div.prerequisite_group div.body
-{
+div.prerequisite_group div.body {
 	background-color: #F6F6F6;
 	/*border: 1px solid #F6F6F6;*/
 	padding: 10px;

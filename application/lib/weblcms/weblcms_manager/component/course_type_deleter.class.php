@@ -33,16 +33,15 @@ class WeblcmsManagerCourseTypeDeleterComponent extends WeblcmsManagerComponent
         
         if (! empty($course_type_id))
         {
+        	$wdm = WeblcmsDataManager::get_instance();
             if (! is_array($course_type_id))
             {
                 $course_type_id = array($course_type_id);
             }
             
             foreach ($course_type_id as $course_type_id)
-            {
-                $course_type = $this->get_parent()->retrieve_course_type($course_type_id);
-                
-                if (! $course_type->delete())
+            {                
+                if (! $wdm->delete_course_type($course_type_id))
                 {
                     $failures ++;
                 }

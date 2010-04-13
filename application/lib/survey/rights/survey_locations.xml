@@ -10,5 +10,8 @@
 		<location name="CategoryManager" type="survey_component"
 			identifier="category_manager">
 		</location>
+		<location name="Reporting" type="survey_component"
+			identifier="reporting">
+		</location>
 	</children>
 </location>

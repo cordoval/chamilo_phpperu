@@ -61,9 +61,9 @@ abstract class MainTracker
         return $trkdmg->retrieve_tracker_items($this->table, get_class($this), $condition);
     }
 
-    function retrieve_tracker_items_result_set($condition, $order_by)
+    function retrieve_tracker_items_result_set($condition, $offset = null, $max_objects = null, $order_by = array())
     {
-        return TrackingDataManager :: get_instance()->retrieve_tracker_items_result_set($this->table, get_class($this), $condition, $order_by);
+        return TrackingDataManager :: get_instance()->retrieve_tracker_items_result_set($this->table, $condition, $offset, $max_objects, $order_by, get_class($this));
     }
 
     function count_tracker_items($condition)

@@ -34,6 +34,10 @@ class Connection
 
         // The following line is for software under development, to be disabled, see below:
         $this->connection = MDB2 :: connect($configuration->get_parameter('database', 'connection_string'), array('debug' => 3));
+        if(MDB2 :: isError($this->connection))
+        {
+        	throw new Exception('The system can not connect to the database. If you are installing, please remove the configuration file.');
+        } 
         // TODO: The following line is for production systems, debugging feature is disabled:
         //$this->connection = MDB2 :: connect($configuration->get_parameter('database', 'connection_string'), array('debug' => 0));
     }

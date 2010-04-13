@@ -96,13 +96,16 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
             $toolbar_data[] = array('href' => $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_MOVE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id(), CourseSectionsTool :: PARAM_DIRECTION => 1)), 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
         }
         
-        if ($course_section->get_visible())
+        if($course_section->get_name() != Translation :: get('CourseAdministration'))
         {
-            $toolbar_data[] = array('href' => $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())), 'label' => Translation :: get('ChangeVisible'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
-        }
-        else
-        {
-            $toolbar_data[] = array('href' => $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())), 'label' => Translation :: get('ChangeVisible'), 'img' => Theme :: get_common_image_path() . 'action_invisible.png');
+	        if ($course_section->get_visible())
+	        {
+	            $toolbar_data[] = array('href' => $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())), 'label' => Translation :: get('ChangeVisible'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
+	        }
+	        else
+	        {
+	            $toolbar_data[] = array('href' => $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())), 'label' => Translation :: get('ChangeVisible'), 'img' => Theme :: get_common_image_path() . 'action_invisible.png');
+	        }
         }
         
         return Utilities :: build_toolbar($toolbar_data);

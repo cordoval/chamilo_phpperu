@@ -39,7 +39,7 @@ class WikiManager extends WebApplication
      * Run this wiki manager
      */
     function run()
-    {
+    { 
         $action = $this->get_action();
         $component = null;
         switch ($action)
@@ -118,6 +118,21 @@ class WikiManager extends WebApplication
     {
         return WikiDataManager :: get_instance()->retrieve_wiki_publication($id);
     }
+    
+    function retrieve_evaluation_ids_by_publication($id)
+    {
+    	require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
+    	return EvaluationManager :: retrieve_evaluation_ids_by_publication(self :: APPLICATION_NAME, $id);
+    }
+
+    function move_internal_to_external($publication)
+    {
+    	if(WebApplication :: is_active('gradebook'))
+        {
+	    	//require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
+	    	return EvaluationManager :: move_internal_to_external(self :: APPLICATION_NAME, $publication);
+        }
+    }
 
     // Url Creation
     
@@ -129,13 +144,10 @@ class WikiManager extends WebApplication
  	
     function get_evaluation_publication_url($wiki_publication)
     {
-        if(WebApplication :: is_active('gradebook'))
-        {
-        	require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
-        	$parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $wiki_publication->get_id();
-        	$parameter_string = base64_encode(serialize($parameters));
-        	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, EvaluationManager :: PARAM_PARAMETERS => $parameter_string));
-        }
+        require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        $parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $wiki_publication->get_id();
+        $parameter_string = base64_encode(serialize($parameters));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, EvaluationManager :: PARAM_PARAMETERS => $parameter_string));
     }
 
     function get_update_wiki_publication_url($wiki_publication)

@@ -1,4 +1,5 @@
 @CHARSET "ISO-8859-1";
+
 .treeview-gray li {
 	background-image: url(../images/common/treemenu/treeview-gray-line.gif);
 }
@@ -20,8 +21,8 @@
 }
 
 .treeview .hitarea {
-	background: url(../images/common/treemenu/treeview-default.gif) -64px -25px
-		no-repeat;
+	background: url(../images/common/treemenu/treeview-default.gif) -64px
+		-25px no-repeat;
 	height: 16px;
 	width: 16px;
 	margin-left: -16px;
@@ -88,48 +89,43 @@
 	background-position: 0;
 }
 
-ul.rights_legend
-{
+ul.rights_legend {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-ul.rights_legend li
-{
+
+ul.rights_legend li {
 	margin: 0;
 	padding: 0;
 }
-ul.rights_legend img
-{
+
+ul.rights_legend img {
 	vertical-align: middle;
 	padding: 1px;
 }
 
-ul.rights_legend li span
-{
+ul.rights_legend li span {
 	margin: 0px 0px 0px 4px;
 }
 
-ul.rights_children, ul.rights_parents, ul.rights_siblings
-{
+ul.rights_children,ul.rights_parents,ul.rights_siblings {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-ul.rights_children li, ul.rights_parents li, ul.rights_siblings li
-{
+ul.rights_children li,ul.rights_parents li,ul.rights_siblings li {
 	margin: 0;
 	padding: 0;
 }
 
-ul.rights_children img, ul.rights_parents img, ul.rights_siblings img
-{
+ul.rights_children img,ul.rights_parents img,ul.rights_siblings img {
 	vertical-align: middle;
 	padding: 1px;
 }
 
-ul.rights_children li span, ul.rights_parents li span, ul.rights_siblings li span
-{
+ul.rights_children li span,ul.rights_parents li span,ul.rights_siblings li span
+	{
 	margin: 0px 0px 0px 4px;
 }

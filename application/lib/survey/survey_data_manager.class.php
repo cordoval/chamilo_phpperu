@@ -4,11 +4,11 @@
  * @package application.lib.survey
  */
 /**
- *	This is a skeleton for a data manager for the Survey Application.
- *	Data managers must extend this class and implement its abstract methods.
+ * This is a skeleton for a data manager for the Survey Application.
+ * Data managers must extend this class and implement its abstract methods.
  *
- *  @author Sven Vanpoucke
- *	@author
+ * @author Sven Vanpoucke
+ * @author
  */
 abstract class SurveyDataManager
 {
@@ -72,7 +72,7 @@ abstract class SurveyDataManager
     abstract function retrieve_survey_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
     abstract function select_next_survey_publication_category_display_order($parent);
-      
+
     abstract function create_survey_publication_mail($survey_publication_mail);
 
     abstract function update_survey_publication_mail($survey_publication_mail);
@@ -84,7 +84,10 @@ abstract class SurveyDataManager
     abstract function retrieve_survey_publication_mail($id);
 
     abstract function retrieve_survey_publication_mails($condition = null, $offset = null, $count = null, $order_property = null);
-    
-    
+
+    abstract function count_survey_pages($survey_ids, $conditions = null);
+
+    abstract function retrieve_survey_pages($survey_ids, $condition = null, $offset = null, $count = null, $order_property = null);
+
 }
 ?>

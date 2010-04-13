@@ -15,5 +15,26 @@ class AssessmentAttemptsReportingBlock extends AssessmentReportingBlock
         require_once $file;
         $this->data = call_user_func('Reporting' . $this->get_application() . '::' . $this->get_function(), $this->get_function_parameters());
 	}
+/**
+	 * 
+	 */
+	public function retrieve_date() {
+		
+	}
+
+/**
+	 * 
+	 */
+	function get_application() {
+		
+	}
+
+/**
+	 * 
+	 */
+	function get_available_displaymodes() {
+		
+	}
+
 }
 ?>

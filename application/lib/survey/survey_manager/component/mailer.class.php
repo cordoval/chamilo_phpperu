@@ -16,7 +16,15 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
     function run()
     {
         
-        $trail = new BreadcrumbTrail();
+    	if (! SurveyRights :: is_allowed(SurveyRights :: MAIL_RIGHT, 'publication_browser', 'sts_component'))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+    	
+    	$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
 //        $trail->add(new Breadcrumb($this->get_mail_survey_participant_url(), Translation :: get('MailParticipants')));
         

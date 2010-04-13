@@ -163,8 +163,8 @@ img {
 #breadcrumbtrail li a {
 	display: block;
 	padding: 0 15px 0 0;
-	background: url(../images/common/background_breadcrumb.png) no-repeat right
-		center;
+	background: url(../images/common/background_breadcrumb.png) no-repeat
+		right center;
 	color: #444444;
 }
 
@@ -177,7 +177,7 @@ img {
 	outline: none;
 }
 
-#trailbox #help_item, #trailbox #extra_item {
+#trailbox #help_item,#trailbox #extra_item {
 	float: right;
 	height: 26px;
 	line-height: 26px;
@@ -187,7 +187,7 @@ img {
 /*****************************************************
  *  FOOTER STYLES                                    *
  *****************************************************/
-#footer, #sitemap {
+#footer,#sitemap {
 	clear: both;
 	padding-left: 19px;
 	padding-right: 19px;
@@ -384,7 +384,7 @@ img {
 }
 
 .debug {
-	background-color:#ffff55;
+	background-color: #ffff55;
 	color: #000000;
 	padding: 5px;
 }
@@ -602,7 +602,8 @@ div.attachments {
 	border: 1px solid #F6F6F6;
 	margin: 0 0 1em 0;
 	padding: 10px 10px 10px 44px;
-	background: url(../images/common/place_attachment.png) no-repeat 10px 10px;
+	background: url(../images/common/place_attachment.png) no-repeat 10px
+		10px;
 }
 
 div.attachments_title {
@@ -686,12 +687,13 @@ div.versions,div.versions_na {
 }
 
 div.versions {
-	background: url(../images/common/place_versions.png) no-repeat 10px 10px;
+	background: url(../images/common/place_versions.png) no-repeat 10px 10px
+		;
 }
 
 div.versions_na {
-	background: url(../images/common/place_versions_na.png) no-repeat 10px 10px
-		;
+	background: url(../images/common/place_versions_na.png) no-repeat 10px
+		10px;
 }
 
 div.versions_title {
@@ -724,8 +726,8 @@ div.version_stats {
 }
 
 div.version_stats_na {
-	background: url(../images/common/place_version_quota_na.png) no-repeat 10px
-		10px;
+	background: url(../images/common/place_version_quota_na.png) no-repeat
+		10px 10px;
 }
 
 div.version_stats_title {
@@ -774,8 +776,8 @@ div.publications {
 }
 
 div.publications_na {
-	background: url(../images/common/place_publications_na.png) no-repeat 10px
-		10px;
+	background: url(../images/common/place_publications_na.png) no-repeat
+		10px 10px;
 }
 
 div.publications_title {
@@ -1012,7 +1014,7 @@ div.survey-categories-header,div.survey-outline-header,div.survey-result-header
 /*****************************************************
  *  SOME MORE GENERIC STYLES                         *
  *****************************************************/
-/* Repository Quota */
+	/* Repository Quota */
 .usage_bar {
 	width: 401px;
 	height: 24px;
@@ -1049,14 +1051,14 @@ div.survey-categories-header,div.survey-outline-header,div.survey-result-header
 }
 
 /* Progress and rating bars */
-.progress_bar, .rating_bar {
+.progress_bar,.rating_bar {
 	float: left;
 	width: 101px;
 	height: 12px;
 	border: 1px solid #999;
 }
 
-.progress_bar div, .rating_bar div {
+.progress_bar div,.rating_bar div {
 	float: left;
 	margin: 1px 0px 0px 1px;
 	padding: 0;
@@ -1065,12 +1067,12 @@ div.survey-categories-header,div.survey-outline-header,div.survey-result-header
 	width: 1px;
 }
 
-.progress_information, .rating_information {
+.progress_information,.rating_information {
 	height: 14px;
 	margin: 0px;
 }
 
-.progress_status, .rating_status {
+.progress_status,.rating_status {
 	float: left;
 	margin: 0px 0px 0px 10px;
 }
@@ -1154,12 +1156,12 @@ ul.toolbar li span,ul.toolbar_horizontal li span,ul.toolbar_vertical li span
 }
 
 ul.toolbar li.last span,ul.toolbar_horizontal li.last span,ul.toolbar_vertical li.last span
-{
+	{
 	padding-right: 0;
 }
 
 ul.toolbar li span.legend,ul.toolbar_horizontal li span.legend,ul.toolbar_vertical li span.legend
-{
+	{
 	color: black;
 }
 
@@ -1391,9 +1393,7 @@ div.block div.description_contains {
 	clear: both;
 }
 
-div.block div.description img,
-div.block div.description_contains img
-{
+div.block div.description img,div.block div.description_contains img {
 	max-width: 100%;
 }
 
@@ -1482,8 +1482,8 @@ a.modalCloseImg {
 }
 
 .togglePlus {
-	background: url(../images/common/treemenu/bullet_toggle_plus.png) no-repeat
-		;
+	background: url(../images/common/treemenu/bullet_toggle_plus.png)
+		no-repeat;
 	height: 16px;
 	width: 13px;
 	margin-right: 0px;
@@ -1575,7 +1575,8 @@ a.modalCloseImg {
 	display: inline-block;
 }
 
-.close_message, .close_normal_message,.close_error_message,.close_warning_message {
+.close_message,.close_normal_message,.close_error_message,.close_warning_message
+	{
 	float: right;
 	width: 16px;
 	height: 16px;
@@ -1587,21 +1588,23 @@ a.modalCloseImg {
 	cursor: pointer;
 }
 
-.close_message
-{
-	background: url(../images/common/action_close_message.png) no-repeat;	
+.close_message {
+	background: url(../images/common/action_close_message.png) no-repeat;
 }
 
 .close_normal_message {
-	background: url(../images/common/action_close_normal_message.png) no-repeat;
+	background: url(../images/common/action_close_normal_message.png)
+		no-repeat;
 }
 
 .close_error_message {
-	background: url(../images/common/action_close_error_message.png) no-repeat;
+	background: url(../images/common/action_close_error_message.png)
+		no-repeat;
 }
 
 .close_warning_message {
-	background: url(../images/common/action_close_warning_message.png) no-repeat;
+	background: url(../images/common/action_close_warning_message.png)
+		no-repeat;
 }
 
 .rightTrue {
@@ -1619,8 +1622,8 @@ a.modalCloseImg {
 }
 
 .rightInheritTrue {
-	background: url(../images/common/action_setting_true_inherit.png) no-repeat
-		;
+	background: url(../images/common/action_setting_true_inherit.png)
+		no-repeat;
 	width: 16px;
 	height: 16px;
 	display: inline-block;
@@ -1896,6 +1899,18 @@ div.assessment div.description {
 }
 
 div.assessment div.description p {
+	margin: 0px;
+	padding: 0px;
+}
+
+div.assessment div.information {
+	padding: 6px 10px 6px 10px;
+	border: 1px solid #cecece;
+	background-color: #f4f4f4;
+	margin-left: 50px;
+}
+
+div.assessment div.information p {
 	margin: 0px;
 	padding: 0px;
 }
