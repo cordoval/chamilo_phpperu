@@ -87,7 +87,8 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
         }
         
         $js .= '<script type="text/javascript">';
-        $js .= 'var path = \'' . Path :: get(WEB_LIB_PATH) . '\';';
+        $js .= 'var path = \'' . Path :: get(WEB_LIB_PATH) . '\';' . "\n";
+        $js .= 'var max_year="' . (date('Y') + 5) . '";';
         $js .= '</script>';
 
         //$js .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');

@@ -973,7 +973,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$conditions = array();
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
-		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course);
+		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course->get_id());
 		$condition = new AndCondition($conditions);
 		return $this->database->count_objects(CourseUserRelation :: get_table_name(), $condition) > 0;
 	}
@@ -982,7 +982,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$conditions = array();
 		$conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $group_id);
-		$conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $course);
+		$conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $course_id);
 		$condition = new AndCondition($conditions);
 		return $this->database->count_objects(CourseGroupRelation :: get_table_name(), $condition) > 0;
 	}

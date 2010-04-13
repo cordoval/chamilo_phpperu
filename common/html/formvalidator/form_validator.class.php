@@ -371,7 +371,7 @@ EOT;
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="receivers_window_'.$elementName.'">');
 
-        $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+        $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
 

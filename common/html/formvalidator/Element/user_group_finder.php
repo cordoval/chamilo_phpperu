@@ -12,9 +12,9 @@ require_once Path :: get_library_path() . 'html/formvalidator/Element/element_fi
 class HTML_QuickForm_user_group_finder extends HTML_QuickForm_element_finder
 {
 
-    function HTML_QuickForm_user_group_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array ())
+    function HTML_QuickForm_user_group_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array (), $options = array())
     {
-        parent :: __construct($elementName, $elementLabel, $search_url, $locale, $default_values);
+        parent :: __construct($elementName, $elementLabel, $search_url, $locale, $default_values, $options);
         $this->_type = 'user_group_finder';
     }
 
