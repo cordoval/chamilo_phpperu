@@ -21,7 +21,7 @@
 	overflow: hidden;
 }
 
-#progresstrail li, #progresstrail li.active {
+#progresstrail li,#progresstrail li.active {
 	float: left;
 	line-height: 26px;
 	color: #777;
@@ -37,7 +37,7 @@
 	background-color: #E5EDF9;
 }
 
-#progresstrail li a, #progresstrail li.active a {
+#progresstrail li a,#progresstrail li.active a {
 	display: block;
 	cursor: default;
 }

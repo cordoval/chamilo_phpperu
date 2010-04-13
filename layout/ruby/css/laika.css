@@ -1,18 +1,16 @@
 @CHARSET "ISO-8859-1";
-th.graph_header
-{
+
+th.graph_header {
 	padding: 0px;
 	text-align: center;
 }
 
-#laikaOverlay
-{
+#laikaOverlay {
 	background-color: #efefef;
 	cursor: wait;
 }
 
-#laikaContainer
-{
+#laikaContainer {
 	position: fixed;
 	width: 400px;
 	background-color: #FFFFFF;
@@ -21,8 +19,7 @@ th.graph_header
 	-webkit-border-radius: 10px;
 }
 
-a.modalCloseImg
-{
+a.modalCloseImg {
 	background: url(../images/home/background_modal_close.png) no-repeat;
 	width: 34px;
 	height: 34px;
@@ -34,8 +31,7 @@ a.modalCloseImg
 	cursor: pointer;
 }
 
-.scaleInformationBox
-{
+.scaleInformationBox {
 	margin: 30px 30px 30px 30px;
 	text-align: justify;
 	clear: both;

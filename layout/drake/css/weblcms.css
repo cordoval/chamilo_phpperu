@@ -348,7 +348,8 @@ table.forum .row2 {
 
 table.forum td.category {
 	background-color: #C7D0D7;
-	background-image: url('../images/weblcms/forum/backgrounds/cellpic1.gif');
+	background-image:
+		url('../images/weblcms/forum/backgrounds/cellpic1.gif');
 	height: 28px;
 	border: 0 none;
 	margin: 0;
@@ -357,7 +358,8 @@ table.forum td.category {
 }
 
 table.forum td.category_right {
-	background-image: url('../images/weblcms/forum/backgrounds/cellpic2.jpg');
+	background-image:
+		url('../images/weblcms/forum/backgrounds/cellpic2.jpg');
 	height: 28px;
 }
 
@@ -408,7 +410,8 @@ table.forum td.category {
 }
 
 table.forum td.category_right {
-	background-image: url('../images/weblcms/forum/backgrounds/cellpic2.png');
+	background-image:
+		url('../images/weblcms/forum/backgrounds/cellpic2.png');
 	height: 28px;
 }
 
