@@ -274,7 +274,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             //$html = array();
             if ($this->is_course_admin || $tool->visible)
             {
-                if ($section->get_type() == CourseSection :: TYPE_TOOL)
+                if ($section->get_type() == CourseSection :: TYPE_TOOL || $section->get_type() == CourseSection :: TYPE_DISABLED)
                 {
                     $html[] = '<div id="tool_' . $tool->id . '" class="tool" style="width: ' . $column_width . '%;">';
                     //$html[] = '<div id="drag_' . $tool->id . '" class="tooldrag" style="width: 20px; cursor: pointer; display:none;"><img src="'. Theme :: get_common_image_path() .'action_drag.png" alt="'. Translation :: get('DragAndDrop') .'" title="'. Translation :: get('DragAndDrop') .'" /></div>';
