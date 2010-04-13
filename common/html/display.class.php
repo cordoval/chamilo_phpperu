@@ -79,6 +79,7 @@ class Display
     public static function error_message($message, $return = false)
     {
         $html = array();
+        $html[] = '<div class="clear"></div>';
         $html[] = '<div class="error-message">';
         $html[] = $message;
         $html[] = '<div class="close_message" id="closeMessage"></div>';
