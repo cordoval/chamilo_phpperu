@@ -450,10 +450,10 @@ class RepositoryManager extends CoreApplication
 
         if ($display_menu)
         {
-            echo '<div id="repository_tree_container" style="float: left; width: 12%;">';
+            echo '<div id="repository_tree_container" style="float: left; width: 15%;">';
             $this->display_content_object_categories();
             echo '</div>';
-            echo '<div style="float: right; width: 85%;">';
+            echo '<div style="float: right; width: 82%;">';
         }
         else
         {
@@ -468,19 +468,19 @@ class RepositoryManager extends CoreApplication
         }
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
-        
+
         $message = Request :: get(self :: PARAM_MESSAGE);
         if ($message)
         {
             $this->display_message($message);
         }
-        
+
         $message = Request :: get(self :: PARAM_ERROR_MESSAGE);
         if ($message)
         {
             $this->display_error_message($message);
         }
-        
+
         $message = Request :: get(self :: PARAM_WARNING_MESSAGE);
         if ($message)
         {
