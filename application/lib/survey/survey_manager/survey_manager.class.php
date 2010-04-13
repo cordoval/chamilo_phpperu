@@ -70,6 +70,9 @@ class SurveyManager extends WebApplication
             case self :: ACTION_BROWSE_SURVEY_PUBLICATIONS :
                 $component = SurveyManagerComponent :: factory('Browser', $this);
                 break;
+            case self :: ACTION_BROWSE_SURVEY_PAGES :
+                $component = SurveyManagerComponent :: factory('PageBrowser', $this);
+                break;    
             case self :: ACTION_TESTCASE :
                 $component = SurveyManagerComponent :: factory('Testcase', $this);
                 break;
@@ -260,7 +263,13 @@ class SurveyManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS), array(self :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
     }
-
+	
+	function get_browse_survey_pages_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS), array(self :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
+    }
+    
+    
     function get_manage_survey_publication_categories_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES));
@@ -386,7 +395,7 @@ class SurveyManager extends WebApplication
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
-        
+               
         $form->add_receivers(self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
         
         $form->addElement('category');
@@ -419,7 +428,7 @@ class SurveyManager extends WebApplication
 
     function publish_content_object($content_object, $location, $attributes)
     {
-        
+           	
         if (! SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', 'sts_component'))
         {
             return Translation :: get('NoRightsForSurveyPublication');
@@ -462,8 +471,8 @@ class SurveyManager extends WebApplication
         
         if ($attributes[self :: PARAM_TARGET_OPTION] != 0)
         {
-            $user_ids = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
-            $group_ids = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+            $user_ids = $attributes[self :: PARAM_TARGET_ELEMENTS]['user'];
+            $group_ids = $attributes[self :: PARAM_TARGET_ELEMENTS]['group'];
         }
         else
         {
@@ -474,7 +483,7 @@ class SurveyManager extends WebApplication
                 $user_ids[] = $user->get_id();
             }
         }
-        
+           
         $publication->set_target_users($user_ids);
         $publication->set_target_groups($group_ids);
         
