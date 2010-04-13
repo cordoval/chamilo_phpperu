@@ -47,6 +47,9 @@ class LinkToolViewerComponent extends LinkToolComponent
         }*/
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
+        
+        $html = $browser->as_html();    
+            
         $this->display_header($trail, true);
 
         //echo '<br /><a name="top"></a>';
@@ -57,7 +60,7 @@ class LinkToolViewerComponent extends LinkToolComponent
                 echo $this->display_introduction_text($this->introduction_text);
             }
         }
-        $html = $browser->as_html();
+        
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
         echo $html;

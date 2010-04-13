@@ -15,11 +15,6 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
     function ContentObjectPublicationDetailsRenderer($browser, $parameters = array (), $actions)
     {
         parent :: ContentObjectPublicationListRenderer($browser, $parameters, $actions);
-        //if ($browser->get_parent()->get_course()->get_allow_feedback())
-        {
-            //$item = new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
-        //$browser->get_parent()->add_actionbar_item($item);
-        }
     }
 
     /**
@@ -31,32 +26,19 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         $publication_id = $this->browser->get_publication_id();
         $dm = WeblcmsDataManager :: get_instance();
         $publication = $dm->retrieve_content_object_publication($publication_id);
-        //$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE,new AbstractContentObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID=>$this->browser->get_publication_id())));
         $this->browser->get_parent()->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
-        //$pub = new ContentObjectPublisher($this->browser->get_parent(), 'feedback', true);
-        
-
-        /*if($form->validate())
-		{
-			//creation feedback object
-			$feedback = $form->create_content_object();
-			//creation publication feedback object
-			$publication_feedback= new ContentObjectPublicationFeedback(null, $feedback, $this->browser->get_course_id(), $publication->get_tool().'_feedback', $this->browser->get_publication_id(),$this->browser->get_user_id(), time(), 0, 0);
-			$publication_feedback->set_show_on_homepage(0);
-			$publication_feedback->create();
-			//$this->browser->get_parent()->redirect();
-			$html[] = Display :: normal_message(Translation :: get('FeedbackAdded'),true);
-		}*/
         
         $html[] = '<h3>' . Translation :: get('ContentObjectPublicationDetails') . '</h3>';
         $html[] = $this->render_publication($publication);
-        //dump($this->browser->get_parent()->get_course());
-        
-
-        //$html[] = $pub->as_html();
         $html[] = '<br />';
-        $html[] = $this->get_feedback();
+        $html[] = $this->get_feedback($publication_id);
         return implode("\n", $html);
+    }
+    
+    function get_feedback($publication_id)
+    {
+        $fbm = new FeedbackManager($this->browser->get_parent(), WeblcmsManager :: APPLICATION_NAME, $publication_id);
+        return $fbm->as_html();
     }
 
     /**
@@ -77,22 +59,6 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         {
             $icon_suffix = '_new';
         }
-        
-        /*$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path().'content_object/'.$publication->get_content_object()->get_icon_name().$icon_suffix.'.png);">';
-		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = $this->render_title($publication);
-		$html[] = '</div>';
-		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = $this->render_description($publication);
-		$html[] = $this->render_attachments($publication);
-		$html[] = '</div>';
-		$html[] = '<div class="publication_info'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = $this->render_publication_information($publication);
-		$html[] = '</div>';
-		$html[] = '<div class="publication_actions">';
-		$html[] = $this->render_publication_actions($publication,$first,$last);
-		$html[] = '</div>';
-		$html[] = '</div>';*/
         
         $html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
         $html[] = '<div class="title' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';

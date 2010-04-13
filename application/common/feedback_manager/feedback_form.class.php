@@ -35,7 +35,7 @@ class FeedbackForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
-    function create_feedback($owner, $pid, $cid, $application)
+    function create_feedback($owner, $publication_id, $complex_wrapper_id, $application)
     {
         $feedback = new Feedback();
         
@@ -49,10 +49,10 @@ class FeedbackForm extends FormValidator
         $feedback->create();
         $fb = new FeedbackPublication();
         $fb->set_application($application);
-        $fb->set_cid($cid);
+        $fb->set_cid($complex_wrapper_id);
         $fid = $feedback->get_id();
         $fb->set_fid($fid);
-        $fb->set_pid($pid);
+        $fb->set_pid($publication_id);
         $fb->set_creation_date(time());
         $fb->set_modification_date(time());
         

@@ -26,17 +26,12 @@ class FeedbackManagerUpdaterComponent extends FeedbackManagerComponent
 
     function as_html()
     {
-        $id = Request :: get('updateitem');
-        $pid = Request :: get('pid');
-        $cid = Request :: get('cid');
-        
-        $url = $this->get_url(array('pid' => $pid, 'cid' => $cid, FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_UPDATE_FEEDBACK, 'updateitem' => $id));
-        
+        $id = Request :: get(FeedbackManager :: PARAM_FEEDBACK_ID);
         $pub_feedback = AdminDataManager :: get_instance()->retrieve_feedback_publication($id);
-        
         $rdm = RepositoryDataManager :: get_instance();
         $object = $rdm->retrieve_content_object($pub_feedback->get_fid());
         
+        $url = $this->get_url(array(FeedbackManager :: PARAM_FEEDBACK_ID => $id));
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $object, 'editfeedback', 'post', $url, null, null, false);
         
         if ($form->validate())
@@ -55,12 +50,11 @@ class FeedbackManagerUpdaterComponent extends FeedbackManagerComponent
             	$pub_feedback->update();
             }
             
-            $this->redirect($success ? Translation :: get('FeedbackUpdated') : Translation :: get('FeedbackNotUpdated'), ! $success, array('pid' => $pid, 'cid' => $cid));
+            $this->redirect($success ? Translation :: get('FeedbackUpdated') : Translation :: get('FeedbackNotUpdated'), ! $success, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_BROWSE_FEEDBACK));
         
         }
         else
         {
-            
             $html[] = $form->toHtml();
             return implode('\n', $html);
         }

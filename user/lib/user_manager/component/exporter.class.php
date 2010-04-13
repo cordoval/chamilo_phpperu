@@ -140,7 +140,6 @@ class UserManagerExporterComponent extends UserManagerComponent
         $export = Export :: factory($file_type, $data);
         $export->set_filename($filename);
         $export->send_to_browser();
-        return;
     }
 }
 ?>

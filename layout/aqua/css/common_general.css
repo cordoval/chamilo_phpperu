@@ -1900,6 +1900,18 @@ div.assessment div.description p {
 	padding: 0px;
 }
 
+div.assessment div.information {
+	padding: 6px 10px 6px 10px;
+	border: 1px solid #cecece;
+	background-color: #f4f4f4;
+	margin-left: 50px;
+}
+
+div.assessment div.information p {
+	margin: 0px;
+	padding: 0px;
+}
+
 div.question {
 	margin: 0px 0px 15px 0px;
 	/*

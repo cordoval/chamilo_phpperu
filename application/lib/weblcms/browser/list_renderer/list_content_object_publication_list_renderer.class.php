@@ -144,7 +144,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         $html[] = '<div class="publication_actions">';
         $html[] = $this->render_publication_actions($publication, $first, $last);
         if ($this->get_actions() && $this->is_allowed(EDIT_RIGHT))
-            $html[] = '<input class="pid" type="checkbox" name="pid[]" value="' . $publication->get_id() . '"/>';
+            $html[] = '<input class="pid" type="checkbox" name="' . WeblcmsManager :: PARAM_PUBLICATION . '[]" value="' . $publication->get_id() . '"/>';
         $html[] = '</div>';
         $html[] = '</div><br />';
         

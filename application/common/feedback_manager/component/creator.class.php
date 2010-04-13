@@ -25,45 +25,43 @@ class FeedbackManagerCreatorComponent extends FeedbackManagerComponent
 
     function as_html()
     {
+        $application = $this->get_application();
+        $publication_id = $this->get_publication_id();
+        $complex_wrapper_id = $this->get_complex_wrapper_id();
+        
+        $objects = Request :: get('object');
 
-        $pid = Request :: get('pid');
-        $cid = Request :: get('cid');
-
-        $application = $this->get_parent()->get_application();
-        $object = Request :: get('object');
-
-        $pub = new RepoViewer($this, 'feedback', true);
-
-        $actions = array('pid' => $pid, 'cid' => $cid, FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_FEEDBACK);
-
-        foreach ($actions as $type => $action)
-        {
-            $pub->set_parameter($type, $action);
-        }
-
+        $pub = new RepoViewer($this, 'feedback', false);
+		
         $html = array();
 
-        if (! isset($object))
+        if (! isset($objects))
         {
             $html[] = $pub->as_html();
 
         }
         else
         {
-
-            $fb = new FeedbackPublication();
-            $fb->set_application($application);
-            $fb->set_cid($cid);
-            $fid = $object;
-            $fb->set_fid($fid);
-            $fb->set_pid($pid);
-            $fb->set_creation_date(time());
-            $fb->set_modification_date(time());
-            $fb->create();
+			if(!is_array($objects))
+			{
+				$objects = array($objects);
+			}
+			
+			foreach($objects as $object)
+			{
+	            $fb = new FeedbackPublication();
+	            $fb->set_application($application);
+	            $fb->set_cid($complex_wrapper_id);
+	            $fid = $object;
+	            $fb->set_fid($object);
+	            $fb->set_pid($publication_id);
+	            $fb->set_creation_date(time());
+	            $fb->set_modification_date(time());
+	            $fb->create();
+			}
 
             $message = 'FeedbackCreated';
-            $html[] = $action;
-            $this->redirect(Translation :: get($message), false, array('pid' => $pid, 'cid' => $cid));
+            $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_BROWSE_FEEDBACK));
 
         }
 
