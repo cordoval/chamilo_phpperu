@@ -105,7 +105,7 @@ class SearchToolSearcherComponent extends SearchToolComponent
                         
                         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_icon_name() . '.png);">';
                         $html[] = '<div class="title"><a href="' . $url . '">' . Text :: highlight($object->get_title(), $query, 'yellow') . '</a></div>';
-                        $html[] = '<div class="description">' . Text :: highlight($object->get_description(), $query, 'yellow') . '</div>';
+                        $html[] = '<div class="description">' . Text :: highlight(strip_tags($object->get_description()), $query, 'yellow') . '</div>';
                         $html[] = '</div>';
                     }
                 }
