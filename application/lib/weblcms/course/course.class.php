@@ -716,7 +716,7 @@ class Course extends DataClass
 
     function get_code()
     {
-    	return $this->get_rights->get_code();
+    	return $this->get_rights()->get_code();
     }
 
     function get_direct_subscribe_available()
@@ -758,9 +758,9 @@ class Course extends DataClass
     function set_code($code)
     {
     	if($this->get_code_subscribe_available())
-    		$this->get_rights->set_code($code);
+    		$this->get_rights()->set_code($code);
     	else
-    		$this->get_rights->set_code(null);
+    		$this->get_rights()->set_code(null);
     }
 
     function get_direct_subscribe_fixed()

@@ -85,7 +85,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
             }
             else
             {
-            	$success = $form->save_course();
+            	$success = $form->save();
 	        	$array_type = array();
 	        	$array_type['go'] = WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME;
 	        	/*if($success ||  $form->get_form_type() == CourseForm :: TYPE_EDIT)
