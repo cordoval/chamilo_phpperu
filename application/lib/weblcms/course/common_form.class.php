@@ -182,7 +182,7 @@ abstract class CommonForm extends FormValidator
 		$group_key_check = array();
 		
 		$class = get_class($this->object) . "GroupSubscribeRight";
-		$id_method = "get_" . Utilities :: camelcase_to_underscores(get_class($this->object)) . "_id";
+		$id_method = "set_" . Utilities :: camelcase_to_underscores(get_class($this->object)) . "_id";
 		
 		for($i=0;$i<3;$i++)
 		{
@@ -245,7 +245,7 @@ abstract class CommonForm extends FormValidator
 		$groups_array = array();
 		
 		$class = get_class($this->object) . "GroupUnsubscribeRight";
-		$id_method = "get_" . Utilities :: camelcase_to_underscores(get_class($this->object)) . "_id";
+		$id_method = "set_" . Utilities :: camelcase_to_underscores(get_class($this->object)) . "_id";
 		
 		if($values[self :: UNSUBSCRIBE_TARGET_OPTION])
 		{
@@ -315,43 +315,76 @@ abstract class CommonForm extends FormValidator
 		$defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '0';
 		$defaults[self :: UNSUBSCRIBE_TARGET_OPTION] = '0';
 		
-		if(!is_null($object->get_id()))
+		if(!is_null($object->get_id()) || (get_class($object)=="Course" && !is_null($object->get_course_type()->get_id())))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
 			
-			$retrieve_subscribe_method = "retrieve_" . Utilities :: camelcase_to_underscores(get_class($object)) . "_group_subscribe_rights"; 
-			$retrieve_unsubscribe_method = "retrieve_" . Utilities :: camelcase_to_underscores(get_class($object)) . "_group_unsubscribe_rights"; 
+			$retrieve_subscribe_method = "";
+			$retrieve_unsubscribe_method = "";
 			
-			$group_subscribe_rights = $wdm->$retrieve_subscribe_method($object);
-			$group_unsubscribe_rights = $wdm->$retrieve_unsubscribe_method($object);
-			
-			while($right = $group_subscribe_rights->next_result())
-			{
-				if($right->get_group_id() != 1)
+			for($i=1;$i<3;$i++)
+			{				
+				switch($i)
 				{
-					$element = null;
-					switch($right->get_subscribe())
+					case 1: $retrieve_subscribe_method = "retrieve_course_type_group_subscribe_rights"; 
+							$retrieve_unsubscribe_method = "retrieve_course_type_group_unsubscribe_rights";
+							if(get_class($object) == "Course")
+							break;
+					case 2: if(get_class($object) == "CourseType")
+								continue;
+							$retrieve_subscribe_method = "retrieve_course_group_subscribe_rights"; 
+							$retrieve_unsubscribe_method = "retrieve_course_group_unsubscribe_rights";
+							break;
+				}
+				
+				$id = $object->get_id();
+				if($i == 1 && get_class($object) == "Course")
+					$id = $object->get_course_type()->get_id();
+				$group_subscribe_rights = $wdm->$retrieve_subscribe_method($id);
+				$group_unsubscribe_rights = $wdm->$retrieve_unsubscribe_method($id);
+				
+				while($right = $group_subscribe_rights->next_result())
+				{
+					if($right->get_group_id() != 1)
 					{
-						case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT: $element = self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS; break;
-						case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST: $element = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS; break;
-						case CourseGroupSubscribeRight :: SUBSCRIBE_CODE: $element = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS; break;
+						$element = null;
+						$check_fixed = null;
+						switch($right->get_subscribe())
+						{
+							case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT: 
+								$element = self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS;
+								$check_fixed = "get_direct_subscribe_fixed";
+								break;
+							case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST: 
+								$element = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS;
+								$check_fixed = "get_request_subscribe_fixed";
+								break;
+							case CourseGroupSubscribeRight :: SUBSCRIBE_CODE: 
+								$element = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS;
+								$check_fixed = "get_code_subscribe_fixed";
+								break;
+						}
+						if( get_class($object) == "CourseType" || ($i == 1 && $object->$check_fixed()) || ($i == 2 && !$object->$check_fixed()))
+						{
+							$selected_group = $this->get_group_array($right->get_group_id());
+			            	$defaults[$element][$selected_group['id']] = $selected_group;
+						}
 					}
-					
-					$selected_group = $this->get_group_array($right->get_group_id());
-		            $defaults[$element][$selected_group['id']] = $selected_group;
 				}
-			}
-			
-			while($right = $group_unsubscribe_rights->next_result())
-			{
-				if($right->get_group_id() != 1)
+				
+				while($right = $group_unsubscribe_rights->next_result())
 				{
-					$element = self :: UNSUBSCRIBE_TARGET_ELEMENTS;
-					$selected_group = $this->get_group_array($right->get_group_id());
-		            $defaults[$element][$selected_group['id']] = $selected_group;
+					if($right->get_group_id() != 1)
+					{
+						if( get_class($object) == "CourseType" || ($i == 1 && $object->get_unsubscribe_fixed()) || ($i == 2 && !$object->get_unsubscribe_fixed()))
+						{
+							$element = self :: UNSUBSCRIBE_TARGET_ELEMENTS;
+							$selected_group = $this->get_group_array($right->get_group_id());
+				            $defaults[$element][$selected_group['id']] = $selected_group;
+						}
+					}
 				}
 			}
-			
 			if (count($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]) > 0)
 			{
 	            $defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '1';

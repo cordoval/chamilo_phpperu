@@ -12,6 +12,8 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
      */
     function run()
     {
+        $user = $this->get_user();
+
         $root_item_condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, 0);
         $root_items = $this->retrieve_navigation_items($root_item_condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
 
@@ -20,16 +22,21 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
 
         $html[] = '<div class="minidropnav">';
 
-        $html[] = '<ul>';
-        $html[] = '<li' . ($this_section == 'home' ? ' class="current"' : '') . '><a' . ($this_section == 'home' ? ' class="current"' : '') . ' href="index.php">' . Translation :: get('Home') . '</a></li>';
-        $html[] = '</ul>';
+        if (PlatformSetting::get('allow_portal_functionality') || $user->is_platform_admin())
+        {
+            $html[] = '<ul>';
+            $html[] = '<li' . ($this_section == 'home' ? ' class="current"' : '') . '><a' . ($this_section == 'home' ? ' class="current"' : '') . ' href="index.php">' . Translation :: get('Home') . '</a></li>';
+            $html[] = '</ul>';
+        }
 
         while ($root_item = $root_items->next_result())
         {
             $application = $root_item->get_application();
 
             if (WebApplication :: is_application($application) && ! WebApplication :: is_active($application))
+            {
                 continue;
+            }
 
             if (isset($application))
             {
@@ -114,16 +121,18 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
             }
         }
 
-        $user = $this->get_user();
         if (isset($user))
         {
-            $html[] = '<ul class="admin">';
-            $html[] = '<li class="admin' . ($this_section == 'my_account' ? ' current' : '') . '"><a' . ($this_section == 'my_account' ? ' class="current"' : '') . ' href="core.php?application=user&amp;go=account">' . Translation :: get('MyAccount') . '</a></li>';
-            $html[] = '</ul>';
+            if (PlatformSetting::get('allow_portal_functionality') || $user->is_platform_admin())
+            {
+                $html[] = '<ul class="admin">';
+                $html[] = '<li class="admin' . ($this_section == 'my_account' ? ' current' : '') . '"><a' . ($this_section == 'my_account' ? ' class="current"' : '') . ' href="core.php?application=user&amp;go=account">' . Translation :: get('MyAccount') . '</a></li>';
+                $html[] = '</ul>';
 
-            $html[] = '<ul class="admin">';
-            $html[] = '<li class="admin' . ($this_section == 'repository' ? ' current' : '') . '"><a' . ($this_section == 'repository' ? ' class="current"' : '') . ' href="core.php?application=repository">' . Translation :: get('Repository') . '</a></li>';
-            $html[] = '</ul>';
+                $html[] = '<ul class="admin">';
+                $html[] = '<li class="admin' . ($this_section == 'repository' ? ' current' : '') . '"><a' . ($this_section == 'repository' ? ' class="current"' : '') . ' href="core.php?application=repository">' . Translation :: get('Repository') . '</a></li>';
+                $html[] = '</ul>';
+            }
 
             if ($user->is_platform_admin())
             {

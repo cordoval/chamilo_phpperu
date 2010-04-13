@@ -98,6 +98,11 @@
 				</options>
 			</setting>
 			<setting name="portal_home" field="html_editor" default="" />
+			<setting name="allow_portal_functionality" field="checkbox" default="1">
+				<options type="static">
+					<option name="allow_portal_functionality" value="1" />
+				</options>
+			</setting>
 		</category>
 		<category name="various">
 			<setting name="server_type" field="radio" default="production">

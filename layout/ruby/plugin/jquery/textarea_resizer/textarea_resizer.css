@@ -1,7 +1,6 @@
 @CHARSET "ISO-8859-1";
 
-div.grippie
-{
+div.grippie {
 	background: #EEEEEE url(grippie.png) no-repeat scroll center 2px;
 	border-color: #DDDDDD;
 	border-style: solid;
@@ -11,8 +10,7 @@ div.grippie
 	overflow: hidden;
 }
 
-.resizable-textarea textarea
-{
+.resizable-textarea textarea {
 	display: block;
 	margin-bottom: 0pt;
 	width: 95%;

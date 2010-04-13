@@ -1,9 +1,8 @@
 @CHARSET "ISO-8859-1";
 
-div.introduction
-{
-	-moz-border-radius-bottomright:	15px;
-	-moz-border-radius-topleft:	15px;
+div.introduction {
+	-moz-border-radius-bottomright: 15px;
+	-moz-border-radius-topleft: 15px;
 	-webkit-border-bottom-right-radius: 15px;
 	-webkit-border-top-left-radius: 15px;
 	padding: 10px 10px 10px 44px;
@@ -13,9 +12,8 @@ div.introduction
 	color: #000000;
 }
 
-div.introduction div.title
-{
-	border-bottom:	1px dotted #CCCCCC;
+div.introduction div.title {
+	border-bottom: 1px dotted #CCCCCC;
 	font-weight: bold;
 	width: 100%;
 	padding-bottom: 0.4em;
@@ -24,7 +22,6 @@ div.introduction div.title
 	float: left;
 }
 
-div.introduction div.description
-{
+div.introduction div.description {
 	clear: both;
 }

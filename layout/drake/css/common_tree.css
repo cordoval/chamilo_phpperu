@@ -73,39 +73,46 @@ ul.tree-menu li div img {
 	vertical-align: middle;
 }
 
-ul.tree-menu li div a.blog_item{
+ul.tree-menu li div a.blog_item {
 	background-image: url(../images/common/treemenu_types/blog_item.png);
 }
 
-ul.tree-menu li div a.link{
+ul.tree-menu li div a.link {
 	background-image: url(../images/common/treemenu_typeslink.png);
 }
 
-ul.tree-menu li div a.portfolio{
+ul.tree-menu li div a.portfolio {
 	background-image: url(../images/common/treemenu_types/portfolio.png);
 }
 
-ul.tree-menu li div a.announcement{
-    background-image: url(../images/common/treemenu_types/announcement.png);
+ul.tree-menu li div a.announcement {
+	background-image: url(../images/common/treemenu_types/announcement.png);
 }
-ul.tree-menu li div a.calendar_event{
-    background-image: url(../images/common/treemenu_types/calendar_event.png);
+
+ul.tree-menu li div a.calendar_event {
+	background-image:
+		url(../images/common/treemenu_types/calendar_event.png);
 }
-ul.tree-menu li div a.description{
-    background-image: url(../images/common/treemenu_types/description.png);
+
+ul.tree-menu li div a.description {
+	background-image: url(../images/common/treemenu_types/description.png);
 }
-ul.tree-menu li div a.document{
-        background-image: url(../images/common/treemenu_typesdocument.png);
+
+ul.tree-menu li div a.document {
+	background-image: url(../images/common/treemenu_typesdocument.png);
 }
-ul.tree-menu li div a.note{
-    background-image: url(../images/common/treemenu_types/note.png);
+
+ul.tree-menu li div a.note {
+	background-image: url(../images/common/treemenu_types/note.png);
 }
-ul.tree-menu li div a.profile{
-    background-image: url(../images/common/treemenu_types/profile.png);
+
+ul.tree-menu li div a.profile {
+	background-image: url(../images/common/treemenu_types/profile.png);
 }
-ul.tree-menu li div a.youtube{
+
+ul.tree-menu li div a.youtube {
 	clear: both;
-        background-image: url(../images/common/treemenu_types/youtube.png);
+	background-image: url(../images/common/treemenu_types/youtube.png);
 }
 
 /*
