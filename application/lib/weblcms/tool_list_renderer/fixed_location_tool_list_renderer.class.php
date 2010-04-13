@@ -208,6 +208,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             $html[] = '<div class="toolblock" id="block_' . $section->get_id() . '" style="width:100%; height: 100%;">';
         }
         
+    	if ($section->get_type() == CourseSection :: TYPE_DISABLED)
+        {
+            $html[] = '<div class="disabledblock" id="block_' . $section->get_id() . '" style="width:100%; height: 100%;">';
+        }
+        
         $html[] = '<div class="block" id="block_' . $section->get_id() . '" style="background-image: url(' . Theme :: get_image_path('home') . $icon . ');">';
         
         $html[] = '<div class="title"><div style="float: left;">' . $block_name . '</div>';
@@ -223,11 +228,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
     {
         $html = array();
         
-        $html[] = '<div style="clear: both;"></div>';
+        $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '</div>';
         
-        if ($section->get_type() == CourseSection :: TYPE_TOOL)
+        if ($section->get_type() == CourseSection :: TYPE_TOOL || $section->get_type() == CourseSection :: TYPE_DISABLED)
         {
             $html[] = '</div>';
         }
