@@ -386,22 +386,42 @@ class CourseForm extends CommonForm
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
         $this->addElement('category', Translation :: get('Subscribe'));
-        $this->addElement('checkbox', CourseRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE, Translation :: get('DirectSubscribeAvailable'), '', array('class' => 'available DirectSubscribe'));
+        
+        $course_direct_subscribe_disabled = $this->object->get_direct_subscribe_fixed();
+		$attr_array = array('class' => 'available DirectSubscribe');
+		if($course_direct_subscribe_disabled)
+			$attr_array['disabled'] = 'disabled';
+        $this->addElement('checkbox', CourseRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE, Translation :: get('DirectSubscribeAvailable'), '', $attr_array);
         $this->addElement('html', '<div id="DirectSubscribeBlock">');
         $this->add_receivers(self :: SUBSCRIBE_DIRECT_TARGET, Translation :: get('DirectSubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');
-        $this->addElement('checkbox', CourseRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE, Translation :: get('RequestSubscribeAvailable'), '', array('class' => 'available RequestSubscribe'));
+        
+        $course_request_subscribe_disabled = $this->object->get_request_subscribe_fixed();
+		$attr_array = array('class' => 'available RequestSubscribe');
+		if($course_request_subscribe_disabled)
+			$attr_array['disabled'] = 'disabled';
+        $this->addElement('checkbox', CourseRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE, Translation :: get('RequestSubscribeAvailable'), '', $attr_array);
         $this->addElement('html', '<div id="RequestSubscribeBlock">');
         $this->add_receivers(self :: SUBSCRIBE_REQUEST_TARGET, Translation :: get('RequestSubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');
-        $this->addElement('checkbox', CourseRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE, Translation :: get('CodeSubscribeAvailable'), '', array('class' => 'available CodeSubscribe'));
+        
+        $course_code_subscribe_disabled = $this->object->get_code_subscribe_fixed();
+		$attr_array = array('class' => 'available CodeSubscribe');
+		if($course_code_subscribe_disabled)
+			$attr_array['disabled'] = 'disabled';
+        $this->addElement('checkbox', CourseRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE, Translation :: get('CodeSubscribeAvailable'), '', $attr_array);
         $this->addElement('html', '<div id="CodeSubscribeBlock">');
         $this->addElement('text', CourseRights :: PROPERTY_CODE, Translation :: get('EnterCode'), array("size" => "50"));
         $this->add_receivers(self :: SUBSCRIBE_CODE_TARGET, Translation :: get('CodeSubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');
         $this->addElement('category');
+        
         $this->addElement('category', Translation :: get('Unsubscribe'));
-        $this->addElement('checkbox', CourseRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE, Translation :: get('UnsubscribeAvailable'), '', array('class' => 'available Unsubscribe'));
+        $course_unsubscribe_disabled = $this->object->get_unsubscribe_fixed();
+		$attr_array = array('class' => 'available Unsubscribe');
+		if($course_unsubscribe_disabled)
+			$attr_array['disabled'] = 'disabled';
+        $this->addElement('checkbox', CourseRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE, Translation :: get('UnsubscribeAvailable'), '', $attr_array);
         $this->addElement('html', '<div id="UnsubscribeBlock">');
         $this->add_receivers(self :: UNSUBSCRIBE_TARGET, Translation :: get('UnsubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');

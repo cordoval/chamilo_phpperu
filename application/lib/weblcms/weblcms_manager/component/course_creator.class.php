@@ -90,7 +90,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
 	        	$array_type['go'] = WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME;
 	        	/*if($success ||  $form->get_form_type() == CourseForm :: TYPE_EDIT)
 	        		$array_type['course'] = $course->get_id();*/
-                $this->redirect(Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true), $array_type);
+                $this->redirect(Translation :: get($success ? 'CourseSaved' : 'CourseNotSaved'), ($success ? false : true), $array_type);
             }
         }
         else
