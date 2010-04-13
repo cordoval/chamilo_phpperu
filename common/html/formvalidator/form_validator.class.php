@@ -409,9 +409,9 @@ EOT;
         //maybe an option "only me" should also be added?
         $choices = array();
 
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SystemDefaultSettings'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver'));
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('AnonymousUsers'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver'));
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('PortalUsers'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SystemDefaultSettings'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver_1'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('AnonymousUsers'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver_2'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('PortalUsers'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver_3'));
 
         $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\''. $elementName .'receivers_window\')'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
@@ -423,10 +423,13 @@ EOT;
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
-					var expiration = document.getElementById('receiver');
-					if (expiration.checked)
+					var expiration_1 = document.getElementById('". $elementName ."receiver_1');
+					var expiration_2 = document.getElementById('". $elementName ."receiver_2');
+					var expiration_3 = document.getElementById('". $elementName ."receiver_3');
+					
+					if (expiration_1.checked || expiration_3.checked || expiration_2.checked)
 					{
-						receivers_hide('receivers_window');
+						receivers_hide('". $elementName ."receivers_window');
 					}
 					function receivers_show(item) {
 						el = document.getElementById(item);
