@@ -239,9 +239,9 @@ class DatabaseTrackingDataManager extends Database implements TrackingDataManage
         return $items->as_array();
     }
 
-    function retrieve_tracker_items_result_set($table_name, $classname, $condition, $order_by)
+    function retrieve_tracker_items_result_set($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
     {
-        return $this->retrieve_objects($table_name, $condition, null, null, $order_by, $classname);
+        return $this->retrieve_objects($table_name, $condition, $offset, $max_objects, $order_by, $classname);
     }
 
     function count_tracker_items($tablename, $condition)

@@ -7,7 +7,7 @@ abstract class WeblcmsCourseReportingBlock extends WeblcmsReportingBlock
 	{
 		return $this->get_parent()->get_parameter(WeblcmsManager::PARAM_COURSE);
 	}
-	
+
     static function get_total_time($trackerdata)
     {
         foreach ($trackerdata as $key => $value)
@@ -19,7 +19,7 @@ abstract class WeblcmsCourseReportingBlock extends WeblcmsReportingBlock
         $time = date('G:i:s', $time);
         return $time;
     }
-	
+
 	public static function visit_tracker_to_array($condition, $user, $order_by)
     {
         require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
@@ -27,8 +27,10 @@ abstract class WeblcmsCourseReportingBlock extends WeblcmsReportingBlock
         $udm = UserDataManager :: get_instance();
 
         if (! $order_by)
+        {
             $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
-        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, $order_by);
+        }
+        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, null, null, $order_by);
 
         while ($visittracker = $trackerdata->next_result())
         {

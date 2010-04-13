@@ -116,7 +116,7 @@ interface TrackingDataManagerInterface
      */
     function retrieve_tracker_items($tablename, $classname, $condition);
 
-    function retrieve_tracker_items_result_set($tablename, $classname, $condition, $order_by);
+    function retrieve_tracker_items_result_set($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null);
 
     /**
      * Retrieves a tracker item from the database
