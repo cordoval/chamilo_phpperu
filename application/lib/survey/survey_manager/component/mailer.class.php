@@ -258,6 +258,9 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $fullbody[] = '<br/><a href=' . $url . '>' . $url . '</a>';
         $fullbody[] = '<br/>';
         $fullbody[] = $this->get_mail_footer();
+//
+//        echo implode('', $fullbody);
+//        exit;
 
         //$email->set_mail_content($fullbody);
         //$email->update();
@@ -306,29 +309,29 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $header = new Header();
         $header->add_default_headers();
         $header->set_page_title(PlatformSetting :: get('site_name'));
-        $header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
+        //$header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
         $html[] = $header->toHtml();
 
         $html[] = '<body>';
         $html[] = '<div id="outerframe">';
-//        $html[] = '<div id="header">  <!-- header section start -->';
-//        $html[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
-//        $html[] = '<div class="banner"><a href="http://kwaliteit.ehb.be/index.php" target="_top"><span class="logo"></span><span class="text">Personeelsenquête</span></a></div>';
-//        $html[] = '<div class="clear">&nbsp;</div>';
-//        $html[] = '</div> <!-- end of #header1 -->';
-//        $html[] = '<div id="trailbox">';
-//        $html[] = '<ul id="breadcrumbtrail">';
-//
-////        $html[] = '<li><a href="http://kwaliteit.ehb.be/index.php" target="_self">Personeelsenquête</a></li>';
-////        $html[] = '<li><a href="/run.php?go=browse&application=survey" target="_self">Browse survey publications</a></li>';
-////        $html[] = '<li><a href="/run.php?go=mail_survey_participants&application=survey&survey_publication=8" target="_self">Mail participants</a></li>';
-//        $html[] = '</ul>';
-//
-//
-//        $html[] = '<div class="clear">&nbsp;</div></div>';
-//        $html[] = '<div class="clear">&nbsp;</div>';
-//        $html[] = '</div> <!-- end of the whole #header section -->';
-        $html[] = '<div id="main">';
+        $html[] = '<div id="header">  <!-- header section start -->';
+        $html[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
+        $html[] = '<div class="banner"><a href="http://kwaliteit.ehb.be/index.php" target="_top"><span class="logo"></span><span class="text">Personeelsenquête</span></a></div>';
+        $html[] = '<div class="clear">&nbsp;</div>';
+        $html[] = '</div> <!-- end of #header1 -->';
+        $html[] = '<div id="trailbox" style="height: 10px;">';
+        $html[] = '<ul id="breadcrumbtrail">';
+
+//        $html[] = '<li><a href="http://kwaliteit.ehb.be/index.php" target="_self">Personeelsenquête</a></li>';
+//        $html[] = '<li><a href="/run.php?go=browse&application=survey" target="_self">Browse survey publications</a></li>';
+//        $html[] = '<li><a href="/run.php?go=mail_survey_participants&application=survey&survey_publication=8" target="_self">Mail participants</a></li>';
+        $html[] = '</ul>';
+
+
+        $html[] = '<div class="clear">&nbsp;</div></div>';
+        $html[] = '<div class="clear">&nbsp;</div>';
+        $html[] = '</div> <!-- end of the whole #header section -->';
+        $html[] = '<div id="main" style="min-height: 0px;">';
 
         $html[] = '<div class="content_object" style="padding: 10px;">';
 
