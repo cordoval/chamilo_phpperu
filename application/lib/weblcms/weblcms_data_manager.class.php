@@ -176,6 +176,9 @@ abstract class WeblcmsDataManager
      */
     abstract function count_course_types($conditions = null);
 
+    abstract function create_course_request($request);
+    
+    abstract function count_requests($conditions = null);
     /**
      * Creates a coursetype object in persistent storage.
      * @param CourseType $courseytype The coursetype to make persistent.
@@ -225,6 +228,8 @@ abstract class WeblcmsDataManager
     abstract function retrieve_empty_course_type();
     
     abstract function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    abstract function retrieve_requests($condition = null, $offset = null, $count=null, $order_property = null);
 
     abstract function retrieve_active_course_types();
     
