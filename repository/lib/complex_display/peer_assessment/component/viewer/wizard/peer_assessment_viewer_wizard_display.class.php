@@ -1,18 +1,15 @@
 <?php
 /**
- * $Id: survey_viewer_wizard_display.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.complex_display.survey.component.viewer.wizard
- */
-/**
- *
  * @author Sven Vanpoucke
+ * @author Nick Van Loocke
  */
-class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
+
+class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 {
 
     private $parent;
 
-    public function SurveyViewerWizardDisplay($parent)
+    public function PeerAssessmentViewerWizardDisplay($parent)
     {
 
         $this->parent = $parent;
@@ -25,14 +22,20 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
     function _renderForm($current_page)
     {
         $html = array();
-        $this->parent->get_parent()->display_header();
+        //$this->parent->get_parent()->display_header();
 
-        dump(get_page_number());
-        exit();
         if ($current_page->get_page_number() != 0)
         {
             $html[] = '<div class="assessment">';
-            $html[] = '<h2>' . $this->parent->get_survey()->get_title() . '</h2>';
+            $html[] = '<h2>' . $this->parent->get_peer_assessment()->get_title() . '</h2>';
+            
+	        if ($this->parent->get_peer_assessment()->has_description())
+	        {
+	            $html[] = '<div class="description">';
+	            $html[] = $this->parent->get_peer_assessment()->get_description();
+	            $html[] = '<div class="clear"></div>';
+	            $html[] = '</div>';
+	        }
 
             $html[] = '<br />';
 
@@ -42,18 +45,18 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             $html[] = '<br />';
 
-            if (strlen(strip_tags($this->parent->get_survey()->get_introduction_text(), '<img>')) > 0)
+            /*if (strlen(strip_tags($this->parent->get_peer_assessment()->get_introduction_text(), '<img>')) > 0)
             {
                 $html[] = '<div class="description">';
-                $introduction = $this->parent->get_survey()->get_introduction_text();
+                $introduction = $this->parent->get_peer_assessment()->get_introduction_text();
 
                 $html[] = $this->parent->get_parent()->parse($introduction);
                 $html[] = '</div>';
-            }
+            }*/
 
             $html[] = '<br />';
 
-            if (strlen(strip_tags($this->parent->get_page($current_page->get_page_number())->get_introduction_text(), '<img>')) > 0)
+            /*if (strlen(strip_tags($this->parent->get_page($current_page->get_page_number())->get_introduction_text(), '<img>')) > 0)
             {
                 $html[] = '<div class="description">';
                 $introduction = $this->parent->get_page($current_page->get_page_number())->get_introduction_text();
@@ -61,7 +64,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
                 $html[] = $this->parent->get_parent()->parse($introduction);
 
                 $html[] = '</div>';
-            }
+            }*/
 
             $html[] = '</div>';
 
@@ -73,7 +76,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             $html[] = '<div class="assessment">';
 
-            if (strlen(strip_tags($this->parent->get_page($current_page->get_page_number())->get_finish_text(), '<img>')) > 0)
+            /*if (strlen(strip_tags($this->parent->get_page($current_page->get_page_number())->get_finish_text(), '<img>')) > 0)
             {
 
             	$html[] = '<div class="description">';
@@ -82,19 +85,19 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
                 $html[] = $this->parent->get_parent()->parse($finishtext);
 
                 $html[] = '</div>';
-            }
+            }*/
 
             $html[] = '<br />';
 
-            if (strlen(strip_tags($this->parent->get_survey()->get_finish_text(), '<img>')) > 0)
+            /*if (strlen(strip_tags($this->parent->get_peer_assessment()->get_finish_text(), '<img>')) > 0)
             {
 
             	$html[] = '<div class="description">';
-                $finishtext = $this->parent->get_survey()->get_finish_text();
+                $finishtext = $this->parent->get_peer_assessment()->get_finish_text();
 
                 $html[] = $this->parent->get_parent()->parse($finishtext);
                 $html[] = '</div>';
-            }
+            }*/
 
             $html[] = '<br />';
 
@@ -110,7 +113,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
         {
             $html = array();
             $html[] = '<div style="width: 100%; text-align: center;">';
-            $html[] = Translation :: get('NoSurveyPageAddedToSurvey');
+            $html[] = Translation :: get('NoPeerAssessmentPageAddedToPeerAssessment');
             $html[] = '</div>';
             echo implode("\n", $html);
         }

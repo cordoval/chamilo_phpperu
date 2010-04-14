@@ -21,11 +21,11 @@ class PeerAssessmentManager extends WebApplication
     const ACTION_VIEW_PEER_ASSESSMENT = 'view';
     const ACTION_EVALUATE_PEER_ASSESSMENT_PUBLICATION = 'evaluate_peer_assessment_publication';
     
-    const ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY = 'change_visibility';
-    const ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION = 'move';
-    const ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION = 'view_publication';
+    const ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY = 'change_publication_visibility';
+    const ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION = 'move_publication';
+    const ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION = 'take_publication';
     const ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS = 'view_publication_results';
-    const ACTION_BUILD_PEER_ASSESSMENT = 'build';
+    const ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION = 'build_publication';
     
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 
@@ -69,11 +69,20 @@ class PeerAssessmentManager extends WebApplication
             case self :: ACTION_MANAGE_CATEGORIES :
                 $component = PeerAssessmentManagerComponent :: factory('CategoryManager', $this);
                 break;
-            case self :: ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY :
-            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationVisibilityChanger', $this);
+            case self :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION :
+            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationTake', $this);
+            	break;
+            case self :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS :
+            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationResults', $this);
             	break;
             case self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION :
             	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationMover', $this);
+            	break;
+            case self :: ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY :
+            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationVisibilityChanger', $this);
+            	break;
+            case self :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION :
+            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationBuilder', $this);
             	break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS);
@@ -221,9 +230,9 @@ class PeerAssessmentManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
     
-	function get_peer_assessment_publication_viewer_url($peer_assessment_publication)
+	function get_take_peer_assessment_publication_url($peer_assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
     function get_peer_assessment_results_viewer_url($peer_assessment_publication)
@@ -234,7 +243,7 @@ class PeerAssessmentManager extends WebApplication
     
     function get_build_peer_assessment_url($peer_assessment_publication)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_PEER_ASSESSMENT, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
 	function get_content_object_publication_locations($content_object)
