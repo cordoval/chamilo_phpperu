@@ -1,0 +1,130 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	font-family: arial, verdana, helvetica, sans-serif;
+	font-size: 12px;
+	color: #000;
+	margin: 0px;
+	padding: 0px;
+	background-color: black;
+}
+
+img {
+	border: none;
+}
+
+.clear {
+	clear: both;
+	line-height: 0px;
+	height: 0px;
+	font-size: 0px;
+}
+
+p,blockquote,ol,ul {
+	font-size: 12px;
+}
+
+h1 {
+	font-size: 21px;
+}
+
+h2 {
+	font-size: 18px;
+}
+
+h3 {
+	font-size: 15px;
+	margin-top: 0px;
+	padding-top: 0px;
+	margin-bottom: 10px;
+}
+
+h4 {
+	font-size: 12px;
+}
+
+h5,h6 {
+	font-family: verdana, arial, helvetica, sans-serif;
+}
+
+a:link {
+	text-decoration: none;
+	font-weight: bold;
+	color: #d90223;
+	outline: none;
+}
+
+a:visited {
+	text-decoration: none;
+	font-weight: bold;
+	color: #d90223;
+	outline: none;
+}
+
+a:hover {
+	text-decoration: none;
+	color: red;
+	font-weight: bold;
+	outline: none;
+}
+
+a:active {
+	text-decoration: none;
+	font-weight: bold;
+	color: #FA8500;
+	outline: none;
+}
+
+table#main {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border: 0px solid white;
+	background-color: white;
+	border-spacing: 0px;
+}
+
+table#main td.header {
+	padding: 19px;
+	background-color: #c50c2e;
+	color: #ffffff;
+	vertical-align: middle;
+	background-image: url('../images/common/background_header.png');
+	background-repeat: repeat-x;
+	background-position: center left;
+}
+
+table#main td.divider
+{
+	padding: 0px;
+	margin-bottom: 10px;
+	color: #444444;
+	background-color: #f2f2f2;
+	border-top: 1px solid white;
+	border-bottom: 1px solid #dcdcdc;
+	height: 26px;
+}
+
+table#main td.footer
+{
+	padding: 69px 19px 19px 19px;
+	background-color: #000000;
+	background-image: url('../images/common/background_footer.png');
+	background-repeat: repeat-x;
+	color: #b4b3b3;
+	text-align: right;
+}
+
+table#main td.content
+{
+	padding: 19px;
+	background-image: url("../images/common/background_body.png");
+	background-repeat: repeat-x;
+	background-position: center bottom;
+}
+
+table#main td.content p
+	{
+		margin: 0px 0px 6px 0px;
+		padding: 0px;
+}
