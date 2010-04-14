@@ -61,6 +61,8 @@ class EvaluationForm extends FormValidator
     	
     	$values = $this->getSubmitValues();
     	$format = EvaluationManager :: retrieve_evaluation_format($values['format_id']);
+    	if(!$format)
+    		$format = EvaluationManager :: retrieve_evaluation_format($this->evaluation->get_format_id());
     	$evaluation_format = EvaluationFormat :: factory($format->get_title());
     	if (!$evaluation_format->get_score_set())
     	{
@@ -95,12 +97,14 @@ class EvaluationForm extends FormValidator
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     function build_creation_form()
     {
-        $this->build_basic_form();
+    	
+    	$this->build_basic_form();
 		
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -130,6 +134,7 @@ class EvaluationForm extends FormValidator
 		{
 			$evaluation_succes = true;
 		}
+		
 		$internal_item_instance = new InternalItemInstance();
 		$internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication($this->publication->get_content_object()->get_type(), $this->publication->get_id())->get_id());
 		$internal_item_instance->set_evaluation_id($evaluation->get_id());
@@ -137,6 +142,7 @@ class EvaluationForm extends FormValidator
 		{
 			$internal_item_instancr_succes = true;
 		}
+		
 		$grade_evaluation = $this->grade_evaluation;
 		$grade_evaluation->set_score($submit_values['score']);
 		$grade_evaluation->set_comment($submit_values['comment']);
@@ -200,6 +206,7 @@ class EvaluationForm extends FormValidator
 	    $defaults[Evaluation :: PROPERTY_EVALUATION_DATE] = $evaluation->get_evaluation_date();
 	    $defaults[Evaluation :: PROPERTY_USER_ID] = $evaluation->get_user_id();
 	    $defaults[Evaluation :: PROPERTY_EVALUATOR_ID] = $evaluation->get_evaluator_id();
+	    
 		parent :: setDefaults($defaults);
 	}
 	
