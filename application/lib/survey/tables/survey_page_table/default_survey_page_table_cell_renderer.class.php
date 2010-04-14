@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../survey_page.class.php';
-
 class DefaultSurveyPageTableCellRenderer implements ObjectTableCellRenderer
 {
 
