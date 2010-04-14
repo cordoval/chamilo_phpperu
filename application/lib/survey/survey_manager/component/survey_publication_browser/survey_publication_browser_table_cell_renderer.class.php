@@ -91,6 +91,9 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
             $toolbar_data[] = array('href' => $this->browser->get_move_survey_publication_url($survey_publication), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
             $toolbar_data[] = array('href' => $this->browser->get_mail_survey_participant_url($survey_publication), 'label' => Translation :: get('InviteParticipants'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
             
+            $toolbar_data[] = array('href' => $this->browser->get_browse_survey_pages_url($survey_publication), 'label' => Translation :: get('BrowseSurveyPages'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+            
+            
             if ($survey->is_complex_content_object())
             {
                 $toolbar_data[] = array('href' => $this->browser->get_build_survey_url($survey_publication), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseSurvey'));

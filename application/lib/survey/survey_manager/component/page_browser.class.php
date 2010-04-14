@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
-require_once dirname(__FILE__) . '/survey_publication_browser/survey_publication_browser_table.class.php';
+require_once dirname(__FILE__) . '/page_browser/table.class.php';
 
 class SurveyManagerPageBrowserComponent extends SurveyManagerComponent
 {
@@ -11,7 +11,7 @@ class SurveyManagerPageBrowserComponent extends SurveyManagerComponent
     function run()
     {
         
-    	$ids = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+    	$ids = Request :: get(SurveyManager :: PARAM_SURVEY);
               
         if (! empty($ids))
         {
@@ -22,7 +22,7 @@ class SurveyManagerPageBrowserComponent extends SurveyManagerComponent
         } else{
         	$ids = array();
         }  
-    	
+    	        
     	$this->survey_ids = $ids;
     	
     	$trail = new BreadcrumbTrail();
@@ -42,7 +42,7 @@ class SurveyManagerPageBrowserComponent extends SurveyManagerComponent
 
     function get_table()
     {
-        $table = new SurveyPageBrowserTable($this, array(Application :: PARAM_APPLICATION => SurveyManager :: APPLICATION_NAME, Application :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS), $this->get_condition());
+        $table = new SurveyPageBrowserTable($this, array(Application :: PARAM_APPLICATION => SurveyManager :: APPLICATION_NAME, Application :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PAGES), $this->get_condition());
         return $table->as_html();
     }
 

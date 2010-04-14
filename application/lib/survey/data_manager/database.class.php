@@ -119,7 +119,7 @@ class DatabaseSurveyDataManager extends SurveyDataManager
     
 
     }
-	    
+
     function count_survey_publications($condition = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
@@ -204,7 +204,7 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         //$table_name = $dummy->get_table_name();
         //$result = $database->retrieve_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
         //$condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $result);
-        return $dummy->retrieve_tracker_items_result_set($condition, $offset , $max_objects, $order_by);
+        return $dummy->retrieve_tracker_items_result_set($condition, $offset, $max_objects, $order_by);
     
     }
 
@@ -307,35 +307,71 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         return $this->database->retrieve_objects(SurveyPublicationMail :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationMail :: CLASS_NAME);
     }
 
-    
-	function count_survey_pages($survey_ids, $condition = null)
+    function count_survey_pages($survey_ids, $condition = null)
     {
-    	return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $survey_ids, ComplexContentObjectItem :: get_table_name()));
-   }
-
-	function retrieve_survey_pages($survey_ids, $condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-    	$complex_content_objects = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $survey_ids, ComplexContentObjectItem :: get_table_name()));
-
-    	$survey_page_ids = array();
+		
+    	dump($survey_ids);
+    	exit;
     	
+    	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $survey_ids, ComplexContentObjectItem :: get_table_name()));
+    	
+        $survey_page_ids = array();
+        
         while ($complex_content_object = $complex_content_objects->next_result())
         {
-        	 $survey_page_ids[] =  $complex_content_object->get_ref();  
+            $survey_page_ids[] = $complex_content_object->get_ref();
         }
         
-        $survey_page_condition = new InCondition(ContentObject:: PROPERTY_ID, $survey_page_ids);
+        $survey_page_condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids);
         
-        if(isset($condition)){
-        	$condition = new AndCondition(array($condition, $survey_page_condition));
-        }else{
-        	$condition = $survey_page_condition;
+        if (isset($condition))
+        {
+            $condition = new AndCondition(array($condition, $survey_page_condition));
         }
-          
-        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $offset, $max_objects, $order_by);
-    }   
-    
-    
+        else
+        {
+            $condition = $survey_page_condition;
+        }
+        
+        dump($survey_page_ids);
+        exit;
+        
+        return RepositoryDataManager :: get_instance()->count_content_objects($condition, $offset, $max_objects, $order_by);
+        
+    }
+
+    function retrieve_survey_pages($survey_ids, $condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        
+    	dump($survey_ids);
+    	exit;
+    	
+    	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $survey_ids, ComplexContentObjectItem :: get_table_name()));
+        
+        $survey_page_ids = array();
+        
+        while ($complex_content_object = $complex_content_objects->next_result())
+        {
+            $survey_page_ids[] = $complex_content_object->get_ref();
+        }
+        
+        $survey_page_condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids);
+        
+        if (isset($condition))
+        {
+            $condition = new AndCondition(array($condition, $survey_page_condition));
+        }
+        else
+        {
+            $condition = $survey_page_condition;
+        }
+        
+        dump($survey_page_ids);
+        exit;
+        
+        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $offset, $max_objects, $order_by, SurveyPage::CLASS_NAME);
+    }
+
     function content_object_is_published($object_id)
     {
         return $this->any_content_object_is_published(array($object_id));
