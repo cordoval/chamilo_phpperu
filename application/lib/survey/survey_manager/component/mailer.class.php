@@ -250,19 +250,14 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
 
         }
         $url = Path :: get(WEB_PATH) . $this->get_link($parameters);
-        $text = '<br/><br/><a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
-        $text .= '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
-        $text .= '<br/><a href=' . $url . '>' . $url . '</a>';
 
-        $header = new Header();
-        $header->add_default_headers();
-        $header->set_page_title(PlatformSetting :: get('site_name'));
-        $header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
-        $fullbody[] = $header->toHtml();
-        $fullbody[] = '<body>' . "\n";
-        $fullbody[] = $email->get_mail_content() . $text . '<br/>';
-        $fullbody[] = '</body>' . "\n";
-        $fullbody[] = '</html>' . "\n";
+        $fullbody[] = $this->get_mail_header();
+        $fullbody[] = $email->get_mail_content();
+        $fullbody[] = '<br/><br/><a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
+        $fullbody[] = '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
+        $fullbody[] = '<br/><a href=' . $url . '>' . $url . '</a>';
+        $fullbody[] = '<br/>';
+        $fullbody[] = $this->get_mail_footer();
 
         //$email->set_mail_content($fullbody);
         //$email->update();
@@ -302,6 +297,44 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
             $tracker = Events :: trigger_event('survey_participation_mail', 'survey', $args);
         }
 
+    }
+
+    function get_mail_header()
+    {
+        $html = array();
+
+        $header = new Header();
+        $header->add_default_headers();
+        $header->set_page_title(PlatformSetting :: get('site_name'));
+        $html[] = $header->toHtml();
+
+        $html[] = '<div id="outerframe">';
+        $html[] = '<div id="header">  <!-- header section start -->';
+        $html[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
+        $html[] = '<div class="banner"><a href="http://kwaliteit.ehb.be/index.php" target="_top"><span class="logo"></span><span class="text">Personeelsenquête</span></a></div>';
+        $html[] = '<div class="clear">&nbsp;</div>';
+        $html[] = '</div> <!-- end of #header1 -->';
+        $html[] = '<div id="trailbox">';
+        $html[] = '<ul id="breadcrumbtrail">';
+
+//        $html[] = '<li><a href="http://kwaliteit.ehb.be/index.php" target="_self">Personeelsenquête</a></li>';
+//        $html[] = '<li><a href="/run.php?go=browse&application=survey" target="_self">Browse survey publications</a></li>';
+//        $html[] = '<li><a href="/run.php?go=mail_survey_participants&application=survey&survey_publication=8" target="_self">Mail participants</a></li>';
+        $html[] = '</ul>';
+
+
+        $html[] = '<div class="clear">&nbsp;</div></div>';
+        $html[] = '<div class="clear">&nbsp;</div>';
+        $html[] = '</div> <!-- end of the whole #header section -->';
+        $html[] = '<div id="main">';
+
+        return implode("\n", $html);
+    }
+
+    function get_mail_footer()
+    {
+        $footer = new Footer();
+        return $footer->toHtml();
     }
 }
 ?>
