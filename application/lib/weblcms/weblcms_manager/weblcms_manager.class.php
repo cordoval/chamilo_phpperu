@@ -86,14 +86,14 @@ class WeblcmsManager extends WebApplication
 	const ACTION_IMPORT_COURSES = 'courseimporter';
 	const ACTION_IMPORT_COURSE_USERS = 'courseuserimporter';
 	const ACTION_MANAGER_SORT = 'sort';
-	const ACTION_COURSE_CREATE_ORDER = 'coursecreateorder';
 	const ACTION_MANAGER_SUBSCRIBE = 'subscribe';
 	const ACTION_MANAGER_UNSUBSCRIBE = 'unsubscribe';
 	const ACTION_COURSE_CATEGORY_MANAGER = 'catmanager';
 	const ACTION_ADMIN_COURSE_BROWSER = 'adminbrowser';
 	const ACTION_ADMIN_COURSE_TYPE_CREATOR = 'admincoursetypecreator';
 	const ACTION_ADMIN_COURSE_TYPE_BROWSER = 'admincoursetypebrowser';
-	const ACTION_COURSE_CREATE_REQUEST = 'admincoursecreaterequest';
+	const ACTION_COURSE_CREATE_REQUEST = 'coursecreaterequest';
+	const ACTION_ADMIN_REQUEST_BROWSER = 'adminrequestbrowser';
 	const ACTION_SELECT_COURSE_TYPE = 'selectcoursetype';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
 	const ACTION_DELETE_COURSES_BY_COURSE_TYPE = 'coursetypecoursesdeleter';
@@ -136,6 +136,8 @@ class WeblcmsManager extends WebApplication
 	private $course_group;
 
 	private $search_form;
+	
+	private $request;
 
 	/**
 	 * Constructor. Optionally takes a default tool; otherwise, it is taken
@@ -255,6 +257,9 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_COURSE_CREATE_REQUEST : 
 				$component = WeblcmsManagerComponent :: factory('CourseCreateRequest', $this);
 				break;
+			case self :: ACTION_ADMIN_REQUEST_BROWSER : 
+				$component = WeblcmsManagerComponent :: factory('AdminRequestBrowser', $this);
+				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
 				$component = WeblcmsManagerComponent :: factory('Home', $this);
@@ -331,6 +336,11 @@ class WeblcmsManager extends WebApplication
 	{
 		$this->course_type = $course_type;
 	}
+	
+	function set_request($request)
+	{
+		$this->request = $request;
+	}
 
 	//function set_course_type($course_type)
 	//{
@@ -378,6 +388,11 @@ class WeblcmsManager extends WebApplication
 	function get_course_type()
 	{
 		return $this->course_type;
+	}
+	
+	function get_request()
+	{
+		return $this->request;
 	}
 
 	function get_move_course_url($course)
@@ -866,6 +881,11 @@ class WeblcmsManager extends WebApplication
     {
         return WeblcmsDataManager :: get_instance()->count_course_types($condition);
     }
+    
+    function count_requests($condition = null)
+    {
+    	return WeblcmsDataManager :: get_instance()->count_requests($condition);
+    }
 
 	/**
 	 * Count the number of course categories
@@ -954,7 +974,12 @@ class WeblcmsManager extends WebApplication
 
     function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null)
     {
-    		return WeblcmsDataManager :: get_instance()->retrieve_course_types($condition, $offset, $count, $order_property);
+    	return WeblcmsDataManager :: get_instance()->retrieve_course_types($condition, $offset, $count, $order_property);
+    }
+    
+    function retrieve_requests($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+    	return WeblcmsDataManager :: get_instance()->retrieve_requests($condition, $offset, $count, $order_property);
     }
 
     function retrieve_active_course_types()
@@ -1405,6 +1430,16 @@ class WeblcmsManager extends WebApplication
 
 			$action = $_POST['action'];
 
+			$selected_course_id = $_POST[AdminRequestBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			if (empty($selected_course_id))
+			{
+				$selected_course_id = array();
+			}
+			elseif (! is_array($selected_course_id))
+			{
+				$selected_course_id = array($selected_course_id);
+			}
+			
 			$selected_course_ids = $_POST[AdminCourseBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty($selected_course_ids))
 			{
@@ -1564,7 +1599,7 @@ class WeblcmsManager extends WebApplication
 		$links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
 		$links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
 		$links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
-		//$links[] = array('name' => Translation :: get('OrderForm'), 'description' => Translation :: get('OrderForm'), 'action' => 'category', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_MANAGE_ORDER_FORMS)));
+		$links[] = array('name' => Translation :: get('RequestFormList'), 'description' => Translation :: get('RequestForms'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER)));
 		$links[] = array('name' => Translation :: get('CourseCategoryManagement'), 'description' => Translation :: get('CourseCategoryManagementDescription'), 'action' => 'category', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)));
 		$links[] = array('name' => Translation :: get('UserImport'), 'description' => Translation :: get('UserImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
 
