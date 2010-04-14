@@ -253,14 +253,15 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         }
         $url = Path :: get(WEB_PATH) . $this->get_link($parameters);
 
-        $fullbody[] = $this->get_mail_header($email);
+//        $fullbody[] = $this->get_mail_header($email);
         $fullbody[] = $email->get_mail_content();
+        $fullbody[] = '<br/><br/>';
         $fullbody[] = '<p id="link">';
         $fullbody[] = '<a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
         $fullbody[] = '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
         $fullbody[] = '<br/><a href=' . $url . '>' . $url . '</a>';
         $fullbody[] = '</p>';
-        $fullbody[] = $this->get_mail_footer();
+//        $fullbody[] = $this->get_mail_footer();
 
 //                echo implode('', $fullbody);
 //                exit;
