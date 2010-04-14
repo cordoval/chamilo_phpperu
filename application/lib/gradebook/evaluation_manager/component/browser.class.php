@@ -23,7 +23,6 @@ class EvaluationManagerBrowserComponent extends EvaluationManagerComponent
 
     function get_toolbar()
     {
-    	echo 
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $action_bar->set_search_url($this->get_url());
         $parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $this->get_parent()->get_publication()->get_id();

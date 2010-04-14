@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="ovis">
+	<settings>
+		<category name="general">
+                    <!--//TODO:checkbox-->
+                    <setting name="streaming_video" field="text" default="true" />
+                    <setting name="upload_path" field="text" default="/var/ovis/in" />
+                    <setting name="upload_hostname" field="text" default="elearning.vub.ac.be" />
+                    <setting name="streams_url" field="text" default="pointcarre4.vub.ac.be/ovis/clips" />
+                    <setting name="thumbnails_url" field="text" default="pointcarre4.vub.ac.be/ovis/thumbnails" />
+                    <setting name="cortado_url" field="text" default="pointcarre4.vub.ac.be/cortado" />
+                    <setting name="cortado_status_height" field="text" default="24" />
+                    <setting name="upload_port" field="text" default="21" />
+                </category>
+         </settings>
+</application>         

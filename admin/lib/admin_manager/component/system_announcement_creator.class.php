@@ -29,10 +29,9 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
 
     private function get_publisher_html()
     {
-        $object = Request :: get('object');
         $pub = new RepoViewer($this, 'system_announcement', true);
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             //$html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
             $html[] = $pub->as_html();
@@ -41,7 +40,7 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
         {
             //$html[] = 'ContentObject: ';
             $publisher = new SystemAnnouncerMultipublisher($pub);
-            $html[] = $publisher->get_publications_form($object);
+            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
         }
         
         return implode($html, "\n");

@@ -288,7 +288,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
             $html[] = '<ul style="margin-left: -20px;">';
             foreach($courses as $course)
             {
-                
                 $wdm = WeblcmsDataManager::get_instance();
                 $course = $wdm->retrieve_course($course->get_id());
                 $tools = $course->get_tools();
@@ -297,12 +296,12 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 
                 foreach ($tools as $index => $tool)
                 {
-                    if ($tool->visible && $weblcms->tool_has_new_publications($tool->name))
+                    if ($tool->visible && $this->tool_has_new_publications($tool->name))
                     {
                         $params[WeblcmsManager :: PARAM_TOOL] = $tool->name;
                         $params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();
                         $params[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_VIEW_COURSE;
-                        $url = $weblcms->get_url($params);
+                        $url = $this->get_url($params);
                         $html[] = '<a href="' . $url . '"><img src="' . Theme :: get_image_path() . 'tool_' . $tool->name . '_new.png" alt="' . Translation :: get('New') . '"/></a>';
                     }
                 }

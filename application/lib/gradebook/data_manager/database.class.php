@@ -266,7 +266,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	//gradebook grade evaluation
 	function create_grade_evaluation($grade_evaluation)
 	{
-		return $this->database->create($grade_evaluation);
+		return $this->database->create($grade_evaluation, false);
 	}
 	
 	function retrieve_grade_evaluation($id)

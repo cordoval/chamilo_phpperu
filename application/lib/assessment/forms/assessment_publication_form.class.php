@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../assessment_publication.class.php';
 /**
  * This class describes the form for a AssessmentPublication object.
  * @author Sven Vanpoucke
- * @author
+ * @author 
  **/
 class AssessmentPublicationForm extends FormValidator
 {

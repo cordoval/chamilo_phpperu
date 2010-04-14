@@ -19,12 +19,11 @@ class PersonalCalendarDayRenderer extends PersonalCalendarRenderer
         $calendar = new DayCalendar($this->get_time());
         $from_date = strtotime(date('Y-m-d 00:00:00', $this->get_time()));
         $to_date = strtotime(date('Y-m-d 23:59:59', $this->get_time()));
+        
+        /*$from_date = $calendar->get_start_time();
+        $to_date = $calendar->get_end_time();*/
         $events = $this->get_events($from_date, $to_date);
         $html = array();
-        
-        $start_time = $calendar->get_start_time();
-        $end_time = $calendar->get_end_time();
-        $table_date = $start_time;
         
         $start_time = $calendar->get_start_time();
         $end_time = $calendar->get_end_time();

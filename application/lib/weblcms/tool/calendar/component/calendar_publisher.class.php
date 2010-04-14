@@ -30,11 +30,10 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
         $event->set_start_date(intval(Request :: get('default_start_date')));
         $event->set_end_date(intval(Request :: get('default_end_date')));
         
-        $object = Request :: get('object');
         $pub = new ContentObjectRepoViewer($this, 'calendar_event', true);
         $pub->set_default_content_object('calendar_event', $event);
         
-        if (! isset($object))
+        if (!$pub->any_object_selected())
         {
             $html[] = $pub->as_html();
         }
@@ -42,7 +41,7 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
         {
             //$html[] = 'ContentObject: ';
             $publisher = new ContentObjectPublisher($pub);
-            $html[] = $publisher->get_publications_form($object);
+            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
         }
         
         $this->display_header($trail, true);

@@ -21,7 +21,7 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 
     function AssessmentViewerWizard($parent, $assessment)
     {
-        parent :: HTML_QuickForm_Controller('AssessmentViewerWizard_' . $parent->get_current_attempt_id(), true);
+        parent :: HTML_QuickForm_Controller('AssessmentViewerWizard_' . $parent->get_current_attempt_id(), true);       
         
         $this->parent = $parent;
         $this->assessment = $assessment;

@@ -29,8 +29,7 @@ class PeerAssessmentManagerPeerAssessmentPublicationMoverComponent extends PeerA
             $pid = $pids[0];
         }
         
-        $publication = $this->retrieve_peer_assessment_publication($pid);
-        
+        $publication = $this->retrieve_peer_assessment_publication($pid);      
         if (! $publication->is_visible_for_target_user($this->get_user()))
         {
             $this->not_allowed($trail, false);

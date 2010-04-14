@@ -15,82 +15,84 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
 
     function run()
     {
-        
-    	if (! SurveyRights :: is_allowed(SurveyRights :: MAIL_RIGHT, 'publication_browser', 'sts_component'))
+
+        if (! SurveyRights :: is_allowed(SurveyRights :: MAIL_RIGHT, 'publication_browser', 'sts_component'))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-    	
-    	$trail = new BreadcrumbTrail();
+
+        $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-//        $trail->add(new Breadcrumb($this->get_mail_survey_participant_url(), Translation :: get('MailParticipants')));
-        
+        //        $trail->add(new Breadcrumb($this->get_mail_survey_participant_url(), Translation :: get('MailParticipants')));
+
+
         $ids = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
-        
+
         if (! empty($ids))
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
-            if(count($ids) == 1){
-            	$survey_publication = $this->retrieve_survey_publication($ids[0]);
-            	$trail->add(new Breadcrumb($this->get_mail_survey_participant_url($survey_publication), Translation :: get('MailParticipants')));
+
+            if (count($ids) == 1)
+            {
+                $survey_publication = $this->retrieve_survey_publication($ids[0]);
+                $trail->add(new Breadcrumb($this->get_mail_survey_participant_url($survey_publication), Translation :: get('MailParticipants')));
             }
-                       
+
             $surveys = array();
-            
+
             $this->not_started = array();
             $this->started = array();
             $this->finished = array();
-            
+
             foreach ($ids as $id)
             {
                 $survey_publication = $this->retrieve_survey_publication($id);
                 $survey_id = $survey_publication->get_content_object();
                 $surveys[] = RepositoryDataManager :: get_instance()->retrieve_content_object($survey_id);
-            
+
             }
-            
+
             $condition = new InCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $ids);
-            
+
             $dummy = new SurveyParticipantTracker();
             $not_started_condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_STATUS, SurveyParticipantTracker :: STATUS_NOTSTARTED);
             $notstarted_trackers = $dummy->retrieve_tracker_items(new AndCondition(array($condition, $not_started_condition)));
-            
+
             foreach ($notstarted_trackers as $tracker)
             {
-                
+
                 $this->not_started[$tracker->get_survey_publication_id()][] = $tracker->get_user_id();
-            
+
             }
-            
+
             $not_started_users = array();
             foreach ($this->not_started as $users)
             {
                 $not_started_users = array_merge($not_started_users, $users);
             }
             $not_started_count = count(array_unique($not_started_users));
-            
+
             $started_condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_STATUS, SurveyParticipantTracker :: STATUS_STARTED);
             $started_trackers = $dummy->retrieve_tracker_items(new AndCondition(array($condition, $started_condition)));
-            
+
             foreach ($started_trackers as $tracker)
             {
                 $this->started[$tracker->get_survey_publication_id()][] = $tracker->get_user_id();
             }
-            
+
             $started_users = array();
             foreach ($this->started as $users)
             {
                 $started_users = array_merge($started_users, $users);
             }
             $started_count = count(array_unique($started_users));
-            
+
             $finished_condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_STATUS, SurveyParticipantTracker :: STATUS_FINISHED);
             $finished_trackers = $dummy->retrieve_tracker_items(new AndCondition(array($condition, $finished_condition)));
             //			$finished = array ();
@@ -104,14 +106,14 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
                 $finished_users = array_merge($finished_users, $users);
             }
             $finished_count = count(array_unique($finished_users));
-            
+
             $participants = array();
             $participants[SurveyParticipantTracker :: STATUS_STARTED] = $started_count;
             $participants[SurveyParticipantTracker :: STATUS_NOTSTARTED] = $not_started_count;
             $participants[SurveyParticipantTracker :: STATUS_FINISHED] = $finished_count;
-            
+
             $form = new SurveyPublicationMailerForm($this, $this->get_user(), $participants, $this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $ids)));
-            
+
             if ($form->validate())
             {
                 $values = $form->exportValues();
@@ -124,13 +126,13 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
                 echo $form->toHtml();
                 $this->display_footer();
             }
-        
+
         }
         else
         {
             $this->redirect(Translation :: get('NoParticipantSelected'), false, array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
         }
-    
+
     }
 
     function get_survey_html($surveys)
@@ -146,16 +148,16 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         }
         $html[] = '</div>';
         return implode("\n", $html);
-    
+
     }
 
     function parse_values($values)
     {
-        
+
         $users = array();
         $mail_users = array();
         $dm = UserDataManager :: get_instance();
-        
+
         $not_started = $values[SurveyParticipantTracker :: STATUS_NOTSTARTED];
         if ($not_started == 1)
         {
@@ -167,9 +169,9 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
                 }
             }
         }
-        
+
         $started = $values[SurveyParticipantTracker :: STATUS_STARTED];
-        
+
         if ($started == 1)
         {
             foreach ($this->started as $survey_id => $user_ids)
@@ -180,9 +182,9 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
                 }
             }
         }
-        
+
         $finished = $values[SurveyParticipantTracker :: STATUS_FINISHED];
-        
+
         if ($finished == 1)
         {
             foreach ($this->finished as $survey_id => $user_ids)
@@ -193,7 +195,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
                 }
             }
         }
-        
+
         if (count(array_values($mail_users)) == 0)
         {
             $this->redirect(Translation :: get('NoSurveyParticipantMailsSend'), false, array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
@@ -204,23 +206,23 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
             $email_content = $values[SurveyPublicationMailerForm :: EMAIL_CONTENT];
             $email_from_address = $values[SurveyPublicationMailerForm :: FROM_ADDRESS];
             $email_reply_address = $values[SurveyPublicationMailerForm :: REPLY_ADDRESS];
-            
+
             $email = new SurveyPublicationMail();
             $email->set_mail_haeder($email_header);
             $email->set_mail_content($email_content);
             $email->set_sender_user_id($this->get_user_id());
             $email->set_from_address($email_from_address);
             $email->set_reply_address($email_reply_address);
-            
+
             $email->create();
-            
+
             foreach ($mail_users as $user_id => $survey_ids)
             {
-                
+
                 $user = $dm->retrieve_user($user_id);
                 $to_email = $user->get_email();
                 $this->send_mail($user_id, $to_email, $email, $survey_ids);
-            
+
             }
             if ($this->mail_send == false)
             {
@@ -230,14 +232,14 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
             {
                 $this->redirect(Translation :: get('AllSurveyParticipantMailsSend'), false, array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
             }
-        
+
         }
-    
+
     }
 
     function send_mail($user_id, $to_email, $email, $survey_ids)
     {
-        
+        $fullbody = array();
         $parameters = array();
         if (count($survey_ids) != 1)
         {
@@ -247,30 +249,39 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         {
             $parameters[SurveyManager :: PARAM_ACTION] = SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION;
             $parameters[SurveyManager :: PARAM_SURVEY_PUBLICATION] = $survey_ids[0];
-        
+
         }
         $url = Path :: get(WEB_PATH) . $this->get_link($parameters);
-        $text = '<br/><br/><a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
-        $text .= '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
-        $text .= '<br/><a href=' . $url . '>' . $url . '</a>';
-        $fullbody = $email->get_mail_content() . $text . '<br/>';
-        
-        $email->set_mail_content($fullbody);
-        $email->update();
-        
+
+//        $fullbody[] = $this->get_mail_header($email);
+        $fullbody[] = $email->get_mail_content();
+        $fullbody[] = '<br/><br/>';
+        $fullbody[] = '<p id="link">';
+        $fullbody[] = '<a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
+        $fullbody[] = '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
+        $fullbody[] = '<br/><a href=' . $url . '>' . $url . '</a>';
+        $fullbody[] = '</p>';
+//        $fullbody[] = $this->get_mail_footer();
+
+//                echo implode('', $fullbody);
+//                exit;
+
+
+        //$email->set_mail_content($fullbody);
+        //$email->update();
         //echo $email . $email_header . $fullbody . '<br/>';
-        
+
 
         //		exit;
         $arg = array();
         $args[SurveyParticipantMailTracker :: PROPERTY_USER_ID] = $user_id;
         $args[SurveyParticipantMailTracker :: PROPERTY_SURVEY_PUBLICATION_MAIL_ID] = $email->get_id();
-        
+
         $from = array();
         $from[Mail :: NAME] = '';
         $from[Mail :: EMAIL] = $email->get_from_address();
-        
-        $mail = Mail :: factory($email->get_mail_header(), $fullbody, $to_email, $from);
+
+        $mail = Mail :: factory($email->get_mail_header(), implode("\n", $fullbody), $to_email, $from);
         $reply = array();
         $reply[Mail :: NAME] = '';
         $reply[Mail :: EMAIL] = $email->get_reply_address();
@@ -285,15 +296,76 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         {
             $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_SEND;
         }
-        
+
         foreach ($survey_ids as $survey_id)
         {
-            
+
             $args[SurveyParticipantMailTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $survey_id;
-            
+
             $tracker = Events :: trigger_event('survey_participation_mail', 'survey', $args);
         }
-    
+
+    }
+
+    function get_mail_header($email)
+    {
+        $html = array();
+
+//        $header = new Header();
+//        $header->add_css_file_header(Theme :: get_theme_path() . 'css/common_mail.css');
+//        $header->set_page_title(PlatformSetting :: get('site_name'));
+//        $html[] = $header->toHtml();
+
+        $html[] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+        $html[] = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">';
+        $html[] = '<head>';
+        //$html[] = '<style type="text/css" media="screen,projection"> /*<![CDATA[*/ @import "'. Theme :: get_theme_path() . 'css/common_mail.css' .'"; /*]]>*/ </style>';
+//        $html[] = '<link rel="stylesheet" href="'. Theme :: get_theme_path() . 'css/common_mail.css" type="text/css" media="screen" />';
+//        $html[] = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+        $html[] = '<title>'. PlatformSetting :: get('site_name') .'</title>';
+        $html[] = '</head>';
+
+
+        $html[] = '<body>';
+//        $html[] = '<body bottommargin="0" leftmargin="0" marginheight="0" marginwidth="0" rightmargin="0" topmargin="0">';
+//        $html[] = '<table id="main" cellpadding="0" cellspacing="0">';
+//        $html[] = '<tr class="header">';
+//        $html[] = '<td>';
+//        $html[] = '<img src="'. Theme :: get_common_image_path() .'logo_header.png" />';
+//        $html[] = '</td>';
+//        $html[] = '</tr>';
+//        $html[] = '<tr class="divider">';
+//        $html[] = '<td>';
+//        $html[] = '<a href="'. PlatformSetting :: get('institution_url') .'">' . PlatformSetting :: get('institution') . '</a>';
+//        $html[] = '&nbsp;|&nbsp;';
+//        $html[] = PlatformSetting :: get('site_name');
+//        $html[] = '&nbsp;|&nbsp;';
+//        $html[] = $email->get_mail_header();
+//        $html[] = '</td>';
+//        $html[] = '</tr>';
+//        $html[] = '<tr class="content">';
+//        $html[] = '<td>';
+
+        return implode("\n", $html);
+    }
+
+    function get_mail_footer()
+    {
+        $html = array();
+
+//        $html[] = '</td>';
+//        $html[] = '</tr>';
+//        $html[] = '<tr class="footer">';
+//        $html[] = '<td>';
+//        $html[] = '<a href="http://www.chamilo.org"><img src="'. Theme :: get_common_image_path() .'logo_footer.png" /></a>';
+//        $html[] = '</td>';
+//        $html[] = '</tr>';
+//        $html[] = '<tr>';
+//        $html[] = '</table>';
+        $html[] = '</body>';
+        $html[] = '</html>';
+
+        return implode("\n", $html);
     }
 }
 ?>

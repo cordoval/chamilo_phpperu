@@ -18,8 +18,7 @@ class ComplexDisplayComplexFeedbackComponent extends ComplexDisplayComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses general');
         
-        $object = Request :: get('object');
-        $this->pub = new RepoViewer($this, 'feedback', true);
+        $this->pub = new RepoViewer($this, 'feedback', false, RepoViewer :: SELECT_SINGLE);
         $this->pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_FEEDBACK_CLOI);
         $this->pub->set_parameter('pid', Request :: get('pid'));
         $this->pub->set_parameter('selected_cloi', Request :: get('selected_cloi'));
@@ -34,7 +33,7 @@ class ComplexDisplayComplexFeedbackComponent extends ComplexDisplayComponent
                 break;
         }
         
-        if (! isset($object))
+        if (!$this->pub->is_ready_to_be_published())
         {
             $html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
             $html[] = $this->pub->as_html();
@@ -45,7 +44,7 @@ class ComplexDisplayComplexFeedbackComponent extends ComplexDisplayComponent
         else
         {
             $feedback = new Feedback();
-            $feedback->set_id($object);
+            $feedback->set_id($this->pub->get_selected_objects());
             $this->fid = $feedback->get_id();
             $this->cid = Request :: get('selected_cloi');
             $this->pid = Request :: get('pid');

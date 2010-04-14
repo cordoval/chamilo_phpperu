@@ -16,7 +16,7 @@ class PersonalCalendarManager extends WebApplication
 {
     const APPLICATION_NAME = 'personal_calendar';
     
-    const PARAM_CALENDAR_EVENT_ID = 'calendar_event';
+    const PARAM_PERSONAL_CALENDAR_ID = 'personal_calendar';
     
     const ACTION_BROWSE_CALENDAR = 'browse';
     const ACTION_VIEW_PUBLICATION = 'view';
@@ -104,8 +104,8 @@ class PersonalCalendarManager extends WebApplication
     {
         
         $dm = PersonalCalendarDatamanager :: get_instance();
-        $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_PUBLISHER, $this->get_user_id());
-        $publications = $dm->retrieve_calendar_event_publications($condition);
+        $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_PUBLISHER, $this->get_user_id());
+        $publications = $dm->retrieve_personal_calendar_publications($condition);
         
         //$query = Request :: post('query');
         
@@ -153,7 +153,7 @@ class PersonalCalendarManager extends WebApplication
             $conditions[] = new InCondition('group_id', $user_groups, $pcdm->get_database()->get_alias('publication_group'));
         }
         $condition = new OrCondition($conditions);
-        $publications = $pcdm->retrieve_shared_calendar_event_publications($condition);
+        $publications = $pcdm->retrieve_shared_personal_calendar_publications($condition);
         
         return $this->render_personal_calendar_events($publications, $from_date, $to_date, 'SharedEvents');
     }
@@ -313,8 +313,8 @@ class PersonalCalendarManager extends WebApplication
     function publish_content_object($content_object, $location)
     {
         require_once dirname(__FILE__) . '/../calendar_event_publication.class.php';
-        $pub = new CalendarEventPublication();
-        $pub->set_calendar_event($content_object->get_id());
+        $pub = new PersonalCalendarPublication();
+        $pub->set_content_object_id($content_object->get_id());
         $pub->set_publisher($content_object->get_owner_id());
         $pub->create();
         
@@ -336,27 +336,33 @@ class PersonalCalendarManager extends WebApplication
         return self :: APPLICATION_NAME;
     }
 
-    function retrieve_calendar_event_publication($publication_id)
+    function retrieve_personal_calendar_publication($publication_id)
     {
         $pcdm = PersonalCalendarDataManager :: get_instance();
-        return $pcdm->retrieve_calendar_event_publication($publication_id);
+        return $pcdm->retrieve_personal_calendar_publication($publication_id);
+    }
+    
+	function retrieve_task_publication($publication_id)
+    {
+        $pcdm = PersonalCalendarDataManager :: get_instance();
+        return $pcdm->retrieve_personal_calendar_publication($publication_id);
     }
 
     function get_publication_deleting_url($publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PERSONAL_CALENDAR_ID => $publication->get_id()));
     }
 
     function get_publication_editing_url($publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION, self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION, self :: PARAM_PERSONAL_CALENDAR_ID => $publication->get_id()));
     }
 
     function get_publication_viewing_url($publication)
     {
         $parameters = array();
         $parameters[self :: PARAM_ACTION] = self :: ACTION_VIEW_PUBLICATION;
-        $parameters[self :: PARAM_CALENDAR_EVENT_ID] = $publication->get_id();
+        $parameters[self :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
         $parameters[Application :: PARAM_APPLICATION] = self :: APPLICATION_NAME;
         
         return $this->get_link($parameters);
@@ -365,7 +371,7 @@ class PersonalCalendarManager extends WebApplication
     function get_ical_export_url($publication)
     {
         $parameters = array();
-        $parameters[self :: PARAM_CALENDAR_EVENT_ID] = $publication->get_id();
+        $parameters[self :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
         $parameters[self :: PARAM_ACTION] = self :: ACTION_EXPORT_ICAL;
         
         return $this->get_url($parameters);

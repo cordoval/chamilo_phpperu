@@ -17,15 +17,15 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
      */
     function run()
     {
-        $id = Request :: get(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID);
+        $id = Request :: get(PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID);
         
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
         
         if ($id)
         {
-            $this->event = $this->retrieve_calendar_event_publication($id);
-            
+            $this->event = $this->retrieve_personal_calendar_publication($id);
+
             if (! $this->can_view())
             {
                 $this->display_header($trail);
@@ -34,7 +34,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
                 exit();
             }
             
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $id)), $this->event->get_publication_object()->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $id)), $this->event->get_publication_object()->get_title()));
             $trail->add_help('personal calender general');
             
             $this->action_bar = $this->get_action_bar();

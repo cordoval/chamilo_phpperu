@@ -24,8 +24,6 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('Wiki')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishWiki')));
         
-        $objects = Request :: get('object');
-        
         /*
          *  We make use of the ContentObjectRepoViewer setting the type to wiki
          */
@@ -35,7 +33,7 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object
          */
         
-        if (empty($objects))
+        if (!$pub->is_ready_to_be_published())
         {
             $html = $pub->as_html();
             $this->display_header($trail, true);
@@ -44,14 +42,18 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
         }
         else
         {
-            $form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, null, $this->get_url(array('object' => $objects)), $this->get_user());
+            $form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $pub->get_selected_objects())), $this->get_user());
             if ($form->validate())
             {
                 $values = $form->exportValues();
             	$failures = 0;
             	
+            	$objects = $pub->get_selected_objects();
+            	
             	if(!is_array($objects))
+            	{
             		$objects = array($objects);
+            	}
             	
                 foreach($objects as $object)
                 {

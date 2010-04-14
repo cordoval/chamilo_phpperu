@@ -31,24 +31,23 @@ class WikiToolPublisherComponent extends WikiToolComponent
         /*
          *  The object that was created
          */
-        $object = Request :: get('object');
         
         /*
          *  We make use of the ContentObjectRepoViewer setting the type to wiki
          */
-        $pub = new ContentObjectRepoViewer($this, 'wiki', true);
+        $pub = new ContentObjectRepoViewer($this, 'wiki', false);
         
         /*
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object
          */
-        if (empty($object))
+        if ($pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
         }
         else
         {
             $publisher = new ContentObjectPublisher($pub);
-            $html[] = $publisher->get_publications_form($object);
+            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
         }
         
         $this->display_header($trail, true);

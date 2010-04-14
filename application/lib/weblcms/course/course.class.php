@@ -210,7 +210,18 @@ class Course extends DataClass
 
     function get_tools()
     {
-        return $this->tools;
+        if(!$this->tools)
+        {
+        	$wdm = WeblcmsDataManager :: get_instance();
+			$this->tools = $wdm->get_course_modules($this->get_id());
+
+			foreach ($this->tools as $index => $tool)
+			{
+				require_once dirname(__FILE__) . '/../tool/' . $tool->name . '/' . $tool->name . '_tool.class.php';
+			}
+        }
+       
+    	return $this->tools;
     }
     
  	function get_rights()

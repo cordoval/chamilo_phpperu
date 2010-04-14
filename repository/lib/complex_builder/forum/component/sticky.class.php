@@ -27,7 +27,8 @@ class ForumBuilderStickyComponent extends ForumBuilderComponent
         }
         $topic->update();
         
-        $this->redirect($message, '', array(ComplexBuilder :: PARAM_ROOT_LO => Request :: get(ComplexBuilder :: PARAM_ROOT_LO), ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO));
+        $this->redirect($message, '', array(ComplexBuilder :: PARAM_ROOT_LO => Request :: get(ComplexBuilder :: PARAM_ROOT_LO),
+        								    ComplexBuilder :: PARAM_CLOI_ID => Request :: get(ComplexBuilder :: PARAM_CLOI_ID), ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO));
     }
 }
 

@@ -230,9 +230,9 @@ abstract class PeerAssessmentManagerComponent extends ApplicationComponent
         return $this->get_parent()->get_move_peer_assessment_publication_url($peer_assessment_publication);
     }
     
-	function get_peer_assessment_publication_viewer_url($peer_assessment_publication)
+	function get_take_peer_assessment_publication_url($peer_assessment_publication)
     {
-        return $this->get_parent()->get_peer_assessment_publication_viewer_url($peer_assessment_publication);
+        return $this->get_parent()->get_take_peer_assessment_publication_url($peer_assessment_publication);
     }
 
     function get_peer_assessment_results_viewer_url($peer_assessment_publication)
