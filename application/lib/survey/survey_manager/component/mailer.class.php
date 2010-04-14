@@ -257,13 +257,15 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $header = new Header();
         $header->add_default_headers();
         $header->set_page_title(PlatformSetting :: get('site_name'));
+        $header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
         $fullbody[] = $header->toHtml();
         $fullbody[] = '<body>' . "\n";
         $fullbody[] = $email->get_mail_content() . $text . '<br/>';
-        $fullbody[] = '</body></html>' . "\n";
-        //        $email->set_mail_content($fullbody);
-//        $email->update();
+        $fullbody[] = '</body>' . "\n";
+        $fullbody[] = '</html>' . "\n";
 
+        //$email->set_mail_content($fullbody);
+        //$email->update();
         //echo $email . $email_header . $fullbody . '<br/>';
 
 
