@@ -55,6 +55,7 @@ abstract class CommonForm extends FormValidator
         }
 
         $this->setDefaults();
+        $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/weblcms_common_form.js'));
 		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/viewable_checkbox.js'));
     }
 
@@ -364,7 +365,7 @@ abstract class CommonForm extends FormValidator
 								$check_fixed = "get_code_subscribe_fixed";
 								break;
 						}
-						if( get_class($object) == "CourseType" || ($i == 1 && $object->$check_fixed()) || ($i == 2 && !$object->$check_fixed()))
+						if( get_class($object) == "CourseType" || ($i == 1 && ($object->$check_fixed() || $this->get_form_type() == self::TYPE_CREATE)) || ($i == 2 && !$object->$check_fixed()))
 						{
 							$selected_group = $this->get_group_array($right->get_group_id());
 			            	$defaults[$element][$selected_group['id']] = $selected_group;
@@ -376,7 +377,7 @@ abstract class CommonForm extends FormValidator
 				{
 					if($right->get_group_id() != 1)
 					{
-						if( get_class($object) == "CourseType" || ($i == 1 && $object->get_unsubscribe_fixed()) || ($i == 2 && !$object->get_unsubscribe_fixed()))
+						if( get_class($object) == "CourseType" || ($i == 1 && ($object->get_unsubscribe_fixed() || $this->get_form_type() == self::TYPE_CREATE)) || ($i == 2 && !$object->get_unsubscribe_fixed()))
 						{
 							$element = self :: UNSUBSCRIBE_TARGET_ELEMENTS;
 							$selected_group = $this->get_group_array($right->get_group_id());
@@ -385,28 +386,28 @@ abstract class CommonForm extends FormValidator
 					}
 				}
 			}
-			if (count($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]) > 0)
+			if (count($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]) > 0 && !(get_class($object) == "Course" && $object->get_direct_subscribe_fixed()))
 			{
 	            $defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '1';
 	            $active = $this->getElement(self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS);
 	        	$active->setValue($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]);
 			}
 	        
-	    	if (count($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]) > 0)
+	    	if (count($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]) > 0 && !(get_class($object) == "Course" && $object->get_request_subscribe_fixed()))
 	    	{
 	            $defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '1';
 	            $active = $this->getElement(self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS);
 	        	$active->setValue($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]);
 	    	}
 	        
-	    	if (count($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]) > 0)
+	    	if (count($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]) > 0 && !(get_class($object) == "Course" && $object->get_code_subscribe_fixed()))
 	        {
 	            $defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '1';
 	            $active = $this->getElement(self :: SUBSCRIBE_CODE_TARGET_ELEMENTS);
 	        	$active->setValue($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]);
 	        }
 	        
-			if (count($defaults[self :: UNSUBSCRIBE_TARGET_ELEMENTS]) > 0)
+			if (count($defaults[self :: UNSUBSCRIBE_TARGET_ELEMENTS]) > 0 && !(get_class($object) == "Course" && $object->get_unsubscribe_fixed()))
 	        {
 	            $defaults[self :: UNSUBSCRIBE_TARGET_OPTION] = '1';
 	            $active = $this->getElement(self :: UNSUBSCRIBE_TARGET_ELEMENTS);

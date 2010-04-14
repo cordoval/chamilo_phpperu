@@ -113,12 +113,23 @@ class CourseRights extends DataClass
 		if($this->get_direct_subscribe_available() && $this->get_request_subscribe_available() && $this->get_code_subscribe_available())
 		{
 			if(is_set($group_subscribe_rights[$group_id]))
-				return $group_subscribe_rights[$group_id]->get_subscribe();
+			{
+				if(is_numeric($group_subscribe_rights[$group_id]))
+					return $this->can_group_subscribe($group_subscribe_rights[$group_id]);
+				else
+					return $group_subscribe_rights[$group_id]->get_subscribe();
+			}
 			else
 			{
 				$right = WeblcmsDatamanager::get_instance()->retrieve_group_subscribe_right($this->get_course_id(), $group_id);
 				if(!is_empty($right))
 				{
+					$group = GroupDataManager :: get_instance()->retrieve_group($group_id);
+					if(is_set($group->get_parent_id()))
+					{
+						$group_subscribe_rights[$group_id] = $group->get_parent_id();
+						return $this->can_group_subscribe($group->get_parent_id());
+					}
 					switch($right->get_subscribe())
 					{
 						case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT:

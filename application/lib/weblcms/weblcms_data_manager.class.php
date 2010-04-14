@@ -565,6 +565,20 @@ abstract class WeblcmsDataManager
     abstract function retrieve_course_group_subscribe_rights($course);
     
     abstract function retrieve_course_group_unsubscribe_rights($course);
+    
+    abstract function retrieve_course_type_group_subscribe_rights($course_type);
+    
+    abstract function retrieve_course_type_group_unsubscribe_rights($course_type);
+    
+    abstract function retrieve_course_group_subscribe_right($course_id, $group_id);
+    
+    abstract function retrieve_course_group_unsubscribe_right($course_id, $group_id);
+    
+  //  abstract function retrieve_course_type_group_subscribe_right($course_type_id, $group_id);
+    
+  //  abstract function retrieve_course_type_group_unsubscribe_right($course_type_id, $group_id);
+    
+    abstract function retrieve_course_type_group_rights_by_type($course_type_id, $type);
     /**
      * Retrieve a series of courses
      * @param User $user

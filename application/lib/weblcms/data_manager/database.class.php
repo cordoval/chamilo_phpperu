@@ -1886,6 +1886,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->retrieve_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition);
 	}
 	
+	function retrieve_course_type_group_rights_by_type($course_type_id, $type)
+	{
+		if(CourseGroupSubscribeRight::UNSUBSCRIBE == $type)
+		{
+			$condition = new EqualityCondition(CourseTypeGroupUnsubscribeRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+			return $this->database->retrieve_objects(CourseTypeGroupUnsubscribeRight :: get_table_name(), $condition);
+		}
+		else
+		{
+			$conditions = array();
+			$conditions[] = new EqualityCondition(CourseTypeGroupSubscribeRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+			$conditions[] = new EqualityCondition (CourseTypeGroupSubscribeRight :: PROPERTY_SUBSCRIBE, $type);
+			$condition = new AndCondition($conditions);
+			return $this->database->retrieve_objects(CourseTypeGroupSubscribeRight :: get_table_name(), $condition);
+		}
+		
+	}
+	
 	function retrieve_course_type_group_subscribe_rights($course_type_id)
 	{
 		$condition = new EqualityCondition(CourseTypeGroupSubscribeRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);

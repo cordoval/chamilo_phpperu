@@ -12,8 +12,10 @@ $(function ()
 	
 	function reload_form(evt,ui)
 	{
-		var course_type_id = $(this).val(),
-			course_id = $('.course_id').val();
+		var course_type_id = $(this).val();
+		if(course_type_id == current_course_type)
+			return;
+		var	course_id = $('.course_id').val();
 			course_param = '';
 			go = 'coursecreator';
 			
@@ -37,39 +39,12 @@ $(function ()
 	    );*/
 	}
 	
-	function change_block(elem)
-	{
-		var block_name = elem.attr('class').split(' ').slice(-1) + 'Block';
-			block = $('#' + block_name);
-
-		if(elem.attr('checked'))
-			block.css('display', 'block');
-		else
-			block.css('display', 'none');
-	}
-	
-	$.fn.init_available_checkbox = function ()
-	{
-		return this.each(function()
-			{
-				var elem = $(this);
-				
-				elem.click(function()
-					{
-						change_block(elem);
-					});
-				
-				change_block(elem);
-			});
-	}
-	
 	$(document).ready(function ()
 	{
 		$('.viewablecheckbox').viewableStyle();
 		$('.viewablecheckbox').setViewableStyle();
 		$('.empty').live('click', reset);
-		$('.course_type_selector').live('change',reload_form);
-		$('.available').init_available_checkbox();
+		$('.course_type_selector').live('click',reload_form);
 	});
 
 });

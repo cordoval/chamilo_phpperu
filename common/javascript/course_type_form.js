@@ -11,32 +11,6 @@ $(function ()
 			},30);	
 	}
 	
-	function change_block(elem)
-	{
-		var block_name = elem.attr('class').split(' ').slice(-1) + 'Block';
-			block = $('#' + block_name);
-
-		if(elem.attr('checked'))
-			block.css('display', 'block');
-		else
-			block.css('display', 'none');
-	}
-	
-	$.fn.init_available_checkbox = function ()
-	{
-		return this.each(function()
-			{
-				var elem = $(this);
-				
-				elem.click(function()
-					{
-						change_block(elem);
-					});
-				
-				change_block(elem);
-			});
-	}
-	
 	$(document).ready(function ()
 	{
 		$('.iphone').iphoneStyle();
@@ -44,7 +18,6 @@ $(function ()
 		$('.viewablecheckbox').viewableStyle();
 		$('.viewablecheckbox').setViewableStyle();
 		$('.empty').live('click', reset);
-		$('.available').init_available_checkbox();
 	});
 
 });
