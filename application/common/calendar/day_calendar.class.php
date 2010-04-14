@@ -58,7 +58,14 @@ class DayCalendar extends CalendarTable
      */
     public function get_start_time()
     {
-        return strtotime(date('Y-m-d 00:00:00', $this->get_display_time()));
+        $hide = LocalSetting :: get('hide_none_working_hours');
+        
+        if($hide)
+        {
+        	$working_start = LocalSetting :: get('working_hours_start');
+        	return strtotime(date('Y-m-d ' . $working_start . ':00:00', $this->get_display_time()));
+        }
+    	return strtotime(date('Y-m-d 00:00:00', $this->get_display_time()));
     }
 
     /**
@@ -67,7 +74,15 @@ class DayCalendar extends CalendarTable
      */
     public function get_end_time()
     {
-        return strtotime('+24 Hours', $this->get_start_time());
+        $hide = LocalSetting :: get('hide_none_working_hours');
+        
+        if($hide)
+        {
+        	$working_end = LocalSetting :: get('working_hours_end');
+        	return strtotime(date('Y-m-d ' . ($working_end - 1) . ':59:59', $this->get_display_time()));
+        }
+    	
+    	return strtotime('+24 Hours', $this->get_start_time());
     }
 
     /**
@@ -126,13 +141,26 @@ class DayCalendar extends CalendarTable
     private function add_events()
     {
         $events = $this->get_events_to_show();
+        
+    	$working_start = LocalSetting :: get('working_hours_start');
+        $working_end = LocalSetting :: get('working_hours_end');
+        $hide = LocalSetting :: get('hide_none_working_hours');
+        $start = 0;
+        $end = 24;
+        
+        if($hide)
+        {
+        	$start = $working_start;
+        	$end = $working_end;
+        }
+        
         foreach ($events as $time => $items)
         {
             if ($time >= $this->get_end_time())
             {
                 continue;
             }
-            $row = date('H', $time) / $this->hour_step;
+            $row = (date('H', $time) - $start) / $this->hour_step;
             foreach ($items as $index => $item)
             {
                 $cell_content = $this->getCellContents($row, 0);
