@@ -317,7 +317,7 @@ class Database
     /**
      *
      */
-    function create($object)
+    function create($object, $auto_id = true)
     {
         $object_table = $object->get_table_name();
 
@@ -327,15 +327,16 @@ class Database
             $props[$this->escape_column_name($key)] = $value;
         }
 
-        if (in_array('id', $object->get_default_property_names()))
+        if ($auto_id && in_array('id', $object->get_default_property_names()))
         {
             $props[$this->escape_column_name('id')] = $this->get_better_next_id($object_table, 'id');
         }
+        
         $this->connection->loadModule('Extended');
 
         if ($this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_INSERT))
         {
-            if (in_array('id', $object->get_default_property_names()))
+            if ($auto_id && in_array('id', $object->get_default_property_names()))
             {
                 $object->set_id($this->connection->extended->getAfterID($props[$this->escape_column_name('id')], $this->get_table_name($object_table)));
             }
