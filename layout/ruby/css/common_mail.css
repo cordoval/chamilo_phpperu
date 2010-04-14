@@ -1,5 +1,10 @@
 @CHARSET "ISO-8859-1";
 
+html{
+	margin: 0px;
+	padding: 0px;
+}
+
 body {
 	font-family: arial, verdana, helvetica, sans-serif;
 	font-size: 12px;
@@ -84,7 +89,7 @@ table#main {
 	border-spacing: 0px;
 }
 
-table#main td.header {
+table#main tr.header td {
 	padding: 19px;
 	background-color: #c50c2e;
 	color: #ffffff;
@@ -94,18 +99,28 @@ table#main td.header {
 	background-position: center left;
 }
 
-table#main td.divider
+table#main tr.divider
 {
-	padding: 0px;
+	border-top: 1px solid white;
+	border-bottom: 1px solid #dcdcdc;
+}
+
+table#main tr.divider td
+{
+	padding: 0px 19px 0px 19px;
 	margin-bottom: 10px;
 	color: #444444;
 	background-color: #f2f2f2;
-	border-top: 1px solid white;
-	border-bottom: 1px solid #dcdcdc;
 	height: 26px;
+	font-weight: bold;
 }
 
-table#main td.footer
+table#main tr.divider td a
+{
+	color: #444444;
+}
+
+table#main tr.footer td
 {
 	padding: 69px 19px 19px 19px;
 	background-color: #000000;
@@ -115,7 +130,7 @@ table#main td.footer
 	text-align: right;
 }
 
-table#main td.content
+table#main tr.content td
 {
 	padding: 19px;
 	background-image: url("../images/common/background_body.png");
@@ -123,7 +138,15 @@ table#main td.content
 	background-position: center bottom;
 }
 
-table#main td.content p
+table#main tr.content td p#link
+{
+	border: 1px solid #dcdcdc;
+	padding: 10px;
+	background-color: white;
+	margin-top: 20px;
+}
+
+table#main tr.content td p
 	{
 		margin: 0px 0px 6px 0px;
 		padding: 0px;
