@@ -253,12 +253,13 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         }
         $url = Path :: get(WEB_PATH) . $this->get_link($parameters);
 
-        $fullbody[] = $this->get_mail_header();
+        $fullbody[] = $this->get_mail_header($email);
         $fullbody[] = $email->get_mail_content();
-        $fullbody[] = '<br/><br/><a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
+        $fullbody[] = '<p id="link">';
+        $fullbody[] = '<a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
         $fullbody[] = '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
         $fullbody[] = '<br/><a href=' . $url . '>' . $url . '</a>';
-        $fullbody[] = '<br/>';
+        $fullbody[] = '</p>';
         $fullbody[] = $this->get_mail_footer();
 
 //                echo implode('', $fullbody);
@@ -305,7 +306,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
 
     }
 
-    function get_mail_header()
+    function get_mail_header($email)
     {
         $html = array();
 
@@ -315,18 +316,24 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
 
 
         $html[] = $header->toHtml();
-        $html[] = '<body>';
-        $html[] = '<table id="main">';
-        $html[] = '<tr>';
-        $html[] = '<td class="header">';
+        $html[] = '<body bottommargin="0" leftmargin="0" marginheight="0" marginwidth="0" rightmargin="0" topmargin="0">';
+        $html[] = '<table id="main" cellpadding="0" cellspacing="0">';
+        $html[] = '<tr class="header">';
+        $html[] = '<td>';
         $html[] = '<img src="'. Theme :: get_common_image_path() .'logo_header.png" />';
         $html[] = '</td>';
         $html[] = '</tr>';
-        $html[] = '<tr>';
-        $html[] = '<td class="divider"></td>';
+        $html[] = '<tr class="divider">';
+        $html[] = '<td>';
+        $html[] = '<a href="'. PlatformSetting :: get('institution_url') .'">' . PlatformSetting :: get('institution') . '</a>';
+        $html[] = '&nbsp;|&nbsp;';
+        $html[] = PlatformSetting :: get('site_name');
+        $html[] = '&nbsp;|&nbsp;';
+        $html[] = $email->get_mail_header();
+        $html[] = '</td>';
         $html[] = '</tr>';
-        $html[] = '<tr>';
-        $html[] = '<td class="content">';
+        $html[] = '<tr class="content">';
+        $html[] = '<td>';
 
         return implode("\n", $html);
     }
@@ -337,8 +344,8 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
 
         $html[] = '</td>';
         $html[] = '</tr>';
-        $html[] = '<tr>';
-        $html[] = '<td class="footer">';
+        $html[] = '<tr class="footer">';
+        $html[] = '<td>';
         $html[] = '<a href="http://www.chamilo.org"><img src="'. Theme :: get_common_image_path() .'logo_footer.png" /></a>';
         $html[] = '</td>';
         $html[] = '</tr>';
