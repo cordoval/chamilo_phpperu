@@ -7,8 +7,14 @@ abstract class EvaluationFormat
 	function factory($type)
 	{
 		require_once dirname(__FILE__) . '/' . strtolower($type).  '/'. strtolower($type) . '_evaluation_format.class.php';
-        $class = $type . 'EvaluationFormat';
-        return new $class($reporting_block);
+        $class = ucfirst($type) . 'EvaluationFormat';
+        return new $class();
 	}
+	
+	abstract function get_evaluation_field_type();
+	
+	abstract function get_default_active_value();
+	
+	abstract function get_score_set();
 }
 ?>

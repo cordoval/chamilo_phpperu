@@ -16,7 +16,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
     function run()
     {
 
-    	if (! SurveyRights :: is_allowed(SurveyRights :: MAIL_RIGHT, 'publication_browser', 'sts_component'))
+        if (! SurveyRights :: is_allowed(SurveyRights :: MAIL_RIGHT, 'publication_browser', 'sts_component'))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -24,9 +24,10 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
             exit();
         }
 
-    	$trail = new BreadcrumbTrail();
+        $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-//        $trail->add(new Breadcrumb($this->get_mail_survey_participant_url(), Translation :: get('MailParticipants')));
+        //        $trail->add(new Breadcrumb($this->get_mail_survey_participant_url(), Translation :: get('MailParticipants')));
+
 
         $ids = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
 
@@ -37,9 +38,10 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
                 $ids = array($ids);
             }
 
-            if(count($ids) == 1){
-            	$survey_publication = $this->retrieve_survey_publication($ids[0]);
-            	$trail->add(new Breadcrumb($this->get_mail_survey_participant_url($survey_publication), Translation :: get('MailParticipants')));
+            if (count($ids) == 1)
+            {
+                $survey_publication = $this->retrieve_survey_publication($ids[0]);
+                $trail->add(new Breadcrumb($this->get_mail_survey_participant_url($survey_publication), Translation :: get('MailParticipants')));
             }
 
             $surveys = array();
@@ -259,8 +261,9 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $fullbody[] = '<br/>';
         $fullbody[] = $this->get_mail_footer();
 
-//        echo implode('', $fullbody);
-//        exit;
+//                echo implode('', $fullbody);
+//                exit;
+
 
         //$email->set_mail_content($fullbody);
         //$email->update();
@@ -276,7 +279,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $from[Mail :: NAME] = '';
         $from[Mail :: EMAIL] = $email->get_from_address();
 
-        $mail = Mail :: factory($email->get_mail_header(), implode("\n" ,$fullbody), $to_email, $from);
+        $mail = Mail :: factory($email->get_mail_header(), implode("\n", $fullbody), $to_email, $from);
         $reply = array();
         $reply[Mail :: NAME] = '';
         $reply[Mail :: EMAIL] = $email->get_reply_address();
@@ -307,31 +310,44 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $html = array();
 
         $header = new Header();
-        $header->add_default_headers();
+        $header->add_css_file_header(Theme :: get_theme_path() . 'css/common_mail.css');
         $header->set_page_title(PlatformSetting :: get('site_name'));
-        $header->add_html_header('<style type="text/css">body {background-color:white; width: 100%;}</style>');
+
 
         $html[] = $header->toHtml();
         $html[] = '<body>';
-        $html[] = '<div id="header1" style="width: 100%;">';
-        $html[] = '<div class="banner"><span class="logo">&nbsp;</span></div>';
-        $html[] = '</div>';
-        $html[] = '<div id="trailbox" style="height: 10px;">&nbsp;';
-        $html[] = '</div>';
-        $html[] = '<div class="content_object" style="padding: 10px; margin: 10px;">';
+        $html[] = '<table id="main">';
+        $html[] = '<tr>';
+        $html[] = '<td class="header">';
+        $html[] = '<img src="'. Theme :: get_common_image_path() .'logo_header.png" />';
+        $html[] = '</td>';
+        $html[] = '</tr>';
+        $html[] = '<tr>';
+        $html[] = '<td class="divider"></td>';
+        $html[] = '</tr>';
+        $html[] = '<tr>';
+        $html[] = '<td class="content">';
 
         return implode("\n", $html);
     }
 
     function get_mail_footer()
     {
-       $html = array();
-       $html[] = '</div>';
-       $html[] = '<div class="clear">';
-       $html[] = '</body>';
-       $html[] = '</html>';
+        $html = array();
 
-       return implode("\n", $html);
+        $html[] = '</td>';
+        $html[] = '</tr>';
+        $html[] = '<tr>';
+        $html[] = '<td class="footer">';
+        $html[] = '<a href="http://www.chamilo.org"><img src="'. Theme :: get_common_image_path() .'logo_footer.png" /></a>';
+        $html[] = '</td>';
+        $html[] = '</tr>';
+        $html[] = '<tr>';
+        $html[] = '</table>';
+        $html[] = '</body>';
+        $html[] = '</html>';
+
+        return implode("\n", $html);
     }
 }
 ?>
