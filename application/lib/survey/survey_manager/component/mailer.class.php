@@ -262,8 +262,8 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $fullbody[] = '</p>';
         $fullbody[] = $this->get_mail_footer();
 
-                echo implode('', $fullbody);
-                exit;
+//                echo implode('', $fullbody);
+//                exit;
 
 
         //$email->set_mail_content($fullbody);
