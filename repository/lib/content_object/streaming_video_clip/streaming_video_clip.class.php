@@ -5,7 +5,7 @@
 class StreamingVideoClip extends ContentObject
 {
     const STREAMING_VIDEO_ADMIN_SETTING = 'streaming_video';
-    const STREAMING_VIDEO_ADMIN_SETTING_VALUE = 'streaming_video_value';
+    const STREAMING_VIDEO_ADMIN_SETTING_VALUE = 'true';
 
     const PROPERTY_APPLICATION = 'application';
 
@@ -22,6 +22,12 @@ class StreamingVideoClip extends ContentObject
     function set_application ($application)
     {
         return $this->set_additional_property(self :: PROPERTY_APPLICATION, $application);
+    }
+
+    //Inherited
+    function supports_attachments()
+    {
+        return false;
     }
 }
 ?>
