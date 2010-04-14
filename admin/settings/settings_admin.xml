@@ -79,6 +79,19 @@
 				</options>
 			</setting>
 		</category>
+		<category name="calendar">
+			<setting name="working_hours_start" field="select" default="0" user_setting="1">
+				<options type="dynamic" source="get_working_hours" />
+			</setting>
+			<setting name="working_hours_end" field="select" default="24" user_setting="1">
+				<options type="dynamic" source="get_working_hours" />
+			</setting>
+			<setting name="hide_none_working_hours" field="checkbox" default="0" user_setting="1">
+				<options type="static">
+					<option name="hide_none_working_hours" value="1" />
+				</options>
+			</setting>
+		</category>
 		<category name="visual">
 			<setting name="platform_language" field="select" default="english" user_setting="1">
 				<options type="dynamic" source="get_languages" />
