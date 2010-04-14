@@ -17,7 +17,6 @@ class ForumBuilderCreatorComponent extends ForumBuilderComponent
         $trail->merge($menu_trail);
         $trail->add_help('repository forum builder');
 
-        $object = Request :: get('object');
         $root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
         $cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
         $publish = Request :: get('publish');
@@ -66,7 +65,7 @@ class ForumBuilderCreatorComponent extends ForumBuilderComponent
         $pub->set_excluded_objects($exclude);
         $pub->parse_input();
 
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
         	$t = is_array($type) ? implode(',', $type) : $type;
             $p = $this->rdm->retrieve_content_object($parent);
@@ -75,7 +74,8 @@ class ForumBuilderCreatorComponent extends ForumBuilderComponent
         }
         else
         {
-            if (! is_array($object))
+            $object = $pub->get_selected_objects();
+        	if (! is_array($object))
             {
                 $object = array($object);
             }

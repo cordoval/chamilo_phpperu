@@ -16,7 +16,6 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilderComponent
         $trail = new BreadcrumbTrail(false);
         $trail->add_help('repository builder');
         
-        $object = Request :: get('object');
         $root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
         $cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
         $publish = Request :: get('publish');
@@ -68,7 +67,7 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilderComponent
         $pub->set_excluded_objects($exclude);
         $pub->parse_input_from_table();
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $t = is_array($type) ? implode(',', $type) : $type;
             $p = $this->rdm->retrieve_content_object($parent);
@@ -77,7 +76,9 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilderComponent
         }
         else
         {
-            if (! is_array($object))
+            $object = $pub->get_selected_objects();
+            
+        	if (! is_array($object))
             {
                 $object = array($object);
             }

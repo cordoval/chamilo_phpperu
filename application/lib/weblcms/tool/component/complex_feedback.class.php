@@ -20,7 +20,6 @@ class ToolComplexFeedbackComponent extends ToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses general');
         
-        $object = Request :: get('object');
         $this->pub = new ContentObjectRepoViewer($this, 'feedback', true);
         $this->pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_FEEDBACK_CLOI);
         
@@ -51,7 +50,7 @@ class ToolComplexFeedbackComponent extends ToolComponent
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => 'discuss', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), Translation :: get('Discuss')));
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_FEEDBACK_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'cid' => Request :: get('cid'))), Translation :: get('AddFeedback')));
         
-        if (! isset($object))
+        if (!$this->pub->is_ready_to_be_published())
         {
             $html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
             $html[] = $this->pub->as_html();
@@ -62,7 +61,7 @@ class ToolComplexFeedbackComponent extends ToolComponent
         else
         {
             $feedback = new Feedback();
-            $feedback->set_id($object);
+            $feedback->set_id($this->pub->get_selected_objects());
             $this->fid = $feedback->get_id();
             $this->cid = Request :: get('cid');
             $this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
