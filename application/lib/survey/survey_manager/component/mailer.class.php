@@ -237,7 +237,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
 
     function send_mail($user_id, $to_email, $email, $survey_ids)
     {
-        
+        $fullbody = array();
         $parameters = array();
         if (count($survey_ids) != 1)
         {
@@ -253,9 +253,10 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $text = '<br/><br/><a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
         $text .= '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
         $text .= '<br/><a href=' . $url . '>' . $url . '</a>';
-        $fullbody = $email->get_mail_content() . $text . '<br/>';
-        
-//        $email->set_mail_content($fullbody);
+        $fullbody[] = Display :: small_header(true);
+        $fullbody[] = $email->get_mail_content() . $text . '<br/>';
+        $fullbody[] = Display ::small_footer($true);
+        //        $email->set_mail_content($fullbody);
 //        $email->update();
         
         //echo $email . $email_header . $fullbody . '<br/>';
@@ -270,7 +271,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $from[Mail :: NAME] = '';
         $from[Mail :: EMAIL] = $email->get_from_address();
         
-        $mail = Mail :: factory($email->get_mail_header(), $fullbody, $to_email, $from);
+        $mail = Mail :: factory($email->get_mail_header(), implode("\n" ,$fullbody), $to_email, $from);
         $reply = array();
         $reply[Mail :: NAME] = '';
         $reply[Mail :: EMAIL] = $email->get_reply_address();
