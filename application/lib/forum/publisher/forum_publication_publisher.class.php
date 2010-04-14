@@ -23,7 +23,7 @@ class ForumPublicationPublisher
             $object = array($object);
         }
         
-        $form = new ForumPublicationForm(ForumPublicationForm :: TYPE_CREATE, new ForumPublication(), $this->parent->get_url(array('object' => $object)), $author);
+        $form = new ForumPublicationForm(ForumPublicationForm :: TYPE_CREATE, new ForumPublication(), $this->parent->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $object)), $author);
         if ($form->validate())
         {
             $succes = $form->create_forum_publications($object);
