@@ -20,8 +20,6 @@ class PeerAssessmentManagerPeerAssessmentPublicationCreatorComponent extends Pee
         $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('PeerAssessment')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishPeerAssessment')));
         
-        $objects = Request :: get('object');
-        
         /*
          *  We make use of the ContentObjectRepoViewer setting the type to peer_assessment
          */
@@ -32,7 +30,7 @@ class PeerAssessmentManagerPeerAssessmentPublicationCreatorComponent extends Pee
          */
         $this->display_header($trail, true);
         
-        if (empty($objects))
+        if (!$pub->is_ready_to_be_published())
         {
             echo $pub->as_html();
         }
@@ -44,8 +42,12 @@ class PeerAssessmentManagerPeerAssessmentPublicationCreatorComponent extends Pee
                 $values = $form->exportValues();
             	$failures = 0;
             	
+            	$objects = $pub->get_selected_objects();
+            	
             	if(!is_array($objects))
+            	{
             		$objects = array($objects);
+            	}
             	
                 foreach($objects as $object)
                 {

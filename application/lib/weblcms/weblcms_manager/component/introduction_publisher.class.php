@@ -32,16 +32,17 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerCompone
 		$html[] = '<p><a href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 		$html[] =  $pub->as_html();*/
         
-        $objects = Request :: get('object');
         $pub = new ContentObjectRepoViewer($this, 'introduction', false, RepoViewer :: SELECT_SINGLE);
         
-        if (! isset($objects))
+        if (!$pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
         }
         else
         {
-            if(!is_array($objects))
+            $objects = $pub->get_selected_objects();
+            
+        	if(!is_array($objects))
             {
             	$objects = array($objects);
             }
