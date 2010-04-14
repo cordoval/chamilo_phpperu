@@ -20,17 +20,16 @@ class AlexiaManagerPublisherComponent extends AlexiaManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
         $trail->add_help('alexia general');
         
-        $object = Request :: get('object');
         $pub = new RepoViewer($this, 'link', true);
         
-        if (! isset($object))
+        if (! $pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
         }
         else
         {
             $publisher = new AlexiaPublisher($pub);
-            $html[] = $publisher->get_publications_form($object);
+            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
         }
         
         $this->display_header($trail);

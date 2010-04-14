@@ -16,16 +16,15 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManagerComponent
     function run()
     {
         Display :: small_header();
-        $object = Request :: get('object');
         $pub = new RepoViewer($this, 'document', false, RepoViewer :: SELECT_SINGLE, array(), true, false);
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             echo $pub->as_html();
         }
         else
         {
             $html[] = '<script type="text/javascript">';
-            $html[] = 'window.parent.object_selected(' . $object . ');';
+            $html[] = 'window.parent.object_selected(' . $pub->get_selected_objects() . ');';
             $html[] = '</script>';
             echo implode("\n", $html);
         }

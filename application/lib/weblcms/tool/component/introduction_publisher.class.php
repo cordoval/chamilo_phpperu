@@ -27,12 +27,10 @@ class ToolIntroductionPublisherComponent extends ToolComponent
 		$html[] = '<p><a href="' . $this->get_url() . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 		$html[] =  $pub->as_html();*/
         
-        $object = Request :: get('object');
-        
         $pub = new ContentObjectRepoViewer($this, 'introduction', true);
         $pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_INTRODUCTION);
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
             $html[] = $pub->as_html();
@@ -42,11 +40,8 @@ class ToolIntroductionPublisherComponent extends ToolComponent
             $dm = WeblcmsDataManager :: get_instance();
             $do = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool_id(), 0);
             
-            $obj = new ContentObject();
-            $obj->set_id($object);
-            
             $pub = new ContentObjectPublication();
-            $pub->set_content_object_id($object);
+            $pub->set_content_object_id($pub->get_selected_objects());
             $pub->set_course_id($this->get_course_id());
             $pub->set_tool($this->get_tool_id());
             $pub->set_category_id(0);

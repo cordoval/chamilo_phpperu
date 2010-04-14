@@ -25,10 +25,9 @@ class ForumManagerCreatorComponent extends ForumManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForumPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishForum')));
         
-        $object = Request :: get('object');
         $pub = new RepoViewer($this, 'forum', true);
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             
             $html[] = $pub->as_html();
@@ -36,7 +35,7 @@ class ForumManagerCreatorComponent extends ForumManagerComponent
         else
         {
             $publisher = new ForumPublicationPublisher($pub);
-            $html[] = $publisher->publish($object);
+            $html[] = $publisher->publish($pub->get_selected_objects());
         }
         
         $this->display_header($trail);
