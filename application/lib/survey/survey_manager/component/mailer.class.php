@@ -329,7 +329,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
 //        $html[] = '</div> <!-- end of the whole #header section -->';
         $html[] = '<div id="main">';
 
-        $html[] = '<div class="content_object" style="padding-left: 10px;">';
+        $html[] = '<div class="content_object" style="padding: 10px;">';
 
         return implode("\n", $html);
     }
@@ -339,9 +339,9 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $footer = new Footer();
 
         $html = array();
-        $html[] = $footer->toHtml();
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div> <!-- end of the whole #header section -->';
+        $html[] = $footer->toHtml();
 
         return implode("\n", $html);
     }
