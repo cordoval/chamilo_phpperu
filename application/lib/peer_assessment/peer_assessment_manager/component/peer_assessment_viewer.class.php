@@ -40,6 +40,11 @@ class PeerAssessmentManagerPeerAssessmentViewerComponent extends PeerAssessmentM
     	
     	return parent :: display_header($this->trail);
     }
+    
+	function get_current_attempt_id()
+    {
+        return $this->get_component_id();
+    }
 
 }
 ?>

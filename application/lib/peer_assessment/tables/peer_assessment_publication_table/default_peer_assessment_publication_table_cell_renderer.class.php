@@ -23,7 +23,7 @@ class DefaultPeerAssessmentPublicationTableCellRenderer implements ObjectTableCe
      * @param PeerAssessmentPublication $peer_assessment_publication - The peer_assessment_publication
      * @return string A HTML representation of the rendered table cell
      */
-    /*function render_cell($column, $peer_assessment_publication)
+	function render_cell($column, $peer_assessment_publication)
     {
         switch ($column->get_name())
         {
@@ -33,46 +33,6 @@ class DefaultPeerAssessmentPublicationTableCellRenderer implements ObjectTableCe
                 return '<a href="' . $url . '">' . htmlspecialchars($peer_assessment_publication->get_content_object()->get_title()) . '</a>';
             case ContentObject :: PROPERTY_DESCRIPTION :
                 return $peer_assessment_publication->get_content_object()->get_description();
-            default :
-                return '&nbsp;';
-        }
-    }
-
-    function render_id_cell($object)
-    {
-        return $object->get_id();
-    }*/
-    
-	function render_cell($column, $peer_assessment_publication)
-    {
-        //$content_object = $assessment_publication->get_publication_object();
-        
-        switch ($column->get_name())
-        {
-            case ContentObject :: PROPERTY_TITLE :
-                
-                if ($peer_assessment_publication->get_hidden())
-                {
-                    return '<span style="color: #999999;">' . $peer_assessment_publication->get_content_object()->get_description() . '</span>';
-                }
-                
-                return $content_object->get_title();
-            case ContentObject :: PROPERTY_DESCRIPTION :
-                $description = Utilities :: truncate_string($peer_assessment_publication->get_content_object()->get_description(), 200);
-                
-                if ($peer_assessment_publication->get_hidden())
-                {
-                    return '<span style="color: #999999;">' . $description . '</span>';
-                }
-                
-                return $description;
-
-            case PeerAssessmentPublication :: PROPERTY_FROM_DATE :
-                return $peer_assessment_publication->get_from_date();
-            case PeerAssessmentPublication :: PROPERTY_TO_DATE :
-                return $peer_assessment_publication->get_to_date();
-            case PeerAssessmentPublication :: PROPERTY_PUBLISHER :
-                return $peer_assessment_publication->get_publisher();
             default :
                 return '&nbsp;';
         }
