@@ -31,3 +31,7 @@ glob:layout/aqua/images/common/treemenu/Thumbs.db
 
 syntax: regexp
 ^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^youtube\.php$
+syntax: regexp
+^plugin/gdata$
