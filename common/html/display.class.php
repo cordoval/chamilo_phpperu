@@ -54,12 +54,12 @@ class Display
         $html[] = $message;
         $html[] = '<div class="close_message" id="closeMessage"></div>';
         $html[] = '</div>';
-        
+
         if ($return)
         {
             return implode("\n", $html);
         }
-        
+
         echo implode("\n", $html);
     }
 
@@ -84,12 +84,12 @@ class Display
         $html[] = $message;
         $html[] = '<div class="close_message" id="closeMessage"></div>';
         $html[] = '</div>';
-        
+
         if ($return)
         {
             return implode("\n", $html);
         }
-        
+
         echo implode("\n", $html);
     }
 
@@ -113,12 +113,12 @@ class Display
         $html[] = $message;
         $html[] = '<div class="close_message" id="closeMessage"></div>';
         $html[] = '</div>';
-        
+
         if ($return)
         {
             return implode("\n", $html);
         }
-        
+
         echo implode("\n", $html);
     }
 
@@ -139,7 +139,7 @@ class Display
         //mailto already present?
         if (substr($email, 0, 7) != 'mailto:')
             $email = 'mailto:' . $email;
-            
+
         //class (stylesheet) defined?
         if ($style_class != '')
         {
@@ -149,12 +149,12 @@ class Display
         {
             $style_class = ' class="full_url_print"';
         }
-        
+
         //encrypt email
         $hmail = '';
         for($i = 0; $i < strlen($email); $i ++)
             $hmail .= '&#' . ord($email{$i}) . ';';
-            
+
         //encrypt clickable text if @ is present
         if (strpos($clickable_text, '@'))
         {
@@ -165,7 +165,7 @@ class Display
         {
             $hclickable_text = htmlspecialchars($clickable_text);
         }
-        
+
         //return encrypted mailto hyperlink
         return '<a href="' . $hmail . '"' . $style_class . '>' . $hclickable_text . '</a>';
     }
@@ -182,7 +182,7 @@ class Display
         include (Path :: get(SYS_LIB_PATH) . 'html/header.inc.php');
     }
 
-    public static function small_header($return = false)
+    public static function small_header()
     {
         global $language_interface;
         $document_language = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
@@ -191,23 +191,15 @@ class Display
             //if there was no valid iso-code, use the english one
             $document_language = 'en';
         }
-        
+
         $header = new Header($document_language);
         $header->add_default_headers();
         //        $header->add_javascript_file_header(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/fckeditor/fckeditor.js');
         $header->set_page_title(PlatformSetting :: get('site_name'));
         $header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
-        if ($return)
-        {
-            return $header->toHtml() . '<body>' . "\n";
-        }
-        else
-        {
-            $header->display();
-            
-            echo '<body>' . "\n";
-        }
-    
+        $header->display();
+
+        echo '<body>' . "\n";
     }
 
     /**
@@ -219,19 +211,10 @@ class Display
         $footer->display();
     }
 
-    public static function small_footer($return = false)
+    public static function small_footer()
     {
-        
-        if ($return)
-        {
-            return '</body></html>' . "\n";
-        }
-        else
-        {
-            echo '</body>' . "\n";
-            echo '</html>' . "\n";
-        }
-    
+        echo '</body>' . "\n";
+        echo '</html>' . "\n";
     }
 
     public static function not_allowed($trail = null, $show_login_form = true)
@@ -242,14 +225,14 @@ class Display
         }
         self :: header($trail);
         $home_url = Path :: get(WEB_PATH);
-        
+
         $html[] = Translation :: get('NotAllowed');
-        
+
         if ($show_login_form)
         {
             $html[] = self :: display_login_form();
         }
-        
+
         self :: error_message(implode("\n", $html));
         $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
         self :: footer();
@@ -368,7 +351,7 @@ class Display
     static function form_category($title = null, $extra_classes = null)
     {
         $html = array();
-        
+
         if ($title != null)
         {
             $html[] = '<div class="configuration_form' . ($extra_classes ? ' ' . $extra_classes : '') . '" >';
@@ -379,14 +362,14 @@ class Display
             $html[] = '<div style="clear: both;"></div>';
             $html[] = '</div>';
         }
-        
+
         return implode("\n", $html);
     }
 
     static function form_row($label = null, $value = null)
     {
         $html = array();
-        
+
         $html[] = '<div class="row">';
         $html[] = '<div class="label">' . $label . '</div>';
         $html[] = '<div class="formw">';
@@ -394,7 +377,7 @@ class Display
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 }
