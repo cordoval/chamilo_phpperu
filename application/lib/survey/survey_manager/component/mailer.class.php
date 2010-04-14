@@ -309,6 +309,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
         $html[] = $header->toHtml();
 
+        $html[] = '<body>';
         $html[] = '<div id="outerframe">';
 //        $html[] = '<div id="header">  <!-- header section start -->';
 //        $html[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
