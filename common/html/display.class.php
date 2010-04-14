@@ -182,7 +182,7 @@ class Display
         include (Path :: get(SYS_LIB_PATH) . 'html/header.inc.php');
     }
 
-    public static function small_header()
+    public static function small_header($return = false)
     {
         global $language_interface;
         $document_language = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
@@ -197,9 +197,17 @@ class Display
         //        $header->add_javascript_file_header(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/fckeditor/fckeditor.js');
         $header->set_page_title(PlatformSetting :: get('site_name'));
         $header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
-        $header->display();
-        
-        echo '<body>' . "\n";
+        if ($return)
+        {
+            return $header->toHtml() . '<body>' . "\n";
+        }
+        else
+        {
+            $header->display();
+            
+            echo '<body>' . "\n";
+        }
+    
     }
 
     /**
@@ -211,10 +219,19 @@ class Display
         $footer->display();
     }
 
-    public static function small_footer()
+    public static function small_footer($return = false)
     {
-        echo '</body>' . "\n";
-        echo '</html>' . "\n";
+        
+        if ($return)
+        {
+            return '</body></html>' . "\n";
+        }
+        else
+        {
+            echo '</body>' . "\n";
+            echo '</html>' . "\n";
+        }
+    
     }
 
     public static function not_allowed($trail = null, $show_login_form = true)
