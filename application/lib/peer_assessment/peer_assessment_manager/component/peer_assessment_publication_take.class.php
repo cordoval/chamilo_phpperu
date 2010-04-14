@@ -64,8 +64,7 @@ class PeerAssessmentManagerPeerAssessmentPublicationTakeComponent extends PeerAs
             echo $form->toHtml();
             $this->display_footer();
         }
-        
-        
+
     }
     
     function build_result_form(/*$publication,*/ $pids)
@@ -78,6 +77,11 @@ class PeerAssessmentManagerPeerAssessmentPublicationTakeComponent extends PeerAs
         //$form->addElement('static', Criteria :: PROPERTY_TITLE, $publication->get_content_object()->get_description());
 
         return $form;
-	}       
+	}  
+
+    function get_current_attempt_id()
+    {
+        return $this->peer_assessment->get_id();
+    }
 }
 ?>

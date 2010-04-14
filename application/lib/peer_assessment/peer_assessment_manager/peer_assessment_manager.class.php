@@ -13,6 +13,7 @@ class PeerAssessmentManager extends WebApplication
     
     const PARAM_PEER_ASSESSMENT_PUBLICATION = 'peer_assessment_publication';
     const PARAM_DELETE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS = 'delete_selected_peer_assessment_publications';
+    const PARAM_MOVE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS = 'move_selected_peer_assessment_publications';
     
     const ACTION_DELETE_PEER_ASSESSMENT_PUBLICATION = 'delete_peer_assessment_publication';
     const ACTION_EDIT_PEER_ASSESSMENT_PUBLICATION = 'edit_peer_assessment_publication';
@@ -90,7 +91,10 @@ class PeerAssessmentManager extends WebApplication
         }
         $component->run();
     }
-
+    
+    /*
+     * Switch statement for the dropdown box function under the table (Remove selected/ Move selected)
+     */
     private function parse_input_from_table()
     {
         if (isset($_POST['action']))
@@ -111,6 +115,23 @@ class PeerAssessmentManager extends WebApplication
                     }
                     
                     $this->set_action(self :: ACTION_DELETE_PEER_ASSESSMENT_PUBLICATION);
+                    $_GET[self :: PARAM_PEER_ASSESSMENT_PUBLICATION] = $selected_ids;
+                    break;
+                    
+              	case self :: PARAM_MOVE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS :
+                    
+                    $selected_ids = $_POST[PeerAssessmentPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+                    
+                    if (empty($selected_ids))
+                    {
+                        $selected_ids = array();
+                    }
+                    elseif (! is_array($selected_ids))
+                    {
+                        $selected_ids = array($selected_ids);
+                    }
+                    
+                    $this->set_action(self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION);
                     $_GET[self :: PARAM_PEER_ASSESSMENT_PUBLICATION] = $selected_ids;
                     break;
             }
