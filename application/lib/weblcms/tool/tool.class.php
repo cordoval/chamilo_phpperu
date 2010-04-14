@@ -642,10 +642,10 @@ abstract class Tool
 	    	return EvaluationManager :: move_internal_to_external(self :: APPLICATION_NAME, $publication);
         }
     }
- 	function get_evaluation_publication_url($wiki_publication)
+ 	function get_evaluation_publication_url($tool_publication)
     {
         require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
-        $parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $wiki_publication->get_id();
+        $parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $tool_publication->get_id();
         $parameter_string = base64_encode(serialize($parameters));
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, EvaluationManager :: PARAM_PARAMETERS => $parameter_string));
     }
