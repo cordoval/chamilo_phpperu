@@ -262,8 +262,8 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $fullbody[] = '</p>';
         $fullbody[] = $this->get_mail_footer();
 
-//                echo implode('', $fullbody);
-//                exit;
+                echo implode('', $fullbody);
+                exit;
 
 
         //$email->set_mail_content($fullbody);
@@ -315,32 +315,35 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
 //        $header->set_page_title(PlatformSetting :: get('site_name'));
 //        $html[] = $header->toHtml();
 
-        $html[] = '<html>';
+//        $html[] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+        $html[] = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">';
         $html[] = '<head>';
-        $html[] = '<style type="text/css" media="screen,projection"> /*<![CDATA[*/ @import "'. Theme :: get_theme_path() . 'css/common_mail.css' .'"; /*]]>*/ </style>';
-        $html[] = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+        //$html[] = '<style type="text/css" media="screen,projection"> /*<![CDATA[*/ @import "'. Theme :: get_theme_path() . 'css/common_mail.css' .'"; /*]]>*/ </style>';
+//        $html[] = '<link rel="stylesheet" href="'. Theme :: get_theme_path() . 'css/common_mail.css" type="text/css" media="screen" />';
+//        $html[] = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
         $html[] = '<title>'. PlatformSetting :: get('site_name') .'</title>';
         $html[] = '</head>';
 
 
-        $html[] = '<body bottommargin="0" leftmargin="0" marginheight="0" marginwidth="0" rightmargin="0" topmargin="0">';
-        $html[] = '<table id="main" cellpadding="0" cellspacing="0">';
-        $html[] = '<tr class="header">';
-        $html[] = '<td>';
-        $html[] = '<img src="'. Theme :: get_common_image_path() .'logo_header.png" />';
-        $html[] = '</td>';
-        $html[] = '</tr>';
-        $html[] = '<tr class="divider">';
-        $html[] = '<td>';
-        $html[] = '<a href="'. PlatformSetting :: get('institution_url') .'">' . PlatformSetting :: get('institution') . '</a>';
-        $html[] = '&nbsp;|&nbsp;';
-        $html[] = PlatformSetting :: get('site_name');
-        $html[] = '&nbsp;|&nbsp;';
-        $html[] = $email->get_mail_header();
-        $html[] = '</td>';
-        $html[] = '</tr>';
-        $html[] = '<tr class="content">';
-        $html[] = '<td>';
+        $html[] = '<body>';
+//        $html[] = '<body bottommargin="0" leftmargin="0" marginheight="0" marginwidth="0" rightmargin="0" topmargin="0">';
+//        $html[] = '<table id="main" cellpadding="0" cellspacing="0">';
+//        $html[] = '<tr class="header">';
+//        $html[] = '<td>';
+//        $html[] = '<img src="'. Theme :: get_common_image_path() .'logo_header.png" />';
+//        $html[] = '</td>';
+//        $html[] = '</tr>';
+//        $html[] = '<tr class="divider">';
+//        $html[] = '<td>';
+//        $html[] = '<a href="'. PlatformSetting :: get('institution_url') .'">' . PlatformSetting :: get('institution') . '</a>';
+//        $html[] = '&nbsp;|&nbsp;';
+//        $html[] = PlatformSetting :: get('site_name');
+//        $html[] = '&nbsp;|&nbsp;';
+//        $html[] = $email->get_mail_header();
+//        $html[] = '</td>';
+//        $html[] = '</tr>';
+//        $html[] = '<tr class="content">';
+//        $html[] = '<td>';
 
         return implode("\n", $html);
     }
@@ -349,15 +352,15 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
     {
         $html = array();
 
-        $html[] = '</td>';
-        $html[] = '</tr>';
-        $html[] = '<tr class="footer">';
-        $html[] = '<td>';
-        $html[] = '<a href="http://www.chamilo.org"><img src="'. Theme :: get_common_image_path() .'logo_footer.png" /></a>';
-        $html[] = '</td>';
-        $html[] = '</tr>';
-        $html[] = '<tr>';
-        $html[] = '</table>';
+//        $html[] = '</td>';
+//        $html[] = '</tr>';
+//        $html[] = '<tr class="footer">';
+//        $html[] = '<td>';
+//        $html[] = '<a href="http://www.chamilo.org"><img src="'. Theme :: get_common_image_path() .'logo_footer.png" /></a>';
+//        $html[] = '</td>';
+//        $html[] = '</tr>';
+//        $html[] = '<tr>';
+//        $html[] = '</table>';
         $html[] = '</body>';
         $html[] = '</html>';
 
