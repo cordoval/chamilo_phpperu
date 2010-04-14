@@ -324,7 +324,7 @@ EOT;
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
             $this->addElement('category', Translation :: get('Attachments'), 'content_object_attachments');
             $this->addElement('static', 'uploadify', Translation :: get('UploadDocument'), '<div id="uploadify"></div>');
-            $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments);
+            $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments, $options);
             $this->addElement('category');
 
             $elem->setDefaults($defaults);

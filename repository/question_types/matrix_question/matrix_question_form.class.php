@@ -262,7 +262,7 @@ class MatrixQuestionForm extends ContentObjectForm
                 $group[] = $this->createElement('static', null, null, $visual_number);
                 $group[] = $this->create_html_editor(MatrixQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
 
-                if ($number_of_options - count($_SESSION['mq_skip_options']) > 2)
+                if ($number_of_options - count($_SESSION['mq_skip_options']) > 1)
                 {
                     $group[] = $this->createElement('image', 'remove_option[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_option_' . $option_number));
                 }

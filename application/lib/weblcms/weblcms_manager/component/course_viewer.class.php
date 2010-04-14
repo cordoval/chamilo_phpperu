@@ -108,31 +108,40 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		{
 			if ($component_action)
 			{
+				$parameters[WeblcmsManager :: PARAM_COMPONENT_ACTION] = null;
+				$parameters[Tool :: PARAM_PUBLICATION_ID] = null;
+				$parameters[WeblcmsManager :: PARAM_TOOL] = null;
+				
 				$wdm = WeblcmsDataManager :: get_instance();
 				switch ($component_action)
 				{
 					case 'make_visible' :
 						$wdm->set_module_visible($this->get_course_id(), $tool, 1);
 						$this->load_tools();
+						$this->redirect(Translation :: get('ToolVisibilityChanged'), false, $parameters);
 						break;
 					case 'make_invisible' :
 						$wdm->set_module_visible($this->get_course_id(), $tool, 0);
 						$this->load_tools();
+						$this->redirect(Translation :: get('ToolVisibilityChanged'), false, $parameters);
 						break;
 					case 'make_publication_invisible' :
 						$publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 						$publication->set_hidden(1);
 						$publication->update();
+						$this->redirect(Translation :: get('PublicationVisibilityChanged'), false, $parameters);
 						break;
 					case 'make_publication_visible' :
 						$publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 						$publication->set_hidden(0);
 						$publication->update();
+						$this->redirect(Translation :: get('PublicationVisibilityChanged'), false, $parameters);
 						break;
 					case 'delete_publication' :
 						$publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 						$publication->set_show_on_homepage(0);
 						$publication->update();
+						$this->redirect(Translation :: get('PublicationDeleted'), false, $parameters);
 						break;
 				}
 				$this->set_parameter(WeblcmsManager :: PARAM_TOOL, null);
@@ -298,10 +307,10 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		{
 			if ($this->is_allowed(EDIT_RIGHT))
 			{
-				$tb_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)), 'label' => Translation :: get('PublishIntroductionText'), 'img' => Theme :: get_common_image_path() . 'action_introduce.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+				$tb_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)), 'label' => Translation :: get('PublishIntroductionText'), 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			}
 
-			$html[] = Utilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
+			$html[] = '<br />' . Utilities :: build_toolbar($tb_data) . '<div class="clear"></div><br /><div style="border-bottom: 1px dotted #D3D3D3;"></div><br /><br />';
 		}
 
 		return implode("\n", $html);

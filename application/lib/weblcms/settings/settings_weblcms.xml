@@ -16,11 +16,11 @@
 			</setting>
 		</category>
 		<category name = "viewer">
-			<setting name="view_state" field="radio" default="Mixed" user_setting="1">
+			<setting name="view_state" field="radio" default="0" user_setting="1">
 				<options type="static">
-					<option name="Open and closed mixed" value="Mixed" />
-					<option name="Open and closed seperated" value="Seperated" />
-					<option name="Open only" value="OpenOnly" />
+					<option name="Open and closed mixed" value="0" />
+					<option name="Open and closed seperated" value="1" />
+					<option name="Open only" value="2" />
 				</options>
 			</setting>
 		</category>

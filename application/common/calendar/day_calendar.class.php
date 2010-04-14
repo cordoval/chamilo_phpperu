@@ -82,13 +82,25 @@ class DayCalendar extends CalendarTable
         $header->addRow(array(Translation :: get('Day') . ' ' . $year_day . ', ' . Translation :: get('Week') . ' ' . $year_week));
         $header->setRowType(0, 'th');
 
-        for($hour = 0; $hour < 24; $hour += $this->get_hour_step())
+        $working_start = LocalSetting :: get('working_hours_start');
+        $working_end = LocalSetting :: get('working_hours_end');
+        $hide = LocalSetting :: get('hide_none_working_hours');
+        $start = 0;
+        $end = 24;
+        
+        if($hide)
+        {
+        	$start = $working_start;
+        	$end = $working_end;
+        }
+        
+        for($hour = $start; $hour < $end; $hour += $this->get_hour_step())
         {
             $table_start_date = mktime($hour, 0, 0, date('m', $this->get_display_time()), date('d', $this->get_display_time()), date('Y', $this->get_display_time()));
             $table_end_date = strtotime('+' . $this->get_hour_step() . ' hours', $table_start_date);
             $cell_contents = $hour . 'u - ' . ($hour + $this->get_hour_step()) . 'u';
 
-            $row = $hour / $this->get_hour_step();
+            $row = ($hour - $start) / $this->get_hour_step();
 
             $this->setCellContents($row, 0, $cell_contents);
             // Highlight current hour
@@ -100,11 +112,6 @@ class DayCalendar extends CalendarTable
                 }
             }
 
-            $working_start = PlatformSetting :: get('working_hours_start');
-            $working_end = PlatformSetting :: get('working_hours_end');
-
-            $working_start = '8';
-            $working_end = '18';
             // Is current table hour during working hours?
             if ($hour < $working_start || $hour > $working_end)
             {

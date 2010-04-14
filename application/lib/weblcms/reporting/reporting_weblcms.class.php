@@ -22,8 +22,11 @@ class ReportingWeblcms
         $udm = UserDataManager :: get_instance();
 
         if (! $order_by)
+        {
             $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
-        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, $order_by);
+        }
+
+        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, null, null, $order_by);
 
         while ($visittracker = $trackerdata->next_result())
         {
@@ -795,9 +798,11 @@ class ReportingWeblcms
 
         $order_by = new ObjectTableOrder(VisitTracker :: PROPERTY_ENTER_DATE, SORT_DESC);
         if ($params['order_by'])
+        {
             $order_by = $params['order_by'];
+        }
 
-        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, $order_by);
+        $trackerdata = $tracker->retrieve_tracker_items_result_set($condition, null, null, $order_by);
 
         while ($value = $trackerdata->next_result())
         {

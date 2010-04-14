@@ -67,8 +67,11 @@ function formatNum4(i) {
 /**
  * Initializes calendar window.
  */
-function initCalendar() {
-    if (!year && !month && !day) {
+function initCalendar() 
+{
+	if (!year && !month && !day) 
+	{
+		max_year = window.opener.max_year;
 		day = window.opener.day;
 		month = window.opener.month;
 		year  = window.opener.year;   
@@ -104,10 +107,20 @@ function initCalendar() {
     str += '<table class="calendar"><tr><th class="monthyear" width="50%">'; 
     str += '<a href="javascript:month--; initCalendar();">&laquo;</a> '; 
     str += month_names[month]; 
-    str += ' <a href="javascript:month++; initCalendar();">&raquo;</a>'; 
+    
+    if(year < max_year || (year == max_year && month < 11))
+    {
+    	str += ' <a href="javascript:month++; initCalendar();">&raquo;</a>'; 
+    }
+    
     str += '</th><th class="monthyear" width="50%">'; str += '<a href="javascript:year--; initCalendar();">&laquo;</a> '; 
     str += year;
-	str += ' <a href="javascript:year++; initCalendar();">&raquo;</a>';
+    
+    if(year < max_year)
+    {
+    	str += ' <a href="javascript:year++; initCalendar();">&raquo;</a>';
+    }
+    
 	str += '</th></tr></table>';
 	str += '<table class="calendar"><tr>'; 
 	

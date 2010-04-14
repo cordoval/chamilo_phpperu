@@ -27,7 +27,7 @@ class PersonalCalendarPublicationRSS extends PublicationRSS
 	
 	function add_item($publication, $channel)
 	{
-		$co = $publication->get_calendar_event();
+		$co = $publication->get_content_object_id();
 		if (!is_object($co))
 		{
 			$co = RepositoryDataManager :: get_instance()->retrieve_content_object($co);
@@ -38,7 +38,7 @@ class PersonalCalendarPublicationRSS extends PublicationRSS
 	function get_url($pub)
 	{
 		$params[Application :: PARAM_ACTION] = PersonalCalendarManager :: ACTION_VIEW_PUBLICATION;
-		$params[PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID] = $pub->get_id();
+		$params[PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID] = $pub->get_id();
 		return Path :: get(WEB_PATH).Redirect :: get_link(PersonalCalendarManager :: APPLICATION_NAME, $params);
 	}
 	

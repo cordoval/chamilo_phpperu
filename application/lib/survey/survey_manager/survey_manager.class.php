@@ -15,6 +15,7 @@ class SurveyManager extends WebApplication
     const APPLICATION_NAME = 'survey';
     
     const PARAM_SURVEY_PUBLICATION = 'survey_publication';
+    const PARAM_SURVEY = 'survey';
     const PARAM_SURVEY_PARTICIPANT = 'survey_participant';
     const PARAM_SURVEY_PAGE = 'survey_page';
     const PARAM_SURVEY_QUESTION = 'survey_question';
@@ -69,6 +70,9 @@ class SurveyManager extends WebApplication
         {
             case self :: ACTION_BROWSE_SURVEY_PUBLICATIONS :
                 $component = SurveyManagerComponent :: factory('Browser', $this);
+                break;
+            case self :: ACTION_BROWSE_SURVEY_PAGES :
+                $component = SurveyManagerComponent :: factory('PageBrowser', $this);
                 break;
             case self :: ACTION_TESTCASE :
                 $component = SurveyManagerComponent :: factory('Testcase', $this);
@@ -233,6 +237,16 @@ class SurveyManager extends WebApplication
         return SurveyDataManager :: get_instance()->retrieve_survey_publication_mails($condition, $offset, $count, $order_property);
     }
 
+    function count_survey_pages($condition)
+    {
+        return SurveyDataManager :: get_instance()->count_survey_pages($condition);
+    }
+
+    function retrieve_survey_pages($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_pages($condition, $offset, $count, $order_property);
+    }
+
     function retrieve_survey_publication_mail($id)
     {
         return SurveyDataManager :: get_instance()->retrieve_survey_publication_mail($id);
@@ -259,6 +273,11 @@ class SurveyManager extends WebApplication
     function get_browse_survey_publications_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS), array(self :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
+    }
+
+    function get_browse_survey_pages_url($survey_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES, self :: PARAM_SURVEY => $survey_publication->get_content_object()));
     }
 
     function get_manage_survey_publication_categories_url()
@@ -386,6 +405,7 @@ class SurveyManager extends WebApplication
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
+        $attributes['options'] = array('load_elements' => false);
         
         $form->add_receivers(self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
         
@@ -462,8 +482,8 @@ class SurveyManager extends WebApplication
         
         if ($attributes[self :: PARAM_TARGET_OPTION] != 0)
         {
-            $user_ids = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
-            $group_ids = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+            $user_ids = $attributes[self :: PARAM_TARGET_ELEMENTS]['user'];
+            $group_ids = $attributes[self :: PARAM_TARGET_ELEMENTS]['group'];
         }
         else
         {
