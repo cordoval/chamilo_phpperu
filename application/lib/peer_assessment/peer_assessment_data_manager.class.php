@@ -37,6 +37,9 @@ abstract class PeerAssessmentDataManager
         }
         return self :: $instance;
     }
+    
+    
+    // Abstracte methodes
 
     abstract function initialize();
 

@@ -32,7 +32,8 @@ class PeerAssessmentManagerPeerAssessmentPublicationUpdaterComponent extends Pee
             if ($pub_form->validate())
             {
                 $success = $pub_form->update_peer_assessment_publication();
-                $this->redirect($success ? Translation :: get('PeerAssessmentPublicationUpdated') : Translation :: get('PeerAssessmentPublicationNotUpdated'), ! $success, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
+                $category_id = $peer_assessment_publication->get_category();
+                $this->redirect($success ? Translation :: get('PeerAssessmentPublicationUpdated') : Translation :: get('PeerAssessmentPublicationNotUpdated'), ! $success, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS, 'category' => $category_id));
             }
             else
             {

@@ -16,7 +16,7 @@ class PeerAssessmentManagerPeerAssessmentPublicationVisibilityChangerComponent e
     function run()
     {
         $pid = Request :: get('peer_assessment_publication');
-        
+               
         if ($pid)
         {
             $publication = $this->retrieve_peer_assessment_publication($pid);
@@ -25,13 +25,15 @@ class PeerAssessmentManagerPeerAssessmentPublicationVisibilityChangerComponent e
             {
                 $this->redirect(null, false, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
             }
-            
             $publication->toggle_visibility();
+            
+            $publication->set_content_object($publication->get_content_object()->get_id());           
             $succes = $publication->update();
             
-            $message = $succes ? 'VisibilityChanged' : 'VisibilityNotChanged';
-            
-            $this->redirect(Translation :: get($message), ! $succes, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
+            $message = $succes ? 'VisibilityChanged' : 'VisibilityNotChanged';     
+
+            $category_id = $publication->get_category();
+            $this->redirect(Translation :: get($message), ! $succes, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS, 'category' => $category_id));
         }
         else
         {
