@@ -310,12 +310,19 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
     {
         $html = array();
 
-        $header = new Header();
-        $header->add_css_file_header(Theme :: get_theme_path() . 'css/common_mail.css');
-        $header->set_page_title(PlatformSetting :: get('site_name'));
+//        $header = new Header();
+//        $header->add_css_file_header(Theme :: get_theme_path() . 'css/common_mail.css');
+//        $header->set_page_title(PlatformSetting :: get('site_name'));
+//        $html[] = $header->toHtml();
+
+        $html[] = '<html>';
+        $html[] = '<head>';
+        $html[] = '<style type="text/css" media="screen,projection"> /*<![CDATA[*/ @import "'. Theme :: get_theme_path() . 'css/common_mail.css' .'"; /*]]>*/ </style>';
+        $html[] = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+        $html[] = '<title>'. PlatformSetting :: get('site_name') .'</title>';
+        $html[] = '</head>';
 
 
-        $html[] = $header->toHtml();
         $html[] = '<body bottommargin="0" leftmargin="0" marginheight="0" marginwidth="0" rightmargin="0" topmargin="0">';
         $html[] = '<table id="main" cellpadding="0" cellspacing="0">';
         $html[] = '<tr class="header">';

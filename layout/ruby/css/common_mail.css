@@ -11,7 +11,7 @@ body {
 	color: #000;
 	margin: 0px;
 	padding: 0px;
-	background-color: black;
+	background-color: white;
 }
 
 img {
@@ -89,7 +89,7 @@ table#main {
 	border-spacing: 0px;
 }
 
-table#main tr.header td {
+table#main td.header {
 	padding: 19px;
 	background-color: #c50c2e;
 	color: #ffffff;
@@ -105,7 +105,7 @@ table#main tr.divider
 	border-bottom: 1px solid #dcdcdc;
 }
 
-table#main tr.divider td
+table#main td.divider
 {
 	padding: 0px 19px 0px 19px;
 	margin-bottom: 10px;
@@ -113,14 +113,15 @@ table#main tr.divider td
 	background-color: #f2f2f2;
 	height: 26px;
 	font-weight: bold;
+	font-size: 12px;
 }
 
-table#main tr.divider td a
+table#main td.divider a
 {
 	color: #444444;
 }
 
-table#main tr.footer td
+table#main td.footer
 {
 	padding: 69px 19px 19px 19px;
 	background-color: #000000;
@@ -130,7 +131,7 @@ table#main tr.footer td
 	text-align: right;
 }
 
-table#main tr.content td
+table#main td.content
 {
 	padding: 19px;
 	background-image: url("../images/common/background_body.png");
@@ -138,7 +139,7 @@ table#main tr.content td
 	background-position: center bottom;
 }
 
-table#main tr.content td p#link
+table#main td.content p#link
 {
 	border: 1px solid #dcdcdc;
 	padding: 10px;
@@ -146,7 +147,7 @@ table#main tr.content td p#link
 	margin-top: 20px;
 }
 
-table#main tr.content td p
+table#main td.content p
 	{
 		margin: 0px 0px 6px 0px;
 		padding: 0px;
