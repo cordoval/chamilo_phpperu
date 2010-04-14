@@ -29,9 +29,7 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
             $pub->set_redirect(false);
             $pub->parse_input_from_table();
             
-            $object_id = Request :: get('object');
-            
-            if (! isset($object_id))
+            if (!$pub->is_ready_to_be_published())
             {
                 $html[] = '<p><a href="' . $this->get_url(array('forum' => $forum, 'pid' => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();
@@ -42,7 +40,14 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
             }
             else
             {
-                if (! is_array($object_id))
+                $object_id = $pub->get_selected_objects();
+                
+            	if (! is_array($object_id))
+                {
+                    $object_id = array($object_id);
+                }
+                
+                foreach ($object_id as $key => $value)
                 {
                     $cloi = ComplexContentObjectItem :: factory('forum_topic');
                     
@@ -55,36 +60,14 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
                     {
                         $cloi->set_parent($forum);
                     }
-                    
-                    $cloi->set_ref($object_id);
+                        
+                    $cloi->set_ref($value);
                     $cloi->set_user_id($this->get_user_id());
                     $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($forum));
-                    
-                    $cloi->create();
+                      
+                   $cloi->create();
                 }
-                else
-                {
-                    foreach ($object_id as $key => $value)
-                    {
-                        $cloi = ComplexContentObjectItem :: factory('forum_topic');
-                        
-                        if ($is_subforum)
-                        {
-                            $subforum = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($forum)->get_ref();
-                            $cloi->set_parent($subforum);
-                        }
-                        else
-                        {
-                            $cloi->set_parent($forum);
-                        }
-                        
-                        $cloi->set_ref($value);
-                        $cloi->set_user_id($this->get_user_id());
-                        $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($forum));
-                        
-                        $cloi->create();
-                    }
-                }
+                
                 $this->my_redirect($pid, $forum, $is_subforum);
             }
         
