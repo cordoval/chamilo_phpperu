@@ -255,7 +255,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $text .= '<br/><a href=' . $url . '>' . $url . '</a>';
         $fullbody[] = Display :: small_header(true);
         $fullbody[] = $email->get_mail_content() . $text . '<br/>';
-        $fullbody[] = Display ::small_footer($true);
+        $fullbody[] = Display ::small_footer(true);
         //        $email->set_mail_content($fullbody);
 //        $email->update();
         
