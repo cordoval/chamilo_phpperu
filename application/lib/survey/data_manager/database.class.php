@@ -338,6 +338,7 @@ class DatabaseSurveyDataManager extends SurveyDataManager
     function retrieve_survey_pages($survey_ids, $condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         
+    	//test
     	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $survey_ids, ComplexContentObjectItem :: get_table_name()));
         
         $survey_page_ids = array();
