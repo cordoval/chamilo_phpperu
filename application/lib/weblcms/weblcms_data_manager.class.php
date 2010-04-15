@@ -656,6 +656,8 @@ abstract class WeblcmsDataManager
      */
     abstract function delete_course($course_code);
     
+    abstract function delete_course_request($request);
+    
     abstract function delete_course_group_subscribe_right($course_subscribe_right);
     
     abstract function delete_course_group_unsubscribe_right($course_unsubscribe_right);

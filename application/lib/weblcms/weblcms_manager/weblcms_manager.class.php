@@ -99,6 +99,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_ADMIN_REQUEST_BROWSER = 'adminrequestbrowser';
 	const ACTION_SELECT_COURSE_TYPE = 'selectcoursetype';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
+	const ACTION_COURSE_REQUEST_DELETER = 'courserequestsdeleter';
 	const ACTION_DELETE_COURSES_BY_COURSE_TYPE = 'coursetypecoursesdeleter';
 	const ACTION_DELETE_COURSE_TYPE = 'coursetypedeleter';
 	const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
@@ -238,6 +239,9 @@ class WeblcmsManager extends WebApplication
 				break;
 			case self :: ACTION_DELETE_COURSE_TYPE :
 				$component = WeblcmsManagerComponent :: factory('CourseTypeDeleter', $this);
+				break;
+			case self :: ACTION_COURSE_REQUEST_DELETER : 
+				$component = WeblcmsManagerComponent :: factory('CourseRequestDeleter', $this);
 				break;
 			case self :: ACTION_VIEW_COURSE_TYPE :
 				$component = WeblcmsManagerComponent :: factory('CourseTypeViewer', $this);
@@ -409,6 +413,11 @@ class WeblcmsManager extends WebApplication
 	function get_course_type_deleting_url($course_type)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COURSE_TYPE, self :: PARAM_COURSE_TYPE => $course_type->get_id()));
+    }
+    
+    function get_course_request_deleting_url($request)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_REQUEST_DELETER, self :: PARAM_REQUEST => $request->get_id()));
     }
 
 	function get_course_type_editing_url($course_type)
