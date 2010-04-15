@@ -36,7 +36,7 @@ class PeerAssessmentManagerPeerAssessmentPublicationCreatorComponent extends Pee
         }
         else
         {
-            $form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_VIEWER, RepoViewer :: PARAM_ID => $pub->get_selected_objects())), $this->get_user());
+            $form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $pub->get_selected_objects())), $this->get_user());
             if ($form->validate())
             {
                 $values = $form->exportValues();
