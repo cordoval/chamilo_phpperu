@@ -9,8 +9,6 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
 
     function run()
     {
-        if ($this->get_parent()->get_parent()->is_allowed(ADD_RIGHT))
-        {
             $pid = Request :: get('pid');
             $cid = Request :: get('cid');
             $reply = Request :: get('reply');
@@ -81,8 +79,6 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
             	
             	$this->my_redirect($pid, $cid);
             }
-        
-        }
     }
 
     private function my_redirect($pid, $cid)
