@@ -31,11 +31,12 @@ class SurveyManager extends WebApplication
     const ACTION_CREATE_SURVEY_PUBLICATION = 'create';
     const ACTION_BROWSE_SURVEY_PUBLICATIONS = 'browse';
     const ACTION_BROWSE_SURVEY_PAGES = 'browse_pages';
-    const ACTION_BROWSE_SURVEY_PAGE_QUESTIONs = 'browse_page_questions';
+    const ACTION_BROWSE_SURVEY_PAGE_QUESTIONS = 'browse_page_questions';
     const ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES = 'manage_categories';
     const ACTION_VIEW_SURVEY_PUBLICATION = 'view';
     const ACTION_VIEW_SURVEY_PUBLICATION_RESULTS = 'view_results';
     const ACTION_REPORTING = 'reporting';
+    const ACTION_QUESTION_REPORTING = 'question_reporting';
     
     const ACTION_IMPORT_SURVEY = 'import_survey';
     const ACTION_EXPORT_SURVEY = 'export_survey';
@@ -74,6 +75,9 @@ class SurveyManager extends WebApplication
             case self :: ACTION_BROWSE_SURVEY_PAGES :
                 $component = SurveyManagerComponent :: factory('PageBrowser', $this);
                 break;
+            case self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS :
+                $component = SurveyManagerComponent :: factory('QuestionBrowser', $this);
+                break;
             case self :: ACTION_TESTCASE :
                 $component = SurveyManagerComponent :: factory('Testcase', $this);
                 break;
@@ -97,6 +101,9 @@ class SurveyManager extends WebApplication
                 break;
             case self :: ACTION_REPORTING :
                 $component = SurveyManagerComponent :: factory('Reporting', $this);
+                break;
+            case self :: ACTION_QUESTION_REPORTING :
+                $component = SurveyManagerComponent :: factory('QuestionReporting', $this);
                 break;
             case self :: ACTION_IMPORT_SURVEY :
                 $component = SurveyManagerComponent :: factory('SurveyImporter', $this);
@@ -232,6 +239,11 @@ class SurveyManager extends WebApplication
         return SurveyDataManager :: get_instance()->count_survey_publication_mails($condition);
     }
 
+    function retrieve_survey_publication_mail($id)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_publication_mail($id);
+    }
+
     function retrieve_survey_publication_mails($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return SurveyDataManager :: get_instance()->retrieve_survey_publication_mails($condition, $offset, $count, $order_property);
@@ -247,9 +259,24 @@ class SurveyManager extends WebApplication
         return SurveyDataManager :: get_instance()->retrieve_survey_pages($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_survey_publication_mail($id)
+    function retrieve_survey_page($page_id)
     {
-        return SurveyDataManager :: get_instance()->retrieve_survey_publication_mail($id);
+        return SurveyDataManager :: get_instance()->retrieve_survey_page($page_id);
+    }
+
+    function count_survey_questions($condition)
+    {
+        return SurveyDataManager :: get_instance()->count_survey_questions($condition);
+    }
+
+    function retrieve_survey_question($question_id)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_question($question_id);
+    }
+
+    function retrieve_survey_questions($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_questions($condition, $offset, $count, $order_property);
     }
 
     // Url Creation
@@ -280,6 +307,11 @@ class SurveyManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES, self :: PARAM_SURVEY => $survey_publication->get_content_object()));
     }
 
+    function get_browse_survey_page_questions_url($survey_page)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS, self :: PARAM_SURVEY_PAGE => $survey_page->get_id()));
+    }
+
     function get_manage_survey_publication_categories_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES));
@@ -304,6 +336,11 @@ class SurveyManager extends WebApplication
     function get_reporting_survey_publication_url($survey_publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+    }
+
+    function get_question_reporting_url($question)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_QUESTION_REPORTING, self :: PARAM_SURVEY_QUESTION => $question->get_id()));
     }
 
     function get_import_survey_url()

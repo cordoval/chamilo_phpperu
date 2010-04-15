@@ -96,14 +96,34 @@ abstract class SurveyManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_survey_publication_mail($id);
     }
 
-    function count_survey_pages($condition)
+    function count_survey_pages($survey_ids, $condition)
     {
-        return $this->get_parent()->count_survey_pages($condition);
+        return $this->get_parent()->count_survey_pages($survey_ids, $condition);
     }
 
-    function retrieve_survey_pages($condition = null, $offset = null, $count = null, $order_property = null)
+    function retrieve_survey_page($page_id)
     {
-        return $this->get_parent()->retrieve_survey_pages($condition, $offset, $count, $order_property);
+        return $this->get_parent()->retrieve_survey_page($page_id);
+    }
+
+    function retrieve_survey_pages($survey_ids, $condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->get_parent()->retrieve_survey_pages($survey_ids, $condition, $offset, $count, $order_property);
+    }
+
+    function count_survey_questions($page_ids, $condition)
+    {
+        return $this->get_parent()->count_survey_questions($page_ids, $condition);
+    }
+
+    function retrieve_survey_question($question_id)
+    {
+        return $this->get_parent()->retrieve_survey_page($question_id);
+    }
+
+    function retrieve_survey_questions($page_ids, $condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return $this->get_parent()->retrieve_survey_questions($page_ids, $condition, $offset, $count, $order_property);
     }
 
     // Url Creation
@@ -134,6 +154,11 @@ abstract class SurveyManagerComponent extends WebApplicationComponent
         return $this->get_parent()->get_browse_survey_pages_url($survey_publication);
     }
 
+    function get_browse_survey_page_questions_url($survey_page)
+    {
+        return $this->get_parent()->get_browse_survey_page_questions_url($survey_page);
+    }
+
     function get_manage_survey_publication_categories_url()
     {
         return $this->get_parent()->get_manage_survey_publication_categories_url();
@@ -152,6 +177,11 @@ abstract class SurveyManagerComponent extends WebApplicationComponent
     function get_reporting_survey_publication_url($survey_publication)
     {
         return $this->get_parent()->get_reporting_survey_publication_url($survey_publication);
+    }
+
+    function get_question_reporting_url($question)
+    {
+        return $this->get_parent()->get_question_reporting_url($question);
     }
 
     function get_survey_results_viewer_url($survey_publication)

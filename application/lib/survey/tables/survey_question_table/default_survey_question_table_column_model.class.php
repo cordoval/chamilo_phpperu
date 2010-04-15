@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../survey_question.class.php';
-
 class DefaultSurveyQuestionTableColumnModel extends ObjectTableColumnModel
 {
 
