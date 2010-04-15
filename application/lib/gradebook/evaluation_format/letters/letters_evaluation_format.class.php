@@ -2,7 +2,7 @@
 class LettersEvaluationFormat extends EvaluationFormat
 {
 	private $score;
-	private $score_set = array('A', 'B', 'C', 'D', 'F');
+	private $score_set = array('A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D', 'F' => 'F');
 	const DEFAULT_ACTIVE_VALUE = 1;
 	
 	function LettersEvaluationFormat()
