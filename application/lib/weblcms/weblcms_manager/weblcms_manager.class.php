@@ -676,7 +676,7 @@ class WeblcmsManager extends WebApplication
 		{
 			$this->course = $wdm->retrieve_course($id);
 			if(!$this->course)
-				$this->redirect(Translation :: get('CourseCorrupt'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
+				$this->redirect(Translation :: get('CourseCorrupt') . " ID: " . $id, true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
 		}
 		else
 		{
