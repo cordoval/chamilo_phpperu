@@ -55,7 +55,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
         echo '<a name="top"></a>';
         
         echo $this->action_bar->as_html();
-        echo '<div id="trailbox2">' . $trail->render() . '</div>';
+        //echo '<div id="trailbox2">' . $trail->render() . '</div>';
         echo '<div class="clear"></div><br />';
         echo $table->toHtml();
         echo '<br />';
