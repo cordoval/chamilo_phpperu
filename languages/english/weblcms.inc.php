@@ -344,6 +344,7 @@ $lang['weblcms']['SubscriptionFailed'] = 'Subscription failed';
 $lang['weblcms']['CreationFailed'] = 'Creation failed';
 $lang['weblcms']['CourseTypeName'] = 'Name';
 $lang['weblcms']['CourseTypeDescription'] = 'Description';
+$lang['weblcms']['CourseTypeTitularCannotSelect'] = 'Teacher can\'t change';
 $lang['weblcms']['CourseTypeLanguage'] = 'Language';
 $lang['weblcms']['CourseTypeOnly'] = 'Coursetype settings';
 $lang['weblcms']['CourseTypeCourses'] = 'Course settings that extend coursetype';

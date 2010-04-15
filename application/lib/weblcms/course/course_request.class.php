@@ -20,13 +20,14 @@ class CourseRequest extends DataClass
 
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_COURSE_ID,
+        return parent :: get_default_property_names(array(
+        		  self :: PROPERTY_COURSE_ID,
          		  self :: PROPERTY_NAME_USER,
          		  self :: PROPERTY_COURSE_NAME,
         		  self :: PROPERTY_TITLE,
         		  self :: PROPERTY_MOTIVATION,
         		  self :: PROPERTY_CREATION_DATE,
-        		  self :: PROPERTY_ALLOWED_DATE);
+        		  self :: PROPERTY_ALLOWED_DATE));
     }
 
     function get_data_manager()
