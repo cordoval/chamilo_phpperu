@@ -68,13 +68,13 @@ class EvaluationForm extends FormValidator
     	$evaluation_format = EvaluationFormat :: factory($format->get_title());
     	if (!$evaluation_format->get_score_set())
     	{
-    		$this->addElement($evaluation_format->get_evaluation_field_type(), GradeEvaluation :: PROPERTY_SCORE, Translation :: get('score'));
+    		$this->addElement($evaluation_format->get_evaluation_field_type(), $evaluation_format->get_evaluation_name(), Translation :: get('score'));
     	}
     	else
     	{
-    		$this->addElement($evaluation_format->get_evaluation_field_type(), GradeEvaluation :: PROPERTY_SCORE, Translation :: get('score'), $evaluation_format->get_score_set());
+    		$this->addElement($evaluation_format->get_evaluation_field_type(), $evaluation_format->get_evaluation_name(), Translation :: get('score'), $evaluation_format->get_score_set());
     	}
-		$this->addRule(GradeEvaluation :: PROPERTY_SCORE, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addRule($evaluation_format->get_evaluation_name(), Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('Comment'), true);
 		$this->addRule(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('ThisFieldIsRequired'), 'required');
     }
@@ -145,8 +145,13 @@ class EvaluationForm extends FormValidator
 			$internal_item_instancr_succes = true;
 		}
 		
+		$format = EvaluationManager :: retrieve_evaluation_format($submit_values['format_id']);
+    	if(!$format)
+    		$format = EvaluationManager :: retrieve_evaluation_format($this->evaluation->get_format_id());
+    	$evaluation_format = EvaluationFormat :: factory($format->get_title());
+    	
 		$grade_evaluation = $this->grade_evaluation;
-		$grade_evaluation->set_score($submit_values['score']);
+		$grade_evaluation->set_score($submit_values[$evaluation_format->get_evaluation_name()]);
 		$grade_evaluation->set_comment($submit_values['comment']);
 		$grade_evaluation->set_id($evaluation->get_id());
 		if($grade_evaluation->create(false))

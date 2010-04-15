@@ -50,6 +50,11 @@ class PointsEvaluationFormat extends EvaluationFormat
 		return 'text';
 	}
 	
+	function get_evaluation_name()
+	{
+		return 'points_evaluation';
+	}
+	
 	function get_default_active_value()
 	{
 		return self :: DEFAULT_ACTIVE_VALUE;

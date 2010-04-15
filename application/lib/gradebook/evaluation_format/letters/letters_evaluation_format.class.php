@@ -32,6 +32,11 @@ class LettersEvaluationFormat extends EvaluationFormat
     	$this->get_score();
     }
     
+    function get_evaluation_name()
+	{
+		return 'letters_evaluation';
+	}
+	
 	function get_evaluation_field_type()
 	{
 		return 'select';
