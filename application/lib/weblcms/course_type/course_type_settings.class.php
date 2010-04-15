@@ -12,6 +12,7 @@ class CourseTypeSettings extends CourseSettings
 	const CLASS_NAME = __CLASS__;
 
 	const PROPERTY_COURSE_TYPE_ID = "course_type_id";
+	const PROPERTY_TITULAR_FIXED = "titular_fixed";
 	const PROPERTY_LANGUAGE_FIXED = 'language_fixed';
 	const PROPERTY_VISIBILITY_FIXED = 'visibility_fixed';
 	const PROPERTY_ACCESS_FIXED = 'access_fixed';
@@ -25,11 +26,12 @@ class CourseTypeSettings extends CourseSettings
 	{
 		return parent :: get_default_property_names(
 		array(self :: PROPERTY_COURSE_TYPE_ID,
-		self :: PROPERTY_LANGUAGE_FIXED,
-		self :: PROPERTY_VISIBILITY_FIXED,
-		self :: PROPERTY_ACCESS_FIXED,
-		self :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED));
-	}
+			self :: PROPERTY_TITULAR_FIXED,
+			self :: PROPERTY_LANGUAGE_FIXED,
+			self :: PROPERTY_VISIBILITY_FIXED,
+			self :: PROPERTY_ACCESS_FIXED,
+			self :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED));
+	}	
 
 	/**
 	 * inherited
@@ -48,6 +50,15 @@ class CourseTypeSettings extends CourseSettings
 		return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
 	}
 
+	/**
+	 * Returns the titular fixed of this coursetype object
+	 * @return Boolean the titular fixed
+	 */
+	function get_titular_fixed()
+	{
+		return $this->get_default_property(self :: PROPERTY_TITULAR_FIXED);
+	}
+	
 	/**
 	 * Returns the languages fixed of this coursetype object
 	 * @return Boolean the languages fixed
@@ -93,6 +104,15 @@ class CourseTypeSettings extends CourseSettings
 		return $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
 	}
 
+	/**
+	 * Sets the titular fixed of this coursetype object
+	 * @param Boolean $titular_fixed the titular fixed
+	 */
+	function set_titular_fixed($titular_fixed)
+	{
+		return $this->set_default_property(self :: PROPERTY_TITULAR_FIXED, $titular_fixed);
+	}
+	
 	/**
 	 * Sets the languages fixed of this coursetype object
 	 * @param Boolean $languages_fixed the languages fixed

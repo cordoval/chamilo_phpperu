@@ -46,7 +46,7 @@ class SurveyPage extends ContentObject
         $allowed_types[] = 'survey_select_question';
         $allowed_types[] = 'survey_matrix_question';
         $allowed_types[] = 'survey_description';
-       
+        
         return $allowed_types;
     }
 
@@ -56,5 +56,27 @@ class SurveyPage extends ContentObject
     
     }
 
+    function get_questions()
+    {
+        
+        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+        
+        $question_ids = array();
+        
+        while ($complex_content_object = $complex_content_objects->next_result())
+        {
+            $question_ids[] = $complex_content_object->get_ref();
+        }
+        
+        $conditions = array();
+        $conditions[] = new InCondition(ContentObject :: PROPERTY_ID, $question_ids, ContentObject :: get_table_name());
+//        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'survey_description', ContentObject :: get_table_name()));
+        return RepositoryDataManager :: get_instance()->retrieve_content_objects(new AndCondition($conditions));
+    }
+
+    function count_questions()
+    {
+        return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+    }
 }
 ?>

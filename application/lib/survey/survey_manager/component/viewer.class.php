@@ -11,6 +11,8 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
 
     private $pub;
     private $survey;
+    private $pages;
+    private $questions;
     private $pid;
     private $participant_id;
     private $active_tracker;
@@ -280,6 +282,19 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
         }
         return implode(' ', $new_value);
     }
+    
+    function get_total_questions(){
+    	return $this->survey->count_pages();
+    }
+    
+	function get_total_pages(){
+    	return $this->survey->count_pages();
+    }
+    
+	function get_survey(){
+    	return $this->survey;
+    }
+    
 }
 
 ?>

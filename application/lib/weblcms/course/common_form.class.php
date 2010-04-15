@@ -292,16 +292,16 @@ abstract class CommonForm extends FormValidator
 		$layout = $object;
 		if(get_class($object) == "CourseType") $layout = $object->get_layout_settings();
         elseif(is_null($this->object->get_id())) $layout = $this->object->get_course_type()->get_layout_settings();
-		$defaults[CourseLayout :: PROPERTY_STUDENT_VIEW] = $layout->get_student_view();
+		$defaults[CourseLayout :: PROPERTY_STUDENT_VIEW] = !is_null($layout->get_student_view())?$layout->get_student_view():1;
 		$defaults[CourseLayout :: PROPERTY_LAYOUT] = $layout->get_layout();
 		$defaults[CourseLayout :: PROPERTY_TOOL_SHORTCUT] = $layout->get_tool_shortcut();
 		$defaults[CourseLayout :: PROPERTY_MENU] = $layout->get_menu();
 		$defaults[CourseLayout :: PROPERTY_BREADCRUMB] = $layout->get_breadcrumb();
-		$defaults[CourseLayout :: PROPERTY_FEEDBACK] = $layout->get_feedback();
-		$defaults[CourseLayout :: PROPERTY_INTRO_TEXT] = $layout->get_intro_text();
-		$defaults[CourseLayout :: PROPERTY_COURSE_CODE_VISIBLE] = $layout->get_course_code_visible();
-		$defaults[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE] = $layout->get_course_manager_name_visible();
-		$defaults[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = $layout->get_course_languages_visible();
+		$defaults[CourseLayout :: PROPERTY_FEEDBACK] = !is_null($layout->get_feedback())?$layout->get_feedback():1;
+		$defaults[CourseLayout :: PROPERTY_INTRO_TEXT] = !is_null($layout->get_intro_text())?$layout->get_intro_text():1;
+		$defaults[CourseLayout :: PROPERTY_COURSE_CODE_VISIBLE] = !is_null($layout->get_course_code_visible())?$layout->get_course_code_visible():1;
+		$defaults[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE] = !is_null($layout->get_course_manager_name_visible())?$layout->get_course_manager_name_visible():1;
+		$defaults[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE] = !is_null($layout->get_course_languages_visible())?$layout->get_course_languages_visible():1;
 
 		$rights = $object;
 		if(get_class($object) == "CourseType") $rights= $object->get_rights();

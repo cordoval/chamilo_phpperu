@@ -10,22 +10,24 @@ class EvaluationForm extends FormValidator
     const PARAM_SCORE = 'score';
     const PARAM_COMMENT = 'comment';
 	
-    private $publication;
+    private $publication_id;
     private $user;
     private $grade_evaluation;
     private $evaluation;
     private $form_type;
+    private $publisher_id;
     
     private $allow_creation = false;
 
-    function EvaluationForm($form_type, $evaluation, $grade_evaluation, $publication, $action, $user)
+    function EvaluationForm($form_type, $evaluation, $grade_evaluation, $publication_id, $publisher_id,$action, $user)
     {
     	parent :: __construct('evaluation_publication_settings', 'post', $action);
     	$this->evaluation = $evaluation;
     	$this->grade_evaluation = $grade_evaluation;
-    	$this->publication = $publication;
+    	$this->publication_id = $publication_id;
         $this->user = $user;
         $this->form_type = $form_type;
+        $this->publisher_id = $publisher_id;
 		if($this->form_type == self :: TYPE_CREATE)
 			$this->build_evaluation_format_element();
 		else
@@ -127,7 +129,7 @@ class EvaluationForm extends FormValidator
 		
 		$evaluation = $this->evaluation;
 		$evaluation->set_evaluator_id($this->user->get_id());
-		$evaluation->set_user_id($this->publication->get_publisher());
+		$evaluation->set_user_id($this->publisher_id);
 		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
 		$evaluation->set_format_id($export_values['format_id']);
 		if($evaluation->create())
@@ -136,7 +138,7 @@ class EvaluationForm extends FormValidator
 		}
 		
 		$internal_item_instance = new InternalItemInstance();
-		$internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication($this->publication->get_content_object()->get_type(), $this->publication->get_id())->get_id());
+		$internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication(Request :: get('application'), $this->publication_id)->get_id());
 		$internal_item_instance->set_evaluation_id($evaluation->get_id());
 		if($internal_item_instance->create())
 		{
@@ -164,7 +166,7 @@ class EvaluationForm extends FormValidator
 		$evaluation = $this->evaluation;
 		$evaluation->set_id($evaluation_id);
 		$evaluation->set_evaluator_id($this->user->get_id());
-		$evaluation->set_user_id($this->publication->get_publisher());
+		$evaluation->set_user_id($this->publisher_id);
 		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
 		$evaluation->set_format_id($values['format_id']);
 		if(!$evaluation->update())
@@ -173,7 +175,7 @@ class EvaluationForm extends FormValidator
 		}
 		
 		$internal_item_instance = new InternalItemInstance();
-		$internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication($this->publication->get_content_object()->get_type(), $this->publication->get_id())->get_id());
+		$internal_item_instance->set_internal_item_id(GradebookDataManager :: get_instance()->retrieve_internal_item_by_publication(Request :: get('application'), $this->publication_id)->get_id());
 		$internal_item_instance->set_evaluation_id($evaluation_id);
 		if(!$internal_item_instance->update())
 		{

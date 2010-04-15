@@ -14,7 +14,7 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage
     {
         parent :: SurveyViewerWizardPage($name, $parent);
         $this->page_number = $number;
-        $this->addAction('process', new SurveyViewerWizardProcess($this));
+//        $this->addAction('process', new SurveyViewerWizardProcess($this));
 
     }
 

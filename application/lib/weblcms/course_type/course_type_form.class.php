@@ -161,6 +161,7 @@ class CourseTypeForm extends CommonForm
 
 		$this->addElement('category', Translation :: get('CourseTypeLockedProperties'));
 		$this->add_information_message('', '', Translation :: get('LockedFunctionalityDescription'), true);
+		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_TITULAR_FIXED, Translation :: get('CourseTypeTitularCannotSelect'));
 		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED, Translation :: get('CourseTypeLanguage'));
 		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED, Translation :: get('CourseTypeVisibility'));
 		$this->addElement('checkbox', CourseTypeSettings :: PROPERTY_ACCESS_FIXED, Translation :: get('CourseTypeAccess'));
@@ -483,6 +484,7 @@ class CourseTypeForm extends CommonForm
 		$values = $this->exportValues();
 		$settings = parent::fill_settings();
 		$settings->set_course_type_id($this->object->get_id());
+		$settings->set_titular_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_TITULAR_FIXED]));
 		$settings->set_language_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED]));
 		$settings->set_visibility_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED]));
 		$settings->set_access_fixed($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS_FIXED]));
@@ -599,6 +601,7 @@ class CourseTypeForm extends CommonForm
 		$defaults[CourseType :: PROPERTY_ACTIVE] = $course_type->get_active();
 
 		$course_type_settings = $this->object->get_settings();
+		$defaults[CourseTypeSettings :: PROPERTY_TITULAR_FIXED] = $course_type_settings->get_titular_fixed();
 		$defaults[CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED] = $course_type_settings->get_language_fixed();
 		$defaults[CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED] = $course_type_settings->get_visibility_fixed();
 		$defaults[CourseTypeSettings :: PROPERTY_ACCESS_FIXED] = $course_type_settings->get_access_fixed();

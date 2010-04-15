@@ -90,6 +90,25 @@ class Survey extends ContentObject
     {
         return false;
     }
-
+	
+    function get_pages(){
+     	
+    	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+        
+     	$survey_page_ids = array();
+        
+        while ($complex_content_object = $complex_content_objects->next_result())
+        {
+            $survey_page_ids[] = $complex_content_object->get_ref();
+        }
+        
+        $condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
+        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
+    }
+    
+    function count_pages(){
+    	return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+    }
+    
 }
 ?>
