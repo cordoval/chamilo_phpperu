@@ -2,13 +2,6 @@
 <application name="weblcms">
 	<settings>
 		<category name="general">
-			<setting name="create_example_material" field="radio"
-				default="0">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
 			<setting name="show_subscribe_button_on_course_home" field="checkbox" default="1">
 				<options type="static">
 					<option name="show_subscribe_button_on_course_home" value="1" />
