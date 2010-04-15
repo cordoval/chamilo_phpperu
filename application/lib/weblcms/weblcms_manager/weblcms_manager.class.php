@@ -20,6 +20,7 @@ require_once dirname(__FILE__) . '/component/admin_course_browser/admin_course_b
 require_once dirname(__FILE__) . '/component/admin_course_type_browser/admin_course_type_browser_table.class.php';
 require_once dirname(__FILE__) . '/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/component/subscribe_group_browser/subscribe_group_browser_table.class.php';
+require_once dirname(__FILE__) . '/component/admin_request_browser/admin_request_browser_table.class.php';
 require_once dirname(__FILE__) . '/../weblcms_block.class.php';
 require_once dirname(__FILE__) . '/../weblcms_rights.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type.class.php';
