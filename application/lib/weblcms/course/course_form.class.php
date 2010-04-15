@@ -449,7 +449,7 @@ class CourseForm extends CommonForm
 	        	$this->addElement('text', CourseRights :: PROPERTY_CODE, Translation :: get('EnterCode'), array("size" => "50"));
 	       	if($course_subscribe_disabled)
 	       	{
-	       		$this->addElement('hidden', $type.'_fixed' , 1);
+	       		$this->addElement('hidden', strtolower($type).'_fixed' , 1);
 	       		$groups_result = WeblcmsDataManager::get_instance()->retrieve_course_type_group_rights_by_type($this->course_type_id, $constant_right);
 	    		$groups = array();
 	    		while($group = $groups_result->next_result())
