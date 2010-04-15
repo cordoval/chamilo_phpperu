@@ -51,7 +51,7 @@ class CourseRequestForm extends FormValidator
 	
 	function build_editing_form()
     {
-        $this->build_basic_form();
+        $this->build_request_form();
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -60,34 +60,53 @@ class CourseRequestForm extends FormValidator
     }
 	
 	function build_request_form()
-	{		
+	{	
 		$this->addElement('category', Translation :: get('CourseRequestProperties'));
 		
-		//must be hidden, but it is a test
-		$course_id = $this->course->get_id();
-		$this->addElement('static', 'id', CourseRequest :: PROPERTY_COURSE_ID, $course_id);
+		if ($this->form_type == self :: TYPE_CREATE)
+		{
+			$course_name = $this->course->get_name();
+     		$this->addElement('static', 'course', Translation :: get('Course'), $course_name);
 		
-		$user_name = $this->user->get_fullname();
-		$this->addElement('static', 'user', Translation :: get('User'), $user_name);
-		
-     	$course_name = $this->course->get_name();
-     	$this->addElement('static', 'course', Translation :: get('Course'), $course_name);
+			$user_name = $this->user->get_fullname();
+			$this->addElement('static', 'user', Translation :: get('User'), $user_name);
      	
-		$this->add_textfield(CourseRequest :: PROPERTY_TITLE, Translation :: get('Title'),true);
+			$this->add_textfield(CourseRequest :: PROPERTY_TITLE, Translation :: get('Title'),true);
 				
-		$this->add_html_editor(CourseRequest :: PROPERTY_MOTIVATION, Translation :: get('Motivation'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));	
+			$this->add_html_editor(CourseRequest :: PROPERTY_MOTIVATION, Translation :: get('Motivation'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));			
+		}
 		
+		if ($this->form_type == self :: TYPE_EDIT)
+		{
+			$request_name = $this->request->get_course_name();
+     		$this->addElement('static', 'request', Translation :: get('Course'), $request_name);
+     		
+     		$request_title = $this->request->get_title();
+     		$this->addElement('static', 'request', Translation :: get('Title'), $request_title);
+     		
+     		$name_user = $this->request->get_name_user();
+			$this->addElement('static', 'request', Translation :: get('User'), $name_user);
+			
+			$motivation = $this->request->get_motivation();
+			$this->addElement('static', 'request', Translation :: get('Motivation'), $motivation);
+			
+			$creation_date = $this->request->get_creation_date();
+			$this->addElement('static', 'request', Translation :: get('CreationDate'), $creation_date);
+			
+			$this->add_datepicker(CourseRequest :: PROPERTY_ALLOWED_DATE, 'AllowedDate');
+			$this->addRule(CourseRequest :: PROPERTY_ALLOWED_DATE, Translation :: get('ThisFieldIsRequired'), 'required');
+		}
 		$this->addElement('category');
-	}
+	}	
 	
 	function create_request()
-    {		
+    {		   	
         $values = $this->exportValues();
 		
 		$course = $this->course;
 		$request = $this->request;
 		$user = $this->user;
-
+		
 		$request->set_course_id($course->get_id());		
         $request->set_name_user($user->get_fullname());
         $request->set_course_name($course->get_name());
@@ -99,34 +118,30 @@ class CourseRequestForm extends FormValidator
     	if(!$request->create())
 			return false;
 
-		$this->setRequestDefaults();
 		return true;
     }
-    /*
-	function update_request($course_id)
+    
+	function update_request($request_id)
 	{
-	//aanpassen nog !! 
 		$values = $this->exportValues();
 		$request = $this->request;
-		//$request->set_course_id($course_id);
-		//$request->set_user_name($this->course->get_name());		
-		$request->set_course__id($values[Course :: PROPERTY_COURSE_ID]);
-        $request->set_user_name($values[Course :: PROPERTY_USER_NAME]);
-        $request->set_course_name($values[Course : PROPERTY_COURSE_NAME]);
-        $request->set_title($values[Course :: PROPERTY_TITLE]);
-        $request->set_motivation($values[Course :: PROPERTY_MOTIVATION]);
-        $request->set_creation_date(Utilities :: to_db_date(time()));	
-        $request->set_allowed_date($values[Course :: ALLOWED_DATE]);
-        
-		if(!$request->update())
+
+        $request->set_course_id($request->get_course_id());	
+        $request->set_name_user($request->get_name_user());
+        $request->set_course_name($request->get_course_name());
+        $request->set_title($request->get_title());
+        $request->set_motivation($request->get_motivation());
+        $request->set_creation_date($request->get_creation_date());
+        $request->set_allowed_date($values[CourseRequest :: PROPERTY_ALLOWED_DATE]);
+	      
+        if(!$request->update())
 		{
 			return false;
 		}
-		return true;
+		return true;		
 	}
-	*/
-    
-	function setRequestDefaults($defaults = array ())
+	
+	function setDefaults($defaults = array ())
 	{
 		$course = $this->course;
 		$request = $this->request;

@@ -277,6 +277,7 @@ abstract class WeblcmsDataManager
      */
     abstract function count_course_user_relations($conditions = null);
 
+    abstract function retrieve_request($id);
     /**
      * Count the number of course group relations
      * @param Condition $condition
@@ -297,6 +298,8 @@ abstract class WeblcmsDataManager
      * @return boolean True if creation succceeded, false otherwise.
      */
     abstract function create_course($course);
+    
+    abstract function update_course_request($request);
 
     abstract function create_course_settings($course_settings);
 

@@ -24,6 +24,7 @@ class AdminRequestBrowserTable extends ObjectTable
         $renderer = new AdminRequestBrowserTableCellRenderer($browser);
         $data_provider = new AdminRequestBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, AdminRequestBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        $this->set_additional_parameters($parameters);
         $actions = array();
         
         
