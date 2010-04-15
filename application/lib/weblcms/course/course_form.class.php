@@ -606,7 +606,6 @@ class CourseForm extends CommonForm
 			return false;
     	
 		$course_rights = $this->fill_rights();
-		//dump($course_rights);
 		if(!$course_rights->create())
 			return false;
 			

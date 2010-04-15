@@ -1215,6 +1215,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$condition = new EqualityCondition(Course :: PROPERTY_ID, $course->get_id());
 		return $this->database->update($course, $condition);
 	}
+	
+	function update_course_request($request)
+	{
+		$condition = new EqualityCondition(CourseRequest :: PROPERTY_ID, $request->get_id());
+		return $this->database->update($request, $condition);
+	}
 
 	function update_course_module($course_module)
 	{
@@ -1797,6 +1803,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
 		$course_type->set_tools($this->retrieve_all_course_type_tools($condition));
 		return $course_type;
+	}
+	
+	function retrieve_request($id)
+	{
+		$condition = new EqualityCondition(CourseRequest :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(CourseRequest :: get_table_name(), $condition);
 	}
 	
 	function retrieve_empty_course_type()

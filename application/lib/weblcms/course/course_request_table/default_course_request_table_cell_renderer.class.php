@@ -27,9 +27,6 @@ class DefaultCourseRequestTableCellRenderer implements ObjectTableCellRenderer
     {
         switch ($column->get_name())
         {
-            case CourseRequest :: PROPERTY_COURSE_ID :
-                return $request->get_id();
-            
             case CourseRequest :: PROPERTY_NAME_USER :
             	return $request->get_name_user();
             	

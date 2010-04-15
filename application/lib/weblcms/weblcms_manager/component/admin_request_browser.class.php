@@ -41,11 +41,11 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManagerComponent
         
         $this->display_header($trail, false, true);
         $this->action_bar = $this->get_action_bar();
-        echo $this->get_course_type_html();
+        echo $this->get_request_html();
         $this->display_footer();
     }
 
-    function get_course_type_html()
+    function get_request_html()
     {    
         $html = array();
         
