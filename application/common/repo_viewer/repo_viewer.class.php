@@ -28,6 +28,7 @@ class RepoViewer
     const ACTION_CREATOR = 'creator';
     const ACTION_BROWSER = 'browser';
     const ACTION_PUBLISHER = 'publisher';
+    const ACTION_VIEWER = 'viewer';
 
     /**
      * The types of learning object that this repo_viewer is aware of and may
@@ -93,6 +94,12 @@ class RepoViewer
 
         $html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
         $repo_viewer_actions = $this->get_repo_viewer_actions();
+        
+        if($action == self :: ACTION_VIEWER)
+        {
+        	$repo_viewer_actions[] = self :: ACTION_VIEWER;
+        }
+        
         foreach ($repo_viewer_actions as $repo_viewer_action)
         {
             $html[] = '<li><a';
@@ -105,7 +112,15 @@ class RepoViewer
                 $html[] = ' class="current"';
             }
 
-            $html[] = ' href="' . $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => $repo_viewer_action)), true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
+            $parameters = $this->get_parameters();
+            $parameters[self :: PARAM_ACTION] = $repo_viewer_action;
+            
+	        if($repo_viewer_action == self :: ACTION_VIEWER)
+	        {
+	        	$parameters[self :: PARAM_ID] = Request :: get(self :: PARAM_ID);
+	        }
+            
+            $html[] = ' href="' . $this->get_url($parameters, true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
         }
         $html[] = '</ul><div class="tabbed-pane-content">';
 

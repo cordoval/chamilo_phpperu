@@ -17,12 +17,10 @@ class AlexiaManagerIntroducerComponent extends AlexiaManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishIntroductionText')));
         $trail->add_help('alexia general');
         
-        $object = Request :: get('object');
-        
         $repo_viewer = new RepoViewer($this, 'introduction', true);
         $repo_viewer->set_parameter(AlexiaManager :: PARAM_ACTION, AlexiaManager :: ACTION_PUBLISH_INTRODUCTION);
         
-        if (! isset($object))
+        if (!$repo_viewer->is_ready_to_be_published())
         {
             $html = array();
             $html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
@@ -35,7 +33,7 @@ class AlexiaManagerIntroducerComponent extends AlexiaManagerComponent
         else
         {
             $publication = new AlexiaPublication();
-            $publication->set_content_object($object);
+            $publication->set_content_object($repo_viewer->get_selected_objects());
             $publication->set_target_users(array());
             $publication->set_target_groups(array());
             $publication->set_from_date(0);

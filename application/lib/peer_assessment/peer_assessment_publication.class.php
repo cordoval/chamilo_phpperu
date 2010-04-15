@@ -232,8 +232,7 @@ class PeerAssessmentPublication extends DataClass
     
 	function toggle_visibility()
     {
-    	// Error when use this function
-        //$this->set_hidden(! $this->get_hidden());
+        $this->set_hidden(! $this->get_hidden());
     }
 
     static function get_table_name()

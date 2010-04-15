@@ -36,8 +36,31 @@ class PeerAssessmentManagerPeerAssessmentPublicationsBrowserComponent extends Pe
 
     function get_table()
     {
-        $table = new PeerAssessmentPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => PeerAssessmentManager :: APPLICATION_NAME, Application :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS), null);
+    	$condition = $this->get_condition();
+        $table = new PeerAssessmentPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => PeerAssessmentManager :: APPLICATION_NAME, Application :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS), $condition);
         return $table->as_html();
+    }
+    
+	private function get_condition()
+    {
+    	$category_id = Request :: get('category');
+    	if($category_id == null)
+    	{
+    		$category_id = 0;
+    	}
+		$conditions[] = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_CATEGORY, $category_id);    
+        
+        $query = $this->action_bar->get_query();
+        if (isset($query) && $query != '')
+        {
+            $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+
+            $conditions[] = new OrCondition($or_conditions);
+        }
+
+        $condition = new AndCondition($conditions);
+        return $condition;
     }
     
 	function get_menu()

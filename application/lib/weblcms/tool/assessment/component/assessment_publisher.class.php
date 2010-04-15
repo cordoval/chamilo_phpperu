@@ -30,13 +30,13 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
         
         $pub = new ContentObjectRepoViewer($this, array('assessment', 'survey', 'hotpotatoes'), true, RepoViewer :: SELECT_MULTIPLE);
         
-        if (! $pub->any_object_selected())
+        if (! $pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
         }
         else
         {
-            $object_id = Request :: get('object');
+            $object_id = $pub->get_selected_objects();
             
             $publisher = new ContentObjectPublisher($pub);
             $html[] = $publisher->get_publications_form($object_id);

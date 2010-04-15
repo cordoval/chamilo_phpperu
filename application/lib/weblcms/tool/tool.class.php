@@ -46,6 +46,7 @@ abstract class Tool
     const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
     const ACTION_VIEW = 'view';
+    const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
 
     /**
      * The action of the tool
@@ -146,6 +147,9 @@ abstract class Tool
 
         switch ($action)
         {
+            case self :: ACTION_EVALUATE_TOOL_PUBLICATION :
+        		$component = ToolComponent :: factory('', 'ToolEvaluate', $this);
+        		break;
             case self :: ACTION_EDIT :
                 $component = ToolComponent :: factory('', 'Edit', $this);
                 break;
@@ -623,6 +627,27 @@ abstract class Tool
     	$class = self :: type_to_class($tool_name);
     	
     	return new $class($parent);
+    }
+ 	function retrieve_evaluation_ids_by_publication($id)
+    {
+    	require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
+    	return EvaluationManager :: retrieve_evaluation_ids_by_publication(self :: APPLICATION_NAME, $id);
+    }
+
+    function move_internal_to_external($publication)
+    {
+    	if(WebApplication :: is_active('gradebook'))
+        {
+	    	//require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
+	    	return EvaluationManager :: move_internal_to_external(self :: APPLICATION_NAME, $publication);
+        }
+    }
+ 	function get_evaluation_publication_url($tool_publication)
+    {
+        require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        $parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $tool_publication->get_id();
+        $parameter_string = base64_encode(serialize($parameters));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, EvaluationManager :: PARAM_PARAMETERS => $parameter_string));
     }
 }
 ?>

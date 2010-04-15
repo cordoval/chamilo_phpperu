@@ -21,16 +21,15 @@ class AnnouncementToolPublisherComponent extends AnnouncementToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses announcement tool');
         
-        $object = Request :: get('object');
         $pub = new ContentObjectRepoViewer($this, 'announcement', true);
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
         }
         else
         {
-            //$html[] = 'ContentObject: ';
+            $object = $pub->get_selected_objects();
             $publisher = new ContentObjectPublisher($pub);
             $html[] = $publisher->get_publications_form($object);
         }

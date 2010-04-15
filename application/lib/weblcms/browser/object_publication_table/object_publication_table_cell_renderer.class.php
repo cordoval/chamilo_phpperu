@@ -189,7 +189,18 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 
         $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
         $actions['feedback'] = array('href' => $feedback_url, 'label' => Translation :: get('Feedback'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-
+        
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        	if(EvaluationManager :: retrieve_internal_item_by_publication('weblcms', $publication->get_id()))
+        	{
+        		$parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $publication->get_id();
+        		$paramater_string = base64_encode(serialize($parameters));
+        		$evaluate_url = $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, EvaluationManager :: PARAM_PARAMETERS => $paramater_string));
+				$actions['evaluate'] = array('href' => $evaluate_url, 'label' => Translation :: get('Evaluate'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png'); 
+        	}
+        }
         return $actions;
     }
 }

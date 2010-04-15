@@ -1,6 +1,7 @@
 <?php
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
+
 require_once dirname(__FILE__) . '/category_manager/peer_assessment_publication_category.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_data_manager.class.php';
 /**
@@ -18,7 +19,9 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
-    
+    /**
+     * The current category.
+     */
     private $current_category;
 
     /**
@@ -47,23 +50,21 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
     function get_menu()
     {
         $menu = array();
-        
         $menu_item = array();
-        $menu_item['title'] = Translation :: get('Root') . ' (' . $this->get_publication_count(0) . ')';
-        $menu_item['url'] = $this->get_url(0);
         
-        $sub_menu_items = $this->get_menu_items(0);
+        $menu_item['title'] = Translation :: get('Root') . ' (' . $this->get_publication_count(0) . ')';
+        $menu_item['url'] = $this->get_url(0);        
+    	$sub_menu_items = $this->get_menu_items(0);
         if (count($sub_menu_items) > 0)
         {
             $menu_item['sub'] = $sub_menu_items;
         }
-        
+
         $menu_item['class'] = 'home';
         $menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
         $menu[0] = $menu_item;
-        
-        return $menu;
-    
+               
+        return $menu;   
     }
 
     /**
@@ -81,13 +82,11 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
         
         while ($category = $categories->next_result())
         {
-            
             $menu_item = array();
+            
             $menu_item['title'] = $category->get_name() . ' (' . $this->get_publication_count($category->get_id()) . ')';
             $menu_item['url'] = $this->get_url($category->get_id());
-            
-            $sub_menu_items = $this->get_menu_items($category->get_id());
-            
+            $sub_menu_items = $this->get_menu_items($category->get_id());          
             if (count($sub_menu_items) > 0)
             {
                 $menu_item['sub'] = $sub_menu_items;

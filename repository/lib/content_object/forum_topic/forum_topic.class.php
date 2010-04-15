@@ -12,10 +12,12 @@ class ForumTopic extends ContentObject
     const PROPERTY_TOTAL_POSTS = 'total_posts';
     const PROPERTY_LAST_POST = 'last_post_id';
 
+    private $first_post;
+    
     function create()
     {
         $succes = parent :: create();
-        $children = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition('parent_id', $this->get_id()));
+        $children = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id()));
         
         if ($children == 0)
         {
@@ -25,12 +27,9 @@ class ForumTopic extends ContentObject
             $content_object->set_owner_id($this->get_owner_id());
             
             $content_object->create();
-            
-            $attachments = $this->get_attached_content_objects();
-            foreach ($attachments as $attachment)
-            {
-                $content_object->attach_content_object($attachment->get_id());
-            }
+
+            $this->first_post = $content_object;
+           
             $cloi = ComplexContentObjectItem :: factory('forum_post');
             
             $cloi->set_ref($content_object->get_id());
@@ -42,6 +41,16 @@ class ForumTopic extends ContentObject
         }
         
         return $succes;
+    }
+    
+    function attach_content_object($aid)
+    {
+    	parent :: attach_content_object($aid);
+    	
+    	if($this->first_post)
+    	{
+    		$this->first_post->attach_content_object($aid);
+    	}
     }
 
     function supports_attachments()

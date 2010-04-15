@@ -210,22 +210,22 @@ class CourseTypeForm extends CommonForm
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
         $this->addElement('category', Translation :: get('Subscribe'));
-        $this->addElement('checkbox', CourseTypeRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE, Translation :: get('DirectSubscribeAvailable'), '', array('class' => 'available DirectSubscribe'));
-        $this->addElement('html', '<div id="DirectSubscribeBlock">');
+        $this->addElement('checkbox', CourseTypeRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE, Translation :: get('DirectSubscribeAvailable'), '', array('class' => 'available direct'));
+        $this->addElement('html', '<div id="directBlock">');
         $this->add_receivers(self :: SUBSCRIBE_DIRECT_TARGET, Translation :: get('DirectSubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');
-        $this->addElement('checkbox', CourseTypeRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE, Translation :: get('RequestSubscribeAvailable'), '', array('class' => 'available RequestSubscribe'));
-        $this->addElement('html', '<div id="RequestSubscribeBlock">');
+        $this->addElement('checkbox', CourseTypeRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE, Translation :: get('RequestSubscribeAvailable'), '', array('class' => 'available request'));
+        $this->addElement('html', '<div id="requestBlock">');
         $this->add_receivers(self :: SUBSCRIBE_REQUEST_TARGET, Translation :: get('RequestSubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');
-        $this->addElement('checkbox', CourseTypeRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE, Translation :: get('CodeSubscribeAvailable'), '', array('class' => 'available CodeSubscribe'));
-        $this->addElement('html', '<div id="CodeSubscribeBlock">');
+        $this->addElement('checkbox', CourseTypeRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE, Translation :: get('CodeSubscribeAvailable'), '', array('class' => 'available code'));
+        $this->addElement('html', '<div id="codeBlock">');
         $this->add_receivers(self :: SUBSCRIBE_CODE_TARGET, Translation :: get('CodeSubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');
         $this->addElement('category');
         $this->addElement('category', Translation :: get('Unsubscribe'));
-        $this->addElement('checkbox', CourseTypeRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE, Translation :: get('UnsubscribeAvailable'), '', array('class' => 'available Unsubscribe'));
-        $this->addElement('html', '<div id="UnsubscribeBlock">');
+        $this->addElement('checkbox', CourseTypeRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE, Translation :: get('UnsubscribeAvailable'), '', array('class' => 'available unsubscribe'));
+        $this->addElement('html', '<div id="unsubscribeBlock">');
         $this->add_receivers(self :: UNSUBSCRIBE_TARGET, Translation :: get('UnsubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');
         $this->addElement('category');
@@ -262,11 +262,11 @@ class CourseTypeForm extends CommonForm
 			switch($i)
 			{
 				case 0:
-					$previous_rights = $wdm->retrieve_course_type_group_subscribe_rights($this->object);
+					$previous_rights = $wdm->retrieve_course_type_group_subscribe_rights($this->object->get_id());
 					$course_type_rights = $this->fill_subscribe_rights();
 					break;
 				case 1:
-					$previous_rights = $wdm->retrieve_course_type_group_unsubscribe_rights($this->object);
+					$previous_rights = $wdm->retrieve_course_type_group_unsubscribe_rights($this->object->get_id());
 					$course_type_rights = $this->fill_unsubscribe_rights();
 					break;
 			}
@@ -289,7 +289,6 @@ class CourseTypeForm extends CommonForm
 						return false;
 				}
 			}
-			
 			foreach($course_type_rights as $right)
 			{
 				if(!$right->create())

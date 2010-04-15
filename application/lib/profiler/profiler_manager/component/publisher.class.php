@@ -20,18 +20,16 @@ class ProfilerManagerPublisherComponent extends ProfilerManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishProfile')));
         $trail->add_help('profiler general');
         
-        $object = Request :: get('object');
         $pub = new RepoViewer($this, 'profile', true);
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
         }
         else
         {
-            //$html[] = 'ContentObject: ';
             $publisher = new ProfilePublisher($pub);
-            $html[] = $publisher->get_publications_form($object);
+            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
         }
         
         $this->display_header($trail);

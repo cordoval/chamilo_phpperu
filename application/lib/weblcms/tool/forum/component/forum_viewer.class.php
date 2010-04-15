@@ -20,10 +20,13 @@ class ForumToolViewerComponent extends ForumToolComponent
         
         $cid = Request :: get(Tool :: PARAM_COMPLEX_ID);
         $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+        Request :: set_get('pid', $pid);
         
         $this->set_parameter(Tool :: PARAM_ACTION, ForumTool :: ACTION_VIEW_FORUM);
         $this->trail = $trail = new BreadcrumbTrail();
        // $this->display_header(new BreadcrumbTrail());
+        
+        $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
         
         $cd = ComplexDisplay :: factory($this, 'forum');
         $cd->run();

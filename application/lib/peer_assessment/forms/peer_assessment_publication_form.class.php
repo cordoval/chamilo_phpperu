@@ -29,6 +29,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $this->peer_assessment_publication = $peer_assessment_publication;
         $this->user = $user;
         $this->form_type = $form_type;
+        
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -44,7 +45,8 @@ class PeerAssessmentPublicationForm extends FormValidator
     function build_basic_form()
     {
         $attributes = array();
-        //$attributes['search_url'] = Path :: get(WEB_PATH).'application/lib/weblcms/xml_feeds/xml_course_user_group_feed.php?course=' . $this->course->get_id();
+		$attributes['search_url'] = Path :: get(WEB_PATH).'common/xml_feeds/xml_user_group_feed.php';
+      
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
         $locale['Searching'] = Translation :: get('Searching');
@@ -116,6 +118,8 @@ class PeerAssessmentPublicationForm extends FormValidator
     
     function create_peer_assessment_publication($object, $values)
     {
+    	$values = $this->exportValues();
+    	
     	$peer_assessment_publication = new PeerAssessmentPublication();
 		$peer_assessment_publication->set_content_object($object);
 		

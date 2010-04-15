@@ -24,11 +24,9 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
 
-        $object = Request :: get('object');
-
         $pub = new RepoViewer($this, 'portfolio', false, RepoViewer :: SELECT_MULTIPLE, array(), true, false);
 
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $html = $pub->as_html();
             $this->display_header($trail);
@@ -37,8 +35,12 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
         }
         else
         {
-            if (! is_array($object))
+            $object = $pub->get_selected_objects();
+            
+        	if (! is_array($object))
+            { 
                 $object = array($object);
+            }
 
             $portfolio_publication = new PortfolioPublication();
 

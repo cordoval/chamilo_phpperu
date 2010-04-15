@@ -23,7 +23,6 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
         
-        $object = Request :: get('object');
         $parent = Request :: get('parent');
         //HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
         $types = array('portfolio', 'announcement', 'blog_item', 'calendar_event', 'description', 'document', 'link', 'note', 'rss_feed', 'profile', 'youtube');
@@ -34,7 +33,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
         $pub->set_parameter(PortfolioManager::PARAM_PARENT_PORTFOLIO, $pp);
         $pub->parse_input_from_table();
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $this->display_header($trail);
             echo $pub->as_html();
@@ -42,10 +41,11 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
         }
         else
         {
-            if (! is_array($object))
-                $objects = array($object);
-            else
-                $objects = $object;
+            $objects = $pub->get_selected_objects();
+        	if (! is_array($objects))
+        	{
+                $objects = array($objects);
+        	}
             
             $rdm = RepositoryDataManager :: get_instance();
             $success = true;

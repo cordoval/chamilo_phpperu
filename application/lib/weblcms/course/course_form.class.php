@@ -6,6 +6,7 @@
 require_once Path :: get_admin_path() . 'settings/settings_admin_connector.class.php';
 require_once dirname(__FILE__) . '/course.class.php';
 require_once dirname(__FILE__) . '/common_form.class.php';
+require_once dirname(__FILE__) . '/rights_tree_renderer.class.php';
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
 
 class CourseForm extends CommonForm
@@ -27,6 +28,11 @@ class CourseForm extends CommonForm
         	
         parent :: __construct($form_type, $course, $action, $parent, 'course_settings', 'post');
 		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_form.js'));
+		$this->addElement('html', "<script type=\"text/javascript\">
+			/* <![CDATA[ */
+			var current_course_type = " . $this->course_type_id . ";
+			/* ]]> */
+			</script>\n");
     }
 
     function build_basic_form()
@@ -386,44 +392,98 @@ class CourseForm extends CommonForm
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
 
         $this->addElement('category', Translation :: get('Subscribe'));
-        
-        $course_direct_subscribe_disabled = $this->object->get_direct_subscribe_fixed();
-		$attr_array = array('class' => 'available DirectSubscribe');
-		if($course_direct_subscribe_disabled)
-			$attr_array['disabled'] = 'disabled';
-        $this->addElement('checkbox', CourseRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE, Translation :: get('DirectSubscribeAvailable'), '', $attr_array);
-        $this->addElement('html', '<div id="DirectSubscribeBlock">');
-        $this->add_receivers(self :: SUBSCRIBE_DIRECT_TARGET, Translation :: get('DirectSubscribeFor'), $attributes, 'Everybody');
-        $this->addElement('html', '</div>');
-        
-        $course_request_subscribe_disabled = $this->object->get_request_subscribe_fixed();
-		$attr_array = array('class' => 'available RequestSubscribe');
-		if($course_request_subscribe_disabled)
-			$attr_array['disabled'] = 'disabled';
-        $this->addElement('checkbox', CourseRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE, Translation :: get('RequestSubscribeAvailable'), '', $attr_array);
-        $this->addElement('html', '<div id="RequestSubscribeBlock">');
-        $this->add_receivers(self :: SUBSCRIBE_REQUEST_TARGET, Translation :: get('RequestSubscribeFor'), $attributes, 'Everybody');
-        $this->addElement('html', '</div>');
-        
-        $course_code_subscribe_disabled = $this->object->get_code_subscribe_fixed();
-		$attr_array = array('class' => 'available CodeSubscribe');
-		if($course_code_subscribe_disabled)
-			$attr_array['disabled'] = 'disabled';
-        $this->addElement('checkbox', CourseRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE, Translation :: get('CodeSubscribeAvailable'), '', $attr_array);
-        $this->addElement('html', '<div id="CodeSubscribeBlock">');
-        $this->addElement('text', CourseRights :: PROPERTY_CODE, Translation :: get('EnterCode'), array("size" => "50"));
-        $this->add_receivers(self :: SUBSCRIBE_CODE_TARGET, Translation :: get('CodeSubscribeFor'), $attributes, 'Everybody');
-        $this->addElement('html', '</div>');
+
+        $constant_available = null;
+        $constant_type = null;
+        $type = null;
+        for($i=0; $i<3; $i++)
+        {
+        	switch($i)
+        	{
+        		case 0: $constant_available = CourseRights :: PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE;
+        				$constant_right = CourseGroupSubscribeRight::SUBSCRIBE_DIRECT;
+        				$target_option = self :: SUBSCRIBE_DIRECT_TARGET_OPTION;
+        				$target = self :: SUBSCRIBE_DIRECT_TARGET;
+        				$type = 'Direct';
+        				break;
+        		case 1: $constant_available = CourseRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE;
+        				$constant_right = CourseGroupSubscribeRight::SUBSCRIBE_REQUEST;
+        				$target_option = self :: SUBSCRIBE_REQUEST_TARGET_OPTION;
+        				$target = self :: SUBSCRIBE_REQUEST_TARGET;
+        				$type = 'Request';
+        				break;
+        		case 2: $constant_available = CourseRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE;
+        				$constant_right = CourseGroupSubscribeRight::SUBSCRIBE_CODE;
+        				$target_option = self :: SUBSCRIBE_CODE_TARGET_OPTION;
+        				$target = self :: SUBSCRIBE_CODE_TARGET;
+        				$type = 'Code';
+        				break;
+        	}
+        	$method = "get_".strtolower($type)."_subscribe_fixed";
+	        $course_subscribe_disabled = $this->object->$method();
+			$attr_array = array('class' => 'available '.strtolower($type));
+			if($course_subscribe_disabled)
+				$attr_array['disabled'] = 'disabled';
+	        $this->addElement('checkbox', $constant_available, Translation :: get($type.'SubscribeAvailable'), '', $attr_array);
+	        $this->addElement('html', '<div id="'.strtolower($type).'Block">');
+	        if($i == 2)
+	        	$this->addElement('text', CourseRights :: PROPERTY_CODE, Translation :: get('EnterCode'), array("size" => "50"));
+	       	if($course_subscribe_disabled)
+	       	{
+	       		$this->addElement('hidden', $type.'_fixed' , 1);
+	       		$groups_result = WeblcmsDataManager::get_instance()->retrieve_course_type_group_rights_by_type($this->course_type_id, $constant_right);
+	    		$groups = array();
+	    		while($group = $groups_result->next_result())
+	    			$groups[] = $group->get_group_id();
+	    		if(count($groups)>1 || $groups[0] != 1)
+	    		{
+	    			$this->addElement('static', 'static_'.strtolower($type).'_subscribe_for', Translation :: get($type.'SubscribeFor'), Translation :: get('SubscribedGroups'));
+	    			$this->addElement('hidden', $target_option, 1);
+	        		$tree = new RightsTreeRenderer($groups);
+	        		$tree = $tree->render_as_tree();
+	        		$this->addElement('html', '<div style="width: 100%; margin-left: 20%">');
+	        		$this->addElement('html', $tree);
+	        		$this->addElement('html', '</div>');
+	    		}
+	    		elseif(count($groups)==1 && $groups[0] == 1)
+	    		{
+	    			$this->addElement('static', 'static_'.strtolower($type).'_subscribe_for', Translation :: get($type.'SubscribeFor'), Translation :: get('Everybody'));
+	    			$this->addElement('hidden', $target_option , 0, array('id'=>'receiver_'.$target));
+	    		}
+	       	}
+	       	else
+	        	$this->add_receivers($target, Translation :: get($type.'SubscribeFor'), $attributes, 'Everybody');
+	        $this->addElement('html', '</div>');
+        }
         $this->addElement('category');
         
         $this->addElement('category', Translation :: get('Unsubscribe'));
         $course_unsubscribe_disabled = $this->object->get_unsubscribe_fixed();
-		$attr_array = array('class' => 'available Unsubscribe');
+		$attr_array = array('class' => 'available unsubscribe');
 		if($course_unsubscribe_disabled)
 			$attr_array['disabled'] = 'disabled';
         $this->addElement('checkbox', CourseRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE, Translation :: get('UnsubscribeAvailable'), '', $attr_array);
-        $this->addElement('html', '<div id="UnsubscribeBlock">');
-        $this->add_receivers(self :: UNSUBSCRIBE_TARGET, Translation :: get('UnsubscribeFor'), $attributes, 'Everybody');
+        $this->addElement('html', '<div id="unsubscribeBlock">');
+        if($course_unsubscribe_disabled)
+       	{
+       		$groups_result = WeblcmsDataManager::get_instance()->retrieve_course_type_group_rights_by_type($this->course_type_id, CourseGroupSubscribeRight::UNSUBSCRIBE);
+    		$groups = array();
+    		while($group = $groups_result->next_result())
+    			$groups[] = $group->get_group_id();
+    		if(count($groups)>1 || $groups[0] != 1)
+    		{
+    			$this->addElement('static', 'static_unsubscribe_for', Translation :: get('UnsubscribeFor'), Translation :: get('SubscribedGroups'));
+        		$tree = new RightsTreeRenderer($groups);
+        		$tree = $tree->render_as_tree();
+        		$this->addElement('html', '<div style="width: 100%; margin-left: 20%">');
+        		$this->addElement('html', $tree);
+        		$this->addElement('html', '</div>');
+    		}
+    		elseif(count($groups)==1 && $groups[0] == 1)
+    			$this->addElement('static', 'static_unsubscribe_for', Translation :: get('UnsubscribeFor'), Translation :: get('Everybody'));
+       	}
+       	else
+        	$this->add_receivers(self :: UNSUBSCRIBE_TARGET, Translation :: get('UnsubscribeFor'), $attributes, 'Everybody');
         $this->addElement('html', '</div>');
         $this->addElement('category');
 	}
@@ -460,11 +520,11 @@ class CourseForm extends CommonForm
 			switch($i)
 			{
 				case 0:
-					$previous_rights = $wdm->retrieve_course_group_subscribe_rights($this->object);
+					$previous_rights = $wdm->retrieve_course_group_subscribe_rights($this->object->get_id());
 					$course_rights = $this->fill_subscribe_rights();
 					break;
 				case 1:
-					$previous_rights = $wdm->retrieve_course_group_unsubscribe_rights($this->object);
+					$previous_rights = $wdm->retrieve_course_group_unsubscribe_rights($this->object->get_id());
 					$course_rights = $this->fill_unsubscribe_rights();
 					break;
 			}

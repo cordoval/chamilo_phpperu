@@ -49,5 +49,5 @@ try
 catch(Exception $exception)
 {
 	Display :: error_message($exception->getMessage());
-}
+} 
 ?>
