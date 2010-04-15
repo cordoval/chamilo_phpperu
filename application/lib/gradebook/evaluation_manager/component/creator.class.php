@@ -16,15 +16,7 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
 		$grade_evaluation = new GradeEvaluation();
     	$form = new EvaluationForm(EvaluationForm :: TYPE_CREATE, $evaluation, $grade_evaluation, $publication_id, $publisher_id, $this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_CREATE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), $this->get_user());
     
-    	if(!$form->validate())
-    	{
-	    	$trail = $this->get_parent()->get_trail();
-	    	$trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), Translation :: get('CreateEvaluation')));
-	    	$this->display_header($trail);
-	    	$form->display();
-    		$this->display_footer();
-    	}
-    	else
+    	if($form->validate())
     	{
 			if(!$form->create_evaluation())
 				$failures++;
@@ -32,6 +24,14 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
 	    	$message = $this->get_result($failures, count($objects), 'EvaluationNotCreated', 'EvaluationsNotCreated', 'EvaluationCreated', 'EvaluationsCreated');
 	    
             $this->redirect($message, $failures, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string));
+    	}
+    	else
+    	{
+    		$trail = $this->get_parent()->get_trail();
+	    	$trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), Translation :: get('CreateEvaluation')));
+	    	$this->display_header($trail);
+	    	$form->display();
+    		$this->display_footer();
     	}
     	$values = $form->getSubmitValues();
 		if (!empty($values))

@@ -16,6 +16,7 @@ class EvaluationForm extends FormValidator
     private $evaluation;
     private $form_type;
     private $publisher_id;
+    private $evaluation_format;
     
     private $allow_creation = false;
 
@@ -65,16 +66,16 @@ class EvaluationForm extends FormValidator
     	$format = EvaluationManager :: retrieve_evaluation_format($values['format_id']);
     	if(!$format)
     		$format = EvaluationManager :: retrieve_evaluation_format($this->evaluation->get_format_id());
-    	$evaluation_format = EvaluationFormat :: factory($format->get_title());
-    	if (!$evaluation_format->get_score_set())
+    	$this->evaluation_format = EvaluationFormat :: factory($format->get_title());
+    	if (!$this->evaluation_format->get_score_set())
     	{
-    		$this->addElement($evaluation_format->get_evaluation_field_type(), $evaluation_format->get_evaluation_name(), Translation :: get('score'));
+    		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_name(), Translation :: get('score'));
     	}
     	else
     	{
-    		$this->addElement($evaluation_format->get_evaluation_field_type(), $evaluation_format->get_evaluation_name(), Translation :: get('score'), $evaluation_format->get_score_set());
+    		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_name(), Translation :: get('score'), $this->evaluation_format->get_score_set());
     	}
-		$this->addRule($evaluation_format->get_evaluation_name(), Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addRule($this->evaluation_format->get_evaluation_name(), Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('Comment'), true);
 		$this->addRule(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('ThisFieldIsRequired'), 'required');
     }
@@ -144,14 +145,9 @@ class EvaluationForm extends FormValidator
 		{
 			$internal_item_instancr_succes = true;
 		}
-		
-		$format = EvaluationManager :: retrieve_evaluation_format($submit_values['format_id']);
-    	if(!$format)
-    		$format = EvaluationManager :: retrieve_evaluation_format($this->evaluation->get_format_id());
-    	$evaluation_format = EvaluationFormat :: factory($format->get_title());
     	
 		$grade_evaluation = $this->grade_evaluation;
-		$grade_evaluation->set_score($submit_values[$evaluation_format->get_evaluation_name()]);
+		$grade_evaluation->set_score($submit_values[$this->evaluation_format->get_evaluation_name()]);
 		$grade_evaluation->set_comment($submit_values['comment']);
 		$grade_evaluation->set_id($evaluation->get_id());
 		if($grade_evaluation->create(false))
@@ -188,7 +184,7 @@ class EvaluationForm extends FormValidator
 		}
 		
 		$grade_evaluation = $this->grade_evaluation;
-		$grade_evaluation->set_score($values['score']);
+		$grade_evaluation->set_score($values[$this->evaluation_format->get_evaluation_name()]);
 		$grade_evaluation->set_comment($values['comment']);
 		$grade_evaluation->set_id($evaluation->get_id());
 		if(!$grade_evaluation->update())
@@ -205,7 +201,7 @@ class EvaluationForm extends FormValidator
 		
 		$grade_evaluation = $this->grade_evaluation;
 		$evaluation = $this->evaluation;
-		$defaults[GradeEvaluation :: PROPERTY_SCORE] = $grade_evaluation->get_score();
+		$defaults[$this->evaluation_format->get_evaluation_name()] = $grade_evaluation->get_score();
 	    $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
 	    $defaults[GradeEvaluation :: PROPERTY_ID] = $grade_evaluation->get_id();
 
@@ -213,18 +209,12 @@ class EvaluationForm extends FormValidator
 	    $defaults[Evaluation :: PROPERTY_EVALUATION_DATE] = $evaluation->get_evaluation_date();
 	    $defaults[Evaluation :: PROPERTY_USER_ID] = $evaluation->get_user_id();
 	    $defaults[Evaluation :: PROPERTY_EVALUATOR_ID] = $evaluation->get_evaluator_id();
-	    
 		parent :: setDefaults($defaults);
 	}
 	
 	function validate()
 	{
 		$values = $this->getSubmitValues();
-        if ($values['submit'])
-        {
-	        $this->setEvaluationDefaults();
-        	return true;
-        }
 		if($values['format_id'] > 0)
 		{
 	        if ($this->form_type == self :: TYPE_EDIT)
@@ -236,6 +226,11 @@ class EvaluationForm extends FormValidator
 	            $this->build_creation_form();
 	        }
 		}
+        if ($values['submit'])
+        {
+	        $this->setEvaluationDefaults();
+        	return parent :: validate();
+        }
 	}
 }
 ?>
