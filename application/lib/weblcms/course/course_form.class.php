@@ -20,7 +20,12 @@ class CourseForm extends CommonForm
 
         $wdm = WeblcmsDataManager :: get_instance();
         if(!is_null($this->course_type_id))
-        	$course->set_course_type($wdm->retrieve_course_type($this->course_type_id));
+        {
+       		$course->set_course_type($wdm->retrieve_course_type($this->course_type_id));
+       		$course_type_id = $course->get_course_type()->get_id();
+       		if(empty($course_type_id) && ($this->course_type_id != 0 || $form_type == self::TYPE_CREATE))
+        		$this->course_type_id = $course->get_course_type()->get_id();
+        }
         else
         	$this->course_type_id = $course->get_course_type()->get_id();
     	
@@ -71,28 +76,31 @@ class CourseForm extends CommonForm
         $udm = UserDataManager :: get_instance();
         $wdm = WeblcmsDataManager :: get_instance();
 
-        if ($this->form_type == self :: TYPE_CREATE)
+        if(!$this->object->get_titular_fixed())
         {
- 	       $users = $udm->retrieve_users(new EqualityCondition(User :: PROPERTY_STATUS, 1));
-           while ($userobject = $users->next_result())
-           {
-	           $user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
-           }
-        }
-        else
-        {
-            $user_conditions = array();
-            $user_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->object->get_id());
-            $user_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_STATUS, 1);
-            $user_condition = new AndCondition($user_conditions);
-
-            $users = $wdm->retrieve_course_user_relations($user_condition);
-
-            while ($user = $users->next_result())
-            {
-            	$userobject = $udm->retrieve_user($user->get_user());
-                $user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
-            }
+	        if ($this->form_type == self :: TYPE_CREATE)
+	        {
+	 	       $users = $udm->retrieve_users(new EqualityCondition(User :: PROPERTY_STATUS, 1));
+	           while ($userobject = $users->next_result())
+	           {
+		           $user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
+	           }
+	        }
+	        else
+	        {
+	            $user_conditions = array();
+	            $user_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->object->get_id());
+	            $user_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_STATUS, 1);
+	            $user_condition = new AndCondition($user_conditions);
+	
+	            $users = $wdm->retrieve_course_user_relations($user_condition);
+	
+	            while ($user = $users->next_result())
+	            {
+	            	$userobject = $udm->retrieve_user($user->get_user());
+	                $user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
+	            }
+	        }
         }
 
         $this->addElement('category', Translation :: get('CourseSettings'));
@@ -102,7 +110,8 @@ class CourseForm extends CommonForm
         $wdm = WeblcmsDataManager :: get_instance();
 		$course_type_objects = $wdm->retrieve_active_course_types();
         $course_types = array();
-        $course_types[0] = Translation :: get('NoCourseType');
+        if(empty($this->course_type_id))
+        	$course_types[0] = Translation :: get('NoCourseType');
         $this->size = $course_type_objects->size();
         if($this->size != 0)
         {
@@ -144,8 +153,18 @@ class CourseForm extends CommonForm
         	$this->addElement('hidden', Course :: PROPERTY_CATEGORY, 0 );
         }
 
-       	$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $user_options);
-        $this->addRule(Course :: PROPERTY_TITULAR, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        if(!$this->object->get_titular_fixed())
+        {
+       		$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $user_options);
+        	$this->addRule(Course :: PROPERTY_TITULAR, Translation :: get('ThisFieldIsRequired'), 'required');
+        }
+        else
+        {
+        	$user_name = $this->user->get_lastname() . '&nbsp;' . $this->user->get_firstname();
+        	$this->addElement('static', 'Titular_Static',  Translation :: get('Teacher'), $user_name);
+        	$this->addElement('hidden', Course :: PROPERTY_TITULAR, $this->user->get_id());
+        }
 
         $this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Extlink_name'), array("size" => "50"));
         $this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('Extlink_url'), array("size" => "50"));
