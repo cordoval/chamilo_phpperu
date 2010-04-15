@@ -101,7 +101,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
                 $this->finished[$tracker->get_survey_publication_id()][] = $tracker->get_user_id();
             }
             $finished_users = array();
-            foreach ($this->started as $users)
+            foreach ($this->finished as $users)
             {
                 $finished_users = array_merge($finished_users, $users);
             }
