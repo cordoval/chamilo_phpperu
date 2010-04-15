@@ -185,13 +185,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
 
     private function format_message($message)
     {
-        //$message = BbcodeParser :: get_instance()->parse($message);
-        //$message = preg_replace('#\[quote(?:="(.*?)")\]((?!\[quote(?:=".*?")\]).)?#ise',
-        //						"<div class=\"quotetitle\">'\$1':</div><div class=\"quotecontent\">'\$2'" ,$message);
-        
-
-        $message = preg_replace('[\[quote="(.*)"\]]', "<div class=\"quotetitle\">$1 " . Translation :: get('wrote') . ":</div><div class=\"quotecontent\">", $message);
-        
+    	$message = preg_replace('/\[quote=("|&quot;)(.*)("|&quot;)\]/', "<div class=\"quotetitle\">$2 " . Translation :: get('wrote') . ":</div><div class=\"quotecontent\">", $message);
         $message = str_replace('[/quote]', '</div>', $message);
         
         return $message;
