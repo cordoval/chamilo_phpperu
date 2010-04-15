@@ -7,6 +7,8 @@ class EvaluationManagerUpdaterComponent extends EvaluationManagerComponent
 {
 	function run()
 	{   
+	    $publication_id = $this->get_parent()->get_parameter(EvaluationManager :: PARAM_PUBLICATION_ID);
+	    $publisher_id = $this->get_parent()->get_parameter(EvaluationManager :: PARAM_PUBLISHER_ID);
 		$parameters = unserialize(base64_decode(Request :: get('parameters')));
 		$evaluation_id = $parameters[EvaluationManager :: PARAM_EVALUATION_ID];
         $evaluation = $this->retrieve_evaluation($evaluation_id);
@@ -19,11 +21,11 @@ class EvaluationManagerUpdaterComponent extends EvaluationManagerComponent
          //   if (! Request :: get('validated'))
           //      $success = $form->update_content_object();
             
-            $pub_form = new EvaluationForm(EvaluationForm :: TYPE_EDIT, $evaluation, $grade_evaluation, $publication, $this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ID => $evaluation->get_id(), EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), $this->get_user());
+            $pub_form = new EvaluationForm(EvaluationForm :: TYPE_EDIT, $evaluation, $grade_evaluation, $publication_id, $publisher_id, $this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_UPDATE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), $this->get_user());
             if ($pub_form->validate())
             {
                 $success = $pub_form->update_evaluation($evaluation->get_id());
-                $this->redirect($success ? Translation :: get('EvaluationUpdated') : Translation :: get('EvaluationNotUpdated'), ! $success, array(EvaluationManager :: PARAM_ACTION => EvaluationManager :: ACTION_BROWSE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string));
+                $this->redirect($success ? Translation :: get('EvaluationUpdated') : Translation :: get('EvaluationNotUpdated'), ! $success, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string));
             }
             else
             {

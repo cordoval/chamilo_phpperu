@@ -23,10 +23,8 @@ class DocumentTool extends Tool
     {
         $action = $this->get_action();
         $component = parent :: run();
-        
         if ($component)
             return;
-        
         switch ($action)
         {
             case self :: ACTION_VIEW_DOCUMENTS :

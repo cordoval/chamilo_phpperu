@@ -22,13 +22,10 @@ class AdminRequestBrowserTableColumnModel extends DefaultCourseRequestTableColum
     function AdminRequestBrowserTableColumnModel()
     {
         parent :: __construct();
-        $this->add_column(new ObjectTableColumn(CourseRequest :: PROPERTY_NAME_USER));
-        $this->add_column(new ObjectTableColumn(CourseRequest :: PROPERTY_COURSE_NAME));
-        $this->add_column(new ObjectTableColumn(CourseRequest :: PROPERTY_TITLE));
         $this->add_column(new ObjectTableColumn(CourseRequest :: PROPERTY_MOTIVATION));
         $this->add_column(new ObjectTableColumn(CourseRequest :: PROPERTY_CREATION_DATE));
         $this->add_column(new ObjectTableColumn(CourseRequest :: PROPERTY_ALLOWED_DATE));
-        $this->set_default_order_column(4);
+        $this->set_default_order_column(0);
         $this->add_column(self :: get_modification_column());
         
     }

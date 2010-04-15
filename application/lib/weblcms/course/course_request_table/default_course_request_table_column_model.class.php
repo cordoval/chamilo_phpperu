@@ -13,7 +13,7 @@ class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
      */
     function DefaultCourseRequestTableColumnModel()
     {
-        //parent :: __construct(self :: get_default_columns(), 1);
+        parent :: __construct(self :: get_default_columns(), 1);
     }
 
     /**
@@ -26,9 +26,7 @@ class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
         $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_NAME_USER);
         $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_COURSE_NAME);
         $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_TITLE);
-        $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_MOTIVATION);
-        $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_CREATION_DATE);
-        $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_ALLOWED_DATE);
+
         return $columns;
     }
 }

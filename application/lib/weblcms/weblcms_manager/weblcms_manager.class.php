@@ -20,6 +20,7 @@ require_once dirname(__FILE__) . '/component/admin_course_browser/admin_course_b
 require_once dirname(__FILE__) . '/component/admin_course_type_browser/admin_course_type_browser_table.class.php';
 require_once dirname(__FILE__) . '/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/component/subscribe_group_browser/subscribe_group_browser_table.class.php';
+require_once dirname(__FILE__) . '/component/admin_request_browser/admin_request_browser_table.class.php';
 require_once dirname(__FILE__) . '/../weblcms_block.class.php';
 require_once dirname(__FILE__) . '/../weblcms_rights.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type.class.php';
@@ -44,6 +45,7 @@ class WeblcmsManager extends WebApplication
 {
 	const APPLICATION_NAME = 'weblcms';
 
+	const PARAM_REQUEST = 'request';
 	const PARAM_COURSE = 'course';
 	const PARAM_TYPE = 'type';
 	const PARAM_ACTIVE = 'active';
@@ -73,6 +75,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_EXTRA = 'extra';
 	const PARAM_PUBLICATION = 'publication';
 
+	const ACTION_COURSE_EDITOR_REQUEST = 'course_editor_request';
 	const ACTION_SUBSCRIBE = 'subscribe';
 	const ACTION_MOVE_COURSE = 'coursemover';
 	const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
@@ -178,6 +181,9 @@ class WeblcmsManager extends WebApplication
 		{
 			case self :: ACTION_VIEW_COURSE :
 				$component = WeblcmsManagerComponent :: factory('CourseViewer', $this);
+				break;
+			case self :: ACTION_COURSE_EDITOR_REQUEST :
+				$component = WeblcmsManagerComponent :: factory('CourseRequestEditor', $this);
 				break;
 			case self :: ACTION_CREATE_COURSE :
 				$component = WeblcmsManagerComponent :: factory('CourseCreator', $this);
@@ -407,8 +413,13 @@ class WeblcmsManager extends WebApplication
 
 	function get_course_type_editing_url($course_type)
     {
-        //return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE_TYPE => $course_type->get_id(), self :: PARAM_TOOL => 'course_type_settings', 'previous' => 'admin'));
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_COURSE_TYPE_CREATOR, self :: PARAM_COURSE_TYPE => $course_type->get_id(), self :: PARAM_TOOL => 'course_type_settings', 'previous' => 'admin'));
+    }
+    
+    function get_course_request_editing_url($request)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_EDITOR_REQUEST,
+    	 self :: PARAM_REQUEST => $request->get_id()));   	 
     }
 
 	function get_course_type_maintenance_url($course_type)
@@ -1163,6 +1174,11 @@ class WeblcmsManager extends WebApplication
 	function get_course_viewing_url($course)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
+	}
+	
+	function retrieve_request($id)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_request($id);
 	}
 
 	/**

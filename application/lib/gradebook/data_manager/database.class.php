@@ -184,8 +184,8 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$gradebook_internal_item_instance_alias = $gdm->get_database()->get_alias(InternalItemInstance :: get_table_name());
 		
 		$query = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(InternalItemInstance :: get_table_name()) . ' AS ' . $gradebook_internal_item_instance_alias;
-		$internal_item_id = $this->retrieve_internal_item_by_publication(Request :: get('application'),$publication_id)->get_id();
-		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID, $internal_item_id);
+		$internal_item = $this->retrieve_internal_item_by_publication(Request :: get('application'),$publication_id);
+		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID, $internal_item->get_id());
         return $this->database->count_result_set($query, InternalItemInstance :: get_table_name(), $condition);
 	}
 	
@@ -193,7 +193,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	{
 		$internal_item = $this->retrieve_internal_item_by_publication($application, $publication->get_id());
 		$evaluations_id = $this->retrieve_evaluation_ids_by_internal_item_id($internal_item->get_id())->as_array();
-		$external_item = $this->create_external_item_by_publication($publication);
+		$external_item = $this->create_external_item_by_content_object($publication);
 		$ext_item_inst = $this->create_external_item_instance_by_moving($external_item, $evaluations_id);
 		$del_internal_item = $this->delete_internal_item($internal_item);
 		if(!($internal_item || $evaluations_id || $external_item || $ext_item_inst || $del_internal_item))
@@ -291,7 +291,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	
 	//gradebook external item
 	
-	function create_external_item_by_publication($publication)
+	function create_external_item_by_content_object($publication)
 	{
 		$external_item = new ExternalItem();
 		$external_item->set_title($publication->get_content_object()->get_title());
