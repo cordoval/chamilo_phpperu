@@ -23,6 +23,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->count_courses($conditions);
     }
+    
+	function retrieve_request($id)
+	{
+		return $this->get_parent()->retrieve_request($id);
+	}
 
     function get_course_type_deleting_all_courses_url($course_type)
     {
@@ -419,6 +424,10 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
         return $this->get_parent()->get_course_editing_url($course);
     }
 
+    function get_course_request_editing_url($request)
+    {
+    	return $this->get_parent()->get_course_request_editing_url($request);
+    }
     /**
      * @see WeblcmsManager :: get_course_maintenance_url()
      */
