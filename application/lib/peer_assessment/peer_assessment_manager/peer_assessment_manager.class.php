@@ -53,41 +53,41 @@ class PeerAssessmentManager extends WebApplication
         		$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentEvaluation', $this);
         		break;
             case self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS :
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationsBrowser', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Browser', $this);
                 break;
             case self :: ACTION_DELETE_PEER_ASSESSMENT_PUBLICATION :
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationDeleter', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Deleter', $this);
                 break;
             case self :: ACTION_EDIT_PEER_ASSESSMENT_PUBLICATION :
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationUpdater', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Updater', $this);
                 break;
             case self :: ACTION_CREATE_PEER_ASSESSMENT_PUBLICATION :
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationCreator', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Creator', $this);
                 break;
             case self :: ACTION_VIEW_PEER_ASSESSMENT :
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentViewer', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Viewer', $this);
                 break;
             case self :: ACTION_MANAGE_CATEGORIES :
                 $component = PeerAssessmentManagerComponent :: factory('CategoryManager', $this);
                 break;
             case self :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION :
-            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationTake', $this);
+            	$component = PeerAssessmentManagerComponent :: factory('Take', $this);
             	break;
             case self :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS :
-            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationResults', $this);
+            	$component = PeerAssessmentManagerComponent :: factory('Results', $this);
             	break;
             case self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION :
-            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationMover', $this);
+            	$component = PeerAssessmentManagerComponent :: factory('Mover', $this);
             	break;
             case self :: ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY :
-            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationVisibilityChanger', $this);
+            	$component = PeerAssessmentManagerComponent :: factory('VisibilityChanger', $this);
             	break;
             case self :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION :
-            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationBuilder', $this);
+            	$component = PeerAssessmentManagerComponent :: factory('Builder', $this);
             	break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS);
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationsBrowser', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Browser', $this);
         }
         $component->run();
     }

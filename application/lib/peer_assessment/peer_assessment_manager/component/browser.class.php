@@ -9,7 +9,7 @@ require_once Path :: get_repository_path() . 'lib/complex_display/peer_assessmen
  * peer_assessment component which allows the user to browse his peer_assessment_publications
  * @author Nick Van Loocke
  */
-class PeerAssessmentManagerPeerAssessmentPublicationsBrowserComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerBrowserComponent extends PeerAssessmentManagerComponent
 {
     private $action_bar;
 
@@ -17,12 +17,12 @@ class PeerAssessmentManagerPeerAssessmentPublicationsBrowserComponent extends Pe
     {
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PeerAssessment')));
-        
-        $this->display_header($trail);
+               
         $menu = $this->get_menu();
         $this->action_bar = $this->get_toolbar();
-        echo $this->action_bar->as_html();
+        $this->display_header($trail);
         
+        echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
         echo '<div style="float: left; width: 17%; overflow: auto;">';
         echo $menu->render_as_tree();

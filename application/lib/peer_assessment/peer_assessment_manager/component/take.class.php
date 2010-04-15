@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.ph
  * @author Nick Van Loocke
  */
 
-class PeerAssessmentManagerPeerAssessmentPublicationTakeComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerTakeComponent extends PeerAssessmentManagerComponent
 {	
 	private $datamanager;
 	private $pid;

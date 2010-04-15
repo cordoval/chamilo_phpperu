@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.ph
  * @author Nick Van Loocke
  */
 
-class PeerAssessmentManagerPeerAssessmentPublicationResultsComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerResultsComponent extends PeerAssessmentManagerComponent
 {
 	function run()
 	{
