@@ -318,6 +318,7 @@
 				
 				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 				processFinderTree();
+				return false;
 			}
 			
 			function activateElement(e)
