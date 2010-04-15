@@ -30,8 +30,7 @@ class WeblcmsManagerCourseCreateRequestComponent extends WeblcmsManagerComponent
             $this->display_footer();
             exit();
         } 
-        */
-        //$course = $this->retrieve_course(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)));       
+        */      
         $course = $this->get_course();
         $request = new CourseRequest();
         $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)), $course, $this, $request, $this->get_user());

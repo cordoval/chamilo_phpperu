@@ -34,6 +34,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     	return $this->get_parent()->get_course_type_deleting_all_courses_url($course_type);
     }
     
+    function get_course_request_deleting_url($request)
+    {
+    	return $this->get_parent()->get_course_request_deleting_url($request);
+    }
+    
     function get_move_course_url($course)
     {
         return $this->get_parent()->get_move_course_url($course);

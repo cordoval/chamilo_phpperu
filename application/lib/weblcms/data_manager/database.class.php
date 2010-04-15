@@ -1499,6 +1499,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->delete_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition);
 	}
 	
+	function delete_course_request($request)
+	{
+		$condition = new EqualityCondition(CourseRequest :: PROPERTY_ID, $request->get_id());
+		return $this->database->delete(CourseRequest :: get_table_name(), $condition);
+	}
+	
 	function delete_course_type($course_type_id)
 	{
 		// Delete course_type
