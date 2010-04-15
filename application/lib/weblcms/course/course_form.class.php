@@ -76,7 +76,7 @@ class CourseForm extends CommonForm
         $udm = UserDataManager :: get_instance();
         $wdm = WeblcmsDataManager :: get_instance();
 
-        if(!$this->object->get_titular_fixed())
+        if(!$this->object->get_titular_fixed() || $this->user->is_platform_admin())
         {
 	        if ($this->form_type == self :: TYPE_CREATE)
 	        {
@@ -154,7 +154,7 @@ class CourseForm extends CommonForm
         }
 
         
-        if(!$this->object->get_titular_fixed())
+        if(!$this->object->get_titular_fixed() || $this->user->is_platform_admin())
         {
        		$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $user_options);
         	$this->addRule(Course :: PROPERTY_TITULAR, Translation :: get('ThisFieldIsRequired'), 'required');
