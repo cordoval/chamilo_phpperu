@@ -289,37 +289,7 @@ abstract class ReportingBlock
     {
     	return Translation :: get(Utilities::underscores_to_camelcase($this->get_name()));
     }
-
-    /*public function get_name()
-    {
-        return $this->get_default_property(self :: PROPERTY_NAME);
-    }
-
-    public function set_name($value)
-    {
-        $this->set_default_property(self :: PROPERTY_NAME, $value);
-    }
-
-    public function get_application()
-    {
-        return $this->get_default_property(self :: PROPERTY_APPLICATION);
-    }
-
-    public function set_application($value)
-    {
-        $this->set_default_property(self :: PROPERTY_APPLICATION, $value);
-    }
-
-    public function get_function()
-    {
-        return $this->get_default_property(self :: PROPERTY_FUNCTION);
-    }
-
-    public function set_function($value)
-    {
-        $this->set_default_property(self :: PROPERTY_FUNCTION, $value);
-    }*/
-
+    
     public function get_displaymode()
     {
     	$display = Request::post(ReportingFormatterForm::FORMATTER_TYPE);
