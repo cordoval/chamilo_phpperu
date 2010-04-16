@@ -31,20 +31,14 @@ class EvaluationForm extends FormValidator
         $this->publisher_id = $publisher_id;
 		if($this->form_type == self :: TYPE_CREATE)
 		{
-	    	$this->addElement('category', Translation :: get('FormatType'));
-	    	$this->build_evaluation_format_element();
-	    	$this->addElement('category');
-	    	
+			$this->build_basic_creation_form();
 		}
-			
 		else
 		{
-			$this->addElement('category', Translation :: get('FormatType'));
+	    	$this->addElement('category', Translation :: get('EvaluationProperties'));
 			$this->build_evaluation_format_element();
-			$this->addElement('category');
-			$this->addElement('category', Translation :: get('EvaluationProperties'));
 			$this->build_editing_form();
-			$this->addElement('category');
+	    $this->addElement('category');
 		}
 		$this->setEvaluationDefaults();
     }
@@ -101,6 +95,18 @@ class EvaluationForm extends FormValidator
 		$select = $this->add_select(Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array, false, array('class' => 'change_evaluation_format'));
 		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/change_evaluation_format.js'));
 	    $this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
+    }
+    
+    function build_basic_creation_form()
+    {
+	    $this->addElement('category', Translation :: get('EvaluationProperties'));
+	    $this->build_evaluation_format_element();
+    	$values = $this->getSubmitValues();
+		if($values['format_id'] > 0)
+		{
+			$this->build_creation_form();
+		}	
+	    $this->addElement('category');
     }
     
     function build_editing_form()
@@ -227,16 +233,6 @@ class EvaluationForm extends FormValidator
 	function validate()
 	{
 		$values = $this->getSubmitValues();
-		if($values['format_id'] > 0)
-		{
-	        if ($this->form_type == self :: TYPE_CREATE)
-	        {
-	        	$this->addElement('category', Translation :: get('EvaluationProperties'));
-	            $this->build_creation_form();
-	            $this->addElement('category');
-	            
-	        }
-		}
         if ($values['submit'])
         {
 	        $this->setEvaluationDefaults();
