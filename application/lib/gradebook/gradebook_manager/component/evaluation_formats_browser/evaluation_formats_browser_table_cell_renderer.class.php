@@ -48,8 +48,6 @@ class EvaluationFormatsBrowserTableCellRenderer extends DefaultEvaluationFormats
 	{
 		$toolbar_data = array();
 		
-        $toolbar_data[] = array('href' => $this->browser->get_evaluation_format_editing_url($evaluation_format), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        $toolbar_data[] = array('href' => $this->browser->get_evaluation_format_deleting_url($evaluation_format), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         $toolbar_data[] = array('href' => $this->browser->get_change_evaluation_format_activation_url($evaluation_format), 'label' => ($evaluation_format->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'), 'confirm' => false, 'img' => ($evaluation_format->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png');
         
 		return Utilities :: build_toolbar($toolbar_data);

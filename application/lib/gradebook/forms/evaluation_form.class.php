@@ -198,18 +198,20 @@ class EvaluationForm extends FormValidator
     
 	function setEvaluationDefaults($defaults = array ())
 	{
-		
 		$grade_evaluation = $this->grade_evaluation;
 		$evaluation = $this->evaluation;
-		$defaults[$this->evaluation_format->get_evaluation_name()] = $grade_evaluation->get_score();
-	    $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
-	    $defaults[GradeEvaluation :: PROPERTY_ID] = $grade_evaluation->get_id();
-
-	    $defaults[Evaluation :: PROPERTY_FORMAT_ID] = $evaluation->get_format_id();
-	    $defaults[Evaluation :: PROPERTY_EVALUATION_DATE] = $evaluation->get_evaluation_date();
-	    $defaults[Evaluation :: PROPERTY_USER_ID] = $evaluation->get_user_id();
-	    $defaults[Evaluation :: PROPERTY_EVALUATOR_ID] = $evaluation->get_evaluator_id();
-		parent :: setDefaults($defaults);
+		if ($grade_evaluation->get_score())
+		{
+			$defaults[$this->evaluation_format->get_evaluation_name()] = $grade_evaluation->get_score();
+		    $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
+		    $defaults[GradeEvaluation :: PROPERTY_ID] = $grade_evaluation->get_id();
+	
+		    $defaults[Evaluation :: PROPERTY_FORMAT_ID] = $evaluation->get_format_id();
+		    $defaults[Evaluation :: PROPERTY_EVALUATION_DATE] = $evaluation->get_evaluation_date();
+		    $defaults[Evaluation :: PROPERTY_USER_ID] = $evaluation->get_user_id();
+		    $defaults[Evaluation :: PROPERTY_EVALUATOR_ID] = $evaluation->get_evaluator_id();
+			parent :: setDefaults($defaults);
+		}
 	}
 	
 	function validate()
