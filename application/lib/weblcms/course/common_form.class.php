@@ -54,6 +54,7 @@ abstract class CommonForm extends FormValidator
             $this->build_creation_form();
         }
 
+        $this->add_progress_bar(2);
         $this->setDefaults();
         $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/weblcms_common_form.js'));
 		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/viewable_checkbox.js'));

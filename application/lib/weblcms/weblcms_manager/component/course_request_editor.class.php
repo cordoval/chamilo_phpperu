@@ -29,6 +29,7 @@ class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManagerComponent
 			$success_request = $form->update_request();
 			$array_type = array();
 	        $array_type['go'] = WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER;
+	        
             $this->redirect(Translation :: get($success_request ? 'RequestUpdated' : 'RequestNotUpdated'), ($success_request ? false : true), $array_type);	}
 		else
 		{

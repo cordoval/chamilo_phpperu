@@ -484,5 +484,18 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 		return $this->is_teacher;
 	}
+ 	function retrieve_evaluation_ids_by_publication($id)
+    {
+    	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+    	return EvaluationManager :: retrieve_evaluation_ids_by_publication('weblcms', $id);
+    }
+
+    function move_internal_to_external($publication)
+    {
+    	if(WebApplication :: is_active('gradebook'))
+        {
+	    	return EvaluationManager :: move_internal_to_external('weblcms', $publication);
+        }
+    }
 }
 ?>

@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__) . '/../gradebook_manager.class.php';
 require_once dirname(__FILE__) . '/../gradebook_manager_component.class.php';
 // required table classes
 require_once dirname(__FILE__).'/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
@@ -21,13 +22,15 @@ class GradebookManagerAdminEvaluationFormatsBrowserComponent extends GradebookMa
         }
         
 		$this->display_header($trail);
-		$this->get_table();
+		$this->get_table_html();
 		$this->display_footer();
 	}
 	
-	function get_table()
+	function get_table_html()
 	{
-		$table = new EvaluationFormatsBrowserTable($this, array());
+		$parameters = $this->get_parameters();
+		$parameters[GradebookManager :: PARAM_ACTION]=  GradebookManager :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS;
+		$table = new EvaluationFormatsBrowserTable($this, $parameters);
 		echo $table->as_html();
 	}
 }
