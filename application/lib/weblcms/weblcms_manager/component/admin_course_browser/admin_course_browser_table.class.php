@@ -26,7 +26,7 @@ class AdminCourseBrowserTable extends ObjectTable
         $actions = array();
         
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected'));
-        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_MOVE_SELECTED_COURSES, Translation :: get('MoveSelected'));
+        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_CHANGE_COURSE_TYPE_SELECTED_COURSES, Translation :: get('ChangeCourseTypeSelected'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

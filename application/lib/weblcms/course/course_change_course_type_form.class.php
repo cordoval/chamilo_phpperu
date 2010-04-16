@@ -6,7 +6,7 @@
 
 require_once Path :: get_application_path() . 'lib/weblcms/course/course.class.php';
 
-class CourseMoveForm extends FormValidator
+class CourseChangeCourseTypeForm extends FormValidator
 {
     const SELECT_COURSE_TYPE = 'course_type';
     private $size;
@@ -14,9 +14,9 @@ class CourseMoveForm extends FormValidator
     private $course;
     private $wdm;
 
-    function CourseMoveForm($action,$course)
+    function CourseChangeCourseTypeForm($action,$course)
     {
-        parent :: __construct('course_move', 'post', $action);
+        parent :: __construct('course_change_course_type', 'post', $action);
         $this->course = $course;
         
         $this->wdm = WeblcmsDataManager :: get_instance();
@@ -30,7 +30,7 @@ class CourseMoveForm extends FormValidator
         $this->addElement('select', self :: SELECT_COURSE_TYPE, Translation :: get('New Course Type'), $this->get_course_types());
         $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
                  
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));        
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Change CourseType'), array('class' => 'positive move'));        
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
