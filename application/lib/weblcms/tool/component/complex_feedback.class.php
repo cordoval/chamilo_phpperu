@@ -20,7 +20,7 @@ class ToolComplexFeedbackComponent extends ToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses general');
         
-        $this->pub = new ContentObjectRepoViewer($this, 'feedback', true);
+        $this->pub = new ContentObjectRepoViewer($this, 'feedback');
         $this->pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_FEEDBACK_CLOI);
         
         switch (Request :: get('tool'))

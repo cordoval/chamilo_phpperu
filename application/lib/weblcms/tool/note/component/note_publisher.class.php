@@ -22,7 +22,7 @@ class NoteToolPublisherComponent extends NoteToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'publish')), Translation :: get('Publish')));
         $trail->add_help('courses note tool');
         
-        $pub = new ContentObjectRepoViewer($this, 'note', true);
+        $pub = new ContentObjectRepoViewer($this, 'note');
         
         if (!$pub->is_ready_to_be_published())
         {

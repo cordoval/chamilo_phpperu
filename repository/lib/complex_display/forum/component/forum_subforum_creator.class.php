@@ -22,7 +22,7 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplayComponent
                 $this->display_footer();
             }
             
-            $pub = new RepoViewer($this, 'forum', true, RepoViewer :: SELECT_SINGLE, array(), false, false);
+            $pub = new RepoViewer($this, 'forum', RepoViewer :: SELECT_SINGLE, array(), false);
             $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_SUBFORUM);
             $pub->set_parameter('pid', $pid);
             $pub->set_parameter('forum', $forum);

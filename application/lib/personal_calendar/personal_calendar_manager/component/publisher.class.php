@@ -20,7 +20,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManagerC
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
         $trail->add_help('personal calender general');
         
-        $pub = new RepoViewer($this, array('calendar_event', 'task'), true);
+        $pub = new RepoViewer($this, array('calendar_event', 'task'));
         
         if (!$pub->is_ready_to_be_published())
         {

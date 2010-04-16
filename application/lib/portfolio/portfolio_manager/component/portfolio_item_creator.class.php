@@ -27,7 +27,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
         //HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
         $types = array('portfolio', 'announcement', 'blog_item', 'calendar_event', 'description', 'document', 'link', 'note', 'rss_feed', 'profile', 'youtube');
         
-        $pub = new RepoViewer($this, $types, false, RepoViewer :: SELECT_MULTIPLE, array(), false, false);
+        $pub = new RepoViewer($this, $types, RepoViewer :: SELECT_MULTIPLE, array(), false);
         $pub->set_parameter('parent', $parent);
         $pp = Request :: get(PortfolioManager::PARAM_PARENT_PORTFOLIO);
         $pub->set_parameter(PortfolioManager::PARAM_PARENT_PORTFOLIO, $pp);

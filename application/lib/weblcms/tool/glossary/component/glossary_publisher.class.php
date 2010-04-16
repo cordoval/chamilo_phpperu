@@ -22,7 +22,7 @@ class GlossaryToolPublisherComponent extends GlossaryToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
         $trail->add_help('courses glossary tool');
         
-        $pub = new ContentObjectRepoViewer($this, 'glossary', true);
+        $pub = new ContentObjectRepoViewer($this, 'glossary');
         
         if (!$pub->is_ready_to_be_published())
         {

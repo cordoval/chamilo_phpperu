@@ -24,7 +24,7 @@ class AssessmentManagerCreatorComponent extends AssessmentManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateAssessmentPublication')));
         
-        $pub = new RepoViewer($this, array('assessment', 'survey', 'hotpotatoes'), true);
+        $pub = new RepoViewer($this, array('assessment', 'survey', 'hotpotatoes'));
         
         if (!$pub->is_ready_to_be_published())
         {

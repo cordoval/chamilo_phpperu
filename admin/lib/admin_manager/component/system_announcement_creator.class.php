@@ -29,7 +29,7 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
 
     private function get_publisher_html()
     {
-        $pub = new RepoViewer($this, 'system_announcement', true);
+        $pub = new RepoViewer($this, 'system_announcement');
         
         if (!$pub->is_ready_to_be_published())
         {

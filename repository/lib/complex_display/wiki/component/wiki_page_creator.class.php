@@ -20,7 +20,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
 
     function run()
     {
-        $this->pub = new RepoViewer($this, 'wiki_page', false, RepoViewer :: SELECT_SINGLE);
+        $this->pub = new RepoViewer($this, 'wiki_page', RepoViewer :: SELECT_SINGLE);
         $this->pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
         $this->pub->set_parameter('pid', $this->get_parent()->get_root_lo()->get_id());
 

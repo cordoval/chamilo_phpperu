@@ -29,7 +29,7 @@ class ToolComplexCreatorComponent extends ToolComponent
             
             $type = Request :: get('type');
             
-            $pub = new ContentObjectRepoViewer($this, $type, false, RepoViewer :: SELECT_SINGLE);
+            $pub = new ContentObjectRepoViewer($this, $type, RepoViewer :: SELECT_SINGLE);
             $pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_CREATE_CLOI);
             $pub->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
             $pub->set_parameter('type', $type);

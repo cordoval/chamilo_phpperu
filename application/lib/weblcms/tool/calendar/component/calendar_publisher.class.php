@@ -30,7 +30,7 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
         $event->set_start_date(intval(Request :: get('default_start_date')));
         $event->set_end_date(intval(Request :: get('default_end_date')));
         
-        $pub = new ContentObjectRepoViewer($this, 'calendar_event', true);
+        $pub = new ContentObjectRepoViewer($this, 'calendar_event');
         $pub->set_default_content_object('calendar_event', $event);
         
         if (!$pub->any_object_selected())

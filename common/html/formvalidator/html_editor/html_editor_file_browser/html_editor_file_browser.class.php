@@ -20,7 +20,7 @@ class HtmlEditorFileBrowser
       $plugin = $this->get_plugin();
       $this->set_parameter(self :: PARAM_PLUGIN, $plugin);
 
-      $repo_viewer = HtmlEditorRepoViewer :: factory($plugin, $this, array(), false, RepoViewer :: SELECT_SINGLE);
+      $repo_viewer = HtmlEditorRepoViewer :: factory($plugin, $this, array(), RepoViewer :: SELECT_SINGLE);
 
       if (!$repo_viewer->is_ready_to_be_published())
       {
