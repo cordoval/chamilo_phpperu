@@ -25,12 +25,9 @@ class AdminRequestBrowserTable extends ObjectTable
         $data_provider = new AdminRequestBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, AdminRequestBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
+        
         $actions = array();
-        
-        
-        //$actions[] = new ObjectTableFormAction('enable', Translation :: get('EnableSelectedCourseTypes'), false);
-        //$actions[] = new ObjectTableFormAction('disable', Translation :: get('DisableSelectedCourseTypes'), false);
-        $actions[] = new ObjectTableFormAction(null, Translation :: get('No Multiple Actions Implemented'));
+        //$actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED_REQUESTS, Translation :: get('RemoveSelected'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
