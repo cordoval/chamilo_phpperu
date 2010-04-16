@@ -11,6 +11,13 @@ class ForumPost extends ContentObject
     const NOTIFY_NONE = 1;
     const NOTIFY_TOPIC = 2;
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     function supports_attachments()
     {
         return true;

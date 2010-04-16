@@ -20,7 +20,7 @@ class DistributeManagerDistributorComponent extends DistributeManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Compose')));
         $trail->add_help('distribute general');
         
-        $pub = new RepoViewer($this, 'announcement');
+        $pub = new RepoViewer($this, Announcement :: get_type_name());
         
         if (!$pub->is_ready_to_be_published())
         {

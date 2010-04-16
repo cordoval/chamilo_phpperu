@@ -23,12 +23,17 @@ class RepositoryAutoloader
 		{
 			return true;
 		}
-
+		
 		if(self :: check_for_special_files($classname))
 		{
 			return true;
 		}
-
+		
+		if(self :: check_for_content_objects($classname))
+		{
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -126,6 +131,25 @@ class RepositoryAutoloader
 		}
 
 		return false;
+	}
+	
+	static $content_objects;
+	
+	static function check_for_content_objects($classname)
+	{
+		$dir = dirname(__FILE__) . '/lib/content_object/';
+		
+		if(!self :: $content_objects)
+		{
+			self :: $content_objects = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
+		}
+		
+		$lower_case = Utilities :: camelcase_to_underscores($classname);
+		
+		if(in_array($lower_case, self :: $content_objects))
+		{
+			require_once $dir . $lower_case . '/' . $lower_case . '.class.php';
+		}
 	}
 }
 

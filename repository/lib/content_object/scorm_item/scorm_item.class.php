@@ -22,7 +22,13 @@ class ScormItem extends ContentObject
     const PROPERTY_COMPLETION_SET_BY_CONTENT = 'completion_set_by_content';
     const PROPERTY_OBJECTIVE_SET_BY_CONTENT = 'objective_set_by_content';
     const PROPERTY_IDENTIFIER = 'identifier';
+	const CLASS_NAME = __CLASS__;
 
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_PATH, self :: PROPERTY_VISIBLE, self :: PROPERTY_PARAMETERS, self :: PROPERTY_TIME_LIMIT_ACTION, self :: PROPERTY_DATA_FROM_LMS, self :: PROPERTY_COMPLETION_TRESHOLD, self :: PROPERTY_HIDE_LMS_UI, self :: PROPERTY_CONTROL_MODE, self :: PROPERTY_TIME_LIMIT, self :: PROPERTY_OBJECTIVES, self :: PROPERTY_CONDITION_RULES, self :: PROPERTY_COMPLETION_SET_BY_CONTENT, self :: PROPERTY_OBJECTIVE_SET_BY_CONTENT, self :: PROPERTY_IDENTIFIER);

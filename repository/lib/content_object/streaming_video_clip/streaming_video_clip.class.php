@@ -8,7 +8,13 @@ class StreamingVideoClip extends ContentObject
     const STREAMING_VIDEO_ADMIN_SETTING_VALUE = 'true';
 
     const PROPERTY_APPLICATION = 'application';
+	const CLASS_NAME = __CLASS__;
 
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
     static function get_additional_property_names()
     {
             return array(self :: PROPERTY_APPLICATION);

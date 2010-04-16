@@ -11,6 +11,13 @@ class Hotpotatoes extends ContentObject
     const PROPERTY_PATH = 'path';
     const PROPERTY_MAXIMUM_ATTEMPTS = 'max_attempts';
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_PATH, self :: PROPERTY_MAXIMUM_ATTEMPTS);

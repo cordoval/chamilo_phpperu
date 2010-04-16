@@ -10,7 +10,13 @@ class SurveyPage extends ContentObject
 {
     const PROPERTY_FINISH_TEXT = 'finish_text';
     const PROPERTY_INTRODUCTION_TEXT = 'intro_text';
+	const CLASS_NAME = __CLASS__;
 
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_INTRODUCTION_TEXT);

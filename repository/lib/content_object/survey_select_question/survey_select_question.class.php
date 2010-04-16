@@ -9,6 +9,11 @@ require_once dirname(__FILE__) . '/survey_select_question_option.class.php';
 
 class SurveySelectQuestion extends SelectQuestion
 {
-  
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}  
 }
 ?>

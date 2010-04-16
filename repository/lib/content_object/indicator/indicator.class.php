@@ -11,7 +11,14 @@ class Indicator extends ContentObject
 {
 	function get_allowed_types()
     {
-        return array('criteria');
+        return array(Criteria :: get_type_name());
     }
+    
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
 }
 ?>

@@ -18,6 +18,13 @@ class Document extends ContentObject
     const TYPE_VIDEO = 'video';
     const TYPE_AUDIO = 'audio';
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     /**
     * In memory file content. Will be saved on disk if it doesn't exist yet. Mainly used to create a new Document.
     *

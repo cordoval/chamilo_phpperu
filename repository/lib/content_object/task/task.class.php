@@ -73,6 +73,13 @@ class Task extends ContentObject
     const PRIORITY_NORMAL = '1';
     const PRIORITY_HIGH = '2';
     
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
 	/**
  	* Gets the type of this task
  	* @return int task type

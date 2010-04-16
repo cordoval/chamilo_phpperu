@@ -16,7 +16,13 @@ class SystemAnnouncement extends ContentObject
     const ICON_STOP = 4;
     const ICON_QUESTION = 5;
     const ICON_CONFIG = 6;
+	const CLASS_NAME = __CLASS__;
 
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
     function get_icon()
     {
         return $this->get_additional_property(self :: PROPERTY_ICON);
