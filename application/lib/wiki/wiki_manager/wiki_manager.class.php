@@ -129,7 +129,6 @@ class WikiManager extends WebApplication
     {
     	if(WebApplication :: is_active('gradebook'))
         {
-	    	//require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
 	    	return EvaluationManager :: move_internal_to_external(self :: APPLICATION_NAME, $publication);
         }
     }
