@@ -10,9 +10,9 @@ class ExternalCalendar extends ContentObject
 {
     const PROPERTY_URL = 'url';
     const CACHE_TIME = 3600;
-    
 
-    
+
+
     const REPEAT_TYPE_NONE = 'NONE';
     const REPEAT_TYPE_DAY = 'DAILY';
     const REPEAT_TYPE_WEEK = 'WEEKLY';
@@ -20,7 +20,7 @@ class ExternalCalendar extends ContentObject
     const REPEAT_TYPE_YEAR = 'YEARLY';
     const REPEAT_START = 'start';
     const REPEAT_END = 'end';
-        
+
     private $calendar;
 
     function get_url()
@@ -37,13 +37,13 @@ class ExternalCalendar extends ContentObject
     {
         return array(self :: PROPERTY_URL);
     }
-    
+
     function get_calendar()
     {
     	$ical_id = md5('ical_' . serialize($this->get_url()));
         $path = Path :: get(SYS_FILE_PATH) . 'temp/ical/' . $ical_id . '.ics';
         $timedif = @(time() - filemtime($path));
-        
+
         //if (! file_exists($path) || $timedif > self :: CACHE_TIME)
         //{
             if ($f = @fopen($this->get_url(), 'r'))
@@ -57,17 +57,17 @@ class ExternalCalendar extends ContentObject
             }
             Filesystem :: write_to_file($path, $calendar_content);
         //}
-		
+
         if (!isset($this->calendar))
         {
         	$calendar = new vcalendar();
         	$calendar->parse($path);
         	$calendar->sort();
         }
-        
+
         return $calendar;
     }
-    
+
     function get_events()
     {
     	$evnets = array();
@@ -80,22 +80,27 @@ class ExternalCalendar extends ContentObject
     	}
     	return $events;
     }
-    
+
     function count_events()
     {
     	$events = $this->get_events();
     	return count($events);
     }
-    
 
-    
+
+
     function get_repeats(vevent $event, $start_date, $end_date)
     {
     	$ical_recurrence = new IcalRecurrence($event, $start_date, $end_date);
     	$test = $ical_recurrence->get_repeats();
     	return $test;
     }
-    
-    
+
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+
+
 }
 ?>

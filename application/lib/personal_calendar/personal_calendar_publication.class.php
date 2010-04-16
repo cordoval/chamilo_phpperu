@@ -21,7 +21,7 @@ class PersonalCalendarPublication extends DataClass
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
 
-    const PROPERTY_CONTENT_OBJECT_ID = 'calendar_event_id';
+    const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
 
