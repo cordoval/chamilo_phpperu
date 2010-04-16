@@ -307,19 +307,19 @@ class CourseForm extends CommonForm
 		$attr_array = array();
 		if($feedback_disabled)
 				$attr_array = array('disabled' => 'disabled');
-		$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), '', $attr_array);
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('AllowFeedback'), '', $attr_array);
 
 		$intro_text_disabled = $this->object->get_intro_text_fixed();
 		$attr_array = array();
 		if($intro_text_disabled)
 			$attr_array = array('disabled' => 'disabled');
-		$this->addElement('checkbox', CourseLayout :: PROPERTY_INTRO_TEXT, Translation :: get('IntroductionToolTitle'), '', $attr_array);
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_INTRO_TEXT, Translation :: get('AllowIntroduction'), '', $attr_array);
 
 		$student_view_disabled = $this->object->get_student_view_fixed();
 		$attr_array = array();
 		if($student_view_disabled)
 			$attr_array = array('disabled' => 'disabled');
-		$this->addElement('checkbox', CourseLayout :: PROPERTY_STUDENT_VIEW, Translation :: get('StudentView'), '', $attr_array);
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_STUDENT_VIEW, Translation :: get('AllowStudentView'), '', $attr_array);
 
 		$course_code_visible_disabled = $this->object->get_course_code_visible_fixed();
 		$attr_array = array();
