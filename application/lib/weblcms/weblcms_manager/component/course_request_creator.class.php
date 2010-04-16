@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 
-class WeblcmsManagerCourseCreateRequestComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseRequestCreatorComponent extends WeblcmsManagerComponent
 {
 
     /**

@@ -37,6 +37,7 @@ class CourseRequestForm extends FormValidator
         }
         
         $this->setDefaults();
+        $this->add_progress_bar(2);
 	}
 	
 	function build_creating_form()
