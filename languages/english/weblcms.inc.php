@@ -450,6 +450,7 @@ $lang['weblcms']['CourseStudentTrackerReportingTemplate'] = 'Course student trac
 $lang['weblcms']['CourseStudentTrackerDetailReportingTemplate'] = 'Course student tracker detail reporting';
 $lang['weblcms']['LearningPathAttemptProgressReportingTemplate'] = 'Learningpath attempt progress reporting';
 $lang['weblcms']['LearningPathAttemptProgressDetailsReportingTemplate'] = 'Learningpath attempt progress details reporting';
+$lang['weblcms']['RequestList'] = 'Request List';
 
 
 ?>
