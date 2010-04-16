@@ -58,7 +58,7 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         
         $toolbar_data[] = array('href' => $this->browser->get_course_editing_url($course), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         $toolbar_data[] = array('href' => $this->browser->get_course_deleting_url($course), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        $toolbar_data[] = array('href' => $this->browser->get_move_course_url($course), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+        $toolbar_data[] = array('href' => $this->browser->get_course_changing_course_type_url($course), 'label' => Translation :: get('ChangeCourseType'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
         
         $toolbar_data[] = array('href' => $this->browser->get_course_maintenance_url($course), 'label' => Translation :: get('Maintenance'), 'img' => Theme :: get_common_image_path() . 'action_maintenance.png');
         

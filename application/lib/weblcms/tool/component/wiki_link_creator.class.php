@@ -26,14 +26,12 @@ class ToolWikiLinkCreatorComponent extends ToolComponent
             
             $type = 'wiki_page';
             
-            $pub = new ContentObjectRepoViewer($this, $type, true);
+            $pub = new ContentObjectRepoViewer($this, $type, RepoViewer :: SELECT_SINGLE);
             $pub->set_parameter(Tool :: PARAM_ACTION, WikiTool :: ACTION_ADD_LINK);
             $pub->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
             $pub->set_parameter('type', $type);
             
-            $object_id = Request :: get('object');
-            
-            if (! isset($object_id))
+            if (!$pub->is_ready_to_be_published())
             {
                 $html[] = '<p><a href="' . $this->get_url(array('type' => $type, Tool :: PARAM_PUBLICATION_ID => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();

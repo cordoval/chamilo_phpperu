@@ -46,6 +46,7 @@ abstract class Tool
     const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
     const ACTION_VIEW = 'view';
+    const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
 
     /**
      * The action of the tool
@@ -146,6 +147,9 @@ abstract class Tool
 
         switch ($action)
         {
+            case self :: ACTION_EVALUATE_TOOL_PUBLICATION :
+        		$component = ToolComponent :: factory('', 'ToolEvaluate', $this);
+        		break;
             case self :: ACTION_EDIT :
                 $component = ToolComponent :: factory('', 'Edit', $this);
                 break;

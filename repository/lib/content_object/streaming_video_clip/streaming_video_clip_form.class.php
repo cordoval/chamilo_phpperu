@@ -1,155 +1,156 @@
 <?php
 
 /**
- * Description of streaming_video_clip_formclass
+ * Description of StreamingVideoClipForm class
  *
  * @author jevdheyd
  */
-
-require_once Path :: get_application_path().'/lib/streaming_video/upload_account.class.php';
+require_once dirname(__FILE__) . '/../../streaming_video_clip_manager/streaming_video_clip_manager.class.php';
+//require_once dirname(__FILE__) . '/../../repository_manager/component/streaming_video_clip_creator.class.php';
 
 class StreamingVideoClipForm extends ContentObjectForm {
 
-    const PARAM_CUE_POINTS = 'cuepoints';
+   protected function __construct($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements, $allow_new_version = true)
+    {
+        //TODO:jens-->see if this is correct
+        //$form_type_deviate = 5;
+        //$form_name .= '_' . Request::get('type');
 
-	protected function build_creation_form()
-	{
-		// No call to parent, as we don't want the default form elements
-                //
-                //create uploadaccount for user or get existing one
-                $account = UploadAccount :: get();
-		$username = $account->get_username();
-                $password = $account->get_upload_password();
+        //parent :: __construct($form_type_deviate, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements, $allow_new_version = true);
+        
+        $this->FormValidator($form_name, $method, $action);
 
-                $url = Path::get('WEB_APP_PATH')
-			. 'lib/streaming_video/jnlp.php?username=' . htmlspecialchars($username)
-			. '&password=' . htmlspecialchars($password);
-		// TODO: add usage instructions
-		$this->addElement('static', 'instructions',
-			'',
-			'<p>'
-			. htmlspecialchars(Translation::get('ClipUploaderInstructions'))
-			. '</p>');
-		$this->addElement('link', 'uploader_link',
-			Translation :: get('ClipUploader'),
-			$url,
-			Translation :: get('LaunchClipUploader'));
+        $this->form_type = $form_type;
+        $this->set_content_object($content_object);
+        $this->owner_id = $content_object->get_owner_id();
+        $this->extra = $extra;
+        $this->additional_elements = $additional_elements;
+        $this->allow_new_version = $allow_new_version;
 
-	}
+        $this->form_type = $form_type;
 
-	function create_learning_object()
-	{
-		// No call to parent, as creation happens upon upload completion
-	}
+        if ($this->form_type == parent :: TYPE_EDIT || $this->form_type == self :: TYPE_REPLY)
+        {
+            //TODO:implement
+        }
+        elseif ($this->form_type == parent :: TYPE_CREATE)
+        {
+             $sub_manager = new StreamingVideoClipManager();
+             $sub_manager->create(&$this);
+        }
+        elseif ($this->form_type == parent :: TYPE_COMPARE)
+        {
+             //TODO:implement
+        }
+        if ($this->form_type != parent :: TYPE_COMPARE)
+        {
+             $this->add_progress_bar(2);
+             $this->add_footer();
+        }
 
-	protected function build_editing_form()
-	{
-		parent :: build_editing_form();
-		// TODO: friendly UI
-		// TODO: compare times to clip length
-		$this->addElement(
-			'textarea',
-			self::PARAM_CUE_POINTS,
-			Translation::get('VideoClipCuePoints'),
-			array('style' => 'width: 650px', 'rows' => 5));
-	}
+    }
 
-	function update_content_object() {
+    /**
+     * Adds a footer to the form, including a submit button.
+     */
+    protected function add_footer()
+    {
+        $object = $this->content_object;
+        //$elem = $this->addElement('advmultiselect', 'ihsTest', 'Hierarchical select:', array("test"), array('style' => 'width: 20em;'), '<br />');
 
-            $result = parent::update_content_object();
-		if ($result != self::RESULT_SUCCESS) {
-			return $result;
-		}
-		$object = $this->get_content_object();
 
-		$cuepoints_text = $this->exportValue(self::PARAM_CUE_POINTS);
-		$lines = split("[\n\r]+", trim($cuepoints_text));
-		$cuepoints = array();
-		foreach ($lines as $line) {
-			list($time, $title) = split("[ =]+", trim($line), 2);
-			if ($title) {
-				$parts = explode(':', $time, 3);
-				$seconds = floatval(array_pop($parts));
-				$minutes = intval(array_pop($parts));
-				$hours = intval(array_pop($parts));
-				$seconds = $seconds + ($minutes + $hours * 60) * 60;
-				if ($seconds > 0) {
-					$cuepoints[round($seconds * 1000)] = $title;
-				}
-			}
-		}
-		// Update existing cue points and remove the ones that were not specified
-		$cond = new EqualityCondition(StreamingVideoClipCuePoint :: PROPERTY_PARENT_ID,
-			$object->get_id());
-		$children = RepositoryDataManager::get_instance()
-			->retrieve_content_objects('streaming_video_clip_cue_point', $cond);
-		while ($child = $children->next_result()) {
-			$t = $child->get_start_time();
-			if (array_key_exists($t, $cuepoints)) {
-				$child->set_title($cuepoints[$t]);
-				$child->update();
-				unset($cuepoints[$t]);
-			}
-			else {
-				// XXX: Returns false if the cue point is used anywhere
-				$child->delete();
-			}
-		}
-		// Add new cue points
-		foreach ($cuepoints as $time => $title) {
-			$cp = new StreamingVideoClipCuePoint();
-			$cp->set_owner_id($object->get_owner_id());
-			$cp->set_title($title);
-			$cp->set_description(htmlspecialchars($title));
-			$cp->set_parent_id($object->get_id());
-			$cp->set_start_time($time);
-			$cp->create();
-		}
-		return self::RESULT_SUCCESS;
-	}
+        if ($this->supports_attachments())
+        {
 
-	function setDefaults($defaults = array()) {
-		$lo = $this->get_content_object();
-		if (isset($lo)) {
-			$cps = $lo->get_cue_points();
-			if (!empty($cps)) {
-				$str = '';
-				foreach ($cps as $cp) {
-					$str .= self::format_duration($cp->get_start_time())
-						. ' = '
-						. $cp->get_title()
-						. "\r\n";
-				}
-				$defaults[self::PARAM_CUE_POINTS] = $str;
-			}
-		}
-		parent::setDefaults($defaults);
-	}
+            $html[] = '<script type="text/javascript">';
+            $html[] =   'var support_attachments = true';
+            $html[] = '</script>';
+                $this->addElement('html', implode("\n", $html));
+                if ($this->form_type != self :: TYPE_REPLY)
+            {
+                $attached_objects = $object->get_attached_content_objects();
+                $attachments = Utilities :: content_objects_for_element_finder($attached_objects);
+            }
+            else
+            {
+                $attachments = array();
+            }
 
-	private static function format_duration($milliseconds) {
-		$res = array();
-		foreach (array(1000 * 60 * 60, 1000 * 60, 1000) as $d) {
-			$c = floor($milliseconds / $d);
-			$milliseconds -= $c * $d;
-			$res[] = $c;
-		}
-		return sprintf('%d:%02d:%02d.%03d',
-			$res[0], $res[1], $res[2], $milliseconds);
-	}
+            $los = RepositoryDataManager :: get_instance()->retrieve_content_objects(new EqualityCondition('owner_id', $this->owner_id));
+            while ($lo = $los->next_result())
+            {
+                $defaults[$lo->get_id()] = array('title' => $lo->get_title(), 'description', $lo->get_description(), 'class' => $lo->get_type());
+            }
 
-	function validate() {
-		if ($this->get_form_type() == self :: TYPE_CREATE) {
-			return false;
-		}
-		return parent :: validate();
-	}
+            $url = $this->get_path(WEB_PATH) . 'repository/xml_feed.php';
+            $locale = array();
+            $locale['Display'] = Translation :: get('AddAttachments');
+            $locale['Searching'] = Translation :: get('Searching');
+            $locale['NoResults'] = Translation :: get('NoResults');
+            $locale['Error'] = Translation :: get('Error');
+            $hidden = true;
 
-	protected function add_footer() {
-		// Don't print OK button when creating
-		if ($this->get_form_type() != self :: TYPE_CREATE) {
-			parent :: add_footer();
-		}
-	}
+            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
+            $this->addElement('category', Translation :: get('Attachments'), 'content_object_attachments');
+            $this->addElement('static', 'uploadify', Translation :: get('UploadDocument'), '<div id="uploadify"></div>');
+            $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments, $options);
+            $this->addElement('category');
+
+            $elem->setDefaults($defaults);
+
+            if ($id = $object->get_id())
+            {
+                $elem->excludeElements(array($object->get_id()));
+            }
+            //$elem->setDefaultCollapsed(count($attachments) == 0);
+        }
+
+        if (count($this->additional_elements) > 0)
+        {
+            $count = 0;
+            foreach ($this->additional_elements as $element)
+            {
+                if ($element->getType() != 'hidden')
+                    $count ++;
+            }
+
+            if ($count > 0)
+            {
+                $this->addElement('category', Translation :: get('AdditionalProperties'));
+                foreach ($this->additional_elements as $element)
+                {
+                    $this->addElement($element);
+                }
+                $this->addElement('category');
+            }
+        }
+
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/content_object_form.js'));
+
+        $buttons = array();
+
+        switch ($this->form_type)
+        {
+            case self :: TYPE_COMPARE :
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Compare'), array('class' => 'normal compare'));
+                break;
+            case self :: TYPE_CREATE :
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CreateStreamingVideo'), array('class' => 'positive'));
+                break;
+            case self :: TYPE_EDIT :
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+                break;
+            case self :: TYPE_REPLY :
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Reply'), array('class' => 'positive send'));
+                break;
+            default :
+                $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+                break;
+        }
+
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    }
 
 }
 ?>

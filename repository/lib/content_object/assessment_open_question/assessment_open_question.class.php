@@ -17,6 +17,13 @@ class AssessmentOpenQuestion extends OpenQuestion
 	const TYPE_OPEN_WITH_DOCUMENT = 2;
     const TYPE_DOCUMENT = 3;
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_QUESTION_TYPE);

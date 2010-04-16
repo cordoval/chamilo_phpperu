@@ -232,8 +232,7 @@ class PeerAssessmentPublication extends DataClass
     
 	function toggle_visibility()
     {
-    	// Error when use this function
-        //$this->set_hidden(! $this->get_hidden());
+        $this->set_hidden(! $this->get_hidden());
     }
 
     static function get_table_name()
@@ -291,7 +290,38 @@ class PeerAssessmentPublication extends DataClass
         
         return true;
     }
+    
+	function get_target_groups()
+    {
+        if (! $this->target_groups)
+        {
+            $condition = new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $this->get_id());
+            $groups = $this->get_data_manager()->retrieve_peer_assessment_publication_groups($condition);
+            
+            while ($group = $groups->next_result())
+            {
+                $this->target_groups[] = $group->get_group_id();
+            }
+        }
+        
+        return $this->target_groups;
+    }
+
+    function get_target_users()
+    {
+        if (! $this->target_users)
+        {
+            $condition = new EqualityCondition(AssessmentPublicationUser :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $this->get_id());
+            $users = $this->get_data_manager()->retrieve_peer_assessment_publication_users($condition);
+            
+            while ($user = $users->next_result())
+            {
+                $this->target_users[] = $user->get_user();
+            }
+        }
+        
+        return $this->target_users;
+    }
 
 }
-
 ?>

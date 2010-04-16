@@ -12,20 +12,22 @@ class CourseRequest extends DataClass
     
     const PROPERTY_COURSE_ID = 'course_id';
     const PROPERTY_NAME_USER = 'name_user';
+    const PROPERTY_COURSE_NAME = 'course_name';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_MOTIVATION = 'motivation';
-    const PROPERTY_CREATIONDATE = 'creationdate';
-    const PROPERTY_ALLOWEDDATE = 'alloweddate';
+    const PROPERTY_CREATION_DATE = 'creation_date';
+    const PROPERTY_ALLOWED_DATE = 'allowed_date';
 
     static function get_default_property_names()
     {
-    	//if(empty($extended_property_names)) $extended_property_names = array(self :: PROPERTY_COURSE_ID);
-        return array(self :: PROPERTY_COURSE_ID,
+        return parent :: get_default_property_names(array(
+        		  self :: PROPERTY_COURSE_ID,
          		  self :: PROPERTY_NAME_USER,
+         		  self :: PROPERTY_COURSE_NAME,
         		  self :: PROPERTY_TITLE,
         		  self :: PROPERTY_MOTIVATION,
-        		  self :: PROPERTY_CREATIONDATE,
-        		  self :: PROPERTY_ALLOWEDDATE);
+        		  self :: PROPERTY_CREATION_DATE,
+        		  self :: PROPERTY_ALLOWED_DATE));
     }
 
     function get_data_manager()
@@ -43,6 +45,11 @@ class CourseRequest extends DataClass
         return $this->get_default_property(self :: PROPERTY_NAME_USER);
     }
     
+    function get_course_name()
+    {
+    	return $this->get_default_property(self :: PROPERTY_COURSE_NAME);
+    }
+    
     function get_title()
     {
     	return $this->get_default_property(self :: PROPERTY_TITLE);
@@ -53,14 +60,14 @@ class CourseRequest extends DataClass
         return $this->get_default_property(self :: PROPERTY_MOTIVATION);
     }
 
-    function get_creationdate()
+    function get_creation_date()
     {
-        return $this->get_default_property(self :: PROPERTY_CREATIONDATE);
+        return $this->get_default_property(self :: PROPERTY_CREATION_DATE);
     }
     
-    function get_alloweddate()
+    function get_allowed_date()
     {
-        return $this->get_default_property(self :: PROPERTY_ALLOWEDDATE);
+        return $this->get_default_property(self :: PROPERTY_ALLOWED_DATE);
     }
 
     function set_course_id($course_id)
@@ -73,6 +80,11 @@ class CourseRequest extends DataClass
         $this->set_default_property(self :: PROPERTY_NAME_USER, $name_user);
     }
     
+    function set_course_name($course_name)
+    {
+    	$this->set_default_property(self :: PROPERTY_COURSE_NAME, $course_name);
+    }
+    
     function set_title($title)
     {
     	$this->set_default_property(self :: PROPERTY_TITLE, $title);
@@ -83,19 +95,27 @@ class CourseRequest extends DataClass
         $this->set_default_property(self :: PROPERTY_MOTIVATION, $motivation);
     }
     
-    function set_creationdate($creationdate)
+    function set_creation_date($creation_date)
     {
-        $this->set_default_property(self :: PROPERTY_CREATIONDATE, $creationdate);
+        $this->set_default_property(self :: PROPERTY_CREATION_DATE, $creation_date);
     }   
 
-    function set_alloweddate($alloweddate)
+    function set_allowed_date($allowed_date)
     {
-         $this->set_default_property(self :: PROPERTY_ALLOWEDDATE, $alloweddate);
+         $this->set_default_property(self :: PROPERTY_ALLOWED_DATE, $allowed_date);
     }
     
 	static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    /*
+	function create()
+    {
+    	if (!parent :: create())
+    		return false;
+    	return true;
+    }
+    */
 }
 ?>

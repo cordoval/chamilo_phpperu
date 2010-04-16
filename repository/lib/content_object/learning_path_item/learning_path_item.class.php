@@ -8,7 +8,14 @@ class LearningPathItem extends ContentObject
     const PROPERTY_REFERENCE = 'reference_id';
     const PROPERTY_MAX_ATTEMPTS = 'max_attempts';
     const PROPERTY_MASTERY_SCORE = 'mastery_score';
+	
+	const CLASS_NAME = __CLASS__;
 
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_REFERENCE, self :: PROPERTY_MAX_ATTEMPTS, self :: PROPERTY_MASTERY_SCORE);

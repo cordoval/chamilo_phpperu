@@ -72,7 +72,7 @@ class ReportingAssessment
         {
             $lo = $publication->get_publication_object();
             $type = $lo->get_type();
-            if ($type == 'assessment')
+            if ($type == Assessment :: get_type_name())
             {
                 $type = $lo->get_assessment_type();
             }

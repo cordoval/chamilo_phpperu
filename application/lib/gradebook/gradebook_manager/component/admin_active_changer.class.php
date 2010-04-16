@@ -16,8 +16,7 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManagerCompon
             exit();
         }
         
-        $evaluation_format_id = Request :: get(GradebookManager :: PARAM_EVALUATION_FORMAT);
-	
+        $evaluation_format_id = Request :: get(GradebookManager :: PARAM_EVALUATION_FORMAT_ID);
         if(!is_array($evaluation_format_id))
         {
         	$evaluation_format_id = array($evaluation_format_id);

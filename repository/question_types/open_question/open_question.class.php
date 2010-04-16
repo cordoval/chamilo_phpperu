@@ -6,7 +6,7 @@
 /**
  * This class represents an open question
  */
-class OpenQuestion extends ContentObject
+abstract class OpenQuestion extends ContentObject
 {
     function get_table()
     {

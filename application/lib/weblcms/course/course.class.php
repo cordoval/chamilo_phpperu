@@ -276,7 +276,7 @@ class Course extends DataClass
      */
     function set_titular($titular)
     {
-        $this->set_default_property(self :: PROPERTY_TITULAR, $titular);
+        $this->set_default_property(self :: PROPERTY_TITULAR, $titular);       
     }
 
     /**
@@ -413,6 +413,11 @@ class Course extends DataClass
      * Setters and validation to see whether they are writable
      */
 
+    function get_titular_fixed()
+    {
+    	return $this->course_type->get_settings()->get_titular_fixed();
+    }
+    
     function get_language_fixed()
     {
     	return $this->course_type->get_settings()->get_language_fixed();

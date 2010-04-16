@@ -29,20 +29,20 @@ class FeedbackManagerCreatorComponent extends FeedbackManagerComponent
         $publication_id = $this->get_publication_id();
         $complex_wrapper_id = $this->get_complex_wrapper_id();
         
-        $objects = Request :: get('object');
-
-        $pub = new RepoViewer($this, 'feedback', false);
+        $pub = new RepoViewer($this, 'feedback');
 		
         $html = array();
 
-        if (! isset($objects))
+        if (!$pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
 
         }
         else
         {
-			if(!is_array($objects))
+			$objects = $pub->get_selected_objects();
+			
+        	if(!is_array($objects))
 			{
 				$objects = array($objects);
 			}

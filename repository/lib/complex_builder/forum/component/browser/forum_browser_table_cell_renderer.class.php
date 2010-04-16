@@ -41,19 +41,19 @@ class ForumBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         $array = array();
         if ($cloi->get_type() == 1)
         {
-            $array[] = array('href' => $this->browser->get_complex_content_object_item_sticky_url($cloi, $this->browser->get_root()), 'label' => Translation :: get('UnSticky'), 'img' => Theme :: get_common_image_path() . 'action_remove_sticky.png');
+            $array[] = array('href' => $this->browser->get_complex_content_object_item_sticky_url($cloi), 'label' => Translation :: get('UnSticky'), 'img' => Theme :: get_common_image_path() . 'action_remove_sticky.png');
             $array[] = array('label' => Translation :: get('ImportantNa'), 'img' => Theme :: get_common_image_path() . 'action_make_important_na.png');
         }
         else
             if ($cloi->get_type() == 2)
             {
                 $array[] = array('label' => Translation :: get('StickyNa'), 'img' => Theme :: get_common_image_path() . 'action_make_sticky_na.png');
-                $array[] = array('href' => $this->browser->get_complex_content_object_item_important_url($cloi, $this->browser->get_root()), 'label' => Translation :: get('UnImportant'), 'img' => Theme :: get_common_image_path() . 'action_remove_important.png');
+                $array[] = array('href' => $this->browser->get_complex_content_object_item_important_url($cloi), 'label' => Translation :: get('UnImportant'), 'img' => Theme :: get_common_image_path() . 'action_remove_important.png');
             }
             else
             {
-                $array[] = array('href' => $this->browser->get_complex_content_object_item_sticky_url($cloi, $this->browser->get_root()), 'label' => Translation :: get('MakeSticky'), 'img' => Theme :: get_common_image_path() . 'action_make_sticky.png');
-                $array[] = array('href' => $this->browser->get_complex_content_object_item_important_url($cloi, $this->browser->get_root()), 'label' => Translation :: get('MakeImportant'), 'img' => Theme :: get_common_image_path() . 'action_make_important.png');
+                $array[] = array('href' => $this->browser->get_complex_content_object_item_sticky_url($cloi), 'label' => Translation :: get('MakeSticky'), 'img' => Theme :: get_common_image_path() . 'action_make_sticky.png');
+                $array[] = array('href' => $this->browser->get_complex_content_object_item_important_url($cloi), 'label' => Translation :: get('MakeImportant'), 'img' => Theme :: get_common_image_path() . 'action_make_important.png');
             }
         return parent :: get_modification_links($cloi, $array, true);
     }

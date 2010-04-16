@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/matching_question_option.class.php';
 
-class MatchingQuestion extends ContentObject
+abstract class MatchingQuestion extends ContentObject
 {
     const PROPERTY_OPTIONS = 'options';
     const PROPERTY_MATCHES = 'matches';

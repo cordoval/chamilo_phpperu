@@ -6,7 +6,7 @@
 /**
  * This class represents an open question
  */
-class RatingQuestion extends ContentObject
+abstract class RatingQuestion extends ContentObject
 {
     const PROPERTY_LOW = 'low';
     const PROPERTY_HIGH = 'high';

@@ -24,13 +24,11 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
         $trail->add_help('personal messenger general');
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: ACTION_FOLDER_INBOX)), Translation :: get('MyPersonalMessenger')));
         
-        $object = Request :: get('object');
-        //$edit = Request :: get('edit');
-        $pub = new RepoViewer($this, 'personal_message', false, RepoViewer :: SELECT_SINGLE);
+        $pub = new RepoViewer($this, 'personal_message', RepoViewer :: SELECT_SINGLE);
         $pub->set_parameter('reply', $reply);
         $pub->set_parameter(PersonalMessengerManager :: PARAM_USER_ID, $user);
         
-        if (! isset($object)) // || $edit == 1)
+        if (!$pub->is_ready_to_be_published())
         {
             if ($reply)
             {
@@ -55,7 +53,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
         {
             //$html[] = 'ContentObject: ';
             $publisher = new PersonalMessagePublisher($pub);
-            $html[] = $publisher->get_publication_form($object);
+            $html[] = $publisher->get_publication_form($pub->get_selected_objects());
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Send')));
         }
         

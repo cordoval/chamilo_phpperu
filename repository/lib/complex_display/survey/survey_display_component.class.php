@@ -21,7 +21,11 @@ class SurveyDisplayComponent extends ComplexDisplayComponent
     {
         return $this->get_parent()->save_answer($complex_question_id, $answer);
     }
-
+	
+//    function get_total_questions(){
+//    	return $this->get_parent()->get_total_questions();
+//    }
+    
     function finish_survey($percent)
     {
         return $this->get_parent()->finish_survey($percent);
@@ -31,12 +35,16 @@ class SurveyDisplayComponent extends ComplexDisplayComponent
     {
         return $this->get_parent()->get_go_back_url();
     }
-
+	
     function parse($value)
     {
         return $this->get_parent()->parse($value);
     }
-	 
+
+//    function get_survey(){
+//    	return $this->get_parent()->get_survey();
+//    }
+    
 }
 
 ?>

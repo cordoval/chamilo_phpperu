@@ -4,9 +4,16 @@
  *
  * @author jevdheyd
  */
-class StreamingVideoClipCuePoint extends ContentObject {
+class StreamingVideoClipCuePoint extends ContentObject 
+{
     const PROPERTY_START_TIME = 'start_time';
+	const CLASS_NAME = __CLASS__;
 
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
     function get_start_time ()
     {
             return $this->get_additional_property(self :: PROPERTY_START_TIME);

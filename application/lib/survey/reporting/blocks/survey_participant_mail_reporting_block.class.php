@@ -24,7 +24,7 @@ class SurveyParticipantMailReportingBlock extends SurveyReportingBlock {
 				case SurveyParticipantMailTracker::STATUS_MAIL_NOT_SEND :
 					$mails [Translation::get ( SurveyParticipantMailTracker::STATUS_MAIL_NOT_SEND )] ++;
 					break;
-				case SurveyParticipantMailTracker::STATUS_STATUS_MAIL_SEND :
+				case SurveyParticipantMailTracker::STATUS_MAIL_SEND :
 					$mails [Translation::get ( SurveyParticipantMailTracker::STATUS_MAIL_SEND )] ++;
 					break;
 							

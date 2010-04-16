@@ -23,20 +23,35 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->count_courses($conditions);
     }
+    
+	function retrieve_request($id)
+	{
+		return $this->get_parent()->retrieve_request($id);
+	}
 
     function get_course_type_deleting_all_courses_url($course_type)
     {
     	return $this->get_parent()->get_course_type_deleting_all_courses_url($course_type);
     }
     
-    function get_move_course_url($course)
+    function get_course_request_deleting_url($request)
     {
-        return $this->get_parent()->get_move_course_url($course);
+    	return $this->get_parent()->get_course_request_deleting_url($request);
+    }
+    
+    function get_course_changing_course_type_url($course)
+    {
+        return $this->get_parent()->get_course_changing_course_type_url($course);
     }
     
 	function count_course_types($conditions = null)
     {
         return $this->get_parent()->count_course_types($conditions);
+    }
+    
+    function count_requests($conditions = null)
+    {
+    	return $this->get_parent()->count_requests($conditions);
     }
 
     /**
@@ -322,6 +337,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_course_types($condition, $offset, $count, $order_property);
     }
     
+    function retrieve_requests($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+    	return $this->get_parent()->retrieve_requests($condition, $offset, $count, $order_property);
+    }
+    
     function retrieve_active_course_types()
     {
     	return $this->get_parent()->retrieve_active_course_types();
@@ -409,6 +429,10 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
         return $this->get_parent()->get_course_editing_url($course);
     }
 
+    function get_course_request_editing_url($request)
+    {
+    	return $this->get_parent()->get_course_request_editing_url($request);
+    }
     /**
      * @see WeblcmsManager :: get_course_maintenance_url()
      */
@@ -439,7 +463,7 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
     	return $this->get_parent()->get_course_type_editing_url($course_type);
     }
-
+    
     function get_course_type_maintenance_url($course_type)
     {
     	return $this->get_parent()->get_course_type_maintenance_url($course_type);

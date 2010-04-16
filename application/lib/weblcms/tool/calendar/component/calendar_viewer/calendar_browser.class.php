@@ -136,7 +136,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
         $conditions[] = new OrCondition($access);
         
         $subselect_conditions = array();
-        $subselect_conditions[] = new EqualityCondition('type', 'calendar_event');
+        $subselect_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, CalendarEvent :: get_type_name());
         if ($this->get_parent()->get_condition())
         {
             $subselect_conditions[] = $this->get_parent()->get_condition();

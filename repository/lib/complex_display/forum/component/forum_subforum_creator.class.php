@@ -22,15 +22,13 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplayComponent
                 $this->display_footer();
             }
             
-            $pub = new RepoViewer($this, 'forum', true, RepoViewer :: SELECT_MULTIPLE, array(), false, false);
+            $pub = new RepoViewer($this, 'forum', RepoViewer :: SELECT_SINGLE, array(), false);
             $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_SUBFORUM);
             $pub->set_parameter('pid', $pid);
             $pub->set_parameter('forum', $forum);
             $pub->set_parameter('is_subforum', $is_subforum);
             
-            $object_id = Request :: get('object');
-            
-            if (! isset($object_id))
+            if (!$pub->is_ready_to_be_published())
             {
                 $html[] = '<p><a href="' . $this->get_url(array('forum' => $forum, 'pid' => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();
@@ -53,7 +51,7 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplayComponent
                     $cloi->set_parent($forum);
                 }
                 
-                $cloi->set_ref($object_id);
+                $cloi->set_ref($pub->get_selected_objects());
                 $cloi->set_user_id($this->get_user_id());
                 $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($forum));
                 

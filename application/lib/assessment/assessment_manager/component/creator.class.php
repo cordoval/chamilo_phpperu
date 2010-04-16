@@ -24,17 +24,16 @@ class AssessmentManagerCreatorComponent extends AssessmentManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateAssessmentPublication')));
         
-        $object = Request :: get('object');
-        $pub = new RepoViewer($this, array('assessment', 'survey', 'hotpotatoes'), true);
+        $pub = new RepoViewer($this, array(Assessment :: get_type_name(), Survey :: get_type_name(), Hotpotatoes :: get_type_name()));
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
         }
         else
         {
             $publisher = new AssessmentPublisher($pub);
-            $html[] = $publisher->get_publications_form($object);
+            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
         }
         
         $this->display_header($trail);

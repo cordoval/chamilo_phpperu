@@ -32,8 +32,7 @@ class ToolFeedbackPublisherComponent extends ToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK)), Translation :: get('AddFeedback')));
         $trail->add_help('courses general');
         
-        $object = Request :: get('object');
-        $pub = new ContentObjectRepoViewer($this, 'feedback', true);
+        $pub = new ContentObjectRepoViewer($this, 'feedback');
         $pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_FEEDBACK);
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
             $pub->set_parameter(Tool :: PARAM_PUBLICATION_ID, Request :: get(Tool :: PARAM_PUBLICATION_ID));
@@ -41,7 +40,7 @@ class ToolFeedbackPublisherComponent extends ToolComponent
         if (Request :: get('cid') != null)
             $pub->set_parameter('cid', Request :: get('cid'));
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
             $html[] = $pub->as_html();
@@ -52,7 +51,7 @@ class ToolFeedbackPublisherComponent extends ToolComponent
         else
         {
             $feedback = new Feedback();
-            $feedback->set_id($object);
+            $feedback->set_id($pub->get_selected_objects());
             $id = Request :: get('cid') != null ? Request :: get('cid') : Request :: get(Tool :: PARAM_PUBLICATION_ID);
             $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             

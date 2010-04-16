@@ -55,7 +55,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
         echo '<a name="top"></a>';
         
         echo $this->action_bar->as_html();
-        echo '<div id="trailbox2">' . $trail->render() . '</div>';
+        //echo '<div id="trailbox2">' . $trail->render() . '</div>';
         echo '<div class="clear"></div><br />';
         echo $table->toHtml();
         echo '<br />';
@@ -185,13 +185,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
 
     private function format_message($message)
     {
-        //$message = BbcodeParser :: get_instance()->parse($message);
-        //$message = preg_replace('#\[quote(?:="(.*?)")\]((?!\[quote(?:=".*?")\]).)?#ise',
-        //						"<div class=\"quotetitle\">'\$1':</div><div class=\"quotecontent\">'\$2'" ,$message);
-        
-
-        $message = preg_replace('[\[quote="(.*)"\]]', "<div class=\"quotetitle\">$1 " . Translation :: get('wrote') . ":</div><div class=\"quotecontent\">", $message);
-        
+    	$message = preg_replace('/\[quote=("|&quot;)(.*)("|&quot;)\]/', "<div class=\"quotetitle\">$2 " . Translation :: get('wrote') . ":</div><div class=\"quotecontent\">", $message);
         $message = str_replace('[/quote]', '</div>', $message);
         
         return $message;
@@ -207,13 +201,13 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
         $actions[] = array('href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_QUOTE_FORUM_POST, 'quote' => $cloi->get_id())), 'label' => Translation :: get('Quote'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif');
         
         $actions[] = array('href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_CREATE_FORUM_POST, 'reply' => $cloi->get_id())), 'label' => Translation :: get('Reply'), 'img' => Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif');
-        
-        if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+
+        if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT) || $cloi->get_user_id() == $this->get_user_id())
         {
             $actions[] = array('href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_EDIT_FORUM_POST, 'post' => $cloi->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_edit.gif');
         }
         
-        if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
+        if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT) || $cloi->get_user_id() == $this->get_user_id())
         {
             $actions[] = array('href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_FORUM_POST, 'post' => $cloi->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif', 'confirm' => true);
         }

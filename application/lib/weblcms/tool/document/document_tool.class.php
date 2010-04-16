@@ -23,10 +23,8 @@ class DocumentTool extends Tool
     {
         $action = $this->get_action();
         $component = parent :: run();
-        
         if ($component)
             return;
-        
         switch ($action)
         {
             case self :: ACTION_VIEW_DOCUMENTS :
@@ -55,7 +53,7 @@ class DocumentTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('document');
+        return array(Document :: get_type_name());
     }
 }
 ?>

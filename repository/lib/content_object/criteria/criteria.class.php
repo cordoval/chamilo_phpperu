@@ -14,6 +14,13 @@ class Criteria extends ContentObject
 {
 	const PROPERTY_OPTIONS = 'options';
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
     public function add_option($option)
     {
         $options = $this->get_options();

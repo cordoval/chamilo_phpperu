@@ -29,14 +29,12 @@ class ToolComplexCreatorComponent extends ToolComponent
             
             $type = Request :: get('type');
             
-            $pub = new ContentObjectRepoViewer($this, $type, true);
+            $pub = new ContentObjectRepoViewer($this, $type, RepoViewer :: SELECT_SINGLE);
             $pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_CREATE_CLOI);
             $pub->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
             $pub->set_parameter('type', $type);
             
-            $object_id = Request :: get('object');
-            
-            if (! isset($object_id))
+            if (!$pub->is_ready_to_be_published())
             {
                 $html[] = '<p><a href="' . $this->get_url(array('type' => $type, Tool :: PARAM_PUBLICATION_ID => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();
@@ -48,7 +46,7 @@ class ToolComplexCreatorComponent extends ToolComponent
             {
                 $cloi = ComplexContentObjectItem :: factory($type);
                 
-                $cloi->set_ref($object_id);
+                $cloi->set_ref($pub->get_selected_objects());
                 $cloi->set_user_id($this->get_user_id());
                 $cloi->set_parent(WebLcmsDataManager :: get_instance()->retrieve_content_object_publication($pid)->get_content_object()->get_id());
                 $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($pid));

@@ -113,7 +113,8 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $max_objects = null;
         }
-        //echo $query; dump($params);
+//        echo $query; dump($params);
+      
         $this->set_limit(intval($max_objects), intval($offset));
         $res = $this->query($query);
         return new DatabaseContentObjectResultSet($this, $res, false);
@@ -448,7 +449,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function is_only_document_occurence($path)
     {
         $condition = new EqualityCondition(Document :: PROPERTY_PATH, $path);
-        $count = $this->count_objects('document', $condition);
+        $count = $this->count_objects(Document :: get_type_name(), $condition);
 
         return ($count == 1 ? true : false);
     }

@@ -23,18 +23,18 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
         
-        $object = Request :: get('object');
         $parent = Request :: get('parent');
         //HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
-        $types = array('portfolio', 'announcement', 'blog_item', 'calendar_event', 'description', 'document', 'link', 'note', 'rss_feed', 'profile', 'youtube');
+        $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), 
+        			   Description :: get_type_name(), Document :: get_type_name(), Link :: get_type_name(), Note :: get_type_name(), RssFeed :: get_type_name(), Profile :: get_type_name(), Youtube :: get_type_name());
         
-        $pub = new RepoViewer($this, $types, false, RepoViewer :: SELECT_MULTIPLE, array(), false, false);
+        $pub = new RepoViewer($this, $types, RepoViewer :: SELECT_MULTIPLE, array(), false);
         $pub->set_parameter('parent', $parent);
         $pp = Request :: get(PortfolioManager::PARAM_PARENT_PORTFOLIO);
         $pub->set_parameter(PortfolioManager::PARAM_PARENT_PORTFOLIO, $pp);
         $pub->parse_input_from_table();
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $this->display_header($trail);
             echo $pub->as_html();
@@ -42,20 +42,21 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
         }
         else
         {
-            if (! is_array($object))
-                $objects = array($object);
-            else
-                $objects = $object;
+            $objects = $pub->get_selected_objects();
+        	if (! is_array($objects))
+        	{
+                $objects = array($objects);
+        	}
             
             $rdm = RepositoryDataManager :: get_instance();
             $success = true;
             
             foreach ($objects as $object)
             {
-                $new_object = ContentObject :: factory('portfolio_item');
+                $new_object = ContentObject :: factory(PortfolioItem :: get_type_name());
                 $new_object->set_owner_id($this->get_user_id());
-                $new_object->set_title('portfolio_item');
-                $new_object->set_description('portfolio_item');
+                $new_object->set_title(PortfolioItem :: get_type_name());
+                $new_object->set_description(PortfolioItem :: get_type_name());
                 $new_object->set_parent_id(0); 
                 $new_object->set_reference($object);
                 $new_object->create();
@@ -85,7 +86,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
 
                         }
                     }
-                   if($typeObject == 'portfolio')
+                   if($typeObject == Portfolio :: get_type_name())
                    {
                        $type = portfolioRights::PORTFOLIO_FOLDER;
 

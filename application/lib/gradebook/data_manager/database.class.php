@@ -136,7 +136,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		return $this->database->create($evaluation);
 	}
 	
-	function retrieve_all_evaluations_on_publication($publication_id, $offset = null, $max_objects = null, $order_by = null)
+	function retrieve_all_evaluations_on_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
 	{
 		$gdm = GradebookDataManager :: get_instance();
 		$udm = UserDataManager :: get_instance();
@@ -162,9 +162,11 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$query .= ' JOIN ' . $udm->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $udm->escape_column_name(User :: PROPERTY_ID, $user_alias) . ' = ' . $this->database->escape_column_name(Evaluation :: PROPERTY_USER_ID, $gradebook_evaluation_alias); 
 		$query .= ' JOIN ' . $udm->escape_table_name(User :: get_table_name()) . ' AS ' . $user_evaluator_alias . ' ON ' . $udm->escape_column_name(User :: PROPERTY_ID, $user_evaluator_alias) . ' = ' . $this->database->escape_column_name(Evaluation :: PROPERTY_EVALUATOR_ID, $gradebook_evaluation_alias);
 		$query .= ' JOIN ' . $this->database->escape_table_name(Format :: get_table_name()) . ' AS ' . $gradebook_format_alias . ' ON ' . $this->database->escape_column_name(Format :: PROPERTY_ID, $gradebook_format_alias) . ' = ' . $this->database->escape_column_name(Evaluation :: PROPERTY_FORMAT_ID, $gradebook_evaluation_alias);
-		
-		$condition = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id, InternalItem :: get_table_name());
-		$translator = new ConditionTranslator($this->database);
+
+		$conditions = array();
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id, InternalItem :: get_table_name());
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application, InternalItem :: get_table_name());
+		$condition = new AndCondition($conditions);
 		
         return $this->database->retrieve_object_set($query, Evaluation :: get_table_name(), $condition, $offset, $max_objects, $order_by, Evaluation :: CLASS_NAME);
 	}
@@ -182,8 +184,8 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$gradebook_internal_item_instance_alias = $gdm->get_database()->get_alias(InternalItemInstance :: get_table_name());
 		
 		$query = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(InternalItemInstance :: get_table_name()) . ' AS ' . $gradebook_internal_item_instance_alias;
-		$internal_item_id = $this->retrieve_internal_item_by_publication(Request :: get('application'),$publication_id)->get_id();
-		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID, $internal_item_id);
+		$internal_item = $this->retrieve_internal_item_by_publication(Request :: get('application'),$publication_id);
+		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID, $internal_item->get_id());
         return $this->database->count_result_set($query, InternalItemInstance :: get_table_name(), $condition);
 	}
 	
@@ -191,7 +193,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	{
 		$internal_item = $this->retrieve_internal_item_by_publication($application, $publication->get_id());
 		$evaluations_id = $this->retrieve_evaluation_ids_by_internal_item_id($internal_item->get_id())->as_array();
-		$external_item = $this->create_external_item_by_publication($publication);
+		$external_item = $this->create_external_item_by_content_object($publication);
 		$ext_item_inst = $this->create_external_item_instance_by_moving($external_item, $evaluations_id);
 		$del_internal_item = $this->delete_internal_item($internal_item);
 		if(!($internal_item || $evaluations_id || $external_item || $ext_item_inst || $del_internal_item))
@@ -266,7 +268,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	//gradebook grade evaluation
 	function create_grade_evaluation($grade_evaluation)
 	{
-		return $this->database->create($grade_evaluation);
+		return $this->database->create($grade_evaluation, false);
 	}
 	
 	function retrieve_grade_evaluation($id)
@@ -289,7 +291,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	
 	//gradebook external item
 	
-	function create_external_item_by_publication($publication)
+	function create_external_item_by_content_object($publication)
 	{
 		$external_item = new ExternalItem();
 		$external_item->set_title($publication->get_content_object()->get_title());

@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/matrix_question_option.class.php';
 
-class MatrixQuestion extends ContentObject
+abstract class MatrixQuestion extends ContentObject
 {
 	const PROPERTY_OPTIONS = 'options';
     const PROPERTY_MATCHES = 'matches';

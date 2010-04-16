@@ -62,7 +62,7 @@ class OpenQuestionResultDisplay extends QuestionResultDisplay
             return;
         }
         
-        $document = RepositoryDataManager :: get_instance()->retrieve_content_object($answer, 'document');
+        $document = RepositoryDataManager :: get_instance()->retrieve_content_object($answer, Document :: get_type_name());
         
         if ($with_open)
         {

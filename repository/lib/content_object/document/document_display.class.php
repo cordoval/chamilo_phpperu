@@ -16,7 +16,7 @@ class DocumentDisplay extends ContentObjectDisplay
         $object = $this->get_content_object();
         $name = $object->get_filename();
         
-        $url = RepositoryManager :: get_document_downloader_url($object->get_id());
+        $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
         
         $img_extensions = array('jpg', 'jpeg', 'bmp', 'png', 'gif');
         $extension = strtolower(substr($name, strrpos($name, '.') + 1));

@@ -13,6 +13,7 @@ class PeerAssessmentManager extends WebApplication
     
     const PARAM_PEER_ASSESSMENT_PUBLICATION = 'peer_assessment_publication';
     const PARAM_DELETE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS = 'delete_selected_peer_assessment_publications';
+    const PARAM_MOVE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS = 'move_selected_peer_assessment_publications';
     
     const ACTION_DELETE_PEER_ASSESSMENT_PUBLICATION = 'delete_peer_assessment_publication';
     const ACTION_EDIT_PEER_ASSESSMENT_PUBLICATION = 'edit_peer_assessment_publication';
@@ -21,11 +22,11 @@ class PeerAssessmentManager extends WebApplication
     const ACTION_VIEW_PEER_ASSESSMENT = 'view';
     const ACTION_EVALUATE_PEER_ASSESSMENT_PUBLICATION = 'evaluate_peer_assessment_publication';
     
-    const ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY = 'change_visibility';
-    const ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION = 'move';
-    const ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION = 'view_publication';
+    const ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY = 'change_publication_visibility';
+    const ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION = 'move_publication';
+    const ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION = 'take_publication';
     const ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS = 'view_publication_results';
-    const ACTION_BUILD_PEER_ASSESSMENT = 'build';
+    const ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION = 'build_publication';
     
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 
@@ -52,36 +53,48 @@ class PeerAssessmentManager extends WebApplication
         		$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentEvaluation', $this);
         		break;
             case self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS :
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationsBrowser', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Browser', $this);
                 break;
             case self :: ACTION_DELETE_PEER_ASSESSMENT_PUBLICATION :
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationDeleter', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Deleter', $this);
                 break;
             case self :: ACTION_EDIT_PEER_ASSESSMENT_PUBLICATION :
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationUpdater', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Updater', $this);
                 break;
             case self :: ACTION_CREATE_PEER_ASSESSMENT_PUBLICATION :
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationCreator', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Creator', $this);
                 break;
             case self :: ACTION_VIEW_PEER_ASSESSMENT :
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentViewer', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Viewer', $this);
                 break;
             case self :: ACTION_MANAGE_CATEGORIES :
                 $component = PeerAssessmentManagerComponent :: factory('CategoryManager', $this);
                 break;
-            case self :: ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY :
-            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationVisibilityChanger', $this);
+            case self :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION :
+            	$component = PeerAssessmentManagerComponent :: factory('Take', $this);
+            	break;
+            case self :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS :
+            	$component = PeerAssessmentManagerComponent :: factory('Results', $this);
             	break;
             case self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION :
-            	$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationMover', $this);
+            	$component = PeerAssessmentManagerComponent :: factory('Mover', $this);
+            	break;
+            case self :: ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY :
+            	$component = PeerAssessmentManagerComponent :: factory('VisibilityChanger', $this);
+            	break;
+            case self :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION :
+            	$component = PeerAssessmentManagerComponent :: factory('Builder', $this);
             	break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS);
-                $component = PeerAssessmentManagerComponent :: factory('PeerAssessmentPublicationsBrowser', $this);
+                $component = PeerAssessmentManagerComponent :: factory('Browser', $this);
         }
         $component->run();
     }
-
+    
+    /*
+     * Switch statement for the dropdown box function under the table (Remove selected/ Move selected)
+     */
     private function parse_input_from_table()
     {
         if (isset($_POST['action']))
@@ -102,6 +115,23 @@ class PeerAssessmentManager extends WebApplication
                     }
                     
                     $this->set_action(self :: ACTION_DELETE_PEER_ASSESSMENT_PUBLICATION);
+                    $_GET[self :: PARAM_PEER_ASSESSMENT_PUBLICATION] = $selected_ids;
+                    break;
+                    
+              	case self :: PARAM_MOVE_SELECTED_PEER_ASSESSMENT_PUBLICATIONS :
+                    
+                    $selected_ids = $_POST[PeerAssessmentPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+                    
+                    if (empty($selected_ids))
+                    {
+                        $selected_ids = array();
+                    }
+                    elseif (! is_array($selected_ids))
+                    {
+                        $selected_ids = array($selected_ids);
+                    }
+                    
+                    $this->set_action(self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION);
                     $_GET[self :: PARAM_PEER_ASSESSMENT_PUBLICATION] = $selected_ids;
                     break;
             }
@@ -221,9 +251,9 @@ class PeerAssessmentManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
     
-	function get_peer_assessment_publication_viewer_url($peer_assessment_publication)
+	function get_take_peer_assessment_publication_url($peer_assessment_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
     function get_peer_assessment_results_viewer_url($peer_assessment_publication)
@@ -234,7 +264,7 @@ class PeerAssessmentManager extends WebApplication
     
     function get_build_peer_assessment_url($peer_assessment_publication)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_PEER_ASSESSMENT, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION, self :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
     }
 
 	function get_content_object_publication_locations($content_object)

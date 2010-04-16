@@ -4,10 +4,10 @@ require_once dirname(__FILE__) . '/html_editor_video_repo_viewer_component.class
 
 class HtmlEditorVideoRepoViewer extends HtmlEditorRepoViewer
 {
-    function HtmlEditorVideoRepoViewer($parent, $types, $mail_option = false, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true, $redirect = true)
+    function HtmlEditorVideoRepoViewer($parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true)
     {
-        parent :: __construct($parent, $types, $mail_option, $maximum_select, $excluded_objects, $parse_input, $redirect);
-        $this->set_types('document');
+        parent :: __construct($parent, $types, $maximum_select, $excluded_objects, $parse_input);
+        $this->set_types(Document :: get_type_name());
     }
 
     function get_repo_viewer_component($action)

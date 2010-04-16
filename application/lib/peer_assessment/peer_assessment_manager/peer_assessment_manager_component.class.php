@@ -230,9 +230,9 @@ abstract class PeerAssessmentManagerComponent extends ApplicationComponent
         return $this->get_parent()->get_move_peer_assessment_publication_url($peer_assessment_publication);
     }
     
-	function get_peer_assessment_publication_viewer_url($peer_assessment_publication)
+	function get_take_peer_assessment_publication_url($peer_assessment_publication)
     {
-        return $this->get_parent()->get_peer_assessment_publication_viewer_url($peer_assessment_publication);
+        return $this->get_parent()->get_take_peer_assessment_publication_url($peer_assessment_publication);
     }
 
     function get_peer_assessment_results_viewer_url($peer_assessment_publication)
@@ -246,13 +246,7 @@ abstract class PeerAssessmentManagerComponent extends ApplicationComponent
     }
 
     private function load_rights()
-    {
-        /**
-         * Here we set the rights depending on the user status in the course.
-         * This completely ignores the roles-rights library.
-         * TODO: WORK NEEDED FOR PROPPER ROLES-RIGHTS LIBRARY
-         */
-        
+    {      
         $this->rights[VIEW_RIGHT] = true;
         $this->rights[EDIT_RIGHT] = true;
         $this->rights[ADD_RIGHT] = true;
@@ -270,7 +264,7 @@ abstract class PeerAssessmentManagerComponent extends ApplicationComponent
      * @param Profile $peer_assessment The pm in
      * which the created component will be used
      */
-    static function factory($type, $peer_assessment)
+    /*static function factory($type, $peer_assessment)
     {
         $filename = dirname(__FILE__) . '/component/' . Utilities :: camelcase_to_underscores($type) . '.class.php';
         if (! file_exists($filename) || ! is_file($filename))
@@ -280,6 +274,6 @@ abstract class PeerAssessmentManagerComponent extends ApplicationComponent
         $class = 'PeerAssessmentManager' . $type . 'Component';
         require_once $filename;
         return new $class($peer_assessment);
-    }
+    }*/
 }
 ?>

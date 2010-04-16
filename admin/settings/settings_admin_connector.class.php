@@ -83,5 +83,19 @@ class SettingsAdminConnector
 
         return $options;
     }
+    
+	function get_working_hours()
+    {
+        $start = 0;
+        $end = 24;
+        $working_hours = array();
+        
+        for($i = $start; $i <= $end; $i++)
+        {
+        	$working_hours[$i] = $i;
+        }
+        
+        return $working_hours;
+    }
 }
 ?>

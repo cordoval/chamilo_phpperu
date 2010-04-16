@@ -28,15 +28,15 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), Translation :: get('PublishAssessment')));
         $trail->add_help('courses assessment tool');
         
-        $pub = new ContentObjectRepoViewer($this, array('assessment', 'survey', 'hotpotatoes'), true, RepoViewer :: SELECT_MULTIPLE);
+        $pub = new ContentObjectRepoViewer($this, array(Assessment :: get_type_name(), Survey :: get_type_name(), Hotpotatoes :: get_type_name()));
         
-        if (! $pub->any_object_selected())
+        if (! $pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
         }
         else
         {
-            $object_id = Request :: get('object');
+            $object_id = $pub->get_selected_objects();
             
             $publisher = new ContentObjectPublisher($pub);
             $html[] = $publisher->get_publications_form($object_id);

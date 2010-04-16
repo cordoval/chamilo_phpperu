@@ -34,7 +34,7 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
         {
             $id = Request :: get(AssessmentTool :: PARAM_PUBLICATION_ID);
             $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_PUBLICATION_ID => $id)), Translation :: get('ExportResults')));
-            $type = 'assessment';
+            $type = Assessment :: get_type_name();
             $export_form = new AssessmentResultsExportForm($this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_PUBLICATION_ID => $id)));
         }
         

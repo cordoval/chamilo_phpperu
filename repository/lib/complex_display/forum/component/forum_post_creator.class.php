@@ -9,8 +9,6 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
 
     function run()
     {
-        if ($this->get_parent()->get_parent()->is_allowed(ADD_RIGHT))
-        {
             $pid = Request :: get('pid');
             $cid = Request :: get('cid');
             $reply = Request :: get('reply');
@@ -28,7 +26,7 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
                 $reply_lo = $rdm->retrieve_content_object($reply_item->get_ref(), 'forum_post');
             }
             
-            $pub = new RepoViewer($this, 'forum_post', false, RepoViewer :: SELECT_MULTIPLE, array(), false);
+            $pub = new RepoViewer($this, 'forum_post', RepoViewer :: SELECT_MULTIPLE, array(), false);
             $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_FORUM_POST);
             $pub->set_parameter('pid', $pid);
             $pub->set_parameter('cid', $cid);
@@ -46,9 +44,7 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
                 $pub->set_creation_defaults(array('title' => $reply));
             }
             
-            $object_ids = Request :: get('object');
-            
-            if (! isset($object_ids))
+            if (!$pub->is_ready_to_be_published())
             {
                 $html[] = $pub->as_html();
                 $this->display_header(new BreadcrumbTrail());
@@ -57,8 +53,12 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
             }
             else
             {
-                if(!is_array($object_ids))
+                $object_ids = $pub->get_selected_objects();
+                
+            	if(!is_array($object_ids))
+                {
                 	$object_ids = array($object_ids);
+                }
                 	
                 $item = $rdm->retrieve_complex_content_object_item($cid);
                 	
@@ -79,8 +79,6 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
             	
             	$this->my_redirect($pid, $cid);
             }
-        
-        }
     }
 
     private function my_redirect($pid, $cid)

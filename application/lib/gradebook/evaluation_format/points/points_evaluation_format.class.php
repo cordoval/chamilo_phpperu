@@ -7,6 +7,11 @@ class PointsEvaluationFormat extends EvaluationFormat
 	private $score;
 	const DEFAULT_ACTIVE_VALUE = 1;
 	
+	function PointsEvaluationFormat()
+	{
+		
+	}
+	
 	//getters and setters
  	function set_base_score($base_score)
     {
@@ -30,10 +35,25 @@ class PointsEvaluationFormat extends EvaluationFormat
     	return $this->score;
     }
     
+    function get_score_set()
+    {
+    	return null;
+    }
+    
     function get_evaluation()
     {
     	return $this->get_score() . ' / ' . $this->get_base_score();
     }
+    
+	function get_evaluation_field_type()
+	{
+		return 'text';
+	}
+	
+	function get_evaluation_name()
+	{
+		return 'points_evaluation';
+	}
 	
 	function get_default_active_value()
 	{

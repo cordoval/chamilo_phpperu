@@ -14,7 +14,7 @@ class DocumentSlideshowBrowser extends ContentObjectPublicationBrowser
 
     function DocumentSlideshowBrowser($parent, $types)
     {
-        parent :: __construct($parent, 'document');
+        parent :: __construct($parent, Document :: get_type_name());
         $tree_id = 'pcattree';
         //$tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
         $parent->set_parameter($tree_id, Request :: get($tree_id));
@@ -58,7 +58,7 @@ class DocumentSlideshowBrowser extends ContentObjectPublicationBrowser
         }
         $conditions[] = new OrCondition($access);
         
-        $subselect_condition = new EqualityCondition('type', 'document');
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Document :: get_type_name());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         $condition = new AndCondition($conditions);
         

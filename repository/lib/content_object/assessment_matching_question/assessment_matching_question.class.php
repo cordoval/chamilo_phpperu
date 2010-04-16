@@ -7,6 +7,11 @@ require_once PATH :: get_repository_path() . '/question_types/matching_question/
 
 class AssessmentMatchingQuestion extends MatchingQuestion
 {
-   
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
 }
 ?>

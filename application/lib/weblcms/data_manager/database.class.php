@@ -21,6 +21,7 @@ require_once dirname(__FILE__) . '/../course/course_module_last_access.class.php
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group_user_relation.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type.class.php';
+require_once dirname(__FILE__) . '/../course/course_request.class.php';
 require_once dirname(__FILE__) . '/../../../../repository/lib/data_manager/database_repository_data_manager.class.php';
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
 
@@ -271,6 +272,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function count_course_types($condition = null)
 	{
 		return $this->database->count_objects(CourseType :: get_table_name(), $condition);
+	}
+	
+	function count_requests($condition = null)
+	{
+		return $this->database->count_objects(CourseRequest :: get_table_name(), $condition);
 	}
 
 	function count_active_course_types()
@@ -917,6 +923,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return $this->database->create($course_type);
 	}
+	
+	function create_course_request($request)
+	{
+		return $this->database->create($request);
+	}
 
 	function create_course_type_settings($course_type_settings)
 	{
@@ -1204,6 +1215,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$condition = new EqualityCondition(Course :: PROPERTY_ID, $course->get_id());
 		return $this->database->update($course, $condition);
 	}
+	
+	function update_course_request($request)
+	{
+		$condition = new EqualityCondition(CourseRequest :: PROPERTY_ID, $request->get_id());
+		return $this->database->update($request, $condition);
+	}
 
 	function update_course_module($course_module)
 	{
@@ -1480,6 +1497,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$conditions[] = New EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_GROUP_ID, $course_unsubscribe_right->get_group_id());
 		$condition = New AndCondition($conditions);
 		return $this->database->delete_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition);
+	}
+	
+	function delete_course_request($request)
+	{
+		$condition = new EqualityCondition(CourseRequest :: PROPERTY_ID, $request->get_id());
+		return $this->database->delete(CourseRequest :: get_table_name(), $condition);
 	}
 	
 	function delete_course_type($course_type_id)
@@ -1788,6 +1811,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $course_type;
 	}
 	
+	function retrieve_request($id)
+	{
+		$condition = new EqualityCondition(CourseRequest :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(CourseRequest :: get_table_name(), $condition);
+	}
+	
 	function retrieve_empty_course_type()
 	{
 		$course_type = new CourseType();
@@ -1801,6 +1830,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$order_by[] = new ObjectTableOrder(CourseType :: PROPERTY_NAME);
 		return $this->database->retrieve_objects(CourseType :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+	}
+	
+	function retrieve_requests($condition = null, $offset = null, $max_objects = null, $orde_by = null)
+	{
+		$order_by[] = new ObjectTableOrder(CourseRequest :: PROPERTY_TITLE);
+		return $this->database->retrieve_objects(CourseRequest :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	// Inherited
@@ -1884,6 +1919,24 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_id);
 		return $this->database->retrieve_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition);
+	}
+	
+	function retrieve_course_type_group_rights_by_type($course_type_id, $type)
+	{
+		if(CourseGroupSubscribeRight::UNSUBSCRIBE == $type)
+		{
+			$condition = new EqualityCondition(CourseTypeGroupUnsubscribeRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+			return $this->database->retrieve_objects(CourseTypeGroupUnsubscribeRight :: get_table_name(), $condition);
+		}
+		else
+		{
+			$conditions = array();
+			$conditions[] = new EqualityCondition(CourseTypeGroupSubscribeRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+			$conditions[] = new EqualityCondition (CourseTypeGroupSubscribeRight :: PROPERTY_SUBSCRIBE, $type);
+			$condition = new AndCondition($conditions);
+			return $this->database->retrieve_objects(CourseTypeGroupSubscribeRight :: get_table_name(), $condition);
+		}
+		
 	}
 	
 	function retrieve_course_type_group_subscribe_rights($course_type_id)

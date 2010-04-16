@@ -21,7 +21,6 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
         $condition = $this->get_conditions($user);
         
         $publications = $dm->retrieve_content_object_publications_new($condition, array(), 0, - 1);
-        //		$publications = $dm->retrieve_content_object_publications(null, null, $user->get_id(), $course_groups, $condition, false, array (), array (), 0, -1, null, new EqualityCondition('type', 'calendar_event'));
         $result = array();
         while ($publication = $publications->next_result())
         {
@@ -80,7 +79,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
         }
         
         $conditions[] = new OrCondition($access);
-        $subselect_condition = new EqualityCondition('type', 'calendar_event');
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, CalendarEvent :: get_type_name());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         
         return new AndCondition($conditions);

@@ -28,7 +28,7 @@ class VideoContentObjectTableDataProvider extends ContentObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->retrieve_type_content_objects('document', $this->get_condition(), $order_property, $offset, $count);
+        return $dm->retrieve_type_content_objects(Document :: get_type_name(), $this->get_condition(), $order_property, $offset, $count);
     }
 
     /*
@@ -37,7 +37,7 @@ class VideoContentObjectTableDataProvider extends ContentObjectTableDataProvider
     function get_object_count()
     {
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->count_type_content_objects('document', $this->get_condition());
+        return $dm->count_type_content_objects(Document :: get_type_name(), $this->get_condition());
     }
 
     function get_type_conditions()
@@ -46,7 +46,7 @@ class VideoContentObjectTableDataProvider extends ContentObjectTableDataProvider
         $video_conditions = array();
         foreach($video_types as $video_type)
         {
-            $video_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, 'document');
+            $video_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, Document :: get_type_name());
         }
 
         return new OrCondition($video_conditions);

@@ -29,6 +29,7 @@ class RepoViewerViewerComponent extends RepoViewerComponent
 
             $html[] = ContentObjectDisplay :: factory($content_object)->get_full_html();
             $html[] = $toolbar;
+            $html[] = '<div class="clear"></div>';
         }
 
         return implode("\n", $html);

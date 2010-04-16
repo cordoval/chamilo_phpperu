@@ -11,40 +11,42 @@ require_once dirname(__FILE__) . '/component/survey_publication_browser/survey_p
 
 class SurveyManager extends WebApplication
 {
-
+    
     const APPLICATION_NAME = 'survey';
-
+    
     const PARAM_SURVEY_PUBLICATION = 'survey_publication';
+    const PARAM_SURVEY = 'survey';
     const PARAM_SURVEY_PARTICIPANT = 'survey_participant';
     const PARAM_SURVEY_PAGE = 'survey_page';
     const PARAM_SURVEY_QUESTION = 'survey_question';
     const PARAM_MAIL_PARTICIPANTS = 'mail_participant';
     const PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS = 'delete_selected_survey_publications';
-
+    
     const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
     const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
-
+    
     const ACTION_DELETE_SURVEY_PUBLICATION = 'delete';
     const ACTION_EDIT_SURVEY_PUBLICATION = 'edit';
     const ACTION_CREATE_SURVEY_PUBLICATION = 'create';
     const ACTION_BROWSE_SURVEY_PUBLICATIONS = 'browse';
     const ACTION_BROWSE_SURVEY_PAGES = 'browse_pages';
-    const ACTION_BROWSE_SURVEY_PAGE_QUESTIONs = 'browse_page_questions';
+    const ACTION_BROWSE_SURVEY_PAGE_QUESTIONS = 'browse_page_questions';
     const ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES = 'manage_categories';
     const ACTION_VIEW_SURVEY_PUBLICATION = 'view';
     const ACTION_VIEW_SURVEY_PUBLICATION_RESULTS = 'view_results';
     const ACTION_REPORTING = 'reporting';
-
+    const ACTION_QUESTION_REPORTING = 'question_reporting';
+    
     const ACTION_IMPORT_SURVEY = 'import_survey';
     const ACTION_EXPORT_SURVEY = 'export_survey';
     const ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY = 'change_visibility';
     const ACTION_MOVE_SURVEY_PUBLICATION = 'move';
     const ACTION_EXPORT_RESULTS = 'export_results';
     const ACTION_DOWNLOAD_DOCUMENTS = 'download_documents';
-
+    
     const ACTION_MAIL_SURVEY_PARTICIPANTS = 'mail_survey_participants';
-
+    
     const ACTION_BUILD_SURVEY = 'build';
     const ACTION_TESTCASE = 'testcase';
 
@@ -72,7 +74,10 @@ class SurveyManager extends WebApplication
                 break;
             case self :: ACTION_BROWSE_SURVEY_PAGES :
                 $component = SurveyManagerComponent :: factory('PageBrowser', $this);
-                break;    
+                break;
+            case self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS :
+                $component = SurveyManagerComponent :: factory('QuestionBrowser', $this);
+                break;
             case self :: ACTION_TESTCASE :
                 $component = SurveyManagerComponent :: factory('Testcase', $this);
                 break;
@@ -96,6 +101,9 @@ class SurveyManager extends WebApplication
                 break;
             case self :: ACTION_REPORTING :
                 $component = SurveyManagerComponent :: factory('Reporting', $this);
+                break;
+            case self :: ACTION_QUESTION_REPORTING :
+                $component = SurveyManagerComponent :: factory('QuestionReporting', $this);
                 break;
             case self :: ACTION_IMPORT_SURVEY :
                 $component = SurveyManagerComponent :: factory('SurveyImporter', $this);
@@ -124,7 +132,7 @@ class SurveyManager extends WebApplication
             default :
                 $this->set_action(self :: ACTION_BROWSE_SURVEY_PUBLICATIONS);
                 $component = SurveyManagerComponent :: factory('Browser', $this);
-
+        
         }
         $component->run();
     }
@@ -133,12 +141,12 @@ class SurveyManager extends WebApplication
     {
         if (isset($_POST['action']))
         {
-
+            
             if (isset($_POST[SurveyPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
             {
                 $selected_ids = $_POST[SurveyPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
             }
-
+            
             if (empty($selected_ids))
             {
                 $selected_ids = array();
@@ -147,7 +155,7 @@ class SurveyManager extends WebApplication
             {
                 $selected_ids = array($selected_ids);
             }
-
+            
             switch ($_POST['action'])
             {
                 case self :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS :
@@ -159,7 +167,7 @@ class SurveyManager extends WebApplication
                     $_GET[self :: PARAM_SURVEY_PUBLICATION] = $selected_ids;
                     break;
             }
-
+        
         }
     }
 
@@ -169,7 +177,7 @@ class SurveyManager extends WebApplication
     }
 
     // Data Retrieving
-
+    
 
     function count_survey_participant_trackers($condition)
     {
@@ -231,18 +239,48 @@ class SurveyManager extends WebApplication
         return SurveyDataManager :: get_instance()->count_survey_publication_mails($condition);
     }
 
-    function retrieve_survey_publication_mails($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return SurveyDataManager :: get_instance()->retrieve_survey_publication_mails($condition, $offset, $count, $order_property);
-    }
-
     function retrieve_survey_publication_mail($id)
     {
         return SurveyDataManager :: get_instance()->retrieve_survey_publication_mail($id);
     }
 
-    // Url Creation
+    function retrieve_survey_publication_mails($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_publication_mails($condition, $offset, $count, $order_property);
+    }
 
+    function count_survey_pages($condition)
+    {
+        return SurveyDataManager :: get_instance()->count_survey_pages($condition);
+    }
+
+    function retrieve_survey_pages($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_pages($condition, $offset, $count, $order_property);
+    }
+
+    function retrieve_survey_page($page_id)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_page($page_id);
+    }
+
+    function count_survey_questions($condition)
+    {
+        return SurveyDataManager :: get_instance()->count_survey_questions($condition);
+    }
+
+    function retrieve_survey_question($question_id)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_question($question_id);
+    }
+
+    function retrieve_survey_questions($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return SurveyDataManager :: get_instance()->retrieve_survey_questions($condition, $offset, $count, $order_property);
+    }
+
+    // Url Creation
+    
 
     function get_create_survey_publication_url()
     {
@@ -264,12 +302,16 @@ class SurveyManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS), array(self :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
     }
 
-	function get_browse_survey_pages_url()
+    function get_browse_survey_pages_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS), array(self :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES, self :: PARAM_SURVEY => $survey_publication->get_content_object()));
     }
-    
-    
+
+    function get_browse_survey_page_questions_url($survey_page)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS, self :: PARAM_SURVEY_PAGE => $survey_page->get_id()));
+    }
+
     function get_manage_survey_publication_categories_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES));
@@ -294,6 +336,11 @@ class SurveyManager extends WebApplication
     function get_reporting_survey_publication_url($survey_publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+    }
+
+    function get_question_reporting_url($question)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_QUESTION_REPORTING, self :: PARAM_SURVEY_QUESTION => $question->get_id()));
     }
 
     function get_import_survey_url()
@@ -337,7 +384,7 @@ class SurveyManager extends WebApplication
     }
 
     //publications
-
+    
 
     function content_object_is_published($object_id)
     {
@@ -385,7 +432,7 @@ class SurveyManager extends WebApplication
         $form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . SurveyPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
         $form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . SurveyPublication :: PROPERTY_TEST, Translation :: get('TestCase'));
         $form->add_forever_or_timewindow('PublicationPeriod', self :: APPLICATION_NAME . '_opt_');
-
+        
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
         $locale = array();
@@ -396,9 +443,9 @@ class SurveyManager extends WebApplication
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         $attributes['options'] = array('load_elements' => false);
-
+        
         $form->add_receivers(self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
-
+        
         $form->addElement('category');
         $form->addElement('html', '<br />');
         $defaults[self :: APPLICATION_NAME . '_opt_forever'] = 1;
@@ -409,7 +456,7 @@ class SurveyManager extends WebApplication
     function get_content_object_publication_locations($content_object)
     {
         $allowed_types = array('survey');
-
+        
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
@@ -420,27 +467,27 @@ class SurveyManager extends WebApplication
                 $locations[$category->get_id()] = $category->get_name() . ' - category';
             }
             $locations[0] = Translation :: get('RootSurveyCategory');
-
+            
             return $locations;
         }
-
+        
         return array();
     }
 
     function publish_content_object($content_object, $location, $attributes)
     {
-
+        
         if (! SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', 'sts_component'))
         {
             return Translation :: get('NoRightsForSurveyPublication');
         }
-
+        
         $publication = new SurveyPublication();
         $publication->set_content_object($content_object->get_id());
         $publication->set_publisher(Session :: get_user_id());
         $publication->set_published(time());
         $publication->set_category($location);
-
+        
         if ($attributes[SurveyPublication :: PROPERTY_HIDDEN] == 1)
         {
             $publication->set_hidden(1);
@@ -449,7 +496,7 @@ class SurveyManager extends WebApplication
         {
             $publication->set_hidden(0);
         }
-
+        
         if ($attributes['forever'] == 1)
         {
             $publication->set_from_date(0);
@@ -460,7 +507,7 @@ class SurveyManager extends WebApplication
             $publication->set_from_date(Utilities :: time_from_datepicker($attributes['from_date']));
             $publication->set_to_date(Utilities :: time_from_datepicker($attributes['to_date']));
         }
-
+        
         if ($attributes[SurveyPublication :: PROPERTY_TEST] == 1)
         {
             $publication->set_test(1);
@@ -469,7 +516,7 @@ class SurveyManager extends WebApplication
         {
             $publication->set_test(0);
         }
-
+        
         if ($attributes[self :: PARAM_TARGET_OPTION] != 0)
         {
             $user_ids = $attributes[self :: PARAM_TARGET_ELEMENTS]['user'];
@@ -484,10 +531,10 @@ class SurveyManager extends WebApplication
                 $user_ids[] = $user->get_id();
             }
         }
-
+        
         $publication->set_target_users($user_ids);
         $publication->set_target_groups($group_ids);
-
+        
         $publication->create();
         return Translation :: get('PublicationCreated');
     }

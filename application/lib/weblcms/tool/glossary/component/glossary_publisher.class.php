@@ -22,10 +22,9 @@ class GlossaryToolPublisherComponent extends GlossaryToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
         $trail->add_help('courses glossary tool');
         
-        $object = Request :: get('object');
-        $pub = new ContentObjectRepoViewer($this, 'glossary', true);
+        $pub = new ContentObjectRepoViewer($this, 'glossary');
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
         }
@@ -33,7 +32,7 @@ class GlossaryToolPublisherComponent extends GlossaryToolComponent
         {
             //$html[] = 'ContentObject: ';
             $publisher = new ContentObjectPublisher($pub);
-            $html[] = $publisher->get_publications_form($object);
+            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
         }
         
         $this->display_header($trail, true);

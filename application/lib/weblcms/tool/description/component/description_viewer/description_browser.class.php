@@ -21,7 +21,7 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
      */
     function DescriptionBrowser($parent, $types)
     {
-        parent :: __construct($parent, 'description');
+        parent :: __construct($parent, Description :: get_type_name());
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) && $parent->get_action() == 'view')
         {
             $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
@@ -84,7 +84,7 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
         $conditions[] = new OrCondition($access);
         
         $subselect_conditions = array();
-        $subselect_conditions[] = new EqualityCondition('type', 'description');
+        $subselect_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Description :: get_type_name());
         if ($this->get_parent()->get_condition())
         {
             $subselect_conditions[] = $this->get_parent()->get_condition();

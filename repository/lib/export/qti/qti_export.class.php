@@ -29,10 +29,10 @@ class QtiExport extends ContentObjectExport
     {
         switch ($content_object->get_type())
         {
-            case 'assessment' :
+            case Assessment :: get_type_name() :
                 $exporter = new AssessmentQtiExport($content_object);
                 break;
-            case 'survey' :
+            case Survey :: get_type_name() :
                 $exporter = new AssessmentQtiExport($content_object);
                 break;
             default :
