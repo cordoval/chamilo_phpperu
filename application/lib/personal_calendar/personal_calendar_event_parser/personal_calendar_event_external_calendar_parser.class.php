@@ -15,9 +15,7 @@ class PersonalCalendarEventExternalCalendarParser extends PersonalCalendarEventP
         $calendar_events = $object->get_events();
         foreach ($calendar_events as $calendar_event)
         {           
-        	dump($calendar_event->summary);
         	//$object->get_repeats($calendar_event, $from_date, $to_date);
-        	dump($object->get_repeats($calendar_event, $from_date, $to_date));
 //        	if ($object->repeats($calendar_event))
 //            {
 //            	dump($calendar_event);
