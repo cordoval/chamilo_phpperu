@@ -1,13 +1,13 @@
 <?php
 /**
- * $Id: mover.class.php 224 2010-04-06 14:40:30Z Yannick $
+ * $Id: course_change_course_type.class.php 224 2010-04-06 14:40:30Z Yannick $
  * @package applicatie.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
-require_once dirname(__FILE__) . '/../../course/course_move_form.class.php';
+require_once dirname(__FILE__) . '/../../course/course_change_course_type_form.class.php';
 
-class WeblcmsManagerCourseMoveComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManagerComponent
 {
 
 	private $form;
@@ -33,7 +33,7 @@ class WeblcmsManagerCourseMoveComponent extends WeblcmsManagerComponent
         }        
         $course = $this->retrieve_courses(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)))->next_result();
         
-        $this->form = new CourseMoveForm($this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_codes)), $course);
+        $this->form = new CourseChangeCourseTypeForm($this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_codes)), $course);
         
         if ($this->form->validate())
         {   	        	
@@ -57,26 +57,26 @@ class WeblcmsManagerCourseMoveComponent extends WeblcmsManagerComponent
             	{
                 	if (count($course_codes) == 1)
                 	{
-                    	$message = 'SelectedCourseMoved';
+                    	$message = 'SelectedCourseCourseTypeChanged';
                 	}
                	 	else
                 	{
-                	    $message = 'SelectedCoursesNotMoved';
+                	    $message = 'SelectedCoursesCourseTypeNotChanged';
                 	}
           	  	}
           	  	else
            	 	{
              	   if (count($course_codes) == 1)
              	   {
-             	       $message = 'SelectedCourseMoved';
+             	       $message = 'SelectedCourseCourseTypeChanged';
              	   }
              	   else
               	   {
-              	      $message = 'SelectedCoursesMoved';
+              	      $message = 'SelectedCoursesCourseTypeChanged';
               	   }
             	}
             	$parent = $this->form->get_new_parent();
-            	$this->redirect(!$failures ? Translation :: get('CourseMoved') : Translation :: get('CourseNotMoved'), !$failures ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent));    	
+            	$this->redirect(!$failures ? Translation :: get('CourseCourseTypeChanged') : Translation :: get('CourseCourseTypeNotChanged'), !$failures ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent));    	
             }
             else
             {
@@ -85,7 +85,7 @@ class WeblcmsManagerCourseMoveComponent extends WeblcmsManagerComponent
         }
         else
         {
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ChangeCourseType')));
             $this->display_header($trail);
             //echo Translation :: get('Course') . ': ' . $course->get_name();
             $this->form->display();
