@@ -30,7 +30,7 @@ class DocumentToolPublisherComponent extends DocumentToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
         $trail->add_help('courses document tool');
         
-        $pub = new ContentObjectRepoViewer($this, 'document', true);
+        $pub = new ContentObjectRepoViewer($this, 'document');
         
         if (!$pub->is_ready_to_be_published())
         {

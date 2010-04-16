@@ -39,11 +39,6 @@ abstract class RepoViewerComponent
         return $this->get_parent()->get_maximum_select();
     }
 
-    function redirect_complex($type)
-    {
-        return $this->get_parent()->redirect_complex($type);
-    }
-
     /**
      * @see ObjectRepoViewer::get_user_id()
      */

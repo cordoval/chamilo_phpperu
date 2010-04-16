@@ -35,7 +35,7 @@ class WikiToolPublisherComponent extends WikiToolComponent
         /*
          *  We make use of the ContentObjectRepoViewer setting the type to wiki
          */
-        $pub = new ContentObjectRepoViewer($this, 'wiki', false);
+        $pub = new ContentObjectRepoViewer($this, 'wiki');
         
         /*
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object

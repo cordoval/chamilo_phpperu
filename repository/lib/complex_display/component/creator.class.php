@@ -25,7 +25,7 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
             
             $type = Request :: get('type');
             
-            $pub = new RepoViewer($this, $type, true, RepoViewer :: SELECT_SINGLE, array(), false);
+            $pub = new RepoViewer($this, $type, RepoViewer :: SELECT_SINGLE, array(), false);
             $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ComplexDisplay :: ACTION_CREATE);
             $pub->set_parameter('pid', $pid);
             $pub->set_parameter('cid', $cid);

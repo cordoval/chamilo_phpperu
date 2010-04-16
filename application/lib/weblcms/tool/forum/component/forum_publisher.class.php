@@ -21,7 +21,7 @@ class ForumToolPublisherComponent extends ForumToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses forum tool');
         
-        $pub = new ContentObjectRepoViewer($this, 'forum', true);
+        $pub = new ContentObjectRepoViewer($this, 'forum');
         
         if (!$pub->is_ready_to_be_published())
         {

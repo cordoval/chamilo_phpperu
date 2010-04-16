@@ -32,7 +32,7 @@ class ToolFeedbackPublisherComponent extends ToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK)), Translation :: get('AddFeedback')));
         $trail->add_help('courses general');
         
-        $pub = new ContentObjectRepoViewer($this, 'feedback', true);
+        $pub = new ContentObjectRepoViewer($this, 'feedback');
         $pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_FEEDBACK);
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
             $pub->set_parameter(Tool :: PARAM_PUBLICATION_ID, Request :: get(Tool :: PARAM_PUBLICATION_ID));

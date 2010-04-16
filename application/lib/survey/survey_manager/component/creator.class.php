@@ -41,7 +41,7 @@ class SurveyManagerCreatorComponent extends SurveyManagerComponent
         }
         
         $object_ids = Request :: get(RepoViewer :: PARAM_ID);
-        $pub = new RepoViewer($this, array(SurveyManager::APPLICATION_NAME), true);
+        $pub = new RepoViewer($this, array('survey'));
         
         $html = array();
         

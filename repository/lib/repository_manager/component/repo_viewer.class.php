@@ -16,7 +16,7 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManagerComponent
     function run()
     {
         Display :: small_header();
-        $pub = new RepoViewer($this, 'document', false, RepoViewer :: SELECT_SINGLE, array(), true, false);
+        $pub = new RepoViewer($this, 'document', RepoViewer :: SELECT_SINGLE, array(), true);
         if (!$pub->is_ready_to_be_published())
         {
             echo $pub->as_html();

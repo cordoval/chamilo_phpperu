@@ -20,7 +20,7 @@ class LearningPathToolPublisherComponent extends LearningPathToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses learnpath tool');
         
-        $pub = new ContentObjectRepoViewer($this, 'learning_path', true);
+        $pub = new ContentObjectRepoViewer($this, 'learning_path');
         
         if (!$pub->is_ready_to_be_published())
         {

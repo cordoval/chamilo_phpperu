@@ -26,7 +26,7 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
                 $reply_lo = $rdm->retrieve_content_object($reply_item->get_ref(), 'forum_post');
             }
             
-            $pub = new RepoViewer($this, 'forum_post', false, RepoViewer :: SELECT_MULTIPLE, array(), false);
+            $pub = new RepoViewer($this, 'forum_post', RepoViewer :: SELECT_MULTIPLE, array(), false);
             $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_FORUM_POST);
             $pub->set_parameter('pid', $pid);
             $pub->set_parameter('cid', $cid);

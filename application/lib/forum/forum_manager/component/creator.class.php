@@ -25,7 +25,7 @@ class ForumManagerCreatorComponent extends ForumManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForumPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishForum')));
         
-        $pub = new RepoViewer($this, 'forum', true);
+        $pub = new RepoViewer($this, 'forum');
         
         if (!$pub->is_ready_to_be_published())
         {

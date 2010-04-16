@@ -21,7 +21,7 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
                 $this->display_error_message(Translation :: get('NoParentSelected'));
             }
             
-            $pub = new RepoViewer($this, 'forum_topic', true, RepoViewer :: SELECT_MULTIPLE, array(), false);
+            $pub = new RepoViewer($this, 'forum_topic', RepoViewer :: SELECT_MULTIPLE, array(), false);
             $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_TOPIC);
             $pub->set_parameter('pid', $pid);
             $pub->set_parameter('forum', $forum);

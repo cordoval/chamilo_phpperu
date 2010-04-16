@@ -20,7 +20,7 @@ class AlexiaManagerPublisherComponent extends AlexiaManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
         $trail->add_help('alexia general');
         
-        $pub = new RepoViewer($this, 'link', true);
+        $pub = new RepoViewer($this, 'link');
         
         if (! $pub->is_ready_to_be_published())
         {

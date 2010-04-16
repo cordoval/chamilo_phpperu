@@ -19,7 +19,7 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
         $trail->add_help('repository assessment builder');
         $assessment = $this->get_root_lo();
         
-        $pub = new ComplexRepoViewer($this, 'assessment', false, RepoViewer :: SELECT_SINGLE);
+        $pub = new ComplexRepoViewer($this, 'assessment', RepoViewer :: SELECT_SINGLE);
         $pub->set_parameter(ComplexBuilder :: PARAM_ROOT_LO, $assessment->get_id());
         $pub->set_parameter('publish', Request :: get('publish'));
         
