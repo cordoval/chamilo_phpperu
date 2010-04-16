@@ -53,7 +53,6 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManagerCompone
         $url = $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pids));
         $form = new FormValidator('peer_assessment_publication_mover', 'post', $url);
         
-
         return $form;
 	} 
 }

@@ -15,7 +15,7 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManagerCompone
      */
     function run()
     {
-        /*$trail = new BreadcrumbTrail();
+        $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('PeerAssessment')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdatePeerAssessmentPublication')));
         
@@ -24,12 +24,13 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManagerCompone
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $peer_assessment_publication->get_content_object(), 'edit', 'post', $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id())));
         $this->display_header($trail);
         
+        
 		if ($form->validate() || Request :: get('validated'))
         {
             if (! Request :: get('validated'))
                 $success = $form->update_content_object();
             
-            pub_form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_EDIT, $peer_assessment_publication, $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id(), 'validated' => 1)), $this->get_user());
+            $pub_form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_EDIT, $peer_assessment_publication, $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id(), 'validated' => 1)), $this->get_user());
             if ($pub_form->validate())
             {
                 $success = $pub_form->update_content_object();
@@ -48,7 +49,7 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManagerCompone
             $form->display();
         }
         
-        $this->display_footer();*/
+        $this->display_footer();
     }
 }
 ?>

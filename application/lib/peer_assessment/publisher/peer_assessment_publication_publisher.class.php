@@ -50,6 +50,7 @@ class PeerAssessmentPublicationPublisher
 
     function publish_content_object($object)
     {
+    	
     	$parameters = $this->parent->get_parameters();
         $parameters['object'] = $object;
         
@@ -57,53 +58,58 @@ class PeerAssessmentPublicationPublisher
         
     	if ($form->validate())
         {
-        	// Create a peer assessment object in the repository
-            $create = $form->create_object();
-            // Publish a peer assessment object 
-            $publish = $this->publish_object();
-            
-            if (!$publish)
-            {
-                $message = Translation :: get('ObjectNotPublished');
-            }
-            else
-            {
-                $message = Translation :: get('ObjectPublished');
-            }           	
-            $this->parent->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
-       
+        	// Inserting the data to the peer assessment publication database table
+        	
+	        $author = $publisher = $this->parent->get_user_id();
+	        $date = mktime(date());
+	        
+	        $values = $this->exportValues();
+	        if ($values[self :: PARAM_FOREVER] != 0)
+	        {
+	            $from = $to = 0;
+	        }
+	        else
+	        {
+	            $from = Utilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
+	            $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
+	        }
+	        $hidden = ($values[PeerAssessmentPublication :: PROPERTY_HIDDEN] ? 1 : 0);
+	
+	        $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
+	        $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+	        
+	        $pb = new PeerAssessmentPublication();
+	        $pb->set_content_object($object);
+	        $pb->set_parent_id($author);
+	        $pb->set_category(0);
+	        $pb->set_published($date);
+	        $pb->set_modified(0);
+	        
+	        $pb->set_publisher($publisher);
+			$pb->set_from_date(0);
+			$pb->set_to_date(0);		
+			$pb->set_hidden(0);
+			$pb->set_target_users(0);
+	        $pb->set_target_groups(0);
+	        
+	        if (! $pb->create())
+	        {
+	            $error = true;
+	        }
+	        
+	        if ($error)
+	        {
+	            $message = Translation :: get('ObjectNotPublished');
+	        }
+	        else
+	        {
+	            $message = Translation :: get('ObjectPublished');
+	        }
+	        
+	        $this->parent->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));       
+	 
         }
     }
     
-    function publish_object()
-    {
-		$author = $this->parent->get_user_id();
-        $date = mktime(date());
-        
-        $pb = new PeerAssessmentPublication();
-        $pb->set_content_object($object);
-        $pb->set_parent_id($author);
-        $pb->set_category(0);
-        $pb->set_published($date);
-		$pb->set_modified(0);
-        //$pb->set_modified($date);
-        
-        if (! $pb->create())
-        {
-            $error = true;
-        }
-        
-        if ($error)
-        {
-            $message = Translation :: get('ObjectNotPublished');
-        }
-        else
-        {
-            $message = Translation :: get('ObjectPublished');
-        }
-           
-        $this->parent->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));       
-        //$this->parent->redirect($message, false);       
-    }
 }
 ?>
