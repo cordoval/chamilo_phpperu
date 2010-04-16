@@ -25,6 +25,10 @@ class ToolDeleteComponent extends ToolComponent
             foreach ($publication_ids as $index => $pid)
             {
                 $publication = $datamanager->retrieve_content_object_publication($pid);
+                if($this->get_parent()->retrieve_evaluation_ids_by_publication($pid))
+            	{
+            		$this->get_parent()->move_internal_to_external($publication);
+            	}
                 $publication->delete();
             }
             if (count($publication_ids) > 1)

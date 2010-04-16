@@ -30,11 +30,21 @@ class EvaluationForm extends FormValidator
         $this->form_type = $form_type;
         $this->publisher_id = $publisher_id;
 		if($this->form_type == self :: TYPE_CREATE)
-			$this->build_evaluation_format_element();
+		{
+	    	$this->addElement('category', Translation :: get('FormatType'));
+	    	$this->build_evaluation_format_element();
+	    	$this->addElement('category');
+	    	
+		}
+			
 		else
 		{
+			$this->addElement('category', Translation :: get('FormatType'));
 			$this->build_evaluation_format_element();
+			$this->addElement('category');
+			$this->addElement('category', Translation :: get('EvaluationProperties'));
 			$this->build_editing_form();
+			$this->addElement('category');
 		}
 		$this->setEvaluationDefaults();
     }
@@ -76,8 +86,7 @@ class EvaluationForm extends FormValidator
     		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_name(), Translation :: get('score'), $this->evaluation_format->get_score_set());
     	}
 		$this->addRule($this->evaluation_format->get_evaluation_name(), Translation :: get('ThisFieldIsRequired'), 'required');
-		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('Comment'), true);
-		$this->addRule(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('Comment'), false);
     }
     
     function build_evaluation_format_element()
@@ -106,13 +115,13 @@ class EvaluationForm extends FormValidator
 
     function build_creation_form()
     {
-    	
-    	$this->build_basic_form();
+		$this->build_basic_form();
 		
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 			
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+        
     }
 //    
 //    static function create_internal_item($publication)
@@ -198,6 +207,7 @@ class EvaluationForm extends FormValidator
     
 	function setEvaluationDefaults($defaults = array ())
 	{
+		
 		$grade_evaluation = $this->grade_evaluation;
 		$evaluation = $this->evaluation;
 		if ($grade_evaluation->get_score())
@@ -219,13 +229,12 @@ class EvaluationForm extends FormValidator
 		$values = $this->getSubmitValues();
 		if($values['format_id'] > 0)
 		{
-	        if ($this->form_type == self :: TYPE_EDIT)
+	        if ($this->form_type == self :: TYPE_CREATE)
 	        {
-	            $this->build_editing_form();
-	        }
-	        elseif ($this->form_type == self :: TYPE_CREATE)
-	        {
+	        	$this->addElement('category', Translation :: get('EvaluationProperties'));
 	            $this->build_creation_form();
+	            $this->addElement('category');
+	            
 	        }
 		}
         if ($values['submit'])
