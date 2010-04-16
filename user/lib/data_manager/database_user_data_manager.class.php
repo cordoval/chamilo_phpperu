@@ -427,5 +427,11 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 	{
 		return $this->count_objects(UserSetting :: get_table_name(), $condition);
 	}
+
+        function user_deletion_allowed()
+	{
+		//TODO: implement method (dummy code to avoid error)
+            return true;
+	}
 }
 ?>

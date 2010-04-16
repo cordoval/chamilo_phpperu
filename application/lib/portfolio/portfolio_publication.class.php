@@ -3,10 +3,7 @@
  * $Id: portfolio_publication.class.php 206 2009-11-13 13:08:01Z chellee $
  * @package application.portfolio.portfolio_manager.component
  */
-
-require_once dirname(__FILE__) . '/portfolio_publication_user.class.php';
-require_once dirname(__FILE__) . '/portfolio_publication_group.class.php';
-//require_once dirname(__FILE__) . '/portfolio_rights.class.php';
+require_once dirname(__FILE__) . '/portfolio_rights.class.php';
 /**
  * This class describes a PortfolioPublication data object
  *
@@ -25,17 +22,16 @@ class PortfolioPublication extends DataClass
     const PROPERTY_PUBLISHER = 'publisher_id';
     //not to sure what this property means TODO:find out
     const PROPERTY_PUBLISHED = 'published';
-    //id of the parent portfolio-item if there is any
+    //id of the parent portfolio-item if there is any???
     const PROPERTY_PARENT_ID = 'parent_id';
 
 
-    //I don't think we need these properties from_date, to_date & hidden
-    const PROPERTY_FROM_DATE = 'from_date';
-    const PROPERTY_TO_DATE = 'to_date';
-    const PROPERTY_HIDDEN = 'hidden';
+//    TODO:I don't think we need these properties from_date, to_date & hidden to not overcomplicate things
+        const PROPERTY_FROM_DATE = 'from_date';
+        const PROPERTY_TO_DATE = 'to_date';
+       const PROPERTY_HIDDEN = 'hidden';
 
-    private $target_groups;
-    private $target_users;
+
     private $location;
 
     /**
@@ -84,6 +80,10 @@ class PortfolioPublication extends DataClass
 
     function get_location()
     {
+        if(!isset($this->location))
+        {
+            $this->location = portfolioRights::get_portfolio_location($this->get_id(), portfolioRights::TYPE_PORTFOLIO_FOLDER, $this->get_publisher());
+        }
         return $this->location;
     }
 
@@ -106,50 +106,50 @@ class PortfolioPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_PARENT_ID, $parent);
     }
 
-    /**
-     * Sets the from_date of this PortfolioPublication.
-     * @param from_date
-     */
-    function set_from_date($from_date)
-    {
-        $this->set_default_property(self :: PROPERTY_FROM_DATE, $from_date);
-    }
-
-    /**
-     * Returns the to_date of this PortfolioPublication.
-     * @return the to_date.
-     */
-    function get_to_date()
-    {
-        return $this->get_default_property(self :: PROPERTY_TO_DATE);
-    }
-
-    /**
-     * Sets the to_date of this PortfolioPublication.
-     * @param to_date
-     */
-    function set_to_date($to_date)
-    {
-        $this->set_default_property(self :: PROPERTY_TO_DATE, $to_date);
-    }
-
-    /**
-     * Returns the hidden of this PortfolioPublication.
-     * @return the hidden.
-     */
-    function get_hidden()
-    {
-        return $this->get_default_property(self :: PROPERTY_HIDDEN);
-    }
-
-    /**
-     * Sets the hidden of this PortfolioPublication.
-     * @param hidden
-     */
-    function set_hidden($hidden)
-    {
-        $this->set_default_property(self :: PROPERTY_HIDDEN, $hidden);
-    }
+//    /**
+//     * Sets the from_date of this PortfolioPublication.
+//     * @param from_date
+//     */
+//    function set_from_date($from_date)
+//    {
+//        $this->set_default_property(self :: PROPERTY_FROM_DATE, $from_date);
+//    }
+//
+//    /**
+//     * Returns the to_date of this PortfolioPublication.
+//     * @return the to_date.
+//     */
+//    function get_to_date()
+//    {
+//        return $this->get_default_property(self :: PROPERTY_TO_DATE);
+//    }
+//
+//    /**
+//     * Sets the to_date of this PortfolioPublication.
+//     * @param to_date
+//     */
+//    function set_to_date($to_date)
+//    {
+//        $this->set_default_property(self :: PROPERTY_TO_DATE, $to_date);
+//    }
+//
+//    /**
+//     * Returns the hidden of this PortfolioPublication.
+//     * @return the hidden.
+//     */
+//    function get_hidden()
+//    {
+//        return $this->get_default_property(self :: PROPERTY_HIDDEN);
+//    }
+//
+//    /**
+//     * Sets the hidden of this PortfolioPublication.
+//     * @param hidden
+//     */
+//    function set_hidden($hidden)
+//    {
+//        $this->set_default_property(self :: PROPERTY_HIDDEN, $hidden);
+//    }
 
     /**
      * Returns the publisher of this PortfolioPublication.
@@ -170,42 +170,27 @@ class PortfolioPublication extends DataClass
     }
 
     /**
-     * Returns the published of this PortfolioPublication.
-     * @return the published.
+     * Returns the publishing date of this PortfolioPublication.
+     * @return the date the publication was published
      */
     function get_published()
     {
         return $this->get_default_property(self :: PROPERTY_PUBLISHED);
     }
 
+
     /**
-     * Sets the published of this PortfolioPublication.
-     * @param published
+     * Sets the publishedate of this PortfolioPublication.
+     * @param publishe_date:date the item was published
      */
-    function set_published($published)
+    function set_published($publishe_date)
     {
-        $this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
-    }
-
-    function set_target_groups($target_groups)
-    {
-        $this->target_groups = $target_groups;
-    }
-
-    function set_target_users($target_users)
-    {
-        $this->target_users = $target_users;
-    }
-
-    function set_target($rightType, $chosenOption, $groups, $users)
-    {
-        //TODO: implement the code here to store the rights for the different actions
-        
+        $this->set_default_property(self :: PROPERTY_PUBLISHED, $publishe_date);
     }
 
     /*
      * creates a location for the portfolio-publication under the user's portfolio-tree root.
-     * if necessary the root is created
+     * if necessary (= first portfolio publication for the user) the root is created
      * @return the location or "false"
      */
     function create_location()
@@ -222,87 +207,10 @@ class PortfolioPublication extends DataClass
             return $this ->location;
     }
 
-    function get_target_groups()
-    {
-        if (! $this->target_groups)
-        {
-            $condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_PORTFOLIO_PUBLICATION, $this->get_id());
-            $groups = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_groups($condition);
-
-            while ($group = $groups->next_result())
-            {
-                $this->target_groups[] = $group->get_group_id();
-            }
-        }
-
-        return $this->target_groups;
-    }
-
-    function get_target_users()
-    {
-        if (! $this->target_users)
-        {
-            $condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_PORTFOLIO_PUBLICATION, $this->get_id());
-            $users = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition);
-
-            while ($user = $users->next_result())
-            {
-                $this->target_users[] = $user->get_user();
-            }
-        }
-
-        return $this->target_users;
-    }
-
-    function is_visible_for_target_user($user_id)
-    {
-        $user = UserDataManager :: get_instance()->retrieve_user($user_id);
-
-        if ($user->is_platform_admin() || $user_id == $this->get_publisher())
-            return true;
-
-        if ($this->get_target_groups() || $this->get_target_users())
-        {
-            $allowed = false;
-
-            if (in_array($user_id, $this->get_target_users()))
-            {
-                $allowed = true;
-            }
-
-            if (! $allowed)
-            {
-                $user_groups = $user->get_groups();
-
-                while ($user_group = $user_groups->next_result())
-                {
-                    if (in_array($user_group->get_id(), $this->get_target_groups()))
-                    {
-                        $allowed = true;
-                        break;
-                    }
-                }
-            }
-
-            if (! $allowed)
-                return false;
-        }
-
-        if ($this->get_hidden())
-            return false;
-
-        $time = time();
-
-        if ($time < $this->get_from_date() || $time > $this->get_to_date() && !$this->is_forever())
-            return false;
-
-        return true;
-    }
-    
-    function is_forever()
-    {
-    	return ($this->get_from_date() == 0 && $this->get_to_date() == 0);
-    }
+//    function is_forever()
+//    {
+//    	return ($this->get_from_date() == 0 && $this->get_to_date() == 0);
+//    }
 
     function create()
     {
@@ -317,6 +225,16 @@ class PortfolioPublication extends DataClass
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+
+    static function get_publication_owner($pid)
+    {
+        return PortfolioManager::retrieve_portfolio_publication_user($pid);
+    }
+
+     static function get_item_owner($cid)
+    {
+        return PortfolioManager::retrieve_portfolio_item_user($cid);
     }
 }
 
