@@ -40,12 +40,12 @@ class DocumentToolViewerComponent extends DocumentToolComponent
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
         {
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
-            $browser = new DocumentBrowser($this, 'document');
+            $browser = new DocumentBrowser($this, Document :: get_type_name());
             $html = $browser->as_html();
         }
         else
         {
-            $table = new ObjectPublicationTable($this, $this->get_user(), array('document'), $this->get_condition(), new DocumentCellRenderer($this));
+            $table = new ObjectPublicationTable($this, $this->get_user(), array(Document :: get_type_name()), $this->get_condition(), new DocumentCellRenderer($this));
             $tree = new ContentObjectPublicationCategoryTree($this, Request :: get('pcattree'));
             $html = '<div style="width: 18%; overflow: auto; float:left;">';
             $html .= $tree->as_html();

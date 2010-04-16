@@ -24,7 +24,7 @@ class RepositoryManagerDocumentDownloaderComponent extends RepositoryManagerComp
         }
 
         $lo = $this->retrieve_content_object($object_id);
-        if ($lo->get_type() != 'document')
+        if ($lo->get_type() != Document :: get_type_name())
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('ContentObjectMustBeDocument'));

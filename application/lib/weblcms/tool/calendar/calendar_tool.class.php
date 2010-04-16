@@ -46,7 +46,7 @@ class CalendarTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('calendar_event');
+        return array(CalendarEvent :: get_type_name());
     }
 }
 ?>

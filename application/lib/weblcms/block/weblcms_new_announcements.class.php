@@ -42,7 +42,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
             $conditions = array();
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'announcement');
-            $subselect_condition = new EqualityCondition('type', 'announcement');
+            $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Announcement :: get_type_name());
             $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
             $condition = new AndCondition($conditions);
             

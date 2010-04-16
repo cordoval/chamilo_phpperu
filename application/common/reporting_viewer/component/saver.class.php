@@ -13,7 +13,7 @@ class ReportingViewerSaverComponent extends ReportingViewerComponent
         
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
-        $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, 'document');
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, Document :: get_type_name());
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_STATUS, true);
         $condition = new AndCondition($conditions);
         

@@ -79,7 +79,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
         $additional_items = array();
         $parent = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_parent());
 
-        if ($lo->get_type() == 'learning_path_item')
+        if ($lo->get_type() == LearningPathItem :: get_type_name())
         {
             if ($parent->get_version() == 'chamilo' && $this->count > 1)
             {
@@ -94,7 +94,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
                 }
             }
 
-            if ($this->lpi_ref_object->get_type() == 'assessment')
+            if ($this->lpi_ref_object->get_type() == Assessment :: get_type_name())
             {
                 $additional_items[] = array('href' => $this->browser->get_mastery_score_url($cloi->get_id()), 'label' => Translation :: get('SetMasteryScore'), 'img' => Theme :: get_common_image_path() . 'action_quota.png');
             }

@@ -19,7 +19,7 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
         $trail->add_help('repository assessment builder');
         $assessment = $this->get_root_lo();
         
-        $pub = new ComplexRepoViewer($this, 'assessment', RepoViewer :: SELECT_SINGLE);
+        $pub = new ComplexRepoViewer($this, Assessment :: get_type_name(), RepoViewer :: SELECT_SINGLE);
         $pub->set_parameter(ComplexBuilder :: PARAM_ROOT_LO, $assessment->get_id());
         $pub->set_parameter('publish', Request :: get('publish'));
         
@@ -31,7 +31,7 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
         }
         else
         {
-            $selected_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($pub->get_selected_objects(), 'assessment');
+            $selected_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($pub->get_selected_objects(), Assessment :: get_type_name());
             $display = ContentObjectDisplay :: factory($selected_assessment);
             $bar = $this->get_action_bar($selected_assessment);
             

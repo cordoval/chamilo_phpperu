@@ -60,8 +60,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 
         echo '</div>';
         echo '<div style="width:80%; padding-left: 1%; float:right; ">';
-        //$table = new AssessmentPublicationTable($this, $this->get_user(), array('assessment', 'survey', 'hotpotatoes'), null);
-        $table = new ObjectPublicationTable($this, $this->get_user(), array('assessment', 'survey', 'hotpotatoes'), $this->get_condition(), new AssessmentCellRenderer($this), new AssessmentColumnModel());
+        $table = new ObjectPublicationTable($this, $this->get_user(), array(Assessment :: get_type_name(), Survey :: get_type_name(), Hotpotatoes :: get_type_name()), $this->get_condition(), new AssessmentCellRenderer($this), new AssessmentColumnModel());
         echo $table->as_html();
 
         echo '</div>';

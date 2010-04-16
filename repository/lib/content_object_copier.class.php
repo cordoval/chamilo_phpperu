@@ -249,11 +249,11 @@ class ContentObjectCopier
         $type = $co->get_type();
         switch ($type)
         {
-            case 'document' :
+            case Document :: get_type_name() :
                 return $this->copy_document_files($co);
-            case 'hotpotatoes' :
+            case Hotpotatoes :: get_type_name() :
                 return $this->copy_hotpotatoes_files($co, $old_user_id);
-            case 'learning_path' :
+            case LearningPath :: get_type_name() :
                 if ($co->get_version() == 'SCORM1.2' || $co->get_version() == 'SCORM2004')
                 {
                     return $this->copy_scorm_files($co, $old_user_id);

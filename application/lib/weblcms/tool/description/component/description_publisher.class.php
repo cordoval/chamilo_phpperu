@@ -23,7 +23,7 @@ class DescriptionToolPublisherComponent extends DescriptionToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publisher')));
         $trail->add_help('courses description tool');
         
-        $pub = new ContentObjectRepoViewer($this, 'description');
+        $pub = new ContentObjectRepoViewer($this, Description :: get_type_name());
         
         if (!$pub->is_ready_to_be_published())
         {

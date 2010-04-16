@@ -60,15 +60,15 @@ class CbaMenu extends HTML_Menu
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
 
         $type = Request :: get(CbaManager :: PARAM_ACTION);
-    	if($type == 'competency' || $type == 'editor_competency' || $type == 'move_competency' || $type == 'delete_competency' || $type == null)
+    	if($type == Competency :: get_type_name() || $type == 'editor_competency' || $type == 'move_competency' || $type == 'delete_competency' || $type == null)
         {
         	$this->forceCurrentUrl($this->get_category_competency_url($current_category));
         }
-        elseif($type == 'indicator' || $type == 'editor_indicator' || $type == 'move_indicator' || $type == 'delete_indicator')
+        elseif($type == Indicator :: get_type_name() || $type == 'editor_indicator' || $type == 'move_indicator' || $type == 'delete_indicator')
         {
         	$this->forceCurrentUrl($this->get_category_indicator_url($current_category));
         }
-        elseif($type == 'criteria' || $type == 'editor_criteria' || $type == 'move_criteria' || $type == 'delete_criteria')
+        elseif($type == Criteria :: get_type_name() || $type == 'editor_criteria' || $type == 'move_criteria' || $type == 'delete_criteria')
         {
         	$this->forceCurrentUrl($this->get_category_criteria_url($current_category));
         }

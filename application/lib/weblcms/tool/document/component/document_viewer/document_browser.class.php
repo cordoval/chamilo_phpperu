@@ -13,7 +13,7 @@ class DocumentBrowser extends ContentObjectPublicationBrowser
 
     function DocumentBrowser($parent, $types)
     {
-        parent :: __construct($parent, 'document');
+        parent :: __construct($parent, Document :: get_type_name());
         
         $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
         $renderer = new ContentObjectPublicationDetailsRenderer($this);

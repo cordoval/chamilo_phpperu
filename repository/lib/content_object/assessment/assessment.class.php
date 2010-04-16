@@ -88,22 +88,22 @@ class Assessment extends ContentObject
 	function get_allowed_types()
     {
         $allowed_types = array();
-        $allowed_types[] = 'assessment_rating_question';
-        $allowed_types[] = 'assessment_open_question';
-        $allowed_types[] = 'hotspot_question';
-        $allowed_types[] = 'fill_in_blanks_question';
-        $allowed_types[] = 'assessment_multiple_choice_question';
-        $allowed_types[] = 'assessment_matching_question';
-        $allowed_types[] = 'assessment_select_question';
-        $allowed_types[] = 'assessment_matrix_question';
-        $allowed_types[] = 'match_question';
-        $allowed_types[] = 'ordering_question';
+        $allowed_types[] = AssessmentRatingQuestion :: get_type_name();
+        $allowed_types[] = AssessmentOpenQuestion :: get_type_name();
+        $allowed_types[] = HotspotQuestion :: get_type_name();
+        $allowed_types[] = FillInBlanksQuestion :: get_type_name();
+        $allowed_types[] = AssessmentMultipleChoiceQuestion :: get_type_name();
+        $allowed_types[] = AssessmentMatchingQuestion :: get_type_name();
+        $allowed_types[] = AssessmentSelectQuestion :: get_type_name();
+        $allowed_types[] = AssessmentMatrixQuestion :: get_type_name();
+        $allowed_types[] = MatchQuestion :: get_type_name();
+        $allowed_types[] = OrderingQuestion :: get_type_name();
         return $allowed_types;
     }
 
     function get_table()
     {
-        return 'assessment';
+        return self :: get_type_name();
     }
 
     function get_times_taken()
