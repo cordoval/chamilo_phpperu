@@ -89,10 +89,10 @@ class ExternalCalendar extends ContentObject
 
 
 
-    function get_repeats(vevent $event, $start_date, $end_date)
+    function get_occurences(vevent $event, $start_date, $end_date)
     {
     	$ical_recurrence = new IcalRecurrence($event, $start_date, $end_date);
-    	$test = $ical_recurrence->get_repeats();
+    	$test = $ical_recurrence->get_occurences();
     	return $test;
     }
 
