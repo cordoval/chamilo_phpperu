@@ -42,14 +42,14 @@ class IcalRecurrence
     const OCCURENCE_START = 'start';
     const OCCURENCE_END = 'end';
     
-    const DEBUG = true;
+    const DEBUG = false;
 
     function IcalRecurrence(vevent $event, $from_date, $to_date)
     {
         $this->event = $event;
         $this->mArray_start = $from_date;
         $this->mArray_end = $to_date;
-        $this->occurences = array();
+        $this->occurence_times = array();
         
         if (self :: DEBUG)
         {
@@ -210,13 +210,14 @@ class IcalRecurrence
         
         $next_range = $this->get_start_date();
         
+        // Unlimited events with an interval of 1 day / week / month / year AND start of view is higher then next range
         if ($this->get_count() == 1000000 && $this->get_interval() == 1 && $this->get_marray_start() > $next_range)
         {
-            while ($next_range < $this->get_marray_start())
-            {
-                $next_range = strtotime('+' . $this->get_interval() . ' ' . $this->get_freq_type_name(), $next_range);
-            }
-            //            $next_range = $this->get_marray_start();
+//            while ($next_range < $this->get_marray_start())
+//            {
+//                $next_range = strtotime('+' . $this->get_interval() . ' ' . $this->get_freq_type_name(), $next_range);
+//            }
+                        $next_range = $this->get_marray_start();
         }
         
         if ($next_range < $this->get_start_date())
@@ -322,13 +323,13 @@ class IcalRecurrence
             $next_range = strtotime('+' . $this->get_interval() . ' ' . $this->get_freq_type_name(), $next_range);
         }
         
+        $occurence_times = $this->get_occurence_times();
+        
         if (self :: DEBUG)
         {
             echo '<tr><td colspan="3" style="background-color: #b5cae7;"></td></tr>';
-            echo '<tr><td>$occurences</td><td colspan="2">' . print_r($occurences, true) . '</td></tr>';
+            echo '<tr><td>$occurences</td><td colspan="2">' . print_r($occurence_times, true) . '</td></tr>';
         }
-        
-        $occurence_times = $this->get_occurence_times();
         
         $occurences = array();
         $length = $this->get_end_date() - $this->get_start_date();
@@ -337,7 +338,7 @@ class IcalRecurrence
         {
             $occurence = array();
             $occurence[self :: OCCURENCE_START] = $occurence_time;
-            $occurence[self :: OCCURENCE_END] = $occurence_time + $event_length;
+            $occurence[self :: OCCURENCE_END] = $occurence_time + $length;
             $occurences[] = $occurence;
             
             if (self :: DEBUG)
