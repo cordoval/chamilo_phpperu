@@ -180,18 +180,21 @@ class CourseRights extends DataClass
 	{
 		if($this->get_unsubscribe_available())
 		{
-			if(is_set($group_unsubscribe_rights[$group_id]))
+			if(isset($group_unsubscribe_rights[$group_id]))
 				return $group_unsubscribe_rights[$group_id]->get_unsubscribe();
 			else
 			{
-				$right = WeblcmsDatamanager::get_instance()->retrieve_group_unsubscribe_right($this->get_course_id(), $group_id);
-				if(is_empty($right))
+				$right = WeblcmsDatamanager::get_instance()->retrieve_course_group_unsubscribe_right($this->get_course_id(), $group_id);
+				if(empty($right))
+				{
 					$right = new CourseGroupUnsubscribeRight();
+					$right->set_unsubscribe(0);
+				}
 				$group_unsubscribe_rights[$group_id] = $right;
 				return $right->get_unsubscribe();
 			}
 		}
-		else return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+		else return 0;
 	}
 }
 ?>
