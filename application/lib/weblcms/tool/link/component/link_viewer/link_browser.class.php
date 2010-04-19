@@ -83,7 +83,7 @@ class LinkBrowser extends ContentObjectPublicationBrowser
         $conditions[] = new OrCondition($access);
         
         $subselect_conditions = array();
-        $subselect_conditions[] = new EqualityCondition('type', 'link');
+        $subselect_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Link :: get_type_name());
         if ($this->get_parent()->get_condition())
         {
             $subselect_conditions[] = $this->get_parent()->get_condition();

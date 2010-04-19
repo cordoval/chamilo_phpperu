@@ -96,7 +96,7 @@ class ResultsXmlExport extends ResultsExport
         $answers = unserialize($user_answer->get_answer());
         foreach ($answers as $answer)
         {
-            if ($data['type'] == 'hotspot_question')
+            if ($data['type'] == HotspotQuestion :: get_type_name())
             {
                 $coordinates = unserialize($answer);
                 $answer_data['x'] = $coordinates[0];

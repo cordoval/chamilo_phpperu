@@ -28,7 +28,7 @@ class ForumToolViewerComponent extends ForumToolComponent
         
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
         
-        $cd = ComplexDisplay :: factory($this, 'forum');
+        $cd = ComplexDisplay :: factory($this, Forum :: get_type_name());
         $cd->run();
         
         //$this->display_footer();

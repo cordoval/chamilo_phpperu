@@ -109,7 +109,7 @@ class ResultsPdfExport extends ResultsExport
         $answers = unserialize($user_answer->get_answer());
         foreach ($answers as $answer)
         {
-            if ($question->get_type() == 'hotspot_question')
+            if ($question->get_type() == HotspotQuestion :: get_type_name())
             {
                 $coordinates = unserialize($answer);
                 $answer_data['x'] = $coordinates[0];

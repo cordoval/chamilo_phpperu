@@ -125,7 +125,7 @@ class LearningPathTree extends HTML_Menu
             $lo = $datamanager->retrieve_content_object($object->get_ref());
             $lpi_tracker_data = $this->lpi_tracker_data[$object->get_id()];
             
-            if ($lo->get_type() == 'learning_path_item')
+            if ($lo->get_type() == LearningPathItem :: get_type_name())
             {
                 $lo = $datamanager->retrieve_content_object($lo->get_reference());
             }
@@ -139,7 +139,7 @@ class LearningPathTree extends HTML_Menu
             
             $control_mode = $parent->get_control_mode();
             
-            if ($lo->get_type() == 'learning_path')
+            if ($lo->get_type() == LearningPath :: get_type_name())
                 $sub_menu_items = $this->get_menu_items($lo);
             
             if (count($sub_menu_items) > 0)

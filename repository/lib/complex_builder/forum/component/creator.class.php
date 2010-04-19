@@ -90,7 +90,7 @@ class ForumBuilderCreatorComponent extends ForumBuilderComponent
                 $cloi->set_ref($obj);
 
                 $cloi->set_parent($parent);
-                if ($type == 'forum')
+                if ($type == Forum :: get_type_name())
                 {
                     $cloi->set_display_order($rdm->select_next_display_order($parent));
                 }

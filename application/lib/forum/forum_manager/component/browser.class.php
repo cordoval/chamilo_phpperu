@@ -106,7 +106,7 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
             $first = $counter == 0 ? true : false;
             $last = $counter == ($size - 1) ? true : false;
             
-            $forum = $rdm->retrieve_content_object($publication->get_forum_id(), 'forum');
+            $forum = $rdm->retrieve_content_object($publication->get_forum_id(), Forum :: get_type_name());
             $title = '<a href="' . $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_VIEW, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager :: PARAM_PUBLICATION_ID => $publication->get_forum_id())) . '">' . $forum->get_title() . '</a><br />' . Utilities :: truncate_string($forum->get_description());
             
             $last_post = $rdm->retrieve_complex_content_object_item($forum->get_last_post());

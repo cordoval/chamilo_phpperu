@@ -153,7 +153,7 @@ class ScormImport extends ContentObjectImport
     private function create_learning_path($item, $sequencing_collections, $version, $path = null)
     {
         $title = $item['title'];
-        $learning_path = AbstractContentObject :: factory('learning_path');
+        $learning_path = AbstractContentObject :: factory(LearningPath :: get_type_name());
         $learning_path->set_title($title);
         $learning_path->set_description($title);
         $learning_path->set_parent_id($this->get_category());
@@ -366,7 +366,7 @@ class ScormImport extends ContentObjectImport
      */
     private function add_scorm_item_to_learning_path($scorm_item, $learning_path, $item)
     {
-        $learning_path_item = AbstractContentObject :: factory('learning_path_item');
+        $learning_path_item = AbstractContentObject :: factory(LearningPathItem :: get_type_name());
         $learning_path_item->set_parent_id($this->get_category());
         $learning_path_item->set_owner_id($this->get_user()->get_id());
         $learning_path_item->set_title($scorm_item->get_title());
@@ -380,7 +380,7 @@ class ScormImport extends ContentObjectImport
         
         $learning_path_item->create();
         
-        $wrapper = ComplexContentObjectItem :: factory('learning_path_item');
+        $wrapper = ComplexContentObjectItem :: factory(LearningPathItem :: get_type_name());
         $wrapper->set_ref($learning_path_item->get_id());
         $wrapper->set_parent($learning_path->get_id());
         $wrapper->set_user_id($this->get_user()->get_id());
@@ -399,7 +399,7 @@ class ScormImport extends ContentObjectImport
      */
     private function add_sub_learning_path_to_learning_path($learning_path, $sub_learning_path)
     {
-        $wrapper = ComplexContentObjectItem :: factory('learning_path');
+        $wrapper = ComplexContentObjectItem :: factory(LearningPath :: get_type_name());
         $wrapper->set_ref($sub_learning_path->get_id());
         $wrapper->set_parent($learning_path->get_id());
         $wrapper->set_user_id($this->get_user()->get_id());

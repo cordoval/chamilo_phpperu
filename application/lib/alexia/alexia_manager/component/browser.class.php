@@ -65,7 +65,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
         }
 
         $subselect_conditions = array();
-        $subselect_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'link');
+        $subselect_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Link :: get_type_name());
 
         $query = $this->action_bar->get_query();
 
@@ -108,7 +108,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 
     function get_introduction()
     {
-        $subselect_condition = new EqualityCondition('type', 'introduction');
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
         $condition = new SubselectCondition(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
 
         $publications = AlexiaDataManager :: get_instance()->retrieve_alexia_publications($condition);

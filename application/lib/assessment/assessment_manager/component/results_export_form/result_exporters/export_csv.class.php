@@ -124,7 +124,7 @@ class ResultsCsvExport extends ResultsExport
         $answer_data = array();
         foreach ($answers as $answer)
         {
-            if ($question->get_type() == 'hotspot_question')
+            if ($question->get_type() == HotspotQuestion :: get_type_name())
             {
                 $coordinates = unserialize($answer);
                 $data['x'] = $coordinates[0];

@@ -341,10 +341,10 @@ class ContentObjectCopier
 
         switch ($type)
         {
-            case 'learning_path_item' :
+            case LearningPathItem :: get_type_name() :
                 $this->fix_references($co);
                 return;
-            case 'portfolio_item' :
+            case PortfolioItem :: get_type_name() :
                 return $this->fix_references($co);
             default :
                 return;
@@ -408,9 +408,9 @@ class ContentObjectCopier
         $co = $this->rdm->retrieve_content_object($wrapper->get_ref());
         switch ($co->get_type())
         {
-            case 'learning_path_item' :
+            case LearningPathItem :: get_type_name() :
                 $co = $this->rdm->retrieve_content_object($co->get_reference());
-                if ($co->get_type() != 'scorm_item')
+                if ($co->get_type() != ScormItem :: get_type_name())
                 {
                     return $this->fix_prerequisites($wrapper, $item_references);
                 }

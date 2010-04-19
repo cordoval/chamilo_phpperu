@@ -39,7 +39,7 @@ class LinkTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('link');
+        return array(Link :: get_type_name());
     }
 }
 ?>

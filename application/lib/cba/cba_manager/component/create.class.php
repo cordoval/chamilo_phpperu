@@ -41,15 +41,15 @@ class CbaManagerCreateComponent extends CbaManagerComponent
         $type = ($type_form->validate() ? $type_form->exportValue(CbaManager :: PARAM_CONTENT_OBJECT_TYPE) : Request :: get(CbaManager :: PARAM_CONTENT_OBJECT_TYPE));        
         $type_value = strtolower($types[$type - 1]);
         
-        if($type_value == 'competency')
+        if($type_value == Competency :: get_type_name())
         {
         	$this->simple_redirect(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_CREATOR_COMPETENCY, 'type' => $type_value));
         }
-        else if($type_value == 'indicator')
+        else if($type_value == Indicator :: get_type_name())
         {
         	$this->simple_redirect(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_CREATOR_INDICATOR, 'type' => $type_value));
          }
-        else if($type_value == 'criteria')
+        else if($type_value == Criteria :: get_type_name())
         {
         	$this->simple_redirect(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_CREATOR_CRITERIA, 'type' => $type_value));
         }           

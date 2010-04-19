@@ -85,7 +85,7 @@ class RepositoryManagerLinkDeleterComponent extends RepositoryManagerComponent
     			continue;
     		}
     		
-    		if($object->get_type() == 'portfolio_item' || $object->get_type() == 'learning_path_item')
+    		if($object->get_type() == PortfolioItem :: get_type_name() || $object->get_type() == LearningPathItem :: get_type_name())
     		{
     			if(!$object->delete())
     			{

@@ -23,7 +23,7 @@ class LearningPathToolBrowserComponent extends LearningPathToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'learning_path');
 
-        $subselect_condition = new EqualityCondition('type', 'introduction');
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         $condition = new AndCondition($conditions);
 
@@ -43,7 +43,7 @@ class LearningPathToolBrowserComponent extends LearningPathToolComponent
 
         echo $this->action_bar->as_html();
         //$table = new LearningPathPublicationTable($this, $this->get_user(), array('learning_path'), null);
-        $table = new ObjectPublicationTable($this, $this->get_user(), array('learning_path'), $this->get_condition(), new LearningPathCellRenderer($this), new LearningPathColumnModel());
+        $table = new ObjectPublicationTable($this, $this->get_user(), array(LearningPath :: get_type_name()), $this->get_condition(), new LearningPathCellRenderer($this), new LearningPathColumnModel());
         echo $table->as_html();
 
         $this->display_footer();

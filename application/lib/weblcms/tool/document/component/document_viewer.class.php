@@ -27,7 +27,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'document');
 
-        $subselect_condition = new EqualityCondition('type', 'introduction');
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         $condition = new AndCondition($conditions);
 

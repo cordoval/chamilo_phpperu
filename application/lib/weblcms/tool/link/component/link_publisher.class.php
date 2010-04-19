@@ -31,7 +31,7 @@ class LinkToolPublisherComponent extends LinkToolComponent
             }
         }
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publish')));
-        $pub = new ContentObjectRepoViewer($this, 'link');
+        $pub = new ContentObjectRepoViewer($this, Link :: get_type_name());
         
         if (!$pub->is_ready_to_be_published())
         {

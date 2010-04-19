@@ -81,7 +81,7 @@ class LearningPathTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('learning_path');
+        return array(LearningPath :: get_type_name());
     }
 }
 ?>

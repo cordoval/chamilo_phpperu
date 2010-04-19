@@ -47,7 +47,7 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilderComponent
             $type = $lo->get_allowed_types();
         }
         
-        if($type == 'indicator')
+        if($type == Indicator :: get_type_name())
         {
         	$pub = new CompetenceRepoViewer($this, $type);
         }

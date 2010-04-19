@@ -1566,7 +1566,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function delete_assisting_content_objects($object)
     {
-    	$assisting_types = array('learning_path_item', 'portfolio_item');
+    	$assisting_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
 
     	$failures = 0;
 

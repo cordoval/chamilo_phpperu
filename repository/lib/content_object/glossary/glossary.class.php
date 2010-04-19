@@ -17,7 +17,7 @@ class Glossary extends ContentObject
 	
     function get_allowed_types()
     {
-        return array('glossary_item');
+        return array(GlossaryItem :: get_type_name());
     }
     
 	function is_versionable()

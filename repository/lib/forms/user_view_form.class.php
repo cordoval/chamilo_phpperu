@@ -51,7 +51,7 @@ class UserViewForm extends FormValidator
         {
             $registrations = RepositoryDataManager :: get_registered_types();
 
-            $hidden_types = array('learning_path_item', 'portfolio_item');
+            $hidden_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
 
             foreach ($registrations as $registration)
             {

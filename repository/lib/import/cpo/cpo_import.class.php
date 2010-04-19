@@ -515,7 +515,7 @@ class CpoImport extends ContentObjectImport
                 $cloi->set_additional_properties($child['properties']);
                 $cloi->create();
                 
-                if ($childlo->get_type() == 'learning_path_item')
+                if ($childlo->get_type() == LearningPathItem :: get_type_name())
                 {
                     $this->learning_path_item_wrappers[] = $cloi;
                 }

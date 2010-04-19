@@ -38,7 +38,7 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
         if($this->type == LinkBrowserTable :: TYPE_CHILDREN)
         {
             $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_ref());
-            if($object->get_type() == 'portfolio_item' || $object->get_type() == 'learning_path_item')
+            if($object->get_type() == PortfolioItem :: get_type_name() || $object->get_type() == LearningPathItem :: get_type_name())
             {
             	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_reference());
             }

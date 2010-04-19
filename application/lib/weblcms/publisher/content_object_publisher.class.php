@@ -76,7 +76,7 @@ class ContentObjectPublisher
                 $message = Translation :: get('ObjectPublished');
             }
 
-            /*if($publication->get_tool() == 'introduction')
+            /*if($publication->get_tool() == Introduction :: get_type_name()')
 			{
 				//$redirect_parms = array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE);
 				$parameters['go'] = WeblcmsManager :: ACTION_VIEW_COURSE;
