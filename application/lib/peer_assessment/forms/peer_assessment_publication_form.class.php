@@ -94,39 +94,50 @@ class PeerAssessmentPublicationForm extends FormValidator
     }
     
     
-	function create_object()
+	function create_content_object_publication()
     {
     	$values = $this->exportValues();
-    	
-    	$content_object = new PeerAssessmentPublication();
-		$content_object->set_content_object($object);
-		
-        if ($values['forever'] != 0)
+        if ($values[self :: PARAM_FOREVER] != 0)
         {
-            $content_object->set_from_date(0);
-            $content_object->set_to_date(0);
+            $from = $to = 0;
         }
         else
         {
-            $content_object->set_from_date(Utilities :: time_from_datepicker($values['from_date']));
-            $content_object->set_to_date(Utilities :: time_from_datepicker($values['to_date']));
+            $from = Utilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
+            $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
         }
-        $content_object->set_hidden($values['hidden'] ? 1 : 0);
-        $content_object->set_publisher(Session :: get_user_id());
-        $content_object->set_published(time());
-        $content_object->set_modified(time());
-        $content_object->set_display_order(0);
-        $content_object->create();
+        $hidden = ($values[PeerAssessmentPublication :: PROPERTY_HIDDEN] ? 1 : 0);
+
+        $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
+        $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+
+        $pub = new PeerAssessmentPublication();
+        $pub->set_content_object($this->content_object->get_id());
+        $pub->set_publisher($this->form_user->get_id());
+        $pub->set_published(time());
+        $pub->set_from_date($from);
+        $pub->set_to_date($to);
+        $pub->set_hidden($hidden);
+        $pub->set_target_users($users);
+        $pub->set_target_groups($groups);
+		$pub->create();
         
-        // Gradebook
-		if($values['evaluation'] == true)
+        if ($pub->create())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+		if(Request :: post('evaluation'))
 		{
+        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
         	$gradebook_internal_item_form = new GradebookInternalItemForm();
-        	$gradebook_internal_item_form->create_internal_item($content_object->get_id(), false);
-		} 
-		
-        return $content_object;
+        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
+		}
     }
+  
 
     function update_content_object()
     {
@@ -159,7 +170,7 @@ class PeerAssessmentPublicationForm extends FormValidator
 	function set_publication_values($publication)
     {
     	
-        $this->publication = $publication;
+        /*$this->publication = $publication;
         $this->addElement('hidden', 'pid');
         $this->addElement('hidden', 'action');
         $defaults['action'] = 'edit';
@@ -212,7 +223,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $active = $this->getElement(self :: PARAM_TARGET_ELEMENTS);
         $active->_elements[0]->setValue(serialize($defaults[self :: PARAM_TARGET_ELEMENTS]));
 
-        parent :: setDefaults($defaults);
+        parent :: setDefaults($defaults);*/
     }
 
     /**

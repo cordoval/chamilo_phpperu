@@ -214,12 +214,10 @@ abstract class PortfolioManagerComponent
 
     function retrieve_portfolio_publication_user($id)
     {
-        return $this->get_parent()->retrieve_portfolio_publication_user($id);
+        return $this->get_parent()->retrieve_portfolio_publication_users($id);
     }
 
     // Url Creation
-    
-
     function get_create_portfolio_publication_url()
     {
         return $this->get_parent()->get_create_portfolio_publication_url();
@@ -266,6 +264,6 @@ abstract class PortfolioManagerComponent
         $class = 'PortfolioManager' . $type . 'Component';
         require_once $filename;
         return new $class($portfolio);
-    }
+    } 
 }
 ?>

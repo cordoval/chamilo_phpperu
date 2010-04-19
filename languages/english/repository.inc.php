@@ -694,4 +694,11 @@ $lang['repository']['PublicHoliday'] = 'PublicHoliday';
 $lang['repository']['Supplier'] = 'Supplier';
 $lang['repository']['Travel'] = 'Travel';
 $lang['repository']['TaskTypeName'] = 'Task';
+$lang['repository']['ExternalCalendarCreationFormTitle'] = 'Create external calendar';
+$lang['repository']['ExternalCalendarFormTitle'] = 'Title';
+$lang['repository']['ExternalCalendarFormDescription'] = 'Description';
+$lang['repository']['ExternalCalendarFormProperties'] = 'Properties';
+$lang['repository']['URL'] = 'URL';
+$lang['repository']['ExternalCalendarTypeName'] = 'External calendar';
+
 ?>
