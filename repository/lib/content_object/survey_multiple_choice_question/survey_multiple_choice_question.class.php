@@ -8,6 +8,6 @@ require_once dirname(__FILE__) . '/survey_multiple_choice_question_option.class.
 
 class SurveyMultipleChoiceQuestion extends MultipleChoiceQuestion
 {
-   
+   const CLASS_NAME = __CLASS__;
 }
 ?>

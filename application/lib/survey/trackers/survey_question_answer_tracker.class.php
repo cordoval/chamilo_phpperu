@@ -91,7 +91,12 @@ class SurveyQuestionAnswerTracker extends MainTracker
 
     function get_answer()
     {
-        return $this->get_property(self :: PROPERTY_ANSWER);
+        
+    	if ($result = unserialize($this->get_property(self :: PROPERTY_ANSWER)))
+        {
+            return $result;
+        }
+        return array();
     }
 
     function set_answer($answer)
