@@ -17,13 +17,13 @@ class CourseForm extends CommonForm
     function CourseForm($form_type, $course, $user, $action, $parent)
     {
     	$this->course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
-
+		$this->allow_no_course_type = $user->is_platform_admin() || PlatformSetting::get('allow_course_creation_without_coursetype', 'weblcms');
         $wdm = WeblcmsDataManager :: get_instance();
         if(!is_null($this->course_type_id))
         {
        		$course->set_course_type($wdm->retrieve_course_type($this->course_type_id));
        		$course_type_id = $course->get_course_type()->get_id();
-       		if(empty($course_type_id) && ($this->course_type_id != 0 || $form_type == self::TYPE_CREATE || $user->is_platform_admin()))
+       		if(empty($course_type_id) && ($this->course_type_id != 0 || $form_type == self::TYPE_CREATE || $this->allow_no_course_type))
         		$this->course_type_id = $course->get_course_type()->get_id();
         }
         else
@@ -110,7 +110,7 @@ class CourseForm extends CommonForm
         $wdm = WeblcmsDataManager :: get_instance();
 		$course_type_objects = $wdm->retrieve_active_course_types();
         $course_types = array();
-        if(empty($this->course_type_id) || $this->user->is_platform_admin())
+        if(empty($this->course_type_id) || $this->allow_no_course_type)
         	$course_types[0] = Translation :: get('NoCourseType');
         $this->size = $course_type_objects->size();
         if($this->size != 0)
@@ -119,7 +119,7 @@ class CourseForm extends CommonForm
         	while($course_type = $course_type_objects->next_result())
         	{
         		$course_types[$course_type->get_id()] = $course_type->get_name();
-        		if(is_null($this->course_type_id) && count == 0 && !$this->user->is_platform_admin())
+        		if(is_null($this->course_type_id) && count == 0 && !$this->allow_no_course_type)
         		{
         			$parameters = array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $course_type->get_id());
         			$this->parent->simple_redirect($parameters);
