@@ -15,4 +15,5 @@ const CLASS_NAME = __CLASS__;
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+}
 ?>
