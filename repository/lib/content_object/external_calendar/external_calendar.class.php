@@ -11,8 +11,6 @@ class ExternalCalendar extends ContentObject
     const PROPERTY_URL = 'url';
     const CACHE_TIME = 3600;
     
-
-    
     const REPEAT_TYPE_NONE = 'NONE';
     const REPEAT_TYPE_DAY = 'DAILY';
     const REPEAT_TYPE_WEEK = 'WEEKLY';
@@ -86,16 +84,17 @@ class ExternalCalendar extends ContentObject
     	$events = $this->get_events();
     	return count($events);
     }
-    
-
-    
+     
     function get_repeats(vevent $event, $start_date, $end_date)
     {
     	$ical_recurrence = new IcalRecurrence($event, $start_date, $end_date);
     	$test = $ical_recurrence->get_repeats();
     	return $test;
+    }  
+    
+    static function get_type_name()
+    {
+    	
     }
-    
-    
 }
 ?>
