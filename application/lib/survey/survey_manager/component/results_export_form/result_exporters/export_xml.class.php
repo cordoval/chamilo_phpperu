@@ -116,7 +116,7 @@ class ResultsXmlExport extends ResultsExport
 
     function export_feedback($feedback_id)
     {
-        $feedback = $this->rdm->retrieve_content_object($feedback_id, 'feedback');
+        $feedback = $this->rdm->retrieve_content_object($feedback_id, Feedback :: get_type_name());
         $data['id'] = $feedback->get_id();
         $data['title'] = htmlspecialchars($feedback->get_title());
         $data['description'] = htmlspecialchars($feedback->get_description());
