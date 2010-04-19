@@ -192,6 +192,16 @@ abstract class CategoryManagerComponent
     {
         return $this->get_parent()->get_breadcrumb_trail();
     }
+    
+	function set_subcategories_allowed($subcategories_allowed)
+    {
+    	return $this->get_parent()->set_subcategories_allowed($subcategories_allowed);
+    }
+    
+    function get_subcategories_allowed()
+    {
+    	return $this->get_parent()->get_subcategories_allowed();
+    }
 
     static function factory($type, $parent)
     {

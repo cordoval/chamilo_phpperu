@@ -63,7 +63,9 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     function update_peer_assessment_publication($peer_assessment_publication)
     {
         $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $peer_assessment_publication->get_id());
-        return $this->database->update($peer_assessment_publication, $condition);
+        dump($peer_assessment_publication);
+    	exit();
+        return $this->database->update_object($peer_assessment_publication, $condition);
     }
 
     function delete_peer_assessment_publication($peer_assessment_publication)

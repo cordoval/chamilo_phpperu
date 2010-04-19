@@ -34,8 +34,6 @@ abstract class EvaluationFormat
 	
 	abstract function get_evaluation_field_name();
 	
-	abstract function is_entered_score_valid($score);
-	
 	abstract function get_evaluation_format_name();
 	
 	abstract function get_default_active_value();
