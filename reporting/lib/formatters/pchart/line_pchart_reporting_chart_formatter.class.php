@@ -43,7 +43,7 @@ class LinePchartReportingChartFormatter extends PchartReportingChartFormatter
             $Test->setGraphArea(40, 30, $width - 20, $height - $legend);
             $Test->drawFilledRoundedRectangle(7, 7, $width - 7, $height - 7 + $legend, 5, 240, 240, 240);
             $Test->drawGraphArea(255, 255, 255, TRUE);
-            $Test->drawScale($data, $datadescription, SCALE_START0, 150, 150, 150, TRUE, 315, 2, true, 0, false);
+            $Test->drawScale($data, $datadescription, SCALE_START0, 150, 150, 150, TRUE, 270, 2, true, 0, false);
             $Test->drawGrid(4, TRUE, 230, 230, 230, 50);
             
             // Draw the 0 line
