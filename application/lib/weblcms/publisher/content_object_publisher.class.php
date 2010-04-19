@@ -58,7 +58,7 @@ class ContentObjectPublisher
             $html[] = '</div>';
         }
 
-        $form = new ContentObjectPublicationForm(ContentObjectPublicationForm :: TYPE_MULTI, $ids, $this->parent, $this->parent->with_mail_option(), $this->parent->get_course());
+        $form = new ContentObjectPublicationForm(ContentObjectPublicationForm :: TYPE_MULTI, $ids, $this->parent, true, $this->parent->get_course());
         if ($form->validate())
         {
             $publication = $form->create_content_object_publications();
