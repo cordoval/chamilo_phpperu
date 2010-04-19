@@ -240,6 +240,8 @@ abstract class WeblcmsDataManager
     abstract function retrieve_course_type_layout($id);
 
     abstract function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    abstract function retrieve_course_type_user_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
     //-- END -- Course_type_items--
 

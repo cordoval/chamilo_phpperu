@@ -39,6 +39,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     	return $this->get_parent()->get_course_request_deleting_url($request);
     }
     
+    function get_course_request_allowing_url($request)
+    {
+    	return $this->get_parent()->get_course_request_allowing_url($request);
+    }
+    
     function get_course_changing_course_type_url($course)
     {
         return $this->get_parent()->get_course_changing_course_type_url($course);
@@ -365,6 +370,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     	return $this->get_parent()->retrieve_course_type_user_relation($id, $user_id);
     }
 
+    function retrieve_course_type_user_categories($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+    	return $this->get_parent()->retrieve_course_type_user_categories($condition, $offset, $count, $order_property);
+    }
+    
     /**
      * @see WeblcmsManager :: retrieve_course_user_relation_at_sort()
      */
@@ -433,6 +443,12 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
     	return $this->get_parent()->get_course_request_editing_url($request);
     }
+    
+    function get_course_request_viewing_url($request)
+    {
+    	return $this->get_parent()->get_course_request_viewing_url($request);
+    }
+    
     /**
      * @see WeblcmsManager :: get_course_maintenance_url()
      */
