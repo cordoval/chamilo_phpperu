@@ -1,4 +1,4 @@
-hg<?php
+<?php
 /**
  * @package common.html.formvalidator
  */
