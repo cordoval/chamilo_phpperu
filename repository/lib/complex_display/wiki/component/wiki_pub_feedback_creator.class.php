@@ -19,7 +19,7 @@ class WikiDisplayWikiPubFeedbackCreatorComponent extends WikiDisplayComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses general');
         
-        $this->pub = new RepoViewer($this, 'feedback', RepoViewer :: SELECT_SINGLE);
+        $this->pub = new RepoViewer($this, Feedback :: get_type_name(), RepoViewer :: SELECT_SINGLE);
         $this->pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_FEEDBACK_CLOI);
         $this->pub->set_parameter(WikiManager :: PARAM_WIKI_PUBLICATION, Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         $this->pub->set_parameter('selected_cloi', Request :: get('selected_cloi'));
