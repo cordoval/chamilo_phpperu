@@ -19,7 +19,7 @@ class CategoryBrowserTable extends ObjectTable
      */
     function CategoryBrowserTable($browser, $parameters, $condition)
     {
-        $model = new CategoryBrowserTableColumnModel();
+        $model = new CategoryBrowserTableColumnModel($browser);
         $renderer = new CategoryBrowserTableCellRenderer($browser);
         $data_provider = new CategoryBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, CategoryBrowserTable :: DEFAULT_NAME, $model, $renderer);
