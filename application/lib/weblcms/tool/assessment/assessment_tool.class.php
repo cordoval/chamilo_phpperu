@@ -87,7 +87,7 @@ class AssessmentTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('assessment', 'hotpotatoes');
+        return array(Assessment :: get_type_name(), Hotpotatoes :: get_type_name());
     }
 }
 ?>

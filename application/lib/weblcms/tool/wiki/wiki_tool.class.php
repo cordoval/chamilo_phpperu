@@ -91,7 +91,7 @@ class WikiTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('wiki');
+        return array(Wiki :: get_type_name());
     }
 
     static function is_wiki_locked($wiki_id)

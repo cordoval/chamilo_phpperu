@@ -72,7 +72,7 @@ class AssessmentPublisher
             if(count($ids) == 1 && !is_null(Request :: post('publish_and_build')))
             {
             	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($ids[0]);
-            	if($object->get_type() == 'assessment' || $object->get_type() == 'survey')
+            	if($object->get_type() == Assessment :: get_type_name() || $object->get_type() == Survey :: get_type_name())
             		$this->parent->redirect($message, (! $publication ? true : false), array(Application :: PARAM_ACTION => AssessmentManager :: ACTION_BUILD_ASSESSMENT, AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $form->get_publication()->get_id()));
             }
             	

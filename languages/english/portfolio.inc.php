@@ -29,5 +29,13 @@ $lang['portfolio']['ValidationTitle'] = 'Validation';
 $lang['portfolio']['EditTitle'] = 'Edit';
 $lang['portfolio']['PropertiesTitle'] = 'Permissions';
 $lang['portfolio']['PersonalPortfolio'] = 'Portfolio';
+$lang['portfolio']['set'] = 'Set specific permissions';
+$lang['portfolio']['inherit_default_set_choice'] = 'permissions setting';
+$lang['portfolio']['view'] = 'viewing the content';
+$lang['portfolio']['viewFeedback'] = 'viewing the feedback';
+$lang['portfolio']['giveFeedback'] = 'giving feedback';
+$lang['portfolio']['edit'] = 'editing';
+
+
 
 ?>

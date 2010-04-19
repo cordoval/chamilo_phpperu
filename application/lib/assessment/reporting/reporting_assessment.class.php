@@ -41,7 +41,7 @@ class ReportingAssessment
             $actions = array();
             if (!array_key_exists('export',$params))
             {
-	            if ($assessment->get_type() != 'hotpotatoes')
+	            if ($assessment->get_type() != Hotpotatoes :: get_type_name())
 	            {
 	                $actions[] = array('href' => $url . '&details=' . $tracker->get_id(), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
 	                
@@ -72,7 +72,7 @@ class ReportingAssessment
         {
             $lo = $publication->get_publication_object();
             $type = $lo->get_type();
-            if ($type == 'assessment')
+            if ($type == Assessment :: get_type_name())
             {
                 $type = $lo->get_assessment_type();
             }

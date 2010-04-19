@@ -446,15 +446,11 @@ EOT;
 
     function add_receivers_variable($elementName, $elementLabel, $attributes, $radioArray, $defaultSelected)
     {
-        //made the id's variable so that multiple "receivers" items can be put on the same page
-        //addes array for radio buttons
         $choices = array();
-
         if(! is_array($radioArray))
         {
             $radioArray = array($radioArray);
         }
-
         foreach ($radioArray as $radioType)
         {
             $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($radioType), $radioType, array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver'));
@@ -496,7 +492,7 @@ EOT;
 
     }
 
-	function add_indicators($elementName, $elementLabel, $attributes)
+    function add_indicators($elementName, $elementLabel, $attributes)
     {
         $this->addElement('html', '<div style="display: block;" id="receivers_window">');
 		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);

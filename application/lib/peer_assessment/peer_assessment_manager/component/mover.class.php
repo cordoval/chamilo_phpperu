@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../category_manager/peer_assessment_public
  * @author Sven Vanpoucke
  * @author Nick Van Loocke
  */
-class PeerAssessmentManagerPeerAssessmentPublicationMoverComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerMoverComponent extends PeerAssessmentManagerComponent
 {
 
     /**

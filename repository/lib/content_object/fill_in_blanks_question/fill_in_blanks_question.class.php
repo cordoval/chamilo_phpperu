@@ -13,6 +13,13 @@ class FillInBlanksQuestion extends ContentObject
     const TYPE_TEXT = 0;
     const TYPE_SELECT = 1;
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     public function add_answer($answer)
     {
         $answers = $this->get_answers();

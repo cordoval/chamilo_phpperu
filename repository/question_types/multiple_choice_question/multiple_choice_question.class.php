@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/multiple_choice_question_option.class.php';
 
-class MultipleChoiceQuestion extends ContentObject
+abstract class MultipleChoiceQuestion extends ContentObject
 {
     const PROPERTY_ANSWER_TYPE = 'answer_type';
     const PROPERTY_OPTIONS = 'options';

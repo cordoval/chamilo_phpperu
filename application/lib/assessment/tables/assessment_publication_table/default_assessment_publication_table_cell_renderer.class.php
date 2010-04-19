@@ -54,7 +54,7 @@ class DefaultAssessmentPublicationTableCellRenderer implements ObjectTableCellRe
                 return $description;
             case ContentObject :: PROPERTY_TYPE :
                 $type = Translation :: get($content_object->get_type());
-                if ($type == 'assessment')
+                if ($type == Assessment :: get_type_name())
                 {
                     $type = $content_object->get_assessment_type();
                 }

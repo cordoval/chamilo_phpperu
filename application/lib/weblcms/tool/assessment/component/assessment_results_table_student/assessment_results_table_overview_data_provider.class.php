@@ -151,7 +151,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
         $conds = array();
         
         $type_cond = array();
-        $types = array('assessment', 'survey');
+        $types = array(Assessment :: get_type_name(), Survey :: get_type_name());
         foreach ($types as $type)
         {
             $type_cond[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);

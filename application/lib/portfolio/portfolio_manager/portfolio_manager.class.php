@@ -128,12 +128,15 @@ class PortfolioManager extends WebApplication
         return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_portfolio_publication_user($id)
+    static function retrieve_portfolio_publication_user($pid)
     {
-        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_user($id);
+        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_user($pid);
     }
-
-    // Url Creation
+    
+    static function retrieve_portfolio_item_user($cid)
+    {
+        return PortfolioDataManager :: get_instance()->retrieve_portfolio_item_user($cid);
+    }
     
 
     function get_create_portfolio_publication_url()
@@ -208,7 +211,7 @@ class PortfolioManager extends WebApplication
 
     function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array('portfolio');
+        $allowed_types = array(Portfolio :: get_type_name());
         
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
@@ -229,7 +232,6 @@ class PortfolioManager extends WebApplication
         $publication->set_hidden(0);
         $publication->set_from_date(0);
         $publication->set_to_date(0);
-        
         $publication->create();
         return Translation :: get('PublicationCreated');
     }

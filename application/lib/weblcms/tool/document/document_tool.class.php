@@ -53,7 +53,7 @@ class DocumentTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('document');
+        return array(Document :: get_type_name());
     }
 }
 ?>

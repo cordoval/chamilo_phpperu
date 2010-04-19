@@ -12,7 +12,6 @@ class SurveyPageBrowserTableDataProvider extends ObjectTableDataProvider
     {
         parent :: __construct($browser, $condition);
         $this->survey_ids = $browser->get_survey_ids();
-        dump($browser);
     }
 
     /**

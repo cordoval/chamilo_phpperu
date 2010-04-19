@@ -40,7 +40,7 @@ class GlossaryViewerTableCellRenderer extends DefaultContentObjectTableCellRende
         }
         
         if (! $this->glossary_item || $this->glossary_item->get_id() != $glossary_item->get_ref())
-            $this->glossary_item = $this->dm->retrieve_content_object($glossary_item->get_ref(), 'glossary_item');
+            $this->glossary_item = $this->dm->retrieve_content_object($glossary_item->get_ref(), GlossaryItem :: get_type_name());
         
         switch ($column->get_name())
         {

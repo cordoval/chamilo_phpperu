@@ -44,7 +44,7 @@ if (Authentication :: is_valid())
     $condition = new AndCondition($conditions);
 
     $dm = RepositoryDataManager :: get_instance();
-    $objects = $dm->retrieve_type_content_objects('document', $condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)), array(SORT_ASC));
+    $objects = $dm->retrieve_type_content_objects(Document :: get_type_name(), $condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)), array(SORT_ASC));
 
     while ($lo = $objects->next_result())
     {

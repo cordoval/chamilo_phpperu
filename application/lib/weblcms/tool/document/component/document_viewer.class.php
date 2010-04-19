@@ -27,7 +27,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'document');
 
-        $subselect_condition = new EqualityCondition('type', 'introduction');
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         $condition = new AndCondition($conditions);
 
@@ -40,12 +40,12 @@ class DocumentToolViewerComponent extends DocumentToolComponent
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
         {
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
-            $browser = new DocumentBrowser($this, 'document');
+            $browser = new DocumentBrowser($this, Document :: get_type_name());
             $html = $browser->as_html();
         }
         else
         {
-            $table = new ObjectPublicationTable($this, $this->get_user(), array('document'), $this->get_condition(), new DocumentCellRenderer($this));
+            $table = new ObjectPublicationTable($this, $this->get_user(), array(Document :: get_type_name()), $this->get_condition(), new DocumentCellRenderer($this));
             $tree = new ContentObjectPublicationCategoryTree($this, Request :: get('pcattree'));
             $html = '<div style="width: 18%; overflow: auto; float:left;">';
             $html .= $tree->as_html();

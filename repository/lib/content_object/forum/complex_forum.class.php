@@ -8,7 +8,7 @@ class ComplexForum extends ComplexContentObjectItem
 
     function get_allowed_types()
     {
-        return array('forum', 'forum_topic');
+        return array(Forum :: get_type_name(), ForumTopic :: get_type_name());
     }
 
     function create()

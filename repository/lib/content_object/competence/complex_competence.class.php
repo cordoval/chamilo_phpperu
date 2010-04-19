@@ -9,7 +9,7 @@ class ComplexCompetence extends ComplexContentObjectItem
 {
 	function get_allowed_types()
     {
-        return array('indicator');
+        return array(Indicator :: get_type_name());
     }
 }
 ?>

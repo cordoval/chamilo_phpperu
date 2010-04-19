@@ -23,10 +23,10 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
             if ($reply)
             {
                 $reply_item = $rdm->retrieve_complex_content_object_item($reply);
-                $reply_lo = $rdm->retrieve_content_object($reply_item->get_ref(), 'forum_post');
+                $reply_lo = $rdm->retrieve_content_object($reply_item->get_ref(), ForumPost :: get_type_name());
             }
             
-            $pub = new RepoViewer($this, 'forum_post', false, RepoViewer :: SELECT_MULTIPLE, array(), false);
+            $pub = new RepoViewer($this, ForumPost :: get_type_name(), RepoViewer :: SELECT_MULTIPLE, array(), false);
             $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_FORUM_POST);
             $pub->set_parameter('pid', $pid);
             $pub->set_parameter('cid', $cid);
@@ -64,7 +64,7 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
                 	
             	foreach($object_ids as $object_id)
             	{
-	            	$cloi = ComplexContentObjectItem :: factory('forum_post');
+	            	$cloi = ComplexContentObjectItem :: factory(ForumPost :: get_type_name());
 	                
 	                $cloi->set_ref($object_id);
 	                $cloi->set_user_id($this->get_user_id());

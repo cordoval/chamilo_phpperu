@@ -223,7 +223,7 @@ class TaskForm extends ContentObjectForm
         }
         else
         {
-            $object->set_repeat_type(Utilities :: $values[Task :: PROPERTY_REPEAT_TYPE]);
+            $object->set_repeat_type($values[Task :: PROPERTY_REPEAT_TYPE]);
             $to_date = Utilities :: time_from_datepicker($values[Task :: PROPERTY_REPEAT_TO]);
             $object->set_repeat_to($to_date);
         }

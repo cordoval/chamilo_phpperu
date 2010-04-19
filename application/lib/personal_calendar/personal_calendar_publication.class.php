@@ -21,7 +21,7 @@ class PersonalCalendarPublication extends DataClass
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
 
-    const PROPERTY_CONTENT_OBJECT_ID = 'calendar_event_id';
+    const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
 
@@ -101,8 +101,12 @@ class PersonalCalendarPublication extends DataClass
 
     function get_publication_object()
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_content_object($this->get_content_object_id());
+    	if (! isset($this->publication_object))
+        {
+    	$rdm = RepositoryDataManager :: get_instance();
+       	$this->publication_object = $rdm->retrieve_content_object($this->get_content_object_id());
+        }
+        return $this->publication_object;
     }
 
     function get_publication_publisher()

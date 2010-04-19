@@ -231,12 +231,12 @@ class PrerequisitesBuilderForm extends FormValidator
         {
             $lo = $rdm->retrieve_content_object($sibbling->get_ref());
             
-            if($lo->get_type() == 'learning_path')
+            if($lo->get_type() == LearningPath :: get_type_name())
             {
             	continue;
             }
             
-            if ($lo->get_type() == 'learning_path_item')
+            if ($lo->get_type() == LearningPathItem :: get_type_name())
             {
                 $lo = $rdm->retrieve_content_object($lo->get_reference());
             }

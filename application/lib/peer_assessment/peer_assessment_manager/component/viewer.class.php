@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/peer_assessment/peer_assessment_display.class.php';
 
-class PeerAssessmentManagerPeerAssessmentViewerComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerViewerComponent extends PeerAssessmentManagerComponent
 {
     private $cd;
     private $trail;
@@ -21,7 +21,7 @@ class PeerAssessmentManagerPeerAssessmentViewerComponent extends PeerAssessmentM
         $this->set_parameter(PeerAssessmentManager :: PARAM_ACTION, PeerAssessmentManager :: ACTION_VIEW_PEER_ASSESSMENT);
         $this->set_parameter(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION, Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION));
         
-        $this->cd = ComplexDisplay :: factory($this, 'peer_assessment');
+        $this->cd = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
         
         $pub = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication(Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION));
         

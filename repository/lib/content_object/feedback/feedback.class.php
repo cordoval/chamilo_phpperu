@@ -16,6 +16,13 @@ class Feedback extends ContentObject
     const ICON_RIGHT = 4;
     const ICON_INFORMATIVE = 5;
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     function get_icon()
     {
         return $this->get_additional_property(self :: PROPERTY_ICON);

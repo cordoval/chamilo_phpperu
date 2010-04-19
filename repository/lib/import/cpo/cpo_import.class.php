@@ -231,7 +231,7 @@ class CpoImport extends ContentObjectImport
 
     public function import_extra_properties($type, $additionalProperties, $lo)
     {
-        if ($type == 'document')
+        if ($type == Document :: get_type_name())
         {
             $hash = $additionalProperties['hash'];
             
@@ -239,7 +239,7 @@ class CpoImport extends ContentObjectImport
             $additionalProperties['path'] = $this->files[$hash]['path']; 
         }
         
-        if ($type == 'hotpotatoes')
+        if ($type == Hotpotatoes :: get_type_name())
         {
             $path = $additionalProperties['path'];
             foreach ($this->hp_files as $folder => $new_folder)
@@ -252,7 +252,7 @@ class CpoImport extends ContentObjectImport
             }
         }
         
-        if ($type == 'learning_path')
+        if ($type == LearningPath :: get_type_name())
         {
             $path = $additionalProperties['path'];
             foreach ($this->scorm_files as $folder => $new_folder)
@@ -265,7 +265,7 @@ class CpoImport extends ContentObjectImport
             }
         }
         
-        if ($type == 'scorm_item')
+        if ($type == ScormItem :: get_type_name())
         {
             $path = $additionalProperties['path'];
             foreach ($this->scorm_files as $folder => $new_folder)
@@ -353,7 +353,7 @@ class CpoImport extends ContentObjectImport
                 $lo->set_additional_properties($additionalProperties);
             }
         
-            if($type == 'document' && !$lo->get_path())
+            if($type == Document :: get_type_name() && !$lo->get_path())
             {
 				return;
             }
@@ -368,12 +368,12 @@ class CpoImport extends ContentObjectImport
             	$this->object_numbers[$object_number] = $lo->get_object_number();
             }
 			
-            if ($type == 'learning_path_item' || $type == 'portfolio_item')
+            if ($type == LearningPathItem :: get_type_name() || $type == PortfolioItem :: get_type_name())
             {
                 $this->references[$lo->get_id()] = $additionalProperties['reference_id'];
             }
             
-            if($type == 'hotspot_question')
+            if($type == HotspotQuestion :: get_type_name())
             {
             	$this->hotspot_questions[$lo->get_id()] = $lo->get_image();
             }
@@ -515,7 +515,7 @@ class CpoImport extends ContentObjectImport
                 $cloi->set_additional_properties($child['properties']);
                 $cloi->create();
                 
-                if ($childlo->get_type() == 'learning_path_item')
+                if ($childlo->get_type() == LearningPathItem :: get_type_name())
                 {
                     $this->learning_path_item_wrappers[] = $cloi;
                 }
@@ -584,7 +584,7 @@ class CpoImport extends ContentObjectImport
         {
             $ref = $this->rdm->retrieve_content_object($lp_wrapper->get_ref());
             $reference = $this->rdm->retrieve_content_object($ref->get_reference());
-            if ($reference->get_type() != 'scorm_item')
+            if ($reference->get_type() != ScormItem :: get_type_name())
             {
                 if ($prereq = $lp_wrapper->get_prerequisites())
                 {

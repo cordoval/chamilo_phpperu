@@ -148,7 +148,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
         }
         $conditions[] = new OrCondition($access);
         
-        $subselect_condition = new EqualityCondition('type', 'forum');
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Forum :: get_type_name());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         $condition = new AndCondition($conditions);
         

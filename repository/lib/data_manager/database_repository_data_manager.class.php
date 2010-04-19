@@ -449,7 +449,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function is_only_document_occurence($path)
     {
         $condition = new EqualityCondition(Document :: PROPERTY_PATH, $path);
-        $count = $this->count_objects('document', $condition);
+        $count = $this->count_objects(Document :: get_type_name(), $condition);
 
         return ($count == 1 ? true : false);
     }
@@ -1566,7 +1566,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function delete_assisting_content_objects($object)
     {
-    	$assisting_types = array('learning_path_item', 'portfolio_item');
+    	$assisting_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
 
     	$failures = 0;
 

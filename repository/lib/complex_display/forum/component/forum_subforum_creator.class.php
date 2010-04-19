@@ -22,7 +22,7 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplayComponent
                 $this->display_footer();
             }
             
-            $pub = new RepoViewer($this, 'forum', true, RepoViewer :: SELECT_SINGLE, array(), false, false);
+            $pub = new RepoViewer($this, Forum :: get_type_name(), RepoViewer :: SELECT_SINGLE, array(), false);
             $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_SUBFORUM);
             $pub->set_parameter('pid', $pid);
             $pub->set_parameter('forum', $forum);
@@ -39,7 +39,7 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplayComponent
             }
             else
             {
-                $cloi = ComplexContentObjectItem :: factory('forum');
+                $cloi = ComplexContentObjectItem :: factory(Forum :: get_type_name());
                 
                 if ($is_subforum)
                 {

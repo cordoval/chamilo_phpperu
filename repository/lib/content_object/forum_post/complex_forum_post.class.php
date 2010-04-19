@@ -62,7 +62,7 @@ class ComplexForumPost extends ComplexContentObjectItem
     
 /*function get_allowed_types()
 	{
-		return array('forum_post');
+		return array(ForumPost :: get_type_name());
 	}*/
 }
 ?>

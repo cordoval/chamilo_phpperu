@@ -30,7 +30,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'assessment');
 
-        $subselect_condition = new EqualityCondition('type', 'introduction');
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition, ContentObjectPublication :: get_table_name());
         $condition = new AndCondition($conditions);
 
@@ -60,8 +60,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 
         echo '</div>';
         echo '<div style="width:80%; padding-left: 1%; float:right; ">';
-        //$table = new AssessmentPublicationTable($this, $this->get_user(), array('assessment', 'survey', 'hotpotatoes'), null);
-        $table = new ObjectPublicationTable($this, $this->get_user(), array('assessment', 'survey', 'hotpotatoes'), $this->get_condition(), new AssessmentCellRenderer($this), new AssessmentColumnModel());
+        $table = new ObjectPublicationTable($this, $this->get_user(), array(Assessment :: get_type_name(), Survey :: get_type_name(), Hotpotatoes :: get_type_name()), $this->get_condition(), new AssessmentCellRenderer($this), new AssessmentColumnModel());
         echo $table->as_html();
 
         echo '</div>';

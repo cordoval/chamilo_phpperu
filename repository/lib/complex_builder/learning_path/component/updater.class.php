@@ -33,7 +33,7 @@ class LearningPathBuilderUpdaterComponent extends LearningPathBuilderComponent
             $defaults = $cloi_form->get_default_values();
         }
         
-        if ($lo->get_type() == 'learning_path_item')
+        if ($lo->get_type() == LearningPathItem :: get_type_name())
         {
             $item_lo = $lo;
             $lo = $rdm->retrieve_content_object($lo->get_reference());

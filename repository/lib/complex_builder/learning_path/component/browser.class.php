@@ -41,7 +41,9 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
         if ($lo->get_version() == 'chamilo')
         {
             echo '<br />';
-            $types = array('learning_path', 'announcement', 'assessment', 'blog_item', 'calendar_event', 'description', 'document', 'forum', 'glossary', 'hotpotatoes', 'link', 'note', 'wiki');
+            $types = array(LearningPath :: get_type_name(), Announcement :: get_type_name(), Assessment :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), 
+            			  Description :: get_type_name(), Document :: get_type_name(), Forum :: get_type_name(), Glossary :: get_type_name(), Hotpotatoes :: get_type_name(), Link :: get_type_name(), 
+            			  Note :: get_type_name(), Wiki :: get_type_name());
             echo $this->get_creation_links($lo, $types);
             echo '<div class="clear">&nbsp;</div><br />';
         }
@@ -82,17 +84,6 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        /*$type = 'learning_path';
-		$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'content_object/' . $type . '.png', $url));
-
-		$types = array('announcement', 'assessment', 'blog_item', 'calendar_event', 'description', 'document', 'forum', 'glossary', 'link', 'note', 'wiki');
-		foreach($types as $type)
-		{
-			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_CREATE_LP_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
-			$action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'content_object/' . $type . '.png', $url));
-		}*/
-
         if ($pub && $pub != '')
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $_SESSION['redirect_url']));
@@ -113,7 +104,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 
         foreach ($types as $type)
         {
-            if ($type == 'learning_path')
+            if ($type == LearningPath :: get_type_name())
             {
                 $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
             }

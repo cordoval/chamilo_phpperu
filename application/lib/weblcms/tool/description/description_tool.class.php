@@ -37,7 +37,7 @@ class DescriptionTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('description');
+        return array(Description :: get_type_name());
     }
 }
 ?>

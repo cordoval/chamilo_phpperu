@@ -1,15 +1,12 @@
 <?php
-//require_once dirname(__FILE__).'/../../web_application.class.php';
-require_once dirname(__FILE__).'/gradebook_manager_component.class.php';
-require_once dirname(__FILE__).'/../gradebook_data_manager.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 require_once Path :: get_application_path() . 'lib/gradebook/gradebook_rights.class.php';
-/*require_once dirname(__FILE__).'/component/gradebook_browser/gradebook_browser_table.class.php';
-require_once dirname(__FILE__).'/component/gradebook_subscribe_user_browser/gradebook_subscribe_user_browser_table.class.php';
-require_once dirname(__FILE__).'/component/gradebook_rel_user_browser/gradebook_rel_user_browser_table.class.php'*/;
 
-//require_once dirname(__FILE__).'/../gradebook_utilities.class.php';
+require_once dirname(__FILE__) . '/gradebook_manager_component.class.php';
+require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
+
+require_once dirname(__FILE__) . '/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
 
 class GradebookManager extends WebApplication
 {
@@ -50,6 +47,8 @@ class GradebookManager extends WebApplication
 	const PARAM_ACTIVATE_SELECTED_EVALUATION_FORMAT = 'activate_selected_evaluation_format';
 	const PARAM_DEACTIVATE_SELECTED_EVALUATION_FORMAT = 'deactivate_selected_evaluation_format';
 	const PARAM_EVALUATION_FORMAT = 'evaluation_format';
+	const PARAM_EVALUATION_FORMAT_ID = 'evaluation_format';
+	const PARAM_ACTIVE = 'active';
 	
 	public function GradebookManager($user)
 	{
@@ -276,15 +275,8 @@ class GradebookManager extends WebApplication
 	{
 		if (isset ($_POST['action']))
 		{
-			if(isset($_POST[GradebookBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){ 
-				$selected_ids = $_POST[GradebookBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
-			}
-			
-			if(isset($_POST[GradebookSubscribeUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){
-				$selected_ids = $_POST[GradebookSubscribeUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
-			}
-			if(isset($_POST[GradebookRelUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){
-				$selected_ids = $_POST[GradebookRelUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			if(isset($_POST[EvaluationFormatsBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){ 
+				$selected_ids = $_POST[EvaluationFormatsBrowserTable  :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			}
 			
 			if (empty ($selected_ids))
@@ -297,18 +289,16 @@ class GradebookManager extends WebApplication
 			}
 			switch ($_POST['action'])
 			{
-				case self :: PARAM_REMOVE_SELECTED :
-					$this->set_action(self :: ACTION_DELETE_GRADEBOOK);
-					$_GET[self :: PARAM_GRADEBOOK_ID] = $selected_ids;
+				case self :: PARAM_DEACTIVATE_SELECTED_EVALUATION_FORMAT :
+					$this->set_action(self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY);
+					Request :: set_get(self :: PARAM_EVALUATION_FORMAT_ID, $selected_ids);
+					Request :: set_get(self :: PARAM_ACTIVE, 0);
 					break;
-				case self :: PARAM_UNSUBSCRIBE_SELECTED :
-					$this->set_action(self :: ACTION_UNSUBSCRIBE_USER_FROM_GRADEBOOK);
-					$_GET[self :: PARAM_GRADEBOOK_REL_USER_ID] = $selected_ids;
+				case self :: PARAM_ACTIVATE_SELECTED_EVALUATION_FORMAT :
+					$this->set_action(self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY);
+					Request :: set_get(self :: PARAM_EVALUATION_FORMAT_ID, $selected_ids);
+					Request :: set_get(self :: PARAM_ACTIVE, 1);
 					break;
-				case self :: PARAM_SUBSCRIBE_SELECTED :
-					$this->set_action(self :: ACTION_SUBSCRIBE_USER_TO_GRADEBOOK);
-					$_GET[self :: PARAM_USER_ID] = $selected_ids;
-					break;	
 			}
 		}
 	}

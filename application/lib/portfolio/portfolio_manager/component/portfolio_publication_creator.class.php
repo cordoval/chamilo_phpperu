@@ -24,7 +24,7 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
 
-        $pub = new RepoViewer($this, 'portfolio', false, RepoViewer :: SELECT_MULTIPLE, array(), true, false);
+        $pub = new RepoViewer($this, Portfolio :: get_type_name(), RepoViewer :: SELECT_MULTIPLE);
 
         if (!$pub->is_ready_to_be_published())
         {
@@ -44,7 +44,7 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
 
             $portfolio_publication = new PortfolioPublication();
 
-            $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_CREATE, $portfolio_publication, $this->get_url(array('object' => $object)), $this->get_user());
+            $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_CREATE, $portfolio_publication, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $object)), $this->get_user());
 
             if ($form->validate())
             {

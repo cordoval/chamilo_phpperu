@@ -96,7 +96,7 @@ class ResultsXmlExport extends ResultsExport
         $answers = unserialize($user_answer->get_answer());
         foreach ($answers as $answer)
         {
-            if ($data['type'] == 'hotspot_question')
+            if ($data['type'] == HotspotQuestion :: get_type_name())
             {
                 $coordinates = unserialize($answer);
                 $answer_data['x'] = $coordinates[0];
@@ -116,7 +116,7 @@ class ResultsXmlExport extends ResultsExport
 
     function export_feedback($feedback_id)
     {
-        $feedback = $this->rdm->retrieve_content_object($feedback_id, 'feedback');
+        $feedback = $this->rdm->retrieve_content_object($feedback_id, Feedback :: get_type_name());
         $data['id'] = $feedback->get_id();
         $data['title'] = htmlspecialchars($feedback->get_title());
         $data['description'] = htmlspecialchars($feedback->get_description());

@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
 require_once dirname(__FILE__) . '/../portfolio_manager_component.class.php';
+require_once dirname(__FILE__) . '/../../portfolio_rights.class.php';
 
 /**
  * Component to delete portfolio_publications objects
@@ -30,17 +31,20 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManagerComp
             
             $rdm = RepositoryDataManager :: get_instance();
             
-            foreach ($ids as $id)
+            foreach ($ids as $cid)
             {
-                $item = $rdm->retrieve_complex_content_object_item($id);
+                $item = $rdm->retrieve_complex_content_object_item($cid);
                 $ref = $rdm->retrieve_content_object($item->get_ref());
                 
                 if (! $item->delete())
                 {
                     $failures ++;
                 }
-                
-                if ($ref->get_type() == 'portfolio_item')
+                else if(!portfolioRights::delete_location($cid))
+                {
+                    $failures ++;
+                }
+                if ($ref->get_type() == PortfolioItem :: get_type_name())
                 {
                     $ref->delete();
                 }

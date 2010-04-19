@@ -136,25 +136,25 @@ class ReportingSurvey
         switch ($question->get_type())
         {
             
-            case 'rating_question' :
+            case RatingQuestion :: get_type_name() :
                 $possible_answers[] = 'value';
                 break;
-            case 'open_question' :
+            case OpenQuestion :: get_type_name() :
             
-            case 'fill_in_blanks_question' :
+            case FillInBlanksQuestion :: get_type_name() :
             
-            case 'multiple_choice_question' :
+            case MultipleChoiceQuestion :: get_type_name() :
                 $options = $question->get_options();
                 foreach ($options as $option)
                 {
                     $possible_answers[] = $option->get_value();
                 }
                 break;
-            case 'matching_question' :
+            case MatchingQuestion :: get_type_name() :
             
-            case 'select_question' :
+            case SelectQuestion :: get_type_name() :
             
-            case 'matrix_question' :
+            case MatrixQuestion :: get_type_name() :
             
             default :
         

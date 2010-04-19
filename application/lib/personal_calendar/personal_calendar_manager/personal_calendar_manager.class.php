@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . '/../connector/personal_calendar_weblcms_connec
 require_once dirname(__FILE__) . '/../personal_calendar_event.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_data_manager.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_block.class.php';
+require_once dirname(__FILE__) . '/../personal_calendar_event_parser.class.php';
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.
@@ -95,8 +96,8 @@ class PersonalCalendarManager extends WebApplication
     public function get_events($from_date, $to_date)
     {
         $events = $this->get_user_events($from_date, $to_date);
-        $events = array_merge($events, $this->get_connector_events($from_date, $to_date));
-        $events = array_merge($events, $this->get_user_shared_events($from_date, $to_date));
+        //$events = array_merge($events, $this->get_connector_events($from_date, $to_date));
+        //$events = array_merge($events, $this->get_user_shared_events($from_date, $to_date));
         return $events;
     }
 
@@ -165,67 +166,9 @@ class PersonalCalendarManager extends WebApplication
         
         while ($publication = $publications->next_result())
         {
-            $object = $publication->get_publication_object();
-            $publisher = $publication->get_publisher();
-            $publishing_user = $publication->get_publication_publisher();
-            
-            if (isset($query) && $query != '')
-            {
-                if ((stripos($object->get_title(), $query) === false) && (stripos($object->get_description(), $query) === false))
-                    continue;
-            }
-            
-            if ($object->repeats())
-            {
-                $repeats = $object->get_repeats($from_date, $to_date);
-                
-                foreach ($repeats as $repeat)
-                {
-                    $event = new PersonalCalendarEvent();
-                    $event->set_start_date($repeat->get_start_date());
-                    $event->set_end_date($repeat->get_end_date());
-                    $event->set_url($this->get_publication_viewing_url($publication));
-                    
-                    // Check whether it's a shared or regular publication
-                    if ($publisher != $this->get_user_id())
-                    {
-                        $event->set_title($object->get_title() . ' [' . $publishing_user->get_fullname() . ']');
-                    }
-                    else
-                    {
-                        $event->set_title($object->get_title());
-                    }
-                    
-                    $event->set_content($repeat->get_description());
-                    $event->set_source($source);
-                    $event->set_id($publication->get_id());
-                    $events[] = $event;
-                }
-            }
-            elseif ($object->get_start_date() >= $from_date && $object->get_start_date() <= $to_date)
-            {
-                $event = new PersonalCalendarEvent();
-                $event->set_start_date($object->get_start_date());
-                $event->set_end_date($object->get_end_date());
-                $event->set_url($this->get_publication_viewing_url($publication));
-                
-                // Check whether it's a shared or regular publication
-                if ($publisher != $this->get_user_id())
-                {
-                    $event->set_title($object->get_title() . ' [' . $publishing_user->get_fullname() . ']');
-                }
-                else
-                {
-                    $event->set_title($object->get_title());
-                }
-                
-                $event->set_content($object->get_description());
-                $event->set_source($source);
-                $event->set_id($publication->get_id());
-                $events[] = $event;
-            }
+        	$parser = PersonalCalendarEventParser::factory($this, $publication, $from_date, $to_date);
+            $events = array_merge($events, $parser->get_events());
         }
-        
         return $events;
     }
 
@@ -298,7 +241,7 @@ class PersonalCalendarManager extends WebApplication
      */
     function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array('calendar_event');
+        $allowed_types = array(CalendarEvent :: get_type_name());
         
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))

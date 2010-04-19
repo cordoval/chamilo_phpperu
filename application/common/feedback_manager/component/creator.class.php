@@ -29,7 +29,7 @@ class FeedbackManagerCreatorComponent extends FeedbackManagerComponent
         $publication_id = $this->get_publication_id();
         $complex_wrapper_id = $this->get_complex_wrapper_id();
         
-        $pub = new RepoViewer($this, 'feedback', false);
+        $pub = new RepoViewer($this, Feedback :: get_type_name());
 		
         $html = array();
 

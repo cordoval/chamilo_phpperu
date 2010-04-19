@@ -46,7 +46,7 @@ class ForumTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('forum');
+        return array(Forum :: get_type_name());
     }
 
     static function get_subforum_parents($subforum_id)

@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.ph
  * @author Nick Van Loocke
  */
 
-class PeerAssessmentManagerPeerAssessmentPublicationResultsComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerResultsComponent extends PeerAssessmentManagerComponent
 {
 	function run()
 	{
@@ -53,7 +53,6 @@ class PeerAssessmentManagerPeerAssessmentPublicationResultsComponent extends Pee
         $url = $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pids));
         $form = new FormValidator('peer_assessment_publication_mover', 'post', $url);
         
-
         return $form;
 	} 
 }

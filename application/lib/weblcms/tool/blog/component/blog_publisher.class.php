@@ -30,7 +30,7 @@ class BlogToolPublisherComponent extends BlogToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publisher')));
         $trail->add_help('courses blog tool');
         
-        $pub = new ContentObjectRepoViewer($this, 'blog_item', true);
+        $pub = new ContentObjectRepoViewer($this, BlogItem :: get_type_name());
         
         if (!$pub->is_ready_to_be_published())
         {

@@ -179,7 +179,7 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
             $info->set_id($record[PeerAssessmentPublication :: PROPERTY_ID]);
             $info->set_publisher_user_id($record[PeerAssessmentPublication :: PROPERTY_PUBLISHER]);
             $info->set_publication_date($record[PeerAssessmentPublication :: PROPERTY_PUBLISHED]);
-            $info->set_application('peer_assessment');
+            $info->set_application(PeerAssessmentManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('PeerAssessment'));
             $info->set_url('run.php?application=peer_assessment&go=browse');
@@ -206,7 +206,7 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
         $publication_attr->set_id($record[PeerAssessmentPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[PeerAssessmentPublication :: PROPERTY_PUBLISHER]);
         $publication_attr->set_publication_date($record[PeerAssessmentPublication :: PROPERTY_PUBLISHED]);
-        $publication_attr->set_application('peer_assessment');
+        $publication_attr->set_application(PeerAssessmentManager :: APPLICATION_NAME);
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('PeerAssessment'));
         $publication_attr->set_url('run.php?application=peer_assessment&go=browse');

@@ -30,7 +30,7 @@ class GeolocationToolPublisherComponent extends GeolocationToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => GeolocationTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
         $trail->add_help('courses geolocation tool');
         
-        $pub = new ContentObjectRepoViewer($this, 'physical_location', true);
+        $pub = new ContentObjectRepoViewer($this, PhysicalLocation :: get_type_name());
         
         if (!$pub->is_ready_to_be_published())
         {

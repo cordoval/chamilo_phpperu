@@ -15,7 +15,13 @@ class Survey extends ContentObject
     const PROPERTY_INTRODUCTION_TEXT = 'intro_text';
     const PROPERTY_ANONYMOUS = 'anonymous';
     const PROPERTY_CONTEXT = 'context';
-    
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
     private $context;
 
     static function get_additional_property_names()
@@ -77,7 +83,7 @@ class Survey extends ContentObject
     function get_allowed_types()
     {
         $allowed_types = array();
-        $allowed_types[] = 'survey_page';
+        $allowed_types[] = SurveyPage :: get_type_name();
         return $allowed_types;
     }
 

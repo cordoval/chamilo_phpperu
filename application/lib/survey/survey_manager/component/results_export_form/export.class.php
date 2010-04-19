@@ -24,7 +24,7 @@ abstract class ResultsExport
 
     function export_results($type, $id)
     {
-        if ($type == 'survey')
+        if ($type == Survey :: get_type_name())
         {
             $data = $this->export_publication_id($id);
         }

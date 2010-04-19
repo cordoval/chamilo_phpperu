@@ -2,7 +2,7 @@
 <object name="publication">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
-		<property name="calendar_event_id" type="integer" unsigned="1"
+		<property name="content_object_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="publisher_id" type="integer" notnull="1" />
 		<property name="published" type="integer" unsigned="1"
@@ -11,7 +11,7 @@
 	<index name="publisher">
 		<indexproperty name="publisher_id" />
 	</index>
-	<index name="calendar_event_id">
-		<indexproperty name="calendar_event_id" />
+	<index name="content_object_id">
+		<indexproperty name="content_object_id" />
 	</index>
 </object>

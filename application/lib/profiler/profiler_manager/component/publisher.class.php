@@ -20,7 +20,7 @@ class ProfilerManagerPublisherComponent extends ProfilerManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishProfile')));
         $trail->add_help('profiler general');
         
-        $pub = new RepoViewer($this, 'profile', true);
+        $pub = new RepoViewer($this, Profile :: get_type_name());
         
         if (!$pub->is_ready_to_be_published())
         {

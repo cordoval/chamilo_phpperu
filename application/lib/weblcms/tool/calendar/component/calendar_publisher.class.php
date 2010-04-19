@@ -22,16 +22,14 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CalendarTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
         $trail->add_help('courses calendar tool');
-        //$pub = new ContentObjectPublisher($this, 'calendar_event', true);
-        
 
         $event = new CalendarEvent();
         $event->set_owner_id($this->get_user_id());
         $event->set_start_date(intval(Request :: get('default_start_date')));
         $event->set_end_date(intval(Request :: get('default_end_date')));
         
-        $pub = new ContentObjectRepoViewer($this, 'calendar_event', true);
-        $pub->set_default_content_object('calendar_event', $event);
+        $pub = new ContentObjectRepoViewer($this, CalendarEvent :: get_type_name());
+        $pub->set_default_content_object(CalendarEvent :: get_type_name(), $event);
         
         if (!$pub->any_object_selected())
         {

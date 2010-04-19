@@ -342,7 +342,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
             $info->set_id($record[AssessmentPublication :: PROPERTY_ID]);
             $info->set_publisher_user_id($record[AssessmentPublication :: PROPERTY_PUBLISHER]);
             $info->set_publication_date($record[AssessmentPublication :: PROPERTY_PUBLISHED]);
-            $info->set_application('assessment');
+            $info->set_application(AssessmentManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('Assessment'));
             $info->set_url('run.php?application=assessment&go=browse_assessments');
@@ -369,7 +369,7 @@ class DatabaseAssessmentDataManager extends AssessmentDataManager
         $publication_attr->set_id($record[AssessmentPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[AssessmentPublication :: PROPERTY_PUBLISHER]);
         $publication_attr->set_publication_date($record[AssessmentPublication :: PROPERTY_PUBLISHED]);
-        $publication_attr->set_application('assessment');
+        $publication_attr->set_application(AssessmentManager :: APPLICATION_NAME);
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('Assessment'));
         $publication_attr->set_url('run.php?application=assessment&go=browse_assessments');

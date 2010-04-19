@@ -22,12 +22,8 @@ class ToolIntroductionPublisherComponent extends ToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), Translation :: get('PublishIntroductionText')));
         $trail->add_help('courses general');
-        /*$pub = new ContentObjectPublisher($this, 'introduction', true);
-
-		$html[] = '<p><a href="' . $this->get_url() . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
-		$html[] =  $pub->as_html();*/
         
-        $pub = new ContentObjectRepoViewer($this, 'introduction', true);
+        $pub = new ContentObjectRepoViewer($this, Introduction :: get_type_name());
         $pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_INTRODUCTION);
         
         if (!$pub->is_ready_to_be_published())

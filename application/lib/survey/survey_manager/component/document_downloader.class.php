@@ -95,7 +95,7 @@ class SurveyManagerDocumentDownloaderComponent extends SurveyManagerComponent
             if ($user_question != null)
             {
                 $answer = unserialize($user_question->get_answer());
-                $document = RepositoryDataManager :: get_instance()->retrieve_content_object($answer[2], 'document');
+                $document = RepositoryDataManager :: get_instance()->retrieve_content_object($answer[2], Document :: get_type_name());
                 $filenames[] = Path :: get(SYS_REPO_PATH) . $document->get_path();
             }
         }

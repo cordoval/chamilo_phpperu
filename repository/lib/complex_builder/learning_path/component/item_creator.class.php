@@ -79,15 +79,15 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderCompone
             foreach ($object as $obj)
             {
                 $content_object = new LearningPathItem();
-                $content_object->set_title('learning_path_item');
-                $content_object->set_description('learning_path_item');
+                $content_object->set_title(LearningPathItem :: get_type_name());
+                $content_object->set_description(LearningPathItem :: get_type_name());
                 $content_object->set_owner_id($this->get_user_id());
                 $content_object->set_reference($obj);
                 $content_object->set_parent_id(0);
                 
                 $content_object->create();
                 
-                $cloi = ComplexContentObjectItem :: factory('learning_path_item');
+                $cloi = ComplexContentObjectItem :: factory(LearningPathItem :: get_type_name());
                 $cloi->set_ref($content_object->get_id());
                 
                 $cloi->set_parent($parent);

@@ -129,7 +129,6 @@ class WikiManager extends WebApplication
     {
     	if(WebApplication :: is_active('gradebook'))
         {
-	    	//require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
 	    	return EvaluationManager :: move_internal_to_external(self :: APPLICATION_NAME, $publication);
         }
     }
@@ -213,7 +212,7 @@ class WikiManager extends WebApplication
 
 	function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array('wiki');
+        $allowed_types = array(Wiki :: get_type_name());
         
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))

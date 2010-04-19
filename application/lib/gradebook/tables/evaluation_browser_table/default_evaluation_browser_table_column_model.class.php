@@ -23,8 +23,8 @@ class DefaultEvaluationBrowserTableColumnModel extends ObjectTableColumnModel
 		$grade_evaluation_alias = $gdm->get_database()->get_alias(GradeEvaluation :: get_table_name());
 		$columns = array();
 		$columns[] = new ObjectTableColumn(Evaluation :: PROPERTY_EVALUATION_DATE, true, $evaluation_alias);
-		$columns[] = new ObjectTableColumn(Translation :: get('user'), false);
-		$columns[] = new ObjectTableColumn(Translation :: get('evaluator'), false);
+		$columns[] = new ObjectTableColumn('user', false);
+		$columns[] = new ObjectTableColumn('evaluator', false);
 		$columns[] = new ObjectTableColumn(GradeEvaluation :: PROPERTY_SCORE, false, $grade_evaluation_alias);
 		$columns[] = new ObjectTableColumn(GradeEvaluation :: PROPERTY_COMMENT, false, $grade_evaluation_alias);
 		return $columns;

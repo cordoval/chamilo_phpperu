@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.ph
  * @author Nick Van Loocke
  */
 
-class PeerAssessmentManagerPeerAssessmentPublicationTakeComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerTakeComponent extends PeerAssessmentManagerComponent
 {	
 	private $datamanager;
 	private $pid;
@@ -57,7 +57,7 @@ class PeerAssessmentManagerPeerAssessmentPublicationTakeComponent extends PeerAs
             
             $this->display_header($trail, true);
             
-            $display = ComplexDisplay :: factory($this, 'peer_assessment');
+            $display = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
         	$display->set_root_lo($this->peer_assessment);
         	$display->run();
             

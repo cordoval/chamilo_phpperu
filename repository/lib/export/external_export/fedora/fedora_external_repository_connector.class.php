@@ -742,7 +742,7 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	    
 	    switch($type)
 	    {
-	        case 'document':
+	        case Document :: get_type_name():
 	            return true;
 	            
 	        default:
@@ -765,7 +765,7 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	    $content = null;
 	    switch($type)
 	    {
-	        case 'document':
+	        case Document :: get_type_name():
 	            return $this->get_document_content($content_object);
 	            break;
 	    }

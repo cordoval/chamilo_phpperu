@@ -54,7 +54,7 @@ class DefaultResultQuestionTableCellRenderer implements ObjectTableCellRenderer
                 return $description;
             case ContentObject :: PROPERTY_TYPE :
                 $type = Translation :: get($content_object->get_type());
-                if ($type == 'survey')
+                if ($type == Survey :: get_type_name())
                 {
                     $type = $content_object->get_survey_type();
                 }

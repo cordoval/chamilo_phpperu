@@ -33,7 +33,7 @@ class ScormExport extends ContentObjectExport
     {
         switch ($content_object->get_type())
         {
-            case 'learning_path' :
+            case LearningPath :: get_type_name() :
                 $exporter = new LearningPathScormExport($content_object);
                 break;
             default :

@@ -91,7 +91,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         {
             $lo = $rdm->retrieve_content_object($child->get_ref());
             $child->set_ref($lo);
-            if ($lo->get_type() != 'forum_topic')
+            if ($lo->get_type() != ForumTopic :: get_type_name())
             {
                 $forums[] = $child;
             }
@@ -110,7 +110,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         {
             $lo = $rdm->retrieve_content_object($child->get_ref());
             $child->set_ref($lo);
-            if ($lo->get_type() == 'forum_topic')
+            if ($lo->get_type() == ForumTopic :: get_type_name())
             {
                 $this->topics[] = $child;
             }

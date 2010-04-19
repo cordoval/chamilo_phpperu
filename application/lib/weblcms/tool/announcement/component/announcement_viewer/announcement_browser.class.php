@@ -20,7 +20,7 @@ class AnnouncementBrowser extends ContentObjectPublicationBrowser
 
     function AnnouncementBrowser($parent)
     {
-        parent :: __construct($parent, 'announcement');
+        parent :: __construct($parent, Announcement :: get_type_name());
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) && $parent->get_action() == 'view')
         {
             $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
@@ -83,7 +83,7 @@ class AnnouncementBrowser extends ContentObjectPublicationBrowser
             $conditions[] = new OrCondition($access);
            
             $subselect_conditions = array();
-            $subselect_conditions[] = new EqualityCondition('type', 'announcement');
+            $subselect_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Announcement :: get_type_name());
             if ($this->get_parent()->get_condition())
             {
                 $subselect_conditions[] = $this->get_parent()->get_condition();

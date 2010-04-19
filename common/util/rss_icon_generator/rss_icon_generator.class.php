@@ -44,6 +44,4 @@ class RssIconGenerator
 
 }
 
-//echo RssIconGenerator :: generate_rss_icon('assessment', RssIconGenerator :: TYPE_PUBLICATION);
-
 ?>

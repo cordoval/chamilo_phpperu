@@ -121,29 +121,29 @@ class CpoExport extends ContentObjectExport
 
     function export_additional_properties($content_object)
     {
-        if ($content_object->get_type() == 'document')
+        if ($content_object->get_type() == Document :: get_type_name())
         {
             $this->files[$content_object->get_hash()] = $content_object->get_full_path();
         }
         
-        if ($content_object->get_type() == 'hotpotatoes')
+        if ($content_object->get_type() == Hotpotatoes :: get_type_name())
         {
             $this->hotpot_files[] = dirname($content_object->get_full_path());
         }
         
-        if ($content_object->get_type() == 'learning_path' && $content_object->get_path())
+        if ($content_object->get_type() == LearningPath :: get_type_name() && $content_object->get_path())
         {
             $this->scorm_files[] = $content_object->get_full_path();
         }
         
-        if ($content_object->get_type() == 'learning_path_item' || $content_object->get_type() == 'portfolio_item')
+        if ($content_object->get_type() == LearningPathItem :: get_type_name() || $content_object->get_type() == PortfolioItem :: get_type_name())
         {
             $id = $content_object->get_reference();
             $this->render_content_object($this->rdm->retrieve_content_object($id));
             $content_object->set_reference('object' . $id);
         }
         
-        if($content_object->get_type() == 'hotspot_question')
+        if($content_object->get_type() == HotspotQuestion :: get_type_name())
         {
         	$content_object->set_image('object' . $content_object->get_image());
         }

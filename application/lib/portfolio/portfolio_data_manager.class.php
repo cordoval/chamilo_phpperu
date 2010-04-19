@@ -53,8 +53,9 @@ abstract class PortfolioDataManager
     abstract function delete_portfolio_publication($portfolio_publication);
 
     abstract function count_portfolio_publications($conditions = null);
-
-    abstract function retrieve_portfolio_publication($id);
+    abstract function retrieve_portfolio_publication_user($pid);
+    abstract function retrieve_portfolio_publication($pid);
+    abstract  function retrieve_portfolio_item_user($cid);
 
     abstract function retrieve_portfolio_publications($condition = null, $offset = null, $count = null, $order_property = null);
 

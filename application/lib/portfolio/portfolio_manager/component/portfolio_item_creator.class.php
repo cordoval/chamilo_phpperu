@@ -24,10 +24,11 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
         
         $parent = Request :: get('parent');
-        //HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
-        $types = array('portfolio', 'announcement', 'blog_item', 'calendar_event', 'description', 'document', 'link', 'note', 'rss_feed', 'profile', 'youtube');
+        //TODO: HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
+        $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), 
+        			   Description :: get_type_name(), Document :: get_type_name(), Link :: get_type_name(), Note :: get_type_name(), RssFeed :: get_type_name(), Profile :: get_type_name(), Youtube :: get_type_name());
         
-        $pub = new RepoViewer($this, $types, false, RepoViewer :: SELECT_MULTIPLE, array(), false, false);
+        $pub = new RepoViewer($this, $types, RepoViewer :: SELECT_MULTIPLE, array(), false);
         $pub->set_parameter('parent', $parent);
         $pp = Request :: get(PortfolioManager::PARAM_PARENT_PORTFOLIO);
         $pub->set_parameter(PortfolioManager::PARAM_PARENT_PORTFOLIO, $pp);
@@ -52,10 +53,10 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
             
             foreach ($objects as $object)
             {
-                $new_object = ContentObject :: factory('portfolio_item');
+                $new_object = ContentObject :: factory(PortfolioItem :: get_type_name());
                 $new_object->set_owner_id($this->get_user_id());
-                $new_object->set_title('portfolio_item');
-                $new_object->set_description('portfolio_item');
+                $new_object->set_title(PortfolioItem :: get_type_name());
+                $new_object->set_description(PortfolioItem :: get_type_name());
                 $new_object->set_parent_id(0); 
                 $new_object->set_reference($object);
                 $new_object->create();
@@ -72,8 +73,10 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
                 {
                     $typeObject = $rdm->determine_content_object_type($object);
                     $user = $this->get_user_id();
-                   
-                    $parent_location = portfolioRights::get_location_id_by_identifier_from_user_subtree(portfolioRights::PORTFOLIO_FOLDER, $pp, $user);
+                    $possible_types = array();
+                    $possible_types[] = portfolioRights::TYPE_PORTFOLIO_FOLDER;
+                    $possible_types[] = portfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
+                    $parent_location = portfolioRights::get_location_id_by_identifier_from_portfolio_subtree($possible_types, $pp, $user);
                     if(!$parent_location)
                     {
                         //if a location for the parent is not found, the location will be put under the root of the portfolio-tree TODO: remove this code
@@ -85,20 +88,17 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
 
                         }
                     }
-                   if($typeObject == 'portfolio')
+                   if($typeObject == Portfolio :: get_type_name())
                    {
-                       $type = portfolioRights::PORTFOLIO_FOLDER;
-
+                       $type = portfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
                    }
                    else
                    {
-                       $type = portfolioRights::PORTFOLIO_ITEM;
+                       $type = portfolioRights::TYPE_PORTFOLIO_ITEM;
                    }
                    portfolioRights::create_location_in_portfolio_tree('portfolio item', $type, $wrapper->get_id(), $parent_location, $user, true, false);
                    //TODO: add the default rights to the location
                 }
-
-
             }
             
             $this->redirect($success ? Translation :: get('PortfolioItemCreated') : Translation :: get('PortfolioItemNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id()));

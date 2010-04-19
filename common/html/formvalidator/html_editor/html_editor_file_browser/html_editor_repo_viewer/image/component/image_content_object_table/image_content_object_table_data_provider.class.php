@@ -28,7 +28,7 @@ class ImageContentObjectTableDataProvider extends ContentObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->retrieve_type_content_objects('document', $this->get_condition(), $order_property, $offset, $count);
+        return $dm->retrieve_type_content_objects(Document :: get_type_name(), $this->get_condition(), $order_property, $offset, $count);
     }
 
     /*
@@ -37,7 +37,7 @@ class ImageContentObjectTableDataProvider extends ContentObjectTableDataProvider
     function get_object_count()
     {
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->count_type_content_objects('document', $this->get_condition());
+        return $dm->count_type_content_objects(Document :: get_type_name(), $this->get_condition());
     }
 
     function get_type_conditions()
@@ -46,7 +46,7 @@ class ImageContentObjectTableDataProvider extends ContentObjectTableDataProvider
         $image_conditions = array();
         foreach($image_types as $image_type)
         {
-            $image_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $image_type, 'document');
+            $image_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $image_type, Document :: get_type_name());
         }
 
         return new OrCondition($image_conditions);
