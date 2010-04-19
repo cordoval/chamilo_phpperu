@@ -2,6 +2,8 @@
 require_once dirname(__FILE__) . '/../evaluation_manager/evaluation_manager.class.php';
 require_once dirname(__FILE__) . '/../evaluation_format/evaluation_format.class.php';
 
+require_once dirname(__FILE__) . '/../../../../plugin/pear/HTML/QuickForm/Rule.php';
+
 class EvaluationForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
@@ -76,6 +78,7 @@ class EvaluationForm extends FormValidator
             $this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
     		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('score'));
             $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ValueShouldBeNumeric'), 'numeric');
+			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ScoreIsNotAValidValue'), new ValidateEvaluationScoreRule($this->evaluation_format));
     	}
     	else
     	{
@@ -164,7 +167,7 @@ class EvaluationForm extends FormValidator
 		}
     	
 		$grade_evaluation = $this->grade_evaluation;
-		$grade_evaluation->set_score($submit_values[$this->evaluation_format->get_evaluation_name()]);
+		$grade_evaluation->set_score($submit_values[$this->evaluation_format->get_evaluation_field_name()]);
 		$grade_evaluation->set_comment($submit_values['comment']);
 		$grade_evaluation->set_id($evaluation->get_id());
 		if($grade_evaluation->create(false))
@@ -201,7 +204,7 @@ class EvaluationForm extends FormValidator
 		}
 		
 		$grade_evaluation = $this->grade_evaluation;
-		$grade_evaluation->set_score($values[$this->evaluation_format->get_evaluation_name()]);
+		$grade_evaluation->set_score($values[$this->evaluation_format->get_evaluation_field_name()]);
 		$grade_evaluation->set_comment($values['comment']);
 		$grade_evaluation->set_id($evaluation->get_id());
 		if(!$grade_evaluation->update())
@@ -220,7 +223,7 @@ class EvaluationForm extends FormValidator
 		$evaluation = $this->evaluation;
 		if ($grade_evaluation->get_score())
 		{
-			$defaults[$this->evaluation_format->get_evaluation_name()] = $grade_evaluation->get_score();
+			$defaults[$this->evaluation_format->get_evaluation_field_name()] = $grade_evaluation->get_score();
 		    $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
 		    $defaults[GradeEvaluation :: PROPERTY_ID] = $grade_evaluation->get_id();
 	
@@ -237,12 +240,29 @@ class EvaluationForm extends FormValidator
 		$values = $this->getSubmitValues();
         if ($values['submit'])
         {
-        	if(!$this->evaluation_format->is_entered_score_valid($values['points_evaluation']))
-        		return false;
-	        		
 	        $this->setEvaluationDefaults();
         	return parent :: validate();
         }
 	}
+}
+
+class ValidateEvaluationScoreRule extends HTML_QuickForm_Rule
+{
+	private $evaluation_format;
+	
+	function ValidateEvaluationScoreRule($evaluation_format)
+	{
+		$this->evaluation_format = $evaluation_format;
+	}
+	
+	public function validate($evaluation_score)
+	{
+		$quotient = intval($evaluation_score / $this->evaluation_format->get_step());
+		$mod = $evaluation_score - $quotient * $this->evaluation_format->get_step();
+		
+		if($evaluation_score < $this->evaluation_format->get_min_value() || $evaluation_score > $this->evaluation_format->get_max_value() || $mod != 0)
+			return false;
+		return true;
+	}	
 }
 ?>
