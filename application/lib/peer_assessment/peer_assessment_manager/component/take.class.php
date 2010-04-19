@@ -57,7 +57,7 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManagerComponent
             
             $this->display_header($trail, true);
             
-            $display = ComplexDisplay :: factory($this, 'peer_assessment');
+            $display = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
         	$display->set_root_lo($this->peer_assessment);
         	$display->run();
             

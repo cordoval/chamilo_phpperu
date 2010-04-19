@@ -69,7 +69,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
        	$courses_result = $this->retrieve_user_courses($condition);
        	if($courses_result->size() > 0)
        	{
-       		$tab_name = Translation :: get('Others');
+       		$tab_name = Translation :: get('NoCourseTypeTab');
        		if(count($tabs) == 0) $tab_name = null;
 			$tabs[0][0] = $courses_result;
 			$tabs[0][1] = $tab_name;

@@ -47,7 +47,7 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
         }
         else
         {
-            $table = new ObjectPublicationTable($this, $this->get_user(), array('physical_location'), $this->get_condition(), new GeolocationCellRenderer($this));
+            $table = new ObjectPublicationTable($this, $this->get_user(), array(PhysicalLocation :: get_type_name()), $this->get_condition(), new GeolocationCellRenderer($this));
             $html .= $table->as_html();
         }
 
@@ -71,7 +71,7 @@ class GeolocationToolBrowserComponent extends GeolocationToolComponent
             $conditions = array();
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'geolocation');
-            $subselect_condition = new EqualityCondition('type', 'physical_location');
+            $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, PhysicalLocation :: get_type_name());
             $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
             $condition = new AndCondition($conditions);
 

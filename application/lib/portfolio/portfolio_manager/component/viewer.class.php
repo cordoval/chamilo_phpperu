@@ -164,7 +164,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
             $html[] = ' href="' . $this->get_url(array('pid' => $pid, 'cid' => $cid, 'user_id' => $user_id, 'action' => $action)) . '">' . htmlentities(Translation :: get(ucfirst($action) . 'Title'));
             if ($action == 'feedback')
             {
-                $html[] = '[' . AdminDataManager :: get_instance()->count_feedback_publications($pid, $cid, 'portfolio') . ']';
+                $html[] = '[' . AdminDataManager :: get_instance()->count_feedback_publications($pid, $cid, PortfolioManager :: APPLICATION_NAME) . ']';
             }
             $html[] = '</a></li>';
         }
@@ -197,7 +197,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishNewPortfolio'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_portfolio_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if ($this->selected_object && $this->selected_object->get_type() == 'portfolio')
+        if ($this->selected_object && $this->selected_object->get_type() == Portfolio :: get_type_name())
         {
             if($this->cid)
             {
@@ -268,7 +268,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
     {
         $html = array();
         
-        $allow_new_version = ($this->selected_object->get_type() != 'portfolio');
+        $allow_new_version = ($this->selected_object->get_type() != Portfolio :: get_type_name());
         
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
         
@@ -306,7 +306,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         $html = array();
         if ($this->cid)
         {
-             if($this->selected_object->get_type() != 'portfolio')
+             if($this->selected_object->get_type() != Portfolio :: get_type_name())
              {
                  $type = portfolioRights::TYPE_PORTFOLIO_ITEM;
              }

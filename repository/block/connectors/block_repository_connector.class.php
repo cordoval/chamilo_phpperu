@@ -17,7 +17,7 @@ class BlockRepositoryConnector
         $options = array();
         $rdm = RepositoryDataManager :: get_instance();
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
-        $objects = $rdm->retrieve_type_content_objects('rss_feed', $condition);
+        $objects = $rdm->retrieve_type_content_objects(RssFeed :: get_type_name(), $condition);
 
         if ($objects->size() == 0)
         {

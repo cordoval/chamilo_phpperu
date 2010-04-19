@@ -70,16 +70,18 @@ class EvaluationForm extends FormValidator
     	$format = EvaluationManager :: retrieve_evaluation_format($values['format_id']);
     	if(!$format)
     		$format = EvaluationManager :: retrieve_evaluation_format($this->evaluation->get_format_id());
-    	$this->evaluation_format = EvaluationFormat :: factory($format->get_title());
+    	$this->evaluation_format = EvaluationFormat :: factory(EvaluationFormat :: get_folder($format->get_title()),EvaluationFormat :: name_to_underscore($format->get_title()).'.class.php');
     	if (!$this->evaluation_format->get_score_set())
     	{
-    		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_name(), Translation :: get('score'));
+            $this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
+    		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('score'));
+            $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ValueShouldBeNumeric'), 'numeric');
     	}
     	else
     	{
-    		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_name(), Translation :: get('score'), $this->evaluation_format->get_score_set());
+    		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('score'), $this->evaluation_format->get_score_set());
     	}
-		$this->addRule($this->evaluation_format->get_evaluation_name(), Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->add_html_editor(GradeEvaluation :: PROPERTY_COMMENT, Translation :: get('Comment'), false);
     }
     
@@ -235,6 +237,9 @@ class EvaluationForm extends FormValidator
 		$values = $this->getSubmitValues();
         if ($values['submit'])
         {
+        	if(!$this->evaluation_format->is_entered_score_valid($values['points_evaluation']))
+        		return false;
+	        		
 	        $this->setEvaluationDefaults();
         	return parent :: validate();
         }

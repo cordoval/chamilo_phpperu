@@ -99,7 +99,7 @@ class WikiParser
 
     private function get_wiki_page_url(&$title, $viewTitle = null)
     {
-        $pages = RepositoryDataManager :: get_instance()->retrieve_type_content_objects('wiki_page', new EqualityCondition(ContentObject :: PROPERTY_TITLE, $title))->as_array();
+        $pages = RepositoryDataManager :: get_instance()->retrieve_type_content_objects(WikiPage :: get_type_name(), new EqualityCondition(ContentObject :: PROPERTY_TITLE, $title))->as_array();
         if ($viewTitle != null)
             $title = $viewTitle;
         foreach ($pages as $page)

@@ -53,7 +53,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
               
             while ($question = $page_questions->next_result())
             {
-                if ($question->get_type() == 'survey_description')
+                if ($question->get_type() == SurveyDescription :: get_type_name())
                 {
                     $questions[$question->get_id() . 'description'] = $question;
                 }
@@ -111,7 +111,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     //            
     //            $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
     //            
-    //            if ($question->get_type() == 'survey_description')
+    //            if ($question->get_type() == SurveyDescription :: get_type_name())
     //            {
     //                $questions[$question->get_id() . 'description'] = $question;
     //            }

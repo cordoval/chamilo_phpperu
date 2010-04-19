@@ -23,7 +23,7 @@ class PeerAssessmentManagerPeerAssessmentPublicationCreatorComponent extends Pee
         /*
          *  We make use of the ContentObjectRepoViewer setting the type to peer_assessment
          */
-        $pub = new RepoViewer($this, 'peer_assessment');
+        $pub = new RepoViewer($this, PeerAssessment :: get_type_name());
         
         /*
          *  If no page was created you'll be redirected to the peer_assessment_browser page, otherwise we'll get publications from the object

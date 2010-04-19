@@ -33,7 +33,7 @@ class PortfolioBuilderUpdaterComponent extends PortfolioBuilderComponent
             $defaults = $cloi_form->get_default_values();
         }
         
-        if ($lo->get_type() == 'portfolio_item')
+        if ($lo->get_type() == PortfolioItem :: get_type_name())
         {
             $item_lo = $lo;
             $lo = $rdm->retrieve_content_object($lo->get_reference());
