@@ -83,7 +83,7 @@ class Survey extends ContentObject
     function get_allowed_types()
     {
         $allowed_types = array();
-        $allowed_types[] = 'survey_page';
+        $allowed_types[] = SurveyPage :: get_type_name();
         return $allowed_types;
     }
 
