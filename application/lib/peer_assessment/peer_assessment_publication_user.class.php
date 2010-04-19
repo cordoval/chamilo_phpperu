@@ -69,7 +69,8 @@ class PeerAssessmentPublicationUser extends DataClass
     {
 		return $this->get_data_manager()->create_peer_assessment_publication_user($this);
     }
-
+    
+    
     static function get_table_name()
     {
         return self :: TABLE_NAME;

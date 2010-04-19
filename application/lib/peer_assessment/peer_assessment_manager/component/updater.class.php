@@ -10,7 +10,6 @@ require_once dirname(__FILE__) . '/../../publisher/peer_assessment_publication_p
  */
 class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManagerComponent
 {
-
     /**
      * Runs this component and displays its output.
      */
@@ -31,38 +30,47 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManagerCompone
                 $this->not_allowed($trail, false);
             }
 
-	        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $peer_assessment_publication->get_content_object(), 'edit', 'post', $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id())));
-	        $this->display_header($trail);
-
-			if ($form->validate() /*|| Request :: get('validated')*/)
+	   		// Form with title, description and new version option
+            $form_main = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $peer_assessment_publication->get_content_object(), 'edit', 'post', $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id())));
+			// Form with publish for, from date, to date and hidden option
+            $form_properties = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_EDIT, $peer_assessment_publication, $this->get_user(), $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id(), 'validated' => 1)));
+	        $form_properties->set_publication_values($peer_assessment_publication);
+	        
+			if ($form_main->validate())
 	        {
-	            //if (! Request :: get('validated'))
-	              //  $success = $form->update_content_object();
+	        	// Update the title, description and new version option
+	        	$form_main->update_content_object();       
 	            
-	            $publication_form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_EDIT, $peer_assessment_publication, $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id(), 'validated' => 1)), $this->get_user());
-	            $publication_form->set_publication_values($peer_assessment_publication);
-
-	            if ($publication_form->validate())
-	            {
-	                $success = $publication_form->update_content_object();
-	                $category_id = $peer_assessment_publication->get_category();
-	                //$this->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));       
-	                $this->redirect($success ? Translation :: get('PeerAssessmentPublicationUpdated') : Translation :: get('PeerAssessmentPublicationNotUpdated'), ! $success, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS, 'category' => $category_id));
-	            }
-	            else
-	            {
-	            	// Probably could be done cleaner           	
-	            	$publisher = new PeerAssessmentPublicationPublisher($publication_form); 
+	            if (!$form_properties->validate())
+	            {	
+	            	$this->display_header($trail);
+	            	          	
+	            	$publisher = new PeerAssessmentPublicationPublisher($form_properties); 
 	            	$id = $peer_assessment_publication->get_content_object()->get_id();
 	            	echo $publisher->get_content_object_title($id); 
-	                $publication_form->display();
-	            }      
+	            	
+	                $form_properties->display();
+	            } 
 	        }
 	        else
 	        {
-	            $form->display();
-	        }
+	            if ($form_properties->validate())
+	            {
+	            	// Update the publish for, from date, to date and hidden option
+	            	$html[] = $form_properties->update_content_object();
+	                $category_id = $peer_assessment_publication->get_category();
+	                
+					$html[] = $this->redirect($html[0] ? Translation :: get('PeerAssessmentPublicationUpdated') : Translation :: get('PeerAssessmentPublicationNotUpdated'), ! $html[0], array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS, 'category' => $category_id));
+	            }
+	            else
+	            {
+	            	$this->display_header($trail);
+	       			$form_main->display();
+	            }
+			}
         
+	        echo implode("\n", $html);
+        	echo '<div style="clear: both;"></div>';
         	$this->display_footer();
         }
     }

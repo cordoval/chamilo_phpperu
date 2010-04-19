@@ -144,11 +144,10 @@ class PeerAssessmentPublicationForm extends FormValidator
 
     function update_content_object()
     {
-        $content_object = $this->content_object;
+        $content_object = $this->content_object;      
         $content_object->set_content_object($content_object->get_content_object()->get_id());
-
+        
         $values = $this->exportValues();
-
         if ($values[self :: PARAM_FOREVER] != 0)
         {
             $content_object->set_from_date(0);
@@ -159,12 +158,22 @@ class PeerAssessmentPublicationForm extends FormValidator
             $content_object->set_from_date(Utilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]));
             $content_object->set_to_date(Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]));
         }
-        $content_object->set_hidden($values[self :: PARAM_HIDDEN] ? 1 : 0);
-        $content_object->set_publisher(0);//$this->user->get_id());
+        
+        $hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
+        
+        $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
+        $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+        
+        $content_object->set_hidden($hidden);      
+        $content_object->set_target_users($users);
+        $content_object->set_target_groups($groups);
+        $content_object->set_publisher($this->user->get_id());
         $content_object->set_published(time());
         $content_object->set_modified(time());
         $content_object->set_display_order(0);
-
+        
+        //dump($content_object);
+        //exit();
         return $content_object->update();
     }
     
