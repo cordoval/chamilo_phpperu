@@ -165,7 +165,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
     {
         $courseusercategory = new CourseUserCategory();
         
-        $form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_CREATE, $courseusercategory, $this->get_user(), $this->get_url());
+        $form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_CREATE, $courseusercategory, $this->get_user(), $this->get_url(), $this);
         
         if ($form->validate())
         {
@@ -188,7 +188,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category_id);
         $courseusercategory = $this->retrieve_course_user_category($condition);
         
-        $form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)));
+        $form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)), $this);
         
         if ($form->validate())
         {
@@ -238,8 +238,78 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
     function show_course_list()
     {
+    	$tabs = array();
+        $html = array();  
+
+       	$course_active_types = $this->retrieve_active_course_types();
+        while($course_type = $course_active_types->next_result())
+       	{
+       	    $conditions = array();
+       		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+       		$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+       		$condition = new AndCondition($conditions);
+       		$courses_result = $this->retrieve_user_courses($condition);
+       	 	if($courses_result->size() > 0)
+       	 	{
+				$tabs[$course_type->get_id()][0] = $courses_result;
+				$tabs[$course_type->get_id()][1] = $course_type->get_name();
+       	 	}
+       	}
+       	
+       	$conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+        $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
+       	$condition = new AndCondition($conditions);
+       	$courses_result = $this->retrieve_user_courses($condition);
+       	if($courses_result->size() > 0)
+       	{
+       		$tab_name = Translation :: get('NoCourseType');
+       		if(count($tabs) == 0) $tab_name = null;
+			$tabs[0][0] = $courses_result;
+			$tabs[0][1] = $tab_name;
+       	 }
+    	
+       	if(count($tabs) != 0)
+        {
+        	$html[] = '<div id="admin_tabs">';
+       	 	$html[] = '<ul>';
+       	 			
+       	 	foreach($tabs as $index => $tab)
+			{
+				if(!is_null($tab))
+				{								
+	      			$html[] = '<li><a href="#admin_tabs-'.$index.'">';
+	          		$html[] = '<span class="category">';
+	        		$html[] = '<span class="title">'.$tab[1].'</span>';
+	        		$html[] = '</span>';
+	        		$html[] = '</a></li>';
+				}
+			}
+        	$html[] = '</ul>';
+
+        	foreach($tabs as $index => $tab)
+        	{
+        		$html[] = '<div class="admin_tab" id="admin_tabs-'.$index.'">';
+        		$html[] = $this->display_courses($tab[0], $index);
+        		$html[] = '<div class="clear"></div>';
+        		$html[] = '</div>';
+        	}
+        	
+        	$html[] = '</div>';
+        	$html[] = '<script type="text/javascript">';
+        	$html[] = '  var tabnumber = ' . $selected_tab . ';';
+        	$html[] = '</script>';
+
+        	$html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/admin_ajax.js' . '"></script>';
+        }
+        
         $this->display_page_header();
-        $this->display_courses();
+        echo $this->get_actionbar()->as_html();
+        echo '<div class="clear"></div><br />';
+        if(count($tabs) == 0)
+        	$this->display_message(Translation :: get('NoCategoriesFound'));
+        else
+        	echo implode($html, "\n");
         $this->display_footer();
     }
 
@@ -257,36 +327,51 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         echo '<div class="clear"></div><br />';
     }
 
-    function display_courses()
-    {
-        echo $this->get_actionbar()->as_html();
-        echo '<div class="clear"></div><br />';
+    function display_courses($courses, $course_type_id)
+    {  	
+    	$html = array();
+    	$courses_array = array();
+    	while($course = $courses->next_result())
+    		$courses_array[] = $course;
+    	
+    	$conditions = array();
+       	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $this->get_user_id());
+       	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+       	$condition = new AndCondition($conditions);
+       	$course_type_categories = $this->retrieve_course_type_user_categories($condition);
+
+       	$courses = array();
+       	foreach($courses_array as $index => $course)
+       	{
+       		if($course->get_optional_property('user_course_cat') == 0)
+       		{
+       			$courses[] = $course;
+       			unset($courses_array[$index]);
+           	}
+       	}
         
-        $condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
-        
-        $course_categories = $this->retrieve_course_user_categories($condition, null, null, new ObjectTableOrder(CourseUserCategory :: PROPERTY_SORT));
-        
-        $conditions = array();
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0, CourseUserRelation :: get_table_name());
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-        $condition = new AndCondition($conditions);
-        $courses = $this->retrieve_user_courses($condition);
-        
-        echo $this->display_course_digest($courses);
+        $html[] = $this->display_course_digest($courses);
         
         $cat_key = 0;
-        while ($course_category = $course_categories->next_result())
+        while ($course_type_category = $course_type_categories->next_result())
         {
-            $conditions = array();
-            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id(), CourseUserRelation :: get_table_name());
-            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-            $condition = new AndCondition($conditions);
-            $courses = $this->retrieve_user_courses($condition);
+			$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_type_category->get_course_user_category_id());
+			$course_user_category = $this->retrieve_course_user_category($condition);
+			
+            $courses = array();
+		    foreach($courses_array as $index => $course)
+		    {
+		    	if($course->get_optional_property('user_course_cat') == 0)
+		    	{
+		    		$courses[] = $course;
+		       		unset($courses_array[$index]);
+				}
+			}
             
-            echo $this->display_course_digest($courses, $course_category, $cat_key, $course_categories->size());
+            $html[] = $this->display_course_digest($courses, $course_user_category, $cat_key, $course_type_categories->size());
             $cat_key ++;
         }
-    
+    	return implode("\n", $html);
     }
 
     function get_actionbar()
@@ -325,16 +410,16 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
             $html[] = '</div>';
         }
         
-        if ($courses->size() > 0)
+        if (count($courses) > 0)
         {
             $html[] = '<div>';
             $key = 0;
-            while ($course = $courses->next_result())
+            foreach ($courses as $course)
             {
                 $titular = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
                 $html[] = '<div class="user_course"><a href="' . $this->get_course_viewing_url($course) . '">' . $course->get_name() . '</a><br />' . $course->get_visual() . ' - ' . $titular->get_fullname() . '</div>';
                 $html[] = '<div class="user_course_options">';
-                $html[] = $this->get_course_modification_links($course, $key, $courses->size());
+                $html[] = $this->get_course_modification_links($course, $key, count($courses));
                 $html[] = '</div>';
                 $html[] = '<div style="clear:both;"></div>';
                 $key ++;

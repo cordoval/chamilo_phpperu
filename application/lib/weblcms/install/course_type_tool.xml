@@ -6,7 +6,7 @@
 			notnull="1" />
 		<property name="visible_default" type="boolean"/>
 	</properties>
-	<index name="course__type_id" type="primary">
+	<index name="course_type_id" type="primary">
 		<indexproperty name="course_type_id" />
 		<indexproperty name="name" />
 	</index>

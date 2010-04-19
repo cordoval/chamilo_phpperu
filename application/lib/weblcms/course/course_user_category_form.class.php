@@ -14,13 +14,15 @@ class CourseUserCategoryForm extends FormValidator
     
     private $courseusercategory;
     private $user;
+    private $parent;
 
-    function CourseUserCategoryForm($form_type, $courseusercategory, $user, $action)
+    function CourseUserCategoryForm($form_type, $courseusercategory, $user, $action, $parent)
     {
         parent :: __construct('course_settings', 'post', $action);
         
         $this->courseusercategory = $courseusercategory;
         $this->user = $user;
+        $this->parent = $parent;
         
         $this->form_type = $form_type;
         if ($this->form_type == self :: TYPE_EDIT)
@@ -39,7 +41,8 @@ class CourseUserCategoryForm extends FormValidator
     {
         $this->addElement('text', CourseUserCategory :: PROPERTY_TITLE, Translation :: get('Title'), array("maxlength" => 50, "size" => 50));
         $this->addRule(CourseUserCategory :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
-        
+		$course_types = $this->get_course_types();
+        $this->addElement('select', CourseTypeUserCategory::PROPERTY_COURSE_TYPE_ID, Translation :: get('CourseType'), $course_types);
     //$this->addElement('submit', 'course_user_category', Translation :: get('Ok'));
     }
 
@@ -85,11 +88,43 @@ class CourseUserCategoryForm extends FormValidator
         
         $courseusercategory->set_id($values[CourseUserCategory :: PROPERTY_ID]);
         $courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
-        $courseusercategory->set_user($this->user->get_id());
         
-        return $courseusercategory->create();
+        if(!$courseusercategory->create())
+        	return false;
+        
+        $coursetypeusercategory = new CourseTypeUserCategory();
+        $coursetypeusercategory->set_course_user_category_id($courseusercategory->get_id());
+        $coursetypeusercategory->set_course_type_id($values[CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID]);
+        $coursetypeusercategory->set_user_id($this->user->get_id());
+        
+        return $coursetypeusercategory->create();
     }
 
+    function get_course_types()
+    {
+    	$course_types = array();
+        $course_active_types = $this->parent->retrieve_active_course_types();
+        while($course_type = $course_active_types->next_result())
+       	{
+       	    $conditions = array();
+       		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->parent->get_user_id(), CourseUserRelation :: get_table_name());
+       		$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+       		$condition = new AndCondition($conditions);
+       		$courses_count = $this->parent->count_user_courses($condition);
+       	 	if($courses_count > 0)
+				$course_types[$course_type->get_id()] = $course_type->get_name();
+       	}
+       	
+       	$conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->parent->get_user_id(), CourseUserRelation :: get_table_name());
+        $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
+       	$condition = new AndCondition($conditions);
+       	$courses_count= $this->parent->count_user_courses($condition);
+       	if($courses_count > 0)
+			$course_types[0] = Translation :: get('NoCourseType');
+		return $course_types;
+    }
+    
     /**
      * Sets default values. Traditionally, you will want to extend this method
      * so it sets default for your learning object type's additional
