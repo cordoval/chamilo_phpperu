@@ -141,7 +141,7 @@ class CourseForm extends CommonForm
         $this->addRule(Course :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
         $this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'), array("size" => "50"));
-        $this->addRule(Course :: PROPERTY_VISUAL, Translation :: get('ThisFieldIsRequired'), 'required');
+        //$this->addRule(Course :: PROPERTY_VISUAL, Translation :: get('ThisFieldIsRequired'), 'required');
 
         $this->get_categories(0);
         if(count($this->categories)>0)
@@ -640,7 +640,15 @@ class CourseForm extends CommonForm
 		$values = $this->exportValues();
     	//$course->set_id($values[Course :: PROPERTY_ID]);
     	$course->set_course_type_id($values[Course :: PROPERTY_COURSE_TYPE_ID]);
-        $course->set_visual($values[Course :: PROPERTY_VISUAL]);
+    	
+    	if($values[Course :: PROPERTY_VISUAL])
+    	{
+       		$course->set_visual($values[Course :: PROPERTY_VISUAL]);
+    	}
+    	else
+    	{
+    		$course->set_visual(strtoupper(uniqid()));
+    	}
         $course->set_name($values[Course :: PROPERTY_NAME]);
         $course->set_category($values[Course :: PROPERTY_CATEGORY]);
         $course->set_titular($values[Course :: PROPERTY_TITULAR]);
