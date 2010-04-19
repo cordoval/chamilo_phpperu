@@ -108,7 +108,7 @@ class Survey extends ContentObject
             $survey_page_ids[] = $complex_content_object->get_ref();
         }
         
-        if($count($survey_page_ids) == 0){
+        if(count($survey_page_ids) == 0){
         	$survey_page_ids[] = 0;
         }
         
