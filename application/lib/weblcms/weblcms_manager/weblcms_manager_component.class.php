@@ -438,6 +438,12 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
     	return $this->get_parent()->get_course_request_editing_url($request);
     }
+    
+    function get_course_request_viewing_url($request)
+    {
+    	return $this->get_parent()->get_course_request_viewing_url($request);
+    }
+    
     /**
      * @see WeblcmsManager :: get_course_maintenance_url()
      */
