@@ -720,19 +720,19 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function retrieve_course_group_subscribe_right($course_id, $group_id)
 	{
 		$conditions = array();
-		$conditions[] = new EqualityCondition(CourseGroupSubscribeRights :: PROPERTY_COURSE_ID, $course_id);
-		$conditions[] = new EqualityCondition(CourseGroupSubscribeRights :: PROPERTY_GROUP_ID, $group_id);
+		$conditions[] = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course_id);
+		$conditions[] = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_GROUP_ID, $group_id);
 		$condition = new AndCondition($conditions);
-		return $this->database->retrieve_object(CourseGroupSubscribeRights :: get_table_name(), $condition);
+		return $this->database->retrieve_object(CourseGroupSubscribeRight :: get_table_name(), $condition);
 	}
 	
 	function retrieve_course_group_unsubscribe_right($course_id, $group_id)
 	{
 		$conditions = array();
-		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRights :: PROPERTY_COURSE_ID, $course_id);
-		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRights :: PROPERTY_GROUP_ID, $group_id);
+		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_id);
+		$conditions[] = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_GROUP_ID, $group_id);
 		$condition = new AndCondition($conditions);
-		return $this->database->retrieve_object(CourseGroupUnsubscribeRights :: get_table_name(), $condition);
+		return $this->database->retrieve_object(CourseGroupUnsubscribeRight :: get_table_name(), $condition);
 	}
 	
 	function retrieve_course_rights($id)
