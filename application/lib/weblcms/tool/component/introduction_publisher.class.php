@@ -23,7 +23,7 @@ class ToolIntroductionPublisherComponent extends ToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), Translation :: get('PublishIntroductionText')));
         $trail->add_help('courses general');
         
-        $repo_viewer = new ContentObjectRepoViewer($this, Introduction :: get_type_name());
+        $repo_viewer = new ContentObjectRepoViewer($this, Introduction :: get_type_name(), RepoViewer :: SELECT_SINGLE);
         $repo_viewer->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_INTRODUCTION);
         
         if (!$repo_viewer->is_ready_to_be_published())
