@@ -10,7 +10,7 @@ class CourseRequestForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
-	const TYPE_ALLOW = 3;
+	const TYPE_VIEW = 3;
 	
 	private $form_type;
 	private $course;
@@ -32,9 +32,13 @@ class CourseRequestForm extends FormValidator
         {
             $this->build_creating_form();
         }
-		elseif ($this->form_type == self :: TYPE_EDIT)
+		if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
+        }
+        if ($this->form_type == self :: TYPE_VIEW)
+        {
+        	$this->build_viewing_form();
         }
             
         $this->setDefaults();
@@ -60,6 +64,15 @@ class CourseRequestForm extends FormValidator
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
+    
+    function build_viewing_form()
+    {
+   		$this->build_request_form();
+   		
+   		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Print'), array('class' => 'positive update'));
+   		
+   		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    }
 	
 	function build_request_form()
 	{	
@@ -83,20 +96,39 @@ class CourseRequestForm extends FormValidator
 			$request_name = $this->request->get_course_name();
      		$this->addElement('static', 'request', Translation :: get('Course'), $request_name);
      		
-     		$request_title = $this->request->get_title();
-     		$this->addElement('static', 'request', Translation :: get('Title'), $request_title);
+     		$this->add_textfield(CourseRequest :: PROPERTY_TITLE, Translation :: get('Title'),true);
      		
      		$name_user = $this->request->get_name_user();
 			$this->addElement('static', 'request', Translation :: get('User'), $name_user);
 			
-			$motivation = $this->request->get_motivation();
-			$this->addElement('static', 'request', Translation :: get('Motivation'), $motivation);
+			$this->add_html_editor(CourseRequest :: PROPERTY_MOTIVATION, Translation :: get('Motivation'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));			
 			
 			$creation_date = $this->request->get_creation_date();
 			$this->addElement('static', 'request', Translation :: get('CreationDate'), $creation_date);
 			
 			$this->add_datepicker(CourseRequest :: PROPERTY_ALLOWED_DATE, 'AllowedDate');
 			$this->addRule(CourseRequest :: PROPERTY_ALLOWED_DATE, Translation :: get('ThisFieldIsRequired'), 'required');
+		}
+		
+		if($this->form_type == self :: TYPE_VIEW)
+		{
+			$request_name = $this->request->get_course_name();
+     		$this->addElement('static', 'request', Translation :: get('Course'), $request_name);
+     		
+     		$request_title = $this->request->get_title();
+     		$this->addElement('static', 'request', Translation :: get('Course'), $request_title);
+     		
+     		$name_user = $this->request->get_name_user();
+			$this->addElement('static', 'request', Translation :: get('User'), $name_user);
+			
+			$motivation = $this->request->get_motivation();
+			$this->addElement('static','request', Translation :: get('Motivation'), $motivation);	
+			
+			$creation_date = $this->request->get_creation_date();
+			$this->addElement('static', 'request', Translation :: get('CreationDate'), $creation_date);
+			
+			$allowed_date = $this->request->get_allowed_date();
+			$this->addElement('static', 'request', Translation :: get('AllowedDate'), $allowed_date);
 		}
 		$this->addElement('category');
 	}	
@@ -131,8 +163,8 @@ class CourseRequestForm extends FormValidator
         $request->set_course_id($request->get_course_id());	
         $request->set_name_user($request->get_name_user());
         $request->set_course_name($request->get_course_name());
-        $request->set_title($request->get_title());
-        $request->set_motivation($request->get_motivation());
+        $request->set_title($values[CourseRequest :: PROPERTY_TITLE]);
+        $request->set_motivation($values[CourseRequest :: PROPERTY_MOTIVATION]);
         $request->set_creation_date($request->get_creation_date());
         $request->set_allowed_date($values[CourseRequest :: PROPERTY_ALLOWED_DATE]);
 	      
