@@ -73,6 +73,11 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
         	 'label' => Translation :: get('Delete'), 
         	 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
         
+        $toolbar_data[] = array(
+        	'href' => $this->browser->get_course_request_allowing_url($request),
+        	'label' => Translation :: get('Allow'),
+        	'img' => Theme :: get_common_image_path() . 'action_start.png');
+        
         //$toolbar_data[] = array('href' => $this->browser->get_course_request_editing_url($request), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         
         //$toolbar_data[] = array('href' => $this->browser->get_course_viewing_url($course), 'label' => Translation :: get('CourseHome'), 'img' => Theme :: get_common_image_path() . 'action_home.png');

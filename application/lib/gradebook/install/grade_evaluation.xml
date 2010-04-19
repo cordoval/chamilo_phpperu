@@ -3,7 +3,7 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
 		<property name="score" type="text" length="255" notnull="1" />
-		<property name="comment" type="text" length="255" notnull="1" />
+		<property name="comment" type="text" length="255" />
 	</properties>
 	<index name="grade_id" type="primary">
 		<indexproperty name="id" />

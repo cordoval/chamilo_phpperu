@@ -10,6 +10,7 @@ class CourseRequestForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
+	const TYPE_ALLOW = 3;
 	
 	private $form_type;
 	private $course;
@@ -35,7 +36,7 @@ class CourseRequestForm extends FormValidator
         {
             $this->build_editing_form();
         }
-        
+            
         $this->setDefaults();
         $this->add_progress_bar(2);
 	}
@@ -141,7 +142,7 @@ class CourseRequestForm extends FormValidator
 		}
 		return true;		
 	}
-	
+
 	function setDefaults($defaults = array ())
 	{
 		$course = $this->course;

@@ -47,31 +47,28 @@ class GradebookInstaller extends Installer
     {
     	$root = dirname(__FILE__) . '/../evaluation_format/';
     	$folders = Filesystem :: get_directory_content($root, Filesystem :: LIST_DIRECTORIES, false);
-    
     	foreach($folders as $folder)
     	{
     		if(Text :: char_at($folder, 0) != '.')
     		{
-    			if (!file_exists($root . $folder . '/' . $folder . '_evaluation_format.class.php'))
+    			$formats = Filesystem :: get_directory_content($root.$folder.'/', Filesystem :: LIST_FILES, false);
+    			require_once $root . 'evaluation_format.class.php';
+    			foreach($formats as $format)
     			{
-    				return false;
-    			}
-    			else
-    			{
-    				require_once $root . 'evaluation_format.class.php';
-    				$ev = EvaluationFormat :: factory(ucfirst($folder));
-    			}
-    			$format = new Format();
-    			$format->set_title($folder);
-    			$format->set_active($ev->get_default_active_value());
-
-    			if($format->create())
-    			{
-    				$this->add_message(self :: TYPE_NORMAL, Translation :: get('FormatAdded') . ' ' . $folder);
-    			}
-    			else
-    			{
-    				return false;
+    				$ev = EvaluationFormat :: factory($folder, $format);
+    				
+	    			$format = new Format();
+	    			$format->set_title($ev->get_evaluation_format_name());
+	    			$format->set_active($ev->get_default_active_value());
+	
+	    			if($format->create())
+	    			{
+	    				$this->add_message(self :: TYPE_NORMAL, Translation :: get('FormatAdded') . ' ' . $format->get_title());
+	    			}
+	    			else
+	    			{
+	    				return false;
+	    			}
     			}
     		}
     	}

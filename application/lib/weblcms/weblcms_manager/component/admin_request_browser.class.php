@@ -88,10 +88,9 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManagerComponent
         
         if (isset($query) && $query != '')
         {
-            //$conditions = array();
-            $conditions = new PatternMatchCondition(CourseRequest :: PROPERTY_MOTIVATION, '*' . $query . '*');
-            
-            //$conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_MOTIVATION, '*' . $query . '*');
+            $conditions = array();
+            $conditions = new PatternMatchCondition(CourseRequest :: PROPERTY_MOTIVATION, '*' . $query . '*');            
+            $conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_TITLE, '*' . $query . '*');
             //$conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             
            	$search_conditions = new OrCondition($conditions);

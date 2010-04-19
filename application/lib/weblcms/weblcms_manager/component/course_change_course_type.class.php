@@ -30,7 +30,8 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManagerCompon
             Display :: warning_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
-        }        
+        }   
+            
         $course = $this->retrieve_courses(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)))->next_result();
         
         $this->form = new CourseChangeCourseTypeForm($this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_codes)), $course);
@@ -87,13 +88,11 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManagerCompon
         {
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ChangeCourseType')));
             $this->display_header($trail);
-            //echo Translation :: get('Course') . ': ' . $course->get_name();
             $this->form->display();
             $this->display_footer();
         }
-        
-    	
     }
+    
 	function move_course($course_code)
     	{
         	$new_course_type = $this->form->get_selected_course_type();       	

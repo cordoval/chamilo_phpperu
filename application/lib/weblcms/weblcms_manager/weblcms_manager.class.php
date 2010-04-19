@@ -105,7 +105,8 @@ class WeblcmsManager extends WebApplication
 	const ACTION_COURSE_EDITOR_REQUEST = 'course_editor_request';
 	const ACTION_COURSE_CREATE_REQUEST = 'courserequestcreator';
 	const ACTION_ADMIN_REQUEST_BROWSER = 'adminrequestbrowser';	
-	const ACTION_COURSE_REQUEST_DELETER = 'courserequestsdeleter';	
+	const ACTION_COURSE_REQUEST_DELETER = 'courserequestsdeleter';
+	const ACTION_COURSE_ALLOWING_REQUEST = 'courseallowingrequest';	
 	const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
 	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
@@ -270,6 +271,9 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_COURSE_REQUEST_DELETER : 
 				$component = WeblcmsManagerComponent :: factory('CourseRequestDeleter', $this);
 				break;
+			case self :: ACTION_COURSE_ALLOWING_REQUEST :
+				$component = WeblcmsManagerComponent :: factory('CourseRequestAllow', $this);
+				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
 				$component = WeblcmsManagerComponent :: factory('Home', $this);
@@ -414,21 +418,27 @@ class WeblcmsManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COURSE_TYPE, self :: PARAM_COURSE_TYPE => $course_type->get_id()));
     }
-    
-    function get_course_request_deleting_url($request)
-    {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_REQUEST_DELETER, self :: PARAM_REQUEST => $request->get_id()));
-    }
 
 	function get_course_type_editing_url($course_type)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_COURSE_TYPE_CREATOR, self :: PARAM_COURSE_TYPE => $course_type->get_id(), self :: PARAM_TOOL => 'course_type_settings', 'previous' => 'admin'));
     }
     
+	function get_course_request_deleting_url($request)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_REQUEST_DELETER, self :: PARAM_REQUEST => $request->get_id()));
+    }
+    
     function get_course_request_editing_url($request)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_EDITOR_REQUEST,
     	 self :: PARAM_REQUEST => $request->get_id()));   	 
+    }
+    
+    function get_course_request_allowing_url($request)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_ALLOWING_REQUEST,
+    	self :: PARAM_REQUEST => $request->get_id()));
     }
 
 	function get_course_type_maintenance_url($course_type)
