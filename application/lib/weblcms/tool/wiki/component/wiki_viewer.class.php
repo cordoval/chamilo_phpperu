@@ -23,7 +23,7 @@ class WikiToolViewerComponent extends WikiToolComponent
         $this->trail = $trail = new BreadcrumbTrail();
         
         $this->set_parameter(Tool :: PARAM_ACTION, WikiTool :: ACTION_VIEW_WIKI);
-        $this->cd = ComplexDisplay :: factory($this, 'wiki');
+        $this->cd = ComplexDisplay :: factory($this, Wiki :: get_type_name());
         $o = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
         if (empty($o))
             $o = RepositoryDataManager :: get_instance()->retrieve_content_object(Request :: get(Tool :: PARAM_PUBLICATION_ID));

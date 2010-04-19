@@ -39,7 +39,7 @@ class GeolocationTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('physical_location');
+        return array(PhysicalLocation :: get_type_name());
     }
 }
 ?>

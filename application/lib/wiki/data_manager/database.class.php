@@ -180,7 +180,7 @@ class DatabaseWikiDataManager extends WikiDataManager
             $info->set_id($record[WikiPublication :: PROPERTY_ID]);
             $info->set_publisher_user_id($record[WikiPublication :: PROPERTY_PUBLISHER]);
             $info->set_publication_date($record[WikiPublication :: PROPERTY_PUBLISHED]);
-            $info->set_application('wiki');
+            $info->set_application(WikiManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('Wiki'));
             $info->set_url('run.php?application=wiki&go=browse');
@@ -207,7 +207,7 @@ class DatabaseWikiDataManager extends WikiDataManager
         $publication_attr->set_id($record[WikiPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[WikiPublication :: PROPERTY_PUBLISHER]);
         $publication_attr->set_publication_date($record[WikiPublication :: PROPERTY_PUBLISHED]);
-        $publication_attr->set_application('wiki');
+        $publication_attr->set_application(WikiManager :: APPLICATION_NAME);
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('Wiki'));
         $publication_attr->set_url('run.php?application=wiki&go=browse');

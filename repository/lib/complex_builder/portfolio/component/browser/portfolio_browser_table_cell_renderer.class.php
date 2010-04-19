@@ -26,7 +26,7 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
     {
         $lo = $this->retrieve_content_object($cloi->get_ref());
         
-        if ($lo->get_type() == 'portfolio_item')
+        if ($lo->get_type() == PortfolioItem :: get_type_name())
         {
             if (! $this->lpi_ref_object || $this->lpi_ref_object->get_id() != $lo->get_reference())
             {
@@ -51,7 +51,7 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
                 
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
                 
-                if ($ref_lo->get_type() == 'portfolio')
+                if ($ref_lo->get_type() == Portfolio :: get_type_name())
                 {
                     $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_ROOT_LO => $this->browser->get_root(), ComplexBuilder :: PARAM_CLOI_ID => $cloi->get_id(), 'publish' => Request :: get('publish'))) . '">' . $title_short . '</a>';
                 }

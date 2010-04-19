@@ -200,7 +200,7 @@ class ScormImport extends ContentObjectImport
      */
     private function create_scorm_item($item, $path, $sequencing_collections)
     {
-        $scorm_item = AbstractContentObject :: factory('scorm_item');
+        $scorm_item = AbstractContentObject :: factory(ScormItem :: get_type_name());
         $scorm_item->set_title($item['title']);
         $scorm_item->set_description($item['title']);
         $scorm_item->set_parent_id($this->get_category());

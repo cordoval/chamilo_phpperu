@@ -76,7 +76,7 @@ class SurveyPage extends ContentObject
         
         $conditions = array();
         $conditions[] = new InCondition(ContentObject :: PROPERTY_ID, $question_ids, ContentObject :: get_table_name());
-//        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'survey_description', ContentObject :: get_table_name()));
+//        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, SurveyDescription :: get_type_name(), ContentObject :: get_table_name()));
         return RepositoryDataManager :: get_instance()->retrieve_content_objects(new AndCondition($conditions));
     }
 

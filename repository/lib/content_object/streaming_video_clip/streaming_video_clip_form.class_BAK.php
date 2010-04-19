@@ -82,7 +82,7 @@ class StreamingVideoClipForm extends ContentObjectForm {
 		$cond = new EqualityCondition(StreamingVideoClipCuePoint :: PROPERTY_PARENT_ID,
 			$object->get_id());
 		$children = RepositoryDataManager::get_instance()
-			->retrieve_content_objects('streaming_video_clip_cue_point', $cond);
+			->retrieve_content_objects(StreamingVideoClipCuePoint :: get_type_name(), $cond);
 		while ($child = $children->next_result()) {
 			$t = $child->get_start_time();
 			if (array_key_exists($t, $cuepoints)) {

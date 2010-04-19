@@ -25,7 +25,7 @@ class WikiManagerWikiViewerComponent extends WikiManagerComponent
         $this->set_parameter(WikiManager :: PARAM_ACTION, WikiManager :: ACTION_VIEW_WIKI);
         $this->set_parameter(WikiManager :: PARAM_WIKI_PUBLICATION, Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         
-        $this->cd = ComplexDisplay :: factory($this, 'wiki');
+        $this->cd = ComplexDisplay :: factory($this, Wiki :: get_type_name());
         
         $pub = WikiDataManager :: get_instance()->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         

@@ -35,7 +35,7 @@ class AssessmentResultsTableDetailColumnModel extends ObjectTableColumnModel
         $columns[] = new StaticTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE));
         $pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication(self :: $user_assessment);
         $assessment = $pub->get_content_object();
-        if ($assessment->get_type() != 'survey')
+        if ($assessment->get_type() != Survey :: get_type_name())
             $columns[] = new StaticTableColumn(Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE));
         $columns[] = self :: get_action_column();
         return $columns;

@@ -44,7 +44,7 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManagerComp
                 {
                     $failures ++;
                 }
-                if ($ref->get_type() == 'portfolio_item')
+                if ($ref->get_type() == PortfolioItem :: get_type_name())
                 {
                     $ref->delete();
                 }
