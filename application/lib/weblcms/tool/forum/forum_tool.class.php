@@ -13,6 +13,7 @@ class ForumTool extends Tool
     const ACTION_BROWSE_FORUMS = 'browse';
     const ACTION_VIEW_FORUM = 'view';
     const ACTION_PUBLISH_FORUM = 'publish';
+    const ACTION_MANAGE_CATEGORIES = 'manage_forum_categories';
 
     /**
      * Inherited.
@@ -37,6 +38,9 @@ class ForumTool extends Tool
                 break;
             case self :: ACTION_VIEW_FORUM :
                 $component = ForumToolComponent :: factory('Viewer', $this);
+                break;
+            case self :: ACTION_MANAGE_CATEGORIES:
+            	$component = ForumToolComponent :: factory('CategoryManager', $this);
                 break;
             default :
                 $component = ForumToolComponent :: factory('Browser', $this);

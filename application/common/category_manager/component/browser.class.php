@@ -27,7 +27,11 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 
         echo $this->display_header($trail);
         echo $this->ab->as_html() . '<br />';
-        echo '<div style="float: left; padding-right: 20px; width: 18%; overflow: auto; height: 100%;">' . $menu->render_as_tree() . '</div>';
+        
+        if($this->get_subcategories_allowed())
+        {
+        	echo '<div style="float: left; padding-right: 20px; width: 18%; overflow: auto; height: 100%;">' . $menu->render_as_tree() . '</div>';
+        }
         echo $this->get_user_html();
         echo $this->display_footer();
     }
@@ -38,9 +42,17 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
         $table = new CategoryBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
-        $html[] = '<div style="float: right; width: 80%;">';
-        $html[] = $table->as_html();
-        $html[] = '</div>';
+        
+        if($this->get_subcategories_allowed())
+        {
+        	$html[] = '<div style="float: right; width: 80%;">';
+        	$html[] = $table->as_html();
+        	$html[] = '</div>';
+        }
+       	else
+       	{
+       		$html[] = $table->as_html();
+       	}
 
         return implode($html, "\n");
     }
