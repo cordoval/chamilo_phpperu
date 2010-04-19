@@ -153,15 +153,29 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock {
 //	dump(array_keys($answers));
 		$options_answered = array();
 		foreach ( $answers as $key => $option ) {
-			dump('option');
-			dump($key);
+//			dump('option');
+//			dump($key);
 			$options_answered[] = $key;
 			foreach ( $option as $match ) {
 				$this->answer_count[$key][$match]++;
-				dump('match');
-				dump($match);
+//				dump('match');
+//				dump($match);
 			}
 		}
+		$options = array();
+		foreach ($this->answer_count as $key => $option) {
+			$options[] = $key;
+		}
+//		dump($options_answered);
+//		dump($options);
+		$options_not_answered = array_diff($options, $options_answered);
+//		dump($options_not_answered);
+		foreach ($options_not_answered as $option) {
+			$this->answer_count[$option][self :: NO_ANSWER]++;;
+		}
+		
+		dump($this->answer_count);
+		
 		//for each option without answer add the no answer +1 count;
 		
 	}
