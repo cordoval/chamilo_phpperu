@@ -157,9 +157,8 @@ class CourseRights extends DataClass
 				{
 					//retrieve the groups information and check if it has a parent, if so check whether or not the parent can subscribe.
 					$group = GroupDataManager :: get_instance()->retrieve_group($group_id);
-					if(!is_null($group))
-					{	
-						dump($group);
+					if(!empty($group))
+					{
 						$group_subscribe_rights[$group_id] = $group->get_parent();
 						return $this->can_group_subscribe($group->get_parent());
 					}
