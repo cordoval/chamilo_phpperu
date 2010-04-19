@@ -27,11 +27,6 @@ class Letters extends EvaluationFormat
 		return 'select';
 	}
 	
-	function is_entered_score_valid($score)
-	{
-		return true;
-	}
-	
 	function get_evaluation_format_name()
 	{
 		return self :: EVALUATION_FORMAT_NAME;

@@ -41,20 +41,19 @@ class PointsOnHundred extends EvaluationFormat
 		return self :: EVALUATION_FORMAT_NAME;
 	}
 	
-	function is_entered_score_valid($score)
+	function get_min_value()
 	{
-		if ($score < self :: MIN_VALUE || $score > self :: MAX_VALUE)
-			return false;
-			
-		$possible_values = array();
-		for ($i = self :: MIN_VALUE;$i <= self :: MAX_VALUE;$i = $i+self :: STEP)
-		{
-			$possible_values[] = $i;
-		}
-		if (!in_array($score, $possible_values))
-			return false;
-		
-		return true;
+		return self :: MIN_VALUE;
+	}
+	
+	function get_max_value()
+	{
+		return self :: MAX_VALUE;
+	}
+	
+	function get_step()
+	{
+		return self :: STEP;
 	}
 	
 	function get_default_active_value()

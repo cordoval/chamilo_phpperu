@@ -14,6 +14,10 @@ class PeerAssessmentPublicationPublisher
         $this->parent = $parent;
     }
     
+    
+    // Prints of the title of the object above the multiple properties
+    // (publish for, from date, to date and hidden)
+    
     function get_content_object_title($object)
     {
     	if (is_null($object))
@@ -48,9 +52,11 @@ class PeerAssessmentPublicationPublisher
         return implode("\n", $html);
     }
 
+    
+    // Publish the object
+    
     function publish_content_object($object)
-    {
-    	
+    {    	
     	$parameters = $this->parent->get_parameters();
         $parameters['object'] = $object;
         
@@ -58,46 +64,9 @@ class PeerAssessmentPublicationPublisher
         
     	if ($form->validate())
         {
-        	// Inserting the data to the peer assessment publication database table
-        	
-	        $author = $publisher = $this->parent->get_user_id();
-	        $date = mktime(date());
-	        
-	        $values = $this->exportValues();
-	        if ($values[self :: PARAM_FOREVER] != 0)
-	        {
-	            $from = $to = 0;
-	        }
-	        else
-	        {
-	            $from = Utilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
-	            $to = Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
-	        }
-	        $hidden = ($values[PeerAssessmentPublication :: PROPERTY_HIDDEN] ? 1 : 0);
-	
-	        $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
-	        $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-	        
-	        $pb = new PeerAssessmentPublication();
-	        $pb->set_content_object($object);
-	        $pb->set_parent_id($author);
-	        $pb->set_category(0);
-	        $pb->set_published($date);
-	        $pb->set_modified(0);
-	        
-	        $pb->set_publisher($publisher);
-			$pb->set_from_date(0);
-			$pb->set_to_date(0);		
-			$pb->set_hidden(0);
-			$pb->set_target_users(0);
-	        $pb->set_target_groups(0);
-	        
-	        if (! $pb->create())
-	        {
-	            $error = true;
-	        }
-	        
-	        if ($error)
+        	$publication = $form->create_content_object_publication();
+        
+	        if (!$publication)
 	        {
 	            $message = Translation :: get('ObjectNotPublished');
 	        }
@@ -109,6 +78,11 @@ class PeerAssessmentPublicationPublisher
 	        $this->parent->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));       
 	 
         }
+    	else
+        {
+            $html[] = $form->toHtml();
+        }
+        return implode("\n", $html);
     }
     
 }

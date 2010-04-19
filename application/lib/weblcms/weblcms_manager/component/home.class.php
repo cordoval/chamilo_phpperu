@@ -43,9 +43,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
     function get_active_course_type_tabs()
    	{       
         $tabs = array();
-        $courses = array();
-        $html = array();      	 	
-       	$total = 0;	
+        $html = array();
 
        	$course_active_types = $this->retrieve_active_course_types();
        	while($course_type = $course_active_types->next_result())
@@ -69,7 +67,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
        	$courses_result = $this->retrieve_user_courses($condition);
        	if($courses_result->size() > 0)
        	{
-       		$tab_name = Translation :: get('NoCourseTypeTab');
+       		$tab_name = Translation :: get('NoCourseType');
        		if(count($tabs) == 0) $tab_name = null;
 			$tabs[0][0] = $courses_result;
 			$tabs[0][1] = $tab_name;
@@ -358,7 +356,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 			    	//Creating Mixed
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Mixed'));
-					$cat->set_user(0);
 					$cat->set_sort(1);
 					return $cat;
 					break;
@@ -367,13 +364,11 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 					//creating Open
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Open'));
-					$cat->set_user(0);
 					$cat->set_sort(2);
 					$arr[] = $cat;			
 					//creating Closed
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Closed'));
-					$cat->set_user(0);
 					$cat->set_sort(3);
 					$arr[] = $cat;
 					return $arr;
@@ -382,7 +377,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 					//creating OpenOnly
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('OpenOnly'));
-					$cat->set_user(0);
 					$cat->set_sort(4);
 					return $cat;
 					break;

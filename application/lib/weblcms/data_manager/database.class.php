@@ -850,7 +850,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$course_alias = $this->database->get_alias(Course :: get_table_name());
 		$course_relation_alias = $this->database->get_alias(CourseUserRelation :: get_table_name());
 
-		$query = 'SELECT ' . $course_alias . '.* FROM ' . $this->database->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
+		$query = 'SELECT ' . $course_alias . '.*, ' . $course_relation_alias . '.* FROM ' . $this->database->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
 		$query .= ' JOIN ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_relation_alias . ' ON ' . $this->database->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
 
 		$order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
@@ -973,6 +973,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function create_course_type_group_unsubscribe_right($course_type_group_unsubscribe_right)
 	{
 		return $this->database->create($course_type_group_unsubscribe_right);
+	}
+	
+	function create_course_type_user_category($course_type_user_category)
+	{
+		return $this->database->create($course_type_user_category);
 	}
 	
 	function create_course_all($course)
@@ -1579,7 +1584,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return $this->database->retrieve_objects(CourseUserCategory :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
-
+	
 	function retrieve_course_user_category($condition = null)
 	{
 		return $this->database->retrieve_object(CourseUserCategory :: get_table_name(), $condition);
@@ -1949,6 +1954,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(CourseTypeGroupUnsubscribeRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
 		return $this->database->retrieve_objects(CourseTypeGroupUnsubscribeRight :: get_table_name(), $condition);
+	}
+	
+	function retrieve_course_type_user_categories($condition = null, $offset = null, $count = null, $order_property = null)
+	{
+		return $this->database->retrieve_objects(CourseTypeUserCategory :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 	
 	// Inherited

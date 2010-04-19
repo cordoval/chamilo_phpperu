@@ -20,10 +20,11 @@ class PeerAssessmentPublicationForm extends FormValidator
     const PARAM_HIDDEN = 'hidden';
 
     private $content_object;
+    private $publication;
     private $user;
 
     
-    function PeerAssessmentPublicationForm($form_type, $content_object, $action, $user)
+    function PeerAssessmentPublicationForm($form_type, $content_object, $user, $action)
     {
         parent :: __construct('peer_assessment_publication_settings', 'post', $action);
 
@@ -55,7 +56,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
-        //$attributes['exclude'] = array('user_' . $this->user->get_id());
+        $attributes['exclude'] = array('user_200');// . $this->user->get_id());
         $attributes['defaults'] = array();
         
         // Gradebook
@@ -112,24 +113,26 @@ class PeerAssessmentPublicationForm extends FormValidator
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
 
         $pub = new PeerAssessmentPublication();
-        $pub->set_content_object($this->content_object->get_id());
-        $pub->set_publisher($this->form_user->get_id());
+        $pub->set_content_object($this->content_object);
+        $pub->set_publisher($this->user->get_id());
         $pub->set_published(time());
         $pub->set_from_date($from);
         $pub->set_to_date($to);
         $pub->set_hidden($hidden);
         $pub->set_target_users($users);
         $pub->set_target_groups($groups);
-		$pub->create();
         
-        if ($pub->create())
-        {
-            return true;
-        }
-        else
+
+    	if (! $pub->create())
         {
             return false;
         }
+        else
+        {
+            $this->publication = $pub;
+            return true;
+        }
+        
 		if(Request :: post('evaluation'))
 		{
         	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
@@ -157,7 +160,7 @@ class PeerAssessmentPublicationForm extends FormValidator
             $content_object->set_to_date(Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]));
         }
         $content_object->set_hidden($values[self :: PARAM_HIDDEN] ? 1 : 0);
-        $content_object->set_publisher($this->user->get_id());
+        $content_object->set_publisher(0);//$this->user->get_id());
         $content_object->set_published(time());
         $content_object->set_modified(time());
         $content_object->set_display_order(0);
@@ -170,7 +173,7 @@ class PeerAssessmentPublicationForm extends FormValidator
 	function set_publication_values($publication)
     {
     	
-        /*$this->publication = $publication;
+        $this->publication = $publication;
         $this->addElement('hidden', 'pid');
         $this->addElement('hidden', 'action');
         $defaults['action'] = 'edit';
@@ -223,7 +226,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $active = $this->getElement(self :: PARAM_TARGET_ELEMENTS);
         $active->_elements[0]->setValue(serialize($defaults[self :: PARAM_TARGET_ELEMENTS]));
 
-        parent :: setDefaults($defaults);*/
+        parent :: setDefaults($defaults);
     }
 
     /**
