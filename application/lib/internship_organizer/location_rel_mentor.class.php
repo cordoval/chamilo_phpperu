@@ -1,6 +1,7 @@
 <?php 
 /**
  * internship_organizer
+ * OPGEKUIST
  */
 
 /**
@@ -16,19 +17,17 @@ class InternshipOrganizerLocationRelMentor extends DataClass
 	 * InternshipOrganizerLocationRelMentor properties
 	 */
 	const PROPERTY_ID = 'id';
-	const PROPERTY_MOMENT_ID = 'moment_id';
 	const PROPERTY_LOCATION_ID = 'location_id';
 	const PROPERTY_MENTOR_ID = 'mentor_id';
-	const PROPERTY_STATUS = 'status';
-	const PROPERTY_PRIORITY = 'priority';
-
 	/**
 	 * Get the default properties
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_MOMENT_ID, self :: PROPERTY_LOCATION_ID, self :: PROPERTY_MENTOR_ID, self :: PROPERTY_STATUS, self :: PROPERTY_PRIORITY);
+		return array (self :: PROPERTY_ID, 
+		self :: PROPERTY_LOCATION_ID, 
+		self :: PROPERTY_MENTOR_ID);
 	}
 
 	function get_data_manager()
@@ -54,24 +53,7 @@ class InternshipOrganizerLocationRelMentor extends DataClass
 		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 
-	/**
-	 * Returns the moment_id of this InternshipOrganizerLocationRelMentor.
-	 * @return the moment_id.
-	 */
-	function get_moment_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_MOMENT_ID);
-	}
-
-	/**
-	 * Sets the moment_id of this InternshipOrganizerLocationRelMentor.
-	 * @param moment_id
-	 */
-	function set_moment_id($moment_id)
-	{
-		$this->set_default_property(self :: PROPERTY_MOMENT_ID, $moment_id);
-	}
-
+	
 	/**
 	 * Returns the location_id of this InternshipOrganizerLocationRelMentor.
 	 * @return the location_id.
@@ -106,42 +88,6 @@ class InternshipOrganizerLocationRelMentor extends DataClass
 	function set_mentor_id($mentor_id)
 	{
 		$this->set_default_property(self :: PROPERTY_MENTOR_ID, $mentor_id);
-	}
-
-	/**
-	 * Returns the status of this InternshipOrganizerLocationRelMentor.
-	 * @return the status.
-	 */
-	function get_status()
-	{
-		return $this->get_default_property(self :: PROPERTY_STATUS);
-	}
-
-	/**
-	 * Sets the status of this InternshipOrganizerLocationRelMentor.
-	 * @param status
-	 */
-	function set_status($status)
-	{
-		$this->set_default_property(self :: PROPERTY_STATUS, $status);
-	}
-
-	/**
-	 * Returns the priority of this InternshipOrganizerLocationRelMentor.
-	 * @return the priority.
-	 */
-	function get_priority()
-	{
-		return $this->get_default_property(self :: PROPERTY_PRIORITY);
-	}
-
-	/**
-	 * Sets the priority of this InternshipOrganizerLocationRelMentor.
-	 * @param priority
-	 */
-	function set_priority($priority)
-	{
-		$this->set_default_property(self :: PROPERTY_PRIORITY, $priority);
 	}
 
 
