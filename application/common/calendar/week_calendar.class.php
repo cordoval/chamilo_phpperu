@@ -88,7 +88,7 @@ class WeekCalendar extends CalendarTable
         
         for($hour = 0; $hour < 24; $hour += $this->hour_step)
         {
-            $cell_content = $hour . 'u - ' . ($hour + $this->hour_step) . 'u';
+            $cell_content = $hour . Translation :: get('h') . ' - ' . ($hour + $this->hour_step) . Translation :: get('h');
             $this->setCellContents($hour / $this->hour_step, 0, $cell_content);
         }
         
