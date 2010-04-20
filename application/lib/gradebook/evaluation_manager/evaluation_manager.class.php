@@ -13,8 +13,6 @@ class EvaluationManager extends SubManager
 	const PARAM_PUBLISHER_ID = 'publisher_id';
 	const PARAM_CONTENT_OBJECT_ID = 'content_object_id';
 	
-	const PARAM_PARAMETERS = 'parameters';
-	
 	const ACTION_BROWSE = 'browser';
 	const ACTION_CREATE = 'creator';
 	const ACTION_UPDATE = 'updater';
@@ -22,20 +20,20 @@ class EvaluationManager extends SubManager
 	
 	const TYPE_INTERNAL_ITEM = 'internal_item';
 	
-	private $publication;
+	private $publisher_id;
+	private $publication_id;
 	private $trail;
 	
-	function EvaluationManager($parent, $parameters, $action, $trail)
+	function EvaluationManager($parent, $publication_id, $publisher_id, $action, $trail)
 	{
         parent :: __construct($parent);
         if ($action)
         {
             $this->set_parameter(self :: PARAM_EVALUATION_ACTION, $action);
         }
-        $this->set_parameters($parameters);
-        $this->set_publication($publication);
+        $this->set_publication_id($publication_id);
+        $this->set_publisher_id($publisher_id);
         $this->set_trail($trail);
-//        $this->set_parameters($parameters);
         $this->run();
 	}
 	
@@ -68,20 +66,24 @@ class EvaluationManager extends SubManager
         return Path :: get_application_path() . 'lib/gradebook/evaluation_manager/component/';
     }
     
-    function set_parameters($parameters)
+    function set_publisher_id($publisher_id)
     {
-    	foreach($parameters as $key=>$value)
-    		$this->set_parameter($key, $value);
+    	$this->publisher_id = $publisher_id;
+    } 
+    
+    function get_publisher_id()
+    {
+    	return $this->publisher_id;	
     }
     
-    function set_publication($publication)
+    function set_publication_id($publication_id)
     {
-    	$this->publication = $publication;
-    }
+    	$this->publication_id = $publication_id;
+    } 
     
-    function get_publication()
+    function get_publication_id()
     {
-    	return $this->publication;
+    	return $this->publication_id;	
     }
     
     function set_trail($trail)
@@ -97,12 +99,12 @@ class EvaluationManager extends SubManager
     // database
     function retrieve_all_evaluations_on_publication($offset = null, $count = null, $order_property = null)
     {
-    	return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication(Request :: get('application'), $this->get_parameter(self :: PARAM_PUBLICATION_ID), $offset, $count, $order_property);
+    	return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication(Request :: get('application'), $this->get_publication_id(), $offset, $count, $order_property);
     }
     
     function count_all_evaluations_on_publication()
     {
-    	return GradebookDataManager :: get_instance()->count_all_evaluations_on_publication($this->get_parameter(self :: PARAM_PUBLICATION_ID));
+    	return GradebookDataManager :: get_instance()->count_all_evaluations_on_publication($this->get_publication_id());
     }
     
     function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null)
@@ -149,18 +151,12 @@ class EvaluationManager extends SubManager
     //url creation
     function get_evaluation_editing_url($evaluation)
     {
-    	$parameters[self :: PARAM_EVALUATION_ID] = $evaluation->get_id();
-    	$parameters[self :: PARAM_PUBLICATION_ID] = $this->get_parameter(self :: PARAM_PUBLICATION_ID);
-    	$code = base64_encode(serialize($parameters));
-		return $this->get_url(array(self :: PARAM_EVALUATION_ACTION => self :: ACTION_UPDATE, self :: PARAM_PARAMETERS => $code));
+		return $this->get_url(array(self :: PARAM_EVALUATION_ACTION => self :: ACTION_UPDATE, self :: PARAM_EVALUATION_ID => $evaluation->get_id()));
     }
     
     function get_evaluation_deleting_url($evaluation)
     {
-    	$parameters[self :: PARAM_EVALUATION_ID] = $evaluation->get_id();
-    	$parameters[self :: PARAM_PUBLICATION_ID] = $this->get_parameter(self :: PARAM_PUBLICATION_ID);
-    	$code = base64_encode(serialize($parameters));
-		return $this->get_url(array(self :: PARAM_EVALUATION_ACTION => self :: ACTION_DELETE, self :: PARAM_PARAMETERS => $code));
+		return $this->get_url(array(self :: PARAM_EVALUATION_ACTION => self :: ACTION_DELETE, self :: PARAM_EVALUATION_ID => $evaluation->get_id()));
     }
 }
 ?>
