@@ -83,12 +83,12 @@ class PortfolioPublicationForm extends FormValidator
         $radioOptions = array();
         $i = 0;
 
-        $radioOptions[$i++] = portfolioRights::RADIO_OPTION_ANONYMOUS;
-        $radioOptions[$i++] = portfolioRights::RADIO_OPTION_ALLUSERS;
-        $radioOptions[$i++] = portfolioRights::RADIO_OPTION_ME;
+        $radioOptions[$i++] = PortfolioRights::RADIO_OPTION_ANONYMOUS;
+        $radioOptions[$i++] = PortfolioRights::RADIO_OPTION_ALLUSERS;
+        $radioOptions[$i++] = PortfolioRights::RADIO_OPTION_ME;
         
         $rights_array = array();
-        if($type == portfolioRights::TYPE_PORTFOLIO_ITEM)
+        if($type == PortfolioRights::TYPE_PORTFOLIO_ITEM)
         {
             $rights_array[] = self::RIGHT_VIEW;
             $rights_array[] = self::RIGHT_EDIT;
@@ -101,13 +101,13 @@ class PortfolioPublicationForm extends FormValidator
             $rights_array[] = self::RIGHT_VIEW_FEEDBACK;
             $rights_array[] = self::RIGHT_GIVE_FEEDBACK;
         }
-        if($type == portfolioRights::TYPE_PORTFOLIO_FOLDER)
+        if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
         {
-            $inherit_default = portfolioRights::RADIO_OPTION_DEFAULT;
+            $inherit_default = PortfolioRights::RADIO_OPTION_DEFAULT;
         }
         else
         {
-            $inherit_default = portfolioRights::RADIO_OPTION_INHERIT;
+            $inherit_default = PortfolioRights::RADIO_OPTION_INHERIT;
         }
 
         $this->add_inherit_set_option($rights_array, $inherit_default, $radioOptions, $attributes1, $defaultSelected);
@@ -137,19 +137,19 @@ class PortfolioPublicationForm extends FormValidator
 //            $defaults['forever'] = 0;
 //        }
 
-            if($type == portfolioRights::TYPE_PORTFOLIO_FOLDER)
+            if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
             {
                 $pub = $this->portfolio_publication;
-                $rights = portfolioRights::get_all_publication_rights($pub->get_location());
+                $rights = PortfolioRights::get_all_publication_rights($pub->get_location());
             }
             else
             {
                 $cid = Request::get('cid');
                 $user_id = Request::get('user_id');
-                $location = portfolioRights::get_portfolio_location($cid, $type, $user_id);
+                $location = PortfolioRights::get_portfolio_location($cid, $type, $user_id);
                 if($location)
                 {
-                    $rights = portfolioRights::get_all_publication_rights($location);
+                    $rights = PortfolioRights::get_all_publication_rights($location);
                 }
                 else
                 {
@@ -159,24 +159,24 @@ class PortfolioPublicationForm extends FormValidator
             
             if(isset($rights[PortfolioPublicationForm::INHERIT_OR_SET]['option']))
             {
-                if(($type == portfolioRights::TYPE_PORTFOLIO_FOLDER) && ($rights[PortfolioPublicationForm::INHERIT_OR_SET]['option'] == true))
+                if(($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER) && ($rights[PortfolioPublicationForm::INHERIT_OR_SET]['option'] == true))
                 {
-                    $defaults[self::INHERIT_OR_SET. '_option'] = portfolioRights::RADIO_OPTION_DEFAULT;
+                    $defaults[self::INHERIT_OR_SET. '_option'] = PortfolioRights::RADIO_OPTION_DEFAULT;
                 }
                 elseif($rights[PortfolioPublicationForm::INHERIT_OR_SET]['option'] == true)
                 {
-                    $defaults[self::INHERIT_OR_SET. '_option'] = portfolioRights::RADIO_OPTION_INHERIT;
+                    $defaults[self::INHERIT_OR_SET. '_option'] = PortfolioRights::RADIO_OPTION_INHERIT;
                 }
                 else
                 {
-                    $defaults[self::INHERIT_OR_SET. '_option'] = portfolioRights::RADIO_OPTION_SET_SPECIFIC;
+                    $defaults[self::INHERIT_OR_SET. '_option'] = PortfolioRights::RADIO_OPTION_SET_SPECIFIC;
                      if(isset($rights[PortfolioPublicationForm::RIGHT_EDIT]['option']))
                     {
                         $defaults[self::RIGHT_EDIT. '_option'] = $rights[PortfolioPublicationForm::RIGHT_EDIT]['option'] ;
                     }
                     else
                     {
-                         $defaults[self::RIGHT_VIEW. '_option'] = portfolioRights::RADIO_OPTION_INHERIT ;
+                         $defaults[self::RIGHT_VIEW. '_option'] = PortfolioRights::RADIO_OPTION_INHERIT ;
                     }
                     if(isset($rights[PortfolioPublicationForm::RIGHT_VIEW]['option']))
                     {
@@ -184,7 +184,7 @@ class PortfolioPublicationForm extends FormValidator
                     }
                     else
                     {
-                        $defaults[self::RIGHT_EDIT. '_option'] = portfolioRights::RADIO_OPTION_INHERIT ;
+                        $defaults[self::RIGHT_EDIT. '_option'] = PortfolioRights::RADIO_OPTION_INHERIT ;
                     }
                     if(isset($rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK]['option']))
                     {
@@ -192,7 +192,7 @@ class PortfolioPublicationForm extends FormValidator
                     }
                     else
                     {
-                        $defaults[self::RIGHT_VIEW_FEEDBACK. '_option'] = portfolioRights::RADIO_OPTION_INHERIT;
+                        $defaults[self::RIGHT_VIEW_FEEDBACK. '_option'] = PortfolioRights::RADIO_OPTION_INHERIT;
                     }
                     if(isset($rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK]['option']))
                     {
@@ -200,7 +200,7 @@ class PortfolioPublicationForm extends FormValidator
                     }
                     else
                     {
-                        $defaults[self::RIGHT_GIVE_FEEDBACK. '_option'] = portfolioRights::RADIO_OPTION_INHERIT;
+                        $defaults[self::RIGHT_GIVE_FEEDBACK. '_option'] = PortfolioRights::RADIO_OPTION_INHERIT;
                     }
                     //TODO: set users and groups when specific rights are set
                 }
@@ -219,13 +219,13 @@ class PortfolioPublicationForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
         $defaults = array();
-        if($type == portfolioRights::TYPE_PORTFOLIO_FOLDER)
+        if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
         {
-                $inherit_default = portfolioRights::RADIO_OPTION_DEFAULT;
+                $inherit_default = PortfolioRights::RADIO_OPTION_DEFAULT;
         }
         else
         {
-            $inherit_default = portfolioRights::RADIO_OPTION_INHERIT;
+            $inherit_default = PortfolioRights::RADIO_OPTION_INHERIT;
         }
 
         $defaults['inherit_set_option'] = $inherit_default ;
@@ -251,7 +251,7 @@ class PortfolioPublicationForm extends FormValidator
 //        $portfolio_publication->set_to_date($to);
 //        $portfolio_publication->set_hidden($values[PortfolioPublication :: PROPERTY_HIDDEN]);
 
-        if($type == portfolioRights::TYPE_PORTFOLIO_FOLDER)
+        if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
             {
                 $location = $this->portfolio_publication->get_location();
             }
@@ -259,11 +259,11 @@ class PortfolioPublicationForm extends FormValidator
             {
                 $cid = Request::get('cid');
                 $user_id = Request::get('user_id');
-                $location = portfolioRights::get_portfolio_location($cid, $type, $user_id);
+                $location = PortfolioRights::get_portfolio_location($cid, $type, $user_id);
 
             }
 
-            return portfolioRights::implement_update_rights($values, $location);
+            return PortfolioRights::implement_update_rights($values, $location);
     }
 
     function create_portfolio_publications($objects)
@@ -295,7 +295,7 @@ class PortfolioPublicationForm extends FormValidator
             }
             if($location)
             {
-                portfolioRights::implement_rights($values, $location);
+                PortfolioRights::implement_rights($values, $location);
             }
         }
         return $succes;
@@ -318,9 +318,9 @@ class PortfolioPublicationForm extends FormValidator
 
     function add_inherit_set_option($rightsarray, $inherit_default, $radio_options, $attributes, $defaultSelected)
     {
-        $idSet = portfolioRights::RADIO_OPTION_SET_SPECIFIC;
+        $idSet = PortfolioRights::RADIO_OPTION_SET_SPECIFIC;
         $choices[] = $this->createElement('radio', self::INHERIT_OR_SET.'_option', '', Translation::get($inherit_default), $inherit_default, array('onclick'=>'javascript:options_hide()', 'id'=>$inherit_default));
-        $choices[] = $this->createElement('radio', self::INHERIT_OR_SET.'_option', '', Translation::get(portfolioRights::RADIO_OPTION_SET_SPECIFIC), portfolioRights::RADIO_OPTION_SET_SPECIFIC, array('onclick'=>'javascript:options_show()', 'id'=>$idSet));
+        $choices[] = $this->createElement('radio', self::INHERIT_OR_SET.'_option', '', Translation::get(PortfolioRights::RADIO_OPTION_SET_SPECIFIC), PortfolioRights::RADIO_OPTION_SET_SPECIFIC, array('onclick'=>'javascript:options_show()', 'id'=>$idSet));
         $this->addGroup($choices, null, Translation::get('inherit_default_set_choice'), '<br/>', false);
         
         $nameWindow = 'options_window';

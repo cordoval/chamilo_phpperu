@@ -40,7 +40,7 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManagerComp
                 {
                     $failures ++;
                 }
-                else if(!portfolioRights::delete_location($cid))
+                else if(!PortfolioRights::delete_location($cid))
                 {
                     $failures ++;
                 }

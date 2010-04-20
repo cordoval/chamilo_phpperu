@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/question_browser/table.class.php';
 class SurveyManagerQuestionBrowserComponent extends SurveyManagerComponent
 {
     private $action_bar;
-    private $question_ids;
+    private $page_ids;
 
     function run()
     {
@@ -25,7 +25,7 @@ class SurveyManagerQuestionBrowserComponent extends SurveyManagerComponent
             $ids = array();
         }
         
-        $this->question_ids = $ids;
+        $this->page_ids = $ids;
         
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
@@ -78,9 +78,9 @@ class SurveyManagerQuestionBrowserComponent extends SurveyManagerComponent
     
     }
 
-    function get_question_ids()
+    function get_page_ids()
     {
-        return $this->question_ids;
+        return $this->page_ids;
     }
 
 }
