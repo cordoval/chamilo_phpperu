@@ -40,7 +40,7 @@ class EvaluationForm extends FormValidator
 	    	$this->addElement('category', Translation :: get('EvaluationProperties'));
 			$this->build_evaluation_format_element();
 			$this->build_editing_form();
-	    $this->addElement('category');
+	    	$this->addElement('category');
 		}
 		$this->setEvaluationDefaults();
     }
@@ -132,7 +132,6 @@ class EvaluationForm extends FormValidator
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 			
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        
     }
 //    
 //    static function create_internal_item($publication)
@@ -221,7 +220,7 @@ class EvaluationForm extends FormValidator
 		
 		$grade_evaluation = $this->grade_evaluation;
 		$evaluation = $this->evaluation;
-		if ($grade_evaluation->get_score())
+		if ($grade_evaluation->get_id())
 		{
 			$defaults[$this->evaluation_format->get_evaluation_field_name()] = $grade_evaluation->get_score();
 		    $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
@@ -259,7 +258,6 @@ class ValidateEvaluationScoreRule extends HTML_QuickForm_Rule
 	{
 		$quotient = intval($evaluation_score / $this->evaluation_format->get_step());
 		$mod = $evaluation_score - $quotient * $this->evaluation_format->get_step();
-		
 		if($evaluation_score < $this->evaluation_format->get_min_value() || $evaluation_score > $this->evaluation_format->get_max_value() || $mod != 0)
 			return false;
 		return true;
