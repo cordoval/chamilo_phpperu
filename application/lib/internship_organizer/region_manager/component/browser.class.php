@@ -54,10 +54,12 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 	
 	function get_region() {
 		if (! $this->region) {
-			$this->region = Request::get ( InternshipOrganizerRegionManager::PARAM_REGION_ID );
+			$region_id = Request::get ( InternshipOrganizerRegionManager::PARAM_REGION_ID );
 			
-			if (! $this->region) {
-				$this->region = $this->get_root_region ()->get_id ();
+			if (! $region_id) {
+				$this->region = $this->get_root_region()->get_id ();
+			}else{
+				$this->region = $region_id;
 			}
 		
 		}
@@ -97,7 +99,7 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 		
 		$action_bar->set_search_url ( $this->get_url ( array (InternshipOrganizerRegionManager::PARAM_REGION_ID => $this->get_region () ) ) );
 		
-		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'Add' ), Theme::get_common_image_path () . 'action_add.png', $this->get_create_region_url ( $this->get_region () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
+		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'Add' ), Theme::get_common_image_path () . 'action_add.png', $this->get_region_create_url ( $this->get_region () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_regions_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ShowAll' ), Theme::get_common_image_path () . 'action_browser.png', $this->get_browse_regions_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		

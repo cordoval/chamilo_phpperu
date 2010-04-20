@@ -5,6 +5,7 @@
 
 require_once dirname(__FILE__) . '/../internship_organizer_data_manager.class.php';
 require_once dirname(__FILE__) . '/../category.class.php';
+require_once dirname(__FILE__) . '/../region.class.php';
 
 class InternshipOrganizerInstaller extends Installer
 {
@@ -27,7 +28,7 @@ class InternshipOrganizerInstaller extends Installer
         {
             $success = true;
         }
-    	if (! $this->create_root_category() && $success)
+    	if (! $this->create_root_region() && $success)
         {
             $success = true;
         }
@@ -49,10 +50,10 @@ class InternshipOrganizerInstaller extends Installer
     {
         $values = $this->get_form_values();
         
-        $category = new InternshipOrganizerRegion();
-        $category->set_name($values['world']);
-        $category->set_parent_id(0);
-        $succes = $category->create();
+        $region = new InternshipOrganizerRegion();
+        $region->set_name(Translation::get('World'));
+        $region->set_parent_id(0);
+        $succes = $region->create();
         
         return $succes;
     }

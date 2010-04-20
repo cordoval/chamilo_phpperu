@@ -20,7 +20,7 @@ class InternshipOrganizerRegionManagerComponent extends SubManagerComponent
 
     function retrieve_root_region()
     {
-        return $this->get_parent()->retrieve_root_region();
+    	return $this->get_parent()->retrieve_root_region();
     }
 
     //url

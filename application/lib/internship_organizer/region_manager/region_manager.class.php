@@ -85,7 +85,7 @@ class InternshipOrganizerRegionManager extends SubManager
 
     function retrieve_root_region()
     {
-        return InternshipOrganizerDataManager :: get_instance()->retrieve_root_region();
+    	return InternshipOrganizerDataManager :: get_instance()->retrieve_root_region();
     }
 
     function count_regions($conditions = null)
