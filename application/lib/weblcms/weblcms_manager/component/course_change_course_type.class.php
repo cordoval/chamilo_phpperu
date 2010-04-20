@@ -16,22 +16,39 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManagerCompon
      */
     function run()
     {        
-    	$course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
-        $failures = 0;
-                
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb(Redirect :: get_link(WeblcmsManager :: APPLICATION_NAME, array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('CourseType')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(WeblcmsManager :: APPLICATION_NAME, array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Course')));
-        $trail->add_help('course_type general');
-        
-        if (! $this->get_user()->is_platform_admin())
+    	if ($this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
-            Display :: warning_message(Translation :: get('NotAllowed'));
+            Header :: set_section('admin');
+        }
+        
+        $trail = new BreadcrumbTrail();
+        
+    	if ($this->get_user()->is_platform_admin())
+        {
+        	$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+        	$trail->add(new Breadcrumb(Redirect :: get_link(WeblcmsManager :: APPLICATION_NAME, array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('CourseType')));
+       		$trail->add(new Breadcrumb(Redirect :: get_link(WeblcmsManager :: APPLICATION_NAME, array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Course')));
+        }     
+        else
+        {
+        	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
+        	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('CourseList')));
+        }
+        
+        $trail->add_help('change_course_coursetype');
+        
+   		if (! $this->get_user()->is_teacher() && ! $this->get_user()->is_platform_admin())
+        {
+            $this->display_header($trail, false, true);
+            echo '<div class="clear"></div><br />';
+            Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
-        }   
-            
+        }
+        
+    	$course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
+        $failures = 0;        
+                    
         $course = $this->retrieve_courses(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)))->next_result();
         
         $this->form = new CourseChangeCourseTypeForm($this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_codes)), $course);
@@ -53,7 +70,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManagerCompon
                     	$failures ++;
                 	}
             	}
-            
+            	
             	if ($failures)
             	{
                 	if (count($course_codes) == 1)
@@ -75,7 +92,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManagerCompon
               	   {
               	      $message = 'SelectedCoursesCourseTypeChanged';
               	   }
-            	}
+            	}           	
             	$parent = $this->form->get_new_parent();
             	$this->redirect(!$failures ? Translation :: get('CourseCourseTypeChanged') : Translation :: get('CourseCourseTypeNotChanged'), !$failures ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent));    	
             }
