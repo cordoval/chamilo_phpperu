@@ -11,6 +11,16 @@ class EvaluationManagerComponent extends SubManagerComponent
         parent :: __construct($evaluation_manager);
     }
     
+    function get_publisher_id()
+    {
+    	return $this->get_parent()->get_publisher_id();
+    }
+    
+    function get_publication_id()
+    {
+    	return $this->get_parent()->get_publication_id();
+    }
+    
     // database
     function retrieve_evaluation($id)
     {

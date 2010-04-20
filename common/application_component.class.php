@@ -84,6 +84,11 @@ class ApplicationComponent
     {
         return $this->get_parent()->set_parameter($name, $value);
     }
+    
+	function set_parameters($parameters)
+    {
+        return $this->get_parent()->set_parameters($parameters);
+    }
 
     /**
      * @see Application :: get_url()

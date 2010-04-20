@@ -22,7 +22,7 @@ class UserToolDetailsComponent extends UserToolComponent
         
         if (Request :: get('users') != null)
         {
-            $user = DatabaseUserDataManager :: get_instance()->retrieve_user(Request :: get('users'));
+            $user = UserDataManager :: get_instance()->retrieve_user(Request :: get('users'));
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), $user->get_firstname() . ' ' . $user->get_lastname()));
         }
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), Translation :: get('Details')));

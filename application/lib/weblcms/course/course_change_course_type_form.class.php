@@ -27,10 +27,10 @@ class CourseChangeCourseTypeForm extends FormValidator
     function build_form()
     {
     	$this->addElement('hidden', Course :: PROPERTY_ID);
-        $this->addElement('select', self :: SELECT_COURSE_TYPE, Translation :: get('New Course Type'), $this->get_course_types());
+        $this->addElement('select', self :: SELECT_COURSE_TYPE, Translation :: get('NewCourseType'), $this->get_course_types());
         $this->addRule('CourseType', Translation :: get('ThisFieldIsRequired'), 'required');
                  
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Change CourseType'), array('class' => 'positive move'));        
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('ChangeCourseType'), array('class' => 'positive move'));        
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }

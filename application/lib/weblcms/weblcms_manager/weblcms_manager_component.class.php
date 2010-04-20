@@ -299,12 +299,17 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
         return $this->get_parent()->retrieve_course_user_category($condition);
     }
 
+    function retrieve_course_type_user_category($condition = null)
+    {
+        return $this->get_parent()->retrieve_course_type_user_category($condition);
+    }
+    
     /**
      * @see WeblcmsManager :: retrieve_course_user_category_at_sort()
      */
-    function retrieve_course_user_category_at_sort($user_id, $sort, $direction)
+    function retrieve_course_type_user_category_at_sort($user_id, $course_type_id, $sort, $direction)
     {
-        return $this->get_parent()->retrieve_course_user_category_at_sort($user_id, $sort, $direction);
+        return $this->get_parent()->retrieve_course_type_user_category_at_sort($user_id, $course_type_id, $sort, $direction);
     }
 
     /**
@@ -378,9 +383,9 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     /**
      * @see WeblcmsManager :: retrieve_course_user_relation_at_sort()
      */
-    function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction)
+    function retrieve_course_user_relation_at_sort($user_id, $course_type_id, $category_id, $sort, $direction)
     {
-        return $this->get_parent()->retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction);
+        return $this->get_parent()->retrieve_course_user_relation_at_sort($user_id, $course_type_id, $category_id, $sort, $direction);
     }
 
     /**
@@ -514,9 +519,9 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     /**
      * @see WeblcmsManager :: get_course_user_category_move_url()
      */
-    function get_course_user_category_move_url($course_user_category, $direction)
+    function get_course_user_category_move_url($course_user_category, $course_type_id, $direction)
     {
-        return $this->get_parent()->get_course_user_category_move_url($course_user_category, $direction);
+        return $this->get_parent()->get_course_user_category_move_url($course_user_category, $course_type_id, $direction);
     }
 
     /**
@@ -530,9 +535,9 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     /**
      * @see WeblcmsManager :: get_course_user_move_url()
      */
-    function get_course_user_move_url($course_user, $direction)
+    function get_course_user_move_url($course_user, $course_type_id, $direction)
     {
-        return $this->get_parent()->get_course_user_move_url($course_user, $direction);
+        return $this->get_parent()->get_course_user_move_url($course_user, $course_type_id, $direction);
     }
 
     /**

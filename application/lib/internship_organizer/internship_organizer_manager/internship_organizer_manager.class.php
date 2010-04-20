@@ -2,6 +2,7 @@
 /**
  * @package application.lib.internship_organizer.internship_organizer_manager
  */
+
 require_once dirname ( __FILE__ ) . '/internship_organizer_manager_component.class.php';
 require_once dirname ( __FILE__ ) . '/../internship_organizer_data_manager.class.php';
 require_once dirname ( __FILE__ ) . '/../internship_organizer_utilities.class.php';
@@ -15,6 +16,8 @@ require_once Path::get_application_path () . 'lib/internship_organizer/category_
 require_once Path::get_application_path () . 'lib/internship_organizer/agreement_manager/agreement_manager.class.php';
 require_once Path::get_application_path () . 'lib/internship_organizer/agreement_manager/agreement_manager_component.class.php';
 
+require_once Path::get_application_path () . 'lib/internship_organizer/region_manager/region_manager.class.php';
+require_once Path::get_application_path () . 'lib/internship_organizer/region_manager/region_manager_component.class.php';
 
 class InternshipOrganizerManager extends WebApplication {
 	const APPLICATION_NAME = 'internship_organizer';
@@ -23,7 +26,7 @@ class InternshipOrganizerManager extends WebApplication {
 	const ACTION_AGREEMENT = 'agreement';
 	const ACTION_CATEGORY = 'category';
 	const ACTION_APPLICATION_CHOOSER = 'chooser';
-	
+	const ACTION_REGION = 'region';	
 	/**
 	 * Constructor
 	 * @param User $user The current user
@@ -52,6 +55,9 @@ class InternshipOrganizerManager extends WebApplication {
 			case self::ACTION_APPLICATION_CHOOSER :
 				$component = InternshipOrganizerManagerComponent::factory ( 'ApplicationChooser', $this );
 				break;
+			case self::ACTION_REGION :
+				$component = InternshipOrganizerManagerComponent::factory ( 'Region', $this );
+				break;
 			default :
 				$this->set_action ( self::ACTION_APPLICATION_CHOOSER );
 				$component = InternshipOrganizerManagerComponent::factory ( 'ApplicationChooser', $this );
@@ -72,6 +78,10 @@ class InternshipOrganizerManager extends WebApplication {
 	
 	function get_category_application_url() {
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_CATEGORY ) );
+	
+	}
+	function get_region_application_url() {
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_REGION ) );
 	
 	}
 	
