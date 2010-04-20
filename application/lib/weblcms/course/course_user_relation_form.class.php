@@ -35,11 +35,14 @@ class CourseUserRelationForm extends FormValidator
         
         $wdm = WeblcmsDataManager :: get_instance();
         
-        $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_USER, $this->user->get_id());
+        $course = $wdm->retrieve_course($this->courseuserrelation->get_course());
         
-        $categories = $wdm->retrieve_course_user_categories($condition);
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $this->user->get_id(), CourseTypeUserCategory :: get_table_name());
+        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course->get_course_type_id(),  CourseTypeUserCategory :: get_table_name());
+        $condition = new AndCondition($conditions);
+        $categories = $wdm->retrieve_course_user_categories_by_course_type($condition);
         $cat_options['0'] = Translation :: get('NoCategory');
-        
         while ($category = $categories->next_result())
         {
             $cat_options[$category->get_id()] = $category->get_title();
@@ -73,11 +76,13 @@ class CourseUserRelationForm extends FormValidator
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $values[CourseUserRelation :: PROPERTY_CATEGORY]);
         $condition = new AndCondition($conditions);
         
-        $wdm = WeblcmsDataManager :: get_instance();
+        /*$wdm = WeblcmsDataManager :: get_instance();
         $sort = $wdm->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
         
+        
+        $courseuserrelation->set_sort($sort + 1);*/
+        
         $courseuserrelation->set_category($values[CourseUserRelation :: PROPERTY_CATEGORY]);
-        $courseuserrelation->set_sort($sort + 1);
         
         return $courseuserrelation->update();
     }

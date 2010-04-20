@@ -46,6 +46,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$aliases['user_question'] = 'uq';
 		$aliases['survey_invitation'] = 'si';
 		$aliases['course_group'] = 'cg';
+		$aliases['course_user_category'] = 'cuc';
+		$aliases['course_user_relations'] = 'cur';
 
 		$this->database = new NestedTreeDatabase($aliases);
 		$this->database->set_prefix('weblcms_');
@@ -304,7 +306,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return $this->database->count_objects(CourseUserCategory :: get_table_name(), $condition);
 	}
-
+	
+	
 	function retrieve_course_list_of_user_as_course_admin($user_id)
 	{
 		$conditions = array();
@@ -802,47 +805,60 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->retrieve_objects(CourseGroupRelation :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 
-	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction)
+	function retrieve_course_user_relation_at_sort($user_id, $course_type_id, $category_id, $sort, $direction)
 	{
 		$conditions = array();
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $category_id);
+		$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type_id, Course :: get_table_name());
 
 		if ($direction == 'up')
 		{
 			$conditions[] = new InequalityCondition(CourseUserRelation :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
-			$order_direction = array(SORT_DESC);
+			$order_direction = SORT_DESC;
 		}
 		elseif ($direction == 'down')
 		{
 			$conditions[] = new InequalityCondition(CourseUserRelation :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
-			$order_direction = array(SORT_ASC);
+			$order_direction = SORT_ASC;
 		}
 
 		$condition = new AndCondition($conditions);
+		
+		$course_relation_alias = $this->database->get_alias(CourseUserRelation :: get_table_name());
+		$course_alias = $this->database->get_alias(Course :: get_table_name());
 
-		return $this->database->retrieve_object(CourseUserRelation :: get_table_name(), $condition, array(new ObjectTableOrder(CourseUserCategory :: PROPERTY_SORT, $order_direction)));
+		$query = 'SELECT ' . $course_relation_alias . '.* FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_relation_alias;
+		$query .= ' JOIN ' . $this->database->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias . ' ON ' . $this->database->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
+		
+		$record = $this->database->retrieve_row($query, CourseUserRelation :: get_table_name(), $condition, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, $order_direction)));
+
+		if($record)
+			return $this->database->record_to_object($record, Utilities :: underscores_to_camelcase(CourseUserRelation :: get_table_name()));
+		else
+			return false;
 	}
 
-	function retrieve_course_user_category_at_sort($user_id, $sort, $direction)
+	function retrieve_course_type_user_category_at_sort($user_id, $course_type_id, $sort, $direction)
 	{
 		$conditions = array();
-		$conditions[] = new EqualityCondition(CourseUserCategory :: PROPERTY_USER, $user_id);
-
+		$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $user_id);
+		$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+		
 		if ($direction == 'up')
 		{
-			$conditions[] = new InequalityCondition(CourseUserCategory :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
-			$order_direction = array(SORT_DESC);
+			$conditions[] = new InequalityCondition(CourseTypeUserCategory :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
+			$order_direction = SORT_DESC;
 		}
 		elseif ($direction == 'down')
 		{
-			$conditions[] = new InequalityCondition(CourseUserCategory :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
-			$order_direction = array(SORT_ASC);
+			$conditions[] = new InequalityCondition(CourseTypeUserCategory :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
+			$order_direction = SORT_ASC;
 		}
 
 		$condition = new AndCondition($conditions);
 
-		return $this->database->retrieve_object(CourseUserCategory :: get_table_name(), $condition, array(new ObjectTableOrder(CourseUserCategory :: PROPERTY_SORT, $order_direction)));
+		return $this->database->retrieve_object(CourseTypeUserCategory :: get_table_name(), $condition, array(new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT, $order_direction)));
 	}
 
 	function retrieve_user_courses($condition = null, $offset = 0, $max_objects = -1, $order_by = null)
@@ -853,7 +869,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT ' . $course_alias . '.*, ' . $course_relation_alias . '.* FROM ' . $this->database->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
 		$query .= ' JOIN ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_relation_alias . ' ON ' . $this->database->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
 
-		$order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
+		if(is_null($order_by))
+			$order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
 
 		return $this->database->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
@@ -1161,11 +1178,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category->get_id());
 
-		if ($this->database->delete_objects(CourseUserCategory :: get_table_name(), $condition))
+		return $this->database->delete_objects(CourseUserCategory :: get_table_name(), $condition);
+	}
+	
+	function delete_course_type_user_category($course_type_user_category)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_user_category->get_course_type_id());
+		$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category->get_course_user_category_id());
+		$condition = new AndCondition($conditions);
+		
+		if ($this->database->delete_objects(CourseTypeUserCategory :: get_table_name(), $condition))
 		{
 			$conditions = array();
-			$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_user_category->get_id());
-			$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_user_category->get_user());
+			$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_type_user_category->get_course_user_category_id());
+			$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
 			$condition = new AndCondition($conditions);
 
 			$properties = array(CourseUserRelation :: PROPERTY_CATEGORY => 0);
@@ -1329,6 +1356,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->update($course_category, $condition);
 	}
 
+	function update_course_type_user_category($course_type_user_category)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_user_category->get_course_type_id());
+		$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category->get_course_user_category_id());
+		$condition = new AndCondition($conditions);
+		return $this->database->update($course_type_user_category, $condition);
+	}
+	
 	function update_course_user_category($course_user_category)
 	{
 		$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category->get_id());
@@ -1590,6 +1626,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->retrieve_object(CourseUserCategory :: get_table_name(), $condition);
 	}
 
+	function retrieve_course_user_categories_by_course_type($condition = null)
+	{
+		$course_alias = $this->database->get_alias(CourseUserCategory :: get_table_name());
+		$course_type_alias = $this->database->get_alias(CourseTypeUserCategory :: get_table_name());
+
+		$query = 'SELECT '.$course_alias.'.* FROM ' . $this->database->escape_table_name(CourseUserCategory :: get_table_name()) . ' AS ' . $course_alias;
+		$query .= ' JOIN ' . $this->database->escape_table_name(CourseTypeUserCategory :: get_table_name()) . ' AS ' . $course_type_alias . ' ON ' . $this->database->escape_column_name(CourseUserCategory :: PROPERTY_ID, $course_alias) . '=' . $this->database->escape_column_name(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_alias);
+		return $this->database->retrieve_object_set($query, CourseUserCategory :: get_table_name(), $condition);
+	}
+	
 	function set_module_visible($course_code, $module, $visible)
 	{
 		$conditions = array();
@@ -1960,6 +2006,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return $this->database->retrieve_objects(CourseTypeUserCategory :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
+	
+	function retrieve_course_type_user_category($condition = null)
+	{
+		return $this->database->retrieve_object(CourseTypeUserCategory :: get_table_name(), $condition);
+	}
+	
 	
 	// Inherited
 	function retrieve_course_groups_from_user($user, $course = null)

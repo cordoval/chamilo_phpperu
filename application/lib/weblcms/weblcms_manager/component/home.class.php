@@ -356,7 +356,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 			    	//Creating Mixed
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Mixed'));
-					$cat->set_sort(1);
 					return $cat;
 					break;
     		case self :: SEPERATED :
@@ -364,12 +363,10 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 					//creating Open
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Open'));
-					$cat->set_sort(2);
 					$arr[] = $cat;			
 					//creating Closed
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Closed'));
-					$cat->set_sort(3);
 					$arr[] = $cat;
 					return $arr;
 					break;
@@ -377,7 +374,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 					//creating OpenOnly
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('OpenOnly'));
-					$cat->set_sort(4);
 					return $cat;
 					break;
     	}	
