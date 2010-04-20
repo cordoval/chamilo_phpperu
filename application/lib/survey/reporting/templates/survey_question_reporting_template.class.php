@@ -12,7 +12,7 @@ class SurveyQuestionReportingTemplate extends ReportingTemplate
 	
 	public function display_context()
 	{
-  
+  		
 	}
 	
 	function get_application()

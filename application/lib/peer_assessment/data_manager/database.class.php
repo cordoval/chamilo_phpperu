@@ -39,35 +39,86 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
 
     function create_peer_assessment_publication($peer_assessment_publication)
     {
-        $succes = $this->database->create($peer_assessment_publication);
+    	// Create general info
+        $success = $this->database->create($peer_assessment_publication);
         
-        foreach ($peer_assessment_publication->get_target_groups() as $group)
-        {	
-            $peer_assessment_publication_group = new PeerAssessmentPublicationGroup();
-            $peer_assessment_publication_group->set_peer_assessment_publication($peer_assessment_publication->get_id());
-            $peer_assessment_publication_group->set_group_id($group);
-            $succes &= $peer_assessment_publication_group->create();
-        }
-
-        foreach ($peer_assessment_publication->get_target_users() as $user)
-        {
-            $peer_assessment_publication_user = new PeerAssessmentPublicationUser();
-            $peer_assessment_publication_user->set_peer_assessment_publication($peer_assessment_publication->get_id());
-            $peer_assessment_publication_user->set_user($user);
-            $succes &= $peer_assessment_publication_user->create();
-        }
+        // Create target users
+        $success &= $this->create_peer_assessment_publication_users($peer_assessment_publication);
+        // Create target groups
+        $success &= $this->create_peer_assessment_publication_groups($peer_assessment_publication);
         
-        return $succes;
+        return $success;
     }
+    
+	private function create_peer_assessment_publication_users($peer_assessment_publication)
+	{
+		$users = $peer_assessment_publication->get_target_users();
+
+		foreach ($users as $index => $user_id)
+		{
+			$peer_assessment_publication_user = new PeerAssessmentPublicationUser();
+			$peer_assessment_publication_user->set_peer_assessment_publication($peer_assessment_publication->get_id());
+			$peer_assessment_publication_user->set_user($user_id);
+
+			if (! $peer_assessment_publication_user->create())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	private function create_peer_assessment_publication_groups($peer_assessment_publication)
+	{
+		$groups = $peer_assessment_publication->get_target_groups();
+
+		foreach ($groups as $index => $group_id)
+		{
+			$peer_assessment_publication_group = new PeerAssessmentPublicationGroup();
+			$peer_assessment_publication_group->set_peer_assessment_publication($peer_assessment_publication->get_id());
+			$peer_assessment_publication_group->set_group_id($group_id);
+
+			if (! $peer_assessment_publication_group->create())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 
     function update_peer_assessment_publication($peer_assessment_publication)
-    {
-        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $peer_assessment_publication->get_id());
-        return $this->database->update($peer_assessment_publication, $condition);
+    {   
+        // Delete target users and groups
+		$condition = new EqualityCondition('peer_assessment_publication_id', $peer_assessment_publication->get_id());
+		$this->database->delete_objects('publication_user', $condition);
+		$this->database->delete_objects('publication_group', $condition);
+
+		// Add updated target users and groups
+		if (! $this->create_peer_assessment_publication_users($peer_assessment_publication))
+		{
+			return false;
+		}
+
+		if (! $this->create_peer_assessment_publication_groups($peer_assessment_publication))
+		{
+			return false;
+		}
+
+		// Update publication properties
+		$condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $peer_assessment_publication->get_id());
+		return $this->database->update($peer_assessment_publication, $condition);
     }
 
     function delete_peer_assessment_publication($peer_assessment_publication)
     {
+    	// Delete target users and groups
+		$condition_users_groups = new EqualityCondition('peer_assessment_publication_id', $peer_assessment_publication->get_id());
+		$this->database->delete_objects('publication_user', $condition_users_groups);
+		$this->database->delete_objects('publication_group', $condition_users_groups);
+    	
+		// Delete general info
         $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $peer_assessment_publication->get_id());
         return $this->database->delete($peer_assessment_publication->get_table_name(), $condition);
     }

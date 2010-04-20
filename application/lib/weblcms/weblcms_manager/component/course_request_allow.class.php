@@ -14,29 +14,54 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManagerComponent
 	 */
 	function run()
 	{		
-		$request_id = Request :: get(WeblcmsManager :: PARAM_REQUEST);
-		if(!is_null($request_id) && $this->get_user()->is_platform_admin())
+		$request_ids = Request :: get(WeblcmsManager :: PARAM_REQUEST);
+		$failures = 0;
+		
+		if(!is_null($request_ids) && $this->get_user()->is_platform_admin())
 		{
-			$request = $this->retrieve_request($request_id);
-			$request->set_allowed_date(Utilities :: to_db_date(time()));
+			if(! is_array($request_ids))
+			{
+				$request_ids = array($request_ids);
+			}
 			
-			if(!$request->update())
+			foreach($request_ids as $request_id)
 			{
-				$success_request = false;
-			}
-			else
-			{
-				$success_request = true;
-			}
-        }
-        else
+				$request = $this->retrieve_request($request_id);
+				$request->set_allowed_date(Utilities :: to_db_date(time()));
+			
+				if(!$request->update())
+				{
+					$failures ++;
+				}
+        	}
+			if ($failures)
+            {
+                if (count($request_ids) == 1)
+                {
+                    $message = 'SelectedRequestNotAllowed';
+                }
+                else
+                {
+                    $message = 'SelectedRequestsNotAllowed';
+                }
+            }
+            else
+            {
+                if (count($request_ids) == 1)
+                {
+                    $message = 'SelectedRequestAllowed';
+                }
+                else
+                {
+                    $message = 'SelectedRequestsAllowed';
+                }
+            }
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null));
+		}
+		else
         {
-        	$success_request = false;
+            $this->display_error_page(htmlentities(Translation :: get('NoRequestsSelected')));
         }
-        
-        $array_type = array();
-	   	$array_type['go'] = WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER;
-        $this->redirect(Translation :: get($success_request ? 'RequestUpdated' : 'RequestNotUpdated'), ($success_request ? false : true), $array_type);			
 	}
 }
 ?>

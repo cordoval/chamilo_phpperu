@@ -33,9 +33,17 @@ class CourseGroupToolEditorComponent extends CourseGroupToolComponent
         if ($form->validate())
         {
             $succes = $form->update_course_group();
-            $message = $succes ? 'CourseGroupUpdated' : 'CourseGroupNotUpdated';
             
-            $this->redirect(Translation :: get($message), ! $succes, array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_VIEW_GROUPS, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group->get_parent_id()));
+            if($succes)
+            {
+            	$message = Translation :: get('CourseGroupUpdated');
+            }
+            else
+            {
+            	$message = Translation :: get('CourseGroupNotUpdated') . '<br />' . implode('<br />', $course_group->get_errors());
+            }
+            
+            $this->redirect($message, ! $succes, array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_VIEW_GROUPS, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group->get_parent_id()));
         }
         else
         {

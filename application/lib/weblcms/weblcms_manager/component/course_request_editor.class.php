@@ -16,11 +16,32 @@ class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManagerComponent
 	{		
 		$request_id = Request :: get(WeblcmsManager :: PARAM_REQUEST);
 		
-		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER)), Translation :: get('Courses')));
-        $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER)), Translation :: get('Request')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateRequest')));		
-		
+		if ($this->get_user()->is_platform_admin())
+        {
+            Header :: set_section('admin');
+        }   
+
+        $trail = new BreadcrumbTrail();
+        
+         if ($this->get_user()->is_platform_admin())
+         {
+    		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
+            $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER )), Translation :: get('Requests')));
+        }
+        else
+        	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('CourseTypes')));       
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateRequest')));
+        $trail->add_help('update request');
+        
+        if (! $this->get_user()->is_platform_admin())
+        {
+            $this->display_header($trail);
+            Display :: warning_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        } 
+        
 		$request = $this->retrieve_request($request_id);
 		$form = new CourseRequestForm(CourseRequestForm :: TYPE_EDIT, $this->get_url(array(WeblcmsManager :: PARAM_REQUEST => $request->get_id())), $course, $this, $request, $this->get_user());
 		
