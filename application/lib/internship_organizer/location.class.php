@@ -1,5 +1,8 @@
 <?php
 
+/** @author Steven Willaert */
+
+
 class InternshipOrganizerLocation extends DataClass {
 	const CLASS_NAME = __CLASS__;
 	
@@ -9,16 +12,30 @@ class InternshipOrganizerLocation extends DataClass {
 	const PROPERTY_ID = 'id';
 	const PROPERTY_ORGANISATION_ID = 'organisation_id';
 	const PROPERTY_NAME = 'name';
-	const PROPERTY_STREET = 'street';
-	const PROPERTY_STREET_NUMBER = 'street_number';
+	const PROPERTY_ADDRESS = 'address';
+	const PROPERTY_POSTCODE = 'postcode';
 	const PROPERTY_CITY = 'city';
+	const PROPERTY_TELEPHONE = 'telephone';
+	const PROPERTY_FAX = 'fax';
+	const PROPERTY_EMAIL = 'email';
+	const PROPERTY_DESCRIPTION = 'description';
 	
 	/**
 	 * Get the default properties
 	 * @return array The property names.
 	 */
 	static function get_default_property_names() {
-		return array (self::PROPERTY_ID, self::PROPERTY_ORGANISATION_ID, self::PROPERTY_NAME, self::PROPERTY_STREET, self::PROPERTY_STREET_NUMBER, self::PROPERTY_CITY );
+		return array (	self::PROPERTY_ID,
+						self::PROPERTY_ORGANISATION_ID, 
+						self::PROPERTY_NAME, 
+						self::PROPERTY_ADDRESS, 
+						self::PROPERTY_POSTCODE, 
+						self::PROPERTY_CITY,
+						self::PROPERTY_TELEPHONE,
+						self::PROPERTY_FAX,
+						self::PROPERTY_EMAIL,
+						self::PROPERTY_DESCRIPTION
+					 );
 	}
 	
 	function get_data_manager() {
@@ -74,35 +91,35 @@ class InternshipOrganizerLocation extends DataClass {
 	}
 	
 	/**
-	 * Returns the street of this InternshipOrganizerLocation.
-	 * @return the street.
+	 * Returns the address of this InternshipOrganizerLocation.
+	 * @return the address.
 	 */
-	function get_street() {
-		return $this->get_default_property ( self::PROPERTY_STREET );
+	function get_address() {
+		return $this->get_default_property ( self::PROPERTY_ADDRESS );
 	}
 	
 	/**
-	 * Sets the street of this InternshipOrganizerLocation.
-	 * @param street
+	 * Sets the address of this InternshipOrganizerLocation.
+	 * @param address
 	 */
-	function set_street($street) {
-		$this->set_default_property ( self::PROPERTY_STREET, $street );
+	function set_address($address) {
+		$this->set_default_property ( self::PROPERTY_ADDRESS, $address );
 	}
 	
 	/**
-	 * Returns the street_number of this InternshipOrganizerLocation.
-	 * @return the street_number.
+	 * Returns the postcode of this InternshipOrganizerLocation.
+	 * @return the postcode.
 	 */
-	function get_street_number() {
-		return $this->get_default_property ( self::PROPERTY_STREET_NUMBER );
+	function get_postcode() {
+		return $this->get_default_property ( self::PROPERTY_POSTCODE );
 	}
 	
 	/**
-	 * Sets the street_number of this InternshipOrganizerLocation.
-	 * @param street_number
+	 * Sets the postcode of this InternshipOrganizerLocation.
+	 * @param postcode
 	 */
-	function set_street_number($street_number) {
-		$this->set_default_property ( self::PROPERTY_STREET_NUMBER, $street_number );
+	function set_postcode($postcode) {
+		$this->set_default_property ( self::PROPERTY_POSTCODE, $postcode );
 	}
 	
 	/**
@@ -119,6 +136,70 @@ class InternshipOrganizerLocation extends DataClass {
 	 */
 	function set_city($city) {
 		$this->set_default_property ( self::PROPERTY_CITY, $city );
+	}
+	
+/**
+	 * Returns the telephone of this InternshipOrganizerLocation.
+	 * @return the telephone.
+	 */
+	function get_telephone() {
+		return $this->get_default_property ( self::PROPERTY_TELEPHONE );
+	}
+	
+	/**
+	 * Sets the telephone of this InternshipOrganizerLocation.
+	 * @param telephone
+	 */
+	function set_telephone($telephone) {
+		$this->set_default_property ( self::PROPERTY_TELEPHONE, $telephone );
+	}
+	
+/**
+	 * Returns the fax of this InternshipOrganizerLocation.
+	 * @return the fax.
+	 */
+	function get_fax() {
+		return $this->get_default_property ( self::PROPERTY_FAX );
+	}
+	
+	/**
+	 * Sets the fax of this InternshipOrganizerLocation.
+	 * @param fax
+	 */
+	function set_fax($fax) {
+		$this->set_default_property ( self::PROPERTY_FAX, $fax );
+	}
+	
+/**
+	 * Returns the e-mail of this InternshipOrganizerLocation.
+	 * @return the e-mail.
+	 */
+	function get_email() {
+		return $this->get_default_property ( self::PROPERTY_EMAIL );
+	}
+	
+	/**
+	 * Sets the e-mail of this InternshipOrganizerLocation.
+	 * @param e-mail
+	 */
+	function set_email($email) {
+		$this->set_default_property ( self::PROPERTY_EMAIL, $email );
+	}
+	
+/**
+	 * Returns the description of this InternshipOrganizerLocation.
+	 * @return the description.
+	 */
+	function get_description() {
+		return $this->get_default_property ( self::PROPERTY_DESCRIPTION );
+	}
+	
+	/**
+	 * Sets the description of this InternshipOrganizerLocation.
+	 * @param description
+	 */
+	function set_description($description) {
+		$this->set_default_property ( self::PROPERTY_DESCRIPTION, $description );
 	}
 	
 	function get_organisation(){

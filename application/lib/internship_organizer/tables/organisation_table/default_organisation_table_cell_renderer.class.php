@@ -21,10 +21,10 @@ class DefaultInternshipOrganizerOrganisationTableCellRenderer implements ObjectT
                 return $organisation->get_name();
             case InternshipOrganizerOrganisation :: PROPERTY_ADDRESS :
                 return $organisation->get_address();    
-            case InternshipOrganizerOrganisation :: PROPERTY_POSTCODE :
-                return $organisation->get_postcode();    
+            /*case InternshipOrganizerOrganisation :: PROPERTY_POSTCODE :
+                return $organisation->get_postcode();*/    
             case InternshipOrganizerOrganisation :: PROPERTY_CITY :
-                return $organisation->get_city();    
+                return $organisation->get_postcode() . ' ' . $organisation->get_city();
             case InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE :
                 return $organisation->get_telephone();    
             case InternshipOrganizerOrganisation :: PROPERTY_FAX :
