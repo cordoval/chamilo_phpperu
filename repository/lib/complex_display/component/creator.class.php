@@ -18,9 +18,12 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
             $pid = Request :: get('pid');
             $cid = Request :: get('cid');
             
-            if (! $pid)
+            if (! $pid && !$this->get_root_lo())
             {
-                $this->display_error_message(Translation :: get('NoParentSelected'));
+                $this->display_header();
+            	$this->display_error_message(Translation :: get('NoParentSelected'));
+            	$this->display_footer();
+                exit;
             }
             
             $type = Request :: get('type');
@@ -46,7 +49,16 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
                 
                 $cloi->set_ref($pub->get_selected_objects());
                 $cloi->set_user_id($this->get_user_id());
-                $cloi->set_parent($pid);
+                
+                if($pid)
+                {
+                	$cloi->set_parent($pid);
+                }
+                else
+                {
+                	$cloi->set_parent($this->get_root_lo()->get_id());	
+                }
+  
                 $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($pid));
                 
                 $cloi_form = ComplexContentObjectItemForm :: factory(ComplexContentObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, 'object' => $pub->get_selected_objects())));

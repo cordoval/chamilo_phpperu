@@ -147,6 +147,11 @@ abstract class Application
     {
         $this->parameters[$name] = $value;
     }
+    
+	function set_parameters($parameters)
+    {
+        $this->parameters = $parameters;
+    }
 
     function set_breadcrumbs($breadcrumbs)
     {

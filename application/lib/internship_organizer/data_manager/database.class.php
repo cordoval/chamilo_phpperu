@@ -8,6 +8,7 @@ require_once dirname ( __FILE__ ) . '/../category_rel_location.class.php';
 require_once dirname ( __FILE__ ) . '/../organisation.class.php';
 require_once dirname ( __FILE__ ) . '/../agreement.class.php';
 require_once dirname ( __FILE__ ) . '/../moment.class.php';
+require_once dirname ( __FILE__ ) . '/../region.class.php';
 
 require_once 'MDB2.php';
 
@@ -104,7 +105,7 @@ class DatabaseInternshipOrganizerDataManager extends InternshipOrganizerDataMana
 		$condition_subcategories = new EqualityCondition ( InternshipOrganizerCategory::PROPERTY_PARENT_ID, $category->get_id () );
 		$categories = $this->retrieve_categories ( $condition_subcategories );
 		while ( $gr = $categories->next_result () ) {
-			$bool = $bool & $this->delete_category ( $gr );
+			$bool = $bool & $this->delete_internship_organizer_category ( $gr );
 		}
 		
 		$this->truncate_category ( $category );
@@ -327,7 +328,117 @@ class DatabaseInternshipOrganizerDataManager extends InternshipOrganizerDataMana
 		return $this->database->retrieve_objects ( InternshipOrganizerAgreement::get_table_name (), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreement::CLASS_NAME );
 	}
 	
- 	
+//internship planner regions##
+	
+
+	function update_internship_organizer_region($region) {
+		$condition = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_ID, $region->get_id () );
+		return $this->database->update ( $region, $condition );
+	}
+	
+	function delete_internship_organizer_region($region) {
+		$condition = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_ID, $region->get_id () );
+		$bool = $this->database->delete ( $region->get_table_name (), $condition );
+		
+		$condition_subregions = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_PARENT_ID, $region->get_id () );
+		$regions = $this->retrieve_regions ( $condition_subregions );
+		while ( $gr = $regions->next_result () ) {
+			$bool = $bool & $this->delete_internship_organizer_region ( $gr );
+			//mag dit? (i.e. recursieve oproep)
+		}
+		
+		return $bool;
+	
+	}
+//	
+//	function truncate_region($region) {
+//		$condition = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_ID, $region->get_id () );
+//		return $this->database->delete ( InternshipOrganizerRegion::get_table_name (), $condition );
+//	}
+//	
+	function create_internship_organizer_region($region) {
+		return $this->database->create ( $region );
+	}
+	
+	function count_regions($condition = null) {
+		return $this->database->count_objects ( InternshipOrganizerRegion::get_table_name (), $condition );
+	}
+	
+	function retrieve_regions($condition = null, $offset = null, $max_objects = null, $order_by = null) {
+		return $this->database->retrieve_objects ( InternshipOrganizerRegion::get_table_name (), $condition, $offset, $max_objects, $order_by , InternshipOrganizerRegion :: CLASS_NAME);
+	}
+	
+	function retrieve_internship_organizer_region($id) {
+		$condition = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_ID, $id );
+		return $this->database->retrieve_object ( InternshipOrganizerRegion::get_table_name (), $condition , array() ,InternshipOrganizerRegion :: CLASS_NAME);
+	}
+
+	function retrieve_region_by_name($name) {
+		$condition = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_NAME, $name );
+		return $this->database->retrieve_object ( InternshipOrganizerRegion::get_table_name (), $condition );
+	}
+	
+	function is_regionname_available($regionname, $region_id = null) {
+		$condition = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_NAME, $regionname );
+		
+		if ($region_id) {
+			$conditions = array ();
+			$conditions [] = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_NAME, $regionname );
+			$conditions = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_ID, $region_id );
+			$condition = new AndCondition ( $conditions );
+		}
+		
+		return ! ($this->database->count_objects ( InternshipOrganizerRegion::get_table_name (), $condition ) == 1);
+	}
+	
+	function add_internship_organizer_region_nested_values($node, $previous_visited, $number_of_elements = 1, $condition) {
+		
+		return $this->database->add_nested_values ( $node, $previous_visited, $number_of_elements, $condition );
+	}
+	
+	function delete_internship_organizer_region_nested_values($node, $previous_visited, $number_of_elements, $condition) {
+		return $this->database->add_nested_values ( $node, $previous_visited, $number_of_elements, $condition );
+	}
+	
+	function count_internship_organizer_region_children($node, $condition) {
+		return $this->database->count_children ( $node, $condition );
+	}
+	
+	function get_internship_organizer_region_children($node, $recursieve, $condition) {
+		return $this->database->get_children ( $node, $recursieve, $condition );
+	}
+	
+	function count_internship_organizer_region_siblings($node, $include_object, $condition) {
+		return $this->database->count_siblings ( $node, $include_object, $condition );
+	}
+	
+	function get_internship_organizer_region_siblings($node, $include_object, $condition) {
+		return $this->database->get_siblings ( $node, $include_object, $condition );
+	}
+	
+	function count_internship_organizer_region_parents($node, $include_object, $condition) {
+		return $this->database->count_parents ( $node, $include_object, $condition );
+	}
+	
+	function get_internship_organizer_region_parents($node, $recursieve, $include_object, $condition) {
+		return $this->database->get_parents ( $node, $recursieve, $include_object, $condition );
+	}
+	
+	function retrieve_root_region()
+ 	{
+// 		$conditions = array();
+ 		$condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, 0);
+// 		$condition = new AndCondition($conditions);
+ 		$root_region = $this->retrieve_regions($condition)->next_result();
+ 		if(! isset($root_region)){
+ 			$root_region = new InternshipOrganizerRegion();
+ 			$root_region->set_name(Translation::get('World'));
+        	$root_region->set_parent_id(0);
+        	$root_region->create();
+        	
+ 		}
+ 		return $root_region;
+ 	}
 
 }
 ?>

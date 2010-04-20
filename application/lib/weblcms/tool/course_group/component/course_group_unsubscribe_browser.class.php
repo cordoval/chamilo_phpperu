@@ -50,7 +50,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
         }
 
         $table = new CourseGroupSubscribedUserBrowserTable($this, array(Application :: PARAM_APPLICATION => WeblcmsManager :: APPLICATION_NAME, Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(),
-        			WeblcmsManager :: PARAM_TOOL => $this->get_tool_id(), Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_SUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id), $this->get_condition());
+        			WeblcmsManager :: PARAM_TOOL => $this->get_tool_id(), Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id), $this->get_condition());
         $html[] = $this->action_bar->as_html();
 
         $html[] = '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_group.png);">';

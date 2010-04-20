@@ -130,5 +130,25 @@ abstract class InternshipOrganizerDataManager
     
     
 
+    abstract function delete_internship_organizer_region($region);
+
+	abstract function update_internship_organizer_region($region);
+
+    abstract function create_internship_organizer_region($region);
+
+    abstract function count_regions($conditions = null);
+
+    abstract function retrieve_internship_organizer_region($id);
+
+//    abstract function truncate_region($id);
+
+    abstract function retrieve_regions($condition = null, $offset = null, $count = null, $order_property = null);
+	
+    abstract function retrieve_root_region();
+    
+    abstract function add_internship_organizer_region_nested_values($node, $previous_visited, $number_of_elements = 1, $condition);
+
+    abstract function delete_internship_organizer_region_nested_values($node, $previous_visited, $number_of_elements, $condition);	
+    
 }
 ?>

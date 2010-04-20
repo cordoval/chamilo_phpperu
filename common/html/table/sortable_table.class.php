@@ -629,7 +629,7 @@ class SortableTable extends HTML_Table
         }
         foreach ($row as $index => & $value)
         {
-            if (empty($value))
+            if (!is_numeric($value) && empty($value))
             {
                 $value = '-';
             }

@@ -93,7 +93,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
         }
         else
         {
-            $display = ComplexDisplay :: factory($this, $this->assessment->get_type());
+            $this->trail = new BreadcrumbTrail();
+            
+        	$display = ComplexDisplay :: factory($this, $this->assessment->get_type());
             $display->set_root_lo($this->assessment);
             
             //$this->display_header(new BreadcrumbTrail());
@@ -124,7 +126,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 
     function get_user_id()
     {
-        if ($this->assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
+        if ($this->assessment->get_assessment_type() == Assessment :: TYPE_SURVEY)
         {
             if ($this->assessment->get_anonymous() == true)
                 return 0;

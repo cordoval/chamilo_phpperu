@@ -745,6 +745,20 @@ class Course extends DataClass
      * Getters and validation whether or not the property is readable from the course's own settings
      */
 
+    function can_user_subscribe($user)
+    {
+    	$current_right = $this->can_group_subscribe(0);
+        $group_ids = $user->get_groups(true);
+        foreach($group_ids as $group_id)
+        {
+        	$right = $this->can_group_subscribe($group_id);
+				
+        	if($right > $current_right)
+        		$current_right = $right;      		    		
+        }        
+        return $current_right;
+    }
+    
     function can_group_subscribe($group_id)
     {
     	$right = $this->rights->can_group_subscribe($group_id);
@@ -766,6 +780,7 @@ class Course extends DataClass
     	}
     	return $right;
     }
+    
     
     function can_group_unsubscribe($group_id)
     {

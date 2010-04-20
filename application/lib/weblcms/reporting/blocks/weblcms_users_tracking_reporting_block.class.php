@@ -23,8 +23,7 @@ class WeblcmsUsersTrackingReportingBlock extends WeblcmsCourseReportingBlock
         while ($user_relation = $list->next_result())
         {
             $user_id = $user_relation->get_user();
-            unset($conditions);
-            unset($condition);
+            $conditions = array();
             $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*&course=' . $course_id . '*');
             $conditions[] = new EqualityCondition(VisitTracker :: PROPERTY_USER_ID, $user_id);
             $condition = new AndCondition($conditions);
@@ -35,8 +34,8 @@ class WeblcmsUsersTrackingReportingBlock extends WeblcmsCourseReportingBlock
             $params = $this->get_parent()->get_parameters();
         	$params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration(Utilities::camelcase_to_underscores('CourseStudentTrackerDetailReportingTemplate'), WeblcmsManager::APPLICATION_NAME)->get_id();
         	$params[WeblcmsManager::PARAM_USERS] = $user->get_id();
-        	$params[Application::PARAM_ACTION] = WeblcmsManager::ACTION_REPORTING;
-        	$url = $this->get_parent()->get_url($params, array(WeblcmsManager::PARAM_TOOL, ReportingViewer::PARAM_REPORTING_VIEWER_ACTION));
+        	//$params[Application::PARAM_ACTION] = WeblcmsManager::ACTION_REPORTING;
+        	$url = $this->get_parent()->get_url($params);
 
         	$reporting_data->add_category($user->get_fullname());
          

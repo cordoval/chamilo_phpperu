@@ -214,7 +214,7 @@ abstract class CommonForm extends FormValidator
 			{
 				foreach($values[$target]['group'] as $value)
 				{
-					if(!in_array($value, $group_key_check) && !in_array(1, $group_key_check))
+					if(!in_array($value, $group_key_check) && !in_array(0, $group_key_check))
 					{
 						$course_type_group_rights = new $class();
 						$course_type_group_rights->$id_method($this->object->get_id());
@@ -227,11 +227,11 @@ abstract class CommonForm extends FormValidator
 			}
 			else
 			{
-				if(!in_array(1, $group_key_check) && $values[$available])
+				if(!in_array(0, $group_key_check) && $values[$available])
 				{
 					$course_type_group_rights = new $class();
 					$course_type_group_rights->$id_method($this->object->get_id());
-					$course_type_group_rights->set_group_id(1);
+					$course_type_group_rights->set_group_id(0);
 					$course_type_group_rights->set_subscribe($subscribe);
 					$groups_array[] = $course_type_group_rights;
 					$group_key_check[] = 1;
@@ -264,7 +264,7 @@ abstract class CommonForm extends FormValidator
 		{
 			$course_group_rights = new $class();
 			$course_group_rights->$id_method($this->object->get_id());
-			$course_group_rights->set_group_id(1);
+			$course_group_rights->set_group_id(0);
 			$course_group_rights->set_unsubscribe(1);
 			$groups_array[] = $course_group_rights;
 		}
@@ -347,7 +347,7 @@ abstract class CommonForm extends FormValidator
 				
 				while($right = $group_subscribe_rights->next_result())
 				{
-					if($right->get_group_id() != 1)
+					if($right->get_group_id() != 0)
 					{
 						$element = null;
 						$check_fixed = null;
@@ -376,7 +376,7 @@ abstract class CommonForm extends FormValidator
 				
 				while($right = $group_unsubscribe_rights->next_result())
 				{
-					if($right->get_group_id() != 1)
+					if($right->get_group_id() != 0)
 					{
 						if( get_class($object) == "CourseType" || ($i == 1 && ($object->get_unsubscribe_fixed() || $this->get_form_type() == self::TYPE_CREATE)) || ($i == 2 && !$object->get_unsubscribe_fixed()))
 						{

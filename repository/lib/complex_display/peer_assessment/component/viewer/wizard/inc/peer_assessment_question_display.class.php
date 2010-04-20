@@ -139,7 +139,7 @@ abstract class PeerAssessmentQuestionDisplay
         $type = $question->get_type();
         
         $file = dirname(__FILE__) . '/peer_assessment_question_display/' . $type . '.class.php';
-        
+
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);
