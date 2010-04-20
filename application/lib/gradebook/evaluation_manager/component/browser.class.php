@@ -24,10 +24,8 @@ class EvaluationManagerBrowserComponent extends EvaluationManagerComponent
     function get_toolbar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->set_search_url($this->get_url());
-        $parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $this->get_parent()->get_parameter(EvaluationManager :: PARAM_PUBLICATION_ID);
-        $parameter_string = base64_encode(serialize($parameters));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateEvaluation'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_CREATE, EvaluationManager :: PARAM_PARAMETERS => $parameter_string)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//        $action_bar->set_search_url($this->get_url());
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateEvaluation'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_CREATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
     }

@@ -240,6 +240,29 @@ class CourseGroup extends NestedTreeNode
 
 		return parent :: create();
 	}
+	
+	function update()
+	{
+		if($this->check_before_save())
+		{
+			return parent :: update();
+		}
+		
+		return false;
+	}
+	
+	function check_before_save()
+	{
+		$children = WeblcmsDataManager :: get_instance()->count_course_group_users($this);
+
+		if($children > $this->get_max_number_of_members())
+		{
+			$this->add_error(Translation :: get('MaximumMembersToSmall'));
+			return false;
+		}
+		
+		return true;
+	}
 
 	function get_nested_tree_node_condition()
 	{

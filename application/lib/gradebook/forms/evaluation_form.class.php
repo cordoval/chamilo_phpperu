@@ -217,7 +217,6 @@ class EvaluationForm extends FormValidator
     
 	function setEvaluationDefaults($defaults = array ())
 	{
-		
 		$grade_evaluation = $this->grade_evaluation;
 		$evaluation = $this->evaluation;
 		if ($grade_evaluation->get_id())
