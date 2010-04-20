@@ -11,6 +11,7 @@ class InternshipOrganizerRegionManagerDeleterComponent extends InternshipOrganiz
         $user = $this->get_user();
              
         $ids = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
+
         $failures = 0;
         
         if (! empty($ids))

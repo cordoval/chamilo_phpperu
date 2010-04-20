@@ -8,6 +8,7 @@ require_once dirname ( __FILE__ ) . '/../category_rel_location.class.php';
 require_once dirname ( __FILE__ ) . '/../organisation.class.php';
 require_once dirname ( __FILE__ ) . '/../agreement.class.php';
 require_once dirname ( __FILE__ ) . '/../moment.class.php';
+require_once dirname ( __FILE__ ) . '/../region.class.php';
 
 require_once 'MDB2.php';
 
@@ -104,7 +105,7 @@ class DatabaseInternshipOrganizerDataManager extends InternshipOrganizerDataMana
 		$condition_subcategories = new EqualityCondition ( InternshipOrganizerCategory::PROPERTY_PARENT_ID, $category->get_id () );
 		$categories = $this->retrieve_categories ( $condition_subcategories );
 		while ( $gr = $categories->next_result () ) {
-			$bool = $bool & $this->delete_category ( $gr );
+			$bool = $bool & $this->delete_internship_organizer_category ( $gr );
 		}
 		
 		$this->truncate_category ( $category );
@@ -342,7 +343,8 @@ class DatabaseInternshipOrganizerDataManager extends InternshipOrganizerDataMana
 		$condition_subregions = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_PARENT_ID, $region->get_id () );
 		$regions = $this->retrieve_regions ( $condition_subregions );
 		while ( $gr = $regions->next_result () ) {
-			$bool = $bool & $this->delete_region ( $gr );
+			$bool = $bool & $this->delete_internship_organizer_region ( $gr );
+			//mag dit? (i.e. recursieve oproep)
 		}
 		
 		return $bool;
