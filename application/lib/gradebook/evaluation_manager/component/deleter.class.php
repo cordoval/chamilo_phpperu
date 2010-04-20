@@ -3,9 +3,7 @@ class EvaluationManagerDeleterComponent extends EvaluationManagerComponent
 {
 	function run()
 	{
-		$parameter_string = Request :: get('parameters');
-		$parameters = unserialize(base64_decode($parameter_string));
-		$ids = $parameters[EvaluationManager :: PARAM_EVALUATION_ID];
+		$ids = Request :: get(EvaluationManager :: PARAM_EVALUATION_ID);
         $failures = 0;
         
         if (! empty($ids))
@@ -48,7 +46,7 @@ class EvaluationManagerDeleterComponent extends EvaluationManagerComponent
                 }
             }
             
-		$this->redirect($message, $failures, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE,EvaluationManager :: PARAM_PARAMETERS => $parameter_string));        
+		$this->redirect($message, $failures, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));        
         }
         else
         {
