@@ -26,8 +26,8 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManagerCompon
     	if ($this->get_user()->is_platform_admin())
         {
         	$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        	$trail->add(new Breadcrumb(Redirect :: get_link(WeblcmsManager :: APPLICATION_NAME, array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('CourseType')));
-       		$trail->add(new Breadcrumb(Redirect :: get_link(WeblcmsManager :: APPLICATION_NAME, array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Course')));
+       		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
+			$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER )), Translation :: get('CourseList')));
         }     
         else
         {
@@ -37,7 +37,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManagerCompon
         
         $trail->add_help('change_course_coursetype');
         
-   		if (! $this->get_user()->is_teacher() && ! $this->get_user()->is_platform_admin())
+   		if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
             echo '<div class="clear"></div><br />';
