@@ -36,7 +36,7 @@ class PeerAssessmentPublicationPublisher
             $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
 
             $html[] = '<div class="content_object padding_10">';
-            $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
+            $html[] = '<div class="title">' . Translation :: get('SelectedContentObject') . '</div>';
             $html[] = '<div class="description">';
             $html[] = '<ul class="attachments_list">';
 

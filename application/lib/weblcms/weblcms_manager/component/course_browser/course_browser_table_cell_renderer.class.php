@@ -6,6 +6,7 @@
 require_once dirname(__FILE__) . '/course_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../course/course_table/default_course_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/../../../course/course.class.php';
+require_once dirname(__FILE__) . '/../../../course/course_rights.class.php';
 require_once dirname(__FILE__) . '/../../weblcms_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
@@ -50,29 +51,51 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
      * @return string A HTML representation of the action links
      */
     private function get_modification_links($course)
-    {
-        $toolbar_data = array();
-       
-        $course_subscription_url = $this->browser->get_course_subscription_url($course);
-        
-        if ($course_subscription_url)
-        {
-            $toolbar_data[] = array('href' => $course_subscription_url, 'label' => Translation :: get('Subscribe'), 'confirm' => false, 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
-        }
-        elseif ($this->browser->is_subscribed($course, $this->browser->get_user_id()))
+    {    	 
+    	$toolbar_data = array();
+    	
+        if($this->browser->is_subscribed($course, $this->browser->get_user_id()))
         {
             return Translation :: get('AlreadySubscribed');
         }
         else
         {
-            $course_request_form_url = $this->browser->get_course_request_form_url($course);
-           
-        	$toolbar_data[] = array('href' => $course_request_form_url, 'label' => Translation :: get('RequestForm'), 'img' => Theme :: get_common_image_path() . 'place_publications.png');
-        	//return Translation :: get('SubscriptionNotAllowed');	
-        }
-        return Utilities :: build_toolbar($toolbar_data);
-        
-    
+        	$course = WeblcmsDataManager :: get_instance()->retrieve_course($course->get_id());
+        	
+        	$current_right = $course->can_user_subscribe($this->browser->get_user());
+        	
+        	switch($current_right)
+        	{
+        		case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT :       			
+        			$course_subscription_url = $this->browser->get_course_subscription_url($course);
+        			$toolbar_data[] = array(
+        				'href' => $course_subscription_url,
+        				'label' => Translation :: get('Subscribe'),
+        			    'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
+        			break;
+        		
+        		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :       		
+        			$course_request_form_url = $this->browser->get_course_request_form_url($course);     			
+        			$toolbar_data[] = array(
+        				'href' => $course_request_form_url, 
+        				'label' => Translation :: get('Request'), 
+        				'img' => Theme :: get_common_image_path() . 'action_request.png');       			
+        			break;
+        		/*	
+        		case CourseGroupSubscribeRight :: SUBSCRIBE_CODE :       		
+        			$course_subscription_url = $this->browser->get_course_subscription_url($course);
+        			$toolbar_data[] = array(
+        				'href' => $course_subscription_url, 
+        				'label' => Translation :: get('Code'), 
+        				'img' => Theme :: get_common_image_path() . 'action_code.png');
+        				//'confirm' = false,
+        			break;
+        			*/
+        			
+        		default : return Translation :: get('SubscribeNotAllowed');	
+        	}      		
+        }  
+        return Utilities :: build_toolbar($toolbar_data);  
     }
 }
 ?>
