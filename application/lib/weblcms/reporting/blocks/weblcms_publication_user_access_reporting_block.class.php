@@ -35,7 +35,7 @@ class WeblcmsPublicationUserAccessReportingBlock extends WeblcmsToolReportingBlo
         $reporting_data->set_categories(array(Translation :: get('User'), Translation :: get('LastAccess'), Translation :: get('TotalTime'), Translation :: get('Clicks')));
         $reporting_data->set_rows(array(Translation :: get('count')));
 
-        $arr[Translation :: get('User')] = $udm->retrieve_user($user_id)->get_fullname();
+        //$arr[Translation :: get('User')] = $udm->retrieve_user($user_id)->get_fullname();
         while ($value = $trackerdata->next_result())
         {
             $time = strtotime($value->get_leave_date()) - strtotime($value->get_enter_date());
