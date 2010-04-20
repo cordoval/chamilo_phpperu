@@ -19,9 +19,9 @@ class EvaluationFormatsBrowserTable extends ObjectTable
 		$this->set_additional_parameters($parameters);
 		$actions = array();
 		
-        $actions[] = new ObjectTableFormAction(GradebookManager :: PARAM_ACTIVATE_SELECTED_EVALUATION_FORMAT, Translation :: get('ActivateSelected'));
+        $actions[] = new ObjectTableFormAction(GradebookManager :: PARAM_ACTIVATE_SELECTED_EVALUATION_FORMAT, Translation :: get('ActivateSelected'), false);
         $actions[] = new ObjectTableFormAction(GradebookManager :: PARAM_DEACTIVATE_SELECTED_EVALUATION_FORMAT, Translation :: get('DeactivateSelected'));
-
+		
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
