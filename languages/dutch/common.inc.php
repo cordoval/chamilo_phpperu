@@ -733,4 +733,5 @@ $lang['common']['InstallDateInfo'] = '';
 $lang['common']['NewPreviousNodeCanNotBeNull'] = '';
 $lang['common']['NewParentNodeCanNotBeNull'] = '';
 $lang['common']['NodeCanNotBeNull'] = '';
+$lang['common']['h'] = 'u';
 ?>
