@@ -443,6 +443,11 @@ abstract class Tool
     {
         $this->parent->set_parameter($name, $value);
     }
+    
+	function set_parameters($parameters)
+    {
+        $this->parent->set_parameters($parameters);
+    }
 
     /**
      * @see WebApplication :: get_url()

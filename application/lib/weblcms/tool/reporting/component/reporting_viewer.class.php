@@ -35,10 +35,15 @@ class ReportingToolViewerComponent extends ReportingToolComponent
     
     function display_header($trail)
     {
-    	$this->set_parameter(ReportingViewer :: PARAM_REPORTING_VIEWER_ACTION, null);
-    	$this->set_parameter(ReportingManager::PARAM_TEMPLATE_ID, null);
+    	$parameters = $this->get_parameters();
     	
-    	return parent :: display_header($trail);
+    	$this->set_parameter(ReportingViewer :: PARAM_REPORTING_VIEWER_ACTION, null);
+    	$this->set_parameter(ReportingManager :: PARAM_TEMPLATE_ID, null);
+    	$this->set_parameter(WeblcmsManager :: PARAM_USERS, null);
+    	
+    	parent :: display_header($trail);
+    	
+    	$this->set_parameters($parameters);
     }
 }
 ?>
