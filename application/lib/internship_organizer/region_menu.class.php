@@ -42,7 +42,7 @@ class InternshipOrganizerRegionMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function InternshipOrganizerRegionMenu($current_region, $url_format = '?application=internship_organizer&go=browse&region_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_region = false)
+    function InternshipOrganizerRegionMenu($current_region, $url_format = '?application=internship_organizer&go=region&region_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_region = false)
     {
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;

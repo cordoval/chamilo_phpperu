@@ -19,7 +19,6 @@ class InternshipOrganizerRegionManager extends SubManager
     const ACTION_BROWSE_REGIONS = 'browse';
     const ACTION_EDIT_REGION = 'edit';
     const ACTION_DELETE_REGION = 'delete';
-    const ACTION_TRUNCATE_REGION = 'truncate';
     const ACTION_VIEW_REGION = 'view';
 
     function InternshipOrganizerRegionManager($internship_manager)
@@ -31,7 +30,6 @@ class InternshipOrganizerRegionManager extends SubManager
             $this->set_parameter(self :: PARAM_ACTION, $action);
         }
         $this->parse_input_from_table();
-    
     }
 
     function run()
@@ -50,10 +48,7 @@ class InternshipOrganizerRegionManager extends SubManager
             case self :: ACTION_DELETE_REGION :
                 $component = InternshipOrganizerRegionManagerComponent :: factory('Deleter', $this);
                 break;
-            case self :: ACTION_TRUNCATE_REGION :
-                $component = InternshipOrganizerRegionManagerComponent :: factory('Truncater', $this);
-                break;
-            case self :: ACTION_VIEW_REGION :
+         case self :: ACTION_VIEW_REGION :
                 $component = InternshipOrganizerRegionManagerComponent :: factory('Viewer', $this);
                 break;
             case self :: ACTION_BROWSE_REGIONS :
@@ -149,10 +144,6 @@ class InternshipOrganizerRegionManager extends SubManager
             {
                 case self :: PARAM_REMOVE_SELECTED :
                     $this->set_region_action(self :: ACTION_DELETE_REGION);
-                    Request :: set_get(self :: PARAM_REGION_ID, $selected_ids);
-                    break;
-                case self :: PARAM_TRUNCATE_SELECTED :
-                    $this->set_region_action(self :: ACTION_TRUNCATE_REGION);
                     Request :: set_get(self :: PARAM_REGION_ID, $selected_ids);
                     break;
             }

@@ -85,22 +85,20 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_region_delete_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddLocations'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_region_suscribe_location_browser_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
-        $condition = new EqualityCondition(InternshipOrganizerRegionRelLocation :: PROPERTY_REGION_ID, $region->get_id());
-        $locations = $this->retrieve_region_rel_locations($condition);
-        $visible = ($locations->size() > 0);
-
-        if ($visible)
-        {
-            $toolbar_data[] = array('href' => $this->get_region_emptying_url($region), 'label' => Translation :: get('Truncate'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $this->get_region_emptying_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
-        else
-        {
-            $toolbar_data[] = array('label' => Translation :: get('TruncateNA'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_image_path() . 'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
+//        $condition = new EqualityCondition(InternshipOrganizerRegionRelLocation :: PROPERTY_REGION_ID, $region->get_id());
+//        $locations = $this->retrieve_region_rel_locations($condition);
+//        $visible = ($locations->size() > 0);
+//
+//        if ($visible)
+//        {
+//            $toolbar_data[] = array('href' => $this->get_region_emptying_url($region), 'label' => Translation :: get('Truncate'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+//            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $this->get_region_emptying_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//        }
+//        else
+//        {
+//            $toolbar_data[] = array('label' => Translation :: get('TruncateNA'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+//            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_image_path() . 'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//        }
 
         return $action_bar;
     }

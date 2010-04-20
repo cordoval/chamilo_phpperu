@@ -345,17 +345,15 @@ class DatabaseInternshipOrganizerDataManager extends InternshipOrganizerDataMana
 			$bool = $bool & $this->delete_region ( $gr );
 		}
 		
-		$this->truncate_region ( $region );
-		
 		return $bool;
 	
 	}
-	
-	function truncate_region($region) {
-		$condition = new EqualityCondition ( InternshipOrganizerRegionRelLocation::PROPERTY_REGION_ID, $region->get_id () );
-		return $this->database->delete ( InternshipOrganizerRegionRelLocation::get_table_name (), $condition );
-	}
-	
+//	
+//	function truncate_region($region) {
+//		$condition = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_ID, $region->get_id () );
+//		return $this->database->delete ( InternshipOrganizerRegion::get_table_name (), $condition );
+//	}
+//	
 	function create_internship_organizer_region($region) {
 		return $this->database->create ( $region );
 	}

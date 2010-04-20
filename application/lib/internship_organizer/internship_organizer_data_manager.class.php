@@ -140,7 +140,7 @@ abstract class InternshipOrganizerDataManager
 
     abstract function retrieve_internship_organizer_region($id);
 
-    abstract function truncate_region($id);
+//    abstract function truncate_region($id);
 
     abstract function retrieve_regions($condition = null, $offset = null, $count = null, $order_property = null);
 	
