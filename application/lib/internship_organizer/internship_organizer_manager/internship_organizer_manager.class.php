@@ -2,6 +2,7 @@
 /**
  * @package application.lib.internship_organizer.internship_organizer_manager
  */
+
 require_once dirname ( __FILE__ ) . '/internship_organizer_manager_component.class.php';
 require_once dirname ( __FILE__ ) . '/../internship_organizer_data_manager.class.php';
 require_once dirname ( __FILE__ ) . '/../internship_organizer_utilities.class.php';
@@ -17,7 +18,6 @@ require_once Path::get_application_path () . 'lib/internship_organizer/agreement
 
 require_once Path::get_application_path () . 'lib/internship_organizer/region_manager/region_manager.class.php';
 require_once Path::get_application_path () . 'lib/internship_organizer/region_manager/region_manager_component.class.php';
-
 
 class InternshipOrganizerManager extends WebApplication {
 	const APPLICATION_NAME = 'internship_organizer';
@@ -78,6 +78,10 @@ class InternshipOrganizerManager extends WebApplication {
 	
 	function get_category_application_url() {
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_CATEGORY ) );
+	
+	}
+	function get_region_application_url() {
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_REGION ) );
 	
 	}
 	

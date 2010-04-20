@@ -22,12 +22,16 @@ class InternshipOrganizerInstaller extends Installer
      */
     function install_extra()
     {
-        if (! $this->create_root_category())
+    	$success = false;
+        if ($this->create_root_category())
         {
-            return false;
+            $success = true;
         }
-        
-        return true;
+    	if (! $this->create_root_category() && $success)
+        {
+            $success = true;
+        }
+        return $success;
     }
 
     function create_root_category()
@@ -41,7 +45,17 @@ class InternshipOrganizerInstaller extends Installer
         
         return $succes;
     }
-
+	function create_root_region()
+    {
+        $values = $this->get_form_values();
+        
+        $category = new InternshipOrganizerRegion();
+        $category->set_name($values['world']);
+        $category->set_parent_id(0);
+        $succes = $category->create();
+        
+        return $succes;
+    }
     function get_path()
     {
         return dirname(__FILE__);

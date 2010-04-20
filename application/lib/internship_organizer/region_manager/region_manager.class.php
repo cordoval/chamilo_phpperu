@@ -1,7 +1,6 @@
 <?php
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/region_manager/component/browser/browser_table.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/region_manager/component/subscribe_location_browser/subscribe_location_browser_table.class.php';
 
 require_once dirname(__FILE__) . '/../region_menu.class.php';
 
@@ -20,7 +19,6 @@ class InternshipOrganizerRegionManager extends SubManager
     const ACTION_BROWSE_REGIONS = 'browse';
     const ACTION_EDIT_REGION = 'edit';
     const ACTION_DELETE_REGION = 'delete';
-    //const ACTION_MOVE_REGION = 'move';
     const ACTION_TRUNCATE_REGION = 'truncate';
     const ACTION_VIEW_REGION = 'view';
 
@@ -51,9 +49,6 @@ class InternshipOrganizerRegionManager extends SubManager
                 break;
             case self :: ACTION_DELETE_REGION :
                 $component = InternshipOrganizerRegionManagerComponent :: factory('Deleter', $this);
-                break;
-            case self :: ACTION_MOVE_REGION :
-                $component = InternshipOrganizerRegionManagerComponent :: factory('Mover', $this);
                 break;
             case self :: ACTION_TRUNCATE_REGION :
                 $component = InternshipOrganizerRegionManagerComponent :: factory('Truncater', $this);

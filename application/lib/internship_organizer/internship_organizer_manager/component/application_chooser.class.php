@@ -13,7 +13,6 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
 
 		
 		$this->display_header ( $trail );
-
 		
 		echo '<div>';
 		echo '<a href="' . $this->get_category_application_url(). '">' . 'Category Manager' . '</a><br/>';
