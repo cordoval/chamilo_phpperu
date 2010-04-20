@@ -5,7 +5,7 @@
  *
  * @author nblocry
  */
-class portfolioRights {
+class PortfolioRights {
 
     const VIEW_RIGHT = '1';
     const EDIT_RIGHT = '2';
@@ -30,21 +30,6 @@ class portfolioRights {
     const GROUP_RIGHTS = 'group';
     const USER_RIGHTS = 'user';
 
-    private static $instance;
-    private $rights = array();
-
-    /**
-     * Uses a singleton pattern to return the instance of the portfolioRightsClass
-     * @return UserDataManager The data manager.
-     */
-    static function get_instance()
-    {
-        if (! isset(self :: $instance))
-        {
-            self :: $instance = new portfolioRights();
-        }
-        return self :: $instance;
-    }
 
 
     /**
@@ -352,7 +337,7 @@ class portfolioRights {
                 }
                 if(isset($view_option))
                 {
-                    $set_view = portfolioRights::set_rights($location, portfolioRights::VIEW_RIGHT,  $view_group, $view_user , $view_option);
+                    $set_view = PortfolioRights::set_rights($location, PortfolioRights::VIEW_RIGHT,  $view_group, $view_user , $view_option);
                 }
                 //SET EDITING RIGHTS
                 //option-value defined for editing?
@@ -375,7 +360,7 @@ class portfolioRights {
                 }
                 if(isset($edit_option))
                 {
-                    $set_edit = portfolioRights::set_rights($location, portfolioRights::EDIT_RIGHT,  $edit_group, $edit_user , $edit_option);
+                    $set_edit = PortfolioRights::set_rights($location, PortfolioRights::EDIT_RIGHT,  $edit_group, $edit_user , $edit_option);
                 }
                 //SET FB-GIVING RIGHTS
                 //option-value defined for fb_giving?
@@ -398,7 +383,7 @@ class portfolioRights {
                 }
                 if(isset($fbg_option))
                 {
-                    $set_fbg = portfolioRights::set_rights($location, portfolioRights::GIVE_FEEDBACK_RIGHT,  $fbg_group, $fbg_user , $fbg_option);
+                    $set_fbg = PortfolioRights::set_rights($location, PortfolioRights::GIVE_FEEDBACK_RIGHT,  $fbg_group, $fbg_user , $fbg_option);
                 }
                 //SET FB-VIEWING RIGHTS
                 //option-value defined for fb_viewing?
@@ -421,7 +406,7 @@ class portfolioRights {
                 }
                 if(isset($fbv_option))
                 {
-                    $set_fbv = portfolioRights::set_rights($location, portfolioRights::VIEW_FEEDBACK_RIGHT,  $fbv_group, $fbv_user , $fbv_option);
+                    $set_fbv = PortfolioRights::set_rights($location, PortfolioRights::VIEW_FEEDBACK_RIGHT,  $fbv_group, $fbv_user , $fbv_option);
                 }
                 if($set_fbv && $set_fbg && $set_edit && $set_view)
                 {
@@ -501,14 +486,14 @@ class portfolioRights {
      * @param $types: possible types of portfolio-item (array)
      * @return array with true or false values on every right
      */
-    function get_rights($user_id, $portfolio_identifier, $types)
+    static function get_rights($user_id, $portfolio_identifier, $types)
     {
         $view = false;
         $edit = false;
         $view_feedback=false;
         $give_feedback=false;
 
-        if( $this->rights[$portfolio_identifier][$user_id] == null)
+        if( !isset($actual_rights[$portfolio_identifier][$user_id]))
         {
             //rights for this user on this location have not been checked yet
             $rights_array = array();
@@ -718,13 +703,13 @@ class portfolioRights {
         //check feedback giving rights
         $rights_array[self::GIVE_FEEDBACK_RIGHT] = $give_feedback;
 
-        $this->rights[$portfolio_identifier][$user_id] = $rights_array;
+       PortfolioRights::$my_rights[$portfolio_identifier][$user_id] = $rights_array;
 
         }
         else
         {
             //rights for this user on this location have already been checked this session and can be returned
-            $rights_array =  $this->rights[$portfolio_identifier][$user_id];
+            $rights_array =  PortfolioRights::$actual_rights[$portfolio_identifier][$user_id];
 
         }
         return $rights_array;
