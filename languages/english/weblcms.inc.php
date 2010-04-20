@@ -455,6 +455,19 @@ $lang['weblcms']['CourseStudentTrackerDetailReportingTemplate'] = 'Course studen
 $lang['weblcms']['LearningPathAttemptProgressReportingTemplate'] = 'Learningpath attempt progress reporting';
 $lang['weblcms']['LearningPathAttemptProgressDetailsReportingTemplate'] = 'Learningpath attempt progress details reporting';
 $lang['weblcms']['RequestList'] = 'Request List';
-
+$lang['weblcms']['DirectSubscribeAvailable'] = 'Direct Subscribe Available';
+$lang['weblcms']['DirectSubscribeFor'] = 'Direct Subscribe For';
+$lang['weblcms']['RequestSubscribeAvailable'] = 'Request Subscribe Available';
+$lang['weblcms']['CodeSubscribeAvailable'] = 'Code Subscribe Available';
+$lang['weblcms']['UnsubscribeAvailable'] = 'Unubscribe Available';
+$lang['weblcms']['UnsubscribeFor'] = 'Unsubscribe For';
+$lang['weblcms']['ChangeCourseType'] = 'Change CourseType';
+$lang['weblcms']['NewCourseType'] = 'New CourseType';
+$lang['weblcms']['Requests'] = 'Requests';
+$lang['weblcms']['UpdateRequest'] = 'Update Request';
+$lang['weblcms']['RequestForm'] = 'Request Form';
+$lang['weblcms']['CourseRequestProperties'] = 'Course Request Properties';
+$lang['weblcms']['ViewRequest'] = 'View Request';
+$lang['weblcms']['Print'] = 'Print';
 
 ?>
