@@ -810,28 +810,29 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$conditions = array();
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $category_id);
-		$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id, CourseTypeUserCategory :: get_table_name());
+		$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type_id, Course :: get_table_name());
 
 		if ($direction == 'up')
 		{
 			$conditions[] = new InequalityCondition(CourseUserRelation :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
-			$order_direction = array(SORT_DESC);
+			$order_direction = SORT_DESC;
 		}
 		elseif ($direction == 'down')
 		{
 			$conditions[] = new InequalityCondition(CourseUserRelation :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
-			$order_direction = array(SORT_ASC);
+			$order_direction = SORT_ASC;
 		}
 
 		$condition = new AndCondition($conditions);
 		
 		$course_relation_alias = $this->database->get_alias(CourseUserRelation :: get_table_name());
-		$course_type_alias = $this->database->get_alias(CourseTypeUserCategory :: get_table_name());
+		$course_alias = $this->database->get_alias(Course :: get_table_name());
 
 		$query = 'SELECT ' . $course_relation_alias . '.* FROM ' . $this->database->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_relation_alias;
-		$query .= ' JOIN ' . $this->database->escape_table_name(CourseTypeUserCategory :: get_table_name()) . ' AS ' . $course_type_alias . ' ON ' . $this->database->escape_column_name(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_alias) . ' = ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_CATEGORY, $course_relation_alias);
+		$query .= ' JOIN ' . $this->database->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias . ' ON ' . $this->database->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->database->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
 		
 		$record = $this->database->retrieve_row($query, CourseUserRelation :: get_table_name(), $condition, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, $order_direction)));
+
 		if($record)
 			return $this->database->record_to_object($record, Utilities :: underscores_to_camelcase(CourseUserRelation :: get_table_name()));
 		else
@@ -847,12 +848,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if ($direction == 'up')
 		{
 			$conditions[] = new InequalityCondition(CourseTypeUserCategory :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
-			$order_direction = array(SORT_DESC);
+			$order_direction = SORT_DESC;
 		}
 		elseif ($direction == 'down')
 		{
 			$conditions[] = new InequalityCondition(CourseTypeUserCategory :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
-			$order_direction = array(SORT_ASC);
+			$order_direction = SORT_ASC;
 		}
 
 		$condition = new AndCondition($conditions);
