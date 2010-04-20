@@ -159,6 +159,7 @@ class CourseRights extends DataClass
 					$group = GroupDataManager :: get_instance()->retrieve_group($group_id);
 					if(!empty($group))
 					{
+						dump($group->get_parent());
 						$group_subscribe_rights[$group_id] = $group->get_parent();
 						return $this->can_group_subscribe($group->get_parent());
 					}
