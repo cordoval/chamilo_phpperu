@@ -113,6 +113,12 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
 
     function delete_peer_assessment_publication($peer_assessment_publication)
     {
+    	// Delete target users and groups
+		$condition_users_groups = new EqualityCondition('peer_assessment_publication_id', $peer_assessment_publication->get_id());
+		$this->database->delete_objects('publication_user', $condition_users_groups);
+		$this->database->delete_objects('publication_group', $condition_users_groups);
+    	
+		// Delete general info
         $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $peer_assessment_publication->get_id());
         return $this->database->delete($peer_assessment_publication->get_table_name(), $condition);
     }

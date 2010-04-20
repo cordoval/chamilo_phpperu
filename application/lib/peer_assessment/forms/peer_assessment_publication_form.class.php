@@ -56,7 +56,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
-        $attributes['exclude'] = array('user_200');// . $this->user->get_id());
+        //$attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
         
         // Gradebook
@@ -78,7 +78,8 @@ class PeerAssessmentPublicationForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_submit_button', 'publish_and_build', Translation :: get('UpdateAndBuild'), array('class' => 'positive build'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -88,7 +89,8 @@ class PeerAssessmentPublicationForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_submit_button', 'publish_and_build', Translation :: get('PublishAndBuild'), array('class' => 'positive build'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -140,7 +142,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
 		}
     }
-  
+        
 
     function update_content_object()
     {
@@ -172,8 +174,6 @@ class PeerAssessmentPublicationForm extends FormValidator
         $content_object->set_modified(time());
         $content_object->set_display_order(0);
         
-        //dump($content_object);
-        //exit();
         return $content_object->update();
     }
     
