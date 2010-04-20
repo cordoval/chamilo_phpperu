@@ -43,7 +43,7 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
             }
             elseif ($type == 'checkbox')
             {
-                $answer_name = $question_id . '_' . ($i + 1).'_'.$this->get_page_nr();
+                $answer_name = $question_id . '_' . ($i).'_'.$this->get_page_nr();
                 $group[] = $formvalidator->createElement('checkbox', $answer_name);
                 $group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
             }
