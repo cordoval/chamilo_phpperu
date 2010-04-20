@@ -3,6 +3,5 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="title" type="text" notnull="1" />
-		<property name="sort" type="integer" length="3" unsigned="1" />
 	</properties>
 </object>

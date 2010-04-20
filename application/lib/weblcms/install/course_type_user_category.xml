@@ -5,6 +5,7 @@
 		<property name="course_type_id" type="integer" notnull="1" />
 		<property name="user_id" type="integer" unsigned="1" notnull="1"
 			default="0" />
+		<property name="sort" type="integer" length="3" unsigned="1" />
 	</properties>
 	<index name="course_type_user_category_id" type="primary">
 		<indexproperty name="course_user_category_id" />

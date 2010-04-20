@@ -25,7 +25,6 @@ class CourseUserCategory extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_SORT = 'sort';
     const PROPERTY_TITLE = 'title';
 
     /**
@@ -34,7 +33,7 @@ class CourseUserCategory extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_SORT, self :: PROPERTY_TITLE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TITLE));
     }
 
     /**
@@ -43,24 +42,6 @@ class CourseUserCategory extends DataClass
     function get_data_manager()
     {
         return WeblcmsDataManager :: get_instance();
-    }
-
-    /**
-     * Returns the sort order of this course user category object
-     * @return int
-     */
-    function get_sort()
-    {
-        return $this->get_default_property(self :: PROPERTY_SORT);
-    }
-
-    /**
-     * Sets the sort order of this course user category object
-     * @param int $sort
-     */
-    function set_sort($sort)
-    {
-        $this->set_default_property(self :: PROPERTY_SORT, $sort);
     }
 
     /**
@@ -79,28 +60,6 @@ class CourseUserCategory extends DataClass
     function set_title($title)
     {
         $this->set_default_property(self :: PROPERTY_TITLE, $title);
-    }
-
-    /**
-     * Creates the course user category object in persistent storage
-     * @return boolean
-     */
-    function create()
-    {
-        $wdm = WeblcmsDataManager :: get_instance();
-/*
-        $condition = new EqualityCondition(self :: PROPERTY_USER, $this->get_user());
-        $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
-        $this->set_sort($sort + 1);
-*/
-
-        $success = $wdm->create_course_user_category($this);
-        if (! $success)
-        {
-            return false;
-        }
-
-        return true;
     }
 
     static function get_table_name()

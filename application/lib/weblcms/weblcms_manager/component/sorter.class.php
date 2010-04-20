@@ -54,10 +54,11 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
     {
         $direction = Request :: get(WeblcmsManager :: PARAM_DIRECTION);
         $course = Request :: get(WeblcmsManager :: PARAM_COURSE_USER);
+        $course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
         
-        if (isset($direction) && isset($course))
+        if (isset($direction) && isset($course) && isset($course_type_id))
         {
-            $success = $this->move_course($course, $direction);
+            $success = $this->move_course($course, $course_type_id, $direction);
             $this->redirect(Translation :: get($success ? 'CourseUserMoved' : 'CourseUserNotMoved'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT));
         }
         else
@@ -70,10 +71,11 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
     {
         $direction = Request :: get(WeblcmsManager :: PARAM_DIRECTION);
         $category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
-        
-        if (isset($direction) && isset($category))
+        $course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
+
+        if (isset($direction) && isset($category) && isset($course_type_id))
         {
-            $success = $this->move_category($category, $direction);
+            $success = $this->move_category($category, $course_type_id, $direction);
             $this->redirect(Translation :: get($success ? 'CourseUserCategoryMoved' : 'CourseUserCategoryNotMoved'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT));
         }
         else
@@ -103,22 +105,14 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         }
     }
 
-    function move_course($course, $direction)
+    function move_course($course, $course_type_id, $direction)
     {
         $move_courseuserrelation = $this->retrieve_course_user_relation($course, $this->get_user_id());
         $sort = $move_courseuserrelation->get_sort();
-        $next_courseuserrelation = $this->retrieve_course_user_relation_at_sort($this->get_user_id(), $move_courseuserrelation->get_category(), $sort, $direction);
+        $next_courseuserrelation = $this->retrieve_course_user_relation_at_sort($this->get_user_id(), $course_type_id, $move_courseuserrelation->get_category(), $sort, $direction);
         
-        if ($direction == 'up')
-        {
-            $move_courseuserrelation->set_sort($sort - 1);
-            $next_courseuserrelation->set_sort($sort);
-        }
-        elseif ($direction == 'down')
-        {
-            $move_courseuserrelation->set_sort($sort + 1);
-            $next_courseuserrelation->set_sort($sort);
-        }
+       	$move_courseuserrelation->set_sort($next_courseuserrelation->get_sort());
+       	$next_courseuserrelation->set_sort($sort);
         
         if ($move_courseuserrelation->update() && $next_courseuserrelation->update())
         {
@@ -130,27 +124,20 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         }
     }
 
-    function move_category($courseusercategory, $direction)
+    function move_category($courseusercategory, $course_type_id, $direction)
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $courseusercategory);
-        $conditions[] = new EqualityCondition(CourseUserCategory :: PROPERTY_USER, $this->get_user_id());
+        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $courseusercategory);
+        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
-        $move_category = $this->retrieve_course_user_category($condition);
+        $move_category = $this->retrieve_course_type_user_category($condition);
         $sort = $move_category->get_sort();
-        $next_category = $this->retrieve_course_user_category_at_sort($this->get_user_id(), $sort, $direction);
+        $next_category = $this->retrieve_course_type_user_category_at_sort($this->get_user_id(), $course_type_id, $sort, $direction);
         
-        if ($direction == 'up')
-        {
-            $move_category->set_sort($sort - 1);
-            $next_category->set_sort($sort);
-        }
-        elseif ($direction == 'down')
-        {
-            $move_category->set_sort($sort + 1);
-            $next_category->set_sort($sort);
-        }
-        
+       	$move_category->set_sort($next_category->get_sort());
+       	$next_category->set_sort($sort);
+       
         if ($move_category->update() && $next_category->update())
         {
             return true;
@@ -210,6 +197,9 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         $course_user_category_id = Request :: get(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID);
         $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category_id);
         $courseusercategory = $this->retrieve_course_user_category($condition);
+
+        $condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_user_category_id);
+        $course_type_user_category = $this->retrieve_course_type_user_category($condition);
         
         $relation_conditions = array();
         $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
@@ -218,21 +208,23 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         
         $relations = $this->retrieve_course_user_relations($relation_condition, null, null, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT)));
         
+        /*
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
         $condition = new AndCondition($conditions);
         
         $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
-        
+        */
         while ($relation = $relations->next_result())
         {
-            $relation->set_sort($sort + 1);
+            //$relation->set_sort($sort + 1);
             $relation->update();
-            $sort ++;
+           // $sort ++;
         }
         
         $success = $courseusercategory->delete();
+        $success &= $course_type_user_category->delete();
         $this->redirect(Translation :: get($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view'));
     }
 
@@ -248,7 +240,8 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
        		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
        		$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
        		$condition = new AndCondition($conditions);
-       		$courses_result = $this->retrieve_user_courses($condition);
+       		$order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, array(SORT_ASC), WeblcmsDataManager::get_instance()->get_database()->get_alias(CourseUserRelation :: get_table_name()));
+       		$courses_result = $this->retrieve_user_courses($condition, 0, -1, $order_by);
        	 	if($courses_result->size() > 0)
        	 	{
 				$tabs[$course_type->get_id()][0] = $courses_result;
@@ -338,7 +331,8 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
        	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $this->get_user_id());
        	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
        	$condition = new AndCondition($conditions);
-       	$course_type_categories = $this->retrieve_course_type_user_categories($condition);
+       	$order_by[] = new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT);
+       	$course_type_categories = $this->retrieve_course_type_user_categories($condition, null, null, $order_by);
 
        	$courses = array();
        	foreach($courses_array as $index => $course)
@@ -350,7 +344,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
            	}
        	}
         
-        $html[] = $this->display_course_digest($courses);
+        $html[] = $this->display_course_digest($courses, $course_type_id);
         
         $cat_key = 0;
         while ($course_type_category = $course_type_categories->next_result())
@@ -361,14 +355,14 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
             $courses = array();
 		    foreach($courses_array as $index => $course)
 		    {
-		    	if($course->get_optional_property('user_course_cat') == 0)
+		    	if($course->get_optional_property('user_course_cat') == $course_user_category->get_id())
 		    	{
 		    		$courses[] = $course;
 		       		unset($courses_array[$index]);
 				}
 			}
             
-            $html[] = $this->display_course_digest($courses, $course_user_category, $cat_key, $course_type_categories->size());
+            $html[] = $this->display_course_digest($courses, $course_type_id, $course_user_category, $cat_key, $course_type_categories->size());
             $cat_key ++;
         }
     	return implode("\n", $html);
@@ -381,7 +375,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         return $action_bar;
     }
 
-    function display_course_digest($courses, $course_category = null, $cat_key = null, $cat_count = null)
+    function display_course_digest($courses, $course_type_id, $course_category = null, $cat_key = null, $cat_count = null)
     {
         $html = array();
         
@@ -392,7 +386,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
             $html[] = Utilities :: htmlentities($course_category->get_title());
             $html[] = '</div>';
             $html[] = '<div class="options">';
-            $html[] = $this->get_category_modification_links($course_category, $cat_key, $cat_count);
+            $html[] = $this->get_category_modification_links($course_category, $course_type_id, $cat_key, $cat_count);
             $html[] = '</div>';
             $html[] = '<div style="clear:both;"></div>';
             $html[] = '</div>';
@@ -419,7 +413,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
                 $titular = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
                 $html[] = '<div class="user_course"><a href="' . $this->get_course_viewing_url($course) . '">' . $course->get_name() . '</a><br />' . $course->get_visual() . ' - ' . $titular->get_fullname() . '</div>';
                 $html[] = '<div class="user_course_options">';
-                $html[] = $this->get_course_modification_links($course, $key, count($courses));
+                $html[] = $this->get_course_modification_links($course, $course_type_id, $key, count($courses));
                 $html[] = '</div>';
                 $html[] = '<div style="clear:both;"></div>';
                 $key ++;
@@ -434,13 +428,13 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         return implode($html, "\n");
     }
 
-    function get_course_modification_links($course, $key, $total)
+    function get_course_modification_links($course, $course_type_id, $key, $total)
     {
         $toolbar_data = array();
         
         if ($key > 0 && $total > 1)
         {
-            $toolbar_data[] = array('href' => $this->get_course_user_move_url($course, 'up'), 'label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            $toolbar_data[] = array('href' => $this->get_course_user_move_url($course, $course_type_id, 'up'), 'label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
         }
         else
         {
@@ -449,7 +443,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         
         if ($key < ($total - 1) && $total > 1)
         {
-            $toolbar_data[] = array('href' => $this->get_course_user_move_url($course, 'down'), 'label' => Translation :: get('Down'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            $toolbar_data[] = array('href' => $this->get_course_user_move_url($course, $course_type_id, 'down'), 'label' => Translation :: get('Down'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
         }
         else
         {
@@ -463,13 +457,13 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         return Utilities :: build_toolbar($toolbar_data);
     }
 
-    function get_category_modification_links($courseusercategory, $key, $total)
+    function get_category_modification_links($courseusercategory, $course_type_id, $key, $total)
     {
         $toolbar_data = array();
         
         if ($key > 0 && $total > 1)
         {
-            $toolbar_data[] = array('href' => $this->get_course_user_category_move_url($courseusercategory, 'up'), 'label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            $toolbar_data[] = array('href' => $this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'up'), 'label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
         }
         else
         {
@@ -478,7 +472,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         
         if ($key < ($total - 1) && $total > 1)
         {
-            $toolbar_data[] = array('href' => $this->get_course_user_category_move_url($courseusercategory, 'down'), 'label' => Translation :: get('Down'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            $toolbar_data[] = array('href' => $this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'down'), 'label' => Translation :: get('Down'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
         }
         else
         {

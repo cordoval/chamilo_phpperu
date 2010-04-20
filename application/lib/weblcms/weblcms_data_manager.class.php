@@ -209,8 +209,12 @@ abstract class WeblcmsDataManager
     abstract function update_course_type_tool($course_type_tool);
     
     abstract function update_course_type_rights($course_type_rights);
+    
+    abstract function update_course_type_user_category($course_type_user_category);
 
     abstract function delete_course_type($course_type_id);
+    
+    abstract function delete_course_type_user_category($course_type_user_category);
 
     /**
      * Deletes the given course_type_tool from the database related to this given course_type.
@@ -243,6 +247,8 @@ abstract class WeblcmsDataManager
     
     abstract function retrieve_course_type_user_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
+    abstract function retrieve_course_type_user_category($condition = null);
+    
     //-- END -- Course_type_items--
 
     /**
@@ -702,7 +708,7 @@ abstract class WeblcmsDataManager
      * @param string $direction
      * @return CourseUserRelationResultSet
      */
-    abstract function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction);
+    abstract function retrieve_course_user_relation_at_sort($user_id, $course_type_id, $category_id, $sort, $direction);
 
     /**
      * Retrieves a set of course user relations
@@ -732,6 +738,8 @@ abstract class WeblcmsDataManager
      * @return DatabaseUserCourseCategoryResultSet The resultset of course categories.
      */
     abstract function retrieve_course_user_categories($conditions = null, $offset = null, $count = null, $order_property = null);
+    
+    abstract function retrieve_course_user_categories_by_course_type($condition = null);
 
     /**
      * Retrieves a personal course category for the user.
@@ -746,7 +754,7 @@ abstract class WeblcmsDataManager
      * @param string $direction
      * @return CourseUserCategory The course user category.
      */
-    abstract function retrieve_course_user_category_at_sort($user_id, $sort, $direction);
+    abstract function retrieve_course_type_user_category_at_sort($user_id, $course_type_id, $sort, $direction);
 
     /**
      * Adds a record to the access log of a course module
