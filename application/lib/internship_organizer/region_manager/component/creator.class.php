@@ -11,8 +11,8 @@ class InternshipOrganizerRegionManagerCreatorComponent extends InternshipOrganiz
     function run()
     {
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_browse_regions_url(), Translation :: get('BrowseCategories')));
-        
+        $region_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
+        $trail->add(new Breadcrumb($this->get_url(array( InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS , InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region_id)), Translation :: get('BrowseRegions')));
         $trail->add(new Breadcrumb($this->get_region_create_url, Translation :: get('CreateRegion')));
         $trail->add_help('region general');
              
@@ -30,7 +30,7 @@ class InternshipOrganizerRegionManagerCreatorComponent extends InternshipOrganiz
             }
             else
             {
-                $this->redirect(Translation :: get('InternshipOrganizerRegionNotCreated'), (true), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_CATEGORIES));
+                $this->redirect(Translation :: get('InternshipOrganizerRegionNotCreated'), (true), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS));
             }
         }
         else

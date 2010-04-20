@@ -24,7 +24,6 @@ class InternshipOrganizerRegionBrowserTable extends ObjectTable
         $actions = array();
         
         $actions[] = new ObjectTableFormAction(InternshipOrganizerRegionManager :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected'));
-        $actions[] = new ObjectTableFormAction(InternshipOrganizerRegionManager :: PARAM_TRUNCATE_SELECTED, Translation :: get('TruncateSelected'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
