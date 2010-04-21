@@ -111,8 +111,16 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         $sort = $move_courseuserrelation->get_sort();
         $next_courseuserrelation = $this->retrieve_course_user_relation_at_sort($this->get_user_id(), $course_type_id, $move_courseuserrelation->get_category(), $sort, $direction);
         
-       	$move_courseuserrelation->set_sort($next_courseuserrelation->get_sort());
-       	$next_courseuserrelation->set_sort($sort);
+        if ($direction == 'up')
+        {
+            $move_courseuserrelation->set_sort($sort - 1);
+            $next_courseuserrelation->set_sort($sort);
+        }
+        elseif ($direction == 'down')
+        {
+            $move_courseuserrelation->set_sort($sort + 1);
+            $next_courseuserrelation->set_sort($sort);
+        }
         
         if ($move_courseuserrelation->update() && $next_courseuserrelation->update())
         {
@@ -135,8 +143,16 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         $sort = $move_category->get_sort();
         $next_category = $this->retrieve_course_type_user_category_at_sort($this->get_user_id(), $course_type_id, $sort, $direction);
         
-       	$move_category->set_sort($next_category->get_sort());
-       	$next_category->set_sort($sort);
+        if ($direction == 'up')
+        {
+            $move_courseuserrelation->set_sort($sort - 1);
+            $next_courseuserrelation->set_sort($sort);
+        }
+        elseif ($direction == 'down')
+        {
+            $move_courseuserrelation->set_sort($sort + 1);
+            $next_courseuserrelation->set_sort($sort);
+        }
        
         if ($move_category->update() && $next_category->update())
         {
@@ -203,29 +219,29 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         
         $relation_conditions = array();
         $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
-        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $this->get_user_id());
+        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_user_category_id);
         $relation_condition = new AndCondition($relation_conditions);
         
         $relations = $this->retrieve_course_user_relations($relation_condition, null, null, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT)));
         
-        /*
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
         $condition = new AndCondition($conditions);
-        
+
         $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
-        */
+
         while ($relation = $relations->next_result())
         {
-            //$relation->set_sort($sort + 1);
+            $relation->set_sort(++$sort);
             $relation->update();
-           // $sort ++;
+           	
         }
         
-        $success = $courseusercategory->delete();
-        $success &= $course_type_user_category->delete();
-        $this->redirect(Translation :: get($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view'));
+       	$success = $courseusercategory->delete();
+       	$success &= $course_type_user_category->delete();
+       	$this->redirect(Translation :: get($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view'));
     }
 
     function show_course_list()
