@@ -4,7 +4,7 @@
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerUnsubscriberComponent extends GroupManagerComponent
+class GroupManagerUnsubscriberComponent extends GroupManager
 {
 
     /**
