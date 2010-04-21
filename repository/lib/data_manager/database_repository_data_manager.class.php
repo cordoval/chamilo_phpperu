@@ -545,12 +545,13 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         $condition = new AndCondition($conditions);
 
-        $query = 'SELECT * FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
+        $query = 'SELECT * FROM ' . $this->escape_table_name( ContentObject :: get_table_name()) . ' AS ' . $this->get_alias( ContentObject :: get_table_name());
+        
         $objects = $this->retrieve_record_set($query, ContentObject :: get_table_name(), $condition);
 
         while($object = $objects->next_result())
         {
-        	$versions[] = $this->retrieve_content_object($object[ContentObject :: PROPERTY_ID]);
+        	$versions[] = $this->retrieve_content_object($object[ContentObject::PROPERTY_ID]);
         }
 
         return $versions;

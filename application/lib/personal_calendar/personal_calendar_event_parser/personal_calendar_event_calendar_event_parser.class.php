@@ -31,7 +31,7 @@ class PersonalCalendarEventCalendarEventParser extends PersonalCalendarEventPars
                 $event->set_url($this->get_parent()->get_publication_viewing_url($publication));
                 
                 // Check whether it's a shared or regular publication
-                if ($publisher != $this->get_user_id())
+                if ($publisher != $this->get_parent()->get_user_id())
                 {
                     $event->set_title($object->get_title() . ' [' . $publishing_user->get_fullname() . ']');
                 }
