@@ -6,8 +6,12 @@
 		<property name="organisation_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="name" type="text" notnull="1" />
-		<property name="street" type="text" notnull="1" />
-		<property name="street_number" type="text" notnull="1" />
+		<property name="address" type="text" notnull="1" />
+		<property name="postcode" type="text" notnull="1" />
 		<property name="city" type="text" notnull="1" />
+		<property name="telephone" type="text"/>
+		<property name="fax" type="text"/>
+		<property name="email" type="text"/>
+		<property name="description" type="text"/>
 	</properties>
 </object>

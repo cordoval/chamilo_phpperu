@@ -27,7 +27,7 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManagerCompone
             
 	        if(!$form->validate())
 	        {
-	            $this->display_header($trail);
+	            $this->display_header($trail, true);
 	        }
         }
         else
@@ -40,7 +40,7 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManagerCompone
             }
 	        else
 	        {	        	
-	            $this->display_header($trail); 
+	            $this->display_header($trail, true); 
 	            echo $publisher->get_content_object_title($pub->get_selected_objects()); 
 	            $form->display();	            
 	        }

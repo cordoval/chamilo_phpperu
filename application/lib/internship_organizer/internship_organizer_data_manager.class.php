@@ -150,5 +150,13 @@ abstract class InternshipOrganizerDataManager
 
     abstract function delete_internship_organizer_region_nested_values($node, $previous_visited, $number_of_elements, $condition);	
     
+
+    
+    abstract function count_mentors($conditions = null);
+
+    abstract function retrieve_mentor($id);
+
+    abstract function retrieve_mentors($condition = null, $offset = null, $count = null, $order_property = null);
+    
 }
 ?>

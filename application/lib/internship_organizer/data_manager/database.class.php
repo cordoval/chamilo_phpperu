@@ -8,6 +8,7 @@ require_once dirname ( __FILE__ ) . '/../category_rel_location.class.php';
 require_once dirname ( __FILE__ ) . '/../organisation.class.php';
 require_once dirname ( __FILE__ ) . '/../agreement.class.php';
 require_once dirname ( __FILE__ ) . '/../moment.class.php';
+require_once dirname ( __FILE__ ) . '/../region.class.php';
 
 require_once 'MDB2.php';
 
@@ -104,7 +105,7 @@ class DatabaseInternshipOrganizerDataManager extends InternshipOrganizerDataMana
 		$condition_subcategories = new EqualityCondition ( InternshipOrganizerCategory::PROPERTY_PARENT_ID, $category->get_id () );
 		$categories = $this->retrieve_categories ( $condition_subcategories );
 		while ( $gr = $categories->next_result () ) {
-			$bool = $bool & $this->delete_category ( $gr );
+			$bool = $bool & $this->delete_internship_organizer_category ( $gr );
 		}
 		
 		$this->truncate_category ( $category );
@@ -342,7 +343,8 @@ class DatabaseInternshipOrganizerDataManager extends InternshipOrganizerDataMana
 		$condition_subregions = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_PARENT_ID, $region->get_id () );
 		$regions = $this->retrieve_regions ( $condition_subregions );
 		while ( $gr = $regions->next_result () ) {
-			$bool = $bool & $this->delete_region ( $gr );
+			$bool = $bool & $this->delete_internship_organizer_region ( $gr );
+			//mag dit? (i.e. recursieve oproep)
 		}
 		
 		return $bool;
@@ -438,5 +440,36 @@ class DatabaseInternshipOrganizerDataManager extends InternshipOrganizerDataMana
  		return $root_region;
  	}
 
+ 	
+	//internship planner mentors
+	
+
+	function create_internship_organizer_mentor($mentor) {
+		return $this->database->create ( $mentor );
+	}
+	
+	function update_internship_organizer_mentor($mentor) {
+		$condition = new EqualityCondition ( InternshipOrganizerMentor::PROPERTY_ID, $mentor->get_id () );
+		return $this->database->update ( $mentor, $condition );
+	}
+	
+	function delete_internship_organizer_mentor($mentor) {
+		$condition = new EqualityCondition ( InternshipOrganizerMentor::PROPERTY_ID, $mentor->get_id () );
+		return $this->database->delete ( $mentor->get_table_name (), $condition );
+	}
+	
+	function count_mentors($condition = null) {
+		return $this->database->count_objects ( InternshipOrganizerMentor::get_table_name (), $condition );
+	}
+	
+	function retrieve_mentor($id) {
+		$condition = new EqualityCondition ( InternshipOrganizerMentor::PROPERTY_ID, $id );
+		return $this->database->retrieve_object ( InternshipOrganizerMentor::get_table_name (), $condition, array(), InternshipOrganizerMentor::CLASS_NAME );
+	}
+	
+	function retrieve_mentors($condition = null, $offset = null, $max_objects = null, $order_by = null) {
+		return $this->database->retrieve_objects ( InternshipOrganizerMentor::get_table_name (), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMentor::CLASS_NAME );
+	}
+ 	
 }
 ?>

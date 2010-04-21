@@ -14,9 +14,7 @@ class EvaluationFormatsBrowserTableColumnModel extends DefaultEvaluationFormatsT
 	function EvaluationFormatsBrowserTableColumnModel($browser)
 	{
 		parent :: __construct();
-//        $this->add_column(new ObjectTableColumn(Format :: PROPERTY_TITLE));
-//        $this->add_column(new ObjectTableColumn(Format :: PROPERTY_ACTIVE));
-        $this->set_default_order_column(0);
+        $this->set_default_order_column(1);
         $this->add_column(self :: get_modification_column());
 	}
 
@@ -28,7 +26,7 @@ class EvaluationFormatsBrowserTableColumnModel extends DefaultEvaluationFormatsT
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new StaticTableColumn('');
+			self :: $modification_column = new StaticTableColumn('Action');
 		}
 		return self :: $modification_column;
 	}

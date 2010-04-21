@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../mentor.class.php';
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  **/
-class MentorForm extends FormValidator
+class InternshipOrganizerMentorForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
@@ -14,7 +14,7 @@ class MentorForm extends FormValidator
 	private $mentor;
 	private $user;
 
-    function MentorForm($form_type, $mentor, $action, $user)
+    function InternshipOrganizerMentorForm($form_type, $mentor, $action, $user)
     {
     	parent :: __construct('mentor_settings', 'post', $action);
 
@@ -36,26 +36,19 @@ class MentorForm extends FormValidator
 
     function build_basic_form()
     {
-		$this->addElement('text', Mentor :: PROPERTY_ID, Translation :: get('Id'));
-		$this->addRule(Mentor :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipOrganizerMentor :: PROPERTY_TITLE, Translation :: get('Title'));
 
-		$this->addElement('text', Mentor :: PROPERTY_TITLE, Translation :: get('Title'));
-		$this->addRule(Mentor :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipOrganizerMentor :: PROPERTY_FIRSTNAME, Translation :: get('Firstname'));
+		$this->addRule(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', Mentor :: PROPERTY_FIRSTNAME, Translation :: get('Firstname'));
-		$this->addRule(Mentor :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipOrganizerMentor :: PROPERTY_LASTNAME, Translation :: get('Lastname'));
+		$this->addRule(InternshipOrganizerMentor :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', Mentor :: PROPERTY_LASTNAME, Translation :: get('Lastname'));
-		$this->addRule(Mentor :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipOrganizerMentor :: PROPERTY_EMAIL, Translation :: get('Email'));
 
-		$this->addElement('text', Mentor :: PROPERTY_EMAIL, Translation :: get('Email'));
-		$this->addRule(Mentor :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipOrganizerMentor :: PROPERTY_TELEPHONE, Translation :: get('Telephone'));
 
-		$this->addElement('text', Mentor :: PROPERTY_TELEPHONE, Translation :: get('Telephone'));
-		$this->addRule(Mentor :: PROPERTY_TELEPHONE, Translation :: get('ThisFieldIsRequired'), 'required');
-
-		$this->addElement('text', Mentor :: PROPERTY_LOCATION_ID, Translation :: get('UserId'));
-		$this->addRule(Mentor :: PROPERTY_LOCATION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', InternshipOrganizerMentor :: PROPERTY_USER_ID, Translation :: get('UserId'));
 
     }
 
@@ -63,7 +56,7 @@ class MentorForm extends FormValidator
     {
     	$this->build_basic_form();
 
-    	//$this->addElement('hidden', Mentor :: PROPERTY_ID);
+    	//$this->addElement('hidden', InternshipOrganizerMentor :: PROPERTY_ID);
 
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -86,13 +79,13 @@ class MentorForm extends FormValidator
     	$mentor = $this->mentor;
     	$values = $this->exportValues();
 
-    	$mentor->set_id($values[Mentor :: PROPERTY_ID]);
-    	$mentor->set_title($values[Mentor :: PROPERTY_TITLE]);
-    	$mentor->set_firstname($values[Mentor :: PROPERTY_FIRSTNAME]);
-    	$mentor->set_lastname($values[Mentor :: PROPERTY_LASTNAME]);
-    	$mentor->set_email($values[Mentor :: PROPERTY_EMAIL]);
-    	$mentor->set_telephone($values[Mentor :: PROPERTY_TELEPHONE]);
-    	$mentor->set_user_id($values[Mentor :: PROPERTY_LOCATION_ID]);
+    	$mentor->set_id($values[InternshipOrganizerMentor :: PROPERTY_ID]);
+    	$mentor->set_title($values[InternshipOrganizerMentor :: PROPERTY_TITLE]);
+    	$mentor->set_firstname($values[InternshipOrganizerMentor :: PROPERTY_FIRSTNAME]);
+    	$mentor->set_lastname($values[InternshipOrganizerMentor :: PROPERTY_LASTNAME]);
+    	$mentor->set_email($values[InternshipOrganizerMentor :: PROPERTY_EMAIL]);
+    	$mentor->set_telephone($values[InternshipOrganizerMentor :: PROPERTY_TELEPHONE]);
+    	$mentor->set_user_id($values[InternshipOrganizerMentor :: PROPERTY_USER_ID]);
 
     	return $mentor->update();
     }
@@ -102,13 +95,13 @@ class MentorForm extends FormValidator
     	$mentor = $this->mentor;
     	$values = $this->exportValues();
 
-    	$mentor->set_id($values[Mentor :: PROPERTY_ID]);
-    	$mentor->set_title($values[Mentor :: PROPERTY_TITLE]);
-    	$mentor->set_firstname($values[Mentor :: PROPERTY_FIRSTNAME]);
-    	$mentor->set_lastname($values[Mentor :: PROPERTY_LASTNAME]);
-    	$mentor->set_email($values[Mentor :: PROPERTY_EMAIL]);
-    	$mentor->set_telephone($values[Mentor :: PROPERTY_TELEPHONE]);
-    	$mentor->set_user_id($values[Mentor :: PROPERTY_LOCATION_ID]);
+    	$mentor->set_id($values[InternshipOrganizerMentor :: PROPERTY_ID]);
+    	$mentor->set_title($values[InternshipOrganizerMentor :: PROPERTY_TITLE]);
+    	$mentor->set_firstname($values[InternshipOrganizerMentor :: PROPERTY_FIRSTNAME]);
+    	$mentor->set_lastname($values[InternshipOrganizerMentor :: PROPERTY_LASTNAME]);
+    	$mentor->set_email($values[InternshipOrganizerMentor :: PROPERTY_EMAIL]);
+    	$mentor->set_telephone($values[InternshipOrganizerMentor :: PROPERTY_TELEPHONE]);
+    	$mentor->set_user_id($values[InternshipOrganizerMentor :: PROPERTY_USER_ID]);
 
    		return $mentor->create();
     }
@@ -121,13 +114,13 @@ class MentorForm extends FormValidator
 	{
 		$mentor = $this->mentor;
 
-    	$defaults[Mentor :: PROPERTY_ID] = $mentor->get_id();
-    	$defaults[Mentor :: PROPERTY_TITLE] = $mentor->get_title();
-    	$defaults[Mentor :: PROPERTY_FIRSTNAME] = $mentor->get_firstname();
-    	$defaults[Mentor :: PROPERTY_LASTNAME] = $mentor->get_lastname();
-    	$defaults[Mentor :: PROPERTY_EMAIL] = $mentor->get_email();
-    	$defaults[Mentor :: PROPERTY_TELEPHONE] = $mentor->get_telephone();
-    	$defaults[Mentor :: PROPERTY_LOCATION_ID] = $mentor->get_user_id();
+    	$defaults[InternshipOrganizerMentor :: PROPERTY_ID] = $mentor->get_id();
+    	$defaults[InternshipOrganizerMentor :: PROPERTY_TITLE] = $mentor->get_title();
+    	$defaults[InternshipOrganizerMentor :: PROPERTY_FIRSTNAME] = $mentor->get_firstname();
+    	$defaults[InternshipOrganizerMentor :: PROPERTY_LASTNAME] = $mentor->get_lastname();
+    	$defaults[InternshipOrganizerMentor :: PROPERTY_EMAIL] = $mentor->get_email();
+    	$defaults[InternshipOrganizerMentor :: PROPERTY_TELEPHONE] = $mentor->get_telephone();
+    	$defaults[InternshipOrganizerMentor :: PROPERTY_USER_ID] = $mentor->get_user_id();
 
 		parent :: setDefaults($defaults);
 	}

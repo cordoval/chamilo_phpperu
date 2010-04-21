@@ -19,6 +19,9 @@ require_once Path::get_application_path () . 'lib/internship_organizer/agreement
 require_once Path::get_application_path () . 'lib/internship_organizer/region_manager/region_manager.class.php';
 require_once Path::get_application_path () . 'lib/internship_organizer/region_manager/region_manager_component.class.php';
 
+require_once Path::get_application_path () . 'lib/internship_organizer/mentor_manager/mentor_manager.class.php';
+require_once Path::get_application_path () . 'lib/internship_organizer/mentor_manager/mentor_manager_component.class.php';
+
 class InternshipOrganizerManager extends WebApplication {
 	const APPLICATION_NAME = 'internship_organizer';
 	
@@ -26,7 +29,8 @@ class InternshipOrganizerManager extends WebApplication {
 	const ACTION_AGREEMENT = 'agreement';
 	const ACTION_CATEGORY = 'category';
 	const ACTION_APPLICATION_CHOOSER = 'chooser';
-	const ACTION_REGION = 'region';	
+	const ACTION_REGION = 'region';
+	const ACTION_MENTOR = 'mentor';		
 	/**
 	 * Constructor
 	 * @param User $user The current user
@@ -58,6 +62,9 @@ class InternshipOrganizerManager extends WebApplication {
 			case self::ACTION_REGION :
 				$component = InternshipOrganizerManagerComponent::factory ( 'Region', $this );
 				break;
+			case self::ACTION_MENTOR :
+				$component = InternshipOrganizerManagerComponent::factory ( 'Mentor', $this );
+				break;
 			default :
 				$this->set_action ( self::ACTION_APPLICATION_CHOOSER );
 				$component = InternshipOrganizerManagerComponent::factory ( 'ApplicationChooser', $this );
@@ -84,7 +91,10 @@ class InternshipOrganizerManager extends WebApplication {
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_REGION ) );
 	
 	}
+	function get_mentor_application_url() {
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_MENTOR ) );
 	
+	}
 	private function parse_input_from_table() {
 		//not used jet
 	}

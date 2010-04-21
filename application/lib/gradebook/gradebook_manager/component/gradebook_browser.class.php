@@ -21,35 +21,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManagerComponen
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION=> GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('BrowseGradeBook')));
 
 		$this->display_header($trail);
-		
-    	$root = dirname(__FILE__) . '/../../evaluation_format/';
-    	$folders = Filesystem :: get_directory_content($root, Filesystem :: LIST_DIRECTORIES, false);
-    	foreach($folders as $folder)
-    	{
-    		if(Text :: char_at($folder, 0) != '.')
-    		{
-    			echo $root.$folder.'/';
-    			$formats = Filesystem :: get_directory_content($root.$folder.'/', Filesystem :: LIST_FILES, false);
-    			foreach($formats as $format)
-    			{
-    				require_once $root . 'evaluation_format.class.php';
-    				$ev = EvaluationFormat :: factory($folder, $format);
-    			}
-    			$format = new Format();
-    			$format->set_title($ev->get_evaluation_format_name());
-    			$format->set_active($ev->get_default_active_value());
-
-    			if($format->create())
-    			{
-    				$this->add_message(self :: TYPE_NORMAL, Translation :: get('FormatAdded') . ' ' . $format->get_title());
-    			}
-    			else
-    			{
-    				return false;
-    			}
-    		}
-    	}
-        return true;
+	
 		$this->ab = $this->get_action_bar();
 		echo $this->get_browser_html();
 		$this->display_footer();

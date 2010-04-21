@@ -43,7 +43,7 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManagerCompone
 	            
 	            if (!$form_properties->validate())
 	            {	
-	            	$this->display_header($trail);
+	            	$this->display_header($trail, true);
 	            	          	
 	            	$publisher = new PeerAssessmentPublicationPublisher($form_properties); 
 	            	$id = $peer_assessment_publication->get_content_object()->get_id();
@@ -64,7 +64,7 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManagerCompone
 	            }
 	            else
 	            {
-	            	$this->display_header($trail);
+	            	$this->display_header($trail, true);
 	       			$form_main->display();
 	            }
 			}

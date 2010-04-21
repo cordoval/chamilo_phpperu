@@ -36,11 +36,15 @@ class WikiManagerWikiPublicationDeleterComponent extends WikiManagerComponent
             foreach ($ids as $id)
             {
             	$wiki_publication = $this->retrieve_wiki_publication($id);
-            	if($this->get_parent()->retrieve_evaluation_ids_by_publication($id))
-            	{
-            		if(!$this->get_parent()->move_internal_to_external($wiki_publication))
-            			$message = 'internal database error';
-            	}
+            	if(WebApplication :: is_active('gradebook'))
+       			{
+       				require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+	            	if(EvaluationManager :: retrieve_evaluation_ids_by_publication(WikiManager :: APPLICATION_NAME, $id))
+	            	{
+				    	if(!EvaluationManager :: move_internal_to_external(WikiManager :: APPLICATION_NAME, $wiki_publication))
+				    		$message = 'failed to move internal evaluation to external evaluation';
+	            	}
+       			}
                 
                 if (! $wiki_publication->delete())
                 {

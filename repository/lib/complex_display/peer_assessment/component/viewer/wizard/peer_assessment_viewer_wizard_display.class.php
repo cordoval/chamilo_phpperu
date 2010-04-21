@@ -1,4 +1,7 @@
 <?php
+require_once dirname(__FILE__) . '/table_competence/default_competence_table_column_model.class.php';
+require_once dirname(__FILE__) . '/table_competence/default_competence_table_cell_renderer.class.php';
+
 /**
  * @author Sven Vanpoucke
  * @author Nick Van Loocke
@@ -44,28 +47,22 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
             $html[] = '</div>';
 
             $html[] = '<br />';
-
-            /*if (strlen(strip_tags($this->parent->get_peer_assessment()->get_introduction_text(), '<img>')) > 0)
+            
+            $competences = $this->parent->get_peer_assessment_page_competences($this->parent->get_peer_assessment());
+            
+            foreach($competences as $competence)
             {
-                $html[] = '<div class="description">';
-                $introduction = $this->parent->get_peer_assessment()->get_introduction_text();
+            	$html[] = $competence->get_title();
+            	$html[] = '<br />';
+            }
+            
+            // Creation of a table with the competence objects in it should come here ...
+            //$html[] = $table = new DefaultCompetenceTableColumnModel($this, array(Application :: PARAM_APPLICATION => PeerAssessmentManager :: APPLICATION_NAME, Application :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
+			//$html[] = $table->as_html();
 
-                $html[] = $this->parent->get_parent()->parse($introduction);
-                $html[] = '</div>';
-            }*/
-
+	
+            
             $html[] = '<br />';
-
-            /*if (strlen(strip_tags($this->parent->get_page($current_page->get_page_number())->get_introduction_text(), '<img>')) > 0)
-            {
-                $html[] = '<div class="description">';
-                $introduction = $this->parent->get_page($current_page->get_page_number())->get_introduction_text();
-
-                $html[] = $this->parent->get_parent()->parse($introduction);
-
-                $html[] = '</div>';
-            }*/
-
             $html[] = '</div>';
 
             $html[] = '<div>';
@@ -75,30 +72,6 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
             $html[] = '<br />';
 
             $html[] = '<div class="assessment">';
-
-            /*if (strlen(strip_tags($this->parent->get_page($current_page->get_page_number())->get_finish_text(), '<img>')) > 0)
-            {
-
-            	$html[] = '<div class="description">';
-                $finishtext = $this->parent->get_page($current_page->get_page_number())->get_finish_text();
-
-                $html[] = $this->parent->get_parent()->parse($finishtext);
-
-                $html[] = '</div>';
-            }*/
-
-            $html[] = '<br />';
-
-            /*if (strlen(strip_tags($this->parent->get_peer_assessment()->get_finish_text(), '<img>')) > 0)
-            {
-
-            	$html[] = '<div class="description">';
-                $finishtext = $this->parent->get_peer_assessment()->get_finish_text();
-
-                $html[] = $this->parent->get_parent()->parse($finishtext);
-                $html[] = '</div>';
-            }*/
-
             $html[] = '<br />';
 
             $html[] = '<div style="width: 100%; text-align: center;">';
