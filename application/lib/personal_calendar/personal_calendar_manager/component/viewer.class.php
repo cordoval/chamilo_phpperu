@@ -132,7 +132,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
     function render_publication_date()
     {
         $date_format = Translation :: get('dateTimeFormatLong');
-        return Text :: format_locale_date($date_format, $this->event->get_published());
+        return DatetimeUtilities :: format_locale_date($date_format, $this->event->get_published());
     }
 
     function render_publication_targets()

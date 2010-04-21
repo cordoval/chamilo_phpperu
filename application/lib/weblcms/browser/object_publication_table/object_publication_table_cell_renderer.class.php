@@ -38,7 +38,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         {
             case ContentObjectPublication :: PROPERTY_PUBLICATION_DATE :
                 $date_format = Translation :: get('dateTimeFormatLong');
-                $data = Text :: format_locale_date($date_format, $publication->get_publication_date());
+                $data = DatetimeUtilities :: format_locale_date($date_format, $publication->get_publication_date());
                 break;
             case ContentObjectPublication :: PROPERTY_PUBLISHER_ID :
                 $user = $this->retrieve_user($publication->get_publisher_id());

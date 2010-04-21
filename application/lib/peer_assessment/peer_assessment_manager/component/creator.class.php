@@ -23,7 +23,7 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManagerCompone
 
         if (!$pub->is_ready_to_be_published())
         {
-            $html[] = $pub->as_html();
+            $html[] = $pub->as_html();          
             
 	        if(!$form->validate())
 	        {

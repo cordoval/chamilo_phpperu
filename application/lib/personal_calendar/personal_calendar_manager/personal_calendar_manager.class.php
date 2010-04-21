@@ -29,6 +29,8 @@ class PersonalCalendarManager extends WebApplication
     const ACTION_IMPORT_ICAL = 'import_ical';
     
     const ACTION_RENDER_BLOCK = 'block';
+    const PARAM_TIME = 'time';
+    const PARAM_VIEW = 'view';
 
     /**
      * Constructor

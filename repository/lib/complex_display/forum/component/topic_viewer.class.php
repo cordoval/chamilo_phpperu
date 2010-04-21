@@ -171,7 +171,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
             $object = $post->get_ref();
 			if($object->get_creation_date() != $object->get_modification_date())
 			{            
-            	$bottom_bar[] = Translation :: get('LastChangedAt', array('TIME' => Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $object->get_modification_date()) ));
+            	$bottom_bar[] = Translation :: get('LastChangedAt', array('TIME' => DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $object->get_modification_date()) ));
 			}
 			
             $bottom_bar[] = '</div>';
