@@ -53,7 +53,7 @@ class LaikaManagerViewerComponent extends LaikaManagerComponent
         $html[] = '<div id="action_bar_browser">';
         
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/announcement.png);">';
-        $html[] = '<div class="title">' . Translation :: get('ResultsFrom') . ' ' . Text :: format_locale_date(Translation :: get('dateTimeFormatLong'), $attempt->get_date()) . '</div>';
+        $html[] = '<div class="title">' . Translation :: get('ResultsFrom') . ' ' . DatetimeUtilities :: format_locale_date(Translation :: get('dateTimeFormatLong'), $attempt->get_date()) . '</div>';
         $html[] = '<div class="description">';
         $html[] = LaikaUtilities :: get_laika_results_html($attempt);
         $html[] = '</div>';

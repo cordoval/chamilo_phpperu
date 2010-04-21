@@ -39,7 +39,7 @@ class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
         switch ($column->get_name())
         {
             /* case ProfilePublication :: PROPERTY_PUBLISHED :
-                return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $profile->get_published());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $profile->get_published());
                 break;*/
             case User :: PROPERTY_USERNAME :
                 return '<a href ="' . $this->browser->get_url(array('user_id' => $user->get_id())) . '">' . $user->get_username() . '</a>';
@@ -53,7 +53,7 @@ class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
               */
                 $date_format = '%B %d, %Y at %I:%M %p'; //Translation :: get('dateTimeFormatLong');
-                $val = Text :: format_locale_date($date_format, $validation->get_validated());
+                $val = DatetimeUtilities :: format_locale_date($date_format, $validation->get_validated());
                 return $val;
                 break;
         }
