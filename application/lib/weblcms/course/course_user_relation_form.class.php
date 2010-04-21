@@ -76,11 +76,9 @@ class CourseUserRelationForm extends FormValidator
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $values[CourseUserRelation :: PROPERTY_CATEGORY]);
         $condition = new AndCondition($conditions);
         
-        /*$wdm = WeblcmsDataManager :: get_instance();
+        $wdm = WeblcmsDataManager :: get_instance();
         $sort = $wdm->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
-        
-        
-        $courseuserrelation->set_sort($sort + 1);*/
+        $courseuserrelation->set_sort($sort + 1);
         
         $courseuserrelation->set_category($values[CourseUserRelation :: PROPERTY_CATEGORY]);
         
