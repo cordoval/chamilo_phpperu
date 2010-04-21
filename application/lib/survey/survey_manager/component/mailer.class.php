@@ -241,18 +241,23 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
     {
         $fullbody = array();
         $parameters = array();
-        if (count($survey_ids) != 1)
+        
+        $unique_surveys = array_unique($survey_ids);
+          
+        if (count($unique_surveys) != 1)
         {
             $parameters[SurveyManager :: PARAM_ACTION] = SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS;
         }
         else
         {
             $parameters[SurveyManager :: PARAM_ACTION] = SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION;
-            $parameters[SurveyManager :: PARAM_SURVEY_PUBLICATION] = $survey_ids[0];
-
-        }
+            $parameters[SurveyManager :: PARAM_SURVEY_PUBLICATION] = $unique_surveys[0];
+		}
+        
+     
+        
         $url = Path :: get(WEB_PATH) . $this->get_link($parameters);
-
+	       
 //        $fullbody[] = $this->get_mail_header($email);
         $fullbody[] = $email->get_mail_content();
         $fullbody[] = '<br/><br/>';
