@@ -96,7 +96,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
                 $feedbacks = $dm->retrieve_content_object_pub_feedback($condition);
             }
             while ($feedback = $feedbacks->next_result())
-            {
+            { dump($feedback);
                 if ($i == 0)
                 {
                     echo '<div style="font-size:18px;">' . Translation :: get('Feedback') . '</div><hr>';

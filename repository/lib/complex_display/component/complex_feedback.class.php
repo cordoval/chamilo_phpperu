@@ -47,7 +47,7 @@ class ComplexDisplayComplexFeedbackComponent extends ComplexDisplayComponent
             $feedback->set_id($this->pub->get_selected_objects());
             $this->fid = $feedback->get_id();
             $this->cid = Request :: get('selected_cloi');
-            $this->pid = Request :: get('pid');
+            $this->pid = $this->get_root_lo()->get_id();
             
             /*
              * change in the feedback, create new tabel linking the feedback object to the wiki_page
