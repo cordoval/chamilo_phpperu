@@ -41,8 +41,8 @@ class DatabaseReportingDataManager extends Database implements ReportingDataMana
      */
     function retrieve_reporting_block_by_name($blockname)
     {
-        $condition = new EqualityCondition(ReportingBlock :: PROPERTY_NAME, $blockname);
-        return $this->retrieve_object(ReportingBlock :: get_table_name(), $condition);
+        $condition = new EqualityCondition(ReportingBlockRegistration :: PROPERTY_BLOCK, $blockname);
+        return $this->retrieve_object(ReportingBlockRegistration :: get_table_name(), $condition);
     }
 
     /**

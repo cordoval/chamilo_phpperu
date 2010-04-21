@@ -59,11 +59,11 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
                 switch ($property)
                 {
                     case 'Title' :
-                        return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, 'selected_cloi' => $this->cid)) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>' . $homepage;
+                        return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $this->cid)) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>' . $homepage;
                     //default:
                     //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>';
                     case '[=Wiki=Title=]' :
-                        return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, 'selected_cloi' => $this->cid)) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>' . $homepage;
+                        return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $this->cid)) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>' . $homepage;
                     case 'versions' :
                         return $wiki_page->get_version_count();
                     case 'Description' :
