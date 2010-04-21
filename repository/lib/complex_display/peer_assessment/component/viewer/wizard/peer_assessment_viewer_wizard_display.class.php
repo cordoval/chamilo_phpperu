@@ -1,7 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/table_competence/default_competence_table_column_model.class.php';
-require_once dirname(__FILE__) . '/table_competence/default_competence_table_cell_renderer.class.php';
-
 /**
  * @author Sven Vanpoucke
  * @author Nick Van Loocke
@@ -42,26 +39,62 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             $html[] = '<br />';
 
-            $html[] = '<div style="width: 100%; text-align: center;">';
+            /*$html[] = '<div style="width: 100%; text-align: center;">';
             $html[] = $current_page->get_page_number() . ' / ' . $this->parent->get_total_pages();
             $html[] = '</div>';
-
-            $html[] = '<br />';
             
-            $competences = $this->parent->get_peer_assessment_page_competences($this->parent->get_peer_assessment());
+            $html[] = '<br />';*/
             
+               
+            $html[] = '<h3>' . Translation :: get('Competence') . '</h3>';
+	        $html[] = '<table class="data_table">';
+	        $html[] = '<thead>';
+	        $html[] = '<tr>';
+	        $html[] = '<th>'. Translation :: get('Type') .'</th>';
+	        $html[] = '<th>' . Translation :: get('Title') . '</th>';
+	        $html[] = '<th>' . Translation :: get('Description') . '</th>';
+	        $html[] = '<th class="numeric">' . Translation :: get('Finished') . '</th>';
+	        $html[] = '<th class="action"></th>';
+	        $html[] = '</tr>';
+	        $html[] = '</thead>';
+	        $html[] = '<tbody>';
+	        $html[] = '</tbody>';
+	        
+            
+	        $competences = $this->parent->get_peer_assessment_page_competences($this->parent->get_peer_assessment());
+	        /*$indicators = $this->parent->get_peer_assessment_page_indicators($this->parent->get_peer_assessment());
+	        foreach($indicators as $indicator)
+            {
+            	dump($indicator);
+            }*/
+	        
+	        
             foreach($competences as $competence)
             {
-            	$html[] = $competence->get_title();
-            	$html[] = '<br />';
-            }
-            
-            // Creation of a table with the competence objects in it should come here ...
-            //$html[] = $table = new DefaultCompetenceTableColumnModel($this, array(Application :: PARAM_APPLICATION => PeerAssessmentManager :: APPLICATION_NAME, Application :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
-			//$html[] = $table->as_html();
+            	$url = '';
+            	$html[] = '<tr>';
+            	$html[] = '<td><img src="'. Theme :: get_common_image_path() . 'content_object/competence.png' .'" alt=""/></td>';
 
-	
+            	$html[] = '<td><a href="'. $url .'">'.$competence->get_title().'</a></td>';
+            	$html[] = '<td>'.$competence->get_description().'</td>';
+            	
+            	/*if($competence->isFinished())
+            	{
+            		$image = 'button_start';
+            	}
+            	else
+            	{*/
+            		$image = 'button_cancel';
+            	//}
+            	
+            	$html[] = '<td><img src="' . Theme :: get_common_image_path() . 'buttons/'.$image.'.png' .'" alt="" /></td>';
+            	$html[] = '<td><a href="'. $url .'"><img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/></a></td>';
+            	$html[] = '</tr>';
+            }
+            $html[] = '</table>';
             
+			
+	
             $html[] = '<br />';
             $html[] = '</div>';
 

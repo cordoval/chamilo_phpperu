@@ -61,7 +61,7 @@ class Footer
 //        $output[] = '<div class="links">';
 //
 //        $links = array();
-//        $links[] = Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), time());
+//        $links[] = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), time());
 //        $links[] = '<a href="' . $this->get_setting('institution_url', 'admin') . '" target="about:blank">' . $this->get_setting('institution', 'admin') . '</a>';
 //
 //        if ($this->get_setting('show_administrator_data', 'admin') == 'true')
@@ -126,7 +126,7 @@ class Footer
         $template->assign_var('WEB_PATH' , Path :: get(WEB_PATH) );
 
         $links = array();
-        $links[] = Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), time());
+        $links[] = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), time());
         $links[] = '<a href="' . $this->get_setting('institution_url', 'admin') . '" target="about:blank">' . $this->get_setting('institution', 'admin') . '</a>';
 
         if ($this->get_setting('show_administrator_data', 'admin') == 'true')

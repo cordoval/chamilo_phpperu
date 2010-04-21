@@ -18,6 +18,7 @@ class PeerAssessmentPublicationForm extends FormValidator
     const PARAM_FROM_DATE = 'from_date';
     const PARAM_TO_DATE = 'to_date';
     const PARAM_HIDDEN = 'hidden';
+    const PARAM_CRITERIA_SCORE = 'criteria_score';
 
     private $content_object;
     private $publication;
@@ -67,10 +68,21 @@ class PeerAssessmentPublicationForm extends FormValidator
         	$gradebook_internal_item_form->build_evaluation_question($this);
         }
         
+        // Select criteria score that is already created
+        // ---------------------------------------------
+        //$criteria_scores = array();
+        //$criteria_scores[0] = Translation :: get('SelectCriteriaScore');
+        //$criteria_scores &= retrieve_criteria_scores();
+        
+        //$this->addElement('select', self :: PARAM_CRITERIA_SCORE, Translation :: get('SelectCriteriaScore'), $criteria_scores);
+        //$this->addRule(PeerAssessment :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        
+        
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
 
         $this->add_forever_or_timewindow();
-        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
+        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));    
     }
 
     
@@ -177,7 +189,8 @@ class PeerAssessmentPublicationForm extends FormValidator
         return $content_object->update();
     }
     
-    
+ 	
+    // Set the default values in update
     
 	function set_publication_values($publication)
     {

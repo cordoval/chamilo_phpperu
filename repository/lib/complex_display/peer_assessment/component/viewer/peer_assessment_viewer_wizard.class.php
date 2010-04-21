@@ -74,6 +74,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
 
     }
     
+    // Return the competences of an peer assessment
 	function get_peer_assessment_page_competences($peer_assessment_page)
     {
 
@@ -85,12 +86,28 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
             $this->total_questions ++;
             $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
             $questions[$this->total_questions] = $question;
-
         }
 
         return $questions;
 
     }
+    
+    // Returns the indicators of an competence
+	/*function get_peer_assessment_page_indicators($peer_assessment_page)
+    {
+
+        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $peer_assessment_page->get_id(), ComplexContentObjectItem :: get_table_name()));
+        $questions = array();
+
+        while ($complex_content_object = $complex_content_objects->next_result())
+        {
+            $this->total_questions ++;
+            $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
+            $questions[$this->total_questions] = $question;
+        }
+
+        return $questions;
+    }*/
 
     function get_questions($page_number)
     {

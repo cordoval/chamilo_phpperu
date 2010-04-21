@@ -161,7 +161,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManagerComponent
     function format_date($date)
     {
         $date_format = Translation :: get('dateTimeFormatLong');
-        return Text :: format_locale_date($date_format, $date);
+        return DatetimeUtilities :: format_locale_date($date_format, $date);
     }
 
 }

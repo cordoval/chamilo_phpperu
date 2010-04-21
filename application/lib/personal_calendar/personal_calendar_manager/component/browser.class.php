@@ -10,16 +10,30 @@ require_once dirname(__FILE__) . '/../../renderer/personal_calendar_list_rendere
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_month_renderer.class.php';
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_week_renderer.class.php';
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_day_renderer.class.php';
+require_once dirname(__FILE__) . '/../../forms/personal_calendar_jump_form.class.php';
 
 class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerComponent
-{
-
+{  
+    private $form;
+    
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $view = Request :: get(PersonalCalendarManager::PARAM_VIEW) ? Request :: get(PersonalCalendarManager::PARAM_VIEW) : 'month'; 
+        $this->set_parameter(PersonalCalendarManager::PARAM_VIEW, $view);
+        $this->form = new PersonalCalendarJumpForm($this, $this->get_url());
+        if ($this->form->validate())
+        {
+        	$time = $this->form->get_time();
+        }
+        else 
+        {
+        	$time = Request :: get(PersonalCalendarManager::PARAM_TIME) ? intval(Request :: get(PersonalCalendarManager::PARAM_TIME)) : time();
+        }
+        $this->set_parameter(PersonalCalendarManager::PARAM_TIME, $time);
+    	$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PersonalCalendar')));
         $trail->add_help('personal calender general');
         
@@ -34,17 +48,11 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
 
     function get_calendar_html()
     {
-        $html = array();
-        
-        $time = Request :: get('time') ? intval(Request :: get('time')) : time();
-        $view = Request :: get('view') ? Request :: get('view') : 'month';
-        $this->set_parameter('time', $time);
-        $this->set_parameter('view', $view);
-        
-        //$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
+        $html = array();             
+        $minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $this->get_parameter(PersonalCalendarManager::PARAM_TIME));
         $html[] = '<div class="mini_calendar">';
-        //$html[] = $minimonthcalendar->render();
-
+        $html[] = $minimonthcalendar->render();
+		$html[] = $this->form->display();	
         $html[] = '</div>';
         $html[] = '<div class="normal_calendar">';
         $show_calendar = true;
@@ -74,7 +82,8 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
         
         if ($show_calendar)
         {
-            switch ($view)
+            $time = $this->get_parameter(PersonalCalendarManager::PARAM_TIME);
+        	switch ($this->get_parameter(PersonalCalendarManager::PARAM_VIEW))
             {
                 case 'list' :
                     $renderer = new PersonalCalendarListRenderer($this, $time);
@@ -103,20 +112,17 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION))));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ImportIcal'), Theme :: get_common_image_path() . 'action_import.png', $this->get_ical_import_url()));
-        
-        $view = Request :: get('view') ? Request :: get('view') : 'month';
-        $time = Request :: get('time');
-        
-        if ($view == 'list')
+ 
+        if ($this->get_parameter(PersonalCalendarManager::PARAM_VIEW) == 'list')
         {
-            $action_bar->set_search_url($this->get_url(array('view' => $view, 'time' => $time)));
+            $action_bar->set_search_url($this->get_url());
         }
         
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_image_path() . 'tool_calendar_down.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'list'))));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_image_path() . 'tool_calendar_month.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'month'))));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_image_path() . 'tool_calendar_week.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'week'))));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'day'))));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => (Request :: get('view') ? Request :: get('view') : 'month'), 'time' => time()))));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => $this->get_parameter(PersonalCalendarManager::PARAM_VIEW), 'time' => time()))));
         return $action_bar->as_html();
     }
 }
