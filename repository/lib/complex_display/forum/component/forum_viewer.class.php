@@ -19,7 +19,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
 
     function run()
     {
-        $this->pid = Request :: get('pid');
+        $this->pid = $this->get_root_lo()->get_id();
         $this->forum = RepositoryDataManager :: get_instance()->retrieve_content_object($this->pid);
         
         $current_id = Request :: get('forum');
