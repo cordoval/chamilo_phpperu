@@ -17,7 +17,8 @@ class SurveyForm extends ContentObjectForm
         if ($object != null)
         {
             $defaults[Survey :: PROPERTY_ANONYMOUS] = $object->get_anonymous();
-            $defaults[Survey :: PROPERTY_INTRODUCTION_TEXT] = $object->get_introduction_text();
+            $defaults[Survey :: PROPERTY_HEADER] = $object->get_header();
+            $defaults[Survey :: PROPERTY_FOOTER] = $object->get_footer();
             $defaults[Survey :: PROPERTY_FINISH_TEXT] = $object->get_finish_text();
             $defaults[Survey :: PROPERTY_CONTEXT] = $object->get_context()->get_type();
         
@@ -30,8 +31,9 @@ class SurveyForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->add_html_editor(Survey :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyHeaderText'), false);
-        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFooterText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_HEADER, Translation :: get('SurveyHeaderText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_FOOTER, Translation :: get('SurveyHeaderText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFinishText'), false);
         $this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
         $this->add_select(Survey :: PROPERTY_CONTEXT, Translation :: get('SurveyContext'), $this->get_contexts(), true);
         $this->addElement('category');
@@ -42,8 +44,9 @@ class SurveyForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->add_html_editor(Survey :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyHeaderText'), false);
-        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFooterText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_HEADER, Translation :: get('SurveyHeaderText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_FOOTER, Translation :: get('SurveyHeaderText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFinishText'), false);
         $this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
         
         $survey = $this->get_content_object();
@@ -70,8 +73,10 @@ class SurveyForm extends ContentObjectForm
         $object = new Survey();
         $values = $this->exportValues();
         
+        $object->set_header($values[Survey :: PROPERTY_HEADER]);
+        $object->set_footer($values[Survey :: PROPERTY_FOOTER]);
+        
         $object->set_finish_text($values[Survey :: PROPERTY_FINISH_TEXT]);
-        $object->set_introduction_text($values[Survey :: PROPERTY_INTRODUCTION_TEXT]);
         
         if (isset($values[Survey :: PROPERTY_ANONYMOUS]))
         {
@@ -94,9 +99,10 @@ class SurveyForm extends ContentObjectForm
     {
         $object = $this->get_content_object();
         $values = $this->exportValues();
-            
+
+        $object->set_header($values[Survey :: PROPERTY_HEADER]);
+        $object->set_footer($values[Survey :: PROPERTY_FOOTER]);
         $object->set_finish_text($values[Survey :: PROPERTY_FINISH_TEXT]);
-        $object->set_introduction_text($values[Survey :: PROPERTY_INTRODUCTION_TEXT]);
         
         if (isset($values[Survey :: PROPERTY_ANONYMOUS]))
         {
