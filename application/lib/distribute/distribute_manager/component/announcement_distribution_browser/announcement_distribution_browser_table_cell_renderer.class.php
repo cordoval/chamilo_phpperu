@@ -38,7 +38,7 @@ class AnnouncementDistributionBrowserTableCellRenderer extends DefaultAnnounceme
         switch ($column->get_name())
         {
             case AnnouncementDistribution :: PROPERTY_PUBLISHED :
-                return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $announcement_distribution->get_published());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $announcement_distribution->get_published());
                 break;
             case AnnouncementDistribution :: PROPERTY_STATUS :
                 return $announcement_distribution->get_status_icon();
