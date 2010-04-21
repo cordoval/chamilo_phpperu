@@ -82,7 +82,7 @@ class PortfolioPublication extends DataClass
     {
         if(!isset($this->location))
         {
-            $this->location = portfolioRights::get_portfolio_location($this->get_id(), portfolioRights::TYPE_PORTFOLIO_FOLDER, $this->get_publisher());
+            $this->location = PortfolioRights::get_portfolio_location($this->get_id(), PortfolioRights::TYPE_PORTFOLIO_FOLDER, $this->get_publisher());
         }
         return $this->location;
     }
@@ -196,13 +196,13 @@ class PortfolioPublication extends DataClass
     function create_location()
     {
         $user = $this->get_publisher();
-        $parent_location = portfolioRights::get_portfolio_root_id($user);
+        $parent_location = PortfolioRights::get_portfolio_root_id($user);
             if(!$parent_location)
             {
-                $parent_location = portfolioRights::create_portfolio_root($user)->get_id();
+                $parent_location = PortfolioRights::create_portfolio_root($user)->get_id();
             }
         $object = $this->get_id();
-            $this->location = portfolioRights::create_location_in_portfolio_tree('portfolio', 'portfolio', $object, $parent_location, $user, true, false);
+            $this->location = PortfolioRights::create_location_in_portfolio_tree('portfolio', 'portfolio', $object, $parent_location, $user, true, false);
 
             return $this ->location;
     }

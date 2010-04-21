@@ -22,6 +22,13 @@ abstract class InternshipOrganizerManagerComponent extends WebApplicationCompone
 	function get_category_application_url() {
 		return $this->get_parent ()->get_category_application_url ();
 	}
+	
+	function get_region_application_url() {
+		return $this->get_parent ()->get_region_application_url ();
+	}
+	function get_mentor_application_url(){
+		return $this->get_parent ()->get_mentor_application_url();
+	}
 
 }
 ?>

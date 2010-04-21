@@ -20,11 +20,10 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
 
     function run()
     {
-        $this->pub = new RepoViewer($this, 'wiki_page', RepoViewer :: SELECT_SINGLE);
+        $this->pub = new RepoViewer($this, WikiPage :: get_type_name(), RepoViewer :: SELECT_SINGLE);
         $this->pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
-        $this->pub->set_parameter('pid', $this->get_parent()->get_root_lo()->get_id());
 
-        if ($this->pub->is_ready_to_be_published())
+        if (!$this->pub->is_ready_to_be_published())
         {
             $html[] = '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
             $html[] = $this->pub->as_html();
@@ -37,10 +36,10 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
         else
         {
             $o = RepositoryDataManager :: get_instance()->retrieve_content_object($this->pub->get_selected_objects());
-            $count = RepositoryDataManager :: get_instance()->count_type_content_objects('wiki_page', new EqualityCondition(ContentObject :: PROPERTY_TITLE, $o->get_title()));
+            $count = RepositoryDataManager :: get_instance()->count_type_content_objects(WikiPage :: get_type_name(), new EqualityCondition(ContentObject :: PROPERTY_TITLE, $o->get_title()));
             if ($count == 1)
             {
-                $cloi = ComplexContentObjectItem :: factory('wiki_page');
+                $cloi = ComplexContentObjectItem :: factory(WikiPage :: get_type_name());
                 $cloi->set_ref($this->pub->get_selected_objects());
                 $cloi->set_parent($this->get_root_lo()->get_id());
                 $cloi->set_user_id($this->pub->get_user_id());

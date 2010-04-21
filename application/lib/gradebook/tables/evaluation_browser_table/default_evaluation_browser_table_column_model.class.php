@@ -25,7 +25,7 @@ class DefaultEvaluationBrowserTableColumnModel extends ObjectTableColumnModel
 		$columns[] = new ObjectTableColumn(Evaluation :: PROPERTY_EVALUATION_DATE, true, $evaluation_alias);
 		$columns[] = new ObjectTableColumn('user', false);
 		$columns[] = new ObjectTableColumn('evaluator', false);
-		$columns[] = new ObjectTableColumn(GradeEvaluation :: PROPERTY_SCORE, false, $grade_evaluation_alias);
+		$columns[] = new ObjectTableColumn(GradeEvaluation :: PROPERTY_SCORE, true, $grade_evaluation_alias);
 		$columns[] = new ObjectTableColumn(GradeEvaluation :: PROPERTY_COMMENT, false, $grade_evaluation_alias);
 		return $columns;
 	}

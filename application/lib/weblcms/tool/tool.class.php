@@ -443,6 +443,11 @@ abstract class Tool
     {
         $this->parent->set_parameter($name, $value);
     }
+    
+	function set_parameters($parameters)
+    {
+        $this->parent->set_parameters($parameters);
+    }
 
     /**
      * @see WebApplication :: get_url()
@@ -585,7 +590,8 @@ abstract class Tool
         if (Request :: get(self :: PARAM_PUBLICATION_ID))
         {
             //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
-            $url = $this->parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID), ReportingManager :: PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));
+            $url = $this->parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID), 
+            	ReportingManager :: PARAM_TEMPLATE_NAME => 'publication_detail_reporting_template'));
             return new ToolbarItem(Translation :: get('AccessDetails'), Theme :: get_common_image_path() . 'action_reporting.png', $url);
         }
         else

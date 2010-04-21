@@ -24,7 +24,7 @@ class ToolWikiLinkCreatorComponent extends ToolComponent
                 $this->display_footer();
             }
             
-            $type = 'wiki_page';
+            $type = WikiPage :: get_type_name();
             
             $pub = new ContentObjectRepoViewer($this, $type, RepoViewer :: SELECT_SINGLE);
             $pub->set_parameter(Tool :: PARAM_ACTION, WikiTool :: ACTION_ADD_LINK);

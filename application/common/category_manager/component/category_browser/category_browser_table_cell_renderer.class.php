@@ -115,13 +115,16 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
             $toolbar_data[] = array('label' => Translation :: get('MoveDownNA'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
         }
         
-        if ($this->count_all > 1)
+        if($this->browser->get_subcategories_allowed())
         {
-            $toolbar_data[] = array('href' => $this->browser->get_change_category_parent_url($category->get_id()), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
-        }
-        else
-        {
-            $toolbar_data[] = array('label' => Translation :: get('MoveNA'), 'img' => Theme :: get_common_image_path() . 'action_move_na.png');
+	        if ($this->count_all > 1)
+	        {
+	            $toolbar_data[] = array('href' => $this->browser->get_change_category_parent_url($category->get_id()), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+	        }
+	        else
+	        {
+	            $toolbar_data[] = array('label' => Translation :: get('MoveNA'), 'img' => Theme :: get_common_image_path() . 'action_move_na.png');
+	        }
         }
         
         return Utilities :: build_toolbar($toolbar_data);

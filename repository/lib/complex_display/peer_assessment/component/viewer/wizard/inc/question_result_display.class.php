@@ -134,7 +134,7 @@ abstract class QuestionResultDisplay
         $type = $clo_question->get_ref()->get_type();
         
         $file = dirname(__FILE__) . '/survey_question_result_display/' . $type . '_result_display.class.php';
-        
+
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);

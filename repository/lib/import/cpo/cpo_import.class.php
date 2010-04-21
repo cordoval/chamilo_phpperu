@@ -584,7 +584,7 @@ class CpoImport extends ContentObjectImport
         {
             $ref = $this->rdm->retrieve_content_object($lp_wrapper->get_ref());
             $reference = $this->rdm->retrieve_content_object($ref->get_reference());
-            if ($reference->get_type() != 'scorm_item')
+            if ($reference->get_type() != ScormItem :: get_type_name())
             {
                 if ($prereq = $lp_wrapper->get_prerequisites())
                 {

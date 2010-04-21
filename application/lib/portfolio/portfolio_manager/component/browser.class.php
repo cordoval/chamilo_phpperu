@@ -61,7 +61,7 @@ class PortfolioManagerBrowserComponent extends PortfolioManagerComponent
 
             $firstletter ++;
         }
-
+//add extra conditions so only users are shown that acutally have a portfolio-publication
         $condition = new OrCondition($conditions);
 
         return $condition;

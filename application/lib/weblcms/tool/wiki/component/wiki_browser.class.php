@@ -55,7 +55,7 @@ class WikiToolBrowserComponent extends WikiToolComponent
 
         echo $this->action_bar->as_html();
 
-        $table = new ObjectPublicationTable($this, $this->get_user(), array('wiki'), $this->get_condition(), new WikiCellRenderer($this));
+        $table = new ObjectPublicationTable($this, $this->get_user(), array(Wiki :: get_type_name()), $this->get_condition(), new WikiCellRenderer($this));
         echo $table->as_html();
 
         $this->display_footer();

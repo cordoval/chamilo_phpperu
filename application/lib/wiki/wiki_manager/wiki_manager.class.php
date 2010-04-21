@@ -118,20 +118,6 @@ class WikiManager extends WebApplication
     {
         return WikiDataManager :: get_instance()->retrieve_wiki_publication($id);
     }
-    
-    function retrieve_evaluation_ids_by_publication($id)
-    {
-    	require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
-    	return EvaluationManager :: retrieve_evaluation_ids_by_publication(self :: APPLICATION_NAME, $id);
-    }
-
-    function move_internal_to_external($publication)
-    {
-    	if(WebApplication :: is_active('gradebook'))
-        {
-	    	return EvaluationManager :: move_internal_to_external(self :: APPLICATION_NAME, $publication);
-        }
-    }
 
     // Url Creation
     
@@ -143,10 +129,7 @@ class WikiManager extends WebApplication
  	
     function get_evaluation_publication_url($wiki_publication)
     {
-        require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
-        $parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $wiki_publication->get_id();
-        $parameter_string = base64_encode(serialize($parameters));
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, EvaluationManager :: PARAM_PARAMETERS => $parameter_string));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
     }
 
     function get_update_wiki_publication_url($wiki_publication)
@@ -212,7 +195,7 @@ class WikiManager extends WebApplication
 
 	function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array('wiki');
+        $allowed_types = array(Wiki :: get_type_name());
         
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))

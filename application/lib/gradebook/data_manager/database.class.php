@@ -59,9 +59,9 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		return $this->database->retrieve_objects(Format :: get_table_name(), $condition);
 	}
 
-	function retrieve_evaluation_formats()
+	function retrieve_evaluation_formats($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(Format :: get_table_name());
+		return $this->database->retrieve_objects(Format :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function count_evaluation_formats()

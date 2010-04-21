@@ -211,7 +211,7 @@ class PortfolioManager extends WebApplication
 
     function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array('portfolio');
+        $allowed_types = array(Portfolio :: get_type_name());
         
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))

@@ -9,11 +9,11 @@ require_once dirname(__FILE__) . '/content_object_publication_category.class.php
 class ContentObjectPublicationCategoryManager extends CategoryManager
 {
 
-    function ContentObjectPublicationCategoryManager($parent)
+    function ContentObjectPublicationCategoryManager($parent, $trail = null, $is_subcategories_allowed = true)
     {
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), Translation :: get('ManageCategories')));
-        parent :: __construct($parent, $trail);
+        parent :: __construct($parent, $trail, $is_subcategories_allowed);
     }
 
     function get_category()

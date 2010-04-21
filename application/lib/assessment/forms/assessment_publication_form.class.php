@@ -224,6 +224,7 @@ class AssessmentPublicationForm extends FormValidator
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
 
+
         $ids = unserialize($values['ids']);
 
         foreach ($ids as $id)

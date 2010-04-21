@@ -110,26 +110,29 @@ class CourseRights extends DataClass
     //Subscribe/Unsubscribe getters and setters
 	function can_group_subscribe($group_id)
 	{
-		if($this->get_direct_subscribe_available() && $this->get_request_subscribe_available() && $this->get_code_subscribe_available())
+		//If none of the subscribes are available return SUBSCRIBE_NONE
+		if($this->get_direct_subscribe_available() || $this->get_request_subscribe_available() || $this->get_code_subscribe_available())
 		{
-			if(is_set($group_subscribe_rights[$group_id]))
+			//Check if the group right has already been retrieved from the database.
+			if(isset($group_subscribe_rights[$group_id]))
 			{
+				//if the value is numeric it means that the right is set in the parent of the group
+				//so return the parent's right else the group's right
 				if(is_numeric($group_subscribe_rights[$group_id]))
 					return $this->can_group_subscribe($group_subscribe_rights[$group_id]);
 				else
 					return $group_subscribe_rights[$group_id]->get_subscribe();
 			}
+			//else retrieve group from the database
 			else
 			{
-				$right = WeblcmsDatamanager::get_instance()->retrieve_group_subscribe_right($this->get_course_id(), $group_id);
-				if(!is_empty($right))
+				$right = WeblcmsDatamanager::get_instance()->retrieve_course_group_subscribe_right($this->get_course_id(), $group_id);
+				//check the result returned from the database
+				//there was a result from the database
+				if(!empty($right))
 				{
-					$group = GroupDataManager :: get_instance()->retrieve_group($group_id);
-					if(is_set($group->get_parent_id()))
-					{
-						$group_subscribe_rights[$group_id] = $group->get_parent_id();
-						return $this->can_group_subscribe($group->get_parent_id());
-					}
+					//check whether or not the right is available before returning it
+					//if not set the right to none
 					switch($right->get_subscribe())
 					{
 						case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT:
@@ -145,15 +148,29 @@ class CourseRights extends DataClass
 								$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
 							break;
 					}
+					//register the right in the rightsarray and return.
 					$group_subscribe_rights[$group_id] = $right;
 					return $right->get_subscribe();
 				}
+				//no result
 				else
 				{
-					$right = new CourseGroupSubscribeRight();
-					$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
-					$group_subscribe_rights[$group_id] = $right;
-					return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+					//retrieve the groups information and check if it has a parent, if so check whether or not the parent can subscribe.
+					$group = GroupDataManager :: get_instance()->retrieve_group($group_id);
+					if(!empty($group))
+					{
+						dump($group->get_parent());
+						$group_subscribe_rights[$group_id] = $group->get_parent();
+						return $this->can_group_subscribe($group->get_parent());
+					}
+					//if not, register group in the rightsarray with no right and return the right.
+					else
+					{
+						$right = new CourseGroupSubscribeRight();
+						$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
+						$group_subscribe_rights[$group_id] = $right;
+						return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+					}
 				}
 			}
 		}
@@ -164,18 +181,21 @@ class CourseRights extends DataClass
 	{
 		if($this->get_unsubscribe_available())
 		{
-			if(is_set($group_unsubscribe_rights[$group_id]))
+			if(isset($group_unsubscribe_rights[$group_id]))
 				return $group_unsubscribe_rights[$group_id]->get_unsubscribe();
 			else
 			{
-				$right = WeblcmsDatamanager::get_instance()->retrieve_group_unsubscribe_right($this->get_course_id(), $group_id);
-				if(is_empty($right))
+				$right = WeblcmsDatamanager::get_instance()->retrieve_course_group_unsubscribe_right($this->get_course_id(), $group_id);
+				if(empty($right))
+				{
 					$right = new CourseGroupUnsubscribeRight();
+					$right->set_unsubscribe(0);
+				}
 				$group_unsubscribe_rights[$group_id] = $right;
 				return $right->get_unsubscribe();
 			}
 		}
-		else return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+		else return 0;
 	}
 }
 ?>

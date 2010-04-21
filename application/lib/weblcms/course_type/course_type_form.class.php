@@ -98,9 +98,9 @@ class CourseTypeForm extends CommonForm
 		$this->addElement('category');
 
 		$this->addElement('category', Translation :: get('Functionality'));
-		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_FEEDBACK, Translation :: get('Feedback'));
-		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_INTRO_TEXT, Translation :: get('IntroductionToolTitle'));
-		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_STUDENT_VIEW, Translation :: get('StudentView'));
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_FEEDBACK, Translation :: get('AllowFeedback'));
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_INTRO_TEXT, Translation :: get('AllowIntroduction'));
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_STUDENT_VIEW, Translation :: get('AllowStudentView'));
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE, Translation :: get('CourseCodeTitleVisible'));
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE, Translation :: get('CourseManagerNameTitleVisible'));
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE, Translation :: get('CourseLanguageVisible'));
@@ -114,9 +114,9 @@ class CourseTypeForm extends CommonForm
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED, Translation :: get('Breadcrumb'));
 
 		$this->add_information_message('', '', Translation :: get('LockedFunctionalityDescription'), true);
-		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED, Translation :: get('Feedback'));
-		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED, Translation :: get('IntroductionToolTitle'));
-		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_STUDENT_VIEW_FIXED, Translation :: get('StudentView'));
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED, Translation :: get('AllowFeedback'));
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED, Translation :: get('AllowIntroduction'));
+		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_STUDENT_VIEW_FIXED, Translation :: get('AllowStudentView'));
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE_FIXED, Translation :: get('CourseCodeTitleVisible'));
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE_FIXED, Translation :: get('CourseManagerNameTitleVisible'));
 		$this->addElement('checkbox', CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED, Translation :: get('CourseLanguageVisible'));

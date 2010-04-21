@@ -40,11 +40,11 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManagerComp
                 {
                     $failures ++;
                 }
-                else if(!portfolioRights::delete_location($cid))
+                else if(!PortfolioRights::delete_location($cid))
                 {
                     $failures ++;
                 }
-                if ($ref->get_type() == 'portfolio_item')
+                if ($ref->get_type() == PortfolioItem :: get_type_name())
                 {
                     $ref->delete();
                 }

@@ -10,13 +10,13 @@ class SurveyPage extends ContentObject
 {
     const PROPERTY_FINISH_TEXT = 'finish_text';
     const PROPERTY_INTRODUCTION_TEXT = 'intro_text';
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
-	
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_INTRODUCTION_TEXT);
@@ -69,15 +69,22 @@ class SurveyPage extends ContentObject
         
         $question_ids = array();
         
+//        dump($this->get_id());
+        
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $question_ids[] = $complex_content_object->get_ref();
         }
         
-        $conditions = array();
-        $conditions[] = new InCondition(ContentObject :: PROPERTY_ID, $question_ids, ContentObject :: get_table_name());
-//        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'survey_description', ContentObject :: get_table_name()));
-        return RepositoryDataManager :: get_instance()->retrieve_content_objects(new AndCondition($conditions));
+        if (count($question_ids) == 0)
+        {
+            $question_ids[] = 0;
+        }
+        
+//        $conditions = array();
+        $condition = new InCondition(ContentObject :: PROPERTY_ID, $question_ids, ContentObject :: get_table_name());
+        //        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'survey_description', ContentObject :: get_table_name()));
+        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
     }
 
     function count_questions()

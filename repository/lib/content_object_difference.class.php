@@ -3,6 +3,9 @@
  * $Id: content_object_difference.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib
  */
+
+require_once dirname(__FILE__) . '/difference_engine.class.php';
+
 /**
  * A class to display a ContentObject.
  */

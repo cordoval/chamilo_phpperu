@@ -85,6 +85,16 @@ abstract class ContentObjectForm extends FormValidator
     }
 
     /**
+     * Sets the ID of the owner of the learning object being created or
+     * edited.
+     * @param int The owner id.
+     */
+    protected function set_owner_id($owner_id)
+    {
+        $this->owner_id = $owner_id;
+    }
+
+    /**
      * Returns the learning object associated with this form.
      * @return ContentObject The learning object, or null if none.
      */

@@ -78,15 +78,15 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilderComponent
             foreach ($object as $obj)
             {
                 $content_object = new PortfolioItem();
-                $content_object->set_title('portfolio_item');
-                $content_object->set_description('portfolio_item');
+                $content_object->set_title(PortfolioItem :: get_type_name());
+                $content_object->set_description(PortfolioItem :: get_type_name());
                 $content_object->set_owner_id($this->get_user_id());
                 $content_object->set_reference($obj);
                 $content_object->set_parent_id(0);
                 
                 $content_object->create();
                 
-                $cloi = ComplexContentObjectItem :: factory('portfolio_item');
+                $cloi = ComplexContentObjectItem :: factory(PortfolioItem :: get_type_name());
                 $cloi->set_ref($content_object->get_id());
                 
                 $cloi->set_parent($parent);

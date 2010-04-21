@@ -17,13 +17,13 @@ class CourseForm extends CommonForm
     function CourseForm($form_type, $course, $user, $action, $parent)
     {
     	$this->course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
-
+		$this->allow_no_course_type = $user->is_platform_admin() || PlatformSetting::get('allow_course_creation_without_coursetype', 'weblcms');
         $wdm = WeblcmsDataManager :: get_instance();
         if(!is_null($this->course_type_id))
         {
        		$course->set_course_type($wdm->retrieve_course_type($this->course_type_id));
        		$course_type_id = $course->get_course_type()->get_id();
-       		if(empty($course_type_id) && ($this->course_type_id != 0 || $form_type == self::TYPE_CREATE))
+       		if(empty($course_type_id) && ($this->course_type_id != 0 || $form_type == self::TYPE_CREATE || $this->allow_no_course_type))
         		$this->course_type_id = $course->get_course_type()->get_id();
         }
         else
@@ -110,7 +110,7 @@ class CourseForm extends CommonForm
         $wdm = WeblcmsDataManager :: get_instance();
 		$course_type_objects = $wdm->retrieve_active_course_types();
         $course_types = array();
-        if(empty($this->course_type_id))
+        if(empty($this->course_type_id) || $this->allow_no_course_type)
         	$course_types[0] = Translation :: get('NoCourseType');
         $this->size = $course_type_objects->size();
         if($this->size != 0)
@@ -119,7 +119,7 @@ class CourseForm extends CommonForm
         	while($course_type = $course_type_objects->next_result())
         	{
         		$course_types[$course_type->get_id()] = $course_type->get_name();
-        		if(is_null($this->course_type_id) && count == 0)
+        		if(is_null($this->course_type_id) && count == 0 && !$this->allow_no_course_type)
         		{
         			$parameters = array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $course_type->get_id());
         			$this->parent->simple_redirect($parameters);
@@ -141,7 +141,6 @@ class CourseForm extends CommonForm
         $this->addRule(Course :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
         $this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'), array("size" => "50"));
-        $this->addRule(Course :: PROPERTY_VISUAL, Translation :: get('ThisFieldIsRequired'), 'required');
 
         $this->get_categories(0);
         if(count($this->categories)>0)
@@ -307,19 +306,19 @@ class CourseForm extends CommonForm
 		$attr_array = array();
 		if($feedback_disabled)
 				$attr_array = array('disabled' => 'disabled');
-		$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('Feedback'), '', $attr_array);
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_FEEDBACK, Translation :: get('AllowFeedback'), '', $attr_array);
 
 		$intro_text_disabled = $this->object->get_intro_text_fixed();
 		$attr_array = array();
 		if($intro_text_disabled)
 			$attr_array = array('disabled' => 'disabled');
-		$this->addElement('checkbox', CourseLayout :: PROPERTY_INTRO_TEXT, Translation :: get('IntroductionToolTitle'), '', $attr_array);
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_INTRO_TEXT, Translation :: get('AllowIntroduction'), '', $attr_array);
 
 		$student_view_disabled = $this->object->get_student_view_fixed();
 		$attr_array = array();
 		if($student_view_disabled)
 			$attr_array = array('disabled' => 'disabled');
-		$this->addElement('checkbox', CourseLayout :: PROPERTY_STUDENT_VIEW, Translation :: get('StudentView'), '', $attr_array);
+		$this->addElement('checkbox', CourseLayout :: PROPERTY_STUDENT_VIEW, Translation :: get('AllowStudentView'), '', $attr_array);
 
 		$course_code_visible_disabled = $this->object->get_course_code_visible_fixed();
 		$attr_array = array();
@@ -640,7 +639,15 @@ class CourseForm extends CommonForm
 		$values = $this->exportValues();
     	//$course->set_id($values[Course :: PROPERTY_ID]);
     	$course->set_course_type_id($values[Course :: PROPERTY_COURSE_TYPE_ID]);
-        $course->set_visual($values[Course :: PROPERTY_VISUAL]);
+    	
+    	if($values[Course :: PROPERTY_VISUAL])
+    	{
+       		$course->set_visual($values[Course :: PROPERTY_VISUAL]);
+    	}
+    	else
+    	{
+    		$course->set_visual(strtoupper(uniqid()));
+    	}
         $course->set_name($values[Course :: PROPERTY_NAME]);
         $course->set_category($values[Course :: PROPERTY_CATEGORY]);
         $course->set_titular($values[Course :: PROPERTY_TITULAR]);

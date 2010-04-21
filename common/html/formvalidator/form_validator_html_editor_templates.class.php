@@ -22,7 +22,7 @@ abstract class FormValidatorHtmlEditorTemplates
 
     	$conditions = array();
     	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
-    	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'template');
+    	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Template :: get_type_name());
     	$condition = new AndCondition($conditions);
 
     	return $rdm->retrieve_content_objects($condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)));
@@ -34,7 +34,7 @@ abstract class FormValidatorHtmlEditorTemplates
 
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
-        $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, 'template');
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, Template :: get_type_name());
         $condition = new AndCondition($conditions);
 
         return $adm->count_registrations($condition);

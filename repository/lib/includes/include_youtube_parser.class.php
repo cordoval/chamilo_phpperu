@@ -36,7 +36,7 @@ class IncludeYoutubeParser extends ContentObjectIncludeParser
                         {
                             $included_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object_id);
 
-                            if ($included_object->get_type() == 'youtube')
+                            if ($included_object->get_type() == Youtube :: get_type_name())
                             {
                                 $content_object->include_content_object($included_object->get_id());
                             }

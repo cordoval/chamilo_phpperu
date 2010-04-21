@@ -27,12 +27,12 @@ abstract class SurveyReportingBlock extends ReportingBlock
 	public function get_available_displaymodes()
     {
         $modes = array();
-        $modes["Text"] = Translation :: get('Text');
-        $modes["Table"] = Translation :: get('Table');
-        $modes["Chart:Pie"] = Translation :: get('Chart:Pie');
-        $modes["Chart:Bar"] = Translation :: get('Chart:Bar');
-        $modes["Chart:Line"] = Translation :: get('Chart:Line');
-        $modes["Chart:FilledCubic"] = Translation :: get('Chart:FilledCubic');
+//        $modes[ReportingFormatter::DISPLAY_TEXT] = Translation :: get('Text');
+        $modes[ReportingFormatter ::DISPLAY_TABLE] = Translation :: get('Table');
+        $modes[ReportingChartFormatter::DISPLAY_PIE] = Translation :: get('Chart:Pie');
+        $modes[ReportingChartFormatter ::DISPLAY_BAR ] = Translation :: get('Chart:Bar');
+        $modes[ReportingChartFormatter ::DISPLAY_LINE] = Translation :: get('Chart:Line');
+        $modes[ReportingChartFormatter ::DISPLAY_FILLED_CUBIC] = Translation :: get('Chart:FilledCubic');
         return $modes;
     }
 }

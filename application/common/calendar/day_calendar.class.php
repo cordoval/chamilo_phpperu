@@ -113,7 +113,7 @@ class DayCalendar extends CalendarTable
         {
             $table_start_date = mktime($hour, 0, 0, date('m', $this->get_display_time()), date('d', $this->get_display_time()), date('Y', $this->get_display_time()));
             $table_end_date = strtotime('+' . $this->get_hour_step() . ' hours', $table_start_date);
-            $cell_contents = $hour . 'u - ' . ($hour + $this->get_hour_step()) . 'u';
+            $cell_contents = $hour . Translation :: get('h') . ' - ' . ($hour + $this->get_hour_step()) . Translation :: get('h');
 
             $row = ($hour - $start) / $this->get_hour_step();
 

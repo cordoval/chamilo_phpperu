@@ -415,12 +415,18 @@ class Course extends DataClass
 
     function get_titular_fixed()
     {
-    	return $this->course_type->get_settings()->get_titular_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_settings()))
+    		return $this->course_type->get_settings()->get_titular_fixed();
+    	else
+    		return 0;
     }
     
     function get_language_fixed()
     {
-    	return $this->course_type->get_settings()->get_language_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_settings()))
+    		return $this->course_type->get_settings()->get_language_fixed();
+    	else
+    		return 0;
     }
 
     function set_language($language)
@@ -433,7 +439,10 @@ class Course extends DataClass
 
     function get_visibility_fixed()
     {
-    	return $this->course_type->get_settings()->get_visibility_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_settings()))
+    		return $this->course_type->get_settings()->get_visibility_fixed();
+    	else
+    		return 0;
     }
 
     function set_visibility($visibility)
@@ -446,7 +455,10 @@ class Course extends DataClass
 
     function get_access_fixed()
     {
-    	return $this->course_type->get_settings()->get_access_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_settings()))
+    		return $this->course_type->get_settings()->get_access_fixed();
+    	else
+    		return 0;
     }
 
     function set_access($access)
@@ -459,7 +471,10 @@ class Course extends DataClass
 
     function get_max_number_of_members_fixed($max_number_of_members)
     {
-		return $this->course_type->get_settings()->get_max_number_of_members_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_settings()))
+			return $this->course_type->get_settings()->get_max_number_of_members_fixed();
+		else
+			return 0;
     }
 
     function set_max_number_of_members($max_number_of_members)
@@ -563,7 +578,10 @@ class Course extends DataClass
      */
     function get_feedback_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_feedback_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
+    		return $this->course_type->get_layout_settings()->get_feedback_fixed();
+    	else
+    		return 0;
     }
 
    	function set_feedback($feedback)
@@ -576,7 +594,10 @@ class Course extends DataClass
 
     function get_layout_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_layout_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
+    		return $this->course_type->get_layout_settings()->get_layout_fixed();
+    	else
+    		return 0;
     }
 
     function set_layout($layout)
@@ -589,7 +610,10 @@ class Course extends DataClass
 
     function get_tool_shortcut_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_tool_shortcut_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
+    		return $this->course_type->get_layout_settings()->get_tool_shortcut_fixed();
+    	else
+    		return 0;
     }
 
     function set_tool_shortcut($tool_shortcut)
@@ -602,7 +626,10 @@ class Course extends DataClass
 
     function get_menu_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_menu_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
+    		return $this->course_type->get_layout_settings()->get_menu_fixed();
+    	else
+    		return 0;
     }
 
     function set_menu($menu)
@@ -615,7 +642,10 @@ class Course extends DataClass
 
     function get_breadcrumb_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_breadcrumb_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
+    		return $this->course_type->get_layout_settings()->get_breadcrumb_fixed();
+    	else
+    		return 0;
     }
 
     function set_breadcrumb($breadcrumb)
@@ -628,7 +658,10 @@ class Course extends DataClass
 
     function get_intro_text_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_intro_text_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
+    		return $this->course_type->get_layout_settings()->get_intro_text_fixed();
+    	else
+    		return 0;
     }
 
     function set_intro_text($intro_text)
@@ -641,7 +674,10 @@ class Course extends DataClass
 
     function get_student_view_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_student_view_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
+    		return $this->course_type->get_layout_settings()->get_student_view_fixed();
+    	else
+    		return 0;
     }
 
     function set_student_view($student_view)
@@ -654,7 +690,10 @@ class Course extends DataClass
 
     function get_course_code_visible_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_course_code_visible_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
+    		return $this->course_type->get_layout_settings()->get_course_code_visible_fixed();
+    	else
+    		return 0;
     }
 
     function set_course_code_visible($course_code_visible)
@@ -667,7 +706,10 @@ class Course extends DataClass
 
     function get_course_manager_name_visible_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_course_manager_name_visible_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
+    		return $this->course_type->get_layout_settings()->get_course_manager_name_visible_fixed();
+    	else
+    		return 0;
     }
 
     function set_course_manager_name_visible($course_manager_name_visible)
@@ -680,7 +722,10 @@ class Course extends DataClass
 
     function get_course_languages_visible_fixed()
     {
-    	return $this->course_type->get_layout_settings()->get_course_languages_visible_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
+    		return $this->course_type->get_layout_settings()->get_course_languages_visible_fixed();
+    	else
+    		return 0;
     }
 
     function set_course_languages_visible($course_languages_visible)
@@ -700,6 +745,20 @@ class Course extends DataClass
      * Getters and validation whether or not the property is readable from the course's own settings
      */
 
+    function can_user_subscribe($user)
+    {
+    	$current_right = $this->can_group_subscribe(0);
+        $group_ids = $user->get_groups(true);
+        foreach($group_ids as $group_id)
+        {
+        	$right = $this->can_group_subscribe($group_id);
+				
+        	if($right > $current_right)
+        		$current_right = $right;      		    		
+        }        
+        return $current_right;
+    }
+    
     function can_group_subscribe($group_id)
     {
     	$right = $this->rights->can_group_subscribe($group_id);
@@ -721,6 +780,7 @@ class Course extends DataClass
     	}
     	return $right;
     }
+    
     
     function can_group_unsubscribe($group_id)
     {
@@ -781,7 +841,10 @@ class Course extends DataClass
 
     function get_direct_subscribe_fixed()
     {
-    	return $this->course_type->get_rights()->get_direct_subscribe_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_rights()))
+    		return $this->course_type->get_rights()->get_direct_subscribe_fixed();
+    	else
+    		return 0;
     }
 
     function set_direct_subscribe_available($direct)
@@ -794,7 +857,10 @@ class Course extends DataClass
 
     function get_request_subscribe_fixed()
     {
-    	return $this->course_type->get_rights()->get_request_subscribe_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_rights()))
+    		return $this->course_type->get_rights()->get_request_subscribe_fixed();
+    	else
+    		return 0;
     }
 
     function set_request_subscribe_available($request)
@@ -807,7 +873,10 @@ class Course extends DataClass
 
     function get_code_subscribe_fixed()
     {
-    	return $this->course_type->get_rights()->get_code_subscribe_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_rights()))
+    		return $this->course_type->get_rights()->get_code_subscribe_fixed();
+    	else
+    		return 0;
     }
 
     function set_code_subscribe_available($code)
@@ -820,7 +889,10 @@ class Course extends DataClass
     
     function get_unsubscribe_fixed()
     {
-    	return $this->course_type->get_rights()->get_unsubscribe_fixed();
+    	if(!is_null($this->course_type) && !is_null($this->course_type->get_rights()))
+    		return $this->course_type->get_rights()->get_unsubscribe_fixed();
+    	else
+    		return 0;
     }
 
     function set_unsubscribe_available($code)

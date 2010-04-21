@@ -39,6 +39,8 @@ abstract class CategoryManager
     private $parameters;
     
     private $trail;
+    
+    private $subcategories_allowed;
 
     /**
      * Constructor.
@@ -46,10 +48,11 @@ abstract class CategoryManager
      * @param  boolean $email_option If true the publisher has the option to
      * send the published learning object by email to the selecter target users.
      */
-    function CategoryManager($parent, $trail)
+    function CategoryManager($parent, $trail, $subcategories_allowed = true)
     {
         $this->parent = $parent;
         $this->trail = $trail;
+        $this->subcategories_allowed = $subcategories_allowed;
         $parent->set_parameter(self :: PARAM_ACTION, $this->get_action());
         $this->parse_input_from_table();
     }
@@ -283,6 +286,16 @@ abstract class CategoryManager
         return $this->trail;
     }
 
+    function set_subcategories_allowed($subcategories_allowed)
+    {
+    	$this->subcategories_allowed = $subcategories_allowed;
+    }
+    
+    function get_subcategories_allowed()
+    {
+    	return $this->subcategories_allowed;
+    }
+    
     abstract function count_categories($condition);
 
     abstract function retrieve_categories($condition, $offset, $count, $order_property);

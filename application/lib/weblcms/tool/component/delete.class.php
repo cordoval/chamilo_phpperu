@@ -25,10 +25,15 @@ class ToolDeleteComponent extends ToolComponent
             foreach ($publication_ids as $index => $pid)
             {
                 $publication = $datamanager->retrieve_content_object_publication($pid);
-                if($this->get_parent()->retrieve_evaluation_ids_by_publication($pid))
-            	{
-            		$this->get_parent()->move_internal_to_external($publication);
-            	}
+	            if(WebApplication :: is_active('gradebook'))
+       			{
+       				require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+	            	if(EvaluationManager :: retrieve_evaluation_ids_by_publication(WeblcmsManager :: APPLICATION_NAME, $pid))
+	            	{
+				    	if(!EvaluationManager :: move_internal_to_external(WeblcmsManager :: APPLICATION_NAME, $publication))
+				    		$message = 'failed to move internal evaluation to external evaluation';
+	            	}
+       			}
                 $publication->delete();
             }
             if (count($publication_ids) > 1)

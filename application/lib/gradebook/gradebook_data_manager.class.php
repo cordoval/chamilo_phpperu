@@ -55,7 +55,7 @@ abstract class GradebookDataManager {
 	
 	abstract function retrieve_all_active_evaluation_formats();
 	
-	abstract function retrieve_evaluation_formats();
+	abstract function retrieve_evaluation_formats($condition = null, $offset = null, $count = null, $order_property = null);
 	
 	abstract function count_evaluation_formats();
 	
@@ -88,6 +88,8 @@ abstract class GradebookDataManager {
 	abstract function update_evaluation($evaluation);
 	
 	abstract function retrieve_all_evaluations_on_publication($application, $publication_id, $offset = null, $count = null, $order_property = null);
+	
+	abstract function count_all_evaluations_on_publication($publication_id);
 //	
 //	abstract function retrieve_all_evaluation_formats();
 //	

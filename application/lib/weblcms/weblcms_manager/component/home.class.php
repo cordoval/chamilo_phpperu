@@ -43,9 +43,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
     function get_active_course_type_tabs()
    	{       
         $tabs = array();
-        $courses = array();
-        $html = array();      	 	
-       	$total = 0;	
+        $html = array();
 
        	$course_active_types = $this->retrieve_active_course_types();
        	while($course_type = $course_active_types->next_result())
@@ -54,7 +52,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
        		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
        		$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
        		$condition = new AndCondition($conditions);
-       		$courses_result = $this->retrieve_user_courses($condition);
+       		$order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager::get_instance()->get_database()->get_alias(CourseUserRelation :: get_table_name()));
+       		$courses_result = $this->retrieve_user_courses($condition, null, null, $order_by);
        	 	if($courses_result->size() > 0)
        	 	{
 				$tabs[$course_type->get_id()][0] = $courses_result;
@@ -65,11 +64,11 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
    	    $conditions = array();
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
         $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
-       	$condition = new AndCondition($conditions);
-       	$courses_result = $this->retrieve_user_courses($condition);
+       	$order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager::get_instance()->get_database()->get_alias(CourseUserRelation :: get_table_name()));
+       	$courses_result = $this->retrieve_user_courses($condition, null, null, $order_by);
        	if($courses_result->size() > 0)
        	{
-       		$tab_name = Translation :: get('Others');
+       		$tab_name = Translation :: get('NoCourseType');
        		if(count($tabs) == 0) $tab_name = null;
 			$tabs[0][0] = $courses_result;
 			$tabs[0][1] = $tab_name;
@@ -98,7 +97,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
         	foreach($tabs as $index => $tab)
         	{
         		$html[] = '<div class="admin_tab" id="admin_tabs-'.$index.'">';
-        		$html[] = $this->display_courses($tab[0]);
+        		$html[] = $this->display_courses($tab[0], $index);
         		$html[] = '<div class="clear"></div>';
         		$html[] = '</div>';
         	}
@@ -155,7 +154,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
         return implode($html, "\n");
     }
 
-    function display_courses($courses)
+    function display_courses($courses, $course_type_id)
     {
     	$setting = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
 		
@@ -181,10 +180,11 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 	    $courses_category_1 = array();
 	    
 	    $wdm = WeblcmsDataManager::get_instance();
-        while($course = $courses->next_result())
+        while($course_result = $courses->next_result())
 	    {
 	    	
-            $course = $wdm->retrieve_course($course->get_id());
+            $course = $wdm->retrieve_course($course_result->get_id());
+            $course->set_optional_properties($course_result->get_optional_properties());
             if($course)
             {
 		    	switch($setting)
@@ -209,14 +209,14 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
     	switch($setting)
     	{
 	    	case self :: MIXED:
-	    			$html[] = $this->display_course_digest($courses_category_0, $category_0);
+	    			$html[] = $this->display_view($courses_category_0, $category_0, $course_type_id);
 	    			break;
 	    	case self :: SEPERATED:
-	    			$html[] = $this->display_course_digest($courses_category_0, $category_0);
-	    			$html[] = $this->display_course_digest($courses_category_1, $category_1);
+	    			$html[] = $this->display_view($courses_category_0, $category_0, $course_type_id);
+	    			$html[] = $this->display_view($courses_category_1, $category_1, $course_type_id);
 	    			break;
 	    	case self :: OPEN_ONLY:
-	    			$html[] = $this->display_course_digest($courses_category_0, $category_0);
+	    			$html[] = $this->display_view($courses_category_0, $category_0, $course_type_id);
 	    			break;
 	    }
 	        
@@ -264,6 +264,55 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
         return implode($html, "\n");
     }
 
+    function display_view($courses, $view_category, $course_type_id = 0)
+    {
+    	$html = array();
+
+        if(count($courses)>0)
+        {
+            $title = $view_category->get_title();
+            $html[] = '<div class="coursehomeblock block" id="courses_' . $title . '" style="background-image: url(' . Theme :: get_image_path('weblcms') . 'block_weblcms.png);">';
+            $html[] = '<div class="title"><div style="float: left;">';
+            
+            $html[] = htmlentities($title);
+            
+            $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
+            $html[] = '<div style="clear: both;"></div></div>';
+            $html[] = '<div class="description">';
+            
+            $conditions = array();
+            $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+            $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $this->get_user_id());
+            $condition = new AndCondition($conditions);
+            $order_by[] = new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT, DESC);
+            $categories = $this->retrieve_course_type_user_categories($condition, null, null, $order_by);
+            $temp_html = array();
+            
+            while($category = $categories->next_result())
+            {
+            	$category_courses = array();
+            	$course_category = $this->retrieve_course_user_category(new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $category->get_course_user_category_id()));
+            	foreach($courses as $index => $course)
+            	{
+            		if($course->get_optional_property("user_course_cat") == $course_category->get_id())
+            		{
+            			$category_courses[] = $course;
+            			unset($courses[$index]);
+            		}
+            	}
+            	$temp_html[] = $this->display_course_digest($category_courses, $course_category);
+            }
+            $html[] = $this->display_course_digest($courses);
+            $html = array_merge($html, $temp_html);
+            $html[] = '<div style="clear: both;"></div>';
+            $html[] = '</div>';
+            $html[] = '</div>';
+            $html[] = '<br />';
+        }
+        
+        return implode($html, "\n");
+    }
+    
     function display_course_digest($courses, $course_category = null)
     {
         $html = array();
@@ -358,8 +407,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 			    	//Creating Mixed
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Mixed'));
-					$cat->set_user(0);
-					$cat->set_sort(1);
 					return $cat;
 					break;
     		case self :: SEPERATED :
@@ -367,14 +414,10 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 					//creating Open
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Open'));
-					$cat->set_user(0);
-					$cat->set_sort(2);
 					$arr[] = $cat;			
 					//creating Closed
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Closed'));
-					$cat->set_user(0);
-					$cat->set_sort(3);
 					$arr[] = $cat;
 					return $arr;
 					break;
@@ -382,8 +425,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 					//creating OpenOnly
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('OpenOnly'));
-					$cat->set_user(0);
-					$cat->set_sort(4);
 					return $cat;
 					break;
     	}	

@@ -16,7 +16,7 @@ class Wiki extends ContentObject
 	
     function get_allowed_types()
     {
-        return array('wiki_page');
+        return array(WikiPage :: get_type_name());
     }
 
     function get_locked()

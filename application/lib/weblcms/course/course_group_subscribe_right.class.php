@@ -23,9 +23,9 @@ class CourseGroupSubscribeRight extends DataClass
 	const PROPERTY_SUBSCRIBE = "subscribe";
     
 	const SUBSCRIBE_NONE = 0;
-    const SUBSCRIBE_DIRECT = 1;
+    const SUBSCRIBE_DIRECT = 3;
     const SUBSCRIBE_REQUEST = 2;
-    const SUBSCRIBE_CODE = 3;
+    const SUBSCRIBE_CODE = 1;
     const UNSUBSCRIBE = 4;
     
     /**

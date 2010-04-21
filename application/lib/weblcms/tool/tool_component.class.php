@@ -132,6 +132,14 @@ abstract class ToolComponent
     {
         return $this->tool->get_parameters();
     }
+    
+	/**
+     * @see WebApplication :: get_parameters()
+     */
+    function set_parameters($parameters)
+    {
+        return $this->tool->set_parameters($parameters);
+    }
 
     /**
      * @see WebApplication :: get_parameter()

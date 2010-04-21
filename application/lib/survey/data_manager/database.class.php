@@ -319,6 +319,11 @@ class DatabaseSurveyDataManager extends SurveyDataManager
             $survey_page_ids[] = $complex_content_object->get_ref();
         }
         
+        if (count($survey_page_ids) == 0)
+        {
+            $survey_page_ids[] = 0;
+        }
+        
         $survey_page_condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
         
         if (isset($condition))
@@ -336,7 +341,7 @@ class DatabaseSurveyDataManager extends SurveyDataManager
 
     function retrieve_survey_page($page_id)
     {
-        return RepositoryDataManager :: get_instance()->retrieve_content_object($page_id, 'survey_page');
+        return RepositoryDataManager :: get_instance()->retrieve_content_object($page_id, SurveyPage :: get_type_name());
     }
 
     function retrieve_survey_pages($survey_ids, $condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -350,6 +355,11 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $survey_page_ids[] = $complex_content_object->get_ref();
+        }
+        
+        if (count($survey_page_ids) == 0)
+        {
+            $survey_page_ids[] = 0;
         }
         
         $survey_page_condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
@@ -368,14 +378,19 @@ class DatabaseSurveyDataManager extends SurveyDataManager
 
     function count_survey_questions($page_ids, $condition = null)
     {
-      	
-    	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $page_ids, ComplexContentObjectItem :: get_table_name()));
+        
+        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $page_ids, ComplexContentObjectItem :: get_table_name()));
         
         $page_question_ids = array();
         
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $page_question_ids[] = $complex_content_object->get_ref();
+        }
+        
+        if (count($page_question_ids) == 0)
+        {
+            $page_question_ids[] = 0;
         }
         
         $page_question_condition = new InCondition(ContentObject :: PROPERTY_ID, $page_question_ids, ContentObject :: get_table_name());
@@ -409,6 +424,11 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $page_question_ids[] = $complex_content_object->get_ref();
+        }
+        
+        if (count($page_question_ids) == 0)
+        {
+            $page_question_ids[] = 0;
         }
         
         $page_question_condition = new InCondition(ContentObject :: PROPERTY_ID, $page_question_ids, ContentObject :: get_table_name());
@@ -496,7 +516,7 @@ class DatabaseSurveyDataManager extends SurveyDataManager
             $info->set_id($record[SurveyPublication :: PROPERTY_ID]);
             $info->set_publisher_user_id($record[SurveyPublication :: PROPERTY_PUBLISHER]);
             $info->set_publication_date($record[SurveyPublication :: PROPERTY_PUBLISHED]);
-            $info->set_application('survey');
+            $info->set_application(SurveyManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('Survey'));
             $info->set_url('run.php?application=survey&go=browse_surveys');
@@ -520,7 +540,7 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         $publication_attr->set_id($record[SurveyPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[SurveyPublication :: PROPERTY_PUBLISHER]);
         $publication_attr->set_publication_date($record[SurveyPublication :: PROPERTY_PUBLISHED]);
-        $publication_attr->set_application('survey');
+        $publication_attr->set_application(SurveyManager :: APPLICATION_NAME);
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('Survey'));
         $publication_attr->set_url('run.php?application=survey&go=browse_surveys');

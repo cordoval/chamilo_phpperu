@@ -20,12 +20,14 @@ class DefaultEvaluationFormatsTableCellRenderer implements ObjectTableCellRender
 	 */
 	function render_cell($column, $format)
 	{ 
-		switch ($column->get_name())
+	switch ($column->get_name())
 		{
 			case Format :: PROPERTY_TITLE :
-				return $format->get_title();
+				return ucfirst($format->get_title());
+				break;
 			case Format :: PROPERTY_ACTIVE :
-				return $format->get_active();
+				return Utilities :: display_true_false_icon($format->get_active());
+				break;
 		}
 	}
 

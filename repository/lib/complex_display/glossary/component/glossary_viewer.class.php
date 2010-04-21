@@ -23,12 +23,12 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
     {
         $this->action_bar = $this->get_action_bar();
         
-        $object_id = Request :: get('pid');
         $dm = RepositoryDataManager :: get_instance();
-        $object = $dm->retrieve_content_object($object_id);
         
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $object->get_title()));
+        $object = $this->get_root_lo();
+        
+        $trail = new BreadcrumbTrail(false);
+        $trail->add(new Breadcrumb($this->get_url(), $object->get_title()));
         $this->display_header($trail);
 
         echo $this->action_bar->as_html();
@@ -107,7 +107,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 
     function get_condition()
     {
-        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, Request :: get('pid'), ComplexContentObjectItem :: get_table_name());
+        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id(), ComplexContentObjectItem :: get_table_name());
     }
 }
 
