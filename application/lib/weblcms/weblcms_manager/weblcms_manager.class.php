@@ -1270,14 +1270,6 @@ class WeblcmsManager extends WebApplication
 	 */
 	function get_course_subscription_url($course)
 	{
-		if(is_null($course->get_settings()))
-        	$course = $this->load_course($course->get_id());
-        $course = $this->get_course();
-		if (! $this->course_subscription_allowed($course))
-		{
-			return null;
-		}
-
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SUBSCRIBE, self :: PARAM_COURSE => $course->get_id()));
 	}
 	
@@ -1294,11 +1286,6 @@ class WeblcmsManager extends WebApplication
 	 */
 	function get_course_unsubscription_url($course)
 	{
-		if (! $this->course_unsubscription_allowed($course))
-		{
-			return null;
-		}
-
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_UNSUBSCRIBE, self :: PARAM_COURSE => $course->get_id()));
 	}
 
