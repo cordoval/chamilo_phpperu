@@ -35,15 +35,15 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
         {
             $group = array();
             
-            if ($type == 'radio')
+            if ($type == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO )
             {
                 $answer_name = $question_id . '_0'.'_'.$this->get_page_nr();
                 $group[] = $formvalidator->createElement('radio', $answer_name, null, null, $i);
                 $group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
             }
-            elseif ($type == 'checkbox')
+            elseif ($type == MultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
             {
-                $answer_name = $question_id . '_' . ($i + 1).'_'.$this->get_page_nr();
+                $answer_name = $question_id . '_' . ($i).'_'.$this->get_page_nr();
                 $group[] = $formvalidator->createElement('checkbox', $answer_name);
                 $group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
             }
@@ -69,11 +69,11 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
         $question = $this->get_question();
         $type = $question->get_answer_type();
         
-        if ($type == 'radio' && $question->has_description())
+        if ($type == MultipleChoiceQuestion :: ANSWER_TYPE_RADIO && $question->has_description())
         {
             $title = Translation :: get('SelectYourChoice');
         }
-        elseif ($type == 'checkbox' && $question->has_description())
+        elseif ($type == MultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX && $question->has_description())
         {
             $title = Translation :: get('SelectYourChoices');
         }

@@ -87,7 +87,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             
             if ($cid)
             {
-                $trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid)), Translation :: get('ItemDetails')));
+                $trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'attempt_id' => Request :: get('attempt_id'))), Translation :: get('ItemDetails')));
             }
             
             if ($details)

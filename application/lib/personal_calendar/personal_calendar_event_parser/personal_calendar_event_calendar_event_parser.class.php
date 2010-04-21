@@ -28,10 +28,10 @@ class PersonalCalendarEventCalendarEventParser extends PersonalCalendarEventPars
                 $event = new PersonalCalendarEvent();
                 $event->set_start_date($repeat->get_start_date());
                 $event->set_end_date($repeat->get_end_date());
-                $event->set_url($this->get_parent()->get_publication_viewing_url($publication));
+                $event->set_url($this->get_parent()->get_publication_viewing_url($publication)); 
                 
                 // Check whether it's a shared or regular publication
-                if ($publisher != $this->get_user_id())
+                if ($publisher != $this->get_parent()->get_user_id())
                 {
                     $event->set_title($object->get_title() . ' [' . $publishing_user->get_fullname() . ']');
                 }
@@ -51,7 +51,7 @@ class PersonalCalendarEventCalendarEventParser extends PersonalCalendarEventPars
             $event = new PersonalCalendarEvent();
             $event->set_start_date($object->get_start_date());
             $event->set_end_date($object->get_end_date());
-            $event->set_url($this->get_parent()->get_publication_viewing_url($publication));
+            $event->set_url($this->get_publication_viewing_url($publication));
             
             // Check whether it's a shared or regular publication
             if ($publisher != $this->get_parent()->get_user_id())

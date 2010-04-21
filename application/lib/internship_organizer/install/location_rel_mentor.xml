@@ -3,18 +3,13 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1"
 			autoincrement="true" />
-		<property name="moment_id" type="integer" unsigned="1"
-			notnull="1" />
 		<property name="location_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="mentor_id" type="integer" unsigned="1" />
-		<property name="status" type="integer" unsigned="1" notnull="1" />
-		<property name="priority" type="integer" unsigned="1"
-			notnull="1" />
 
 	</properties>
 	<index name="location_rel_mentor" type="unique">
-		<indexproperty name="moment_id" />
+		<indexproperty name="mentor_id" />
 		<indexproperty name="location_id" />
 	</index>
 </object>

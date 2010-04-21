@@ -118,7 +118,7 @@ class WeblcmsLearningPathAttemptProgressReportingBlock extends WeblcmsToolReport
             $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
             
             $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->get_course_id());
-            $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $publication->get_content_object_id());
+            $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $publication->get_id());
             $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, Session :: get_user_id());
             //$conditions[] = new NotCondition(new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS, 100));
             $condition = new AndCondition($conditions);

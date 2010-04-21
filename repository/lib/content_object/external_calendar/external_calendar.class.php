@@ -18,6 +18,8 @@ class ExternalCalendar extends ContentObject
     const REPEAT_TYPE_YEAR = 'YEARLY';
     const REPEAT_START = 'start';
     const REPEAT_END = 'end';
+    
+    const PARAM_EVENT_ID = 'event_id'; 
         
     private $calendar;
 
@@ -84,11 +86,23 @@ class ExternalCalendar extends ContentObject
     	$events = $this->get_events();
     	return count($events);
     }
+    
+    function get_event($event_id)
+    {
+    	$events = $this->get_events();
+    	foreach($events as $event)
+   		{	
+   			if ($event->uid['value'] = $event_id)
+   			{
+   				return $event;
+   			}
+   		}
+    }
      
-    function get_repeats(vevent $event, $start_date, $end_date)
+    function get_occurences(vevent $event, $start_date, $end_date)
     {
     	$ical_recurrence = new IcalRecurrence($event, $start_date, $end_date);
-    	$test = $ical_recurrence->get_repeats();
+    	$test = $ical_recurrence->get_occurences();
     	return $test;
     }  
     

@@ -116,6 +116,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
 	const ACTION_REPORTING = 'reporting';
 	const ACTION_RENDER_BLOCK = 'block';
+	const ACTION_COURSE_CODE = 'coursecode';
 
 	/**
 	 * The tools that this course offers.
@@ -262,6 +263,9 @@ class WeblcmsManager extends WebApplication
                 break;
 			case self :: ACTION_CHANGE_ACTIVE :
 				$component = WeblcmsManagerComponent :: factory('ActivityChanger', $this);
+				break;
+			case self :: ACTION_COURSE_CODE : 
+				$component = WeblcmsManagerComponent :: factory('CourseCodeSubscriber', $this);
 				break;
 			case self :: ACTION_COURSE_EDITOR_REQUEST :
 				$component = WeblcmsManagerComponent :: factory('CourseRequestEditor', $this);
@@ -1270,14 +1274,6 @@ class WeblcmsManager extends WebApplication
 	 */
 	function get_course_subscription_url($course)
 	{
-		if(is_null($course->get_settings()))
-        	$course = $this->load_course($course->get_id());
-        $course = $this->get_course();
-		if (! $this->course_subscription_allowed($course))
-		{
-			return null;
-		}
-
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SUBSCRIBE, self :: PARAM_COURSE => $course->get_id()));
 	}
 	
@@ -1285,6 +1281,11 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_CREATE_REQUEST, self :: PARAM_COURSE => $course->get_id()));
    
+	}
+	
+	function get_course_code_url($course)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_CODE, self :: PARAM_COURSE => $course->get_id()));
 	}
 
 	/**
@@ -1294,11 +1295,6 @@ class WeblcmsManager extends WebApplication
 	 */
 	function get_course_unsubscription_url($course)
 	{
-		if (! $this->course_unsubscription_allowed($course))
-		{
-			return null;
-		}
-
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_UNSUBSCRIBE, self :: PARAM_COURSE => $course->get_id()));
 	}
 

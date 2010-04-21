@@ -106,7 +106,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
             $html[] = '<b>' . Translation :: get('MessageTo') . '</b>:&nbsp;' . Translation :: get('RecipientUnknown') . '<br />';
         }
         
-        $html[] = '<b>' . Translation :: get('MessageDate') . '</b>:&nbsp;' . Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $publication->get_published()) . '<br />';
+        $html[] = '<b>' . Translation :: get('MessageDate') . '</b>:&nbsp;' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $publication->get_published()) . '<br />';
         $html[] = '<b>' . Translation :: get('MessageSubject') . '</b>:&nbsp;' . $message->get_title();
         $html[] = '</div>';
         $html[] = '</div>';

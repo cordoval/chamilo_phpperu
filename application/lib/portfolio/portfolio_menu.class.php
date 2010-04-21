@@ -146,9 +146,10 @@ class PortfolioMenu extends HTML_Menu
             $lo = $rdm->retrieve_content_object($child->get_ref());
             
             $item = array();
-            
-            $lo = $rdm->retrieve_content_object($lo->get_reference()); 
-            
+            if($lo->get_type() == PortfolioItem::get_type_name())
+            {
+                $lo = $rdm->retrieve_content_object($lo->get_reference());
+            }
             if ($lo->get_type() == Portfolio :: get_type_name())
             {
                 $items = $this->get_portfolio_items($lo->get_id(), $pub_id);

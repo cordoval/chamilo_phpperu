@@ -45,7 +45,7 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
                 else
                 	return $title_short;
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
-                return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_modification_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_modification_date());
             case ContentObject :: PROPERTY_OWNER_ID :
                 return UserDataManager :: get_instance()->retrieve_user($content_object->get_owner_id())->get_fullname();
         }

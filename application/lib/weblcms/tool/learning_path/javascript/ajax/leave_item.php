@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../../../../../../../common/global.inc.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_lpi_attempt_tracker.class.php';
 
-$tracker_id = $_POST['tracker_id'];
+$tracker_id = Request :: post('tracker_id');
 
 $condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, $tracker_id);
 

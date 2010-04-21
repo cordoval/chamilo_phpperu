@@ -118,20 +118,6 @@ class WikiManager extends WebApplication
     {
         return WikiDataManager :: get_instance()->retrieve_wiki_publication($id);
     }
-    
-    function retrieve_evaluation_ids_by_publication($id)
-    {
-    	require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
-    	return EvaluationManager :: retrieve_evaluation_ids_by_publication(self :: APPLICATION_NAME, $id);
-    }
-
-    function move_internal_to_external($publication)
-    {
-    	if(WebApplication :: is_active('gradebook'))
-        {
-	    	return EvaluationManager :: move_internal_to_external(self :: APPLICATION_NAME, $publication);
-        }
-    }
 
     // Url Creation
     

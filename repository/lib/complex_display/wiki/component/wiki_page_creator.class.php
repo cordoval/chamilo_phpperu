@@ -22,9 +22,8 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
     {
         $this->pub = new RepoViewer($this, WikiPage :: get_type_name(), RepoViewer :: SELECT_SINGLE);
         $this->pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
-        $this->pub->set_parameter('pid', $this->get_parent()->get_root_lo()->get_id());
 
-        if ($this->pub->is_ready_to_be_published())
+        if (!$this->pub->is_ready_to_be_published())
         {
             $html[] = '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
             $html[] = $this->pub->as_html();

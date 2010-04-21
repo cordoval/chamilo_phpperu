@@ -9,4 +9,5 @@ $lang['personal_calendar']['ExportIcal'] = 'Export iCal';
 $lang['personal_calendar']['BrowsePersonalCalendar'] = 'Browse personal calendar';
 $lang['personal_calendar']['OnlyIcsAllowed'] = 'Only iCal files are allowed';
 $lang['personal_calendar']['IcalImported'] = 'Ical imported';
+$lang['personal_calendar']['JumpTo'] = 'Jump to :';
 ?>

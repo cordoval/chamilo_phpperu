@@ -597,6 +597,28 @@ div.filter_form div.row div.formw button {
 	margin-top: -4px;
 }
 
+/**********************
+ * JUMP FORM STYLES *
+ **********************/
+#personal_calendar_jump_form select{
+	width : 100%;
+}
+div.jump_form {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+}
+
+div.jump_form div.row {
+	clear: both;
+	padding: 0px;
+}
+
+div.jump_form div.row div.formw {
+	float: none;
+	width: 100%;
+}
+
 input.search_query {
 	background: url(../images/common/action_search.png) 1px 50% no-repeat;
 	padding: 0 0 0 21px;

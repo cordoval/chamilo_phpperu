@@ -41,7 +41,8 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
             echo '<br /><b>' . Translation :: get('Description') . '</b>: ' . $region->get_description();
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
-
+			$table = new InternshipOrganizerRegionBrowserTable($this, array(Application :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_VIEW_REGION, InternshipOrganizerRegionManager :: PARAM_REGION_ID => $id), $this->get_condition());
+            echo $table->as_html();
             $this->display_footer();
         }
         else
@@ -50,24 +51,36 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
         }
     }
 
-	function get_condition() {
-		$condition = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_PARENT_ID, $this->get_region () );
-		
-		$query = $this->ab->get_query ();
-		if (isset ( $query ) && $query != '') {
-			$or_conditions = array ();
-			$or_conditions [] = new PatternMatchCondition ( InternshipOrganizerRegion::PROPERTY_NAME, '*' . $query . '*' );
-			$or_conditions [] = new PatternMatchCondition ( InternshipOrganizerRegion::PROPERTY_DESCRIPTION, '*' . $query . '*' );
-			$or_condition = new OrCondition ( $or_conditions );
-			
-			$and_conditions = array ();
-			$and_conditions [] = $condition;
-			$and_conditions [] = $or_condition;
-			$condition = new AndCondition ( $and_conditions );
-		}
-		
-		return $condition;
-	} //get_condition overgenomen van browser.class.php
+	function get_condition()
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID));
+
+        $query = $this->ab->get_query();
+
+        if (isset($query) && $query != '')
+        {
+            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_NAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+            $condition = new OrCondition($or_conditions);
+
+            $regions = InternshipOrganizerDataManager::get_instance()->retrieve_regions($condition);
+            while ($region = $regions->next_result())
+            {
+                $region_conditions[] = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_REGION_ID, $region->get_id());
+            }
+
+            if (count($region_conditions))
+                $conditions[] = new OrCondition($region_conditions);
+            else
+                $conditions[] = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_REGION_ID, 0);
+
+        }
+
+        $condition = new AndCondition($conditions);
+
+        return $condition;
+    }
 
     function get_action_bar()
     {

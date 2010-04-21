@@ -21,9 +21,9 @@ abstract class GradebookManagerComponent extends WebApplicationComponent
 		return $this->get_parent()->count_evaluation_formats();
 	}
 	
-	function retrieve_evaluation_formats()
+	function retrieve_evaluation_formats($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->get_parent()->retrieve_evaluation_formats();
+		return $this->get_parent()->retrieve_evaluation_formats($condition, $offset, $max_objects, $order_by);
 	}
     
 	function retrieve_evaluation_format($id)

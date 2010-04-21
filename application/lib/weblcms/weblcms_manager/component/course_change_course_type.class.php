@@ -51,7 +51,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManagerCompon
                     
         $course = $this->retrieve_courses(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)))->next_result();
         
-        $this->form = new CourseChangeCourseTypeForm($this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_codes)), $course);
+        $this->form = new CourseChangeCourseTypeForm($this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_codes)), $course, $this->get_user());
         
         if ($this->form->validate())
         {   	        	

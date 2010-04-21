@@ -319,6 +319,11 @@ class DatabaseSurveyDataManager extends SurveyDataManager
             $survey_page_ids[] = $complex_content_object->get_ref();
         }
         
+        if (count($survey_page_ids) == 0)
+        {
+            $survey_page_ids[] = 0;
+        }
+        
         $survey_page_condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
         
         if (isset($condition))
@@ -352,6 +357,11 @@ class DatabaseSurveyDataManager extends SurveyDataManager
             $survey_page_ids[] = $complex_content_object->get_ref();
         }
         
+        if (count($survey_page_ids) == 0)
+        {
+            $survey_page_ids[] = 0;
+        }
+        
         $survey_page_condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
         
         if (isset($condition))
@@ -368,14 +378,19 @@ class DatabaseSurveyDataManager extends SurveyDataManager
 
     function count_survey_questions($page_ids, $condition = null)
     {
-      	
-    	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $page_ids, ComplexContentObjectItem :: get_table_name()));
+        
+        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $page_ids, ComplexContentObjectItem :: get_table_name()));
         
         $page_question_ids = array();
         
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $page_question_ids[] = $complex_content_object->get_ref();
+        }
+        
+        if (count($page_question_ids) == 0)
+        {
+            $page_question_ids[] = 0;
         }
         
         $page_question_condition = new InCondition(ContentObject :: PROPERTY_ID, $page_question_ids, ContentObject :: get_table_name());
@@ -409,6 +424,11 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $page_question_ids[] = $complex_content_object->get_ref();
+        }
+        
+        if (count($page_question_ids) == 0)
+        {
+            $page_question_ids[] = 0;
         }
         
         $page_question_condition = new InCondition(ContentObject :: PROPERTY_ID, $page_question_ids, ContentObject :: get_table_name());

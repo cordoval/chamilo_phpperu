@@ -5,7 +5,7 @@
  */
 abstract class QuestionResultDisplay
 {
-    private $clo_question;
+    /*private $clo_question;
     private $question;
     private $question_nr;
     private $answers;
@@ -145,6 +145,6 @@ abstract class QuestionResultDisplay
         $class = Utilities :: underscores_to_camelcase($type) . 'ResultDisplay';
         $question_result_display = new $class($clo_question, $question_nr, $answers, $score);
         return $question_result_display;
-    }
+    }*/
 }
 ?>

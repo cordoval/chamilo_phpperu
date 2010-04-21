@@ -21,6 +21,6 @@ class WikiManagerWikiEvaluationComponent extends WikiManagerComponent
         {
             $this->display_error_message(Translation :: get('NoWikiPublicationsSelected'));
         }
-    }    
+    }
 }
 ?>

@@ -51,10 +51,10 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
         }
         $wiki_page = $dm->retrieve_content_object($this->wiki_page_id);
         
-        $this->display_header(new BreadcrumbTrail());
+        $this->display_header($this->get_parent()->get_breadcrumbtrail());
         
         $this->action_bar = $this->get_parent()->get_toolbar($this, $this->get_root_lo()->get_id(), $this->get_root_lo(), $this->cid); //$this->get_toolbar();
-        echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
+        //echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
         echo '<div style="float:left; width: 135px;">' . $this->action_bar->as_html() . '</div>';
         echo '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">' . Translation :: get('DiscussThe') . ' ' . $wiki_page->get_title() . ' ' . Translation :: get('Page') . '<hr style="height:1px;color:#4271B5;width:100%;"></div>';
         
@@ -96,7 +96,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
                 $feedbacks = $dm->retrieve_content_object_pub_feedback($condition);
             }
             while ($feedback = $feedbacks->next_result())
-            {
+            { dump($feedback);
                 if ($i == 0)
                 {
                     echo '<div style="font-size:18px;">' . Translation :: get('Feedback') . '</div><hr>';
