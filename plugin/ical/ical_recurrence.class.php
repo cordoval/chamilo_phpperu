@@ -1,23 +1,25 @@
 <?php
-/* from the std
+/***
+based on phpicalendar 2.4 
+http://phpicalendar.sourceforge.net/
 
-"BYxxx rule parts modify the recurrence in some manner. BYxxx rule parts for a period of time which is the same or greater than the frequency generally reduce or limit the number of occurrences of the recurrence generated. For example, "FREQ=DAILY;BYMONTH=1" reduces the number of recurrence instances from all days (if BYMONTH tag is not present) to all days in January. BYxxx rule parts for a period of time less than the frequency generally increase or expand the number of occurrences of the recurrence. For example, "FREQ=YEARLY;BYMONTH=1,2" increases the number of days within the yearly recurrence set from 1 (if BYMONTH tag is not present) to 2.
+phpicalendar is distributed under the GPL.  
 
-If multiple BYxxx rule parts are specified, then after evaluating the specified FREQ and INTERVAL rule parts, the BYxxx rule parts are applied to the current set of evaluated occurrences in the following order: BYMONTH, BYWEEKNO, BYYEARDAY, BYMONTHDAY, BYDAY, BYHOUR, BYMINUTE, BYSECOND and BYSETPOS; then COUNT and UNTIL are evaluated."
-
-We will use two kinds of functions - those that restrict the date to allowed values and those that expand allowed values
+adapted for Chamilo by Gillard Magali and Hans De Bisschop
 */
+
 class IcalRecurrence
 {
     private $event;
-    private $mArray_end;
-    private $mArray_start;
+    private $view_end;
+    private $view_start;
     private $count;
     private $interval;
     private $start_date;
     private $end_range;
     private $until;
-
+    private $occurence_times = array();
+    
     const ICAL_FREQUENCY = 'FREQ';
     const ICAL_DAYS = 'BYDAY';
     const ICAL_MONTHDAYS = 'BYMONTHDAY';
@@ -31,21 +33,43 @@ class IcalRecurrence
     const ICAL_EXCEPT_DATE = 'EXDATE';
     const ICAL_WEEK_START = 'WKST';
     const ICAL_DURATION = 'DURATION';
-
+    const OCCURENCE_END = 'end';
+    const OCCURENCE_START = 'start';
+    
     const NO_REPEAT = 'NONE';
     const REPEAT_TYPE_DAY = 'DAILY';
     const REPEAT_TYPE_WEEK = 'WEEKLY';
     const REPEAT_TYPE_MONTH = 'MONTHLY';
     const REPEAT_TYPE_YEAR = 'YEARLY';
-
+    
     private $debug = false;
 
     function IcalRecurrence(vevent $event, $from_date, $to_date)
     {
+        $from_date = ($from_date + $to_date) / 2;
+        $this_day = date('d', $from_date);
+        $this_month = date('m', $from_date);
+        $this_year = date('Y', $from_date);
+        $start_month = $this_month - 1;
+        $start_year = $this_year;
+        $end_month = $this_month + 1;
+        $end_year = $this_year;
+        
+        if ($this_month == 1)
+        {
+            $start_month = 12;
+            $start_year --;
+        }
+        if ($this_month == 12)
+        {
+            $end_month = 1;
+            $end_year ++;
+        }
+        
         $this->event = $event;
-        $this->mArray_start = $from_date;
-        $this->mArray_end = $to_date;
-
+        $this->view_start = mktime(0, 0, 0, $start_month, 1, $start_year);
+        $this->view_end = mktime(0, 0, 0, $end_month, 31, $end_year);
+        
         if ($this->debug)
         {
             echo '<hr />';
@@ -57,8 +81,8 @@ class IcalRecurrence
             echo '</thead>';
             echo '<tbody>';
             echo '<tr><td>Title</td><td>' . $this->event->summary['value'] . '</td>';
-            echo '<tr><td>View begin</td><td>' . $this->mArray_start . ' (' . date('r', $this->mArray_start) . ')</td>';
-            echo '<tr><td>View end</td><td>' . $this->mArray_end . ' (' . date('r', $this->mArray_end) . ')</td>';
+            echo '<tr><td>View begin</td><td>' . $this->view_start . ' (' . date('r', $this->view_start) . ')</td>';
+            echo '<tr><td>View end</td><td>' . $this->view_end . ' (' . date('r', $this->view_end) . ')</td>';
             //            echo '<tr><td>Event</td><td>';
             //            echo '<pre>';
             //            echo print_r($this->event, true);
@@ -79,7 +103,7 @@ class IcalRecurrence
         {
             if (is_array($this->get_event()->rrule) && isset($this->get_event()->rrule[0]['value'][self :: ICAL_INTERVAL]))
             {
-                $this->interval = $this->get_event()->rrule[0]['value'][self :: ICAL_INTERVAL];
+                $this->interval = trim($this->get_event()->rrule[0]['value'][self :: ICAL_INTERVAL]);
             }
             else
             {
@@ -113,7 +137,7 @@ class IcalRecurrence
         {
             if (is_array($this->get_event()->rrule) && isset($this->get_event()->rrule[0]['value'][self :: ICAL_COUNT]))
             {
-                $this->count = $this->get_event()->rrule[0]['value'][self :: ICAL_COUNT];
+                $this->count = trim($this->get_event()->rrule[0]['value'][self :: ICAL_COUNT]);
             }
             else
             {
@@ -153,39 +177,48 @@ class IcalRecurrence
         $this->end_range = $end_range;
     }
 
-    function get_repeats()
+    function get_occurences()
     {
-        $end_date = $this->get_end_date();
-        $start_date = $this->get_start_date();
-
-        if (! isset($start_date))
+        $end_date_timestamp = $this->get_end_date();
+        $start_date_timestamp = $this->get_start_date();
+        
+        if (! isset($start_date_timestamp))
         {
             $this->set_start_date(0);
         }
-
-        if (! isset($end_date))
+        
+        if (! isset($end_date_timestamp))
         {
             $duration = $this->get_duration();
             if (! isset($duration))
             {
                 $duration = 0;
             }
-            $end_date = $this->get_start_date() + $duration;
+            $end_date_timestamp = $this->get_start_date() + $duration;
         }
-
-        $this->set_end_range($this->get_marray_end() + 60 * 60 * 24);
-        $next_range = $this->get_start_date();
-
-        if ($this->get_count() == 1000000 && $this->get_interval() == 1 && $this->get_marray_start() > $next_range)
+        $start_time = date('Hi', $this->get_start_date());
+        $end_time = date('Hi', $end_date_timestamp);
+        
+        $length = $this->get_end_date() - $this->get_start_date();
+        if ($length < 0)
         {
-            $next_range = $this->get_marray_start();
+            $length = 0;
+            $end_time = $start_time;
         }
-
-        if ($next_range < $this->get_start_date())
+        
+        $this->set_end_range($this->get_view_end() + 60 * 60 * 24);
+        $next_range = $this->get_start_date(true, true);
+        
+        if ($this->get_count() == 1000000 && $this->get_interval() == 1 && $this->get_view_start() > $next_range)
         {
-            $next_range = $this->get_start_date();
+            $next_range = $this->get_view_start();
         }
-
+        
+        if ($next_range < $this->get_start_date(true, true))
+        {
+            $next_range = $this->get_start_date(true, true);
+        }
+        
         $this->set_until($this->get_until_unixtime());
         $until = $this->get_until();
         if (isset($until) && $this->get_end_range() > $until)
@@ -194,42 +227,47 @@ class IcalRecurrence
         }
         else
         {
-            $this->set_until($this->get_marray_end());
+            $this->set_until($this->get_view_end());
         }
-
+        
         $freq_type = $this->get_freq_type();
         switch ($freq_type)
         {
             case self :: REPEAT_TYPE_WEEK :
-                $next_range = strtotime("this " . date("D", $this->get_start_date()), $next_range);
+                //$next_range = $this->set_correct_time(strtotime("this " . date("D", $this->get_start_date()), $next_range));
+                $next_range = strtotime("this " . date("D", $this->get_start_date(true, true)), $next_range);
                 break;
             case self :: REPEAT_TYPE_YEAR :
-                $end_range += 366 * 24 * 60 * 60;
+                $this->set_end_range($this->get_end_range() + (366 * 24 * 60 * 60));
                 break;
         }
-
-        if (! $this->repeats() && isset($end_date))
+        
+        /*if ($this->get_view_start() > $this->get_start_date() && $this->get_end_date() > $this->get_view_start())
         {
-            $this->set_end_range($end_date);
+            $next_range = $this->get_start_date();
+        }*/
+        
+        if (! $this->repeats() && isset($end_date_timestamp))
+        {
+            $this->set_end_range(strtotime($this->get_end_date(false)));
             $this->set_count(1);
         }
-
+        
         $repeats = array();
         while ($next_range <= $this->get_end_range() && $this->get_count() > 0)
         {
-            $year = date("Y", $next_range);
+        	$year = date("Y", $next_range);
             $month = date("m", $next_range);
             $time = mktime(12, 0, 0, $month, date("d", $this->get_start_date()), $year);
-
+            //$time = $this->set_correct_time($next_range);
             switch ($this->get_freq_type())
             {
                 case self :: REPEAT_TYPE_DAY :
-                    $repeats = array_merge($repeats, $this->add_recur($next_range));
+                    $this->add_recur($next_range);
                     break;
                 case self :: REPEAT_TYPE_WEEK :
                     $day = $this->expand_byday($next_range, $year, $month);
-                    $test = $this->add_recur($day);
-                    $repeats = array_merge($repeats, $test);
+                    $this->add_recur($day);
                     break;
                 case self :: REPEAT_TYPE_MONTH :
                     $bymonthday = $this->get_bymonthday();
@@ -237,10 +275,11 @@ class IcalRecurrence
                     {
                         $time = mktime(12, 0, 0, $month, 1, $year);
                     }
-                    $times = $this->expand_bymonthday(array($time));
+                    $times = $this->expand_bymonthday(array($time), $year);
+                    
                     foreach ($times as $time)
                     {
-                        $repeats = array_merge($repeats, $this->add_recur($this->expand_byday($time, $year, $month)));
+                    	$this->add_recur($this->expand_byday($time, $year, $month));
                     }
                     break;
                 case self :: REPEAT_TYPE_YEAR :
@@ -250,32 +289,72 @@ class IcalRecurrence
                     $times = $this->expand_bymonthday($times, $year);
                     foreach ($times as $time)
                     {
-                        $repeats = array_merge($repeats, $this->add_recur($this->expand_byday($time, $year, $month)));
+                        $this->add_recur($this->expand_byday($time, $year, $month));
                     }
                     break;
                 default :
-                    $repeats = array_merge($repeats, $this->add_recur($this->get_start_date()));
+                    $this->add_recur($this->get_start_date());
                     break 2;
             }
             $next_range = strtotime('+' . $this->get_interval() . ' ' . $this->get_freq_type_name(), $next_range);
         }
-        return array_unique($repeats);
+        $occurence_times = $this->get_occurence_times();
+        $occurences = array();
+        
+        $occurences_hours = date('H', $this->get_start_date());
+        $occurences_minutes = date('i', $this->get_start_date());
+        
+        foreach ($occurence_times as $occurence_time)
+        {
+            $occurence_year = date('Y', $occurence_time);
+            $occurence_month = date('m', $occurence_time);
+            $occurence_day = date('d', $occurence_time);
+            $occurence_date = date('Ymd', $occurence_time);
+            
+            $next_range = mktime($occurences_hours, $occurences_minutes, 0, $occurence_month, $occurence_day, $occurence_year);
+            $end_range = $next_range + $length;
+            $end_date_tmp = date('Ymd', $end_range);
+            
+            $start_date_time = strtotime($occurence_date . $start_time);
+            $end_date_time = strtotime($end_date_tmp . $end_time);
+            
+            $occurence = array();
+            $occurence[self :: OCCURENCE_START] = $start_date_time;
+            $occurence[self :: OCCURENCE_END] = $end_date_time;
+            $occurences[] = $occurence;
+        }
+        return $occurences;
     }
 
-    function get_start_date()
+    function get_start_date($timestamp = true, $time_midnight = false)
     {
         if (! isset($this->start_date))
         {
             $start_date = $this->get_event()->dtstart['value'];
             $this->start_date = mktime($start_date['hour'], $start_date['min'], $start_date['sec'], $start_date['month'], $start_date['day'], $start_date['year']);
         }
-        return $this->start_date;
+        if ($timestamp)
+        {
+        	if ($time_midnight)
+        	{
+        		return strtotime(date('Ymd', $this->start_date . ' 00:00:00'));
+        	}
+        	else 
+        	{
+        		return $this->start_date;
+        	}
+        }
+        else
+        {
+        	return date('Ymd', $this->start_date);
+        }
     }
 
-    function get_end_date()
+    function get_end_date($timestamp = true)
     {
         $end_date = $this->get_event()->dtend['value'];
-        return mktime($end_date['hour'], $end_date['min'], $end_date['sec'], $end_date['month'], $end_date['day'], $end_date['year']);
+        $end_date = mktime($end_date['hour'], $end_date['min'], $end_date['sec'], $end_date['month'], $end_date['day'], $end_date['year']);
+        return ($timestamp ? $end_date : date('Ymd', $end_date));
     }
 
     function repeats()
@@ -303,9 +382,20 @@ class IcalRecurrence
      */
     public function get_bymonth()
     {
-        if (is_array($this->get_event()->rrule))
+        if (is_array($this->get_event()->rrule) && isset($this->get_event()->rrule[0]['value'][self :: ICAL_MONTH]))
         {
-            return $this->get_event()->rrule[0]['value'][self :: ICAL_MONTH];
+            if (count($this->get_event()->rrule[0]['value'][self :: ICAL_MONTH]) > 1)
+            {
+                foreach ($this->get_event()->rrule[0]['value'][self :: ICAL_MONTH] as $month)
+                {
+                    $months[] = trim($month);
+                }
+            }
+            else
+            {
+                $months[] = trim($this->get_event()->rrule[0]['value'][self :: ICAL_MONTH]);
+            }
+            return $months;
         }
         else
         {
@@ -320,7 +410,7 @@ class IcalRecurrence
     {
         if (is_array($this->get_event()->rrule))
         {
-            return $this->get_event()->rrule[0]['value'][self :: ICAL_WEEK_NO];
+            return trim($this->get_event()->rrule[0]['value'][self :: ICAL_WEEK_NO]);
         }
         else
         {
@@ -333,9 +423,20 @@ class IcalRecurrence
      */
     public function get_bymonthday()
     {
-        if (is_array($this->get_event()->rrule))
+    	if (is_array($this->get_event()->rrule) && isset($this->get_event()->rrule[0]['value'][self :: ICAL_MONTHDAYS]))
         {
-            return $this->get_event()->rrule[0]['value'][self :: ICAL_MONTHDAYS];
+            if (count($this->get_event()->rrule[0]['value'][self :: ICAL_MONTHDAYS]) > 1)
+            {
+                foreach ($this->get_event()->rrule[0]['value'][self :: ICAL_MONTHDAYS] as $monthday)
+                {
+                	$monthdays[] = trim($monthday);
+                }
+            }
+            else
+            {
+                $monthdays[] = trim($this->get_event()->rrule[0]['value'][self :: ICAL_MONTHDAYS]);
+            }
+            return $monthdays;
         }
         else
         {
@@ -391,17 +492,17 @@ class IcalRecurrence
     /**
      * @return the $marray_begin
      */
-    public function get_marray_start()
+    public function get_view_start($timestamp = true)
     {
-        return $this->mArray_start;
+    	return ($timestamp ? $this->view_start : date('Ymd', $this->view_start));
     }
 
     /**
-     * @return the $marray_end
+     * @return the $view_end
      */
-    public function get_marray_end()
+    public function get_view_end($timestamp = true)
     {
-        return $this->mArray_end;
+    	return ($timestamp ? $this->view_end : date('Ymd', $this->view_end));
     }
 
     /**
@@ -438,7 +539,7 @@ class IcalRecurrence
         {
             $wkst = 'MO';
         }
-
+        
         if ($convert)
         {
             return $this->convert_day_name($wkst, $text);
@@ -456,7 +557,7 @@ class IcalRecurrence
     {
         if (is_array($this->get_event()->rrule))
         {
-            return $this->get_event()->rrule[0]['value'][self :: ICAL_YEARDAY];
+            return trim($this->get_event()->rrule[0]['value'][self :: ICAL_YEARDAY]);
         }
         else
         {
@@ -469,11 +570,18 @@ class IcalRecurrence
      */
     public function get_byday()
     {
-        if (is_array($this->get_event()->rrule))
+        if (is_array($this->get_event()->rrule) && isset($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS]))
         {
-            foreach ($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS] as $day)
+            if (count($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS]) > 1)
             {
-                $days[] = $day['DAY'];
+                foreach ($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS] as $day)
+                {
+                    $days[] = trim($day['DAY']);
+                }
+            }
+            else
+            {
+                $days[] = trim($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS]['DAY']);
             }
             return $days;
         }
@@ -487,7 +595,7 @@ class IcalRecurrence
     {
         if (is_array($this->get_event()->rrule))
         {
-            return $this->get_event()->rrule[0]['value'][self :: ICAL_SETPOS];
+            return trim($this->get_event()->rrule[0]['value'][self :: ICAL_SETPOS]);
         }
         else
         {
@@ -495,50 +603,84 @@ class IcalRecurrence
         }
     }
 
+    public function get_occurence_times()
+    {
+        return $this->occurence_times;
+    }
+
+    public function set_occurence_times($occurence_times)
+    {
+        $this->occurence_times = $occurence_times;
+    }
+
+    public function add_occurence_times($time, $check_for_doubles = true)
+    {
+        if ($check_for_doubles === true && ! in_array($time, $this->get_occurence_times()))
+        {
+            $this->occurence_times[] = $time;
+        }
+    }
+
     function add_recur($times, $freq = '')
     {
-        $repeats = array();
-        $mArray_begin = $this->get_marray_start();
-        $mArray_end = $this->get_marray_end();
-
+    	$view_start = $this->get_view_start();
+        $view_end = $this->get_view_end();
         if (! is_array($times))
             $times = array($times);
+        
+        $times = $this->restrict_bymonth($times);
+        $times = $this->restrict_byyearday($times);
+        $times = $this->restrict_bymonthday($times);
+        $times = $this->restrict_byday($times);
 
-        $times = $this->restrict_bymonth($times, $freq);
-        $times = $this->restrict_byyearday($times, $freq);
-        $times = $this->restrict_bymonthday($times, $freq);
-        $times = $this->restrict_byday($times, $freq);
+        if ($this->get_start_date(true, true) > $view_start)
+        {
+            $times[] = $this->get_start_date(true, true);
+        }
 
-        if ($this->get_start_date() > $mArray_begin)
-            $times[] = $this->get_start_date();
-
-        $times = $this->restrict_bysetpos($times, $freq);
+        $times = $this->restrict_bysetpos($times);
         $times = array_unique($times);
+
         sort($times);
-
-        $until_date = date("Ymd", $this->get_end_range());
-
+        
+        $until_date = date('Ymd', $this->get_end_range());
         foreach ($times as $time)
         {
-            if (! isset($time) || $time == '')
+        	if (! isset($time) || $time == '')
                 continue;
             $date = date("Ymd", $time);
-            //dump($time);
-            //$time = strtotime("$date 12:00:00");
-            //dump($time);
-            //            if (date("Ymd", $time) != $this->get_start_date())
-            //                $time = $time + $this->day_offset * (24 * 60 * 60);
-            // ! in_array($date, $this->get_except_dates())
-            if (isset($time) && $time != '' && ! in_array($time, $repeats) && $time <= $this->get_until() && $time >= $this->get_start_date() && $date <= $until_date)
+            $time = strtotime("$date 12:00:00");
+            //$length = $this->get_end_date() - $this->get_start_date();
+            //$end_date = $time + $length;
+            
+
+            /*if (date("Ymd", $time) != $this->get_start_date(false))
             {
-                $this->set_count($this->get_count() - 1);
-                if ($time >= $mArray_begin && $time <= $mArray_end && $this->get_count() >= 0)
+            	$time = $time + $this->day_offset * (24 * 60 * 60);
+            }*/
 
-                    $repeats[] = $time;
-
+            if (isset($time) && $time != '' && ! in_array($time, $this->occurence_times) && $time <= $this->get_until() && $time >= $this->get_start_date(true, true) && $date <= $until_date)
+            {
+            	$this->set_count($this->get_count() - 1);
+                if ((($time >= $view_start && $time <= $view_end) /*|| ($time < $view_start && $end_date > $view_start)*/) && $this->get_count() >= 0)
+                {
+                    
+                    $this->add_occurence_times($time);
+                }
             }
         }
-        return $repeats;
+    }
+
+    function set_correct_time($time)
+    {
+        $day = date('d', $time);
+        $month = date('m', $time);
+        $year = date('Y', $time);
+        $hour = date('H', $this->get_start_date());
+        $minute = date('i', $this->get_start_date());
+        $second = date('s', $this->get_start_date());
+        return mktime($hour, $minute, $second, $month, $day, $year);
+    
     }
 
     function expand_bymonth($time, $year)
@@ -546,11 +688,10 @@ class IcalRecurrence
         $bymonth = $this->get_bymonth();
         $byweekno = $this->get_byweekno();
         $bymonthday = $this->get_bymonthday();
-
         if (! empty($byweekno))
             return $time;
         if (empty($bymonth))
-            $bymonth = array(date("m", $this->get_start_date()));
+            $bymonth = array(date("n", $this->get_start_date()));
         $d = date("d", $this->get_start_date());
         if (! empty($bymonthday))
             $d = 1;
@@ -566,7 +707,7 @@ class IcalRecurrence
     {
         $byweekno = $this->get_byweekno();
         $freq_type = $this->get_freq_type();
-
+        
         if ($freq_type != self :: REPEAT_TYPE_YEAR)
             return $times;
         if (empty($byweekno))
@@ -584,7 +725,7 @@ class IcalRecurrence
 
     function expand_byyearday($times, $year)
     {
-        $byyearday = $this->get_byyearday();
+    	$byyearday = $this->get_byyearday();
         if (empty($byyearday))
             return $times;
         $py = $year - 1;
@@ -609,7 +750,7 @@ class IcalRecurrence
 
     function expand_bymonthday($times, $year)
     {
-        $bymonthday = $this->get_bymonthday();
+    	$bymonthday = $this->get_bymonthday();
         if (empty($bymonthday))
             return $times;
         foreach ($times as $time)
@@ -617,37 +758,44 @@ class IcalRecurrence
             $month = date('m', $time);
             foreach ($bymonthday as $monthday)
             {
-                if ($monthday < 0)
+            	if ($monthday < 0)
+                {
                     $monthday = date("t", $time) + $monthday + 1;
+                }
                 $new_times[] = mktime(12, 0, 0, $month, $monthday, $year);
             }
         }
         return $new_times;
     }
 
-    function dateOfWeek($time, $day)
+    function date_of_week($time, $day)
     {
         $week_start_day = 'Monday';
+        $timestamp = strtotime($time);
+        
         $num = date('w', strtotime($week_start_day));
-        $start_day_time = strtotime((date('w', $time) == $num ? "$week_start_day" : "last $week_start_day"), $time);
+        $start_day_time = strtotime((date('w', $timestamp) == $num ? "$week_start_day" : "last $week_start_day"), $timestamp);
+        
         $time = strtotime($day, $start_day_time);
         $time += (12 * 60 * 60);
-        return $time;
+        return date('Ymd', $time);
     }
 
     function expand_byday($time, $year, $month)
     {
-        $byday = $this->get_byday();
+        
+    	$byday = $this->get_byday();
         $byweekno = $this->get_byweekno();
         $freq_type = $this->get_freq_type();
         $bymonth = $this->get_bymonth();
         if (empty($byday))
         {
-            return array($time);
+        	return array($time);
         }
+        
         $times = array();
-        $the_sunday = $this->dateOfWeek($time, $this->get_wkst(true));
-
+        $the_sunday = $this->date_of_week(date('Ymd', $time), $this->get_wkst(true));
+        
         foreach ($byday as $key => $day)
         {
             ereg('([-\+]{0,1})?([0-9]+)?([A-Z]{2})', $day, $byday_arr);
@@ -655,7 +803,6 @@ class IcalRecurrence
             switch ($freq_type)
             {
                 case self :: REPEAT_TYPE_WEEK :
-                    echo ('hier week');
                     $next_date_time = strtotime("this $on_day", strtotime($the_sunday)) + (12 * 60 * 60);
                     $times[] = $next_date_time;
                     break;
@@ -711,7 +858,7 @@ class IcalRecurrence
         $new_times = array();
         foreach ($times as $time)
         {
-            if (in_array(date("m", $time), $bymonth))
+        	if (in_array(date("n", $time), $bymonth))
                 $new_times[] = $time;
         }
         return $new_times;
@@ -727,7 +874,7 @@ class IcalRecurrence
             if (in_array(date("W", $time), $byweekno))
                 $new_times[] = $time;
         return $new_times;
-
+    
     }
 
     function restrict_byyearday($times)
@@ -783,12 +930,17 @@ class IcalRecurrence
         foreach ($byday as $key => $day)
         {
             ereg('([-\+]{0,1})?([0-9]{1})?([A-Z]{2})', $day, $byday_arr);
+            
             $byday3[] = $this->convert_day_name($byday_arr[3]);
         }
         $new_times = array();
         foreach ($times as $time)
+        {
             if (in_array(strtolower(date("D", $time)), $byday3))
+            {
                 $new_times[] = $time;
+            }
+        }
         return $new_times;
     }
 
