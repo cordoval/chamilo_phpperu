@@ -21,8 +21,8 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
      */
     function run()
     {
-        $view = Request :: get('view') ? Request :: get('view') : 'month'; 
-        $this->set_parameter('view', $view);
+        $view = Request :: get(PersonalCalendarManager::PARAM_VIEW) ? Request :: get(PersonalCalendarManager::PARAM_VIEW) : 'month'; 
+        $this->set_parameter(PersonalCalendarManager::PARAM_VIEW, $view);
         $this->form = new PersonalCalendarJumpForm($this, $this->get_url());
         if ($this->form->validate())
         {
@@ -48,9 +48,8 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
 
     function get_calendar_html()
     {
-        $html = array();      
-        
-        $minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
+        $html = array();             
+        $minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $this->get_parameter(PersonalCalendarManager::PARAM_TIME));
         $html[] = '<div class="mini_calendar">';
         $html[] = $minimonthcalendar->render();
 		$html[] = $this->form->display();	
@@ -114,7 +113,7 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION))));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ImportIcal'), Theme :: get_common_image_path() . 'action_import.png', $this->get_ical_import_url()));
  
-        if ($view == 'list')
+        if ($this->get_parameter(PersonalCalendarManager::PARAM_VIEW) == 'list')
         {
             $action_bar->set_search_url($this->get_url());
         }

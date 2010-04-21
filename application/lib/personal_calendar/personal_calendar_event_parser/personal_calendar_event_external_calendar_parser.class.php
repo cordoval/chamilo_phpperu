@@ -25,6 +25,7 @@ class PersonalCalendarEventExternalCalendarParser extends PersonalCalendarEventP
                 $event->set_content($calendar_event->description);
                 $event->set_source($object->get_title());
                 $event->set_id($publication->get_id());
+                $event->set_url($this->get_publication_viewing_url($publication, $calendar_event));
                 $events[] = $event;
             }
             //if ($object->repeats($calendar_event))
@@ -64,6 +65,17 @@ class PersonalCalendarEventExternalCalendarParser extends PersonalCalendarEventP
         }
         
         return $events;
+    }
+    
+    function get_publication_viewing_url($publication, $event)
+    {
+    	$parameters = array();
+        $parameters[PersonalCalendarManager::PARAM_ACTION] = PersonalCalendarManager :: ACTION_VIEW_PUBLICATION;
+        $parameters[PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
+        $parameters[Application :: PARAM_APPLICATION] = PersonalCalendarManager :: APPLICATION_NAME;
+        $parameters[ExternalCalendar::PARAM_EVENT_ID] = $event->uid['value'];
+        
+        return $this->get_parent()->get_link($parameters);
     }
 }
 ?>
