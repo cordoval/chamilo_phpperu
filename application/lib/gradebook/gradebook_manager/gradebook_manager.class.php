@@ -311,9 +311,9 @@ class GradebookManager extends WebApplication
 		return GradebookDataManager :: get_instance()->count_evaluation_formats();
 	}
 	
-	function retrieve_evaluation_formats()
+	function retrieve_evaluation_formats($condition = null, $offset = null, $count = null, $order_property = null)
 	{
-		return GradebookDataManager :: get_instance()->retrieve_evaluation_formats();
+		return GradebookDataManager :: get_instance()->retrieve_evaluation_formats($condition, $offset, $count, $order_property);
 	}
     
 	function retrieve_evaluation_format($id)
