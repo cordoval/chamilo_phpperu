@@ -4,7 +4,7 @@
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
+class GroupManagerSubscribeUserBrowserComponent extends GroupManager
 {
     private $group;
     private $ab;

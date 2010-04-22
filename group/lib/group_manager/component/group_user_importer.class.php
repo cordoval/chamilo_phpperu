@@ -5,7 +5,7 @@
  * @package group.lib.group_manager.component
  */
  
-class GroupManagerGroupUserImporterComponent extends GroupManagerComponent
+class GroupManagerGroupUserImporterComponent extends GroupManager
 {
 	/**
      * Runs this component and displays its output.
