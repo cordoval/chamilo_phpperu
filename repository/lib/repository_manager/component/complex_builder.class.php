@@ -23,7 +23,7 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager
 
     function display_header($breadcrumbtrail, $helpitem)
     {
-        $this->get_parent()->display_header($breadcrumbtrail, false, false, $helpitem);
+        parent :: display_header($breadcrumbtrail, false, false, $helpitem);
     }
 }
 ?>

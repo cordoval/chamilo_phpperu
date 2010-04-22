@@ -20,7 +20,7 @@ class RepositoryManagerUnlinkerComponent extends RepositoryManager
         {
             $failures = 0;
             
-            $object = $this->get_parent()->retrieve_content_object($id);
+            $object = $this->retrieve_content_object($id);
             // TODO: Roles & Rights.
             if ($object->get_owner_id() == $this->get_user_id())
             {
