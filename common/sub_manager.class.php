@@ -152,9 +152,14 @@ abstract class SubManager
         return $this->get_parent()->get_application_name();
     }
 
-    function create_component($type)
+    function create_component($type, $application = null)
     {
-        return $this->get_parent()->create_component($type, $this);
+    	if($application == null)
+    	{
+    		$application = $this;
+    	}
+    	
+    	return $this->get_parent()->create_component($type, $application);
     }
     
     abstract function run();

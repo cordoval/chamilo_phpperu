@@ -4,7 +4,7 @@
  * @package application.common.rights_editor_manager.component
  */
 
-class RightsEditorManagerUserRightsSetterComponent extends RightsEditorManagerComponent
+class RightsEditorManagerUserRightsSetterComponent extends RightsEditorManager
 {
 
     /**

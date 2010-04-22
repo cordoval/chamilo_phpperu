@@ -48,7 +48,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager
 
     function display_header($trail)
     {
-        $this->get_parent()->display_header($trail, false);
+        parent :: display_header($trail, false);
         $object_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 
         if(!is_array($object_ids))
