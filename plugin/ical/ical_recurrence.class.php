@@ -93,6 +93,89 @@ class IcalRecurrence
             echo '</table>';
         }
     }
+    
+    function get_repeat()
+    {
+    	$html = array();
+    	$html[] = Translation :: get('Repeats') . ' ';
+    	$html[] = Translation :: get(ucfirst(strtolower($this->get_freq_type())));
+    	if ($this->get_interval() > 1)
+    	{
+    		$html[] = Translation :: get('Every') . ' ' . $this->get_interval() . ' ' . Translation :: get(ucfirst($this->get_freq_type_name() . 's'));
+    	}
+    	if ($this->get_count() > 1 && $this->get_count() != 1000000) 
+    	{
+    		$html[] = ' '. $this->get_count() . ' '. Translation :: get('Times');
+    	}
+    	else 
+    	{
+    		$html[] = ' ' . Translation :: get('Once');
+    	}
+    	$date_format = Translation :: get('dateFormatShort');
+    	if ($this->get_until_unixtime())
+    	{
+    		$html[] = Translation :: get('Until');
+    		$html[] = Text :: format_locale_date($date_format, $this->get_until_unixtime());
+    	}
+    	if ($this->get_byday())
+    	{
+    		$html[] = Translation :: get('On');
+    		$days = array();
+    		$DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
+    		foreach($this->get_byday() as $byday)
+    		{
+    			ereg('([-\+]{0,1})?([0-9]+)?([A-Z]{2})', $byday, $byday_arr);
+    			$day_number = $this->convert_day_name($byday_arr[3], false);
+    			if (isset($byday_arr[2]))
+    			{
+    				$rank = $byday_arr[2];
+    				if (isset($byday_arr[1]))
+    				{
+    					if ($byday_arr[2] == 1)
+    					{
+    						$days[] = Translation::get('Last') . ' ' . $DaysLong[$day_number];
+    					}
+    					else 
+    					{
+    						$days[] = Text :: ordinal_suffix($rank) . Translation::get('ToLast') . ' ' . $DaysLong[$day_number];
+    					}
+    				}
+    				else
+    				{
+    					$rank = $byday_arr[2];
+    					$days[] = Text :: ordinal_suffix($rank) . ' ' . $DaysLong[$day_number];   					
+    				}
+    			}
+    			else
+    			{
+    				$days [] = $DaysLong[$day_number];
+    			}
+    		}
+    		$html[] = implode(", ", $days);
+    	}
+    	if ($this->get_bymonthday())
+    	{
+    		$monthdays = array();
+    		foreach($this->get_bymonthday() as $bymonthday)
+    		{
+    			$monthdays[] = $bymonthday;
+    		}
+    		$html[] = implode(", ", $monthdays);
+    	}
+    	if ($this->get_bymonth())
+    	{
+    		$html[] = Translation :: get('In');
+    		$months = array();
+    		$MonthsLong = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
+    		foreach($this->get_bymonth() as $bymonth)
+    		{
+    			$months[] = $MonthsLong[$bymonth-1];
+    		}
+    		$html[] = implode(", ", $months);
+    	}
+    	
+    	return implode("\n", $html);
+    }
 
     /**
      * @return the $interval
@@ -572,16 +655,16 @@ class IcalRecurrence
     {
         if (is_array($this->get_event()->rrule) && isset($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS]))
         {
-            if (count($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS]) > 1)
+            if (! isset($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS]['DAY']))
             {
                 foreach ($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS] as $day)
                 {
-                    $days[] = trim($day['DAY']);
+                    $days[] = trim($day['0']) . trim($day['DAY']);
                 }
             }
             else
             {
-                $days[] = trim($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS]['DAY']);
+                $days[] = trim($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS]['0']) . trim($this->get_event()->rrule[0]['value'][self :: ICAL_DAYS]['DAY']);
             }
             return $days;
         }

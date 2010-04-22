@@ -38,7 +38,15 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         // Add special features here
         switch ($column->get_name())
         {
-        	case Course::PROPERTY_COURSE_TYPE_ID: return WeblcmsDatamanager::get_instance()->retrieve_course_type($course->get_course_type_id())->get_name();
+        	
+        	case Course::PROPERTY_COURSE_TYPE_ID: 
+        		
+        		if($course->get_course_type_id() != 0)
+        			return WeblcmsDatamanager::get_instance()->retrieve_course_type($course->get_course_type_id())->get_name();
+        		else
+        		{
+        			return Translation :: get('NoCourseType');
+        		}
             // Exceptions that need post-processing go here ...
         }
         return parent :: render_cell($column, $course);

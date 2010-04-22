@@ -64,6 +64,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
    	    $conditions = array();
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
         $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
+        $condition = new AndCondition($conditions);
        	$order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager::get_instance()->get_database()->get_alias(CourseUserRelation :: get_table_name()));
        	$courses_result = $this->retrieve_user_courses($condition, null, null, $order_by);
        	if($courses_result->size() > 0)
@@ -411,18 +412,18 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 					break;
     		case self :: SEPERATED :
     				$arr = array();
-					//creating Open
+					//Creating Open
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Open'));
 					$arr[] = $cat;			
-					//creating Closed
+					//Creating Closed
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('Closed'));
 					$arr[] = $cat;
 					return $arr;
 					break;
     		case self :: OPEN_ONLY:
-					//creating OpenOnly
+					//Creating OpenOnly
 					$cat = new CourseUserCategory();
 					$cat->set_title(Translation :: get('OpenOnly'));
 					return $cat;

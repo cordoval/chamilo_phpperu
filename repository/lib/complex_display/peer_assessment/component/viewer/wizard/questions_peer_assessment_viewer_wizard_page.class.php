@@ -6,17 +6,16 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
     private $page_number;
     private $questions;
 
-    function QuestionsPeerAssessmentViewerWizardPage($name, $parent, $number)
+    function QuestionsPeerAssessmentViewerWizardPage($name, $parent, $page_number)
     {
         parent :: PeerAssessmentViewerWizardPage($name, $parent);
-        $this->page_number = $number;
+        $this->page_number = $page_number;
         $this->addAction('process', new PeerAssessmentViewerWizardProcess($this));
 
     }
 
     function buildForm()
     {
-
         $this->_formBuilt = true;
 
         $this->questions = $this->get_parent()->get_questions($this->page_number);
@@ -25,18 +24,15 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
 
         $peer_assessment_page = $this->get_parent()->get_page($this->page_number);
 
-        // Add buttons
+        // Add buttons next, back and submit
         if ($this->page_number > 1)
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
         }
 
         if ($this->page_number < $this->get_parent()->get_total_pages())
-        {
+        {      	
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'next'));
-            //$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('SaveAndFinishLater'), array('class' => 'positive'));
-
-
         }
         else
         {
@@ -44,9 +40,8 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
         }
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
+        
         // Add question forms
-
-
         if ($question_count != 0)
         {
             foreach ($this->questions as $nr => $question)
@@ -54,17 +49,12 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
                 $question_display = PeerAssessmentQuestionDisplay :: factory($this, $question, $nr, $this->get_parent()->get_peer_assessment(), $this->page_number);
                 $question_display->display();
             }
-
-            // Add buttons second time
-            $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-
         }
 
         $renderer = $this->defaultRenderer();
         $renderer->setElementTemplate('<div style="float: right;">{element}</div><br /><br />', 'buttons');
         $renderer->setGroupElementTemplate('{element}', 'buttons');
         $this->setDefaultAction('next');
-
     }
 
     function get_page_number()

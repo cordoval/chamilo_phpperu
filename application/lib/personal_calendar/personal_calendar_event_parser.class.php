@@ -87,5 +87,15 @@ abstract class PersonalCalendarEventParser
 	}
 	
 	abstract function get_events();
+	
+    function get_publication_viewing_url($publication)
+    {
+        $parameters = array();
+        $parameters[PersonalCalendarManager :: PARAM_ACTION] = PersonalCalendarManager :: ACTION_VIEW_PUBLICATION;
+        $parameters[PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
+        $parameters[Application :: PARAM_APPLICATION] = PersonalCalendarManager :: APPLICATION_NAME;
+        
+        return $this->get_parent()->get_link($parameters);
+    }
 }
 ?>
