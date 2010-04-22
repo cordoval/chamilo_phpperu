@@ -4,7 +4,7 @@
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerCreatorComponent extends GroupManagerComponent
+class GroupManagerCreatorComponent extends GroupManager
 {
 
     /**
@@ -17,7 +17,7 @@ class GroupManagerCreatorComponent extends GroupManagerComponent
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateGroup')));
         $trail->add_help('group general');
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false);
@@ -28,7 +28,7 @@ class GroupManagerCreatorComponent extends GroupManagerComponent
         $group = new Group();
         $group->set_parent(Request :: get(GroupManager :: PARAM_GROUP_ID));
         $form = new GroupForm(GroupForm :: TYPE_CREATE, $group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), $this->get_user());
-        
+
         if ($form->validate())
         {
             $success = $form->create_group();

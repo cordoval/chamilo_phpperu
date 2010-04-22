@@ -11,7 +11,7 @@
 class GroupManager extends CoreApplication
 {
     const APPLICATION_NAME = 'group';
-    
+
     const PARAM_GROUP_ID = 'group_id';
     const PARAM_GROUP_REL_USER_ID = 'group_rel_user_id';
     const PARAM_USER_ID = 'user_id';
@@ -21,7 +21,7 @@ class GroupManager extends CoreApplication
     const PARAM_TRUNCATE_SELECTED = 'truncate';
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_COMPONENT_ACTION = 'action';
-    
+
     const ACTION_CREATE_GROUP = 'create';
     const ACTION_BROWSE_GROUPS = 'browse';
     const ACTION_EDIT_GROUP = 'edit';
@@ -36,7 +36,7 @@ class GroupManager extends CoreApplication
     const ACTION_SUBSCRIBE_USER_BROWSER = 'subscribe_browser';
     const ACTION_UNSUBSCRIBE_USER_FROM_GROUP = 'unsubscribe';
     const ACTION_MANAGE_RIGHTS_TEMPLATES = 'manage_group_rights_templates';
-    
+
     private $parameters;
     private $search_parameters;
     private $user_search_parameters;
@@ -73,50 +73,50 @@ class GroupManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_CREATE_GROUP :
-                $component = GroupManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_EDIT_GROUP :
-                $component = GroupManagerComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
                 break;
             case self :: ACTION_DELETE_GROUP :
-                $component = GroupManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_MOVE_GROUP :
-                $component = GroupManagerComponent :: factory('Mover', $this);
+                $component = $this->create_component('Mover');
                 break;
             case self :: ACTION_TRUNCATE_GROUP :
-                $component = GroupManagerComponent :: factory('Truncater', $this);
+                $component = $this->create_component('Truncater');
                 break;
             case self :: ACTION_VIEW_GROUP :
-                $component = GroupManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_EXPORT :
-                $component = GroupManagerComponent :: factory('Exporter', $this);
+                $component = $this->create_component('Exporter');
                 break;
             case self :: ACTION_IMPORT :
-                $component = GroupManagerComponent :: factory('Importer', $this);
+                $component = $this->create_component('Importer');
                 break;
             case self :: ACTION_IMPORT_GROUP_USERS :
-                $component = GroupManagerComponent :: factory('GroupUserImporter', $this);
+                $component = $this->create_component('GroupUserImporter');
                 break;
             case self :: ACTION_BROWSE_GROUPS :
-                $component = GroupManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_UNSUBSCRIBE_USER_FROM_GROUP :
-                $component = GroupManagerComponent :: factory('Unsubscriber', $this);
+                $component = $this->create_component('Unsubscriber');
                 break;
             case self :: ACTION_SUBSCRIBE_USER_TO_GROUP :
-                $component = GroupManagerComponent :: factory('Subscriber', $this);
+                $component = $this->create_component('Subscriber');
                 break;
             case self :: ACTION_SUBSCRIBE_USER_BROWSER :
-                $component = GroupManagerComponent :: factory('SubscribeUserBrowser', $this);
+                $component = $this->create_component('SubscribeUserBrowser');
                 break;
             case self :: ACTION_MANAGE_RIGHTS_TEMPLATES :
-                $component = GroupManagerComponent :: factory('GroupRightsTemplateManager', $this);
+                $component = $this->create_component('GroupRightsTemplateManager');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_GROUPS);
-                $component = GroupManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }
@@ -133,7 +133,7 @@ class GroupManager extends CoreApplication
         {
             $breadcrumbtrail = new BreadcrumbTrail();
         }
-        
+
         $categories = $this->breadcrumbs;
         if (count($categories) > 0)
         {
@@ -142,7 +142,7 @@ class GroupManager extends CoreApplication
                 $breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
             }
         }
-        
+
         $title = $breadcrumbtrail->get_last()->get_name();
         $title_short = $title;
         if (strlen($title_short) > 53)
@@ -155,7 +155,7 @@ class GroupManager extends CoreApplication
         {
             $this->display_search_form();
         }
-        
+
         echo '<div class="clear">&nbsp;</div>';
         if ($msg = Request :: get(Application :: PARAM_MESSAGE))
         {
@@ -244,17 +244,17 @@ class GroupManager extends CoreApplication
     function get_parameters($include_search = false, $include_user_search = false)
     {
         $parms = parent :: get_parameters();
-        
+
         if ($include_search && isset($this->search_parameters))
         {
             $parms = array_merge($this->search_parameters, $parms);
         }
-        
+
         if ($include_user_search && isset($this->user_search_parameters))
         {
             $parms = array_merge($this->user_search_parameters, $parms);
         }
-        
+
         return $parms;
     }
 
@@ -296,11 +296,11 @@ class GroupManager extends CoreApplication
         $links[] = array('name' => Translation :: get('Export'), 'description' => Translation :: get('ExportDescription'), 'action' => 'export', 'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_EXPORT)));
         $links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT)));
         $links[] = array('name' => Translation :: get('ImportGroupUsers'), 'description' => Translation :: get('ImportGroupUsersDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT_GROUP_USERS)));
-        
+
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
         $info['search'] = $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
-        
+
         return $info;
     }
 
@@ -365,7 +365,7 @@ class GroupManager extends CoreApplication
         if (isset($_POST['action']))
         {
             $selected_ids = $_POST[GroupRelUserBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            
+
             if (empty($selected_ids))
             {
                 $selected_ids = array();
@@ -393,7 +393,7 @@ class GroupManager extends CoreApplication
                     Request :: set_get(self :: PARAM_GROUP_ID, $selected_ids);
                     break;
             }
-        
+
         }
     }
 
