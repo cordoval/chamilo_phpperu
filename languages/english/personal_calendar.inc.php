@@ -10,4 +10,15 @@ $lang['personal_calendar']['BrowsePersonalCalendar'] = 'Browse personal calendar
 $lang['personal_calendar']['OnlyIcsAllowed'] = 'Only iCal files are allowed';
 $lang['personal_calendar']['IcalImported'] = 'Ical imported';
 $lang['personal_calendar']['JumpTo'] = 'Jump to :';
+$lang['personal_calendar']['Once'] = 'Once';
+$lang['personal_calendar']['ToLast'] = 'To last';
+$lang['personal_calendar']['Last'] = 'Last';
+$lang['personal_calendar']['In'] = 'In';
+$lang['personal_calendar']['Every'] = 'Every';
+$lang['personal_calendar']['Days'] = 'Days';
+$lang['personal_calendar']['Times'] = 'Times';
+$lang['personal_calendar']['Weeks'] = 'Weeks';
+$lang['personal_calendar']['Months'] = 'Months';
+$lang['personal_calendar']['Years'] = 'Years';
+$lang['personal_calendar'][''] = '';
 ?>
