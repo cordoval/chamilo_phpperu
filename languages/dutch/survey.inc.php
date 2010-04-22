@@ -5,10 +5,10 @@ $lang['survey']['BrowseTestCaseSurveyPublications'] = 'Blader door test cases';
 $lang['survey']['BrowseTestCaseSurveyParticipants'] = 'Blader door deelnemers';
 $lang['survey']['ViewSurveyResults'] = 'Bekijk enqu&ecirc;teresultaten';
 $lang['survey']['ViewSurveyDetails'] = 'Bekijk enqu&ecirc;tedetails';
-$lang['survey']['CreateSurveyPublication'] = 'Creëer enqu&ecirc;tepublicatie';
-$lang['survey']['CreateTestCaseSurveyPublication'] = 'Creëer test case';
+$lang['survey']['CreateSurveyPublication'] = 'Cre&euml;er enqu&ecirc;tepublicatie';
+$lang['survey']['CreateTestCaseSurveyPublication'] = 'Cre&euml;er test case';
 $lang['survey']['UpdateSurveyPublication'] = 'Wijzig enqu&ecirc;tepublicatie';
-$lang['survey']['CategoriesMoved'] = 'Categorieën verplaatst';
+$lang['survey']['CategoriesMoved'] = 'Categorie&euml;n verplaatst';
 $lang['survey']['MoveSurveyPublications'] = 'Verplaats enqu&ecirc;tepublicaties';
 $lang['survey']['SelectCategory'] = 'Selecteer een categorie';
 $lang['survey']['UsersInvited'] = 'Gebruikers uitgenodigd';
@@ -17,8 +17,8 @@ $lang['survey']['Surveys'] = 'Enqu&ecirc;tes';
 $lang['survey']['PublishAndBuild'] = 'Publiceer en stel samen';
 $lang['survey']['TestSurveys'] = 'Test Cases';
 $lang['survey']['FromDate'] = 'Van';
-$lang['survey']['ToDate'] = 'Naar';
-$lang['survey']['CreateTestCase'] = 'Creëer test case';
+$lang['survey']['ToDate'] = 'Tot';
+$lang['survey']['CreateTestCase'] = 'Cre&euml;er test case';
 $lang['survey']['Participants'] = 'Deelnemers';
 $lang['survey']['NotParticipants'] = 'Geen deelnemers';
 $lang['survey']['SurveyPublished'] = 'Enqu&ecirc;te gepubliceerd';
@@ -96,7 +96,7 @@ $lang['survey']['SurveyMatrixQuestionFormDescription'] = 'Beschrijving';
 
 $lang['survey']['SurveyNotStarted'] = 'Enqu&ecirc;te niet gestart';
 $lang['survey']['SurveyStarted'] = 'Enqu&ecirc;te gestart';
-$lang['survey']['SurveyFinished'] = 'Enqu&ecirc;te beëindigd';
+$lang['survey']['SurveyFinished'] = 'Enqu&ecirc;te be&euml;indigd';
 
 $lang['survey']['BrowseSurvey'] = 'Blader door enqu&ecirc;te';
 
@@ -108,7 +108,7 @@ $lang['survey']['ChooseYourRating'] = 'Kies jouw beoordeling';
 $lang['survey']['ChooseYourOptionMatch'] = 'Kies jouw koppelingsoptie';
 
 $lang['survey']['Repository'] = 'Repository';
-$lang['survey']['ManageCategories'] = 'Beheer categorieën';
+$lang['survey']['ManageCategories'] = 'Beheer categorie&euml;n';
 $lang['survey']['RemoveSelected'] = 'Verwijder geselecteerde';
 
 $lang['survey']['SurveyHeaderText'] = 'Hoofding';
