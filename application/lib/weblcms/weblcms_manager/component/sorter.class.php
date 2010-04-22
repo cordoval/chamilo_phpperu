@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../course/course_user_category_form.class.
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
+class WeblcmsManagerSorterComponent extends WeblcmsManager
 {
     private $category;
     private $action_bar;

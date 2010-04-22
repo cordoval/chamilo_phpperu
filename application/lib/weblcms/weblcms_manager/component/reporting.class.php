@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 
-class WeblcmsManagerReportingComponent extends WeblcmsManagerComponent
+class WeblcmsManagerReportingComponent extends WeblcmsManager
 {
 
     /**

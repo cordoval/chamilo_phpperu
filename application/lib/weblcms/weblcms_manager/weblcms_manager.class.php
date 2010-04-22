@@ -3,7 +3,6 @@
  * $Id: weblcms_manager.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms.weblcms_manager
  */
-require_once dirname(__FILE__) . '/weblcms_manager_component.class.php';
 require_once dirname(__FILE__) . '/weblcms_search_form.class.php';
 require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php';
@@ -187,107 +186,107 @@ class WeblcmsManager extends WebApplication
 		switch ($action)
 		{
 			case self :: ACTION_VIEW_COURSE :
-				$component = WeblcmsManagerComponent :: factory('CourseViewer', $this);
+				$component = self :: factory('CourseViewer', $this);
 				break;			
 			case self :: ACTION_CREATE_COURSE :
-				$component = WeblcmsManagerComponent :: factory('CourseCreator', $this);
+				$component = self :: factory('CourseCreator', $this);
 				break;
 			case self :: ACTION_IMPORT_COURSES :
-				$component = WeblcmsManagerComponent :: factory('CourseImporter', $this);
+				$component = self :: factory('CourseImporter', $this);
 				break;
 			case self :: ACTION_IMPORT_COURSE_USERS :
-				$component = WeblcmsManagerComponent :: factory('CourseUserImporter', $this);
+				$component = self :: factory('CourseUserImporter', $this);
 				break;
 			case self :: ACTION_MANAGER_SUBSCRIBE :
-				$component = WeblcmsManagerComponent :: factory('Subscribe', $this);
+				$component = self :: factory('Subscribe', $this);
 				break;
 			case self :: ACTION_MANAGER_UNSUBSCRIBE :
-				$component = WeblcmsManagerComponent :: factory('Unsubscribe', $this);
+				$component = self :: factory('Unsubscribe', $this);
 				break;
 			case self :: ACTION_SUBSCRIBE_GROUP :
-				$component = WeblcmsManagerComponent :: factory('GroupSubscribe', $this);
+				$component = self :: factory('GroupSubscribe', $this);
 				break;
 			case self :: ACTION_CHANGE_COURSE_TYPE_FROM_COURSE :
-                $component = WeblcmsManagerComponent :: factory('CourseChangeCourseType', $this);
+                $component = self :: factory('CourseChangeCourseType', $this);
                 break;
 			case self :: ACTION_UNSUBSCRIBE_GROUP :
-				$component = WeblcmsManagerComponent :: factory('GroupUnsubscribe', $this);
+				$component = self :: factory('GroupUnsubscribe', $this);
 				break;
 			case self :: ACTION_SUBSCRIBE_GROUP_USERS :
-				$component = WeblcmsManagerComponent :: factory('GroupUsersSubscribe', $this);
+				$component = self :: factory('GroupUsersSubscribe', $this);
 				break;
 			case self :: ACTION_MANAGER_SORT :
-				$component = WeblcmsManagerComponent :: factory('Sorter', $this);
+				$component = self :: factory('Sorter', $this);
 				break;
 			case self :: ACTION_COURSE_CATEGORY_MANAGER :
-				$component = WeblcmsManagerComponent :: factory('CourseCategoryManager', $this);
+				$component = self :: factory('CourseCategoryManager', $this);
 				break;
 			case self :: ACTION_ADMIN_COURSE_BROWSER :
-				$component = WeblcmsManagerComponent :: factory('AdminCourseBrowser', $this);
+				$component = self :: factory('AdminCourseBrowser', $this);
 				break;		   
 			case self :: ACTION_DELETE_COURSE :
-				$component = WeblcmsManagerComponent :: factory('CourseDeleter', $this);
+				$component = self :: factory('CourseDeleter', $this);
 				break;
 			case self :: ACTION_SELECT_COURSE_TYPE :
-				$component = WeblcmsManagerComponent :: factory('CourseTypeSelector', $this);
+				$component = self :: factory('CourseTypeSelector', $this);
 				break;
 			case self :: ACTION_ADMIN_COURSE_TYPE_BROWSER :
-                $component = WeblcmsManagerComponent :: factory('AdminCourseTypeBrowser', $this);
+                $component = self :: factory('AdminCourseTypeBrowser', $this);
                 break;
 			case self :: ACTION_ADMIN_COURSE_TYPE_CREATOR :
-				$component = WeblcmsManagerComponent :: factory('AdminCourseTypeCreator', $this);
+				$component = self :: factory('AdminCourseTypeCreator', $this);
 				break;			
 			case self :: ACTION_DELETE_COURSE_TYPE :
-				$component = WeblcmsManagerComponent :: factory('CourseTypeDeleter', $this);
+				$component = self :: factory('CourseTypeDeleter', $this);
 				break;
 			case self :: ACTION_DELETE_COURSES_BY_COURSE_TYPE :
-				$component = WeblcmsManagerComponent :: factory('CourseTypeCoursesDeleter', $this);
+				$component = self :: factory('CourseTypeCoursesDeleter', $this);
 				break;			
 			case self :: ACTION_VIEW_COURSE_TYPE :
-				$component = WeblcmsManagerComponent :: factory('CourseTypeViewer', $this);
+				$component = self :: factory('CourseTypeViewer', $this);
 				break;
 			case self :: ACTION_PUBLISH_INTRODUCTION :
-				$component = WeblcmsManagerComponent :: factory('IntroductionPublisher', $this);
+				$component = self :: factory('IntroductionPublisher', $this);
 				break;
 			case self :: ACTION_DELETE_INTRODUCTION :
-				$component = WeblcmsManagerComponent :: factory('IntroductionDeleter', $this);
+				$component = self :: factory('IntroductionDeleter', $this);
 				break;
 			case self :: ACTION_EDIT_INTRODUCTION :
-				$component = WeblcmsManagerComponent :: factory('IntroductionEditor', $this);
+				$component = self :: factory('IntroductionEditor', $this);
 				break;			
 			case self :: ACTION_REPORTING :
-				$component = WeblcmsManagerComponent :: factory('Reporting', $this);
+				$component = self :: factory('Reporting', $this);
 				break;
 			case self :: ACTION_CHANGE_ACTIVATION :
-                $component = WeblcmsManagerComponent :: factory('ActiveChanger', $this);
+                $component = self :: factory('ActiveChanger', $this);
                 break;
 			case self :: ACTION_CHANGE_ACTIVE :
-				$component = WeblcmsManagerComponent :: factory('ActivityChanger', $this);
+				$component = self :: factory('ActivityChanger', $this);
 				break;
 			case self :: ACTION_COURSE_CODE : 
 				$component = WeblcmsManagerComponent :: factory('CourseCodeSubscriber', $this);
 				break;
 			case self :: ACTION_COURSE_EDITOR_REQUEST :
-				$component = WeblcmsManagerComponent :: factory('CourseRequestEditor', $this);
+				$component = self :: factory('CourseRequestEditor', $this);
 				break;
 			case self :: ACTION_COURSE_CREATE_REQUEST : 
-				$component = WeblcmsManagerComponent :: factory('CourseRequestCreator', $this);
+				$component = self :: factory('CourseRequestCreator', $this);
 				break;
 			case self :: ACTION_ADMIN_REQUEST_BROWSER : 
-				$component = WeblcmsManagerComponent :: factory('AdminRequestBrowser', $this);
+				$component = self :: factory('AdminRequestBrowser', $this);
 				break;
 			case self :: ACTION_COURSE_REQUEST_DELETER : 
-				$component = WeblcmsManagerComponent :: factory('CourseRequestDeleter', $this);
+				$component = self :: factory('CourseRequestDeleter', $this);
 				break;
 			case self :: ACTION_COURSE_ALLOWING_REQUEST :
-				$component = WeblcmsManagerComponent :: factory('CourseRequestAllow', $this);
+				$component = self :: factory('CourseRequestAllow', $this);
 				break;
 			case self :: ACTION_VIEW_REQUEST :
-				$component = WeblcmsManagerComponent :: factory('CourseRequestViewer', $this);
+				$component = self :: factory('CourseRequestViewer', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
-				$component = WeblcmsManagerComponent :: factory('Home', $this);
+				$component = self :: factory('Home', $this);
 		}
 		$component->run();
 	}

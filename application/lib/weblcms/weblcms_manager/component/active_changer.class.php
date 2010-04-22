@@ -7,7 +7,7 @@
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 
-class WeblcmsManagerActiveChangerComponent extends WeblcmsManagerComponent
+class WeblcmsManagerActiveChangerComponent extends WeblcmsManager
 {
 
     /**

@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../category_manager/weblcms_category_manag
 /**
  * Weblcms component allows the user to manage course categories
  */
-class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
 {
 
     /**

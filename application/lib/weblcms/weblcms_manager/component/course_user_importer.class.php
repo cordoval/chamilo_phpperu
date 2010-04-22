@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../course/course_user_import_form.class.ph
 /**
  * Weblcms component allows the use to import course user relations
  */
-class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManager
 {
 
     /**

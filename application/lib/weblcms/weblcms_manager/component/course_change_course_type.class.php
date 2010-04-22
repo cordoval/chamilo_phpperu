@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../course/course_change_course_type_form.class.php';
 
-class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
 {
 
 	private $form;
