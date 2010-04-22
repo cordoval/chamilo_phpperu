@@ -103,7 +103,7 @@ class DatetimeUtilities
     	$date_time_zone = new DateTimeZone($timezone);
 		$date_time = new DateTime($date, $date_time_zone);
  
-		return self :: format_locale_date_for_timezone($date_time, $format);
+		return self :: format_locale_date($format, $date_time->format('U'));
     }
     
     /**
@@ -113,47 +113,8 @@ class DatetimeUtilities
      */
     public static function convert_time_to_timezone($time, $format = null, $timezone = null)
     {
-    	if(!$format)
-    	{
-    		$format = Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat');
-    	}
-    	
-    	if(!$timezone)
-    	{
-    		$timezone = LocalSetting :: get('platform_timezone');
-    		if(!$timezone)
-    		{
-    			return self :: format_locale_date($format, $time);
-    		}
-    	}
-    	
-    	$time = date('r', $time);
-    	
-    	$date_time_zone = new DateTimeZone($timezone);
-		$date_time = new DateTime($time);
-
-		$date_time->setTimeZone($date_time_zone);
- 
-		return self :: format_locale_date_for_timezone($date_time, $format);
-    }
-    
-    public static function format_locale_date_for_timezone($date_time, $format)
-    { dump($format);
-    	// Defining the shorts for the days
-        $DaysShort = array(Translation :: get("SundayShort"), Translation :: get("MondayShort"), Translation :: get("TuesdayShort"), Translation :: get("WednesdayShort"), Translation :: get("ThursdayShort"), Translation :: get("FridayShort"), Translation :: get("SaturdayShort"));
-        // Defining the days of the week to allow translation of the days
-        $DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
-        // Defining the shorts for the months
-        $MonthsShort = array(Translation :: get("JanuaryShort"), Translation :: get("FebruaryShort"), Translation :: get("MarchShort"), Translation :: get("AprilShort"), Translation :: get("MayShort"), Translation :: get("JuneShort"), Translation :: get("JulyShort"), Translation :: get("AugustShort"), Translation :: get("SeptemberShort"), Translation :: get("OctoberShort"), Translation :: get("NovemberShort"), Translation :: get("DecemberShort"));
-        // Defining the months of the year to allow translation of the months
-        $MonthsLong = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
-    	
-    	$format = ereg_replace('%[A]', $DaysLong[(int) $date_time->format('%w')], $format);
-        $format = ereg_replace('%[a]', $DaysShort[(int) $date_time->format('%w')], $format);
-        $format = ereg_replace('%[B]', $MonthsLong[(int) $date_time->format('%m') - 1], $format);
-        $format = ereg_replace('%[b]', $MonthsShort[(int) $date_time->format('%m') - 1], $format);
-        dump($format);
-        return $date_time->format($format);
+    	$date = date('r', $time);
+    	return self :: convert_date_to_timezone($date, $format, $timezone);
     }
 
 }
