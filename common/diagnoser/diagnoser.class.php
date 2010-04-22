@@ -84,7 +84,7 @@ class Diagnoser
         
         $date = Configuration :: get_instance()->get_parameter('general', 'install_date');
         //$date = Utilities :: to_db_date($date);
-        $date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $date);
+        $date = DatetimeUtilities :: convert_time_to_timezone($date);
         $array[] = $this->build_setting(1, '[INFORMATION]', Translation :: get('InstallDate'), '', $date, '', null, Translation :: get('InstallDateInfo'));
         
         return $array;
