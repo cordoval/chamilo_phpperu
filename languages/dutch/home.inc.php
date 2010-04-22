@@ -76,5 +76,4 @@ $lang['home']['PortalHome'] = '';
 $lang['home']['ConfigurePortalHomeFirst'] = '';
 $lang['home']['ResetPassword'] = '';
 $lang['home']['EnterUsername'] = '';
-$lang['home']['Logout'] = '';
 ?>

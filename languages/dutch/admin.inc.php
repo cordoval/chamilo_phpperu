@@ -370,7 +370,6 @@ $lang['admin']['DefaultAllowattendeeinvites'] = '';
 $lang['admin']['ImporterDescription'] = '';
 $lang['admin']['LanguagesAdded'] = 'Talen toegevoegd';
 $lang['admin']['LanguageAdded'] = 'Taal toegevoegd';
-$lang['admin']['Logout'] = '';
 $lang['admin']['LanguageDeletionFailed'] = '';
 $lang['admin']['LanguageSuccessfullyDeleted'] = '';
 $lang['admin']['PackageIsAlreadyRegistered'] = '';
