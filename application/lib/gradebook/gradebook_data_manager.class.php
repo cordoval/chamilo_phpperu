@@ -77,7 +77,7 @@ abstract class GradebookDataManager {
 	abstract function update_internal_item_instance($internal_item_instance);
 	
 	// evaluation
-	abstract function move_internal_to_external($application, $publication);
+	//abstract function move_internal_to_external($application, $publication);
 	
 	abstract function retrieve_evaluation_ids_by_publication($application, $publication_id);
 	

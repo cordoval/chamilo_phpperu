@@ -21,6 +21,7 @@ abstract class EvaluationFormat
 		'Points on thirty' => 'points',
 		'Points on fifty' => 'points',
 		'Points on hundred' => 'points',
+		'Percentage' => 'points',
 		);
 		return $folder_inventory[$type];
 	}

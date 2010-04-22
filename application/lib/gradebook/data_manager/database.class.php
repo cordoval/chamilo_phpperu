@@ -188,18 +188,18 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID, $internal_item->get_id());
         return $this->database->count_result_set($query, InternalItemInstance :: get_table_name(), $condition);
 	}
-	
-	function move_internal_to_external($application, $publication)
-	{
-		$internal_item = $this->retrieve_internal_item_by_publication($application, $publication->get_id());
-		$evaluations_id = $this->retrieve_evaluation_ids_by_internal_item_id($internal_item->get_id())->as_array();
-		$external_item = $this->create_external_item_by_content_object($publication);
-		$ext_item_inst = $this->create_external_item_instance_by_moving($external_item, $evaluations_id);
-		$del_internal_item = $this->delete_internal_item($internal_item);
-		if(!($internal_item || $evaluations_id || $external_item || $ext_item_inst || $del_internal_item))
-			return false;
-		return true;
-	}
+//	
+//	function move_internal_to_external($application, $publication)
+//	{
+//		$internal_item = $this->retrieve_internal_item_by_publication($application, $publication->get_id());
+//		$evaluations_id = $this->retrieve_evaluation_ids_by_internal_item_id($internal_item->get_id())->as_array();
+//		$external_item = $this->create_external_item_by_content_object($publication);
+//		$ext_item_inst = $this->create_external_item_instance_by_moving($external_item, $evaluations_id);
+//		$del_internal_item = $this->delete_internal_item($internal_item);
+//		if(!($internal_item || $evaluations_id || $external_item || $ext_item_inst || $del_internal_item))
+//			return false;
+//		return true;
+//	}
 	
 	function delete_evaluation($evaluation)
 	{
@@ -343,7 +343,8 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 			for($i = 0;$i<count($evaluations_id);$i++)
 			{
 				$id = $evaluations_id[$i]['evaluation_id'];
-				return $this->create_external_item_instance_function($external_item, $id);
+				if(!$this->create_external_item_instance_function($external_item, $id))
+					return false;
 			}
 		}
 		else
