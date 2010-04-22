@@ -70,7 +70,6 @@ class WeblcmsManagerGroupUsersSubscribeComponent extends WeblcmsManager
 
         while ($group = $groups->next_result())
         {
-            dump($group);
             $this->subscribe_group($group->get_id(), $course);
         }
     }
