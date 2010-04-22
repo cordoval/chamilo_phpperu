@@ -20,11 +20,11 @@ class ExternalCalendarDisplay extends ContentObjectDisplay
         	$html[] = '<div class="calendar_event_range" style="font-weight: bold;">';
             $html[] = Translation :: get('From');
             $html[] = ' ';
-            $html[] = DatetimeUtilities :: convert_time_to_timezone($ical_recurrence->get_start_date(), $date_format);
+            $html[] = DatetimeUtilities :: format_locale_date($date_format, $ical_recurrence->get_start_date());
             $html[] = ' ';
             $html[] = Translation :: get('Until');
             $html[] = ' ';
-            $html[] = DatetimeUtilities :: convert_time_to_timezone($ical_recurrence->get_end_date(), $date_format);
+            $html[] = DatetimeUtilities :: format_locale_date($date_format, $ical_recurrence->get_end_date());
             $html[] = '</div>';
             if ($ical_recurrence->repeats())
             {

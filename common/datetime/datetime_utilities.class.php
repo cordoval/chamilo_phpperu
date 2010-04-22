@@ -56,7 +56,12 @@ class DatetimeUtilities
      */
     public static function format_locale_date($dateFormat, $timeStamp = -1)
     {
-        // Defining the shorts for the days
+    	if(!$dateFormat)
+    	{
+    		$dateFormat = Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat');
+    	}
+    	
+    	// Defining the shorts for the days
         $DaysShort = array(Translation :: get("SundayShort"), Translation :: get("MondayShort"), Translation :: get("TuesdayShort"), Translation :: get("WednesdayShort"), Translation :: get("ThursdayShort"), Translation :: get("FridayShort"), Translation :: get("SaturdayShort"));
         // Defining the days of the week to allow translation of the days
         $DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
@@ -104,17 +109,6 @@ class DatetimeUtilities
 		$date_time = new DateTime($date, $date_time_zone);
  
 		return self :: format_locale_date($format, $date_time->format('U'));
-    }
-    
-    /**
-     * Convert the given php time to the selected timezone
-     * @param int $time The php timestamp
-     * @param String $timezone The selected timezone
-     */
-    public static function convert_time_to_timezone($time, $format = null, $timezone = null)
-    {
-    	$date = date('r', $time);
-    	return self :: convert_date_to_timezone($date, $format, $timezone);
     }
 
 }
