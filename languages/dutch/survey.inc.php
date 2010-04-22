@@ -1,28 +1,28 @@
 <?php
 $lang['survey']['DeleteResults'] = 'Verwijder resultaten';
-$lang['survey']['BrowseSurveyPublications'] = 'Blader door enquêtepublicaties';
+$lang['survey']['BrowseSurveyPublications'] = 'Blader door enqu&ecirc;tepublicaties';
 $lang['survey']['BrowseTestCaseSurveyPublications'] = 'Blader door test cases';
 $lang['survey']['BrowseTestCaseSurveyParticipants'] = 'Blader door deelnemers';
-$lang['survey']['ViewSurveyResults'] = 'Bekijk enquêteresultaten';
-$lang['survey']['ViewSurveyDetails'] = 'Bekijk enquêtedetails';
-$lang['survey']['CreateSurveyPublication'] = 'Creëer enquêtepublicatie';
-$lang['survey']['CreateTestCaseSurveyPublication'] = 'Creëer test case';
-$lang['survey']['UpdateSurveyPublication'] = 'Wijzig enquêtepublicatie';
-$lang['survey']['CategoriesMoved'] = 'Categorieën verplaatst';
-$lang['survey']['MoveSurveyPublications'] = 'Verplaats enquêtepublicaties';
+$lang['survey']['ViewSurveyResults'] = 'Bekijk enqu&ecirc;teresultaten';
+$lang['survey']['ViewSurveyDetails'] = 'Bekijk enqu&ecirc;tedetails';
+$lang['survey']['CreateSurveyPublication'] = 'Cre&euml;er enqu&ecirc;tepublicatie';
+$lang['survey']['CreateTestCaseSurveyPublication'] = 'Cre&euml;er test case';
+$lang['survey']['UpdateSurveyPublication'] = 'Wijzig enqu&ecirc;tepublicatie';
+$lang['survey']['CategoriesMoved'] = 'Categorie&euml;n verplaatst';
+$lang['survey']['MoveSurveyPublications'] = 'Verplaats enqu&ecirc;tepublicaties';
 $lang['survey']['SelectCategory'] = 'Selecteer een categorie';
 $lang['survey']['UsersInvited'] = 'Gebruikers uitgenodigd';
-$lang['survey']['NoSurveyPublicationsSelected'] = 'Er zijn geen enquêtepublicaties geselecteerd';
-$lang['survey']['Surveys'] = 'Enquêtes';
+$lang['survey']['NoSurveyPublicationsSelected'] = 'Er zijn geen enqu&ecirc;tepublicaties geselecteerd';
+$lang['survey']['Surveys'] = 'Enqu&ecirc;tes';
 $lang['survey']['PublishAndBuild'] = 'Publiceer en stel samen';
 $lang['survey']['TestSurveys'] = 'Test Cases';
 $lang['survey']['FromDate'] = 'Van';
 $lang['survey']['ToDate'] = 'Tot';
-$lang['survey']['CreateTestCase'] = 'Creëer test case';
+$lang['survey']['CreateTestCase'] = 'Cre&euml;er test case';
 $lang['survey']['Participants'] = 'Deelnemers';
 $lang['survey']['NotParticipants'] = 'Geen deelnemers';
-$lang['survey']['SurveyPublished'] = 'Enquête gepubliceerd';
-$lang['survey']['SurveyNotPublished'] = 'Enquête niet gepubliceerd';
+$lang['survey']['SurveyPublished'] = 'Enqu&ecirc;te gepubliceerd';
+$lang['survey']['SurveyNotPublished'] = 'Enqu&ecirc;te niet gepubliceerd';
 $lang['survey']['TestCaseNotCreated'] = 'Test case niet aangemaakt';
 $lang['survey']['TestCaseCreated'] = 'Test case aangemaakt';
 $lang['survey']['NoDate'] = 'Geen datum';
@@ -30,11 +30,11 @@ $lang['survey']['Username'] = 'Gebruikersnaam';
 $lang['survey']['Progress'] = 'Vooruitgang';
 $lang['survey']['StartTime'] = 'Uitnodigingsdatum';
 
-$lang['survey']['TakeSurvey'] = 'Neem enquête af';
+$lang['survey']['TakeSurvey'] = 'Neem enqu&ecirc;te af';
 $lang['survey']['InviteParticipants'] = 'Nodig deelnemers uit';
-$lang['survey']['VisibilityChanged'] = 'Weergave van enquêtepublicatie veranderd';
-$lang['survey']['VisibilityNotChanged'] = 'Weergave van enquêtepublicatie niet veranderd';
-$lang['survey']['MailToParticipantsForSurveys'] = 'Mail naar deelnemers voor enquête';
+$lang['survey']['VisibilityChanged'] = 'Weergave van enqu&ecirc;tepublicatie veranderd';
+$lang['survey']['VisibilityNotChanged'] = 'Weergave van enqu&ecirc;tepublicatie niet veranderd';
+$lang['survey']['MailToParticipantsForSurveys'] = 'Mail naar deelnemers voor enqu&ecirc;te';
 $lang['survey']['MailParticipants'] = 'Mail deelnemers';
 $lang['survey']['SurveyFromEmailAddress'] = 'Zendadres';
 $lang['survey']['SurveyReplyEmailAddress'] = 'Antwoordadres';
@@ -45,20 +45,20 @@ $lang['survey']['SurveyAttentionSendMailInfo'] = 'Het verzenden van meerdere e-m
 $lang['survey']['NoSurveyParticipantMailsSend'] = 'Geen mails verzonden naar deelnemer(s)';
 $lang['survey']['NotAllSurveyParticipantMailsSend'] = 'Niet alle mails verzonden naar deelnemers';
 $lang['survey']['AllSurveyParticipantMailsSend'] = 'Alle mails verzonden naar deelnemers';
-$lang['survey']['SelectedSurveyPublicationsDeleted'] = 'Geselecteerde enquêtepublicatie verwijderd';
-$lang['survey']['SurveyPublicationUpdated'] = 'Enquêtepublicatie gewijzigd';
+$lang['survey']['SelectedSurveyPublicationsDeleted'] = 'Geselecteerde enqu&ecirc;tepublicatie verwijderd';
+$lang['survey']['SurveyPublicationUpdated'] = 'Enqu&ecirc;tepublicatie gewijzigd';
 
 $lang['survey']['SurveyAddContentObject'] = 'Voeg inhoudobject toe';
 
-$lang['survey']['SurveyPageTypeName'] = 'Enquêtepagina';
-$lang['survey']['SurveyPage'] = 'Enquêtepagina';
+$lang['survey']['SurveyPageTypeName'] = 'Enqu&ecirc;tepagina';
+$lang['survey']['SurveyPage'] = 'Enqu&ecirc;tepagina';
 $lang['survey']['SurveyPageFormTitle'] = 'Titel';
 $lang['survey']['SurveyPageFormDescription'] = 'Beschrijving';
-$lang['survey']['SurveyPageFormProperties'] = 'Eigenschappen van enquêtepagina';
+$lang['survey']['SurveyPageFormProperties'] = 'Eigenschappen van enqu&ecirc;tepagina';
 $lang['survey']['SurveyPageHeaderText'] = 'Hoofding';
 $lang['survey']['SurveyPageFooterText'] = 'Voettekst';
 
-$lang['survey']['SurveyPageAddContentObject'] = 'Voeg inhoudobject toe aan enquêtepagina';
+$lang['survey']['SurveyPageAddContentObject'] = 'Voeg inhoudobject toe aan enqu&ecirc;tepagina';
 
 $lang['survey']['SurveyRatingQuestionTypeName'] = 'Beoordelingsvraag';
 $lang['survey']['SurveyRatingQuestion'] = 'Beoordelingsvraag';
@@ -94,11 +94,11 @@ $lang['survey']['SurveyMatrixQuestion'] = 'Matrixvraag';
 $lang['survey']['SurveyMatrixQuestionFormTitle'] = 'Titel';
 $lang['survey']['SurveyMatrixQuestionFormDescription'] = 'Beschrijving';
 
-$lang['survey']['SurveyNotStarted'] = 'Enquête niet gestart';
-$lang['survey']['SurveyStarted'] = 'Enquête gestart';
-$lang['survey']['SurveyFinished'] = 'Enquête beëindigd';
+$lang['survey']['SurveyNotStarted'] = 'Enqu&ecirc;te niet gestart';
+$lang['survey']['SurveyStarted'] = 'Enqu&ecirc;te gestart';
+$lang['survey']['SurveyFinished'] = 'Enqu&ecirc;te be&euml;indigd';
 
-$lang['survey']['BrowseSurvey'] = 'Blader door enquête';
+$lang['survey']['BrowseSurvey'] = 'Blader door enqu&ecirc;te';
 
 $lang['survey']['ContextName'] = 'Contextnaam';
 
@@ -108,14 +108,14 @@ $lang['survey']['ChooseYourRating'] = 'Kies jouw beoordeling';
 $lang['survey']['ChooseYourOptionMatch'] = 'Kies jouw koppelingsoptie';
 
 $lang['survey']['Repository'] = 'Repository';
-$lang['survey']['ManageCategories'] = 'Beheer categorieën';
+$lang['survey']['ManageCategories'] = 'Beheer categorie&euml;n';
 $lang['survey']['RemoveSelected'] = 'Verwijder geselecteerde';
 
 $lang['survey']['SurveyHeaderText'] = 'Hoofding';
 $lang['survey']['SurveyFooterText'] = 'Voettekst';
-$lang['survey']['SurveyContext'] = 'Enquêtecontext';
+$lang['survey']['SurveyContext'] = 'Enqu&ecirc;tecontext';
 
-$lang['survey']['CanNotUpdateSurveyContextBecauseSurveyIsPublished'] = 'Kan enquêtecontext niet wijzigen want de enqu&ecirc;te is gepubliceerd';
+$lang['survey']['CanNotUpdateSurveyContextBecauseSurveyIsPublished'] = 'Kan enqu&ecirc;tecontext niet wijzigen want de enqu&ecirc;te is gepubliceerd';
 
 $lang['survey']['PublishFor'] = 'Publiceer voor';
 
