@@ -67,43 +67,6 @@ class Text
 
         return $string;
     }
-
-    /**
-     * formats the date according to the locale settings
-     *
-     * @author  Patrick Cool <patrick.cool@UGent.be>, Ghent University
-     * @author  Christophe Gesch� <gesche@ipm.ucl.ac.be>
-     *          originally inspired from from PhpMyAdmin
-     * @param  string  $formatOfDate date pattern
-     * @param  integer $timestamp, default is NOW.
-     * @return the formatted date
-     */
-    public static function format_locale_date($dateFormat, $timeStamp = -1)
-    {
-        // Defining the shorts for the days
-        $DaysShort = array(Translation :: get("SundayShort"), Translation :: get("MondayShort"), Translation :: get("TuesdayShort"), Translation :: get("WednesdayShort"), Translation :: get("ThursdayShort"), Translation :: get("FridayShort"), Translation :: get("SaturdayShort"));
-        // Defining the days of the week to allow translation of the days
-        $DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
-        // Defining the shorts for the months
-        $MonthsShort = array(Translation :: get("JanuaryShort"), Translation :: get("FebruaryShort"), Translation :: get("MarchShort"), Translation :: get("AprilShort"), Translation :: get("MayShort"), Translation :: get("JuneShort"), Translation :: get("JulyShort"), Translation :: get("AugustShort"), Translation :: get("SeptemberShort"), Translation :: get("OctoberShort"), Translation :: get("NovemberShort"), Translation :: get("DecemberShort"));
-        // Defining the months of the year to allow translation of the months
-        $MonthsLong = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
-
-        if ($timeStamp == - 1)
-            $timeStamp = time();
-
-        // with the ereg  we  replace %aAbB of date format
-        //(they can be done by the system when  locale date aren't aivailable
-
-
-        $date = ereg_replace('%[A]', $DaysLong[(int) strftime('%w', $timeStamp)], $dateFormat);
-        $date = ereg_replace('%[a]', $DaysShort[(int) strftime('%w', $timeStamp)], $date);
-        $date = ereg_replace('%[B]', $MonthsLong[(int) strftime('%m', $timeStamp) - 1], $date);
-        $date = ereg_replace('%[b]', $MonthsShort[(int) strftime('%m', $timeStamp) - 1], $date);
-
-        return strftime($date, $timeStamp);
-
-    }
     
 	/**
 	 *    Get the ordinal suffix of an int (e.g. th, rd, st, etc.)

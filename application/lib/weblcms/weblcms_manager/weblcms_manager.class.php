@@ -115,6 +115,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
 	const ACTION_REPORTING = 'reporting';
 	const ACTION_RENDER_BLOCK = 'block';
+	const ACTION_COURSE_CODE = 'coursecode';
 
 	/**
 	 * The tools that this course offers.
@@ -261,6 +262,9 @@ class WeblcmsManager extends WebApplication
                 break;
 			case self :: ACTION_CHANGE_ACTIVE :
 				$component = self :: factory('ActivityChanger', $this);
+				break;
+			case self :: ACTION_COURSE_CODE : 
+				$component = WeblcmsManagerComponent :: factory('CourseCodeSubscriber', $this);
 				break;
 			case self :: ACTION_COURSE_EDITOR_REQUEST :
 				$component = self :: factory('CourseRequestEditor', $this);
@@ -1276,6 +1280,11 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_CREATE_REQUEST, self :: PARAM_COURSE => $course->get_id()));
    
+	}
+	
+	function get_course_code_url($course)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_CODE, self :: PARAM_COURSE => $course->get_id()));
 	}
 
 	/**

@@ -151,8 +151,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
             {
                 $condition = $search_conditions;
             }
-        }
-        
+        }        
         return $condition;
     }
 }

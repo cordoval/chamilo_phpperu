@@ -266,9 +266,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->count_result_set($query, ContentObjectPublication :: get_table_name(), $condition);
 	}
 
-	function count_courses($condition = null)
+	function count_courses($condition)
 	{
-		return $this->database->count_objects(Course :: get_table_name(), $condition);
+		$course_alias = $this->database->get_alias(Course :: get_table_name());
+		$course_settings_alias = $this->database->get_alias('course_settings');
+		
+		$query = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
+		$query .= ' JOIN ' . $this->database->escape_table_name('course_settings') . ' AS ' . $course_settings_alias . ' ON ' . $course_alias . '.id = ' . $course_settings_alias . '.course_id';
+		
+		return $this->database->count_result_set($query, Course :: get_table_name(), $condition);
 	}
 
 	function count_course_types($condition = null)

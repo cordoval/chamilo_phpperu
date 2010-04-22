@@ -24,7 +24,7 @@ class CalendarEventDisplay extends ContentObjectDisplay
         $date_format = Translation :: get('dateTimeFormatLong');
         
         $prepend = array();
-        
+     
         $repeats = $object->repeats();
         
         if ($repeats)
@@ -36,7 +36,7 @@ class CalendarEventDisplay extends ContentObjectDisplay
             $prepend[] = ' ';
             $prepend[] = Translation :: get('Until');
             $prepend[] = ' ';
-            $prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_repeat_to());
+            $prepend[] = DatetimeUtilities :: convert_time_to_timezone($object->get_repeat_to(), $date_format);
             $prepend[] = '</div>';
         }
         else
@@ -44,13 +44,13 @@ class CalendarEventDisplay extends ContentObjectDisplay
             $prepend[] = '<div class="calendar_event_range" style="font-weight: bold;">';
             $prepend[] = Translation :: get('From');
             $prepend[] = ' ';
-            $prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_start_date());
-            //$prepend[] = DatetimeUtilities :: convert_time_to_timezone($object->get_start_date(), $date_format);
+            //$prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_start_date());
+            $prepend[] = DatetimeUtilities :: convert_time_to_timezone($object->get_start_date(), $date_format);
             $prepend[] = ' ';
             $prepend[] = Translation :: get('Until');
             $prepend[] = ' ';
-            $prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_end_date());
-            //$prepend[] = DatetimeUtilities :: convert_time_to_timezone($object->get_end_date(), $date_format);
+            //$prepend[] = DatetimeUtilities :: format_locale_date($date_format, $object->get_end_date());
+            $prepend[] = DatetimeUtilities :: convert_time_to_timezone($object->get_end_date(), $date_format);
             $prepend[] = '</div>';
         }
         
