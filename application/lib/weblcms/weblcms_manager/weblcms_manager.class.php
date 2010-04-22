@@ -264,7 +264,7 @@ class WeblcmsManager extends WebApplication
 				$component = $this->create_component('ActivityChanger', $this);
 				break;
 			case self :: ACTION_COURSE_CODE : 
-				$component = WeblcmsManagerComponent :: factory('CourseCodeSubscriber', $this);
+				$component = $this->create_component('CourseCodeSubscriber', $this);
 				break;
 			case self :: ACTION_COURSE_EDITOR_REQUEST :
 				$component = $this->create_component('CourseRequestEditor', $this);

@@ -18,10 +18,10 @@ class TaskDifference extends ContentObjectDifference
         $object = $this->get_object();
         $version = $this->get_version();
         
-        $object_string = htmlentities(Translation :: get('From') . ' ' . DatetimeUtilities :: convert_time_to_timezone($object->get_due_date(), $date_format). ' ' . Translation :: get('Until') . ' ' . DatetimeUtilities :: convert_time_to_timezone($object->get_end_date(), $date_format));
+        $object_string = htmlentities(Translation :: get('From') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $object->get_due_date()). ' ' . Translation :: get('Until') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $object->get_end_date()));
         $object_string = explode("\n", strip_tags($object_string));
         
-        $version_string = htmlentities(Translation :: get('From') . ' ' . DatetimeUtilities :: convert_time_to_timezone($version->get_due_date(), $date_format) . ' ' . DatetimeUtilities :: convert_time_to_timezone($version->get_end_date(), $date_format));
+        $version_string = htmlentities(Translation :: get('From') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $version->get_due_date()) . ' ' . DatetimeUtilities :: format_locale_date($date_format, $version->get_end_date()));
         $version_string = explode("\n", strip_tags($version_string));
         
         $td = new Difference_Engine($object_string, $version_string);
