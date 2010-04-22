@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__).'/cba_manager_component.class.php';
 require_once dirname(__FILE__).'/../cba_data_manager.class.php';
 require_once dirname(__FILE__).'/../cba_menu.class.php';
 require_once dirname(__FILE__).'/component/competency_browser/competency_browser_table.class.php';
@@ -92,81 +91,81 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
 		switch ($action)
 		{	
 			case self :: ACTION_CREATE:
-				$component = CbaManagerComponent :: factory('Create', $this);
+				$component = $this->create_component('Create');
 				break;
 		    case self :: ACTION_MANAGE_CATEGORIES_COMPETENCY:
-				$component = CbaManagerComponent :: factory('CompetencyCategoryManager', $this);
+		    	$component = $this->create_component('CompetencyCategoryManager');
 				break;
 			case self :: ACTION_MANAGE_CATEGORIES_INDICATOR:
-				$component = CbaManagerComponent :: factory('IndicatorCategoryManager', $this);
+				$component = $this->create_component('IndicatorCategoryManager');
 				break;
 			case self :: ACTION_MANAGE_CATEGORIES_CRITERIA:
-				$component = CbaManagerComponent :: factory('CriteriaCategoryManager', $this);
+				$component = $this->create_component('CriteriaCategoryManager');
 				break;
 			case self :: ACTION_BROWSE_COMPETENCY:
-				$component = CbaManagerComponent :: factory('Browser', $this);
+				$component = $this->create_component('Browser');
 				break;
 			case self :: ACTION_BROWSE_INDICATOR:
-				$component = CbaManagerComponent :: factory('IndicatorBrowser', $this);
+				$component = $this->create_component('IndicatorBrowser');
 				break;		
 			case self :: ACTION_BROWSE_CRITERIA:
-				$component = CbaManagerComponent :: factory('CriteriaBrowser', $this);
+				$component = $this->create_component('CriteriaBrowser');
 				break;
 		    case self :: ACTION_CREATOR_COMPETENCY:
-		    	$component = CbaManagerComponent :: factory('CompetencyCreator', $this);
+		    	$component = $this->create_component('CompetencyCreator');
 		    	break;
 		    case self :: ACTION_CREATOR_INDICATOR:
-		    	$component = CbaManagerComponent :: factory('IndicatorCreator', $this);
+		    	$component = $this->create_component('IndicatorCreator');
 		    	break;
 		    case self :: ACTION_CREATOR_CRITERIA:
-		    	$component = CbaManagerComponent :: factory('CriteriaCreator', $this);
+		    	$component = $this->create_component('CriteriaEditor');
 		    	break;
 		    case self :: ACTION_EDITOR_COMPETENCY :
-				$component = CbaManagerComponent :: factory('CompetencyEditor', $this);
+		    	$component = $this->create_component('CompetencyEditor');
 				break;
 			case self :: ACTION_EDITOR_INDICATOR :
-				$component = CbaManagerComponent :: factory('IndicatorEditor', $this);
+				$component = $this->create_component('IndicatorEditor');
 				break;
 			case self :: ACTION_EDITOR_CRITERIA :
-				$component = CbaManagerComponent :: factory('CriteriaEditor', $this);
+				$component = $this->create_component('CriteriaEditor');
 				break;
 		    case self :: ACTION_DELETE_COMPETENCY :
-				$component = CbaManagerComponent :: factory('CompetencyDeleter', $this);
+		    	$component = $this->create_component('CompetencyDeleter');
 				break;
 			case self :: ACTION_DELETE_INDICATOR :
-				$component = CbaManagerComponent :: factory('IndicatorDeleter', $this);
+				$component = $this->create_component('IndicatorDeleter');
 				break;
 			case self :: ACTION_DELETE_CRITERIA :
-				$component = CbaManagerComponent :: factory('CriteriaDeleter', $this);
+				$component = $this->create_component('CriteriaDeleter');
 				break;
 			case self :: ACTION_DELETE_COMPETENCYS :
-				$component = CbaManagerComponent :: factory('CompetencyDeleter', $this);
+				$component = $this->create_component('CompetencyDeleter');
 				break;
 			case self :: ACTION_DELETE_INDICATORS :
-				$component = CbaManagerComponent :: factory('IndicatorDeleter', $this);
+				$component = $this->create_component('IndicatorDeleter');
 				break;
 			case self :: ACTION_DELETE_CRITERIAS :
-				$component = CbaManagerComponent :: factory('CriteriaDeleter', $this);
+				$component = $this->create_component('CriteriaDeleter');
 				break;
 			case self :: ACTION_VIEW_SEARCH_COMPETENCY :
-				$component = CbaManagerComponent :: factory('CompetencySearch', $this);
+				$component = $this->create_component('CompetencySearch');
 				break;
 			case self :: ACTION_MOVE_COMPETENCY :
-                $component = CBaManagerComponent :: factory('CompetencyMover', $this);
+				$component = $this->create_component('CompetencyMover');
             	break;
             case self :: PARAM_MOVE_COMPETENCY_SELECTED :
                 $this->set_action(self :: ACTION_MOVE_COMPETENCY);
                 Request :: set_get(self :: PARAM_COMPETENCY, $selected_ids);
                 break;
             case self :: ACTION_MOVE_INDICATOR :
-                $component = CbaManagerComponent :: factory('IndicatorMover', $this);
+            	$component = $this->create_component('IndicatorMover');
             	break;
             case self :: PARAM_MOVE_INDICATOR_SELECTED :
                 $this->set_action(self :: ACTION_MOVE_INDICATOR);
                 Request :: set_get(self :: PARAM_INDICATOR, $selected_ids);
                 break;
             case self :: ACTION_MOVE_CRITERIA :
-                $component = CbaManagerComponent :: factory('CriteriaMover', $this);
+            	$component = $this->create_component('CriteriaMover');
             	break;
             case self :: PARAM_MOVE_CRITERIA_SELECTED :
                 $this->set_action(self :: ACTION_MOVE_CRITERIA);
@@ -174,7 +173,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
                 break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_COMPETENCY);
-				$component = CbaManagerComponent :: factory('Browser', $this);
+				$component = $this->create_component('Browser');
 
 		}
 		$component->run();

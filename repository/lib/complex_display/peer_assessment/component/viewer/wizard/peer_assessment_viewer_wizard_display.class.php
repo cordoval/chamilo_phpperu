@@ -70,17 +70,30 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
             	$peer_assessment_publication = $this->parent->get_peer_assessment_publication($peer_assessment_id);
             	$from_date = $peer_assessment_publication->get_from_date();
             	$to_date = $peer_assessment_publication->get_from_date();
+
+            	$title = '<a href="'. $url .'">'.$competence->get_title().'</a>';
+            	$take_peer_assessment = '<a href="'. $url .'"><img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/></a>';
             	
             	if(($from_date == 0) && ($to_date == 0))
             	{
             		$date_message = Translation :: get('AlwaysOpen');
+            	}
+            	elseif($to_date > time())
+            	{
+            		$from_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $from_date);
+            		$to_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $to_date);
+            		$date_message = $from_date . ' - ' . $to_date;
             	}
             	else
             	{
             		$from_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $from_date);
             		$to_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $to_date);
             		$date_message = $from_date . ' - ' . $to_date;
+            		
+            		$title = '<b>'.$competence->get_title().'</b>';
+            		$take_peer_assessment = '<img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/>';
             	}
+
             	
             	// Publication id
             	$peer_assessment_publication_id = Request :: get('peer_assessment_publication');
@@ -88,7 +101,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
            		
             	$html[] = '<tr>';
             	$html[] = '<td><img src="'. Theme :: get_common_image_path() . 'content_object/competence.png' .'" alt=""/></td>';
-            	$html[] = '<td><a href="'. $url .'">'.$competence->get_title().'</a></td>';
+            	$html[] = '<td>'. $title .'</td>';
             	$html[] = '<td>'. $date_message .'</td>';
             	$html[] = '<td>';
             	// Groups
@@ -126,7 +139,6 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
            		        	
             	$html[] = '</td>';
             	
-            	
             	/*if($competence->isFinished())
             	{
             		$image = 'button_start';
@@ -137,7 +149,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
             	//}
             	
             	$html[] = '<td><img src="' . Theme :: get_common_image_path() . 'buttons/'.$image.'.png' .'" alt="" /></td>';
-            	$html[] = '<td><a href="'. $url .'"><img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/></a></td>';
+            	$html[] = '<td>'. $take_peer_assessment .'</td>';
             	$html[] = '</tr>';
             }
             $html[] = '</table>';

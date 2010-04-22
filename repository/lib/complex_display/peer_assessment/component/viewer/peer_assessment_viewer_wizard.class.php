@@ -58,10 +58,8 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         
         $this->total_pages = 0;
 
-        //if($this->get_page() == 2)
-        //{
-        	//$this->total_pages = 1;
-        //}
+        // To see the html on the next page
+        //$this->total_pages = 1;
          
         while (($complex_content_object = $complex_content_objects->next_result()))
         {

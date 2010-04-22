@@ -132,7 +132,8 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     {
         $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $id);
         $object = $this->database->retrieve_object(PeerAssessmentPublication :: get_table_name(), $condition);
-        $object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
+        //dump($object);
+		$object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
         return $object;
     }
 

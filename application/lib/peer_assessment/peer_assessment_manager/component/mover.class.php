@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../category_manager/peer_assessment_publication_category.class.php';
 
 /**
@@ -8,7 +7,7 @@ require_once dirname(__FILE__) . '/../../category_manager/peer_assessment_public
  * @author Sven Vanpoucke
  * @author Nick Van Loocke
  */
-class PeerAssessmentManagerMoverComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
 {
 
     /**

@@ -1,12 +1,11 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../category_manager/peer_assessment_publication_category_manager.class.php';
 /**
  *	@author Nick Van Loocke
  */
 
-class PeerAssessmentManagerCategoryManagerComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerCategoryManagerComponent extends PeerAssessmentManager
 {
     private $action_bar;
 
