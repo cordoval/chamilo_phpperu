@@ -54,7 +54,7 @@ class DatetimeUtilities
      * @param  integer $timestamp, default is NOW.
      * @return the formatted date
      */
-    public static function format_locale_date($dateFormat, $timeStamp = -1)
+    public static function format_locale_date($dateFormat = null, $timeStamp = -1)
     {
     	if(!$dateFormat)
     	{
