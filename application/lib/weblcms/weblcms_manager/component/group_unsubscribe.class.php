@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/unsubscribe_browser/unsubscribe_browser_table
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsManagerGroupUnsubscribeComponent extends WeblcmsManagerComponent
+class WeblcmsManagerGroupUnsubscribeComponent extends WeblcmsManager
 {
     private $category;
     private $breadcrumbs;

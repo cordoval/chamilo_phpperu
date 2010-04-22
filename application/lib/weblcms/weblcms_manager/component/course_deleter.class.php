@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 /**
  * Repository manager component which provides functionality to delete a course
  */
-class WeblcmsManagerCourseDeleterComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
 {
 
     /**

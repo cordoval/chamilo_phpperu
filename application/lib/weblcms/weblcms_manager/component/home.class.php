@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../course/course_user_category.class.php';
  * Weblcms component which provides the user with a list
  * of all courses he or she has subscribed to.
  */
-class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
+class WeblcmsManagerHomeComponent extends WeblcmsManager
 {
 
 	const MIXED = 0;
