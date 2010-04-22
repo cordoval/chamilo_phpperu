@@ -371,7 +371,7 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
 
     function retrieve_peer_assessment_publication_group($id)
     {
-        $condition = new EqualityCondition(PeerAssessmentPublicationGroup :: PROPERTY_ID, $id);
+        $condition = new EqualityCondition(PeerAssessmentPublicationGroup :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $id);
         return $this->database->retrieve_object(PeerAssessmentPublicationGroup :: get_table_name(), $condition, array(), PeerAssessmentPublicationGroup :: CLASS_NAME);
     }
 
@@ -404,7 +404,7 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
 
     function retrieve_peer_assessment_publication_user($id)
     {
-        $condition = new EqualityCondition(PeerAssessmentPublicationUser :: PROPERTY_ID, $id);
+        $condition = new EqualityCondition(PeerAssessmentPublicationUser :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $id);
         return $this->database->retrieve_object(PeerAssessmentPublicationUser :: get_table_name(), $condition, array(), PeerAssessmentPublicationUser :: CLASS_NAME);
     }
 
