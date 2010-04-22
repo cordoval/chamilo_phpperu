@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
-require_once dirname(__FILE__).'/../cba_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/criteria_form.class.php';
 require_once dirname(__FILE__).'/../../criteria_score.class.php';
 
@@ -8,7 +7,7 @@ require_once dirname(__FILE__).'/../../criteria_score.class.php';
  * Component to edit an existing criteria object and the criteria scores
  * @author Nick Van Loocke
  */
-class CbaManagerCriteriaEditorComponent extends CbaManagerComponent
+class CbaManagerCriteriaEditorComponent extends CbaManager
 {
 	/**
 	 * Runs this component and displays its output.

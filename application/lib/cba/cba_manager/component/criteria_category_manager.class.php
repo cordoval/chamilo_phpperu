@@ -1,11 +1,10 @@
 <?php
 require_once dirname(__FILE__) . '/../cba_manager.class.php';
-require_once dirname(__FILE__) . '/../cba_manager_component.class.php';
 require_once dirname(__FILE__).'/../../category_manager/criteria_category_manager.class.php';
 /**
  * @author Nick Van Loocke
  */
-class CbaManagerCriteriaCategoryManagerComponent extends CbaManagerComponent
+class CbaManagerCriteriaCategoryManagerComponent extends CbaManager
 {
     function run()
     {

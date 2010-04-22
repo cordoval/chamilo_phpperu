@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/peer_assessment_publication_form.class.php';
 require_once dirname(__FILE__) . '/../../publisher/peer_assessment_publication_publisher.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/content_object_repo_viewer.class.php';
@@ -9,9 +8,8 @@ require_once Path :: get_application_path() . '/lib/weblcms/content_object_repo_
  * Component to create a new peer_assessment_publication object
  * @author Nick Van Loocke
  */
-class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager
 {
-
     function run()
     {   
         $trail = new BreadcrumbTrail();
