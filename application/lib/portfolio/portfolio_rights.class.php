@@ -493,7 +493,10 @@ class PortfolioRights {
         $view_feedback=false;
         $give_feedback=false;
 
-        if( !isset($actual_rights[$portfolio_identifier][$user_id]))
+        $my_rights = array();
+
+        //TODO: put and get $my_rights on/from the session maybe??
+        if( !isset($my_rights[$portfolio_identifier][$user_id]))
         {
             //rights for this user on this location have not been checked yet
             $rights_array = array();
@@ -703,13 +706,13 @@ class PortfolioRights {
         //check feedback giving rights
         $rights_array[self::GIVE_FEEDBACK_RIGHT] = $give_feedback;
 
-       PortfolioRights::$my_rights[$portfolio_identifier][$user_id] = $rights_array;
+       $my_rights[$portfolio_identifier][$user_id] = $rights_array;
 
         }
         else
         {
             //rights for this user on this location have already been checked this session and can be returned
-            $rights_array =  PortfolioRights::$actual_rights[$portfolio_identifier][$user_id];
+            $rights_array =  $my_rights[$portfolio_identifier][$user_id];
 
         }
         return $rights_array;

@@ -18,11 +18,11 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
-        
+//        $trail = new BreadcrumbTrail();
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
+//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
+//
         $parent = Request :: get('parent');
         //TODO: HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
         $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), 
@@ -36,8 +36,17 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
         
         if (!$pub->is_ready_to_be_published())
         {
+
+            //$this->display_header($trail);
+            $html[] =  $pub->as_html();
+
+            $trail = new BreadcrumbTrail();
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
+           
             $this->display_header($trail);
-            echo $pub->as_html();
+            echo implode("\n", $html);
             $this->display_footer();
         }
         else
