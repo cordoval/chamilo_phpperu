@@ -106,9 +106,12 @@ class DatetimeUtilities
     	}
     	
     	$date_time_zone = new DateTimeZone($timezone);
-		$date_time = new DateTime($date, $date_time_zone);
- 
-		return self :: format_locale_date($format, $date_time->format('U'));
+    	$gmt_time_zone = new DateTimeZone('GMT');
+    	
+		$date_time = new DateTime($date, $gmt_time_zone);
+		$offset = $date_time_zone->getOffset($date_time);
+ 		
+		return self :: format_locale_date($format, $date_time->format('U') + $offset);
     }
 
 }
