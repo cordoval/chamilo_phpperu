@@ -51,22 +51,22 @@ class TrackingManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_EVENTS :
-                $component = TrackingManagerComponent :: factory('AdminEventBrowser', $this);
+                $component = $this->create_component('AdminEventBrowser');
                 break;
             case self :: ACTION_VIEW_EVENT :
-                $component = TrackingManagerComponent :: factory('AdminEventViewer', $this);
+                $component = $this->create_component('AdminEventViewer');
                 break;
             case self :: ACTION_CHANGE_ACTIVE :
-                $component = TrackingManagerComponent :: factory('ActivityChanger', $this);
+                $component = $this->create_component('ActivityChanger');
                 break;
             case self :: ACTION_EMPTY_TRACKER :
-                $component = TrackingManagerComponent :: factory('EmptyTracker', $this);
+                $component = $this->create_component('EmptyTracker');
                 break;
             case self :: ACTION_ARCHIVE :
-                $component = TrackingManagerComponent :: factory('Archiver', $this);
+                $component = $this->create_component('Archiver');
                 break;
             default :
-                $component = TrackingManagerComponent :: factory('Archiver', $this);
+                $component = $this->create_component('AdminEventBrowser');
                 break;
         }
         

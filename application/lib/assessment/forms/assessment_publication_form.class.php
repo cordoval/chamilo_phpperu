@@ -199,12 +199,6 @@ class AssessmentPublicationForm extends FormValidator
         {
             return false;
         }
-		if(Request :: post('evaluation'))
-		{
-        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
-        	$gradebook_internal_item_form = new GradebookInternalItemForm();
-        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
-		}
     }
 
     function create_content_object_publications()
@@ -249,9 +243,13 @@ class AssessmentPublicationForm extends FormValidator
             }
 			if(Request :: post('evaluation'))
 			{
+				
 		        require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
 		        $gradebook_internal_item_form = new GradebookInternalItemForm();
-		        $gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
+		        if($pub->get_publication_object()->get_type() == 'survey')
+		        	$gradebook_internal_item_form->create_internal_item($pub->get_id());
+		       	else
+		        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
 			}
         }
         return true;

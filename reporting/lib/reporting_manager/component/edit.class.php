@@ -5,7 +5,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingManagerEditComponent extends ReportingManagerComponent
+class ReportingManagerEditComponent extends ReportingManager
 {
 
     /**

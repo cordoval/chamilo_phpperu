@@ -6,7 +6,7 @@
  */
 require_once Path :: get_admin_path() . 'lib/package_manager/component/local_package_browser/local_package_browser.class.php';
 
-class PackageManagerLocalComponent extends PackageManagerComponent
+class PackageManagerLocalComponent extends PackageManager
 {
     private $action_bar;
 

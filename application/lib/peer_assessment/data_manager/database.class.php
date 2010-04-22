@@ -132,7 +132,8 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     {
         $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_ID, $id);
         $object = $this->database->retrieve_object(PeerAssessmentPublication :: get_table_name(), $condition);
-        $object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
+        //dump($object);
+		$object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
         return $object;
     }
 
@@ -371,7 +372,7 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
 
     function retrieve_peer_assessment_publication_group($id)
     {
-        $condition = new EqualityCondition(PeerAssessmentPublicationGroup :: PROPERTY_ID, $id);
+        $condition = new EqualityCondition(PeerAssessmentPublicationGroup :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $id);
         return $this->database->retrieve_object(PeerAssessmentPublicationGroup :: get_table_name(), $condition, array(), PeerAssessmentPublicationGroup :: CLASS_NAME);
     }
 
@@ -404,7 +405,7 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
 
     function retrieve_peer_assessment_publication_user($id)
     {
-        $condition = new EqualityCondition(PeerAssessmentPublicationUser :: PROPERTY_ID, $id);
+        $condition = new EqualityCondition(PeerAssessmentPublicationUser :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $id);
         return $this->database->retrieve_object(PeerAssessmentPublicationUser :: get_table_name(), $condition, array(), PeerAssessmentPublicationUser :: CLASS_NAME);
     }
 

@@ -7,7 +7,7 @@
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
  */
-class RepositoryManagerContentObjectSelectorComponent extends RepositoryManagerComponent
+class RepositoryManagerContentObjectSelectorComponent extends RepositoryManager
 {
     /**
      * Runs this component and displays its output.

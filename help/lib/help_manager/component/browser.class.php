@@ -6,7 +6,7 @@
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
-class HelpManagerBrowserComponent extends HelpManagerComponent
+class HelpManagerBrowserComponent extends HelpManager
 {
     private $ab;
 

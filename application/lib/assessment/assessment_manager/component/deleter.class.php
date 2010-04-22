@@ -32,13 +32,18 @@ class AssessmentManagerDeleterComponent extends AssessmentManagerComponent
             foreach ($ids as $id)
             {
                 $assessment_publication = $this->retrieve_assessment_publication($id);
-                
                 if (! $assessment_publication->is_visible_for_target_user($this->get_user()))
                 {
                     $failures ++;
                 }
                 else
                 {
+	                if(WebApplication :: is_active('gradebook'))
+	       			{
+	       				require_once dirname(__FILE__) . '/../../../gradebook/gradebook_utilities.class.php';
+				    	if(!GradebookUtilities :: move_internal_item_to_external_item(AssessmentManager :: APPLICATION_NAME, $id))
+				    		$message = 'failed to move internal evaluation to external evaluation';
+	       			}
                     if (! $assessment_publication->delete())
                     {
                         $failures ++;

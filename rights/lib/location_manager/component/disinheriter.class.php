@@ -4,7 +4,7 @@
  * @package rights.lib.location_manager.component
  */
 
-class LocationManagerDisinheriterComponent extends LocationManagerComponent
+class LocationManagerDisinheriterComponent extends LocationManager
 {
 
     /**

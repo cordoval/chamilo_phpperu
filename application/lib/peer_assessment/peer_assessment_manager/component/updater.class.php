@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/peer_assessment_publication_form.class.php';
 require_once dirname(__FILE__) . '/../../publisher/peer_assessment_publication_publisher.class.php';
 
@@ -8,7 +7,7 @@ require_once dirname(__FILE__) . '/../../publisher/peer_assessment_publication_p
  * Component to edit an existing peer_assessment_publication object
  * @author Nick Van Loocke
  */
-class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManager
 {
     /**
      * Runs this component and displays its output.
@@ -56,7 +55,7 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManagerCompone
 	        {
 	            if ($form_properties->validate())
 	            {
-	            	// Update the publish for, from date, to date and hidden option
+	            	// Update the publish form, from date, to date and hidden option
 	            	$html[] = $form_properties->update_content_object();
 	                $category_id = $peer_assessment_publication->get_category();
 	                

@@ -8,7 +8,7 @@
  * Repository manager component which gives the user the possibility to create a
  * new complex learning object item in his repository.
  */
-class RepositoryManagerComplexUpdaterComponent extends RepositoryManagerComponent
+class RepositoryManagerComplexUpdaterComponent extends RepositoryManager
 {
 
     /**

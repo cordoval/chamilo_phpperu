@@ -57,11 +57,11 @@ class MenuManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_SORT_MENU :
-                $component = MenuManagerComponent :: factory('Sorter', $this);
+                $component = $this->create_component('Sorter');
                 break;
             default :
                 $this->set_action(self :: ACTION_SORT_MENU);
-                $component = MenuManagerComponent :: factory('Sorter', $this);
+                $component = $this->create_component('Sorter');
         }
         $component->run();
     }
@@ -71,20 +71,20 @@ class MenuManager extends CoreApplication
         switch ($type)
         {
             case self :: ACTION_RENDER_BAR :
-                $component = MenuManagerComponent :: factory('Bar', $this);
+                $component = $this->create_component('Bar');
                 break;
             case self :: ACTION_RENDER_MINI_BAR :
-                $component = MenuManagerComponent :: factory('MiniBar', $this);
+                $component = $this->create_component('MiniBar');
                 break;
             case self :: ACTION_RENDER_TREE :
-                $component = MenuManagerComponent :: factory('Tree', $this);
+                $component = $this->create_component('Tree');
                 break;
             case self :: ACTION_RENDER_SITEMAP :
-                $component = MenuManagerComponent :: factory('Sitemap', $this);
+                $component = $this->create_component('Sitemap');
                 break;
             default :
                 $this->set_action(self :: ACTION_RENDER_BAR);
-                $component = MenuManagerComponent :: factory('Bar', $this);
+                $component = $this->create_component('Bar');
         }
         return $component->run();
     }

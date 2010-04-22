@@ -131,6 +131,7 @@ $lang['repository']['BlogItemTypeName'] = 'Blog post';
 $lang['repository']['RatingQuestionTypeName'] = '';
 $lang['repository']['WikiPageTypeName'] = 'Wiki pagina';
 $lang['repository']['SelectHiddenTypes'] = '';
+$lang['repository']['Hidden'] = 'Verborgen';
 $lang['repository']['UserViewCreate'] = '';
 $lang['repository']['UserViewList'] = '';
 $lang['repository']['AnnouncementCreationFormTitle'] = '';
@@ -593,7 +594,7 @@ $lang['repository']['SelectYourChoice'] = 'Selecteer jouw keuze';
 $lang['repository']['SelectYourChoices'] = 'Selecteer jouw keuzes';
 $lang['repository']['ChooseYourOptionMatch'] = 'Selecteer jouw koppelingsoptie';
 $lang['repository']['ChooseYourRating'] = 'Selecteer jouw beoordeling';
-$lang['repository']['NoSurveyPageAddedToSurvey'] = 'Geen enqu&ecirc;tepagina toegevoegd aan enqu&ecirc;te';
+$lang['repository']['NoSurveyPageAddedToSurvey'] = 'Geen enquêtepagina toegevoegd aan enquête';
 $lang['repository']['SaveAndFinishLater'] = 'Opslaan en later afwerken';
 $lang['repository']['ChangeParent'] = '';
 $lang['repository']['NewParent'] = '';
@@ -603,10 +604,10 @@ $lang['repository']['PagesNotAdded'] = 'Pagina&acute;s niet toegevoegd';
 $lang['repository']['EditDocument'] = 'Document bewerken';
 $lang['repository']['SurveyHeaderText'] = 'Hoofding';
 $lang['repository']['SurveyFooterText'] = 'Voettekst';
-$lang['repository']['SurveyContext'] = 'Enqu&ecirc;tecontext';
+$lang['repository']['SurveyContext'] = 'Enquêtecontext';
 $lang['repository']['DefaultContext'] = 'Standaardcontext';
 $lang['repository']['Context'] = 'Context';
-$lang['repository']['CanNotUpdateSurveyContextBecauseSurveyIsPublished'] = 'Kan enqu&ecirc;tecontext niet wijzigen want de enqu&ecirc;te is gepubliceerd';
+$lang['repository']['CanNotUpdateSurveyContextBecauseSurveyIsPublished'] = 'Kan enquêtecontext niet wijzigen want de enquête is gepubliceerd';
 $lang['repository']['MyRepository'] = 'Mijn Repository';
 $lang['repository']['ManageCategories'] = 'Beheer categorieën';
 $lang['repository']['ExportEntireRepository'] = 'Exporteer volledige repository';
@@ -631,15 +632,15 @@ $lang['repository']['Reset'] = 'Wissen';
 
 $lang['repository']['SurveyAddContentObject'] = 'Voeg inhoudobject toe';
 
-$lang['repository']['SurveyPageTypeName'] = 'Enqu&ecirc;tepagina';
-$lang['repository']['SurveyPage'] = 'Enqu&ecirc;tepagina';
+$lang['repository']['SurveyPageTypeName'] = 'Enquêtepagina';
+$lang['repository']['SurveyPage'] = 'Enquêtepagina';
 $lang['repository']['SurveyPageFormTitle'] = 'Titel';
 $lang['repository']['SurveyPageFormDescription'] = 'Beschrijving';
-$lang['repository']['SurveyPageFormProperties'] = 'Eigenschappen van enqu&ecirc;tepagina';
+$lang['repository']['SurveyPageFormProperties'] = 'Eigenschappen van enquêtepagina';
 $lang['repository']['SurveyPageHeaderText'] = 'Hoofding';
 $lang['repository']['SurveyPageFooterText'] = 'Voettekst';
 
-$lang['repository']['SurveyPageAddContentObject'] = 'Voeg inhoudobject toe aan enqu&ecirc;tepagina';
+$lang['repository']['SurveyPageAddContentObject'] = 'Voeg inhoudobject toe aan enquêtepagina';
 
 $lang['repository']['SurveyRatingQuestionTypeName'] = 'Beoordelingsvraag';
 $lang['repository']['SurveyRatingQuestion'] = 'Beoordelingsvraag';
@@ -675,11 +676,11 @@ $lang['repository']['SurveyMatrixQuestion'] = 'Matrixvraag';
 $lang['repository']['SurveyMatrixQuestionFormTitle'] = 'Titel';
 $lang['repository']['SurveyMatrixQuestionFormDescription'] = 'Beschrijving';
 
-$lang['repository']['SurveyNotStarted'] = 'Enqu&ecirc;te niet gestart';
-$lang['repository']['SurveyStarted'] = 'Enqu&ecirc;te gestart';
-$lang['repository']['SurveyFinished'] = 'Enqu&ecirc;te beëindigd';
+$lang['repository']['SurveyNotStarted'] = 'Enquête niet gestart';
+$lang['repository']['SurveyStarted'] = 'Enquête gestart';
+$lang['repository']['SurveyFinished'] = 'Enquête beëindigd';
 
-$lang['repository']['BrowseSurvey'] = 'Blader door enqu&ecirc;te';
+$lang['repository']['BrowseSurvey'] = 'Blader door enquête';
 
 $lang['repository']['PublicationDetails'] = 'Publicatiedetails';
 $lang['repository']['TestCase'] = 'Test case';
@@ -692,7 +693,8 @@ $lang['repository']['ShowLinks'] = 'Toon links';
 
 $lang['repository']['CategoryTypeName'] = 'Categorie';
 $lang['repository']['FileName'] = 'Bestandsnaam';
-
+$lang['repository']['PublishFor'] = 'Publiceer voor';
+$lang['repository']['PublicationCreated'] = 'Publicatie aangemaakt';
 $lang['repository']['Add'] = 'Toevoegen';
 $lang['repository']['Categories'] = 'Categorieën';
 

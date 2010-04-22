@@ -4,7 +4,7 @@
  * @package repository.lib.repository_manager.component
  */
 
-class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerComponent
+class RepositoryManagerUserViewUpdaterComponent extends RepositoryManager
 {
 
     /**

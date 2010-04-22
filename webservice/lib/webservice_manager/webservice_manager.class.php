@@ -53,17 +53,15 @@ class WebserviceManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_WEBSERVICES :
-                $component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);
+                $component = $this->create_component('WebserviceBrowser');
                 break;
             case self :: ACTION_MANAGE_ROLES :
-                $component = WebserviceManagerComponent :: factory('RightsEditor', $this);
+                $component = $this->create_component('RightsEditor');
                 break;
             default :
-                $component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);
+                $component = $this->create_component('WebserviceBrowser');
         }
         $component->run(); //wordt gestart
-    
-
     }
 
     function retrieve_webservices($condition = null, $offset = null, $count = null, $order_property = null)

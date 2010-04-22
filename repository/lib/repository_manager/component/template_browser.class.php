@@ -4,7 +4,7 @@
  * @package repository.lib.repository_manager.component
  */
 
-class RepositoryManagerTemplateBrowserComponent extends RepositoryManagerComponent
+class RepositoryManagerTemplateBrowserComponent extends RepositoryManager
 {
     private $action_bar;
     private $form;

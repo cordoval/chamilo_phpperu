@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerBuddyListViewerComponent extends UserManagerComponent
+class UserManagerBuddyListViewerComponent extends UserManager
 {
 	/**
 	 * Runs this component and displays its output.

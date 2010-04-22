@@ -40,6 +40,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
     {
 
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->peer_assessment->get_id(), ComplexContentObjectItem :: get_table_name()));
+//
         
         /*$count = $this->total_pages = 2;
         
@@ -56,8 +57,11 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         }*/
         
         $this->total_pages = 0;
+
+        // To see the html on the next page
+        //$this->total_pages = 1;
          
-        while (($complex_content_object = $complex_content_objects->next_result()) && ($this->total_pages < 2))
+        while (($complex_content_object = $complex_content_objects->next_result()))
         {
             $this->total_pages ++;
             $this->addPage(new QuestionsPeerAssessmentViewerWizardPage('question_page_' . $this->total_pages, $this, $this->total_pages));
@@ -92,7 +96,8 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
 
     }
     
-    // Return the competences of an peer assessment
+    
+    // Competences
 	function get_peer_assessment_page_competences($peer_assessment_page)
     {
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $peer_assessment_page->get_id(), ComplexContentObjectItem :: get_table_name()));
@@ -107,7 +112,8 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         return $competences;
     }
     
-    // Returns the indicators of an competence
+    
+    // Indicators of a competence
     function get_peer_assessment_page_indicators_via_competence($peer_assessment_page, $competence)
     {
     	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $competence->get_id(), ComplexContentObjectItem :: get_table_name()));
@@ -122,7 +128,8 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         return $indicators;
     }
        
-    // Returns the criteria of an indicator
+    
+    // Criterias of an indicator
 	function get_peer_assessment_page_criterias_via_indicator($peer_assessment_page, $indicator)
     {
     	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $indicator->get_id(), ComplexContentObjectItem :: get_table_name()));
@@ -136,7 +143,47 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         }
         return $criterias;
     }
+    
+    
+    // Peer assessment publication
+	function get_peer_assessment_publication($peer_assessment_id)
+    {
+        $peer_assessment_publication = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication($peer_assessment_id);
+        return $peer_assessment_publication;
+    }
+    
+    
+    // Groups
+	function get_peer_assessment_publication_groups($peer_assessment_id)
+    {
+        $condition = new EqualityCondition(PeerAssessmentPublicationGroup :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $peer_assessment_id);     
+        $peer_assessment_publication_groups = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_groups($condition);
+        return $peer_assessment_publication_groups;
+    }
+    
+	function get_group($group_id)
+    {
+        $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
+        return $group;
+    }
+    
+    
+    // Users
+	function get_peer_assessment_publication_users($peer_assessment_id)
+    {
+    	$condition = new EqualityCondition(PeerAssessmentPublicationUser :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $peer_assessment_id);     
+        $peer_assessment_publication_users = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_users($condition);
+        return $peer_assessment_publication_users;
+    }
+    
+	function get_user($user_id)
+    {
+        $user = UserDataManager :: get_instance()->retrieve_user($user_id);
+        return $user;
+    }
 
+    
+    
     function get_questions($page_number)
     {
         $page = $this->pages[$page_number];

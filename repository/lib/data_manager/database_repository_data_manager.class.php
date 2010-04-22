@@ -726,8 +726,8 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $defaultProp[$prop] = $record[$prop];
         }
-        $defaultProp[ContentObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_CREATION_DATE]);
-        $defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE]);
+        /*$defaultProp[ContentObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_CREATION_DATE]);
+        $defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE]);*/
 
         $content_object = ContentObject :: factory($record[ContentObject :: PROPERTY_TYPE], $defaultProp);
 

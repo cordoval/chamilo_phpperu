@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to delete a
  * link to a content object
  */
-class RepositoryManagerLinkDeleterComponent extends RepositoryManagerComponent
+class RepositoryManagerLinkDeleterComponent extends RepositoryManager
 {
 
     /**
