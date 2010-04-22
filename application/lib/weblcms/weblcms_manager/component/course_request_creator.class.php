@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 
-class WeblcmsManagerCourseRequestCreatorComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseRequestCreatorComponent extends WeblcmsManager
 {
 
     /**
@@ -40,7 +40,7 @@ class WeblcmsManagerCourseRequestCreatorComponent extends WeblcmsManagerComponen
 			$success_request = $form->create_request();
         	$array_type = array();
 	        $array_type['go'] = WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME;
-            $this->redirect(Translation :: get($success_request ? 'RequestCreated' : 'RequestNotCreated'), ($success_request ? false : true), $array_type); 	
+            $this->redirect(Translation :: get($success_request ? 'RequestCreated' : 'RequestNotCreated'), ($success_request ? false : true), $array_type, array(WeblcmsManager :: PARAM_COURSE)); 	
         }
         else
         {

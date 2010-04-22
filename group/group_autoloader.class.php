@@ -84,7 +84,6 @@ class GroupAutoloader
 	static function check_for_special_files($classname)
 	{
 		$list = array('group_manager' => 'group_manager/group_manager.class.php',
-					  'group_manager_component' => 'group_manager/group_manager_component.class.php',
 					  'group_validator' => '../validator/group_validator.class.php',
 					  'subscribe_wizard' => 'group_manager/component/wizards/subscribe_wizard.class.php');
 

@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/course_browser/course_browser_table.class.php
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsManagerGroupUsersSubscribeComponent extends WeblcmsManagerComponent
+class WeblcmsManagerGroupUsersSubscribeComponent extends WeblcmsManager
 {
 
     /**
@@ -70,7 +70,6 @@ class WeblcmsManagerGroupUsersSubscribeComponent extends WeblcmsManagerComponent
 
         while ($group = $groups->next_result())
         {
-            dump($group);
             $this->subscribe_group($group->get_id(), $course);
         }
     }

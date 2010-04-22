@@ -243,7 +243,7 @@ class DatabaseGroupDataManager extends Database implements GroupDataManagerInter
         $condition = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $group->get_left_value());
 
         $query = 'UPDATE ' . $this->escape_table_name('group');
-        $query .= ' SET ' . $this->escape_column_name(Group ::$thisVALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' - ' . $this->quote($delta) . ', ';
+        $query .= ' SET ' . $this->escape_column_name(Group ::PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' - ' . $this->quote($delta) . ', ';
         $query .= $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta);
 
         $translator = new ConditionTranslator($this);

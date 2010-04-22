@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/admin_course_type_browser/admin_course_type_b
 /**
  * Weblcms component which allows the the platform admin to browse the course_types
  */
-class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManagerComponent
+class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManager
 {
     private $action_bar;
 

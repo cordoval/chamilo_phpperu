@@ -4,7 +4,7 @@
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerTruncaterComponent extends GroupManagerComponent
+class GroupManagerTruncaterComponent extends GroupManager
 {
 
     /**

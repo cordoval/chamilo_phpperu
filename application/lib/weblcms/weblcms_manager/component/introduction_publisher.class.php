@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../content_object_repo_viewer.class.php';
 
-class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerComponent
+class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManager
 {
 
     function run()
