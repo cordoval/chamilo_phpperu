@@ -172,7 +172,7 @@ $(function () {
 				);
 	}
 
-	function collapseItem(e) {
+	function collapseItem(e, ui) {
 		e.preventDefault();
 		$(this).parent().next(".description").slideToggle(300);
 

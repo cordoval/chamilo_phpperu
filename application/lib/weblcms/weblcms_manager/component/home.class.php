@@ -17,6 +17,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
 	const SEPERATED = 1;
 	const OPEN_ONLY = 2;
 	
+	private $selected_tab = 0;
+	
     /**
      * Runs this component and displays its output.
      */
@@ -86,7 +88,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
 			{
 				if(!is_null($tab))
 				{								
-	      			$html[] = '<li><a href="#admin_tabs-'.$index.'">';
+	      			$html[] = '<li><a href="#admin_tabs_'.$index.'">';
 	          		$html[] = '<span class="category">';
 	        		$html[] = '<span class="title">'.$tab[1].'</span>';
 	        		$html[] = '</span>';
@@ -97,19 +99,26 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
 
         	foreach($tabs as $index => $tab)
         	{
-        		$html[] = '<div class="admin_tab" id="admin_tabs-'.$index.'">';
+        		$html[] = '<div class="admin_tab" id="admin_tabs_'.$index.'">';
         		$html[] = $this->display_courses($tab[0], $index);
         		$html[] = '<div class="clear"></div>';
         		$html[] = '</div>';
         	}
         	
         	$html[] = '</div>';
-        	$html[] = '<script type="text/javascript">';
-        	$html[] = '  var tabnumber = ' . $selected_tab . ';';
-        	$html[] = '</script>';
+        }
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/admin_ajax.js' . '"></script>';
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
+	        
+	    if ($_SESSION['toolbar_state'] == 'hide')
+	    	$html[] = '<script type="text/javascript">var hide = "true";</script>';
+	    else
+	        $html[] = '<script type="text/javascript">var hide = "false";</script>';
+        
+        $html[] = '<script type="text/javascript">';
+        $html[] = '  var tabnumber = ' . $this->selected_tab . ';';
+        $html[] = '</script>';
 
-        	$html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/admin_ajax.js' . '"></script>';
-        }      
         return implode($html, "\n");     
     }
 
@@ -221,13 +230,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
 	    			break;
 	    }
 	        
-	    $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
-	        
-	    if ($_SESSION['toolbar_state'] == 'hide')
-	    	$html[] = '<script type="text/javascript">var hide = "true";</script>';
-	    else
-	        $html[] = '<script type="text/javascript">var hide = "false";</script>';
-	        
 	    return implode("\n", $html);
     }  
     
@@ -272,12 +274,12 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         if(count($courses)>0)
         {
             $title = $view_category->get_title();
-            $html[] = '<div class="coursehomeblock block" id="courses_' . $title . '" style="background-image: url(' . Theme :: get_image_path('weblcms') . 'block_weblcms.png);">';
+            $html[] = '<div class="coursehomeblock block" id="courses_' . $title . '_' . $course_type_id . '" style="background-image: url(' . Theme :: get_image_path('weblcms') . 'block_weblcms.png);">';
             $html[] = '<div class="title"><div style="float: left;">';
             
             $html[] = htmlentities($title);
             
-            $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
+            $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
             $html[] = '<div style="clear: both;"></div></div>';
             $html[] = '<div class="description">';
             
@@ -308,7 +310,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
             $html[] = '<div style="clear: both;"></div>';
             $html[] = '</div>';
             $html[] = '</div>';
-            $html[] = '<br />';
         }
         
         return implode($html, "\n");
@@ -321,8 +322,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         if(count($courses)>0)
         {
             $title = $course_category ? $course_category->get_title() : 'general';
-            $html[] = '<div class="coursehomeblock block" id="courses_' . $title . '" style="background-image: url(' . Theme :: get_image_path('weblcms') . 'block_weblcms.png);">';
-            $html[] = '<div class="title"><div style="float: left;">';
+            $html[] = '<div class="user_category_block block" id="courses_' . $title . '">';
+            $html[] = '<div class="user_category_title title"><div style="float: left;">';
             
             if (isset($course_category))
             {
@@ -333,10 +334,10 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
                 $html[] = Translation :: get('GeneralCourses');
             }
             
-            $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
+            $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
             $html[] = '<div style="clear: both;"></div></div>';
-            $html[] = '<div class="description">';
-            $html[] = '<ul style="margin-left: -20px;">';
+            $html[] = '<div class="user_category_description description">';
+            $html[] = '<ul>';
             foreach($courses as $course)
             {
                 $wdm = WeblcmsDataManager::get_instance();
@@ -394,7 +395,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
             $html[] = '<div style="clear: both;"></div>';
             $html[] = '</div>';
             $html[] = '</div>';
-            $html[] = '<br />';
         }
         
         return implode($html, "\n");
