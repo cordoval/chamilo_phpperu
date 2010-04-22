@@ -483,11 +483,17 @@ abstract class Application
      * @param Application $manager The application in
      * which the created component will be used
      */
-    function create_component($type)
+    function create_component($type, $application = null)
     {
-        $manager_class = get_class($this);
-
-        $file = $this->get_application_component_path() . Utilities :: camelcase_to_underscores($type) . '.class.php';
+    	if($application == null)
+    	{
+    		$application = $this;
+    	}
+    	
+        $manager_class = get_class($application);
+        $application_component_path = $application->get_application_component_path();
+        		
+        $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
 
         if (! file_exists($file) || ! is_file($file))
         {
@@ -515,8 +521,15 @@ abstract class Application
         $class = $manager_class . $type . 'Component';
         require_once $file;
 
-        $component = new $class($this->get_user());
-        $component->set_parameters($this->get_parameters());
+        if(is_subclass_of($application, 'SubManager'))
+        {
+        	$component = new $class($application->get_parent());
+        }
+        else
+        {
+	        $component = new $class($this->get_user());
+	        $component->set_parameters($this->get_parameters());
+        }
         return $component;
     }
 
