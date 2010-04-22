@@ -249,7 +249,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         $this->set_parameter('action', Request :: get('action'));
         $this->set_parameter('user_id', Request :: get('user_id'));
         $html = array();
-        $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME);
+        $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
         $html[] = $fbm->as_html();
         
         return implode("\n", $html);
