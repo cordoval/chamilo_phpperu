@@ -17,7 +17,7 @@ class AlexiaManagerIntroducerComponent extends AlexiaManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishIntroductionText')));
         $trail->add_help('alexia general');
         
-        $repo_viewer = new RepoViewer($this, 'introduction');
+        $repo_viewer = new RepoViewer($this, Introduction :: get_type_name());
         $repo_viewer->set_parameter(AlexiaManager :: PARAM_ACTION, AlexiaManager :: ACTION_PUBLISH_INTRODUCTION);
         
         if (!$repo_viewer->is_ready_to_be_published())

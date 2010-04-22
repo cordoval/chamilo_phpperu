@@ -94,7 +94,7 @@ class SearchToolSearcherComponent extends SearchToolComponent
                     foreach ($objects as $index => $pub)
                     {
                         $object = $pub->get_content_object();
-                        if($object->get_type() != 'introduction')
+                        if($object->get_type() != Introduction :: get_type_name())
                         {
                         	$url = $this->get_url(array(WeblcmsManager :: PARAM_TOOL => $tool, Tool :: PARAM_PUBLICATION_ID => $pub->get_id(), Tool :: PARAM_ACTION => 'view'));
                         }

@@ -9,6 +9,9 @@ abstract class MultipleChoiceQuestion extends ContentObject
 {
     const PROPERTY_ANSWER_TYPE = 'answer_type';
     const PROPERTY_OPTIONS = 'options';
+    
+    const ANSWER_TYPE_RADIO = 1;
+    const ANSWER_TYPE_CHECKBOX = 2;
 
     public function add_option($option)
     {

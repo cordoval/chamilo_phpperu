@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerRegisterComponent extends UserManagerComponent
+class UserManagerRegisterComponent extends UserManager
 {
 
     /**

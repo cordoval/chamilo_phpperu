@@ -19,7 +19,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
 
     function run()
     {
-        $this->pid = Request :: get('pid');
+        $this->pid = $this->get_root_lo()->get_id();
         $this->forum = RepositoryDataManager :: get_instance()->retrieve_content_object($this->pid);
         
         $current_id = Request :: get('forum');
@@ -91,7 +91,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         {
             $lo = $rdm->retrieve_content_object($child->get_ref());
             $child->set_ref($lo);
-            if ($lo->get_type() != 'forum_topic')
+            if ($lo->get_type() != ForumTopic :: get_type_name())
             {
                 $forums[] = $child;
             }
@@ -110,7 +110,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         {
             $lo = $rdm->retrieve_content_object($child->get_ref());
             $child->set_ref($lo);
-            if ($lo->get_type() == 'forum_topic')
+            if ($lo->get_type() == ForumTopic :: get_type_name())
             {
                 $this->topics[] = $child;
             }

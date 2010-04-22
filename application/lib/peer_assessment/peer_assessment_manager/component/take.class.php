@@ -1,17 +1,16 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
 /**
  * Component to complete a peer assessment
  * @author Nick Van Loocke
  */
 
-class PeerAssessmentManagerTakeComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
 {	
 	private $datamanager;
+	private $peer_assessment;
 	private $pid;
 	private $pub;
-	private $peer_assessment;
 	
 	function run()
 	{	
@@ -38,9 +37,9 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManagerComponent
         $this->datamanager = PeerAssessmentDataManager :: get_instance();
 		
 		$this->pid = Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION);
-        //$this->pub = $this->datamanager->retrieve_peer_assessment_publication($this->pid);
+        $this->pub = $this->datamanager->retrieve_peer_assessment_publication($this->pid);
         $peer_assessment_id = $publication->get_content_object()->get_object_number();
-        $this->peer_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object(5);
+        $this->peer_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($peer_assessment_id);
         $this->set_parameter(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION, $this->pid);
         
                
@@ -57,12 +56,12 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManagerComponent
             
             $this->display_header($trail, true);
             
-            $display = ComplexDisplay :: factory($this, 'peer_assessment');
+            $display = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
         	$display->set_root_lo($this->peer_assessment);
         	$display->run();
             
             echo $form->toHtml();
-            $this->display_footer();
+            //$this->display_footer();
         }
 
     }

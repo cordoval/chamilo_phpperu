@@ -22,18 +22,14 @@ class ToolIntroductionPublisherComponent extends ToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), Translation :: get('PublishIntroductionText')));
         $trail->add_help('courses general');
-        /*$pub = new ContentObjectPublisher($this, 'introduction', true);
-
-		$html[] = '<p><a href="' . $this->get_url() . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
-		$html[] =  $pub->as_html();*/
         
-        $pub = new ContentObjectRepoViewer($this, 'introduction');
-        $pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_INTRODUCTION);
+        $repo_viewer = new ContentObjectRepoViewer($this, Introduction :: get_type_name(), RepoViewer :: SELECT_SINGLE);
+        $repo_viewer->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_INTRODUCTION);
         
-        if (!$pub->is_ready_to_be_published())
+        if (!$repo_viewer->is_ready_to_be_published())
         {
             $html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
-            $html[] = $pub->as_html();
+            $html[] = $repo_viewer->as_html();
         }
         else
         {
@@ -41,7 +37,7 @@ class ToolIntroductionPublisherComponent extends ToolComponent
             $do = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool_id(), 0);
             
             $pub = new ContentObjectPublication();
-            $pub->set_content_object_id($pub->get_selected_objects());
+            $pub->set_content_object_id($repo_viewer->get_selected_objects());
             $pub->set_course_id($this->get_course_id());
             $pub->set_tool($this->get_tool_id());
             $pub->set_category_id(0);

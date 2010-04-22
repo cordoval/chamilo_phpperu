@@ -269,13 +269,13 @@ class RepositoryDataManager
             return false;
         }
 
-        $count_portfolio_wrapper_items = self :: get_instance()->count_type_content_objects('portfolio_item', new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $object->get_id(), 'portfolio_item'));
+        $count_portfolio_wrapper_items = self :: get_instance()->count_type_content_objects(PortfolioItem :: get_type_name(), new EqualityCondition(PortfolioItem :: PROPERTY_REFERENCE, $object->get_id(), PortfolioItem :: get_type_name()));
         if ($count_portfolio_wrapper_items > 0)
         {
             return false;
         }
 
-        $count_learning_path_wrapper_items = self :: get_instance()->count_type_content_objects('learning_path_item', new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $object->get_id(), 'learning_path_item'));
+        $count_learning_path_wrapper_items = self :: get_instance()->count_type_content_objects(LearningPathItem :: get_type_name(), new EqualityCondition(LearningPathItem :: PROPERTY_REFERENCE, $object->get_id(), LearningPathItem :: get_type_name()));
         if ($count_learning_path_wrapper_items > 0)
         {
             return false;

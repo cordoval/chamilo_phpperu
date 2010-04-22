@@ -4,7 +4,7 @@
  * @package home.lib.home_manager.component
  */
 
-class HomeManagerHomeComponent extends HomeManagerComponent
+class HomeManagerHomeComponent extends HomeManager
 {
 
     /**

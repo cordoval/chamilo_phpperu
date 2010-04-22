@@ -700,5 +700,5 @@ $lang['repository']['ExternalCalendarFormDescription'] = 'Description';
 $lang['repository']['ExternalCalendarFormProperties'] = 'Properties';
 $lang['repository']['URL'] = 'URL';
 $lang['repository']['ExternalCalendarTypeName'] = 'External calendar';
-
+$lang['repository']['LastChangedAt'] = 'Last changed at {TIME}';
 ?>

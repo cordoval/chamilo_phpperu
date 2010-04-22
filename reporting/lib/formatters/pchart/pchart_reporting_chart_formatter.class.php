@@ -42,7 +42,7 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
             {
                 if ($key2 == "Name")
                 {
-                    $value[$key2] = Utilities :: truncate_string($value2, 30, false, '...');
+                    $value[$key2] = Utilities :: truncate_string(trim(html_entity_decode(strip_tags($value2), ENT_COMPAT, 'utf-8')), 30, false, '...');
                 }
             }
             $data[$key] = $value;
@@ -108,9 +108,11 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
             
             $chart_description['Position'] = 'Name';
             $chart_description['Values'] = array();
+              $chart_description['Description'] = array();
             foreach ($reporting_data->get_rows() as $row_id => $row_name)
             {
-                $chart_description['Values'][$row_id] = $row_name;
+                $chart_description['Values'][$row_id] = 'Serie'.$row_id;
+                $chart_description['Description']['Serie'.$row_id] = trim(trim(trim(html_entity_decode(strip_tags($row_name), ENT_COMPAT, 'utf-8')), "\xC2\xA0" ));
             }
             
             $chart[1] = $chart_description;
@@ -118,13 +120,14 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
             foreach ($reporting_data->get_categories() as $category_id => $category_name)
             {
                 $category_array = array();
-                $category_array['Name'] = $category_name;
+                $category_array['Name'] = trim(trim(html_entity_decode(strip_tags($category_name), ENT_COMPAT, 'utf-8')), "\xC2\xA0");
                 foreach ($reporting_data->get_rows() as $row_id => $row_name)
                 {
-                    $category_array[$row_name] = $reporting_data->get_data_category_row($category_id, $row_id);
+                    $category_array['Serie'.$row_id] = $reporting_data->get_data_category_row($category_id, $row_id);
                 }
                 $chart_data[] = $category_array;
             }
+            
             $chart[0] = $chart_data;
             return $chart;
         }

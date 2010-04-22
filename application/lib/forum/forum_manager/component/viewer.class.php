@@ -29,7 +29,7 @@ class ForumManagerViewerComponent extends ForumManagerComponent
         
         //$this->display_header($trail);
         
-        $cd = ComplexDisplay :: factory($this, 'forum');
+        $cd = ComplexDisplay :: factory($this, Forum :: get_type_name());
         $cd->run();
         
         //$this->display_footer();

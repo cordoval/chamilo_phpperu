@@ -38,7 +38,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
         switch ($column->get_name())
         {
             case ProfilePublication :: PROPERTY_PUBLISHED :
-                return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $profile->get_published());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $profile->get_published());
                 break;
             case ProfilePublication :: PROPERTY_PROFILE :
                 $title = parent :: render_cell($column, $profile);

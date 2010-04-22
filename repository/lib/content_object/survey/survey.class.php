@@ -11,32 +11,43 @@ require_once (dirname(__FILE__) . '/survey_context.class.php');
 
 class Survey extends ContentObject
 {
+    const PROPERTY_HEADER = 'header';
+    const PROPERTY_FOOTER = 'footer';
     const PROPERTY_FINISH_TEXT = 'finish_text';
-    const PROPERTY_INTRODUCTION_TEXT = 'intro_text';
     const PROPERTY_ANONYMOUS = 'anonymous';
     const PROPERTY_CONTEXT = 'context';
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
-	
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+    
     private $context;
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_INTRODUCTION_TEXT, self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_ANONYMOUS, self :: PROPERTY_CONTEXT);
+        return array(self :: PROPERTY_HEADER, self :: PROPERTY_FOOTER, self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_ANONYMOUS, self :: PROPERTY_CONTEXT);
     }
 
-    function get_introduction_text()
+    function get_header()
     {
-        return $this->get_additional_property(self :: PROPERTY_INTRODUCTION_TEXT);
+        return $this->get_additional_property(self :: PROPERTY_HEADER);
     }
 
-    function set_introduction_text($text)
+    function set_header($text)
     {
-        $this->set_additional_property(self :: PROPERTY_INTRODUCTION_TEXT, $text);
+        $this->set_additional_property(self :: PROPERTY_HEADER, $text);
+    }
+
+    function get_footer()
+    {
+        return $this->get_additional_property(self :: PROPERTY_FOOTER);
+    }
+
+    function set_footer($text)
+    {
+        $this->set_additional_property(self :: PROPERTY_FOOTER, $text);
     }
 
     function get_finish_text()
@@ -83,7 +94,7 @@ class Survey extends ContentObject
     function get_allowed_types()
     {
         $allowed_types = array();
-        $allowed_types[] = 'survey_page';
+        $allowed_types[] = SurveyPage :: get_type_name();
         return $allowed_types;
     }
 
@@ -91,30 +102,37 @@ class Survey extends ContentObject
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
-	function is_versionable()
+
+    function is_versionable()
     {
         return false;
     }
-	
-    function get_pages(){
-     	
-    	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+
+    function get_pages()
+    {
         
-     	$survey_page_ids = array();
+        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+        
+        $survey_page_ids = array();
         
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $survey_page_ids[] = $complex_content_object->get_ref();
         }
         
+        if (count($survey_page_ids) == 0)
+        {
+            $survey_page_ids[] = 0;
+        }
+        
         $condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
         return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
     }
-    
-    function count_pages(){
-    	return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+
+    function count_pages()
+    {
+        return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
     }
-    
+
 }
 ?>

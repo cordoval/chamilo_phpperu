@@ -35,6 +35,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
     function run()
     {
         $publisher_user_id = Request :: get('user_id');
+
         $pid = Request :: get(self::PROPERTY_PID);
         $this->pid = $pid;
         $cid = Request :: get(self::PROPERTY_CID);
@@ -46,14 +47,14 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         if($cid)
         {
             $portfolio_identifier = $cid;
-            $possible_types[] = portfolioRights::TYPE_PORTFOLIO_ITEM;
-            $possible_types[] = portfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
+            $possible_types[] = PortfolioRights::TYPE_PORTFOLIO_ITEM;
+            $possible_types[] = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
             
         }
         else if($pid)
         {
             $portfolio_identifier = $pid;
-            $possible_types[]= portfolioRights::TYPE_PORTFOLIO_FOLDER;
+            $possible_types[]= PortfolioRights::TYPE_PORTFOLIO_FOLDER;
             
         }
         else
@@ -66,13 +67,13 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         //TODO:find a performant way to cache these rights instead of doing the check over and over again
         if($portfolio_identifier != self::PROPERTY_ROOT)
         {
-            $rights = portfolioRights::get_rights($current_user_id, $portfolio_identifier, $possible_types);
+            $rights = PortfolioRights::get_rights($current_user_id, $portfolio_identifier, $possible_types);
         }
-        $viewing_right = $rights[portfolioRights::VIEW_RIGHT];
-        $editing_right = $rights[portfolioRights::EDIT_RIGHT];
-        $feedback_viewing_right = $rights[portfolioRights::VIEW_FEEDBACK_RIGHT];
-        $feedback_giving_right = $rights[portfolioRights::GIVE_FEEDBACK_RIGHT];
-        $permission_setting_right = $rights[portfolioRights::SET_PERMISSIONS_RIGHT];
+        $viewing_right = $rights[PortfolioRights::VIEW_RIGHT];
+        $editing_right = $rights[PortfolioRights::EDIT_RIGHT];
+        $feedback_viewing_right = $rights[PortfolioRights::VIEW_FEEDBACK_RIGHT];
+        $feedback_giving_right = $rights[PortfolioRights::GIVE_FEEDBACK_RIGHT];
+        $permission_setting_right = $rights[PortfolioRights::SET_PERMISSIONS_RIGHT];
         $actions = array();
 
         if($portfolio_identifier == self::PROPERTY_ROOT)
@@ -104,7 +105,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
             {
                 $wrapper = $rdm->retrieve_complex_content_object_item($cid);
                 $this->selected_object = $rdm->retrieve_content_object($wrapper->get_ref());
-                if ($this->selected_object->get_type() == portfolioRights::TYPE_PORTFOLIO_ITEM)
+                if ($this->selected_object->get_type() == PortfolioRights::TYPE_PORTFOLIO_ITEM)
                 {
                     $this->portfolio_item = $this->selected_object;
                     $this->selected_object = $rdm->retrieve_content_object($this->selected_object->get_reference());
@@ -123,9 +124,9 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         }
      
         
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_USER_ID => $publisher_user_id)), Translation :: get('ViewPortfolio')));
+//        $trail = new BreadcrumbTrail();
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_USER_ID => $publisher_user_id)), Translation :: get('ViewPortfolio')));
              
         if ($publisher_user_id == $this->get_user_id())
         {
@@ -161,10 +162,10 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
                 $html[] = ' class="current"';
             }
             
-            $html[] = ' href="' . $this->get_url(array('pid' => $pid, 'cid' => $cid, 'user_id' => $user_id, 'action' => $action)) . '">' . htmlentities(Translation :: get(ucfirst($action) . 'Title'));
+            $html[] = ' href="' . $this->get_url(array('pid' => $pid, 'cid' => $cid, 'user_id' => $publisher_user_id, 'action' => $action)) . '">' . htmlentities(Translation :: get(ucfirst($action) . 'Title'));
             if ($action == 'feedback')
             {
-                $html[] = '[' . AdminDataManager :: get_instance()->count_feedback_publications($pid, $cid, 'portfolio') . ']';
+                $html[] = '[' . AdminDataManager :: get_instance()->count_feedback_publications($pid, $cid, PortfolioManager :: APPLICATION_NAME) . ']';
             }
             $html[] = '</a></li>';
         }
@@ -197,7 +198,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishNewPortfolio'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_portfolio_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if ($this->selected_object && $this->selected_object->get_type() == 'portfolio')
+        if ($this->selected_object && $this->selected_object->get_type() == Portfolio :: get_type_name())
         {
             if($this->cid)
             {
@@ -248,7 +249,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         $this->set_parameter('action', Request :: get('action'));
         $this->set_parameter('user_id', Request :: get('user_id'));
         $html = array();
-        $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME);
+        $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
         $html[] = $fbm->as_html();
         
         return implode("\n", $html);
@@ -268,7 +269,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
     {
         $html = array();
         
-        $allow_new_version = ($this->selected_object->get_type() != 'portfolio');
+        $allow_new_version = ($this->selected_object->get_type() != Portfolio :: get_type_name());
         
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
         
@@ -295,7 +296,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         }
         else
         {
-            $html[] = $form->display();
+            $html[] = $form->toHtml();
         }
         
         return implode("\n", $html);
@@ -306,19 +307,19 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         $html = array();
         if ($this->cid)
         {
-             if($this->selected_object->get_type() != 'portfolio')
+             if($this->selected_object->get_type() != Portfolio :: get_type_name())
              {
-                 $type = portfolioRights::TYPE_PORTFOLIO_ITEM;
+                 $type = PortfolioRights::TYPE_PORTFOLIO_ITEM;
              }
              else
              {
-                 $type = portfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
+                 $type = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
              }
             
         }
         else
         {
-            $type = portfolioRights::TYPE_PORTFOLIO_FOLDER;
+            $type = PortfolioRights::TYPE_PORTFOLIO_FOLDER;
         }
        //TODO CHECK FOR ITEM --> NO NEED TO MAKE PERMISSIONS TAB
        $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_EDIT, $this->publication, $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'properties')), $this->get_user(), $type);
@@ -330,7 +331,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         }
         else
         {
-            $html[] = $form->display();
+            $html[] = $form->toHtml();
         }
         return implode("\n", $html);
     }

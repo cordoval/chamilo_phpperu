@@ -5,7 +5,7 @@
  */
 abstract class QuestionResultDisplay
 {
-    private $clo_question;
+    /*private $clo_question;
     private $question;
     private $question_nr;
     private $answers;
@@ -134,7 +134,7 @@ abstract class QuestionResultDisplay
         $type = $clo_question->get_ref()->get_type();
         
         $file = dirname(__FILE__) . '/survey_question_result_display/' . $type . '_result_display.class.php';
-        
+
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);
@@ -145,6 +145,6 @@ abstract class QuestionResultDisplay
         $class = Utilities :: underscores_to_camelcase($type) . 'ResultDisplay';
         $question_result_display = new $class($clo_question, $question_nr, $answers, $score);
         return $question_result_display;
-    }
+    }*/
 }
 ?>

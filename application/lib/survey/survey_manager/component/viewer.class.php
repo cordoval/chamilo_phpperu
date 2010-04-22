@@ -41,8 +41,10 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
             $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->pid);
             $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->active_tracker->get_user_id());
             $condition = new AndCondition($conditions);
+                      
             $this->trackers = $track->retrieve_tracker_items($condition);
-
+			          
+            
         }
         else
         {
@@ -91,6 +93,7 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
 
         $db = SurveyContextDataManager :: get_instance();
         $context = $db->retrieve_survey_context_by_id($this->active_tracker->get_context_id());
+             
         $this->survey->set_context_instance($context);
 
         if (count($this->trackers) > 1)

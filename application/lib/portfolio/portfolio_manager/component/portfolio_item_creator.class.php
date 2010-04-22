@@ -18,11 +18,11 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
-        
+//        $trail = new BreadcrumbTrail();
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
+//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
+//
         $parent = Request :: get('parent');
         //TODO: HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
         $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), 
@@ -36,8 +36,17 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
         
         if (!$pub->is_ready_to_be_published())
         {
+
+            //$this->display_header($trail);
+            $html[] =  $pub->as_html();
+
+            $trail = new BreadcrumbTrail();
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
+           
             $this->display_header($trail);
-            echo $pub->as_html();
+            echo implode("\n", $html);
             $this->display_footer();
         }
         else
@@ -74,29 +83,29 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComp
                     $typeObject = $rdm->determine_content_object_type($object);
                     $user = $this->get_user_id();
                     $possible_types = array();
-                    $possible_types[] = portfolioRights::TYPE_PORTFOLIO_FOLDER;
-                    $possible_types[] = portfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
-                    $parent_location = portfolioRights::get_location_id_by_identifier_from_portfolio_subtree($possible_types, $pp, $user);
+                    $possible_types[] = PortfolioRights::TYPE_PORTFOLIO_FOLDER;
+                    $possible_types[] = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
+                    $parent_location = PortfolioRights::get_location_id_by_identifier_from_portfolio_subtree($possible_types, $pp, $user);
                     if(!$parent_location)
                     {
                         //if a location for the parent is not found, the location will be put under the root of the portfolio-tree TODO: remove this code
-                        $parent_location = portfolioRights::get_portfolio_root_id($user);
+                        $parent_location = PortfolioRights::get_portfolio_root_id($user);
                         if(!parent_location)
                         {
-                            portfolioRights::create_portfolio_root($user);
-                            $parent_location = portfolioRights::get_portfolio_root_id($user);
+                            PortfolioRights::create_portfolio_root($user);
+                            $parent_location = PortfolioRights::get_portfolio_root_id($user);
 
                         }
                     }
                    if($typeObject == Portfolio :: get_type_name())
                    {
-                       $type = portfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
+                       $type = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
                    }
                    else
                    {
-                       $type = portfolioRights::TYPE_PORTFOLIO_ITEM;
+                       $type = PortfolioRights::TYPE_PORTFOLIO_ITEM;
                    }
-                   portfolioRights::create_location_in_portfolio_tree('portfolio item', $type, $wrapper->get_id(), $parent_location, $user, true, false);
+                   PortfolioRights::create_location_in_portfolio_tree('portfolio item', $type, $wrapper->get_id(), $parent_location, $user, true, false);
                    //TODO: add the default rights to the location
                 }
             }

@@ -8,11 +8,10 @@ require_once dirname(__FILE__) . '/survey_multiple_choice_question_option.class.
 
 class SurveyMultipleChoiceQuestion extends MultipleChoiceQuestion
 {
-	const CLASS_NAME = __CLASS__;
+const CLASS_NAME = __CLASS__;
 
 	static function get_type_name() 
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}   
-}
+	}   }
 ?>

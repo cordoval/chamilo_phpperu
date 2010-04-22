@@ -58,7 +58,7 @@ class ContentObjectPublisher
             $html[] = '</div>';
         }
 
-        $form = new ContentObjectPublicationForm(ContentObjectPublicationForm :: TYPE_MULTI, $ids, $this->parent, $this->parent->with_mail_option(), $this->parent->get_course());
+        $form = new ContentObjectPublicationForm(ContentObjectPublicationForm :: TYPE_MULTI, $ids, $this->parent, true, $this->parent->get_course());
         if ($form->validate())
         {
             $publication = $form->create_content_object_publications();
@@ -76,7 +76,7 @@ class ContentObjectPublisher
                 $message = Translation :: get('ObjectPublished');
             }
 
-            /*if($publication->get_tool() == 'introduction')
+            /*if($publication->get_tool() == Introduction :: get_type_name()')
 			{
 				//$redirect_parms = array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE);
 				$parameters['go'] = WeblcmsManager :: ACTION_VIEW_COURSE;

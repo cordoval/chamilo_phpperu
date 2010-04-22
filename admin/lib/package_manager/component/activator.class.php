@@ -4,7 +4,7 @@
  * @package admin.lib.package_manager.component
  * @author Hans De Bisschop
  */
-class PackageManagerActivatorComponent extends PackageManagerComponent
+class PackageManagerActivatorComponent extends PackageManager
 {
 
     /**

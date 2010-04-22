@@ -7,7 +7,7 @@
 /**
  * Admin component
  */
-class AdminManagerConfigurerComponent extends AdminManagerComponent
+class AdminManagerConfigurerComponent extends AdminManager
 {
     private $application;
 

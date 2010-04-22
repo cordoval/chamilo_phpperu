@@ -6,7 +6,7 @@
 /**
  * Repository manager component to edit an existing learning object.
  */
-class RepositoryManagerDocumentDownloaderComponent extends RepositoryManagerComponent
+class RepositoryManagerDocumentDownloaderComponent extends RepositoryManager
 {
 
     /**

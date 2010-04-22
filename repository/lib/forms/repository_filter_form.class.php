@@ -60,7 +60,7 @@ class RepositoryFilterForm extends FormValidator
 
         $filters['c_1'] = '--------------------------';
 
-        $hidden_types = array('learning_path_item', 'portfolio_item');
+        $hidden_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
 
         for($i = 0; $i < count($registrations); $i ++)
         {

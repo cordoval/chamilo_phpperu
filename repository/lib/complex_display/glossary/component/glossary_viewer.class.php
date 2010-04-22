@@ -23,12 +23,12 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
     {
         $this->action_bar = $this->get_action_bar();
         
-        $object_id = Request :: get('pid');
         $dm = RepositoryDataManager :: get_instance();
-        $object = $dm->retrieve_content_object($object_id);
         
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $object->get_title()));
+        $object = $this->get_root_lo();
+        
+        $trail = new BreadcrumbTrail(false);
+        $trail->add(new Breadcrumb($this->get_url(), $object->get_title()));
         $this->display_header($trail);
 
         echo $this->action_bar->as_html();
@@ -97,7 +97,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE, 'pid' => Request :: get('pid'), 'type' => 'glossary_item', self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE, 'pid' => Request :: get('pid'), 'type' => GlossaryItem :: get_type_name(), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsTable'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('pid' => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsList'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('pid' => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -107,7 +107,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 
     function get_condition()
     {
-        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, Request :: get('pid'), ComplexContentObjectItem :: get_table_name());
+        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id(), ComplexContentObjectItem :: get_table_name());
     }
 }
 

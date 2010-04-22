@@ -18,17 +18,48 @@ class InternshipOrganizerOrganisationManagerCreatorComponent extends InternshipO
 		$organisation = new InternshipOrganizerOrganisation();
 		$form = new InternshipOrganizerOrganisationForm(InternshipOrganizerOrganisationForm :: TYPE_CREATE, $organisation, $this->get_url(), $this->get_user());
 
-		if($form->validate())
+/*		if($form->validate())
 		{
 			$success = $form->create_organisation();
-			$this->redirect($success ? Translation :: get('InternshipOrganizerOrganisationCreated') : Translation :: get('InternshipOrganizerOrganisationNotCreated'), !$success, array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION));
-		}
-		else
+			if ($succes)
+			{
+				    $this->redirect($success ? Translation :: get('InternshipOrganizerOrganisationCreated') : Translation :: get('InternshipOrganizerOrganisationNotCreated'), !$success, array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION));
+			}
+			else
+            {
+            	  	/*$fout = $organisation->get_id();*/
+            		/*$this->redirect($succes, (true), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_CREATE_ORGANISATION));*/
+            		/*$this->redirect(Translation :: get('InternshipOrganizerOrganisationNotCreated'), (true), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_CREATE_ORGANISATION));*/
+/*            }		
+		}*/
+/*		else
 		{
 			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}
+*/		
+	if ($form->validate())
+        {
+            $success = $form->create_organisation();
+            if ($success)
+            {
+                $organisation = $form->get_organisation();
+                $this->redirect(Translation :: get('InternshipOrganizerOrganisationCreated'), (false), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION));
+            }
+            else
+            {
+                $this->redirect(Translation :: get('InternshipOrganizerOrganisationNotCreated'), (true), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION));
+            }
+        }
+        else
+        {
+            $this->display_header($trail, false);
+            $form->display();
+            $this->display_footer();
+        }
+		
+		
 	}
 }
 ?>

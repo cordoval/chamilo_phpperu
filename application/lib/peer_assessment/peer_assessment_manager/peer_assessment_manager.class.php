@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/peer_assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../peer_assessment_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/peer_assessment_publication_browser/peer_assessment_publication_browser_table.class.php';
 
@@ -50,44 +49,45 @@ class PeerAssessmentManager extends WebApplication
         switch ($action)
         {
         	case self :: ACTION_EVALUATE_PEER_ASSESSMENT_PUBLICATION :
-        		$component = PeerAssessmentManagerComponent :: factory('PeerAssessmentEvaluation', $this);
+        		$component = $this->create_component('PeerAssessmentEvaluation');
         		break;
             case self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS :
-                $component = PeerAssessmentManagerComponent :: factory('Browser', $this);
+            	$component = $this->create_component('Browser');
                 break;
             case self :: ACTION_DELETE_PEER_ASSESSMENT_PUBLICATION :
-                $component = PeerAssessmentManagerComponent :: factory('Deleter', $this);
+            	$component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_EDIT_PEER_ASSESSMENT_PUBLICATION :
-                $component = PeerAssessmentManagerComponent :: factory('Updater', $this);
+            	$component = $this->create_component('Updater');
                 break;
             case self :: ACTION_CREATE_PEER_ASSESSMENT_PUBLICATION :
-                $component = PeerAssessmentManagerComponent :: factory('Creator', $this);
+            	$component = $this->create_component('Creator');
                 break;
             case self :: ACTION_VIEW_PEER_ASSESSMENT :
-                $component = PeerAssessmentManagerComponent :: factory('Viewer', $this);
+            	$component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_MANAGE_CATEGORIES :
-                $component = PeerAssessmentManagerComponent :: factory('CategoryManager', $this);
+            	$component = $this->create_component('CategoryManager');
                 break;
             case self :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION :
-            	$component = PeerAssessmentManagerComponent :: factory('Take', $this);
+            	$component = $this->create_component('Take');
             	break;
             case self :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS :
-            	$component = PeerAssessmentManagerComponent :: factory('Results', $this);
+            	$component = $this->create_component('Results');
             	break;
             case self :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION :
-            	$component = PeerAssessmentManagerComponent :: factory('Mover', $this);
+            	$component = $this->create_component('Mover');
             	break;
             case self :: ACTION_CHANGE_PEER_ASSESSMENT_PUBLICATION_VISIBILITY :
-            	$component = PeerAssessmentManagerComponent :: factory('VisibilityChanger', $this);
+            	$component = $this->create_component('VisibilityChanger');
             	break;
             case self :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION :
-            	$component = PeerAssessmentManagerComponent :: factory('Builder', $this);
+            	$component = $this->create_component('Builder');
             	break;
             default :
-                $this->set_action(self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS);
-                $component = PeerAssessmentManagerComponent :: factory('Browser', $this);
+            	$this->set_action(self :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS);
+            	$component = $this->create_component('Browser');
+                
         }
         $component->run();
     }
@@ -269,7 +269,7 @@ class PeerAssessmentManager extends WebApplication
 
 	function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array('peer_assessment');
+        $allowed_types = array(PeerAssessment :: get_type_name());
         
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))

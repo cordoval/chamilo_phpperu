@@ -21,6 +21,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManagerComponen
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION=> GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('BrowseGradeBook')));
 
 		$this->display_header($trail);
+	
 		$this->ab = $this->get_action_bar();
 		echo $this->get_browser_html();
 		$this->display_footer();

@@ -59,9 +59,9 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		return $this->database->retrieve_objects(Format :: get_table_name(), $condition);
 	}
 
-	function retrieve_evaluation_formats()
+	function retrieve_evaluation_formats($condition = null, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return $this->database->retrieve_objects(Format :: get_table_name());
+		return $this->database->retrieve_objects(Format :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
 	function count_evaluation_formats()
@@ -188,18 +188,18 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID, $internal_item->get_id());
         return $this->database->count_result_set($query, InternalItemInstance :: get_table_name(), $condition);
 	}
-	
-	function move_internal_to_external($application, $publication)
-	{
-		$internal_item = $this->retrieve_internal_item_by_publication($application, $publication->get_id());
-		$evaluations_id = $this->retrieve_evaluation_ids_by_internal_item_id($internal_item->get_id())->as_array();
-		$external_item = $this->create_external_item_by_content_object($publication);
-		$ext_item_inst = $this->create_external_item_instance_by_moving($external_item, $evaluations_id);
-		$del_internal_item = $this->delete_internal_item($internal_item);
-		if(!($internal_item || $evaluations_id || $external_item || $ext_item_inst || $del_internal_item))
-			return false;
-		return true;
-	}
+//	
+//	function move_internal_to_external($application, $publication)
+//	{
+//		$internal_item = $this->retrieve_internal_item_by_publication($application, $publication->get_id());
+//		$evaluations_id = $this->retrieve_evaluation_ids_by_internal_item_id($internal_item->get_id())->as_array();
+//		$external_item = $this->create_external_item_by_content_object($publication);
+//		$ext_item_inst = $this->create_external_item_instance_by_moving($external_item, $evaluations_id);
+//		$del_internal_item = $this->delete_internal_item($internal_item);
+//		if(!($internal_item || $evaluations_id || $external_item || $ext_item_inst || $del_internal_item))
+//			return false;
+//		return true;
+//	}
 	
 	function delete_evaluation($evaluation)
 	{
@@ -264,6 +264,26 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null){
 		return $this->database->retrieve_objects(Evaluation :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
+	
+	function create_evaluation_object_from_data($content_object_publication, $user)
+	{
+		$evaluation = new Evaluation();
+		$evaluation->set_evaluator_id($content_object_publication->get_publisher_user_id());
+		$evaluation->set_user_id($user);
+		$evaluation->set_evaluation_date((Utilities :: to_db_date($content_object_publication->get_publication_date())));		
+		$evaluation->set_format_id($this->retrieve_format_id_by_format_name('percentage'));
+		if($this->database->create($evaluation))
+			return $evaluation;
+		return false;
+	}
+	
+	// evaluation format
+	
+	function retrieve_format_id_by_format_name($format_name)
+	{
+		$condition = new EqualityCondition(Format :: PROPERTY_TITLE, $format_name);
+		return $this->database->retrieve_object(Format :: get_table_name(), $condition)->get_id();
+	}
 		
 	//gradebook grade evaluation
 	function create_grade_evaluation($grade_evaluation)
@@ -289,15 +309,28 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		return $this->database->update($grade_evaluation, $condition);
 	}
 	
+	function create_grade_evaluation_object_from_data($tracker_score)
+	{
+		$grade_evaluation = new GradeEvaluation();
+		$grade_evaluation->set_score($tracker_score);
+		$grade_evaluation->set_comment('automatic generated result');
+		if($this->database->create($grade_evaluation))
+			return $grade_evaluation;
+		return false;
+	}
+	
 	//gradebook external item
 	
-	function create_external_item_by_content_object($publication)
+	function create_external_item_by_content_object($content_object_id)
 	{
+		$rdm = RepositoryDataManager :: get_instance();
+        $content_object = $rdm->retrieve_content_object($content_object_id);
 		$external_item = new ExternalItem();
-		$external_item->set_title($publication->get_content_object()->get_title());
-		$external_item->set_description($publication->get_content_object()->get_description());
-		$this->database->create($external_item);
-		return $external_item;
+		$external_item->set_title($content_object->get_title());
+		$external_item->set_description($content_object->get_description());
+		if($this->database->create($external_item));
+			return $external_item;
+		return false;
 	}
 	
 	
@@ -305,20 +338,37 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	
 	function create_external_item_instance_by_moving($external_item, $evaluations_id)
 	{
-		for($i = 0;$i<count($evaluations_id);$i++)
+		if(is_array($evaluations_id))
 		{
-			$id = $evaluations_id[$i]['evaluation_id'];
-			$external_item_instance = new ExternalItemInstance();
-			$external_item_instance->set_external_item_id($external_item->get_id());
-			$external_item_instance->set_evaluation_id($id);
-			if($this->database->create($external_item_instance))
+			for($i = 0;$i<count($evaluations_id);$i++)
+			{
+				$id = $evaluations_id[$i]['evaluation_id'];
+				if(!$this->create_external_item_instance_function($external_item, $id))
+					return false;
+			}
+		}
+		else
+		{
+			return $this->create_external_item_instance_function($external_item, $evaluations_id);
+		}
+	}
+	
+	function create_external_item_instance_function($external_item, $id)
+	{
+		
+		$external_item_instance = new ExternalItemInstance();
+		$external_item_instance->set_external_item_id($external_item->get_id());
+		$external_item_instance->set_evaluation_id($id);
+		if($this->database->create($external_item_instance))
+		{
+			if($this->retrieve_internal_item_instance_by_evaluation($id))
 			{
 				if(!$this->delete_internal_item_instance($this->retrieve_internal_item_instance_by_evaluation($id)))
 					return false;
 			}
-			else 
-				return false;
 		}
+		else 
+			return false;
 		return true;
 	}
 	

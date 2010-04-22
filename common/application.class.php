@@ -7,19 +7,19 @@
 abstract class Application
 {
     private $user;
-    
+
     private $parameters;
     private $search_parameters;
-    
+
     private $breadcrumbs;
-    
+
     const PARAM_ACTION = 'go';
-    
+
     const PARAM_MESSAGE = 'message';
     const PARAM_ERROR_MESSAGE = 'error_message';
     const PARAM_WARNING_MESSAGE = 'warning_message';
     const PARAM_APPLICATION = 'application';
-    
+
     const PLACEHOLDER_APPLICATION = '__APPLICATION__';
 
     function Application($user)
@@ -28,7 +28,7 @@ abstract class Application
         $this->parameters = array();
         $this->search_parameters = array();
         $this->breadcrumbs = array();
-        
+
         $action = Request :: get(self :: PARAM_ACTION);
         if ($action)
         {
@@ -114,7 +114,7 @@ abstract class Application
         {
             $parameters[self :: PARAM_ERROR_MESSAGE] = $message;
         }
-        
+
         $this->simple_redirect($parameters, $filter, $encode_entities, $redirect_type, $application_type);
     }
 
@@ -146,6 +146,11 @@ abstract class Application
     function set_parameter($name, $value)
     {
         $this->parameters[$name] = $value;
+    }
+
+	function set_parameters($parameters)
+    {
+        $this->parameters = $parameters;
     }
 
     function set_breadcrumbs($breadcrumbs)
@@ -191,7 +196,7 @@ abstract class Application
             $breadcrumbtrail = new BreadcrumbTrail();
             $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
         }
-        
+
         $categories = $this->get_breadcrumbs();
         if (count($categories) > 0)
         {
@@ -200,10 +205,10 @@ abstract class Application
                 $breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
             }
         }
-        
+
         $title = $breadcrumbtrail->get_last()->get_name();
         Display :: header($breadcrumbtrail);
-        
+
         // If there is an application-wide menu, show it
         if ($this->has_menu())
         {
@@ -212,23 +217,23 @@ abstract class Application
             echo '</div>';
             echo '<div style="float: right; width: 85%;">';
         }
-        
+
         if ($display_title)
             echo '<h3 style="float: left;" title="' . $title . '">' . Utilities :: truncate_string($title) . '</h3>';
         echo '<div class="clear">&nbsp;</div>';
-        
+
         $message = Request :: get(self :: PARAM_MESSAGE);
         if ($message)
         {
             $this->display_message($message);
         }
-        
+
         $message = Request :: get(self :: PARAM_ERROR_MESSAGE);
         if ($message)
         {
             $this->display_error_message($message);
         }
-        
+
         $message = Request :: get(self :: PARAM_WARNING_MESSAGE);
         if ($message)
         {
@@ -244,7 +249,7 @@ abstract class Application
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
         }
-        
+
         echo '<div class="clear">&nbsp;</div>';
         Display :: footer();
     }
@@ -373,15 +378,15 @@ abstract class Application
         // Then use get_class($this) :: APPLICATION_NAME
         // and remove the get_application_name function();
         $application = $this->get_application_name();
-        
+
         $info = array();
         $info['application'] = array('name' => Translation :: get(self :: application_to_class($application)), 'class' => $application);
         $info['links'] = array();
         $info['search'] = null;
-        
+
         return $info;
     }
-    
+
 	/**
      * Returns a list of actions available to the admin.
      * @return Array $info Contains all possible actions.
@@ -456,7 +461,7 @@ abstract class Application
         {
         	if(WebApplication :: is_application($application))
         	{
-        		$application_manager_path = Path :: get_application_path() . 'lib/' . $application . '/' . $application . 
+        		$application_manager_path = Path :: get_application_path() . 'lib/' . $application . '/' . $application .
         							        '_manager' . '/' . $application . '_manager.class.php';
         	}
         	else
@@ -464,12 +469,68 @@ abstract class Application
         		$application_manager_path = Path :: get(SYS_PATH) . $application . '/lib/' . $application .
         							        '_manager' . '/' . $application . '_manager.class.php';
         	}
-        	
+
         	require_once $application_manager_path;
         }
-        
+
     	$class = Application :: application_to_class($application) . 'Manager';
         return new $class($user);
+    }
+
+    /**
+     * Create a new application component
+     * @param string $type The type of the component to create.
+     * @param Application $manager The application in
+     * which the created component will be used
+     */
+    function create_component($type, $application = null)
+    {
+    	if($application == null)
+    	{
+    		$application = $this;
+    	}
+    	
+        $manager_class = get_class($application);
+        $application_component_path = $application->get_application_component_path();
+        		
+        $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
+
+        if (! file_exists($file) || ! is_file($file))
+        {
+            $message = array();
+            $message[] = Translation :: get('ComponentFailedToLoad') . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('File') . ':</b><br />';
+            $message[] = $file . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('Stacktrace') . ':</b>';
+            $message[] = '<ul>';
+            $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
+            $message[] = '<li>' . Translation :: get($type) . '</li>';
+            $message[] = '</ul>';
+
+            $application_name = Application :: application_to_class($this->get_application_name());
+
+            $trail = new BreadcrumbTrail();
+            $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
+
+            Display :: header($trail);
+            Display :: error_message(implode("\n", $message));
+            Display :: footer();
+            exit();
+        }
+
+        $class = $manager_class . $type . 'Component';
+        require_once $file;
+
+        if(is_subclass_of($application, 'SubManager'))
+        {
+        	$component = new $class($application->get_parent());
+        }
+        else
+        {
+	        $component = new $class($this->get_user());
+	        $component->set_parameters($this->get_parameters());
+        }
+        return $component;
     }
 
     /**
@@ -484,13 +545,13 @@ abstract class Application
     public static function get_selecter($url, $current_application = null)
     {
         $html = array();
-        
+
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
         $html[] = '<div class="application_selecter">';
-        
+
         $the_applications = WebApplication :: load_all();
         $the_applications = array_merge(CoreApplication :: get_list(), $the_applications);
-        
+
         foreach ($the_applications as $the_application)
         {
             if (isset($current_application) && $current_application == $the_application)
@@ -501,17 +562,17 @@ abstract class Application
             {
                 $type = 'application';
             }
-            
+
             $application_name = Translation :: get(Utilities :: underscores_to_camelcase($the_application));
-            
+
             $html[] = '<a href="' . str_replace(self :: PLACEHOLDER_APPLICATION, $the_application, $url) . '">';
             $html[] = '<div class="' . $type . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_' . $the_application . '.png);">' . $application_name . '</div>';
             $html[] = '</a>';
         }
-        
+
         $html[] = '</div>';
         $html[] = '<div style="clear: both;"></div>';
-        
+
         return implode("\n", $html);
     }
 }

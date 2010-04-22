@@ -18,12 +18,14 @@ class PeerAssessmentPublicationForm extends FormValidator
     const PARAM_FROM_DATE = 'from_date';
     const PARAM_TO_DATE = 'to_date';
     const PARAM_HIDDEN = 'hidden';
+    const PARAM_CRITERIA_SCORE = 'criteria_score';
 
     private $content_object;
+    private $publication;
     private $user;
 
     
-    function PeerAssessmentPublicationForm($form_type, $content_object, $action, $user)
+    function PeerAssessmentPublicationForm($form_type, $content_object, $user, $action)
     {
         parent :: __construct('peer_assessment_publication_settings', 'post', $action);
 
@@ -66,10 +68,21 @@ class PeerAssessmentPublicationForm extends FormValidator
         	$gradebook_internal_item_form->build_evaluation_question($this);
         }
         
+        // Select criteria score that is already created
+        // ---------------------------------------------
+        //$criteria_scores = array();
+        //$criteria_scores[0] = Translation :: get('SelectCriteriaScore');
+        //$criteria_scores &= retrieve_criteria_scores();
+        
+        //$this->addElement('select', self :: PARAM_CRITERIA_SCORE, Translation :: get('SelectCriteriaScore'), $criteria_scores);
+        //$this->addRule(PeerAssessment :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        
+        
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
 
         $this->add_forever_or_timewindow();
-        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
+        $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));    
     }
 
     
@@ -77,7 +90,8 @@ class PeerAssessmentPublicationForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_submit_button', 'publish_and_build', Translation :: get('UpdateAndBuild'), array('class' => 'positive build'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -87,7 +101,8 @@ class PeerAssessmentPublicationForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
+        $buttons[] = $this->createElement('style_submit_button', 'publish_and_build', Translation :: get('PublishAndBuild'), array('class' => 'positive build'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -112,24 +127,26 @@ class PeerAssessmentPublicationForm extends FormValidator
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
 
         $pub = new PeerAssessmentPublication();
-        $pub->set_content_object($this->content_object->get_id());
-        $pub->set_publisher($this->form_user->get_id());
+        $pub->set_content_object($this->content_object);
+        $pub->set_publisher($this->user->get_id());
         $pub->set_published(time());
         $pub->set_from_date($from);
         $pub->set_to_date($to);
         $pub->set_hidden($hidden);
         $pub->set_target_users($users);
         $pub->set_target_groups($groups);
-		$pub->create();
         
-        if ($pub->create())
-        {
-            return true;
-        }
-        else
+
+    	if (! $pub->create())
         {
             return false;
         }
+        else
+        {
+            $this->publication = $pub;
+            return true;
+        }
+        
 		if(Request :: post('evaluation'))
 		{
         	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
@@ -137,15 +154,14 @@ class PeerAssessmentPublicationForm extends FormValidator
         	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
 		}
     }
-  
+        
 
     function update_content_object()
     {
-        $content_object = $this->content_object;
+        $content_object = $this->content_object;      
         $content_object->set_content_object($content_object->get_content_object()->get_id());
-
+        
         $values = $this->exportValues();
-
         if ($values[self :: PARAM_FOREVER] != 0)
         {
             $content_object->set_from_date(0);
@@ -156,21 +172,30 @@ class PeerAssessmentPublicationForm extends FormValidator
             $content_object->set_from_date(Utilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]));
             $content_object->set_to_date(Utilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]));
         }
-        $content_object->set_hidden($values[self :: PARAM_HIDDEN] ? 1 : 0);
+        
+        $hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
+        
+        $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
+        $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+        
+        $content_object->set_hidden($hidden);      
+        $content_object->set_target_users($users);
+        $content_object->set_target_groups($groups);
         $content_object->set_publisher($this->user->get_id());
         $content_object->set_published(time());
         $content_object->set_modified(time());
         $content_object->set_display_order(0);
-
+        
         return $content_object->update();
     }
     
-    
+ 	
+    // Set the default values in update
     
 	function set_publication_values($publication)
     {
     	
-        /*$this->publication = $publication;
+        $this->publication = $publication;
         $this->addElement('hidden', 'pid');
         $this->addElement('hidden', 'action');
         $defaults['action'] = 'edit';
@@ -223,7 +248,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $active = $this->getElement(self :: PARAM_TARGET_ELEMENTS);
         $active->_elements[0]->setValue(serialize($defaults[self :: PARAM_TARGET_ELEMENTS]));
 
-        parent :: setDefaults($defaults);*/
+        parent :: setDefaults($defaults);
     }
 
     /**

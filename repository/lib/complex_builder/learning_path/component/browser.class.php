@@ -104,7 +104,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 
         foreach ($types as $type)
         {
-            if ($type == 'learning_path')
+            if ($type == LearningPath :: get_type_name())
             {
                 $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
             }

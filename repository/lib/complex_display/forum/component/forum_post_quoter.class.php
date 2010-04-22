@@ -27,7 +27,7 @@ class ForumDisplayForumPostQuoterComponent extends ForumDisplayComponent
             $quote_item = $rdm->retrieve_complex_content_object_item($quote);
             $quote_lo = $rdm->retrieve_content_object($quote_item->get_ref());
             
-            $content_object = new AbstractContentObject('forum_post', $this->get_user_id());
+            $content_object = new AbstractContentObject(ForumPost :: get_type_name(), $this->get_user_id());
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $content_object, 'create', 'post', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_QUOTE_FORUM_POST, 'pid' => $pid, 'cid' => $cid, 'quote' => $quote)));
             
             if (substr($quote_lo->get_title(), 0, 3) == 'RE:')
@@ -43,7 +43,7 @@ class ForumDisplayForumPostQuoterComponent extends ForumDisplayComponent
             if ($form->validate())
             {
                 $object = $form->create_content_object();
-                $cloi = ComplexContentObjectItem :: factory('forum_post');
+                $cloi = ComplexContentObjectItem :: factory(ForumPost :: get_type_name());
                 
                 $item = $rdm->retrieve_complex_content_object_item($cid);
                 

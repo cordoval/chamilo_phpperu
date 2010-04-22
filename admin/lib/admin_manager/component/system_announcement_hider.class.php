@@ -4,7 +4,7 @@
  * @package admin.lib.admin_manager.component
  */
 
-class AdminManagerSystemAnnouncementHiderComponent extends AdminManagerComponent
+class AdminManagerSystemAnnouncementHiderComponent extends AdminManager
 {
 
     /**

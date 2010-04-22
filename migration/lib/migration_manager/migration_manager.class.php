@@ -46,11 +46,11 @@ class MigrationManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_MIGRATE :
-                $component = MigrationManagerComponent :: factory('Migration', $this);
+                $component = $this->create_component('Migration');
                 break;
             default :
                 $this->set_action(self :: ACTION_MIGRATE);
-                $component = MigrationManagerComponent :: factory('Migration', $this);
+                $component = $this->create_component('Migration');
         }
         $component->run();
     }

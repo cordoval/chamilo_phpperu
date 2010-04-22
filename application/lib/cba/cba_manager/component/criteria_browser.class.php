@@ -1,13 +1,12 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
-require_once dirname(__FILE__).'/../cba_manager_component.class.php';
 require_once dirname(__FILE__).'/criteria_browser/criteria_browser_table.class.php';
 /**
  * Criteria component
  *
  * @author Nick Van Loocke
  */
-class CbaManagerCriteriaBrowserComponent extends CbaManagerComponent
+class CbaManagerCriteriaBrowserComponent extends CbaManager
 {
 
 	function run()

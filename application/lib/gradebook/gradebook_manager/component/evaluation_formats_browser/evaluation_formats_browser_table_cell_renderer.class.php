@@ -25,16 +25,6 @@ class EvaluationFormatsBrowserTableCellRenderer extends DefaultEvaluationFormats
 			return $this->get_modification_links($format);
 		}
 
-		switch ($column->get_name())
-		{
-			case Format :: PROPERTY_TITLE :
-				return ucfirst($format->get_title());
-				break;
-			case Format :: PROPERTY_ACTIVE :
-				return Utilities :: display_true_false_icon($format->get_active());
-				break;
-		}
-
 		return parent :: render_cell($column, $format);
 	}
 

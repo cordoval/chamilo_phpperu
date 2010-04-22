@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../course_type/course_type_select_form.cla
 /**
  * Weblcms component allows to select a coursetype
  */
-class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManager
 {
 
     /**

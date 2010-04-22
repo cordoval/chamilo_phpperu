@@ -20,11 +20,12 @@ class ComplexDisplayReportingTemplateViewerComponent extends ComplexDisplayCompo
      */
     function run()
     {
-        $rtv = new ReportingTemplateViewer($this);
-        $this->display_header(new BreadcrumbTrail());
-        echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
-        $rtv->show_reporting_template_by_name($this->template_name, array('course_id' => Request :: get('course'), 'pid' => Request :: get('pid'), 'cid' => Request :: get('selected_cloi')));
-        $this->display_footer();
+    	$rtv = new ReportingViewer($this);
+        $rtv->add_template_by_name($this->template_name, WeblcmsManager :: APPLICATION_NAME);
+        $rtv->set_breadcrumb_trail($this->get_parent()->get_breadcrumbtrail());
+        $rtv->show_all_blocks();
+        
+        $rtv->run();
     }
 
     function get_template_name()

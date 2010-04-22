@@ -40,12 +40,12 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             $html[] = '<br />';
 
-            if (strlen(strip_tags($this->parent->get_survey()->get_introduction_text(), '<img>')) > 0)
+            if (strlen(strip_tags($this->parent->get_survey()->get_header(), '<img>')) > 0)
             {
                 $html[] = '<div class="description">';
-                $introduction = $this->parent->get_survey()->get_introduction_text();
+                $survey_header = $this->parent->get_survey()->get_header();
 
-                $html[] = $this->parent->get_parent()->parse($introduction);
+                $html[] = $this->parent->get_parent()->parse($survey_header);
                 $html[] = '</div>';
             }
 
@@ -84,13 +84,13 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
 
             $html[] = '<br />';
 
-            if (strlen(strip_tags($this->parent->get_survey()->get_finish_text(), '<img>')) > 0)
+            if (strlen(strip_tags($this->parent->get_survey()->get_footer(), '<img>')) > 0)
             {
 
             	$html[] = '<div class="description">';
-                $finishtext = $this->parent->get_survey()->get_finish_text();
+                $survey_footer = $this->parent->get_survey()->get_footer();
 
-                $html[] = $this->parent->get_parent()->parse($finishtext);
+                $html[] = $this->parent->get_parent()->parse($survey_footer);
                 $html[] = '</div>';
             }
 

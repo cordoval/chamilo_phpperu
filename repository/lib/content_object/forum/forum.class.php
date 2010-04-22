@@ -108,7 +108,7 @@ class Forum extends ContentObject
 
     function get_allowed_types()
     {
-        return array('forum', 'forum_topic');
+        return array(Forum :: get_type_name(), ForumTopic :: get_type_name());
     }
 
     function add_post($posts = 1)

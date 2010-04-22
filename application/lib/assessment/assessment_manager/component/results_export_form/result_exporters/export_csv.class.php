@@ -124,7 +124,7 @@ class ResultsCsvExport extends ResultsExport
         $answer_data = array();
         foreach ($answers as $answer)
         {
-            if ($question->get_type() == 'hotspot_question')
+            if ($question->get_type() == HotspotQuestion :: get_type_name())
             {
                 $coordinates = unserialize($answer);
                 $data['x'] = $coordinates[0];
@@ -145,7 +145,7 @@ class ResultsCsvExport extends ResultsExport
 
     function export_feedback($feedback_id)
     {
-        $feedback = $this->rdm->retrieve_content_object($feedback_id, 'feedback');
+        $feedback = $this->rdm->retrieve_content_object($feedback_id, Feedback :: get_type_name());
         $this->currentrow[self :: PROPERTY_FEEDBACK_TITLE] = $feedback->get_title();
         $this->currentrow[self :: PROPERTY_FEEDBACK_DESCRIPTION] = strip_tags($feedback->get_description());
     }

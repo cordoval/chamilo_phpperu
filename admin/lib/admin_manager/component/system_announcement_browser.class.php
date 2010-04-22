@@ -7,7 +7,7 @@
 /**
  * Admin component to manage system announcements
  */
-class AdminManagerSystemAnnouncementBrowserComponent extends AdminManagerComponent
+class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager
 {
     private $action_bar;
 

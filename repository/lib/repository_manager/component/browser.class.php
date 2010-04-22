@@ -7,7 +7,7 @@
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
  */
-class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
+class RepositoryManagerBrowserComponent extends RepositoryManager
 {
     private $form;
 
@@ -94,7 +94,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
 
-        $types = array('learning_path_item', 'portfolio_item', 'survey_page_item', 'survey_item');
+        $types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
 
         foreach ($types as $type)
         {

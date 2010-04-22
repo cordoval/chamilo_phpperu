@@ -5,7 +5,7 @@
  */
 
 class ContentObjectPubFeedback extends ContentObject
-{
+{ 
     const CLASS_NAME = __CLASS__;
     const PROPERTY_ID = 'id';
     const PROPERTY_PUBLICATION_ID = 'publication_id';
@@ -120,6 +120,11 @@ class ContentObjectPubFeedback extends ContentObject
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+    
+    static function get_type_name()
+    {
+    	return self :: get_table_name();
     }
 }
 ?>

@@ -6,7 +6,7 @@
 /**
  * Weblcms component allows the user to manage course categories
  */
-class MenuManagerSorterComponent extends MenuManagerComponent
+class MenuManagerSorterComponent extends MenuManager
 {
     private $category;
 

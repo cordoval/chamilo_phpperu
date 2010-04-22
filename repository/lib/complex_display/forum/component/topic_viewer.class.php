@@ -72,7 +72,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
         {
             $lo = $rdm->retrieve_content_object($child->get_ref());
             $child->set_ref($lo);
-            if ($lo->get_type() != 'forum_topic')
+            if ($lo->get_type() != ForumTopic :: get_type_name())
             {
                 $forums[] = $child;
             }
@@ -165,12 +165,24 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
             
             $row ++;
             
-            $actions = $this->get_post_actions($post);
+            $bottom_bar = array();
+            $bottom_bar[] = '<div style="float: left; padding-top: 4px;">';
+            
+            $object = $post->get_ref();
+			if($object->get_creation_date() != $object->get_modification_date())
+			{            
+            	$bottom_bar[] = Translation :: get('LastChangedAt', array('TIME' => DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $object->get_modification_date()) ));
+			}
+			
+            $bottom_bar[] = '</div>';
+            $bottom_bar[] = '<div style="float: right;">';
+            $bottom_bar[] = $this->get_post_actions($post);
+            $bottom_bar[] = '</div>';
             
             $table->setCellContents($row, 0, '<a href="#top"><small>' . Translation :: get('Top') . '</small></a>');
-            $table->setCellAttributes($row, 0, array('class' => $class));
-            $table->setCellContents($row, 1, $actions);
-            $table->setCellAttributes($row, 1, array('class' => $class, 'align' => 'right', 'style' => 'padding-right: 5px;'));
+            $table->setCellAttributes($row, 0, array('class' => $class, 'style' => 'padding: 5px;'));
+            $table->setCellContents($row, 1, implode("\n", $bottom_bar));
+            $table->setCellAttributes($row, 1, array('class' => $class, 'align' => 'right', 'style' => 'padding: 5px;'));
             
             $row ++;
             
@@ -212,7 +224,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
             $actions[] = array('href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_FORUM_POST, 'post' => $cloi->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif', 'confirm' => true);
         }
         
-        return '<div style="float: right;">' . Utilities :: build_toolbar($actions) . '</div>';
+        return Utilities :: build_toolbar($actions);
     
     }
 

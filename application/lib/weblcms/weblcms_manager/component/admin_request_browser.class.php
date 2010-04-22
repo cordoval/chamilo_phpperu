@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/admin_request_browser/admin_request_browser_t
 /**
  * Weblcms component which allows the the platform admin to browse the request
  */
-class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManagerComponent
+class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
 {
     private $action_bar;
 
@@ -88,10 +88,9 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManagerComponent
         
         if (isset($query) && $query != '')
         {
-            //$conditions = array();
-            $conditions = new PatternMatchCondition(CourseRequest :: PROPERTY_MOTIVATION, '*' . $query . '*');
-            
-            //$conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_MOTIVATION, '*' . $query . '*');
+            $conditions = array();
+            $conditions[] = new PatternMatchCondition(CourseRequest :: PROPERTY_MOTIVATION, '*' . $query . '*');            
+            $conditions[] = new PatternMatchCondition(CourseRequest :: PROPERTY_TITLE, '*' . $query . '*');
             //$conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             
            	$search_conditions = new OrCondition($conditions);

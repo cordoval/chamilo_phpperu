@@ -23,15 +23,15 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
         $html[] = '<div class="assessment">';
         $html[] = '<h2>' . $this->parent->get_survey()->get_title() . '</h2>';
         
-        if ($this->parent->get_survey()->has_description())
-        {
-            
-            $description = $this->parent->get_survey()->get_description();
-            $html[] = '<div class="description">';
-            $html[] = $this->parent->get_parent()->parse($description);
-            $html[] = '<div class="clear"></div>';
-            $html[] = '</div>';
-        }
+//        if ($this->parent->get_survey()->has_description())
+//        {
+//            
+//            $description = $this->parent->get_survey()->get_description();
+//            $html[] = '<div class="description">';
+//            $html[] = $this->parent->get_parent()->parse($description);
+//            $html[] = '<div class="clear"></div>';
+//            $html[] = '</div>';
+//        }
         $html[] = '</div>';
         
         $survey_values = $page->controller->exportValues();

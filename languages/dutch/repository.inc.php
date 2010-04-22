@@ -131,6 +131,7 @@ $lang['repository']['BlogItemTypeName'] = 'Blog post';
 $lang['repository']['RatingQuestionTypeName'] = '';
 $lang['repository']['WikiPageTypeName'] = 'Wiki pagina';
 $lang['repository']['SelectHiddenTypes'] = '';
+$lang['repository']['Hidden'] = 'Verborgen';
 $lang['repository']['UserViewCreate'] = '';
 $lang['repository']['UserViewList'] = '';
 $lang['repository']['AnnouncementCreationFormTitle'] = '';
@@ -589,20 +590,115 @@ $lang['repository']['MetadataLomDateInvalid'] = '';
 $lang['repository']['BaseURL'] = '';
 $lang['repository']['ExternalRepositoryExportConfirmationText'] = '';
 $lang['repository']['ExternalRepositoryExportSuccess'] = '';
-$lang['repository']['UserViewNameNotUnique'] = '';
-$lang['repository']['SelectYourChoice'] = '';
-$lang['repository']['SelectYourChoices'] = '';
-$lang['repository']['ChooseYourOptionMatch'] = '';
-$lang['repository']['ChooseYourRating'] = '';
-$lang['repository']['NoSurveyPageAddedToSurvey'] = '';
-$lang['repository']['SaveAndFinishLater'] = '';
+$lang['repository']['SelectYourChoice'] = 'Selecteer jouw keuze';
+$lang['repository']['SelectYourChoices'] = 'Selecteer jouw keuzes';
+$lang['repository']['ChooseYourOptionMatch'] = 'Selecteer jouw koppelingsoptie';
+$lang['repository']['ChooseYourRating'] = 'Selecteer jouw beoordeling';
+$lang['repository']['NoSurveyPageAddedToSurvey'] = 'Geen enquêtepagina toegevoegd aan enquête';
+$lang['repository']['SaveAndFinishLater'] = 'Opslaan en later afwerken';
 $lang['repository']['ChangeParent'] = '';
 $lang['repository']['NewParent'] = '';
-$lang['repository']['NoPagesSelected'] = '';
-$lang['repository']['PagesAdded'] = '';
-$lang['repository']['PagesNotAdded'] = '';
-$lang['repository']['EditDocument'] = '';
-$lang['repository']['DefaultContext'] = '';
-$lang['repository']['Context'] = '';
-$lang['repository']['CanNotUpdateSurveyContextBecauseSurveyIsPublished'] = '';
+$lang['repository']['NoPagesSelected'] = 'Geen pagina&acute;s geselecteerd';
+$lang['repository']['PagesAdded'] = 'Pagina&acute;s toegevoegd';
+$lang['repository']['PagesNotAdded'] = 'Pagina&acute;s niet toegevoegd';
+$lang['repository']['EditDocument'] = 'Document bewerken';
+$lang['repository']['SurveyHeaderText'] = 'Hoofding';
+$lang['repository']['SurveyFooterText'] = 'Voettekst';
+$lang['repository']['SurveyContext'] = 'Enquêtecontext';
+$lang['repository']['DefaultContext'] = 'Standaardcontext';
+$lang['repository']['Context'] = 'Context';
+$lang['repository']['CanNotUpdateSurveyContextBecauseSurveyIsPublished'] = 'Kan enquêtecontext niet wijzigen want de enquête is gepubliceerd';
+$lang['repository']['MyRepository'] = 'Mijn Repository';
+$lang['repository']['ManageCategories'] = 'Beheer categorieën';
+$lang['repository']['ExportEntireRepository'] = 'Exporteer volledige repository';
+$lang['repository']['SharedContentObjects'] = 'Gedeelde inhoudobjecten';
+$lang['repository']['MyPublications'] = 'Mijn publicaties';
+$lang['repository']['Create'] = 'Creëer';
+$lang['repository']['BrowseTemplates'] = 'Blader door templates';
+$lang['repository']['Quota'] = 'Quota';
+$lang['repository']['UserViews'] = 'Gebruikerweergaves';
+$lang['repository']['ViewDoubles'] = 'Bekijk duplicaten';
+$lang['repository']['RemoveSelected'] = 'Verwijder geselecteerde';
+$lang['repository']['MoveSelected'] = 'Verplaats geselecteerde';
+$lang['repository']['PublishSelected'] = 'Publiceer geselecteerde';
+$lang['repository']['ExportSelected'] = 'Exporteer geselecteerde';
+$lang['repository']['EditSelectedRights'] = 'Bewerk rechten van geselecteerde';
+$lang['repository']['CopySelectedToTemplates'] = 'Kopieer geselecteerde naar templates';
+$lang['repository']['Repository'] = 'Repository';
+$lang['repository']['Versions'] = 'Versies';
+$lang['repository']['CreateAsNewVersion'] = 'Creëer als nieuwe versie';
+$lang['repository']['Update'] = 'Wijzigen';
+$lang['repository']['Reset'] = 'Wissen';
+
+$lang['repository']['SurveyAddContentObject'] = 'Voeg inhoudobject toe';
+
+$lang['repository']['SurveyPageTypeName'] = 'Enquêtepagina';
+$lang['repository']['SurveyPage'] = 'Enquêtepagina';
+$lang['repository']['SurveyPageFormTitle'] = 'Titel';
+$lang['repository']['SurveyPageFormDescription'] = 'Beschrijving';
+$lang['repository']['SurveyPageFormProperties'] = 'Eigenschappen van enquêtepagina';
+$lang['repository']['SurveyPageHeaderText'] = 'Hoofding';
+$lang['repository']['SurveyPageFooterText'] = 'Voettekst';
+
+$lang['repository']['SurveyPageAddContentObject'] = 'Voeg inhoudobject toe aan enquêtepagina';
+
+$lang['repository']['SurveyRatingQuestionTypeName'] = 'Beoordelingsvraag';
+$lang['repository']['SurveyRatingQuestion'] = 'Beoordelingsvraag';
+$lang['repository']['SurveyRatingQuestionFormTitle'] = 'Titel';
+$lang['repository']['SurveyRatingQuestionFormDescription'] = 'Beschrijving';
+$lang['repository']['SurveyRatingQuestionFormProperties'] = 'Eigenschappen van beoordelingsvraag';
+$lang['repository']['SurveyRatingType'] = 'Type beoordeling';
+
+$lang['repository']['SurveyOpenQuestionTypeName'] = 'Open vraag';
+$lang['repository']['SurveyOpenQuestion'] = 'Open vraag';
+$lang['repository']['SurveyOpenQuestionFormTitle'] = 'Titel';
+$lang['repository']['SurveyOpenQuestionFormDescription'] = 'Beschrijving';
+
+$lang['repository']['SurveyMultipleChoiceQuestionTypeName'] = 'Meerkeuzevraag';
+$lang['repository']['SurveyMultipleChoiceQuestion'] = 'Meerkeuzevraag';
+$lang['repository']['SurveyMultipleChoiceQuestionFormTitle'] = 'Titel';
+$lang['repository']['SurveyMultipleChoiceQuestionFormDescription'] = 'Beschrijving';
+$lang['repository']['SurveyMultipleChoiceQuestionFormOptions'] = 'Opties';
+
+$lang['repository']['SurveyMatchingQuestionTypeName'] = 'Koppelingsvraag';
+$lang['repository']['SurveyMatchingQuestion'] = 'Koppelingsvraag';
+$lang['repository']['SurveyMatchingQuestionFormTitle'] = 'Titel';
+$lang['repository']['SurveyMatchingQuestionFormDescription'] = 'Beschrijving';
+
+$lang['repository']['SurveySelectQuestionTypeName'] = 'Selectievraag';
+$lang['repository']['SurveySelectQuestion'] = 'Selectievraag';
+$lang['repository']['SurveySelectQuestionFormTitle'] = 'Titel';
+$lang['repository']['SurveySelectQuestionFormDescription'] = 'Beschrijving';
+$lang['repository']['SurveySelectQuestionFormOptions'] = 'Opties';
+
+$lang['repository']['SurveyMatrixQuestionTypeName'] = 'Matrixvraag';
+$lang['repository']['SurveyMatrixQuestion'] = 'Matrixvraag';
+$lang['repository']['SurveyMatrixQuestionFormTitle'] = 'Titel';
+$lang['repository']['SurveyMatrixQuestionFormDescription'] = 'Beschrijving';
+
+$lang['repository']['SurveyNotStarted'] = 'Enquête niet gestart';
+$lang['repository']['SurveyStarted'] = 'Enquête gestart';
+$lang['repository']['SurveyFinished'] = 'Enquête beëindigd';
+
+$lang['repository']['BrowseSurvey'] = 'Blader door enquête';
+
+$lang['repository']['PublicationDetails'] = 'Publicatiedetails';
+$lang['repository']['TestCase'] = 'Test case';
+$lang['repository']['RootSurveyCategory'] = 'Root server categorie';
+
+$lang['repository']['Rights'] = 'Rechten';
+$lang['repository']['CopyToTemplates'] = 'Kopieer naar templates';
+$lang['repository']['BuildComplexContentObject'] = 'Bouw complex inhoudobject';
+$lang['repository']['ShowLinks'] = 'Toon links';
+
+$lang['repository']['CategoryTypeName'] = 'Categorie';
+$lang['repository']['FileName'] = 'Bestandsnaam';
+$lang['repository']['PublishFor'] = 'Publiceer voor';
+$lang['repository']['PublicationCreated'] = 'Publicatie aangemaakt';
+$lang['repository']['Add'] = 'Toevoegen';
+$lang['repository']['Categories'] = 'Categorieën';
+
+$lang['repository']['Duplicates'] = 'Duplicaten';
+
+$lang['repository']['Logout'] = 'Uitloggen';
 ?>

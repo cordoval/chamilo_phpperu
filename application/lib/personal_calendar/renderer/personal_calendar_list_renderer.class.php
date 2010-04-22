@@ -49,11 +49,11 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         $html[] = '<div class="description">';
         if ($event->get_end_date() != '')
         {
-            $html[] = '<div class="calendar_event_range">' . htmlentities(Translation :: get('From') . ' ' . Text :: format_locale_date($date_format, $event->get_start_date()) . ' ' . Translation :: get('Until') . ' ' . Text :: format_locale_date($date_format, $event->get_end_date())) . '</div>';
+            $html[] = '<div class="calendar_event_range">' . htmlentities(Translation :: get('From') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $event->get_start_date()) . ' ' . Translation :: get('Until') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $event->get_end_date())) . '</div>';
         }
         else
         {
-            $html[] = '<div class="calendar_event_range">' . Text :: format_locale_date($date_format, $event->get_start_date()) . '</div>';
+            $html[] = '<div class="calendar_event_range">' . DatetimeUtilities :: format_locale_date($date_format, $event->get_start_date()) . '</div>';
         }
         $html[] = $event->get_content();
         $html[] = $this->render_attachments($event);

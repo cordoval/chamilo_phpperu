@@ -17,7 +17,7 @@ class Portfolio extends ContentObject
 	
     function get_allowed_types()
     {
-        return array('portfolio', 'portfolio_item');
+        return array(Portfolio :: get_type_name(), PortfolioItem :: get_type_name());
     }
     
 	function is_versionable()

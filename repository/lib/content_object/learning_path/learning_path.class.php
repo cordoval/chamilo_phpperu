@@ -14,7 +14,7 @@ class LearningPath extends ContentObject
 	
     function get_allowed_types()
     {
-        return array('learning_path', 'learning_path_item');
+        return array(LearningPath :: get_type_name(), LearningPathItem :: get_type_name());
     }
     
     const PROPERTY_CONTROL_MODE = 'control_mode';

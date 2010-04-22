@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../course/course_form.class.php';
 /**
  * Weblcms component allows the use to create a course
  */
-class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager
 {
 
     /**

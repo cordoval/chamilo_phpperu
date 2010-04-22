@@ -16,8 +16,8 @@ class SurveyPageForm extends ContentObjectForm
         if ($object != null)
         {
             
-            $defaults[Survey :: PROPERTY_INTRODUCTION_TEXT] = $object->get_introduction_text();
-            $defaults[Survey :: PROPERTY_FINISH_TEXT] = $object->get_finish_text();
+            $defaults[SurveyPage :: PROPERTY_INTRODUCTION_TEXT] = $object->get_introduction_text();
+            $defaults[SurveyPage :: PROPERTY_FINISH_TEXT] = $object->get_finish_text();
 
         }
         
@@ -26,20 +26,28 @@ class SurveyPageForm extends ContentObjectForm
 
     protected function build_creation_form()
     {
-        parent :: build_creation_form();
+        $html_editor_options = array();
+	    $html_editor_options[FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR] = 'RepositorySurveyQuestion';
+    	
+    	
+    	parent :: build_creation_form($html_editor_options);
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->add_html_editor(Survey :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false);
-        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyPageFooterText'), false);
+        $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false, $html_editor_options);
+        $this->add_html_editor(SurveyPage :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyPageFooterText'), false, $html_editor_options);
         $this->addElement('category');
     }
 
     // Inherited
     protected function build_editing_form()
     {
-        parent :: build_editing_form();
+        
+    	$html_editor_options = array();
+	    $html_editor_options[FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR] = 'RepositorySurveyQuestion';
+    	
+    	parent :: build_editing_form($html_editor_options);
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->add_html_editor(Survey :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false);
-        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyPageFooterText'), false);
+        $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false, $html_editor_options);
+        $this->add_html_editor(SurveyPage :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyPageFooterText'), false, $html_editor_options);
         $this->addElement('category');
     }
 
@@ -49,8 +57,8 @@ class SurveyPageForm extends ContentObjectForm
         $object = new SurveyPage();
         $values = $this->exportValues();
         
-        $object->set_finish_text($values[Survey :: PROPERTY_FINISH_TEXT]);
-        $object->set_introduction_text($values[Survey :: PROPERTY_INTRODUCTION_TEXT]);
+        $object->set_finish_text($values[SurveyPage :: PROPERTY_FINISH_TEXT]);
+        $object->set_introduction_text($values[SurveyPage :: PROPERTY_INTRODUCTION_TEXT]);
     
         $this->set_content_object($object);
         return parent :: create_content_object();
@@ -61,8 +69,8 @@ class SurveyPageForm extends ContentObjectForm
         $object = $this->get_content_object();
         $values = $this->exportValues();
         
-        $object->set_finish_text($values[Survey :: PROPERTY_FINISH_TEXT]);
-        $object->set_introduction_text($values[Survey :: PROPERTY_INTRODUCTION_TEXT]);
+        $object->set_finish_text($values[SurveyPage :: PROPERTY_FINISH_TEXT]);
+        $object->set_introduction_text($values[SurveyPage :: PROPERTY_INTRODUCTION_TEXT]);
 
         
         $this->set_content_object($object);

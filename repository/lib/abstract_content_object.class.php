@@ -62,10 +62,10 @@ class AbstractContentObject extends ContentObject
         $dummy_object = ContentObject :: factory($this->get_type());
         return $dummy_object->is_versioning_required();
     }
-
+    
     static function get_type_name()
     {
-        return '';
+    	return '';
     }
 }
 ?>

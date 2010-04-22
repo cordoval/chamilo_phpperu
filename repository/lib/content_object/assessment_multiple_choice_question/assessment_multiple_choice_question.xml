@@ -2,8 +2,10 @@
 <object name="assessment_multiple_choice_question">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="answer_type" type="text" length="8" fixed="1"
-			notnull="1" />
+		<property name="answer_type" type="integer" unsigned="1"
+			notnull="1" length="1" />
+
+
 		<property name="options" type="text" notnull="1" />
 	</properties>
 	<index name="id" type="primary">

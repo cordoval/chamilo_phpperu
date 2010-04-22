@@ -4,7 +4,7 @@
  * @package rights.lib.user_right_manager.component
  */
 
-class UserRightManagerSetterComponent extends UserRightManagerComponent
+class UserRightManagerSetterComponent extends UserRightManager
 {
 
     /**

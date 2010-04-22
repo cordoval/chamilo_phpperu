@@ -34,22 +34,22 @@ class LocationManager extends SubManager
         switch ($location_action)
         {
             case self :: ACTION_BROWSE_LOCATIONS :
-                $component = LocationManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_LOCK_LOCATIONS :
-                $component = LocationManagerComponent :: factory('Locker', $this);
+                $component = $this->create_component('Locker');
                 break;
             case self :: ACTION_UNLOCK_LOCATIONS :
-                $component = LocationManagerComponent :: factory('Unlocker', $this);
+                $component = $this->create_component('Unlocker');
                 break;
             case self :: ACTION_INHERIT_LOCATIONS :
-                $component = LocationManagerComponent :: factory('Inheriter', $this);
+                $component = $this->create_component('Inheriter');
                 break;
             case self :: ACTION_DISINHERIT_LOCATIONS :
-                $component = LocationManagerComponent :: factory('Disinheriter', $this);
+                $component = $this->create_component('Disinheriter');
                 break;
             default :
-                $component = LocationManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
         }
         

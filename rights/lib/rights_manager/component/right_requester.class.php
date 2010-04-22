@@ -4,7 +4,7 @@
  * @package rights.lib.rights_manager.component
  */
 
-class RightsManagerRightRequesterComponent extends RightsManagerComponent
+class RightsManagerRightRequesterComponent extends RightsManager
 {
     const USER_CURRENT_RIGHTS_TEMPLATES = 'USER_CURRENT_RIGHTS_TEMPLATES';
     const USER_CURRENT_GROUPS = 'USER_CURRENT_GROUPS';

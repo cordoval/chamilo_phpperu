@@ -10,7 +10,7 @@
  * can be selected. Afterwards, the form to create the actual learning object
  * will be displayed.
  */
-class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
+class RepositoryManagerCreatorComponent extends RepositoryManager
 {
 
     /**
@@ -24,7 +24,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
         $type_options = array();
         $type_options[''] = '-- ' . Translation :: get('SelectObject') . ' --';
         $extra_params = array();
-        $this->forbidden_types = array('portfolio_item', 'learning_path_item', 'scorm_item', 'survey_item', 'survey_page_item');
+        $this->forbidden_types = array(PortfolioItem :: get_type_name(), LearningPathItem :: get_type_name(), ScormItem :: get_type_name());
 
         foreach ($this->get_content_object_types(true) as $type)
         {

@@ -12,65 +12,23 @@ class PersonalCalendarEventExternalCalendarParser extends PersonalCalendarEventP
         $publisher = $publication->get_publisher();
         $publishing_user = $publication->get_publication_publisher();
         
-        if (IcalRecurrence :: DEBUG)
-        {
-            
-            echo '<hr />';
-            echo '<b>GENERAL PARAMETERS</b>';
-            echo '<hr />';
-            echo '<table class="data_table">';
-            echo '<thead>';
-            echo '<tr><th>Variable</th><th></th><th></th>';
-            echo '</thead>';
-            echo '<tbody>';
-            echo '<tr><td>$this->mArray_start</td><td>' . $from_date . '</td>';
-            echo '<td>' . date('r', $from_date) . '</td></tr>';
-            echo '<tr><td>$this->mArray_end</td><td>' . $to_date . '</td>';
-            echo '<td>' . date('r', $to_date) . '</td></tr>';
-            echo '</tbody>';
-            echo '</table>';
-        }
-        
         $calendar_events = $object->get_events();
         foreach ($calendar_events as $calendar_event)
         {
-            if (IcalRecurrence :: DEBUG)
-            {
-                echo '<hr />';
-                echo '<b>ICAL RECURRENCE</b>';
-                echo '<hr />';
-                echo '<table class="data_table">';
-                echo '<thead>';
-                echo '<tr><th>Variable</th><th></th><th></th>';
-                echo '</thead>';
-                echo '<tbody>';
-            }
             $occurences = $object->get_occurences($calendar_event, $from_date, $to_date);
-            
-            if (IcalRecurrence :: DEBUG)
-            {
-                echo '</tbody>';
-                echo '</table>';
-                echo '<br /><br /><br /><br />';
-            }
-            
             foreach ($occurences as $occurence)
             {
                 $event = new PersonalCalendarEvent();
-                
-                $event->set_start_date($occurence['start']);
-                $event->set_end_date($occurence['end']);
+                $event->set_start_date($occurence[IcalRecurrence::OCCURENCE_START]);
+                $event->set_end_date($occurence[IcalRecurrence::OCCURENCE_END]);
                 $event->set_title($calendar_event->summary['value']);
-                
-                //$event->set_url($this->get_parent()->get_publication_viewing_url($publication));
-                
-
                 $event->set_content($calendar_event->description);
                 $event->set_source($object->get_title());
                 $event->set_id($publication->get_id());
+                $event->set_url($this->get_publication_viewing_url($publication, $calendar_event));
                 $events[] = $event;
             }
-            //        	if ($object->repeats($calendar_event))
+            //if ($object->repeats($calendar_event))
         //            {
         //            	dump($calendar_event);
         //
@@ -107,6 +65,17 @@ class PersonalCalendarEventExternalCalendarParser extends PersonalCalendarEventP
         }
         
         return $events;
+    }
+    
+    function get_publication_viewing_url($publication, $event)
+    {
+    	$parameters = array();
+        $parameters[PersonalCalendarManager::PARAM_ACTION] = PersonalCalendarManager :: ACTION_VIEW_PUBLICATION;
+        $parameters[PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
+        $parameters[Application :: PARAM_APPLICATION] = PersonalCalendarManager :: APPLICATION_NAME;
+        $parameters[ExternalCalendar::PARAM_EVENT_ID] = $event->uid['value'];
+        
+        return $this->get_parent()->get_link($parameters);
     }
 }
 ?>

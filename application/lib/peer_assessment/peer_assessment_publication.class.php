@@ -21,6 +21,9 @@ class PeerAssessmentPublication extends DataClass
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_MODIFIED = 'modified';
     const PROPERTY_DISPLAY_ORDER = 'display_order';
+    
+    private $target_users;
+    private $target_groups;
 
     /**
      * Get the default properties
@@ -230,15 +233,86 @@ class PeerAssessmentPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
     }
     
+    /**
+     * Sets the target_groups of this PeerAssessmentPublication.
+     * @param target_groups
+     */
+	function set_target_groups($target_groups)
+    {
+        $this->target_groups = $target_groups;
+    }
+ 
+    /**
+     * Gets the target_groups of this PeerAssessmentPublication.
+     * @param target_groups
+     */
+	function get_target_groups()
+    {
+        if (! $this->target_groups)
+        {
+            $condition = new EqualityCondition(PeerAssessmentPublicationGroup :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $this->get_id());
+            $groups = $this->get_data_manager()->retrieve_peer_assessment_publication_groups($condition);
+            
+            while ($group = $groups->next_result())
+            {
+                $this->target_groups[] = $group->get_group_id();
+            }
+        }
+        
+        return $this->target_groups;
+    }
+    
+    /**
+     * Sets the target_users of this PeerAssessmentPublication.
+     * @param target_users
+     */
+	function set_target_users($target_users)
+    {
+        $this->target_users = $target_users;
+    }
+
+    /**
+     * Gets the target_users of this PeerAssessmentPublication.
+     * @param target_users
+     */
+    function get_target_users()
+    {
+        if (! $this->target_users)
+        {
+            $condition = new EqualityCondition(PeerAssessmentPublicationUser :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $this->get_id());
+            $users = $this->get_data_manager()->retrieve_peer_assessment_publication_users($condition);
+            
+            while ($user = $users->next_result())
+            {
+                $this->target_users[] = $user->get_user();
+            }
+        }
+        
+        return $this->target_users;
+    }
+    
+    /**
+     * Swtiches the visibility.
+     */   
 	function toggle_visibility()
     {
         $this->set_hidden(! $this->get_hidden());
+    }
+    
+	/**
+     * Determines whether this publication is hidden or not
+     * @return boolean True if the publication is hidden.
+     */
+    function is_hidden()
+    {
+        return $this->get_default_property(self :: PROPERTY_HIDDEN);
     }
 
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
     
 	function is_visible_for_target_user($user)
     {
@@ -291,36 +365,16 @@ class PeerAssessmentPublication extends DataClass
         return true;
     }
     
-	function get_target_groups()
+	function get_publication_object()
     {
-        if (! $this->target_groups)
-        {
-            $condition = new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $this->get_id());
-            $groups = $this->get_data_manager()->retrieve_peer_assessment_publication_groups($condition);
-            
-            while ($group = $groups->next_result())
-            {
-                $this->target_groups[] = $group->get_group_id();
-            }
-        }
-        
-        return $this->target_groups;
+        $rdm = RepositoryDataManager :: get_instance();
+        return $rdm->retrieve_content_object($this->get_content_object());
     }
 
-    function get_target_users()
+    function get_publication_publisher()
     {
-        if (! $this->target_users)
-        {
-            $condition = new EqualityCondition(AssessmentPublicationUser :: PROPERTY_PEER_ASSESSMENT_PUBLICATION, $this->get_id());
-            $users = $this->get_data_manager()->retrieve_peer_assessment_publication_users($condition);
-            
-            while ($user = $users->next_result())
-            {
-                $this->target_users[] = $user->get_user();
-            }
-        }
-        
-        return $this->target_users;
+        $udm = UserDataManager :: get_instance();
+        return $udm->retrieve_user($this->get_publisher());
     }
 
 }

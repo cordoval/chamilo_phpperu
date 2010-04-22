@@ -1,13 +1,12 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
 
 /**
  * Component to create a new peer_assessment_publication object
  * @author Sven Vanpoucke
  * @author Nick Van Loocke
  */
-class PeerAssessmentManagerVisibilityChangerComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerVisibilityChangerComponent extends PeerAssessmentManager
 {
 
     /**

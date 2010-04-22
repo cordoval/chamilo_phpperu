@@ -210,7 +210,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
             $info->set_id($record[PortfolioPublication :: PROPERTY_ID]);
             $info->set_publisher_user_id($record[PortfolioPublication :: PROPERTY_PUBLISHER]);
             $info->set_publication_date($record[PortfolioPublication :: PROPERTY_PUBLISHED]);
-            $info->set_application('portfolio');
+            $info->set_application(PortfolioManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('MyPortfolio'));
             $info->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);
@@ -239,7 +239,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
         $publication_attr->set_id($record[PortfolioPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[PortfolioPublication :: PROPERTY_PUBLISHER]);
         $publication_attr->set_publication_date($record[PortfolioPublication :: PROPERTY_PUBLISHED]);
-        $publication_attr->set_application('portfolio');
+        $publication_attr->set_application(PortfolioManager :: APPLICATION_NAME);
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('MyPortfolio'));
         $publication_attr->set_url('run.php?application=portfolio&go=view_portfolio&user_id=' . Session :: get_user_id() . '&pid=' . $record[PortfolioPublication :: PROPERTY_ID]);

@@ -1,5 +1,7 @@
 <?php
 
+/** @author Steven Willaert */
+
 require_once dirname ( __FILE__ ) . '/../../organisation.class.php';
 
 class DefaultInternshipOrganizerOrganisationTableColumnModel extends ObjectTableColumnModel {
@@ -19,7 +21,15 @@ class DefaultInternshipOrganizerOrganisationTableColumnModel extends ObjectTable
 		
 		$columns = array ();
 		$columns [] = new ObjectTableColumn ( InternshipOrganizerOrganisation::PROPERTY_NAME, true );
+		$columns [] = new ObjectTableColumn ( InternshipOrganizerOrganisation::PROPERTY_ADDRESS, true );
+		/*$columns [] = new ObjectTableColumn ( InternshipOrganizerOrganisation::PROPERTY_POSTCODE, true );*/
+		$columns [] = new ObjectTableColumn ( InternshipOrganizerOrganisation::PROPERTY_CITY, true );
+		/*
+		$columns [] = new ObjectTableColumn ( InternshipOrganizerOrganisation::PROPERTY_TELEPHONE, true );
+		$columns [] = new ObjectTableColumn ( InternshipOrganizerOrganisation::PROPERTY_FAX, true );
+		$columns [] = new ObjectTableColumn ( InternshipOrganizerOrganisation::PROPERTY_EMAIL, true );
 		$columns [] = new ObjectTableColumn ( InternshipOrganizerOrganisation::PROPERTY_DESCRIPTION, true );
+		*/
 		
 		return $columns;
 	}

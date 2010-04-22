@@ -24,7 +24,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
         $trail->add_help('personal messenger general');
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: ACTION_FOLDER_INBOX)), Translation :: get('MyPersonalMessenger')));
         
-        $pub = new RepoViewer($this, 'personal_message', RepoViewer :: SELECT_SINGLE);
+        $pub = new RepoViewer($this, PersonalMessage :: get_type_name(), RepoViewer :: SELECT_SINGLE);
         $pub->set_parameter('reply', $reply);
         $pub->set_parameter(PersonalMessengerManager :: PARAM_USER_ID, $user);
         
@@ -34,7 +34,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
             {
                 $publication = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publication($reply);
                 $lo_id = $publication->get_personal_message();
-                $lo = RepositoryDataManager :: get_instance()->retrieve_content_object($lo_id, 'personal_message');
+                $lo = RepositoryDataManager :: get_instance()->retrieve_content_object($lo_id, PersonalMessage :: get_type_name());
                 $title = $lo->get_title();
                 $defaults['title'] = (substr($title, 0, 3) == 'RE:') ? $title : 'RE: ' . $title;
                 $pub->set_creation_defaults($defaults);

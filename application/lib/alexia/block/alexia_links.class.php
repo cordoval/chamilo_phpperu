@@ -73,7 +73,7 @@ class AlexiaLinks extends AlexiaBlock
             $groups = $user->get_groups();
         }
         
-        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'link');
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Link :: get_type_name());
         $conditions[] = new SubselectCondition(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         
         $access = array();

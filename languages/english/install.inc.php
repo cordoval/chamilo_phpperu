@@ -95,4 +95,5 @@ $lang['install']['StreamingVideo'] = 'Streaming Video';
 $lang['install']['InternshipOrganizer'] = 'Internship Organizer';
 $lang['install']['Cba'] = 'Cba';
 $lang['install']['Cda'] = 'Cda';
+$lang['install']['World'] = 'World';
 ?>

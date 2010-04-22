@@ -6,7 +6,7 @@
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
-class GroupManagerBrowserComponent extends GroupManagerComponent
+class GroupManagerBrowserComponent extends GroupManager
 {
     private $ab;
     private $group;

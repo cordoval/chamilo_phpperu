@@ -4,7 +4,7 @@
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerGroupRightsTemplateManagerComponent extends GroupManagerComponent
+class GroupManagerGroupRightsTemplateManagerComponent extends GroupManager
 {
 
     /**

@@ -167,7 +167,7 @@ class InternshipOrganizerMentor extends DataClass
 	static function get_table_name()
 	{
 		
-		return 'mentor'';
+		return 'mentor';
 //		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }

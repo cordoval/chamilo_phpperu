@@ -109,7 +109,7 @@ class ResultsPdfExport extends ResultsExport
         $answers = unserialize($user_answer->get_answer());
         foreach ($answers as $answer)
         {
-            if ($question->get_type() == 'hotspot_question')
+            if ($question->get_type() == HotspotQuestion :: get_type_name())
             {
                 $coordinates = unserialize($answer);
                 $answer_data['x'] = $coordinates[0];
@@ -129,7 +129,7 @@ class ResultsPdfExport extends ResultsExport
 
     function export_feedback($feedback_id)
     {
-        $feedback = $this->rdm->retrieve_content_object($feedback_id, 'feedback');
+        $feedback = $this->rdm->retrieve_content_object($feedback_id, Feedback :: get_type_name());
         $data[self :: PROPERTY_FEEDBACK_TITLE] = $feedback->get_title();
         $data[self :: PROPERTY_FEEDBACK_DESCRIPTION] = strip_tags($feedback->get_description());
         $this->data[] = array('key' => 'Feedback', 'data' => array($data));

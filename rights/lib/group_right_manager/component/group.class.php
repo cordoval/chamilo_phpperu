@@ -5,7 +5,7 @@
  */
 require_once Path :: get_rights_path() . 'lib/group_right_manager/component/location_group_browser_table/location_group_browser_table.class.php';
 
-class GroupRightManagerGroupComponent extends GroupRightManagerComponent
+class GroupRightManagerGroupComponent extends GroupRightManager
 {
     private $action_bar;
     

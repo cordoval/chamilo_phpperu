@@ -38,7 +38,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         {
             case ContentObjectPublication :: PROPERTY_PUBLICATION_DATE :
                 $date_format = Translation :: get('dateTimeFormatLong');
-                $data = Text :: format_locale_date($date_format, $publication->get_publication_date());
+                $data = DatetimeUtilities :: format_locale_date($date_format, $publication->get_publication_date());
                 break;
             case ContentObjectPublication :: PROPERTY_PUBLISHER_ID :
                 $user = $this->retrieve_user($publication->get_publisher_id());
@@ -193,11 +193,9 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         if(WebApplication :: is_active('gradebook'))
         {
         	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
-        	if(EvaluationManager :: retrieve_internal_item_by_publication('weblcms', $publication->get_id()))
+        	if(EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
         	{
-        		$parameters[EvaluationManager :: PARAM_PUBLICATION_ID] = $publication->get_id();
-        		$paramater_string = base64_encode(serialize($parameters));
-        		$evaluate_url = $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, EvaluationManager :: PARAM_PARAMETERS => $paramater_string));
+        		$evaluate_url = $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
 				$actions['evaluate'] = array('href' => $evaluate_url, 'label' => Translation :: get('Evaluate'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png'); 
         	}
         }

@@ -122,5 +122,10 @@ class WikiPubFeedback extends ContentObject
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+    static function get_type_name()
+    {
+    	return self :: get_table_name();
+    }
 }
 ?>

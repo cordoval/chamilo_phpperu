@@ -9,7 +9,7 @@ class ComplexGlossary extends ComplexContentObjectItem
 
     function get_allowed_types()
     {
-        return array('glossary_item');
+        return array(GlossaryItem :: get_type_name());
     }
 }
 ?>

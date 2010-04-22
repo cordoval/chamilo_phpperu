@@ -36,7 +36,7 @@ class ForumPost extends ContentObject
 
 /*function get_allowed_types()
 	{
-		return array('forum_post');
+		return array(ForumPost :: get_type_name());
 	}*/
 }
 ?>

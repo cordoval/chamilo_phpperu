@@ -545,11 +545,13 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         $condition = new AndCondition($conditions);
 
-        $objects = $this->retrieve_objects(ContentObject :: get_table_name(), $condition);
+        $query = 'SELECT * FROM ' . $this->escape_table_name( ContentObject :: get_table_name()) . ' AS ' . $this->get_alias( ContentObject :: get_table_name());
+        
+        $objects = $this->retrieve_record_set($query, ContentObject :: get_table_name(), $condition);
 
         while($object = $objects->next_result())
         {
-        	$versions[] = $this->retrieve_content_object($object->get_id());
+        	$versions[] = $this->retrieve_content_object($object[ContentObject::PROPERTY_ID]);
         }
 
         return $versions;
@@ -724,8 +726,8 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $defaultProp[$prop] = $record[$prop];
         }
-        $defaultProp[ContentObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_CREATION_DATE]);
-        $defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE]);
+        /*$defaultProp[ContentObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_CREATION_DATE]);
+        $defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE]);*/
 
         $content_object = ContentObject :: factory($record[ContentObject :: PROPERTY_TYPE], $defaultProp);
 
@@ -1566,7 +1568,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function delete_assisting_content_objects($object)
     {
-    	$assisting_types = array('learning_path_item', 'portfolio_item');
+    	$assisting_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
 
     	$failures = 0;
 

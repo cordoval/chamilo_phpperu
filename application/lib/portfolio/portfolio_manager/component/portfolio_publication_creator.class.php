@@ -19,19 +19,19 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
+//        $trail = new BreadcrumbTrail();
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
+//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
 
-        $pub = new RepoViewer($this, 'portfolio', RepoViewer :: SELECT_MULTIPLE);
-
+        $pub = new RepoViewer($this, Portfolio :: get_type_name(), RepoViewer :: SELECT_MULTIPLE);
+        $html = array();
         if (!$pub->is_ready_to_be_published())
         {
-            $html = $pub->as_html();
-            $this->display_header($trail);
-            echo $html;
-            $this->display_footer();
+            $html[] = $pub->as_html();
+//            $this->display_header($trail);
+//            echo implode("\n", $html);
+//            $this->display_footer();
         }
         else
         {
@@ -53,7 +53,7 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
             }
             else
             {
-                $this->display_header($trail);
+                //$this->display_header($trail);
 
                 $condition = new InCondition(ContentObject :: PROPERTY_ID, $object, ContentObject :: get_table_name());
                 $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
@@ -71,13 +71,22 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
                 $html[] = '</ul>';
                 $html[] = '</div>';
                 $html[] = '</div>';
+                $html[] = $form->toHtml();
 
-                echo implode("\n", $html);
-
-                $form->display();
-                $this->display_footer();
+//                echo implode("\n", $html);
+//
+//                //$form->display();
+//                $this->display_footer();
             }
         }
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
+
+         $this->display_header($trail);
+         echo implode("\n", $html);
+          $this->display_footer();
     }
 }
 ?>

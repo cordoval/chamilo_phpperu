@@ -4,7 +4,7 @@
  * @package admin.lib.admin_manager.component
  */
 
-class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerComponent
+class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager
 {
 
     /**
@@ -29,7 +29,7 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
 
     private function get_publisher_html()
     {
-        $pub = new RepoViewer($this, 'system_announcement');
+        $pub = new RepoViewer($this, SystemAnnouncement :: get_type_name());
         
         if (!$pub->is_ready_to_be_published())
         {

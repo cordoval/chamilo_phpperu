@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 /**
  * Repository manager component which provides functionality to delete a course_type
  */
-class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
 {
 
     /**
@@ -32,7 +32,7 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManagerComponen
             exit();
         }
         
-        if (! empty($request_ids))
+        if (!empty($request_ids))
         {
         	$wdm = WeblcmsDataManager::get_instance();
             if (! is_array($request_ids))
@@ -42,9 +42,9 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManagerComponen
             
             foreach ($request_ids as $request_id)
             {                
-            	$request = $this->get_parent()->retrieve_request($request_id);
-            	
-            	if (! $request->delete())
+            	$request = $this->retrieve_request($request_id);
+            
+            	if (!$request->delete())
                 {
                     $failures ++;
                 }
@@ -52,7 +52,7 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManagerComponen
             
             if ($failures)
             {
-                if (count($request_id) == 1)
+                if (count($request_ids) == 1)
                 {
                     $message = 'SelectedRequestNotDeleted';
                 }
@@ -63,7 +63,7 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManagerComponen
             }
             else
             {
-                if (count($request_id) == 1)
+                if (count($request_ids) == 1)
                 {
                     $message = 'SelectedRequestDeleted';
                 }

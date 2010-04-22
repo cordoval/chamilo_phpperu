@@ -18,7 +18,7 @@ class ComplexDisplayComplexFeedbackComponent extends ComplexDisplayComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses general');
         
-        $this->pub = new RepoViewer($this, 'feedback', RepoViewer :: SELECT_SINGLE);
+        $this->pub = new RepoViewer($this, Feedback :: get_type_name(), RepoViewer :: SELECT_SINGLE);
         $this->pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_FEEDBACK_CLOI);
         $this->pub->set_parameter('pid', Request :: get('pid'));
         $this->pub->set_parameter('selected_cloi', Request :: get('selected_cloi'));
@@ -47,7 +47,7 @@ class ComplexDisplayComplexFeedbackComponent extends ComplexDisplayComponent
             $feedback->set_id($this->pub->get_selected_objects());
             $this->fid = $feedback->get_id();
             $this->cid = Request :: get('selected_cloi');
-            $this->pid = Request :: get('pid');
+            $this->pid = $this->get_root_lo()->get_id();
             
             /*
              * change in the feedback, create new tabel linking the feedback object to the wiki_page

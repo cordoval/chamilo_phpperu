@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/browser.class.php';
 
-class RightsEditorManagerGroupRightsSetterComponent extends RightsEditorManagerComponent
+class RightsEditorManagerGroupRightsSetterComponent extends RightsEditorManager
 {
 
     /**

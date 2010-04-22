@@ -46,7 +46,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
                 $this->delete_lpi_attempt(Request :: get('delete_id'));
                 exit();
         }
-        
+       
         $dm = WeblcmsDataManager :: get_instance();
         $publication = $dm->retrieve_content_object_publication($pid);
         $root_object = $publication->get_content_object();
