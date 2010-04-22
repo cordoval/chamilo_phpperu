@@ -26,20 +26,28 @@ class SurveyPageForm extends ContentObjectForm
 
     protected function build_creation_form()
     {
-        parent :: build_creation_form();
+        $html_editor_options = array();
+	    $html_editor_options[FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR] = 'RepositorySurveyQuestion';
+    	
+    	
+    	parent :: build_creation_form($html_editor_options);
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false);
-        $this->add_html_editor(SurveyPage :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyPageFooterText'), false);
+        $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false, $html_editor_options);
+        $this->add_html_editor(SurveyPage :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyPageFooterText'), false, $html_editor_options);
         $this->addElement('category');
     }
 
     // Inherited
     protected function build_editing_form()
     {
-        parent :: build_editing_form();
+        
+    	$html_editor_options = array();
+	    $html_editor_options[FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR] = 'RepositorySurveyQuestion';
+    	
+    	parent :: build_editing_form($html_editor_options);
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false);
-        $this->add_html_editor(SurveyPage :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyPageFooterText'), false);
+        $this->add_html_editor(SurveyPage :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('SurveyPageHeaderText'), false, $html_editor_options);
+        $this->add_html_editor(SurveyPage :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyPageFooterText'), false, $html_editor_options);
         $this->addElement('category');
     }
 

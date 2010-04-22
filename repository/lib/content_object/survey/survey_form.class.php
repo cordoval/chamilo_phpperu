@@ -29,11 +29,15 @@ class SurveyForm extends ContentObjectForm
 
     protected function build_creation_form()
     {
-        parent :: build_creation_form();
+        
+    	$html_editor_options = array();
+	    $html_editor_options[FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR] = 'RepositorySurveyQuestion';
+    	
+	    parent :: build_creation_form($html_editor_options);
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->add_html_editor(Survey :: PROPERTY_HEADER, Translation :: get('SurveyHeaderText'), false);
-        $this->add_html_editor(Survey :: PROPERTY_FOOTER, Translation :: get('SurveyHeaderText'), false);
-        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFinishText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_HEADER, Translation :: get('SurveyHeaderText'), false, $html_editor_options);
+        $this->add_html_editor(Survey :: PROPERTY_FOOTER, Translation :: get('SurveyHeaderText'), false, $html_editor_options);
+        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFinishText'), false, $html_editor_options);
         $this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
         $this->add_select(Survey :: PROPERTY_CONTEXT, Translation :: get('SurveyContext'), $this->get_contexts(), true);
         $this->addElement('category');
@@ -42,11 +46,14 @@ class SurveyForm extends ContentObjectForm
     // Inherited
     protected function build_editing_form()
     {
-        parent :: build_editing_form();
+        $html_editor_options = array();
+	    $html_editor_options[FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR] = 'RepositorySurveyQuestion';
+    	
+    	parent :: build_editing_form($html_editor_options);
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->add_html_editor(Survey :: PROPERTY_HEADER, Translation :: get('SurveyHeaderText'), false);
-        $this->add_html_editor(Survey :: PROPERTY_FOOTER, Translation :: get('SurveyHeaderText'), false);
-        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFinishText'), false);
+        $this->add_html_editor(Survey :: PROPERTY_HEADER, Translation :: get('SurveyHeaderText'), false, $html_editor_options);
+        $this->add_html_editor(Survey :: PROPERTY_FOOTER, Translation :: get('SurveyHeaderText'), false, $html_editor_options);
+        $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFinishText'), false, $html_editor_options);
         $this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
         
         $survey = $this->get_content_object();
