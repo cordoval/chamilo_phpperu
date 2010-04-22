@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/admin_event_viewer/admin_event_viewer_action_
 /**
  * Component for viewing tracker events
  */
-class TrackingManagerAdminEventViewerComponent extends TrackingManagerComponent
+class TrackingManagerAdminEventViewerComponent extends TrackingManager
 {
 
     /**

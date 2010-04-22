@@ -7,7 +7,7 @@
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
-class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerComponent
+class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager
 {
     private $action_bar;
 

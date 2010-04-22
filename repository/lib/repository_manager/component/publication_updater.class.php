@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to update a
  * learning object publication.
  */
-class RepositoryManagerPublicationUpdaterComponent extends RepositoryManagerComponent
+class RepositoryManagerPublicationUpdaterComponent extends RepositoryManager
 {
 
     /**

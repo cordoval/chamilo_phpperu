@@ -5,7 +5,7 @@
  */
 require_once Path :: get_rights_path() . 'lib/user_right_manager/component/user_location_browser_table/user_location_browser_table.class.php';
 
-class UserRightManagerBrowserComponent extends UserRightManagerComponent
+class UserRightManagerBrowserComponent extends UserRightManager
 {
     private $action_bar;
     

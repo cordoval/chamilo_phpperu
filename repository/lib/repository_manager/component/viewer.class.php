@@ -6,7 +6,7 @@
 /**
  * Repository manager component which can be used to view a learning object.
  */
-class RepositoryManagerViewerComponent extends RepositoryManagerComponent
+class RepositoryManagerViewerComponent extends RepositoryManager
 {
     private $action_bar;
     private $object;

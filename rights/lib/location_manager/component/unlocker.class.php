@@ -4,7 +4,7 @@
  * @package rights.lib.location_manager.component
  */
 
-class LocationManagerUnlockerComponent extends LocationManagerComponent
+class LocationManagerUnlockerComponent extends LocationManager
 {
 
     /**

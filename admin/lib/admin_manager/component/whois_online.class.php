@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../../trackers/online_tracker.class.php';
 /**
  * Component to view whois online
  */
-class AdminManagerWhoisOnlineComponent extends AdminManagerComponent
+class AdminManagerWhoisOnlineComponent extends AdminManager
 {
 
     function run()

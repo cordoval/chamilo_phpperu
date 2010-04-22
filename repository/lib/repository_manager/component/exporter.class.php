@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
  */
-class RepositoryManagerExporterComponent extends RepositoryManagerComponent
+class RepositoryManagerExporterComponent extends RepositoryManager
 {
 
     /**

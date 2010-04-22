@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/inc/install_wizard.class.php';
 /**
  * Installer install manager component which allows the user to install the platform
  */
-class InstallManagerInstallerComponent extends InstallManagerComponent
+class InstallManagerInstallerComponent extends InstallManager
 {
 
     /**

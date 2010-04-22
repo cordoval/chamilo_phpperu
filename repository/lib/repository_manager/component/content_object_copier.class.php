@@ -4,7 +4,7 @@
  * @package repository.lib.repository_manager.component
  */
 
-class RepositoryManagerContentObjectCopierComponent extends RepositoryManagerComponent
+class RepositoryManagerContentObjectCopierComponent extends RepositoryManager
 {
 
     /**

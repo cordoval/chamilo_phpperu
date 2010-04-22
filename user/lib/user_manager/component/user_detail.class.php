@@ -5,7 +5,7 @@
  */
 require_once 'HTML/Table.php';
 
-class UserManagerUserDetailComponent extends UserManagerComponent
+class UserManagerUserDetailComponent extends UserManager
 {
 	/**
 	 * Runs this component and displays its output.

@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/user_approver.class.php';
 
-class UserManagerUserApprovalBrowserComponent extends UserManagerComponent
+class UserManagerUserApprovalBrowserComponent extends UserManager
 {
     private $ab;
 

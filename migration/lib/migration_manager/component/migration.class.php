@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/inc/migration_wizard.class.php';
  *
  * @author Sven Vanpoucke
  */
-class MigrationManagerMigrationComponent extends MigrationManagerComponent
+class MigrationManagerMigrationComponent extends MigrationManager
 {
 
     /**

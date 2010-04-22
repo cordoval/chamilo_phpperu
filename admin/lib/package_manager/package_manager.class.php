@@ -4,7 +4,6 @@
  * @package admin.lib.package_manager
  * @author Hans De Bisschop
  */
-require_once Path :: get_admin_path() . 'lib/package_manager/package_manager_component.class.php';
 require_once dirname(__FILE__) . '/component/registration_browser/registration_browser_table.class.php';
 
 class PackageManager extends SubManager
@@ -52,31 +51,31 @@ class PackageManager extends SubManager
         switch ($package_action)
         {
             case self :: ACTION_BROWSE_PACKAGES :
-                $component = PackageManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_ACTIVATE_PACKAGE :
-                $component = PackageManagerComponent :: factory('Activator', $this);
+                $component = $this->create_component('Activator');
                 break;
             case self :: ACTION_DEACTIVATE_PACKAGE :
-                $component = PackageManagerComponent :: factory('Deactivator', $this);
+                $component = $this->create_component('Deactivator');
                 break;
             case self :: ACTION_REMOTE_PACKAGE :
-                $component = PackageManagerComponent :: factory('Remote', $this);
+                $component = $this->create_component('Remote');
                 break;
             case self :: ACTION_SYNCHRONISE_REMOTE_PACKAGES :
-                $component = PackageManagerComponent :: factory('Synchroniser', $this);
+                $component = $this->create_component('Synchroniser');
                 break;
             case self :: ACTION_INSTALL_PACKAGE :
-                $component = PackageManagerComponent :: factory('Installer', $this);
+                $component = $this->create_component('Installer');
                 break;
             case self :: ACTION_LOCAL_PACKAGE :
-                $component = PackageManagerComponent :: factory('Local', $this);
+                $component = $this->create_component('Local');
                 break;
             case self :: ACTION_REMOVE_PACKAGE :
-                $component = PackageManagerComponent :: factory('Remover', $this);
+                $component = $this->create_component('Remover');
                 break;
             default :
-                $component = PackageManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
         }
         
