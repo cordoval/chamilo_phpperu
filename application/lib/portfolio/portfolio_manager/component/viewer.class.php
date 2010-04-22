@@ -35,6 +35,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
     function run()
     {
         $publisher_user_id = Request :: get('user_id');
+
         $pid = Request :: get(self::PROPERTY_PID);
         $this->pid = $pid;
         $cid = Request :: get(self::PROPERTY_CID);
@@ -123,9 +124,9 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         }
      
         
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_USER_ID => $publisher_user_id)), Translation :: get('ViewPortfolio')));
+//        $trail = new BreadcrumbTrail();
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_USER_ID => $publisher_user_id)), Translation :: get('ViewPortfolio')));
              
         if ($publisher_user_id == $this->get_user_id())
         {
@@ -161,7 +162,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
                 $html[] = ' class="current"';
             }
             
-            $html[] = ' href="' . $this->get_url(array('pid' => $pid, 'cid' => $cid, 'user_id' => $user_id, 'action' => $action)) . '">' . htmlentities(Translation :: get(ucfirst($action) . 'Title'));
+            $html[] = ' href="' . $this->get_url(array('pid' => $pid, 'cid' => $cid, 'user_id' => $publisher_user_id, 'action' => $action)) . '">' . htmlentities(Translation :: get(ucfirst($action) . 'Title'));
             if ($action == 'feedback')
             {
                 $html[] = '[' . AdminDataManager :: get_instance()->count_feedback_publications($pid, $cid, PortfolioManager :: APPLICATION_NAME) . ']';
@@ -295,7 +296,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         }
         else
         {
-            $html[] = $form->display();
+            $html[] = $form->toHtml();
         }
         
         return implode("\n", $html);
@@ -330,7 +331,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
         }
         else
         {
-            $html[] = $form->display();
+            $html[] = $form->toHtml();
         }
         return implode("\n", $html);
     }
