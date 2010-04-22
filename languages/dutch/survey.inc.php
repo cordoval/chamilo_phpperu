@@ -5,10 +5,10 @@ $lang['survey']['BrowseTestCaseSurveyPublications'] = 'Blader door test cases';
 $lang['survey']['BrowseTestCaseSurveyParticipants'] = 'Blader door deelnemers';
 $lang['survey']['ViewSurveyResults'] = 'Bekijk enquêteresultaten';
 $lang['survey']['ViewSurveyDetails'] = 'Bekijk enquêtedetails';
-$lang['survey']['CreateSurveyPublication'] = 'Cre&euml;er enquêtepublicatie';
-$lang['survey']['CreateTestCaseSurveyPublication'] = 'Cre&euml;er test case';
+$lang['survey']['CreateSurveyPublication'] = 'Creëer enquêtepublicatie';
+$lang['survey']['CreateTestCaseSurveyPublication'] = 'Creëer test case';
 $lang['survey']['UpdateSurveyPublication'] = 'Wijzig enquêtepublicatie';
-$lang['survey']['CategoriesMoved'] = 'Categorie&euml;n verplaatst';
+$lang['survey']['CategoriesMoved'] = 'Categorieën verplaatst';
 $lang['survey']['MoveSurveyPublications'] = 'Verplaats enquêtepublicaties';
 $lang['survey']['SelectCategory'] = 'Selecteer een categorie';
 $lang['survey']['UsersInvited'] = 'Gebruikers uitgenodigd';
@@ -18,7 +18,7 @@ $lang['survey']['PublishAndBuild'] = 'Publiceer en stel samen';
 $lang['survey']['TestSurveys'] = 'Test Cases';
 $lang['survey']['FromDate'] = 'Van';
 $lang['survey']['ToDate'] = 'Tot';
-$lang['survey']['CreateTestCase'] = 'Cre&euml;er test case';
+$lang['survey']['CreateTestCase'] = 'Creëer test case';
 $lang['survey']['Participants'] = 'Deelnemers';
 $lang['survey']['NotParticipants'] = 'Geen deelnemers';
 $lang['survey']['SurveyPublished'] = 'Enquête gepubliceerd';
@@ -103,7 +103,7 @@ $lang['survey']['BrowseSurvey'] = 'Blader door enquête';
 $lang['survey']['ContextName'] = 'Contextnaam';
 
 $lang['survey']['SelectYourChoice'] = 'Selecteer jouw keuze';
-$lang['survey']['SelectYourChoices'] = 'Select jouw keuzes';
+$lang['survey']['SelectYourChoices'] = 'Selecteer jouw keuzes';
 $lang['survey']['ChooseYourRating'] = 'Kies jouw beoordeling';
 $lang['survey']['ChooseYourOptionMatch'] = 'Kies jouw koppelingsoptie';
 
@@ -123,8 +123,10 @@ $lang['survey']['Hidden'] = 'Verborgen';
 $lang['survey']['Update'] = 'Wijzigen';
 $lang['survey']['Reset'] = 'Wissen';
 
-
 $lang['survey']['Logout'] = 'Uitloggen';
-
+$lang['survey']['GoBack'] = 'Terug';
+$lang['survey']['ClickToTakeSurvey'] = 'Klik om enquête in te vullen';
+$lang['survey']['OrCopyAndPasteThisText'] = 'Of kopieer deze text en plak die in de adresbalk van uw internetbrowser';
+$lang['survey']['Submit'] = 'Verzenden';
 
 ?>
