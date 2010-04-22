@@ -65,6 +65,11 @@ class RightsEditorManager extends SubManager
     {
         return $this->locations;
     }
+    
+    function set_locations($locations)
+    {
+    	$this->locations = $locations;
+    }
 
     function get_available_rights()
     {
@@ -93,40 +98,10 @@ class RightsEditorManager extends SubManager
     
     function create_component($type)
     {
-		$application = $this;
-        $manager_class = get_class($application);
-        $application_component_path = $application->get_application_component_path();
-        		
-        $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
-
-        if (! file_exists($file) || ! is_file($file))
-        {
-            $message = array();
-            $message[] = Translation :: get('ComponentFailedToLoad') . '<br /><br />';
-            $message[] = '<b>' . Translation :: get('File') . ':</b><br />';
-            $message[] = $file . '<br /><br />';
-            $message[] = '<b>' . Translation :: get('Stacktrace') . ':</b>';
-            $message[] = '<ul>';
-            $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
-            $message[] = '<li>' . Translation :: get($type) . '</li>';
-            $message[] = '</ul>';
-
-            $application_name = Application :: application_to_class($this->get_application_name());
-
-            $trail = new BreadcrumbTrail();
-            $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
-
-            Display :: header($trail);
-            Display :: error_message(implode("\n", $message));
-            Display :: footer();
-            exit();
-        }
-
-        $class = $manager_class . $type . 'Component';
-        require_once $file;
-
-        $component = new $class($this->get_parent(), $this->get_locations());
-        return $component;
+		$component = parent :: create_component($type, $this);
+		$component->set_locations($this->locations);
+		
+		return $component;
     }
 }
 ?>
