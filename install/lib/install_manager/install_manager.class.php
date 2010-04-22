@@ -54,11 +54,11 @@ class InstallManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_INSTALL_PLATFORM :
-                $component = InstallManagerComponent :: factory('Installer', $this);
+                $component = $this->create_component('Installer');
                 break;
             default :
                 $this->set_action(self :: ACTION_INSTALL_PLATFORM);
-                $component = InstallManagerComponent :: factory('Installer', $this);
+                $component = $this->create_component('Installer');
         }
         $component->run();
     }

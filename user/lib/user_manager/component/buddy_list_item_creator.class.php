@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerBuddyListItemCreatorComponent extends UserManagerComponent
+class UserManagerBuddyListItemCreatorComponent extends UserManager
 {
 
     /**

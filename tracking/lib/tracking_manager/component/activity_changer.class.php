@@ -8,7 +8,7 @@
 /**
  * Component for change of activity
  */
-class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
+class TrackingManagerActivityChangerComponent extends TrackingManager
 {
 
     /**

@@ -5,7 +5,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingManagerExportComponent extends ReportingManagerComponent
+class ReportingManagerExportComponent extends ReportingManager
 {
 
     function run()

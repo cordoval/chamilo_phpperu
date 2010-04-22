@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerUserApproverComponent extends UserManagerComponent
+class UserManagerUserApproverComponent extends UserManager
 {
 	const PARAM_CHOICE = 'choice';
 	const CHOICE_APPROVE = 1;

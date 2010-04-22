@@ -9,7 +9,7 @@
  * @author vanpouckesven
  *
  */
-class RepositoryManagerComplexBuilderComponent extends RepositoryManagerComponent
+class RepositoryManagerComplexBuilderComponent extends RepositoryManager
 {
 
     /**

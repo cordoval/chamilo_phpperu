@@ -9,7 +9,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-class RepositoryManagerPublicationBrowserComponent extends RepositoryManagerComponent
+class RepositoryManagerPublicationBrowserComponent extends RepositoryManager
 {
 
     /**

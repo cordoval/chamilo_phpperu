@@ -33,14 +33,14 @@ class HelpManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_HELP_ITEMS :
-                $component = HelpManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_UPDATE_HELP_ITEM :
-                $component = HelpManagerComponent :: factory('Updater', $this);
+                $component = $this->create_component('Updater');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_HELP_ITEMS);
-                $component = HelpManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }

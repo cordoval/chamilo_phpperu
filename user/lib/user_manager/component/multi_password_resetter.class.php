@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerMultiPasswordResetterComponent extends UserManagerComponent
+class UserManagerMultiPasswordResetterComponent extends UserManager
 {
 
     /**

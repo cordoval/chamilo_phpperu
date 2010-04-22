@@ -6,7 +6,7 @@
 /**
  * Repository manager component which can be used to compare a learning object.
  */
-class RepositoryManagerComparerComponent extends RepositoryManagerComponent
+class RepositoryManagerComparerComponent extends RepositoryManager
 {
 
     /**

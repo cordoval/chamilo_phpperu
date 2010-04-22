@@ -10,7 +10,7 @@
  *
  * @author Sven Vanpoucke
  */
-class TrackingManagerArchiverComponent extends TrackingManagerComponent
+class TrackingManagerArchiverComponent extends TrackingManager
 {
 
     /**

@@ -4,7 +4,7 @@
  * @package menu.lib.menu_manager.component
  */
 
-class MenuManagerBarComponent extends MenuManagerComponent
+class MenuManagerBarComponent extends MenuManager
 {
 
     /**

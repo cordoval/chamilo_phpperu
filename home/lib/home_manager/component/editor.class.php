@@ -6,7 +6,7 @@
 /**
  * Repository manager component to edit an existing learning object.
  */
-class HomeManagerEditorComponent extends HomeManagerComponent
+class HomeManagerEditorComponent extends HomeManager
 {
 
     /**

@@ -5,7 +5,7 @@
  */
 require_once Path :: get_rights_path() . 'lib/rights_template_manager/component/location_rights_template_browser_table/location_rights_template_browser_table.class.php';
 
-class RightsTemplateManagerRightsTemplaterComponent extends RightsTemplateManagerComponent
+class RightsTemplateManagerRightsTemplaterComponent extends RightsTemplateManager
 {
     private $action_bar;
     

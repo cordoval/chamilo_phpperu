@@ -5,7 +5,7 @@
  */
 
 
-class UserManagerReportingComponent extends UserManagerComponent
+class UserManagerReportingComponent extends UserManager
 {
 
     /**

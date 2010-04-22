@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerAdminUserBrowserComponent extends UserManagerComponent
+class UserManagerAdminUserBrowserComponent extends UserManager
 {
     private $firstletter;
     private $menu_breadcrumbs;

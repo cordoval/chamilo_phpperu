@@ -9,7 +9,7 @@
  * allows password resets, an email with further instructions will be send to
  * the user.
  */
-class UserManagerResetPasswordComponent extends UserManagerComponent
+class UserManagerResetPasswordComponent extends UserManager
 {
     const PARAM_RESET_KEY = 'key';
 

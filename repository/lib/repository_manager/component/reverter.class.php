@@ -10,7 +10,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-class RepositoryManagerReverterComponent extends RepositoryManagerComponent
+class RepositoryManagerReverterComponent extends RepositoryManager
 {
 
     /**

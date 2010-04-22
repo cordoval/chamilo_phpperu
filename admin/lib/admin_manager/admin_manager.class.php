@@ -55,46 +55,46 @@ class AdminManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_CONFIGURE_PLATFORM :
-                $component = AdminManagerComponent :: factory('Configurer', $this);
+                $component = $this->create_component('Configurer');
                 break;
             case self :: ACTION_CREATE_SYSTEM_ANNOUNCEMENT :
-                $component = AdminManagerComponent :: factory('SystemAnnouncementCreator', $this);
+                $component = $this->create_component('SystemAnnouncementCreator');
                 break;
             case self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS :
-                $component = AdminManagerComponent :: factory('SystemAnnouncementBrowser', $this);
+                $component = $this->create_component('SystemAnnouncementBrowser');
                 break;
             case self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT :
-                $component = AdminManagerComponent :: factory('SystemAnnouncementEditor', $this);
+                $component = $this->create_component('SystemAnnouncementEditor');
                 break;
             case self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT :
-                $component = AdminManagerComponent :: factory('SystemAnnouncementDeleter', $this);
+                $component = $this->create_component('SystemAnnouncementDeleter');
                 break;
             case self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT :
-                $component = AdminManagerComponent :: factory('SystemAnnouncementViewer', $this);
+                $component = $this->create_component('SystemAnnouncementViewer');
                 break;
             case self :: ACTION_HIDE_SYSTEM_ANNOUNCEMENT :
-                $component = AdminManagerComponent :: factory('SystemAnnouncementHider', $this);
+                $component = $this->create_component('SystemAnnouncementHider');
                 break;
             case self :: ACTION_MANAGE_CATEGORIES :
-                $component = AdminManagerComponent :: factory('CategoryManager', $this);
+                $component = $this->create_component('CategoryManager');
                 break;
             case self :: ACTION_WHOIS_ONLINE :
-                $component = AdminManagerComponent :: factory('WhoisOnline', $this);
+                $component = $this->create_component('WhoisOnline');
                 break;
             case self :: ACTION_DIAGNOSE :
-                $component = AdminManagerComponent :: factory('Diagnoser', $this);
+                $component = $this->create_component('Diagnoser');
                 break;
             case self :: ACTION_MANAGE_PACKAGES :
-                $component = AdminManagerComponent :: factory('Packager', $this);
+                $component = $this->create_component('Packager');
                 break;
             case self :: ACTION_VIEW_LOGS :
-                $component = AdminManagerComponent :: factory('LogViewer', $this);
+                $component = $this->create_component('LogViewer');
                 break;
             case self :: ACTION_IMPORTER :
-                $component = AdminManagerComponent :: factory('Importer', $this);
+                $component = $this->create_component('Importer');
                 break;
             default :
-                $component = AdminManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }

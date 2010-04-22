@@ -4,7 +4,7 @@
  * @package help.lib.help_manager.component
  */
 
-class HelpManagerUpdaterComponent extends HelpManagerComponent
+class HelpManagerUpdaterComponent extends HelpManager
 {
 
     /**

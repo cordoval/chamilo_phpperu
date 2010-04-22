@@ -7,7 +7,7 @@
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
  */
-class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponent
+class RepositoryManagerComplexBrowserComponent extends RepositoryManager
 {
     private $cloi_id;
     private $root_id;

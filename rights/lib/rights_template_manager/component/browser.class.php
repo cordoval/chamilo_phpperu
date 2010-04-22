@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/rights_template_browser_table/rights_template
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
-class RightsTemplateManagerBrowserComponent extends RightsTemplateManagerComponent
+class RightsTemplateManagerBrowserComponent extends RightsTemplateManager
 {
     private $action_bar;
 
