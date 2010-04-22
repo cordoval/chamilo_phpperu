@@ -11,8 +11,10 @@ class YoutubeForm extends ContentObjectForm
 
     protected function build_creation_form()
     {
-        parent :: build_creation_form();
+        $link = PATH :: get(WEB_PATH) . 'application/common/streaming_media_manager/index.php?' . StreamingMediaBrowser::PARAM_TYPE . '=' . Youtube::get_type_name();
+    	parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('static', null, null, '<a class="button normal_button upload_button" href="' . $link .'"> '. Translation :: get('BrowseStreamingVideo') .'</a>');
         $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
         $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
         $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
@@ -23,6 +25,7 @@ class YoutubeForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        $this->addElement('static', null, null, '<a class="button normal_button upload_button" href=""> '. Translation :: get('BrowseStreamingVideo') .'</a>');       
         $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
         $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
         $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
