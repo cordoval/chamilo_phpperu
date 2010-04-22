@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/browser/doubles_browser/doubles_browser_table
 /**
  * Repository manager component which can be used to view doubles in the repository
  */
-class RepositoryManagerDoublesViewerComponent extends RepositoryManagerComponent
+class RepositoryManagerDoublesViewerComponent extends RepositoryManager
 {
 	private $content_object;
 	

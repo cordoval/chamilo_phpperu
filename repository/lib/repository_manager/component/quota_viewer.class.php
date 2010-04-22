@@ -15,7 +15,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
+class RepositoryManagerQuotaViewerComponent extends RepositoryManager
 {
 
     /**

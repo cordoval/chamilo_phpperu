@@ -8,7 +8,7 @@
  * Repository manager component to edit the rights for the learning objects in
  * the repository.
  */
-class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
+class RepositoryManagerRightsEditorComponent extends RepositoryManager
 {
 
     /**
@@ -48,7 +48,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 
     function display_header($trail)
     {
-        $this->get_parent()->display_header($trail, false);
+        parent :: display_header($trail, false);
         $object_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 
         if(!is_array($object_ids))

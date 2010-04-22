@@ -34,16 +34,16 @@ class UserRightManager extends SubManager
         switch ($rights_template_action)
         {
             case self :: ACTION_BROWSE_USER_RIGHTS :
-                $component = UserRightManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_SET_USER_RIGHTS :
-                $component = UserRightManagerComponent :: factory('Setter', $this);
+                $component = $this->create_component('Setter');
                 break;
             case self :: ACTION_BROWSE_LOCATION_USER_RIGHTS :
-                $component = UserRightManagerComponent :: factory('User', $this);
+                $component = $this->create_component('User');
                 break;
             default :
-                $component = UserRightManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
         }
         

@@ -5,7 +5,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingManagerViewComponent extends ReportingManagerComponent
+class ReportingManagerViewComponent extends ReportingManager
 {
 
     //private $template;

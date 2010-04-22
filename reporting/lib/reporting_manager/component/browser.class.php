@@ -5,7 +5,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingManagerBrowserComponent extends ReportingManagerComponent
+class ReportingManagerBrowserComponent extends ReportingManager
 {
     private $action_bar;
     private $application;

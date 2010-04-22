@@ -7,7 +7,7 @@
 require_once dirname(__FILE__) . '/admin_course_browser/admin_course_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
-class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
 {
 
 	private $course_type;

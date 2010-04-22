@@ -3,7 +3,6 @@
  * $Id: rights_editor_manager.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager
  */
-require_once dirname(__FILE__) . '/rights_editor_manager_component.class.php';
 
 class RightsEditorManager extends SubManager
 {
@@ -26,7 +25,7 @@ class RightsEditorManager extends SubManager
         $this->locations = $locations;
         $this->exclude_users = array();
         $this->exclude_groups = array();
-        
+
         $rights_editor_action = Request :: get(self :: PARAM_RIGHTS_EDITOR_ACTION);
         if ($rights_editor_action)
         {
@@ -41,16 +40,16 @@ class RightsEditorManager extends SubManager
         switch ($parent)
         {
             case self :: ACTION_BROWSE_RIGHTS :
-                $component = RightsEditorManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_SET_USER_RIGHTS :
-                $component = RightsEditorManagerComponent :: factory('UserRightsSetter', $this);
+                $component = $this->create_component('UserRightsSetter');
                 break;
             case self :: ACTION_SET_GROUP_RIGHTS :
-                $component = RightsEditorManagerComponent :: factory('GroupRightsSetter', $this);
+                $component = $this->create_component('GroupRightsSetter');
                 break;
             default :
-                $component = RightsEditorManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
         }
         
@@ -65,6 +64,11 @@ class RightsEditorManager extends SubManager
     function get_locations()
     {
         return $this->locations;
+    }
+    
+    function set_locations($locations)
+    {
+    	$this->locations = $locations;
     }
 
     function get_available_rights()
@@ -90,6 +94,14 @@ class RightsEditorManager extends SubManager
 	function get_excluded_groups()
     {
     	return $this->excluded_groups;
+    }
+    
+    function create_component($type, $application = null)
+    {
+		$component = parent :: create_component($type, $application);
+		$component->set_locations($this->locations);
+		
+		return $component;
     }
 }
 ?>

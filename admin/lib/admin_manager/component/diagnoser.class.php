@@ -7,7 +7,7 @@
 /**
  * Weblcms component displays diagnostics about the system
  */
-class AdminManagerDiagnoserComponent extends AdminManagerComponent
+class AdminManagerDiagnoserComponent extends AdminManager
 {
 
     /**

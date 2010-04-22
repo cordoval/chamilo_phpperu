@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 
-class WeblcmsManagerIntroductionDeleterComponent extends WeblcmsManagerComponent
+class WeblcmsManagerIntroductionDeleterComponent extends WeblcmsManager
 {
 
     function run()

@@ -7,7 +7,7 @@
 /**
  * Weblcms component allows the user to manage course categories
  */
-class AdminManagerCategoryManagerComponent extends AdminManagerComponent
+class AdminManagerCategoryManagerComponent extends AdminManager
 {
 
     /**

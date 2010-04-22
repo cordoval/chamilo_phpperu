@@ -4,7 +4,7 @@
  * @package repository.lib.repository_manager.component
  */
 
-class RepositoryManagerAttachmentViewerComponent extends RepositoryManagerComponent
+class RepositoryManagerAttachmentViewerComponent extends RepositoryManager
 {
 
     function run()

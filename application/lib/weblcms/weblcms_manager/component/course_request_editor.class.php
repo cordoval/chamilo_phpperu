@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
  * Component to edit an existing request object
  * @author Yannick Meert
  */
-class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManager
 {
 	/**
 	 * Runs this component and displays its output.

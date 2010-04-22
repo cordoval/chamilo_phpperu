@@ -1,12 +1,11 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
 
 /**
  * Component to delete peer_assessment_publications objects
  * @author Nick Van Loocke
  */
-class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManager
 {
 
     /**
@@ -15,6 +14,9 @@ class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManagerCompone
     function run()
     {
         $ids = $_GET[PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION];
+        $peer_assessment_publication = $this->retrieve_peer_assessment_publication($ids);
+        $category_id = $peer_assessment_publication->get_category();
+
         $failures = 0;
         
         if (! empty($ids))
@@ -55,10 +57,9 @@ class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManagerCompone
                 {
                     $message = 'SelectedPeerAssessmentPublicationsDeleted';
                 }
-            }
-            
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
-        }
+            }          
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS, 'category' => $category_id));
+		}
         else
         {
             $this->display_error_page(htmlentities(Translation :: get('NoPeerAssessmentPublicationsSelected')));

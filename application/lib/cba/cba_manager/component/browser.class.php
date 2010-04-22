@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
-require_once dirname(__FILE__).'/../cba_manager_component.class.php';
 require_once dirname(__FILE__).'/competency_browser/competency_browser_table.class.php';
 /**
  * Competency component
@@ -9,7 +8,7 @@ require_once dirname(__FILE__).'/competency_browser/competency_browser_table.cla
  *
  * @author Nick Van Loocke
  */
-class CbaManagerBrowserComponent extends CbaManagerComponent
+class CbaManagerBrowserComponent extends CbaManager
 {
 
 	private $action_bar;

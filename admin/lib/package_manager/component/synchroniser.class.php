@@ -5,7 +5,7 @@
  * @author Hans De Bisschop
  */
 
-class PackageManagerSynchroniserComponent extends PackageManagerComponent
+class PackageManagerSynchroniserComponent extends PackageManager
 {
 
     /**

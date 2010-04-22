@@ -1,13 +1,12 @@
 <?php
 require_once dirname(__FILE__).'/../cba_manager.class.php';
-require_once dirname(__FILE__).'/../cba_manager_component.class.php';
 require_once dirname(__FILE__).'/indicator_browser/indicator_browser_table.class.php';
 /**
  * Indicator component
  *
  * @author Nick Van Loocke
  */
-class CbaManagerIndicatorBrowserComponent extends CbaManagerComponent
+class CbaManagerIndicatorBrowserComponent extends CbaManager
 {
 
 	function run()

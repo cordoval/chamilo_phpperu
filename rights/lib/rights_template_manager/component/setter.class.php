@@ -4,7 +4,7 @@
  * @package rights.lib.rights_template_manager.component
  */
 
-class RightsTemplateManagerSetterComponent extends RightsTemplateManagerComponent
+class RightsTemplateManagerSetterComponent extends RightsTemplateManager
 {
 
     /**

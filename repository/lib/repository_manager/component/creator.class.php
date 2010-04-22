@@ -10,7 +10,7 @@
  * can be selected. Afterwards, the form to create the actual learning object
  * will be displayed.
  */
-class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
+class RepositoryManagerCreatorComponent extends RepositoryManager
 {
 
     /**

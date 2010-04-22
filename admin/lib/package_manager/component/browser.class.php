@@ -8,7 +8,7 @@ require_once Path :: get_admin_path() . 'lib/package_manager/component/registrat
 /**
  * Admin component
  */
-class PackageManagerBrowserComponent extends PackageManagerComponent
+class PackageManagerBrowserComponent extends PackageManager
 {
     private $action_bar;
 

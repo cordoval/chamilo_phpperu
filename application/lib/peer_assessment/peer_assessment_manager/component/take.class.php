@@ -1,12 +1,11 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
 /**
  * Component to complete a peer assessment
  * @author Nick Van Loocke
  */
 
-class PeerAssessmentManagerTakeComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
 {	
 	private $datamanager;
 	private $peer_assessment;

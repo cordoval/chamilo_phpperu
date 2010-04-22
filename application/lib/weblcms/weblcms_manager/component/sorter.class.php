@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../course/course_user_category_form.class.
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
+class WeblcmsManagerSorterComponent extends WeblcmsManager
 {
     private $category;
     private $action_bar;
@@ -145,13 +145,13 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
         
         if ($direction == 'up')
         {
-            $move_courseuserrelation->set_sort($sort - 1);
-            $next_courseuserrelation->set_sort($sort);
+            $move_category->set_sort($sort - 1);
+            $next_category->set_sort($sort);
         }
         elseif ($direction == 'down')
         {
-            $move_courseuserrelation->set_sort($sort + 1);
-            $next_courseuserrelation->set_sort($sort);
+            $move_category->set_sort($sort + 1);
+            $next_category->set_sort($sort);
         }
        
         if ($move_category->update() && $next_category->update())

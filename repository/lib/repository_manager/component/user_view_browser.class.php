@@ -6,7 +6,7 @@
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
-class RepositoryManagerUserViewBrowserComponent extends RepositoryManagerComponent
+class RepositoryManagerUserViewBrowserComponent extends RepositoryManager
 {
     private $ab;
 

@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 /**
  * Weblcms component allows the user to manage course categories
  */
-class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
 {
     private $category;
 

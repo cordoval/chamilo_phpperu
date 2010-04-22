@@ -7,7 +7,7 @@
 /**
  * Component to empty a tracker
  */
-class TrackingManagerEmptyTrackerComponent extends TrackingManagerComponent
+class TrackingManagerEmptyTrackerComponent extends TrackingManager
 {
 
     /**

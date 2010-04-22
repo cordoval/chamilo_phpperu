@@ -1,10 +1,9 @@
 <?php 
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../peer_assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../peer_assessment_publication_category_menu.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser/peer_assessment_publication_browser_table.class.php';
 
-class PeerAssessmentManagerBuilderComponent extends PeerAssessmentManagerComponent
+class PeerAssessmentManagerBuilderComponent extends PeerAssessmentManager
 {
     function run()
     {

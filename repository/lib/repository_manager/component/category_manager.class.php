@@ -7,7 +7,7 @@
 /**
  * Weblcms component allows the user to manage course categories
  */
-class RepositoryManagerCategoryManagerComponent extends RepositoryManagerComponent
+class RepositoryManagerCategoryManagerComponent extends RepositoryManager
 {
 
     /**

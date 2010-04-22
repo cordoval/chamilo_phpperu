@@ -33,16 +33,16 @@ class GroupRightManager extends SubManager
         switch ($rights_template_action)
         {
             case self :: ACTION_BROWSE_GROUP_RIGHTS :
-                $component = GroupRightManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS :
-                $component = GroupRightManagerComponent :: factory('Group', $this);
+                $component = $this->create_component('Group');
                 break;
             case self :: ACTION_SET_GROUP_RIGHTS :
-                $component = GroupRightManagerComponent :: factory('Setter', $this);
+                $component = $this->create_component('Setter');
                 break;
             default :
-                $component = GroupRightManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
         }
         

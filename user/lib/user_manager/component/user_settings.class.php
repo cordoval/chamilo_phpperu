@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerUserSettingsComponent extends UserManagerComponent
+class UserManagerUserSettingsComponent extends UserManager
 {
 	const PARAM_APPLICATION = 'category';
 

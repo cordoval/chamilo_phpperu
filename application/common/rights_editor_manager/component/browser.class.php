@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/location_user_browser/location_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/location_group_browser/location_group_browser_table.class.php';
 
-class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
+class RightsEditorManagerBrowserComponent extends RightsEditorManager
 {
     private $action_bar;
     private $type;

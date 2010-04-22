@@ -7,7 +7,7 @@
  * Repository manager component to restore learning objects. This means movig
  * learning objects from the recycle bin to there original location.
  */
-class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
+class RepositoryManagerRestorerComponent extends RepositoryManager
 {
 
     /**

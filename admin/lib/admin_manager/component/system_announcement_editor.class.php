@@ -4,7 +4,7 @@
  * @package admin.lib.admin_manager.component
  */
 
-class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponent
+class AdminManagerSystemAnnouncementEditorComponent extends AdminManager
 {
 
     /**

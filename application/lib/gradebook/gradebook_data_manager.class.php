@@ -77,7 +77,7 @@ abstract class GradebookDataManager {
 	abstract function update_internal_item_instance($internal_item_instance);
 	
 	// evaluation
-	abstract function move_internal_to_external($application, $publication);
+	//abstract function move_internal_to_external($application, $publication);
 	
 	abstract function retrieve_evaluation_ids_by_publication($application, $publication_id);
 	
@@ -110,11 +110,17 @@ abstract class GradebookDataManager {
 	abstract function retrieve_evaluation($id);
 
 	abstract function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null);
+	
+	abstract function create_evaluation_object_from_data($content_object_publication, $user);
 
-
+	//evaluation format
+	
+	abstract function retrieve_format_id_by_format_name($format_name);
+	
 	//gradebook_items rel user
 
 	//gradebook grade evaluation
+	abstract function create_grade_evaluation($grade_evaluation);
 	
 	abstract function retrieve_grade_evaluation($id);
 	
@@ -122,6 +128,7 @@ abstract class GradebookDataManager {
 	
 	abstract function update_grade_evaluation($grade_evaluation);
 	
+	abstract function create_grade_evaluation_object_from_data($tracker_score);
 	/*
 	abstract function create_gradebook_rel_user($gradebookreluser);
 

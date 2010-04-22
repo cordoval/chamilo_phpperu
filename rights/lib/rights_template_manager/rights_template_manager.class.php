@@ -41,40 +41,40 @@ class RightsTemplateManager extends SubManager
         switch ($rights_template_action)
         {
             case self :: ACTION_BROWSE_RIGHTS_TEMPLATES :
-                $component = RightsTemplateManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_EDIT_RIGHTS_TEMPLATE :
-                $component = RightsTemplateManagerComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
                 break;
             case self :: ACTION_DELETE_RIGHTS_TEMPLATES :
-                $component = RightsTemplateManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_CREATE_RIGHTS_TEMPLATE :
-                $component = RightsTemplateManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_CONFIGURE_RIGHTS_TEMPLATES :
-                $component = RightsTemplateManagerComponent :: factory('Configurer', $this);
+                $component = $this->create_component('Configurer');
                 break;
             case self :: ACTION_CONFIGURE_LOCATION_RIGHTS_TEMPLATES :
-                $component = RightsTemplateManagerComponent :: factory('RightsTemplater', $this);
+                $component = $this->create_component('RightsTemplater');
                 break;
             case self :: ACTION_LOCK_RIGHTS_TEMPLATES :
-                $component = RightsTemplateManagerComponent :: factory('Locker', $this);
+                $component = $this->create_component('Locker');
                 break;
             case self :: ACTION_UNLOCK_RIGHTS_TEMPLATES :
-                $component = RightsTemplateManagerComponent :: factory('Unlocker', $this);
+                $component = $this->create_component('Unlocker');
                 break;
             case self :: ACTION_INHERIT_RIGHTS_TEMPLATES :
-                $component = RightsTemplateManagerComponent :: factory('Inheriter', $this);
+                $component = $this->create_component('Inheriter');
                 break;
             case self :: ACTION_DISINHERIT_RIGHTS_TEMPLATES :
-                $component = RightsTemplateManagerComponent :: factory('Disinheriter', $this);
+                $component = $this->create_component('Disinheriter');
                 break;
             case self :: ACTION_SET_RIGHTS_TEMPLATES :
-                $component = RightsTemplateManagerComponent :: factory('Setter', $this);
+                $component = $this->create_component('Setter');
                 break;
             default :
-                $component = RightsTemplateManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
         }
         

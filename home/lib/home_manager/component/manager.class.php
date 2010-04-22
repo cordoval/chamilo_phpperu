@@ -4,7 +4,7 @@
  * @package home.lib.home_manager.component
  */
 
-class HomeManagerManagerComponent extends HomeManagerComponent
+class HomeManagerManagerComponent extends HomeManager
 {
     private $user_id;
     private $action_bar;

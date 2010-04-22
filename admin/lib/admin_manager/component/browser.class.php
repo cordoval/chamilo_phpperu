@@ -6,7 +6,7 @@
 /**
  * Admin component
  */
-class AdminManagerBrowserComponent extends AdminManagerComponent
+class AdminManagerBrowserComponent extends AdminManager
 {
 
     /**

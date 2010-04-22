@@ -7,7 +7,7 @@
 /**
  * Admin component
  */
-class AdminManagerPackagerComponent extends AdminManagerComponent
+class AdminManagerPackagerComponent extends AdminManager
 {
 
     /**
@@ -29,7 +29,7 @@ class AdminManagerPackagerComponent extends AdminManagerComponent
             exit();
         }
         
-        $package_manager = new PackageManager($this->get_parent());
+        $package_manager = new PackageManager($this);
         $package_manager->run();
     }
 }
