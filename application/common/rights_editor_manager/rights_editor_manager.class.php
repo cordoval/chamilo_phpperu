@@ -96,9 +96,9 @@ class RightsEditorManager extends SubManager
     	return $this->excluded_groups;
     }
     
-    function create_component($type)
+    function create_component($type, $application = null)
     {
-		$component = parent :: create_component($type, $this);
+		$component = parent :: create_component($type, $application);
 		$component->set_locations($this->locations);
 		
 		return $component;
