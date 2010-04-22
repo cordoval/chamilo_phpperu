@@ -15,6 +15,7 @@ $(function ()
 		var course_type_id = $(this).val();
 		if(course_type_id == current_course_type)
 			return;
+		
 		var	course_id = $('.course_id').val();
 			course_param = '';
 			go = 'coursecreator';
