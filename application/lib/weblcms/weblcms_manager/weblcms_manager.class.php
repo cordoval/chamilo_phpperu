@@ -1017,6 +1017,11 @@ class WeblcmsManager extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course($course_code);
 	}
+	
+	function retrieve_requests_by_course($id)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_requests_by_course($id);
+	}
 
 	function retrieve_course_type($course_type_id)
 	{
