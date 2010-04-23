@@ -25,7 +25,7 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
         $peer_assessment_page = $this->get_parent()->get_page($this->page_number);
 
         // Add buttons next, back and submit
-        if ($this->page_number > 1)
+        /*if ($this->page_number > 1)
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
         }
@@ -49,7 +49,7 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
                 $question_display = PeerAssessmentQuestionDisplay :: factory($this, $question, $nr, $this->get_parent()->get_peer_assessment(), $this->page_number);
                 $question_display->display();
             }
-        }
+        }*/
 
         $renderer = $this->defaultRenderer();
         $renderer->setElementTemplate('<div style="float: right;">{element}</div><br /><br />', 'buttons');

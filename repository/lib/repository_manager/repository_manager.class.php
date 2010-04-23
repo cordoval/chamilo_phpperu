@@ -126,18 +126,13 @@ class RepositoryManager extends CoreApplication
     private $search_parameters;
     private $search_form;
     private $category_menu;
-    private $quota_url;
-    private $publication_url;
-    private $create_url;
-    private $import_url;
-    private $recycle_bin_url;
 
     /**
      * Constructor
      * @param int $user_id The user id of current user
      */
     function RepositoryManager($user)
-    {
+    {       
         parent :: __construct($user);
         $this->parse_input_from_table();
         $this->determine_search_settings();
@@ -148,11 +143,6 @@ class RepositoryManager extends CoreApplication
      */
     function run()
     {
-        $this->publication_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');
-        $this->quota_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
-        $this->create_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTENT_OBJECTS));
-        $this->import_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_CONTENT_OBJECTS));
-        $this->recycle_bin_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => null));
 
         /*
 		 * Only setting breadcrumbs here. Some stuff still calls
@@ -188,7 +178,7 @@ class RepositoryManager extends CoreApplication
                 $component = $this->create_component('Comparer');
                 break;
             case self :: ACTION_CREATE_CONTENT_OBJECTS :
-                $this->force_menu_url($this->create_url, true);
+                $this->force_menu_url($this->get_content_object_creation_url(), true);
                 $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_EDIT_CONTENT_OBJECTS :
@@ -226,17 +216,17 @@ class RepositoryManager extends CoreApplication
             	break;
             case self :: ACTION_VIEW_QUOTA :
                 $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
-                $this->force_menu_url($this->quota_url, true);
+                $this->force_menu_url($this->get_quota_url(), true);
                 $component = $this->create_component('QuotaViewer');
                 break;
             case self :: ACTION_VIEW_MY_PUBLICATIONS :
                 $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
-                $this->force_menu_url($this->publication_url, true);
+                $this->force_menu_url($this->get_publication_url(), true);
                 $component = $this->create_component('PublicationBrowser');
                 break;
             case self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS :
                 $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
-                $this->force_menu_url($this->recycle_bin_url, true);
+                $this->force_menu_url($this->get_recycle_bin_url(), true);
                 $component = $this->create_component('RecycleBinBrowser');
                 break;
             case self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECTS :
@@ -539,7 +529,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_quota_url()
     {
-        return $this->quota_url;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
     }
 
     /**
@@ -548,7 +538,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_publication_url()
     {
-        return $this->publication_url;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');
     }
 
     /**
@@ -557,7 +547,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_creation_url()
     {
-        return $this->create_url;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTENT_OBJECTS));
     }
 
     /**
@@ -566,7 +556,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_importing_url()
     {
-        return $this->import_url;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_CONTENT_OBJECTS));
     }
 
     /**
@@ -575,7 +565,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_recycle_bin_url()
     {
-        return $this->recycle_bin_url;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => null));
     }
 
     /**

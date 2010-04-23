@@ -17,9 +17,9 @@ class InternalItem extends DataClass
      * Get the default properties
      * @return array The property names.
      */
-    static function get_defualt_property_names()
+    static function get_default_property_names()
     {
-    	return parent :: get_defualt_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_CALCULATED));
+    	return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_CALCULATED));
     }
     
     function get_data_manager()

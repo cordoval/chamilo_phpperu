@@ -145,13 +145,13 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         
         if ($direction == 'up')
         {
-            $move_courseuserrelation->set_sort($sort - 1);
-            $next_courseuserrelation->set_sort($sort);
+            $move_category->set_sort($sort - 1);
+            $next_category->set_sort($sort);
         }
         elseif ($direction == 'down')
         {
-            $move_courseuserrelation->set_sort($sort + 1);
-            $next_courseuserrelation->set_sort($sort);
+            $move_category->set_sort($sort + 1);
+            $next_category->set_sort($sort);
         }
        
         if ($move_category->update() && $next_category->update())
