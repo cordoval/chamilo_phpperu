@@ -1,6 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../../component/viewer.class.php';
-class YoutubeStreamingMediaManagerViewerComponent extends StreamingMediaManagerViewerComponent
+class YoutubeStreamingMediaManagerViewerComponent extends YoutubeStreamingMediaManager
 {
 	function run()
 	{

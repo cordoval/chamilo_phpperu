@@ -1,5 +1,5 @@
 <?php
-class StreamingMediaManagerExporterComponent extends StreamingMediaManager
+class StreamingMediaExporterComponent extends StreamingMediaComponent
 {
 	function run()
 	{

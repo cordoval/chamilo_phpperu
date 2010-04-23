@@ -1,5 +1,5 @@
 <?php
-class StreamingMediaManager extends SubManager
+abstract class StreamingMediaManager extends SubManager
 {
 	const PARAM_STREAMING_MEDIA_MANAGER_ACTION = 'streaming_action';
 	
@@ -13,9 +13,9 @@ class StreamingMediaManager extends SubManager
 	
 	const PARAM_STREAMING_MEDIA_ID = 'streaming_media_id';
 	
-	function StreamingMediaManager($parent)
+	function StreamingMediaManager($application)
 	{
-		parent :: __construct($parent);
+		parent :: __construct($application);
 		
 		$streaming_media_manager_action = Request :: get(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION);
         if ($streaming_media_manager_action)
@@ -24,7 +24,7 @@ class StreamingMediaManager extends SubManager
         }
 	}
 	
-	function factory($type, $parent)
+	static function factory($type, $application)
 	{
 		$file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_streaming_media_manager.class.php';
     	if(!file_exists($file))
@@ -35,8 +35,7 @@ class StreamingMediaManager extends SubManager
     	require_once $file;
     	
     	$class = Utilities :: underscores_to_camelcase($type) . 'StreamingMediaManager';
-    	
-    	return new $class($parent);
+    	return new $class($application);
 	}
 	
 	function is_ready_to_be_used()
@@ -52,42 +51,6 @@ class StreamingMediaManager extends SubManager
         //$object = Request :: get(self :: PARAM_ID);
         //return isset($object);
     }
-	
-	function run()
-	{
-		$parent = $this->get_parameter(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION);
-        
-        switch ($parent)
-        {
-            case self :: ACTION_VIEW_STREAMING_MEDIA :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_EXPORT_STREAMING_MEDIA :
-                $component = $this->create_component('Exporter');
-                break;
-  			case self :: ACTION_CREATE_STREAMING_MEDIA :
-  				$component = $this->create_component('Creator');
-  				break;
-  			case self :: ACTION_IMPORT_STREAMING_MEDIA :
-  				$component = $this->create_component('Importer');
-  				break;
-  			case self :: ACTION_BROWSE_STREAMING_MEDIA :
-  				$component = $this->create_component('Browser');
-  				break;   
-  			case self :: ACTION_DOWNLOAD_STREAMING_MEDIA :
-  				$component = $this->create_component('Downloader');
-  				break; 
-  			case self :: ACTION_UPLOAD_STREAMING_MEDIA :
-  				$component = $this->create_component('Uploader');
-  				break;
-            default :
-                $component = $this->create_component('Browser');
-                $this->set_parameter(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION, self :: ACTION_BROWSE_STREAMING_MEDIA);
-                break;
-        }
-        
-        $component->run();
-	}
 	
 	function get_application_component_path()
 	{
@@ -150,5 +113,10 @@ class StreamingMediaManager extends SubManager
 		echo('</div></div>');
 		parent :: display_footer();
 	}
+	
+	abstract function count_streaming_media_objects();
+	
+	abstract function retrieve_streaming_media_objects();
+	
 }
 ?>

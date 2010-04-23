@@ -1,7 +1,10 @@
 <?php
-class StreamingMediaManagerBrowserComponent extends StreamingMediaManager
+class StreamingMediaBrowserComponent extends StreamingMediaComponent
 {
 	function run()
-	{}
+	{
+		echo('test');
+	}
+	
 }
 ?>

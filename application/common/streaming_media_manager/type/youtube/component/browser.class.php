@@ -1,11 +1,11 @@
 <?php
-require_once dirname(__FILE__) . '/../../../component/browser.class.php';
-class YoutubeStreamingMediaManagerBrowserComponent extends StreamingMediaManagerBrowserComponent
+class YoutubeStreamingMediaManagerBrowserComponent extends YoutubeStreamingMediaManager
 {
 	function run()
 	{
 		$this->display_header();
-		echo('in run of YoutubeStreaming');
+		$browser = StreamingMediaComponent::factory(StreamingMediaComponent::BROWSER_COMPONENT, $this);
+		$browser->run();
 		$this->display_footer();
 	}
 }

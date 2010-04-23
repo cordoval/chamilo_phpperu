@@ -11,10 +11,10 @@ class YoutubeForm extends ContentObjectForm
 
     protected function build_creation_form()
     {
-        $link = PATH :: get(WEB_PATH) . 'application/common/streaming_media_manager/index.php?' . StreamingMediaBrowser::PARAM_TYPE . '=' . Youtube::get_type_name();
+        $link = PATH :: get(WEB_PATH) . 'application/common/streaming_media_manager/index.php?' . StreamingMediaLauncher::PARAM_TYPE . '=' . Youtube::get_type_name();
     	parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->addElement('static', null, null, '<a class="button normal_button upload_button" href="javascript:window.open(\'' . $link .'\',\'hello\');"> '. Translation :: get('BrowseStreamingVideo') .'</a>');
+        $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\''. $link .'\');"> '. Translation :: get('BrowseStreamingVideo') .'</a>');
         $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
         $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
         $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
@@ -23,11 +23,10 @@ class YoutubeForm extends ContentObjectForm
 
     protected function build_editing_form()
     {
-        $link = PATH :: get(WEB_PATH) . 'application/common/streaming_media_manager/index.php?' . StreamingMediaBrowser::PARAM_TYPE . '=' . Youtube::get_type_name();
+        $link = PATH :: get(WEB_PATH) . 'application/common/streaming_media_manager/index.php?' . StreamingMediaLauncher::PARAM_TYPE . '=' . Youtube::get_type_name();
     	parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->addElement('static', null, null, '<a class="button normal_button upload_button" href="javascript:window.open(\'' . $link .'\',\'hello\');"> '. Translation :: get('BrowseStreamingVideo') .'</a>');
-        $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
+		$this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\''. $link .'\');"> '. Translation :: get('BrowseStreamingVideo') .'</a>');        $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
         $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
         $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
         $this->addElement('category');

@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../../common/global.inc.php';
-require_once dirname(__FILE__) . '/streaming_media_browser.class.php';
+require_once dirname(__FILE__) . '/streaming_media_launcher.class.php';
 
 $application_name = 'repository';
 $this_section = $application_name;
@@ -14,7 +14,7 @@ if (! Authentication :: is_valid())
 
 // Load the current user
 $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-$browser = new StreamingMediaBrowser($user);
+$browser = new StreamingMediaLauncher($user);
 $browser->run();
 
 ?>

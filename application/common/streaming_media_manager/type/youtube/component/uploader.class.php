@@ -1,6 +1,6 @@
 <?php
 
-class YoutubeStreamingMediaManagerUploaderComponent
+class YoutubeStreamingMediaManagerUploaderComponent extends YoutubeStreamingMediaManager
 {
 	function run()
 	{

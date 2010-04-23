@@ -1,5 +1,5 @@
 <?php
-class StreamingMediaBrowser
+class StreamingMediaLauncher
 {
     const PARAM_TYPE = 'type';
 
@@ -7,10 +7,10 @@ class StreamingMediaBrowser
 
     private $parameters;
 
-    /*function StreamingMediaBrowser($user)
+    function StreamingMediaLauncher($user)
     {
         $this->set_user($user);
-    }*/
+    }
 
     function run()
     {
