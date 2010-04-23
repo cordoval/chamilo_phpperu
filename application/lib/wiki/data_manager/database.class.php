@@ -17,7 +17,7 @@ require_once 'MDB2.php';
 class DatabaseWikiDataManager extends WikiDataManager
 {
     private $database;
-
+    
     function initialize()
     {
         $aliases = array();
@@ -271,6 +271,11 @@ class DatabaseWikiDataManager extends WikiDataManager
     function query($query)
     {
     	return $this->database->query($query);
+    }
+    
+	function quote($value)
+    {
+    	return $this->database->quote($value);
     }
 
 }

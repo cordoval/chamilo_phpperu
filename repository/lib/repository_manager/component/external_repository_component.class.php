@@ -90,7 +90,7 @@ class RepositoryManagerExternalRepositoryComponent extends RepositoryManagerMeta
      */
     protected function check_user_can_access_content_object($content_object, $with_error_display = false)
     {
-        if ($content_object->get_owner_id() != $this->get_user_id() && ! $this->get_parent()->has_right($content_object, $this->get_user_id(), RepositoryRights :: REUSE_RIGHT))
+        if ($content_object->get_owner_id() != $this->get_user_id() && ! $this->has_right($content_object, $this->get_user_id(), RepositoryRights :: REUSE_RIGHT))
         {
             if ($with_error_display)
             {

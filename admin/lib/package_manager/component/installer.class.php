@@ -6,7 +6,7 @@
  */
 require_once Path :: get_admin_path() . 'lib/package_manager/component/remote_package_browser/remote_package_browser_table.class.php';
 
-class PackageManagerInstallerComponent extends PackageManagerComponent
+class PackageManagerInstallerComponent extends PackageManager
 {
 
     /**

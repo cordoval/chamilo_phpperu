@@ -620,6 +620,11 @@ abstract class Tool
         return $parents;
     }
     
+    function create_component($type, $application)
+    {
+    	return $this->parent->create_component($type, $application);
+    }
+    
     static function factory($tool_name, $parent)
     {
     	$file = dirname(__FILE__) . '/' . $tool_name . '/' . $tool_name . '_tool.class.php';

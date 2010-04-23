@@ -9,7 +9,7 @@ require_once (dirname(__FILE__) . '/../dynamic_form_element.class.php');
 require_once (dirname(__FILE__) . '/../dynamic_form_element_option.class.php');
 require_once (dirname(__FILE__) . '/../dynamic_form_element_value.class.php');
 
-class DynamicFormManagerViewerComponent extends DynamicFormManagerComponent
+class DynamicFormManagerViewerComponent extends DynamicFormManager
 {
     private $table;
     

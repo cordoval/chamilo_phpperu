@@ -7,7 +7,7 @@
 /**
  *
  */
-class ReportingManagerAddComponent extends ReportingManagerComponent
+class ReportingManagerAddComponent extends ReportingManager
 {
     private $action_bar;
 

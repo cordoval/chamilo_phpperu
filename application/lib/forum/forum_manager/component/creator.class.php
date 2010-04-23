@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../forms/forum_publication_form.class.php'
  * Component to create a new forum_publication object
  * @author Sven Vanpoucke & Michael Kyndt
  */
-class ForumManagerCreatorComponent extends ForumManagerComponent
+class ForumManagerCreatorComponent extends ForumManager
 {
 
     /**

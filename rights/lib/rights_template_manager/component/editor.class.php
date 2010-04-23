@@ -7,7 +7,7 @@ require_once Path :: get_rights_path() . 'lib/rights_template_manager/component/
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
-class RightsTemplateManagerEditorComponent extends RightsTemplateManagerComponent
+class RightsTemplateManagerEditorComponent extends RightsTemplateManager
 {
 
     /**

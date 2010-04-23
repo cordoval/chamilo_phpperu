@@ -5,7 +5,7 @@
  */
 require_once Path :: get_rights_path() . 'lib/location_manager/component/location_browser_table/location_browser_table.class.php';
 
-class LocationManagerBrowserComponent extends LocationManagerComponent
+class LocationManagerBrowserComponent extends LocationManager
 {
     private $action_bar;
     

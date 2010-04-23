@@ -1,5 +1,5 @@
 <?php
-class EvaluationManagerDeleterComponent extends EvaluationManagerComponent
+class EvaluationManagerDeleterComponent extends EvaluationManager
 {
 	function run()
 	{

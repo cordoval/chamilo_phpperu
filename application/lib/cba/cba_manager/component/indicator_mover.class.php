@@ -1,10 +1,9 @@
 <?php
 require_once dirname(__FILE__) . '/../cba_manager.class.php';
-require_once dirname(__FILE__) . '/../cba_manager_component.class.php';
 /**
  * @author Nick Van Loocke
  */
-class CbaManagerIndicatorMoverComponent extends CbaManagerComponent
+class CbaManagerIndicatorMoverComponent extends CbaManager
 {
 
     /**

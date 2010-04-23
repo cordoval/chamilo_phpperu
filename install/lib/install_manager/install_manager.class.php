@@ -3,7 +3,6 @@
  * $Id: install_manager.class.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib.installmanager
  */
-require_once dirname(__FILE__) . '/install_manager_component.class.php';
 require_once dirname(__FILE__) . '/../install_data_manager.class.php';
 /**
  * An install manager provides some functionalities to the end user to install
@@ -54,11 +53,11 @@ class InstallManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_INSTALL_PLATFORM :
-                $component = InstallManagerComponent :: factory('Installer', $this);
+                $component = $this->create_component('Installer');
                 break;
             default :
                 $this->set_action(self :: ACTION_INSTALL_PLATFORM);
-                $component = InstallManagerComponent :: factory('Installer', $this);
+                $component = $this->create_component('Installer');
         }
         $component->run();
     }

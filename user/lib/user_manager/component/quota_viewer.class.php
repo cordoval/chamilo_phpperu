@@ -15,7 +15,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-class UserManagerQuotaViewerComponent extends UserManagerComponent
+class UserManagerQuotaViewerComponent extends UserManager
 {
     private $selected_user;
 

@@ -7,7 +7,7 @@
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
  */
-class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerComponent
+class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManager
 {
 
     /**
@@ -39,7 +39,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
     private function display_content_objects()
     {
         $parameters = $this->get_parameters(true);
-        $table = new RecycleBinBrowserTable($this, $parameters, $this->get_parent()->get_current_user_recycle_bin_conditions());
+        $table = new RecycleBinBrowserTable($this, $parameters, $this->get_current_user_recycle_bin_conditions());
         echo $table->as_html();
         return $table->get_object_count();
     }
@@ -51,7 +51,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
      */
     private function empty_recycle_bin()
     {
-        $trashed_objects = $this->retrieve_content_objects($this->get_parent()->get_current_user_recycle_bin_conditions(), array(), 0, - 1);
+        $trashed_objects = $this->retrieve_content_objects($this->get_current_user_recycle_bin_conditions(), array(), 0, - 1);
         $count = 0;
         while ($object = $trashed_objects->next_result())
         {

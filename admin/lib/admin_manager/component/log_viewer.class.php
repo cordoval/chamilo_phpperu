@@ -10,7 +10,7 @@ require_once 'HTML/Table.php';
 /**
  * Admin component
  */
-class AdminManagerLogViewerComponent extends AdminManagerComponent
+class AdminManagerLogViewerComponent extends AdminManager
 {
 
     /**

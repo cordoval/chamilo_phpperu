@@ -29,7 +29,7 @@ class GradebookInternalItemForm extends FormValidator
 //		}
 	}
 	
-	function create_internal_item($publication_id, $calculated)
+	function create_internal_item($publication_id, $calculated = 0)
 	{
 		$internal_item = new InternalItem();
 		$internal_item->set_application(Request :: get('application'));

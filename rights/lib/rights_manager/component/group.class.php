@@ -6,7 +6,7 @@
 /**
  * Admin component
  */
-class RightsManagerGroupComponent extends RightsManagerComponent
+class RightsManagerGroupComponent extends RightsManager
 {
 
     /**

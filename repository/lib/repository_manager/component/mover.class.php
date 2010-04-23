@@ -7,7 +7,7 @@
  * Repository manager component to move learning objects between categories in
  * the repository.
  */
-class RepositoryManagerMoverComponent extends RepositoryManagerComponent
+class RepositoryManagerMoverComponent extends RepositoryManager
 {
 
     /**

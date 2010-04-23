@@ -9,7 +9,7 @@
  * @author vanpouckesven
  *
  */
-class RepositoryManagerComplexBuilderComponent extends RepositoryManagerComponent
+class RepositoryManagerComplexBuilderComponent extends RepositoryManager
 {
 
     /**
@@ -23,7 +23,7 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManagerComponen
 
     function display_header($breadcrumbtrail, $helpitem)
     {
-        $this->get_parent()->display_header($breadcrumbtrail, false, false, $helpitem);
+        parent :: display_header($breadcrumbtrail, false, false, $helpitem);
     }
 }
 ?>

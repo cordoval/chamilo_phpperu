@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../email_form.class.php';
 
-class EmailManagerEmailerComponent extends EmailManagerComponent
+class EmailManagerEmailerComponent extends EmailManager
 {
     /**
      * Runs this component and displays its output.

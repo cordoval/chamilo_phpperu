@@ -6,7 +6,7 @@
 /**
  * 
  */
-class RepositoryManagerPublisherComponent extends RepositoryManagerComponent
+class RepositoryManagerPublisherComponent extends RepositoryManager
 {
 
     /**

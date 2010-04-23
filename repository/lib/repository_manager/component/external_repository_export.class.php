@@ -37,7 +37,7 @@ class RepositoryManagerExternalRepositoryExportComponent extends RepositoryManag
                 {
                     //debug($custom_component_class_name);
                     
-                    $custom_component = RepositoryManagerComponent :: factory($custom_component_class_name, $this->get_parent());
+                    $custom_component = RepositoryManagerComponent :: factory($custom_component_class_name, $this);
                     $custom_component->export($external_repository);
                 }
                 else

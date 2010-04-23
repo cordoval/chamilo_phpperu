@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerUserSettingsComponent extends UserManagerComponent
+class UserManagerUserSettingsComponent extends UserManager
 {
 	const PARAM_APPLICATION = 'category';
 
@@ -91,7 +91,7 @@ class UserManagerUserSettingsComponent extends UserManagerComponent
 		parent :: display_footer();
 	}
 
-	function get_selecter($url, $current_application = null)
+	static function get_selecter($url, $current_application = null)
     {
         $html = array();
 
@@ -103,7 +103,7 @@ class UserManagerUserSettingsComponent extends UserManagerComponent
 
         foreach ($the_applications as $the_application)
         {
-            if(!$this->application_has_settings($the_application))
+            if(!self :: application_has_settings($the_application))
             	continue;
 
         	if (isset($current_application) && $current_application == $the_application)

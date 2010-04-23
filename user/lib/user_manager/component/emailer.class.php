@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerEmailerComponent extends UserManagerComponent
+class UserManagerEmailerComponent extends UserManager
 {
 
     /**

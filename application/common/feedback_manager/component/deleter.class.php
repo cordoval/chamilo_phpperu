@@ -9,7 +9,7 @@
  *
  * @author pieter
  */
-class FeedbackManagerDeleterComponent extends FeedbackManagerComponent
+class FeedbackManagerDeleterComponent extends FeedbackManager
 {
 
     function run()

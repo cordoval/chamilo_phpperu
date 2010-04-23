@@ -4,7 +4,7 @@
  * @package rights.lib.group_right_manager.component
  */
 
-class GroupRightManagerSetterComponent extends GroupRightManagerComponent
+class GroupRightManagerSetterComponent extends GroupRightManager
 {
 
     /**

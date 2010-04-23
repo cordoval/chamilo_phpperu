@@ -7,7 +7,7 @@
 /**
  * Component for viewing tracker events
  */
-class TrackingManagerAdminEventBrowserComponent extends TrackingManagerComponent
+class TrackingManagerAdminEventBrowserComponent extends TrackingManager
 {
 
     /**

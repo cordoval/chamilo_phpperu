@@ -66,7 +66,6 @@ abstract class PeerAssessmentDataManager
     abstract function count_peer_assessment_publication_categories($conditions = null);
 
     abstract function retrieve_peer_assessment_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
-    
-  
+   
 }
 ?>

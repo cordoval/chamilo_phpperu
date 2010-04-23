@@ -26,7 +26,7 @@ class EvaluationFormatsBrowserTableColumnModel extends DefaultEvaluationFormatsT
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new StaticTableColumn('Action');
+			self :: $modification_column = new StaticTableColumn(Translation :: get('action'));
 		}
 		return self :: $modification_column;
 	}

@@ -4,7 +4,7 @@
  * 
  * @author Nick Van Loocke
  */
-class CbaManagerCreateComponent extends CbaManagerComponent
+class CbaManagerCreateComponent extends CbaManager
 {
 	function run()
 	{

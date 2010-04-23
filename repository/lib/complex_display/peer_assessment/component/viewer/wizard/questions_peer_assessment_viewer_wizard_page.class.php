@@ -23,9 +23,10 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
         $question_count = count($this->questions);
 
         $peer_assessment_page = $this->get_parent()->get_page($this->page_number);
+        
 
         // Add buttons next, back and submit
-        if ($this->page_number > 1)
+        /*if ($this->page_number > 1)
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
         }
@@ -49,7 +50,7 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
                 $question_display = PeerAssessmentQuestionDisplay :: factory($this, $question, $nr, $this->get_parent()->get_peer_assessment(), $this->page_number);
                 $question_display->display();
             }
-        }
+        }*/
 
         $renderer = $this->defaultRenderer();
         $renderer->setElementTemplate('<div style="float: right;">{element}</div><br /><br />', 'buttons');
@@ -60,6 +61,19 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
     function get_page_number()
     {
         return $this->page_number;
+    }
+    
+    function get_user_drop_down()
+    {
+    	
+    	/*$renderer = $this->defaultRenderer();
+		$buttons = array();
+        $buttons[] = $this->createElement('select', null, null, null);
+        $this->addGroup($buttons, 'criteria_buttons', null, '', false);
+        
+
+        $renderer->setElementTemplate('<td>{element}</td>', 'criteria_buttons');
+        //$renderer->setGroupElementTemplate('<td>{element}</td>', 'criteria_buttons');  */ 
     }
 }
 ?>

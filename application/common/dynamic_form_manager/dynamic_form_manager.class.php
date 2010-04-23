@@ -5,7 +5,6 @@
  * @author Sven Vanpoucke
  */
 
-require_once dirname(__FILE__) . '/dynamic_form_manager_component.class.php';
 require_once dirname(__FILE__) . '/dynamic_form.class.php';
 require_once dirname(__FILE__) . '/component/dynamic_form_element_browser/dynamic_form_element_browser_table.class.php';
 
@@ -56,34 +55,34 @@ class DynamicFormManager extends SubManager
         switch ($dynamic_form_action)
         {
             case self :: ACTION_BUILD_DYNAMIC_FORM :
-                $component = DynamicFormManagerComponent :: factory('Builder', $this);
+                $component = $this->create_component('Builder');
                 break;
             case self :: ACTION_VIEW_DYNAMIC_FORM :
-                $component = DynamicFormManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_ADD_FORM_ELEMENT :
-                $component = DynamicFormManagerComponent :: factory('AddElement', $this);
+                $component = $this->create_component('AddElement');
                 break;
             case self :: ACTION_UPDATE_FORM_ELEMENT :
-                $component = DynamicFormManagerComponent :: factory('UpdateElement', $this);
+                $component = $this->create_component('UpdateElement');
                 break;
             case self :: ACTION_DELETE_FORM_ELEMENT :
-                $component = DynamicFormManagerComponent :: factory('DeleteElement', $this);
+                $component = $this->create_component('DeleteElement');
                 break;
             case self :: ACTION_EXECUTE_DYNAMIC_FORM :
-            	$component = DynamicFormManagerComponent :: factory('Executer', $this);
+            	$component = $this->create_component('Executer');
                 break;
             default :
             	switch($this->type)
             	{
             		case self :: TYPE_VIEWER:
-            			$component = DynamicFormManagerComponent :: factory('Viewer', $this);
+            			$component = $this->create_component('Viewer');
             			break;
             		case self :: TYPE_BUILDER:
-            			$component = DynamicFormManagerComponent :: factory('Builder', $this);
+            			$component = $this->create_component('Builder');
             			break;
             		case self :: TYPE_EXECUTER:
-            			$component = DynamicFormManagerComponent :: factory('Executer', $this);
+            			$component = $this->create_component('Executer');
             			break;
             	}
                 break;
@@ -180,6 +179,29 @@ class DynamicFormManager extends SubManager
 	function get_dynamic_form_title()
 	{
 		return $this->get_parent()->get_dynamic_form_title();
+	}
+
+	public function get_type() 
+	{
+		return $this->type;
+	}
+
+	public function set_type($type) 
+	{
+		$this->type = $type;
+	}
+
+	function create_component($type, $application)
+	{
+		$component = parent :: create_component($type, $application);
+		
+		if(is_subclass_of($component, __CLASS__))
+		{
+			$component->set_type($this->get_type());
+			$component->set_form($this->get_form());
+		}
+		
+		return $component;
 	}
 }
 ?>

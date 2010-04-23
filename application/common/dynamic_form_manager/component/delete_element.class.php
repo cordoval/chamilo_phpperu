@@ -7,7 +7,7 @@
 
 require_once dirname(__FILE__) . '/../dynamic_form_element.class.php';
 
-class DynamicFormManagerDeleteElementComponent extends DynamicFormManagerComponent
+class DynamicFormManagerDeleteElementComponent extends DynamicFormManager
 {
     /**
      * Runs this component and displays its output.

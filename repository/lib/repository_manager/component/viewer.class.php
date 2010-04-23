@@ -6,7 +6,7 @@
 /**
  * Repository manager component which can be used to view a learning object.
  */
-class RepositoryManagerViewerComponent extends RepositoryManagerComponent
+class RepositoryManagerViewerComponent extends RepositoryManager
 {
     private $action_bar;
     private $object;
@@ -22,7 +22,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
             $object = $this->retrieve_content_object($id);
             $this->object = $object;
             // TODO: Use Roles & Rights here.
-            if ($object->get_owner_id() != $this->get_user_id() && ! $this->get_parent()->has_right($object, $this->get_user_id(), RepositoryRights :: VIEW_RIGHT))
+            if ($object->get_owner_id() != $this->get_user_id() && ! $this->has_right($object, $this->get_user_id(), RepositoryRights :: VIEW_RIGHT))
             {
                 $this->not_allowed();
             }

@@ -53,23 +53,23 @@ class RightsManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_MANAGE_RIGHTS_TEMPLATES :
-                $component = RightsManagerComponent :: factory('Templater', $this);
+                $component = $this->create_component('Templater');
                 break;
             case self :: ACTION_MANAGE_USER_RIGHTS :
-                $component = RightsManagerComponent :: factory('User', $this);
+                $component = $this->create_component('User');
                 break;
             case self :: ACTION_MANAGE_GROUP_RIGHTS :
-                $component = RightsManagerComponent :: factory('Group', $this);
+                $component = $this->create_component('Group');
                 break;
             case self :: ACTION_MANAGE_LOCATIONS :
-                $component = RightsManagerComponent :: factory('Locater', $this);
+                $component = $this->create_component('Locater');
                 break;
             case self :: ACTION_REQUEST_RIGHT :
-                $component = RightsManagerComponent :: factory('RightRequester', $this);
+                $component = $this->create_component('RightRequester');
                 break;
             default :
                 $this->set_action(self :: ACTION_MANAGE_RIGHTS_TEMPLATES);
-                $component = RightsManagerComponent :: factory('Templater', $this);
+                $component = $this->create_component('Templater');
         }
         $component->run();
     }

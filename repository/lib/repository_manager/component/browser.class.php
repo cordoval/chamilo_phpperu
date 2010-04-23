@@ -7,7 +7,7 @@
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
  */
-class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
+class RepositoryManagerBrowserComponent extends RepositoryManager
 {
     private $form;
 

@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../forms/wiki_publication_form.class.php';
  * Component to edit an existing wiki_publication object
  * @author Sven Vanpoucke & Stefan Billiet
  */
-class WikiManagerWikiPublicationUpdaterComponent extends WikiManagerComponent
+class WikiManagerWikiPublicationUpdaterComponent extends WikiManager
 {
 
     /**

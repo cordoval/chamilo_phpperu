@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/reporting_viewer_component.class.php';
 
 class ReportingViewer extends SubManager
 {
@@ -98,16 +97,16 @@ class ReportingViewer extends SubManager
         switch ($parent)
         {
             case self :: ACTION_VIEW_TEMPLATE :
-                $component = ReportingViewerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_EXPORT_TEMPLATE :
-                $component = ReportingViewerComponent :: factory('Exporter', $this);
+                $component = $this->create_component('Exporter');
                 break;
             case self :: ACTION_SAVE_TEMPLATE :
-                $component = ReportingViewerComponent :: factory('Saver', $this);
+                $component = $this->create_component('Saver');
                 break;
             default :
-                $component = ReportingViewerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 $this->set_parameter(self :: PARAM_REPORTING_VIEWER_ACTION, self :: ACTION_VIEW_TEMPLATE);
                 break;
         }
@@ -129,6 +128,18 @@ class ReportingViewer extends SubManager
 	{
 		$this->template = $template;
 		$this->set_parameter(ReportingManager::PARAM_TEMPLATE_ID, $template->get_id());
+	}
+	
+	function create_component($type, $application)
+	{
+		$component = parent :: create_component($type, $application);
+		
+		if(is_subclass_of($component, __CLASS__))
+		{
+			$component->set_template($this->get_template());
+		}
+		
+		return $component;
 	}
 }
 ?>
