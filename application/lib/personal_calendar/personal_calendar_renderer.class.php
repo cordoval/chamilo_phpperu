@@ -41,7 +41,7 @@ abstract class PersonalCalendarRenderer
      */
     public function get_events($from_date, $to_date)
     {
-        return $this->personal_calendar->get_events($from_date, $to_date);
+    	return $this->personal_calendar->get_events($from_date, $to_date);
     }
 
     /**
