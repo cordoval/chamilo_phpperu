@@ -248,5 +248,10 @@ abstract class ToolComponent
     {
         return $this->tool->get_complex_builder_url($pid);
     }
+    
+	function create_component($type, $application)
+    {
+    	return $this->tool->create_component($type, $application);
+    }
 
 }
