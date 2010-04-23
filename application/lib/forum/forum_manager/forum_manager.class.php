@@ -29,6 +29,7 @@ class ForumManager extends WebApplication
     const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
     const ACTION_MOVE = 'move';
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
+    const ACTION_EVALUATE = 'evaluate';
     
     private $parameters;
     private $user;
@@ -56,32 +57,35 @@ class ForumManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_DELETE :
-                $component = ForumManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_CREATE :
-                $component = ForumManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_BROWSE :
-                $component = ForumManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_VIEW :
-                $component = ForumManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_EDIT :
-                $component = ForumManagerComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
                 break;
             case self :: ACTION_MOVE :
-                $component = ForumManagerComponent :: factory('Mover', $this);
+                $component = $this->create_component('Mover');
                 break;
             case self :: ACTION_TOGGLE_VISIBILITY :
-                $component = ForumManagerComponent :: factory('ToggleVisibility', $this);
+                $component = $this->create_component('ToggleVisibility');
                 break;
             case self :: ACTION_MANAGE_CATEGORIES :
-                $component = ForumManagerComponent :: factory('CategoryManager', $this);
+                $component = $this->create_component('CategoryManager');
                 break;
+            case self :: ACTION_EVALUATE :
+            	$component = $this->create_component('ForumEvaluation');
+            	break;
             default :
                 $this->set_action(self :: ACTION_BROWSE);
-                $component = ForumManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         
         }
         $component->run();
@@ -130,7 +134,7 @@ class ForumManager extends WebApplication
 
     function get_browse_forum_publications_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_FORUM_PUBLICATIONS));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
     }
 
     function get_browse_url()
@@ -158,7 +162,7 @@ class ForumManager extends WebApplication
 
     function get_content_object_publication_attribute($object_id)
     {
-    
+    	return ForumDataManager :: get_instance()->get_content_object_publication_attribute($object_id);
     }
 
 	function count_publication_attributes($user = null, $object_id = null, $condition = null)

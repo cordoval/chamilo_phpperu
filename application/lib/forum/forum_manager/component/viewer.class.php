@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../forum_manager_component.class.php';
  * Component to view a new forum_publication object
  * @author Michael Kyndt
  */
-class ForumManagerViewerComponent extends ForumManagerComponent
+class ForumManagerViewerComponent extends ForumManager
 {
 	private $trail;
 	

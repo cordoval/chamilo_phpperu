@@ -76,7 +76,13 @@ class ForumPublicationForm extends FormValidator
         
 			$attributes['defaults'][] = $default;
 		}*/
-        
+    
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
+        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+        	$gradebook_internal_item_form->build_evaluation_question($this);
+        }
         $this->add_select(ForumPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category'), $this->get_forum_publication_categories(), true);
         
         $this->add_receivers('target', Translation :: get('PublishFor'), $attributes);
@@ -195,7 +201,12 @@ class ForumPublicationForm extends FormValidator
             
             $succes &= $forum_publication->create();
         }
-        
+    
+		if($values['evaluation'] == true)
+		{
+        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+        	$gradebook_internal_item_form->create_internal_item($forum_publication->get_id(), false);
+		}
         return $succes;
     }
 

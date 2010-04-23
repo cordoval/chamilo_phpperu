@@ -15,9 +15,9 @@ class ExternalItem extends DataClass
      * Get the default properties
      * @return array The property names.
      */
-    static function get_defualt_property_names()
+    static function get_default_property_names()
     {
-    	return parent :: get_defualt_property_names(array(self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION));
+    	return parent :: get_default_property_names(array(self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION));
     }
     
     function get_data_manager()

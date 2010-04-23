@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../wiki_manager_component.class.php';
  * Component to delete wiki_publications objects
  * @author Sven Vanpoucke & Stefan Billiet
  */
-class WikiManagerWikiPublicationDeleterComponent extends WikiManagerComponent
+class WikiManagerWikiPublicationDeleterComponent extends WikiManager
 {
 
     /**

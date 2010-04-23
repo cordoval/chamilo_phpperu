@@ -4,7 +4,7 @@
  * @package application.lib.forum.forum_manager.component
  */
 
-class ForumManagerEditorComponent extends ForumManagerComponent
+class ForumManagerEditorComponent extends ForumManager
 {
 
     function run()

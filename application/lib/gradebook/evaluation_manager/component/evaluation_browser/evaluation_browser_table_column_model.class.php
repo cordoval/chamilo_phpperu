@@ -11,7 +11,7 @@ class EvaluationBrowserTableColumnModel extends DefaultEvaluationBrowserTableCol
 	/**
 	 * Constructor
 	 */
-	function EvaluationBrowserTableColumnModel($browser)
+	function EvaluationBrowserTableColumnModel()
 	{
 		parent :: __construct();
         $this->set_default_order_column(0);
