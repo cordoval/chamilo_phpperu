@@ -98,6 +98,8 @@ $lang['survey']['SurveyNotStarted'] = 'Enqu&ecirc;te niet gestart';
 $lang['survey']['SurveyStarted'] = 'Enqu&ecirc;te gestart';
 $lang['survey']['SurveyFinished'] = 'Enqu&ecirc;te beëindigd';
 
+$lang['survey']['SurveyDiscription'] = 'Enqu&ecirc;tebeschrijving';
+
 $lang['survey']['BrowseSurvey'] = 'Blader door enqu&ecirc;te';
 
 $lang['survey']['ContextName'] = 'Contextnaam';
@@ -122,9 +124,6 @@ $lang['survey']['PublishFor'] = 'Publiceer voor';
 $lang['survey']['Hidden'] = 'Verborgen';
 $lang['survey']['Update'] = 'Wijzigen';
 $lang['survey']['Reset'] = 'Wissen';
-
-
-$lang['survey']['Logout'] = 'Uitloggen';
 
 
 ?>

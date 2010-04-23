@@ -98,6 +98,8 @@ $lang['survey']['SurveyNotStarted'] = 'Servey not started';
 $lang['survey']['SurveyStarted'] = 'Started survey';
 $lang['survey']['SurveyFinished'] = 'Finished survey';
 
+$lang['survey']['SurveyDiscription'] = 'Survey Description';
+
 $lang['survey']['BrowseSurvey'] = 'Browse survey';
 
 $lang['survey']['ContextName'] = 'Context Name';
