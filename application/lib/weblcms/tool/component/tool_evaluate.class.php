@@ -14,6 +14,7 @@ class ToolToolEvaluateComponent extends ToolComponent
     		$trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE)), Translation :: get('BrowseEvaluations') . ' ' . $tool_publication->get_content_object()->get_title()));
 			$this->set_parameter(Tool ::  PARAM_PUBLICATION_ID, $publication_id);
     		$evaluation_manager = new EvaluationManager($this, $publication_id, $publisher_id, Request :: get(EvaluationManager :: PARAM_EVALUATION_ACTION), $trail);
+    		$evaluation_manager->run();
         }  
         else
         {

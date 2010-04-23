@@ -45,26 +45,26 @@ class WikiManager extends WebApplication
         switch ($action)
         {
         	case self :: ACTION_EVALUATE_WIKI_PUBLICATION :
-        		$component = WikiManagerComponent :: factory('WikiEvaluation', $this);
+        		$component = $this->create_component('WikiEvaluation');
         		break;
             case self :: ACTION_BROWSE_WIKI_PUBLICATIONS :
-                $component = WikiManagerComponent :: factory('WikiPublicationsBrowser', $this);
+                $component = $this->create_component('WikiPublicationsBrowser');
                 break;
             case self :: ACTION_DELETE_WIKI_PUBLICATION :
-                $component = WikiManagerComponent :: factory('WikiPublicationDeleter', $this);
+                $component = $this->create_component('WikiPublicationDeleter');
                 break;
             case self :: ACTION_EDIT_WIKI_PUBLICATION :
-                $component = WikiManagerComponent :: factory('WikiPublicationUpdater', $this);
+                $component = $this->create_component('WikiPublicationUpdater');
                 break;
             case self :: ACTION_CREATE_WIKI_PUBLICATION :
-                $component = WikiManagerComponent :: factory('WikiPublicationCreator', $this);
+                $component = $this->create_component('WikiPublicationCreator');
                 break;
             case self :: ACTION_VIEW_WIKI :
-                $component = WikiManagerComponent :: factory('WikiViewer', $this);
+                $component = $this->create_component('WikiViewer');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_WIKI_PUBLICATIONS);
-                $component = WikiManagerComponent :: factory('WikiPublicationsBrowser', $this);
+                $component = $this->create_component('WikiPublicationsBrowser');
         }
         $component->run();
     }

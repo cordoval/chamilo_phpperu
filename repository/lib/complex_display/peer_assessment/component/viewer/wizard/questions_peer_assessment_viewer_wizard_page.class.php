@@ -23,6 +23,7 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
         $question_count = count($this->questions);
 
         $peer_assessment_page = $this->get_parent()->get_page($this->page_number);
+        
 
         // Add buttons next, back and submit
         /*if ($this->page_number > 1)
@@ -60,6 +61,19 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
     function get_page_number()
     {
         return $this->page_number;
+    }
+    
+    function get_user_drop_down()
+    {
+    	
+    	/*$renderer = $this->defaultRenderer();
+		$buttons = array();
+        $buttons[] = $this->createElement('select', null, null, null);
+        $this->addGroup($buttons, 'criteria_buttons', null, '', false);
+        
+
+        $renderer->setElementTemplate('<td>{element}</td>', 'criteria_buttons');
+        //$renderer->setGroupElementTemplate('<td>{element}</td>', 'criteria_buttons');  */ 
     }
 }
 ?>

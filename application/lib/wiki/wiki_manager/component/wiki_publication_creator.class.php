@@ -12,7 +12,7 @@ require_once Path :: get_application_path() . '/lib/weblcms/content_object_repo_
  * Component to create a new wiki_publication object
  * @author Sven Vanpoucke & Stefan Billiet
  */
-class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
+class WikiManagerWikiPublicationCreatorComponent extends WikiManager
 {
 
     /**

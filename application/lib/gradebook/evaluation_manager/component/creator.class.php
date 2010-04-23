@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../forms/evaluation_form.class.php';
 require_once dirname(__FILE__) . '/../../evaluation.class.php';
 require_once dirname(__FILE__) . '/../../grade_evaluation.class.php';
 
-class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
+class EvaluationManagerCreatorComponent extends EvaluationManager
 {
     function run()
     {
@@ -16,16 +16,12 @@ class EvaluationManagerCreatorComponent extends EvaluationManagerComponent
     
     	if($form->validate())
     	{
-			if(!$form->create_evaluation())
-				$failures++;
-				
-	    	$message = $this->get_result($failures, count($objects), 'EvaluationNotCreated', 'EvaluationsNotCreated', 'EvaluationCreated', 'EvaluationsCreated');
-	    
-            $this->redirect($message, $failures, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
+    		$success = $form->create_evaluation();
+            $this->redirect($success ? Translation :: get('EvaluationCreated') : Translation :: get('EvaluationNotCreated'), ! $success, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
     	}
     	else
     	{
-    		$trail = $this->get_parent()->get_trail();
+    		$trail = $this->get_trail();
 	    	$trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('CreateEvaluation')));
 	    	$this->display_header($trail);
 	    	$form->display();

@@ -3,7 +3,7 @@
  * $Id: toggle_visibility.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
  */
-class ForumManagerToggleVisibilityComponent extends ForumManagerComponent
+class ForumManagerToggleVisibilityComponent extends ForumManager
 {
 
     function run()

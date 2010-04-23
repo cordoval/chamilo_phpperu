@@ -10,7 +10,7 @@ require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.cl
 require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
 require_once 'HTML/Table.php';
 
-class ForumManagerBrowserComponent extends ForumManagerComponent
+class ForumManagerBrowserComponent extends ForumManager
 {
     private $action_bar;
     private $introduction_text;
@@ -188,6 +188,13 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
             $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_FORUM_PUBLICATION => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT)), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
             
             $actions[] = $delete;
+            
+	        if(WebApplication :: is_active('gradebook'))
+	        {
+	        	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        		if(EvaluationManager :: retrieve_internal_item_by_publication(ForumManager :: APPLICATION_NAME, $publication->get_id()))
+	        		$actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_FORUM_PUBLICATION => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EVALUATE)), 'label' => Translation :: get('Evaluation'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png');
+	        }
         
         }
         

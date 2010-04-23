@@ -469,5 +469,6 @@ $lang['weblcms']['RequestForm'] = 'Request Form';
 $lang['weblcms']['CourseRequestProperties'] = 'Course Request Properties';
 $lang['weblcms']['ViewRequest'] = 'View Request';
 $lang['weblcms']['Print'] = 'Print';
-
+$lang['weblcms']['Request'] = 'Request';
+$lang['weblcms']['Pending'] = 'Pending';
 ?>
