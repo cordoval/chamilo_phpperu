@@ -11,7 +11,7 @@
  */
 
 
-class FeedbackManagerCreatorComponent extends FeedbackManagerComponent
+class FeedbackManagerCreatorComponent extends FeedbackManager
 {
 
     function run()

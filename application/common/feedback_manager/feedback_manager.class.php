@@ -10,7 +10,6 @@
  * @author pieter
  */
 
-require_once dirname(__FILE__) . '/feedback_manager_component.class.php';
 
 class FeedbackManager extends SubManager
 {
@@ -61,20 +60,20 @@ class FeedbackManager extends SubManager
         switch ($action)
         {
             case self :: ACTION_BROWSE_FEEDBACK :
-                $component = FeedbackManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_CREATE_FEEDBACK :
                 
-                $component = FeedbackManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_UPDATE_FEEDBACK :
-                $component = FeedbackManagerComponent :: factory('Updater', $this);
+                $component = $this->create_component('Updater');
                 break;
             case self :: ACTION_DELETE_FEEDBACK :
-                $component = FeedbackManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             default :
-                $component = FeedbackManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         
         return $component;
@@ -170,6 +169,20 @@ class FeedbackManager extends SubManager
     {
         $this->get_parent()->add_actionbar_item($link);
     }
+    
+	function create_component($type, $application)
+	{
+		$component = parent :: create_component($type, $application);
+		
+		if(is_subclass_of($component, __CLASS__))
+		{
+			$component->set_application($this->get_application());
+			$component->set_complex_wrapper_id($this->get_complex_wrapper_id());
+			$component->set_publication_id($this->get_publication_id());
+		}
+		
+		return $component;
+	}
 
 }
 ?>

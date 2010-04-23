@@ -3,7 +3,6 @@
  * $Id: email_manager.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.email_manager
  */
-require_once dirname(__FILE__) . '/email_manager_component.class.php';
 
 class EmailManager extends SubManager
 {
@@ -32,10 +31,10 @@ class EmailManager extends SubManager
         switch ($action)
         {
             case self :: ACTION_EMAIL :
-                $component = EmailManagerComponent :: factory('Emailer', $this);
+                $component = $this->create_component('Emailer');
                 break;
             default :
-                $component = EmailManagerComponent :: factory('Emailer', $this);
+                $component = $this->create_component('Emailer');
                 break;
         }
         
@@ -55,6 +54,18 @@ class EmailManager extends SubManager
 	function get_application_component_path() 
 	{
 		return Path :: get_application_library_path() . 'email_manager/component/';
+	}
+	
+	function create_component($type, $application)
+	{
+		$component = parent :: create_component($type, $application);
+		
+		if(is_subclass_of($component, __CLASS__))
+		{
+			$component->set_target_users($this->get_target_users());
+		}
+		
+		return $component;
 	}
 
 }

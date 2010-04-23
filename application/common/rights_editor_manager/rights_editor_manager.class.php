@@ -95,13 +95,17 @@ class RightsEditorManager extends SubManager
     {
     	return $this->excluded_groups;
     }
-    
-    function create_component($type, $application = null)
-    {
+
+	function create_component($type, $application)
+	{
 		$component = parent :: create_component($type, $application);
-		$component->set_locations($this->locations);
+		
+		if(is_subclass_of($component, __CLASS__))
+		{
+			$component->set_locations($this->locations);
+		}
 		
 		return $component;
-    }
+	}
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-class ReportingViewerViewerComponent extends ReportingViewerComponent
+class ReportingViewerViewerComponent extends ReportingViewer
 {
 	function run()
 	{

@@ -7,7 +7,7 @@
 
 require_once dirname(__FILE__) . '/../dynamic_form_execute_form.class.php';
 
-class DynamicFormManagerExecuterComponent extends DynamicFormManagerComponent
+class DynamicFormManagerExecuterComponent extends DynamicFormManager
 {
     function run()
     {

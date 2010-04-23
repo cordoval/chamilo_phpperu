@@ -91,7 +91,7 @@ class UserManagerUserSettingsComponent extends UserManager
 		parent :: display_footer();
 	}
 
-	function get_selecter($url, $current_application = null)
+	static function get_selecter($url, $current_application = null)
     {
         $html = array();
 
@@ -103,7 +103,7 @@ class UserManagerUserSettingsComponent extends UserManager
 
         foreach ($the_applications as $the_application)
         {
-            if(!$this->application_has_settings($the_application))
+            if(!self :: application_has_settings($the_application))
             	continue;
 
         	if (isset($current_application) && $current_application == $the_application)

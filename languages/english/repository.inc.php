@@ -89,6 +89,8 @@ $lang['repository']['SurveyDescription'] = 'Survey Description';
 $lang['repository']['SurveyDescriptionFormTitle'] = 'Title';
 $lang['repository']['SurveyDescriptionFormDescription'] = 'Description';
 
+$lang['repository']['SurveyDiscription'] = 'Survey Description';
+
 $lang['repository']['PublicationDetails'] = 'Publication Details';
 $lang['repository']['TestCase'] = 'Test case';
 $lang['repository']['RootSurveyCategory'] = 'Root Server Category';
