@@ -74,6 +74,6 @@ $lang['home']['BlockAdded'] = '';
 $lang['home']['Site'] = '';
 $lang['home']['PortalHome'] = '';
 $lang['home']['ConfigurePortalHomeFirst'] = '';
-$lang['home']['ResetPassword'] = '';
-$lang['home']['EnterUsername'] = '';
+$lang['home']['ResetPassword'] = 'Stel uw wachtwoord opnieuw in';
+$lang['home']['EnterUsername'] = 'Geef uw gebruikersnaam in';
 ?>

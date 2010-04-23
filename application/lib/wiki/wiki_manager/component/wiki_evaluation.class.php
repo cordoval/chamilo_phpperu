@@ -2,7 +2,7 @@
 require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
 require_once dirname (__FILE__) . '/../wiki_manager.class.php';
 
-class WikiManagerWikiEvaluationComponent extends WikiManagerComponent
+class WikiManagerWikiEvaluationComponent extends WikiManager
 {
     function run()
     {
@@ -16,6 +16,7 @@ class WikiManagerWikiEvaluationComponent extends WikiManagerComponent
     		$trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE, WikiManager :: PARAM_WIKI_PUBLICATION => $publication_id)), Translation :: get('BrowseEvaluations') . ' ' . $wiki_publication->get_content_object()->get_title()));
     		$this->set_parameter(WikiManager :: PARAM_WIKI_PUBLICATION, $publication_id);
 			$evaluation_manager = new EvaluationManager($this, $publication_id, $publisher_id, Request :: get(EvaluationManager :: PARAM_EVALUATION_ACTION), $trail);
+			$evaluation_manager->run();
         }  
         else
         {

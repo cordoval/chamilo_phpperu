@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../feedback_form.class.php';
 //require_once Path :: get_application_path().'/lib/portfolio/portfolio_manager/portfolio_manager.class.php';
 
 
-class FeedbackManagerBrowserComponent extends FeedbackManagerComponent
+class FeedbackManagerBrowserComponent extends FeedbackManager
 {
     
     const TITLE_MARKER = '<!-- /title -->';

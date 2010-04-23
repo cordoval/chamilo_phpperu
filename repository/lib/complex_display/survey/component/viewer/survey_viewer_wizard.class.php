@@ -31,29 +31,27 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         $this->addAction('next', new SurveyViewerWizardNext($this));
         $this->addAction('process', new SurveyViewerWizardProcess($this));
         $this->addAction('display', new SurveyViewerWizardDisplay($this));
-    	
+    
     }
 
     function add_pages()
     {
         
-        
-    	$survey_pages = $this->survey->get_pages();
+        $survey_pages = $this->survey->get_pages();
         $page_nr = 0;
         $question_nr = 0;
         
-     
-        
-        while ($survey_page = $survey_pages->next_result())
+        foreach ($survey_pages as $survey_page)
         {
             $page_nr ++;
             $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
             $questions = array();
             $page_questions = $survey_page->get_questions();
-              
-            while ($question = $page_questions->next_result())
+            
+            foreach ($page_questions as $question)
             {
-                if ($question->get_type() == SurveyDescription :: get_type_name())
+                
+            	if ($question->get_type() == SurveyDescription :: get_type_name())
                 {
                     $questions[$question->get_id() . 'description'] = $question;
                 }
@@ -65,11 +63,23 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
             
             }
             
+//            while ($question = $page_questions->next_result())
+//            {
+//                if ($question->get_type() == SurveyDescription :: get_type_name())
+//                {
+//                    $questions[$question->get_id() . 'description'] = $question;
+//                }
+//                else
+//                {
+//                    $question_nr ++;
+//                    $questions[$question_nr] = $question;
+//                }
+//            
+//            }
+            
             $this->pages[$page_nr] = array(page => $survey_page, questions => $questions);
-        	
+        
         }
-        
-        
         
         if ($page_nr == 0)
         {

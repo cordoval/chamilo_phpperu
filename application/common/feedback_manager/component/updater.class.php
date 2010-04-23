@@ -12,7 +12,7 @@
 
 require_once Path :: get_repository_path() . '/lib/content_object/feedback/feedback_form.class.php';
 
-class FeedbackManagerUpdaterComponent extends FeedbackManagerComponent
+class FeedbackManagerUpdaterComponent extends FeedbackManager
 {
 
     function run()

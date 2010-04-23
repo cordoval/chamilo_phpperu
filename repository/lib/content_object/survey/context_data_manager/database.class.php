@@ -32,11 +32,7 @@ class DatabaseSurveyContextDataManager extends SurveyContextDataManager
     function initialize()
     {
         PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array(get_class(), 'handle_error'));
-//        $aliasses = array();
-//        $aliasses[SurveyContext :: get_table_name()] = 'sct';
-//        $aliasses[SurveyStudentContext :: get_table_name()] = 'ssct';
-//        $aliasses[SurveyDefaultContext :: get_table_name()] = 'sdct';
-        $this->database = new Database();
+	    $this->database = new Database();
         $this->database->set_prefix('repository_');
     
     }

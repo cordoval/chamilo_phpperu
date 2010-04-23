@@ -129,6 +129,10 @@ abstract class GradebookDataManager {
 	abstract function update_grade_evaluation($grade_evaluation);
 	
 	abstract function create_grade_evaluation_object_from_data($tracker_score);
+	
+	abstract function retrieve_applications_with_evaluations();
+	
+	abstract function retrieve_internal_items_by_application($application);
 	/*
 	abstract function create_gradebook_rel_user($gradebookreluser);
 

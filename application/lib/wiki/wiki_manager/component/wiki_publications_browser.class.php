@@ -13,7 +13,7 @@ require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_disp
  * wiki component which allows the user to browse his wiki_publications
  * @author Sven Vanpoucke & Stefan Billiet
  */
-class WikiManagerWikiPublicationsBrowserComponent extends WikiManagerComponent
+class WikiManagerWikiPublicationsBrowserComponent extends WikiManager
 {
     private $action_bar;
 

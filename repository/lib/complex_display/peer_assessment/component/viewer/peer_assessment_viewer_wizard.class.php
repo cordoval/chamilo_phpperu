@@ -38,9 +38,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
 
     function add_pages()
     {
-
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->peer_assessment->get_id(), ComplexContentObjectItem :: get_table_name()));
-//
         
         /*$count = $this->total_pages = 2;
         

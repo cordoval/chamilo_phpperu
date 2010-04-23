@@ -466,9 +466,9 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
             $toolbar_data[] = array('label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
         }
         
-        $toolbar_data[] = array('href' => $this->get_course_user_edit_url($course), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $toolbar_data[] = array('href' => $this->get_course_user_edit_url($course), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
         
-        $toolbar_data[] = array('img' => Theme :: get_common_image_path() . 'spacer.png');
+        $toolbar_data[] = array('img' => Theme :: get_common_image_path() . 'spacer_tab.png');
         
         return Utilities :: build_toolbar($toolbar_data);
     }

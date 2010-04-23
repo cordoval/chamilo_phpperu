@@ -210,7 +210,6 @@ class DatabaseForumDataManager extends ForumDataManager
             $info = new ContentObjectPublicationAttributes();
             $info->set_id($record[ForumPublication :: PROPERTY_ID]);
             $info->set_publisher_user_id($record[ForumPublication :: PROPERTY_AUTHOR]);
-            $info->set_publication_date($record[ForumPublication :: PROPERTY_PUBLISHED]);
             $info->set_application('alexia');
             //TODO: i8n location string
             $info->set_location(Translation :: get('Forum'));
@@ -239,7 +238,6 @@ class DatabaseForumDataManager extends ForumDataManager
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[ForumPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[ForumPublication :: PROPERTY_AUTHOR]);
-        $publication_attr->set_publication_date($record[ForumPublication :: PROPERTY_PUBLISHED]);
         $publication_attr->set_application('alexia');
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('Forum'));
@@ -291,6 +289,16 @@ class DatabaseForumDataManager extends ForumDataManager
         {
             return false;
         }
+    }
+
+	function quote($value)
+    {
+    	return $this->database->quote($value);
+    }
+
+    function query($query)
+    {
+    	return $this->database->query($query);
     }
 
 }

@@ -81,15 +81,6 @@ class PeerAssessmentPublicationBrowserTableCellRenderer extends DefaultPeerAsses
 			$toolbar_data[] = array('href' => $this->browser->get_build_peer_assessment_url($peer_assessment_publication), 'img' => Theme :: get_common_image_path() . 'action_build.png', 'label' => Translation :: get('BuildComplex'));
         }
         
-        
-        // Gradebook
-        if(WebApplication :: is_active('gradebook'))
-        {
-        	require_once dirname (__FILE__) . '/../../../../gradebook/gradebook_manager/gradebook_manager.class.php';
-        	if(GradebookManager :: retrieve_internal_item_by_publication('peer_assessment', $peer_assessment_publication->get_id()))
-        		$toolbar_data[] = array('href' => $this->browser->get_evaluation_publication_url($peer_assessment_publication), 'label' => Translation :: get('Evaluation'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png');
-        }
-        
         return Utilities :: build_toolbar($toolbar_data);
     }
 }

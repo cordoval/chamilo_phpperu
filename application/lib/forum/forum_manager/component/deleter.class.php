@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../forum_manager_component.class.php';
  * Component to delete forum_publications objects
  * @author Sven Vanpoucke & Michael Kyndt
  */
-class ForumManagerDeleterComponent extends ForumManagerComponent
+class ForumManagerDeleterComponent extends ForumManager
 {
 
     /**

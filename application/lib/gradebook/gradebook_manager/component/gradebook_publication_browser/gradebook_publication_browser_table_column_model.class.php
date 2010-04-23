@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__).'/../../../tables/evaluation_formats_table/default_evaluation_formats_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../tables/gradebook_publication_table/default_gradebook_publication_table_column_model.class.php';
 
-class EvaluationFormatsBrowserTableColumnModel extends DefaultEvaluationFormatsTableColumnModel
+class GradebookPublicationBrowserTableColumnModel extends DefaultGradebookPublicationTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -11,7 +11,7 @@ class EvaluationFormatsBrowserTableColumnModel extends DefaultEvaluationFormatsT
 	/**
 	 * Constructor
 	 */
-	function EvaluationFormatsBrowserTableColumnModel($browser)
+	function GradebookPublicationBrowserTableColumnModel($browser)
 	{
 		parent :: __construct();
         $this->set_default_order_column(1);
