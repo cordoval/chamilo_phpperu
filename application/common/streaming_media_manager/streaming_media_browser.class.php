@@ -7,10 +7,10 @@ class StreamingMediaBrowser
 
     private $parameters;
 
-    function StreamingMediaBrowser($user)
+    /*function StreamingMediaBrowser($user)
     {
         $this->set_user($user);
-    }
+    }*/
 
     function run()
     {
@@ -36,6 +36,63 @@ class StreamingMediaBrowser
 //          echo "<script type='text/javascript'>window.opener.CKEDITOR.tools.callFunction(" . $this->get_parameter('CKEditorFuncNum') . ", 'image.jpg', 'Message !');</script>";
       }
     }
+    
+    function create_component($type, $application = null)
+    {
+		if($application == null)
+    	{
+    		$application = $this;
+    	}
+    	
+        $manager_class = get_class($application);
+        $application_component_path = $application->get_application_component_path();
+        		
+        $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
+
+        if (! file_exists($file) || ! is_file($file))
+        {
+            $message = array();
+            $message[] = Translation :: get('ComponentFailedToLoad') . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('File') . ':</b><br />';
+            $message[] = $file . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('Stacktrace') . ':</b>';
+            $message[] = '<ul>';
+            $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
+            $message[] = '<li>' . Translation :: get($type) . '</li>';
+            $message[] = '</ul>';
+
+            $application_name = Application :: application_to_class($this->get_application_name());
+
+            $trail = new BreadcrumbTrail();
+            $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
+
+            Display :: header($trail);
+            Display :: error_message(implode("\n", $message));
+            Display :: footer();
+            exit();
+        }
+
+        $class = $manager_class . $type . 'Component';
+        require_once $file;
+
+        if(is_subclass_of($application, 'SubManager'))
+        {
+        	$component = new $class($application->get_parent());
+        }
+        else
+        {
+	        $component = new $class($this->get_user());
+	        $component->set_parameters($this->get_parameters());
+        }
+        return $component;
+    }
+    
+    public function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+    {
+        $parameters = (count($parameters) ? array_merge($this->get_parameters(), $parameters) : $this->get_parameters());
+        return Redirect :: get_url($parameters, $filter, $encode_entities);
+    }
+    
 
     function display_header()
     {
