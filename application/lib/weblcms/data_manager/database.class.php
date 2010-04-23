@@ -1939,6 +1939,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$condition = new EqualityCondition(CourseGroup :: PROPERTY_NAME, $name);
 		return $this->database->retrieve_object(CourseGroup :: get_table_name(), $condition);
 	}
+	
+	function count_requests_by_course($id)
+	{
+		$condition = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $id);
+		return $this->database->count_objects(CourseRequest :: get_table_name(), $condition);
+	}
 
 	// Inherited
 	function retrieve_course_groups($condition = null, $offset = null, $count = null, $order_property = null)
