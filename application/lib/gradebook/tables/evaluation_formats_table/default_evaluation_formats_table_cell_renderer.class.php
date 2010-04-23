@@ -25,9 +25,6 @@ class DefaultEvaluationFormatsTableCellRenderer implements ObjectTableCellRender
 			case Format :: PROPERTY_TITLE :
 				return ucfirst($format->get_title());
 				break;
-			case Format :: PROPERTY_ACTIVE :
-				return Utilities :: display_true_false_icon($format->get_active());
-				break;
 		}
 	}
 
