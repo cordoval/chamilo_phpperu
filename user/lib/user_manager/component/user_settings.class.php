@@ -42,7 +42,7 @@ class UserManagerUserSettingsComponent extends UserManager
 				echo '<div class="normal-message">' . Translation :: get('SelectApplicationToConfigure') . '</div><br />';
 			}
 
-			echo $this->get_selecter($this->get_url(), $application);
+			echo $this->get_application_selecter($this->get_url(), $application);
 
 			$form->display();
 
@@ -91,7 +91,7 @@ class UserManagerUserSettingsComponent extends UserManager
 		parent :: display_footer();
 	}
 
-	function get_selecter($url, $current_application = null)
+	function get_application_selecter($url, $current_application = null)
     {
         $html = array();
 

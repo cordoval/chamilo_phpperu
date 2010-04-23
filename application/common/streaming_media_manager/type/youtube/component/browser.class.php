@@ -3,10 +3,8 @@ class YoutubeStreamingMediaManagerBrowserComponent extends YoutubeStreamingMedia
 {
 	function run()
 	{
-		$this->display_header();
 		$browser = StreamingMediaComponent::factory(StreamingMediaComponent::BROWSER_COMPONENT, $this);
 		$browser->run();
-		$this->display_footer();
 	}
 }
 ?>

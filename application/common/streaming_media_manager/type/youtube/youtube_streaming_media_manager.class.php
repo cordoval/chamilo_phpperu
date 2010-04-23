@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__) . '/youtube_streaming_media_connector.class.php';
+
 class YoutubeStreamingMediaManager extends StreamingMediaManager
 {
 	function get_application_component_path()
@@ -8,12 +10,13 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
 	
 	function count_streaming_media_objects()
 	{
-		
+		return 'test1';
 	}
 	
 	function retrieve_streaming_media_objects()
 	{
-		
+		$connector = YoutubeStreamingMediaConnector::get_instance($this);
+		return $connector->get_youtube_video();
 	}
 	
 	function is_ready_to_be_used()

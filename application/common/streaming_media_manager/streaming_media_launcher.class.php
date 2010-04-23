@@ -143,5 +143,14 @@ class StreamingMediaLauncher
     {
         return $this->get_user()->get_id();
     }
+    
+	public function get_link($parameters = array (), $filter = array(), $encode_entities = false, $application_type = Redirect :: TYPE_APPLICATION)
+    {
+        // Use this untill PHP 5.3 is available
+        // Then use get_class($this) :: APPLICATION_NAME
+        // and remove the get_application_name function();
+        //$application = $this->get_application_name();
+        //return Redirect :: get_link($application, $parameters, $filter, $encode_entities, $application_type);
+    }
 }
 ?>

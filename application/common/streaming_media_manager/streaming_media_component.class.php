@@ -26,5 +26,15 @@ abstract class StreamingMediaComponent extends SubManager
 	{
 		
 	}
+	
+	function count_streaming_media_objects()
+	{
+		return $this->get_parent()->count_streaming_media_objects();
+	}
+	
+	function retrieve_streaming_media_objects()
+	{
+		return $this->get_parent()->retrieve_streaming_media_objects();
+	}
 }
 ?>

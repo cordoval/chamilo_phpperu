@@ -140,5 +140,8 @@
 				<options type="dynamic" source="get_fullname_formats" />
 			</setting>
 		</category>
+		<category name="streaming">
+			<setting name="youtube_session_token" field="text" default="" user_setting="1"/>
+		</category>
 	</settings>
 </application>
