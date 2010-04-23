@@ -37,9 +37,7 @@ $lang['repository']['SurveySectionQuestionCategories'] = 'Survey section questio
 $lang['repository']['SurveySectionQuestionAnswerCount'] = 'Survey section question answer count';
 $lang['repository']['SurveySectionQuestionAnswer'] = 'Survey section question answer';
 $lang['repository']['SurveySectionAnswerCategories'] = 'Survey section answer categories';
-
 $lang['repository']['SurveyAddContentObject'] = 'Add Content Object';
-
 $lang['repository']['SurveyPageTypeName'] = 'Survey Page';
 $lang['repository']['SurveyPage'] = 'Survey Page';
 $lang['repository']['SurveyPageFormTitle'] = 'Title';
@@ -47,54 +45,43 @@ $lang['repository']['SurveyPageFormDescription'] = 'Description';
 $lang['repository']['SurveyPageFormProperties'] = 'Survey Page Properties';
 $lang['repository']['SurveyPageHeaderText'] = 'Header Text';
 $lang['repository']['SurveyPageFooterText'] = 'Footer Text';
-
 $lang['repository']['SurveyPageAddContentObject'] = 'Survey Page Add Content Object';
-
 $lang['repository']['SurveyRatingQuestionTypeName'] = 'Rating Question';
 $lang['repository']['SurveyRatingQuestion'] = 'Rating Question';
 $lang['repository']['SurveyRatingQuestionFormTitle'] = 'Title';
 $lang['repository']['SurveyRatingQuestionFormDescription'] = 'Description';
 $lang['repository']['SurveyRatingQuestionFormProperties'] = 'Rating Question Properties';
 $lang['repository']['SurveyRatingType'] = 'Rating Type';
-
 $lang['repository']['SurveyOpenQuestionTypeName'] = 'Open Question';
 $lang['repository']['SurveyOpenQuestion'] = 'Open Question';
 $lang['repository']['SurveyOpenQuestionFormTitle'] = 'Title';
 $lang['repository']['SurveyOpenQuestionFormDescription'] = 'Description';
-
 $lang['repository']['SurveyMultipleChoiceQuestionTypeName'] = 'Multiple Choice Question';
 $lang['repository']['SurveyMultipleChoiceQuestion'] = 'Multiple Choice Question';
 $lang['repository']['SurveyMultipleChoiceQuestionFormTitle'] = 'Title';
 $lang['repository']['SurveyMultipleChoiceQuestionFormDescription'] = 'Description';
 $lang['repository']['SurveyMultipleChoiceQuestionFormOptions'] = 'Options';
-
 $lang['repository']['SurveyMatchingQuestionTypeName'] = 'Matching Question';
 $lang['repository']['SurveyMatchingQuestion'] = 'Matching Question';
 $lang['repository']['SurveyMatchingQuestionFormTitle'] = 'Title';
 $lang['repository']['SurveyMatchingQuestionFormDescription'] = 'Description';
-
 $lang['repository']['SurveySelectQuestionTypeName'] = 'Select Question';
 $lang['repository']['SurveySelectQuestion'] = 'Select Question';
 $lang['repository']['SurveySelectQuestionFormTitle'] = 'Title';
 $lang['repository']['SurveySelectQuestionFormDescription'] = 'Description';
 $lang['repository']['SurveySelectQuestionFormOptions'] = 'Options';
-
 $lang['repository']['SurveyMatrixQuestionTypeName'] = 'Matrix Question';
 $lang['repository']['SurveyMatrixQuestion'] = 'Matrix Question';
 $lang['repository']['SurveyMatrixQuestionFormTitle'] = 'Title';
 $lang['repository']['SurveyMatrixQuestionFormDescription'] = 'Description';
-
 $lang['repository']['SurveyDescriptionTypeName'] = 'Survey Description';
 $lang['repository']['SurveyDescription'] = 'Survey Description';
 $lang['repository']['SurveyDescriptionFormTitle'] = 'Title';
 $lang['repository']['SurveyDescriptionFormDescription'] = 'Description';
-
 $lang['repository']['SurveyDiscription'] = 'Survey Description';
-
 $lang['repository']['PublicationDetails'] = 'Publication Details';
 $lang['repository']['TestCase'] = 'Test case';
 $lang['repository']['RootSurveyCategory'] = 'Root Server Category';
-
 $lang['repository']['CompareExample'] = '&lt;Example Text&gt;';
 $lang['repository']['CompareDeleteInfo'] = 'Deleted text';
 $lang['repository']['CompareAddInfo'] = 'Added text';
