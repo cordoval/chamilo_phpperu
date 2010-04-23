@@ -676,7 +676,11 @@ $lang['repository']['SurveyMatrixQuestion'] = 'Matrixvraag';
 $lang['repository']['SurveyMatrixQuestionFormTitle'] = 'Titel';
 $lang['repository']['SurveyMatrixQuestionFormDescription'] = 'Beschrijving';
 
-$lang['repository']['SurveyDiscription'] = 'Enqu&ecirc;tebeschrijving';
+$lang['repository']['SurveyDescription'] = 'Enqu&ecirc;tebeschrijving';
+$lang['repository']['SurveyDescriptionTypeName'] = 'Enqu&ecirc;tebeschrijving';
+$lang['repository']['SurveyDescriptionFormTitle'] = 'Titel';
+$lang['repository']['SurveyDescriptionFormDescription'] = 'Beschrijving';
+
 
 $lang['repository']['SurveyNotStarted'] = 'Enqu&ecirc;te niet gestart';
 $lang['repository']['SurveyStarted'] = 'Enqu&ecirc;te gestart';

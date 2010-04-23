@@ -98,7 +98,10 @@ $lang['survey']['SurveyNotStarted'] = 'Enqu&ecirc;te niet gestart';
 $lang['survey']['SurveyStarted'] = 'Enqu&ecirc;te gestart';
 $lang['survey']['SurveyFinished'] = 'Enqu&ecirc;te beëindigd';
 
-$lang['survey']['SurveyDiscription'] = 'Enqu&ecirc;tebeschrijving';
+$lang['repository']['SurveyDescription'] = 'Enqu&ecirc;tebeschrijving';
+$lang['repository']['SurveyDescriptionTypeName'] = 'Enqu&ecirc;tebeschrijving';
+$lang['repository']['SurveyDescriptionFormTitle'] = 'Titel';
+$lang['repository']['SurveyDescriptionFormDescription'] = 'Beschrijving';
 
 $lang['survey']['BrowseSurvey'] = 'Blader door enqu&ecirc;te';
 
