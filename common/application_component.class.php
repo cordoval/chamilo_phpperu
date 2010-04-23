@@ -281,33 +281,5 @@ class ApplicationComponent
         require_once $file;
         return new $class($manager);
     }
-    
-    function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
-    {
-    	if ($failures)
-        {
-            if ($count == 1)
-            {
-                $message = $fail_message_single;
-            }
-            else
-            {
-                $message = $fail_message_multiple;
-            }
-        }
-        else
-        {
-            if ($count == 1)
-            {
-                $message = $succes_message_single;
-            }
-        	else
-            {
-                $message = $succes_message_multiple;
-            }
-        }
-        
-        return Translation :: get($message);
-    }
 }
 ?>
