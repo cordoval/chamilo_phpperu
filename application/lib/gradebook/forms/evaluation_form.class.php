@@ -78,7 +78,8 @@ class EvaluationForm extends FormValidator
             $this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
     		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('score'));
             $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ValueShouldBeNumeric'), 'numeric');
-			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ScoreIsNotAValidValue'), new ValidateEvaluationScoreRule($this->evaluation_format));
+			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('DecimalValueNotAllowed'), new ValidateScoreStepRule($this->evaluation_format));
+			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ScoreIsOutsideBoundaries'), new ValidateScoreBoundariesRule($this->evaluation_format));
     	}
     	else
     	{
@@ -244,11 +245,11 @@ class EvaluationForm extends FormValidator
 	}
 }
 
-class ValidateEvaluationScoreRule extends HTML_QuickForm_Rule
+class ValidateScoreStepRule extends HTML_QuickForm_Rule
 {
 	private $evaluation_format;
 	
-	function ValidateEvaluationScoreRule($evaluation_format)
+	function ValidateScoreStepRule($evaluation_format)
 	{
 		$this->evaluation_format = $evaluation_format;
 	}
@@ -257,9 +258,26 @@ class ValidateEvaluationScoreRule extends HTML_QuickForm_Rule
 	{
 		$quotient = intval($evaluation_score / $this->evaluation_format->get_step());
 		$mod = $evaluation_score - $quotient * $this->evaluation_format->get_step();
-		if($evaluation_score < $this->evaluation_format->get_min_value() || $evaluation_score > $this->evaluation_format->get_max_value() || $mod != 0)
+		if($mod != 0)
 			return false;
 		return true;
 	}	
+}
+
+class ValidateScoreBoundariesRule extends HTML_QuickForm_Rule
+{
+	private $evaluation_format;
+	
+	function ValidateScoreBoundariesRule($evaluation_format)
+	{
+		$this->evaluation_format = $evaluation_format;
+	}
+	
+	public function validate($evaluation_score)
+	{
+		if($evaluation_score < $this->evaluation_format->get_min_value() || $evaluation_score > $this->evaluation_format->get_max_value())
+			return false;
+		return true;
+	}
 }
 ?>
