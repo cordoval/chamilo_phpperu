@@ -161,6 +161,11 @@ class PeerAssessmentManager extends WebApplication
     {
         return PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication($id);
     }
+    
+	function retrieve_peer_assessment_publication_via_content_object($content_object_id)
+    {
+        return PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_via_content_object($content_object_id);
+    }
 
     // Url Creation
     
