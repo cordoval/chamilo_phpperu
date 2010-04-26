@@ -332,8 +332,6 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
             $publication_group->set_publication($publication->get_id());
             $publication_group->set_group_id($group_id);
 
-            dump($publication_group);
-
             if (! $publication_group->create())
             {
                 return false;
