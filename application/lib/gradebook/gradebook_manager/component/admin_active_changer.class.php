@@ -6,7 +6,7 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
 	function run()
 	{
 		$active = Request :: get(GradebookManager :: PARAM_ACTIVE);
-		
+
 	    if (! $this->get_user()->is_platform_admin())
         {
             $trail = new BreadcrumbTrail();
@@ -30,17 +30,16 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
 			foreach($evaluation_format_id as $id)
 			{
 	            $evaluation_format = $this->retrieve_evaluation_format($id);
+				if(!isset($active))
+				{
+					if ($evaluation_format->get_active()== 1)
+						$active = 0;
+					else
+						$active = 1;
+				}
 	            
-	            if ($active)
-	            {
-	            	$evaluation_format->set_active(1);
-	            	$activation = 'activated';
-	            }
-	            else
-	            {
-	            	$evaluation_format->set_active(0);
-	            	$activation = 'deactivated';
-	            }
+	            $evaluation_format->set_active($active);
+	            
 	            
 	            if ($evaluation_format->update())
 	            {
@@ -52,7 +51,7 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
 	            }
 			}
             
-			if($activation == 'deactivated')
+			if($active == 0)
 				$message = $this->get_result($failures, count($course_type_id), 'EvaluationFormatNotDeactivated' , 'EvaluationFormatsNotDeactivated', 'EvaluationFormatDeactivated', 'EvaluationFormatsDeactivated');
 			else
 				$message = $this->get_result($failures, count($course_type_id), 'EvaluationFormatNotActivated' , 'EvaluationFormatsNotActivated', 'EvaluationFormatActivated', 'EvaluationFormatsActivated');
