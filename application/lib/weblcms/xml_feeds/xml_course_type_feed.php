@@ -1,23 +1,22 @@
 <?php
 /**
- * $Id: xml_group_feed.php 224 2009-11-13 14:40:30Z kariboe $
- * @package group.xml_feeds
- * @author Hans De Bisschop
- * @author Dieter De Neef
+ * $Id: application.lib.weblcms.xml_feeds.xml_course_type_feed.php 224 2009-11-13 14:40:30Z kariboe $
+ * @package application.lib.weblcms.xml_feeds
  */
 require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 
 if (Authentication :: is_valid())
 {
     $query = Request :: get('query');
     $exclude = Request :: get('exclude');
 
-    $group_conditions = array();
+    $course_type_conditions = array();
 
     if ($query)
     {
         $q = '*' . $query . '*';
-        $group_conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, $q);
+        $course_type_conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_NAME, $q);
     }
 
     if ($exclude)
@@ -28,35 +27,29 @@ if (Authentication :: is_valid())
         }
 
         $exclude_conditions = array();
-        $exclude_conditions['group'] = array();
+        $exclude_conditions['coursetype'] = array();
 
         foreach ($exclude as $id)
         {
             $id = explode('_', $id);
 
-            if ($id[0] == 'group')
+            if ($id[0] == 'coursetype')
             {
-                $condition = new NotCondition(new EqualityCondition(Group :: PROPERTY_GROUP_ID, $id[1]));
+                $condition = new NotCondition(new EqualityCondition(CourseType :: PROPERTY_ID, $id[1]));
             }
 
             $exclude_conditions[$id[0]][] = $condition;
         }
 
-        if (count($exclude_conditions['group']) > 0)
+        if (count($exclude_conditions['coursetype']) > 0)
         {
-            $group_conditions[] = new AndCondition($exclude_conditions['group']);
+            $course_type_conditions[] = new AndCondition($exclude_conditions['coursetype']);
         }
     }
-	
-    $group_condition = null;
-    if(count($group_conditions)>1)
-    	$group_condition = new AndCondition($group_conditions);
-    elseif(count($group_conditions)==1)
-    	$group_condition = $group_conditions[0];
-    	
-    $groups = array();
-    $group_result_set = GroupDataManager :: get_instance()->retrieve_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
-    while ($group = $group_result_set->next_result())
+	$course_type_condition = new AndCondition($course_type_conditions, EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1));
+    $course_types = array();
+    $course_types_result_set = WeblcmsDataManager :: get_instance()->retrieve_active_course_types($course_type_conditions, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
+    while ($course_type = $course_types_result_set->next_result())
     {
         $group_parent_id = $group->get_parent();
 
