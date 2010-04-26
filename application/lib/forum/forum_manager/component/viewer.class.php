@@ -20,7 +20,7 @@ class ForumManagerViewerComponent extends ForumManager
     function run()
     {
         $this->trail = $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_parent()->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
+        $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
         
         $pid = Request :: get('pid');
         $trail->add(new Breadcrumb($this->get_url(array('display_action' => 'view_forum', 'pid' => $pid)), Translation :: get('ViewForum')));
@@ -55,13 +55,13 @@ class ForumManagerViewerComponent extends ForumManager
     function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
         $parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_VIEW;
-        return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+        return parent :: get_url($parameters, $filter, $encode_entities);
     }
 
     function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
     {
         $parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_VIEW;
-        $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
+        parent :: redirect($message, $error_message, $parameters, $filter, $encode_entities);
     }
 }
 ?>

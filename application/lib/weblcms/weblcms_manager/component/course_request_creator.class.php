@@ -40,7 +40,7 @@ class WeblcmsManagerCourseRequestCreatorComponent extends WeblcmsManager
 			$success_request = $form->create_request();
         	$array_type = array();
 	        $array_type['go'] = WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME;
-            $this->redirect(Translation :: get($success ? 'RequestCreated' : 'RequestNotCreated'), ($success ? false : true), $array_type, array(WeblcmsManager :: PARAM_COURSE)); 	
+            $this->redirect(Translation :: get($success_request ? 'RequestCreated' : 'RequestNotCreated'), ($success_request ? false : true), $array_type, array(WeblcmsManager :: PARAM_COURSE)); 	
         }
         else
         {
