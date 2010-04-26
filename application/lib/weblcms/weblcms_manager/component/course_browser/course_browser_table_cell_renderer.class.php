@@ -79,7 +79,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			    'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
         			break;
         		
-        		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :  
+        		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :
         			if($teller == 0)
         			{
         				$course_request_form_url = $this->browser->get_course_request_form_url($course);

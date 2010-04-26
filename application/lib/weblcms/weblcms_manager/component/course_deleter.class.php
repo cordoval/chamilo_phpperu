@@ -16,6 +16,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
      */
     function run()
     {
+    	$wdm = WeblcmsDataManager :: get_instance();
         $course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $failures = 0;
         
@@ -40,7 +41,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
             
             foreach ($course_codes as $course_code)
             {
-                $course = $this->get_parent()->retrieve_course($course_code);
+                $course = $wdm->retrieve_course($course_code);
                 
                 if (! $course->delete())
                 {
