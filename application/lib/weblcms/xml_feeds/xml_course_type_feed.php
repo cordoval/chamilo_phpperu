@@ -3,8 +3,13 @@
  * $Id: application.lib.weblcms.xml_feeds.xml_course_type_feed.php 224 2009-11-13 14:40:30Z kariboe $
  * @package application.lib.weblcms.xml_feeds
  */
-require_once dirname(__FILE__) . '/../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/course_type/course_type.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/course/course.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/course/course_user_relation.class.php';
+
+Translation :: set_application('weblcms');
 
 if (Authentication :: is_valid())
 {
@@ -46,89 +51,49 @@ if (Authentication :: is_valid())
             $course_type_conditions[] = new AndCondition($exclude_conditions['coursetype']);
         }
     }
-	$course_type_condition = new AndCondition($course_type_conditions, EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1));
+	$course_type_conditions[] = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
+	$course_type_condition = new AndCondition($course_type_conditions);
+
     $course_types = array();
-    $course_types_result_set = WeblcmsDataManager :: get_instance()->retrieve_active_course_types($course_type_conditions, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
+    $course_types_result_set = WeblcmsDataManager :: get_instance()->retrieve_course_types($course_type_condition, null, null, array(new ObjectTableOrder(CourseType :: PROPERTY_NAME)));
     while ($course_type = $course_types_result_set->next_result())
     {
-        $group_parent_id = $group->get_parent();
-
-        if (!is_array($groups[$group_parent_id]))
-        {
-            $groups[$group_parent_id] = array();
-        }
-
-        if (!isset($groups[$group_parent_id][$group->get_id()]))
-        {
-            $groups[$group_parent_id][$group->get_id()] = $group;
-        }
-
-        if ($group_parent_id != 0)
-        {
-            $tree_parents = $group->get_parents(false);
-
-            while ($tree_parent = $tree_parents->next_result())
-            {
-                $tree_parent_parent_id = $tree_parent->get_parent();
-
-                if (!is_array($groups[$tree_parent_parent_id]))
-                {
-                    $groups[$tree_parent_parent_id] = array();
-                }
-
-                if (!isset($groups[$tree_parent_parent_id][$tree_parent->get_id()]))
-                {
-                    $groups[$tree_parent_parent_id][$tree_parent->get_id()] = $tree_parent;
-                }
-            }
-        }
+    	$conditions = array();
+       	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, Session :: get_user_id(), CourseUserRelation :: get_table_name());
+       	$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+       	$condition = new AndCondition($conditions);
+       	$courses_count = WeblcmsDataManager :: get_instance()->count_user_courses($condition);
+       	if($courses_count > 0)
+			$course_types[$course_type->get_id()] = $course_type->get_name();
     }
-
-    $groups_tree = get_group_tree(0, $groups);
+        
+   	$conditions = array();
+    $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, Session :: get_user_id(), CourseUserRelation :: get_table_name());
+    $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
+   	$condition = new AndCondition($conditions);
+   	$courses_count= WeblcmsDataManager :: get_instance()->count_user_courses($condition);
+   	if($courses_count > 0)
+		$course_types[0] = Translation :: get('NoCourseType');
 }
 
 header('Content-Type: text/xml');
-echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n", '<tree>' . "\n";
-echo dump_tree($groups_tree);
+echo '<?xml version="1.0" encoding="iso-8859-1"?>', "\n", '<tree>', "\n";
+
+dump_tree($course_types);
+
 echo '</tree>';
 
-function dump_tree($groups)
+function dump_tree($course_types)
 {
-    $html = array();
-
-    if (contains_results($groups))
+    if (contains_results($course_types))
     {
-//        echo '<node id="group" classes="category unlinked" title="Groups">', "\n";
-        dump_groups_tree($groups);
-//        echo '</node>', "\n";
-    }
-}
-
-function dump_groups_tree($groups)
-{
-    foreach($groups as $group)
-    {
-        if (contains_results($group['children']))
+        echo '<node id="coursetype" classes="category unlinked" title="Coursetypes">', "\n";
+        foreach ($course_types as $index => $course_type)
         {
-            echo '<node id="group_' . $group['group']->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '">', "\n";
-            dump_groups_tree($group['children']);
-            echo '</node>', "\n";
+            echo '<leaf id="coursetype_' . $index . '" classes="' . 'type type_coursetype' . '" title="' . htmlentities($course_type) . '" description="' . htmlentities($course_type) . '"/>' . "\n";
         }
-        else
-        {
-            echo '<leaf id="group_' . $group['group']->get_id() . '" classes="' . 'type type_group' . '" title="' . htmlspecialchars($group['group']->get_name()) . '" description="' . htmlspecialchars($group['group']->get_name()) . '"/>' . "\n";
-        }
+        echo '</node>', "\n";
     }
-}
-
-function get_group_tree($index, $groups)
-{
-    $tree = array();
-    foreach ($groups[$index] as $child)
-    {
-        $tree[] = array('group' => $child, 'children' => get_group_tree($child->get_id(), $groups));
-    }
-    return $tree;
 }
 
 function contains_results($objects)
