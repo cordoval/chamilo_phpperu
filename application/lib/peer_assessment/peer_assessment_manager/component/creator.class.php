@@ -34,13 +34,31 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager
         	         	
         	if ($form->validate())
             {
-                $peer_assessment_publication = $this->retrieve_peer_assessment_publication_via_content_object($pub->get_selected_objects());
+            	$content_object_id = $pub->get_selected_objects();
+               	$published = $publisher->publish_content_object($content_object_id);
+ 
+	            if (!$published)
+		        {
+		            $message = Translation :: get('ObjectNotPublished');
+		        }
+		        else
+		        {
+		            $message = Translation :: get('ObjectPublished');
+		            $peer_assessment_publication = $this->retrieve_peer_assessment_publication_via_content_object($content_object_id);                		
+		        }
+               	
             	$selected_button_value = $form->getSubmitValue('buttons');
                 foreach($selected_button_value as $selected_button)
                 {
-                	$pub_object = $pub->get_selected_objects();
-                	$html[] = $publisher->publish_content_object($selected_button, $peer_assessment_publication);
-                }             
+                	if($selected_button == 'Publish')
+                	{
+                		$html[] = $this->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));    
+            		}
+                	else
+                	{
+                		$html[] = $this->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION, 'peer_assessment_publication' => $peer_assessment_publication->get_id()));    
+            		}
+                }            
             }
 	        else
 	        {	        	

@@ -63,6 +63,11 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
     	return $this->get_parent()->count_requests($conditions);
     }
+    
+    function count_requests_by_course($conditions = null)
+    {
+    	return $this->get_parent()->count_requests_by_course($conditions);
+    }
 
     /**
      * @see WeblcmsManager :: count_course_categories()

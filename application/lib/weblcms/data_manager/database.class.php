@@ -1950,7 +1950,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->retrieve_object(CourseGroup :: get_table_name(), $condition);
 	}
 	
-	function count_requests_by_course($id)
+	function count_requests_by_course($condition)
 	{
 		$condition = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $id);
 		return $this->database->count_objects(CourseRequest :: get_table_name(), $condition);

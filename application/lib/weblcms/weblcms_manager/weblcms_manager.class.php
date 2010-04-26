@@ -932,6 +932,11 @@ class WeblcmsManager extends WebApplication
     {
     	return WeblcmsDataManager :: get_instance()->count_requests($condition);
     }
+    
+    function count_requests_by_course($condition = null)
+    {
+    	return WeblcmsDataManager :: get_instance()->count_requests_by_course($condition);
+    }
 
 	/**
 	 * Count the number of course categories

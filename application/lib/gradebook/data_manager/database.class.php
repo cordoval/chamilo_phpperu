@@ -378,12 +378,26 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	// applications
 	function retrieve_applications_with_evaluations()
 	{
-        return $this->database->retrieve_distinct(InternalItem :: get_table_name(), InternalItem :: PROPERTY_APPLICATION);
+		$ids = $this->database->retrieve_distinct(InternalItemInstance :: get_table_name(), InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
+		foreach($ids as $id)
+		{
+			$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $id);
+			$applications[] = $this->database->retrieve_distinct(InternalItem :: get_table_name(), InternalItem :: PROPERTY_APPLICATION, $condition);
+		}
+		for($i = 0;$i<count($applications);$i++)
+		{
+			$application[$i] = $applications[$i][0];
+		}
+        return $application;
 	}
 	
 	function retrieve_internal_items_by_application($application)
 	{
-		$condition = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
+		$ids = $this->database->retrieve_distinct(InternalItemInstance :: get_table_name(), InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
+		$conditions = array();
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
+		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $ids);
+		$condition = new AndCondition($conditions);
 		return $this->database->retrieve_objects(InternalItem:: get_table_name(), $condition);
 	}
 /*
