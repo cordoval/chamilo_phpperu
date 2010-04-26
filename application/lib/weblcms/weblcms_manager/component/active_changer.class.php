@@ -39,7 +39,7 @@ class WeblcmsManagerActiveChangerComponent extends WeblcmsManager
         	
 			foreach($course_type_id as $id)
 			{
-	            $course_type = $course_type = $this->get_parent()->retrieve_course_type($id);
+	            $course_type = $this->retrieve_course_type($id);
 	            
 	            $course_type->set_active($active);
 	            
