@@ -180,7 +180,7 @@ class CourseRights extends DataClass
 						$condition_right = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST);
 						$condition = new AndCondition(array($condition_course_id, $condition_right));	
 						$count =  WeblcmsDatamanager::get_instance()->count_course_group_subscribe_rights($condition);
-						if($count == 0 && $this->get_request_subscribe_available())
+						if($count == 0 && $this->get_request_subscribe_available() && !$validation)
 						{
 							$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST);
 							$validation = true;
@@ -189,7 +189,7 @@ class CourseRights extends DataClass
 						$condition_right = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, CourseGroupSubscribeRight :: SUBSCRIBE_CODE);
 						$condition = new AndCondition(array($condition_course_id, $condition_right));	
 						$count =  WeblcmsDatamanager::get_instance()->count_course_group_subscribe_rights($condition);
-						if($count == 0 && $this->get_code_subscribe_available())
+						if($count == 0 && $this->get_code_subscribe_available() && !$validation)
 						{
 							$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_CODE);
 							$validation = true;
