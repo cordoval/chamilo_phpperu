@@ -4,12 +4,12 @@
  * @package application.lib.distribute
  */
 /**
- *	This is a skeleton for a data manager for the Distribute Application.
- *	Data managers must extend this class and implement its abstract methods.
+ * This is a skeleton for a data manager for the Distribute Application.
+ * Data managers must extend this class and implement its abstract methods.
  *
- *	@author Hans De Bisschop
+ * @author Hans De Bisschop
  */
-abstract class DistributeDataManager
+class DistributeDataManager
 {
     /**
      * Instance of this class for the singleton pattern.
@@ -35,31 +35,11 @@ abstract class DistributeDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '.class.php';
-            $class = $type . 'DistributeDataManager';
+            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_distribute_data_manager.class.php';
+            $class = Utilities :: underscores_to_camelcase($type) . 'DistributeDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
     }
-
-    abstract function initialize();
-
-    abstract function create_storage_unit($name, $properties, $indexes);
-
-    abstract function create_announcement_distribution($announcement_distribution);
-
-    abstract function update_announcement_distribution($announcement_distribution);
-
-    abstract function delete_announcement_distribution($announcement_distribution);
-
-    abstract function count_announcement_distributions($conditions = null);
-
-    abstract function retrieve_announcement_distribution($id);
-
-    abstract function retrieve_announcement_distributions($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function retrieve_announcement_distribution_target_groups($announcement_distribution);
-
-    abstract function retrieve_announcement_distribution_target_users($announcement_distribution);
 }
 ?>
