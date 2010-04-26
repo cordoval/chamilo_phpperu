@@ -19,6 +19,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
      */
     function _renderForm($current_page)
     {
+    	
         $html = array();
         $competence_id = Request :: get('competence');
         
@@ -28,7 +29,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	        {
 	        	$html = array();
 	            $html[] = '<div style="width: 100%; text-align: center;">';
-	            $html[] = Translation :: get('NoPeerAssessmentPageAddedToPeerAssessment');
+	            $html[] = Translation :: get('ThePeerAssessmentHasNoCompetences');
 	            $html[] = '</div>';
 	            echo implode("\n", $html);
 	        }
@@ -61,7 +62,6 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 		        $html[] = '</tr>';
 		        $html[] = '</thead>';
 		        $html[] = '<tbody>';
-		        $html[] = '</tbody>';
 		        
 				// Retrieve competences
 		        $competences = $this->parent->get_peer_assessment_page_competences($this->parent->get_peer_assessment());
@@ -73,16 +73,28 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            	$peer_assessment_id = $this->parent->get_peer_assessment()->get_id();
 					// Publication id
 	            	$peer_assessment_publication_id = Request :: get('peer_assessment_publication');
-	            	     	
+	            	// Publication object     	
 	            	$peer_assessment_publication = $this->parent->get_peer_assessment_publication($peer_assessment_publication_id);
-	            	$from_date = $peer_assessment_publication->get_from_date();
-	            	$to_date = $peer_assessment_publication->get_to_date();
+	            	
 	
 	            	// Hyperlinks to the indicators, ... of a competence
 	            	$url = 'run.php?go=take_publication&application=peer_assessment&peer_assessment_publication=' . $peer_assessment_publication_id . '&competence=' .$competence->get_id();
 	            	
 	            	$title = '<a href="'. $url .'">'.$competence->get_title().'</a>';           	
 	            	$take_peer_assessment = '<a href="'. $url .'"><img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/></a>';
+	            	
+	            	
+	            	// Groups
+	            	$groups = $this->parent->get_peer_assessment_publication_groups($peer_assessment_publication_id)->as_array();
+	           		$count_groups = sizeof($this->parent->get_peer_assessment_publication_groups($peer_assessment_publication_id)->as_array());
+	           		
+	           		// Users
+					$users = $this->parent->get_peer_assessment_publication_users($peer_assessment_publication_id)->as_array();   
+	            	$count_users = sizeof($this->parent->get_peer_assessment_publication_users($peer_assessment_publication_id)->as_array());
+	            	
+	            	// From date - To date
+	            	$from_date = $peer_assessment_publication->get_from_date();
+	            	$to_date = $peer_assessment_publication->get_to_date();
 	            	
 	            	if(($from_date == 0) && ($to_date == 0))
 	            	{
@@ -111,8 +123,6 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            	$html[] = '<td>'. $date_message .'</td>';
 	            	$html[] = '<td>';
 	            	// Groups
-	            	$groups = $this->parent->get_peer_assessment_publication_groups($peer_assessment_publication_id)->as_array();
-	           		$count_groups = sizeof($this->parent->get_peer_assessment_publication_groups($peer_assessment_publication_id)->as_array());
 	            	if($count_groups != 0)
 	            	{
 		           		foreach($groups as $group)
@@ -135,8 +145,6 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            	$html[] = '</td>';
 	            	$html[] = '<td>';
 	            	// Users
-					$users = $this->parent->get_peer_assessment_publication_users($peer_assessment_publication_id)->as_array();   
-	            	$count_users = sizeof($this->parent->get_peer_assessment_publication_users($peer_assessment_publication_id)->as_array());
 	            	if($count_users != 0)
 	            	{
 		            	foreach($users as $user)
@@ -156,7 +164,8 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            	{
 	            		$html[] = Translation :: get('NoUsers');
 	            	} 
-	           		        	
+
+	            	
 	            	$html[] = '</td>';
 	            	
 	            	//if($competence->isFinished())
@@ -172,6 +181,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            	$html[] = '<td>'. $take_peer_assessment .'</td>';
 	            	$html[] = '</tr>';
 	            }
+	            $html[] = '</tbody>';
 	            $html[] = '</table>';
 	            
 				
@@ -197,72 +207,99 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
         
         if($competence_id > 0)
         {
+        	// Competence id
+        	$competence_id = Request :: get('competence');
+        	// Competence
+        	$competence = RepositoryDataManager :: get_instance()->retrieve_content_object($competence_id);
+        	
+        	// Publication id
+        	$peer_assessment_publication_id = Request :: get('peer_assessment_publication');
+        	// Number of users
+	        $count_users = sizeof($this->parent->get_peer_assessment_publication_users($peer_assessment_publication_id)->as_array());
+	        // Users
+	        $users = $this->parent->get_peer_assessment_publication_users($peer_assessment_publication_id)->as_array();   
+
         	$html[] = '<div class="assessment">';
-            $html[] = '<h2>' . $this->parent->get_peer_assessment()->get_title() . '</h2>';
+            $html[] = '<h2>' . $competence->get_title() . '</h2>';
             
-	        if ($this->parent->get_peer_assessment()->has_description())
+	        if ($competence->has_description())
 	        {
 	            $html[] = '<div class="description">';
-	            $html[] = $this->parent->get_peer_assessment()->get_description();
+	            $html[] = $competence->get_description();
 	            $html[] = '<div class="clear"></div>';
 	            $html[] = '</div>';
 	        }
 
             $html[] = '<br />';            
-               
-            $html[] = '<h3>' . Translation :: get('Indicator') . '</h3>';
-	        $html[] = '<table class="data_table">';
-	        $html[] = '<thead>';
-	        $html[] = '<tr>';
-	        $html[] = '<th>'. Translation :: get('Type') .'</th>';
-	        $html[] = '<th>' . Translation :: get('Title') . '</th>';
-	        $html[] = '<th>' . Translation :: get('Users') . '</th>';
-	        $html[] = '<th class="numeric">' . Translation :: get('Finished') . '</th>';
-	        $html[] = '<th class="action"></th>';
-	        $html[] = '</tr>';
-	        $html[] = '</thead>';
-	        $html[] = '<tbody>';
-	        $html[] = '</tbody>';
-	        
-			// Retrieve competences
-	        $competences = $this->parent->get_peer_assessment_page_competences($this->parent->get_peer_assessment());
-
-            foreach($competences as $competence)
+            
+            if($count_users > 0)
             {	
-            	// Retrieve indicators
+            	$html[] = '<h3>' . Translation :: get('Indicator') . '</h3>';            
+		        $html[] = '<table class="data_table">';
+		        $html[] = '<thead>';
+		        $html[] = '<tr>';
+		        $html[] = '<th>'. Translation :: get('Type') .'</th>';
+		        $html[] = '<th>' . Translation :: get('Title') . '</th>';
+		        foreach($users as $user)
+		        {
+	        		$user_id = $user->get_user();     	
+	           		$selected_user = $this->parent->get_user($user_id);
+	           		$full_user_name = $selected_user->get_firstname() .' '. $selected_user->get_lastname();
+		        	$html[] = '<th>' . $full_user_name . '</th>';
+		        }        
+		        $html[] = '<th class="numeric">'.'</th>';
+		        $html[] = '<th class="action"></th>';
+		        $html[] = '</tr>';
+		        $html[] = '</thead>';
+		        $html[] = '<tbody>';	        
+	
+	            // Retrieve indicators of the selected competence
 	            $indicators = $this->parent->get_peer_assessment_page_indicators_via_competence($this->parent->get_peer_assessment(), $competence);
 	
 	            foreach($indicators as $indicator)
 	            {
 	            	$html[] = '<tr>';
-	            	$html[] = '<td></td>';
-	            	$html[] = '<td>'.$indicator->get_title().'</td>';        	
-	            	$html[] = '<td></td>';
+	            	$html[] = '<td><img src="'. Theme :: get_common_image_path() . 'content_object/indicator.png' .'" alt=""/></td>';
+	            	$html[] = '<td>'.$indicator->get_title().'</td>';
+	            	foreach($users as $user)
+		        	{
+		        		$html[] = '<td>';
+				    	$html[] = $current_page->get_user_drop_down();
+				        $html[] = '</td>';
+		        	}      	
 	            	$html[] = '<td></td>';
 	            	$html[] = '<td></td>';
 	            	$html[] = '</tr>';
 	            }
+	            $html[] = '</tbody>';
+	            $html[] = '</table>';
+	            
+					
+	            $html[] = '<br />';
+	            $html[] = '</div>';
+	
+	            $html[] = '<div>';
+	            $html[] = $current_page->toHtml();
+	            $html[] = '</div>';
+	
+	            $html[] = '<br />';
+	
+	            $html[] = '<div class="assessment">';
+	            $html[] = '<br />';
+	
+	            $html[] = '<div style="width: 100%; text-align: center;">';
+	            $html[] = $current_page->get_page_number() . ' - ' . $this->parent->get_total_pages() . ' / ' . $this->parent->get_total_pages();
+	            $html[] = '</div>';
+	            $html[] = '</div>';
             }
-            $html[] = '</table>';
+            else
+            {
+            	$html = array();
+	            $html[] = '<div style="width: 100%; text-align: center;">';
+	            $html[] = Translation :: get('CompetenceHasNoIndicators');
+	            $html[] = '</div>';
+            }
             
-				
-            $html[] = '<br />';
-            $html[] = '</div>';
-
-            $html[] = '<div>';
-            $html[] = $current_page->toHtml();
-            $html[] = '</div>';
-
-            $html[] = '<br />';
-
-            $html[] = '<div class="assessment">';
-            $html[] = '<br />';
-
-            $html[] = '<div style="width: 100%; text-align: center;">';
-            $html[] = $current_page->get_page_number() . ' / ' . $this->parent->get_total_pages();
-            $html[] = '</div>';
-
-            $html[] = '</div>';
 
             echo implode("\n", $html);
         }

@@ -34,28 +34,27 @@ class EvaluationManager extends SubManager
         $this->set_publication_id($publication_id);
         $this->set_publisher_id($publisher_id);
         $this->set_trail($trail);
-        $this->run();
 	}
 	
 	function run()
-	{
+	{	
         $action = $this->get_parameter(self :: PARAM_EVALUATION_ACTION);
         switch ($action)
         {
             case self :: ACTION_CREATE :
-                $component = EvaluationManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component_test('Creator', $this->get_publication_id(), $this->get_publisher_id(), $this->get_trail());
                 break;
             case self :: ACTION_DELETE :
-                $component = EvaluationManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component_test('Deleter', $this->get_publication_id(), $this->get_publisher_id(), $this->get_trail());
                 break;
             case self :: ACTION_UPDATE :
-                $component = EvaluationManagerComponent :: factory('Updater', $this);
+                $component = $this->create_component_test('Updater', $this->get_publication_id(), $this->get_publisher_id(), $this->get_trail());
                 break; 
             case self :: ACTION_BROWSE :
-            	$component = EvaluationManagerComponent :: factory('Browser', $this);
+            	$component = $this->create_component_test('Browser', $this->get_publication_id(), $this->get_publisher_id(), $this->get_trail());
                 break;
             default :
-                $component = EvaluationManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component_test('Browser', $this->get_publication_id(), $this->get_publisher_id(), $this->get_trail());
                 break;
         }
         $component->run();
@@ -99,12 +98,12 @@ class EvaluationManager extends SubManager
     // database
     function retrieve_all_evaluations_on_publication($offset = null, $count = null, $order_property = null)
     {
-    	return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication(Request :: get('application'), $this->get_publication_id(), $offset, $count, $order_property);
+        return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication(Request :: get('application'), $this->get_publication_id(), $offset, $count, $order_property);
     }
-    
+
     function count_all_evaluations_on_publication()
     {
-    	return GradebookDataManager :: get_instance()->count_all_evaluations_on_publication($this->get_publication_id());
+        return GradebookDataManager :: get_instance()->count_all_evaluations_on_publication($this->get_publication_id());
     }
     
     function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null)
@@ -157,6 +156,15 @@ class EvaluationManager extends SubManager
     function get_evaluation_deleting_url($evaluation)
     {
 		return $this->get_url(array(self :: PARAM_EVALUATION_ACTION => self :: ACTION_DELETE, self :: PARAM_EVALUATION_ID => $evaluation->get_id()));
+    }
+    
+    function create_component_test($type, $publication_id, $publisher_id, $trail)
+    {
+    	$component = $this->create_component($type);
+    	$component->set_publication_id($publication_id);
+    	$component->set_publisher_id($publisher_id);
+    	$component->set_trail($trail);
+    	return $component;
     }
 }
 ?>

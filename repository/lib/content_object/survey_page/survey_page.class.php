@@ -67,24 +67,29 @@ class SurveyPage extends ContentObject
         
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
         
-        $question_ids = array();
+//        $question_ids = array();
+        $questions = array();
         
 //        dump($this->get_id());
         
         while ($complex_content_object = $complex_content_objects->next_result())
         {
-            $question_ids[] = $complex_content_object->get_ref();
+            
+//        	$question_ids[] = $complex_content_object->get_ref();
+        	$questions[] = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
         }
         
-        if (count($question_ids) == 0)
-        {
-            $question_ids[] = 0;
-        }
+//        if (count($question_ids) == 0)
+//        {
+//            $question_ids[] = 0;
+//        }
+        
+        return $questions;
         
 //        $conditions = array();
-        $condition = new InCondition(ContentObject :: PROPERTY_ID, $question_ids, ContentObject :: get_table_name());
+//        $condition = new InCondition(ContentObject :: PROPERTY_ID, $question_ids, ContentObject :: get_table_name());
         //        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'survey_description', ContentObject :: get_table_name()));
-        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
+//        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
     }
 
     function count_questions()

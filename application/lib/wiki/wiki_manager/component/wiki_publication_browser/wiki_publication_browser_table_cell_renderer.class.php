@@ -67,6 +67,8 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
         
         if(WebApplication :: is_active('gradebook'))
         {
+        	require_once dirname (__FILE__) . '/../../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        	if(EvaluationManager :: retrieve_internal_item_by_publication(WikiManager :: APPLICATION_NAME, $wiki_publication->get_id()))
         		$toolbar_data[] = array('href' => $this->browser->get_evaluation_publication_url($wiki_publication), 'label' => Translation :: get('Evaluation'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png');
         }
         

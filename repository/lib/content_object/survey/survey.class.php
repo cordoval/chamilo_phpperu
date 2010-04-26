@@ -113,20 +113,26 @@ class Survey extends ContentObject
         
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
         
-        $survey_page_ids = array();
+//        $survey_page_ids = array();
+        $survey_pages = array();
+        
         
         while ($complex_content_object = $complex_content_objects->next_result())
         {
-            $survey_page_ids[] = $complex_content_object->get_ref();
+//            $survey_page_ids[] = $complex_content_object->get_ref();
+            $survey_pages[] = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
+            
         }
         
-        if (count($survey_page_ids) == 0)
-        {
-            $survey_page_ids[] = 0;
-        }
+        return $survey_pages;
         
-        $condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
-        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
+//        if (count($survey_page_ids) == 0)
+//        {
+//            $survey_page_ids[] = 0;
+//        }
+//        
+//        $condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
+//        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
     }
 
     function count_pages()

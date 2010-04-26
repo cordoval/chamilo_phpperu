@@ -277,5 +277,6 @@ class DatabaseWikiDataManager extends WikiDataManager
     {
     	return $this->database->quote($value);
     }
+
 }
 ?>

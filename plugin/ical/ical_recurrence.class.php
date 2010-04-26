@@ -46,14 +46,27 @@ class IcalRecurrence
 
     function IcalRecurrence(vevent $event, $from_date, $to_date)
     {
-        $from_date = ($from_date + $to_date) / 2;
-        $this_day = date('d', $from_date);
+    	//$from_date = ($from_date + $to_date) / 2;
+        //$this_day = date('d', $from_date);
+        //$this_month = date('m', $from_date);
+        //$this_year = date('Y', $from_date);
+        
+        //For the list view
+        $date = getdate();
+        $date_unixtime = mktime(0, 0, 0, $date['mon'], $date['mday'], $date['year']);
+    	$from_date = ($date_unixtime + $to_date) / 2;
+    	$this_day = date('d', $from_date);
         $this_month = date('m', $from_date);
         $this_year = date('Y', $from_date);
-        $start_month = $this_month - 1;
-        $start_year = $this_year;
+//    	$this_day = $date['mday'];
+//    	$this_month = $date['mon'];
+//    	$this_year = $date['year'];
+    	
+        $start_month = $date['mon'] - 1;
+        $start_year = $date['year'];
         $end_month = $this_month + 1;
         $end_year = $this_year;
+        
         
         if ($this_month == 1)
         {
@@ -99,10 +112,12 @@ class IcalRecurrence
     	$html = array();
     	$html[] = Translation :: get('Repeats') . ' ';
     	$html[] = Translation :: get(ucfirst(strtolower($this->get_freq_type())));
+    	
     	if ($this->get_interval() > 1)
     	{
     		$html[] = Translation :: get('Every') . ' ' . $this->get_interval() . ' ' . Translation :: get(ucfirst($this->get_freq_type_name() . 's'));
     	}
+    	
     	if ($this->get_count() > 1 && $this->get_count() != 1000000) 
     	{
     		$html[] = ' '. $this->get_count() . ' '. Translation :: get('Times');
@@ -112,11 +127,13 @@ class IcalRecurrence
     		$html[] = ' ' . Translation :: get('Once');
     	}
     	$date_format = Translation :: get('dateFormatShort');
+    	
     	if ($this->get_until_unixtime())
     	{
     		$html[] = Translation :: get('Until');
     		$html[] = Text :: format_locale_date($date_format, $this->get_until_unixtime());
     	}
+    	
     	if ($this->get_byday())
     	{
     		$html[] = Translation :: get('On');
@@ -126,10 +143,10 @@ class IcalRecurrence
     		{
     			ereg('([-\+]{0,1})?([0-9]+)?([A-Z]{2})', $byday, $byday_arr);
     			$day_number = $this->convert_day_name($byday_arr[3], false);
-    			if (isset($byday_arr[2]))
+    			if ($byday_arr[2])
     			{
     				$rank = $byday_arr[2];
-    				if (isset($byday_arr[1]))
+    				if ($byday_arr[1])
     				{
     					if ($byday_arr[2] == 1)
     					{
@@ -137,7 +154,7 @@ class IcalRecurrence
     					}
     					else 
     					{
-    						$days[] = Text :: ordinal_suffix($rank) . Translation::get('ToLast') . ' ' . $DaysLong[$day_number];
+    						$days[] = Text :: ordinal_suffix($rank) . ' ' . Translation::get('ToLast') . ' ' . $DaysLong[$day_number];
     					}
     				}
     				else
@@ -153,6 +170,7 @@ class IcalRecurrence
     		}
     		$html[] = implode(", ", $days);
     	}
+    	
     	if ($this->get_bymonthday())
     	{
     		$monthdays = array();
@@ -162,6 +180,7 @@ class IcalRecurrence
     		}
     		$html[] = implode(", ", $monthdays);
     	}
+    	
     	if ($this->get_bymonth())
     	{
     		$html[] = Translation :: get('In');
@@ -262,9 +281,8 @@ class IcalRecurrence
 
     function get_occurences()
     {
-        $end_date_timestamp = $this->get_end_date();
+    	$end_date_timestamp = $this->get_end_date();
         $start_date_timestamp = $this->get_start_date();
-        
         if (! isset($start_date_timestamp))
         {
             $this->set_start_date(0);
@@ -288,8 +306,10 @@ class IcalRecurrence
             $length = 0;
             $end_time = $start_time;
         }
-        
+        //$this->get_view_end() = 31/03/1995
+        //$this->get_end_range() = 1/1/1970
         $this->set_end_range($this->get_view_end() + 60 * 60 * 24);
+        
         $next_range = $this->get_start_date(true, true);
         
         if ($this->get_count() == 1000000 && $this->get_interval() == 1 && $this->get_view_start() > $next_range)
@@ -335,7 +355,7 @@ class IcalRecurrence
             $this->set_end_range(strtotime($this->get_end_date(false)));
             $this->set_count(1);
         }
-        
+
         $repeats = array();
         while ($next_range <= $this->get_end_range() && $this->get_count() > 0)
         {

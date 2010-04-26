@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../forms/evaluation_form.class.php';
 require_once dirname(__FILE__) . '/../../evaluation.class.php';
 require_once dirname(__FILE__) . '/../../grade_evaluation.class.php';
 
-class EvaluationManagerUpdaterComponent extends EvaluationManagerComponent
+class EvaluationManagerUpdaterComponent extends EvaluationManager
 {
 	function run()
 	{   
@@ -26,7 +26,7 @@ class EvaluationManagerUpdaterComponent extends EvaluationManagerComponent
             }
             else
             {
-	    		$trail = $this->get_parent()->get_trail();
+	    		$trail = $this->get_trail();
 	    		$trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ID => $evaluation_id)), Translation :: get('UpdateEvaluation')));
             	$this->display_header($trail);
                 $pub_form->display();

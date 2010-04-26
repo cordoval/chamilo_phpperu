@@ -1,8 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/../gradebook_manager_component.class.php';
 require_once dirname(__FILE__) . '/../gradebook_manager.class.php';
 
-class GradebookManagerAdminActiveChangerComponent extends GradebookManagerComponent
+class GradebookManagerAdminActiveChangerComponent extends GradebookManager
 {
 	function run()
 	{
@@ -30,7 +29,7 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManagerCompon
         	$activation = '';
 			foreach($evaluation_format_id as $id)
 			{
-	            $evaluation_format = $this->get_parent()->retrieve_evaluation_format($id);
+	            $evaluation_format = $this->retrieve_evaluation_format($id);
 	            
 	            if ($active)
 	            {

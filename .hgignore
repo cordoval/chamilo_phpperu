@@ -41,3 +41,9 @@ syntax: regexp
 ^layout/ruby/images/common/background_footer\.png$
 syntax: regexp
 ^repository/lib/content_object/survey/context/survey_vakken_context$
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$

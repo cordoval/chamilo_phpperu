@@ -17,7 +17,7 @@ $lang['survey']['Surveys'] = 'Enquêtes';
 $lang['survey']['PublishAndBuild'] = 'Publiceer en stel samen';
 $lang['survey']['TestSurveys'] = 'Test Cases';
 $lang['survey']['FromDate'] = 'Van';
-$lang['survey']['ToDate'] = 'Tot';
+$lang['survey']['ToDate'] = 'Naar';
 $lang['survey']['CreateTestCase'] = 'Creëer test case';
 $lang['survey']['Participants'] = 'Deelnemers';
 $lang['survey']['NotParticipants'] = 'Geen deelnemers';
@@ -29,7 +29,6 @@ $lang['survey']['NoDate'] = 'Geen datum';
 $lang['survey']['Username'] = 'Gebruikersnaam';
 $lang['survey']['Progress'] = 'Vooruitgang';
 $lang['survey']['StartTime'] = 'Uitnodigingsdatum';
-
 $lang['survey']['TakeSurvey'] = 'Neem enquête af';
 $lang['survey']['InviteParticipants'] = 'Nodig deelnemers uit';
 $lang['survey']['VisibilityChanged'] = 'Weergave van enquêtepublicatie veranderd';
@@ -47,9 +46,7 @@ $lang['survey']['NotAllSurveyParticipantMailsSend'] = 'Niet alle mails verzonden
 $lang['survey']['AllSurveyParticipantMailsSend'] = 'Alle mails verzonden naar deelnemers';
 $lang['survey']['SelectedSurveyPublicationsDeleted'] = 'Geselecteerde enquêtepublicatie verwijderd';
 $lang['survey']['SurveyPublicationUpdated'] = 'Enquêtepublicatie gewijzigd';
-
 $lang['survey']['SurveyAddContentObject'] = 'Voeg inhoudobject toe';
-
 $lang['survey']['SurveyPageTypeName'] = 'Enquêtepagina';
 $lang['survey']['SurveyPage'] = 'Enquêtepagina';
 $lang['survey']['SurveyPageFormTitle'] = 'Titel';
@@ -57,76 +54,66 @@ $lang['survey']['SurveyPageFormDescription'] = 'Beschrijving';
 $lang['survey']['SurveyPageFormProperties'] = 'Eigenschappen van enquêtepagina';
 $lang['survey']['SurveyPageHeaderText'] = 'Hoofding';
 $lang['survey']['SurveyPageFooterText'] = 'Voettekst';
-
 $lang['survey']['SurveyPageAddContentObject'] = 'Voeg inhoudobject toe aan enquêtepagina';
-
 $lang['survey']['SurveyRatingQuestionTypeName'] = 'Beoordelingsvraag';
 $lang['survey']['SurveyRatingQuestion'] = 'Beoordelingsvraag';
 $lang['survey']['SurveyRatingQuestionFormTitle'] = 'Titel';
 $lang['survey']['SurveyRatingQuestionFormDescription'] = 'Beschrijving';
 $lang['survey']['SurveyRatingQuestionFormProperties'] = 'Eigenschappen van beoordelingsvraag';
 $lang['survey']['SurveyRatingType'] = 'Type beoordeling';
-
 $lang['survey']['SurveyOpenQuestionTypeName'] = 'Open vraag';
 $lang['survey']['SurveyOpenQuestion'] = 'Open vraag';
 $lang['survey']['SurveyOpenQuestionFormTitle'] = 'Titel';
 $lang['survey']['SurveyOpenQuestionFormDescription'] = 'Beschrijving';
-
 $lang['survey']['SurveyMultipleChoiceQuestionTypeName'] = 'Meerkeuzevraag';
 $lang['survey']['SurveyMultipleChoiceQuestion'] = 'Meerkeuzevraag';
 $lang['survey']['SurveyMultipleChoiceQuestionFormTitle'] = 'Titel';
 $lang['survey']['SurveyMultipleChoiceQuestionFormDescription'] = 'Beschrijving';
 $lang['survey']['SurveyMultipleChoiceQuestionFormOptions'] = 'Opties';
-
 $lang['survey']['SurveyMatchingQuestionTypeName'] = 'Koppelingsvraag';
 $lang['survey']['SurveyMatchingQuestion'] = 'Koppelingsvraag';
 $lang['survey']['SurveyMatchingQuestionFormTitle'] = 'Titel';
 $lang['survey']['SurveyMatchingQuestionFormDescription'] = 'Beschrijving';
-
 $lang['survey']['SurveySelectQuestionTypeName'] = 'Selectievraag';
 $lang['survey']['SurveySelectQuestion'] = 'Selectievraag';
 $lang['survey']['SurveySelectQuestionFormTitle'] = 'Titel';
 $lang['survey']['SurveySelectQuestionFormDescription'] = 'Beschrijving';
 $lang['survey']['SurveySelectQuestionFormOptions'] = 'Opties';
-
 $lang['survey']['SurveyMatrixQuestionTypeName'] = 'Matrixvraag';
 $lang['survey']['SurveyMatrixQuestion'] = 'Matrixvraag';
 $lang['survey']['SurveyMatrixQuestionFormTitle'] = 'Titel';
 $lang['survey']['SurveyMatrixQuestionFormDescription'] = 'Beschrijving';
-
 $lang['survey']['SurveyNotStarted'] = 'Enquête niet gestart';
 $lang['survey']['SurveyStarted'] = 'Enquête gestart';
-$lang['survey']['SurveyFinished'] = 'Enquête be&euml;indigd';
-
+$lang['survey']['SurveyFinished'] = 'Enquête beëindigd';
+$lang['survey']['SurveyDescription'] = 'Enquêtetekst';
+$lang['survey']['SurveyDescriptionTypeName'] = 'Enquêtetekst';
+$lang['survey']['SurveyDescriptionFormTitle'] = 'Titel';
+$lang['survey']['SurveyDescriptionFormDescription'] = 'Beschrijving';
 $lang['survey']['BrowseSurvey'] = 'Blader door enquête';
-
 $lang['survey']['ContextName'] = 'Contextnaam';
-
 $lang['survey']['SelectYourChoice'] = 'Selecteer jouw keuze';
 $lang['survey']['SelectYourChoices'] = 'Selecteer jouw keuzes';
 $lang['survey']['ChooseYourRating'] = 'Kies jouw beoordeling';
-$lang['survey']['ChooseYourOptionMatch'] = 'Kies jouw koppelingsoptie';
-
+$lang['survey']['ChooseYourOptionMatch'] = 'Kies jouw overeenkomst';
+$lang['survey']['MyRepository'] = 'Mijn Repository';
+$lang['survey']['CategoryTypeName'] = 'Categorie';
 $lang['survey']['Repository'] = 'Repository';
 $lang['survey']['ManageCategories'] = 'Beheer categorieën';
 $lang['survey']['RemoveSelected'] = 'Verwijder geselecteerde';
-
 $lang['survey']['SurveyHeaderText'] = 'Hoofding';
 $lang['survey']['SurveyFooterText'] = 'Voettekst';
 $lang['survey']['SurveyContext'] = 'Enquêtecontext';
-
+$lang['survey']['SurveyFinishText'] = 'Einde Enquêtetekst';
+$lang['survey']['PossibleMatches'] = 'Mogelijke overeenkomsten';
+$lang['survey']['EnterAnswer'] = 'Antwoord ingeven';
+$lang['survey']['Submit'] = 'Verzenden';
 $lang['survey']['CanNotUpdateSurveyContextBecauseSurveyIsPublished'] = 'Kan enquêtecontext niet wijzigen want de enquête is gepubliceerd';
-
 $lang['survey']['PublishFor'] = 'Publiceer voor';
-
+$lang['survey']['Visible'] = 'Zichtbaar';
+$lang['survey']['Create'] = 'Creëer';
 $lang['survey']['Hidden'] = 'Verborgen';
 $lang['survey']['Update'] = 'Wijzigen';
 $lang['survey']['Reset'] = 'Wissen';
-
-$lang['survey']['Logout'] = 'Uitloggen';
-$lang['survey']['GoBack'] = 'Terug';
-$lang['survey']['ClickToTakeSurvey'] = 'Klik om enquête in te vullen';
-$lang['survey']['OrCopyAndPasteThisText'] = 'Of kopieer deze text en plak die in de adresbalk van uw internetbrowser';
-$lang['survey']['Submit'] = 'Verzenden';
-
+$lang['survey']['SharedContentObjects'] = 'Gedeelde inhoudsobjecten';
 ?>

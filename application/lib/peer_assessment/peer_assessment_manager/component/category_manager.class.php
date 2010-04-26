@@ -14,7 +14,7 @@ class PeerAssessmentManagerCategoryManagerComponent extends PeerAssessmentManage
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('PeerAssessment')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
-        
+
     	if (! $this->is_allowed(VIEW_RIGHT))
         {
             Display :: not_allowed();

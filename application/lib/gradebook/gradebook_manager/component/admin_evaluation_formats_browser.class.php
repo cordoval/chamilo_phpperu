@@ -1,10 +1,9 @@
 <?php
 require_once dirname(__FILE__) . '/../gradebook_manager.class.php';
-require_once dirname(__FILE__) . '/../gradebook_manager_component.class.php';
 // required table classes
 require_once dirname(__FILE__).'/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
 
-class GradebookManagerAdminEvaluationFormatsBrowserComponent extends GradebookManagerComponent
+class GradebookManagerAdminEvaluationFormatsBrowserComponent extends GradebookManager
 {
 	function run()
 	{

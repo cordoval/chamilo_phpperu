@@ -17,6 +17,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     public function render()
     {
         // Range from start (0) to 10 years in the future...
+        
         $events = $this->get_events(0, strtotime('+10 Years', time()));
         $dm = RepositoryDataManager :: get_instance();
         $html = array();
@@ -105,7 +106,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         }
         else
         {
-            $publication = PersonalCalendarDataManager :: get_instance()->retrieve_calendar_event_publication($event->get_id());
+            $publication = PersonalCalendarDataManager :: get_instance()->retrieve_personal_calendar_publication($event->get_id());
             $object = $publication->get_publication_object();
         }
 

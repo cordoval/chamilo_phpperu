@@ -3,7 +3,6 @@ require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 require_once Path :: get_application_path() . 'lib/gradebook/gradebook_rights.class.php';
 
-require_once dirname(__FILE__) . '/gradebook_manager_component.class.php';
 require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
 
 require_once dirname(__FILE__) . '/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
@@ -41,6 +40,7 @@ class GradebookManager extends WebApplication
 	const ACTION_ADMIN_BROWSE_EVALUATION_FORMATS = 'admin_browse_evaluation_formats';
 	const ACTION_EDIT_EVALUATION_FORMAT = 'edit_evaluation_format';
 	const ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY = 'change_evaluation_format_active_property';
+	const ACTION_VIEW_EVALUATIONS_ON_PUBLICATION = 'view_evaluations_on_publication';
 	/*
 	 * Gradebook parameters
 	 */
@@ -49,6 +49,8 @@ class GradebookManager extends WebApplication
 	const PARAM_EVALUATION_FORMAT = 'evaluation_format';
 	const PARAM_EVALUATION_FORMAT_ID = 'evaluation_format';
 	const PARAM_ACTIVE = 'active';
+	const PARAM_PUBLICATION_TYPE = 'publication_type';
+	const PARAM_PUBLICATION_ID = 'publication_id';
 	
 	public function GradebookManager($user)
 	{
@@ -96,17 +98,20 @@ class GradebookManager extends WebApplication
 //				$component = GradebookManagerComponent :: factory('GradebookUnsubscriber', $this);
 //				break;	
 			case self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS :
-				$component = GradebookManagerComponent :: factory('AdminEvaluationFormatsBrowser', $this);
+				$component = $this->create_component('AdminEvaluationFormatsBrowser', $this);
 				break;	
 			case self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY :
-				$component = GradebookManagerComponent :: factory('AdminActiveChanger', $this);
+				$component = $this->create_component('AdminActiveChanger', $this);
 				break;	
 			case self :: ACTION_EDIT_EVALUATION_FORMAT :
-				$component = GradebookManagerComponent :: factory('AdminEditEvaluationFormat', $this);
+				$component = $this->create_component('AdminEditEvaluationFormat', $this);
+				break;		
+			case self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION :
+				$component = $this->create_component('ViewEvaluationsOnPublication', $this);
 				break;		
 			default :
 				$this->set_action(self :: ACTION_VIEW_HOME);
-				$component = GradebookManagerComponent :: factory('GradebookBrowser', $this);
+				$component = $this->create_component('GradebookBrowser', $this);
 				break;
 		}
 		$component->run();
@@ -320,7 +325,29 @@ class GradebookManager extends WebApplication
 	{
 		return GradebookDataManager :: get_instance()->retrieve_evaluation_format($id);
 	}
+// applications
+	function retrieve_applications_with_evaluations()
+	{
+		return GradebookDataManager :: get_instance()->retrieve_applications_with_evaluations();
+	}
+	
+	function retrieve_internal_items_by_application($application)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_internal_items_by_application($application);
+	}
+	
+// content objects
+	function retrieve_content_objects_by_ids($condition, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $offset, $count, $order_property);
+	}
+	
+	function count_content_objects_by_ids($condition)
+	{
+		return RepositoryDataManager :: get_instance()->count_content_objects($condition);
+	}
 // URL creation
+//***************
 	function get_admin_browse_evaluation_format_types_link()
 	{
 		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS));
@@ -339,6 +366,16 @@ class GradebookManager extends WebApplication
 	function get_evaluation_format_deleting_url()
 	{
 		return $this->get_url();
+	}
+	
+	function get_evaluations_on_publications_viewer_url($content_object)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_TYPE => $content_object->get_type(), self :: PARAM_PUBLICATION_ID => $content_object->get_id()));
+	}
+	
+	function get_publications_by_type_viewer_url($the_application)
+	{
+		return $this->get_url(array(GradebookManager :: PARAM_PUBLICATION_TYPE => $the_application));
 	}
 }
 ?>

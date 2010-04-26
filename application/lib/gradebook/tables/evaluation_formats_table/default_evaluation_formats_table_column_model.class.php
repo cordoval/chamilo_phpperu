@@ -19,7 +19,6 @@ class DefaultEvaluationFormatsTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn(Format :: PROPERTY_TITLE);
-		$columns[] = new ObjectTableColumn(Format :: PROPERTY_ACTIVE);
 		return $columns;
 	}
 }

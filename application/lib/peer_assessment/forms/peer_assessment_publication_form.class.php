@@ -60,13 +60,6 @@ class PeerAssessmentPublicationForm extends FormValidator
         //$attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
         
-        // Gradebook
-        if(WebApplication :: is_active('gradebook'))
-        {
-        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
-        	$gradebook_internal_item_form = new GradebookInternalItemForm();
-        	$gradebook_internal_item_form->build_evaluation_question($this);
-        }
         
         // Select criteria score that is already created
         // ---------------------------------------------
@@ -146,13 +139,7 @@ class PeerAssessmentPublicationForm extends FormValidator
             $this->publication = $pub;
             return true;
         }
-        
-		if(Request :: post('evaluation'))
-		{
-        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
-        	$gradebook_internal_item_form = new GradebookInternalItemForm();
-        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
-		}
+  
     }
         
 
