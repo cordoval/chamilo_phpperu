@@ -61,7 +61,6 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
         	$display->run();
             
             echo $form->toHtml();
-            //$this->display_footer();
         }
 
     }
@@ -70,8 +69,7 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
     {
         $url = $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pids));
         $form = new FormValidator('take_peer_assessment_publication', 'post', $url);
-        
-        
+                
         //$form->addElement('static', Criteria :: PROPERTY_TITLE, $publication->get_content_object()->get_title());
         //$form->addElement('static', Criteria :: PROPERTY_TITLE, $publication->get_content_object()->get_description());
 
