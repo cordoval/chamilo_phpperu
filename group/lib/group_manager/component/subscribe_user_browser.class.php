@@ -60,7 +60,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManager
     {
         $condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, Request :: get(GroupRelUser :: PROPERTY_GROUP_ID));
 
-        $users = $this->get_parent()->retrieve_group_rel_users($condition);
+        $users = $this->retrieve_group_rel_users($condition);
 
         $conditions = array();
         while ($user = $users->next_result())
