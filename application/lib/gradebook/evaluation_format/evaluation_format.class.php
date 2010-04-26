@@ -4,14 +4,22 @@ abstract class EvaluationFormat
     //returns how the evaluation should be shown on screen
     private $score;
 
-	function factory($type)
+	function factory($type, $install, $folder = null)
 	{
-		$name = self :: name_to_underscore($type);
-		require_once dirname(__FILE__) . '/' . self :: get_folder($type) .  '/'. $name . '.class.php';
-		$index = strpos($type, '.');
-		$class_name = substr($type, 0, $index);
-        $class = Utilities :: underscores_to_camelcase($name);
-        return new $class();
+		if ($install)
+		{
+			require_once dirname(__FILE__) . '/' . $folder .  '/'. $type;
+			$index = strpos($type, '.');
+			$class_name = substr($type, 0, $index);
+	        $class = Utilities :: underscores_to_camelcase($class_name);
+		}
+		else
+		{
+            $name = self :: name_to_underscore($type);
+            require_once dirname(__FILE__) . '/' . self :: get_folder($type) .  '/'. $name . '.class.php';
+	        $class = Utilities :: underscores_to_camelcase($name);
+		}
+	    return new $class();
 	}
 	
 	static function get_folder($type)

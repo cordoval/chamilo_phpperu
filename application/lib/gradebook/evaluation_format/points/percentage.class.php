@@ -8,7 +8,7 @@ class Percentage extends EvaluationFormat
 	const STEP = 1;
 	
 	const DEFAULT_ACTIVE_VALUE = 0;
-	const EVALUATION_FORMAT_NAME = 'percentage';
+	const EVALUATION_FORMAT_NAME = 'Percentage';
 	
 	function Percentage()
 	{
