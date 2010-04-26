@@ -7,8 +7,6 @@ require_once dirname(__FILE__) . '/../../category_manager/peer_assessment_public
 
 class PeerAssessmentManagerCategoryManagerComponent extends PeerAssessmentManager
 {
-    private $action_bar;
-
 	function run()
     {
         $trail = new BreadcrumbTrail();
@@ -20,6 +18,7 @@ class PeerAssessmentManagerCategoryManagerComponent extends PeerAssessmentManage
             Display :: not_allowed();
             return;
         }
+        
         $category_manager = new PeerAssessmentPublicationCategoryManager($this, $trail);
         $category_manager->run();   
     }
