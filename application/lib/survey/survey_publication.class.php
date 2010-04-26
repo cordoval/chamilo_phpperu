@@ -44,8 +44,10 @@ class SurveyPublication extends DataClass
         {
             foreach ($this->get_target_user_ids() as $user_id)
             {
-                $this->create_participant_trackers($user_id);
+                dump($user_id);
+            	$this->create_participant_trackers($user_id);
             }
+            
         }
         return $succes;
     }
