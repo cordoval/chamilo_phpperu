@@ -55,41 +55,20 @@ class PeerAssessmentPublicationPublisher
     
     // Publish the object
     
-    function publish_content_object($selected, $peer_assessment_publication)
+    function publish_content_object($object)
     {    	
+    	$published = false;
     	$parameters = $this->parent->get_parameters();
-        //$parameters['object'] = $object;
+        $parameters['object'] = $object;
         
     	$form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_CREATE, $object, $this->parent->get_user(), $this->parent->get_url($parameters));
         
     	if ($form->validate())
         {
         	$publication = $form->create_content_object_publication();
-        
-	        if (!$publication)
-	        {
-	            $message = Translation :: get('ObjectNotPublished');
-	        }
-	        else
-	        {
-	            $message = Translation :: get('ObjectPublished');
-	        }
-	        
-                        	
-            if($selected == 'Publish')
-            {
-            	$this->parent->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));    
-            }
-            else
-            {
-            	$this->parent->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION, 'peer_assessment_publication' => $peer_assessment_publication->get_id()));    
-            } 
+        	$published = true;
         }
-    	else
-        {
-            $html[] = $form->toHtml();
-        }
-        return implode("\n", $html);
+        return $published;
     }
     
 }
