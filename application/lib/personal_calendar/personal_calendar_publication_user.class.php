@@ -124,7 +124,7 @@ class PersonalCalendarPublicationUser
     function create()
     {
         $dm = PersonalCalendarDataManager :: get_instance();
-        return $dm->create_calendar_event_publication_user($this);
+        return $dm->create_personal_calendar_publication_user($this);
     }
 
     function update()

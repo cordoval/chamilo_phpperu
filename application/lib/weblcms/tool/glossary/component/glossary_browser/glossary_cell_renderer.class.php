@@ -58,7 +58,7 @@ class GlossaryCellRenderer extends ObjectPublicationTableCellRenderer
         unset($actions['move']);
         
         $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
-        $actions['feedback'] = array('href' => $feedback_url, 'label' => Translation :: get('Feedback'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+        $actions['feedback'] = array('href' => $feedback_url, 'label' => Translation :: get('Browse'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
         
         return $actions;
     }

@@ -46,6 +46,7 @@ class SurveyPublication extends DataClass
             {
                 $this->create_participant_trackers($user_id);
             }
+            
         }
         return $succes;
     }
