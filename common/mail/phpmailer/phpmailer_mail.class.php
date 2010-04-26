@@ -77,11 +77,12 @@ class PhpmailerMail extends Mail
             $mail->From = $this->get_from_email();
             $mail->Sender = $this->get_from_email();
             $mail->FromName = $this->get_from_name();
-            $mail->AddCustomHeader('Return-Path: '.$this->get_from_email());
+            $mail->AddCustomHeader('Return-Path: <'.$this->get_from_email().'>');
 
             //$mail->ConfirmReadingTo = $this->get_from(); //Disposition-Notification
         }
-         if(! is_null($this->get_reply())){
+        
+        if(! is_null($this->get_reply())){
 
          	$mail->AddReplyTo($this->get_reply_email(), $this->get_reply_name());
          	$mail->AddCustomHeader('Return-Path: <'.$this->get_reply_email().'>');
