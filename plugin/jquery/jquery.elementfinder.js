@@ -97,7 +97,7 @@
 			
 			function buildElementTree(response)
 			{
-				var ul = $('<ul class="tree-menu"></ul>');
+				var ul = $('<ul class="tree-menu" style="display: block"></ul>');
 				
 				var tree = $.xml2json(response, true);
 				
@@ -132,7 +132,7 @@
 			{
 				if((the_node.node && $(the_node.node).size() > 0) || (the_node.leaf && $(the_node.leaf).size() > 0))
 				{
-					var ul = $('<ul></ul>');
+					var ul = $('<ul style="display: block"></ul>');
 					$(element).append(ul);
 					
 					if (the_node.node && $(the_node.node).size() > 0)
