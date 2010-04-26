@@ -75,13 +75,20 @@ class EvaluationForm extends FormValidator
     	$this->evaluation_format = EvaluationFormat :: factory($format->get_title());
     	if (!$this->evaluation_format->get_score_set())
     	{
-    		if(!is_numeric($values[$this->evaluation_format->get_evaluation_field_name()]))
-    			$this->grade_evaluation->set_score(null);
+    		$score_rule = new ValidateScoreStepRule($this->evaluation_format);
+    		$boundaries_rule = new ValidateScoreBoundariesRule($this->evaluation_format);
+    		if(!empty($values))
+    		{
+	    		if(!$score_rule->validate($values[$this->evaluation_format->get_evaluation_field_name()]) || !$boundaries_rule->validate($values[$this->evaluation_format->get_evaluation_field_name()]) || !is_numeric($values[$this->evaluation_format->get_evaluation_field_name()]))
+	    		{
+	    			$this->grade_evaluation->set_score(null);
+	    		}
+    		}
             $this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
     		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('score'));
             $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ValueShouldBeNumeric'), 'numeric');
-			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('DecimalValueNotAllowed'), new ValidateScoreStepRule($this->evaluation_format));
-			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ScoreIsOutsideBoundaries'), new ValidateScoreBoundariesRule($this->evaluation_format));
+			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('DecimalValueNotAllowed'), $score_rule);
+			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule);
     	}
     	else
     	{
@@ -218,18 +225,13 @@ class EvaluationForm extends FormValidator
 	}
     // Default values (setter)
     
-	function setEvaluationDefaults($set_score_null_after_format_switch = false, $defaults = array ())
+	function setEvaluationDefaults($defaults = array ())
 	{
 		$grade_evaluation = $this->grade_evaluation;
 		$evaluation = $this->evaluation;
 		if ($grade_evaluation->get_id())
 		{
-			if(!$set_score_null_after_format_switch)
-				$defaults[$this->evaluation_format->get_evaluation_field_name()] = $grade_evaluation->get_score();
-			else
-			{
-				$defaults[$this->evaluation_format->get_evaluation_field_name()] = null;
-			}
+			$defaults[$this->evaluation_format->get_evaluation_field_name()] = $grade_evaluation->get_score();
 		    $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
 		    $defaults[GradeEvaluation :: PROPERTY_ID] = $grade_evaluation->get_id();
 	
@@ -239,6 +241,7 @@ class EvaluationForm extends FormValidator
 		    $defaults[Evaluation :: PROPERTY_EVALUATOR_ID] = $evaluation->get_evaluator_id();
 			parent :: setDefaults($defaults);
 		}
+		
 	}
 	
 	function validate()
