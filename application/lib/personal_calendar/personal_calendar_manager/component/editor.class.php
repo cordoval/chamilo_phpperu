@@ -61,7 +61,7 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
                 
                 if ($publication_form->validate())
                 {
-                    $success = $publication_form->update_personal_calendar_publication();
+                    $success = $publication_form->update_calendar_event_publication();
                     $this->redirect(Translation :: get(($success ? 'PersonalCalendarPublicationUpdated' : 'PersonalCalendarPublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
                 }
                 else
