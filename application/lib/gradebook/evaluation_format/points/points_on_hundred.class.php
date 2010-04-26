@@ -60,5 +60,10 @@ class PointsOnHundred extends EvaluationFormat
 	{
 		return self :: DEFAULT_ACTIVE_VALUE;
 	}
+	
+	function get_formatted_score()
+	{
+		return $this->get_score() . '/100';
+	}
 }
 ?>

@@ -72,7 +72,7 @@ class EvaluationForm extends FormValidator
     	$format = EvaluationManager :: retrieve_evaluation_format($values['format_id']);
     	if(!$format)
     		$format = EvaluationManager :: retrieve_evaluation_format($this->evaluation->get_format_id());
-    	$this->evaluation_format = EvaluationFormat :: factory(EvaluationFormat :: get_folder($format->get_title()),EvaluationFormat :: name_to_underscore($format->get_title()).'.class.php');
+    	$this->evaluation_format = EvaluationFormat :: factory($format->get_title());
     	if (!$this->evaluation_format->get_score_set())
     	{
             $this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
