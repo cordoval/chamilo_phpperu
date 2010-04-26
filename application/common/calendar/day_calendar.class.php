@@ -128,7 +128,7 @@ class DayCalendar extends CalendarTable
             }
 
             // Is current table hour during working hours?
-            if ($hour < $working_start || $hour > $working_end)
+            if ($hour < $working_start || $hour >= $working_end)
             {
                 $this->updateCellAttributes($row, 0, 'class="disabled_month"');
             }
