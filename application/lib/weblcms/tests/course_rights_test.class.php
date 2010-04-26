@@ -209,7 +209,7 @@ for($i=1;$i<4;$i++)
 				$group->set_parent($child_child_id);
 				$group->set_code("ChildChildGroup" + $i + "" + $j + "" + 1);
 				$group->create();
-				$registered_group_id[$group->get_id()] = 1;
+				$registered_group_id[$group->get_id()] = CourseGroupSubscribeRight::SUBSCRIBE_NONE;
 			}
 		}
 	}

@@ -228,14 +228,7 @@ abstract class CommonForm extends FormValidator
 			else
 			{
 				if(!in_array(0, $group_key_check) && $values[$available])
-				{
-					$course_type_group_rights = new $class();
-					$course_type_group_rights->$id_method($this->object->get_id());
-					$course_type_group_rights->set_group_id(0);
-					$course_type_group_rights->set_subscribe($subscribe);
-					$groups_array[] = $course_type_group_rights;
-					$group_key_check[] = 1;
-				}
+					$group_key_check[] = 0;
 			}
 		}
 		return $groups_array;
@@ -259,14 +252,6 @@ abstract class CommonForm extends FormValidator
 				$course_group_rights->set_unsubscribe(1);
 				$groups_array[] = $course_group_rights;
 			}
-		}
-		else
-		{
-			$course_group_rights = new $class();
-			$course_group_rights->$id_method($this->object->get_id());
-			$course_group_rights->set_group_id(0);
-			$course_group_rights->set_unsubscribe(1);
-			$groups_array[] = $course_group_rights;
 		}
 		
 		return $groups_array;
