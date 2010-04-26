@@ -247,7 +247,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	           		$full_user_name = $selected_user->get_firstname() .' '. $selected_user->get_lastname();
 		        	$html[] = '<th>' . $full_user_name . '</th>';
 		        }        
-		        $html[] = '<th class="numeric">'.'</th>';
+		        $html[] = '<th class="numeric"></th>';
 		        $html[] = '<th class="action"></th>';
 		        $html[] = '</tr>';
 		        $html[] = '</thead>';
@@ -255,20 +255,23 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	
 	            // Retrieve indicators of the selected competence
 	            $indicators = $this->parent->get_peer_assessment_page_indicators_via_competence($this->parent->get_peer_assessment(), $competence);
-	
+				
 	            foreach($indicators as $indicator)
 	            {
 	            	$html[] = '<tr>';
 	            	$html[] = '<td><img src="'. Theme :: get_common_image_path() . 'content_object/indicator.png' .'" alt=""/></td>';
 	            	$html[] = '<td>'.$indicator->get_title().'</td>';
+	            	
+	            	// Retrieve criteria
+	            	$criteria_score = $this->parent->get_peer_assessment_page_criterias_via_indicator($this->parent->get_peer_assessment(), $indicator);	            	
 	            	foreach($users as $user)
 		        	{
 		        		$html[] = '<td>';
-				    	$html[] = $current_page->get_user_drop_down();
+				    	$html[] = $current_page->get_criteria($criteria_score);
 				        $html[] = '</td>';
 		        	}      	
 	            	$html[] = '<td></td>';
-	            	$html[] = '<td></td>';
+	            	$html[] = '<td><a href="'. $url_add .'"><img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/></a></td>';
 	            	$html[] = '</tr>';
 	            }
 	            $html[] = '</tbody>';

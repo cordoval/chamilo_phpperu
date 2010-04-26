@@ -2,7 +2,6 @@
 /**
  * author: Nick Van Loocke
  */
-
 require_once dirname(__FILE__) . '/../forms/peer_assessment_publication_form.class.php';
 
 class PeerAssessmentPublicationPublisher

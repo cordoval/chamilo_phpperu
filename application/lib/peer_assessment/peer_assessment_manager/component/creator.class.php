@@ -56,7 +56,7 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager
             		}
                 	else
                 	{
-                		$this->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION, 'peer_assessment_publication' => $peer_assessment_publication->get_id()));    
+                		$html[] = $this->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION, 'peer_assessment_publication' => $peer_assessment_publication->get_id()));    
             		}
                 }            
             }

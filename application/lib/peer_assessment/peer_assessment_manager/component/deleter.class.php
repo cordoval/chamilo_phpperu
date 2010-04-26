@@ -14,8 +14,6 @@ class PeerAssessmentManagerDeleterComponent extends PeerAssessmentManager
     function run()
     {
         $ids = $_GET[PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION];
-        $peer_assessment_publication = $this->retrieve_peer_assessment_publication($ids);
-        $category_id = $peer_assessment_publication->get_category();
 
         $failures = 0;
         
