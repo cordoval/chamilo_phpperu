@@ -16,7 +16,7 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManager
     {
     	$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowsePeerAssessmentPublications')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdatePeerAssessmentPublication')));
+        $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_EDIT_PEER_ASSESSMENT_PUBLICATION)) . '&peer_assessment_publication=' . Request :: get('peer_assessment_publication'), Translation :: get('UpdatePeerAssessmentPublication')));
         
         $publication = Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION);
         
@@ -59,7 +59,18 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManager
 	            	$html[] = $form_properties->update_content_object();
 	                $category_id = $peer_assessment_publication->get_category();
 	                
-					$html[] = $this->redirect($html[0] ? Translation :: get('PeerAssessmentPublicationUpdated') : Translation :: get('PeerAssessmentPublicationNotUpdated'), ! $html[0], array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS, 'category' => $category_id));
+	                $selected_button_value = $form_properties->getSubmitValue('buttons');
+	                foreach($selected_button_value as $selected_button)
+	                {
+	                	if($selected_button == 'Update....')
+	                	{
+	                		$html[] = $this->redirect($html[0] ? Translation :: get('PeerAssessmentPublicationUpdated') : Translation :: get('PeerAssessmentPublicationNotUpdated'), ! $html[0], array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS, 'category' => $category_id));
+	                	}
+	                	else
+	                	{
+	                		$html[] = $this->redirect($html[0] ? Translation :: get('PeerAssessmentPublicationUpdated') : Translation :: get('PeerAssessmentPublicationNotUpdated'), ! $html[0], array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BUILD_PEER_ASSESSMENT_PUBLICATION, 'peer_assessment_publication' => $peer_assessment_publication->get_id()));
+	                	}
+	                }
 	            }
 	            else
 	            {

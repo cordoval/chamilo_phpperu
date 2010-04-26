@@ -34,7 +34,13 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager
         	         	
         	if ($form->validate())
             {
-            	$html[] = $publisher->publish_content_object($pub->get_selected_objects());
+                $peer_assessment_publication = $this->retrieve_peer_assessment_publication_via_content_object($pub->get_selected_objects());
+            	$selected_button_value = $form->getSubmitValue('buttons');
+                foreach($selected_button_value as $selected_button)
+                {
+                	$pub_object = $pub->get_selected_objects();
+                	$html[] = $publisher->publish_content_object($selected_button, $peer_assessment_publication);
+                }             
             }
 	        else
 	        {	        	

@@ -89,6 +89,7 @@ class PeerAssessmentPublicationForm extends FormValidator
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
+    
 
     function build_creation_form()
     {
@@ -129,17 +130,14 @@ class PeerAssessmentPublicationForm extends FormValidator
         $pub->set_target_users($users);
         $pub->set_target_groups($groups);
         
-
     	if (! $pub->create())
         {
             return false;
         }
         else
         {
-            $this->publication = $pub;
             return true;
-        }
-  
+        } 
     }
         
 
