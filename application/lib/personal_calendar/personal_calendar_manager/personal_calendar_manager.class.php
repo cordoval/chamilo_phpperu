@@ -98,8 +98,8 @@ class PersonalCalendarManager extends WebApplication
     public function get_events($from_date, $to_date)
     {
         $events = $this->get_user_events($from_date, $to_date);
-        //$events = array_merge($events, $this->get_connector_events($from_date, $to_date));
-        //$events = array_merge($events, $this->get_user_shared_events($from_date, $to_date));
+        $events = array_merge($events, $this->get_connector_events($from_date, $to_date));
+        $events = array_merge($events, $this->get_user_shared_events($from_date, $to_date));
         return $events;
     }
 
