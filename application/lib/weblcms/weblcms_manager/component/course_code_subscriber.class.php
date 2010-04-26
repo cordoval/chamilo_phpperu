@@ -37,11 +37,14 @@ class WeblcmsManagerCourseCodeSubscriberComponent extends WeblcmsManager
        
         if($form->validate())
         {
-        	$succes_code = $form->check_code();
-        	$success = $this->subscribe_user_to_course($course, '5', '0', $this->get_user_id());
+        	$success_code = $form->check_code();
+        	if($success_code == true)
+        	{
+        		$success = $this->subscribe_user_to_course($course, '5', '0', $this->get_user_id());
+        	}
         	$array_type = array();
 	        $array_type['go'] = WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME;
-            $this->redirect(Translation :: get($success ? 'Subscribed' : 'NotSubscribed'), ($success ? false : true), $array_type, array(WeblcmsManager :: PARAM_COURSE)); 	
+            $this->redirect(Translation :: get($success_code ? 'Subscribed' : 'NotSubscribed'), ($success_code ? false : true), $array_type, array(WeblcmsManager :: PARAM_COURSE)); 	
         }
         else
         {
