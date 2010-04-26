@@ -195,7 +195,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	
 	            $html[] = '<div class="assessment">';
 	            $html[] = '<div style="width: 100%; text-align: center;">';
-	            $html[] = $current_page->get_page_number() . ' - ' . $this->parent->get_total_pages() . ' / ' . $this->parent->get_total_pages();
+	            $html[] = $current_page->get_page_number() . ' - ' . $this->parent->get_total_competences() . ' / ' . $this->parent->get_total_competences();
 	            $html[] = '</div>';
 	            $html[] = '</div>';
 	
@@ -218,7 +218,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	        $count_users = sizeof($this->parent->get_peer_assessment_publication_users($peer_assessment_publication_id)->as_array());
 	        // Users
 	        $users = $this->parent->get_peer_assessment_publication_users($peer_assessment_publication_id)->as_array();   
-
+	        
         	$html[] = '<div class="assessment">';
             $html[] = '<h2>' . $competence->get_title() . '</h2>';
             
@@ -263,14 +263,24 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            	$html[] = '<td>'.$indicator->get_title().'</td>';
 	            	
 	            	// Retrieve criteria
-	            	$criteria_score = $this->parent->get_peer_assessment_page_criterias_via_indicator($this->parent->get_peer_assessment(), $indicator);	            	
-	            	//$count_criteria = $criteria_score->get_number_of_options();
-	            	//dump($criteria_score);
-	            	//exit();
+	            	$criteria = $this->parent->get_peer_assessment_page_criterias_via_indicator($this->parent->get_peer_assessment(), $indicator);	            	
+	            	$criteria_scores = array();
+	            	$criteria_scores[0] = Translation :: get('SelectCriteriaScore');
+	            	$criteria_overview = $criteria;
+	            	
+	            	foreach($criteria as $unserialize)
+	            	{
+	            		$criteria_score = $unserialize->get_options();
+	            		foreach($criteria_score as $score)
+	            		{
+	            			$criteria_scores[] = $score->get_score();
+	            		}
+	            	}
+
 	            	foreach($users as $user)
 		        	{
 		        		$html[] = '<td>';
-				    	$html[] = $current_page->get_criteria($criteria_score);
+				    	$html[] = $current_page->get_criteria($criteria_scores);
 				        $html[] = '</td>';
 		        	}      	
 	            	$html[] = '<td></td>';
@@ -283,10 +293,14 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            
 	            $html[] = '<br/>'. Translation :: get('OverviewOfTheCriteria');
 	            $html[] = '<ul>';
-	            /*for($i = 0; $i < $count_criteria; $i++)
-	            {	            	
-	            	$html[] = '<li>'. $criteria_score[$i]->get_score() .': '. $criteria_score[$i]->get_description() .'</li>';
-	            }*/
+            	foreach($criteria_overview as $unserialize)
+            	{
+            		$criteria_score = $unserialize->get_options();
+            		foreach($criteria_score as $score_and_description)
+            		{
+            			$html[] = '<li>'. Translation :: get('CriteriaScore') .': <b>'. $score_and_description->get_score() .'</b> |  '. Translation :: get('CriteriaDescription') .': <b>'. $score_and_description->get_description() .'</b></li>';
+            		}
+            	}
 	            $html[] = '</ul>';	       
 	            $html[] = '</div>';	            
 	            
@@ -301,7 +315,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            $html[] = '<br />';
 	
 	            $html[] = '<div style="width: 100%; text-align: center;">';
-	            $html[] = $current_page->get_page_number() . ' - ' . $this->parent->get_total_pages() . ' / ' . $this->parent->get_total_pages();
+	            $html[] = $current_page->get_page_number() . ' - ' . $this->parent->get_total_competences() . ' / ' . $this->parent->get_total_comeptences();
 	            $html[] = '</div>';
 	            $html[] = '</div>';
             }
