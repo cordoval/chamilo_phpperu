@@ -114,7 +114,8 @@ class WeekCalendar extends CalendarTable
             
             for($hour = $start; $hour < $end; $hour += $this->hour_step)
             {
-                $class = array();
+                $row = ($hour / $this->hour_step) - $start;
+            	$class = array();
                 if ($today == date('Y-m-d', $week_day))
                 {
                     if (date('H') >= $hour && date('H') < $hour + $this->hour_step)
@@ -129,8 +130,13 @@ class WeekCalendar extends CalendarTable
                 }
                 if (count($class) > 0)
                 {
-                    $this->updateCellAttributes( ($hour / $this->hour_step) - $start, $day + 1, 'class="' . implode(' ', $class) . '"');
+                    $this->updateCellAttributes( $row, $day + 1, 'class="' . implode(' ', $class) . '"');
                 }
+                
+            	if ($hour < $working_start || $hour >= $working_end)
+            	{
+                	$this->updateCellAttributes($row, $day + 1, 'class="disabled_month"');
+            	}
             }
         }
         //$this->setRowType(0,'th');
