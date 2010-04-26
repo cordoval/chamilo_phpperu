@@ -31,7 +31,7 @@ class WeblcmsManagerCourseRequestCreatorComponent extends WeblcmsManager
             exit();
         } 
         */      
-        $course = $this->get_course();
+        $course = $this->retrieve_course($course_code);
         $request = new CourseRequest();
         $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)), $course, $this, $request, $this->get_user());
        
@@ -40,7 +40,7 @@ class WeblcmsManagerCourseRequestCreatorComponent extends WeblcmsManager
 			$success_request = $form->create_request();
         	$array_type = array();
 	        $array_type['go'] = WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME;
-            $this->redirect(Translation :: get($success_request ? 'RequestCreated' : 'RequestNotCreated'), ($success_request ? false : true), $array_type, array(WeblcmsManager :: PARAM_COURSE)); 	
+            $this->redirect(Translation :: get($success ? 'RequestCreated' : 'RequestNotCreated'), ($success ? false : true), $array_type, array(WeblcmsManager :: PARAM_COURSE)); 	
         }
         else
         {

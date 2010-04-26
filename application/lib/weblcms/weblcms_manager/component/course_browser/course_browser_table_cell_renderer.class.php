@@ -94,13 +94,12 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			}       				     			
   		       		break;
         			
-        		case CourseGroupSubscribeRight :: SUBSCRIBE_CODE :       		
+        		case CourseGroupSubscribeRight :: SUBSCRIBE_CODE :     		
         			$course_code_url = $this->browser->get_course_code_url($course);
         			$toolbar_data[] = array(
         				'href' => $course_code_url, 
         				'label' => Translation :: get('Code'), 
         				'img' => Theme :: get_common_image_path() . 'action_code.png');
-        				//'confirm' = false,
         			break;
         			     			
         		default : return Translation :: get('SubscribeNotAllowed');	
