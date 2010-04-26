@@ -66,8 +66,8 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         	$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $id);
         	//$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, $id);
         	$teller = WeblcmsDataManager :: get_instance()->count_requests_by_course($conditions);
-                  	
         	$current_right = $course->can_user_subscribe($this->browser->get_user());
+//        	dump($teller);
         	
         	switch($current_right)
         	{
@@ -80,6 +80,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			break;
         		
         		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :
+					
         			if($teller == 0)
         			{
         				$course_request_form_url = $this->browser->get_course_request_form_url($course);

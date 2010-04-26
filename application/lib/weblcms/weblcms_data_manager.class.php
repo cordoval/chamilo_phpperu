@@ -258,6 +258,7 @@ abstract class WeblcmsDataManager
      */
     abstract function count_courses($condition);
 
+    abstract function count_requests_by_course($condition);
     /**
      * Count the number of course categories
      * @param Condition $condition
