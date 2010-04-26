@@ -282,6 +282,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->count_objects(CourseType :: get_table_name(), $condition);
 	}
 	
+	function count_course_group_subscribe_rights($condition = null)
+	{
+		return $this->database->count_objects(CourseGroupSubscribeRight :: get_table_name(), $condition);
+	}
+	
+	function count_course_group_unsubscribe_rights($condition = null)
+	{
+		return $this->database->count_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition);
+	}
+	
 	function count_requests($condition = null)
 	{
 		return $this->database->count_objects(CourseRequest :: get_table_name(), $condition);
