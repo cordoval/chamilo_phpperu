@@ -137,6 +137,7 @@ class ReportingViewer extends SubManager
 		if(is_subclass_of($component, __CLASS__))
 		{
 			$component->set_template($this->get_template());
+			$component->set_breadcrumb_trail($this->get_breadcrumb_trail());
 		}
 		
 		return $component;

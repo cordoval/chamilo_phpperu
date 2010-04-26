@@ -32,7 +32,10 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
         }
         else
+        {
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
+        }
+        	
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseList')));
         $trail->add_help('courses general');
         
@@ -42,14 +45,14 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
             $trail->add(new Breadcrumb($this->get_url(), $category->get_name()));
         }
         
-        if (! $this->get_user()->is_platform_admin())
+        /*if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
             echo '<div class="clear"></div><br />';
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
-        }
+        }*/
         
         $this->action_bar = $this->get_action_bar();
         $menu = $this->get_menu_html();
