@@ -2,7 +2,8 @@
 <application name="repository">
 	<settings>
 		<category name="administrator">
-			<setting name="description_required" field="checkbox" default="1">
+			<setting name="description_required" field="checkbox"
+				default="1">
 				<options type="static">
 					<option name="description_required" value="1" />
 				</options>
@@ -51,16 +52,18 @@
 					<option name="allow_feedback_creation" value="1" />
 				</options>
 			</setting>
-			<setting name="allow_assessment_fill_in_blanks_question_creation" field="checkbox"
-				default="1">
+			<setting name="allow_assessment_fill_in_blanks_question_creation"
+				field="checkbox" default="1">
 				<options type="static">
-					<option name="allow_assessment_fill_in_blanks_question_creation" value="1" />
+					<option name="allow_assessment_fill_in_blanks_question_creation"
+						value="1" />
 				</options>
 			</setting>
-			<setting name="allow_survey_fill_in_blanks_question_creation" field="checkbox"
-				default="0">
+			<setting name="allow_survey_fill_in_blanks_question_creation"
+				field="checkbox" default="0">
 				<options type="static">
-					<option name="allow_survey_fill_in_blanks_question_creation" value="0" />
+					<option name="allow_survey_fill_in_blanks_question_creation"
+						value="0" />
 				</options>
 			</setting>
 			<setting name="allow_forum_creation" field="checkbox"
@@ -285,11 +288,15 @@
 			</setting>
 		</category>
 		<category name="rights">
-			<setting name="use_cumulative_rights" field="checkbox" default="0">
+			<setting name="use_cumulative_rights" field="checkbox"
+				default="0">
 				<options type="static">
 					<option name="use_cumulative_rights" value="1" />
 				</options>
 			</setting>
+		</category>
+		<category name="streaming">
+			<setting name="youtube_key" field="text" default="" />
 		</category>
 	</settings>
 </application>

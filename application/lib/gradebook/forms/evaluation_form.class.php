@@ -75,6 +75,8 @@ class EvaluationForm extends FormValidator
     	$this->evaluation_format = EvaluationFormat :: factory($format->get_title());
     	if (!$this->evaluation_format->get_score_set())
     	{
+    		if(!is_numeric($values[$this->evaluation_format->get_evaluation_field_name()]))
+    			$this->grade_evaluation->set_score(null);
             $this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
     		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('score'));
             $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ValueShouldBeNumeric'), 'numeric');
@@ -216,13 +218,18 @@ class EvaluationForm extends FormValidator
 	}
     // Default values (setter)
     
-	function setEvaluationDefaults($defaults = array ())
+	function setEvaluationDefaults($set_score_null_after_format_switch = false, $defaults = array ())
 	{
 		$grade_evaluation = $this->grade_evaluation;
 		$evaluation = $this->evaluation;
 		if ($grade_evaluation->get_id())
 		{
-			$defaults[$this->evaluation_format->get_evaluation_field_name()] = $grade_evaluation->get_score();
+			if(!$set_score_null_after_format_switch)
+				$defaults[$this->evaluation_format->get_evaluation_field_name()] = $grade_evaluation->get_score();
+			else
+			{
+				$defaults[$this->evaluation_format->get_evaluation_field_name()] = null;
+			}
 		    $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
 		    $defaults[GradeEvaluation :: PROPERTY_ID] = $grade_evaluation->get_id();
 	
@@ -242,6 +249,11 @@ class EvaluationForm extends FormValidator
 	        $this->setEvaluationDefaults();
         	return parent :: validate();
         }
+//        elseif($this->evaluation_format->get_evaluation_field_type() == 'text')
+//        {
+//        	$this->setEvaluationDefaults(true);
+//        	return false;
+//        }
 	}
 }
 

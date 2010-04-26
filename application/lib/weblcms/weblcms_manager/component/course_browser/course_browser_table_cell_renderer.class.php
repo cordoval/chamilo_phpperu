@@ -62,6 +62,11 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         {
         	$course = WeblcmsDataManager :: get_instance()->retrieve_course($course->get_id());
         	
+        	$conditions = array();
+        	$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $id);
+        	//$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, $id);
+        	$teller = WeblcmsDataManager :: get_instance()->count_requests_by_course($conditions);
+                  	
         	$current_right = $course->can_user_subscribe($this->browser->get_user());
         	
         	switch($current_right)
@@ -74,13 +79,20 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			    'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
         			break;
         		
-        		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :       		
-        			$course_request_form_url = $this->browser->get_course_request_form_url($course);     			
-        			$toolbar_data[] = array(
-        				'href' => $course_request_form_url, 
-        				'label' => Translation :: get('Request'), 
-        				'img' => Theme :: get_common_image_path() . 'action_request.png');       			
-        			break;
+        		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :  
+        			if($teller == 0)
+        			{
+        				$course_request_form_url = $this->browser->get_course_request_form_url($course);
+        				$toolbar_data[] = array(
+        					'href' => $course_request_form_url, 
+        					'label' => Translation :: get('Request'), 
+        					'img' => Theme :: get_common_image_path() . 'action_request.png');
+        			}
+        			else
+        			{       				
+        				return Translation :: get('Pending');
+        			}       				     			
+  		       		break;
         		/*	
         		case CourseGroupSubscribeRight :: SUBSCRIBE_CODE :       		
         			$course_code_url = $this->browser->get_course_code_url($course);
@@ -90,9 +102,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         				'img' => Theme :: get_common_image_path() . 'action_code.png');
         				//'confirm' = false,
         			break;
-        			*/
-        			
-        			
+        			*/      			
         		default : return Translation :: get('SubscribeNotAllowed');	
         	}      		
         }  
