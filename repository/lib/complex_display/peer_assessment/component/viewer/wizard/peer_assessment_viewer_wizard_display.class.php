@@ -264,6 +264,9 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            	
 	            	// Retrieve criteria
 	            	$criteria_score = $this->parent->get_peer_assessment_page_criterias_via_indicator($this->parent->get_peer_assessment(), $indicator);	            	
+	            	//$count_criteria = $criteria_score->get_number_of_options();
+	            	//dump($criteria_score);
+	            	//exit();
 	            	foreach($users as $user)
 		        	{
 		        		$html[] = '<td>';
@@ -276,10 +279,17 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            }
 	            $html[] = '</tbody>';
 	            $html[] = '</table>';
+
 	            
-					
-	            $html[] = '<br />';
-	            $html[] = '</div>';
+	            $html[] = '<br/>'. Translation :: get('OverviewOfTheCriteria');
+	            $html[] = '<ul>';
+	            /*for($i = 0; $i < $count_criteria; $i++)
+	            {	            	
+	            	$html[] = '<li>'. $criteria_score[$i]->get_score() .': '. $criteria_score[$i]->get_description() .'</li>';
+	            }*/
+	            $html[] = '</ul>';	       
+	            $html[] = '</div>';	            
+	            
 	
 	            $html[] = '<div>';
 	            $html[] = $current_page->toHtml();
