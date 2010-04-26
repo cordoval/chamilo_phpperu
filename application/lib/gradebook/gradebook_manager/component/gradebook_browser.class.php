@@ -24,7 +24,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 
 		$this->display_header($trail);
 		$this->ab = $this->get_action_bar();
-		echo $this->ab->as_html();
+//		echo $this->ab->as_html();
 		$applications = $this->retrieve_applications_with_evaluations();
 		echo $this->get_application_tabs($applications);
 		if(Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE))

@@ -72,13 +72,23 @@ class EvaluationForm extends FormValidator
     	$format = EvaluationManager :: retrieve_evaluation_format($values['format_id']);
     	if(!$format)
     		$format = EvaluationManager :: retrieve_evaluation_format($this->evaluation->get_format_id());
-    	$this->evaluation_format = EvaluationFormat :: factory(EvaluationFormat :: get_folder($format->get_title()),EvaluationFormat :: name_to_underscore($format->get_title()).'.class.php');
+    	$this->evaluation_format = EvaluationFormat :: factory($format->get_title());
     	if (!$this->evaluation_format->get_score_set())
     	{
+    		$score_rule = new ValidateScoreStepRule($this->evaluation_format);
+    		$boundaries_rule = new ValidateScoreBoundariesRule($this->evaluation_format);
+    		if(!empty($values))
+    		{
+	    		if(!$score_rule->validate($values[$this->evaluation_format->get_evaluation_field_name()]) || !$boundaries_rule->validate($values[$this->evaluation_format->get_evaluation_field_name()]) || !is_numeric($values[$this->evaluation_format->get_evaluation_field_name()]))
+	    		{
+	    			$this->grade_evaluation->set_score(null);
+	    		}
+    		}
             $this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
     		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('score'));
             $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ValueShouldBeNumeric'), 'numeric');
-			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ScoreIsNotAValidValue'), new ValidateEvaluationScoreRule($this->evaluation_format));
+			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('DecimalValueNotAllowed'), $score_rule);
+			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule);
     	}
     	else
     	{
@@ -231,6 +241,7 @@ class EvaluationForm extends FormValidator
 		    $defaults[Evaluation :: PROPERTY_EVALUATOR_ID] = $evaluation->get_evaluator_id();
 			parent :: setDefaults($defaults);
 		}
+		
 	}
 	
 	function validate()
@@ -241,14 +252,19 @@ class EvaluationForm extends FormValidator
 	        $this->setEvaluationDefaults();
         	return parent :: validate();
         }
+//        elseif($this->evaluation_format->get_evaluation_field_type() == 'text')
+//        {
+//        	$this->setEvaluationDefaults(true);
+//        	return false;
+//        }
 	}
 }
 
-class ValidateEvaluationScoreRule extends HTML_QuickForm_Rule
+class ValidateScoreStepRule extends HTML_QuickForm_Rule
 {
 	private $evaluation_format;
 	
-	function ValidateEvaluationScoreRule($evaluation_format)
+	function ValidateScoreStepRule($evaluation_format)
 	{
 		$this->evaluation_format = $evaluation_format;
 	}
@@ -257,9 +273,26 @@ class ValidateEvaluationScoreRule extends HTML_QuickForm_Rule
 	{
 		$quotient = intval($evaluation_score / $this->evaluation_format->get_step());
 		$mod = $evaluation_score - $quotient * $this->evaluation_format->get_step();
-		if($evaluation_score < $this->evaluation_format->get_min_value() || $evaluation_score > $this->evaluation_format->get_max_value() || $mod != 0)
+		if($mod != 0)
 			return false;
 		return true;
 	}	
+}
+
+class ValidateScoreBoundariesRule extends HTML_QuickForm_Rule
+{
+	private $evaluation_format;
+	
+	function ValidateScoreBoundariesRule($evaluation_format)
+	{
+		$this->evaluation_format = $evaluation_format;
+	}
+	
+	public function validate($evaluation_score)
+	{
+		if($evaluation_score < $this->evaluation_format->get_min_value() || $evaluation_score > $this->evaluation_format->get_max_value())
+			return false;
+		return true;
+	}
 }
 ?>

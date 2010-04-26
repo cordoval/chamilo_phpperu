@@ -304,7 +304,6 @@ class CourseTypeForm extends CommonForm
 			return false;
 		}
 
-		$wdm = WeblcmsDataManager :: get_instance();
 		$tools = $wdm->get_tools('basic');
 		$selected_tools = $this->fill_tools($tools);
 		$default_tools = $this->object->get_tools();
@@ -342,11 +341,10 @@ class CourseTypeForm extends CommonForm
 		{
 			//update all course related to the coursetype
 			$condition = new EqualityCondition(CourseTypeSettings :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
-			$courses = WeblcmsDataManager::get_instance()->retrieve_courses($condition);
+			$courses = $wdm->retrieve_courses($condition);
 			while($course = $courses->next_result())
 			{
-				$this->parent->get_parent()->load_course($course->get_id());
-				$course = $this->parent->get_parent()->get_course();
+				$course = $wdm->retrieve_course($course->get_id());
 
 				$course_settings = $this->fill_course_settings($course);
 				if(!$course_settings->update())
