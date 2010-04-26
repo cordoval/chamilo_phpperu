@@ -81,7 +81,8 @@ class PhpmailerMail extends Mail
 
             //$mail->ConfirmReadingTo = $this->get_from(); //Disposition-Notification
         }
-         if(! is_null($this->get_reply())){
+        
+        if(! is_null($this->get_reply())){
 
          	$mail->AddReplyTo($this->get_reply_email(), $this->get_reply_name());
          	$mail->AddCustomHeader('Return-Path: <'.$this->get_reply_email().'>');
