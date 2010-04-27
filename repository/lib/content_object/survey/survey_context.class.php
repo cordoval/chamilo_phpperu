@@ -1,6 +1,6 @@
 <?php
 
-require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
+require_once (dirname(__FILE__) . '/context_data_manager/database_context_data_manager.class.php');
 
 abstract class SurveyContext extends DataClass
 {

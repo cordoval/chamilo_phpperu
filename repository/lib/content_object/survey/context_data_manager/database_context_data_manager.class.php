@@ -1,46 +1,26 @@
 <?php
-/**
- * $Id: database.class.php 234 2009-11-16 11:34:07Z vanpouckesven $
- * @package repository.lib.data_manager
- */
-//require_once dirname(__FILE__) . '/database/database_content_object_result_set.class.php';
-//require_once dirname(__FILE__) . '/database/database_complex_content_object_item_result_set.class.php';
-//require_once dirname(__FILE__) . '/../category_manager/repository_category.class.php';
-//
-//require_once 'MDB2.php';
-
-
-/**
-==============================================================================
- * This is a data manager that uses a database for storage. It was written
- * for MySQL, but should be compatible with most SQL flavors.
- *
- * @author Tim De Pauw
- * @author Bart Mollet
- * @author Hans De Bisschop
- * @author Dieter De Neef
-==============================================================================
- */
 
 require_once (dirname(__FILE__) . '/../context/survey_default_context/survey_default_context.class.php');
 require_once (dirname(__FILE__) . '/../context/survey_student_context/survey_student_context.class.php');
+require_once (dirname(__FILE__) . '/context_data_manager_interface.php');
+require_once Path :: get_repository_path() . 'lib/data_manager/database_repository_data_manager.class.php';
 
-class DatabaseSurveyContextDataManager extends SurveyContextDataManager
+class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager implements SurveyContextDataManagerInterface
 {
 
     //     Inherited.
-    function initialize()
-    {
-        PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array(get_class(), 'handle_error'));
-	    $this->database = new Database();
-        $this->database->set_prefix('repository_');
-    
-    }
-
-    function query($query)
-    {
-        return $this->database->query($query);
-    }
+//    function initialize()
+//    {
+//        PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array(get_class(), 'handle_error'));
+//	    $this = new Database();
+//        $this->set_prefix('repository_');
+//    
+//    }
+//
+//    function query($query)
+//    {
+//        return $this->query($query);
+//    }
 
     function retrieve_survey_contexts($condition = null, $offset = null, $count = null, $order_property = null)
     {
@@ -63,22 +43,22 @@ class DatabaseSurveyContextDataManager extends SurveyContextDataManager
         //context is always extended because SurveyContext is an abstact class        
         //        if ($this->is_extended_type($type))
         //        {
-        $survey_context_alias = $this->database->get_alias(SurveyContext :: get_table_name());
+        $survey_context_alias = $this->get_alias(SurveyContext :: get_table_name());
         
         //dump($condition);
         
 
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $survey_context_alias;
-        $query .= ' JOIN ' . $this->database->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . $this->database->escape_column_name(SurveyContext :: PROPERTY_ID, $survey_context_alias) . '=' . $this->database->escape_column_name(SurveyContext :: PROPERTY_ID, self :: ALIAS_TYPE_TABLE);
+        $query = 'SELECT * FROM ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $survey_context_alias;
+        $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $survey_context_alias) . '=' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, self :: ALIAS_TYPE_TABLE);
         
         //dump($query);
         
 
-        $record = $this->database->retrieve_row($query, SurveyContext :: get_table_name(), $condition);
+        $record = $this->retrieve_row($query, SurveyContext :: get_table_name(), $condition);
         //        }
         //        else
         //        {
-        //            $record = $this->database->retrieve_record(SurveyContext :: get_table_name(), $condition);
+        //            $record = $this->retrieve_record(SurveyContext :: get_table_name(), $condition);
         //        }
         
 
@@ -91,11 +71,11 @@ class DatabaseSurveyContextDataManager extends SurveyContextDataManager
     	if ($context->get_additional_properties())
         {
             $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-            $this->database->delete_objects(Utilities :: camelcase_to_underscores(get_class($context)), $condition);
+            $this->delete_objects(Utilities :: camelcase_to_underscores(get_class($context)), $condition);
         }
         
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
-        $this->database->delete_objects(SurveyContext :: get_table_name(), $condition);
+        $this->delete_objects(SurveyContext :: get_table_name(), $condition);
     }
 
     function update_survey_context($survey_context)
@@ -108,23 +88,23 @@ class DatabaseSurveyContextDataManager extends SurveyContextDataManager
         $props = array();
         foreach ($context->get_default_properties() as $key => $value)
         {
-            $props[$this->database->escape_column_name($key)] = $value;
+            $props[$this->escape_column_name($key)] = $value;
         }
-        $props[$this->database->escape_column_name(SurveyContext :: PROPERTY_ID)] = $context->get_id();
-        $props[$this->database->escape_column_name(SurveyContext :: PROPERTY_TYPE)] = $context->get_type();
-        $props[$this->database->escape_column_name(SurveyContext :: PROPERTY_ID)] = $this->database->get_better_next_id('survey_context', 'id');
-        $this->database->get_connection()->loadModule('Extended');
-        $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('survey_context'), $props, MDB2_AUTOQUERY_INSERT);
-        $context->set_id($this->database->get_connection()->extended->getAfterID($props[$this->database->escape_column_name(SurveyContext :: PROPERTY_ID)], 'survey_context'));
+        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)] = $context->get_id();
+        $props[$this->escape_column_name(SurveyContext :: PROPERTY_TYPE)] = $context->get_type();
+        $props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)] = $this->get_better_next_id('survey_context', 'id');
+        $this->get_connection()->loadModule('Extended');
+        $this->get_connection()->extended->autoExecute($this->get_table_name('survey_context'), $props, MDB2_AUTOQUERY_INSERT);
+        $context->set_id($this->get_connection()->extended->getAfterID($props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)], 'survey_context'));
         if ($context->get_additional_properties())
         {
             $props = array();
             foreach ($context->get_additional_properties() as $key => $value)
             {
-                $props[$this->database->escape_column_name($key)] = $value;
+                $props[$this->escape_column_name($key)] = $value;
             }
-            $props[$this->database->escape_column_name(SurveyContext :: PROPERTY_ID)] = $context->get_id();
-            $this->database->get_connection()->extended->autoExecute($this->database->get_table_name($context->get_type()), $props, MDB2_AUTOQUERY_INSERT);
+            $props[$this->escape_column_name(SurveyContext :: PROPERTY_ID)] = $context->get_id();
+            $this->get_connection()->extended->autoExecute($this->get_table_name($context->get_type()), $props, MDB2_AUTOQUERY_INSERT);
         }
         return true;
     }
@@ -149,9 +129,9 @@ class DatabaseSurveyContextDataManager extends SurveyContextDataManager
             $array = array("*");
         }
         
-        $query = 'SELECT ' . implode(',', $array) . ' FROM ' . $this->database->escape_table_name($type) . ' WHERE ' . $this->database->escape_column_name(SurveyContext :: PROPERTY_ID) . '=' . $survey_context->get_id();
+        $query = 'SELECT ' . implode(',', $array) . ' FROM ' . $this->escape_table_name($type) . ' WHERE ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID) . '=' . $survey_context->get_id();
         
-        $this->database->set_limit(1);
+        $this->set_limit(1);
         $res = $this->query($query);
         $return = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         
@@ -164,7 +144,7 @@ class DatabaseSurveyContextDataManager extends SurveyContextDataManager
     function determine_survey_context_type($id)
     {
         $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $id);
-        $record = $this->database->retrieve_record(SurveyContext :: get_table_name(), $condition);
+        $record = $this->retrieve_record(SurveyContext :: get_table_name(), $condition);
         return $record[SurveyContext :: PROPERTY_TYPE];
     }
 
