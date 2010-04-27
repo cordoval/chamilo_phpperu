@@ -84,7 +84,7 @@ class InternshipOrganizerCategory extends NestedTreeNode
 
     static function get_table_name()
     {
-        //		 return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+//        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
         return 'category';
     }
 
@@ -102,7 +102,7 @@ class InternshipOrganizerCategory extends NestedTreeNode
         
         if ($include_subcategories)
         {
-            $subcategories = $dm->get_internship_organizer_category_children($this, $recursive_subcategories);
+            $subcategories = $dm->nested_tree_get_children($this, $recursive_subcategories);
             
             while ($subcategory = $subcategories->next_result())
             {

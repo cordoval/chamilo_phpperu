@@ -42,7 +42,7 @@ class InternshipOrganizerCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function InternshipOrganizerCategoryMenu($current_category, $url_format = '?application=internship_organizer&go=browse&category_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
+    function InternshipOrganizerCategoryMenu($current_category, $url_format = '?go=category&application=internship_organizer&action=browse&category_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
     {
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;
