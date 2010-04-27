@@ -8,16 +8,18 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
 		return Path :: get_application_library_path() . 'streaming_media_manager/type/youtube/component/';
 	}
 	
-	function count_streaming_media_objects()
-	{
-		return 'test1';
-	}
-	
-	function retrieve_streaming_media_objects()
+	function count_streaming_media_objects($condition)
 	{
 		$connector = YoutubeStreamingMediaConnector::get_instance($this);
-		return $connector->get_youtube_video();
+		return $connector->count_youtube_video($condition);
 	}
+	
+	function retrieve_streaming_media_objects($condition, $order_property, $offset, $count)
+	{
+		$connector = YoutubeStreamingMediaConnector::get_instance($this);
+		return $connector->get_youtube_video($condition, $order_property, $offset, $count);
+	}
+	
 	
 	function is_ready_to_be_used()
     {
@@ -39,9 +41,6 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
             case StreamingMediaManager :: ACTION_EXPORT_STREAMING_MEDIA :
                 $component = $this->create_component('Exporter');
                 break;
-  			case StreamingMediaManager :: ACTION_CREATE_STREAMING_MEDIA :
-  				$component = $this->create_component('Creator');
-  				break;
   			case StreamingMediaManager :: ACTION_IMPORT_STREAMING_MEDIA :
   				$component = $this->create_component('Importer');
   				break;

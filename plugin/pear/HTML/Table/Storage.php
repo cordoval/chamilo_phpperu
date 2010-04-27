@@ -606,6 +606,35 @@ class HTML_Table_Storage extends HTML_Common {
             $this->updateRowAttributes($row, $attributes, $inTR);
         }
     }
+    
+     /**
+     * Alternates the col attributes starting at $start
+     * @param    int      $start            Col index of col in which alternating
+     *                                      begins
+     * @param    mixed    $attributes1      Associative array or string of table
+     *                                      col attributes
+     * @param    mixed    $attributes2      Associative array or string of table
+     *                                      col attributes
+     * @param    bool     $inTR             false if attributes are to be applied
+     *                                      in TD tags; true if attributes are to
+     *                                      be applied in TR tag
+     * @param    int      $firstAttributes  (optional) Which attributes should be
+     *                                      applied to the first row, 1 or 2.
+     * @access   public
+     */
+    function altColAttributes($start, $attributes1, $attributes2, $inTR = false,
+        $firstAttributes = 1)
+    {
+        for ($col = $start; $col < $this->_cols; $col++) {
+            if (($col + $start + ($firstAttributes - 1)) % 2 == 0) {
+                $attributes = $attributes1;
+            } else {
+                $attributes = $attributes2;
+            }
+            $this->updateColAttributes($col, $attributes, $inTR);
+        }
+    }
+    
 
     /**
      * Adds a table column and returns the column identifier

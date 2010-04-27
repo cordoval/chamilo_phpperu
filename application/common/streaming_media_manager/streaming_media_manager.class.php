@@ -5,13 +5,13 @@ abstract class StreamingMediaManager extends SubManager
 	
 	const ACTION_VIEW_STREAMING_MEDIA = 'view';
 	const ACTION_EXPORT_STREAMING_MEDIA = 'export';
-	const ACTION_CREATE_STREAMING_MEDIA = 'create';
 	const ACTION_IMPORT_STREAMING_MEDIA = 'import';
 	const ACTION_BROWSE_STREAMING_MEDIA = 'browse';
 	const ACTION_DOWNLOAD_STREAMING_MEDIA = 'download';
 	const ACTION_UPLOAD_STREAMING_MEDIA = 'upload';
 	
 	const PARAM_STREAMING_MEDIA_ID = 'streaming_media_id';
+	const CLASS_NAME = __CLASS__;
 	
 	function StreamingMediaManager($application)
 	{
@@ -114,9 +114,9 @@ abstract class StreamingMediaManager extends SubManager
 		parent :: display_footer();
 	}
 	
-	abstract function count_streaming_media_objects();
+	abstract function count_streaming_media_objects($condition);
 	
-	abstract function retrieve_streaming_media_objects();
+	abstract function retrieve_streaming_media_objects($condition, $order_property, $offset, $count);
 	
 }
 ?>

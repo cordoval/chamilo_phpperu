@@ -1,7 +1,10 @@
 <?php
 require_once 'Zend/Loader.php';
 require_once dirname (__FILE__) . '/../../streaming_media_object.class.php';
+require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 
+
+//YoutubeKey : AI39si4OLUsiI2mK0_k8HxqOtv0ctON-PzekhP_56JDkdph6wZ9tW2XqzDD7iVYY0GXKdMKlPSJyYZotNQGleVfRPDZih41Tug
 class YoutubeStreamingMediaConnector
 {
     private static $instance;
@@ -50,6 +53,71 @@ class YoutubeStreamingMediaConnector
         $this->youtube = new Zend_Gdata_YouTube($httpClient, $application, $client, $key);
 		$this->youtube->setMajorProtocolVersion(2);
     }
+    
+    function create_youtube_video()
+    {
+    	$video_entry = new Zend_Gdata_YouTube_VideoEntry();
+    	$filesource = $this->youtube->newMediaFileSource($_FILES['upload']['tmp_name']);
+    	$video_getid3 = new getID3();
+        $video_info = $video_getid3->analyze($_FILES['upload']['tmp_name']);
+        $filesource->setContentType($_FILES['upload']['type']);
+    	$filesource->setSlug($_FILES['upload']['name']);
+    	$video_entry->setMediaSource($filesource);
+        
+    	$video_entry->setVideoTitle($values[YoutubeStreamingMediaManagerForm :: VIDEO_TITLE]);
+       	$video_entry->setVideoCategory($values[YoutubeStreamingMediaManagerForm :: VIDEO_CATEGORY]);
+       	$video_entry->setVideoTags($values[YoutubeStreamingMediaManagerForm :: VIDEO_TAGS]);
+       	$video_entry->setVideoDescription($values[YoutubeStreamingMediaManagerForm :: VIDEO_DESCRIPTION]);
+       	
+       	$upload_url = 'http://uploads.gdata.youtube.com/feeds/api/users/default/uploads'; 
+       
+       	try
+       	{
+       		$new_entry = $this->youtube->insertEntry($video_entry, $upload_url, 'Zend_Gdata_YouTube_VideoEntry');
+       	}
+       	catch(Zend_Gdata_App_HttpException $http_exception)
+       	{
+       		echo($http_exception->getRawResponseBody());
+       	}
+       	catch(Zend_Gdata_App_Exception $e)
+       	{
+       		echo($e->getMessage());
+       	}
+    }
+    
+	function retrieve_categories()
+	{
+	    $properties = array();
+	    
+	    //$options[] = array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => array('atom:category'));
+	    //$array = Utilities :: extract_xml_file(Zend_Gdata_YouTube_VideoEntry::YOUTUBE_CATEGORY_SCHEMA, $options);
+	    $array = Utilities :: extract_xml_file(PATH :: get_plugin_path() . 'gdata/categories.cat');
+	    
+	    $categories = array();
+	    foreach ($array['atom:category'] as $category)
+	    {
+	        $categories[$category['term']] = Translation :: get($category['term']);
+	    }
+	    
+	    return $categories;
+	}
+    
+    function get_upload_token($values)
+    {
+    	$video_entry = new Zend_Gdata_YouTube_VideoEntry();
+    	
+    	$video_entry->setVideoTitle($values[YoutubeStreamingMediaManagerForm :: VIDEO_TITLE]);
+       	$video_entry->setVideoCategory($values[YoutubeStreamingMediaManagerForm :: VIDEO_CATEGORY]);
+       	$video_entry->setVideoTags($values[YoutubeStreamingMediaManagerForm :: VIDEO_TAGS]);
+       	$video_entry->setVideoDescription($values[YoutubeStreamingMediaManagerForm :: VIDEO_DESCRIPTION]);
+       	
+       	$token_handler_url = 'http://gdata.youtube.com/action/GetUploadToken';
+       	$token_array = $this->youtube->getFormUploadToken($video_entry, $token_handler_url);
+       	$token_value = $token_array['token'];
+       	$post_url = $token_array['url'];
+       	
+       	return $token_array;
+    }
 
 //		
 		// USER'S OWN UPLOADS
@@ -77,16 +145,35 @@ class YoutubeStreamingMediaConnector
         return self :: $instance;
     }
 
-    function get_youtube_video()
+    function get_youtube_video($condition, $order_property, $offset, $count)
     {
     	$query = $this->youtube->newVideoQuery();
 		$query->setOrderBy('viewCount');
 		$query->setVideoQuery('weezer island in the sun');
-		$query->setMaxResults($limit);
-		$query->setStartIndex(($page * $limit) + 1);
+		
+		$query->setStartIndex($offset + 1);
+
+		if (($count + $offset) >= 900)		
+		{
+			$temp = ($offset + $count) - 900;
+			$query->setMaxResults($count - $temp);
+		}
+		else 
+		{
+			$query->setMaxResults($count);
+		}
 		
 		$videoFeed = @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
 		
+//		$query = $this->youtube->newVideoQuery();
+//		$query->setOrderBy('viewCount');
+//		$query->setMaxResults(1);
+//		$query->setStartIndex(($page * $limit) + 1);
+		
+//		echo '<br /><br />' . "\n";
+//		echo '<b>User\'s own uploads</b><br /><br />' . "\n";
+		
+//		$videoFeed = @ $this->youtube->getuserUploads('default', $query);
 		
 		$objects = array();
 		foreach ($videoFeed as $videoEntry)
@@ -110,6 +197,23 @@ class YoutubeStreamingMediaConnector
 			    		$thumbnail);
 		}
 		return $objects;
+    }
+    
+    function count_youtube_video($condition)
+    {
+    	$query = $this->youtube->newVideoQuery();
+		$query->setOrderBy('viewCount');
+		$query->setVideoQuery('weezer island in the sun');
+		
+		$videoFeed = @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
+		if ($videoFeed->getTotalResults()->getText() >= 900)
+		{
+			return 900;
+		}
+		else
+		{
+			return $videoFeed->getTotalResults()->getText();
+		}
     }
 }
 

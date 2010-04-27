@@ -7,6 +7,13 @@ class StreamingMediaObject
 	private $url;
 	private $duration;
 	private $thumbnail;
+	
+	const PROPERTY_TITLE = 'title'; 
+	const PROPERTY_ID = 'id';
+	const PROPERTY_DESCRIPTION = 'description';
+	const PROPERTY_URL = 'url';
+	const PROPERTY_DURATION = 'duration';
+	const PROPERTY_THUMBNAIL = 'thumbnail';
 
 	function StreamingMediaObject($id, $title,$description, $url, $duration, $thumbnail)
 	{
@@ -112,6 +119,11 @@ class StreamingMediaObject
     public function set_duration($duration)
     {
         $this->duration = $duration;
+    }
+    
+    static function get_sort_properties()
+    {
+    	return array(self :: PROPERTY_DESCRIPTION, self :: PROPERTY_DURATION, self :: PROPERTY_TITLE);
     }
 }
 ?>
