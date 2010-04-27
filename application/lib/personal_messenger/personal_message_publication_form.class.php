@@ -116,14 +116,21 @@ class PersonalMessagePublicationForm extends FormValidator
         $recipients = $values['recipients'];
         
         if ($extra_rec && (count($extra_rec) > 0))
-        {
-            $selected_users = array_merge($extra_rec, $recipients['user']);
+        { 
+            if($recipients['user'])
+            {
+        		$selected_users = array_merge($extra_rec, $recipients['user']);
+            }
+            else
+            {
+            	$selected_users = $extra_rec;
+            }
         }
         else
         {
             $selected_users = $recipients['user'];
         }
-        
+
         foreach ($recipients['group'] as $group)
         {
             $grus = GroupDataManager :: get_instance()->retrieve_group_rel_users(new EqualityCondition('group_id', $group));
