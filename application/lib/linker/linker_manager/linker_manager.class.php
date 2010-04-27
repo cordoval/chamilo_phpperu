@@ -3,7 +3,6 @@
  * $Id: linker_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.linker.linker_manager
  */
-require_once dirname(__FILE__) . '/linker_manager_component.class.php';
 require_once dirname(__FILE__) . '/../linker_data_manager.class.php';
 
 /**
@@ -46,20 +45,20 @@ class LinkerManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_LINKS :
-                $component = LinkerManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_DELETE_LINK :
-                $component = LinkerManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_EDIT_LINK :
-                $component = LinkerManagerComponent :: factory('Updater', $this);
+                $component = $this->create_component('Updater');
                 break;
             case self :: ACTION_CREATE_LINK :
-                $component = LinkerManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_LINKS);
-                $component = LinkerManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }

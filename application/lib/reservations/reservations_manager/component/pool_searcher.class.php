@@ -4,13 +4,13 @@
  * @package application.reservations.reservations_manager.component
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-require_once dirname(__FILE__) . '/../reservations_manager_component.class.php';
+
 require_once Path :: get_plugin_path() . 'nusoap/nusoap.php';
 
 /**
  * Component to search a pool
  */
-class ReservationsManagerPoolSearcherComponent extends ReservationsManagerComponent
+class ReservationsManagerPoolSearcherComponent extends ReservationsManager
 {
     private $client;
     private $logger;

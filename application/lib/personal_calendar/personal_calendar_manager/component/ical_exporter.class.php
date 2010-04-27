@@ -4,9 +4,8 @@
  * @package application.personal_calendar.personal_calendar_manager.component
  */
 require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_manager_component.class.php';
 
-class PersonalCalendarManagerIcalExporterComponent extends PersonalCalendarManagerComponent
+class PersonalCalendarManagerIcalExporterComponent extends PersonalCalendarManager
 {
 
     /**

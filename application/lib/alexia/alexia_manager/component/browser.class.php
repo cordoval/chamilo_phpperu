@@ -4,10 +4,9 @@
  * @package application.lib.alexia.alexia_manager.component
  */
 require_once dirname(__FILE__) . '/../alexia_manager.class.php';
-require_once dirname(__FILE__) . '/../alexia_manager_component.class.php';
 require_once dirname(__FILE__) . '/alexia_publication_browser/alexia_publication_browser_table.class.php';
 
-class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
+class AlexiaManagerBrowserComponent extends AlexiaManager
 {
     private $introduction;
     private $action_bar;

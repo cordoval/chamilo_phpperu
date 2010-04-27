@@ -120,7 +120,7 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
         $object_alias = $this->database->get_alias(ContentObject :: get_table_name());
 
         $query = 'SELECT COUNT(*) FROM ' . $this->database->escape_table_name(AlexiaPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->get_database()->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AlexiaPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AlexiaPublicationUser :: PROPERTY_PUBLICATION, $publication_user_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AlexiaPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AlexiaPublicationGroup :: PROPERTY_PUBLICATION, $publication_group_alias);
 
@@ -142,7 +142,7 @@ class DatabaseAlexiaDataManager extends AlexiaDataManager
         $object_alias = $this->database->get_alias(ContentObject :: get_table_name());
 
         $query = 'SELECT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(AlexiaPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->get_database()->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AlexiaPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AlexiaPublicationUser :: PROPERTY_PUBLICATION, $publication_user_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(AlexiaPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->database->escape_column_name(AlexiaPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(AlexiaPublicationGroup :: PROPERTY_PUBLICATION, $publication_group_alias);
 

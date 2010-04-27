@@ -4,12 +4,11 @@
  * @package application.lib.laika.laika_manager.component
  */
 require_once dirname(__FILE__) . '/../laika_manager.class.php';
-require_once dirname(__FILE__) . '/../laika_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../laika_utilities.class.php';
 require_once dirname(__FILE__) . '/laika_user_browser/laika_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../forms/laika_user_filter_form.class.php';
 
-class LaikaManagerUserComponent extends LaikaManagerComponent
+class LaikaManagerUserComponent extends LaikaManager
 {
     private $form;
 

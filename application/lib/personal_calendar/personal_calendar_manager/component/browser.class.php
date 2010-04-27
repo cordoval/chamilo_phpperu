@@ -4,7 +4,6 @@
  * @package application.personal_calendar.personal_calendar_manager.component
  */
 require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_mini_month_renderer.class.php';
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_month_renderer.class.php';
@@ -12,7 +11,7 @@ require_once dirname(__FILE__) . '/../../renderer/personal_calendar_week_rendere
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_day_renderer.class.php';
 require_once dirname(__FILE__) . '/../../forms/personal_calendar_jump_form.class.php';
 
-class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerComponent
+class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManager
 {  
     private $form;
     

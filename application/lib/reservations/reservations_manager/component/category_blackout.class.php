@@ -4,12 +4,12 @@
  * @package application.reservations.reservations_manager.component
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-require_once dirname(__FILE__) . '/../reservations_manager_component.class.php';
+
 
 /**
  * Component to delete a category
  */
-class ReservationsManagerCategoryBlackoutComponent extends ReservationsManagerComponent
+class ReservationsManagerCategoryBlackoutComponent extends ReservationsManager
 {
 
     /**

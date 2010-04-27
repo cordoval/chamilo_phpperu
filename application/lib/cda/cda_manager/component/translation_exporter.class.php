@@ -4,7 +4,6 @@
  */
 
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/translation_exporter/exporter_wizard.class.php';
 
 /**
@@ -12,7 +11,7 @@ require_once dirname(__FILE__).'/translation_exporter/exporter_wizard.class.php'
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerTranslationExporterComponent extends CdaManagerComponent
+class CdaManagerTranslationExporterComponent extends CdaManager
 {
 
 	function run()

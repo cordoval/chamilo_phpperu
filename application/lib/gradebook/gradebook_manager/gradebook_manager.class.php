@@ -98,20 +98,20 @@ class GradebookManager extends WebApplication
 //				$component = GradebookManagerComponent :: factory('GradebookUnsubscriber', $this);
 //				break;	
 			case self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS :
-				$component = $this->create_component('AdminEvaluationFormatsBrowser', $this);
+				$component = $this->create_component('AdminEvaluationFormatsBrowser');
 				break;	
 			case self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY :
-				$component = $this->create_component('AdminActiveChanger', $this);
+				$component = $this->create_component('AdminActiveChanger');
 				break;	
 			case self :: ACTION_EDIT_EVALUATION_FORMAT :
-				$component = $this->create_component('AdminEditEvaluationFormat', $this);
+				$component = $this->create_component('AdminEditEvaluationFormat');
 				break;		
 			case self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION :
-				$component = $this->create_component('ViewEvaluationsOnPublication', $this);
+				$component = $this->create_component('ViewEvaluationsOnPublication');
 				break;		
 			default :
 				$this->set_action(self :: ACTION_VIEW_HOME);
-				$component = $this->create_component('GradebookBrowser', $this);
+				$component = $this->create_component('GradebookBrowser');
 				break;
 		}
 		$component->run();

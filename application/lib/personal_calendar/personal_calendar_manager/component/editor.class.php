@@ -4,11 +4,10 @@
  * @package application.personal_calendar.personal_calendar_manager.component
  */
 require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_mini_month_renderer.class.php';
 require_once dirname(__FILE__) . '/../../personal_calendar_publication_form.class.php';
 
-class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComponent
+class PersonalCalendarManagerEditorComponent extends PersonalCalendarManager
 {
 
     /**

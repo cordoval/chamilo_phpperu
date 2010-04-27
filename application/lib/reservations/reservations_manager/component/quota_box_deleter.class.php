@@ -5,12 +5,12 @@
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
 require_once dirname(__FILE__) . '/../../quota_box.class.php';
-require_once dirname(__FILE__) . '/../reservations_manager_component.class.php';
+
 
 /**
  * Component to delete a category
  */
-class ReservationsManagerQuotaBoxDeleterComponent extends ReservationsManagerComponent
+class ReservationsManagerQuotaBoxDeleterComponent extends ReservationsManager
 {
 
     /**
