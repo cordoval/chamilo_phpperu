@@ -3,7 +3,6 @@
  * $Id: webconferencing_manager.class.php 220 2009-11-13 14:33:52Z kariboe $
  * @package application.lib.webconferencing.webconferencing_manager
  */
-require_once dirname(__FILE__) . '/webconferencing_manager_component.class.php';
 require_once dirname(__FILE__) . '/../webconferencing_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/webconference_browser/webconference_browser_table.class.php';
 
@@ -43,20 +42,20 @@ class WebconferencingManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_WEBCONFERENCES :
-                $component = WebconferencingManagerComponent :: factory('WebconferencesBrowser', $this);
+                $component = $this->create_component('WebconferencesBrowser');
                 break;
             case self :: ACTION_DELETE_WEBCONFERENCE :
-                $component = WebconferencingManagerComponent :: factory('WebconferenceDeleter', $this);
+                $component = $this->create_component('WebconferenceDeleter');
                 break;
             case self :: ACTION_EDIT_WEBCONFERENCE :
-                $component = WebconferencingManagerComponent :: factory('WebconferenceUpdater', $this);
+                $component = $this->create_component('WebconferenceUpdater');
                 break;
             case self :: ACTION_CREATE_WEBCONFERENCE :
-                $component = WebconferencingManagerComponent :: factory('WebconferenceCreator', $this);
+                $component = $this->create_component('WebconferenceCreator');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_WEBCONFERENCES);
-                $component = WebconferencingManagerComponent :: factory('WebconferencesBrowser', $this);
+                $component = $this->create_component('WebconferencesBrowser');
         
         }
         $component->run();

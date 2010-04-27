@@ -4,7 +4,6 @@
  */
 
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/historic_variable_translation_browser/historic_variable_translation_browser_table.class.php';
 
 /**
@@ -12,7 +11,7 @@ require_once dirname(__FILE__).'/historic_variable_translation_browser/historic_
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
+class CdaManagerVariableTranslationViewerComponent extends CdaManager
 {
 
 	private $variable_translation;

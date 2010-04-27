@@ -3,14 +3,13 @@
  * @package application.cda.cda.component
  */
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 
 /**
  * Component to delete language_packs objects
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerLanguagePackDeleterComponent extends CdaManagerComponent
+class CdaManagerLanguagePackDeleterComponent extends CdaManager
 {
 	/**
 	 * Runs this component and displays its output.

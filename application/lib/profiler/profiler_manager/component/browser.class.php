@@ -4,11 +4,10 @@
  * @package application.profiler.profiler_manager.component
  */
 require_once dirname(__FILE__) . '/../profiler_manager.class.php';
-require_once dirname(__FILE__) . '/../profiler_manager_component.class.php';
 require_once dirname(__FILE__) . '/profile_publication_browser/profile_publication_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../profiler_menu.class.php';
 
-class ProfilerManagerBrowserComponent extends ProfilerManagerComponent
+class ProfilerManagerBrowserComponent extends ProfilerManager
 {
     private $action_bar;
 

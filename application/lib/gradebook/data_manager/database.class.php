@@ -90,6 +90,12 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
 	}
 	
+	function retrieve_internal_item($id)
+	{
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
+	}
+	
 	function delete_internal_item($internal_item)
 	{
 		$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $internal_item->get_id());
@@ -388,6 +394,12 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 			$application[$i] = $applications[$i][0];
 		}
         return array_unique($application);
+	}
+	
+	function retrieve_calculated_internal_items()
+	{
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_CALCULATED, 1);
+		return $this->database->retrieve_distinct(InternalItem :: get_table_name(), InternalItem :: PROPERTY_ID, $condition);
 	}
 	
 	function retrieve_internal_items_by_application($condition, $offset = null, $count = null, $order_property = null)

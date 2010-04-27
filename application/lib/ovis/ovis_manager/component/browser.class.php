@@ -3,14 +3,13 @@
  * @package application.ovis.ovis.component
  */
 require_once dirname(__FILE__).'/../ovis_manager.class.php';
-require_once dirname(__FILE__).'/../ovis_manager_component.class.php';
 
 /**
  * Ovis component which allows the user to browse the ovis application
  * @author Sven Vanpoucke
  * @author jevdheyd
  */
-class OvisManagerBrowserComponent extends OvisManagerComponent
+class OvisManagerBrowserComponent extends OvisManager
 {
 
 	function run()

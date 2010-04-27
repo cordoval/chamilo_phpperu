@@ -4,13 +4,12 @@
  * @package application.lib.webconferencing.webconferencing_manager.component
  */
 require_once dirname(__FILE__) . '/../webconferencing_manager.class.php';
-require_once dirname(__FILE__) . '/../webconferencing_manager_component.class.php';
 
 /**
  * Component to delete webconferences objects
  * @author Stefaan Vanbillemont
  */
-class WebconferencingManagerWebconferenceDeleterComponent extends WebconferencingManagerComponent
+class WebconferencingManagerWebconferenceDeleterComponent extends WebconferencingManager
 {
 
     /**

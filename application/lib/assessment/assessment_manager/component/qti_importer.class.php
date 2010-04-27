@@ -4,14 +4,13 @@
  * @package application.lib.assessment.assessment_manager.component
  */
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_manager_component.class.php';
 
 /**
  * Component to create a new assessment_publication object
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerQtiImporterComponent extends AssessmentManagerComponent
+class AssessmentManagerQtiImporterComponent extends AssessmentManager
 {
 
     /**

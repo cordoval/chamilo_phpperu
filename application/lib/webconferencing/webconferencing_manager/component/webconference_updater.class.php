@@ -4,14 +4,13 @@
  * @package application.lib.webconferencing.webconferencing_manager.component
  */
 require_once dirname(__FILE__) . '/../webconferencing_manager.class.php';
-require_once dirname(__FILE__) . '/../webconferencing_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/webconference_form.class.php';
 
 /**
  * Component to edit an existing webconference object
  * @author Stefaan Vanbillemont
  */
-class WebconferencingManagerWebconferenceUpdaterComponent extends WebconferencingManagerComponent
+class WebconferencingManagerWebconferenceUpdaterComponent extends WebconferencingManager
 {
 
     /**

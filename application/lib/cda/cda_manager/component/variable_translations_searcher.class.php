@@ -5,7 +5,6 @@
 
 require_once dirname(__FILE__).'/../cda_manager.class.php';
 require_once dirname(__FILE__).'/../../forms/variable_translation_search_form.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/variable_translation_browser/variable_translation_browser_table.class.php';
 
 /**
@@ -13,7 +12,7 @@ require_once dirname(__FILE__).'/variable_translation_browser/variable_translati
  * @author Sven Vanpoucke
  * @author 
  */
-class CdaManagerVariableTranslationsSearcherComponent extends CdaManagerComponent
+class CdaManagerVariableTranslationsSearcherComponent extends CdaManager
 {
 	private $action_bar;
 	private $form;

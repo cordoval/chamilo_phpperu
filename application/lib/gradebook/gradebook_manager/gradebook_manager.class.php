@@ -3,6 +3,8 @@ require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 require_once Path :: get_application_path() . 'lib/gradebook/gradebook_rights.class.php';
 
+require_once dirname(__FILE__) . '/../gradebook_utilities.class.php';
+
 require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
 
 require_once dirname(__FILE__) . '/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
@@ -98,20 +100,20 @@ class GradebookManager extends WebApplication
 //				$component = GradebookManagerComponent :: factory('GradebookUnsubscriber', $this);
 //				break;	
 			case self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS :
-				$component = $this->create_component('AdminEvaluationFormatsBrowser', $this);
+				$component = $this->create_component('AdminEvaluationFormatsBrowser');
 				break;	
 			case self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY :
-				$component = $this->create_component('AdminActiveChanger', $this);
+				$component = $this->create_component('AdminActiveChanger');
 				break;	
 			case self :: ACTION_EDIT_EVALUATION_FORMAT :
-				$component = $this->create_component('AdminEditEvaluationFormat', $this);
+				$component = $this->create_component('AdminEditEvaluationFormat');
 				break;		
 			case self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION :
-				$component = $this->create_component('ViewEvaluationsOnPublication', $this);
+				$component = $this->create_component('ViewEvaluationsOnPublication');
 				break;		
 			default :
 				$this->set_action(self :: ACTION_VIEW_HOME);
-				$component = $this->create_component('GradebookBrowser', $this);
+				$component = $this->create_component('GradebookBrowser');
 				break;
 		}
 		$component->run();
@@ -331,6 +333,27 @@ class GradebookManager extends WebApplication
 		return GradebookDataManager :: get_instance()->retrieve_applications_with_evaluations();
 	}
 	
+	function retrieve_calculated_applications_with_evaluation($calculated_applications = array())
+	{
+		$internal_item_ids = GradebookDataManager :: get_instance()->retrieve_calculated_internal_items();
+		foreach($internal_item_ids as $id)
+		{
+			$calculated_app[$id] = $this->retrieve_internal_item($id);
+		}
+		foreach($calculated_app as $id => $internal_item)
+		{
+			$application_manager = WebApplication :: factory($internal_item->get_application());
+			$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
+			$rdm = RepositoryDataManager :: get_instance();
+			$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
+			if($user = GradebookUtilities :: check_tracker_for_data($internal_item->get_application(), $internal_item->get_publication_id(), $content_object->get_type()))
+			{
+				$calculated_applications[] = $internal_item->get_application();
+			}
+		}
+		return $calculated_applications;
+	}
+	
 // content objects
 	function retrieve_content_objects_by_ids($condition, $offset = null, $max_objects = null, $order_by = null)
 	{
@@ -345,6 +368,11 @@ class GradebookManager extends WebApplication
 	function retrieve_internal_items_by_application($condition, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_internal_items_by_application($condition, $offset, $count, $order_property);
+	}
+	
+	function retrieve_internal_item($id)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_internal_item($id);
 	}
 	
 	function count_internal_items_by_application($condition)

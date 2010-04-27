@@ -18,7 +18,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
 
 //		echo $this->ab->as_html();
-		$applications = $this->retrieve_applications_with_evaluations();
+		$applications = array_merge($this->retrieve_applications_with_evaluations(), $this->retrieve_calculated_applications_with_evaluation());
 		if(Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE))
 		{
 			$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
