@@ -10,23 +10,26 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	private $ab;
 	private $content_object_ids = array();
 	private $application;
+	private $table;
 
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
 
-		$this->display_header($trail);
-		$this->ab = $this->get_action_bar();
 //		echo $this->ab->as_html();
 		$applications = $this->retrieve_applications_with_evaluations();
-		echo $this->get_application_tabs($applications);
 		if(Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE))
 		{
 			$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
-			$table = new GradebookPublicationBrowserTable($this);
-			echo $table->as_html($this);
+			$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME, GradebookManager :: PARAM_PUBLICATION_TYPE => $this->application)), Translation :: get('BrowsePublicationsOf') . ' ' . $this->application));
+			$this->table = new GradebookPublicationBrowserTable($this);
 		}
+		$this->display_header($trail);
+		$this->ab = $this->get_action_bar();
+		echo $this->get_application_tabs($applications);
+		if ($this->table)
+			echo $this->table->as_html($this);
 		$this->display_footer();
 	}
 
