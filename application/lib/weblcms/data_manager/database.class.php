@@ -1303,6 +1303,15 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->update($course_type_rights, $condition);
     }
 
+    function update_course_type_group_creation_right($course_type_group_creation_right)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_COURSE_TYPE_ID, $course_type_group_creation_right->get_course_type_id());
+        $conditions[] = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_GROUP_ID, $course_type_group_creation_right->get_group_id());
+        $condition = new AndCondition($conditions);
+        return $this->database->update($course_type_group_creation_right, $condition);
+    }
+
     function update_course_type_group_subscribe_right($course_type_group_subscribe_right)
     {
         $conditions = array();
@@ -1555,6 +1564,15 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $bool;
         
     //return $bool;
+    }
+
+    function delete_course_type_group_creation_right($course_type_creation_right)
+    {
+        $conditions = array();
+        $conditions[] = New EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_COURSE_TYPE_ID, $course_type_creation_right->get_course_type_id());
+        $conditions[] = New EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_GROUP_ID, $course_type_creation_right->get_group_id());
+        $condition = New AndCondition($conditions);
+        return $this->database->delete_objects(CourseTypeGroupCreationRight :: get_table_name(), $condition);
     }
 
     function delete_course_type_group_subscribe_right($course_type_subscribe_right)
