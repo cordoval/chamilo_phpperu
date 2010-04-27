@@ -103,80 +103,85 @@ abstract class NestedTreeNode extends DataClass
      * Count the number of children of the object
      * @param boolean $recursive - if put on true, every child will be counted, even those who are not directly connected with parent_id
      */
-    function count_children($recursive = true)
+    function count_children($recursive = true, $condition)
     {
     	$dm = $this->get_data_manager();
-
-        if ($recursive)
-        {
-            return ($this->get_right_value() - $this->get_left_value() - 1) / 2;
-        }
-        else
-        {
-            $func = 'count_' . $this->get_object_name() . '_children';
-
-            if(!method_exists($dm, $func))
-            {
-            	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-            }
-
-        	return call_user_func(array($dm, $func), $this);
-            //return $dm->get_database()->count_children($this, $this->get_nested_tree_node_condition());
-        }
+		
+    	return $dm->nested_tree_count_children($this, $recursive, $condition);
+    	
+//        if ($recursive)
+//        {
+//            return ($this->get_right_value() - $this->get_left_value() - 1) / 2;
+//        }
+//        else
+//        {
+//            $func = 'count_' . $this->get_object_name() . '_children';
+//
+//            if(!method_exists($dm, $func))
+//            {
+//            	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//            }
+//
+//        	//return call_user_func(array($dm, $func), $this);
+//            //return $dm->get_database()->count_children($this, $this->get_nested_tree_node_condition());
+//            return $dm->nested_tree_count_children($this, $this->get_nested_tree_node_condition());
+//            
+//        }
     }
 
     /**
      * Retrieve the children of the object
      * @param boolean $recursive - if put on true, every child will be retrieved, even those who are not directly connected with parent_id
      */
-    function get_children($recursive = true)
+    function get_children($recursive = true, $condition)
     {
     	$dm = $this->get_data_manager();
-    	//return $dm->get_database()->get_children($this, $recursive, $this->get_nested_tree_node_condition());
-	    $func = 'get_' . $this->get_object_name() . '_children';
-
-    	if(!method_exists($dm, $func))
-        {
-         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-        }
-
-        return call_user_func(array($dm, $func), $this, $recursive);
+    	return $dm->nested_tree_get_children($this, $recursive, $condition);
+	    
+//    	$func = 'get_' . $this->get_object_name() . '_children';
+//
+//    	if(!method_exists($dm, $func))
+//        {
+//         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//        }
+//
+//        return call_user_func(array($dm, $func), $this, $recursive);
     }
 
     /**
      * Count the parents of the object, recursivly, every parent will be counted, even those who are not directly connected with parent_id
      * @param boolean $include_self - if put on true, the current object will be included in the count
      */
-	function count_parents($include_self = true)
+	function count_parents($include_self = true, $condition)
     {
     	$dm = $this->get_data_manager();
-    	//return $dm->get_database()->count_parents($this, $include_self, $this->get_nested_tree_node_condition());
-        $func = 'count_' . $this->get_object_name() . '_parents';
-
-    	if(!method_exists($dm, $func))
-        {
-         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-        }
-
-        return call_user_func(array($dm, $func), $this, $include_self);
+    	return $dm->nested_tree_count_parents($this, $include_self, $condition);
+//        $func = 'count_' . $this->get_object_name() . '_parents';
+//
+//    	if(!method_exists($dm, $func))
+//        {
+//         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//        }
+//
+//        return call_user_func(array($dm, $func), $this, $include_self);
     }
 
     /**
      * Retrieve the parents of the object, recursivly, every parent will be counted, even those who are not directly connected with parent_id
      * @param boolean $include_self - if put on true, the current object will be included in the parents list
      */
-    function get_parents($include_self = true)
+    function get_parents($include_self = true, $condition)
     {
     	$dm = $this->get_data_manager();
-    	//return $dm->get_database()->get_parents($this, true, $include_self, $this->get_nested_tree_node_condition());
-        $func = 'get_' . $this->get_object_name() . '_parents';
-
-    	if(!method_exists($dm, $func))
-        {
-         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-        }
-
-        return call_user_func(array($dm, $func), $this, true, $include_self)->as_array();
+    	return $dm->nested_tree_get_parents($this, true, $include_self, $condition);
+//        $func = 'get_' . $this->get_object_name() . '_parents';
+//
+//    	if(!method_exists($dm, $func))
+//        {
+//         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//        }
+//
+//        return call_user_func(array($dm, $func), $this, true, $include_self)->as_array();
     }
 
     /**
@@ -185,15 +190,15 @@ abstract class NestedTreeNode extends DataClass
 	function get_parent()
     {
     	$dm = $this->get_data_manager();
-    	//return $dm->get_database()->get_parents($this, false, false, $this->get_nested_tree_node_condition());
-        $func = 'get_' . $this->get_object_name() . '_parents';
-
-    	if(!method_exists($dm, $func))
-        {
-         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-        }
-
-        return call_user_func(array($dm, $func), $this, false);
+    	return $dm->nested_tree_retrieve_parent_from_node($this);
+//        $func = 'get_' . $this->get_object_name() . '_parents';
+//
+//    	if(!method_exists($dm, $func))
+//        {
+//         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//        }
+//
+//        return call_user_func(array($dm, $func), $this, false);
     }
 
     /**
@@ -205,16 +210,18 @@ abstract class NestedTreeNode extends DataClass
     	if (!is_object($node))
         {
             $dm = $this->get_data_manager();
-            $func = 'retrieve_' . $this->get_object_name();
-
-	        if(!method_exists($dm, $func))
-	        {
-	         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-	        }
-
-            $node = call_user_func(array($dm, $func), $node);
+            $node = $dm->nested_tree_retrieve_node($this, $node);
+//            $func = 'retrieve_' . $this->get_object_name();
+//
+//	        if(!method_exists($dm, $func))
+//	        {
+//	         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//	        }
+//
+//            $node = call_user_func(array($dm, $func), $node);
         }
-
+		      
+        
         if(!$node)
         {
         	return false;
@@ -237,14 +244,17 @@ abstract class NestedTreeNode extends DataClass
     	if (!is_object($node))
         {
             $dm = $this->get_data_manager();
-            $func = 'retrieve_' . $this->get_object_name();
-
-	        if(!method_exists($dm, $func))
-	        {
-	         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-	        }
-
-            $node = call_user_func(array($dm, $func), $node);
+            $dm = $this->get_data_manager();
+            $node = $dm->nested_tree_retrieve_node($this, $node);
+            
+//            $func = 'retrieve_' . $this->get_object_name();
+//
+//	        if(!method_exists($dm, $func))
+//	        {
+//	         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//	        }
+//
+//            $node = call_user_func(array($dm, $func), $node);
         }
 
         if(!$node)
@@ -265,43 +275,43 @@ abstract class NestedTreeNode extends DataClass
      */
     function has_siblings()
     {
-    	return ($this->count_siblings(false) > 0);
+    	return ($this->count_sibblings($this, false) > 0);
     }
 
     /**
      * Count the siblings of the object
      * @param boolean $include_self - if set to true, the object will be included in the count
      */
-    function count_siblings($include_self = true)
+    function count_siblings($include_self = true, $condition)
     {
     	$dm = $this->get_data_manager();
-    	//return $dm->get_database()->count_siblings($this, $include_self, $this->get_nested_tree_node_condition());
-    	$func = 'count_' . $this->get_object_name() . '_sibblings';
-
-    	if(!method_exists($dm, $func))
-        {
-         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-        }
-
-    	return call_user_func(array($dm, $func), $this, $include_self);
+    	return $dm->nested_tree_count_sibblings($this, $include_self, $condition);
+//    	$func = 'count_' . $this->get_object_name() . '_sibblings';
+//
+//    	if(!method_exists($dm, $func))
+//        {
+//         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//        }
+//
+//    	return call_user_func(array($dm, $func), $this, $include_self);
     }
 
     /**
      * Retrieve the siblings of the object
      * @param boolean $include_self - if set to true, the object will be included in the siblings list
      */
-    function get_siblings($include_self = true)
+    function get_siblings($include_self = true, $condition)
     {
     	$dm = $this->get_data_manager();
-    	//return $dm->get_database()->get_siblings($this, $include_self, $this->get_nested_tree_node_condition());
-    	$func = 'get_' . $this->get_object_name() . '_siblings';
-
-    	if(!method_exists($dm, $func))
-        {
-         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-        }
-
-    	return call_user_func(array($dm, $func), $this, $include_self);
+    	return $dm->nested_tree_get_sibblings($this, $include_self, $condition);
+//    	$func = 'get_' . $this->get_object_name() . '_siblings';
+//
+//    	if(!method_exists($dm, $func))
+//        {
+//         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//        }
+//
+//    	return call_user_func(array($dm, $func), $this, $include_self);
     }
 
     /**
@@ -323,7 +333,7 @@ abstract class NestedTreeNode extends DataClass
                 return true;
             }
 
-            $new_previous = $dm->get_database()->retrieve_node($this->get_table_name(), $new_previous_id);
+            $new_previous = $dm->nested_tree_retrieve_node($this, $new_previous_id);
 
             if(!$new_previous)
 			{
@@ -352,7 +362,7 @@ abstract class NestedTreeNode extends DataClass
                 return true;
             }
             // Try to retrieve the data of the parent element
-            $new_parent = $dm->get_database()->retrieve_node($this->get_table_name(), $new_parent_id);
+            $new_parent = $dm->nested_tree_retrieve_node($this, $new_parent_id);
 
         	if(!$new_parent)
 			{
@@ -366,21 +376,25 @@ abstract class NestedTreeNode extends DataClass
         // Update the nested values so we can actually add the element
         // Return false if this failed
         //if (! $dm->get_database()->add_nested_values($this, $previous_visited, $number_of_elements, $this->get_nested_tree_node_condition()))
-        $func = 'add_' . $this->get_object_name() . '_nested_values';
-
-        if(!method_exists($dm, $func))
-        {
-         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-        }
-
-        if (!call_user_func(array($dm, $func), $this, $previous_visited, $number_of_elements))
-        {
-            return false;
-        }
+        
+        
+        $dm->nested_tree_add_nested_values($this, $new_previous_id);
+        
+//        $func = 'add_' . $this->get_object_name() . '_nested_values';
+//
+//        if(!method_exists($dm, $func))
+//        {
+//         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//        }
+//
+//        if (!call_user_func(array($dm, $func), $this, $previous_visited, $number_of_elements))
+//        {
+//            return false;
+//        }
 
         // Now we can update the actual parent_id
         // Return false if this failed
-        $current_node = $dm->get_database()->retrieve_node($this->get_table_name(), $this->get_id());
+        $current_node = $dm->nested_tree_retrieve_node($this);
 
         $this->set_left_value($current_node->get_left_value());
         $this->set_right_value($current_node->get_right_value());
@@ -399,7 +413,7 @@ abstract class NestedTreeNode extends DataClass
         // We have to do that anyway, to have the proper new left/right values
         if ($new_previous_id)
         {
-            $temp = $dm->get_database()->retrieve_node($this->get_table_name(), $new_previous_id);
+            $temp = $dm->get_database()->nested_tree_retrieve_node($this, $new_previous_id);
 
 	        if(!$temp)
 			{
@@ -410,7 +424,7 @@ abstract class NestedTreeNode extends DataClass
         }
         else
         {
-            $temp = $dm->get_database()->retrieve_node($this->get_table_name(), $new_parent_id);
+            $temp = $dm->get_database()->nested_tree_retrieve_node($this, $new_parent_id);
 
         	if(!$temp)
 			{
@@ -423,7 +437,7 @@ abstract class NestedTreeNode extends DataClass
         // Get the element that is being moved again, since the left and
         // right might have changed by the add-call
 
-        $current_node = $dm->get_database()->retrieve_node($this->get_table_name(), $this->get_id());
+        $current_node = $dm->get_database()->nested_tree_retrieve_node($this, $this->get_id());
 		if(!$current_node)
 		{
 			throw new Exception(Translation :: get('NodeCanNotBeNull'));
@@ -449,9 +463,9 @@ abstract class NestedTreeNode extends DataClass
         $update_condition = new AndCondition($conditions);
 
         $properties = array();
-        $properties[self :: PROPERTY_LEFT_VALUE] = $dm->get_database()->escape_column_name(self :: PROPERTY_LEFT_VALUE) . ' + ' . $dm->get_database()->quote($offset);
-        $properties[self :: PROPERTY_RIGHT_VALUE] = $dm->get_database()->escape_column_name(self :: PROPERTY_RIGHT_VALUE) . ' + ' . $dm->get_database()->quote($offset);
-        $res = $dm->get_database()->update_objects($this->get_table_name(), $properties, $update_condition);
+        $properties[self :: PROPERTY_LEFT_VALUE] = $dm->escape_column_name(self :: PROPERTY_LEFT_VALUE) . ' + ' . $dm->get_database()->quote($offset);
+        $properties[self :: PROPERTY_RIGHT_VALUE] = $dm->escape_column_name(self :: PROPERTY_RIGHT_VALUE) . ' + ' . $dm->get_database()->quote($offset);
+        $res = $dm->update_objects($this->get_table_name(), $properties, $update_condition);
 
         if (!$res)
         {
@@ -460,20 +474,23 @@ abstract class NestedTreeNode extends DataClass
 
         // Remove the subtree where the location was before
         //if (! $dm->get_database()->delete_nested_values($this, $this->get_nested_tree_node_condition()))
-        $func = 'delete_' . $this->get_object_name() . '_nested_values';
-
-    	if(!method_exists($dm, $func))
-        {
-         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-        }
-
-        // Update left and right values
-        if (!call_user_func(array($dm, $func), $this))
-        {
-            return false;
-        }
-
-        return true;
+        
+        return $dm->nested_tree_delete_nested_values($this);
+        
+//        $func = 'delete_' . $this->get_object_name() . '_nested_values';
+//
+//    	if(!method_exists($dm, $func))
+//        {
+//         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//        }
+//
+//        // Update left and right values
+//        if (!call_user_func(array($dm, $func), $this))
+//        {
+//            return false;
+//        }
+//
+//        return true;
     }
 
     /**
@@ -489,24 +506,27 @@ abstract class NestedTreeNode extends DataClass
 
         if ($parent_id || $previous_id)
         {
-            $func = 'retrieve_' . $this->get_object_name();
-
-	        if(!method_exists($dm, $func))
-	        {
-	         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-	        }
+//            $func = 'retrieve_' . $this->get_object_name();
+//
+//	        if(!method_exists($dm, $func))
+//	        {
+//	         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//	        }
 
         	if ($previous_id)
             {
-            	$node = call_user_func(array($dm, $func), $previous_id);
-               	$parent_id = $node->get_parent_id();
+//            	$node = call_user_func(array($dm, $func), $previous_id);
+               	dump('hi pr');
+            	$node = $dm->nested_tree_retrieve_node($this, $previous_id);
+            	$parent_id = $node->get_parent_id();
             }
             else
             {
-               $node = call_user_func(array($dm, $func), $parent_id);
+//               $node = call_user_func(array($dm, $func), $parent_id);
+				$node = $dm->nested_tree_retrieve_parent_from_node($this);
 
             }
-
+			           
             // Set the new parent_id
             $this->set_parent_id($parent_id);
 
@@ -516,16 +536,19 @@ abstract class NestedTreeNode extends DataClass
             $previous_visited = $previous_id ? $node->get_right_value() : $node->get_left_value();
 
             // Correct the left and right values wherever necessary.
-            $dm = $this->get_data_manager();
-            //if (!$dm->get_database()->add_nested_values($this, $previous_visited, 1, $this->get_nested_tree_node_condition()))
-            $func = 'add_' . $this->get_object_name() . '_nested_values';
+//            $dm = $this->get_data_manager();
 
-	        if(!method_exists($dm, $func))
-	        {
-	         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-	        }
-
-            if (!call_user_func(array($dm, $func), $this, $previous_visited, 1))
+            
+            
+            if (!$dm->nested_tree_add_nested_values($this, $previous_visited, 1))
+//            $func = 'add_' . $this->get_object_name() . '_nested_values';
+//
+//	        if(!method_exists($dm, $func))
+//	        {
+//	         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//	        }
+//
+//            if (!call_user_func(array($dm, $func), $this, $previous_visited, 1))
             {
                 return false;
             }
@@ -560,31 +583,34 @@ abstract class NestedTreeNode extends DataClass
 
         // Delete Children
 
-        $func = 'delete_' . $this->get_object_name();
-
-    	if(!method_exists($dm, $func))
-        {
-         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-        }
+//        $func = 'delete_' . $this->get_object_name();
+//
+//    	if(!method_exists($dm, $func))
+//        {
+//         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//        }
 
    		$children = $this->get_children(true);
 
         while($child = $children->next_result())
         {
-        	if(!call_user_func(array($dm, $func), $child))
-        		return false;
+//        	if(!call_user_func(array($dm, $func), $child))
+//        		return false;
+        	$condition = new EqualityCondition(NestedTreeNode::PROPERTY_ID, $child->get_id());
+        	if(!$dm->delete($this->get_table_name(), $condition))
+        		return false;	
         }
 
-	    //if (!$dm->get_database()->delete_nested_values($this, $this->get_nested_tree_node_condition()))
-        $func = 'delete_' . $this->get_object_name() . '_nested_values';
-
-    	if(!method_exists($dm, $func))
-        {
-         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
-        }
-
-        // Update left and right values
-        if (!call_user_func(array($dm, $func), $this))
+	    if (!$dm->nested_tree_delete_nested_values($this))
+//        $func = 'delete_' . $this->get_object_name() . '_nested_values';
+//
+//    	if(!method_exists($dm, $func))
+//        {
+//         	throw new Exception(Translation :: get('MethodDoesNotExist', array('function' => $func)));
+//        }
+//
+//        // Update left and right values
+//        if (!call_user_func(array($dm, $func), $this))
 	    {
 	        return false;
 	    }
