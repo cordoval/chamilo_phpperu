@@ -282,6 +282,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->database->count_objects(CourseType :: get_table_name(), $condition);
 	}
 	
+	function count_course_type_group_creation_rights($condition = null)
+	{
+		return $this->database->count_objects(CourseTypeGroupCreationRight :: get_table_name(), $condition);
+	}
+	
 	function count_course_group_subscribe_rights($condition = null)
 	{
 		return $this->database->count_objects(CourseGroupSubscribeRight :: get_table_name(), $condition);
@@ -2036,6 +2041,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			return $this->database->retrieve_objects(CourseTypeGroupSubscribeRight :: get_table_name(), $condition);
 		}
 		
+	}
+	
+	function retrieve_course_type_group_creation_right($course_type_id, $group_id)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+		$conditions[] = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_GROUP_ID, $group_id);
+		$condition = new AndCondition($conditions);
+		return $this->database->retrieve_object(CourseTypeGroupCreationRight :: get_table_name(), $condition);
 	}
 	
 	function retrieve_course_type_group_creation_rights($course_type_id)

@@ -261,6 +261,10 @@ abstract class WeblcmsDataManager
 
     abstract function retrieve_course_type_layout($id);
     
+    abstract function retrieve_course_type_group_creation_right($course_type_id, $group_id);
+    
+    abstract function count_course_type_group_creation_rights($condition = null);
+    
     abstract function retrieve_course_type_group_creation_rights($id);
 
     abstract function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null);
