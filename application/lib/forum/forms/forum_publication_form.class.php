@@ -48,6 +48,7 @@ class ForumPublicationForm extends FormValidator
         $locale['Error'] = Translation :: get('Error');
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
+        $attributes['defaults'] = array();
         
         $pub = $this->forum_publication;
         $udm = UserDataManager :: get_instance();
@@ -83,6 +84,7 @@ class ForumPublicationForm extends FormValidator
         	$gradebook_internal_item_form = new GradebookInternalItemForm();
         	$gradebook_internal_item_form->build_evaluation_question($this);
         }
+        
         $this->add_select(ForumPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category'), $this->get_forum_publication_categories(), true);
         
         $this->add_receivers('target', Translation :: get('PublishFor'), $attributes);
