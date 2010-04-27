@@ -193,6 +193,12 @@ abstract class WeblcmsDataManager
     abstract function create_course_type_layout($course_type_layout);
     
     abstract function create_course_type_rights($course_type_rights);
+    
+    abstract function create_course_type_group_subscribe_right($course_type_group_subscribe_right);
+     
+    abstract function create_course_type_group_unsubscribe_right($course_type_group_unsubscribe_right);
+
+    abstract function create_course_type_group_creation_right($course_type_group_creation_right);      
 
     /**
     * Updates the specified course_type in persistent storage,
@@ -210,11 +216,23 @@ abstract class WeblcmsDataManager
     
     abstract function update_course_type_rights($course_type_rights);
     
+    abstract function update_course_type_group_subscribe_right($course_type_group_subscribe_right);
+     
+    abstract function update_course_type_group_unsubscribe_right($course_type_group_unsubscribe_right);
+
+    abstract function update_course_type_group_creation_right($course_type_group_creation_right); 
+    
     abstract function update_course_type_user_category($course_type_user_category);
 
     abstract function delete_course_type($course_type_id);
     
     abstract function delete_course_type_user_category($course_type_user_category);
+    
+    abstract function delete_course_type_group_subscribe_right($course_type_group_subscribe_right);
+     
+    abstract function delete_course_type_group_unsubscribe_right($course_type_group_unsubscribe_right);
+
+    abstract function delete_course_type_group_creation_right($course_type_group_creation_right);
 
     /**
      * Deletes the given course_type_tool from the database related to this given course_type.
@@ -242,6 +260,8 @@ abstract class WeblcmsDataManager
     abstract function retrieve_course_type_settings($id);
 
     abstract function retrieve_course_type_layout($id);
+    
+    abstract function retrieve_course_type_group_creation_rights($id);
 
     abstract function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null);
     
