@@ -14,7 +14,6 @@ class ForumManager extends WebApplication
 {
     const APPLICATION_NAME = 'forum';
     
-    const PARAM_ACTION = 'go';
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_FORUM_PUBLICATION = 'forum_publication';
     const PARAM_PUBLICATION_ID = 'pid';
