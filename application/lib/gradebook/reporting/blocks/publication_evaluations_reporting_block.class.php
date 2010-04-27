@@ -18,12 +18,12 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 			$evaluation_format = EvaluationFormat :: factory($format->get_title());
 			$evaluation_format->set_score($optional_properties['score']);
 			
-			$reporting_data->add_category($evaluation->get_evaluation_date());
-            $reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('EvaluationDate'), $evaluation->get_evaluation_date());
-            $reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('User'), $optional_properties['user']);
-			$reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('Evaluator'), $optional_properties['evaluator']);
-			$reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('Score'), $evaluation_format->get_formatted_score());
-			$reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('Comment'), $optional_properties['comment']);
+			$reporting_data->add_category($evaluation->get_id());
+            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('EvaluationDate'), $evaluation->get_evaluation_date());
+            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('User'), $optional_properties['user']);
+			$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Evaluator'), $optional_properties['evaluator']);
+			$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Score'), $evaluation_format->get_formatted_score());
+			$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Comment'), $optional_properties['comment']);
 			$reporting_data->hide_categories();
 		}
 		return $reporting_data;
