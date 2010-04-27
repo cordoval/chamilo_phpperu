@@ -30,6 +30,7 @@ require_once dirname(__FILE__) . '/../course_type/course_type_tool.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_rights.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_group_subscribe_right.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_group_unsubscribe_right.class.php';
+require_once dirname(__FILE__) . '/../course_type/course_type_group_creation_right.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_user_category.class.php';
 
 /**
