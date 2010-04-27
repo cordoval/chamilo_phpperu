@@ -36,7 +36,6 @@ abstract class GradebookDataManager {
 			self :: $instance = new $class ();
 
 		}
-
 		return self :: $instance;
 	}
 

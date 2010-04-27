@@ -167,7 +167,6 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	    $conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id, InternalItem :: get_table_name());
 	    $conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application, InternalItem :: get_table_name());
 	    $condition = new AndCondition($conditions);
-                
         return $this->database->retrieve_object_set($query, Evaluation :: get_table_name(), $condition, $offset, $max_objects, $order_by, Evaluation :: CLASS_NAME);
     }
 	
@@ -388,7 +387,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		{
 			$application[$i] = $applications[$i][0];
 		}
-        return $application;
+        return array_unique($application);
 	}
 	
 	function retrieve_internal_items_by_application($condition, $offset = null, $count = null, $order_property = null)
