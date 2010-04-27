@@ -59,7 +59,14 @@ class Course extends DataClass
 
 	private $course_type;
 
-
+	function Course($defaultProperties = array (), $optionalProperties = array())
+	{
+		parent :: __construct($defaultProperties, $optionalProperties);
+		
+		
+	}
+	
+	
     /**
      * Get the default properties of all courses.
      * @return array The property names.
