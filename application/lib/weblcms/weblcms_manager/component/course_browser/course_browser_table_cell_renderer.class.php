@@ -74,10 +74,17 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			break;
         		
         		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :
+        			$conditions = array();
+        			$date_conditions = array();
 					
-        			$conditions = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $course->get_id());
-        			$teller = WeblcmsDataManager :: get_instance()->count_requests_by_course($conditions);
+        			$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $course->get_id());
+        			$date_conditions[] = new InequalityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, date('Y-m-d H:i:s'));
+        			$date_conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, NULL);
+        
+        			$conditions[] = new OrCondition($date_conditions);
+        			$condition = new AndCondition($conditions);
         			
+        			$teller = WeblcmsDataManager :: get_instance()->count_requests_by_course($condition);
         			if($teller == 0)
         			{
         				$course_request_form_url = $this->browser->get_course_request_form_url($course);

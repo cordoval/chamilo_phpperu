@@ -23,6 +23,7 @@ class UnsubscribeBrowserTable extends ObjectTable
         $renderer = new UnsubscribeBrowserTableCellRenderer($browser);
         $data_provider = new UnsubscribeBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, UnsubscribeBrowserTable :: DEFAULT_NAME, $model, $renderer);
+
         $this->set_default_row_count(20);
     }
 }
