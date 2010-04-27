@@ -140,12 +140,11 @@ class PersonalMessagePublicationForm extends FormValidator
             {
                 if (! in_array($user, $this->sent_users))
                 {
-                    $this->send_to_recipient($user);
+                    if(!$this->send_to_recipient($user))
+                    {
+                    	$failures ++;
+                    }
                 }
-            }
-            else
-            {
-                $failures ++;
             }
         }
         
@@ -181,15 +180,16 @@ class PersonalMessagePublicationForm extends FormValidator
             if ($recipient_pub->create())
             {
                 $this->sent_users[] = $recip;
+                return true;
             }
             else
             {
-                $this->failures ++;
+               return false;
             }
         }
         else
         {
-            $this->failures ++;
+            return false;
         }
     
     }
