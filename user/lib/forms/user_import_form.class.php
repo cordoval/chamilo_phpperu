@@ -292,7 +292,7 @@ class UserImportForm extends FormValidator
 
     function parse_file($file_name, $file_type)
     {
-        $this->users = array(); dump($file_type);
+        $this->users = array();
         if ($file_type == 'text/csv' || $file_type == 'application/vnd.ms-excel' || $file_type == 'application/octet-stream' || $file_type == 'application/force-download')
         {
             $this->users = Import :: csv_to_array($file_name);
