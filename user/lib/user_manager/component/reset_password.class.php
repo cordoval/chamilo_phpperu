@@ -72,7 +72,9 @@ class UserManagerResetPasswordComponent extends UserManager
                 }
                 else
                 {
-                    foreach ($users as $index => $user)
+                    $failures = 0;
+                    
+                	foreach ($users as $index => $user)
                     {
                         $auth_source = $user->get_auth_source();
                         $auth = Authentication :: factory($auth_source);
@@ -81,10 +83,22 @@ class UserManagerResetPasswordComponent extends UserManager
                             Display :: error_message('ResetPasswordNotPossibleForThisUser');
                         }
                         else
-                        {
-                            $this->send_reset_link($user);
-                            Display :: normal_message('ResetLinkHasBeenSend');
+                        { 
+                            if(!$this->send_reset_link($user))
+                            {
+                            	$failures++;
+                            }
                         }
+                    }
+                    
+                    $message = $this->get_result($failures, count($users), 'ResetLinkHasNotBeenSend', 'ResetLinksHasNotBeenSend', 'ResetLinkHasBeenSend', 'ResetLinksHasBeenSend');
+                    if($failures == 0)
+                    {
+                    	Display :: normal_message($message);
+                    }
+                    else
+                    {
+                    	Display :: error_message($message);
                     }
                 }
             }
@@ -133,7 +147,7 @@ class UserManagerResetPasswordComponent extends UserManager
         $mail_body[] = Translation :: get('UserName') . ' :' . $user->get_username();
         $mail_body[] = Translation :: get('YourAccountParam') . ' ' . $this->get_path(WEB_PATH) . ': ' . $url;
         $mail_body = implode("\n", $mail_body);
-        echo ($mail_body);
+
         $mail = Mail :: factory($mail_subject, $mail_body, $user->get_email());
         return $mail->send();
     }

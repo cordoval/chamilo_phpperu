@@ -63,10 +63,10 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
         return $this->page_number;
     }
     
-    function get_criteria($criteria_score)
+    function get_criteria($criteria_score, $user_id, $form)
     {
-    	$element = $this->createElement('select', null, null, $criteria_score)->toHtml();
-    	return $element;
+		$form->addElement('select', 'criteria_score_of_user_id_'. $user_id, null, $criteria_score);	
+		return $form;
     }
 }
 ?>

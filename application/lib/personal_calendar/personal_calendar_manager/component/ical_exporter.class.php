@@ -18,11 +18,11 @@ class PersonalCalendarManagerIcalExporterComponent extends PersonalCalendarManag
         
         if ($id)
         {
-            $calendar_event_publication = $this->retrieve_calendar_event_publication($id);
+            $calendar_event_publication = $this->retrieve_personal_calendar_publication($id);
             $content_object = $calendar_event_publication->get_publication_object();
             
             $exporter = ContentObjectExport :: factory('ical', $content_object);
-            $path = $exporter->export_content_object(); dump($path);
+            $path = $exporter->export_content_object();
             Filesystem :: file_send_for_download($path, true, basename($path));
             Filesystem :: remove($path);
         }

@@ -127,7 +127,7 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_EMAIL, $email);
 		$users = $this->retrieve_objects(User :: get_table_name(), $condition);
-		return $users->next_result();
+		return $users->as_array();
 	}
 
 	//Inherited.
