@@ -176,6 +176,11 @@ abstract class ComplexDisplayComponent
     {
         return $this->get_parent()->is_allowed($right);
     }
+    
+	function create_component($type, $application)
+    {
+    	return $this->get_parent()->create_component($type, $application);
+    }
 }
 
 ?>

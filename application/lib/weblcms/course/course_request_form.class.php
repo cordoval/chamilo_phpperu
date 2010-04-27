@@ -141,7 +141,8 @@ class CourseRequestForm extends FormValidator
 		$request = $this->request;
 		$user = $this->user;
 		
-		$request->set_course_id($course->get_id());		
+		$request->set_course_id($course->get_id());	
+		$request->set_user_id($user->get_id());	
         $request->set_name_user($user->get_fullname());
         $request->set_course_name($course->get_name());
         $request->set_title($values[CourseRequest :: PROPERTY_TITLE]);
@@ -160,7 +161,8 @@ class CourseRequestForm extends FormValidator
 		$values = $this->exportValues();
 		$request = $this->request;
 
-        $request->set_course_id($request->get_course_id());	
+        $request->set_course_id($request->get_course_id());
+        $request->set_user_id($request->get_user_id());	
         $request->set_name_user($request->get_name_user());
         $request->set_course_name($request->get_course_name());
         $request->set_title($values[CourseRequest :: PROPERTY_TITLE]);
@@ -179,8 +181,10 @@ class CourseRequestForm extends FormValidator
 	{
 		$course = $this->course;
 		$request = $this->request;
+		$user = $this->user;
 		
 		$defaults[CourseRequest :: PROPERTY_COURSE_ID] = $request->get_course_id();
+		$defaults[CourseRequest :: PROPERTY_USER_ID] = $request->get_user_id();
 		$defaults[CourseRequest :: PROPERTY_NAME_USER] = $request->get_name_user();
 		$defaults[CourseRequest :: PROPERTY_COURSE_NAME] = $request->get_course_name();
 		$defaults[CourseRequest :: PROPERTY_TITLE] = $request->get_title();
