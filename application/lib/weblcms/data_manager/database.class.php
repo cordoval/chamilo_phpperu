@@ -33,8 +33,8 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function initialize()
     {
-       parent :: initialize();
-       $this->set_prefix('weblcms_');
+        parent :: initialize();
+        $this->set_prefix('weblcms_');
     }
 
     /**
@@ -235,6 +235,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function count_course_types($condition = null)
     {
         return $this->count_objects(CourseType :: get_table_name(), $condition);
+    }
+
+    function count_course_type_group_creation_rights($condition = null)
+    {
+        return $this->database->count_objects(CourseTypeGroupCreationRight :: get_table_name(), $condition);
     }
 
     function count_course_group_subscribe_rights($condition = null)
@@ -874,7 +879,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
                 return false;
         }
         
-        $admin_tools = WeblcmsDataManager:: get_tools('course_admin');
+        $admin_tools = WeblcmsDataManager :: get_tools('course_admin');
         foreach ($admin_tools as $index => $tool_name)
         {
             $section_id = $sections[CourseSection :: TYPE_ADMIN][0]->get_id();
@@ -949,16 +954,22 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function create_course_type_layout($course_type_layout)
     {
         return $this->create($course_type_layout);
+    
     }
 
     function create_course_type_group_subscribe_right($course_type_group_subscribe_right)
     {
-        return $this->create($course_type_group_subscribe_right);
+        return $this->database->create($course_type_group_subscribe_right);
     }
 
     function create_course_type_group_unsubscribe_right($course_type_group_unsubscribe_right)
     {
-        return $this->create($course_type_group_unsubscribe_right);
+        return $this->database->create($course_type_group_unsubscribe_right);
+    }
+
+    function create_course_type_group_creation_right($course_type_group_creation_right)
+    {
+        return $this->database->create($course_type_group_creation_right);
     }
 
     function create_course_type_user_category($course_type_user_category)
@@ -1968,6 +1979,21 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     
     }
 
+    function retrieve_course_type_group_creation_right($course_type_id, $group_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+        $conditions[] = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_GROUP_ID, $group_id);
+        $condition = new AndCondition($conditions);
+        return $this->database->retrieve_object(CourseTypeGroupCreationRight :: get_table_name(), $condition);
+    }
+
+    function retrieve_course_type_group_creation_rights($course_type_id)
+    {
+        $condition = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+        return $this->database->retrieve_objects(CourseTypeGroupCreationRight :: get_table_name(), $condition);
+    }
+
     function retrieve_course_type_group_subscribe_rights($course_type_id)
     {
         $condition = new EqualityCondition(CourseTypeGroupSubscribeRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
@@ -2165,7 +2191,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         
         return $this->count_objects(CourseGroupUserRelation :: get_table_name(), $condition) > 0;
     }
-    
+
     private static function from_db_date($date)
     {
         return DatabaseRepositoryDataManager :: from_db_date($date);

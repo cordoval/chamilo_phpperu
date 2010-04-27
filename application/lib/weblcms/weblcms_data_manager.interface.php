@@ -128,6 +128,11 @@ interface WeblcmsDataManagerInterface
     
      function create_course_type_rights($course_type_rights);
 	
+     function create_course_type_group_subscribe_right($course_type_group_subscribe_right);
+     
+    function create_course_type_group_unsubscribe_right($course_type_group_unsubscribe_right);
+
+    function create_course_type_group_creation_right($course_type_group_creation_right); 
       
     /**
     * Updates the specified course_type in persistent storage,
@@ -145,11 +150,23 @@ interface WeblcmsDataManagerInterface
     
      function update_course_type_rights($course_type_rights);
     
-     function update_course_type_user_category($course_type_user_category);
+    function update_course_type_group_subscribe_right($course_type_group_subscribe_right);
+     
+    function update_course_type_group_unsubscribe_right($course_type_group_unsubscribe_right);
 
+    function update_course_type_group_creation_right($course_type_group_creation_right); 
+    
+    function update_course_type_user_category($course_type_user_category);
+     
      function delete_course_type($course_type_id);
     
      function delete_course_type_user_category($course_type_user_category);
+     
+     function delete_course_type_group_subscribe_right($course_type_group_subscribe_right);
+     
+   function delete_course_type_group_unsubscribe_right($course_type_group_unsubscribe_right);
+
+    function delete_course_type_group_creation_right($course_type_group_creation_right);
 
     /**
      * Deletes the given course_type_tool from the database related to this given course_type.
@@ -177,6 +194,12 @@ interface WeblcmsDataManagerInterface
      function retrieve_course_type_settings($id);
 
      function retrieve_course_type_layout($id);
+     
+      function retrieve_course_type_group_creation_right($course_type_id, $group_id);
+    
+  function count_course_type_group_creation_rights($condition = null);
+    
+     function retrieve_course_type_group_creation_rights($id);
 
      function retrieve_all_course_type_tools($condition = null, $offset = null, $count = null, $order_property = null);
     
