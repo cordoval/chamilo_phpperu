@@ -75,11 +75,11 @@ class NoteBrowser extends ContentObjectPublicationBrowser
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'note');
             
             $access = array();
-            $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
-            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+            $access[] = new InCondition('user_id', $user_id, $datamanager->get_alias('content_object_publication_user'));
+            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
             if (! empty($user_id) || ! empty($course_group_ids))
             {
-                $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
+                $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
             }
             $conditions[] = new OrCondition($access);
             

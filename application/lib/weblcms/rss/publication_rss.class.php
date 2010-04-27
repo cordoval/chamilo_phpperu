@@ -100,18 +100,18 @@ class WeblcmsPublicationRSS extends PublicationRSS
         
         if(!empty($user_id))
         {
-        	$access[] = new InCondition('user_id', $user_id, $wdm->get_database()->get_alias('content_object_publication_user'));
+        	$access[] = new InCondition('user_id', $user_id, $wdm->get_alias('content_object_publication_user'));
         }
         
         if(!empty($course_group_ids))
         {
-        	$access[] = new InCondition('course_group_id', $course_group_ids, $wdm->get_database()->get_alias('content_object_publication_course_group'));
+        	$access[] = new InCondition('course_group_id', $course_group_ids, $wdm->get_alias('content_object_publication_course_group'));
         }
         
         if (! empty($user_id) || ! empty($course_groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_database()->get_alias('content_object_publication_user')), 
-            	new EqualityCondition('course_group_id', null, $wdm->get_database()->get_alias('content_object_publication_course_group'))));
+            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_alias('content_object_publication_user')), 
+            	new EqualityCondition('course_group_id', null, $wdm->get_alias('content_object_publication_course_group'))));
         }
         
         if(!empty($access))
@@ -122,8 +122,7 @@ class WeblcmsPublicationRSS extends PublicationRSS
 	
 	private function get_user_groups($user)
 	{
-		$wdm = WeblcmsDataManager :: get_instance();
-        return $wdm->get_user_course_groups($user);
+		return WeblcmsDataManager :: get_user_course_groups($user);
 	}
 }
 

@@ -29,7 +29,7 @@ class CourseTypeForm extends CommonForm
 	function build_tools_form()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$tools = $wdm->get_tools('basic');
+		$tools = WeblcmsDataManager :: get_tools('basic');
 		$data = array();
 		//Tools defaults
 		$course_type_tools = $this->object->get_tools();
@@ -304,7 +304,7 @@ class CourseTypeForm extends CommonForm
 			return false;
 		}
 
-		$tools = $wdm->get_tools('basic');
+		$tools = WeblcmsDataManager :: get_tools('basic');
 		$selected_tools = $this->fill_tools($tools);
 		$default_tools = $this->object->get_tools();
 
@@ -438,7 +438,7 @@ class CourseTypeForm extends CommonForm
 		}
 
 		$wdm = WeblcmsDataManager :: get_instance();
-		$tools = $wdm->get_tools('basic');
+		$tools = WeblcmsDataManager :: get_tools('basic');
 		$selected_tools = $this->fill_tools($tools);
 		$validation = true;
 

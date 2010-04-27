@@ -98,12 +98,12 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
         /*$access = array();
 		if (!empty($user_id))
 		{
-			$access[] = new EqualityCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+			$access[] = new EqualityCondition('user_id', $user_id, $datamanager->get_alias('content_object_publication_user'));
 		}
 
 		if(count($course_groups) > 0)
 		{
-			$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+			$access[] = new InCondition('course_group_id', $course_groups, $datamanager->get_alias('content_object_publication_course_group'));
 		}
 
 		$conditions[] = new OrCondition($access);*/
