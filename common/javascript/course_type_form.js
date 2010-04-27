@@ -18,6 +18,7 @@ $(function ()
 		$('.viewablecheckbox').viewableStyle();
 		$('.viewablecheckbox').setViewableStyle();
 		$('.empty').live('click', reset);
+		$("input[name=creation_groups_option]").init_everybody();
 	});
 
 });

@@ -138,6 +138,11 @@ class ReportingViewer extends SubManager
 		{
 			$component->set_template($this->get_template());
 			$component->set_breadcrumb_trail($this->get_breadcrumb_trail());
+			
+			if($this->are_all_blocks_visible())
+			{
+				$component->show_all_blocks();
+			}
 		}
 		
 		return $component;
