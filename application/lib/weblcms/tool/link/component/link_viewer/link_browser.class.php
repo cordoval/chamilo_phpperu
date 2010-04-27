@@ -74,11 +74,11 @@ class LinkBrowser extends ContentObjectPublicationBrowser
         $conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $this->get_publication_category_tree()->get_current_category_id());
         
         $access = array();
-        $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
-        $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+        $access[] = new InCondition('user_id', $user_id, $datamanager->get_alias('content_object_publication_user'));
+        $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
         if (! empty($user_id) || ! empty($course_group_ids))
         {
-            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
+            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
         }
         $conditions[] = new OrCondition($access);
         
@@ -131,11 +131,11 @@ class LinkBrowser extends ContentObjectPublicationBrowser
         $conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category);
         
         $access = array();
-        $access[] = new InCondition('user_id', $user_id, $dm->get_database()->get_alias('content_object_publication_user'));
-        $access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('content_object_publication_course_group'));
+        $access[] = new InCondition('user_id', $user_id, $dm->get_alias('content_object_publication_user'));
+        $access[] = new InCondition('course_group_id', $course_groups, $dm->get_alias('content_object_publication_course_group'));
         if (! empty($user_id) || ! empty($course_groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $dm->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('content_object_publication_course_group'))));
+            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $dm->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_alias('content_object_publication_course_group'))));
         }
         
         $conditions[] = new OrCondition($access);

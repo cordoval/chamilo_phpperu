@@ -339,7 +339,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 		}
 
 		$wdm = WeblcmsDataManager :: get_instance();
-		$tools = $wdm->get_tools('course_admin');
+		$tools = WeblcmsDataManager :: get_tools('course_admin');
 		$admin_tool = false;
 		foreach($tools as $tool)
 		{

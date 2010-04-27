@@ -25,8 +25,8 @@ class DefaultInternshipOrganizerCategoryRelLocationTableColumnModel extends Obje
     private static function get_default_columns()
     {
         $dm = InternshipOrganizerDataManager :: get_instance();
-        $organisation_alias = $dm->get_database()->get_alias(InternshipOrganizerOrganisation :: get_table_name());
-        $location_alias = $dm->get_database()->get_alias(InternshipOrganizerLocation :: get_table_name());
+        $organisation_alias = $dm->get_alias(InternshipOrganizerOrganisation :: get_table_name());
+        $location_alias = $dm->get_alias(InternshipOrganizerLocation :: get_table_name());
         
         
     	$columns = array();
@@ -34,7 +34,7 @@ class DefaultInternshipOrganizerCategoryRelLocationTableColumnModel extends Obje
         $columns[] = new ObjectTableColumn(InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION, true, $organisation_alias);
         $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_NAME, true, $location_alias);
         $columns[] = new ObjectTableColumn(InternshipOrganizerLocation:: PROPERTY_CITY, true, $location_alias);
-        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation:: PROPERTY_STREET, true, $location_alias);
+//        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation:: PROPERTY_STREET, true, $location_alias);
         
         
         return $columns;

@@ -348,7 +348,7 @@ class CourseForm extends CommonForm
 		else
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$course_type_tools = $wdm->get_tools('basic');
+			$course_type_tools = WeblcmsDataManager :: get_tools('basic');
 		}
 		foreach ($course_type_tools as $course_type_tool)
 		{
@@ -597,7 +597,7 @@ class CourseForm extends CommonForm
 		if(!empty($this->course_type_id))
 			$tools = $this->object->get_course_type()->get_tools();
 		else
-			$tools = $wdm->get_tools('basic');
+			$tools = WeblcmsDataManager :: get_tools('basic');
 
 		$selected_tools = $this->fill_tools($tools);
 
