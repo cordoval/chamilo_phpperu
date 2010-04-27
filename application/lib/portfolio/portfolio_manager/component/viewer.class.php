@@ -5,7 +5,6 @@
  */
 
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../portfolio_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../portfolio_menu.class.php';
 require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.php';
 
@@ -13,7 +12,7 @@ require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.
  * portfolio component which allows the user to browse his portfolio_publications
  * @author Sven Vanpoucke
  */
-class PortfolioManagerViewerComponent extends PortfolioManagerComponent
+class PortfolioManagerViewerComponent extends PortfolioManager
 {
     private $action_bar;
     private $selected_object;

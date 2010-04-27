@@ -4,14 +4,13 @@
  * @package application.lib.webconferencing.webconferencing_manager.component
  */
 require_once dirname(__FILE__) . '/../webconferencing_manager.class.php';
-require_once dirname(__FILE__) . '/../webconferencing_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/webconference_form.class.php';
 
 /**
  * Component to create a new webconference object
  * @author Stefaan Vanbillemont
  */
-class WebconferencingManagerWebconferenceCreatorComponent extends WebconferencingManagerComponent
+class WebconferencingManagerWebconferenceCreatorComponent extends WebconferencingManager
 {
 
     /**

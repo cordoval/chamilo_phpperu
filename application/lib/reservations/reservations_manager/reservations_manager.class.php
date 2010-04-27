@@ -5,7 +5,6 @@
  */
 require_once dirname(__FILE__) . '/../reservations_data_manager.class.php';
 require_once dirname(__FILE__) . '/../reservations_rights.class.php';
-require_once dirname(__FILE__) . '/reservations_manager_component.class.php';
 
 class ReservationsManager extends WebApplication
 {
@@ -112,131 +111,131 @@ class ReservationsManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_ADMIN_BROWSE_CATEGORIES :
-                $component = ReservationsManagerComponent :: factory('AdminCategoryBrowser', $this);
+                $component = $this->create_component('AdminCategoryBrowser');
                 break;
             case self :: ACTION_ADMIN_BROWSE_ITEMS :
-                $component = ReservationsManagerComponent :: factory('AdminItemBrowser', $this);
+                $component = $this->create_component('AdminItemBrowser');
                 break;
             case self :: ACTION_ADMIN_BROWSE_RESERVATIONS :
-                $component = ReservationsManagerComponent :: factory('AdminReservationBrowser', $this);
+                $component = $this->create_component('AdminReservationBrowser');
                 break;
             case self :: ACTION_ADMIN_BROWSE_SUBSCRIPTIONS :
-                $component = ReservationsManagerComponent :: factory('AdminSubscriptionBrowser', $this);
+                $component = $this->create_component('AdminSubscriptionBrowser');
                 break;
             case self :: ACTION_BROWSE_CATEGORIES :
-                $component = ReservationsManagerComponent :: factory('CategoryBrowser', $this);
+                $component = $this->create_component('CategoryBrowser');
                 break;
             case self :: ACTION_CREATE_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryCreator', $this);
+                $component = $this->create_component('CategoryCreator');
                 break;
             case self :: ACTION_UPDATE_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryUpdater', $this);
+                $component = $this->create_component('CategoryUpdater');
                 break;
             case self :: ACTION_DELETE_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryDeleter', $this);
+                $component = $this->create_component('CategoryDeleter');
                 break;
             case self :: ACTION_MOVE_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryMover', $this);
+                $component = $this->create_component('CategoryMover');
                 break;
             case self :: ACTION_BLACKOUT_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryBlackout', $this);
+                $component = $this->create_component('CategoryBlackout');
                 break;
             case self :: ACTION_CREDIT_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryCredit', $this);
+                $component = $this->create_component('CategoryCredit');
                 break;
             case self :: ACTION_BROWSE_ITEMS :
-                $component = ReservationsManagerComponent :: factory('ItemBrowser', $this);
+                $component = $this->create_component('ItemBrowser');
                 break;
             case self :: ACTION_CREATE_ITEM :
-                $component = ReservationsManagerComponent :: factory('ItemCreator', $this);
+                $component = $this->create_component('ItemCreator');
                 break;
             case self :: ACTION_UPDATE_ITEM :
-                $component = ReservationsManagerComponent :: factory('ItemUpdater', $this);
+                $component = $this->create_component('ItemUpdater');
                 break;
             case self :: ACTION_DELETE_ITEM :
-                $component = ReservationsManagerComponent :: factory('ItemDeleter', $this);
+                $component = $this->create_component('ItemDeleter');
                 break;
             case self :: ACTION_BROWSE_RESERVATIONS :
-                $component = ReservationsManagerComponent :: factory('ReservationBrowser', $this);
+                $component = $this->create_component('ReservationBrowser');
                 break;
             case self :: ACTION_CREATE_RESERVATION :
-                $component = ReservationsManagerComponent :: factory('ReservationCreator', $this);
+                $component = $this->create_component('ReservationCreator');
                 break;
             case self :: ACTION_UPDATE_RESERVATION :
-                $component = ReservationsManagerComponent :: factory('ReservationUpdater', $this);
+                $component = $this->create_component('ReservationUpdater');
                 break;
             case self :: ACTION_DELETE_RESERVATION :
-                $component = ReservationsManagerComponent :: factory('ReservationDeleter', $this);
+                $component = $this->create_component('ReservationDeleter');
                 break;
             case self :: ACTION_BROWSE_SUBSCRIPTIONS :
-                $component = ReservationsManagerComponent :: factory('SubscriptionBrowser', $this);
+                $component = $this->create_component('SubscriptionBrowser');
                 break;
             case self :: ACTION_CREATE_SUBSCRIPTION :
-                $component = ReservationsManagerComponent :: factory('SubscriptionCreator', $this);
+                $component = $this->create_component('SubscriptionCreator');
                 break;
             case self :: ACTION_DELETE_SUBSCRIPTION :
-                $component = ReservationsManagerComponent :: factory('SubscriptionDeleter', $this);
+                $component = $this->create_component('SubscriptionDeleter');
                 break;
             case self :: ACTION_APPROVE_SUBSCRIPTION :
-                $component = ReservationsManagerComponent :: factory('SubscriptionApprover', $this);
+                $component = $this->create_component('SubscriptionApprover');
                 break;
             case self :: ACTION_BROWSE_SUBSCRIPTION_USERS :
-                $component = ReservationsManagerComponent :: factory('SubscriptionUserBrowser', $this);
+                $component = $this->create_component('SubscriptionUserBrowser');
                 break;
             case self :: ACTION_UPDATE_SUBSCRIPTION_USER :
-                $component = ReservationsManagerComponent :: factory('SubscriptionUserUpdater', $this);
+                $component = $this->create_component('SubscriptionUserUpdater');
                 break;
             case self :: ACTION_BROWSE_QUOTAS :
-                $component = ReservationsManagerComponent :: factory('QuotaBrowser', $this);
+                $component = $this->create_component('QuotaBrowser');
                 break;
             case self :: ACTION_CREATE_QUOTA :
-                $component = ReservationsManagerComponent :: factory('QuotaCreator', $this);
+                $component = $this->create_component('QuotaCreator');
                 break;
             case self :: ACTION_UPDATE_QUOTA :
-                $component = ReservationsManagerComponent :: factory('QuotaUpdater', $this);
+                $component = $this->create_component('QuotaUpdater');
                 break;
             case self :: ACTION_DELETE_QUOTA :
-                $component = ReservationsManagerComponent :: factory('QuotaDeleter', $this);
+                $component = $this->create_component('QuotaDeleter');
                 break;
             case self :: ACTION_SEARCH_POOL :
-                $component = ReservationsManagerComponent :: factory('PoolSearcher', $this);
+                $component = $this->create_component('PoolSearcher');
                 break;
             case self :: ACTION_EDIT_RIGHTS :
-                $component = ReservationsManagerComponent :: factory('RightsEditor', $this);
+                $component = $this->create_component('RightsEditor');
                 break;
             case self :: ACTION_BROWSE_QUOTA_BOXES :
-                $component = ReservationsManagerComponent :: factory('QuotaBoxBrowser', $this);
+                $component = $this->create_component('QuotaBoxBrowser');
                 break;
             case self :: ACTION_CREATE_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('QuotaBoxCreator', $this);
+                $component = $this->create_component('QuotaBoxCreator');
                 break;
             case self :: ACTION_UPDATE_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('QuotaBoxUpdater', $this);
+                $component = $this->create_component('QuotaBoxUpdater');
                 break;
             case self :: ACTION_DELETE_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('QuotaBoxDeleter', $this);
+                $component = $this->create_component('QuotaBoxDeleter');
                 break;
             case self :: ACTION_BROWSE_CATEGORY_QUOTA_BOXES :
-                $component = ReservationsManagerComponent :: factory('CategoryQuotaBoxBrowser', $this);
+                $component = $this->create_component('CategoryQuotaBoxBrowser');
                 break;
             case self :: ACTION_CREATE_CATEGORY_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('CategoryQuotaBoxCreator', $this);
+                $component = $this->create_component('CategoryQuotaBoxCreator');
                 break;
             case self :: ACTION_UPDATE_CATEGORY_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('CategoryQuotaBoxUpdater', $this);
+                $component = $this->create_component('CategoryQuotaBoxUpdater');
                 break;
             case self :: ACTION_DELETE_CATEGORY_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('CategoryQuotaBoxDeleter', $this);
+                $component = $this->create_component('CategoryQuotaBoxDeleter');
                 break;
             case self :: ACTION_OVERVIEW :
-                $component = ReservationsManagerComponent :: factory('OverviewBrowser', $this);
+                $component = $this->create_component('OverviewBrowser');
                 break;
             case self :: ACTION_MANAGE_OVERVIEW :
-                $component = ReservationsManagerComponent :: factory('ManageOverview', $this);
+                $component = $this->create_component('ManageOverview');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_ITEMS);
-                $component = ReservationsManagerComponent :: factory('ItemBrowser', $this);
+                $component = $this->create_component('ItemBrowser');
         }
         $component->run();
     }

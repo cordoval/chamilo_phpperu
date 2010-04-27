@@ -3,14 +3,13 @@
  * @package application.cda.cda.component
  */
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 
 /**
  * Component to delete variables objects
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerVariableDeleterComponent extends CdaManagerComponent
+class CdaManagerVariableDeleterComponent extends CdaManager
 {
 	/**
 	 * Runs this component and displays its output.

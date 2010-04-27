@@ -3,7 +3,6 @@
  * @package application.cda.cda.component
  */
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/translation_import_form.class.php';
 require_once dirname(__FILE__) . '/translation_importer/translation_importer.class.php';
 
@@ -11,7 +10,7 @@ require_once dirname(__FILE__) . '/translation_importer/translation_importer.cla
  * @author Sven Vanpoucke
  * @author
  */
-class CdaManagerAdminTranslationImporterComponent extends CdaManagerComponent
+class CdaManagerAdminTranslationImporterComponent extends CdaManager
 {
 	/**
 	 * Runs this component and displays its output.

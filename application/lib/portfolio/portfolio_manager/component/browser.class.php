@@ -4,7 +4,6 @@
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../portfolio_manager_component.class.php';
 require_once dirname(__FILE__) . '/user_browser/user_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../user_menu.class.php';
 require_once dirname(__FILE__) . '/../../portfolio_publication.class.php';
@@ -13,7 +12,7 @@ require_once dirname(__FILE__) . '/../../portfolio_publication.class.php';
  * Portfolio component which allows the user to browse the portfolio application
  * @author Sven Vanpoucke
  */
-class PortfolioManagerBrowserComponent extends PortfolioManagerComponent
+class PortfolioManagerBrowserComponent extends PortfolioManager
 {
     private $firstletter;
     private $ab;

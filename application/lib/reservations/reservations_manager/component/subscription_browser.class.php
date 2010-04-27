@@ -4,12 +4,12 @@
  * @package application.reservations.reservations_manager.component
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-require_once dirname(__FILE__) . '/../reservations_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/subscription_browser/subscription_browser_table.class.php';
 require_once dirname(__FILE__) . '/subscription_browser/user_quota_cellrenderer.class.php';
 require_once dirname(__FILE__) . '/../../reservations_menu.class.php';
 
-class ReservationsManagerSubscriptionBrowserComponent extends ReservationsManagerComponent
+class ReservationsManagerSubscriptionBrowserComponent extends ReservationsManager
 {
     private $ab;
 

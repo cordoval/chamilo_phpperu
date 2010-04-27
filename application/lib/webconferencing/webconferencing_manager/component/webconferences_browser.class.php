@@ -5,14 +5,13 @@
  */
 
 require_once dirname(__FILE__) . '/../webconferencing_manager.class.php';
-require_once dirname(__FILE__) . '/../webconferencing_manager_component.class.php';
 require_once dirname(__FILE__) . '/webconference_browser/webconference_browser_table.class.php';
 
 /**
  * webconferencing component which allows the user to browse his webconferences
  * @author Stefaan Vanbillemont
  */
-class WebconferencingManagerWebconferencesBrowserComponent extends WebconferencingManagerComponent
+class WebconferencingManagerWebconferencesBrowserComponent extends WebconferencingManager
 {
 
     private $action_bar;

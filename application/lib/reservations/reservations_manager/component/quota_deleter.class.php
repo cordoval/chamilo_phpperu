@@ -4,12 +4,12 @@
  * @package application.reservations.reservations_manager.component
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-require_once dirname(__FILE__) . '/../reservations_manager_component.class.php';
+
 
 /**
  * Component to delete a quota
  */
-class ReservationsManagerQuotaDeleterComponent extends ReservationsManagerComponent
+class ReservationsManagerQuotaDeleterComponent extends ReservationsManager
 {
 
     /**

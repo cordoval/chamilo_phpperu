@@ -3,7 +3,6 @@
  * @package application.cda.cda.component
  */
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/variable_translation_form.class.php';
 
 /**
@@ -11,7 +10,7 @@ require_once dirname(__FILE__).'/../../forms/variable_translation_form.class.php
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerVariableTranslationLockerComponent extends CdaManagerComponent
+class CdaManagerVariableTranslationLockerComponent extends CdaManager
 {
 	/**
 	 * Runs this component and displays its output.

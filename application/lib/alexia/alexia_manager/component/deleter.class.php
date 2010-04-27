@@ -6,9 +6,8 @@
  */
 
 require_once dirname(__FILE__) . '/../alexia_manager.class.php';
-require_once dirname(__FILE__) . '/../alexia_manager_component.class.php';
 
-class AlexiaManagerDeleterComponent extends AlexiaManagerComponent
+class AlexiaManagerDeleterComponent extends AlexiaManager
 {
 
     /**

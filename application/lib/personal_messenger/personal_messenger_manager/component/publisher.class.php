@@ -6,10 +6,9 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../publisher/personal_message_publisher.class.php';
 
-class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManagerComponent
+class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManager
 {
 
     /**

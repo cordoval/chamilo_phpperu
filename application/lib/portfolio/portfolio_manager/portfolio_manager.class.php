@@ -3,7 +3,6 @@
  * $Id: portfolio_manager.class.php 206 2009-11-13 13:08:01Z chellee $
  * @package application.portfolio.portfolio_manager.component
  */
-require_once dirname(__FILE__) . '/portfolio_manager_component.class.php';
 require_once dirname(__FILE__) . '/../portfolio_data_manager.class.php';
 
 /**
@@ -46,33 +45,33 @@ class PortfolioManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_VIEW_PORTFOLIO :
-                $component = PortfolioManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_DELETE_PORTFOLIO_PUBLICATION :
-                $component = PortfolioManagerComponent :: factory('PortfolioPublicationDeleter', $this);
+                $component = $this->create_component('PortfolioPublicationDeleter');
                 break;
             case self :: ACTION_DELETE_PORTFOLIO_ITEM :
-                $component = PortfolioManagerComponent :: factory('PortfolioItemDeleter', $this);
+                $component = $this->create_component('PortfolioItemDeleter');
                 break;
             case self :: ACTION_CREATE_PORTFOLIO_PUBLICATION :
-                $component = PortfolioManagerComponent :: factory('PortfolioPublicationCreator', $this);
+                $component = $this->create_component('PortfolioPublicationCreator');
                 break;
             case self :: ACTION_CREATE_PORTFOLIO_ITEM :
-                $component = PortfolioManagerComponent :: factory('PortfolioItemCreator', $this);
+                $component = $this->create_component('PortfolioItemCreator');
                 break;
             case self :: ACTION_BROWSE :
-                $component = PortfolioManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             default :
                 if (PlatformSetting :: get('first_page', 'portfolio') == 0)
                 {
                     $this->set_action(self :: ACTION_BROWSE);
-                    $component = PortfolioManagerComponent :: factory('Browser', $this);
+                    $component = $this->create_component('Browser');
                 }
                 else
                 {
                     $this->set_action(self :: ACTION_VIEW_PORTFOLIO);
-                    $component = PortfolioManagerComponent :: factory('Viewer', $this);
+                    $component = $this->create_component('Viewer');
                     $_GET['user_id'] = $this->get_user_id();
                 }
         

@@ -5,7 +5,6 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__) . '/personal_messenger_manager_component.class.php';
 require_once dirname(__FILE__) . '/../personal_messenger_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/pm_publication_browser/pm_publication_browser_table.class.php';
 //require_once dirname(__FILE__).'/../personal_message_publisher.class.php';
@@ -75,26 +74,26 @@ class PersonalMessengerManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_MESSAGES :
-                $component = PersonalMessengerManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_VIEW_PUBLICATION :
-                $component = PersonalMessengerManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_VIEW_ATTACHMENTS :
-                $component = PersonalMessengerManagerComponent :: factory('AttachmentViewer', $this);
+                $component = $this->create_component('AttachmentViewer');
                 break;
             case self :: ACTION_DELETE_PUBLICATION :
-                $component = PersonalMessengerManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_MARK_PUBLICATION :
-                $component = PersonalMessengerManagerComponent :: factory('Marker', $this);
+                $component = $this->create_component('Marker');
                 break;
             case self :: ACTION_CREATE_PUBLICATION :
-                $component = PersonalMessengerManagerComponent :: factory('Publisher', $this);
+                $component = $this->create_component('Publisher');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_MESSAGES);
-                $component = PersonalMessengerManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }

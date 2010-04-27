@@ -3,7 +3,6 @@
  * $Id: distribute_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.distribute.distribute_manager
  */
-require_once dirname(__FILE__) . '/distribute_manager_component.class.php';
 require_once dirname(__FILE__) . '/../distribute_data_manager.class.php';
 //require_once dirname(__FILE__).'/component/distribute_publication_browser/distribute_publication_browser_table.class.php';
 
@@ -42,17 +41,17 @@ class DistributeManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS :
-                $component = DistributeManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_DISTRIBUTE_ANNOUNCEMENT :
-                $component = DistributeManagerComponent :: factory('Distributor', $this);
+                $component = $this->create_component('Distributor');
                 break;
             case self :: ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION :
-                $component = DistributeManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS);
-                $component = DistributeManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         
         }
         $component->run();
