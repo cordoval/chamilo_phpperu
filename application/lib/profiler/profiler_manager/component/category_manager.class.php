@@ -4,13 +4,12 @@
  * @package application.profiler.profiler_manager.component
  */
 require_once dirname(__FILE__) . '/../profiler_manager.class.php';
-require_once dirname(__FILE__) . '/../profiler_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../category_manager/profiler_category_manager.class.php';
 
 /**
  * Profiler component allows the user to manage course categories
  */
-class ProfilerManagerCategoryManagerComponent extends ProfilerManagerComponent
+class ProfilerManagerCategoryManagerComponent extends ProfilerManager
 {
 
     /**

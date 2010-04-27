@@ -4,13 +4,13 @@
  * @package application.reservations.reservations_manager.component
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-require_once dirname(__FILE__) . '/../reservations_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/item_browser/item_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../reservations_menu.class.php';
 require_once dirname(__FILE__) . '/../../forms/pool_form.class.php';
 require_once dirname(__FILE__) . '/subscription_browser/user_quota_cellrenderer.class.php';
 
-class ReservationsManagerItemBrowserComponent extends ReservationsManagerComponent
+class ReservationsManagerItemBrowserComponent extends ReservationsManager
 {
     private $ab;
 

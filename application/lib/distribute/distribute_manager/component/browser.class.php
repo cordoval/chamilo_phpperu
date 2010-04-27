@@ -4,14 +4,13 @@
  * @package application.lib.distribute.distribute_manager.component
  */
 require_once dirname(__FILE__) . '/../distribute_manager.class.php';
-require_once dirname(__FILE__) . '/../distribute_manager_component.class.php';
 require_once dirname(__FILE__) . '/announcement_distribution_browser/announcement_distribution_browser_table.class.php';
 
 /**
  * Distribute component which allows the user to browse the distribute application
  * @author Hans De Bisschop
  */
-class DistributeManagerBrowserComponent extends DistributeManagerComponent
+class DistributeManagerBrowserComponent extends DistributeManager
 {
 
     function run()

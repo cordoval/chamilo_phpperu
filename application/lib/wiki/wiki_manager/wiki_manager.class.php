@@ -3,7 +3,6 @@
  * $Id: wiki_manager.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager
  */
-require_once dirname(__FILE__) . '/wiki_manager_component.class.php';
 require_once dirname(__FILE__) . '/../wiki_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/wiki_publication_browser/wiki_publication_browser_table.class.php';
 

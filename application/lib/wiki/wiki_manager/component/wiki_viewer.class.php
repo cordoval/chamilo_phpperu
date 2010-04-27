@@ -4,7 +4,6 @@
  * @package application.lib.wiki.wiki_manager.component
  */
 require_once dirname(__FILE__) . '/../wiki_manager.class.php';
-require_once dirname(__FILE__) . '/../wiki_manager_component.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
 
 class WikiManagerWikiViewerComponent extends WikiManager

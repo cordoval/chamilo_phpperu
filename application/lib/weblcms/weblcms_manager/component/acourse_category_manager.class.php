@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/course_category_browser/course_category_browser_table.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../course/course_category_form.class.php';
 require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 

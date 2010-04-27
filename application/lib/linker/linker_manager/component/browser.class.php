@@ -4,12 +4,11 @@
  * @package application.lib.linker.linker_manager.component
  */
 require_once dirname(__FILE__) . '/../linker_manager.class.php';
-require_once dirname(__FILE__) . '/../linker_manager_component.class.php';
 
 /**
  * linker component which allows the user to browse his links
  */
-class LinkerManagerBrowserComponent extends LinkerManagerComponent
+class LinkerManagerBrowserComponent extends LinkerManager
 {
 
     function run()

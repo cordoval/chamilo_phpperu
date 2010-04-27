@@ -4,10 +4,9 @@
  * @package application.lib.laika.laika_manager.component
  */
 require_once dirname(__FILE__) . '/../laika_manager.class.php';
-require_once dirname(__FILE__) . '/../laika_manager_component.class.php';
 require_once dirname(__FILE__) . '/inc/laika_wizard.class.php';
 
-class LaikaManagerTakerComponent extends LaikaManagerComponent
+class LaikaManagerTakerComponent extends LaikaManager
 {
 
     /**

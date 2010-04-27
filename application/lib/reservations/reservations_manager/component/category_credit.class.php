@@ -4,12 +4,12 @@
  * @package application.reservations.reservations_manager.component
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-require_once dirname(__FILE__) . '/../reservations_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../category.class.php';
 require_once dirname(__FILE__) . '/../../forms/credit_form.class.php';
 require_once dirname(__FILE__) . '/../../reservations_data_manager.class.php';
 
-class ReservationsManagerCategoryCreditComponent extends ReservationsManagerComponent
+class ReservationsManagerCategoryCreditComponent extends ReservationsManager
 {
 
     /**
