@@ -1,6 +1,7 @@
 <?php
 require_once dirname (__FILE__) . '/../evaluations_reporting_block.class.php';
 require_once dirname (__FILE__) . '/../../gradebook_manager/gradebook_manager.class.php';
+require_once dirname(__FILE__) . '/../../evaluation_format/evaluation_format.class.php';
 
 class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 {
@@ -12,12 +13,16 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 		
 		while ($evaluation = $data->next_result())
 		{
-			$optional_props = $evaluation->get_optional_properties();
+			$optional_properties = $evaluation->get_optional_properties();
+			$format = GradebookManager :: retrieve_evaluation_format($evaluation->get_format_id());
+			$evaluation_format = EvaluationFormat :: factory($format->get_title());
+			$evaluation_format->set_score($optional_properties['score']);
+			
 			$reporting_data->add_category($evaluation->get_evaluation_date());
-            $reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('User'), $optional_props['user']);
-			$reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('Evaluator'), $optional_props['evaluator']);
-			$reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('Score'), $optional_props['score']);
-			$reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('Comment'), $optional_props['comment']);
+            $reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('User'), $optional_properties['user']);
+			$reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('Evaluator'), $optional_properties['evaluator']);
+			$reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('Score'), $evaluation_format->get_formatted_score());
+			$reporting_data->add_data_category_row($evaluation->get_evaluation_date(), Translation :: get('Comment'), $optional_properties['comment']);
 		}
 		return $reporting_data;
 	}	

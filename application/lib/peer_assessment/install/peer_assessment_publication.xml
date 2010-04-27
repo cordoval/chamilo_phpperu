@@ -20,7 +20,6 @@
 			notnull="1" />
 		<property name="display_order" type="integer" unsigned="1"
 			notnull="1" />
-		<!--<property name="email_sent" type="boolean" default="0" />-->
 	</properties>
 	<index name="parent_id">
 		<indexproperty name="parent_id" />

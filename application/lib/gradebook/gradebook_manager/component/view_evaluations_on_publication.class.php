@@ -7,7 +7,7 @@ class GradebookManagerViewEvaluationsOnPublicationComponent extends GradebookMan
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
-		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION=> GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('BrowseEvluations')));
+		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME, GradebookManager :: PARAM_PUBLICATION_TYPE => Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE))), Translation :: get('BrowsePublicationsOf') . ' ' . Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE)));
         
         $rtv = new ReportingViewer($this);
         $rtv->add_template_by_name('publication_evaluations_template', GradebookManager :: APPLICATION_NAME);
