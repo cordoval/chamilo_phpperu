@@ -183,14 +183,6 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
     }
     
     
-    // Results
-    function set_peer_assessment_publication_results($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id, $score, $finished)
-    {
-    	
-    }
-
-    
-    
     function get_questions($page_number)
     {
         $page = $this->pages[$page_number];

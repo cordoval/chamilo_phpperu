@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="publication_results">
+<object name="peer_assessment_publication_results">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="publication_id" type="integer" unsigned="1" notnull="1" />
