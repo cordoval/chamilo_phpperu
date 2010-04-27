@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 require_once dirname(__FILE__) . '/unsubscribe_browser/unsubscribe_browser_table.class.php';
 /**
@@ -88,7 +88,7 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManager
                 if ($this->get_course_unsubscription_url($course))
                 {
                     $success = $this->unsubscribe_user_from_course($course, $this->get_user_id());
-                    $this->redirect(Translation :: get($success ? 'UserUnsubscribedFromCourse' : 'UserNotUnsubscribedFromCourse'), ($success ? false : true));
+                    $this->redirect(Translation :: get($success ? 'UserUnsubscribedFromCourse' : 'UserNotUnsubscribedFromCourse'), ($success ? false : true),array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(WeblcmsManager :: PARAM_COURSE));
                 }
             }
         }

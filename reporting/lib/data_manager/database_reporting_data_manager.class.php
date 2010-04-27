@@ -155,7 +155,7 @@ class DatabaseReportingDataManager extends Database implements ReportingDataMana
 
     function retrieve_reporting_template_object($classname)
     {
-    	$condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_CLASSNAME, $classname);
+    	$condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_TEMPLATE, $classname);
 
     	return $this->retrieve_object(ReportingTemplateRegistration :: get_table_name(), $condition);
     }

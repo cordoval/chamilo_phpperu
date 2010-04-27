@@ -4,13 +4,13 @@
  * @package application.reservations.reservations_manager.component
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-require_once dirname(__FILE__) . '/../reservations_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/reservation_browser/reservation_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../reservations_menu.class.php';
 require_once dirname(__FILE__) . '/../../calendar/reservations_calendar_mini_month_renderer.class.php';
 require_once dirname(__FILE__) . '/../../calendar/reservations_calendar_week_renderer.class.php';
 
-class ReservationsManagerAdminReservationBrowserComponent extends ReservationsManagerComponent
+class ReservationsManagerAdminReservationBrowserComponent extends ReservationsManager
 {
     private $ab;
 

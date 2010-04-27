@@ -11,6 +11,7 @@ class CourseRequest extends DataClass
     const CLASS_NAME = __CLASS__;
     
     const PROPERTY_COURSE_ID = 'course_id';
+    const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_NAME_USER = 'name_user';
     const PROPERTY_COURSE_NAME = 'course_name';
     const PROPERTY_TITLE = 'title';
@@ -22,6 +23,7 @@ class CourseRequest extends DataClass
     {
         return parent :: get_default_property_names(array(
         		  self :: PROPERTY_COURSE_ID,
+        		  self :: PROPERTY_USER_ID,
          		  self :: PROPERTY_NAME_USER,
          		  self :: PROPERTY_COURSE_NAME,
         		  self :: PROPERTY_TITLE,
@@ -38,6 +40,11 @@ class CourseRequest extends DataClass
     function get_course_id()
     {
         return $this->get_default_property(self :: PROPERTY_COURSE_ID);
+    }
+    
+    function get_user_id()
+    {
+    	return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
     
 	function get_name_user()
@@ -73,6 +80,11 @@ class CourseRequest extends DataClass
     function set_course_id($course_id)
     {
         return $this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
+    }
+    
+    function set_user_id($user_id)
+    {
+    	return $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
     }
     
     function set_name_user($name_user)

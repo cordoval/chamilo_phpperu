@@ -1,4 +1,12 @@
 /*********************************************
+ * jQuery CSS: Form tabs ElementFinder
+ *********************************************/
+
+#form_tabs ul.tree-menu, #form_tabs ul.tree-menu ul {
+	display: block;
+}
+
+/*********************************************
  * jQuery CSS: Form tabs
  *********************************************/
 .form_tab {

@@ -4,10 +4,9 @@
  * @package application.lib.linker.linker_manager.component
  */
 require_once dirname(__FILE__) . '/../linker_manager.class.php';
-require_once dirname(__FILE__) . '/../linker_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/link_form.class.php';
 
-class LinkerManagerCreatorComponent extends LinkerManagerComponent
+class LinkerManagerCreatorComponent extends LinkerManager
 {
 
     /**

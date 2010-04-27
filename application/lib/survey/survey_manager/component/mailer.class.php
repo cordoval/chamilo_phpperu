@@ -291,6 +291,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $reply[Mail :: NAME] = '';
         $reply[Mail :: EMAIL] = $email->get_reply_address();
         $mail->set_reply($reply);
+        
         // Check whether it was sent successfully
         if ($mail->send() === FALSE)
         {

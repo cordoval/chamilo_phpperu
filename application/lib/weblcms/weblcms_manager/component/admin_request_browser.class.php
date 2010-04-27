@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/admin_request_browser/admin_request_browser_table.class.php';
 /**
  * Weblcms component which allows the the platform admin to browse the request

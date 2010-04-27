@@ -4,11 +4,10 @@
  * @package application.personal_calendar.personal_calendar_manager.component
  */
 require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_calendar_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_mini_month_renderer.class.php';
 require_once dirname(__FILE__) . '/../../personal_calendar_publication_form.class.php';
 
-class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComponent
+class PersonalCalendarManagerEditorComponent extends PersonalCalendarManager
 {
 
     /**
@@ -61,7 +60,7 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
                 
                 if ($publication_form->validate())
                 {
-                    $success = $publication_form->update_personal_calendar_publication();
+                    $success = $publication_form->update_calendar_event_publication();
                     $this->redirect(Translation :: get(($success ? 'PersonalCalendarPublicationUpdated' : 'PersonalCalendarPublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
                 }
                 else

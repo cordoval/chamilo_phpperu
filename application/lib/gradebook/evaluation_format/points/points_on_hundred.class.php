@@ -8,7 +8,7 @@ class PointsOnHundred extends EvaluationFormat
 	const STEP = 1;
 	
 	const DEFAULT_ACTIVE_VALUE = 0;
-	const EVALUATION_FORMAT_NAME = 'points on hundred';
+	const EVALUATION_FORMAT_NAME = 'Points on hundred';
 	
 	function PointsOnHundred()
 	{

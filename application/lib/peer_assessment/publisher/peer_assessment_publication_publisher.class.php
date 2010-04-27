@@ -2,7 +2,6 @@
 /**
  * author: Nick Van Loocke
  */
-
 require_once dirname(__FILE__) . '/../forms/peer_assessment_publication_form.class.php';
 
 class PeerAssessmentPublicationPublisher
@@ -57,6 +56,7 @@ class PeerAssessmentPublicationPublisher
     
     function publish_content_object($object)
     {    	
+    	$published = false;
     	$parameters = $this->parent->get_parameters();
         $parameters['object'] = $object;
         
@@ -65,24 +65,9 @@ class PeerAssessmentPublicationPublisher
     	if ($form->validate())
         {
         	$publication = $form->create_content_object_publication();
-        
-	        if (!$publication)
-	        {
-	            $message = Translation :: get('ObjectNotPublished');
-	        }
-	        else
-	        {
-	            $message = Translation :: get('ObjectPublished');
-	        }
-	        
-	        $this->parent->redirect($message, null, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));       
-	 
+        	$published = true;
         }
-    	else
-        {
-            $html[] = $form->toHtml();
-        }
-        return implode("\n", $html);
+        return $published;
     }
     
 }

@@ -12,6 +12,10 @@ class CourseUserCategoryForm extends FormValidator
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
     
+    const COURSE_TYPE_TARGET = 'course_type_target';
+   	const COURSE_TYPE_TARGET_ELEMENTS = 'course_type_target_elements';
+   	const COURSE_TYPE_TARGET_OPTION = 'course_type_target_option';
+    
     private $courseusercategory;
     private $user;
     private $parent;
@@ -41,9 +45,34 @@ class CourseUserCategoryForm extends FormValidator
     {
         $this->addElement('text', CourseUserCategory :: PROPERTY_TITLE, Translation :: get('Title'), array("maxlength" => 50, "size" => 50));
         $this->addRule(CourseUserCategory :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
-		$course_types = $this->get_course_types();
+        
+        $course_types = $this->get_course_types();
         $this->addElement('select', CourseTypeUserCategory::PROPERTY_COURSE_TYPE_ID, Translation :: get('CourseType'), $course_types);
-    //$this->addElement('submit', 'course_user_category', Translation :: get('Ok'));
+        
+        /*
+        $attributes = array();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/weblcms/xml_feeds/xml_course_type_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('SelectRecipients');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        $attributes['locale'] = $locale;
+        $attributes['defaults'] = array();
+
+        /*
+        $legend_items = array();
+        $legend_items[] = new ToolbarItem(Translation :: get('UserGroup'), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+
+        $legend = new Toolbar();
+        $legend->set_items($legend_items);
+        $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
+        */
+        /*
+        $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+        $element_finder->excludeElements($attributes['exclude']);
+        $this->addElement($element_finder);
+    	*/
     }
 
     function build_editing_form()
@@ -99,7 +128,7 @@ class CourseUserCategoryForm extends FormValidator
         
         return $coursetypeusercategory->create();
     }
-
+    
     function get_course_types()
     {
     	$course_types = array();

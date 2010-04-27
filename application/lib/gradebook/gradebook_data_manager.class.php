@@ -36,7 +36,6 @@ abstract class GradebookDataManager {
 			self :: $instance = new $class ();
 
 		}
-
 		return self :: $instance;
 	}
 
@@ -68,6 +67,8 @@ abstract class GradebookDataManager {
 	abstract function create_internal_item($internal_item);
 	
 	abstract function delete_internal_item($internal_item);
+	
+	abstract function retrieve_internal_item($id);
 	
 	// internal item instance
 	abstract function delete_internal_item_instance($internal_item_instance);
@@ -132,7 +133,11 @@ abstract class GradebookDataManager {
 	
 	abstract function retrieve_applications_with_evaluations();
 	
-	abstract function retrieve_internal_items_by_application($application);
+	abstract function retrieve_calculated_internal_items();
+	
+	abstract function retrieve_internal_items_by_application($condition, $offset = null, $count = null, $order_property = null);
+	
+	abstract function count_internal_items_by_application($condition);
 	/*
 	abstract function create_gradebook_rel_user($gradebookreluser);
 

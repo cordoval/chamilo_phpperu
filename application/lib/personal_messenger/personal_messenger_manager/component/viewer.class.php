@@ -6,10 +6,9 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_manager_component.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 
-class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerComponent
+class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
 {
     private $folder;
     private $publication;

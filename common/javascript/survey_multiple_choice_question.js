@@ -39,14 +39,14 @@ $(function ()
 	{
 		ev.preventDefault();
 		
-		var answerType = $('#mc_answer_type').val(),
+		var answerType = parseInt($('#mc_answer_type').val(), 10),
 			newLabel = getTranslation('SwitchToCheckboxes', 'repository'),
-			newType = 'radio',
+			newType = 1,
 			counter = 0;
 		
-		if (answerType === 'radio')
+		if (answerType === 1)
 		{
-			newType = 'checkbox';
+			newType = 2;
 			newLabel = getTranslation('SwitchToRadioButtons', 'repository');
 		}
 		

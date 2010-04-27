@@ -1,7 +1,7 @@
 <?php
 abstract class PeerAssessmentQuestionDisplay
 {
-    private $clo_question;
+    /*private $clo_question;
     private $question;
     private $question_nr;
     private $formvalidator;
@@ -178,7 +178,7 @@ abstract class PeerAssessmentQuestionDisplay
         
         }
         return implode(' ', $new_value);
-    }
+    }*/
 
 }
 ?>

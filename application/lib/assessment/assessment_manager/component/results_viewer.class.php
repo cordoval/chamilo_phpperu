@@ -4,7 +4,6 @@
  * @package application.lib.assessment.assessment_manager.component
  */
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../trackers/assessment_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts_tracker.class.php';
 
@@ -13,7 +12,7 @@ require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
+class AssessmentManagerResultsViewerComponent extends AssessmentManager
 {
     private $current_attempt_id;
 	private $trail;

@@ -18,7 +18,7 @@ class CourseRights extends DataClass
     const PROPERTY_CODE = 'code';
 
     private $group_subscribe_rights = array();
-    private $goup_unsubscribe_rights = array();
+    private $group_unsubscribe_rights = array();
     
     /**
      * Get the default properties of all courses.
@@ -114,14 +114,14 @@ class CourseRights extends DataClass
 		if($this->get_direct_subscribe_available() || $this->get_request_subscribe_available() || $this->get_code_subscribe_available())
 		{
 			//Check if the group right has already been retrieved from the database.
-			if(isset($group_subscribe_rights[$group_id]))
+			if(isset($this->group_subscribe_rights[$group_id]))
 			{
 				//if the value is numeric it means that the right is set in the parent of the group
 				//so return the parent's right else the group's right
-				if(is_numeric($group_subscribe_rights[$group_id]))
-					return $this->can_group_subscribe($group_subscribe_rights[$group_id]);
+				if(is_numeric($this->group_subscribe_rights[$group_id]))
+					return $this->can_group_subscribe($this->group_subscribe_rights[$group_id]);
 				else
-					return $group_subscribe_rights[$group_id]->get_subscribe();
+					return $this->group_subscribe_rights[$group_id]->get_subscribe();
 			}
 			//else retrieve group from the database
 			else
@@ -149,7 +149,7 @@ class CourseRights extends DataClass
 							break;
 					}
 					//register the right in the rightsarray and return.
-					$group_subscribe_rights[$group_id] = $right;
+					$this->group_subscribe_rights[$group_id] = $right;
 					return $right->get_subscribe();
 				}
 				//no result
@@ -159,17 +159,49 @@ class CourseRights extends DataClass
 					$group = GroupDataManager :: get_instance()->retrieve_group($group_id);
 					if(!empty($group))
 					{
-						$group_subscribe_rights[$group_id] = $group->get_parent();
+						$this->group_subscribe_rights[$group_id] = $group->get_parent();
 						return $this->can_group_subscribe($group->get_parent());
 					}
-					//if not, register group in the rightsarray with no right and return the right.
 					else
 					{
 						$right = new CourseGroupSubscribeRight();
-						$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
-						$group_subscribe_rights[$group_id] = $right;
-						return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;
+						$validation = false;
+						//check for the everybody right
+						$condition_course_id = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $this->get_course_id());
+						$condition_right = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT);
+						$condition = new AndCondition(array($condition_course_id, $condition_right));	
+						$count =  WeblcmsDatamanager::get_instance()->count_course_group_subscribe_rights($condition);
+						if($count == 0 && $this->get_direct_subscribe_available())
+						{
+							$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT);
+							$validation = true;
+						}
+
+						$condition_right = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST);
+						$condition = new AndCondition(array($condition_course_id, $condition_right));	
+						$count =  WeblcmsDatamanager::get_instance()->count_course_group_subscribe_rights($condition);
+						if($count == 0 && $this->get_request_subscribe_available() && !$validation)
+						{
+							$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST);
+							$validation = true;
+						}
+						
+						$condition_right = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, CourseGroupSubscribeRight :: SUBSCRIBE_CODE);
+						$condition = new AndCondition(array($condition_course_id, $condition_right));	
+						$count =  WeblcmsDatamanager::get_instance()->count_course_group_subscribe_rights($condition);
+						if($count == 0 && $this->get_code_subscribe_available() && !$validation)
+						{
+							$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_CODE);
+							$validation = true;
+						}
+						//if not, register group in the rightsarray with no right and return the right.
+						if(!$validation)
+							$right->set_subscribe(CourseGroupSubscribeRight :: SUBSCRIBE_NONE);
+						
+						$this->group_subscribe_rights[$group_id] = $right;
+						return $right->get_subscribe();
 					}
+
 				}
 			}
 		}
@@ -180,17 +212,27 @@ class CourseRights extends DataClass
 	{
 		if($this->get_unsubscribe_available())
 		{
-			if(isset($group_unsubscribe_rights[$group_id]))
-				return $group_unsubscribe_rights[$group_id]->get_unsubscribe();
+			if(isset($this->group_unsubscribe_rights[$group_id]))
+				return $this->group_unsubscribe_rights[$group_id]->get_unsubscribe();
 			else
 			{
 				$right = WeblcmsDatamanager::get_instance()->retrieve_course_group_unsubscribe_right($this->get_course_id(), $group_id);
 				if(empty($right))
 				{
-					$right = new CourseGroupUnsubscribeRight();
-					$right->set_unsubscribe(0);
+					$condition = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $this->get_course_id());
+					$count =  WeblcmsDatamanager::get_instance()->count_course_group_unsubscribe_rights($condition);
+					if($count == 0 && $this->get_unsubscribe_available())
+					{
+						$right = new CourseGroupUnsubscribeRight();
+						$right->set_unsubscribe(1);
+					}
+					else
+					{
+						$right = new CourseGroupUnsubscribeRight();
+						$right->set_unsubscribe(0);
+					}
 				}
-				$group_unsubscribe_rights[$group_id] = $right;
+				$this->group_unsubscribe_rights[$group_id] = $right;
 				return $right->get_unsubscribe();
 			}
 		}

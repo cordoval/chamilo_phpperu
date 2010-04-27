@@ -9,38 +9,27 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 {
 	private $ab;
 	private $content_object_ids = array();
+	private $application;
+	private $table;
 
 	function run()
 	{
-		if (!GradebookRights :: is_allowed(GradebookRights :: VIEW_RIGHT, GradebookRights :: LOCATION_BROWSER, 'gradebook_component'))
-		{
-			$this->display_header($trail);
-			$this->display_error_message(Translation :: get('NotAllowed'));
-			$this->display_footer();
-			exit;
-		}
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
 
-		$this->display_header($trail);
-		$this->ab = $this->get_action_bar();
 //		echo $this->ab->as_html();
-		$applications = $this->retrieve_applications_with_evaluations();
-		echo $this->get_application_tabs($applications);
+		$applications = array_merge($this->retrieve_applications_with_evaluations(), $this->retrieve_calculated_applications_with_evaluation());
 		if(Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE))
 		{
-			$application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
-			$internal_items = $this->retrieve_internal_items_by_application($application);
-			while($internal_item = $internal_items->next_result())
-			{
-				$application_manager = WebApplication :: factory($internal_item->get_application());
-				$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
-				$this->content_object_ids[] = $attributes->get_publication_object_id();;
-			}
-			$this->get_condition();
-			$table = new GradebookPublicationBrowserTable($this);
-			echo $table->as_html($this);
+			$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
+			$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME, GradebookManager :: PARAM_PUBLICATION_TYPE => $this->application)), Translation :: get('BrowsePublicationsOf') . ' ' . $this->application));
+			$this->table = new GradebookPublicationBrowserTable($this);
 		}
+		$this->display_header($trail);
+		$this->ab = $this->get_action_bar();
+		echo $this->get_application_tabs($applications);
+		if ($this->table)
+			echo $this->table->as_html($this);
 		$this->display_footer();
 	}
 
@@ -54,7 +43,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	
 	function get_condition()
 	{
-		return new InCondition(ContentObject :: PROPERTY_ID, $this->content_object_ids, ContentObject :: CLASS_NAME);
+		return new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application, InternalItem :: CLASS_NAME);
 	}
 	
 	function get_application_tabs($applications)

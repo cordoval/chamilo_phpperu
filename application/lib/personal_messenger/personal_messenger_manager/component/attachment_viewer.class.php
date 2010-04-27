@@ -4,12 +4,11 @@
  * @package application.personal_messenger.personal_messenger_manager.component
  */
 require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_manager_component.class.php';
 require_once dirname(__FILE__) . '/publication_browser/publication_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../personal_messenger_menu.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 
-class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessengerManagerComponent
+class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessengerManager
 {
     private $publication;
 
