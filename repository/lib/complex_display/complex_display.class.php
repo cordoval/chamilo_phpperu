@@ -279,7 +279,7 @@ abstract class ComplexDisplay
 
     private function build_menu()
     {
-        $this->menu = new ComplexMenu($this->get_root_lo(), $this->get_cloi());
+        $this->menu = new ComplexMenu($this->get_root_lo(), $this->get_cloi(), $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_CLO)));
     }
 
     function get_root()

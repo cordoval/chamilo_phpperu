@@ -55,7 +55,7 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
             else
             {
                 $trail = $this->get_clo_breadcrumbs();
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $selected_cloi)), Translation :: get('Edit')));
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $selected_cloi)), Translation :: get('EditWikiPage')));
             	$this->display_header($trail);
             	$form->display();
             	$this->display_footer();
