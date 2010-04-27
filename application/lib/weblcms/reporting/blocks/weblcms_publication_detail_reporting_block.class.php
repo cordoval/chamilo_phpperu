@@ -13,7 +13,7 @@ class WeblcmsPublicationDetailReportingBlock extends WeblcmsToolReportingBlock
 		$course_id = $this->get_course_id();
 		$user_id = $this->get_user_id();
 		$tool = $this->get_tool();
-		$pid = $this->get_pid();
+		$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 
         $tracker = new VisitTracker();
         $wdm = WeblcmsDataManager :: get_instance();

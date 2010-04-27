@@ -116,14 +116,21 @@ class PersonalMessagePublicationForm extends FormValidator
         $recipients = $values['recipients'];
         
         if ($extra_rec && (count($extra_rec) > 0))
-        {
-            $selected_users = array_merge($extra_rec, $recipients['user']);
+        { 
+            if($recipients['user'])
+            {
+        		$selected_users = array_merge($extra_rec, $recipients['user']);
+            }
+            else
+            {
+            	$selected_users = $extra_rec;
+            }
         }
         else
         {
             $selected_users = $recipients['user'];
         }
-        
+
         foreach ($recipients['group'] as $group)
         {
             $grus = GroupDataManager :: get_instance()->retrieve_group_rel_users(new EqualityCondition('group_id', $group));
@@ -140,12 +147,11 @@ class PersonalMessagePublicationForm extends FormValidator
             {
                 if (! in_array($user, $this->sent_users))
                 {
-                    $this->send_to_recipient($user);
+                    if(!$this->send_to_recipient($user))
+                    {
+                    	$failures ++;
+                    }
                 }
-            }
-            else
-            {
-                $failures ++;
             }
         }
         
@@ -181,15 +187,16 @@ class PersonalMessagePublicationForm extends FormValidator
             if ($recipient_pub->create())
             {
                 $this->sent_users[] = $recip;
+                return true;
             }
             else
             {
-                $this->failures ++;
+               return false;
             }
         }
         else
         {
-            $this->failures ++;
+            return false;
         }
     
     }

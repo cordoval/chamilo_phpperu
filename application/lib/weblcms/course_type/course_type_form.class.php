@@ -8,7 +8,15 @@ require_once dirname(__FILE__) . '/../course/common_form.class.php';
 
 class CourseTypeForm extends CommonForm
 {
+   	
+   	const CREATION_TARGET = 'creation_groups';
+   	const CREATION_ELEMENTS = 'creation_groups_elements';
+   	const CREATION_OPTION = 'creation_groups_option';
 
+   	const CREATION_ON_REQUEST_TARGET = 'creation_on_request_groups';
+   	const CREATION_ON_REQUEST_ELEMENTS = 'creation_on_request_groups_elements';
+   	const CREATION_ON_REQUEST_OPTION = 'creation_on_request_groups_option';
+   	
 	function CourseTypeForm($form_type, $course_type, $action, $parent)
 	{
 		parent :: __construct($form_type, $course_type, $action, $parent, 'course_type_settings', 'post');
@@ -22,6 +30,7 @@ class CourseTypeForm extends CommonForm
 		$tabs[] = new FormValidatorTab('build_layout_form', 'Layout');
 		$tabs[] = new FormValidatorTab('build_tools_form', 'Tools');
 		$tabs[] = new FormValidatorTab('build_rights_form', 'RightsManagement');
+		$tabs[] = new FormValidatorTab('build_creation_rights_form', 'CreationRightsManagement');
 		
 		$this->add_tabs($tabs, 0);
 	}
@@ -240,6 +249,40 @@ class CourseTypeForm extends CommonForm
 		$this->addElement('category');
 	}
 	
+	function build_creation_rights_form()
+	{
+		$attributes = array();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('SelectRecipients');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        $attributes['locale'] = $locale;
+       // $attributes['exclude'] = array('user_' . $this->tool->get_user_id());
+        $attributes['defaults'] = array();
+
+        $legend_items = array();
+        //$legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        //$legend_items[] = new ToolbarItem(Translation :: get('LinkedUser'), Theme :: get_common_image_path() . 'treemenu/user_platform.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        $legend_items[] = new ToolbarItem(Translation :: get('UserGroup'), Theme :: get_common_image_path() . 'treemenu/group.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+
+        $legend = new Toolbar();
+        $legend->set_items($legend_items);
+        $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
+
+        $this->addElement('category', Translation :: get('CreationRights'));
+        $this->addElement('checkbox', CourseTypeRights :: PROPERTY_CREATION_AVAILABLE, Translation :: get('CreationAvailable'), '', array('class' => 'available creation'));
+        $this->addElement('html', '<div id="creationBlock">');
+        $this->add_receivers(self :: CREATION_TARGET, Translation :: get('CreationFor'), $attributes, 'Everybody');
+        $this->addElement('html', '</div>');
+        $this->addElement('checkbox', CourseTypeRights :: PROPERTY_CREATION_ON_REQUEST_AVAILABLE, Translation :: get('CreationOnRequestAvailable'), '', array('class' => 'available creation_on_request'));
+        $this->addElement('html', '<div id="creation_on_requestBlock">');
+        $this->add_receivers(self :: CREATION_ON_REQUEST_TARGET, Translation :: get('CreationOnRequestFor'), $attributes, 'Everybody');
+        $this->addElement('html', '</div>');
+        $this->addElement('category');
+	}
+	
 	function update()
 	{
 		$course_type = $this->fill_general_settings();
@@ -258,7 +301,7 @@ class CourseTypeForm extends CommonForm
 		$wdm = WeblcmsDataManager::get_instance();
 		$previous_rights = null;
 		$course_type_rights = null;
-		for($i=0;$i<2;$i++)
+		for($i=0;$i<3;$i++)
 		{
 			switch($i)
 			{
@@ -269,6 +312,10 @@ class CourseTypeForm extends CommonForm
 				case 1:
 					$previous_rights = $wdm->retrieve_course_type_group_unsubscribe_rights($this->object->get_id());
 					$course_type_rights = $this->fill_unsubscribe_rights();
+					break;
+				case 2:
+					$previous_rights = $wdm->retrieve_course_type_group_creation_rights($this->object->get_id());
+					$course_type_rights = $this->fill_creation_rights();
 					break;
 			}
 			while($previous_right = $previous_rights->next_result())
@@ -430,6 +477,13 @@ class CourseTypeForm extends CommonForm
 				return false;
 		}
 		
+		$course_type_create_rights = $this->fill_creation_rights();
+		foreach($course_type_create_rights as $right)
+		{
+			if(!$right->create())
+				return false;
+		}
+		
 		$course_type_settings = $this->fill_settings();
 
 		if (!$course_type_settings->create())
@@ -537,7 +591,58 @@ class CourseTypeForm extends CommonForm
 		$rights->set_request_subscribe_fixed($this->parse_checkbox_value($values[CourseTypeRights :: PROPERTY_REQUEST_SUBSCRIBE_FIXED]));
 		$rights->set_code_subscribe_fixed($this->parse_checkbox_value($values[CourseTypeRights :: PROPERTY_CODE_SUBSCRIBE_FIXED]));
 		$rights->set_unsubscribe_fixed($this->parse_checkbox_value($values[CourseTypeRights :: PROPERTY_UNSUBSCRIBE_FIXED]));
+		$rights->set_creation_available($this->parse_checkbox_value($values[CourseTypeRights :: PROPERTY_CREATION_AVAILABLE]));
+		$rights->set_creation_on_request_available($this->parse_checkbox_value($values[CourseTypeRights :: PROPERTY_CREATION_ON_REQUEST_AVAILABLE]));
 		return $rights;
+	}
+	
+	function fill_creation_rights()
+	{
+		$values = $this->exportValues();
+		$groups_array = array();
+		$group_key_check = array();
+		
+		for($i=0;$i<2;$i++)
+		{
+			$option = null;
+			$target = null;
+			$subscribe = null;
+			$available = null;
+			switch($i)
+			{
+				case 0: $target = self :: CREATION_ELEMENTS;
+						$option = self :: CREATION_OPTION;
+						$available = CourseTypeRights::PROPERTY_CREATION_AVAILABLE;
+						$subscribe = CourseTypeGroupCreationRight::CREATE_DIRECT;
+						break;
+				case 1: $target = self :: CREATION_ON_REQUEST_ELEMENTS;
+						$option = self :: CREATION_ON_REQUEST_OPTION;
+						$available = CourseTypeRights::PROPERTY_CREATION_ON_REQUEST_AVAILABLE;
+						$subscribe = CourseTypeGroupCreationRight::CREATE_REQUEST;
+						break;
+			}
+			if($values[$option] && $values[$available])
+			{
+				foreach($values[$target]['group'] as $value)
+				{
+					if(!in_array($value, $group_key_check) && !in_array(0, $group_key_check))
+					{
+						$course_type_group_rights = new CourseTypeGroupCreationRight();
+						$course_type_group_rights->set_course_type_id($this->object->get_id());
+						$course_type_group_rights->set_group_id($value);
+						$course_type_group_rights->set_create($subscribe);
+						$groups_array[] = $course_type_group_rights;
+						$group_key_check[] = $value;
+					}
+				}
+			}
+			else
+			{
+				if(!in_array(0, $group_key_check) && $values[$available])
+					$group_key_check[] = 0;
+			}
+		}
+		return $groups_array;
 	}
 		
 	function fill_course_settings($course)
@@ -610,6 +715,54 @@ class CourseTypeForm extends CommonForm
 		$defaults[CourseTypeRights :: PROPERTY_REQUEST_SUBSCRIBE_FIXED] = $course_type_rights->get_request_subscribe_fixed();
 		$defaults[CourseTypeRights :: PROPERTY_CODE_SUBSCRIBE_FIXED] = $course_type_rights->get_code_subscribe_fixed();
 		$defaults[CourseTypeRights :: PROPERTY_UNSUBSCRIBE_FIXED] = $course_type_rights->get_unsubscribe_fixed();
+		$defaults[CourseTypeRights :: PROPERTY_CREATION_AVAILABLE] = !is_null($course_type_rights->get_creation_available())? $course_type_rights->get_creation_available():1;
+		$defaults[CourseTypeRights :: PROPERTY_CREATION_ON_REQUEST_AVAILABLE] = !is_null($course_type_rights->get_creation_on_request_available())? $course_type_rights->get_creation_on_request_available():0;
+		
+		$defaults[self :: CREATION_OPTION] = '0';
+		$defaults[self :: CREATION_ON_REQUEST_OPTION] = '0';
+		
+		if(!is_null($course_type->get_id()))
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			
+			$group_create_rights = $wdm->retrieve_course_type_group_creation_rights($course_type->get_id());
+				
+			while($right = $group_create_rights->next_result())
+			{
+				if($right->get_group_id() != 0)
+				{
+					$element = null;
+					switch($right->get_create())
+					{
+						case CourseTypeGroupCreationRight :: CREATE_DIRECT: 
+							$element = self :: CREATION_ELEMENTS;
+							break;
+						case CourseTypeGroupCreationRight :: CREATE_REQUEST: 
+							$element = self :: CREATION_ON_REQUEST_ELEMENTS;
+							break;
+					}
+					
+					$selected_group = $this->get_group_array($right->get_group_id());
+			        $defaults[$element][$selected_group['id']] = $selected_group;
+				}
+			}
+			
+			
+			if (count($defaults[self :: CREATION_ELEMENTS]) > 0)
+			{
+	            $defaults[self :: CREATION_OPTION] = '1';
+	            $active = $this->getElement(self :: CREATION_ELEMENTS);
+	        	$active->setValue($defaults[self :: CREATION_ELEMENTS]);
+			}
+	        
+	    	if (count($defaults[self :: CREATION_ON_REQUEST_ELEMENTS]) > 0)
+	    	{
+	            $defaults[self :: CREATION_ON_REQUEST_OPTION] = '1';
+	            $active = $this->getElement(self :: CREATION_ON_REQUEST_ELEMENTS);
+	        	$active->setValue($defaults[self :: CREATION_ON_REQUEST_ELEMENTS]);
+	    	}
+			
+		}
 		
 		//Layout defaults.
 		$course_type_id = $this->object->get_layout_settings()->get_course_type_id();

@@ -181,7 +181,6 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         $user = UserDataManager :: get_instance()->retrieve_user($user_id);
         return $user;
     }
-
     
     
     function get_questions($page_number)

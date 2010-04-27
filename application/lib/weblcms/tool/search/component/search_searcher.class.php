@@ -150,7 +150,9 @@ class SearchToolSearcherComponent extends SearchToolComponent
     {
         $query = $this->get_query();
         if (! $query)
-            $query = Request :: post('query');
+        {
+        	$query = Request :: post('query');
+        }
 
         if (isset($query) && $query != '')
         {
@@ -164,7 +166,13 @@ class SearchToolSearcherComponent extends SearchToolComponent
 
     function get_query()
     {
-        return $this->action_bar->get_query();
+        $query = trim($this->action_bar->get_query());
+        if($query == '')
+        {
+        	return null;
+        }
+        
+        return $query;
     }
 }
 ?>

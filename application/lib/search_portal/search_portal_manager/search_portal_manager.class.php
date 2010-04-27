@@ -48,8 +48,12 @@ class SearchPortalManager extends WebApplication
     {
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchPortal')));
-        if (Request :: get('query'))
-            $trail->add(new Breadcrumb($this->get_url(array('query' => Request :: get('query'), 'submit' => 'Search')), Translation :: get('SearchResultsFor') . ': ' . Request :: get('query')));
+        
+        $query = trim(Request :: get('query'));
+        
+        if ($query && $query != '')
+            $trail->add(new Breadcrumb($this->get_url(array('query' => Request :: get('query'), 'submit' => 'Search')), Translation :: get('SearchResultsFor') . ' ' . Request :: get('query')));
+            
         $supports_remote = WebServiceSearchSource :: is_supported();
         Display :: header($trail);
         Display :: tool_title(Translation :: get('SearchPortal'));
@@ -84,8 +88,8 @@ class SearchPortalManager extends WebApplication
         if ($form->validate())
         {
             $form_values = $form->exportValues();
-            $query = $form_values[self :: PARAM_QUERY];
-            if (! empty($query))
+            $query = trim($form_values[self :: PARAM_QUERY]);
+            if (! empty($query) && $query != '')
             {
                 $url = trim($form_values[self :: PARAM_URL]);
                 if (! empty($url))

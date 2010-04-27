@@ -9,6 +9,8 @@ class AssessmentGradebookConnector extends GradeBookConnector
         $condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication_id);
         
         $trackers = $dummy->retrieve_tracker_items($condition);
+        if(!$trackers)
+        	return false;
 		return $trackers[0]->get_total_score();
 	}
 	

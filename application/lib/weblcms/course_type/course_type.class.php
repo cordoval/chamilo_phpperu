@@ -161,6 +161,24 @@ class CourseType extends DataClass
         $this->tools = $tools;
     }
 
+    
+    /**
+     * Retrieves the creation right of the user
+     */
+    function can_user_create($user)
+    {
+    	$current_right = $this->rights->can_group_create(0);
+        $group_ids = $user->get_groups(true);
+        foreach($group_ids as $group_id)
+        {
+        	$right = $this->rights->can_group_create($group_id);
+				
+        	if($right > $current_right)
+        		$current_right = $right;      		    		
+        }        
+        return $current_right;
+    }
+    
     /**
      * Creates the course type object in persistent storage
      * @return boolean

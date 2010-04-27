@@ -127,7 +127,8 @@ interface WeblcmsDataManagerInterface
      function create_course_type_layout($course_type_layout);
     
      function create_course_type_rights($course_type_rights);
-
+	
+      
     /**
     * Updates the specified course_type in persistent storage,
     * making any changes permanent.

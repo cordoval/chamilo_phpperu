@@ -59,7 +59,14 @@ class Course extends DataClass
 
 	private $course_type;
 
-
+	function Course($defaultProperties = array (), $optionalProperties = array())
+	{
+		parent :: __construct($defaultProperties, $optionalProperties);
+		
+		
+	}
+	
+	
     /**
      * Get the default properties of all courses.
      * @return array The property names.
@@ -758,6 +765,23 @@ class Course extends DataClass
         }        
         return $current_right;
     }
+    
+	function can_user_unsubscribe($user)
+    {
+    	//TODO : remove 0 !!
+    	$current_right = $this->can_group_unsubscribe(0);
+        $group_ids = $user->get_groups(true);
+        foreach($group_ids as $group_id)
+        {
+        	$right = $this->can_group_unsubscribe($group_id);
+				
+        	if($right > $current_right)
+        		$current_right = $right;      		    		
+        }        
+        return $current_right;
+    }
+    
+    
     
     function can_group_subscribe($group_id)
     {

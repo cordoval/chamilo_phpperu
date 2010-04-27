@@ -4,7 +4,6 @@
  * @package application.lib.forum.forum_manager.component
  */
 require_once dirname(__FILE__) . '/../forum_manager.class.php';
-require_once dirname(__FILE__) . '/../forum_manager_component.class.php';
 
 /**
  * Component to view a new forum_publication object
@@ -20,7 +19,7 @@ class ForumManagerViewerComponent extends ForumManager
     function run()
     {
         $this->trail = $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
+        $trail->add(new Breadcrumb(parent :: get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
         
         $pid = Request :: get('pid');
         $trail->add(new Breadcrumb($this->get_url(array('display_action' => 'view_forum', 'pid' => $pid)), Translation :: get('ViewForum')));

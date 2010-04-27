@@ -61,13 +61,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         else
         {
         	$course = WeblcmsDataManager :: get_instance()->retrieve_course($course->get_id());
-        	
-        	$conditions = array();
-        	$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $id);
-        	//$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, $id);
-        	$teller = WeblcmsDataManager :: get_instance()->count_requests_by_course($conditions);
         	$current_right = $course->can_user_subscribe($this->browser->get_user());
-//        	dump($teller);
         	
         	switch($current_right)
         	{
@@ -80,7 +74,17 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			break;
         		
         		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :
+        			$conditions = array();
+        			$date_conditions = array();
 					
+        			$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $course->get_id());
+        			$date_conditions[] = new InequalityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, date('Y-m-d H:i:s'));
+        			$date_conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, NULL);
+        
+        			$conditions[] = new OrCondition($date_conditions);
+        			$condition = new AndCondition($conditions);
+        			
+        			$teller = WeblcmsDataManager :: get_instance()->count_requests_by_course($condition);
         			if($teller == 0)
         			{
         				$course_request_form_url = $this->browser->get_course_request_form_url($course);
@@ -90,10 +94,10 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         					'img' => Theme :: get_common_image_path() . 'action_request.png');
         			}
         			else
-        			{       				
+        			{	
         				return Translation :: get('Pending');
-        			}       				     			
-  		       		break;
+        			}
+        			break;
         			
         		case CourseGroupSubscribeRight :: SUBSCRIBE_CODE :     		
         			$course_code_url = $this->browser->get_course_code_url($course);

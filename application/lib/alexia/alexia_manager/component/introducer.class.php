@@ -4,10 +4,9 @@
  * @package application.lib.alexia.alexia_manager.component
  */
 require_once dirname(__FILE__) . '/../alexia_manager.class.php';
-require_once dirname(__FILE__) . '/../alexia_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/alexia_publication_form.class.php';
 
-class AlexiaManagerIntroducerComponent extends AlexiaManagerComponent
+class AlexiaManagerIntroducerComponent extends AlexiaManager
 {
 
     function run()

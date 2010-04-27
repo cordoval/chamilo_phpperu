@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../course/course_user_relation_form.class.php';
 require_once dirname(__FILE__) . '/../../course/course_user_category_form.class.php';
 /**

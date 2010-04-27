@@ -5,11 +5,10 @@
  */
 
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../assessment_publication_category_menu.class.php';
 require_once dirname(__FILE__) . '/assessment_publication_browser/assessment_publication_browser_table.class.php';
 
-class AssessmentManagerBuilderComponent extends AssessmentManagerComponent
+class AssessmentManagerBuilderComponent extends AssessmentManager
 {
     function run()
     {

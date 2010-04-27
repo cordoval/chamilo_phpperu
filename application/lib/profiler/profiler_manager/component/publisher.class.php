@@ -4,10 +4,9 @@
  * @package application.profiler.profiler_manager.component
  */
 require_once dirname(__FILE__) . '/../profiler_manager.class.php';
-require_once dirname(__FILE__) . '/../profiler_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../publisher/profile_publisher.class.php';
 
-class ProfilerManagerPublisherComponent extends ProfilerManagerComponent
+class ProfilerManagerPublisherComponent extends ProfilerManager
 {
 
     /**

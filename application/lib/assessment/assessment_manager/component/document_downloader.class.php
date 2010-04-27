@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../../trackers/assessment_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts_tracker.class.php';
 
-class AssessmentManagerDocumentDownloaderComponent extends AssessmentManagerComponent
+class AssessmentManagerDocumentDownloaderComponent extends AssessmentManager
 {
 
     function run()

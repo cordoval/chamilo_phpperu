@@ -11,7 +11,7 @@ class ForumPublicationCategoryManager extends CategoryManager
 
     function ForumPublicationCategoryManager($parent)
     {
-        parent :: __construct($parent, $trail);
+        parent :: __construct($parent, null, false);
     }
 
     function get_category()
