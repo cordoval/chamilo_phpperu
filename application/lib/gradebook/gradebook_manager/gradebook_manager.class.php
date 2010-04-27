@@ -331,11 +331,6 @@ class GradebookManager extends WebApplication
 		return GradebookDataManager :: get_instance()->retrieve_applications_with_evaluations();
 	}
 	
-	function retrieve_internal_items_by_application($application)
-	{
-		return GradebookDataManager :: get_instance()->retrieve_internal_items_by_application($application);
-	}
-	
 // content objects
 	function retrieve_content_objects_by_ids($condition, $offset = null, $max_objects = null, $order_by = null)
 	{
@@ -345,6 +340,16 @@ class GradebookManager extends WebApplication
 	function count_content_objects_by_ids($condition)
 	{
 		return RepositoryDataManager :: get_instance()->count_content_objects($condition);
+	}
+// internal items
+	function retrieve_internal_items_by_application($condition, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_internal_items_by_application($condition, $offset, $count, $order_property);
+	}
+	
+	function count_internal_items_by_application($condition)
+	{
+		return GradebookDataManager :: get_instance()->count_internal_items_by_application($condition);
 	}
 // URL creation
 //***************
@@ -368,14 +373,19 @@ class GradebookManager extends WebApplication
 		return $this->get_url();
 	}
 	
-	function get_evaluations_on_publications_viewer_url($content_object)
+	function get_evaluations_on_publications_viewer_url($internal_item)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_TYPE => $content_object->get_type(), self :: PARAM_PUBLICATION_ID => $content_object->get_id()));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_TYPE => $internal_item->get_application(), self :: PARAM_PUBLICATION_ID => $internal_item->get_publication_id()));
 	}
 	
 	function get_publications_by_type_viewer_url($the_application)
 	{
 		return $this->get_url(array(GradebookManager :: PARAM_PUBLICATION_TYPE => $the_application));
 	}
+
+    function get_export_publication_url($publication_id)
+    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication_id));
+    }
 }
 ?>

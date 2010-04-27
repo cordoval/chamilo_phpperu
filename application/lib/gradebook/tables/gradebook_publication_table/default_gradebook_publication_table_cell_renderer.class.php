@@ -18,8 +18,12 @@ class DefaultGradebookPublicationTableCellRenderer implements ObjectTableCellRen
 	 * @param Format $format - The format
 	 * @return string A HTML representation of the rendered table cell
 	 */
-	function render_cell($column, $content_object)
+	function render_cell($column, $internal_item)
 	{ 
+		$application_manager = WebApplication :: factory($internal_item->get_application());
+		$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
+		$rdm = RepositoryDataManager :: get_instance();
+		$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
 		switch ($column->get_name())
 		{
 			case ContentObject :: PROPERTY_CREATION_DATE :

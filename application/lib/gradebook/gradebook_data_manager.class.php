@@ -132,7 +132,9 @@ abstract class GradebookDataManager {
 	
 	abstract function retrieve_applications_with_evaluations();
 	
-	abstract function retrieve_internal_items_by_application($application);
+	abstract function retrieve_internal_items_by_application($condition, $offset = null, $count = null, $order_property = null);
+	
+	abstract function count_internal_items_by_application($condition);
 	/*
 	abstract function create_gradebook_rel_user($gradebookreluser);
 
