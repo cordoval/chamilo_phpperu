@@ -8,6 +8,7 @@
  */
 
 require_once dirname(__FILE__) . '/complex_display_component.class.php';
+require_once dirname(__FILE__) . '/../complex_builder/complex_menu.class.php';
 
 abstract class ComplexDisplay
 {
@@ -340,6 +341,11 @@ abstract class ComplexDisplay
         $html[] = '</div>';
         
         return implode("\n", $html);
+    }
+    
+    function create_component($type, $application)
+    {
+    	return $this->get_parent()->create_component($type, $application);
     }
 }
 
