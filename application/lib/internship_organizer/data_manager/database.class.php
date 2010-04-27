@@ -16,9 +16,7 @@ require_once dirname ( __FILE__ ) . '/../region.class.php';
 require_once 'MDB2.php';
 
 class DatabaseInternshipOrganizerDataManager extends Database implements InternshipOrganizerDataManagerInterface {
-	
-	private $database;
-	
+		
 	function initialize() {
 		parent :: initialize();
 		$this->set_prefix ( 'internship_organizer_' );
