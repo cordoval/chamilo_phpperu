@@ -14,11 +14,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
 
     private $parent;
     private $peer_assessment;
-    //private $total_pages;
-    //private $total_questions;
     private $total;
-    private $total_indicators;
-    private $total_criterias;
     private $pages;
 
     function PeerAssessmentViewerWizard($parent, $peer_assessment)
@@ -54,7 +50,6 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         	}
         }*/
         
-        //$this->total_pages = 0;
         $this->total = 0;
 
         // To see the html on the next page
@@ -62,18 +57,17 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
          
         while (($complex_content_object = $complex_content_objects->next_result()))
         {
-            //$this->total_pages ++;
             $this->total ++;
-            $this->addPage(new QuestionsPeerAssessmentViewerWizardPage('question_page_' . $this->total/*$this->total_pages*/, $this, $this->total/*$this->total_pages*/));
+            $this->addPage(new QuestionsPeerAssessmentViewerWizardPage('question_page_' . $this->total, $this, $this->total));
 
             $peer_assessment_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
             $page_questions = $this->get_peer_assessment_page_questions($peer_assessment_page);
-            $this->pages[$this->total/*$this->total_pages*/] = array(page => $peer_assessment_page, questions => $page_questions);
+            $this->pages[$this->total] = array(page => $peer_assessment_page, questions => $page_questions);
         }
         
-        if (/*$this->total_pages*/$this->total == 0)
+        if ($this->total == 0)
         {
-            $this->addPage(new QuestionsPeerAssessmentViewerWizardPage('question_page_' . /*$this->total_pages*/$this->total, $this, /*$this->total_pages*/$total_competences));
+            $this->addPage(new QuestionsPeerAssessmentViewerWizardPage('question_page_' . $this->total, $this, $total_competences));
         }
 
     }
@@ -206,25 +200,10 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
     {
         return $this->peer_assessment;
     }
-
-    /*function get_total_questions()
-    {
-        return $this->total_questions;
-    }*/
-    
+   
     function get_total()
     {
     	return $this->total;
-    }
-    
-    function get_total_indicators()
-    {
-    	return $this->total_indicators;
-    }
-
-    function get_total_criterias()
-    {
-    	return $this->total_criterias;
     }
 }
 ?>
