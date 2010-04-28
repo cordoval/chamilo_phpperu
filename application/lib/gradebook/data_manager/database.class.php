@@ -406,21 +406,11 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	
 	function retrieve_internal_items_by_application($condition, $offset = null, $count = null, $order_property = null)
 	{
-		$ids = $this->database->retrieve_distinct(InternalItemInstance :: get_table_name(), InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
-		$conditions = array();
-		$conditions[] = $condition;
-		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $ids);
-		$condition = new AndCondition($conditions);
 		return $this->database->retrieve_objects(InternalItem:: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 	
 	function count_internal_items_by_application($condition)
 	{
-		$ids = $this->database->retrieve_distinct(InternalItemInstance :: get_table_name(), InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
-		$conditions = array();
-		$conditions[] = $condition;
-		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $ids);
-		$condition = new AndCondition($conditions);
 		return $this->database->count_objects(InternalItem:: get_table_name(), $condition);
 	}
 /*
