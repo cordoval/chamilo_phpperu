@@ -106,36 +106,27 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('ALG001');
-		$succes = $course->create();
+		
+		$course->set_language('english');
+		$course->set_visibility(1);
+		$course->set_access(1);
+		$course->set_max_number_of_members(0);
 
+		$course->set_intro_text(1);
+		$course->set_student_view(1);
+		$course->set_layout(1);
+		$course->set_tool_shortcut(1);
+		$course->set_menu(1);
+		$course->set_feedback(1);
+		$course->set_course_code_visible(1);
+		$course->set_course_manager_name_visible(1);
+		$course->set_course_languages_visible(1);
+		
+		$course->set_direct_subscribe_available(1);
+		$succes = $course->create();
+		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-
-		$course_settings = new CourseSettings();
-		$course_settings->set_course_id(1);
-		$course_settings->set_language('english');
-		$course_settings->set_visibility(1);
-		$course_settings->set_access(1);
-		$course_settings->set_max_number_of_members(0);
-		$succes = $succes && $course_settings->create();
-		 
-		$course_layout = new CourseLayout();
-		$course_layout->set_course_id(1);
-		$course_layout->set_intro_text(1);
-		$course_layout->set_student_view(1);
-		$course_layout->set_layout(1);
-		$course_layout->set_tool_shortcut(1);
-		$course_layout->set_menu(1);
-		$course_layout->set_feedback(1);
-		$course_layout->set_course_code_visible(1);
-		$course_layout->set_course_manager_name_visible(1);
-		$course_layout->set_course_languages_visible(1);
-		$succes = $succes && $course_layout->create();
-		
-		$course_rights = new CourseRights();
-		$course_rights->set_course_id(1);
-		$course_rights->set_direct_subscribe_available(1);
-		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
@@ -161,36 +152,27 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('ALG002');
+
+		$course->set_language('english');
+		$course->set_visibility(1);
+		$course->set_access(0);
+		$course->set_max_number_of_members(0);
+		 
+		$course->set_intro_text(1);
+		$course->set_student_view(1);
+		$course->set_layout(1);
+		$course->set_tool_shortcut(1);
+		$course->set_menu(1);
+		$course->set_feedback(1);
+		$course->set_course_code_visible(1);
+		$course->set_course_manager_name_visible(1);
+		$course->set_course_languages_visible(1);
+		
+		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-
-		$course_settings = new CourseSettings();
-		$course_settings->set_course_id(2);
-		$course_settings->set_language('english');
-		$course_settings->set_visibility(1);
-		$course_settings->set_access(0);
-		$course_settings->set_max_number_of_members(0);
-		$succes = $succes && $course_settings->create();
-		 
-		$course_layout = new CourseLayout();
-		$course_layout->set_course_id(2);
-		$course_layout->set_intro_text(1);
-		$course_layout->set_student_view(1);
-		$course_layout->set_layout(1);
-		$course_layout->set_tool_shortcut(1);
-		$course_layout->set_menu(1);
-		$course_layout->set_feedback(1);
-		$course_layout->set_course_code_visible(1);
-		$course_layout->set_course_manager_name_visible(1);
-		$course_layout->set_course_languages_visible(1);
-		$succes = $succes && $course_layout->create();
-		
-		$course_rights = new CourseRights();
-		$course_rights->set_course_id(2);
-		$course_rights->set_direct_subscribe_available(1);
-		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
@@ -216,36 +198,27 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('ALG003');
+
+		$course->set_language('english');
+		$course->set_visibility(1);
+		$course->set_access(1);
+		$course->set_max_number_of_members(0);
+		 
+		$course->set_intro_text(1);
+		$course->set_student_view(1);
+		$course->set_layout(1);
+		$course->set_tool_shortcut(1);
+		$course->set_menu(1);
+		$course->set_feedback(1);
+		$course->set_course_code_visible(1);
+		$course->set_course_manager_name_visible(1);
+		$course->set_course_languages_visible(1);
+		
+		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-
-		$course_settings = new CourseSettings();
-		$course_settings->set_course_id(3);
-		$course_settings->set_language('english');
-		$course_settings->set_visibility(1);
-		$course_settings->set_access(1);
-		$course_settings->set_max_number_of_members(0);
-		$succes = $succes && $course_settings->create();
-		 
-		$course_layout = new CourseLayout();
-		$course_layout->set_course_id(3);
-		$course_layout->set_intro_text(1);
-		$course_layout->set_student_view(1);
-		$course_layout->set_layout(1);
-		$course_layout->set_tool_shortcut(1);
-		$course_layout->set_menu(1);
-		$course_layout->set_feedback(1);
-		$course_layout->set_course_code_visible(1);
-		$course_layout->set_course_manager_name_visible(1);
-		$course_layout->set_course_languages_visible(1);
-		$succes = $succes && $course_layout->create();
-		
-		$course_rights = new CourseRights();
-		$course_rights->set_course_id(3);
-		$course_rights->set_direct_subscribe_available(1);
-		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
@@ -272,36 +245,27 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('ALG004');
+
+		$course->set_language('english');
+		$course->set_visibility(1);
+		$course->set_access(0);
+		$course->set_max_number_of_members(0);
+
+		$course->set_intro_text(1);
+		$course->set_student_view(1);
+		$course->set_layout(1);
+		$course->set_tool_shortcut(1);
+		$course->set_menu(1);
+		$course->set_feedback(1);
+		$course->set_course_code_visible(1);
+		$course->set_course_manager_name_visible(1);
+		$course->set_course_languages_visible(1);
+
+		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-
-		$course_settings = new CourseSettings();
-		$course_settings->set_course_id(4);
-		$course_settings->set_language('english');
-		$course_settings->set_visibility(1);
-		$course_settings->set_access(0);
-		$course_settings->set_max_number_of_members(0);
-		$succes = $succes && $course_settings->create();
-		 
-		$course_layout = new CourseLayout();
-		$course_layout->set_course_id(4);
-		$course_layout->set_intro_text(1);
-		$course_layout->set_student_view(1);
-		$course_layout->set_layout(1);
-		$course_layout->set_tool_shortcut(1);
-		$course_layout->set_menu(1);
-		$course_layout->set_feedback(1);
-		$course_layout->set_course_code_visible(1);
-		$course_layout->set_course_manager_name_visible(1);
-		$course_layout->set_course_languages_visible(1);
-		$succes = $succes && $course_layout->create();
-		
-		$course_rights = new CourseRights();
-		$course_rights->set_course_id(4);
-		$course_rights->set_direct_subscribe_available(1);
-		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
@@ -327,36 +291,27 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('ALG005');
+
+		$course->set_language('english');
+		$course->set_visibility(1);
+		$course->set_access(1);
+		$course->set_max_number_of_members(0);
+
+		$course->set_intro_text(1);
+		$course->set_student_view(1);
+		$course->set_layout(1);
+		$course->set_tool_shortcut(1);
+		$course->set_menu(1);
+		$course->set_feedback(1);
+		$course->set_course_code_visible(1);
+		$course->set_course_manager_name_visible(1);
+		$course->set_course_languages_visible(1);
+
+		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-
-		$course_settings = new CourseSettings();
-		$course_settings->set_course_id(5);
-		$course_settings->set_language('english');
-		$course_settings->set_visibility(1);
-		$course_settings->set_access(1);
-		$course_settings->set_max_number_of_members(0);
-		$succes = $succes && $course_settings->create();
-		 
-		$course_layout = new CourseLayout();
-		$course_layout->set_course_id(5);
-		$course_layout->set_intro_text(1);
-		$course_layout->set_student_view(1);
-		$course_layout->set_layout(1);
-		$course_layout->set_tool_shortcut(1);
-		$course_layout->set_menu(1);
-		$course_layout->set_feedback(1);
-		$course_layout->set_course_code_visible(1);
-		$course_layout->set_course_manager_name_visible(1);
-		$course_layout->set_course_languages_visible(1);
-		$succes = $succes && $course_layout->create();
-		
-		$course_rights = new CourseRights();
-		$course_rights->set_course_id(5);
-		$course_rights->set_direct_subscribe_available(1);
-		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
@@ -382,36 +337,26 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('ECT2010233');
+
+		$course->set_language('english');
+		$course->set_visibility(1);
+		$course->set_access(1);
+		$course->set_max_number_of_members(0);
+
+		$course->set_intro_text(1);
+		$course->set_student_view(1);
+		$course->set_layout(1);
+		$course->set_tool_shortcut(1);
+		$course->set_menu(1);
+		$course->set_feedback(1);
+		$course->set_course_code_visible(1);
+		$course->set_course_manager_name_visible(1);
+
+		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-
-		$course_settings = new CourseSettings();
-		$course_settings->set_course_id(6);
-		$course_settings->set_language('english');
-		$course_settings->set_visibility(1);
-		$course_settings->set_access(1);
-		$course_settings->set_max_number_of_members(0);
-		$succes = $succes && $course_settings->create();
-		 
-		$course_layout = new CourseLayout();
-		$course_layout->set_course_id(6);
-		$course_layout->set_intro_text(1);
-		$course_layout->set_student_view(1);
-		$course_layout->set_layout(1);
-		$course_layout->set_tool_shortcut(1);
-		$course_layout->set_menu(1);
-		$course_layout->set_feedback(1);
-		$course_layout->set_course_code_visible(1);
-		$course_layout->set_course_manager_name_visible(1);
-		$course_layout->set_course_languages_visible(1);
-		$succes = $succes && $course_layout->create();
-		
-		$course_rights = new CourseRights();
-		$course_rights->set_course_id(6);
-		$course_rights->set_direct_subscribe_available(1);
-		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
@@ -436,36 +381,27 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('ECT2010253');
+
+		$course->set_language('english');
+		$course->set_visibility(1);
+		$course->set_access(1);
+		$course->set_max_number_of_members(0);
+
+		$course->set_intro_text(1);
+		$course->set_student_view(1);
+		$course->set_layout(1);
+		$course->set_tool_shortcut(1);
+		$course->set_menu(1);
+		$course->set_feedback(1);
+		$course->set_course_code_visible(1);
+		$course->set_course_manager_name_visible(1);
+		$course->set_course_languages_visible(1);
+
+		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-
-		$course_settings = new CourseSettings();
-		$course_settings->set_course_id(7);
-		$course_settings->set_language('english');
-		$course_settings->set_visibility(1);
-		$course_settings->set_access(1);
-		$course_settings->set_max_number_of_members(0);
-		$succes = $succes && $course_settings->create();
-		 
-		$course_layout = new CourseLayout();
-		$course_layout->set_course_id(7);
-		$course_layout->set_intro_text(1);
-		$course_layout->set_student_view(1);
-		$course_layout->set_layout(1);
-		$course_layout->set_tool_shortcut(1);
-		$course_layout->set_menu(1);
-		$course_layout->set_feedback(1);
-		$course_layout->set_course_code_visible(1);
-		$course_layout->set_course_manager_name_visible(1);
-		$course_layout->set_course_languages_visible(1);
-		$succes = $succes && $course_layout->create();
-		
-		$course_rights = new CourseRights();
-		$course_rights->set_course_id(7);
-		$course_rights->set_direct_subscribe_available(1);
-		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
@@ -490,36 +426,27 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('ECT2010178');
+
+		$course->set_language('english');
+		$course->set_visibility(1);
+		$course->set_access(1);
+		$course->set_max_number_of_members(0);
+		
+		$course->set_intro_text(1);
+		$course->set_student_view(1);
+		$course->set_layout(1);
+		$course->set_tool_shortcut(1);
+		$course->set_menu(1);
+		$course->set_feedback(1);
+		$course->set_course_code_visible(1);
+		$course->set_course_manager_name_visible(1);
+		$course->set_course_languages_visible(1);
+
+		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-
-		$course_settings = new CourseSettings();
-		$course_settings->set_course_id(8);
-		$course_settings->set_language('english');
-		$course_settings->set_visibility(1);
-		$course_settings->set_access(1);
-		$course_settings->set_max_number_of_members(0);
-		$succes = $succes && $course_settings->create();
-		 
-		$course_layout = new CourseLayout();
-		$course_layout->set_course_id(8);
-		$course_layout->set_intro_text(1);
-		$course_layout->set_student_view(1);
-		$course_layout->set_layout(1);
-		$course_layout->set_tool_shortcut(1);
-		$course_layout->set_menu(1);
-		$course_layout->set_feedback(1);
-		$course_layout->set_course_code_visible(1);
-		$course_layout->set_course_manager_name_visible(1);
-		$course_layout->set_course_languages_visible(1);
-		$succes = $succes && $course_layout->create();
-		
-		$course_rights = new CourseRights();
-		$course_rights->set_course_id(8);
-		$course_rights->set_direct_subscribe_available(1);
-		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
@@ -544,36 +471,27 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('UNK2001890');
+
+		$course->set_language('english');
+		$course->set_visibility(1);
+		$course->set_access(1);
+		$course->set_max_number_of_members(0);
+
+		$course->set_intro_text(1);
+		$course->set_student_view(1);
+		$course->set_layout(1);
+		$course->set_tool_shortcut(1);
+		$course->set_menu(1);
+		$course->set_feedback(1);
+		$course->set_course_code_visible(1);
+		$course->set_course_manager_name_visible(1);
+		$course->set_course_languages_visible(1);
+
+		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-
-		$course_settings = new CourseSettings();
-		$course_settings->set_course_id(9);
-		$course_settings->set_language('english');
-		$course_settings->set_visibility(1);
-		$course_settings->set_access(1);
-		$course_settings->set_max_number_of_members(0);
-		$succes = $succes && $course_settings->create();
-		 
-		$course_layout = new CourseLayout();
-		$course_layout->set_course_id(9);
-		$course_layout->set_intro_text(1);
-		$course_layout->set_student_view(1);
-		$course_layout->set_layout(1);
-		$course_layout->set_tool_shortcut(1);
-		$course_layout->set_menu(1);
-		$course_layout->set_feedback(1);
-		$course_layout->set_course_code_visible(1);
-		$course_layout->set_course_manager_name_visible(1);
-		$course_layout->set_course_languages_visible(1);
-		$succes = $succes && $course_layout->create();
-		
-		$course_rights = new CourseRights();
-		$course_rights->set_course_id(9);
-		$course_rights->set_direct_subscribe_available(1);
-		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
@@ -598,36 +516,27 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('UNK20011230');
+
+		$course->set_language('english');
+		$course->set_visibility(1);
+		$course->set_access(1);
+		$course->set_max_number_of_members(0);
+
+		$course->set_intro_text(1);
+		$course->set_student_view(1);
+		$course->set_layout(1);
+		$course->set_tool_shortcut(1);
+		$course->set_menu(1);
+		$course->set_feedback(1);
+		$course->set_course_code_visible(1);
+		$course->set_course_manager_name_visible(1);
+		$course->set_course_languages_visible(1);
+
+		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-
-		$course_settings = new CourseSettings();
-		$course_settings->set_course_id(10);
-		$course_settings->set_language('english');
-		$course_settings->set_visibility(1);
-		$course_settings->set_access(1);
-		$course_settings->set_max_number_of_members(0);
-		$succes = $succes && $course_settings->create();
-		 
-		$course_layout = new CourseLayout();
-		$course_layout->set_course_id(10);
-		$course_layout->set_intro_text(1);
-		$course_layout->set_student_view(1);
-		$course_layout->set_layout(1);
-		$course_layout->set_tool_shortcut(1);
-		$course_layout->set_menu(1);
-		$course_layout->set_feedback(1);
-		$course_layout->set_course_code_visible(1);
-		$course_layout->set_course_manager_name_visible(1);
-		$course_layout->set_course_languages_visible(1);
-		$succes = $succes && $course_layout->create();
-		
-		$course_rights = new CourseRights();
-		$course_rights->set_course_id(10);
-		$course_rights->set_direct_subscribe_available(1);
-		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');

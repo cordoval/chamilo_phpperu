@@ -684,22 +684,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         if (empty($course))
             return false;
             //$this->redirect(Translation :: get('CourseDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
-        $course_settings = $this->retrieve_course_settings($id);
-        if (empty($course_settings))
-            return false;
-            //$this->redirect(Translation :: get('CourseCorrupt'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
-        $course->set_settings($course_settings);
-        $course_layout_settings = $this->retrieve_course_layout($id);
-        if (empty($course_layout_settings))
-            return false;
-            //$this->redirect(Translation :: get('CourseCorrupt'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
-        $course->set_layout_settings($course_layout_settings);
-        $course_rights = $this->retrieve_course_rights($id);
-        if (empty($course_rights))
-            return false;
-            //$this->redirect(Translation :: get('CourseCorrupt'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
-        $course->set_rights($course_rights);
-        $course->set_course_type($this->retrieve_course_type($course->get_course_type_id()));
         return $course;
     }
 

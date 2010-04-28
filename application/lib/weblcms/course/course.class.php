@@ -521,7 +521,7 @@ class Course extends DataClass
         	$this->get_settings()->set_access($this->get_course_type()->get_settings()->get_access());
     }
 
-    function get_max_number_of_members_fixed($max_number_of_members)
+    function get_max_number_of_members_fixed()
     {
     	if(!is_null($this->get_course_type()))
 			return $this->get_course_type()->get_settings()->get_max_number_of_members_fixed();
