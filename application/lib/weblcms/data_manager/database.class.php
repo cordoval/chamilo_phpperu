@@ -231,7 +231,25 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         
         return $this->count_result_set($query, Course :: get_table_name(), $condition);
     }
-
+    
+    function subscribe_user_for_activation($user_id)
+    {
+    	$conditions = array();					
+        $conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_USER_ID, $user_id);
+        $conditions[] = new InequalityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, date('Y-m-d H:i:s'));        
+        $condition = new AndCondition($conditions);
+        $course_requests = $this->retrieve_requests($condition);
+        
+        while($course_request = $course_requests->next_result())
+        {
+        	$course_id = $course_request->get_course_id();
+        	if(! $this->is_subscribed($course_id, $user_id))
+        	{
+        		$this->subscribe_user_to_course($course_id, '5', '0', $user_id);
+        	}
+        }		        
+    }
+   
     function count_course_types($condition = null)
     {
         return $this->count_objects(CourseType :: get_table_name(), $condition);
@@ -984,9 +1002,12 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function is_subscribed($course, $user_id)
     {
+    	$course_id = $course;
+    	if(get_class($course) == 'Course')
+    		$course_id = $course->get_id();
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course->get_id());
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id);
         $condition = new AndCondition($conditions);
         return $this->count_objects(CourseUserRelation :: get_table_name(), $condition) > 0;
     }
@@ -1024,6 +1045,9 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function subscribe_user_to_course($course, $status, $tutor_id, $user_id)
     {
+    	$course_id = $course;
+    	if(get_class($course) == 'Course')
+    		$course_id = $course->get_id();
         $this->get_connection()->loadModule('Extended');
         
         $conditions = array();
@@ -1034,7 +1058,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
         
         $course_user_relation = new CourseUserRelation();
-        $course_user_relation->set_course($course->get_id());
+        $course_user_relation->set_course($course_id);
         $course_user_relation->set_user($user_id);
         $course_user_relation->set_status($status);
         $course_user_relation->set_role(null);
@@ -1884,11 +1908,13 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->retrieve_objects(CourseType :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
-    function retrieve_requests($condition = null, $offset = null, $max_objects = null, $orde_by = null)
+    function retrieve_requests($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $order_by[] = new ObjectTableOrder(CourseRequest :: PROPERTY_TITLE);
         return $this->retrieve_objects(CourseRequest :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
+    
+    
 
     // Inherited
     function retrieve_course_type_settings($id)

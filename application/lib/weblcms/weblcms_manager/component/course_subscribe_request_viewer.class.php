@@ -1,13 +1,12 @@
 <?php
 require_once dirname(__FILE__).'/../weblcms_manager.class.php';
-require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 
 /**
  * Component to view an existing request object
  * @author Yannick Meert
  */
-class WeblcmsManagerCourseRequestViewerComponent extends WeblcmsManager
+class WeblcmsManagerCourseSubscribeRequestViewerComponent extends WeblcmsManager
 {
 	/**
 	 * Runs this component and displays its output.

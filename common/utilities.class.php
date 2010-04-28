@@ -482,6 +482,24 @@ class Utilities
 
         return $hours . ':' . $minutes . ':' . $seconds;
     }
+    
+    static function format_seconds_to_minutes($seconds)
+    {
+        $minutes = floor($seconds/ 60);
+        $seconds = $seconds % 60;
+
+        if ($minutes < 10)
+        {
+            $minutes = '0' . $minutes;
+        }
+
+        if ($seconds < 10)
+        {
+            $seconds = '0' . $seconds;
+        }
+
+        return $minutes . ':' . $seconds;
+    }
 
     /**
      * strips tags and truncates a given string to be the given length if the string is longer.

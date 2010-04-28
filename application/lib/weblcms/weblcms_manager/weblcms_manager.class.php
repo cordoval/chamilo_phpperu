@@ -105,12 +105,12 @@ class WeblcmsManager extends WebApplication
 	const ACTION_CHANGE_ACTIVE = 'activechanger';
 	const ACTION_ADMIN_COURSE_TYPE_CREATOR = 'admincoursetypecreator';
 	const ACTION_ADMIN_COURSE_TYPE_BROWSER = 'admincoursetypebrowser';
-	const ACTION_COURSE_EDITOR_REQUEST = 'course_editor_request';
-	const ACTION_COURSE_CREATE_REQUEST = 'courserequestcreator';
+	const ACTION_COURSE_SUBSCRIBE_EDITOR_REQUEST = 'course_subscribe_editor_request';
+	const ACTION_COURSE_SUBSCRIBE_CREATE_REQUEST = 'course_subscribe_request_creator';
 	const ACTION_ADMIN_REQUEST_BROWSER = 'adminrequestbrowser';	
-	const ACTION_COURSE_REQUEST_DELETER = 'courserequestdeleter';
-	const ACTION_COURSE_ALLOWING_REQUEST = 'courseallowingrequest';	
-	const ACTION_VIEW_REQUEST = 'viewrequest';
+	const ACTION_COURSE_SUBSCRIBE_REQUEST_DELETER = 'course_subscribe_request_deleter';
+	const ACTION_COURSE_SUBSCRIBE_ALLOWING_REQUEST = 'course_subscribe_allowing_request';	
+	const ACTION_VIEW_SUBSCRIBE_REQUEST = 'view_subscribe_request';
 	const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
 	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
@@ -175,6 +175,8 @@ class WeblcmsManager extends WebApplication
 		$this->load_course_group();
 		$this->sections = array();
 		$this->load_sections();
+		if(! is_null($this->get_user()))
+			$this->subscribe_user_for_activation($this->get_user_id());
 	}
 
 	/*
@@ -267,23 +269,23 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_COURSE_CODE : 
 				$component = $this->create_component('CourseCodeSubscriber', $this);
 				break;
-			case self :: ACTION_COURSE_EDITOR_REQUEST :
-				$component = $this->create_component('CourseRequestEditor', $this);
+			case self :: ACTION_COURSE_SUBSCRIBE_EDITOR_REQUEST :
+				$component = $this->create_component('CourseSubscribeRequestEditor', $this);
 				break;
-			case self :: ACTION_COURSE_CREATE_REQUEST : 
-				$component = $this->create_component('CourseRequestCreator', $this);
+			case self :: ACTION_COURSE_SUBSCRIBE_CREATE_REQUEST : 
+				$component = $this->create_component('CourseSubscribeRequestCreator', $this);
 				break;
 			case self :: ACTION_ADMIN_REQUEST_BROWSER : 
 				$component = $this->create_component('AdminRequestBrowser', $this);
 				break;
-			case self :: ACTION_COURSE_REQUEST_DELETER : 
-				$component = $this->create_component('CourseRequestDeleter', $this);
+			case self :: ACTION_COURSE_SUBSCRIBE_REQUEST_DELETER : 
+				$component = $this->create_component('CourseSubscribeRequestDeleter', $this);
 				break;
-			case self :: ACTION_COURSE_ALLOWING_REQUEST :
-				$component = $this->create_component('CourseRequestAllow', $this);
+			case self :: ACTION_COURSE_SUBSCRIBE_ALLOWING_REQUEST :
+				$component = $this->create_component('CourseSubscribeRequestAllow', $this);
 				break;
-			case self :: ACTION_VIEW_REQUEST :
-				$component = $this->create_component('CourseRequestViewer', $this);
+			case self :: ACTION_VIEW_SUBSCRIBE_REQUEST :
+				$component = $this->create_component('CourseSubscribeRequestViewer', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
@@ -437,24 +439,24 @@ class WeblcmsManager extends WebApplication
     
 	function get_course_request_deleting_url($request)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_REQUEST_DELETER, self :: PARAM_REQUEST => $request->get_id()));
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_SUBSCRIBE_REQUEST_DELETER, self :: PARAM_REQUEST => $request->get_id()));
     }
     
     function get_course_request_editing_url($request)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_EDITOR_REQUEST,
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_SUBSCRIBE_EDITOR_REQUEST,
     	 self :: PARAM_REQUEST => $request->get_id()));   	 
     }
     
     function get_course_request_viewing_url($request)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_REQUEST,
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SUBSCRIBE_REQUEST,
     	self :: PARAM_REQUEST => $request->get_id()));
     }
     
     function get_course_request_allowing_url($request)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_ALLOWING_REQUEST,
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_SUBSCRIBE_ALLOWING_REQUEST,
     	self :: PARAM_REQUEST => $request->get_id()));
     }
 
@@ -938,6 +940,11 @@ class WeblcmsManager extends WebApplication
     {
     	return WeblcmsDataManager :: get_instance()->count_requests_by_course($condition);
     }
+    
+    function subscribe_user_for_activation($user_id)
+    {       			
+        return WeblcmsDataManager :: get_instance()->subscribe_user_for_activation($user_id);
+    }
 
 	/**
 	 * Count the number of course categories
@@ -1289,7 +1296,7 @@ class WeblcmsManager extends WebApplication
 	
 	function get_course_request_form_url($course)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_CREATE_REQUEST, self :: PARAM_COURSE => $course->get_id()));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_SUBSCRIBE_CREATE_REQUEST, self :: PARAM_COURSE => $course->get_id()));
    
 	}
 	
@@ -1605,11 +1612,11 @@ class WeblcmsManager extends WebApplication
 					Request :: set_get(self :: PARAM_COURSE, $selected_course_ids);
 					break;
 				case self :: PARAM_REMOVE_SELECTED_REQUESTS :
-					$this->set_action(self :: ACTION_COURSE_REQUEST_DELETER);
+					$this->set_action(self :: ACTION_COURSE_SUBBSCRIBE_REQUEST_DELETER);
 					Request :: set_get(self :: PARAM_REQUEST, $selected_course_id);
 					break;
 				case self :: PARAM_ALLOW_SELECTED_REQUESTS : 
-					$this->set_action(self :: ACTION_COURSE_ALLOWING_REQUEST);
+					$this->set_action(self :: ACTION_COURSE_SUBSCRIBE_ALLOWING_REQUEST);
 					Request :: set_get(self :: PARAM_REQUEST, $selected_course_id);
 					break;
 			}

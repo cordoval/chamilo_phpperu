@@ -381,19 +381,21 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	}
 	
 	// applications
-	function retrieve_applications_with_evaluations()
+	function retrieve_internal_item_applications_with_evaluations()
 	{
 		$ids = $this->database->retrieve_distinct(InternalItemInstance :: get_table_name(), InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
 		foreach($ids as $id)
 		{
-			$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $id);
-			$applications[] = $this->database->retrieve_distinct(InternalItem :: get_table_name(), InternalItem :: PROPERTY_APPLICATION, $condition);
+//			$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $id);
+//			$transform_array = $this->database->retrieve_distinct(InternalItem :: get_table_name(), InternalItem :: PROPERTY_APPLICATION, $condition);
+			$applications_and_internal_item_id[] = $id;
 		}
-		for($i = 0;$i<count($applications);$i++)
-		{
-			$application[$i] = $applications[$i][0];
-		}
-        return array_unique($application);
+//		for($i = 0;$i<count($applications);$i++)
+//		{
+//			$application[$i] = $applications[$i][0];
+//		}
+//        return array_unique($application);
+		return $applications_and_internal_item_id;
 	}
 	
 	function retrieve_calculated_internal_items()
@@ -404,21 +406,11 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	
 	function retrieve_internal_items_by_application($condition, $offset = null, $count = null, $order_property = null)
 	{
-		$ids = $this->database->retrieve_distinct(InternalItemInstance :: get_table_name(), InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
-		$conditions = array();
-		$conditions[] = $condition;
-		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $ids);
-		$condition = new AndCondition($conditions);
 		return $this->database->retrieve_objects(InternalItem:: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 	
 	function count_internal_items_by_application($condition)
 	{
-		$ids = $this->database->retrieve_distinct(InternalItemInstance :: get_table_name(), InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
-		$conditions = array();
-		$conditions[] = $condition;
-		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $ids);
-		$condition = new AndCondition($conditions);
 		return $this->database->count_objects(InternalItem:: get_table_name(), $condition);
 	}
 /*
