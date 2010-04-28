@@ -10,6 +10,11 @@ class YoutubeStreamingMediaConnector
     private static $instance;
     private $manager;
     private $youtube;
+    
+    const RELEVANCE = 'relevance';
+    const PUBLISHED = 'published';
+    const VIEW_COUNT = 'viewCount';
+    const RATING = 'rating';
 
     function YoutubeStreamingMediaConnector($manager)
     {
@@ -52,6 +57,16 @@ class YoutubeStreamingMediaConnector
         
         $this->youtube = new Zend_Gdata_YouTube($httpClient, $application, $client, $key);
 		$this->youtube->setMajorProtocolVersion(2);
+    }
+    
+    static function get_sort_properties()
+    {
+    	return array(self :: RELEVANCE, self :: PUBLISHED, self :: VIEW_COUNT, self :: RATING);
+    }
+    
+    static function translate_search_query($query)
+    {
+    	return $query;
     }
     
     function create_youtube_video()
@@ -144,12 +159,31 @@ class YoutubeStreamingMediaConnector
         }
         return self :: $instance;
     }
+    
+    function get_video_feed($query)
+    {
+    	$feed = Request :: get(YoutubeStreamingMediaManager::PARAM_FEED_TYPE);
+    	switch ($feed)
+    	{
+    		case YoutubeStreamingMediaManager::FEED_TYPE_GENERAL : 
+    			return @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
+    		break;
+    		case YoutubeStreamingMediaManager::FEED_TYPE_MYVIDEOS : 
+    			return $this->youtube->getuserUploads('default', $query->getQueryUrl(2));
+    		break;
+    		default : 
+    			return @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
+    	}
+    }
 
     function get_youtube_video($condition, $order_property, $offset, $count)
     {
     	$query = $this->youtube->newVideoQuery();
-		$query->setOrderBy('viewCount');
-		$query->setVideoQuery('weezer island in the sun');
+    	if (count($order_property) > 0)
+    	{
+    		$query->setOrderBy($order_property[0]);
+    	}
+		$query->setVideoQuery($condition);
 		
 		$query->setStartIndex($offset + 1);
 
@@ -163,7 +197,7 @@ class YoutubeStreamingMediaConnector
 			$query->setMaxResults($count);
 		}
 		
-		$videoFeed = @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
+		$videoFeed = $this->get_video_feed($query);
 		
 //		$query = $this->youtube->newVideoQuery();
 //		$query->setOrderBy('viewCount');
@@ -202,10 +236,9 @@ class YoutubeStreamingMediaConnector
     function count_youtube_video($condition)
     {
     	$query = $this->youtube->newVideoQuery();
-		$query->setOrderBy('viewCount');
-		$query->setVideoQuery('weezer island in the sun');
+		$query->setVideoQuery($condition);
 		
-		$videoFeed = @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
+		$videoFeed = $this->get_video_feed($query);
 		if ($videoFeed->getTotalResults()->getText() >= 900)
 		{
 			return 900;

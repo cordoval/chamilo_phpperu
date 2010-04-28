@@ -95,6 +95,7 @@ class GalleryTable extends HTML_Table
      */
     private $other_tables;
 	
+    private $enable_order_directions;
 	/**
 	 * Create a new SortableTable
 	 * @param string $table_name A name for the table (default = 'table')
@@ -109,7 +110,7 @@ class GalleryTable extends HTML_Table
 	 * @param int $default_order_direction The default order direction; either
 	 * the constant SORT_ASC or SORT_DESC
 	 */
-	function GalleryTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $get_properties_function = null, $default_items_per_page = 20, $default_property = 0, $default_order_direction = SORT_ASC, $ajax_enabled = false)
+	function GalleryTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $get_properties_function = null, $default_items_per_page = 20, $default_property = 0, $default_order_direction = SORT_ASC, $enable_order_directions = true, $ajax_enabled = false)
 	{
 		parent :: HTML_Table(array ('class' => 'gallery_table'), 0, true);
 		$this->table_name = $table_name;
@@ -128,6 +129,7 @@ class GalleryTable extends HTML_Table
 		$this->total_number_of_items = $this->get_total_number_of_items();
 		$this->get_data_function = $get_data_function;
    		$this->get_properties_function = $get_properties_function;
+   		$this->enable_order_directions = $enable_order_directions;
         if ($this->per_page == 'all')
         {
         	$this->per_page = $this->total_number_of_items;
@@ -141,9 +143,6 @@ class GalleryTable extends HTML_Table
 		$this->th_attributes = array ();
 		$this->other_tables = array();
 	}
-	
-	 
-	
 	
 	/**
 	 * Get the Pager object to split the showed data in several pages
@@ -219,7 +218,10 @@ class GalleryTable extends HTML_Table
 		{
 			$page = $this->get_page_select_form();
 			$sort = $this->get_sort_select_form();
-			$direction = $this->get_direction_select_form();
+			if ($this->enable_order_directions)
+			{
+				$direction = $this->get_direction_select_form();
+			}
 			$nav = $this->get_navigation_html();
 			
 			$html = '<table style="width:100%;">';

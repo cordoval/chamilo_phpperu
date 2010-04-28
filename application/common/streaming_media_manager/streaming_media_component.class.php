@@ -36,5 +36,25 @@ abstract class StreamingMediaComponent extends SubManager
 	{
 		return $this->get_parent()->retrieve_streaming_media_objects($condition, $order_property, $offset, $count);
 	}
+	
+	function get_sort_properties()
+	{
+		return $this->get_parent()->get_sort_properties();
+	}
+	
+	function support_sorting_direction()
+	{
+		return $this->get_parent()->support_sorting_direction();
+	}
+	
+	function translate_search_query($query)
+	{
+		return $this->get_parent()->translate_search_query($query);
+	}
+	
+	function get_menu_items()
+	{
+		return $this->get_parent()->get_menu_items();
+	}
 }
 ?>

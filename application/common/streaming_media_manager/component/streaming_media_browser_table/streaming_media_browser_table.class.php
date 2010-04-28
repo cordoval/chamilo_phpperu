@@ -14,8 +14,9 @@ class StreamingMediaBrowserTable extends GalleryObjectTable
     {
         $renderer = new StreamingMediaBrowserTableCellRenderer($browser);
         $data_provider = new StreamingMediaBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, StreamingMediaBrowserTable :: DEFAULT_NAME, $renderer, StreamingMediaObject::get_sort_properties());
+        parent :: __construct($data_provider, StreamingMediaBrowserTable :: DEFAULT_NAME, $renderer, $browser->get_sort_properties());
         $this->set_additional_parameters($parameters);
+        $this->set_order_directions_enabled($browser->support_sorting_direction());
     }
 }
 ?>

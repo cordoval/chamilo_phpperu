@@ -17,61 +17,35 @@ class StreamingMediaMenu extends HTML_Menu
     const ACTION_ALL_VIDEOS = 'all_videos';
     const ACTION_MY_VIDEOS = 'my_videos';
     
+    
     private $current_item;
     /**
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;    
     private $streaming_manager;
+    private $menu_items;
 
-    function StreamingMediaMenu($current_item, $streaming_manager)
+    function StreamingMediaMenu($current_item, $streaming_manager, $menu_items)
     {
         $this->current_item = $current_item;
         $this->streaming_manager = $streaming_manager;
-        $menu = $this->get_menu();
-        parent :: __construct($menu);
+        $this->menu_items = $menu_items;
+        //$menu = $this->get_menu();
+        parent :: __construct($menu_items);
         
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
         $this->forceCurrentUrl($this->get_url($current_item));
     }
-
-    function get_menu()
+    
+    function get_menu_items()
     {
-        $menu = array();    
-        
-        $create = array();
-        $create['title'] = Translation :: get('Create');
-        $create['url'] = $this->get_url_create();
-        //$create['class'] = 'create';
-        
-        $all_videos = array();
-        $all_videos['title'] = Translation :: get('AllVideos');
-        $all_videos['url'] = $this->get_url_all_videos();
-
-        $my_videos = array();
-        $my_videos['title'] = Translation :: get('MyVideos');
-        $my_videos['url'] = $this->get_url_my_videos();
-        
-        $menu[] = $create;
-        $menu[] = $all_videos;
-        $menu[] = $my_videos;
-
-        return $menu;
+    	return $this->menu_items;
     }
     
-    private function get_url_create()
+    function count_menu_items()
     {
-    	return $this->streaming_manager->get_url(array(Application :: PARAM_ACTION => self :: ACTION_CREATE, Application :: PARAM_APPLICATION => StreamingMediaManager :: CLASS_NAME));
-    }
-    
-    private function get_url_all_videos()
-    {
-    	return $this->streaming_manager->get_url(array(Application :: PARAM_ACTION => self :: ACTION_ALL_VIDEOS, Application :: PARAM_APPLICATION => StreamingMediaManager :: CLASS_NAME));
-    }
-    
-    private function get_url_my_videos()
-    {
-    	return $this->streaming_manager->get_url(array(Application :: PARAM_ACTION => self :: ACTION_MY_VIDEOS, Application :: PARAM_APPLICATION => StreamingMediaManager :: CLASS_NAME));
+    	return count($this->menu_items);
     }
 
     private function get_url($id)

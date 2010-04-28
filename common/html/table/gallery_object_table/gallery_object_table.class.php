@@ -43,6 +43,7 @@ class GalleryObjectTable
 	private $form_actions;
 	
 	private $ajax_enabled;
+	private $enable_order_directions;
 
 	/**
 	 * Constructor. Creates a michelangelo table.
@@ -68,6 +69,7 @@ class GalleryObjectTable
 		$this->set_properties($properties);
 		$this->set_default_row_count(10);
 		$this->set_default_column_count(3);
+		$this->set_order_directions_enabled(true);
 		$this->set_additional_parameters($this->determine_additional_parameters());
 	}
 	/**
@@ -96,7 +98,7 @@ class GalleryObjectTable
 	function as_html()
 	{
 		$count = $this->get_default_column_count() * $this->get_default_row_count();
-		$table = new GalleryTable($this->get_name(), array ($this, 'get_object_count'), array ($this, 'get_objects'), array ($this, 'get_properties'), $count, 0, SORT_ASC, $this->get_ajax_enabled());
+		$table = new GalleryTable($this->get_name(), array ($this, 'get_object_count'), array ($this, 'get_objects'), array ($this, 'get_properties'), $count, 0, SORT_ASC, $this->get_order_directions_enabled(), $this->get_ajax_enabled());
 		
 		$table->set_additional_parameters($this->get_additional_parameters());
 		if ($this->has_form_actions())
@@ -177,7 +179,16 @@ class GalleryObjectTable
     {
         $this->ajax_enabled = $ajax_enabled;
     }
+    
+    function get_order_directions_enabled()
+    {
+    	return $this->enable_order_directions;
+    }
 
+    function set_order_directions_enabled($enable_order_directions)
+    {
+    	$this->enable_order_directions = $enable_order_directions;
+    }
 	/**
 	 * Gets the table's data provider.
 	 * @return MichelangeloTableDataProvider The data provider.

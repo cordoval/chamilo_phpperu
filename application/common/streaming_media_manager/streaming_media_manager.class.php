@@ -11,6 +11,7 @@ abstract class StreamingMediaManager extends SubManager
 	const ACTION_UPLOAD_STREAMING_MEDIA = 'upload';
 	
 	const PARAM_STREAMING_MEDIA_ID = 'streaming_media_id';
+	const PARAM_QUERY = 'query';
 	const CLASS_NAME = __CLASS__;
 	
 	function StreamingMediaManager($application)
@@ -117,6 +118,19 @@ abstract class StreamingMediaManager extends SubManager
 	abstract function count_streaming_media_objects($condition);
 	
 	abstract function retrieve_streaming_media_objects($condition, $order_property, $offset, $count);
+
+	function get_sort_properties()
+	{
+		return StreamingMediaObject::get_sort_properties();
+	}
 	
+	function support_sorting_direction()
+	{
+		return true;
+	}
+	
+	abstract function translate_search_query($query);
+	
+	abstract function get_menu_items();
 }
 ?>
