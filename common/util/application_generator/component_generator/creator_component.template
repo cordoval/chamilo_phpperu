@@ -3,7 +3,6 @@
  * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
  */
 require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
-require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/{L_OBJECT_CLASS}_form.class.php';
 
 /**
@@ -11,7 +10,7 @@ require_once dirname(__FILE__).'/../../forms/{L_OBJECT_CLASS}_form.class.php';
  * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
-class {APPLICATION_NAME}Manager{OBJECT_CLASS}CreatorComponent extends {APPLICATION_NAME}ManagerComponent
+class {APPLICATION_NAME}Manager{OBJECT_CLASS}CreatorComponent extends {APPLICATION_NAME}Manager
 {
 	/**
 	 * Runs this component and displays its output.

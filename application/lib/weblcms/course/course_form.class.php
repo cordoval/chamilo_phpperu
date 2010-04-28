@@ -588,7 +588,7 @@ class CourseForm extends CommonForm
         $course = $this->fill_general_settings();
 		$course->set_settings($this->fill_settings());
 		$course->set_layout($this->fill_layout());
-		$course->rights($this->fill_rights());
+		$course->set_rights($this->fill_rights());
 		
 		if(!$course->create())
 			return false;

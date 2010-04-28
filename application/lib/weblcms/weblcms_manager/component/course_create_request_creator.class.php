@@ -22,15 +22,7 @@ class WeblcmsManagerCourseCreateRequestCreatorComponent extends WeblcmsManager
         $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseSubscribe')));
         $trail->add_help('course request');
-        /*
-        if (! $this->get_user()->is_platform_admin())
-        {
-            $this->display_header($trail);
-            Display :: warning_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        } 
-        */      
+        
         $course = $this->retrieve_course($course_code);
         $request = new CourseRequest();
         $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)), $course, $this, $request, $this->get_user());
