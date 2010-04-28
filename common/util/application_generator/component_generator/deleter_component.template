@@ -3,14 +3,13 @@
  * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
  */
 require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
-require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
 
 /**
  * Component to delete {L_OBJECT_CLASSES} objects
  * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
-class {APPLICATION_NAME}Manager{OBJECT_CLASS}DeleterComponent extends {APPLICATION_NAME}ManagerComponent
+class {APPLICATION_NAME}Manager{OBJECT_CLASS}DeleterComponent extends {APPLICATION_NAME}Manager
 {
 	/**
 	 * Runs this component and displays its output.

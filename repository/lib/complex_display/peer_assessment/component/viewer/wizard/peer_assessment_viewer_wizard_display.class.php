@@ -26,6 +26,8 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
         $competence_id = Request :: get('competence');
         $indicator_id = Request :: get('indicator');
         
+        $type = Request :: get('go');
+        
         // Content object id
 	    $peer_assessment_id = $this->parent->get_peer_assessment()->get_id();
 	
@@ -96,12 +98,24 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            	$count = 0;
 	            	
 	            	// Hyperlinks to the list of indicator objects
-	            	$url_indicator_list = 'run.php?go=take_publication&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id();
-	            	// Title link
-	            	$title = '<a href="'. $url_indicator_list .'">'.$competence->get_title().'</a>';      
-	            	// Image link     	
-	            	$take_peer_assessment = '<a href="'. $url_indicator_list .'"><img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/></a>';
-	            		            	
+	            	$url_indicator_list_take = 'run.php?go=take_publication&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id();
+	            	$url_indicator_list_results = 'run.php?go=view_publication_results&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id();
+	            	  
+	            	//Take peer assessment or view peer assessment results have different url's and images
+	            	if($type == 'take_publication')
+        			{   
+        				// Title link
+	            		$title = '<a href="'. $url_indicator_list_take .'">'.$competence->get_title().'</a>';      
+	            		// Image link	
+	            		$take_peer_assessment = '<a href="'. $url_indicator_list_take .'"><img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/></a>';
+        			}
+        			elseif($type == 'view_publication_results')
+        			{
+        				// Title link
+	            		$title = '<a href="'. $url_indicator_list_results .'">'.$competence->get_title().'</a>';      
+	            		// Image link	
+        				$take_peer_assessment = '<a href="'. $url_indicator_list_results .'"><img src="' . Theme :: get_common_image_path() . 'action_view_results.png' .'" alt=""/></a>';
+        			}            	
 	            	
 	            	// From date - To date
 	            	$from_date = $peer_assessment_publication->get_from_date();
@@ -123,8 +137,17 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            		$to_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $to_date);
 	            		$date_message = $from_date . ' - ' . $to_date;
 	            		
-	            		$title = '<b>'.$competence->get_title().'</b>';
-	            		$take_peer_assessment = '<img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/>';
+	            		            		
+	            		if($type == 'take_publication')
+	            		{
+	            			$title = '<b>'.$competence->get_title().'</b>';
+	            			$take_peer_assessment = '<img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/>';		            	
+	            		}
+	            		elseif($type == 'view_publication_results')
+	        			{
+	        				$title = '<a href="'. $url_indicator_list_results .'">'.$competence->get_title().'</a>';      
+	        				$take_peer_assessment = '<a href="'. $url_indicator_list_results .'"><img src="' . Theme :: get_common_image_path() . 'action_view_results.png' .'" alt=""/></a>';
+	        			}
 	            	}
 	
 	           		
@@ -210,7 +233,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	
 	            $html[] = '<div class="assessment">';
 	            $html[] = '<div style="width: 100%; text-align: center;">';
-	            $html[] = $current_page->get_page_number() . ' - ' . $this->parent->get_total_competences() . ' / ' . $this->parent->get_total_competences();
+	            $html[] = $current_page->get_page_number() . ' - ' . $this->parent->get_total()/2 . ' / ' . $this->parent->get_total()/2;
 	            $html[] = '</div>';
 	            $html[] = '</div>';
 	
@@ -255,8 +278,11 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 		           		$selected_user = $this->parent->get_user($user_id);
 		           		$full_user_name = $selected_user->get_firstname() .' '. $selected_user->get_lastname();
 			        	$html[] = '<th>' . $full_user_name . '</th>';
-			        }        
-			        $html[] = '<th class="numeric"></th>';
+			        }    
+			        if($type == 'take_publication')
+			        {    
+			        	$html[] = '<th class="numeric">' . Translation :: get('Finished') . '</th>';
+			        }
 			        $html[] = '<th class="action"></th>';
 			        $html[] = '</tr>';
 			        $html[] = '</thead>';
@@ -273,10 +299,11 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 		            	$url_result = 'run.php?go=take_publication&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id() . '&indicator=' .$indicator->get_id();
 		            	
 		            	// Retrieve criteria
-		            	$criteria = $this->parent->get_peer_assessment_page_criterias_via_indicator($this->parent->get_peer_assessment(), $indicator);	            	
+			            $criteria = $this->parent->get_peer_assessment_page_criterias_via_indicator($this->parent->get_peer_assessment(), $indicator);	            	
+			            $criteria_overview = $criteria;
+			            	
 		            	$criteria_scores = array();
-		            	$criteria_scores[0] = Translation :: get('SelectScore');
-		            	$criteria_overview = $criteria;
+		            	$criteria_scores[0] = Translation :: get('SelectScore');		            	
 		            	
 		            	foreach($criteria as $unserialize)
 		            	{
@@ -286,20 +313,70 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 		            			$criteria_scores[] = $score->get_score();
 		            		}
 		            	}
+			            
+			            
+		            	if($type == 'take_publication')
+		            	{
+			            	foreach($users as $user)
+				        	{
+				        		$html[] = '<td>';
+				        		$html[] = $form = new FormValidator('peer_assessment_publication_results', 'post', $url_result);
+						    	$current = $current_page->get_criteria($criteria_scores, $user->get_user(), $form)->toHtml();
+				        		$current_pages &= $current;
+				        		$html[] = $current;
+						        $html[] = '</td>';
+				        	}  
+				        	  
+							// Retrieve results
+			            	$results = new PeerAssessmentPublicationResults();
+				        	$result = $results->get_data_manager()->retrieve_peer_assessment_publication_result($indicator->get_id());
+				        	
+				        	if($result == null)
+				        	{
+				        		$image = 'button_cancel';
+				        	}
+				        	else
+				        	{
+					        	if($result->is_finished())
+				            	{
+				            		$image = 'button_start';
+				            	}
+				            	else
+				            	{
+				            		$image = 'button_cancel';
+				            	}	
+			            	}	        	
 	
-		            	foreach($users as $user)
-			        	{
-			        		$html[] = '<td>';
-			        		$html[] = $form = new FormValidator('peer_assessment_publication_results', 'post', $url_result);
-					    	$current = $current_page->get_criteria($criteria_scores, $user->get_user(), $form)->toHtml();
-			        		$current_pages &= $current;
-			        		$html[] = $current;
-					        $html[] = '</td>';
-			        	}      	
-		            	$html[] = '<td></td>';	            	
-		            	$html[] = '<td><a href="'. $url_result .'"><img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/></a></td>';
+			            	$html[] = '<td><img src="' . Theme :: get_common_image_path() . 'buttons/'.$image.'.png' .'" alt="" /></td>';	            	
+			            	$html[] = '<td><a href="'. $url_result .'"><img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/></a></td>';
+			            }
+			            elseif($type == 'view_publication_results')
+			            {
+				        	
+			            	foreach($users as $user)
+				        	{
+				        		// Retrieve score
+				        		$results = new PeerAssessmentPublicationResults();
+				        		$result = $results->get_data_manager()->retrieve_peer_assessment_publication_result_score($indicator->get_id(), $user->get_user());				        	
+				        		
+				        		if($result == null)
+				        		{
+				        			$score = Translation :: get('NoScore');
+				        		}
+				        		else
+				        		{
+				        			$score = $criteria_scores[$result->get_score()];
+				        		}
+				        		
+				        		$html[] = '<td>';
+				        		$html[] = $score;
+						        $html[] = '</td>';
+				        	} 
+				        	$html[] = '<td><a href="'. /*view feedback url*/ '"><img src="' . Theme :: get_image_path() . '../forum/tool_forum.png' .'" alt=""/></a></td>';
+			            }
 		            	$html[] = '</tr>';
 		            }
+		            
 		            $html[] = '</tbody>';
 		            $html[] = '</table>';
 	
@@ -328,7 +405,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 		            $html[] = '<br />';
 		
 		            $html[] = '<div style="width: 100%; text-align: center;">';
-		            $html[] = $current_page->get_page_number() . ' - ' . $this->parent->get_total_competences() . ' / ' . $this->parent->get_total_competences();
+		            $html[] = $current_page->get_page_number()+1 . ' - ' . $this->parent->get_total() . ' / ' . $this->parent->get_total();
 		            $html[] = '</div>';
 		            $html[] = '</div>';
 	            }
@@ -342,43 +419,31 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
             elseif($indicator_id > 0)
             {     
             	// Create publication results
-            	$user_id = 0;
-				$graded_user_id = 0;
-				$score = 0;
 				$finished = 1;
 				
-				$results = new PeerAssessmentPublicationResults();
-				$results->set_publication_id($publication_id);
-				$results->set_competence_id($competence_id);
-				$results->set_indicator_id($indicator_id);
-				$results->set_user_id($user_id);
-				$results->set_graded_user_id($graded_user_id);
-				$results->set_score($score);
-				$results->set_finished($finished);
-				
-				$results->create();
-				//dump($results);
-				//$this->parent->set_peer_assessment_publication_results($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id, $score, $finshed);
-              	
-            	/*foreach($users as $user)
+				foreach($users as $user)
             	{
-            		dump($user->get_user());
-            	}*/
-            	//exit(); 
+					$results = new PeerAssessmentPublicationResults();
+					$results->set_publication_id($publication_id);
+					$results->set_competence_id($competence_id);
+					$results->set_indicator_id($indicator_id);
+					$results->set_user_id(Session :: get_user_id());
+					$results->set_graded_user_id($user->get_user());
+					$results->set_score(1);//$_POST['criteria_score_of_user_id_'.Session :: get_user_id()]);
+					$results->set_finished($finished);
+					
+					$results->create();
+            	}
 	            
 				/*
 				foreach($users as $user)
 	        	{
 	        		
 	        		$current = $current_page->get_criteria($criteria_scores, $user->get_user(), $form);
-	        		$current_pages &= $current;
-	        		dump($current_pages);
-	        		dump($user);
-	        		
+	        		$current_pages &= $current;	
 	        	}
 	        	exit();*/
-            	//$this->parent->set_peer_assessment_publication_results($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id, $score, $finshed);
-              	
+           	
             	//'run.php?go=take_publication&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id();
             	//dump(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION, 'peer_assessment_publication' => $publication_id, 'competence' => $competence_id));
             	//Redirect :: url(Translation :: get('TakePublication'), false, (array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION, 'peer_assessment_publication' => $publication_id, 'competence' => $competence_id)));

@@ -116,6 +116,12 @@ class EvaluationForm extends FormValidator
 	    		$this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
 			}
 		}
+		else
+		{
+			$select = $this->add_select(Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array, false, array('class' => 'change_evaluation_format'));
+			$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/change_evaluation_format.js'));
+    		$this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
+		}
     }
     
     function build_basic_creation_form()

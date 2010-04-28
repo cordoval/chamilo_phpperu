@@ -11,6 +11,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	private $content_object_ids = array();
 	private $application;
 	private $table;
+	private $applications;
 
 	function run()
 	{
@@ -19,7 +20,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 
 //		echo $this->ab->as_html();
 		//$applications = array_merge($this->retrieve_applications_with_evaluations(), $this->retrieve_calculated_applications_with_evaluation());
-		$applications = $this->retrieve_filtered_array_internal_evaluated_publication($this->get_user_id());
+		$this->applications = $this->retrieve_filtered_array_internal_evaluated_publication($this->get_user_id());
 		if(Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE))
 		{
 			$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
@@ -28,7 +29,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		}
 		$this->display_header($trail);
 		$this->ab = $this->get_action_bar();
-		echo $this->get_application_tabs(array_unique($applications));
+		echo $this->get_application_tabs(array_unique($this->applications));
 		if ($this->table)
 			echo $this->table->as_html($this);
 		$this->display_footer();
@@ -42,9 +43,19 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		return $action_bar;
 	}
 	
-	function get_condition()
+	function get_condition($applications_array)
 	{
-		return new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application, InternalItem :: CLASS_NAME);
+		$ids = array_keys($applications_array);
+		$conditions = array();
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application, InternalItem :: CLASS_NAME);
+		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $ids);
+		$condition = new AndCondition($conditions);
+		return $condition;
+	}
+	
+	function get_applications()
+	{
+		return $this->applications;
 	}
 	
 	function get_application_tabs($applications)

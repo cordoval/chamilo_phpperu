@@ -14,10 +14,16 @@ for($i = 0; $i < 2; $i++)
 		case 0: $course->set_course_type(NULL);
 				dump("Created new course without coursetype\n");
 				break;
-		case 1: $course->set_course_type(new CourseType());
-				dump("Created new course with empty coursetype\n");
-				break;
+		//case 1: $course->set_course_type(new CourseType());
+			//	dump("Created new course with empty coursetype\n");
+			//	break;
+		case 1: $course = new Course();
+						
+				dump("Created new course without any other subsclasses");
 	}
+	dump("Trying to write general settings\n");
+	$course->set_name("course_1");
+	$course->set_visual("course_1");
 	dump("Trying to write to settings\n");
 	$course->set_language("Dutch");
 	$course->set_visibility(1);
@@ -46,6 +52,7 @@ for($i = 0; $i < 2; $i++)
 	$course->set_unsubscribe_available(1);
 	dump("Write complete\n");
 	dump($course->get_rights()->get_default_properties());
+	$course->create();
 }
 ?>
 
