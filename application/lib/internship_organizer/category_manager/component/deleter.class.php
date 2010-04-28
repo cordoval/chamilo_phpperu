@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrganizerCategoryManagerComponent
+class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrganizerCategoryManager
 {
 
     /**
@@ -34,6 +34,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
                 }
             }
             
+            //$this->get_result( not good enough?
             if ($failures)
             {
                 if (count($ids) == 1)

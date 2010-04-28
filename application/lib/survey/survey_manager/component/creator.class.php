@@ -1,10 +1,10 @@
 <?php
 
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
-require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../forms/survey_publication_form.class.php';
 
-class SurveyManagerCreatorComponent extends SurveyManagerComponent
+class SurveyManagerCreatorComponent extends SurveyManager
 {
 
     /**

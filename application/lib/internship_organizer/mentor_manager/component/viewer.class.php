@@ -1,15 +1,16 @@
 <?php
 
 require_once dirname ( __FILE__ ) . '/../mentor_manager.class.php';
-require_once dirname ( __FILE__ ) . '/../mentor_manager_component.class.php';
 
 
-class InternshipOrganizerMentorManagerViewerComponent extends InternshipOrganizerMentorManagerComponent {
+class InternshipOrganizerMentorManagerViewerComponent extends InternshipOrganizerMentorManager 
+{
 
 	private $action_bar;
 	private $mentor;
 
-	function run() {
+	function run() 
+	{
 
 		$mentor_id = $_GET[InternshipOrganizerMentorManager::PARAM_MENTOR_ID];
 		$this->mentor = $this->retrieve_mentor($mentor_id);
@@ -32,7 +33,8 @@ class InternshipOrganizerMentorManagerViewerComponent extends InternshipOrganize
 		$this->display_footer ();
 	}
 
-	function get_table() {
+	function get_table() 
+	{
 		$parameters = $this->get_parameters();
 		$parameters[InternshipOrganizerMentorManager::PARAM_MENTOR_ID] = $this->mentor->get_id();
 		$table = new InternshipOrganizerMentorBrowserTable ( $this, $parameters , $this->get_condition () );
@@ -40,13 +42,15 @@ class InternshipOrganizerMentorManagerViewerComponent extends InternshipOrganize
 	}
 
 
-	function get_action_bar() {
+	function get_action_bar() 
+	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 		$action_bar->set_search_url ( $this->get_url (array(InternshipOrganizerMentorManager::PARAM_MENTOR_ID => $this->mentor->get_id())) );
 		return $action_bar;
 	}
 
-	function get_condition() {
+	function get_condition() 
+	{
 		//Klopt deze?
 		$query = $this->action_bar->get_query ();
 		$conditions = array();

@@ -4,11 +4,11 @@
  * @package application.lib.survey.survey_manager.component
  */
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
-require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/results_export_form/results_export_form.class.php';
 require_once dirname(__FILE__) . '/results_export_form/export.class.php';
 
-class SurveyManagerResultsExporterComponent extends SurveyManagerComponent
+class SurveyManagerResultsExporterComponent extends SurveyManager
 {
 
     function run()

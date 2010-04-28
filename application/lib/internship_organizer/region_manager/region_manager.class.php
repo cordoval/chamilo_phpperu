@@ -40,23 +40,23 @@ class InternshipOrganizerRegionManager extends SubManager
 		{
 
 			case self :: ACTION_CREATE_REGION :
-				$component = InternshipOrganizerRegionManagerComponent :: factory('Creator', $this);
+				$component = $this->create_component('Creator');
 				break;
 			case self :: ACTION_EDIT_REGION :
-				$component = InternshipOrganizerRegionManagerComponent :: factory('Editor', $this);
+				$component = $this->create_component('Editor');
 				break;
 			case self :: ACTION_DELETE_REGION :
-				$component = InternshipOrganizerRegionManagerComponent :: factory('Deleter', $this);
+				$component = $this->create_component('Deleter');
 				break;
 			case self :: ACTION_VIEW_REGION :
-				$component = InternshipOrganizerRegionManagerComponent :: factory('Viewer', $this);
+				$component = $this->create_component('Viewer');
 				break;
 			case self :: ACTION_BROWSE_REGIONS :
-				$component = InternshipOrganizerRegionManagerComponent :: factory('Browser', $this);
+				$component = $this->create_component('Browser');
 				break;
 			default :
 				$this->set_region_action(self :: ACTION_BROWSE_REGIONS);
-				$component = InternshipOrganizerRegionManagerComponent :: factory('Browser', $this);
+				$component = $this->create_component('Browser');
 		}
 
 		$component->run();

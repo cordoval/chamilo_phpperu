@@ -2,7 +2,7 @@
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/region_form.class.php';
 
 
-class InternshipOrganizerRegionManagerCreatorComponent extends InternshipOrganizerRegionManagerComponent
+class InternshipOrganizerRegionManagerCreatorComponent extends InternshipOrganizerRegionManager
 {
 
     /**

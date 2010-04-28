@@ -1,6 +1,6 @@
 <?php
 
-class SurveyManagerQuestionReportingComponent extends SurveyManagerComponent
+class SurveyManagerQuestionReportingComponent extends SurveyManager
 {
 	
 	const TEMPLATE_SURVEY_QUESTION_REPORTING = 'survey_question_reporting_template';

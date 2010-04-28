@@ -690,4 +690,7 @@ $lang['repository']['ExternalCalendarFormProperties'] = 'Properties';
 $lang['repository']['URL'] = 'URL';
 $lang['repository']['ExternalCalendarTypeName'] = 'External calendar';
 $lang['repository']['LastChangedAt'] = 'Last changed at {TIME}';
+$lang['repository']['StreamingMedias'] = 'Streaming medias';
+$lang['repository']['AllVideos'] = 'All videos';
+$lang['repository']['MyVideos'] = 'My videos';
 ?>

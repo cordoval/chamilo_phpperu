@@ -28,9 +28,9 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
         {
             $pid = $pids[0];
         }
-        
-        
-        $publication = $this->retrieve_peer_assessment_publication($pid);     
+               
+        $publication = $this->retrieve_peer_assessment_publication($pid); 
+            
 		if (! $publication->is_visible_for_target_user($this->get_user()))
         {
             $this->not_allowed($trail, false);
@@ -45,7 +45,8 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
         $this->set_parameter(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION, $this->pid);
         
         $already_sent = 1;
-		$form = $this->build_result_form(/*$publication,*/ $pids);	
+        
+		$form = $this->build_result_form($pids);	
         if ($form->validate())
         {
             $this->redirect(Translation :: get('PeerAssessmentChecked'), false, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
@@ -74,7 +75,7 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
 
     }
     
-    function build_result_form(/*$publication,*/ $pids)
+    function build_result_form($pids)
     {
         $url = $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pids));
         $form = new FormValidator('take_peer_assessment_publication', 'post', $url);

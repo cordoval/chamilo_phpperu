@@ -39,11 +39,11 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'));
         }
-        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);*/
 
         
         // Add question forms
-        if ($question_count != 0)
+        /*if ($question_count != 0)
         {
             foreach ($this->questions as $nr => $question)
             {

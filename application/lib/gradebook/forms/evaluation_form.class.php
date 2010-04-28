@@ -107,9 +107,15 @@ class EvaluationForm extends FormValidator
 		{
 			$formats_array[$format->get_id()] = ucfirst($format->get_title());
 		}
-		$select = $this->add_select(Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array, false, array('class' => 'change_evaluation_format'));
-		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/change_evaluation_format.js'));
-	    $this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
+		if (Request :: get(EvaluationManager :: PARAM_EVALUATION_ACTION) == EvaluationManager :: ACTION_UPDATE)
+		{
+			if (PlatformSetting :: get_instance()->get('allow_change_format_on_update', 'gradebook'))
+			{
+				$select = $this->add_select(Evaluation :: PROPERTY_FORMAT_ID, Translation :: get('EvaluationFormat'), $formats_array, false, array('class' => 'change_evaluation_format'));
+				$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/change_evaluation_format.js'));
+	    		$this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
+			}
+		}
     }
     
     function build_basic_creation_form()

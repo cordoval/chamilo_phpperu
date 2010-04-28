@@ -47,7 +47,8 @@ class ApplicationCommonAutoloader
 					  'web_application' => 'web_application.class.php',
 					  'web_application_component' => 'web_application_component.class.php',
 					  'test_category_manager' => 'category_manager/test_category_manager.class.php',
-					  'email_manager' => 'email_manager/email_manager.class.php');
+					  'email_manager' => 'email_manager/email_manager.class.php',
+					  'streaming_media_menu' => 'streaming_media_manager/streaming_media_menu.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

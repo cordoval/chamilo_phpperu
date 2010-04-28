@@ -5,7 +5,7 @@ require_once dirname(__FILE__).'/connector/gradebook_connector.class.php';
 
 class GradebookUtilities
 {
-	static function check_tracker_for_data($application, $publication_id, $tool)
+	static function check_tracker_for_user($application, $publication_id, $tool)
 	{
 		$connector = GradeBookConnector :: factory($application);
 		if($tracker_user = $connector->get_tracker_user($application, $publication_id, $tool))

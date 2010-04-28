@@ -1,13 +1,14 @@
 <?php
 
 require_once dirname ( __FILE__ ) . '/../agreement_manager.class.php';
-require_once dirname ( __FILE__ ) . '/../agreement_manager_component.class.php';
 require_once dirname ( __FILE__ ) . '/browser/browser_table.class.php';
 
-class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrganizerAgreementManagerComponent {
+class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrganizerAgreementManager 
+{
 	private $action_bar;
 
-	function run() {
+	function run() 
+	{
 		$trail = new BreadcrumbTrail ();
 		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerAgreementManager::PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT) ), Translation::get ( 'BrowseAgreements' ) ) );
 
@@ -25,14 +26,16 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
 		$this->display_footer ();
 	}
 
-	function get_table() {
+	function get_table() 
+	{
 		$parameters = $this->get_parameters();
 		$table = new InternshipOrganizerAgreementBrowserTable ( $this, $parameters , $this->get_condition () );
 		return $table->as_html ();
 	}
 
 
-	function get_action_bar() {
+	function get_action_bar() 
+	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddAgreement'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_agreement_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -43,12 +46,14 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
 		return $action_bar;
 	}
 
-	function get_condition() {
+	function get_condition()
+	{
 
 		$query = $this->action_bar->get_query ();
 		$condition = null;
 
-		if (isset ( $query ) && $query != '') {
+		if (isset ( $query ) && $query != '') 
+		{
 			$search_conditions = array ();
 			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerAgreement::PROPERTY_NAME, '*' . $query . '*' );
 			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerAgreement::PROPERTY_DESCRIPTION, '*' . $query . '*' );

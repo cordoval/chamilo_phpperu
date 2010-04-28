@@ -1,10 +1,9 @@
 <?php
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager_component.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/moment_form.class.php';
 
-class InternshipOrganizerAgreementManagerMomentCreatorComponent extends InternshipOrganizerAgreementManagerComponent
+class InternshipOrganizerAgreementManagerMomentCreatorComponent extends InternshipOrganizerAgreementManager
 {
 	/**
 	 * Runs this component and displays its output.

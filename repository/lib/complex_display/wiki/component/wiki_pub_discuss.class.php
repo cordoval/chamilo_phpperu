@@ -125,7 +125,7 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplayComponent
 
     function show_add_feedback()
     {
-        $actions[] = array('href' => $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => Request :: get('pid'), 'selected_cloi' => $this->cid)), 'label' => Translation :: get('AddFeedback'), 'img' => Theme :: get_common_image_path() . 'action_add.png', 'confirm' => false);
+        $actions[] = array('href' => $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'selected_cloi' => $this->cid)), 'label' => Translation :: get('AddFeedback'), 'img' => Theme :: get_common_image_path() . 'action_add.png', 'confirm' => false);
         
         return Utilities :: build_toolbar($actions);
     

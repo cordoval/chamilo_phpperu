@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerManagerAgreementComponent extends InternshipOrganizerManagerComponent
+class InternshipOrganizerManagerAgreementComponent extends InternshipOrganizerManager
 {
 
     /**
@@ -8,7 +8,7 @@ class InternshipOrganizerManagerAgreementComponent extends InternshipOrganizerMa
      */
     function run()
     {
-        $agreement_manager = new InternshipOrganizerAgreementManager($this->get_parent());
+        $agreement_manager = new InternshipOrganizerAgreementManager($this);
         $agreement_manager->run();
     }
 }

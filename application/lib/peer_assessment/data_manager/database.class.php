@@ -424,8 +424,13 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     
 	function create_peer_assessment_publication_results($peer_assessment_publication)
 	{
-		//dump($peer_assessment_publication);
 		return $this->database->create($peer_assessment_publication);
+	}
+	
+	function retrieve_peer_assessment_publication_results($indicator_id)
+	{
+		$condition = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_INDICATOR_ID, $indicator_id);
+        return $this->database->retrieve_object(PeerAssessmentPublicationResults :: get_table_name(), $condition, array(), PeerAssessmentPublicationResults :: CLASS_NAME);
 	}
 
 }

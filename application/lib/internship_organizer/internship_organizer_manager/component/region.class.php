@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerManagerRegionComponent extends InternshipOrganizerManagerComponent
+class InternshipOrganizerManagerRegionComponent extends InternshipOrganizerManager
 {
 
     /**
@@ -8,7 +8,7 @@ class InternshipOrganizerManagerRegionComponent extends InternshipOrganizerManag
      */
     function run()
     {
-        $region_manager = new InternshipOrganizerRegionManager($this->get_parent());
+        $region_manager = new InternshipOrganizerRegionManager($this);
         $region_manager->run();
     }
 }

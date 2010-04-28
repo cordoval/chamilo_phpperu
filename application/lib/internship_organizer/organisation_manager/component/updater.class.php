@@ -1,11 +1,10 @@
 <?php
 
 require_once Path :: get_application_path().'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
-require_once Path :: get_application_path().'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager_component.class.php';
 require_once Path :: get_application_path().'lib/internship_organizer/forms/organisation_form.class.php';
 
 
-class InternshipOrganizerOrganisationManagerUpdaterComponent extends InternshipOrganizerOrganisationManagerComponent
+class InternshipOrganizerOrganisationManagerUpdaterComponent extends InternshipOrganizerOrganisationManager
 {
 	/**
 	 * Runs this component and displays its output.

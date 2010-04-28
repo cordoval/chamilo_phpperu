@@ -8,7 +8,10 @@ require_once dirname(__FILE__) . '/../category_menu.class.php';
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/category.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/category_rel_location.class.php';
-
+/**
+ * General category manager not good enough?
+ *
+ */
 class InternshipOrganizerCategoryManager extends SubManager
 {
     
@@ -53,38 +56,38 @@ class InternshipOrganizerCategoryManager extends SubManager
         {
             
             case self :: ACTION_CREATE_CATEGORY :
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_EDIT_CATEGORY :
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
                 break;
             case self :: ACTION_DELETE_CATEGORY :
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_MOVE_CATEGORY :
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('Mover', $this);
+                $component = $this->create_component('Mover');
                 break;
             case self :: ACTION_TRUNCATE_CATEGORY :
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('Truncater', $this);
+                $component = $this->create_component('Truncater');
                 break;
             case self :: ACTION_VIEW_CATEGORY :
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_BROWSE_CATEGORIES :
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_UNSUBSCRIBE_LOCATION_FROM_CATEGORY :
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('Unsubscriber', $this);
+                $component = $this->create_component('Unsubscriber');
                 break;
             case self :: ACTION_SUBSCRIBE_LOCATION_TO_CATEGORY :
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('Subscriber', $this);
+                $component = $this->create_component('Subscriber');
                 break;
             case self :: ACTION_SUBSCRIBE_LOCATION_BROWSER :
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('SubscribeLocationBrowser', $this);
+                $component = $this->create_component('SubscribeLocationBrowser');
                 break;
             default :
                 $this->set_category_action(self :: ACTION_BROWSE_CATEGORIES);
-                $component = InternshipOrganizerCategoryManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         
         $component->run();
