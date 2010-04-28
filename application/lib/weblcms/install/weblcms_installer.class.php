@@ -604,6 +604,7 @@ class WeblcmsInstaller extends Installer
 		$course_type_rights->set_course_type_id(1);
 		$course_type_rights->set_direct_subscribe_available(1);
 		$course_type_rights->set_unsubscribe_available(1);
+		$course_type_rights->set_creation_available(1);
 		$succes = $succes && $course_type_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
@@ -663,6 +664,7 @@ class WeblcmsInstaller extends Installer
 		$course_type_rights->set_course_type_id(2);
 		$course_type_rights->set_direct_subscribe_available(1);
 		$course_type_rights->set_unsubscribe_available(1);
+		$course_type_rights->set_creation_available(1);
 		$succes = $succes && $course_type_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
