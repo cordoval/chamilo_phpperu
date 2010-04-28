@@ -57,7 +57,7 @@ class Course extends DataClass
 	
 	private $request;
 
-	private $course_type;
+	private $course_type = false;
 
 	function Course($defaultProperties = array (), $optionalProperties = array())
 	{
@@ -202,6 +202,18 @@ class Course extends DataClass
 
     function get_settings()
     {
+    	if(is_null($this->settings))
+    	{
+    		$settings = $this->get_data_manager()->retrieve_course_settings($this->get_id());
+    		if(empty($settings))
+    		{
+    			$settings = new CourseSettings();
+    			$settings->set_course_id($this->get_id());
+    			if(!is_null($this->get_id()))
+    				$settings->create();
+    		}
+    		$this->set_settings($settings);
+    	}	
         return $this->settings;
     }
     
@@ -212,6 +224,18 @@ class Course extends DataClass
 
     function get_layout_settings()
     {
+    	if(is_null($this->layout))
+    	{
+    		$layout = $this->get_data_manager()->retrieve_course_layout($this->get_id());
+    	    if(empty($layout))
+    		{
+    			$layout = new CourseLayout();
+    			$layout->set_course_id($this->get_id());
+    			if(!is_null($this->get_id()))
+    				$layout->create();
+    		}
+    		$this->set_layout_settings($layout);
+    	}
         return $this->layout;
     }
 
@@ -233,11 +257,32 @@ class Course extends DataClass
     
  	function get_rights()
     {
+    	if(is_null($this->rights))
+    	{
+    		$rights = $this->get_data_manager()->retrieve_course_rights($this->get_id());
+    		if(empty($rights))
+    		{
+    			$rights = new CourseRights();
+    			$rights->set_course_id($this->get_id());
+    			if(!is_null($this->get_id()))
+    				$rights->create();
+    		}
+    		$this->set_rights($rights);
+    	}
         return $this->rights;
     }
 
     function get_course_type()
     {
+    	if($this->course_type === false)
+    	{
+    		$course_type = $this->get_data_manager()->retrieve_course_type($this->get_course_type_id());
+    		if(empty($course_type))
+    		{
+    			$course_type = NULL;
+    		}
+    		$this->set_course_type($course_type);
+    	}
         return $this->course_type;
     }
 
@@ -386,7 +431,7 @@ class Course extends DataClass
     {
     	if(!$this->get_language_fixed())
     	{
-        	return $this->settings->get_language();
+        	return $this->get_settings()->get_language();
     	}
         else
         	return $this->get_course_type()->get_settings()->get_language();
@@ -395,7 +440,7 @@ class Course extends DataClass
     function get_visibility()
     {
     	if(!$this->get_visibility_fixed())
-        	return $this->settings->get_visibility();
+        	return $this->get_settings()->get_visibility();
         else
         	return $this->get_course_type()->get_settings()->get_visibility();
     }
@@ -403,7 +448,7 @@ class Course extends DataClass
 	function get_access()
     {
     	if(!$this->get_access_fixed())
-        	return $this->settings->get_access();
+        	return $this->get_settings()->get_access();
         else
         	return $this->get_course_type()->get_settings()->get_access();
     }
@@ -411,7 +456,7 @@ class Course extends DataClass
     function get_max_number_of_members()
     {
     	if(!$this->get_max_number_of_members_fixed())
-        	return $this->settings->get_max_number_of_members();
+        	return $this->get_settings()->get_max_number_of_members();
         else
         	return $this->get_course_type()->get_settings()->get_max_number_of_members();
     }
@@ -422,16 +467,16 @@ class Course extends DataClass
 
     function get_titular_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_settings()))
-    		return $this->course_type->get_settings()->get_titular_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_settings()->get_titular_fixed();
     	else
     		return 0;
     }
     
     function get_language_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_settings()))
-    		return $this->course_type->get_settings()->get_language_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_settings()->get_language_fixed();
     	else
     		return 0;
     }
@@ -439,15 +484,15 @@ class Course extends DataClass
     function set_language($language)
     {
     	if(!$this->get_language_fixed())
-        	$this->settings->set_language($language);
+        	$this->get_settings()->set_language($language);
         else
-        	$this->settings->set_language($this->course_type->get_settings()->get_language());
+        	$this->get_settings()->set_language($this->get_course_type()->get_settings()->get_language());
     }
 
     function get_visibility_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_settings()))
-    		return $this->course_type->get_settings()->get_visibility_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_settings()->get_visibility_fixed();
     	else
     		return 0;
     }
@@ -455,15 +500,15 @@ class Course extends DataClass
     function set_visibility($visibility)
     {
 		if(!$this->get_visibility_fixed())
-        	$this->settings->set_visibility($visibility);
+        	$this->get_settings()->set_visibility($visibility);
         else
-        	$this->settings->set_visibility($this->course_type->get_settings()->get_visibility());
+        	$this->get_settings()->set_visibility($this->get_course_type()->get_settings()->get_visibility());
     }
 
     function get_access_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_settings()))
-    		return $this->course_type->get_settings()->get_access_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_settings()->get_access_fixed();
     	else
     		return 0;
     }
@@ -471,15 +516,15 @@ class Course extends DataClass
     function set_access($access)
     {
 		if(!$this->get_access_fixed())
-        	$this->settings->set_access($access);
+        	$this->get_settings()->set_access($access);
         else
-        	$this->settings->set_access($this->course_type->get_settings()->get_access());
+        	$this->get_settings()->set_access($this->get_course_type()->get_settings()->get_access());
     }
 
     function get_max_number_of_members_fixed($max_number_of_members)
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_settings()))
-			return $this->course_type->get_settings()->get_max_number_of_members_fixed();
+    	if(!is_null($this->get_course_type()))
+			return $this->get_course_type()->get_settings()->get_max_number_of_members_fixed();
 		else
 			return 0;
     }
@@ -487,9 +532,9 @@ class Course extends DataClass
     function set_max_number_of_members($max_number_of_members)
     {
 		if(!$this->get_max_number_of_members_fixed())
-        	$this->settings->set_max_number_of_members($max_number_of_members);
+        	$this->get_settings()->set_max_number_of_members($max_number_of_members);
         else
-        	$this->settings->set_max_number_of_members($this->course_type->get_settings()->get_max_number_of_members());
+        	$this->get_settings()->set_max_number_of_members($this->get_course_type()->get_settings()->get_max_number_of_members());
     }
 
     /**
@@ -585,8 +630,8 @@ class Course extends DataClass
      */
     function get_feedback_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
-    		return $this->course_type->get_layout_settings()->get_feedback_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_layout_settings()->get_feedback_fixed();
     	else
     		return 0;
     }
@@ -596,13 +641,13 @@ class Course extends DataClass
     	if(!$this->get_feedback_fixed())
     		$this->get_layout_settings()->set_feedback($feedback);
     	else
-        	$this->get_layout_settings()->set_feedback($this->course_type->get_layout_settings()->get_feedback());
+        	$this->get_layout_settings()->set_feedback($this->get_course_type()->get_layout_settings()->get_feedback());
     }
 
     function get_layout_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
-    		return $this->course_type->get_layout_settings()->get_layout_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_layout_settings()->get_layout_fixed();
     	else
     		return 0;
     }
@@ -612,13 +657,13 @@ class Course extends DataClass
     	if(!$this->get_layout_fixed())
     		$this->get_layout_settings()->set_layout($layout);
     	else
-        	$this->get_layout_settings()->set_layout($this->course_type->get_layout_settings()->get_layout());
+        	$this->get_layout_settings()->set_layout($this->get_course_type()->get_layout_settings()->get_layout());
     }
 
     function get_tool_shortcut_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
-    		return $this->course_type->get_layout_settings()->get_tool_shortcut_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_layout_settings()->get_tool_shortcut_fixed();
     	else
     		return 0;
     }
@@ -628,13 +673,13 @@ class Course extends DataClass
     	if(!$this->get_tool_shortcut_fixed())
     		$this->get_layout_settings()->set_tool_shortcut($tool_shortcut);
     	else
-        	$this->get_layout_settings()->set_tool_shortcut($this->course_type->get_layout_settings()->get_tool_shortcut());
+        	$this->get_layout_settings()->set_tool_shortcut($this->get_course_type()->get_layout_settings()->get_tool_shortcut());
     }
 
     function get_menu_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
-    		return $this->course_type->get_layout_settings()->get_menu_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_layout_settings()->get_menu_fixed();
     	else
     		return 0;
     }
@@ -644,13 +689,13 @@ class Course extends DataClass
     	if(!$this->get_menu_fixed())
     		$this->get_layout_settings()->set_menu($menu);
     	else
-        	$this->get_layout_settings()->set_menu($this->course_type->get_layout_settings()->get_menu());
+        	$this->get_layout_settings()->set_menu($this->get_course_type()->get_layout_settings()->get_menu());
     }
 
     function get_breadcrumb_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
-    		return $this->course_type->get_layout_settings()->get_breadcrumb_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_layout_settings()->get_breadcrumb_fixed();
     	else
     		return 0;
     }
@@ -660,13 +705,13 @@ class Course extends DataClass
     	if(!$this->get_breadcrumb_fixed())
     		$this->get_layout_settings()->set_breadcrumb($breadcrumb);
     	else
-        	$this->get_layout_settings()->set_breadcrumb($this->course_type->get_layout_settings()->get_breadcrumb());
+        	$this->get_layout_settings()->set_breadcrumb($this->get_course_type()->get_layout_settings()->get_breadcrumb());
     }
 
     function get_intro_text_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
-    		return $this->course_type->get_layout_settings()->get_intro_text_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_layout_settings()->get_intro_text_fixed();
     	else
     		return 0;
     }
@@ -676,13 +721,13 @@ class Course extends DataClass
     	if(!$this->get_intro_text_fixed())
     		$this->get_layout_settings()->set_intro_text($intro_text);
     	else
-        	$this->get_layout_settings()->set_intro_text($this->course_type->get_layout_settings()->get_intro_text());
+        	$this->get_layout_settings()->set_intro_text($this->get_course_type()->get_layout_settings()->get_intro_text());
     }
 
     function get_student_view_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
-    		return $this->course_type->get_layout_settings()->get_student_view_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_layout_settings()->get_student_view_fixed();
     	else
     		return 0;
     }
@@ -692,13 +737,13 @@ class Course extends DataClass
     	if(!$this->get_student_view_fixed())
     		$this->get_layout_settings()->set_student_view($student_view);
     	else
-        	$this->get_layout_settings()->set_student_view($this->course_type->get_layout_settings()->get_student_view());
+        	$this->get_layout_settings()->set_student_view($this->get_course_type()->get_layout_settings()->get_student_view());
     }
 
     function get_course_code_visible_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
-    		return $this->course_type->get_layout_settings()->get_course_code_visible_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_layout_settings()->get_course_code_visible_fixed();
     	else
     		return 0;
     }
@@ -708,13 +753,13 @@ class Course extends DataClass
     	if(!$this->get_course_code_visible_fixed())
     		$this->get_layout_settings()->set_course_code_visible($course_code_visible);
     	else
-        	$this->get_layout_settings()->set_course_code_visible($this->course_type->get_layout_settings()->get_course_code_visible());
+        	$this->get_layout_settings()->set_course_code_visible($this->get_course_type()->get_layout_settings()->get_course_code_visible());
     }
 
     function get_course_manager_name_visible_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
-    		return $this->course_type->get_layout_settings()->get_course_manager_name_visible_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_layout_settings()->get_course_manager_name_visible_fixed();
     	else
     		return 0;
     }
@@ -724,13 +769,13 @@ class Course extends DataClass
     	if(!$this->get_course_manager_name_visible_fixed())
     		$this->get_layout_settings()->set_course_manager_name_visible($course_manager_name_visible);
     	else
-        	$this->get_layout_settings()->set_course_manager_name_visible($this->course_type->get_layout_settings()->get_course_manager_name_visible());
+        	$this->get_layout_settings()->set_course_manager_name_visible($this->get_course_type()->get_layout_settings()->get_course_manager_name_visible());
     }
 
     function get_course_languages_visible_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_layout_settings()))
-    		return $this->course_type->get_layout_settings()->get_course_languages_visible_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_layout_settings()->get_course_languages_visible_fixed();
     	else
     		return 0;
     }
@@ -740,7 +785,7 @@ class Course extends DataClass
     	if(!$this->get_course_languages_visible_fixed())
     		$this->get_layout_settings()->set_course_languages_visible($course_languages_visible);
     	else
-        	$this->get_layout_settings()->set_course_languages_visible($this->course_type->get_layout_settings()->get_course_languages_visible());
+        	$this->get_layout_settings()->set_course_languages_visible($this->get_course_type()->get_layout_settings()->get_course_languages_visible());
     }
 
 	/**
@@ -785,7 +830,7 @@ class Course extends DataClass
     
     function can_group_subscribe($group_id)
     {
-    	$right = $this->rights->can_group_subscribe($group_id);
+    	$right = $this->get_rights()->can_group_subscribe($group_id);
     	switch($right)
     	{
     		case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT :
@@ -809,7 +854,7 @@ class Course extends DataClass
     function can_group_unsubscribe($group_id)
     {
     	if($this->get_unsubscribe_available())
-    		return $this->rights->can_group_unsubscribe($group_id);
+    		return $this->get_rights()->can_group_unsubscribe($group_id);
     	else
     		return 0;
     }
@@ -822,33 +867,33 @@ class Course extends DataClass
     function get_direct_subscribe_available()
     {
     	if(!$this->get_direct_subscribe_fixed())
-        	return $this->rights->get_direct_subscribe_available();
+        	return $this->get_rights()->get_direct_subscribe_available();
         else
-        	return $this->course_type->get_rights()->get_direct_subscribe_available();
+        	return $this->get_course_type()->get_rights()->get_direct_subscribe_available();
     }
 
     function get_request_subscribe_available()
     {
     	if(!$this->get_request_subscribe_fixed())
-        	return $this->rights->get_request_subscribe_available();
+        	return $this->get_rights()->get_request_subscribe_available();
         else
-        	return $this->course_type->get_rights()->get_request_subscribe_available();
+        	return $this->get_course_type()->get_rights()->get_request_subscribe_available();
     }
 
     function get_code_subscribe_available()
     {
     	if(!$this->get_code_subscribe_fixed())
-        	return $this->rights->get_code_subscribe_available();
+        	return $this->get_rights()->get_code_subscribe_available();
         else
-        	return $this->course_type->get_rights()->get_code_subscribe_available();
+        	return $this->get_course_type()->get_rights()->get_code_subscribe_available();
     }
 
     function get_unsubscribe_available()
     {
     	if(!$this->get_unsubscribe_fixed())
-        	return $this->rights->get_unsubscribe_available();
+        	return $this->get_rights()->get_unsubscribe_available();
         else
-        	return $this->course_type->get_rights()->get_unsubscribe_available();
+        	return $this->get_course_type()->get_rights()->get_unsubscribe_available();
     }
     
     /**
@@ -865,8 +910,8 @@ class Course extends DataClass
 
     function get_direct_subscribe_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_rights()))
-    		return $this->course_type->get_rights()->get_direct_subscribe_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_rights()->get_direct_subscribe_fixed();
     	else
     		return 0;
     }
@@ -874,15 +919,15 @@ class Course extends DataClass
     function set_direct_subscribe_available($direct)
     {
     	if(!$this->get_direct_subscribe_fixed())
-        	$this->rights->set_direct_subscribe_available($direct);
+        	$this->get_rights()->set_direct_subscribe_available($direct);
         else
-        	$this->rights->set_direct_subscribe_available($this->course_type->get_rights()->get_direct_subscribe_available());
+        	$this->get_rights()->set_direct_subscribe_available($this->get_course_type()->get_rights()->get_direct_subscribe_available());
     }
 
     function get_request_subscribe_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_rights()))
-    		return $this->course_type->get_rights()->get_request_subscribe_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_rights()->get_request_subscribe_fixed();
     	else
     		return 0;
     }
@@ -890,15 +935,15 @@ class Course extends DataClass
     function set_request_subscribe_available($request)
     {
     	if(!$this->get_request_subscribe_fixed())
-        	$this->rights->set_request_subscribe_available($request);
+        	$this->get_rights()->set_request_subscribe_available($request);
         else
-        	$this->rights->set_request_subscribe_available($this->course_type->get_rights()->get_request_subscribe_available());
+        	$this->get_rights()->set_request_subscribe_available($this->get_course_type()->get_rights()->get_request_subscribe_available());
     }
 
     function get_code_subscribe_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_rights()))
-    		return $this->course_type->get_rights()->get_code_subscribe_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_rights()->get_code_subscribe_fixed();
     	else
     		return 0;
     }
@@ -906,15 +951,15 @@ class Course extends DataClass
     function set_code_subscribe_available($code)
     {
     	if(!$this->get_code_subscribe_fixed())
-        	$this->rights->set_code_subscribe_available($code);
+        	$this->get_rights()->set_code_subscribe_available($code);
         else
-        	$this->rights->set_code_subscribe_available($this->course_type->get_rights()->get_code_subscribe_available());
+        	$this->get_rights()->set_code_subscribe_available($this->get_course_type()->get_rights()->get_code_subscribe_available());
     }
     
     function get_unsubscribe_fixed()
     {
-    	if(!is_null($this->course_type) && !is_null($this->course_type->get_rights()))
-    		return $this->course_type->get_rights()->get_unsubscribe_fixed();
+    	if(!is_null($this->get_course_type()))
+    		return $this->get_course_type()->get_rights()->get_unsubscribe_fixed();
     	else
     		return 0;
     }
@@ -922,9 +967,9 @@ class Course extends DataClass
     function set_unsubscribe_available($code)
     {
     	if(!$this->get_unsubscribe_fixed())
-        	$this->rights->set_unsubscribe_available($code);
+        	$this->get_rights()->set_unsubscribe_available($code);
         else
-        	$this->rights->set_unsubscribe_available($this->course_type->get_rights()->get_unsubscribe_available());
+        	$this->get_rights()->set_unsubscribe_available($this->get_course_type()->get_rights()->get_unsubscribe_available());
     }
     
     /**
@@ -936,9 +981,22 @@ class Course extends DataClass
         $wdm = WeblcmsDataManager :: get_instance();
 
         if (! $wdm->create_course($this))
-        {
             return false;
-        }
+		
+        $settings = $this->get_settings();
+        $settings->set_course_id($this->get_id());
+        if (! $settings->create())
+			return false;
+
+		$layout = $this->get_layout_settings();
+		$layout->set_course_id($this->get_id());
+		if(! $layout->create())
+			return false;
+
+		$rights = $this->get_rights();
+		$rights->set_course_id($this->get_id());
+		if(! $rights->create())
+			return false;
 
         require_once (dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php');
         $dropbox = new ContentObjectPublicationCategory();

@@ -117,6 +117,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_REPORTING = 'reporting';
 	const ACTION_RENDER_BLOCK = 'block';
 	const ACTION_COURSE_CODE = 'coursecode';
+	const ACTION_COURSE_CREATE_REQUEST_CREATOR = 'coursecreaterequestcreator';
 
 	/**
 	 * The tools that this course offers.
@@ -286,6 +287,9 @@ class WeblcmsManager extends WebApplication
 				break;
 			case self :: ACTION_VIEW_SUBSCRIBE_REQUEST :
 				$component = $this->create_component('CourseSubscribeRequestViewer', $this);
+				break;
+			case self :: ACTION_COURSE_CREATE_REQUEST_CREATOR : 
+				$component = $this->create_component('CourseCreateRequestCreator', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
