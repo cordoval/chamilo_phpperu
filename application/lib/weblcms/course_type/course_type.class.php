@@ -72,6 +72,8 @@ class CourseType extends DataClass
      */
     function get_settings()
     {
+    	if(is_null($this->settings))
+    		$this->set_settings($this->get_data_manager()->retrieve_course_type_settings($this->get_id()));
         return $this->settings;
     }
 	
@@ -81,6 +83,8 @@ class CourseType extends DataClass
      */
     function get_layout_settings()
     {
+    	if(is_null($this->layout))
+    		$this->set_layout($this->get_data_manager()->retrieve_course_type_layout($this->get_id()));
         return $this->layout;
     }
     
@@ -90,6 +94,8 @@ class CourseType extends DataClass
      */
     function get_rights()
     {
+    	if(is_null($this->rights))
+    		$this->set_rights($this->get_data_manager()->retrieve_course_type_rights($this->get_id()));
         return $this->rights;
     }
     
@@ -167,11 +173,11 @@ class CourseType extends DataClass
      */
     function can_user_create($user)
     {
-    	$current_right = $this->rights->can_group_create(0);
+    	$current_right = $this->get_rights()->can_group_create(0);
         $group_ids = $user->get_groups(true);
         foreach($group_ids as $group_id)
         {
-        	$right = $this->rights->can_group_create($group_id);
+        	$right = $this->get_rights()->can_group_create($group_id);
 				
         	if($right > $current_right)
         		$current_right = $right;      		    		

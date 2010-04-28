@@ -202,6 +202,8 @@ class Course extends DataClass
 
     function get_settings()
     {
+    	if(is_null($this->settings))
+    		$this->set_settings($this->get_data_manager()->retrieve_course_settings($this->get_id()));
         return $this->settings;
     }
     
@@ -212,6 +214,8 @@ class Course extends DataClass
 
     function get_layout_settings()
     {
+    	if(is_null($this->layout))
+    		$this->set_layout_settings($this->get_data_manager()->retrieve_course_layout($this->get_id()));
         return $this->layout;
     }
 
@@ -233,11 +237,15 @@ class Course extends DataClass
     
  	function get_rights()
     {
+    	if(is_null($this->rights))
+    		$this->set_rights($this->get_data_manager()->retrieve_course_rights($this->get_id()));
         return $this->rights;
     }
 
     function get_course_type()
     {
+    	if(is_null($this->course_type))
+    		$this->set_course_type($this->get_data_manager()->retrieve_course_type($this->get_course_type_id()));
         return $this->course_type;
     }
 

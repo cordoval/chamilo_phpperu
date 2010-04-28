@@ -30,7 +30,7 @@ class CourseForm extends CommonForm
         	$this->course_type_id = $course->get_course_type()->get_id();
     	
        	$this->user = $user;
-        	
+       	
         parent :: __construct($form_type, $course, $action, $parent, 'course_settings', 'post');
 		$this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/course_form.js'));
 		$this->addElement('html', "<script type=\"text/javascript\">
@@ -42,6 +42,10 @@ class CourseForm extends CommonForm
 
     function build_basic_form()
     {
+  		$right = $this->can_user_create($this->user);
+       	if($right == CourseTypeGroupCreationRight::CREATE_REQUEST && $this->form_type == self::TYPE_CREATE)
+       		$this->addElement('html', Display :: normal_message(Translation :: get('CourseTypeRequestFormNeeded'),true));
+    	
     	$tabs = Array();
     	$tabs[] = new FormValidatorTab('build_general_settings_form','General');
 		$tabs[] = new FormValidatorTab('build_layout_form', 'Layout');
@@ -118,11 +122,14 @@ class CourseForm extends CommonForm
         	$count = 0;
         	while($course_type = $course_type_objects->next_result())
         	{
-        		$course_types[$course_type->get_id()] = $course_type->get_name();
-        		if(is_null($this->course_type_id) && count == 0 && !$this->allow_no_course_type)
+        		if($course_type->can_user_create($this->user))
         		{
-        			$parameters = array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $course_type->get_id());
-        			$this->parent->simple_redirect($parameters);
+	        		$course_types[$course_type->get_id()] = $course_type->get_name();
+	        		if(is_null($this->course_type_id) && count == 0 && !$this->allow_no_course_type)
+	        		{
+	        			$parameters = array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $course_type->get_id());
+	        			$this->parent->simple_redirect($parameters);
+	        		}
         		}
         	}
         	$this->addElement('select', Course :: PROPERTY_COURSE_TYPE_ID,  Translation :: get('CourseType'), $course_types, array('class' => 'course_type_selector'));
@@ -626,8 +633,11 @@ class CourseForm extends CommonForm
             $user_id = $this->user->get_id();
         else
             $user_id = $course->get_titular();
-
-        if ($wdm->subscribe_user_to_course($course, '1', '1', $user_id))
+            
+		$right = $this->can_user_create($this->user);
+       	if($right == CourseTypeGroupCreationRight::CREATE_REQUEST && $this->form_type == self::TYPE_CREATE)
+       		return $course;
+        elseif ($wdm->subscribe_user_to_course($course, '1', '1', $user_id))
             return true;
         else
             return false;
@@ -697,6 +707,16 @@ class CourseForm extends CommonForm
 		$defaults[CourseRights :: PROPERTY_CODE] = $course->get_code();
 		
         parent :: setDefaults($defaults);
+    }
+    
+    function can_user_create()
+    {
+    	$course_type = $this->object->get_course_type();
+       	if(!is_null($course_type) && !empty($course_type))
+       	{
+       		return $course_type->can_user_create($this->user);
+       	}
+       	else return CourseTypeGroupCreationRight :: CREATE_NONE;
     }
 }
 ?>
