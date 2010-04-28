@@ -12,8 +12,6 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManager
 	private $pid;
 	private $pub;
 	
-	private $already_sent;
-	
 	function run()
 	{
 		$pid = Request :: get('peer_assessment_publication');
@@ -43,8 +41,6 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManager
         $peer_assessment_id = $publication->get_content_object()->get_object_number();
         $this->peer_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($peer_assessment_id);
         $this->set_parameter(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION, $this->pid);
-        
-        $already_sent = 1;
      
 		$form = $this->build_result_form($pids);	
         if ($form->validate())
@@ -60,12 +56,10 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManager
             $this->display_header($trail, true);
 
             $display = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
-            dump($display);
-        	//$display->set_root_lo($this->peer_assessment);
+        	$display->set_root_lo($this->peer_assessment);
         	$display->run();
             
             echo $form->toHtml();
-            $this->display_footer();
         }
     }
 
