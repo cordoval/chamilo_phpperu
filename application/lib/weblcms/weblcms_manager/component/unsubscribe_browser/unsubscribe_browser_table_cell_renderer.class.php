@@ -53,12 +53,13 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
     {
         $toolbar_data = array();
         
-        $course_unsubscription_url = $this->browser->get_course_unsubscription_url($course);
+        $course = WeblcmsDataManager :: get_instance()->retrieve_course($course->get_id());
+        $current_right = $course->can_user_unsubscribe($this->browser->get_user());
         
-        if ($course_unsubscription_url)
+        if ($current_right)
         {
-            $toolbar_data[] = array('href' => $course_unsubscription_url, 'label' => Translation :: get('Unsubscribe'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-            
+        	$course_unsubscription_url = $this->browser->get_course_unsubscription_url($course);
+            $toolbar_data[] = array('href' => $course_unsubscription_url, 'label' => Translation :: get('Unsubscribe'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');           
             return Utilities :: build_toolbar($toolbar_data);
         }
         else
