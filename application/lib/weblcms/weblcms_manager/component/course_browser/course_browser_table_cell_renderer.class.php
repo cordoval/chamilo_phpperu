@@ -78,6 +78,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			$date_conditions = array();
 					
         			$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $course->get_id());
+        			$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_USER_ID, $this->browser->get_user_id());
         			$date_conditions[] = new InequalityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, date('Y-m-d H:i:s'));
         			$date_conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, NULL);
         
