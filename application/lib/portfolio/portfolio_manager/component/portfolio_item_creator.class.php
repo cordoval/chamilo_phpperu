@@ -4,13 +4,12 @@
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../portfolio_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../portfolio_rights.class.php';
 /**
  * Component to create a new portfolio_publication object
  * @author Sven Vanpoucke
  */
-class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManagerComponent
+class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
 {
 
     /**

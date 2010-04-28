@@ -60,7 +60,7 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
      * @return string A HTML representation of the action links
      */
     private function get_modification_links($request)
-    {
+    {    	
         $toolbar_data = array();
         
         $toolbar_data[] = array(
@@ -72,11 +72,21 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
         	'href' => $this->browser->get_course_request_deleting_url($request),
         	 'label' => Translation :: get('Delete'), 
         	 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-        
-        $toolbar_data[] = array(
-        	'href' => $this->browser->get_course_request_allowing_url($request),
-        	'label' => Translation :: get('Allow'),
-        	'img' => Theme :: get_common_image_path() . 'action_start.png');
+       
+        $check_item = $request->get_allowed_date();
+        if($check_item == 0)
+        {
+        	$toolbar_data[] = array(
+        		'href' => $this->browser->get_course_request_allowing_url($request),
+        		'label' => Translation :: get('Allow'),
+        		'img' => Theme :: get_common_image_path() . 'action_start.png');
+        }
+        else
+        {
+        	$toolbar_data[] = array(
+        		'label' => Translation :: get('Allow_NA'),
+        		'img' => Theme :: get_common_image_path() . 'action_start_na.png');
+        }
         
         $toolbar_data[] = array(
         	'href' =>$this->browser->get_course_request_viewing_url($request),

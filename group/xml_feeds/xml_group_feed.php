@@ -47,7 +47,13 @@ if (Authentication :: is_valid())
             $group_conditions[] = new AndCondition($exclude_conditions['group']);
         }
     }
-
+	
+    $group_condition = null;
+    if(count($group_conditions)>1)
+    	$group_condition = new AndCondition($group_conditions);
+    elseif(count($group_conditions)==1)
+    	$group_condition = $group_conditions[0];
+    	
     $groups = array();
     $group_result_set = GroupDataManager :: get_instance()->retrieve_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
     while ($group = $group_result_set->next_result())

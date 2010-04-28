@@ -20,6 +20,7 @@ class DefaultEvaluationBrowserTableCellRenderer implements ObjectTableCellRender
 	function render_cell($column, $evaluation)
 	{
 		$optional_properties = $evaluation->get_optional_properties();
+		
 		switch ($column->get_name())
 		{
 			case Evaluation :: PROPERTY_EVALUATION_DATE :

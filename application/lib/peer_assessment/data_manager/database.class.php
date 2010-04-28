@@ -135,6 +135,13 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
 		$object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
         return $object;
     }
+    
+	function retrieve_peer_assessment_publication_via_content_object($content_object_id)
+    {
+        $condition = new EqualityCondition(PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT, $content_object_id);
+        $object = $this->database->retrieve_object(PeerAssessmentPublication :: get_table_name(), $condition);
+        return $object;
+    }
 
     function retrieve_peer_assessment_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
@@ -412,6 +419,14 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     {
         return $this->database->retrieve_objects(PeerAssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, PeerAssessmentPublicationUser :: CLASS_NAME);
     }
+    
+    
+    
+	function create_peer_assessment_publication_results($peer_assessment_publication)
+	{
+		//dump($peer_assessment_publication);
+		return $this->database->create($peer_assessment_publication);
+	}
 
 }
 ?>

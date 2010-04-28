@@ -138,7 +138,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$course_tools = $wdm->get_tools('basic');
+		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
 		foreach($course_tools as $index => $course_tool)
@@ -193,7 +193,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$course_tools = $wdm->get_tools('basic');
+		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
 		foreach($course_tools as $index => $course_tool)
@@ -248,7 +248,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$course_tools = $wdm->get_tools('basic');
+		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
 		foreach($course_tools as $index => $course_tool)
@@ -304,7 +304,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$course_tools = $wdm->get_tools('basic');
+		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
 		foreach($course_tools as $index => $course_tool)
@@ -359,7 +359,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$course_tools = $wdm->get_tools('basic');
+		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
 		foreach($course_tools as $index => $course_tool)
@@ -414,7 +414,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$course_tools = $wdm->get_tools('basic');
+		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
 		foreach($course_tools as $index => $course_tool)
@@ -468,7 +468,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$course_tools = $wdm->get_tools('basic');
+		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
 		foreach($course_tools as $index => $course_tool)
@@ -522,7 +522,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$course_tools = $wdm->get_tools('basic');
+		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
 		foreach($course_tools as $index => $course_tool)
@@ -576,7 +576,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$course_tools = $wdm->get_tools('basic');
+		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
 		foreach($course_tools as $index => $course_tool)
@@ -630,7 +630,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$course_tools = $wdm->get_tools('basic');
+		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
 		foreach($course_tools as $index => $course_tool)
@@ -698,7 +698,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_type_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$tools = $wdm->get_tools('basic');
+		$tools = WeblcmsDataManager :: get_tools('basic');
 		foreach($tools as $tool)
 		{
 			$course_type_tool = new CourseTypeTool();
@@ -757,7 +757,7 @@ class WeblcmsInstaller extends Installer
 		$succes = $succes && $course_type_rights->create();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$tools = $wdm->get_tools('basic');
+		$tools = WeblcmsDataManager :: get_tools('basic');
 		foreach($tools as $tool)
 		{
 			$course_type_tool = new CourseTypeTool();

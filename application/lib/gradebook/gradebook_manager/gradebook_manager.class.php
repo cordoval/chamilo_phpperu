@@ -3,6 +3,8 @@ require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 require_once Path :: get_application_path() . 'lib/gradebook/gradebook_rights.class.php';
 
+require_once dirname(__FILE__) . '/../gradebook_utilities.class.php';
+
 require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
 
 require_once dirname(__FILE__) . '/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
@@ -98,20 +100,20 @@ class GradebookManager extends WebApplication
 //				$component = GradebookManagerComponent :: factory('GradebookUnsubscriber', $this);
 //				break;	
 			case self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS :
-				$component = $this->create_component('AdminEvaluationFormatsBrowser', $this);
+				$component = $this->create_component('AdminEvaluationFormatsBrowser');
 				break;	
 			case self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY :
-				$component = $this->create_component('AdminActiveChanger', $this);
+				$component = $this->create_component('AdminActiveChanger');
 				break;	
 			case self :: ACTION_EDIT_EVALUATION_FORMAT :
-				$component = $this->create_component('AdminEditEvaluationFormat', $this);
+				$component = $this->create_component('AdminEditEvaluationFormat');
 				break;		
 			case self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION :
-				$component = $this->create_component('ViewEvaluationsOnPublication', $this);
+				$component = $this->create_component('ViewEvaluationsOnPublication');
 				break;		
 			default :
 				$this->set_action(self :: ACTION_VIEW_HOME);
-				$component = $this->create_component('GradebookBrowser', $this);
+				$component = $this->create_component('GradebookBrowser');
 				break;
 		}
 		$component->run();
@@ -331,10 +333,60 @@ class GradebookManager extends WebApplication
 		return GradebookDataManager :: get_instance()->retrieve_applications_with_evaluations();
 	}
 	
-	function retrieve_internal_items_by_application($application)
+//	function retrieve_calculated_applications_with_evaluation($calculated_applications = array())
+//	{
+//		$internal_item_ids = GradebookDataManager :: get_instance()->retrieve_calculated_internal_items();
+//		foreach($internal_item_ids as $id)
+//		{
+//			$calculated_app[$id] = $this->retrieve_internal_item($id);
+//		}
+//		foreach($calculated_app as $id => $internal_item)
+//		{
+//			$application_manager = WebApplication :: factory($internal_item->get_application());
+//			$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
+//			$rdm = RepositoryDataManager :: get_instance();
+//			$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
+//			if($user = GradebookUtilities :: check_tracker_for_user($internal_item->get_application(), $internal_item->get_publication_id(), $content_object->get_type()))
+//			{
+//				$calculated_applications[$internal_item->get_application()] = $user;
+//			}
+//		}
+//		return $calculated_applications;
+//	}
+
+// filtered views, returns info in array[$internal/external_item_id] = $application
+	
+	function retrieve_filtered_array_internal_evaluated_publication($user_id)
 	{
-		return GradebookDataManager :: get_instance()->retrieve_internal_items_by_application($application);
+		$ids_with_evaluations_not_calculated = GradebookDataManager :: get_instance()->retrieve_internal_item_applications_with_evaluations();
+		$ids_with_calculated = GradebookDataManager :: get_instance()->retrieve_calculated_internal_items();
+		$ids = array_merge($ids_with_evaluations_not_calculated, $ids_with_calculated);
+		foreach($ids as $id)
+		{
+			$ids_calculated_and_with_evaluations_not_calculated[] = $this->retrieve_internal_item($id);
+		}
+		foreach($ids_calculated_and_with_evaluations_not_calculated as $key => $internal_item)
+		{
+			$application_manager = WebApplication :: factory($internal_item->get_application());
+			$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
+			$rdm = RepositoryDataManager :: get_instance();
+			$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
+			if($internal_item->get_calculated())
+			{
+				if(!$user = GradebookUtilities :: check_tracker_for_user($internal_item->get_application(), $internal_item->get_publication_id(), $content_object->get_type()))
+				{
+					unset($ids[$key]);
+				}
+			}
+			if(isset($ids[$key]))
+			{
+				if($content_object->get_owner_id() == $user_id)
+					$filtered_array[$internal_item->get_id()] = $internal_item->get_application();
+			}
+		}
+		return $filtered_array;		
 	}
+	
 	
 // content objects
 	function retrieve_content_objects_by_ids($condition, $offset = null, $max_objects = null, $order_by = null)
@@ -345,6 +397,26 @@ class GradebookManager extends WebApplication
 	function count_content_objects_by_ids($condition)
 	{
 		return RepositoryDataManager :: get_instance()->count_content_objects($condition);
+	}
+// internal items
+	function retrieve_internal_items_by_application($condition, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_internal_items_by_application($condition, $offset, $count, $order_property);
+	}
+	
+	function retrieve_internal_item($id)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_internal_item($id);
+	}
+	
+	function count_internal_items_by_application($condition)
+	{
+		return GradebookDataManager :: get_instance()->count_internal_items_by_application($condition);
+	}
+// evaluations
+	function retrieve_all_evaluations_on_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication($application, $publication_id, $offset, $max_objects, $order_by);
 	}
 // URL creation
 //***************
@@ -368,14 +440,19 @@ class GradebookManager extends WebApplication
 		return $this->get_url();
 	}
 	
-	function get_evaluations_on_publications_viewer_url($content_object)
+	function get_evaluations_on_publications_viewer_url($internal_item)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_TYPE => $content_object->get_type(), self :: PARAM_PUBLICATION_ID => $content_object->get_id()));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_TYPE => $internal_item->get_application(), self :: PARAM_PUBLICATION_ID => $internal_item->get_publication_id()));
 	}
 	
 	function get_publications_by_type_viewer_url($the_application)
 	{
 		return $this->get_url(array(GradebookManager :: PARAM_PUBLICATION_TYPE => $the_application));
 	}
+
+    function get_export_publication_url($publication_id)
+    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication_id));
+    }
 }
 ?>

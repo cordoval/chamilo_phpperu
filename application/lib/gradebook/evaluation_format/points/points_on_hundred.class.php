@@ -8,7 +8,7 @@ class PointsOnHundred extends EvaluationFormat
 	const STEP = 1;
 	
 	const DEFAULT_ACTIVE_VALUE = 0;
-	const EVALUATION_FORMAT_NAME = 'points on hundred';
+	const EVALUATION_FORMAT_NAME = 'Points on hundred';
 	
 	function PointsOnHundred()
 	{
@@ -59,6 +59,11 @@ class PointsOnHundred extends EvaluationFormat
 	function get_default_active_value()
 	{
 		return self :: DEFAULT_ACTIVE_VALUE;
+	}
+	
+	function get_formatted_score()
+	{
+		return $this->get_score() . '/100';
 	}
 }
 ?>

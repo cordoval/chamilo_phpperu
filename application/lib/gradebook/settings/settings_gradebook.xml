@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="GradeBook">
 	<settings>
-		<category name="attempts">
-			<setting name="maximum_attempts" field="text" default="1" />
+		<category name="evaluations">
+			<setting name="allow_change_format_on_update" field="checkbox" default="1">
+				<options type="static">
+					<option name="allow_change_format_on_update" value="1" />
+				</options>
+			</setting>
 		</category>
 	</settings>
 </application>

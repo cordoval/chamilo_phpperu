@@ -5,13 +5,21 @@ require_once dirname(__FILE__).'/connector/gradebook_connector.class.php';
 
 class GradebookUtilities
 {
+	static function check_tracker_for_user($application, $publication_id, $tool)
+	{
+		$connector = GradeBookConnector :: factory($application);
+		if($tracker_user = $connector->get_tracker_user($application, $publication_id, $tool))
+			return $tracker_user;
+		else
+			return false;
+	}
 	static function move_internal_item_to_external_item($application, $publication_id)
 	{
 		if(EvaluationManager :: retrieve_evaluation_ids_by_publication($application, $publication_id))
         {	
         	$application_manager = WebApplication :: factory($application);
         	$content_object_publication = $application_manager->get_content_object_publication_attribute($publication_id);
-			$gdm = GradebookDataManager ::get_instance();
+			$gdm = GradebookDataManager :: get_instance();
 			$internal_item = $gdm->retrieve_internal_item_by_publication($application, $publication_id);
 			if($internal_item->get_calculated() == 1)
 			{

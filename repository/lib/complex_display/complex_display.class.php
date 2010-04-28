@@ -8,6 +8,7 @@
  */
 
 require_once dirname(__FILE__) . '/complex_display_component.class.php';
+require_once dirname(__FILE__) . '/../complex_builder/complex_menu.class.php';
 
 abstract class ComplexDisplay
 {
@@ -278,7 +279,7 @@ abstract class ComplexDisplay
 
     private function build_menu()
     {
-        $this->menu = new ComplexMenu($this->get_root_lo(), $this->get_cloi());
+        $this->menu = new ComplexMenu($this->get_root_lo(), $this->get_cloi(), $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_VIEW_CLO)));
     }
 
     function get_root()
@@ -340,6 +341,11 @@ abstract class ComplexDisplay
         $html[] = '</div>';
         
         return implode("\n", $html);
+    }
+    
+    function create_component($type, $application)
+    {
+    	return $this->get_parent()->create_component($type, $application);
     }
 }
 

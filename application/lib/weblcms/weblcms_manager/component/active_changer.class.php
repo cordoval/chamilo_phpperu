@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 
 class WeblcmsManagerActiveChangerComponent extends WeblcmsManager
 {
@@ -39,7 +39,7 @@ class WeblcmsManagerActiveChangerComponent extends WeblcmsManager
         	
 			foreach($course_type_id as $id)
 			{
-	            $course_type = $course_type = $this->get_parent()->retrieve_course_type($id);
+	            $course_type = $this->retrieve_course_type($id);
 	            
 	            $course_type->set_active($active);
 	            

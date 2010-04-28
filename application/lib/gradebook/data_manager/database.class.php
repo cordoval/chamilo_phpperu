@@ -90,6 +90,12 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
 	}
 	
+	function retrieve_internal_item($id)
+	{
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
+	}
+	
 	function delete_internal_item($internal_item)
 	{
 		$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $internal_item->get_id());
@@ -149,7 +155,7 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	    $user_evaluator_alias = $gdm->get_database()->get_alias(User :: get_table_name()) . '2';   
 	    $gradebook_format_alias = $gdm->get_database()->get_alias(Format :: get_table_name());
 	                
-	    $query = 'SELECT ' . $gradebook_evaluation_alias . '.' . $this->database->escape_column_name(Evaluation :: PROPERTY_ID) . ', ' . $gradebook_evaluation_alias . '.' . $this->database->escape_column_name(Evaluation :: PROPERTY_EVALUATOR_ID) . ', ' . $gradebook_evaluation_alias . '.' . $this->database->escape_column_name(Evaluation :: PROPERTY_EVALUATION_DATE); 
+	    $query = 'SELECT ' . $gradebook_evaluation_alias . '.' . $this->database->escape_column_name(Evaluation :: PROPERTY_ID) . ', ' . $gradebook_evaluation_alias . '.' . $this->database->escape_column_name(Evaluation :: PROPERTY_EVALUATOR_ID) . ', ' . $gradebook_evaluation_alias . '.' . $this->database->escape_column_name(Evaluation :: PROPERTY_EVALUATION_DATE) . ', ' . $gradebook_evaluation_alias . '.' . $this->database->escape_column_name(Evaluation :: PROPERTY_FORMAT_ID); 
 	    $query .= ', CONCAT(' . $user_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_LASTNAME) . ', " ",' . $user_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_FIRSTNAME) . ') AS user';
 	    $query .= ', CONCAT(' . $user_evaluator_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_LASTNAME) . ', " ",' . $user_evaluator_alias . '.' . $this->database->escape_column_name(User :: PROPERTY_FIRSTNAME) . ') AS evaluator';
 	    $query .= ', ' . $gradebook_format_alias . '.' . $this->database->escape_column_name(Format :: PROPERTY_TITLE); 
@@ -167,7 +173,6 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	    $conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id, InternalItem :: get_table_name());
 	    $conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application, InternalItem :: get_table_name());
 	    $condition = new AndCondition($conditions);
-                
         return $this->database->retrieve_object_set($query, Evaluation :: get_table_name(), $condition, $offset, $max_objects, $order_by, Evaluation :: CLASS_NAME);
     }
 	
@@ -376,15 +381,47 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 	}
 	
 	// applications
-	function retrieve_applications_with_evaluations()
+	function retrieve_internal_item_applications_with_evaluations()
 	{
-        return $this->database->retrieve_distinct(InternalItem :: get_table_name(), InternalItem :: PROPERTY_APPLICATION);
+		$ids = $this->database->retrieve_distinct(InternalItemInstance :: get_table_name(), InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
+		foreach($ids as $id)
+		{
+//			$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $id);
+//			$transform_array = $this->database->retrieve_distinct(InternalItem :: get_table_name(), InternalItem :: PROPERTY_APPLICATION, $condition);
+			$applications_and_internal_item_id[] = $id;
+		}
+//		for($i = 0;$i<count($applications);$i++)
+//		{
+//			$application[$i] = $applications[$i][0];
+//		}
+//        return array_unique($application);
+		return $applications_and_internal_item_id;
 	}
 	
-	function retrieve_internal_items_by_application($application)
+	function retrieve_calculated_internal_items()
 	{
-		$condition = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
-		return $this->database->retrieve_objects(InternalItem:: get_table_name(), $condition);
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_CALCULATED, 1);
+		return $this->database->retrieve_distinct(InternalItem :: get_table_name(), InternalItem :: PROPERTY_ID, $condition);
+	}
+	
+	function retrieve_internal_items_by_application($condition, $offset = null, $count = null, $order_property = null)
+	{
+		$ids = $this->database->retrieve_distinct(InternalItemInstance :: get_table_name(), InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
+		$conditions = array();
+		$conditions[] = $condition;
+		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $ids);
+		$condition = new AndCondition($conditions);
+		return $this->database->retrieve_objects(InternalItem:: get_table_name(), $condition, $offset, $count, $order_property);
+	}
+	
+	function count_internal_items_by_application($condition)
+	{
+		$ids = $this->database->retrieve_distinct(InternalItemInstance :: get_table_name(), InternalItemInstance :: PROPERTY_INTERNAL_ITEM_ID);
+		$conditions = array();
+		$conditions[] = $condition;
+		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $ids);
+		$condition = new AndCondition($conditions);
+		return $this->database->count_objects(InternalItem:: get_table_name(), $condition);
 	}
 /*
 	//gradebook_items rel user

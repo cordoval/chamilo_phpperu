@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrganizerCategoryManagerComponent
+class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrganizerCategoryManager
 {
 
     /**
@@ -22,7 +22,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
             
             foreach ($ids as $id)
             {
-                $category = $this->retrieve_category($id);
+               $category = $this->retrieve_category($id);
                 
                 if (! $category->delete())
                 {
@@ -34,6 +34,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
                 }
             }
             
+            //$this->get_result( not good enough?
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -57,7 +58,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES));
         }
         else
         {

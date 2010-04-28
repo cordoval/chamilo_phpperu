@@ -6,7 +6,6 @@
 
 
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../assessment_publication_category_menu.class.php';
 require_once dirname(__FILE__) . '/assessment_publication_browser/assessment_publication_browser_table.class.php';
 
@@ -15,7 +14,7 @@ require_once dirname(__FILE__) . '/assessment_publication_browser/assessment_pub
  * @author Sven Vanpoucke
  * @author
  */
-class AssessmentManagerBrowserComponent extends AssessmentManagerComponent
+class AssessmentManagerBrowserComponent extends AssessmentManager
 {
     private $action_bar;
 
@@ -104,11 +103,11 @@ class AssessmentManagerBrowserComponent extends AssessmentManagerComponent
 
         $access = array();
         $access[] = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
-        $access[] = new InCondition(AssessmentPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(AssessmentPublicationUser :: get_table_name()));
-        $access[] = new InCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(AssessmentPublicationGroup :: get_table_name()));
+        $access[] = new InCondition(AssessmentPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_alias(AssessmentPublicationUser :: get_table_name()));
+        $access[] = new InCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_alias(AssessmentPublicationGroup :: get_table_name()));
         if (! empty($user_id) || ! empty($groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition(AssessmentPublicationUser :: PROPERTY_USER, null, $datamanager->get_database()->get_alias(AssessmentPublicationUser :: get_table_name())), new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_database()->get_alias(AssessmentPublicationGroup :: get_table_name()))));
+            $access[] = new AndCondition(array(new EqualityCondition(AssessmentPublicationUser :: PROPERTY_USER, null, $datamanager->get_alias(AssessmentPublicationUser :: get_table_name())), new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_alias(AssessmentPublicationGroup :: get_table_name()))));
         }
         $conditions[] = new OrCondition($access);
 

@@ -103,19 +103,19 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
         $access = array();
         if($user_id)
         {
-    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
+    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_alias('content_object_publication_user'));
         }
     	
     	if(count($course_group_ids) > 0)
     	{
-        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
     	}
         	
         if (! empty($user_id) || ! empty($course_group_ids))
         {
             $access[] = new AndCondition(array(
-            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, $datamanager->get_database()->get_alias('content_object_publication_user')), 
-            			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
+            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, $datamanager->get_alias('content_object_publication_user')), 
+            			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, $datamanager->get_alias('content_object_publication_course_group'))));
         }
         
         $conditions[] = new OrCondition($access);

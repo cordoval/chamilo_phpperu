@@ -63,17 +63,10 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
         return $this->page_number;
     }
     
-    function get_user_drop_down()
+    function get_criteria($criteria_score, $user_id, $form)
     {
-    	
-    	/*$renderer = $this->defaultRenderer();
-		$buttons = array();
-        $buttons[] = $this->createElement('select', null, null, null);
-        $this->addGroup($buttons, 'criteria_buttons', null, '', false);
-        
-
-        $renderer->setElementTemplate('<td>{element}</td>', 'criteria_buttons');
-        //$renderer->setGroupElementTemplate('<td>{element}</td>', 'criteria_buttons');  */ 
+		$form->addElement('select', 'criteria_score_of_user_id_'. $user_id, null, $criteria_score);	
+		return $form;
     }
 }
 ?>

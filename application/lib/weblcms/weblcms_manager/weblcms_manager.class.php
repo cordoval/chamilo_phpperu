@@ -30,6 +30,7 @@ require_once dirname(__FILE__) . '/../course_type/course_type_tool.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_rights.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_group_subscribe_right.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_group_unsubscribe_right.class.php';
+require_once dirname(__FILE__) . '/../course_type/course_type_group_creation_right.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type_user_category.class.php';
 
 /**
@@ -932,6 +933,11 @@ class WeblcmsManager extends WebApplication
     {
     	return WeblcmsDataManager :: get_instance()->count_requests($condition);
     }
+    
+    function count_requests_by_course($condition = null)
+    {
+    	return WeblcmsDataManager :: get_instance()->count_requests_by_course($condition);
+    }
 
 	/**
 	 * Count the number of course categories
@@ -1198,11 +1204,11 @@ class WeblcmsManager extends WebApplication
 			$user_id = $this->get_user_id();
 
 			$access = array();
-			$access[] = new InCondition('user_id', $user_id, $wdm->get_database()->get_alias('content_object_publication_user'));
-			$access[] = new InCondition('course_group_id', $course_groups, $wdm->get_database()->get_alias('content_object_publication_course_group'));
+			$access[] = new InCondition('user_id', $user_id, $wdm->get_alias('content_object_publication_user'));
+			$access[] = new InCondition('course_group_id', $course_groups, $wdm->get_alias('content_object_publication_course_group'));
 			if (! empty($user_id) || ! empty($course_groups))
 			{
-				$access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_database()->get_alias('content_object_publication_course_group'))));
+				$access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_alias('content_object_publication_course_group'))));
 			}
 
 			$conditions[] = new OrCondition($access);
@@ -1399,8 +1405,7 @@ class WeblcmsManager extends WebApplication
 	 */
 	function course_subscription_allowed($course)
 	{
-		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->course_subscription_allowed($course, $this->get_user_id());
+		return WeblcmsDataManager :: course_subscription_allowed($course, $this->get_user_id());
 	}
 
 	/**
@@ -1410,8 +1415,7 @@ class WeblcmsManager extends WebApplication
 	 */
 	function course_unsubscription_allowed($course)
 	{
-		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->course_unsubscription_allowed($course, $this->get_user());
+		return WeblcmsDataManager :: course_unsubscription_allowed($course, $this->get_user());
 	}
 
 	/**
@@ -1670,7 +1674,7 @@ class WeblcmsManager extends WebApplication
 	{
 		$links = array();
 		$links[] = array('name' => Translation :: get('CourseTypeList'), 'description' => Translation :: get('CourseTypeListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)));
-		$links[] = array('name' => Translation :: get('CreateCourseType'), 'description' => Translation :: get('CreateTypeDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));
+		//$links[] = array('name' => Translation :: get('CreateCourseType'), 'description' => Translation :: get('CreateTypeDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));
 		$links[] = array('name' => Translation :: get('CourseList'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
 		$links[] = array('name' => Translation :: get('CreateCourse'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
 		$links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));

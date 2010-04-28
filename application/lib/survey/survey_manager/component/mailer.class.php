@@ -1,12 +1,12 @@
 <?php
 
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
-require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../forms/survey_publication_mailer_form.class.php';
 require_once dirname(__FILE__) . '/../../survey_publication_mail.class.php';
 require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_mail_tracker.class.php';
 
-class SurveyManagerMailerComponent extends SurveyManagerComponent
+class SurveyManagerMailerComponent extends SurveyManager
 {
     private $not_started;
     private $started;
@@ -291,6 +291,7 @@ class SurveyManagerMailerComponent extends SurveyManagerComponent
         $reply[Mail :: NAME] = '';
         $reply[Mail :: EMAIL] = $email->get_reply_address();
         $mail->set_reply($reply);
+        
         // Check whether it was sent successfully
         if ($mail->send() === FALSE)
         {

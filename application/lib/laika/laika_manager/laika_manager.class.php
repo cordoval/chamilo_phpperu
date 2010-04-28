@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/laika_manager_component.class.php';
 require_once dirname(__FILE__) . '/../laika_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/laika/laika_rights.class.php';
 require_once dirname(__FILE__) . '/component/laika_calculated_result_browser/laika_calculated_result_browser_table.class.php';
@@ -38,31 +37,31 @@ class LaikaManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_VIEW_RESULTS :
-                $component = LaikaManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_TAKE_TEST :
-                $component = LaikaManagerComponent :: factory('Taker', $this);
+                $component = $this->create_component('Taker');
                 break;
             case self :: ACTION_BROWSE_RESULTS :
-                $component = LaikaManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_RENDER_GRAPH :
-                $component = LaikaManagerComponent :: factory('Grapher', $this);
+                $component = $this->create_component('Grapher');
                 break;
             case self :: ACTION_MAIL_LAIKA :
-                $component = LaikaManagerComponent :: factory('Mailer', $this);
+                $component = $this->create_component('Mailer');
                 break;
             case self :: ACTION_BROWSE_USERS :
-                $component = LaikaManagerComponent :: factory('User', $this);
+                $component = $this->create_component('User');
                 break;
             case self :: ACTION_VIEW_STATISTICS :
-                $component = LaikaManagerComponent :: factory('Analyzer', $this);
+                $component = $this->create_component('Analyzer');
                 break;
             case self :: ACTION_VIEW_INFORMATION :
-                $component = LaikaManagerComponent :: factory('Informer', $this);
+                $component = $this->create_component('Informer');
                 break;
             default :
-                $component = LaikaManagerComponent :: factory('Home', $this);
+                $component = $this->create_component('Home');
                 break;
         }
         $component->run();

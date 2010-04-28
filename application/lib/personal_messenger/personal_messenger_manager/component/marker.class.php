@@ -7,9 +7,8 @@
  */
 
 require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_manager_component.class.php';
 
-class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManagerComponent
+class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManager
 {
 
     /**

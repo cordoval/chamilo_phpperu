@@ -3,7 +3,6 @@
  * $Id: personal_calendar_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager
  */
-require_once dirname(__FILE__) . '/personal_calendar_manager_component.class.php';
 require_once dirname(__FILE__) . '/../connector/personal_calendar_weblcms_connector.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_event.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_data_manager.class.php';
@@ -51,32 +50,32 @@ class PersonalCalendarManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_CALENDAR :
-                $component = PersonalCalendarManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_VIEW_PUBLICATION :
-                $component = PersonalCalendarManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_CREATE_PUBLICATION :
-                $component = PersonalCalendarManagerComponent :: factory('Publisher', $this);
+                $component = $this->create_component('Publisher');
                 break;
             case self :: ACTION_DELETE_PUBLICATION :
-                $component = PersonalCalendarManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_EDIT_PUBLICATION :
-                $component = PersonalCalendarManagerComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
                 break;
             case self :: ACTION_VIEW_ATTACHMENT :
-                $component = PersonalCalendarManagerComponent :: factory('AttachmentViewer', $this);
+                $component = $this->create_component('AttachmentViewer');
                 break;
             case self :: ACTION_EXPORT_ICAL :
-                $component = PersonalCalendarManagerComponent :: factory('IcalExporter', $this);
+                $component = $this->create_component('IcalExporter');
                 break;
             case self :: ACTION_IMPORT_ICAL :
-                $component = PersonalCalendarManagerComponent :: factory('IcalImporter', $this);
+                $component = $this->create_component('IcalImporter');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_CALENDAR);
-                $component = PersonalCalendarManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }
@@ -98,8 +97,8 @@ class PersonalCalendarManager extends WebApplication
     public function get_events($from_date, $to_date)
     {
         $events = $this->get_user_events($from_date, $to_date);
-        //$events = array_merge($events, $this->get_connector_events($from_date, $to_date));
-        //$events = array_merge($events, $this->get_user_shared_events($from_date, $to_date));
+        $events = array_merge($events, $this->get_connector_events($from_date, $to_date));
+        $events = array_merge($events, $this->get_user_shared_events($from_date, $to_date));
         return $events;
     }
 

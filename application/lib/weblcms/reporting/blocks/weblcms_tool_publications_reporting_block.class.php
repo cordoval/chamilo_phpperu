@@ -23,10 +23,10 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $tool);
 
         $access = array();
-        $access[] = new InCondition('user_id', $user_id, $wdm->get_database()->get_alias('content_object_publication_user'));
+        $access[] = new InCondition('user_id', $user_id, $wdm->get_alias('content_object_publication_user'));
         if (! empty($user_id))
         {
-            $access[] = new EqualityCondition('user_id', null, $wdm->get_database()->get_alias('content_object_publication_user'));
+            $access[] = new EqualityCondition('user_id', null, $wdm->get_alias('content_object_publication_user'));
         }
         $conditions[] = new OrCondition($access);
         $condition = new AndCondition($conditions);

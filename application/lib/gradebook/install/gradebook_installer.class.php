@@ -55,7 +55,7 @@ class GradebookInstaller extends Installer
     			require_once $root . 'evaluation_format.class.php';
     			foreach($formats as $format)
     			{
-    				$ev = EvaluationFormat :: factory($folder, $format);
+    				$ev = EvaluationFormat :: factory($format, 1, $folder);
     				
 	    			$format = new Format();
 	    			$format->set_title($ev->get_evaluation_format_name());

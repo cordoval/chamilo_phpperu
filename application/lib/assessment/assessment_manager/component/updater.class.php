@@ -4,7 +4,6 @@
  * @package application.lib.assessment.assessment_manager.component
  */
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/assessment_publication_form.class.php';
 
 /**
@@ -12,7 +11,7 @@ require_once dirname(__FILE__) . '/../../forms/assessment_publication_form.class
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerUpdaterComponent extends AssessmentManagerComponent
+class AssessmentManagerUpdaterComponent extends AssessmentManager
 {
 
     /**

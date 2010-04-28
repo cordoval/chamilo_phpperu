@@ -4,9 +4,8 @@
  * @package application.lib.distribute.distribute_manager.component
  */
 require_once dirname(__FILE__) . '/../distribute_manager.class.php';
-require_once dirname(__FILE__) . '/../distribute_manager_component.class.php';
 
-class DistributeManagerViewerComponent extends DistributeManagerComponent
+class DistributeManagerViewerComponent extends DistributeManager
 {
     private $action_bar;
 

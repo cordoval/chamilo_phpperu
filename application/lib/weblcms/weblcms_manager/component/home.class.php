@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../course/course_user_category.class.php';
 /**
  * Weblcms component which provides the user with a list
@@ -54,7 +54,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
        		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
        		$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
        		$condition = new AndCondition($conditions);
-       		$order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager::get_instance()->get_database()->get_alias(CourseUserRelation :: get_table_name()));
+       		$order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager::get_instance()->get_alias(CourseUserRelation :: get_table_name()));
        		$courses_result = $this->retrieve_user_courses($condition, null, null, $order_by);
        	 	if($courses_result->size() > 0)
        	 	{
@@ -67,7 +67,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
         $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
         $condition = new AndCondition($conditions);
-       	$order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager::get_instance()->get_database()->get_alias(CourseUserRelation :: get_table_name()));
+       	$order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager::get_instance()->get_alias(CourseUserRelation :: get_table_name()));
        	$courses_result = $this->retrieve_user_courses($condition, null, null, $order_by);
        	if($courses_result->size() > 0)
        	{

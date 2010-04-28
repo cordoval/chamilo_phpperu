@@ -3,11 +3,9 @@
  * $Id: profiler_manager.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager
  */
-require_once dirname(__FILE__) . '/profiler_manager_component.class.php';
 require_once dirname(__FILE__) . '/profiler_search_form.class.php';
 require_once dirname(__FILE__) . '/../profiler_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/profile_publication_browser/profile_publication_browser_table.class.php';
-//require_once dirname(__FILE__).'/../profile_publisher.class.php';
 require_once dirname(__FILE__) . '/../profiler_menu.class.php';
 require_once dirname(__FILE__) . '/../profiler_block.class.php';
 
@@ -69,26 +67,26 @@ class ProfilerManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_PROFILES :
-                $component = ProfilerManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_VIEW_PUBLICATION :
-                $component = ProfilerManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_DELETE_PUBLICATION :
-                $component = ProfilerManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_EDIT_PUBLICATION :
-                $component = ProfilerManagerComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
                 break;
             case self :: ACTION_CREATE_PUBLICATION :
-                $component = ProfilerManagerComponent :: factory('Publisher', $this);
+                $component = $this->create_component('Publisher');
                 break;
             case self :: ACTION_MANAGE_CATEGORIES :
-                $component = ProfilerManagerComponent :: factory('CategoryManager', $this);
+                $component = $this->create_component('CategoryManager');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_PROFILES);
-                $component = ProfilerManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }

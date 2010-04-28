@@ -269,7 +269,7 @@ class ConfigurationForm extends FormValidator
         {
             foreach ($settings as $name => $setting)
             {
-                if($setting['user_setting'])
+                if($setting['user_setting'] && $this->is_user_setting_form)
                 {
                 	$configuration_value = LocalSetting :: get($name, $application);
                 }
@@ -342,30 +342,56 @@ class ConfigurationForm extends FormValidator
     	$values = $this->exportValues();
     	$adm = AdminDataManager :: get_instance();
     	$udm = UserDataManager :: get_instance();
+    	$problems = 0;
+    	
+    	foreach ($this->configuration['settings'] as $category_name => $settings)
+        {
+            foreach ($settings as $name => $setting)
+            {
+                if ($setting['locked'] != 'true' && $setting['user_setting'])
+                {
+                    if (isset($values[$name]))
+                    {
+                        $value = $values[$name];
+                    }
+                    else
+                    {
+                        $value = 0;
+                    }
+                    
+	                $setting = $adm->retrieve_setting_from_variable_name($name, $this->application);
+		    		$user_setting = $udm->retrieve_user_setting(Session :: get_user_id(), $setting->get_id());
+		    		if($user_setting)
+		    		{
+		    			$user_setting->set_value($value);
+		    			if(!$user_setting->update())
+		    			{
+		    				$problems++;
+		    			}
+		    		}
+		    		else
+		    		{
+		    			$user_setting = new UserSetting();
+		    			$user_setting->set_setting_id($setting->get_id());
+		    			$user_setting->set_value($value);
+		    			$user_setting->set_user_id(Session :: get_user_id());
+		    			if(!$user_setting->create())
+		    			{
+		    				$problems++;
+		    			}
+		    		}
+                }
+            }
+        }
 
-    	foreach($values as $key => $value)
-    	{
-    		if($key == 'submit')
-    			continue;
-
-            $setting = $adm->retrieve_setting_from_variable_name($key, $this->application);
-    		$user_setting = $udm->retrieve_user_setting(Session :: get_user_id(), $setting->get_id());
-    		if($user_setting)
-    		{
-    			$user_setting->set_value($value);
-    			$user_setting->update();
-    		}
-    		else
-    		{
-    			$user_setting = new UserSetting();
-    			$user_setting->set_setting_id($setting->get_id());
-    			$user_setting->set_value($value);
-    			$user_setting->set_user_id(Session :: get_user_id());
-    			$user_setting->create();
-    		}
-    	}
-
-    	return true;
+        if ($problems > 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
     
     private function is_valid_validation_method($validation_method)

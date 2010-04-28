@@ -4,7 +4,6 @@
  * @package application.lib.forum.forum_manager.component
  */
 require_once dirname(__FILE__) . '/../forum_manager.class.php';
-require_once dirname(__FILE__) . '/../forum_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../publisher/forum_publication_publisher.class.php';
 require_once dirname(__FILE__) . '/../../forms/forum_publication_form.class.php';
 

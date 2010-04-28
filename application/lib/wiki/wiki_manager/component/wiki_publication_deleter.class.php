@@ -4,7 +4,6 @@
  * @package application.lib.wiki.wiki_manager.component
  */
 require_once dirname(__FILE__) . '/../wiki_manager.class.php';
-require_once dirname(__FILE__) . '/../wiki_manager_component.class.php';
 
 /**
  * Component to delete wiki_publications objects

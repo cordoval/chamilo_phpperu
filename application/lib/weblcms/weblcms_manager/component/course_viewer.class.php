@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 /**
  * Weblcms component which provides the course page
  */
@@ -339,7 +339,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 		}
 
 		$wdm = WeblcmsDataManager :: get_instance();
-		$tools = $wdm->get_tools('course_admin');
+		$tools = WeblcmsDataManager :: get_tools('course_admin');
 		$admin_tool = false;
 		foreach($tools as $tool)
 		{

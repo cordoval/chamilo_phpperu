@@ -4,11 +4,11 @@
  * @package application.reservations.reservations_manager.component
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-require_once dirname(__FILE__) . '/../reservations_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/category_browser/category_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../reservations_menu.class.php';
 
-class ReservationsManagerAdminCategoryBrowserComponent extends ReservationsManagerComponent
+class ReservationsManagerAdminCategoryBrowserComponent extends ReservationsManager
 {
     private $ab;
 

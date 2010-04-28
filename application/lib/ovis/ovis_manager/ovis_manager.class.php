@@ -2,7 +2,6 @@
 /**
  * @package application.lib.ovis.ovis_manager
  */
-require_once dirname(__FILE__).'/ovis_manager_component.class.php';
 require_once dirname(__FILE__).'/../ovis_data_manager.class.php';
 
 /**
@@ -38,11 +37,11 @@ require_once dirname(__FILE__).'/../ovis_data_manager.class.php';
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE:
-				$component = OvisManagerComponent :: factory('Browser', $this);
+				$component = $this->create_component('Browser');
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE);
-				$component = OvisManagerComponent :: factory('Browser', $this);
+				$component = $this->create_component('Browser');
 
 		}
 		$component->run();

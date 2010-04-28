@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/assessment_survey_publisher/survey_publisher_component.class.php';
 
-class AssessmentManagerSurveyPublisherComponent extends AssessmentManagerComponent
+class AssessmentManagerSurveyPublisherComponent extends AssessmentManager
 {
 
     function run()

@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 /**
  * Repository manager component which provides functionality to delete a course
  */
@@ -16,6 +16,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
      */
     function run()
     {
+    	$wdm = WeblcmsDataManager :: get_instance();
         $course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $failures = 0;
         
@@ -40,7 +41,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
             
             foreach ($course_codes as $course_code)
             {
-                $course = $this->get_parent()->retrieve_course($course_code);
+                $course = $wdm->retrieve_course($course_code);
                 
                 if (! $course->delete())
                 {

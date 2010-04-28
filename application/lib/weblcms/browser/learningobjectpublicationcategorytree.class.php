@@ -135,11 +135,11 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
         }
         
         $access = array();
-        $access[] = new InCondition('user_id', $user_id, $dm->get_database()->get_alias('content_object_publication_user'));
-        $access[] = new InCondition('course_group_id', $course_group_ids, $dm->get_database()->get_alias('content_object_publication_course_group'));
+        $access[] = new InCondition('user_id', $user_id, $dm->get_alias('content_object_publication_user'));
+        $access[] = new InCondition('course_group_id', $course_group_ids, $dm->get_alias('content_object_publication_course_group'));
         if (! empty($user_id) || ! empty($course_group_ids))
         {
-            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $dm->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('content_object_publication_course_group'))));
+            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $dm->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_alias('content_object_publication_course_group'))));
         }
         
         $conditions[] = new OrCondition($access);

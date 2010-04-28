@@ -51,11 +51,11 @@ class SearchToolSearcherComponent extends SearchToolComponent
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
 
             $access = array();
-            $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
-            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+            $access[] = new InCondition('user_id', $user_id, $datamanager->get_alias('content_object_publication_user'));
+            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
             if (! empty($user_id) || ! empty($course_group_ids))
             {
-                $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
+                $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
             }
             $conditions[] = new OrCondition($access);
             $condition = new AndCondition($conditions);
@@ -150,7 +150,9 @@ class SearchToolSearcherComponent extends SearchToolComponent
     {
         $query = $this->get_query();
         if (! $query)
-            $query = Request :: post('query');
+        {
+        	$query = Request :: post('query');
+        }
 
         if (isset($query) && $query != '')
         {
@@ -164,7 +166,13 @@ class SearchToolSearcherComponent extends SearchToolComponent
 
     function get_query()
     {
-        return $this->action_bar->get_query();
+        $query = trim($this->action_bar->get_query());
+        if($query == '')
+        {
+        	return null;
+        }
+        
+        return $query;
     }
 }
 ?>

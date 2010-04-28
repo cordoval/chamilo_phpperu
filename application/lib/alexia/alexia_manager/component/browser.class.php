@@ -4,10 +4,9 @@
  * @package application.lib.alexia.alexia_manager.component
  */
 require_once dirname(__FILE__) . '/../alexia_manager.class.php';
-require_once dirname(__FILE__) . '/../alexia_manager_component.class.php';
 require_once dirname(__FILE__) . '/alexia_publication_browser/alexia_publication_browser_table.class.php';
 
-class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
+class AlexiaManagerBrowserComponent extends AlexiaManager
 {
     private $introduction;
     private $action_bar;
@@ -82,11 +81,11 @@ class AlexiaManagerBrowserComponent extends AlexiaManagerComponent
 
         $access = array();
         $access[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
-        $access[] = new InCondition(AlexiaPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(AlexiaPublicationUser :: get_table_name()));
-        $access[] = new InCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(AlexiaPublicationGroup :: get_table_name()));
+        $access[] = new InCondition(AlexiaPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_alias(AlexiaPublicationUser :: get_table_name()));
+        $access[] = new InCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_alias(AlexiaPublicationGroup :: get_table_name()));
         if (! empty($user_id) || ! empty($groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, $datamanager->get_database()->get_alias(AlexiaPublicationUser :: get_table_name())), new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_database()->get_alias(AlexiaPublicationGroup :: get_table_name()))));
+            $access[] = new AndCondition(array(new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, $datamanager->get_alias(AlexiaPublicationUser :: get_table_name())), new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_alias(AlexiaPublicationGroup :: get_table_name()))));
         }
         $conditions[] = new OrCondition($access);
 

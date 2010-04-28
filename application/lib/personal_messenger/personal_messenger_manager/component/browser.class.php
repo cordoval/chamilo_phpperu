@@ -4,10 +4,9 @@
  * @package application.personal_messenger.personal_messenger_manager.component
  */
 require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_manager_component.class.php';
 require_once dirname(__FILE__) . '/pm_publication_browser/pm_publication_browser_table.class.php';
 
-class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManagerComponent
+class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManager
 {
 
     /**

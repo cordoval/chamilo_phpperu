@@ -3,7 +3,6 @@
  * $Id: assessment_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.assessment.assessment_manager
  */
-require_once dirname(__FILE__) . '/assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../assessment_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/assessment_publication_browser/assessment_publication_browser_table.class.php';
 
@@ -57,53 +56,53 @@ class AssessmentManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS :
-                $component = AssessmentManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_DELETE_ASSESSMENT_PUBLICATION :
-                $component = AssessmentManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_EDIT_ASSESSMENT_PUBLICATION :
-                $component = AssessmentManagerComponent :: factory('Updater', $this);
+                $component = $this->create_component('Updater');
                 break;
             case self :: ACTION_CREATE_ASSESSMENT_PUBLICATION :
-                $component = AssessmentManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES :
-                $component = AssessmentManagerComponent :: factory('CategoryManager', $this);
+                $component = $this->create_component('CategoryManager');
                 break;
             case self :: ACTION_VIEW_ASSESSMENT_PUBLICATION :
-                $component = AssessmentManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS :
-                $component = AssessmentManagerComponent :: factory('ResultsViewer', $this);
+                $component = $this->create_component('ResultsViewer');
                 break;
             case self :: ACTION_IMPORT_QTI :
-                $component = AssessmentManagerComponent :: factory('QtiImporter', $this);
+                $component = $this->create_component('QtiImporter');
                 break;
             case self :: ACTION_EXPORT_QTI :
-                $component = AssessmentManagerComponent :: factory('QtiExporter', $this);
+                $component = $this->create_component('QtiExporter');
                 break;
             case self :: ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY :
-                $component = AssessmentManagerComponent :: factory('VisibilityChanger', $this);
+                $component = $this->create_component('VisibilityChanger');
                 break;
             case self :: ACTION_MOVE_ASSESSMENT_PUBLICATION :
-                $component = AssessmentManagerComponent :: factory('Mover', $this);
+                $component = $this->create_component('Mover');
                 break;
             case self :: ACTION_EXPORT_RESULTS :
-                $component = AssessmentManagerComponent :: factory('ResultsExporter', $this);
+                $component = $this->create_component('ResultsExporter');
                 break;
             case self :: ACTION_DOWNLOAD_DOCUMENTS :
-                $component = AssessmentManagerComponent :: factory('DocumentDownloader', $this);
+                $component = $this->create_component('DocumentDownloader');
                 break;
             case self :: ACTION_PUBLISH_SURVEY :
-                $component = AssessmentManagerComponent :: factory('SurveyPublisher', $this);
+                $component = $this->create_component('SurveyPublisher');
                 break;
             case self :: ACTION_BUILD_ASSESSMENT :
-            	$component = AssessmentManagerComponent :: factory('Builder', $this);
+            	$component = $this->create_component('Builder');
             	break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
-                $component = AssessmentManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         
         }
         $component->run();

@@ -12,6 +12,8 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
 	private $pid;
 	private $pub;
 	
+	private $already_sent;
+	
 	function run()
 	{	
 		$pid = Request :: get('peer_assessment_publication');
@@ -42,26 +44,32 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
         $this->peer_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($peer_assessment_id);
         $this->set_parameter(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION, $this->pid);
         
-               
+        $already_sent = 1;
 		$form = $this->build_result_form(/*$publication,*/ $pids);	
         if ($form->validate())
         {
             $this->redirect(Translation :: get('PeerAssessmentChecked'), false, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS));
         }
+        /*elseif(Request :: get('indicator') != null)
+        {
+        	$already_sent = 0;
+        	$this->redirect(Translation :: get('IndicatorResultsAdded'), false, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION, 'peer_assessment_publication' => Request :: get('peer_assessment_publication'), 'competence' => Request :: get('competence')));
+        }*/
         else
         {
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowsePeerAssessmentPublications')));
             $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pid)), Translation :: get('TakePeerAssessment')));
-            
-            $this->display_header($trail, true);
-            
+
+            if($already_sent)
+            {
+				$this->display_header($trail, true);
+            }    
             $display = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
         	$display->set_root_lo($this->peer_assessment);
         	$display->run();
             
             echo $form->toHtml();
-            //$this->display_footer();
         }
 
     }
@@ -70,8 +78,7 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
     {
         $url = $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pids));
         $form = new FormValidator('take_peer_assessment_publication', 'post', $url);
-        
-        
+                
         //$form->addElement('static', Criteria :: PROPERTY_TITLE, $publication->get_content_object()->get_title());
         //$form->addElement('static', Criteria :: PROPERTY_TITLE, $publication->get_content_object()->get_description());
 

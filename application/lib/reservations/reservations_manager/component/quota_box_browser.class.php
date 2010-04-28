@@ -4,10 +4,10 @@
  * @package application.reservations.reservations_manager.component
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
-require_once dirname(__FILE__) . '/../reservations_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/quota_box_browser/quota_box_browser_table.class.php';
 
-class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManagerComponent
+class ReservationsManagerQuotaBoxBrowserComponent extends ReservationsManager
 {
     private $ab;
 

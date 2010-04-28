@@ -27,12 +27,9 @@ class ToolDeleteComponent extends ToolComponent
                 $publication = $datamanager->retrieve_content_object_publication($pid);
 	            if(WebApplication :: is_active('gradebook'))
        			{
-       				require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
-	            	if(EvaluationManager :: retrieve_evaluation_ids_by_publication(WeblcmsManager :: APPLICATION_NAME, $pid))
-	            	{
-				    	if(!EvaluationManager :: move_internal_to_external(WeblcmsManager :: APPLICATION_NAME, $publication))
-				    		$message = 'failed to move internal evaluation to external evaluation';
-	            	}
+       				require_once dirname(__FILE__) . '/../../../gradebook/gradebook_utilities.class.php';
+			    	if(!GradebookUtilities :: move_internal_item_to_external_item(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
+			    		$message = 'failed to move internal evaluation to external evaluation';
        			}
                 $publication->delete();
             }

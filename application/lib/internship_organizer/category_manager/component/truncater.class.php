@@ -4,7 +4,7 @@
  * @package category.lib.category_manager.component
  */
 
-class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrganizerCategoryManagerComponent
+class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrganizerCategoryManager
 {
 
     /**

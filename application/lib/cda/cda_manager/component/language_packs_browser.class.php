@@ -4,7 +4,6 @@
  */
 
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/language_pack_browser/language_pack_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../forms/language_pack_browser_filter_form.class.php';
 
@@ -14,7 +13,7 @@ require_once dirname(__FILE__) . '/../../forms/language_pack_browser_filter_form
  * @author Hans De Bisschop
  */
 
-class CdaManagerLanguagePacksBrowserComponent extends CdaManagerComponent
+class CdaManagerLanguagePacksBrowserComponent extends CdaManager
 {
 	private $form;
 	private $action_bar;

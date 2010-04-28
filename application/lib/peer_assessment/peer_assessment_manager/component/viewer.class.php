@@ -30,7 +30,7 @@ class PeerAssessmentManagerViewerComponent extends PeerAssessmentManager
         //$this->display_footer();
     }
     
-	function display_header($trail)
+	/*function display_header($trail)
     {
     	if($trail)
     	{
@@ -38,7 +38,7 @@ class PeerAssessmentManagerViewerComponent extends PeerAssessmentManager
     	}
     	
     	return parent :: display_header($this->trail);
-    }
+    }*/
     
 	function get_current_attempt_id()
     {

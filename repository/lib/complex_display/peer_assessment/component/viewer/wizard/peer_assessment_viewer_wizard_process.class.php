@@ -1,7 +1,7 @@
 <?php
 class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
 {
-    private $parent;
+    /*private $parent;
 
     public function PeerAssessmentViewerWizardProcess($parent)
     {
@@ -111,6 +111,6 @@ class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
         echo implode("\n", $html);
 
         $this->parent->get_parent()->display_footer();
-    }
+    }*/
 }
 ?>
