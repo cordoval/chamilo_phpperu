@@ -131,7 +131,7 @@ abstract class GradebookDataManager {
 	
 	abstract function create_grade_evaluation_object_from_data($tracker_score);
 	
-	abstract function retrieve_applications_with_evaluations();
+	abstract function retrieve_internal_item_applications_with_evaluations();
 	
 	abstract function retrieve_calculated_internal_items();
 	
