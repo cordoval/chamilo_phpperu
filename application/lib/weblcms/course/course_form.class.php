@@ -586,20 +586,13 @@ class CourseForm extends CommonForm
     function create()
     {
         $course = $this->fill_general_settings();
-
-    	if(!$course->create())
+		$course->set_settings($this->fill_settings());
+		$course->set_layout($this->fill_layout());
+		$course->rights($this->fill_rights());
+		
+		if(!$course->create())
 			return false;
-
-		$course_settings = $this->fill_settings();
-
-		if (!$course_settings->create())
-			return false;
-
-		$course_layout = $this->fill_layout();
-
-		if(!$course_layout->create())
-			return false;
-
+		
         $wdm = WeblcmsDataManager :: get_instance();
 		if(!empty($this->course_type_id))
 			$tools = $this->object->get_course_type()->get_tools();
@@ -609,10 +602,6 @@ class CourseForm extends CommonForm
 		$selected_tools = $this->fill_tools($tools);
 
 		if(!$wdm->create_course_modules($selected_tools, $this->object->get_id()))
-			return false;
-    	
-		$course_rights = $this->fill_rights();
-		if(!$course_rights->create())
 			return false;
 			
 		$course_subscribe_rights = $this->fill_subscribe_rights();
