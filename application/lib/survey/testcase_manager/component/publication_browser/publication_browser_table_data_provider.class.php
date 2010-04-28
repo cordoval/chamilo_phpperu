@@ -24,7 +24,7 @@ class TestcaseSurveyPublicationBrowserTableDataProvider extends ObjectTableDataP
     {
         $order_property = $this->get_order_property($order_property);
         
-        return $this->get_browser()->get_parent()->get_parent()->retrieve_survey_publications($this->get_condition(), $offset, $count, $order_property);
+        return $this->get_browser()->get_parent()->retrieve_survey_publications($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -33,7 +33,7 @@ class TestcaseSurveyPublicationBrowserTableDataProvider extends ObjectTableDataP
      */
     function get_object_count()
     {
-        return $this->get_browser()->get_parent()->get_parent()->count_survey_publications($this->get_condition());
+        return $this->get_browser()->get_parent()->count_survey_publications($this->get_condition());
     }
 }
 ?>

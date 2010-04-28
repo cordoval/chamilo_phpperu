@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../../trackers/survey_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/../../trackers/survey_survey_attempts_tracker.class.php';
 
-class SurveyManagerDocumentDownloaderComponent extends SurveyManagerComponent
+class SurveyManagerDocumentDownloaderComponent extends SurveyManager
 {
 
     function run()

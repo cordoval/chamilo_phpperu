@@ -4,7 +4,7 @@
  * @package application.lib.survey.survey_manager.component
  */
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
-require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../reporting/reporting_survey.class.php';
 
 require_once dirname(__FILE__) . '/../../trackers/survey_question_answer_tracker.class.php';
@@ -19,7 +19,7 @@ require_once PATH :: get_application_path() . '/lib/survey/reporting/templates/s
  * @author Sven Vanpoucke
  * @author 
  */
-class SurveyManagerResultsViewerComponent extends SurveyManagerComponent
+class SurveyManagerResultsViewerComponent extends SurveyManager
 {
     
     private $question_id;

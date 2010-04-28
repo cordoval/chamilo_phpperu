@@ -1,11 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/survey_manager_component.class.php';
 require_once dirname(__FILE__) . '/../survey_data_manager.class.php';
 
 require_once Path :: get_application_path() . 'lib/survey/survey_rights.class.php';
 require_once Path :: get_application_path() . 'lib/survey/testcase_manager/testcase_manager.class.php';
-require_once Path :: get_application_path() . 'lib/survey/testcase_manager/testcase_manager_component.class.php';
 
 require_once dirname(__FILE__) . '/component/survey_publication_browser/survey_publication_browser_table.class.php';
 
@@ -70,68 +68,68 @@ class SurveyManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_SURVEY_PUBLICATIONS :
-                $component = SurveyManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_BROWSE_SURVEY_PAGES :
-                $component = SurveyManagerComponent :: factory('PageBrowser', $this);
+                $component = $this->create_component('PageBrowser');
                 break;
             case self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS :
-                $component = SurveyManagerComponent :: factory('QuestionBrowser', $this);
+                $component = $this->create_component('QuestionBrowser');
                 break;
             case self :: ACTION_TESTCASE :
-                $component = SurveyManagerComponent :: factory('Testcase', $this);
+                $component = $this->create_component('Testcase');
                 break;
             case self :: ACTION_DELETE_SURVEY_PUBLICATION :
-                $component = SurveyManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_EDIT_SURVEY_PUBLICATION :
-                $component = SurveyManagerComponent :: factory('Updater', $this);
+                $component = $this->create_component('Updater');
                 break;
             case self :: ACTION_CREATE_SURVEY_PUBLICATION :
-                $component = SurveyManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES :
-                $component = SurveyManagerComponent :: factory('CategoryManager', $this);
+                $component = $this->create_component('CategoryManager');
                 break;
             case self :: ACTION_VIEW_SURVEY_PUBLICATION :
-                $component = SurveyManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS :
-                $component = SurveyManagerComponent :: factory('ResultsViewer', $this);
+                $component = $this->create_component('ResultsViewer');
                 break;
             case self :: ACTION_REPORTING :
-                $component = SurveyManagerComponent :: factory('Reporting', $this);
+                $component = $this->create_component('Reporting');
                 break;
             case self :: ACTION_QUESTION_REPORTING :
-                $component = SurveyManagerComponent :: factory('QuestionReporting', $this);
+                $component = $this->create_component('QuestionReporting');
                 break;
             case self :: ACTION_IMPORT_SURVEY :
-                $component = SurveyManagerComponent :: factory('SurveyImporter', $this);
+                $component = $this->create_component('SurveyImporter');
                 break;
             case self :: ACTION_EXPORT_SURVEY :
-                $component = SurveyManagerComponent :: factory('SurveyExporter', $this);
+                $component = $this->create_component('SurveyExporter');
                 break;
             case self :: ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY :
-                $component = SurveyManagerComponent :: factory('VisibilityChanger', $this);
+                $component = $this->create_component('VisibilityChanger');
                 break;
             case self :: ACTION_MOVE_SURVEY_PUBLICATION :
-                $component = SurveyManagerComponent :: factory('Mover', $this);
+                $component = $this->create_component('Mover');
                 break;
             case self :: ACTION_EXPORT_RESULTS :
-                $component = SurveyManagerComponent :: factory('ResultsExporter', $this);
+                $component = $this->create_component('ResultsExporter');
                 break;
             case self :: ACTION_DOWNLOAD_DOCUMENTS :
-                $component = SurveyManagerComponent :: factory('DocumentDownloader', $this);
+                $component = $this->create_component('DocumentDownloader');
                 break;
             case self :: ACTION_MAIL_SURVEY_PARTICIPANTS :
-                $component = SurveyManagerComponent :: factory('Mailer', $this);
+                $component = $this->create_component('Mailer');
                 break;
             case self :: ACTION_BUILD_SURVEY :
-                $component = SurveyManagerComponent :: factory('Builder', $this);
+                $component = $this->create_component('Builder');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_SURVEY_PUBLICATIONS);
-                $component = SurveyManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         
         }
         $component->run();

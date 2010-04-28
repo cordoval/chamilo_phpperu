@@ -3,7 +3,7 @@
 require_once dirname ( __FILE__ ) . '/subscribe_location_browser/subscribe_location_browser_table.class.php';
 
 
-class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extends InternshipOrganizerCategoryManagerComponent
+class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extends InternshipOrganizerCategoryManager
 {
     private $category;
     private $ab;
@@ -16,9 +16,6 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         $trail = new BreadcrumbTrail();
        
         $trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
-        
-       
-
         
         $category_id = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
         $this->category = $this->retrieve_category($category_id);

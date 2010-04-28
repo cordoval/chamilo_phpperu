@@ -62,7 +62,7 @@
  *  @author Dieter De Neef
  */
 
-abstract class ContentObject extends DataClass implements AccessibleContentObject
+class ContentObject extends DataClass implements AccessibleContentObject
 {
     const CLASS_NAME = __CLASS__;
 
@@ -1133,6 +1133,9 @@ abstract class ContentObject extends DataClass implements AccessibleContentObjec
         return $rdm->retrieve_content_object($content_object_id);
     }
     
-    abstract static function get_type_name();
+	static function get_type_name()
+    {
+    	return $this->get_type();
+    }
 }
 ?>

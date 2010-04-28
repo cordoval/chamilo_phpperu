@@ -1,6 +1,6 @@
 <?php
 
-class SurveyManagerReportingComponent extends SurveyManagerComponent
+class SurveyManagerReportingComponent extends SurveyManager
 {
 
     /**

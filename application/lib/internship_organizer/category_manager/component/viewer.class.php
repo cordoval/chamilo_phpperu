@@ -3,7 +3,7 @@
 require_once dirname ( __FILE__ ) . '/rel_location_browser/rel_location_browser_table.class.php';
 
 
-class InternshipOrganizerCategoryManagerViewerComponent extends InternshipOrganizerCategoryManagerComponent
+class InternshipOrganizerCategoryManagerViewerComponent extends InternshipOrganizerCategoryManager
 {
     private $category;
     private $ab;

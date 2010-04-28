@@ -1,10 +1,8 @@
 <?php
 
-//require_once dirname(__FILE__) . '/../testcase_manager.class.php';
-//require_once dirname(__FILE__) . '/../testcase_manager_component.class.php';
 require_once dirname(__FILE__) . '/participant_browser/participant_browser_table.class.php';
 
-class TestcaseManagerParticipantBrowserComponent extends TestcaseManagerComponent
+class TestcaseManagerParticipantBrowserComponent extends TestcaseManager
 {
     private $action_bar;
     private $pid;
