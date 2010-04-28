@@ -7,12 +7,14 @@ require_once dirname ( __FILE__ ) . '/../organisation_manager_component.class.ph
 require_once Path :: get_application_path(). 'lib/internship_organizer/organisation_manager/component/location_browser/browser_table.class.php';
 
 
-class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOrganizerOrganisationManagerComponent {
+class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOrganizerOrganisationManager 
+{
 
 	private $action_bar;
 	private $organisation;
 
-	function run() {
+	function run() 
+	{
 
 		$organisation_id = $_GET[InternshipOrganizerOrganisationManager::PARAM_ORGANISATION_ID];
 		$this->organisation = $this->retrieve_organisation($organisation_id);
@@ -35,7 +37,8 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
 		$this->display_footer ();
 	}
 
-	function get_table() {
+	function get_table() 
+	{
 		$parameters = $this->get_parameters();
 		$parameters[InternshipOrganizerOrganisationManager::PARAM_ORGANISATION_ID] = $this->organisation->get_id();
 		$table = new InternshipOrganizerLocationBrowserTable ( $this, $parameters , $this->get_condition () );
@@ -43,7 +46,8 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
 	}
 
 
-	function get_action_bar() {
+	function get_action_bar() 
+	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddLocation'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_location_url($this->organisation), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -54,14 +58,16 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
 		return $action_bar;
 	}
 
-	function get_condition() {
+	function get_condition() 
+	{
 
 		$query = $this->action_bar->get_query ();
 		$conditions = array();
 		$organisation_id = $this->organisation->get_id();
 		$conditions[] = new EqualityCondition(InternshipOrganizerLocation::PROPERTY_ORGANISATION_ID, $organisation_id);
 
-		if (isset ( $query ) && $query != '') {
+		if (isset ( $query ) && $query != '') 
+		{
 			$search_conditions = array ();
 			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_NAME, '*' . $query . '*' );
 			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_STREET, '*' . $query . '*' );

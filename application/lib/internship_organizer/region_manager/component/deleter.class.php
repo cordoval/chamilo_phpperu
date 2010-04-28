@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerRegionManagerDeleterComponent extends InternshipOrganizerRegionManagerComponent
+class InternshipOrganizerRegionManagerDeleterComponent extends InternshipOrganizerRegionManager
 {
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-class TestcaseManagerChangerComponent extends TestcaseManagerComponent
+class TestcaseManagerChangerComponent extends TestcaseManager
 {
 
     /**
@@ -49,6 +49,7 @@ class TestcaseManagerChangerComponent extends TestcaseManagerComponent
                             
             }
             
+            // $this->get_result not good enough?
             if ($failures)
             {
                 if (count($ids) == 1)

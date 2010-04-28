@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerManagerCategoryComponent extends InternshipOrganizerManagerComponent
+class InternshipOrganizerManagerCategoryComponent extends InternshipOrganizerManager
 {
 
     /**
@@ -8,7 +8,7 @@ class InternshipOrganizerManagerCategoryComponent extends InternshipOrganizerMan
      */
     function run()
     {
-        $category_manager = new InternshipOrganizerCategoryManager($this->get_parent());
+        $category_manager = new InternshipOrganizerCategoryManager($this);
         $category_manager->run();
     }
 }

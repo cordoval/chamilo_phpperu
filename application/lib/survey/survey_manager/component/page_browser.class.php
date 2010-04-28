@@ -1,9 +1,9 @@
 <?php
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
-require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/page_browser/table.class.php';
 
-class SurveyManagerPageBrowserComponent extends SurveyManagerComponent
+class SurveyManagerPageBrowserComponent extends SurveyManager
 {
     private $action_bar;
     private $survey_ids;

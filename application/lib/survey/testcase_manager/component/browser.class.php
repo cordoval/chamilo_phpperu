@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/publication_browser/publication_browser_table.class.php';
 
-class TestcaseManagerBrowserComponent extends TestcaseManagerComponent
+class TestcaseManagerBrowserComponent extends TestcaseManager
 {
     private $action_bar;
 
@@ -37,7 +37,7 @@ class TestcaseManagerBrowserComponent extends TestcaseManagerComponent
         $action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateTestCase'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseSurveyPublications'), Theme :: get_common_image_path() . 'action_category.png', $this->get_parent()->get_parent()->get_browse_survey_publications_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseSurveyPublications'), Theme :: get_common_image_path() . 'action_category.png', $this->get_parent()->get_browse_survey_publications_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
     }

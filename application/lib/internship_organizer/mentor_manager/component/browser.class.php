@@ -1,13 +1,14 @@
 <?php
 
 require_once dirname ( __FILE__ ) . '/../mentor_manager.class.php';
-require_once dirname ( __FILE__ ) . '/../mentor_manager_component.class.php';
 require_once dirname ( __FILE__ ) . '/browser/browser_table.class.php';
 
-class InternshipOrganizerMentorManagerBrowserComponent extends InternshipOrganizerMentorManagerComponent {
+class InternshipOrganizerMentorManagerBrowserComponent extends InternshipOrganizerMentorManager 
+{
 	private $action_bar;
 
-	function run() {
+	function run() 
+	{
 		$trail = new BreadcrumbTrail ();
 		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerMentorManager::PARAM_ACTION => InternshipOrganizerMentorManager :: ACTION_BROWSE_MENTOR) ), Translation::get ( 'BrowseMentors' ) ) );
 
@@ -25,14 +26,16 @@ class InternshipOrganizerMentorManagerBrowserComponent extends InternshipOrganiz
 		$this->display_footer ();
 	}
 
-	function get_table() {
+	function get_table() 
+	{
 		$parameters = $this->get_parameters();
 		$table = new InternshipOrganizerMentorBrowserTable ( $this, $parameters , $this->get_condition () );
 		return $table->as_html ();
 	}
 
 
-	function get_action_bar() {
+	function get_action_bar() 
+	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddMentor'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_mentor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -43,12 +46,14 @@ class InternshipOrganizerMentorManagerBrowserComponent extends InternshipOrganiz
 		return $action_bar;
 	}
 
-	function get_condition() {
+	function get_condition() 
+	{
 		//Klopt deze?
 		$query = $this->action_bar->get_query ();
 		$condition = null;
 
-		if (isset ( $query ) && $query != '') {
+		if (isset ( $query ) && $query != '') 
+		{
 			$search_conditions = array ();
 			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerMentor::PROPERTY_FIRSTNAME, '*' . $query . '*' );
 			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerMentor::PROPERTY_LASTNAME, '*' . $query . '*' );

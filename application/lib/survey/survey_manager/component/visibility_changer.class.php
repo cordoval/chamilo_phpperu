@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
-require_once dirname(__FILE__) . '/../survey_manager_component.class.php';
 
-class SurveyManagerVisibilityChangerComponent extends SurveyManagerComponent
+
+class SurveyManagerVisibilityChangerComponent extends SurveyManager
 {
     
     const MESSAGE_VISIBILITY_CHANGED = 'VisibilityChanged';
