@@ -23,8 +23,8 @@ class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_NAME_USER);
-        $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_COURSE_NAME);
+        //$columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_NAME_USER, false);
+        //$columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_COURSE_NAME, false);
         $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_TITLE);
 
         return $columns;

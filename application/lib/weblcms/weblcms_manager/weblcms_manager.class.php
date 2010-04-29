@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . '/../tool/tool.class.php';
 require_once dirname(__FILE__) . '/../tool_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
 require_once dirname(__FILE__) . '/../course/course_request.class.php';
+require_once dirname(__FILE__) . '/../course/course_create_request.class.php';
 require_once dirname(__FILE__) . '/../course/course_settings.class.php';
 require_once dirname(__FILE__) . '/../course/course_rights.class.php';
 require_once dirname(__FILE__) . '/../course/course_group_subscribe_right.class.php';
@@ -1058,6 +1059,11 @@ class WeblcmsManager extends WebApplication
     function retrieve_requests($condition = null, $offset = null, $count = null, $order_property = null)
     {
     	return WeblcmsDataManager :: get_instance()->retrieve_requests($condition, $offset, $count, $order_property);
+    }
+    
+    function retrieve_course_create_requests($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+    	return WeblcmsDataManager :: get_instance()->retrieve_course_create_requests($condition, $offset, $count, $order_property);
     }
 
     function retrieve_active_course_types()

@@ -34,7 +34,15 @@ class AdminRequestBrowserTableDataProvider extends ObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         
-        return $this->get_browser()->retrieve_requests($this->get_condition(), $offset, $count, $order_property);
+        $request_method = null;
+        
+        switch($this->get_browser()->get_request_type())
+        {
+        	case WeblcmsManagerAdminRequestBrowserComponent :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_requests'; break;
+        	case WeblcmsManagerAdminRequestBrowserComponent :: CREATION_REQUEST: $request_method = 'retrieve_course_create_requests'; break;
+        }
+        
+        return $this->get_browser()->$request_method($this->get_condition(), $offset, $count, $order_property);
     }
     
 

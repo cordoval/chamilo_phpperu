@@ -236,7 +236,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
     	$conditions = array();					
         $conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_USER_ID, $user_id);
-        $conditions[] = new InequalityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, date('Y-m-d H:i:s'));        
+        $conditions[] = new InequalityCondition(CourseRequest :: PROPERTY_DECISION_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, date('Y-m-d H:i:s'));        
         $condition = new AndCondition($conditions);
         $course_requests = $this->retrieve_requests($condition);
         
@@ -922,6 +922,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         return $this->create($request);
     }
+    
+    function create_course_create_request($request)
+    {
+        return $this->create($request);
+    }
 
     function create_course_type_settings($course_type_settings)
     {
@@ -1239,6 +1244,12 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function update_course_request($request)
     {
         $condition = new EqualityCondition(CourseRequest :: PROPERTY_ID, $request->get_id());
+        return $this->update($request, $condition);
+    }
+    
+    function update_course_create_request($request)
+    {
+        $condition = new EqualityCondition(CourseCreateRequest :: PROPERTY_ID, $request->get_id());
         return $this->update($request, $condition);
     }
 
@@ -1898,7 +1909,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->retrieve_objects(CourseRequest :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
     
-    
+    function retrieve_course_create_requests($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        $order_by[] = new ObjectTableOrder(CourseCreateRequest :: PROPERTY_TITLE);
+        return $this->retrieve_objects(CourseCreateRequest :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }   
 
     // Inherited
     function retrieve_course_type_settings($id)

@@ -5,7 +5,6 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-//require_once dirname(__FILE__) . '/category_manager/repository_category.class.php';
 
 class RightsTreeRenderer extends HTML_Menu
 {
@@ -82,7 +81,6 @@ class RightsTreeRenderer extends HTML_Menu
 		$selected_group['class'] = 'type type_group';
 		$selected_group['title'] = $group->get_name();
 		$selected_group['description'] = $group->get_name();
-		$selected_group['url'] = "javascript:;";
 		return $selected_group;
     }
     
