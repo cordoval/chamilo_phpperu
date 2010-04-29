@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__).'/../weblcms_manager.class.php';
-require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 
 /**
@@ -15,6 +14,7 @@ class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManager
 	function run()
 	{		
 		$request_id = Request :: get(WeblcmsManager :: PARAM_REQUEST);
+		$request_type = Request :: get(WeblcmsManager:: PARAM_REQUEST_TYPE);
 		
 		if ($this->get_user()->is_platform_admin())
         {
@@ -31,8 +31,8 @@ class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManager
         }
         else
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('CourseTypes')));       
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateRequest')));
-        $trail->add_help('update request');
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('AllowRequest')));
+        $trail->add_help('allow request');
         
         if (! $this->get_user()->is_platform_admin())
         {
@@ -42,8 +42,16 @@ class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManager
             exit();
         } 
         
-		$request = $this->retrieve_request($request_id);
-		$form = new CourseRequestForm(CourseRequestForm :: TYPE_EDIT, $this->get_url(array(WeblcmsManager :: PARAM_REQUEST => $request->get_id())), $course, $this, $request, $this->get_user());
+        $request_method = null;
+        
+        switch($request_type)
+        {
+        	case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_request'; break;
+        	case CommonRequest :: CREATION_REQUEST: $request_method = 'retrieve_course_create_request'; break;
+        }
+        		
+		$request = $this->$request_method($request_id);
+		$form = new CourseRequestForm(CourseRequestForm :: TYPE_EDIT, $this->get_url(array(WeblcmsManager :: PARAM_REQUEST => $request->get_id(), WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type)), $course, $this, $request, $this->get_user_id());
 		
 		if($form->validate())
 		{

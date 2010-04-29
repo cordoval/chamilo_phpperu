@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__).'/../weblcms_manager.class.php';
-require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 
 /**
@@ -15,6 +14,7 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
 	function run()
 	{		
 		$request_ids = Request :: get(WeblcmsManager :: PARAM_REQUEST);
+		$request_type = Request :: get(WeblcmsManager:: PARAM_REQUEST_TYPE);
 		$failures = 0;
 		
 		if(!is_null($request_ids) && $this->get_user()->is_platform_admin())
@@ -26,23 +26,17 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
 			
 			foreach($request_ids as $request_id)
 			{
-				
-				$request = $this->retrieve_request($request_id);				
-				$request->set_allowed_date(Utilities :: to_db_date(time()));
-				
-				$todays_date = date('Y-m-d H:i:s');
-				$today = (strtotime($todays_date));
-				$allow_date = $request->get_allowed_date();
-				$allowed_date = (strtotime($allow_date));
-				
-				if($today == $allowed_date)
-				{
-					$course_code = $request->get_course_id();
-					$user = $request->get_user_id();
-        	 		$wdm = WeblcmsDataManager :: get_instance();
-        	 		$course = $wdm->retrieve_course($course_code);
-         	 		$success = $wdm->subscribe_user_to_course($course, '5', '0', $user);
-				}
+				$request_method = null;
+        
+        		switch($request_type)
+        		{
+        			case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_request'; break;
+        			case CommonRequest :: CREATION_REQUEST: $request_method = 'retrieve_course_create_request'; break;
+        		}
+        		
+				$request = $this->$request_method($request_id);				
+				$request->set_decision_date(Utilities :: to_db_date(time()));
+				$request->set_decision(CommonRequest::ALLOWED_DECISION);
 							
 				if(!$request->update())
 				{

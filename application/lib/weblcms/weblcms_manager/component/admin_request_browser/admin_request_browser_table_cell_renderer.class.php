@@ -12,10 +12,6 @@ require_once dirname(__FILE__) . '/../../weblcms_manager.class.php';
  */
 class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCellRenderer
 {
-    /**
-     * The repository browser component
-     */
-    private $browser;
 
     /**
      * Constructor
@@ -23,8 +19,7 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
      */
     function AdminRequestBrowserTableCellRenderer($browser)
     {
-        parent :: __construct();
-        $this->browser = $browser;
+        parent :: __construct($browser);
     }
 
     // Inherited
@@ -39,7 +34,7 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
         switch ($column->get_name())
         {
         	
-        	case CourseRequest :: PROPERTY_MOTIVATION :
+        	case CommonRequest :: PROPERTY_MOTIVATION :
 				$motivation = strip_tags(parent :: render_cell($column, $request));
 				if(strlen($motivation) > 175)
 				{
@@ -60,37 +55,37 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
      * @return string A HTML representation of the action links
      */
     private function get_modification_links($request)
-    {    	
+    {    
         $toolbar_data = array();
         
-        $toolbar_data[] = array(
-        	'href' => $this->browser->get_course_request_editing_url($request),
-         	'label' => Translation :: get('Edit'),
-         	'img' => Theme :: get_common_image_path() . 'action_edit.png');
-
-        $toolbar_data[] = array(
-        	'href' => $this->browser->get_course_request_deleting_url($request),
-        	 'label' => Translation :: get('Delete'), 
-        	 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-       
-        $check_item = $request->get_allowed_date();
-        if($check_item == 0)
+    	$check_item = $request->get_decision();
+        if($check_item == CommonRequest :: NO_DECISION)
         {
         	$toolbar_data[] = array(
-        		'href' => $this->browser->get_course_request_allowing_url($request),
+        		'href' => $this->browser->get_course_request_editing_url($request, $this->browser->get_request_type()),
         		'label' => Translation :: get('Allow'),
-        		'img' => Theme :: get_common_image_path() . 'action_start.png');
-        }
+        		'img' => Theme :: get_common_image_path() . 'action_confirm.png');
+        	
+        	$toolbar_data[] = array(
+	        	'href' => $this->browser->get_course_request_refuse_url($request, $this->browser->get_request_type()),
+	         	'label' => Translation :: get('Refuse'),
+	         	'img' => Theme :: get_common_image_path() . 'action_refuse.png');
+        }/*
         else
         {
         	$toolbar_data[] = array(
         		'label' => Translation :: get('Allow_NA'),
-        		'img' => Theme :: get_common_image_path() . 'action_start_na.png');
+        		'img' => Theme :: get_common_image_path() . 'action_verify_na.png');
         }
-        
+		*/
         $toolbar_data[] = array(
-        	'href' =>$this->browser->get_course_request_viewing_url($request),
-        	'label' => Translation :: get('Print-View'),
+        	'href' => $this->browser->get_course_request_deleting_url($request, $this->browser->get_request_type()),
+        	 'label' => Translation :: get('Delete'), 
+        	 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+              
+        $toolbar_data[] = array(
+        	'href' =>$this->browser->get_course_request_viewing_url($request, $this->browser->get_request_type()),
+        	'label' => Translation :: get('view'),
         	'img' => Theme :: get_common_image_path() . 'action_view.png');
         
         return Utilities :: build_toolbar($toolbar_data);

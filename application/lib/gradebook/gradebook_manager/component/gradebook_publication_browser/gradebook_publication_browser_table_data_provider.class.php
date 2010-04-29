@@ -30,7 +30,7 @@ class GradebookPublicationBrowserTableDataProvider extends ObjectTableDataProvid
 //			$object->set_creation_date($result['created']);
 //			$objects[] = $object;
 //		}
-		return $this->get_browser()->retrieve_internal_items_by_application($this->get_browser()->get_condition(), $offset, $count, $order_property);
+		return $this->get_browser()->retrieve_internal_items_by_application($this->get_browser()->get_condition($this->get_browser()->get_applications()), $offset, $count, $order_property);
 //    	return $this->get_browser()->retrieve_content_objects_by_ids($this->get_browser()->get_condition(), $offset, $count, $order_property);
     }
   /**
@@ -39,7 +39,7 @@ class GradebookPublicationBrowserTableDataProvider extends ObjectTableDataProvid
    */
     function get_object_count()
     {
-		return $this->get_browser()->count_internal_items_by_application($this->get_browser()->get_condition());
+		return $this->get_browser()->count_internal_items_by_application($this->get_browser()->get_condition($this->get_browser()->get_applications()));
     }
 }
 ?>

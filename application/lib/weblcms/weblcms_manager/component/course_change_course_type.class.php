@@ -16,6 +16,9 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
      */
     function run()
     {        
+    	$course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
+    	$course_type_code = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
+    	
     	if ($this->get_user()->is_platform_admin())
         {
             Header :: set_section('admin');
@@ -27,7 +30,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
         {
         	$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
        		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
-			$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER )), Translation :: get('CourseList')));
+			$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER),array(WeblcmsManager :: PARAM_COURSE)), Translation :: get('CourseList')));
         }     
         else
         {
@@ -46,7 +49,6 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
             exit();
         }
         
-    	$course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $failures = 0;        
                     
         $course = $this->retrieve_courses(new EqualityCondition(COURSE :: PROPERTY_ID, Request :: get(WeblcmsManager :: PARAM_COURSE)))->next_result();
@@ -94,7 +96,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
               	   }
             	}           	
             	$parent = $this->form->get_new_parent();
-            	$this->redirect(!$failures ? Translation :: get('CourseCourseTypeChanged') : Translation :: get('CourseCourseTypeNotChanged'), !$failures ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent));    	
+            	$this->redirect(!$failures ? Translation :: get('CourseCourseTypeChanged') : Translation :: get('CourseCourseTypeNotChanged'), !$failures ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent), array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_COURSE_TYPE));    	
             }
             else
             {

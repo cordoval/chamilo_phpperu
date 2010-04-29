@@ -6,19 +6,29 @@
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 
 require_once dirname(__FILE__) . '/admin_request_browser/admin_request_browser_table.class.php';
+require_once dirname(__FILE__) . '/../../course/requests_tree_renderer.class.php';
 /**
  * Weblcms component which allows the the platform admin to browse the request
  */
 class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
 {
+	
+	const PENDING_REQUEST_VIEW = 'pending_request_view';
+	const ALLOWED_REQUEST_VIEW = 'allowed_request_view';
+	const DENIED_REQUEST_VIEW = 'denied_request_view';
+	
     private $action_bar;
-
+	private $request_type;
+	private $request_view;
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
         Header :: set_section('admin');
+        
+        $this->request_type = Request :: get(WeblcmsManager :: PARAM_REQUEST_TYPE);
+        $this->request_view = Request :: get(WeblcmsManager :: PARAM_REQUEST_VIEW);
         
         $trail = new BreadcrumbTrail();
         if ($this->get_user()->is_platform_admin())
@@ -48,10 +58,14 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
     function get_request_html()
     {    
         $html = array();
-        
+        $menu = new RequestsTreeRenderer($this);
         $html[] = '<div style="clear: both;"></div>';
         $html[] = $this->action_bar->as_html() . '<br />';
-		$html[] = $this->get_table_html();
+        $html[] = '<div style="float: left; padding-right: 20px; width: 18%; overflow: auto; height: 100%;">' . $menu->render_as_tree() . '</div>';
+        $html[] = '<div style="float: right; width: 80%;">';
+        if($this->request_view && $this->request_type)
+        	$html[] = $this->get_table_html();
+        $html[] = '</div>';
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
         $html[] = '</div>';
@@ -64,15 +78,15 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
 		$action_bar->set_search_url($this->get_url());
 		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->set_search_url($this->get_url());
 		
 		return $action_bar;
 	}
 	  
 	function get_table_html()
 	{
-		$parameters = $this->get_parameters();
-		$parameters[WeblcmsManager :: PARAM_ACTION]=  WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER;
+		$parameters = array();
+		$parameters[WeblcmsManager :: PARAM_ACTION] = WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER;
+		$parameters[WeblcmsManager :: PARAM_REQUEST_TYPE] = $this->request_type;
 
 		$table = new AdminRequestBrowserTable($this, $parameters, $this->get_condition());
 
@@ -85,23 +99,44 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
     function get_condition()
     {
         $query = $this->action_bar->get_query();
+		
+        $conditions = array();
         
         if (isset($query) && $query != '')
         {
             $conditions = array();
-            $conditions[] = new PatternMatchCondition(CourseRequest :: PROPERTY_MOTIVATION, '*' . $query . '*');            
-            $conditions[] = new PatternMatchCondition(CourseRequest :: PROPERTY_TITLE, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(CommonRequest :: PROPERTY_MOTIVATION, '*' . $query . '*');            
+            $conditions[] = new PatternMatchCondition(CommonRequest :: PROPERTY_TITLE, '*' . $query . '*');
             //$conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             
            	$search_conditions = new OrCondition($conditions);
-        }       
-        $condition = null;
-       
+        }
+               
         if (count($search_conditions))
-       	{
-           $condition = $search_conditions;
-      	}     
+           $conditions[] = $search_conditions;
+        
+        switch($this->request_view)
+        {
+        	case self :: PENDING_REQUEST_VIEW: $conditions[] = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, NULL);
+        									break;
+        	case self :: ALLOWED_REQUEST_VIEW: $conditions[] = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, CommonRequest :: ALLOWED_DECISION);
+        									   break;
+        	case self :: DENIED_REQUEST_VIEW: $conditions[] = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, CommonRequest :: DENIED_DECISION);
+        									   break;
+        }
+        
+        $condition = null;
+       	if(count($conditions)>1)
+       		$condition = new AndCondition($conditions);
+       	else if(count($conditions)==1)
+       		$condition = $conditions[0];
+       		
         return $condition;
+    }
+    
+    function get_request_type()
+    {
+    	return $this->request_type;
     }
 }
 ?>

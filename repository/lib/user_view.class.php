@@ -80,15 +80,17 @@ class UserView extends DataClass
 
     function create($values)
     {
-        $condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
-        $views = $gdm->count_user_views($condition);
+        $rdm = $this->get_data_manager();
+        
+    	$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+        $views = $rdm->count_user_views($condition);
         if ($views > 0)
         {
             $this->add_error(Translation :: get('UserViewNameNotUnique'));
         	return false;
         }
 
-        $success = $gdm->create_user_view($this);
+        $success = $rdm->create_user_view($this);
 
         $registrations = RepositoryDataManager :: get_registered_types();
         foreach ($registrations as $registration)
@@ -110,12 +112,13 @@ class UserView extends DataClass
 
     function update($values)
     {
-    	$gdm = RepositoryDataManager :: get_instance();
+    	$rdm = RepositoryDataManager :: get_instance();
+    	
     	$conditions[] = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
-    	$conditions[] = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+    	$conditions[] = new NotCondition(new EqualityCondition(self :: PROPERTY_ID, $this->get_id()));
     	$condition = new AndCondition($conditions);
 
-        $views = $gdm->count_user_views($condition);
+        $views = $rdm->count_user_views($condition);
         if ($views > 0)
         {
             $this->add_error(Translation :: get('UserViewNameNotUnique'));

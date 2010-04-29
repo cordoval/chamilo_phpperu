@@ -176,7 +176,7 @@ class CourseTypeRights extends CourseRights
 						$condition_right = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_CREATE, CourseTypeGroupCreationRight :: CREATE_DIRECT);
 						$condition = new AndCondition(array($condition_course_type_id, $condition_right));	
 						$count =  WeblcmsDatamanager::get_instance()->count_course_type_group_creation_rights($condition);
-						if($count == 0 && $this->get_direct_creation_available())
+						if($count == 0 && $this->get_creation_available())
 						{
 							$right->set_create(CourseTypeGroupCreationRight :: CREATE_DIRECT);
 							$validation = true;
@@ -185,7 +185,7 @@ class CourseTypeRights extends CourseRights
 						$condition_right = new EqualityCondition(CourseTypeGroupCreationRight :: PROPERTY_CREATE, CourseTypeGroupCreationRight :: CREATE_REQUEST);
 						$condition = new AndCondition(array($condition_course_type_id, $condition_right));	
 						$count =  WeblcmsDatamanager::get_instance()->count_course_type_group_creation_rights($condition);
-						if($count == 0 && $this->get_request_creation_available() && !$validation)
+						if($count == 0 && $this->get_creation_on_request_available() && !$validation)
 						{
 							$right->set_create(CourseTypeGroupCreationRight :: CREATE_REQUEST);
 							$validation = true;
@@ -201,7 +201,7 @@ class CourseTypeRights extends CourseRights
 				}
 			}
 		}
-		else return CourseGroupCreationRight :: CREATE_NONE;
+		else return CourseTypeGroupCreationRight :: CREATE_NONE;
 	}
  
     static function get_table_name()

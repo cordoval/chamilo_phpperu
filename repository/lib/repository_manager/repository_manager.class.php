@@ -1421,5 +1421,20 @@ class RepositoryManager extends CoreApplication
         }
         return false;
     } //has_right
+    
+    function get_create_user_view_url()
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_USER_VIEW));
+    }
+    
+	function get_update_user_view_url($user_view_id)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
+    }
+    
+	function get_delete_user_view_url($user_view_id)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
+    }
 }
 ?>

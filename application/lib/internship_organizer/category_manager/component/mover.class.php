@@ -3,7 +3,7 @@
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/category_move_form.class.php';
 
 
-class InternshipOrganizerCategoryManagerMoverComponent extends InternshipOrganizerCategoryManagerComponent
+class InternshipOrganizerCategoryManagerMoverComponent extends InternshipOrganizerCategoryManager
 {
 
     /**

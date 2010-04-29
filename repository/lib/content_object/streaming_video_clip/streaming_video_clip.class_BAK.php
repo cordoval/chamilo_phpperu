@@ -16,6 +16,13 @@ class StreamingVideoClip extends ContentObject
     const PROPERTY_DURATION = 'duration';
     const PROPERTY_CONVERSION_STATE = 'conversion_state';
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     static function get_additional_property_names()
     {
             return array(self :: PROPERTY_ASPECT_RATIO, self :: PROPERTY_CONVERSION_STATE, self :: PROPERTY_DURATION);

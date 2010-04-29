@@ -471,4 +471,9 @@ $lang['weblcms']['ViewRequest'] = 'View Request';
 $lang['weblcms']['Print'] = 'Print';
 $lang['weblcms']['Request'] = 'Request';
 $lang['weblcms']['Pending'] = 'Pending';
+$lang['weblcms']['CourseTypeRequestFormNeeded'] = 'You will need to fill in a requestform for this kind of course.';
+$lang['weblcms']['SubscriptionRequests'] = 'Subscription Requests';
+$lang['weblcms']['CreationRequests'] = 'Creation Requests';
+$lang['weblcms']['Denied'] = 'Denied';
+$lang['weblcms']['Allowed'] = 'Allowed';
 ?>

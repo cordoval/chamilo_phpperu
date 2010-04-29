@@ -105,7 +105,6 @@ class ContentObjectPublicationForm extends FormValidator
         {
             $this->tool = $repo_viewer->get_parent();
         }
-
         $this->content_object = $content_object;
         $this->email_option = $email_option;
         $this->course = $course;
@@ -256,10 +255,13 @@ class ContentObjectPublicationForm extends FormValidator
     function build_form()
     {
         if(WebApplication :: is_active('gradebook'))
-        {
-        	require_once dirname (__FILE__) . '/../gradebook/forms/gradebook_internal_item_form.class.php';
-        	$gradebook_internal_item_form = new GradebookInternalItemForm();
-        	$gradebook_internal_item_form->build_evaluation_question($this);
+        { 
+        	if(PlatformSetting :: get_instance()->get('allow_evaluate_' . Request :: get(WeblcmsManager :: PARAM_TOOL), 'gradebook'))
+        	{
+	        	require_once dirname (__FILE__) . '/../gradebook/forms/gradebook_internal_item_form.class.php';
+	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+	        	$gradebook_internal_item_form->build_evaluation_question($this);
+        	}
         }
         $this->categories[0] = Translation :: get('Root');
         $this->get_categories(0);

@@ -78,8 +78,9 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			$date_conditions = array();
 					
         			$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $course->get_id());
-        			$date_conditions[] = new InequalityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, date('Y-m-d H:i:s'));
-        			$date_conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_ALLOWED_DATE, NULL);
+        			$conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_USER_ID, $this->browser->get_user_id());
+        			$date_conditions[] = new InequalityCondition(CourseRequest :: PROPERTY_DECISION_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, date('Y-m-d H:i:s'));
+        			$date_conditions[] = new EqualityCondition(CourseRequest :: PROPERTY_DECISION_DATE, NULL);
         
         			$conditions[] = new OrCondition($date_conditions);
         			$condition = new AndCondition($conditions);
@@ -95,7 +96,9 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			}
         			else
         			{	
-        				return Translation :: get('Pending');
+        				$toolbar_data[] = array(
+        				'label' => Translation :: get('Pending'), 
+        				'img' => Theme :: get_common_image_path() . 'status_pending.png');        			
         			}
         			break;
         			

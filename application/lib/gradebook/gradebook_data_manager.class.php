@@ -112,7 +112,7 @@ abstract class GradebookDataManager {
 
 	abstract function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null);
 	
-	abstract function create_evaluation_object_from_data($content_object_publication, $user);
+	abstract function create_evaluation_object_from_data($content_object_publication, $user, $date);
 
 	//evaluation format
 	
@@ -131,7 +131,7 @@ abstract class GradebookDataManager {
 	
 	abstract function create_grade_evaluation_object_from_data($tracker_score);
 	
-	abstract function retrieve_applications_with_evaluations();
+	abstract function retrieve_internal_item_applications_with_evaluations();
 	
 	abstract function retrieve_calculated_internal_items();
 	

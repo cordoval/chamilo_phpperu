@@ -383,8 +383,8 @@ $lang['admin']['CourseTypeListDescription'] = 'Course Type List Description';
 $lang['admin']['CreateTypeDescription'] = 'Create Course Type Description';
 $lang['admin']['CourseList'] = 'Course List';
 $lang['admin']['CreateCourse'] = 'Create Course';
-$lang['admin']['RequestFormList'] = 'Request Form List';
-$lang['admin']['RequestForms'] = 'Request Forms';
+$lang['admin']['RequestList'] = 'Request List';
+$lang['admin']['RequestDescription'] = 'Request Description';
 $lang['admin']['CourseCategoryManagementDescription'] = 'Course Category Management Description';
 $lang['admin']['UserImportDescription'] = 'User Import Description';
 ?>

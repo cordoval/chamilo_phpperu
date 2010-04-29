@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganizerRegionManagerComponent
+class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganizerRegionManager
 {
     private $region;
     private $ab;

@@ -96,7 +96,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
                 $feedbacks = $dm->retrieve_content_object_pub_feedback($condition);
             }
             while ($feedback = $feedbacks->next_result())
-            { dump($feedback);
+            {
                 if ($i == 0)
                 {
                     echo '<div style="font-size:18px;">' . Translation :: get('Feedback') . '</div><hr>';
@@ -122,9 +122,9 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
 
     function build_feedback_actions()
     {
-        $actions[] = array('href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_FEEDBACK, 'fid' => $this->fid, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'), 'wiki_publication' => Request :: get('wiki_publication'))), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+        $actions[] = array('href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_FEEDBACK, WikiPubFeedback :: PROPERTY_FEEDBACK_ID => $this->fid, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'), 'wiki_publication' => Request :: get('wiki_publication'))), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
         
-        $actions[] = array('href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_EDIT_FEEDBACK, 'fid' => $this->fid, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'), 'wiki_publication' => Request :: get('wiki_publication'))), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $actions[] = array('href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_EDIT_FEEDBACK, WikiPubFeedback :: PROPERTY_FEEDBACK_ID => $this->fid, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'), 'wiki_publication' => Request :: get('wiki_publication'))), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         
         return Utilities :: build_toolbar($actions);
     
@@ -144,7 +144,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
         
         $html = array();
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_icon_name() . ($object->is_latest_version() ? '' : '_na') . '.png);">';
-        $html[] = '<div class="title">' . htmlentities($object->get_title()) . ' | ' . htmlentities(date("F j, Y, H:i:s", $creationDate)) . '</div>';
+        $html[] = '<div class="title">' . Utilities :: htmlentities($object->get_title()) . ' | ' . Utilities :: htmlentities(date("F j, Y, H:i:s", $creationDate)) . '</div>';
         $html[] = self :: TITLE_MARKER;
         $html[] = $object->get_description();
         $html[] = self :: DESCRIPTION_MARKER;

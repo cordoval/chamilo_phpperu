@@ -54,20 +54,7 @@ class Redirect
             $parameters = $url_parameters;
         }
 
-        if (count($parameters))
-        {
-            // Because the argument separator can be defined in the php.ini
-            // file, we explicitly add it as a parameter here to avoid
-            // trouble when parsing the resulting urls
-            $link .= '?' . http_build_query($parameters, '', self :: ARGUMENT_SEPARATOR);
-        }
-
-        if ($encode_entities)
-        {
-            $link = htmlentities($link);
-        }
-
-        return $link;
+       return self :: web_link($link, $parameters, $encode_entities);
     }
 
     static function url($parameters = array (), $filter = array(), $encode_entities = false)
@@ -93,7 +80,12 @@ class Redirect
             $parameters = $url_parameters;
         }
 
-        if (count($parameters))
+        return self :: web_link($url, $parameters, $encode_entities);
+    }
+    
+    static function web_link($url, $parameters = array (), $encode_entities = false)
+    {
+    	if (count($parameters))
         {
             // Because the argument separator can be defined in the php.ini
             // file, we explicitly add it as a parameter here to avoid

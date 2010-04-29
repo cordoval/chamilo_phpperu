@@ -1,9 +1,9 @@
 <?php
 require_once dirname ( __FILE__ ) . '/../region_manager.class.php';
-require_once dirname ( __FILE__ ) . '/../region_manager_component.class.php';
 require_once dirname ( __FILE__ ) . '/browser/browser_table.class.php';
 
-class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganizerRegionManagerComponent {
+class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganizerRegionManager 
+{
 	private $ab;
 	private $region;
 	private $root_region;
@@ -11,7 +11,8 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 	/**
 	 * Runs this component and displays its output.
 	 */
-	function run() {
+	function run() 
+	{
 		
 		$trail = new BreadcrumbTrail ();
 		
@@ -30,7 +31,8 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 		$this->display_footer ();
 	}
 	
-	function get_browser_html() {
+	function get_browser_html() 
+	{
 		$table = new InternshipOrganizerRegionBrowserTable ( $this, $this->get_parameters (), $this->get_condition () );
 		
 		$html = array ();
@@ -42,7 +44,8 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 		return implode ( $html, "\n" );
 	}
 	
-	function get_menu_html() {
+	function get_menu_html() 
+	{
 		$region_menu = new InternshipOrganizerRegionMenu ( $this->get_region () );
 		$html = array ();
 		$html [] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
@@ -52,13 +55,17 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 		return implode ( $html, "\n" );
 	}
 	
-	function get_region() {
-		if (! $this->region) {
+	function get_region() 
+	{
+		if (! $this->region) 
+		{
 			$region_id = Request::get ( InternshipOrganizerRegionManager::PARAM_REGION_ID );
 			
-			if (! $region_id) {
+			if (! $region_id) 
+			{
 				$this->region = $this->get_root_region()->get_id ();
-			}else{
+			}else
+			{
 				$this->region = $region_id;
 			}
 		
@@ -67,19 +74,23 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 		return $this->region;
 	}
 	
-	function get_root_region() {
-		if (! $this->root_region) {
+	function get_root_region() 
+	{
+		if (! $this->root_region) 
+		{
 			$this->root_region = $this->retrieve_root_region ();
 		}
 		
 		return $this->root_region;
 	}
 	
-	function get_condition() {
+	function get_condition() 
+	{
 		$condition = new EqualityCondition ( InternshipOrganizerRegion::PROPERTY_PARENT_ID, $this->get_region () );
 		
 		$query = $this->ab->get_query ();
-		if (isset ( $query ) && $query != '') {
+		if (isset ( $query ) && $query != '')
+		{
 			$or_conditions = array ();
 			$or_conditions [] = new PatternMatchCondition ( InternshipOrganizerRegion::PROPERTY_NAME, '*' . $query . '*' );
 			$or_conditions [] = new PatternMatchCondition ( InternshipOrganizerRegion::PROPERTY_DESCRIPTION, '*' . $query . '*' );
@@ -94,7 +105,8 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 		return $condition;
 	}
 	
-	function get_action_bar() {
+	function get_action_bar() 
+	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 		
 		$action_bar->set_search_url ( $this->get_url ( array (InternshipOrganizerRegionManager::PARAM_REGION_ID => $this->get_region () ) ) );

@@ -191,7 +191,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category_id);
         $courseusercategory = $this->retrieve_course_user_category($condition);
         
-        $form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)), $this);
+        $form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id), array(WeblcmsManager :: PARAM_ACTION)), $this);
         
         if ($form->validate())
         {
@@ -325,8 +325,9 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
     function display_page_header($title)
     {
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT)), Translation :: get('SortMyCourses')));
+        //$trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
+        $trail->add(new Breadcrumb($this->get_url(null,array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_COMPONENT_ACTION,WeblcmsManager :: PARAM_ACTION)),Translation :: get('MyCourses')));
+       	$trail->add(new Breadcrumb($this->get_url(null,array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT, WeblcmsManager :: PARAM_COMPONENT_ACTION, WeblcmsManager :: PARAM_COURSE)), Translation :: get('SortMyCourses')));
         $trail->add_help('courses general');
         if (! empty($title))
         {

@@ -28,10 +28,11 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManager
         {
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
+            $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)), Translation :: get('CourseTypeList')));
         }
         else
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('CourseTypes')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateCourseType')));
+        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateCourseType')));
         $trail->add_help('coursetypes create');
 
         if (! $this->get_user()->is_platform_admin())
@@ -50,9 +51,15 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManager
         	$parameter['course_type']=$course_type_id;
 
         if(is_null($course_type_id))
+        {
+        	$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_CREATE, $coursetype, $this->get_url($parameter), $this);
+        }	        
         else
+        {
+        	$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Update')));
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_EDIT, $coursetype, $this->get_url($parameter), $this);
+        }
 	        
         if ($form->validate())
         {

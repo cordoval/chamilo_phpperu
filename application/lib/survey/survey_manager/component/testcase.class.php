@@ -1,6 +1,6 @@
 <?php
 
-class SurveyManagerTestcaseComponent extends SurveyManagerComponent
+class SurveyManagerTestcaseComponent extends SurveyManager
 {
 
     /**
@@ -17,7 +17,7 @@ class SurveyManagerTestcaseComponent extends SurveyManagerComponent
             exit();
         }
     	
-    	$testcase_manager = new TestcaseManager($this->get_parent());
+    	$testcase_manager = new TestcaseManager($this);
         $testcase_manager->run();
     }
 }

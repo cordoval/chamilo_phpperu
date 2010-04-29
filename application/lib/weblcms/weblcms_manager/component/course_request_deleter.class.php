@@ -3,7 +3,6 @@
  * $Id: course_request_deleter.class.php 218 2010-03-15 10:30:26Z Yannick $
  * @package application.lib.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 
 /**
  * Repository manager component which provides functionality to delete a course_type
@@ -17,8 +16,9 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
     function run()
     {
         $request_ids = Request :: get(WeblcmsManager :: PARAM_REQUEST);
+		$request_type = Request :: get(WeblcmsManager:: PARAM_REQUEST_TYPE);
         $failures = 0;
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $trail = new BreadcrumbTrail();
@@ -42,8 +42,16 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
             
             foreach ($request_ids as $request_id)
             {                
-            	$request = $this->retrieve_request($request_id);
-            
+		        $request_method = null;
+		        
+		        switch($request_type)
+		        {
+		        	case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_request'; break;
+		        	case CommonRequest :: CREATION_REQUEST: $request_method = 'retrieve_course_create_request'; break;
+		        }
+		        		
+				$request = $this->$request_method($request_id);
+		            
             	if (!$request->delete())
                 {
                     $failures ++;

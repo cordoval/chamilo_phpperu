@@ -1,9 +1,9 @@
 <?php
 require_once dirname ( __FILE__ ) . '/../category_manager.class.php';
-require_once dirname ( __FILE__ ) . '/../category_manager_component.class.php';
 require_once dirname ( __FILE__ ) . '/browser/browser_table.class.php';
 
-class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrganizerCategoryManagerComponent {
+class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrganizerCategoryManager 
+{
 	private $ab;
 	private $category;
 	private $root_category;
@@ -11,7 +11,8 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 	/**
 	 * Runs this component and displays its output.
 	 */
-	function run() {
+	function run() 
+	{
 		
 		$trail = new BreadcrumbTrail ();
 		
@@ -30,7 +31,8 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 		$this->display_footer ();
 	}
 	
-	function get_browser_html() {
+	function get_browser_html() 
+	{
 		$table = new InternshipOrganizerCategoryBrowserTable ( $this, $this->get_parameters (), $this->get_condition () );
 		
 		$html = array ();
@@ -42,7 +44,8 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 		return implode ( $html, "\n" );
 	}
 	
-	function get_menu_html() {
+	function get_menu_html() 
+	{
 		$category_menu = new InternshipOrganizerCategoryMenu ( $this->get_category () );
 		$html = array ();
 		$html [] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
@@ -52,11 +55,14 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 		return implode ( $html, "\n" );
 	}
 	
-	function get_category() {
-		if (! $this->category) {
+	function get_category() 
+	{
+		if (! $this->category) 
+		{
 			$this->category = Request::get ( InternshipOrganizerCategoryManager::PARAM_CATEGORY_ID );
 			
-			if (! $this->category) {
+			if (! $this->category) 
+			{
 				$this->category = $this->get_root_category ()->get_id ();
 			}
 		
@@ -65,19 +71,23 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 		return $this->category;
 	}
 	
-	function get_root_category() {
-		if (! $this->root_category) {
+	function get_root_category() 
+	{
+		if (! $this->root_category) 
+		{
 			$this->root_category = $this->retrieve_root_category ();
 		}
 		
 		return $this->root_category;
 	}
 	
-	function get_condition() {
+	function get_condition() 
+	{
 		$condition = new EqualityCondition ( InternshipOrganizerCategory::PROPERTY_PARENT_ID, $this->get_category () );
 		
 		$query = $this->ab->get_query ();
-		if (isset ( $query ) && $query != '') {
+		if (isset ( $query ) && $query != '') 
+		{
 			$or_conditions = array ();
 			$or_conditions [] = new PatternMatchCondition ( InternshipOrganizerCategory::PROPERTY_NAME, '*' . $query . '*' );
 			$or_conditions [] = new PatternMatchCondition ( InternshipOrganizerCategory::PROPERTY_DESCRIPTION, '*' . $query . '*' );
@@ -92,7 +102,8 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 		return $condition;
 	}
 	
-	function get_action_bar() {
+	function get_action_bar() 
+	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 		
 		$action_bar->set_search_url ( $this->get_url ( array (InternshipOrganizerCategoryManager::PARAM_CATEGORY_ID => $this->get_category () ) ) );

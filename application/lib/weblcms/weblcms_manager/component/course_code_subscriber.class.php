@@ -4,7 +4,6 @@
  * @package applicatie.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
 require_once dirname(__FILE__) . '/../../course/course_code_form.class.php';
 
 class WeblcmsManagerCourseCodeSubscriberComponent extends WeblcmsManager
@@ -19,8 +18,8 @@ class WeblcmsManagerCourseCodeSubscriberComponent extends WeblcmsManager
         $failures = 0;
                 
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseSubscribe')));
+        $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION, WeblcmsManager :: PARAM_COURSE)),Translation :: get('MyCourses')));
+        $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_SUBSCRIBE), array(WeblcmsManager :: PARAM_COURSE)),Translation :: get('CourseSubscribe')));
         $trail->add_help('course code');
         /*
         if (! $this->get_user()->is_platform_admin())

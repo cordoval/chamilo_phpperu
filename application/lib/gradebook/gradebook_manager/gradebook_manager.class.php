@@ -333,26 +333,66 @@ class GradebookManager extends WebApplication
 		return GradebookDataManager :: get_instance()->retrieve_applications_with_evaluations();
 	}
 	
-	function retrieve_calculated_applications_with_evaluation($calculated_applications = array())
+//	function retrieve_calculated_applications_with_evaluation($calculated_applications = array())
+//	{
+//		$internal_item_ids = GradebookDataManager :: get_instance()->retrieve_calculated_internal_items();
+//		foreach($internal_item_ids as $id)
+//		{
+//			$calculated_app[$id] = $this->retrieve_internal_item($id);
+//		}
+//		foreach($calculated_app as $id => $internal_item)
+//		{
+//			$application_manager = WebApplication :: factory($internal_item->get_application());
+//			$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
+//			$rdm = RepositoryDataManager :: get_instance();
+//			$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
+//			if($user = GradebookUtilities :: check_tracker_for_user($internal_item->get_application(), $internal_item->get_publication_id(), $content_object->get_type()))
+//			{
+//				$calculated_applications[$internal_item->get_application()] = $user;
+//			}
+//		}
+//		return $calculated_applications;
+//	}
+
+// filtered views, returns info in array[$internal/external_item_id] = $application
+	
+	function retrieve_filtered_array_internal_evaluated_publication($user_id)
 	{
-		$internal_item_ids = GradebookDataManager :: get_instance()->retrieve_calculated_internal_items();
-		foreach($internal_item_ids as $id)
+		$ids_with_evaluations_not_calculated = GradebookDataManager :: get_instance()->retrieve_internal_item_applications_with_evaluations();
+		$ids_with_calculated = GradebookDataManager :: get_instance()->retrieve_calculated_internal_items();
+		if(!$ids_with_evaluations_not_calculated)
+			$ids_with_evaluations_not_calculated = array();
+		$ids = array_merge($ids_with_evaluations_not_calculated, $ids_with_calculated);
+		foreach($ids as $id)
 		{
-			$calculated_app[$id] = $this->retrieve_internal_item($id);
+			$ids_calculated_and_with_evaluations_not_calculated[] = $this->retrieve_internal_item($id);
 		}
-		foreach($calculated_app as $id => $internal_item)
+		foreach($ids_calculated_and_with_evaluations_not_calculated as $key => $internal_item)
 		{
-			$application_manager = WebApplication :: factory($internal_item->get_application());
+			$application = $internal_item->get_application();
+			$application_manager = WebApplication :: factory($application);
 			$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
 			$rdm = RepositoryDataManager :: get_instance();
 			$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
-			if($user = GradebookUtilities :: check_tracker_for_data($internal_item->get_application(), $internal_item->get_publication_id(), $content_object->get_type()))
+			if(isset($content_object))
 			{
-				$calculated_applications[] = $internal_item->get_application();
+				if($internal_item->get_calculated())
+				{
+					if(!$user = GradebookUtilities :: check_tracker_for_user($internal_item->get_application(), $internal_item->get_publication_id(), $content_object->get_type()))
+					{
+						unset($ids[$key]);
+					}
+				}
+				if(isset($ids[$key]))
+				{
+					if($content_object->get_owner_id() == $user_id)
+						$filtered_array[$internal_item->get_id()] = $internal_item->get_application();
+				}
 			}
 		}
-		return $calculated_applications;
+		return $filtered_array;		
 	}
+	
 	
 // content objects
 	function retrieve_content_objects_by_ids($condition, $offset = null, $max_objects = null, $order_by = null)

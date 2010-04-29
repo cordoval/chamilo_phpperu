@@ -39,11 +39,11 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'));
         }
-        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);*/
 
         
         // Add question forms
-        if ($question_count != 0)
+        /*if ($question_count != 0)
         {
             foreach ($this->questions as $nr => $question)
             {
@@ -66,6 +66,12 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
     function get_criteria($criteria_score, $user_id, $form)
     {
 		$form->addElement('select', 'criteria_score_of_user_id_'. $user_id, null, $criteria_score);	
+		return $form;
+    }
+    
+	function get_feedback($user_id, $form)
+    {
+		$form->addElement('textarea', 'feedback_to_user_id_'. $user_id, null);	
 		return $form;
     }
 }

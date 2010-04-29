@@ -185,7 +185,7 @@ class CriteriaForm extends ContentObjectForm
                 $renderer->setElementTemplate('<tr id="options_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'options_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'options_' . $option_number);
                 
-                $defaults['scores[' . $option_number . ']'] = 1;
+                //$defaults['scores[' . $option_number . ']'] = 1;
                 
                 $counter++;
             }
