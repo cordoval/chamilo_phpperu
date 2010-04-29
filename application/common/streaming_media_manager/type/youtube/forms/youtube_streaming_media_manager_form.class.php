@@ -52,7 +52,7 @@ class YoutubeStreamingMediaManagerForm extends FormValidator
         $this->addElement('text', self :: VIDEO_TAGS, Translation :: get('Tags'), array("size" => "50"));
         $this->addRule(self :: VIDEO_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->addElement('textarea', self :: VIDEO_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "300"));
+        $this->addElement('textarea', self :: VIDEO_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "110"));
     }
     
     function get_youtube_categories()
@@ -77,7 +77,7 @@ class YoutubeStreamingMediaManagerForm extends FormValidator
     {
         $this->build_basic_form();
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
