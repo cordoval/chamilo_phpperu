@@ -13,7 +13,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 		$application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		$publication_id = Request :: get(GradebookManager :: PARAM_PUBLICATION_ID);
 		$data = GradebookManager :: retrieve_all_evaluations_on_publication($application, $publication_id);
-		if($a = $data->next_result())
+		if($data->size() > 0)
 		{
 			while($evaluation = $data->next_result())
 			{
@@ -34,15 +34,21 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 		else
 		{
 			$application_manager = WebApplication :: factory($application);
-        	$content_object_publication = $application_manager->get_content_object_publication_attribute($publication_id);
+        	$attributes = $application_manager->get_content_object_publication_attribute($publication_id);
+        	$rdm = RepositoryDataManager :: get_instance();
+			$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
 //			$gdm = GradebookDataManager :: get_instance();
 //			$internal_items = $gdm->retrieve_internal_item_by_publication($application, $publication_id);
+			if(!($content_object->get_type() == $application))
+			{
+				$tool = $content_object->get_type();
+			}
 			$udm = UserDataManager :: get_instance();
-			$connector = GradeBookConnector :: factory($application);
+			$connector = GradeBookConnector :: factory($application, $tool);
 			$user = $connector->get_tracker_user($publication_id);
 			$date = $connector->get_tracker_date($publication_id);
 			$score = $connector->get_tracker_score($publication_id);
-			$publisher = $udm->retrieve_user($content_object_publication->get_publisher_user_id())->get_fullname();
+			$publisher = $udm->retrieve_user($content_object->get_owner_id())->get_fullname();
 			for($i=0;$i<count($user);$i++)
 			{
 				$username = $udm->retrieve_user($user[$i])->get_fullname();

@@ -7,8 +7,8 @@ class GradebookUtilities
 {
 	static function check_tracker_for_user($application, $publication_id, $tool)
 	{
-		$connector = GradeBookConnector :: factory($application);
-		if($tracker_user = $connector->get_tracker_user($publication_id, $tool))
+		$connector = GradeBookConnector :: factory($application, $tool);
+		if($tracker_user = $connector->get_tracker_user($publication_id))
 			return $tracker_user;
 		else
 			return false;
