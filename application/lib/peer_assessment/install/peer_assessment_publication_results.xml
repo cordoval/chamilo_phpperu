@@ -8,6 +8,7 @@
 		<property name="user_id" type="integer" unsigned="1" notnull="1" />
 		<property name="graded_user_id" type="integer" unsigned="1" notnull="1" />
 		<property name="score" type="integer" unsigned="1" notnull="1" />
+		<property name="feedback" type="text" length="200" default=""/>
 		<property name="finished" type="boolean" default="0" />
 	</properties>
 	<index name="publication_id">

@@ -17,6 +17,7 @@ class PeerAssessmentPublicationResults extends DataClass
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_GRADED_USER_ID = 'graded_user_id';
     const PROPERTY_SCORE = 'score';
+    const PROPERTY_FEEDBACK = 'feedback';
     const PROPERTY_FINISHED = 'finished';
 
 
@@ -26,7 +27,7 @@ class PeerAssessmentPublicationResults extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_COMPETENCE_ID, self :: PROPERTY_INDICATOR_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_GRADED_USER_ID, self :: PROPERTY_SCORE, self :: PROPERTY_FINISHED));
+        return parent :: get_default_property_names(array(self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_COMPETENCE_ID, self :: PROPERTY_INDICATOR_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_GRADED_USER_ID, self :: PROPERTY_SCORE, self :: PROPERTY_FEEDBACK, self :: PROPERTY_FINISHED));
     }
 
     /**
@@ -143,6 +144,24 @@ class PeerAssessmentPublicationResults extends DataClass
     function set_score($score)
     {
         $this->set_default_property(self :: PROPERTY_SCORE, $score);
+    }
+    
+	/**
+     * Returns the feedback of this PeerAssessmentPublicationResults.
+     * @return the feedback.
+     */
+    function get_feedback()
+    {
+        return $this->get_default_property(self :: PROPERTY_FEEDBACK);
+    }
+
+    /**
+     * Sets the feedback of this PeerAssessmentPublicationResults.
+     * @param feedback
+     */
+    function set_feedback($feedback)
+    {
+        $this->set_default_property(self :: PROPERTY_FEEDBACK, $feedback);
     }
 
     /**
