@@ -49,14 +49,20 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 			$date = $connector->get_tracker_date($publication_id);
 			$score = $connector->get_tracker_score($publication_id);
 			$publisher = $udm->retrieve_user($content_object->get_owner_id())->get_fullname();
+			$content_date = ($content_object->get_modification_date());
 			for($i=0;$i<count($user);$i++)
 			{
+				$score_translation = 'Score';
 				$username = $udm->retrieve_user($user[$i])->get_fullname();
+				if(!$date[$i])
+				{
+					$date[$i] = $content_date;
+				}
 				$reporting_data->add_category($date[$i]);
 	            $reporting_data->add_data_category_row($date[$i], Translation :: get('EvaluationDate'), $date[$i]);
 	            $reporting_data->add_data_category_row($date[$i], Translation :: get('User'), $username);
 				$reporting_data->add_data_category_row($date[$i], Translation :: get('Evaluator'), $publisher);
-				$reporting_data->add_data_category_row($date[$i], Translation :: get('Score'), $score[$i] . '%');
+				$reporting_data->add_data_category_row($date[$i], Translation :: get($score_translation), $score[$i] . '%');
 				$reporting_data->add_data_category_row($date[$i], Translation :: get('Comment'), 'automatic generated result');
 				$reporting_data->hide_categories();
 			}
