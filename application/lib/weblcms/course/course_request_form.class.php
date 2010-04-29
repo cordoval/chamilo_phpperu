@@ -59,7 +59,7 @@ class CourseRequestForm extends FormValidator
     {
         $this->build_request_form();
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Allow'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -76,49 +76,38 @@ class CourseRequestForm extends FormValidator
 	
 	function build_request_form()
 	{	
-		$this->addElement('category', Translation :: get('CourseRequestProperties'));
-		
+		$this->addElement('html', '<div class="clear">&nbsp;</div><br/>');
 		if ($this->form_type == self :: TYPE_CREATE)
 		{
+			$this->addElement('category', Translation :: get('CourseRequestProperties'));
 			$course_name = $this->course->get_name();
      		$this->addElement('static', 'course', Translation :: get('Course'), $course_name);
 		
 			$user_name = $this->user->get_fullname();
 			$this->addElement('static', 'user', Translation :: get('User'), $user_name);
      	
-			$this->add_textfield(CourseRequest :: PROPERTY_TITLE, Translation :: get('Title'),true);
+			$this->add_textfield(CommonRequest :: PROPERTY_TITLE, Translation :: get('Title'),true);
 				
-			$this->add_html_editor(CourseRequest :: PROPERTY_MOTIVATION, Translation :: get('Motivation'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));			
+			$this->add_html_editor(CommonRequest :: PROPERTY_MOTIVATION, Translation :: get('Motivation'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));			
 		}
 		
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
-			$request_name = $this->request->get_course_name();
-     		$this->addElement('static', 'request', Translation :: get('Course'), $request_name);
-     		
-     		$this->add_textfield(CourseRequest :: PROPERTY_TITLE, Translation :: get('Title'),true);
-     		
-     		$name_user = $this->request->get_name_user();
-			$this->addElement('static', 'request', Translation :: get('User'), $name_user);
-			
-			$this->add_html_editor(CourseRequest :: PROPERTY_MOTIVATION, Translation :: get('Motivation'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));			
-			
-			$creation_date = $this->request->get_creation_date();
-			$this->addElement('static', 'request', Translation :: get('CreationDate'), $creation_date);
-			
-			$this->add_datepicker(CourseRequest :: PROPERTY_ALLOWED_DATE, 'AllowedDate');
-			$this->addRule(CourseRequest :: PROPERTY_ALLOWED_DATE, Translation :: get('ThisFieldIsRequired'), 'required');
+			$this->addElement('category', Translation :: get('SelectDate'));
+			$this->add_datepicker(CommonRequest :: PROPERTY_DECISION_DATE, Translation :: get('Date'));
+			$this->addRule(CommonRequest :: PROPERTY_DECISION_DATE, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
 		
 		if($this->form_type == self :: TYPE_VIEW)
 		{
-			$request_name = $this->request->get_course_name();
+			$this->addElement('category', Translation :: get('CourseRequestProperties'));
+			$request_name = $this->parent->retrieve_course($this->request->get_course_id())->get_name();
      		$this->addElement('static', 'request', Translation :: get('Course'), $request_name);
      		
      		$request_title = $this->request->get_title();
      		$this->addElement('static', 'request', Translation :: get('Course'), $request_title);
      		
-     		$name_user = $this->request->get_name_user();
+     		$name_user = UserDataManager::get_instance()->retrieve_user($this->request->get_user_id())->get_fullname();
 			$this->addElement('static', 'request', Translation :: get('User'), $name_user);
 			
 			$motivation = $this->request->get_motivation();
@@ -127,8 +116,20 @@ class CourseRequestForm extends FormValidator
 			$creation_date = $this->request->get_creation_date();
 			$this->addElement('static', 'request', Translation :: get('CreationDate'), $creation_date);
 			
-			$allowed_date = $this->request->get_allowed_date();
-			$this->addElement('static', 'request', Translation :: get('AllowedDate'), $allowed_date);
+			$decision = $this->request->get_decision();
+			$decision_date = $this->request->get_decision_date();
+			switch($decision)
+			{
+				case CommonRequest :: ALLOWED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Allowed') );
+														$this->addElement('static', 'request', Translation :: get('on'), $decision_date);
+														break;
+				case CommonRequest :: ALLOWED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Denied') );
+														$this->addElement('static', 'request', Translation :: get('on'), $decision_date);
+														break;
+				default:  $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('NoDecisionYet'));
+						  break;
+			}
+
 		}
 		$this->addElement('category');
 	}	
@@ -143,12 +144,15 @@ class CourseRequestForm extends FormValidator
 		
 		$request->set_course_id($course->get_id());	
 		$request->set_user_id($user->get_id());	
-        $request->set_name_user($user->get_fullname());
-        $request->set_course_name($course->get_name());
-        $request->set_title($values[CourseRequest :: PROPERTY_TITLE]);
-        $request->set_motivation($values[CourseRequest :: PROPERTY_MOTIVATION]);
+		if(get_class($request) == 'CourseRequest')
+		{
+        	$request->set_name_user($user->get_fullname());
+        	$request->set_course_name($course->get_name());
+		}
+        $request->set_title($values[CommonRequest :: PROPERTY_TITLE]);
+        $request->set_motivation($values[CommonRequest :: PROPERTY_MOTIVATION]);
         $request->set_creation_date(Utilities :: to_db_date(time()));
-        $request->set_allowed_date($values[CourseRequest :: PROPERTY_ALLOWED_DATE]);
+        $request->set_decision_date($values[CommonRequest :: PROPERTY_DECISION_DATE]);
         
     	if(!$request->create())
 			return false;
@@ -160,16 +164,8 @@ class CourseRequestForm extends FormValidator
 	{
 		$values = $this->exportValues();
 		$request = $this->request;
-
-        $request->set_course_id($request->get_course_id());
-        $request->set_user_id($request->get_user_id());	
-        $request->set_name_user($request->get_name_user());
-        $request->set_course_name($request->get_course_name());
-        $request->set_title($values[CourseRequest :: PROPERTY_TITLE]);
-        $request->set_motivation($values[CourseRequest :: PROPERTY_MOTIVATION]);
-        $request->set_creation_date($request->get_creation_date());
-        $request->set_allowed_date($values[CourseRequest :: PROPERTY_ALLOWED_DATE]);
-	      
+        $request->set_decision_date($values[CommonRequest :: PROPERTY_DECISION_DATE]);
+        $request->set_decision(CommonRequest :: ALLOWED_DECISION);	      
         if(!$request->update())
 		{
 			return false;
@@ -184,13 +180,16 @@ class CourseRequestForm extends FormValidator
 		$user = $this->user;
 		
 		$defaults[CourseRequest :: PROPERTY_COURSE_ID] = $request->get_course_id();
-		$defaults[CourseRequest :: PROPERTY_USER_ID] = $request->get_user_id();
-		$defaults[CourseRequest :: PROPERTY_NAME_USER] = $request->get_name_user();
-		$defaults[CourseRequest :: PROPERTY_COURSE_NAME] = $request->get_course_name();
-		$defaults[CourseRequest :: PROPERTY_TITLE] = $request->get_title();
-		$defaults[CourseRequest :: PROPERTY_MOTIVATION] = $request->get_motivation();
-		$defaults[CourseRequest :: PROPERTY_CREATION_DATE] = $request->get_creation_date();
-		$defaults[CourseRequest :: PROPERTY_ALLOWED_DATE] = $request->get_allowed_date();
+		$defaults[CommonRequest :: PROPERTY_USER_ID] = $request->get_user_id();
+		if(get_class($request) == 'CourseRequest')
+		{
+			$defaults[CourseRequest :: PROPERTY_NAME_USER] = $request->get_name_user();
+			$defaults[CourseRequest :: PROPERTY_COURSE_NAME] = $request->get_course_name();
+		}
+		$defaults[CommonRequest :: PROPERTY_TITLE] = $request->get_title();
+		$defaults[CommonRequest :: PROPERTY_MOTIVATION] = $request->get_motivation();
+		$defaults[CommonRequest :: PROPERTY_CREATION_DATE] = $request->get_creation_date();
+		$defaults[CommonRequest :: PROPERTY_DECISION_DATE] = $request->get_decision_date();
 		
 		parent :: setDefaults($defaults);
 	}

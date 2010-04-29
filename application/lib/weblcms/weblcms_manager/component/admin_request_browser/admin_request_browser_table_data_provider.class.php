@@ -34,7 +34,15 @@ class AdminRequestBrowserTableDataProvider extends ObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         
-        return $this->get_browser()->retrieve_requests($this->get_condition(), $offset, $count, $order_property);
+        $request_method = null;
+        
+        switch($this->get_browser()->get_request_type())
+        {
+        	case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_requests'; break;
+        	case CommonRequest :: CREATION_REQUEST: $request_method = 'retrieve_course_create_requests'; break;
+        }
+        
+        return $this->get_browser()->$request_method($this->get_condition(), $offset, $count, $order_property);
     }
     
 
@@ -45,7 +53,13 @@ class AdminRequestBrowserTableDataProvider extends ObjectTableDataProvider
     
     function get_object_count()
     {
-        return $this->get_browser()->count_requests($this->get_condition());
+        $request_method = null;
+        switch($this->get_browser()->get_request_type())
+        {
+        	case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'count_requests'; break;
+        	case CommonRequest :: CREATION_REQUEST: $request_method = 'count_course_create_requests'; break;
+        }
+        return $this->get_browser()->$request_method($this->get_condition());
     }
     
 }
