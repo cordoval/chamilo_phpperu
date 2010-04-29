@@ -360,6 +360,8 @@ class GradebookManager extends WebApplication
 	{
 		$ids_with_evaluations_not_calculated = GradebookDataManager :: get_instance()->retrieve_internal_item_applications_with_evaluations();
 		$ids_with_calculated = GradebookDataManager :: get_instance()->retrieve_calculated_internal_items();
+		if(!$ids_with_evaluations_not_calculated)
+			$ids_with_evaluations_not_calculated = array();
 		$ids = array_merge($ids_with_evaluations_not_calculated, $ids_with_calculated);
 		foreach($ids as $id)
 		{
@@ -367,7 +369,8 @@ class GradebookManager extends WebApplication
 		}
 		foreach($ids_calculated_and_with_evaluations_not_calculated as $key => $internal_item)
 		{
-			$application_manager = WebApplication :: factory($internal_item->get_application());
+			$application = $internal_item->get_application();
+			$application_manager = WebApplication :: factory($application);
 			$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
 			$rdm = RepositoryDataManager :: get_instance();
 			$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
