@@ -22,7 +22,13 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
     function retrieve_streaming_media_objects($condition, $order_property, $offset, $count)
     {
         $connector = YoutubeStreamingMediaConnector :: get_instance($this);
-        return $connector->get_youtube_video($condition, $order_property, $offset, $count);
+        return $connector->get_youtube_videos($condition, $order_property, $offset, $count);
+    }
+    
+    function retrieve_streaming_media_object($id)
+    {
+    	$connector = YoutubeStreamingMediaConnector :: get_instance($this);
+        return $connector->get_youtube_video($id);
     }
 
     function get_sort_properties()
@@ -38,6 +44,15 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
     function translate_search_query($query)
     {
         return YoutubeStreamingMediaConnector :: translate_search_query($query);
+    }
+    
+    function get_streaming_media_object_viewing_url($object)
+    {
+		$parameters = array();
+		$parameters[self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = self :: ACTION_VIEW_STREAMING_MEDIA;
+		$parameters[self :: PARAM_STREAMING_MEDIA_ID] = $object->get_id();		
+		
+		return $this->get_url($parameters);
     }
 
     function get_menu_items()
@@ -89,6 +104,9 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
                 break;
             case StreamingMediaManager :: ACTION_UPLOAD_STREAMING_MEDIA :
                 $component = $this->create_component('Uploader');
+                break;
+           case StreamingMediaManager :: ACTION_SELECT_STREAMING_MEDIA :
+                $component = $this->create_component('Selecter');
                 break;
             default :
                 $component = $this->create_component('Browser', $this);

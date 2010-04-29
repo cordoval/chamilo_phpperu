@@ -7,8 +7,8 @@ class GradebookUtilities
 {
 	static function check_tracker_for_user($application, $publication_id, $tool)
 	{
-		$connector = GradeBookConnector :: factory($application);
-		if($tracker_user = $connector->get_tracker_user($application, $publication_id, $tool))
+		$connector = GradeBookConnector :: factory($application, $tool);
+		if($tracker_user = $connector->get_tracker_user($publication_id))
 			return $tracker_user;
 		else
 			return false;
@@ -24,18 +24,18 @@ class GradebookUtilities
 			if($internal_item->get_calculated() == 1)
 			{
 				$connector = GradeBookConnector :: factory($application);
-				if(!$connector->get_tracker_user($application, $publication_id))
+				if(!$connector->get_tracker_user($publication_id))
 				{
 					$del_internal_item = $gdm->delete_internal_item($internal_item);
 					return false;
 				}
 				$external_item = $gdm->create_external_item_by_content_object($content_object_publication->get_publication_object_id());
-				$evaluation = $gdm->create_evaluation_object_from_data($content_object_publication, $connector->get_tracker_user($application, $publication_id));
+				$evaluation = $gdm->create_evaluation_object_from_data($content_object_publication, $connector->get_tracker_user($publication_id), $connector->get_tracker_date($publication_id));
 				if(!$evaluation)
 					return false;
 				
 				$grade_evaluation = new GradeEvaluation();
-				$grade_evaluation->set_score($connector->get_tracker_score($application, $publication_id));
+				$grade_evaluation->set_score($connector->get_tracker_score($publication_id));
 				$grade_evaluation->set_comment('automatic generated result');
 				$grade_evaluation->set_id($evaluation->get_id());
 				$grade_evaluation = $gdm->create_grade_evaluation($grade_evaluation);

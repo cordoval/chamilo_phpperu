@@ -112,7 +112,7 @@ abstract class GradebookDataManager {
 
 	abstract function retrieve_evaluations($condition = null, $offset = null, $count = null, $order_property = null);
 	
-	abstract function create_evaluation_object_from_data($content_object_publication, $user);
+	abstract function create_evaluation_object_from_data($content_object_publication, $user, $date);
 
 	//evaluation format
 	

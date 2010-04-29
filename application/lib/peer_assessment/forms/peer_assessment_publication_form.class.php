@@ -62,13 +62,19 @@ class PeerAssessmentPublicationForm extends FormValidator
         
         
         // Select criteria score that is already created
-        // ---------------------------------------------
-        //$criteria_scores = array();
-        //$criteria_scores[0] = Translation :: get('SelectCriteriaScore');
-        //$criteria_scores &= retrieve_criteria_scores();
+        $criteria_scores = array();
+        $criteria_scores[0] = Translation :: get('SelectCriteriaScore');
         
-        //$this->addElement('select', self :: PARAM_CRITERIA_SCORE, Translation :: get('SelectCriteriaScore'), $criteria_scores);
-        //$this->addRule(PeerAssessment :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+        $publication = new PeerAssessmentPublication();       
+        $conditions = array();
+        $conditions[] = new EqualityCondition();
+        $condition = new AndCondition($conditions);
+		$criteria = $publication->get_data_manager()->retrieve_criterias();			       	
+        
+        //$criteria_scores &= $criteria;
+        
+        $this->addElement('select', self :: PARAM_CRITERIA_SCORE, Translation :: get('SelectCriteriaScore'), $criteria_scores);
+        $this->addRule(PeerAssessment :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
         
         

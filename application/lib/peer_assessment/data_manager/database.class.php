@@ -422,15 +422,35 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
     
     
     
+    // Criteria
+    
+	function retrieve_criterias($condition = null, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return $this->database->retrieve_objects(Criteria :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+	}
+    
+    
+    // Results
+    
 	function create_peer_assessment_publication_results($peer_assessment_publication)
 	{
 		return $this->database->create($peer_assessment_publication);
 	}
 	
-	function retrieve_peer_assessment_publication_results($indicator_id)
+	function retrieve_peer_assessment_publication_result($indicator_id)
 	{
 		$condition = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_INDICATOR_ID, $indicator_id);
         return $this->database->retrieve_object(PeerAssessmentPublicationResults :: get_table_name(), $condition, array(), PeerAssessmentPublicationResults :: CLASS_NAME);
+	}
+	
+	function retrieve_peer_assessment_publication_result_score($indicator_id, $graded_user_id)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_INDICATOR_ID, $indicator_id);
+        $conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_GRADED_USER_ID, $graded_user_id);        
+        $condition = new AndCondition($conditions);
+        
+		return $this->database->retrieve_object(PeerAssessmentPublicationResults :: get_table_name(), $condition, array(), PeerAssessmentPublicationResults :: CLASS_NAME);
 	}
 
 }

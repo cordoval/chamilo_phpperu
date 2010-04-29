@@ -122,6 +122,7 @@ class EvaluationForm extends FormValidator
 			$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/change_evaluation_format.js'));
     		$this->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
 		}
+		
     }
     
     function build_basic_creation_form()
