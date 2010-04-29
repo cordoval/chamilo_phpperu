@@ -122,8 +122,6 @@ class DatabaseSurveyDataManager extends SurveyDataManager
 
     function count_survey_publications($condition = null)
     {
-
-//    	dump($condition);
     	$rdm = RepositoryDataManager :: get_instance();
         $publication_alias = $this->database->get_alias(SurveyPublication :: get_table_name());
         $publication_user_alias = $this->database->get_alias(SurveyPublicationUser :: get_table_name());
