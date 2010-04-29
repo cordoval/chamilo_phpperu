@@ -273,12 +273,12 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		return $this->database->retrieve_objects(Evaluation :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 	
-	function create_evaluation_object_from_data($content_object_publication, $user)
+	function create_evaluation_object_from_data($content_object_publication, $user, $date)
 	{
 		$evaluation = new Evaluation();
 		$evaluation->set_evaluator_id($content_object_publication->get_publisher_user_id());
 		$evaluation->set_user_id($user);
-		$evaluation->set_evaluation_date((Utilities :: to_db_date($content_object_publication->get_publication_date())));		
+		$evaluation->set_evaluation_date($date);		
 		$evaluation->set_format_id($this->retrieve_format_id_by_format_name('percentage'));
 		if($this->database->create($evaluation))
 			return $evaluation;

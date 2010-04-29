@@ -12,8 +12,10 @@ abstract class GradeBookConnector
         return new $class();
 	}
 	
-	abstract function get_tracker_score($application, $publication_id);
+	abstract function get_tracker_score($publication_id);
 	
-	abstract function get_tracker_user($application, $publication_id);
+	abstract function get_tracker_user($publication_id);
+	
+	abstract function get_tracker_date($publication_id);
 }
 ?>
