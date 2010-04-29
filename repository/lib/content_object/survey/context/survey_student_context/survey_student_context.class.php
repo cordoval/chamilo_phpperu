@@ -46,30 +46,42 @@ class SurveyStudentContext extends SurveyContext
         $this->set_additional_property(self :: PROPERTY_EMAIL, $email);
     }
 
-    public function get_display_name()
+    static public function get_display_name()
     {
         return Translation :: get('Student');
     }
 
-    public function create_contexts_for_user($user_name)
+    static public function create_contexts_for_user($key, $key_type = self :: PROPERTY_USERNAME_KEY)
     {
-        $dm = UserDataManager :: get_instance();
-        $condition = new EqualityCondition(User :: PROPERTY_USERNAME, $user_name);
-        $users = $dm->retrieve_users($condition);
-        $user = $users->next_result();
-        $contexts = array();
-        for($i = 0; $i < 5; $i ++)
-        {
-            $context = new SurveyStudentContext();
-            $context->set_name('student nr: '.$i);
-            $context->set_firstname($user->get_firstname().$i);
-            $context->set_lastname($user->get_lastname().$i);
-            $context->set_email($user->get_email().$i);
-            $context->create();
-            $contexts[] = $context;
-        }
         
-        return $contexts;
+        if ($key_type == self :: PROPERTY_USERNAME_KEY)
+        {
+            $dm = UserDataManager :: get_instance();
+            $condition = new EqualityCondition(User :: PROPERTY_USERNAME, $user_name);
+            $users = $dm->retrieve_users($condition);
+            $user = $users->next_result();
+            $contexts = array();
+            for($i = 0; $i < 5; $i ++)
+            {
+                $context = new SurveyStudentContext();
+                $context->set_name('student nr: ' . $i);
+                $context->set_firstname($user->get_firstname() . $i);
+                $context->set_lastname($user->get_lastname() . $i);
+                $context->set_email($user->get_email() . $i);
+                $context->create();
+                $contexts[] = $context;
+            }
+            
+            return $contexts;
+        }else{
+        	return array();
+        }
+    
+    }
+
+    static public function get_allowed_keys()
+    {
+        return array(self :: PROPERTY_USERNAME_KEY);
     }
 
     static function get_table_name()

@@ -5,47 +5,27 @@ class SurveyDefaultContext extends SurveyContext
 {
     
     const CLASS_NAME = __CLASS__;
+    const PROPERTY_DESCRIPTION = 'description';
+    const PROPERTY_DEFAULT_KEY = 'NOCONTEXT';
     
-    const PROPERTY_FIRSTNAME = 'firstname';
-    const PROPERTY_LASTNAME = 'lastname';
-    const PROPERTY_EMAIL = 'email';
+    private $default_context;
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_FIRSTNAME, self :: PROPERTY_LASTNAME, self :: PROPERTY_EMAIL);
+        return array(self :: PROPERTY_DESCRIPTION);
     }
 
-    function get_lastname()
+    function get_description()
     {
-        return $this->get_additional_property(self :: PROPERTY_LASTNAME);
+        return $this->get_additional_property(self :: PROPERTY_DESCRIPTION);
     }
 
-    function get_firstname()
+    function set_description($description)
     {
-        return $this->get_additional_property(self :: PROPERTY_FIRSTNAME);
+        $this->set_additional_property(self :: PROPERTY_DESCRIPTION, $description);
     }
 
-    function get_email()
-    {
-        return $this->get_additional_property(self :: PROPERTY_EMAIL);
-    }
-
-    function set_lastname($lastname)
-    {
-        $this->set_additional_property(self :: PROPERTY_LASTNAME, $lastname);
-    }
-
-    function set_firstname($firstname)
-    {
-        $this->set_additional_property(self :: PROPERTY_FIRSTNAME, $firstname);
-    }
-
-    function set_email($email)
-    {
-        $this->set_additional_property(self :: PROPERTY_EMAIL, $email);
-    }
-
-    public function get_display_name()
+    static public function get_display_name()
     {
         return Translation :: get('DefaultContext');
     }
@@ -53,25 +33,39 @@ class SurveyDefaultContext extends SurveyContext
     /**
      * @param unknown_type $user_name
      */
-    public function create_contexts_for_user($user_name)
+    static public function create_contexts_for_user($key, $key_type = self :: PROPERTY_DEFAULT_KEY)
     {
         
-        $dm = UserDataManager :: get_instance();
-        $condition = new EqualityCondition(User :: PROPERTY_USERNAME, $user_name);
-        $users = $dm->retrieve_users($condition);
-        $user = $users->next_result();
-        $contexts = array();
-        
-        $context = new SurveyDefaultContext();
-        $context->set_name($user_name);
-        $context->set_firstname($user->get_firstname());
-        $context->set_lastname($user->get_lastname());
-        $context->set_email($user->get_email());
-        $context->create();
-     
-        return array($context);
-        
+        if ($key_type == self :: PROPERTY_DEFAULT_KEY)
+        {
+            
+            $condition = new EqualityCondition(SurveyContext :: PROPERTY_TYPE, SurveyContext :: class_to_type(self :: CLASS_NAME));
+            $dm = SurveyContextDataManager :: get_instance();
+            $contexts = $dm->retrieve_survey_contexts(self :: get_table_name(), $condition);
+            $context = $contexts->next_result();
+            if (isset($context))
+            {
+                return array($context);
+            }
+            else
+            {
+                $context = new SurveyDefaultContext();
+                $context->set_name(self :: PROPERTY_DEFAULT_KEY);
+                $context->set_description('Default Dummy Context');
+                $context->create();
+                return array($context);
+            }
+        }
+        else
+        {
+            return array();
+        }
     
+    }
+
+    static public function get_allowed_keys()
+    {
+        return array(self :: PROPERTY_DEFAULT_KEY);
     }
 
     static function get_table_name()

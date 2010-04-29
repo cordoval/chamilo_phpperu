@@ -24,13 +24,9 @@ require_once 'MDB2.php';
 
 class DatabaseRepositoryDataManager extends Database implements RepositoryDataManagerInterface
 {
-    const ALIAS_CONTENT_OBJECT_PUB_FEEDBACK_TABLE = 'lopf';
-    const ALIAS_CONTENT_OBJECT_TABLE = 'coct';
-    const ALIAS_CONTENT_OBJECT_VERSION_TABLE = 'lov';
+	const ALIAS_CONTENT_OBJECT_VERSION_TABLE = 'lov';
     const ALIAS_CONTENT_OBJECT_ATTACHMENT_TABLE = 'loa';
     const ALIAS_TYPE_TABLE = 'tt';
-    const ALIAS_CONTENT_OBJECT_PARENT_TABLE = 'lop';
-    const ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE = 'coem';
 
     // Inherited.
     function initialize()
@@ -85,8 +81,8 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_content_objects($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         $query = 'SELECT * FROM ';
-        $query .= $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE;
-        $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+        $query .= $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
+        $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
 
         if (isset($condition))
         {
@@ -197,9 +193,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     // TODO: Extract methods; share stuff with retrieve_content_objects.
     function count_content_objects($condition = null)
     {
-        $query = 'SELECT COUNT(' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . ') FROM ' . $this->escape_table_name('content_object') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE;
+        $query = 'SELECT COUNT(' . $this->get_alias(ContentObject :: get_table_name()). '.' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . ') FROM ' . $this->escape_table_name('content_object') . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
 
-        $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+        $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
 
         return $this->count_result_set($query, ContentObject :: get_table_name(), $condition);
     }
@@ -1017,7 +1013,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_complex_content_object_item($clo_item_id)
     {
         // Retrieve main table
-        $query = 'SELECT * FROM ' . $this->escape_table_name(ComplexContentObjectItem :: get_table_name()) . ' AS ' . self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE;
+        $query = 'SELECT * FROM ' . $this->escape_table_name(ComplexContentObjectItem :: get_table_name()) . ' AS ' . $this->get_alias(ComplexContentObjectItem :: get_table_name());
 
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $clo_item_id, ComplexContentObjectItem :: get_table_name());
 
@@ -1121,7 +1117,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
      */
     function retrieve_complex_content_object_items($condition = null, $order_by = array (), $offset = 0, $max_objects = -1, $type = null)
     {
-        $alias = self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE;
+        $alias = $this->get_alias(ComplexContentObjectItem :: get_table_name());
 
         $query = 'SELECT ' . $alias . '.* FROM ' . $this->escape_table_name(ComplexContentObjectItem :: get_table_name()) . ' AS ' . $alias;
 
@@ -1130,7 +1126,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             switch ($type)
             {
                 case 'complex_wiki_page' :
-                    $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . ' = ' . self :: ALIAS_TYPE_TABLE . '.' . $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID);
+                    $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $alias) . ' = ' . $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID, self :: ALIAS_TYPE_TABLE);
             }
         }
         $lo_alias = $this->get_alias(ContentObject :: get_table_name());
@@ -1139,7 +1135,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this, self :: ALIAS_COMPLEX_CONTENT_OBJECT_ITEM_TABLE);
+            $translator = new ConditionTranslator($this, $alias);
             $query .= $translator->render_query($condition);
         }
 

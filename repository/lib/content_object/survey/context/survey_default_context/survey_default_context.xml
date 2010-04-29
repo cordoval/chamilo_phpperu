@@ -2,9 +2,7 @@
 <object name="survey_default_context">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="lastname" type="text" fixed="true" length="60" />
-		<property name="firstname" type="text" fixed="true" length="60" />
-		<property name="email" type="text" fixed="true" length="100" />
+		<property name="description" type="text" fixed="true" length="60" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />

@@ -1,6 +1,6 @@
 <?php
 
-require_once (dirname(__FILE__) . '/context_data_manager/database_context_data_manager.class.php');
+require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
 
 abstract class SurveyContext extends DataClass
 {
@@ -9,12 +9,16 @@ abstract class SurveyContext extends DataClass
     
     const PROPERTY_TYPE = 'type';
     const PROPERTY_NAME = 'name';
+    const PROPERTY_USERNAME_KEY= 'username';
     
     private $additionalProperties;
 
-    abstract public function create_contexts_for_user($user_name);
-
-    abstract public function get_display_name();
+    abstract static public function create_contexts_for_user($key, $key_type = '' );
+    
+	
+    abstract static public function get_allowed_keys();
+    
+    abstract static public function get_display_name();
 
     public function SurveyContext($defaultProperties = array (), $additionalProperties = null)
     {

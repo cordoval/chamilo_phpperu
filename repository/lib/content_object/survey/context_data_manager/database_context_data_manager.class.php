@@ -8,23 +8,31 @@ require_once Path :: get_repository_path() . 'lib/data_manager/database_reposito
 class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager implements SurveyContextDataManagerInterface
 {
 
-    //     Inherited.
-//    function initialize()
-//    {
-//        PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array(get_class(), 'handle_error'));
-//	    $this = new Database();
-//        $this->set_prefix('repository_');
-//    
-//    }
-//
-//    function query($query)
-//    {
-//        return $this->query($query);
-//    }
+     
 
-    function retrieve_survey_contexts($condition = null, $offset = null, $count = null, $order_property = null)
+    function retrieve_survey_contexts($type, $condition = null, $offset = null, $count = null, $order_property = null)
     {
-        ;
+        
+        $type_table = $this->escape_table_name($type);
+        
+        $query = 'SELECT * FROM ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $this->get_alias(SurveyContext :: get_table_name());
+        
+        $query .= ' JOIN ' . $type_table . ' AS ' . $this->get_alias($type_table) . ' ON ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $this->get_alias(SurveyContext :: get_table_name())) . '=' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $this->get_alias($type_table));
+              
+        return $this->retrieve_object_set($query, $type, $condition, $offset , $count , $order_property);
+    }
+
+    function count_survey_contexts($type, $condition = null)
+    {
+        
+        $type_table = $this->escape_table_name($type);
+        
+        $query = 'SELECT * FROM ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $this->get_alias(SurveyContext :: get_table_name());
+              
+        $query .= ' JOIN ' . $type_table . ' AS ' . $this->get_alias($type_table) . ' ON ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $this->get_alias(SurveyContext :: get_table_name())) . '=' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $this->get_alias($type_table));
+       
+    
+        return $this->count_result_set($query, $type, $condition);
     }
 
     function retrieve_survey_context_by_id($id, $type)
@@ -68,7 +76,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
     function delete_survey_context($context)
     {
         
-    	if ($context->get_additional_properties())
+        if ($context->get_additional_properties())
         {
             $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
             $this->delete_objects(Utilities :: camelcase_to_underscores(get_class($context)), $condition);
@@ -107,11 +115,6 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
             $this->get_connection()->extended->autoExecute($this->get_table_name($context->get_type()), $props, MDB2_AUTOQUERY_INSERT);
         }
         return true;
-    }
-
-    function count_survey_context($condition = null)
-    {
-        ;
     }
 
     function retrieve_additional_survey_context_properties($survey_context)

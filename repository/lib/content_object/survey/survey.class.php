@@ -75,7 +75,12 @@ class Survey extends ContentObject
         $type = $this->get_additional_property(self :: PROPERTY_CONTEXT);
         return SurveyContext :: factory($type);
     }
-
+	
+ 	function get_context_type()
+    {
+        return $this->get_additional_property(self :: PROPERTY_CONTEXT);
+    }
+    
     function set_context($value)
     {
         $this->set_additional_property(self :: PROPERTY_CONTEXT, $value);
