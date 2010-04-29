@@ -68,5 +68,11 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
 		$form->addElement('select', 'criteria_score_of_user_id_'. $user_id, null, $criteria_score);	
 		return $form;
     }
+    
+	function get_feedback($user_id, $form)
+    {
+		$form->addElement('textarea', 'feedback_to_user_id_'. $user_id, null);	
+		return $form;
+    }
 }
 ?>
