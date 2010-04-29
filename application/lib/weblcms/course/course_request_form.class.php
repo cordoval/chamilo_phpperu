@@ -16,16 +16,16 @@ class CourseRequestForm extends FormValidator
 	private $course;
 	private $parent;
 	private $request;
-	private $user;
+	private $user_id;
 
-	function CourseRequestForm($form_type, $action, $course, $parent, $request, $user)
+	function CourseRequestForm($form_type, $action, $course, $parent, $request, $user_id)
 	{
 		parent :: __construct('course_request', 'post', $action);
 		$this->parent = $parent;
 		$this->request = $request;
 		$this->form_type = $form_type;
 		$this->course = $course;
-		$this->user = $user;
+		$this->user_id = $user_id;
         $wdm = WeblcmsDataManager :: get_instance();
         
 		if ($this->form_type == self :: TYPE_CREATE)
@@ -83,7 +83,7 @@ class CourseRequestForm extends FormValidator
 			$course_name = $this->course->get_name();
      		$this->addElement('static', 'course', Translation :: get('Course'), $course_name);
 		
-			$user_name = $this->user->get_fullname();
+			$user_name = UserDataManager::get_instance()->retrieve_user($this->user_id)->get_fullname();
 			$this->addElement('static', 'user', Translation :: get('User'), $user_name);
      	
 			$this->add_textfield(CommonRequest :: PROPERTY_TITLE, Translation :: get('Title'),true);
@@ -140,15 +140,9 @@ class CourseRequestForm extends FormValidator
 		
 		$course = $this->course;
 		$request = $this->request;
-		$user = $this->user;
 		
 		$request->set_course_id($course->get_id());	
-		$request->set_user_id($user->get_id());	
-		if(get_class($request) == 'CourseRequest')
-		{
-        	$request->set_name_user($user->get_fullname());
-        	$request->set_course_name($course->get_name());
-		}
+		$request->set_user_id($this->user_id);
         $request->set_title($values[CommonRequest :: PROPERTY_TITLE]);
         $request->set_motivation($values[CommonRequest :: PROPERTY_MOTIVATION]);
         $request->set_creation_date(Utilities :: to_db_date(time()));

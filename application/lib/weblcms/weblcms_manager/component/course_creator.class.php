@@ -89,14 +89,16 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager
             else
             {
             	$success = $form->save();
+            	$array_filter = array(WeblcmsManager :: PARAM_COURSE);
 	        	$array_type = array();
 	        	$array_type['go'] = WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME;
 	        	if(get_class($success) == 'Course')
 	        	{
 	        		$array_type['course'] = $course->get_id();
 	        		$array_type['go'] = WeblcmsManager :: ACTION_COURSE_CREATE_REQUEST_CREATOR;
+	        		$array_filter = null;
 	        	}
-                $this->redirect(Translation :: get($success ? 'CourseSaved' : 'CourseNotSaved'), ($success ? false : true), $array_type, array(WeblcmsManager :: PARAM_COURSE));
+                $this->redirect(Translation :: get($success ? 'CourseSaved' : 'CourseNotSaved'), ($success ? false : true), $array_type, $array_filter);
             }
         }
         else

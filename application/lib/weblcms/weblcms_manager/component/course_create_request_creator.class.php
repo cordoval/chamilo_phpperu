@@ -25,7 +25,7 @@ class WeblcmsManagerCourseCreateRequestCreatorComponent extends WeblcmsManager
         $trail->add_help('course create request');
         
         $request = new CourseCreateRequest();
-        $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)), $course, $this, $request, $this->get_user());
+        $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)), $course, $this, $request, $course->get_titular());
        
         if($form->validate())
         {
