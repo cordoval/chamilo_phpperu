@@ -12,8 +12,6 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
 	private $pid;
 	private $pub;
 	
-	private $already_sent;
-	
 	function run()
 	{	
 		$pid = Request :: get('peer_assessment_publication');
@@ -44,7 +42,6 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
         $this->peer_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($peer_assessment_id);
         $this->set_parameter(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION, $this->pid);
         
-        $already_sent = 1;
         
 		$form = $this->build_result_form($pids);	
         if ($form->validate())
@@ -53,7 +50,6 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
         }
         /*elseif(Request :: get('indicator') != null)
         {
-        	$already_sent = 0;
         	$this->redirect(Translation :: get('IndicatorResultsAdded'), false, array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION, 'peer_assessment_publication' => Request :: get('peer_assessment_publication'), 'competence' => Request :: get('competence')));
         }*/
         else
@@ -62,10 +58,8 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
             $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowsePeerAssessmentPublications')));
             $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pid)), Translation :: get('TakePeerAssessment')));
 
-            if($already_sent)
-            {
-				$this->display_header($trail, true);
-            }    
+			$this->display_header($trail, true);  
+			 
             $display = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
         	$display->set_root_lo($this->peer_assessment);
         	$display->run();
