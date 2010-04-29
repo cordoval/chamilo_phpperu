@@ -59,8 +59,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         if ($current_right)
         {
         	$course_unsubscription_url = $this->browser->get_course_unsubscription_url($course);
-            $toolbar_data[] = array('href' => $course_unsubscription_url, 'label' => Translation :: get('Unsubscribe'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');           
-            return Utilities :: build_toolbar($toolbar_data);
+            $toolbar_data[] = array('href' => $course_unsubscription_url, 'label' => Translation :: get('Unsubscribe'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_unsubscribe.png');           
         }
         else
         {
@@ -70,9 +69,12 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
             }
             else
             {
-                return Translation :: get('UnsubscriptionNotAllowed');
+                $toolbar_data[] = array(
+        		'label' => Translation :: get('Allow_NA'),
+        		'img' => Theme :: get_common_image_path() . 'action_unsubscribe_na.png');
             }
         }
+        return Utilities :: build_toolbar($toolbar_data);
     
     }
 }

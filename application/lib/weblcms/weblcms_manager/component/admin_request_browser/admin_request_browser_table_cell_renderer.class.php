@@ -63,6 +63,21 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
     {    	
         $toolbar_data = array();
         
+    	$check_item = $request->get_allowed_date();
+        if($check_item == 0)
+        {
+        	$toolbar_data[] = array(
+        		'href' => $this->browser->get_course_request_allowing_url($request),
+        		'label' => Translation :: get('Allow'),
+        		'img' => Theme :: get_common_image_path() . 'action_confirm.png');
+        }
+        else
+        {
+        	$toolbar_data[] = array(
+        		'label' => Translation :: get('Allow_NA'),
+        		'img' => Theme :: get_common_image_path() . 'action_verify_na.png');
+        }
+        
         $toolbar_data[] = array(
         	'href' => $this->browser->get_course_request_editing_url($request),
          	'label' => Translation :: get('Edit'),
@@ -72,25 +87,10 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
         	'href' => $this->browser->get_course_request_deleting_url($request),
         	 'label' => Translation :: get('Delete'), 
         	 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-       
-        $check_item = $request->get_allowed_date();
-        if($check_item == 0)
-        {
-        	$toolbar_data[] = array(
-        		'href' => $this->browser->get_course_request_allowing_url($request),
-        		'label' => Translation :: get('Allow'),
-        		'img' => Theme :: get_common_image_path() . 'action_start.png');
-        }
-        else
-        {
-        	$toolbar_data[] = array(
-        		'label' => Translation :: get('Allow_NA'),
-        		'img' => Theme :: get_common_image_path() . 'action_start_na.png');
-        }
-        
+              
         $toolbar_data[] = array(
         	'href' =>$this->browser->get_course_request_viewing_url($request),
-        	'label' => Translation :: get('Print-View'),
+        	'label' => Translation :: get('view'),
         	'img' => Theme :: get_common_image_path() . 'action_view.png');
         
         return Utilities :: build_toolbar($toolbar_data);

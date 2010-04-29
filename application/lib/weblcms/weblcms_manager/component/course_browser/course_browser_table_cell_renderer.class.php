@@ -96,7 +96,9 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			}
         			else
         			{	
-        				return Translation :: get('Pending');
+        				$toolbar_data[] = array(
+        				'label' => Translation :: get('Pending'), 
+        				'img' => Theme :: get_common_image_path() . 'status_pending.png');        			
         			}
         			break;
         			

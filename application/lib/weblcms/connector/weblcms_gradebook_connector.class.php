@@ -4,26 +4,46 @@ require_once dirname(__FILE__) . '/learning_path_tool_gradebook_connector.class.
 
 class WeblcmsGradebookConnector extends GradeBookConnector
 {	
-	function get_tracker_score($application, $publication_id, $tool = null)
+	private $tool;
+	function WeblcmsGradebookConnector($tool)
 	{
-		if(!$tool)
+		$this->tool = $tool;
+		if(!$this->tool)
 		{
-			$tool = Request :: get('tool');
+			$this->tool = Request :: get('tool');
 		}
-		$toolconnector = Utilities :: underscores_to_camelcase($tool) . 'ToolGradebookConnector';
+	}
+	function get_tracker_score($publication_id)
+	{
+		$toolconnector = Utilities :: underscores_to_camelcase($this->tool) . 'ToolGradebookConnector';
 		$toolconnectorclass = new $toolconnector();
-		return $toolconnectorclass->get_tracker_score($application, $publication_id);
+		return $toolconnectorclass->get_tracker_score($publication_id);
 	}
 	
-	function get_tracker_user($application, $publication_id, $tool = null)
+	function get_tracker_user($publication_id)
 	{
-		if(!$tool)
-		{
-			$tool = Request :: get('tool');
-		}
-		$toolconnector = Utilities :: underscores_to_camelcase($tool) . 'ToolGradebookConnector';
+		$toolconnector = Utilities :: underscores_to_camelcase($this->tool) . 'ToolGradebookConnector';
 		$toolconnectorclass = new $toolconnector();
-		return($toolconnectorclass->get_tracker_user($application, $publication_id));
+		return($toolconnectorclass->get_tracker_user($publication_id));
 	}
+	
+	function get_tracker_date($publication_id)
+	{
+		$toolconnector = Utilities :: underscores_to_camelcase($this->tool) . 'ToolGradebookConnector';
+		$toolconnectorclass = new $toolconnector();
+		return($toolconnectorclass->get_tracker_date($publication_id));
+	}
+//	
+//	function get_tracker_id($publication_id, $tool = null)
+//	{
+//		if(!$tool)
+//		{
+//			$tool = Request :: get('tool');
+//		}
+//		$toolconnector = Utilities :: underscores_to_camelcase($tool) . 'ToolGradebookConnector';
+//		$toolconnectorclass = new $toolconnector();
+//		return($toolconnectorclass->get_tracker_id($publication_id));
+//	}
+//	
 }
 ?>
