@@ -9,6 +9,7 @@ abstract class StreamingMediaManager extends SubManager
 	const ACTION_BROWSE_STREAMING_MEDIA = 'browse';
 	const ACTION_DOWNLOAD_STREAMING_MEDIA = 'download';
 	const ACTION_UPLOAD_STREAMING_MEDIA = 'upload';
+	const ACTION_SELECT_STREAMING_MEDIA = 'select';
 	
 	const PARAM_STREAMING_MEDIA_ID = 'streaming_media_id';
 	const PARAM_QUERY = 'query';
@@ -132,5 +133,9 @@ abstract class StreamingMediaManager extends SubManager
 	abstract function translate_search_query($query);
 	
 	abstract function get_menu_items();
+	
+	abstract function get_streaming_media_object_viewing_url($object);
+	
+	abstract function retrieve_streaming_media_object($id);
 }
 ?>

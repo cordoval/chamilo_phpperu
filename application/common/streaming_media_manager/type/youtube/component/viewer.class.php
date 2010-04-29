@@ -3,7 +3,9 @@ class YoutubeStreamingMediaManagerViewerComponent extends YoutubeStreamingMediaM
 {
 	function run()
 	{
-		echo('in run of YoutubeStreaming');
+		$viewer = StreamingMediaComponent::factory(StreamingMediaComponent::VIEWER_COMPONENT, $this);
+		
+		$viewer->run();
 	}
 }
 ?>

@@ -33,16 +33,16 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	
         // Publication object     	
 	    $peer_assessment_publication = $this->parent->get_peer_assessment_publication($publication_id);
-	            	       
-        // Groups
+        
+	    // Groups
         $groups = $this->parent->get_peer_assessment_publication_groups($publication_id)->as_array();
         $count_groups = sizeof($this->parent->get_peer_assessment_publication_groups($publication_id)->as_array());
-           
-        // Users
+			          	    
+	    // Users
 		$users = $this->parent->get_peer_assessment_publication_users($publication_id)->as_array();   
-        $count_users = sizeof($this->parent->get_peer_assessment_publication_users($publication_id)->as_array());
-	
-        
+		$count_users = sizeof($this->parent->get_peer_assessment_publication_users($publication_id)->as_array());
+	    
+	    
         // Prints of the list of competences (with the users, groups, dates, ...)
         if($competence_id == null)
         {
@@ -157,7 +157,10 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            	$html[] = '<td>'. $date_message .'</td>';
 	            	$html[] = '<td>';
 	            	
-	            	
+		           	// Get groups
+			        $groups = $this->parent->get_peer_assessment_publication_groups($publication_id)->as_array();
+			        $count_groups = sizeof($this->parent->get_peer_assessment_publication_groups($publication_id)->as_array());
+			           
 	            	// Groups
 	            	if($count_groups != 0)
 	            	{
@@ -181,6 +184,10 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 	            	$html[] = '</td>';
 	            	$html[] = '<td>';
 	            	
+	            	
+	            	// Get users
+					$users = $this->parent->get_peer_assessment_publication_users($publication_id)->as_array();   
+			        $count_users = sizeof($this->parent->get_peer_assessment_publication_users($publication_id)->as_array());
 	            	
 	            	// Users
 	            	if($count_users != 0)
@@ -359,7 +366,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 				        		$results = new PeerAssessmentPublicationResults();
 				        		$result = $results->get_data_manager()->retrieve_peer_assessment_publication_result_score($indicator->get_id(), $user->get_user());				        	
 				        		
-				        		if($result == null)
+				        		if(($result == null) || ($result->get_score()) == 0)
 				        		{
 				        			$score = Translation :: get('NoScore');
 				        		}

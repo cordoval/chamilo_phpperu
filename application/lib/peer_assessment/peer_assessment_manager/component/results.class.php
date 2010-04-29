@@ -51,7 +51,7 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManager
         {
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowsePeerAssessmentPublications')));
-            $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pid)), Translation :: get('PeerAssessmentPublicationResults')));
+            $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_VIEW_PEER_ASSESSMENT_PUBLICATION_RESULTS, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pid)), Translation :: get('PeerAssessmentPublicationResults')));
             
             $this->display_header($trail, true);
 
@@ -66,7 +66,7 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManager
     function build_result_form($pids)
     {
         $url = $this->get_url(array(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pids));
-        $form = new FormValidator('take_peer_assessment_publication', 'post', $url);
+        $form = new FormValidator('view_peer_assessment_publication_results', 'post', $url);
         
         return $form;
 	} 

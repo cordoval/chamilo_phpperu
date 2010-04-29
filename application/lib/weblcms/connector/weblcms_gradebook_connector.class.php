@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/learning_path_tool_gradebook_connector.class.
 
 class WeblcmsGradebookConnector extends GradeBookConnector
 {	
-	function get_tracker_score($application, $publication_id, $tool = null)
+	function get_tracker_score($publication_id, $tool = null)
 	{
 		if(!$tool)
 		{
@@ -15,7 +15,7 @@ class WeblcmsGradebookConnector extends GradeBookConnector
 		return $toolconnectorclass->get_tracker_score($application, $publication_id);
 	}
 	
-	function get_tracker_user($application, $publication_id, $tool = null)
+	function get_tracker_user($publication_id, $tool = null)
 	{
 		if(!$tool)
 		{
@@ -23,7 +23,30 @@ class WeblcmsGradebookConnector extends GradeBookConnector
 		}
 		$toolconnector = Utilities :: underscores_to_camelcase($tool) . 'ToolGradebookConnector';
 		$toolconnectorclass = new $toolconnector();
-		return($toolconnectorclass->get_tracker_user($application, $publication_id));
+		return($toolconnectorclass->get_tracker_user($publication_id));
 	}
+	
+	function get_tracker_date($publication_id, $tool = null)
+	{
+		if(!$tool)
+		{
+			$tool = Request :: get('tool');
+		}
+		$toolconnector = Utilities :: underscores_to_camelcase($tool) . 'ToolGradebookConnector';
+		$toolconnectorclass = new $toolconnector();
+		return($toolconnectorclass->get_tracker_date($publication_id));
+	}
+//	
+//	function get_tracker_id($publication_id, $tool = null)
+//	{
+//		if(!$tool)
+//		{
+//			$tool = Request :: get('tool');
+//		}
+//		$toolconnector = Utilities :: underscores_to_camelcase($tool) . 'ToolGradebookConnector';
+//		$toolconnectorclass = new $toolconnector();
+//		return($toolconnectorclass->get_tracker_id($publication_id));
+//	}
+//	
 }
 ?>

@@ -21,7 +21,7 @@ class DefaultStreamingMediaObjectTableCellRenderer implements GalleryObjectTable
         $html = array();
         
         $html[] = '<h3>' . $object->get_title() . ' (' . Utilities :: format_seconds_to_minutes($object->get_duration()) .')</h3>';
-        $html[] = '<img src="' . $object->get_thumbnail() . '"/> <br/>';
+        $html[] = '<img src="' . $object->get_thumbnail() . '"/><br/>';
         $html[] = '<i>' . Utilities ::truncate_string($object->get_description(), 100) . '</i><br/>';
         
         return implode("\n", $html);
