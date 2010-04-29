@@ -618,9 +618,9 @@ class CourseForm extends CommonForm
 				return false;
 		}
 		
-        if (! $this->user->is_platform_admin())
-            $user_id = $this->user->get_id();
-        else
+//        if (! $this->user->is_platform_admin())
+//            $user_id = $this->user->get_id();
+//        else
             $user_id = $course->get_titular();
             
 		$right = $this->can_user_create($this->user);
