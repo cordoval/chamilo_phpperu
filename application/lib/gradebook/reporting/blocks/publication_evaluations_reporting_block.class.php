@@ -13,7 +13,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 		$application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		$publication_id = Request :: get(GradebookManager :: PARAM_PUBLICATION_ID);
 		$data = GradebookManager :: retrieve_all_evaluations_on_publication($application, $publication_id);
-		if($a = $data->next_result())
+		if($data->size() > 0)
 		{
 			while($evaluation = $data->next_result())
 			{
