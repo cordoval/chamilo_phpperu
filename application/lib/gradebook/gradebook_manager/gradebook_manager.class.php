@@ -374,17 +374,20 @@ class GradebookManager extends WebApplication
 			$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
 			$rdm = RepositoryDataManager :: get_instance();
 			$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
-			if($internal_item->get_calculated())
+			if(isset($content_object))
 			{
-				if(!$user = GradebookUtilities :: check_tracker_for_user($internal_item->get_application(), $internal_item->get_publication_id(), $content_object->get_type()))
+				if($internal_item->get_calculated())
 				{
-					unset($ids[$key]);
+					if(!$user = GradebookUtilities :: check_tracker_for_user($internal_item->get_application(), $internal_item->get_publication_id(), $content_object->get_type()))
+					{
+						unset($ids[$key]);
+					}
 				}
-			}
-			if(isset($ids[$key]))
-			{
-				if($content_object->get_owner_id() == $user_id)
-					$filtered_array[$internal_item->get_id()] = $internal_item->get_application();
+				if(isset($ids[$key]))
+				{
+					if($content_object->get_owner_id() == $user_id)
+						$filtered_array[$internal_item->get_id()] = $internal_item->get_application();
+				}
 			}
 		}
 		return $filtered_array;		
