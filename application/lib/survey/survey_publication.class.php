@@ -16,7 +16,7 @@ class SurveyPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
-    
+    const PARTICIPANT_ROOTCONTEXT = 'ROOT';
     /**
      * SurveyPublication properties
      */
@@ -46,7 +46,7 @@ class SurveyPublication extends DataClass
             {
                 $this->create_participant_trackers($user_id);
             }
-            
+        
         }
         return $succes;
     }
@@ -115,21 +115,35 @@ class SurveyPublication extends DataClass
     private function create_participant_trackers($user_id)
     {
         $dm = UserDataManager :: get_instance();
-        $user_name = $dm->retrieve_user($user_id)->get_username();
+        $user_name = $dm->retrieve_user($user_id)->get_email();
         $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_content_object());
+        
         $contexts = $survey->get_context()->create_contexts_for_user($user_name);
         
-        $args = array();
-        $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
-        $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
-        
-        foreach ($contexts as $cont)
+        if (count($contexts) >= 1)
         {
-            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
-            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $cont->get_name();
-            $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
-        
+            $parent_args = array();
+            $parent_args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
+            $parent_args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
+            $parent_args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
+            $parent_args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = self :: PARTICIPANT_ROOTCONTEXT;
+            $parent_args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = 0;
+            $parent_tracker = Events :: trigger_event('survey_participation', 'survey', $parent_args);
+                        
+            $args = array();
+            $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
+            $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
+            $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_tracker[0]->get_id();
+            
+            foreach ($contexts as $cont)
+            {
+                $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
+                $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $cont->get_name();
+                Events :: trigger_event('survey_participation', 'survey', $args);
+            
+            }
         }
+    
     }
 
     static function get_default_property_names()

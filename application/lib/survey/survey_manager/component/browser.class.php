@@ -84,15 +84,21 @@ class SurveyManagerBrowserComponent extends SurveyManagerComponent
         $user = $this->get_user();
         $datamanager = SurveyDataManager :: get_instance();
         
+        $publication_alias = SurveyPublication :: get_table_name();
+        
+//        SurveyDataManager::get_instance()->get_database()->get_alias(SurveyPublication :: get_table_name());
+        
         $conditions = array();
-        $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_TEST, false);
-        $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_CATEGORY, $current_category);
+        $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_TEST, false, $publication_alias);
+        $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_CATEGORY, $current_category, $publication_alias);
         
         if (isset($query) && $query != '')
         {
-            $search_conditions = array();
-            $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
-            $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+            
+        	$object_alias = ContentObject :: get_table_name();
+        	$search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*',$object_alias);
+            $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*', $object_alias);
             $subselect_condition = new OrCondition($search_conditions);
             $conditions[] = new SubselectCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
         }
@@ -103,22 +109,26 @@ class SurveyManagerBrowserComponent extends SurveyManagerComponent
         }
         else
         {
-            $user_id = $user->get_id();
+            
+        	$publication_group_alias = SurveyPublicationGroup :: get_table_name();
+        	$publication_user_alias = SurveyPublicationUser :: get_table_name();
+        	        
+        	$user_id = $user->get_id();
             $groups = $user->get_groups(true);
             
             $access = array();
-            $access[] = new InCondition(SurveyPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(SurveyPublicationUser :: get_table_name()));
-            $access[] = new InCondition(SurveyPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(SurveyPublicationGroup :: get_table_name()));
-            $access[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $user->get_id());
+            $access[] = new InCondition(SurveyPublicationUser :: PROPERTY_USER, $user_id, $publication_user_alias);
+            $access[] = new InCondition(SurveyPublicationGroup :: PROPERTY_GROUP_ID, $groups, $publication_group_alias);
+            $access[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $user->get_id(), $publication_alias);
             $conditions[] = new OrCondition($access);
             
-            $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_HIDDEN, false);
+            $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_HIDDEN, false, $publication_alias);
             
             $dates = array();
-            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
-            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
+            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time(), $publication_alias);
+            $interval[] = new InequalityCondition(SurveyPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time(),$publication_alias);
             $dates[] = new AndCondition($interval);
-            $dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0)));
+            $dates[] = new AndCondition(array(new EqualityCondition(SurveyPublication :: PROPERTY_FROM_DATE, 0, $publication_alias), new EqualityCondition(SurveyPublication :: PROPERTY_TO_DATE, 0, $publication_alias)));
             $conditions[] = new OrCondition($dates);
             
             return new AndCondition($conditions);

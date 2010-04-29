@@ -96,11 +96,6 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
              
         $this->survey->set_context_instance($context);
 
-        if (count($this->trackers) > 1)
-        {
-            $this->with_menu = true;
-        }
-
         $this->get_survey_html();
     }
 
@@ -113,9 +108,10 @@ class SurveyManagerViewerComponent extends SurveyManagerComponent
 
     	parent :: display_header($this->trail);
     	
-        if (count($this->trackers) > 1)
+        if (count($this->trackers) > 2)
         {
-            echo $this->get_menu_html();
+            $this->with_menu = true;
+        	echo $this->get_menu_html();
         }
         
         if ($this->with_menu)

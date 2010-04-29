@@ -122,12 +122,14 @@ class DatabaseSurveyDataManager extends SurveyDataManager
 
     function count_survey_publications($condition = null)
     {
-        $rdm = RepositoryDataManager :: get_instance();
+
+//    	dump($condition);
+    	$rdm = RepositoryDataManager :: get_instance();
         $publication_alias = $this->database->get_alias(SurveyPublication :: get_table_name());
         $publication_user_alias = $this->database->get_alias(SurveyPublicationUser :: get_table_name());
         $publication_group_alias = $this->database->get_alias(SurveyPublicationGroup :: get_table_name());
-        $object_alias = $this->database->get_alias(ContentObject :: get_table_name());
-        
+        $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
+                      
         $query = 'SELECT COUNT(DISTINCT ' . $this->database->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . ') FROM ' . $this->database->escape_table_name(SurveyPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(SurveyPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->database->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $publication_user_alias);
@@ -187,8 +189,8 @@ class DatabaseSurveyDataManager extends SurveyDataManager
         $publication_alias = $this->database->get_alias(SurveyPublication :: get_table_name());
         $publication_user_alias = $this->database->get_alias(SurveyPublicationUser :: get_table_name());
         $publication_group_alias = $this->database->get_alias(SurveyPublicationGroup :: get_table_name());
-        $object_alias = $this->database->get_alias(ContentObject :: get_table_name());
-        
+        $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
+                
         $query = 'SELECT  DISTINCT ' . $publication_alias . '.* FROM ' . $this->database->escape_table_name(SurveyPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->database->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->database->escape_table_name(SurveyPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->database->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->database->escape_column_name(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $publication_user_alias);
