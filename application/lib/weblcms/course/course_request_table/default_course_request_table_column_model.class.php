@@ -7,6 +7,8 @@ require_once dirname(__FILE__) . '/../course_request.class.php';
 
 class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
 {
+	const USER_NAME = 'user_name';
+	const COURSE_NAME = 'course_name';
 
     /**
      * Constructor
@@ -23,8 +25,8 @@ class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $columns = array();
-        //$columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_NAME_USER, false);
-        //$columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_COURSE_NAME, false);
+        $columns[] = new ObjectTableColumn(self :: USER_NAME, false);
+        $columns[] = new ObjectTableColumn(self :: COURSE_NAME, false);
         $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_TITLE);
 
         return $columns;

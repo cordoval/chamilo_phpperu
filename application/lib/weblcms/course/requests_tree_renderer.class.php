@@ -40,7 +40,7 @@ class RequestsTreeRenderer extends HTML_Menu
 		$menu_item['title'] = Translation :: get('CreationRequests');
 		$menu_item['description'] = Translation :: get('CreationRequests');  
 		$menu_item['url'] = '#';       
-		$menu_item['sub'] = $this->get_sub_division(WeblcmsManagerAdminRequestBrowserComponent :: CREATION_REQUEST);
+		$menu_item['sub'] = $this->get_sub_division(CommonRequest :: CREATION_REQUEST);
 		$sub_menu[] = $menu_item;
     	
     	$menu_item = array();
@@ -48,7 +48,7 @@ class RequestsTreeRenderer extends HTML_Menu
 		$menu_item['title'] = Translation :: get('SubscriptionRequests');
 		$menu_item['description'] = Translation :: get('SubscriptionRequests'); 
 		$menu_item['url'] = '#';      
-		$menu_item['sub'] = $this->get_sub_division(WeblcmsManagerAdminRequestBrowserComponent :: SUBSCRIPTION_REQUEST);
+		$menu_item['sub'] = $this->get_sub_division(CommonRequest :: SUBSCRIPTION_REQUEST);
 		$sub_menu[] = $menu_item;
 		return $sub_menu;
     }
@@ -59,11 +59,11 @@ class RequestsTreeRenderer extends HTML_Menu
 		
     	$menu_item = array();
 		$menu_item['class'] = 'type type_request';
-		$menu_item['title'] = Translation :: get('New');
-		$menu_item['description'] = Translation :: get('New');
+		$menu_item['title'] = Translation :: get('Pending');
+		$menu_item['description'] = Translation :: get('Pending');
 		$menu_item['url'] = $this->parent->get_url(
-			Array(WeblcmsManagerAdminRequestBrowserComponent :: PARAM_REQUEST_TYPE => $request_type, 
-			      WeblcmsManagerAdminRequestBrowserComponent :: PARAM_REQUEST_VIEW => WeblcmsManagerAdminRequestBrowserComponent :: NEW_REQUEST_VIEW));
+			Array(WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, 
+			      WeblcmsManager :: PARAM_REQUEST_VIEW => WeblcmsManagerAdminRequestBrowserComponent :: PENDING_REQUEST_VIEW));
 		$sub_menu[] = $menu_item;
 		
 		$menu_item = array();
@@ -71,8 +71,8 @@ class RequestsTreeRenderer extends HTML_Menu
 		$menu_item['title'] = Translation :: get('Allowed');
 		$menu_item['description'] = Translation :: get('Allowed');
 		$menu_item['url'] = $this->parent->get_url(
-			Array(WeblcmsManagerAdminRequestBrowserComponent :: PARAM_REQUEST_TYPE => $request_type, 
-			      WeblcmsManagerAdminRequestBrowserComponent :: PARAM_REQUEST_VIEW => WeblcmsManagerAdminRequestBrowserComponent :: ALLOWED_REQUEST_VIEW));
+			Array(WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, 
+			      WeblcmsManager :: PARAM_REQUEST_VIEW => WeblcmsManagerAdminRequestBrowserComponent :: ALLOWED_REQUEST_VIEW));
 		$sub_menu[] = $menu_item;
 		
 		$menu_item = array();
@@ -80,8 +80,8 @@ class RequestsTreeRenderer extends HTML_Menu
 		$menu_item['title'] = Translation :: get('Denied');
 		$menu_item['description'] = Translation :: get('Denied');
 		$menu_item['url'] = $this->parent->get_url(
-			Array(WeblcmsManagerAdminRequestBrowserComponent :: PARAM_REQUEST_TYPE => $request_type, 
-			      WeblcmsManagerAdminRequestBrowserComponent :: PARAM_REQUEST_VIEW => WeblcmsManagerAdminRequestBrowserComponent :: DENIED_REQUEST_VIEW));
+			Array(WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, 
+			      WeblcmsManager :: PARAM_REQUEST_VIEW => WeblcmsManagerAdminRequestBrowserComponent :: DENIED_REQUEST_VIEW));
 		$sub_menu[] = $menu_item;
 		return $sub_menu;
     }

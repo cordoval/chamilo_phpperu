@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
  * Component to edit an existing request object
  * @author Yannick Meert
  */
-class WeblcmsManagerCourseSubscribeRequestAllowComponent extends WeblcmsManager
+class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
 {
 	/**
 	 * Runs this component and displays its output.
@@ -14,6 +14,7 @@ class WeblcmsManagerCourseSubscribeRequestAllowComponent extends WeblcmsManager
 	function run()
 	{		
 		$request_ids = Request :: get(WeblcmsManager :: PARAM_REQUEST);
+		$request_type = Request :: get(WeblcmsManager:: PARAM_REQUEST_TYPE);
 		$failures = 0;
 		
 		if(!is_null($request_ids) && $this->get_user()->is_platform_admin())
@@ -25,9 +26,17 @@ class WeblcmsManagerCourseSubscribeRequestAllowComponent extends WeblcmsManager
 			
 			foreach($request_ids as $request_id)
 			{
-				
-				$request = $this->retrieve_request($request_id);				
-				$request->set_allowed_date(Utilities :: to_db_date(time()));
+				$request_method = null;
+        
+        		switch($request_type)
+        		{
+        			case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_request'; break;
+        			case CommonRequest :: CREATION_REQUEST: $request_method = 'retrieve_course_create_request'; break;
+        		}
+        		
+				$request = $this->$request_method($request_id);				
+				$request->set_decision_date(Utilities :: to_db_date(time()));
+				$request->set_decision(CommonRequest::ALLOWED_DECISION);
 							
 				if(!$request->update())
 				{

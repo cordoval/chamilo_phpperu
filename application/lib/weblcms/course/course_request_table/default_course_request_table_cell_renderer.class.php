@@ -7,13 +7,23 @@
 require_once dirname(__FILE__) . '/../course_request.class.php';
 
 class DefaultCourseRequestTableCellRenderer implements ObjectTableCellRenderer
-{
-
+{	
+	const USER_NAME = 'user_name';
+	const COURSE_NAME = 'course_name';
+	
+	/**
+     * The repository browser component
+     */
+	
+    protected $browser;
+    
     /**
      * Constructor
      */
-    function DefaultCourseRequestTableCellRenderer()
+    
+    function DefaultCourseRequestTableCellRenderer($browser)
     {
+        $this->browser = $browser;
     }
 
     /**
@@ -27,23 +37,23 @@ class DefaultCourseRequestTableCellRenderer implements ObjectTableCellRenderer
     {
         switch ($column->get_name())
         {
-            case CourseRequest :: PROPERTY_NAME_USER :
-            	return $request->get_name_user();
+            case self :: USER_NAME :
+            	return UserDataManager::get_instance()->retrieve_user($request->get_user_id())->get_fullname();
             	
-            case CourseRequest :: PROPERTY_COURSE_NAME :
-            	return $request->get_course_name();
+            case self :: COURSE_NAME :
+            	return $this->browser->retrieve_course($request->get_course_id())->get_name();
             	
-            case CourseRequest :: PROPERTY_TITLE :
+            case CommonRequest :: PROPERTY_TITLE :
                 return $request->get_title();
                 
-            case CourseRequest :: PROPERTY_MOTIVATION :
+            case CommonRequest :: PROPERTY_MOTIVATION :
             	return $request->get_motivation();
             	
-            case CourseRequest :: PROPERTY_CREATION_DATE :
+            case CommonRequest :: PROPERTY_CREATION_DATE :
             	return $request->get_creation_date();
             	
-            case CourseRequest :: PROPERTY_ALLOWED_DATE :
-            	return $request->get_allowed_date();
+            case CommonRequest :: PROPERTY_DECISION_DATE :
+            	return $request->get_decision_date();
             	
             default :
                 return '&nbsp;';

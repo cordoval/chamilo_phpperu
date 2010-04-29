@@ -7,7 +7,7 @@
 /**
  * Repository manager component which provides functionality to delete a course_type
  */
-class WeblcmsManagerCourseSubscribeRequestDeleterComponent extends WeblcmsManager
+class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
 {
 
     /**
@@ -16,8 +16,9 @@ class WeblcmsManagerCourseSubscribeRequestDeleterComponent extends WeblcmsManage
     function run()
     {
         $request_ids = Request :: get(WeblcmsManager :: PARAM_REQUEST);
+		$request_type = Request :: get(WeblcmsManager:: PARAM_REQUEST_TYPE);
         $failures = 0;
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $trail = new BreadcrumbTrail();
@@ -41,8 +42,16 @@ class WeblcmsManagerCourseSubscribeRequestDeleterComponent extends WeblcmsManage
             
             foreach ($request_ids as $request_id)
             {                
-            	$request = $this->retrieve_request($request_id);
-            
+		        $request_method = null;
+		        
+		        switch($request_type)
+		        {
+		        	case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_request'; break;
+		        	case CommonRequest :: CREATION_REQUEST: $request_method = 'retrieve_course_create_request'; break;
+		        }
+		        		
+				$request = $this->$request_method($request_id);
+		            
             	if (!$request->delete())
                 {
                     $failures ++;

@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
  * Component to view an existing request object
  * @author Yannick Meert
  */
-class WeblcmsManagerCourseSubscribeRequestViewerComponent extends WeblcmsManager
+class WeblcmsManagerCourseRequestViewerComponent extends WeblcmsManager
 {
 	/**
 	 * Runs this component and displays its output.
@@ -39,9 +39,18 @@ class WeblcmsManagerCourseSubscribeRequestViewerComponent extends WeblcmsManager
             exit();
         } 		
         
-        $request_id = Request :: get(WeblcmsManager :: PARAM_REQUEST);
+		$request_id = Request :: get(WeblcmsManager :: PARAM_REQUEST);
+		$request_type = Request :: get(WeblcmsManager:: PARAM_REQUEST_TYPE);
 		
-		$request = $this->retrieve_request($request_id);
+        $request_method = null;
+        
+        switch($request_type)
+        {
+        	case CommonRequest :: SUBSCRIPTION_REQUEST: $request_method = 'retrieve_request'; break;
+        	case CommonRequest :: CREATION_REQUEST: $request_method = 'retrieve_course_create_request'; break;
+        }
+        		
+		$request = $this->$request_method($request_id);
 		$form = new CourseRequestForm(CourseRequestForm :: TYPE_VIEW, $this->get_url(array(WeblcmsManager :: PARAM_REQUEST => $request->get_id())), $course, $this, $request, $this->get_user());
 		
 		if($form->validate())

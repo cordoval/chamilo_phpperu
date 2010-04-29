@@ -10,8 +10,12 @@ class CommonRequest extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     
-    const ALLOWED_DECISION = '2';
-    const DENIED_DECISION = '1';
+    const ALLOWED_DECISION = 2;
+    const DENIED_DECISION = 1;
+    const NO_DECISION = 0;
+    
+    const SUBSCRIPTION_REQUEST = 'subscription_request';
+	const CREATION_REQUEST = 'creation_request';
     
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_TITLE = 'title';

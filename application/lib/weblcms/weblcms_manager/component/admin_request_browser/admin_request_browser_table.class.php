@@ -29,6 +29,7 @@ class AdminRequestBrowserTable extends ObjectTable
         $actions = array();
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REMOVE_SELECTED_REQUESTS, Translation :: get('RemoveSelected'));
         $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_ALLOW_SELECTED_REQUESTS, Translation :: get('AllowSelected'));
+        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_REFUSE_SELECTED_REQUESTS, Translation :: get('RefuseSelected'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
