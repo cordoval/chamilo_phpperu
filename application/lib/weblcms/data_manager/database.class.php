@@ -35,6 +35,18 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         parent :: initialize();
         $this->set_prefix('weblcms_');
+        $aliases = array();
+ 		$aliases['course_section'] = 'cs';
+ 		$aliases['course_category'] = 'cat';
+ 		$aliases['content_object_publication_category'] = 'pub_cat';
+ 		$aliases['user_answer'] = 'ans';
+		$aliases['user_assessment'] = 'ass';
+		$aliases['user_question'] = 'uq';
+		$aliases['survey_invitation'] = 'si';
+		$aliases['course_group'] = 'cg';
+		$aliases['course_user_category'] = 'cuc';
+		$aliases['course_user_relations'] = 'cur';
+		$this->set_aliases($aliases);
     }
 
     /**
