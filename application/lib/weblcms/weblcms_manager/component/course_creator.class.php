@@ -16,8 +16,11 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager
     /**
      * Runs this component and displays its output.
      */
+		
     function run()
     {
+    	$course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
+    	
         if ($this->get_user()->is_platform_admin())
         {
             Header :: set_section('admin');
@@ -93,7 +96,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager
 	        		$array_type['course'] = $course->get_id();
 	        		$array_type['go'] = WeblcmsManager :: ACTION_COURSE_CREATE_REQUEST_CREATOR;
 	        	}
-                $this->redirect(Translation :: get($success ? 'CourseSaved' : 'CourseNotSaved'), ($success ? false : true), $array_type);
+                $this->redirect(Translation :: get($success ? 'CourseSaved' : 'CourseNotSaved'), ($success ? false : true), $array_type, array(WeblcmsManager :: PARAM_COURSE));
             }
         }
         else
