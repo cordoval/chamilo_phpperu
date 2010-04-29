@@ -731,4 +731,13 @@ $lang['repository']['Shows'] = 'Shows';
 $lang['repository']['Movies_Sci_fi_fantasy'] = 'Movies sci/fi/fantasy';
 $lang['repository']['Movies_Thriller'] = 'Movies thriller';
 $lang['repository']['Trailers'] = 'Trailers';
+$lang['repository']['StandardFeeds'] = 'Standard feeds';
+$lang['repository']['MostViewed'] = 'Most viewed';
+$lang['repository']['TopRated'] = 'Top rated';
+$lang['repository']['RecentlyFeatured'] = 'Recently featured';
+$lang['repository']['WatchOnMobile'] = 'Watch on mobile';
+$lang['repository']['MostDiscussed'] = 'Most discussed';
+$lang['repository']['TopFavorites'] = 'Top favorites';
+$lang['repository']['MostResponded'] = 'Most responded';
+$lang['repository']['MostRecent'] = 'Most recent';
 ?>

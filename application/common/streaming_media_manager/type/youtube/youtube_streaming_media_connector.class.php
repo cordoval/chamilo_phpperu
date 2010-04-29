@@ -171,6 +171,8 @@ class YoutubeStreamingMediaConnector
             case YoutubeStreamingMediaManager :: FEED_TYPE_MYVIDEOS :
                 return $this->youtube->getuserUploads('default', $query->getQueryUrl(2));
                 break;
+            case YoutubeStreamingMediaManager:: FEED_STANDARD_TYPE : 
+            	
             default :
                 return @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
         }
