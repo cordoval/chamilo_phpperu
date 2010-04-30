@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/web_service/content_object_soap_search_utilit
 require_once dirname(__FILE__) . '/web_service/content_object_soap_search_result_set.class.php';
 require_once dirname(__FILE__) . '/../repository_search_result.class.php';
 
-class WebServiceSearchSource implements SearchSource
+class WebServiceSearchSource extends SearchSource
 {
     const CACHE_TIME = 60; // minutes
     const CACHE_FILE_EXTENSION = 'cache';
@@ -54,11 +54,6 @@ class WebServiceSearchSource implements SearchSource
         $returned_results = new ContentObjectSoapSearchResultSet($result[ContentObjectSoapSearchClient :: KEY_RETURNED_RESULTS]);
         $result_count = $result[ContentObjectSoapSearchClient :: KEY_RESULT_COUNT];
         return new RepositorySearchResult($repository_title, $repository_url, $returned_results, $result_count);
-    }
-
-    static function is_supported()
-    {
-        return extension_loaded('soap');
     }
 
     private function get_cached_result($url, $query)

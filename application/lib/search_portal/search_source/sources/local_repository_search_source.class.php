@@ -7,15 +7,8 @@ require_once dirname(__FILE__) . '/../search_source.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 require_once dirname(__FILE__) . '/../repository_search_result.class.php';
 
-class LocalRepositorySearchSource implements SearchSource
+class LocalRepositorySearchSource extends SearchSource
 {
-    private $data_manager;
-
-    function LocalRepositorySearchSource($data_manager)
-    {
-        $this->data_manager = $data_manager;
-    }
-
     function search($query)
     {
         $condition = Utilities :: query_to_condition($query);
@@ -24,14 +17,9 @@ class LocalRepositorySearchSource implements SearchSource
         $repository_title = PlatformSetting :: get('site_name');
 
         $repository_url = Path :: get(WEB_PATH);
-        $returned_results = $this->data_manager->retrieve_content_objects($condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)));
+        $returned_results = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)));
         $result_count = count($returned_results);
         return new RepositorySearchResult($repository_title, $repository_url, $returned_results, $result_count);
-    }
-
-    static function is_supported()
-    {
-        return true;
     }
 }
 ?>
