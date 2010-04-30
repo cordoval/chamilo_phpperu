@@ -22,7 +22,6 @@ class GradebookManager extends WebApplication
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
 	const PARAM_TRUNCATE_SELECTED = 'truncate';
 
-	const ACTION_VIEW_HOME = 'home';
 	const ACTION_BROWSE_GRADEBOOK = 'browse';
 	
 	const ACTION_CREATE_GRADEBOOK = 'create_gradebook';
@@ -39,6 +38,7 @@ class GradebookManager extends WebApplication
 	/*
 	 * Gradebook administration actions
 	 */
+	const ACTION_VIEW_HOME = 'home';
 	const ACTION_ADMIN_BROWSE_EVALUATION_FORMATS = 'admin_browse_evaluation_formats';
 	const ACTION_EDIT_EVALUATION_FORMAT = 'edit_evaluation_format';
 	const ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY = 'change_evaluation_format_active_property';
@@ -111,6 +111,9 @@ class GradebookManager extends WebApplication
 			case self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION :
 				$component = $this->create_component('ViewEvaluationsOnPublication');
 				break;		
+			case self :: ACTION_VIEW_HOME :
+				$component = $this->create_component('GradebookBrowser');
+				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_HOME);
 				$component = $this->create_component('GradebookBrowser');
@@ -367,12 +370,15 @@ class GradebookManager extends WebApplication
 		{
 			$ids_calculated_and_with_evaluations_not_calculated[] = $this->retrieve_internal_item($id);
 		}
+		
 		foreach($ids_calculated_and_with_evaluations_not_calculated as $key => $internal_item)
 		{
 			$application = $internal_item->get_application();
 			$application_manager = WebApplication :: factory($application);
 			$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
+			//dump($attributes);
 			$rdm = RepositoryDataManager :: get_instance();
+			//echo $attributes->get_publication_object_id() . '<br />';
 			$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
 			if(isset($content_object))
 			{
