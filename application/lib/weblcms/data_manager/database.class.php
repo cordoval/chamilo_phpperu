@@ -35,18 +35,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         parent :: initialize();
         $this->set_prefix('weblcms_');
-        $aliases = array();
- 		$aliases['course_section'] = 'cs';
- 		$aliases['course_category'] = 'cat';
- 		$aliases['content_object_publication_category'] = 'pub_cat';
- 		$aliases['user_answer'] = 'ans';
-		$aliases['user_assessment'] = 'ass';
-		$aliases['user_question'] = 'uq';
-		$aliases['survey_invitation'] = 'si';
-		$aliases['course_group'] = 'cg';
-		$aliases['course_user_category'] = 'cuc';
-		$aliases['course_user_relations'] = 'cur';
-		$this->set_aliases($aliases);
     }
 
     /**
@@ -2110,7 +2098,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $query .= ' JOIN ' . $this->escape_table_name(CourseGroupUserRelation :: get_table_name()) . ' AS ' . $group_relation_alias . ' ON ' . $this->escape_column_name(CourseGroup :: PROPERTY_ID, $group_alias) . ' = ' . $this->escape_column_name(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $group_relation_alias);
         
         $conditions = array();
-        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user->get_id(), $group_relation_alias);
+        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user->get_id(), CourseGroupUserRelation :: get_table_name());
         if (! is_null($course))
         {
             $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $course->get_id());

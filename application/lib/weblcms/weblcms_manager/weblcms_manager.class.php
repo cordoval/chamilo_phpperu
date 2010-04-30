@@ -1238,11 +1238,11 @@ class WeblcmsManager extends WebApplication
 			$user_id = $this->get_user_id();
 
 			$access = array();
-			$access[] = new InCondition('user_id', $user_id, $wdm->get_alias('content_object_publication_user'));
-			$access[] = new InCondition('course_group_id', $course_groups, $wdm->get_alias('content_object_publication_course_group'));
+			$access[] = new InCondition('user_id', $user_id, 'content_object_publication_user');
+			$access[] = new InCondition('course_group_id', $course_groups, 'content_object_publication_course_group');
 			if (! empty($user_id) || ! empty($course_groups))
 			{
-				$access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_alias('content_object_publication_course_group'))));
+				$access[] = new AndCondition(array(new EqualityCondition('user_id', null, 'content_object_publication_user'), new EqualityCondition('course_group_id', null, 'content_object_publication_course_group')));
 			}
 
 			$conditions[] = new OrCondition($access);
