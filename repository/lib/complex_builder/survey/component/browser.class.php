@@ -20,10 +20,9 @@ class SurveyBuilderBrowserComponent extends SurveyBuilderComponent {
 		$this->display_header ( $trail );
 		$action_bar = $this->get_action_bar ( $lo );
 		
-		if ($action_bar) {
-			echo '<br />';
-			echo $action_bar->as_html ();
-		}
+		echo '<br />';
+		echo $action_bar->as_html ();
+		
 		
 		echo '<br />';
 		$types = $lo->get_allowed_types ();
@@ -38,15 +37,11 @@ class SurveyBuilderBrowserComponent extends SurveyBuilderComponent {
 		$this->display_footer ();
 	}
 	
-	function get_action_bar() {
-		$pub = Request::get ( 'publish' );
-		
+	function get_action_bar($co) {
+				
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
-		
-		if ($pub && $pub != '') {
-			$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'Publish' ), Theme::get_common_image_path () . 'action_publish.png', $_SESSION ['redirect_url'] ) );
-			return $action_bar;
-		}
+		$action_bar->add_tool_action( new ToolbarItem ( Translation::get ( 'ConfigureSurveyContext' ), Theme::get_common_image_path () . 'action_build_prerequisites.png', $this->get_browse_context_url($co) ) );
+		return $action_bar;
 	}
 	
 	function get_creation_links($lo, $types = array()) {

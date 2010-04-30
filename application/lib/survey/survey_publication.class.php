@@ -118,29 +118,37 @@ class SurveyPublication extends DataClass
         $user_name = $dm->retrieve_user($user_id)->get_email();
         $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_content_object());
         
-        $contexts = $survey->get_context()->create_contexts_for_user($user_name);
+        $template = $survey->get_context_template();
         
-        if (count($contexts) >= 1)
+        $contexts = $this->create_contexts($user_id, $template, $user_name);
+     
+    }
+
+    private function create_contexts($user_id, $template, $key, $parent_participant_id = 0)
+    {
+        $context_type = $template->get_context_type();
+        $key_type = $template->get_key_type();
+        
+        $context = SurveyContext :: factory($context_type);
+        $contexts = $context->create_contexts_for_user($key, $key_type);
+               
+        $args = array();
+        $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
+        $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
+        $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_participant_id;
+        
+        foreach ($contexts as $cont)
         {
-            $parent_args = array();
-            $parent_args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
-            $parent_args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
-            $parent_args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
-            $parent_args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = self :: PARTICIPANT_ROOTCONTEXT;
-            $parent_args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = 0;
-            $parent_tracker = Events :: trigger_event('survey_participation', 'survey', $parent_args);
-                        
-            $args = array();
-            $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
-            $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
-            $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_tracker[0]->get_id();
-            
-            foreach ($contexts as $cont)
+            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
+            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $cont->get_name();
+            $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
+            if ($template->has_children())
             {
-                $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
-                $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $cont->get_name();
-                Events :: trigger_event('survey_participation', 'survey', $args);
-            
+                while ($temp = $template->get_children(false))
+                {
+                	$key = $cont->get_additional_property($temp->get_key_type());
+                	$this->create_contexts($user_id, $temp, $key, $tracker->get_id());
+                }
             }
         }
     

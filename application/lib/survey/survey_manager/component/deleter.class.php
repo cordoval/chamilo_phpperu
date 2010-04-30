@@ -30,7 +30,8 @@ class SurveyManagerDeleterComponent extends SurveyManager
             
             foreach ($ids as $id)
             {
-                $survey_publication = $this->retrieve_survey_publication($id);
+                         	
+            	$survey_publication = $this->retrieve_survey_publication($id);
                 
                 if (! $survey_publication->is_visible_for_target_user($this->get_user()))
                 {
