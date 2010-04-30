@@ -18,7 +18,7 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManager
 			return;
 		}*/
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
 		$title = CourseLayout :: get_title($this->get_course());
         
@@ -67,7 +67,7 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManager
             $this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
         }
         
-        $this->display_header($trail, false, true);
+        $this->display_header();
         echo '<div class="clear"></div><br />';
         echo implode("\n", $html);
         $this->display_footer();

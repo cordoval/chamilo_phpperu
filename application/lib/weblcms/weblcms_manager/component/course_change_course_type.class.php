@@ -24,7 +24,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
             Header :: set_section('admin');
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail  :: get_instance();
         
     	if ($this->get_user()->is_platform_admin())
         {
@@ -42,7 +42,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
         
    		if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail, false, true);
+            $this->display_header();
             echo '<div class="clear"></div><br />';
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
@@ -106,7 +106,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
         else
         {
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ChangeCourseType')));
-            $this->display_header($trail);
+            $this->display_header();
             $this->form->display();
             $this->display_footer();
         }

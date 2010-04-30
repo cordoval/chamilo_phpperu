@@ -48,7 +48,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 			}
 		}
 		
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add_help('courses general');
 
 		if (! $this->is_course())
@@ -165,7 +165,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 			}
 			else
 			{
-				$trail = new BreadcrumbTrail();
+				$trail = BreadcrumbTrail :: get_instance();
 				$this->set_parameter(Tool :: PARAM_PUBLICATION_ID, null);
 				$this->set_parameter('tool_action', null);
 				$this->set_parameter('course_group', null);
@@ -320,11 +320,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbtrail, $display_search = false, $display_title = true, $display_tools = true)
+	function display_header($breadcrumbtrail = null, $display_search = false, $display_title = true, $display_tools = true)
 	{
 		if (is_null($breadcrumbtrail))
 		{
-			$breadcrumbtrail = new BreadcrumbTrail();
+			$breadcrumbtrail = BreadcrumbTrail :: get_instance();
 		}
 
 		$tool_class = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);

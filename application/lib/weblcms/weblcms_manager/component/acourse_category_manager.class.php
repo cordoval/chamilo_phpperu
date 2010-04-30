@@ -25,11 +25,11 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
         
         if (! $this->get_user()->is_platform_admin())
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseCategoryManager')));
             $trail->add_help('courses category manager');
             
-            $this->display_header($trail, false, true);
+            $this->display_header();
             Display :: error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -67,10 +67,10 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
 
     function display_page_header($title)
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), $title));
         $trail->add_help('courses category manager');
-        $this->display_header($trail, false, true);
+        $this->display_header();
     }
 
     function display_course_categories()
