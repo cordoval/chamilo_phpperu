@@ -13,11 +13,18 @@ class SurveyBuilderComponent extends ComplexBuilderComponent
         return parent :: factory('Survey', $component_name, $builder);
     }
 
-    function get_routing_url($selected_cloi)
+    function get_configure_context_url($selected_cloi)
     {
-        return $this->get_parent()->get_routing_url($selected_cloi);
+        return $this->get_parent()->get_configure_context_url($selected_cloi);
     }
-
+	
+	function get_browse_context_url($selected_cloi)
+    {
+        return $this->get_parent()->get_browse_context_url($selected_cloi);
+    }
+    
+    
+    
 }
 
 ?>

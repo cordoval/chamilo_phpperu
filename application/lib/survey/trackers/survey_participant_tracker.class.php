@@ -84,9 +84,7 @@ class SurveyParticipantTracker extends MainTracker
      */
     function get_default_property_names()
     {
-        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, 
-        self :: PROPERTY_DATE, self :: PROPERTY_PROGRESS, self :: PROPERTY_STATUS, self :: PROPERTY_PARENT_ID,
-        self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_CONTEXT_ID, self :: PROPERTY_CONTEXT_NAME));
+        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_PROGRESS, self :: PROPERTY_STATUS, self :: PROPERTY_PARENT_ID, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_CONTEXT_ID, self :: PROPERTY_CONTEXT_NAME));
     }
 
     function get_user_id()
@@ -201,12 +199,13 @@ class SurveyParticipantTracker extends MainTracker
     //        return count($trackers);
     //    }
     
-	
-    function has_children(){
-    	 $condition = new EqualityCondition(self :: PROPERTY_PARENT_ID, $this->get_id());
-    	 return $this->count_tracker_items($condition);
+
+    function has_children()
+    {
+        $condition = new EqualityCondition(self :: PROPERTY_PARENT_ID, $this->get_id());
+        return $this->count_tracker_items($condition);
     }
-    
+
     function is_participant($publication, $user_id)
     {
         $conditions[] = new EqualityCondition(self :: PROPERTY_SURVEY_PUBLICATION_ID, $publication->get_id());
@@ -238,9 +237,13 @@ class SurveyParticipantTracker extends MainTracker
             $tracker->delete();
         }
         
-        $dm = SurveyContextDataManager :: get_instance();
-        $survey_context = $dm->retrieve_survey_context_by_id($this->get_context_id());
-        $survey_context->delete();
+        //we can't delete context because other trackers may use them !
+//        $dm = SurveyContextDataManager :: get_instance();
+//        $survey_context = $dm->retrieve_survey_context_by_id($this->get_context_id());
+//        if ($survey_context != null)
+//        {
+//          $survey_context->delete();
+//        }
         
         return $succes;
     }

@@ -17,7 +17,7 @@ abstract class SurveyContext extends DataClass
     
 	
     abstract static public function get_allowed_keys();
-    
+       
     abstract static public function get_display_name();
 
     public function SurveyContext($defaultProperties = array (), $additionalProperties = null)
