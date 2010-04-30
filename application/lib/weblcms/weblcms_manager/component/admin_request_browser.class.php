@@ -30,6 +30,11 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
         $this->request_type = Request :: get(WeblcmsManager :: PARAM_REQUEST_TYPE);
         $this->request_view = Request :: get(WeblcmsManager :: PARAM_REQUEST_VIEW);
         
+        if(is_null($this->request_type))
+        	$this->request_type = CommonRequest :: CREATION_REQUEST;
+        if(is_null($this->request_view))
+        	$this->request_view = self :: PENDING_REQUEST_VIEW;
+        
         $trail = new BreadcrumbTrail();
         if ($this->get_user()->is_platform_admin())
         {
@@ -63,8 +68,7 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
         $html[] = $this->action_bar->as_html() . '<br />';
         $html[] = '<div style="float: left; padding-right: 20px; width: 18%; overflow: auto; height: 100%;">' . $menu->render_as_tree() . '</div>';
         $html[] = '<div style="float: right; width: 80%;">';
-        if($this->request_view && $this->request_type)
-        	$html[] = $this->get_table_html();
+        $html[] = $this->get_table_html();
         $html[] = '</div>';
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
@@ -137,6 +141,11 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
     function get_request_type()
     {
     	return $this->request_type;
+    }
+    
+    function get_request_view()
+    {
+    	return $this->request_view;
     }
 }
 ?>
