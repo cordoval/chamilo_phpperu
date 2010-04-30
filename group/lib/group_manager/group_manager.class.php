@@ -131,7 +131,7 @@ class GroupManager extends CoreApplication
     {
         if (is_null($breadcrumbtrail))
         {
-            $breadcrumbtrail = new BreadcrumbTrail();
+            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
         }
 
         $categories = $this->breadcrumbs;

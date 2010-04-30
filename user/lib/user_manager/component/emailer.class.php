@@ -53,14 +53,14 @@ class UserManagerEmailerComponent extends UserManager
         
     	$this->set_parameter(UserManager :: PARAM_USER_USER_ID, null);
     	
-    	$trail = new BreadcrumbTrail();
+    	$trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
         $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
         $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $ids)), Translation :: get('Emailer')));
         $trail->add_help('user general');
         
-        return parent :: display_header($trail);
+        return parent :: display_header();
     }
 }
 ?>

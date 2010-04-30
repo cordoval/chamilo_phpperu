@@ -24,7 +24,7 @@ class UserManagerQuotaViewerComponent extends UserManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('user quota');
 
         $selected_user_id = Request :: get(UserManager :: PARAM_USER_USER_ID);
