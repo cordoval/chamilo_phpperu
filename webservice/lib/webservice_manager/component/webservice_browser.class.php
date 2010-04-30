@@ -17,7 +17,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager
     function run()
     {
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => WebserviceManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Webservice')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Webservices')));
@@ -41,7 +41,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager
         $output = $this->get_user_html();
         $menu = $this->get_menu_html();
 
-        $this->display_header($trail);
+        $this->display_header();
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo $output;
         echo $menu;

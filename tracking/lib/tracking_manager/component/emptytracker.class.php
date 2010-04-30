@@ -15,7 +15,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('tracking general');
         
         $tracker_ids = Request :: get(TrackingManager :: PARAM_TRACKER_ID);
@@ -24,7 +24,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManager
         
         if (! $this->get_user() || ! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -47,7 +47,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManager
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get("NoObjectSelected"));
             $this->display_footer();
         }

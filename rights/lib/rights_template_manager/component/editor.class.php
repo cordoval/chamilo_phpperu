@@ -15,7 +15,7 @@ class RightsTemplateManagerEditorComponent extends RightsTemplateManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('RightsTemplates')));
@@ -30,7 +30,7 @@ class RightsTemplateManagerEditorComponent extends RightsTemplateManager
             
             if (! $this->get_user()->is_platform_admin())
             {
-                $this->display_header($trail);
+                $this->display_header();
                 Display :: error_message(Translation :: get("NotAllowed"));
                 $this->display_footer();
                 exit();
@@ -45,7 +45,7 @@ class RightsTemplateManagerEditorComponent extends RightsTemplateManager
             }
             else
             {
-                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
