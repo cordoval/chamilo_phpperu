@@ -1982,6 +1982,24 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
         return $this->retrieve_objects(CourseType :: get_table_name(), $condition);
     }
+    
+    function retrieve_course_types_by_user_right($user)
+    {
+    	$course_types = array();
+    	$condition = null;
+    	if(!$user->is_platform_admin())
+        	$condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
+        
+        $course_type_objects = $this->retrieve_objects(CourseType :: get_table_name(),$condition);
+        while($course_type = $course_type_objects->next_result())
+        {
+        	//User->is_platform_admin() is checked in the can_user_create function
+        	if($course_type->can_user_create($user))
+        		$course_types[] = $course_type;
+        }
+        
+    	return $course_types;
+    }
 
     function retrieve_course_group_by_name($name)
     {

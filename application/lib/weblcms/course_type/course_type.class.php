@@ -173,12 +173,14 @@ class CourseType extends DataClass
      */
     function can_user_create($user)
     {
+    	if($user->is_platform_admin())
+    		return CourseTypeGroupCreationRight :: CREATE_DIRECT;
+    		
     	$current_right = $this->get_rights()->can_group_create(0);
         $group_ids = $user->get_groups(true);
         foreach($group_ids as $group_id)
         {
         	$right = $this->get_rights()->can_group_create($group_id);
-				
         	if($right > $current_right)
         		$current_right = $right;      		    		
         }        
