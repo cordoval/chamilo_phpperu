@@ -138,7 +138,7 @@ class VariableScanner
 		{
 			$subcondition = new EqualityCondition(LanguagePack :: PROPERTY_BRANCH, 2);
 			$conditions[] = new SubselectCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, LanguagePack :: PROPERTY_ID, 
-							'cda_' . LanguagePack :: get_table_name(), $subcondition);
+							LanguagePack :: get_table_name(), $subcondition);
 		}
 		
 		$condition = new AndCondition($conditions);

@@ -1444,7 +1444,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         // Delete publication target users
         $subselect_condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_code);
-        $condition = new SubselectCondition(ContentObjectPublicationUser :: PROPERTY_PUBLICATION, ContentObjectPublication :: PROPERTY_ID, $this->escape_table_name(ContentObjectPublication :: get_table_name()), $subselect_condition);
+        $condition = new SubselectCondition(ContentObjectPublicationUser :: PROPERTY_PUBLICATION, ContentObjectPublication :: PROPERTY_ID, ContentObjectPublication :: get_table_name(), $subselect_condition);
         if (! $this->delete_objects(ContentObjectPublicationUser :: get_table_name(), $condition))
         {
             return false;
@@ -1452,7 +1452,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         
         // Delete publication target course_groups
         $subselect_condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_code);
-        $condition = new SubselectCondition(ContentObjectPublicationCourseGroup :: PROPERTY_PUBLICATION, ContentObjectPublication :: PROPERTY_ID, $this->escape_table_name(ContentObjectPublication :: get_table_name()), $subselect_condition);
+        $condition = new SubselectCondition(ContentObjectPublicationCourseGroup :: PROPERTY_PUBLICATION, ContentObjectPublication :: PROPERTY_ID, ContentObjectPublication :: get_table_name(), $subselect_condition);
         if (! $this->delete_objects(ContentObjectPublicationCourseGroup :: get_table_name(), $condition))
         {
             return false;

@@ -160,7 +160,7 @@ class DynamicFormExecuteForm extends FormValidator
 	{
 		$subcondition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $this->form->get_id());
     	$subselect = new SubselectCondition(DynamicFormElementValue :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, DynamicFormElement :: PROPERTY_ID, 
-    										'admin_' . DynamicFormElement :: get_table_name(), $subcondition);
+    										DynamicFormElement :: get_table_name(), $subcondition);
     	
     	$values = AdminDataManager :: get_instance()->retrieve_dynamic_form_element_values($subselect);
     	

@@ -29,7 +29,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'forum');
 
         $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition);
         $condition = new AndCondition($conditions);
 
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
@@ -165,7 +165,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
         $conditions[] = new OrCondition($access);
         
         $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Forum :: get_type_name());
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition);
         $condition = new AndCondition($conditions);
         
         $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Forum :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC));

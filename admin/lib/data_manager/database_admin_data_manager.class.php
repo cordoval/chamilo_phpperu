@@ -651,7 +651,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     {
     	$subcondition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $dynamic_form_id);
     	$subselect = new SubselectCondition(DynamicFormElementValue :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, DynamicFormElement :: PROPERTY_ID,
-    										'admin_' . DynamicFormElement :: get_table_name(), $subcondition);
+    										DynamicFormElement :: get_table_name(), $subcondition);
 
 		return $this->delete(DynamicFormElementValue :: get_table_name(), $subselect);
     }

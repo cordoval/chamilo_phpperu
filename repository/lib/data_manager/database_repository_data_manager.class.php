@@ -465,35 +465,35 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_attached_content_objects($object)
     {
         $subselect_condition = new EqualityCondition('content_object_id', $object->get_id());
-        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'attachment_id', $this->escape_table_name('content_object_attachment'), $subselect_condition, $this->get_alias(ContentObject :: get_table_name()));
+        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'attachment_id', 'content_object_attachment', $subselect_condition, ContentObject :: get_table_name());
         return $this->retrieve_content_objects($condition)->as_array();
     }
 
 	function count_objects_to_which_object_is_attached($object)
     {
     	$subselect_condition = new EqualityCondition('attachment_id', $object->get_id());
-        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', $this->escape_table_name('content_object_attachment'), $subselect_condition, $this->get_alias(ContentObject :: get_table_name()));
+        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', 'content_object_attachment', $subselect_condition, ContentObject :: get_table_name());
         return $this->count_content_objects($condition);
     }
 
     function retrieve_objects_to_which_object_is_attached($object)
     {
     	$subselect_condition = new EqualityCondition('attachment_id', $object->get_id());
-        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', $this->escape_table_name('content_object_attachment'), $subselect_condition, $this->get_alias(ContentObject :: get_table_name()));
+        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', 'content_object_attachment', $subselect_condition, ContentObject :: get_table_name());
         return $this->retrieve_content_objects($condition);
     }
 
 	function count_objects_in_which_object_is_included($object)
     {
     	$subselect_condition = new EqualityCondition('include_id', $object->get_id());
-        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', $this->escape_table_name('content_object_include'), $subselect_condition, $this->get_alias(ContentObject :: get_table_name()));
+        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', 'content_object_include', $subselect_condition, ContentObject :: get_table_name());
         return $this->count_content_objects($condition);
     }
 
  	function retrieve_objects_in_which_object_is_included($object)
     {
     	$subselect_condition = new EqualityCondition('include_id', $object->get_id());
-        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', $this->escape_table_name('content_object_include'), $subselect_condition, $this->get_alias(ContentObject :: get_table_name()));
+        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', 'content_object_include', $subselect_condition, ContentObject :: get_table_name());
         return $this->retrieve_content_objects($condition);
     }
 
@@ -501,7 +501,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_included_content_objects($object)
     {
         $subselect_condition = new EqualityCondition('content_object_id', $object->get_id());
-        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'include_id', $this->escape_table_name('content_object_include'), $subselect_condition, $this->get_alias(ContentObject :: get_table_name()));
+        $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'include_id', 'content_object_include', $subselect_condition, ContentObject :: get_table_name());
         //return $this->retrieve_content_objects($condition)->as_array();;
 
         return $this->retrieve_objects(ContentObject :: get_table_name(), $condition)->as_array();
@@ -1571,7 +1571,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     	foreach($assisting_types as $type)
     	{
     		$sub_condition = new EqualityCondition('reference_id', $object->get_id());
-    		$condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', $this->escape_table_name($type), $sub_condition, ContentObject :: get_table_name());
+    		$condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', $type, $sub_condition, ContentObject :: get_table_name());
     		$assisting_objects = $this->retrieve_content_objects($condition);
 
     		while($assisting_object = $assisting_objects->next_result())

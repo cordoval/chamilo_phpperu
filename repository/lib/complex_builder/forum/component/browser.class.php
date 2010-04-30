@@ -72,7 +72,7 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
         	$conditions = array();
 	        $conditions[] = $this->get_clo_table_condition();
 	        $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, ForumPost :: get_type_name());
-	        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'repository_content_object', $subcondition);
+	        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
 	        $condition = new AndCondition($conditions);
 	        
 	        $html[] = '<h3>' . Translation :: get('Posts') . '</h3>';
@@ -84,7 +84,7 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 	        $conditions = array();
 	        $conditions[] = $this->get_clo_table_condition();
 	        $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Forum :: get_type_name());
-	        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'repository_content_object', $subcondition);
+	        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
 	        $condition = new AndCondition($conditions);
 	        
 	        $html[] = '<h3>' . Translation :: get('Forums') . '</h3>';
@@ -94,7 +94,7 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 	        $conditions = array();
 	        $conditions[] = $this->get_clo_table_condition();
 	        $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, ForumTopic :: get_type_name());
-	        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'repository_content_object', $subcondition);
+	        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
 	        $condition = new AndCondition($conditions);
 	        
 	        $html[] = '<br /><h3>' . Translation :: get('ForumTopics') . '</h3>';

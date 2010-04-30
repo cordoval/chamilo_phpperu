@@ -93,17 +93,17 @@ class VariableTranslationSearchForm extends FormValidator
         	{
         		$subcondition1 = new EqualityCondition(LanguagePack :: PROPERTY_BRANCH, $branch);
         		$subconditions[] = new SubselectCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, LanguagePack :: PROPERTY_ID, 
-        						'cda_' . LanguagePack :: get_table_name(), $subcondition1);
+        						LanguagePack :: get_table_name(), $subcondition1);
         		$subconditions[] = new PatternMatchCondition(Variable :: PROPERTY_VARIABLE, '*' . $search_parameters[Variable :: PROPERTY_VARIABLE] . '*');
         		$subcondition = new AndCondition($subconditions);
         		$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 
-        						'cda_' . Variable :: get_table_name(), $subcondition);
+        						Variable :: get_table_name(), $subcondition);
         	}
         	else
         	{
         		$subcondition = new PatternMatchCondition(Variable :: PROPERTY_VARIABLE, '*' . $search_parameters[Variable :: PROPERTY_VARIABLE] . '*');
         		$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 
-        						'cda_' . Variable :: get_table_name(), $subcondition);
+        						Variable :: get_table_name(), $subcondition);
         	}
         	
         	return new AndCondition($conditions);

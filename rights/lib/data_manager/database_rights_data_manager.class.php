@@ -417,8 +417,8 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     function delete_orphaned_rights_template_right_locations()
     {
         $conditions = array();
-        $conditions[] = new NotCondition(new SubselectCondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->escape_table_name(Location :: get_table_name())));
-        $conditions[] = new NotCondition(new SubselectCondition(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID, RightsTemplate :: PROPERTY_ID, $this->escape_table_name(RightsTemplate :: get_table_name())));
+        $conditions[] = new NotCondition(new SubselectCondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, Location :: get_table_name()));
+        $conditions[] = new NotCondition(new SubselectCondition(RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID, RightsTemplate :: PROPERTY_ID, RightsTemplate :: get_table_name()));
         $condition = new OrCondition($conditions);
 
         return $this->delete_objects(RightsTemplateRightLocation :: get_table_name(), $condition);
@@ -427,7 +427,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     function retrieve_shared_content_objects_for_user($user_id, $rights)
     {
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
-        $conditions[] = new SubSelectcondition(UserRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->escape_table_name(Location :: get_table_name()), $subcondition);
+        $conditions[] = new SubSelectcondition(UserRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, Location :: get_table_name(), $subcondition);
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user_id);
         $conditions[] = new InCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $rights);
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_VALUE, 1);
@@ -439,7 +439,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     function retrieve_shared_content_objects_for_groups($group_ids, $rights)
     {
         $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
-        $conditions[] = new SubSelectcondition(GroupRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, $this->escape_table_name(Location :: get_table_name()), $subcondition);
+        $conditions[] = new SubSelectcondition(GroupRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, Location :: get_table_name(), $subcondition);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group_ids);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_RIGHT_ID, $rights);
         $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_VALUE, 1);

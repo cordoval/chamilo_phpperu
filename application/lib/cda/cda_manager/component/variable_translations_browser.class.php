@@ -64,7 +64,7 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManager
         	$conditions[] = $condition;
 		
 		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack_id);
-		$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
+		$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, Variable :: get_table_name(), $subcondition);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		
 		$query = $this->action_bar->get_query();
@@ -73,7 +73,7 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManager
     	{
     		$or_conditions[] = new PatternMatchCondition(VariableTranslation :: PROPERTY_TRANSLATION, '*' . $query . '*');
     		$subcondition =  new PatternMatchCondition(Variable :: PROPERTY_VARIABLE, '*' . $query . '*');
-			$or_conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
+			$or_conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, Variable :: get_table_name(), $subcondition);
     		$conditions[] = new OrCondition($or_conditions);
     	}
 	
