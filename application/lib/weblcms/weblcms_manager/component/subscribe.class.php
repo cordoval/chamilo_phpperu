@@ -83,11 +83,17 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManager
             }
             else
             {
-                if ($this->get_course_subscription_url($course))
-                {
-                    $success = $this->subscribe_user_to_course($course, '5', '0', $this->get_user_id());
-                    $this->redirect(Translation :: get($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code));
-                }
+				$success = $this->subscribe_user_to_course($course, '5', '0', $this->get_user_id());
+				$params = null;
+				$filters = null;
+				if($course->get_access()) 
+					$params = array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code);
+				else
+				{
+					$params = array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME);
+					$filters = array(WeblcmsManager :: PARAM_COURSE);
+				}
+                $this->redirect(Translation :: get($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true),$params,$filters);
             }
         }
         

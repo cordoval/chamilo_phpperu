@@ -344,7 +344,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
                 $course = $wdm->retrieve_course($course->get_id());
                 $tools = $course->get_tools();
                 
-                if($course->get_access())
+                if($course->get_access() || $this->is_teacher($course, $this->get_user()))
                 	$html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_home.png);"><a style="top: -2px; position: relative;" href="' . $this->get_course_viewing_url($course) . '">' . $course->get_name() . '</a>';
 				else
 					$html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_lock.png);"><b style="top: -2px; position: relative;">' . $course->get_name() . '</b>';

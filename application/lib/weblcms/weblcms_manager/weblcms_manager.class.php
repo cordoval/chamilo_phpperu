@@ -1472,6 +1472,20 @@ class WeblcmsManager extends WebApplication
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->is_subscribed($course, $user_id);
 	}
+	
+	function is_teacher($course, $user)
+	{
+		if ($user != null && $course != null)
+		{
+			$relation = $this->retrieve_course_user_relation($course->get_id(), $user->get_id());
+			
+			if (($relation && $relation->get_status() == 1) || $user->is_platform_admin())
+				return true;
+
+		}
+
+		return false;
+	}
 
 	/**
 	 * Subscribe a user to a course.
