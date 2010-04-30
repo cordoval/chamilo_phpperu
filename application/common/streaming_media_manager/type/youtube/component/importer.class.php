@@ -22,7 +22,6 @@ class YoutubeStreamingMediaManagerImporterComponent extends YoutubeStreamingMedi
         	$parameters = $this->get_parameters();
 	        $parameters [Application::PARAM_ACTION] = RepositoryManager::ACTION_BROWSE_CONTENT_OBJECTS;
 	        $this->redirect(Translation :: get('ImportSuccesfull'), false, $parameters, array(StreamingMediaManager::PARAM_TYPE, StreamingMediaManager::PARAM_STREAMING_MEDIA_MANAGER_ACTION));
-//        	Redirect :: link(RepositoryManager::APPLICATION_NAME, array(RepositoryManager:: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $youtube->get_id(), RepositoryManager :: PARAM_CATEGORY_ID => $youtube->get_parent_id()));
         }
         else 
         {

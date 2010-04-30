@@ -740,4 +740,6 @@ $lang['repository']['MostDiscussed'] = 'Most discussed';
 $lang['repository']['TopFavorites'] = 'Top favorites';
 $lang['repository']['MostResponded'] = 'Most responded';
 $lang['repository']['MostRecent'] = 'Most recent';
+$lang['repository']['StreamingMediaManager'] = 'Streaming media manager';
+$lang['repository']['Youtube'] = 'Youtube';
 ?>
