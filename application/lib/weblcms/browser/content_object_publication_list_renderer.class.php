@@ -288,6 +288,17 @@ abstract class ContentObjectPublicationListRenderer
         $feedback_link = '<a href="' . $feedback_url . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt=""/></a>';
         return $feedback_link;
     }
+    
+    function render_evaluation_action($publication)
+    {
+        require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        if(EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
+        {
+	    	$evaluation_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION), array(), true);
+	    	$evaluation_link = '<a href="' . $evaluation_url . '"><img src="' . Theme :: get_common_image_path() . 'action_evaluation.png" alt=""/></a>';
+	    	return $evaluation_link;
+        }
+    }
 
     /**
      * Renders the means to move the given publication to another category.
@@ -398,7 +409,10 @@ abstract class ContentObjectPublicationListRenderer
         }
 
         $icons[] = $this->render_feedback_action($publication);
-
+        
+        if (WebApplication :: is_active('gradebook'))
+			$icons[] = $this->render_evaluation_action($publication);
+			
         //dump($icons);
         $html[] = implode('&nbsp;', $icons);
         $html[] = '</span>';
