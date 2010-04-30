@@ -11,6 +11,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	private $ab;
 	private $content_object_ids = array();
 	private $application;
+	
 	private $applications;
 	private $table;
 	private $menu;
@@ -25,6 +26,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 //		echo $this->ab->as_html();
 		//$applications = array_merge($this->retrieve_applications_with_evaluations(), $this->retrieve_calculated_applications_with_evaluation());
 		$this->applications = $this->retrieve_filtered_array_internal_evaluated_publication($this->get_user_id());
+		//$this->applications = $this->retrieve_filtered_array_internal_my_evaluations($this->get_user_id());
 		$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		if($this->application)
 		{	
