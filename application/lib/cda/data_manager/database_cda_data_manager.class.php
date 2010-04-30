@@ -192,7 +192,7 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
         if (! is_numeric($language_id))
         {
             $subcondition = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, $language_id);
-            $conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, CdaLanguage :: PROPERTY_ID, 'cda_' . CdaLanguage :: get_table_name(), $subcondition);
+            $conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, CdaLanguage :: PROPERTY_ID, CdaLanguage :: get_table_name(), $subcondition);
         }
         else
         {
@@ -222,7 +222,7 @@ class DatabaseCdaDataManager extends Database implements CdaDataManagerInterface
     {
         $conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, $variable_id);
         $subcondition = new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, 'english');
-        $conditions[] = new SubSelectcondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, CdaLanguage :: PROPERTY_ID, 'cda_' . CdaLanguage :: get_table_name(), $subcondition);
+        $conditions[] = new SubSelectcondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, CdaLanguage :: PROPERTY_ID, CdaLanguage :: get_table_name(), $subcondition);
         $condition = new AndCondition($conditions);
 
         return $this->retrieve_object(VariableTranslation :: get_table_name(), $condition);

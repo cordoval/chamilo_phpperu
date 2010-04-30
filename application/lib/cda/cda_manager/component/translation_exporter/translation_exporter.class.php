@@ -143,7 +143,7 @@ abstract class TranslationExporter
     {
     	$subselect_condition =  new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack->get_id());
     	$conditions[] = new SubSelectcondition(VariableTranslation :: PROPERTY_VARIABLE_ID, 
-    					Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subselect_condition);
+    					Variable :: PROPERTY_ID, Variable :: get_table_name(), $subselect_condition);
     	$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language->get_id());
     	$condition = new AndCondition($conditions);
     	

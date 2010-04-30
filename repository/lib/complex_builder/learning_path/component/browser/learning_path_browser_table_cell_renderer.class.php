@@ -23,7 +23,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
         }
         
         $subselect_condition = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, LearningPath :: get_type_name()));
-        $count_conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'repository_content_object', $subselect_condition);
+        $count_conditions[] = new SubselectCondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subselect_condition);
         $count_condition = new AndCondition($count_conditions);
         
     	$this->count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($count_condition);
