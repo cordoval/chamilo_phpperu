@@ -112,6 +112,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_DELETE_TEMPLATE = 'delete_template';
     const ACTION_DELETE_LINK = 'delete_link';
     const ACTION_VIEW_DOUBLES = 'view_doubles';
+    const ACTION_STREAMING_MEDIA_MANAGER = 'streaming';
    
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
@@ -308,6 +309,9 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_VIEW_DOUBLES:
             	$component = $this->create_component('DoublesViewer');
                 break;
+            case self :: ACTION_STREAMING_MEDIA_MANAGER:
+            	$component = $this->create_component('Streaming');
+            	break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_CONTENT_OBJECTS);
                 $component = $this->create_component('Browser');
@@ -1044,16 +1048,42 @@ class RepositoryManager extends CoreApplication
             {
                 $external_repository = array();
                 $external_repository['title'] = (count($external_repositories) > 1) ? Translation :: get('ExternalRepositories') : Translation :: get('ExternalRepository');
-                $external_repository['url']   = $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE));
+                $external_repository['url']   = $this->get_url(array(Application::PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_BROWSE));
                 $external_repository['class'] = 'external_repository';
             }
 
+        	$streaming_media_managers = StreamingMediaManager :: retrieve_streaming_media_manager();
+        	
+            if (count($streaming_media_managers) > 0)
+            {
+                $streaming_item = array();
+                $streaming_item['title'] = (count($streaming_media_managers) > 1) ? Translation :: get('StreamingMediaManagers') : Translation :: get('StreamingMediaManager');
+                $streaming_item['url']   = '#'/*$this->get_url(array(Application::PARAM_ACTION => self :: ACTION_STREAMING_MEDIA_MANAGER))*/;
+                $streaming_item['class'] = 'streaming';
+                $streaming_sub_items = array();
+                
+            	foreach($streaming_media_managers as $streaming_media_manager){
+            		$streaming_sub_item = array();
+            		$streaming_sub_item['title'] = Translation :: get(Utilities:: underscores_to_camelcase($streaming_media_manager));
+                	$streaming_sub_item['url']   = $this->get_url(array(Application::PARAM_ACTION => self :: ACTION_STREAMING_MEDIA_MANAGER, StreamingMediaManager::PARAM_TYPE => $streaming_media_manager));
+                	$streaming_sub_item['class'] = $streaming_media_manager;
+                	$streaming_sub_items[] = $streaming_sub_item;
+            	
+                }
+                $streaming_item['sub'] = $streaming_sub_items;
+            }
+            
             $extra_items[] = $shared;
             $extra_items[] = $pub;
 
             if(isset($external_repository))
             {
                 $extra_items[] = $external_repository;
+            }
+            
+        	if(isset($streaming_item))
+            {
+                $extra_items[] = $streaming_item;
             }
 
             $extra_items[] = $line;
