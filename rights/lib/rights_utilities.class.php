@@ -549,7 +549,7 @@ class RightsUtilities
     {
         if (isset($user) && isset($right) && isset($location) && isset($value))
         {
-        	echo 'start<br />';
+        	//echo 'start<br />';
             $rdm = RightsDataManager :: get_instance();
             $user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
 

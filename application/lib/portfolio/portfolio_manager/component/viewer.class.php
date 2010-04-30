@@ -232,11 +232,14 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         
         if ($this->selected_object)
         {
+            //display information on the portfolio publication
             $display = ContentObjectDisplay :: factory($this->selected_object);
             $html[] = $display->get_full_html();
         }
         else
         {
+            //display information on the 'root'
+            //TODO: Add Date last changed + more information
             $html[] = Translation :: get('PortfolioIntroduction');
         }
         
@@ -325,7 +328,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
         if ($form->validate())
         {
-            $success = $form->update_portfolio_publication();
+            $success = $form->update_portfolio_publication($type);
             $this->redirect($success ? Translation :: get('PortfolioPropertiesUpdated') : Translation :: get('PortfolioPropertiesNotUpdated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid));
         }
         else

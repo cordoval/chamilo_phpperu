@@ -4,6 +4,7 @@
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_data_manager.class.php';
+require_once dirname(__FILE__) . '/../portfolio_publication.class.php';
 
 /**
  * A portfolio manager
@@ -228,9 +229,9 @@ class PortfolioManager extends WebApplication
         $publication->set_content_object($content_object->get_id());
         $publication->set_publisher(Session :: get_user_id());
         $publication->set_published(time());
-        $publication->set_hidden(0);
-        $publication->set_from_date(0);
-        $publication->set_to_date(0);
+//        $publication->set_hidden(0);
+//        $publication->set_from_date(0);
+//        $publication->set_to_date(0);
         $publication->create();
         return Translation :: get('PublicationCreated');
     }
