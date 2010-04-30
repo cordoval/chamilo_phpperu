@@ -10,7 +10,7 @@ class GradebookPublicationBrowserTable extends ObjectTable
 	/**
 	 * Constructor
 	 */
-	function GradebookPublicationBrowserTable($browser)
+	function GradebookPublicationBrowserTable($browser, $parameters)
 	{
 		$model = new GradebookPublicationBrowserTableColumnModel($browser);
 		$renderer = new GradebookPublicationBrowserTableCellRenderer($browser);

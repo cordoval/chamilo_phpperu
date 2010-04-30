@@ -95,6 +95,11 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
 	}
+	function retrieve_internal_item_by_internal_item_instance($internal_item_instance_id)
+	{
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_ID, $internal_item_instance_id);
+		return $this->database->retrieve_object(InternalItem :: get_table_name(), $condition);
+	}
 	
 	function delete_internal_item($internal_item)
 	{

@@ -13,7 +13,7 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('WhoisOnline')));
         $trail->add_help('common whoisonline');
 
@@ -31,13 +31,13 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
             {
                 $output = $this->get_table_html();
             }
-            $this->display_header($trail);
+            $this->display_header();
             echo $output;
             $this->display_footer();
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message('NotAllowed');
             $this->display_footer();
         }

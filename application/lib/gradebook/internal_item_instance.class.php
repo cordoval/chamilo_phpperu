@@ -29,7 +29,7 @@ class InternalItemInstance extends DataClass
     
     function get_internal_item_id()
     {
-    	$this->get_default_property(self :: PROPERTY_INTERNAL_ITEM_ID);
+    	return $this->get_default_property(self :: PROPERTY_INTERNAL_ITEM_ID);
     }
     
     function set_internal_item_id($internal_item_id)
@@ -39,7 +39,7 @@ class InternalItemInstance extends DataClass
     
     function get_evaluation_id()
     {
-    	$this->get_default_property(self :: PROPERTY_EVALUATION_ID);
+    	return $this->get_default_property(self :: PROPERTY_EVALUATION_ID);
     }
     
     function set_evaluation_id($evaluation_id)

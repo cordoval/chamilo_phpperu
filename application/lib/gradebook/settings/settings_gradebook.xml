@@ -39,9 +39,9 @@
 					<option name="allow_evaluate_forum" value="1" />
 				</options>
 			</setting>
-			<setting name="allow_evaluate_location" field="checkbox" default="0">
+			<setting name="allow_evaluate_geolocation" field="checkbox" default="0">
 				<options type="static">
-					<option name="allow_evaluate_location" value="1" />
+					<option name="allow_evaluate_geolocation" value="1" />
 				</options>
 			</setting>
 			<setting name="allow_evaluate_glossary" field="checkbox" default="0">

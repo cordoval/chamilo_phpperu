@@ -18,7 +18,7 @@ class HomeManagerDeleterComponent extends HomeManager
         
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
         $type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeDeleter')));
@@ -26,7 +26,7 @@ class HomeManagerDeleterComponent extends HomeManager
         
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();

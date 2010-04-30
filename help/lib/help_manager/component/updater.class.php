@@ -12,7 +12,7 @@ class HelpManagerUpdaterComponent extends HelpManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => HelpManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Help')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)), Translation :: get('HelpItemList')));
@@ -26,7 +26,7 @@ class HelpManagerUpdaterComponent extends HelpManager
             
             if (! $this->get_user()->is_platform_admin())
             {
-                $this->display_header($trail);
+                $this->display_header();
                 Display :: error_message(Translation :: get("NotAllowed"));
                 $this->display_footer();
                 exit();
@@ -42,7 +42,7 @@ class HelpManagerUpdaterComponent extends HelpManager
             }
             else
             {
-                $this->display_header($trail);
+                $this->display_header();
                 echo '<h4>' . Translation :: get('UpdateItem') . ': ' . $help_item->get_name() . '</h4>';
                 $form->display();
                 $this->display_footer();
