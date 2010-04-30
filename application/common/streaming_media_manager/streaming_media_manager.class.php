@@ -12,6 +12,7 @@ abstract class StreamingMediaManager extends SubManager
 	const ACTION_SELECT_STREAMING_MEDIA = 'select';
 	
 	const PARAM_STREAMING_MEDIA_ID = 'streaming_media_id';
+	const PARAM_TYPE = 'type';
 	const PARAM_QUERY = 'query';
 	const CLASS_NAME = __CLASS__;
 	
@@ -24,6 +25,11 @@ abstract class StreamingMediaManager extends SubManager
         {
             $this->set_parameter(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION, $streaming_media_manager_action);
         }
+	}
+	
+	function is_stand_alone()
+	{
+		return is_a($this->get_parent(), LauncherApplication :: CLASS_NAME);
 	}
 	
 	static function factory($type, $application)
@@ -137,5 +143,14 @@ abstract class StreamingMediaManager extends SubManager
 	abstract function get_streaming_media_object_viewing_url($object);
 	
 	abstract function retrieve_streaming_media_object($id);
+	
+	static function retrieve_streaming_media_manager()
+	{
+		$manager = array();
+		$manager[] = Youtube::get_type_name();
+		return $manager;
+		
+	}
+	
 }
 ?>

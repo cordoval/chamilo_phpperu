@@ -11,7 +11,7 @@ class YoutubeForm extends ContentObjectForm
 
     protected function build_creation_form()
     {
-        $link = PATH :: get(WEB_PATH) . 'application/common/streaming_media_manager/index.php?' . StreamingMediaLauncher::PARAM_TYPE . '=' . Youtube::get_type_name();
+        $link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application::PARAM_APPLICATION . '=' . StreamingMediaLauncher::APPLICATION_NAME .'&'. StreamingMediaManager::PARAM_TYPE . '=' . Youtube::get_type_name();
     	parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\''. $link .'\');"> '. Translation :: get('BrowseStreamingVideo') .'</a>');
@@ -23,7 +23,7 @@ class YoutubeForm extends ContentObjectForm
 
     protected function build_editing_form()
     {
-        $link = PATH :: get(WEB_PATH) . 'application/common/streaming_media_manager/index.php?' . StreamingMediaLauncher::PARAM_TYPE . '=' . Youtube::get_type_name();
+        $link = PATH :: get(WEB_PATH) . 'application/common/streaming_media_manager/index.php?' . StreamingMediaManager::PARAM_TYPE . '=' . Youtube::get_type_name();
     	parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
 		$this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\''. $link .'\');"> '. Translation :: get('BrowseStreamingVideo') .'</a>');        $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));

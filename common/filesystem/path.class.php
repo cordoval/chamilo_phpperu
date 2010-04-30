@@ -38,6 +38,8 @@ define('SYS_APP_HOME_PATH', 'SYS_APP_HOME_PATH');
 define('SYS_APP_TRACKING_PATH', 'SYS_APP_TRACKING_PATH');
 define('SYS_APP_REPORTING_PATH', 'SYS_APP_REPORTING_PATH');
 define('SYS_APP_WEBSERVICE_PATH', 'SYS_APP_WEBSERVICE_PATH');
+define('SYS_LAUNCH_APP_PATH', 'SYS_LAUNCH_APP_PATH');
+define('WEB_LAUNCH_APP_PATH', 'WEB_LAUNCH_APP_PATH');
 
 // Files-paths
 define('WEB_ARCHIVE_PATH', 'WEB_ARCHIVE_PATH');
@@ -135,7 +137,11 @@ class Path
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'reporting/';
             case SYS_APP_WEBSERVICE_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_PATH) . 'webservice/';
-
+			case SYS_LAUNCH_APP_PATH :
+                return self :: $path[$path_type] = self :: get_library_path() . 'launcher/';
+			case WEB_LAUNCH_APP_PATH :
+				return self :: $path[$path_type] = self :: get(WEB_LIB_PATH) . 'launcher/';
+                
             // Application-paths
             case SYS_APP_LIB_PATH :
                 return self :: $path[$path_type] = self :: get(SYS_APP_PATH) . 'common/';
@@ -256,6 +262,17 @@ class Path
     {
         return self :: get(SYS_APP_PATH);
     }
+    
+    public static function get_launcher_application_path($web = false)
+    {
+    	if ($web)
+    	{
+    		return self :: get(WEB_LAUNCH_APP_PATH);
+    	}
+    	return self :: get(SYS_LAUNCH_APP_PATH);
+    }
+    
+    
 
     public static function get_reporting_path()
     {
