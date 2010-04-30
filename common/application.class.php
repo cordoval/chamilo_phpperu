@@ -193,8 +193,11 @@ abstract class Application
     {
         if (is_null($breadcrumbtrail))
         {
-            $breadcrumbtrail = new BreadcrumbTrail();
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
+            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
+            if($breadcrumbtrail->size() == 1)
+            {
+            	$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
+            }
         }
 
         $categories = $this->get_breadcrumbs();

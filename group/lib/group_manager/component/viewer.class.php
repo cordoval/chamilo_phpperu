@@ -15,7 +15,7 @@ class GroupManagerViewerComponent extends GroupManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
 
         $id = Request :: get(GroupManager :: PARAM_GROUP_ID);
         if ($id)
@@ -37,7 +37,7 @@ class GroupManagerViewerComponent extends GroupManager
             $trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), $group->get_name()));
             $trail->add_help('group general');
 
-            $this->display_header($trail);
+            $this->display_header();
             $this->ab = $this->get_action_bar();
             echo $this->ab->as_html() . '<br />';
 
