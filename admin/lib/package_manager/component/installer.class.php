@@ -14,7 +14,7 @@ class PackageManagerInstallerComponent extends PackageManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdministration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
         $trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManager')));
@@ -29,7 +29,7 @@ class PackageManagerInstallerComponent extends PackageManager
         
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -38,7 +38,7 @@ class PackageManagerInstallerComponent extends PackageManager
         $installer = new PackageInstaller();
         $installer->run();
         
-        $this->display_header($trail);
+        $this->display_header();
         echo $installer->retrieve_result();
         $this->display_footer();
     }

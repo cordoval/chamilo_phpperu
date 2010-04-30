@@ -105,11 +105,11 @@ class AdminManager extends CoreApplication
      * @param boolean $display_search Should the header include a search form or
      * not?
      */
-    function display_header($breadcrumbtrail = array (), $display_search = false, $helpitem)
+    function display_header($breadcrumbtrail = null, $display_search = false, $helpitem)
     {
         if (is_null($breadcrumbtrail))
         {
-            $breadcrumbtrail = new BreadcrumbTrail();
+            $breadcrumbtrail = BreadcrumbTrail :: get_instance();;
         }
         
         $title = $breadcrumbtrail->get_last()->get_name();

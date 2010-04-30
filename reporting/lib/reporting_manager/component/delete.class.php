@@ -17,14 +17,14 @@ class ReportingManagerDeleteComponent extends ReportingManager
     function run()
     {
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb($this->get_url(array(Translation :: get('Reporting')))));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteTemplate')));
         $trail->add_help('reporting general');
 
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -33,7 +33,7 @@ class ReportingManagerDeleteComponent extends ReportingManager
         $this->action_bar = $this->get_action_bar();
         $output = $this->get_user_html();
 
-        $this->display_header($trail);
+        $this->display_header();
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo $output;
         $this->display_footer();

@@ -20,7 +20,7 @@ class ReportingManagerBrowserComponent extends ReportingManager
         if (! $application)
             $application = $this->application = 'admin';
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => ReportingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Reporting')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
@@ -29,7 +29,7 @@ class ReportingManagerBrowserComponent extends ReportingManager
 
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -39,7 +39,7 @@ class ReportingManagerBrowserComponent extends ReportingManager
         //$output = $this->get_template_html();
 
 
-        $this->display_header($trail);
+        $this->display_header();
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo '<div id="applications" class="applications">';
         echo $this->get_applications();

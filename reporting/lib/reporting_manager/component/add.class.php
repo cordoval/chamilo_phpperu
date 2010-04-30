@@ -17,7 +17,7 @@ class ReportingManagerAddComponent extends ReportingManager
     function run()
     {
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => ReportingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Reporting')));
         $trail->add(new Breadcrumb($this->get_url(array(Translation :: get('Reporting')))));
@@ -26,7 +26,7 @@ class ReportingManagerAddComponent extends ReportingManager
 
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -35,7 +35,7 @@ class ReportingManagerAddComponent extends ReportingManager
         $this->action_bar = $this->get_action_bar();
         $output = $this->get_user_html();
 
-        $this->display_header($trail);
+        $this->display_header();
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo $output;
         $this->display_footer();

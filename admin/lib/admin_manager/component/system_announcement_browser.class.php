@@ -13,7 +13,7 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdministration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SystemAnnouncements')));
@@ -30,7 +30,7 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager
         $publications_table = $this->get_publications_html();
         $toolbar = $this->get_action_bar();
         
-        $this->display_header($trail);
+        $this->display_header();
         
         echo $toolbar->as_html();
         echo '<div id="action_bar_browser">';
