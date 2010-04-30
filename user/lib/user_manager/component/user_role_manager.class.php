@@ -12,7 +12,7 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
@@ -21,7 +21,7 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager
         $user_id = Request :: get(UserManager :: PARAM_USER_USER_ID);
         if (! $user_id)
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message('NoObjectSelected');
             $this->display_footer();
             exit();
@@ -41,7 +41,7 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             
             echo sprintf(Translation :: get('ModifyRightsTemplatesForUser'), $user->get_fullname());
             

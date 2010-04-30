@@ -18,7 +18,7 @@ class UserManagerResetPasswordComponent extends UserManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('LostPassword')));
         $trail->add_help('user general');
 
@@ -31,12 +31,12 @@ class UserManagerResetPasswordComponent extends UserManager
         }
         if (isset($user_id))
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: warning_message(Translation :: get('AlreadyRegistered'));
             $this->display_footer();
             exit();
         }
-        $this->display_header($trail);
+        $this->display_header();
         $request_key = Request :: get(self :: PARAM_RESET_KEY);
         $request_user_id = Request :: get(User :: PROPERTY_ID);
         if (! is_null($request_key) && ! is_null($request_user_id))

@@ -14,7 +14,7 @@ class UserManagerAccountComponent extends UserManager
     {
         Header :: set_section('my_account');
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAccount')));
         $trail->add_help('user general');
 
@@ -29,7 +29,7 @@ class UserManagerAccountComponent extends UserManager
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
 
             $actions = array();
             $actions[] = 'account';

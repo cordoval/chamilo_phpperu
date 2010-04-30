@@ -16,7 +16,7 @@ class UserManagerAdminUserBrowserComponent extends UserManager
     function run()
     {
         $this->firstletter = Request :: get(UserManager :: PARAM_FIRSTLETTER);
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserList')));
@@ -24,7 +24,7 @@ class UserManagerAdminUserBrowserComponent extends UserManager
 
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -33,7 +33,7 @@ class UserManagerAdminUserBrowserComponent extends UserManager
         $this->ab = $this->get_action_bar();
         $output = $this->get_user_html();
 
-        $this->display_header($trail);
+        $this->display_header();
 
         echo $this->ab->as_html() . '<br />';
         //echo $menu;

@@ -12,7 +12,7 @@ class UserManagerRegisterComponent extends UserManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
         if ($this->get_platform_setting('allow_registration', 'admin') == false)
         {
@@ -26,7 +26,7 @@ class UserManagerRegisterComponent extends UserManager
         
         if (isset($user))
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: warning_message(Translation :: get('AlreadyRegistered'));
             $this->display_footer();
             exit();
@@ -58,14 +58,14 @@ class UserManagerRegisterComponent extends UserManager
             else
             {
                 Request :: set_get('error_message', Translation :: get('UsernameNotAvailable'));
-                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }

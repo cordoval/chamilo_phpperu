@@ -15,7 +15,7 @@ class UserManagerUserSettingsComponent extends UserManager
 	{
 		Header :: set_section('my_account');
 
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAccount')));
 
 		$application = Request :: get(self :: PARAM_APPLICATION);
@@ -35,7 +35,7 @@ class UserManagerUserSettingsComponent extends UserManager
         }
         else
         {
-			$this->display_header($trail);
+			$this->display_header();
 
 			if(!$application)
 			{
@@ -52,7 +52,7 @@ class UserManagerUserSettingsComponent extends UserManager
 
 	function display_header($trail)
 	{
-		parent :: display_header($trail);
+		parent :: display_header();
 
 		$actions[] = 'account';
 		$actions[] = 'user_settings';
