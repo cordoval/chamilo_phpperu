@@ -21,7 +21,7 @@ class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManager
             Header :: set_section('admin');
         }   
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
          if ($this->get_user()->is_platform_admin())
          {
@@ -36,7 +36,7 @@ class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManager
         
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: warning_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -62,7 +62,7 @@ class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManager
             $this->redirect(Translation :: get($success_request ? 'RequestUpdated' : 'RequestNotUpdated'), ($success_request ? false : true), $array_type);	}
 		else
 		{
-			$this->display_header($trail, false, true);
+			$this->display_header();
 			$form->display();
 			
 		}

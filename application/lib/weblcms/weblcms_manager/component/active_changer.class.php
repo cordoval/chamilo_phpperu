@@ -20,9 +20,9 @@ class WeblcmsManagerActiveChangerComponent extends WeblcmsManager
         
 	    if (! $this->get_user()->is_platform_admin())
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('course_type_active_changer');
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("Not allowed"));
             $this->display_footer();
             exit();

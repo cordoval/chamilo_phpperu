@@ -24,7 +24,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
         
         $this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_APPLICATION => 'weblcms')), Translation :: get('MyCourses')));
         if ($this->get_user()->is_platform_admin())
         {
@@ -58,7 +58,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
         $menu = $this->get_menu_html();
         $output = $this->get_course_html();
         
-        $this->display_header($trail, false, true);
+        $this->display_header();
         echo '<div class="clear"></div>';
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo $menu;

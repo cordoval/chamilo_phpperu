@@ -24,11 +24,11 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
      */
     function run()
     {   	
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyCourses')));
         $trail->add_help('courses general');
                
-        $this->display_header($trail, false, true);
+        $this->display_header();
         echo '<div class="clear"></div>';  
              
         echo $this->display_menu();
