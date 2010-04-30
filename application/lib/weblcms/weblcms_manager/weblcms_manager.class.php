@@ -546,12 +546,16 @@ class WeblcmsManager extends WebApplication
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbtrail, $display_search = false, $display_title = true)
+	function display_header($breadcrumbtrail = null, $display_search = false, $display_title = true)
 	{
 		if (is_null($breadcrumbtrail))
-		{
-			$breadcrumbtrail = new BreadcrumbTrail();
-		}
+        {
+            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
+            if($breadcrumbtrail->size() == 1)
+            {
+            	$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
+            }
+        }
 
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$course = $this->get_parameter(self :: PARAM_COURSE);

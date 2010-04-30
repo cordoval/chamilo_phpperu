@@ -21,6 +21,7 @@ class PeerAssessmentPublication extends DataClass
     const PROPERTY_PUBLISHED = 'published';
     const PROPERTY_MODIFIED = 'modified';
     const PROPERTY_DISPLAY_ORDER = 'display_order';
+    const PROPERTY_CRITERIA_CONTENT_OBJECT_ID = 'criteria_content_object_id';
     
     private $target_users;
     private $target_groups;
@@ -231,6 +232,25 @@ class PeerAssessmentPublication extends DataClass
     function set_display_order($display_order)
     {
         $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
+    }
+    
+
+	/**
+     * Returns the criteria_content_object_id of this PeerAssessmentPublication.
+     * @return the criteria_content_object_id.
+     */
+    function get_criteria_content_object_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_CRITERIA_CONTENT_OBJECT_ID);
+    }
+
+    /**
+     * Sets the criteria_content_object_id of this PeerAssessmentPublication.
+     * @param criteria_content_object_id
+     */
+    function set_criteria_content_object_id($criteria_content_object_id)
+    {
+        $this->set_default_property(self :: PROPERTY_CRITERIA_CONTENT_OBJECT_ID, $criteria_content_object_id);
     }
     
     /**

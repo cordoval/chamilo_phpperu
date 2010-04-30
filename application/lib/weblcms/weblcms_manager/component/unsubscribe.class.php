@@ -93,7 +93,7 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManager
             }
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseUnsubscribe')));
         $trail->add_help('courses unsubscribe');
@@ -105,7 +105,7 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManager
         
         $output = $this->get_course_html();
         
-        $this->display_header($trail, false, true);
+        $this->display_header();
         echo '<div class="clear"></div><br />';
         echo $menu;
         echo $output;

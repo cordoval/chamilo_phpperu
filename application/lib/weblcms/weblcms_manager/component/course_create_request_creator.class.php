@@ -19,7 +19,7 @@ class WeblcmsManagerCourseCreateRequestCreatorComponent extends WeblcmsManager
     	$course = $this->retrieve_course($course_code);
         $failures = 0;
                 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
         $trail->add_help('course create request');
@@ -37,7 +37,7 @@ class WeblcmsManagerCourseCreateRequestCreatorComponent extends WeblcmsManager
         else
         {
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('RequestForm')));
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }   

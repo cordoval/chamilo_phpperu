@@ -17,7 +17,7 @@ class WeblcmsManagerActivityChangerComponent extends WeblcmsManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('course_type general');
         
         $type = Request :: get(WeblcmsManager :: PARAM_TYPE);
@@ -25,7 +25,7 @@ class WeblcmsManagerActivityChangerComponent extends WeblcmsManager
         
         if (! $this->get_user() || ! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("Not allowed"));
             $this->display_footer();
             exit();
@@ -39,7 +39,7 @@ class WeblcmsManagerActivityChangerComponent extends WeblcmsManager
         
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get("NoCourseTypeSelected"));
             $this->display_footer();
         }

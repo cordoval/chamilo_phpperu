@@ -16,7 +16,7 @@ class WeblcmsManagerReportingComponent extends WeblcmsManager
         
         $params[ReportingManager::PARAM_TEMPLATE_ID] = $template;
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
         if ($this->get_user()->is_platform_admin())
         {

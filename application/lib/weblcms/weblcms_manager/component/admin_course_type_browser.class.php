@@ -20,7 +20,7 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManager
     {
         Header :: set_section('admin');
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         if ($this->get_user()->is_platform_admin())
         {
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
@@ -33,13 +33,13 @@ class WeblcmsManagerAdminCourseTypeBrowserComponent extends WeblcmsManager
               
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail, false, true);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
         }
         
-        $this->display_header($trail, false, true);
+        $this->display_header();
         $this->action_bar = $this->get_action_bar();
         echo $this->get_course_type_html();
         $this->display_footer();
