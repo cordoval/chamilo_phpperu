@@ -172,10 +172,34 @@ class YoutubeStreamingMediaConnector
                 return $this->youtube->getuserUploads('default', $query->getQueryUrl(2));
                 break;
             case YoutubeStreamingMediaManager:: FEED_STANDARD_TYPE : 
-            	
+            	$identifier = Request :: get(YoutubeStreamingMediaManager::PARAM_FEED_IDENTIFIER);
+            	if (! $identifier || ! in_array($identifier, $this->get_standard_feeds()))
+            	{
+            		$identifier = 'most_viewed';
+            	}
+            	$new_query = $this->youtube->newVideoQuery('http://gdata.youtube.com/feeds/api/standardfeeds/' . $identifier);
+				$new_query->setOrderBy($query->getOrderBy());
+				$new_query->setVideoQuery($query->getVideoQuery());
+        		$new_query->setStartIndex($query->getStartIndex());
+        		$new_query->setMaxResults($query->getMaxResults());
+        		return @ $this->youtube->getVideoFeed($new_query->getQueryUrl(2));
             default :
                 return @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
         }
+    }
+    
+    function get_standard_feeds()
+    {
+    	$standard_feeds = array();
+    	$standard_feeds[] = 'most_viewed';
+    	$standard_feeds[] = 'top_rated';
+    	$standard_feeds[] = 'recently_featured';
+    	$standard_feeds[] = 'watch_on_mobile';
+    	$standard_feeds[] = 'most_discussed';
+    	$standard_feeds[] = 'top_favorite';
+    	$standard_feeds[] = 'most_responded';
+    	$standard_feeds[] = 'most_recent';
+    	return $standard_feeds;
     }
 
     function get_youtube_videos($condition, $order_property, $offset, $count)

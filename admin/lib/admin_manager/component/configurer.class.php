@@ -22,7 +22,7 @@ class AdminManagerConfigurerComponent extends AdminManager
             $application = $this->application = 'admin';
         }
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdministration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Settings')));
@@ -31,7 +31,7 @@ class AdminManagerConfigurerComponent extends AdminManager
 
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, AdminRights :: LOCATION_SETTINGS, 'admin_manager_component'))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -46,7 +46,7 @@ class AdminManagerConfigurerComponent extends AdminManager
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $application_url = $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_WEB_APPLICATION => Application :: PLACEHOLDER_APPLICATION));
             echo Application :: get_selecter($application_url, $this->application);
             $form->display();

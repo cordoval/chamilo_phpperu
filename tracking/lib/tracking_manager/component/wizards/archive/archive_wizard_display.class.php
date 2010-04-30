@@ -40,12 +40,12 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
         HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>' . Translation :: get('ThisFieldIsRequired') . '</small>');
         $current_page->accept($renderer);*/
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => TrackingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Tracking')));
         $trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)), Translation :: get('Archiver')));
         
-        $this->parent->display_header($trail, false);
+        $this->parent->display_header();
         
         echo '<div style="float: left; background-color:#EFEFEF; width: 17%; margin-right: 20px;padding: 15px; min-height: 400px;">';
         echo '<img src="layout/aqua/images/common/chamilo.png" alt="logo"/>';

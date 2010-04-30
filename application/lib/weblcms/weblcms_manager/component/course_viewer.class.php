@@ -25,7 +25,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{
+	{	
 		$this->load_rights();
 		
 		if ($this->is_teacher())
@@ -48,9 +48,17 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 			}
 		}
 		
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add_help('courses general');
-
+		
+		if(!$this->is_subscribed($this->get_course(), $this->get_user_id()) || (!$this->get_course()->get_access() && !$this->is_teacher()))
+		{
+			$this->display_header($trail, false, true, false);
+			Display :: error_message(Translation :: get("NotAllowedToView"));
+			$this->display_footer();
+			exit();
+		}
+		
 		if (! $this->is_course())
 		{
 			$this->display_header($trail, false, true, false);
@@ -63,6 +71,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 		{
 			if($this->is_teacher())
 				$this->redirect(Translation :: get('StudentViewNotAvailable'), true, array('studentview'=>0));
+
 			$this->display_header($trail, false, false, false);
 			Display :: error_message(Translation :: get("StudentViewNotAvailable"));
 			$this->display_footer();
@@ -165,7 +174,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 			}
 			else
 			{
-				$trail = new BreadcrumbTrail();
+				$trail = BreadcrumbTrail :: get_instance();
 				$this->set_parameter(Tool :: PARAM_PUBLICATION_ID, null);
 				$this->set_parameter('tool_action', null);
 				$this->set_parameter('course_group', null);
@@ -320,11 +329,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbtrail, $display_search = false, $display_title = true, $display_tools = true)
+	function display_header($breadcrumbtrail = null, $display_search = false, $display_title = true, $display_tools = true)
 	{
 		if (is_null($breadcrumbtrail))
 		{
-			$breadcrumbtrail = new BreadcrumbTrail();
+			$breadcrumbtrail = BreadcrumbTrail :: get_instance();
 		}
 
 		$tool_class = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
@@ -461,25 +470,14 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 
 	private $is_teacher;
 
-	private function is_teacher()
+	function is_teacher()
 	{
 		if (is_null($this->is_teacher))
 		{
 			$user = $this->get_user();
 			$course = $this->get_course();
 
-			if ($user != null && $course != null)
-			{
-				$relation = $this->retrieve_course_user_relation($course->get_id(), $user->get_id());
-
-				if (($relation && $relation->get_status() == 1) || $user->is_platform_admin())
-				{
-					$this->is_teacher = true;
-					return $this->is_teacher;
-				}
-			}
-
-			$this->is_teacher = false;
+			$this->is_teacher = parent::is_teacher($course,$user);
 		}
 
 		return $this->is_teacher;

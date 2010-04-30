@@ -12,7 +12,7 @@ class HomeManagerHomeComponent extends HomeManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->truncate();
         
         $output = $this->get_home_html();

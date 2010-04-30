@@ -17,7 +17,7 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => TrackingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Tracking')));
         $trail->add(new Breadcrumb($this->get_browser_url(), Translation :: get('EventsList')));
@@ -26,7 +26,7 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManager
         
         if (! $this->get_user() || ! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -44,7 +44,7 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManager
         $trackers = $this->retrieve_trackers_from_event($event_id);
         $trackertable = new SimpleTable($trackers, $cellrenderer, $actionhandler, "trackertable");
         
-        $this->display_header($trail);
+        $this->display_header();
         
         echo Translation :: get('You_are_viewing_trackers_for_event') . ': ' . $event->get_name() . '<br /><br />';
         

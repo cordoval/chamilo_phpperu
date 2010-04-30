@@ -19,7 +19,7 @@ class UserManagerUserApproverComponent extends UserManager
         $choice = Request :: get(self :: PARAM_CHOICE);
     	if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header(new BreadcrumbTrail());
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();

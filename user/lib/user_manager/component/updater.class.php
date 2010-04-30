@@ -13,7 +13,7 @@ class UserManagerUpdaterComponent extends UserManager
     function run()
     {
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
@@ -28,7 +28,7 @@ class UserManagerUpdaterComponent extends UserManager
             
             if (! $this->get_user()->is_platform_admin())
             {
-                $this->display_header($trail);
+                $this->display_header();
                 Display :: error_message(Translation :: get("NotAllowed"));
                 $this->display_footer();
                 exit();
@@ -45,7 +45,7 @@ class UserManagerUpdaterComponent extends UserManager
             {
                 $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)), Translation :: get('Update')));
                 
-                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }

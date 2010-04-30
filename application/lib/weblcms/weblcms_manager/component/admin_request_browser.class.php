@@ -30,7 +30,7 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
         $this->request_type = Request :: get(WeblcmsManager :: PARAM_REQUEST_TYPE);
         $this->request_view = Request :: get(WeblcmsManager :: PARAM_REQUEST_VIEW);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         if ($this->get_user()->is_platform_admin())
         {
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
@@ -43,13 +43,13 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
               
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail, false, true);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
         }
         
-        $this->display_header($trail, false, true);
+        $this->display_header();
         $this->action_bar = $this->get_action_bar();
         echo $this->get_request_html();
         $this->display_footer();

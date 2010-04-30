@@ -17,7 +17,7 @@ class WeblcmsManagerCourseSubscribeRequestCreatorComponent extends WeblcmsManage
     	$course_code = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $failures = 0;
                 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION, WeblcmsManager :: PARAM_COURSE)),Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_SUBSCRIBE), array(WeblcmsManager :: PARAM_COURSE)),Translation :: get('CourseSubscribe')));
         $trail->add_help('course request');
@@ -44,7 +44,7 @@ class WeblcmsManagerCourseSubscribeRequestCreatorComponent extends WeblcmsManage
         else
         {
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('RequestForm')));
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }   

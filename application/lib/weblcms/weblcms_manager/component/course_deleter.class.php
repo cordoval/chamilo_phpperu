@@ -22,11 +22,11 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
         
         if (! $this->get_user()->is_platform_admin())
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteCourse')));
             $trail->add_help('courses delete');
             
-            $this->display_header($trail, false, true);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();

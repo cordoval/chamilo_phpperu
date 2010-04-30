@@ -546,12 +546,16 @@ class WeblcmsManager extends WebApplication
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbtrail, $display_search = false, $display_title = true)
+	function display_header($breadcrumbtrail = null, $display_search = false, $display_title = true)
 	{
 		if (is_null($breadcrumbtrail))
-		{
-			$breadcrumbtrail = new BreadcrumbTrail();
-		}
+        {
+            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
+            if($breadcrumbtrail->size() == 1)
+            {
+            	$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
+            }
+        }
 
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$course = $this->get_parameter(self :: PARAM_COURSE);
@@ -1238,11 +1242,11 @@ class WeblcmsManager extends WebApplication
 			$user_id = $this->get_user_id();
 
 			$access = array();
-			$access[] = new InCondition('user_id', $user_id, $wdm->get_alias('content_object_publication_user'));
-			$access[] = new InCondition('course_group_id', $course_groups, $wdm->get_alias('content_object_publication_course_group'));
+			$access[] = new InCondition('user_id', $user_id, 'content_object_publication_user');
+			$access[] = new InCondition('course_group_id', $course_groups, 'content_object_publication_course_group');
 			if (! empty($user_id) || ! empty($course_groups))
 			{
-				$access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $wdm->get_alias('content_object_publication_course_group'))));
+				$access[] = new AndCondition(array(new EqualityCondition('user_id', null, 'content_object_publication_user'), new EqualityCondition('course_group_id', null, 'content_object_publication_course_group')));
 			}
 
 			$conditions[] = new OrCondition($access);
@@ -1467,6 +1471,20 @@ class WeblcmsManager extends WebApplication
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->is_subscribed($course, $user_id);
+	}
+	
+	function is_teacher($course, $user)
+	{
+		if ($user != null && $course != null)
+		{
+			$relation = $this->retrieve_course_user_relation($course->get_id(), $user->get_id());
+			
+			if (($relation && $relation->get_status() == 1) || $user->is_platform_admin())
+				return true;
+
+		}
+
+		return false;
 	}
 
 	/**

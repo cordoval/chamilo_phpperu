@@ -18,7 +18,7 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
 
 		Header :: set_section('admin');
 		
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 
 		$id = $_GET[WeblcmsManager :: PARAM_COURSE_TYPE];
 		if ($id)
@@ -28,7 +28,7 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
 
 			if (!WeblcmsRights :: is_allowed(WeblcmsRights :: VIEW_RIGHT, WeblcmsRights :: LOCATION_VIEWER, 'course_type_component'))
 			{
-				$this->display_header($trail);
+				$this->display_header();
 				$this->display_error_message(Translation :: get('NotAllowed'));
 				$this->display_footer();
 				exit;
@@ -48,7 +48,7 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
 				$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE_TYPE, WeblcmsManager :: PARAM_COURSE_TYPE => $id)), $course_type->get_name()));
 			}
 			
-			$this->display_header($trail, false);
+			$this->display_header();
 			$this->ab = $this->get_action_bar();
 
 			echo $this->get_browser_html($course_type);

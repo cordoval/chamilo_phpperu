@@ -144,7 +144,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
         
         $conditions[] = new OrCondition($access);
         $subselect_condition = new InCondition('type', $this->browser->get_allowed_types());
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition);
         
         $condition = new AndCondition($conditions);
         

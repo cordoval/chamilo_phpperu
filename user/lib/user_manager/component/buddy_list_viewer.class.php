@@ -13,11 +13,11 @@ class UserManagerBuddyListViewerComponent extends UserManager
 	{
 		Header :: set_section('my_account');
 
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAccount')));
 		$trail->add_help('user general');
 
-		$this->display_header($trail);
+		$this->display_header();
 		echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 		$actions = array('account', 'buddy_view');
 		foreach ($actions as $action)

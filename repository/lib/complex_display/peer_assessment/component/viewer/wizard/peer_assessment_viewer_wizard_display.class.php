@@ -189,9 +189,10 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 				           			for($i = 1; $i < $count_groups; $i++)
 					           		{
 					           			$html[] = ',';
-					           			$count_users--;
+					           			$count_groups--;
 					           		}
 				           		} 
+				           		$count_groups++;
 			            	}
 			            	else
 			            	{
@@ -209,13 +210,14 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 				           			$user_id = $user->get_user();     	
 				           			$selected_user = $this->parent->get_user($user_id);
 				           			$full_user_name = $selected_user->get_firstname() .' '. $selected_user->get_lastname();
-				           			$html[] = $full_user_name;
+				           			$html[] = $full_user_name;				           			
 					           		for($i = 1; $i < $count_users; $i++)
 					           		{
 					           			$html[] = ',';
 					           			$count_users--;
 					           		}
 				           		}  
+				           		$count_users++;
 			            	}
 		 	            	
 			            	$html[] = '</td>';
@@ -317,7 +319,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 			            	$html[] = '<td><img src="'. Theme :: get_common_image_path() . 'content_object/indicator.png' .'" alt=""/></td>';
 			            	$html[] = '<td>'.$indicator->get_title().'</td>';
 			            	$url_result = 'run.php?go=take_publication&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id() . '&indicator=' .$indicator->get_id();
-			            	$url_feedback = 'run.php?go=take_publication&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id() . '&indicator=' .$indicator->get_id() .'&feedback=true';
+			            	$url_feedback = 'run.php?go=view_publication_results&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id() . '&indicator=' .$indicator->get_id() .'&feedback=true';
 			            	
 			            	
 			            	// Retrieve criteria
@@ -436,13 +438,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 		        		$html[] = Translation :: get('NoIndicatorsInTheCompetence');
 		        		$html[] = '<div class="close_message" id="closeMessage"></div>';
 		        		$html[] = '</div>';
-		        		
-		        		$html[] = '<br />';	
-		            	$html[] = '<div style="width: 100%; text-align: center;">';
-
 	            	}	            	            
-		
-	            	$html[] = '</div>';
 		            $html[] = '</div>';
 	            }
 	            else
@@ -543,7 +539,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 				            	$html[] = '<td><img src="'. Theme :: get_common_image_path() . 'content_object/indicator.png' .'" alt=""/></td>';
 				            	$html[] = '<td>'.$indicator->get_title().'</td>';
 				            	$url_result = 'run.php?go=take_publication&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id() . '&indicator=' .$indicator->get_id();
-				            	$url_feedback = 'run.php?go=take_publication&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id() . '&indicator=' .$indicator->get_id() .'&feedback=true';
+				            	$url_feedback = 'run.php?go=view_publication_results&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id() . '&indicator=' .$indicator->get_id() .'&feedback=true';
 				            	
 				            	
 				            	// Retrieve criteria
@@ -566,7 +562,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 					        	{
 					        		// Retrieve score
 					        		$results = new PeerAssessmentPublicationResults();
-					        		$result = $results->get_data_manager()->retrieve_peer_assessment_publication_result_score($indicator->get_id(), $user->get_user());				        	
+					        		$result = $results->get_data_manager()->retrieve_peer_assessment_publication_result_score($publication_id, $indicator->get_id(), $user->get_user());				        	
 					        		
 					        		if(($result == null) || ($result->get_score()) == 0)
 					        		{
@@ -580,15 +576,52 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 					        		$html[] = '<td>';
 					        		$html[] = $score;
 							        $html[] = '</td>';
-							        $html[] = '<td>';
-							        $html[] = $form = new FormValidator('peer_assessment_publication_results', 'post', $url_feedback);
-							    	$current = $current_page->get_feedback($user->get_user(), $form)->toHtml();
-					        		$current_pages &= $current;
-					        		$html[] = $current;
-							        $html[] = '</td>';
+							        
+							        
+							        if($type == 'take_publication')
+							        {
+								        if(($result == null) )
+						        		{
+						        			$feedback = '';
+						        		}
+						        		else
+						        		{
+						        			$feedback = $result->get_feedback();
+						        		}
+							        	
+								        $html[] = '<td>';
+								        $html[] = $form = new FormValidator('peer_assessment_publication_results', 'post', $url_feedback);
+								    	$current = $current_page->get_feedback($user->get_user(), $form)->toHtml();
+						        		$current_pages &= $current;
+						        		$html[] = $current;
+								        $html[] = '</td>';
+							        }
+							        elseif($type == 'view_publication_results')
+							        {
+								        if(($result == null) )
+						        		{
+						        			$feedback = Translation :: get('NoFeedback');
+						        		}
+						        		else
+						        		{
+						        			$feedback = $result->get_feedback();
+						        		}
+							        	
+							        	$html[] = '<td>';
+							        	$html[] = $feedback;
+							        	$html[] = '</td>';
+							        }
 					        	} 
-						        $html[] = '<td><a href="'. $url_feedback . '&saved=true' .'"><img src="' . Theme :: get_common_image_path() . 'action_save.png' .'" alt=""/></a></td>';
-				            	$html[] = '</tr>';
+					        	
+					        	if($type == 'take_publication')
+							    {
+						        	$html[] = '<td><a href="'. $url_feedback . '&saved=true' .'"><img src="' . Theme :: get_common_image_path() . 'action_save.png' .'" alt=""/></a></td>';
+							    }
+							    elseif($type == 'view_publication_results')
+							    {
+							    	$html[] = '<td></td>';							    
+							    }
+						        $html[] = '</tr>';
 				            }
 				            
 					        $html[] = '</tbody>';

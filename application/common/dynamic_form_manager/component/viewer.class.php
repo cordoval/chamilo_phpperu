@@ -40,7 +40,7 @@ class DynamicFormManagerViewerComponent extends DynamicFormManager
     	
     	$subcondition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $form);
     	$conditions[] = new SubselectCondition(DynamicFormElementValue :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, DynamicFormElement :: PROPERTY_ID, 
-    										'admin_' . DynamicFormElement :: get_table_name(), $subcondition);
+    										DynamicFormElement :: get_table_name(), $subcondition);
     	$conditions[] = new EqualityCondition(DynamicFormElementValue :: PROPERTY_USER_ID, $target_user);
     	$condition = new AndCondition($conditions);
     	

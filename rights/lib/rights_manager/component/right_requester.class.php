@@ -21,7 +21,7 @@ class RightsManagerRightRequesterComponent extends RightsManager
         
         if (isset($user))
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();;
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_REQUEST_RIGHT)), Translation :: get('RightRequest')));
             
             $parameters = array();
@@ -38,7 +38,7 @@ class RightsManagerRightRequesterComponent extends RightsManager
             
             if ($form->validate())
             {
-                $this->display_header($trail);
+                $this->display_header();
                 
                 $data = $form->getSubmitValues();
                 
@@ -78,7 +78,7 @@ class RightsManagerRightRequesterComponent extends RightsManager
     	         * - get user's current rights_templates and groups (to display them to the user) 
     	         */
                 
-                $this->display_header($trail);
+                $this->display_header();
                 
                 $rights_templates = array();
                 $groups = array();

@@ -147,7 +147,7 @@ class HomeBlockForm extends FormValidator
         while ($column = $columns->next_result())
         {
             $condition = new EqualityCondition(HomeRow :: PROPERTY_ID, $column->get_row());
-            $condition = new SubselectCondition(HomeTab :: PROPERTY_ID, HomeRow :: PROPERTY_TAB, 'home_' . HomeRow :: get_table_name(), $condition);
+            $condition = new SubselectCondition(HomeTab :: PROPERTY_ID, HomeRow :: PROPERTY_TAB, HomeRow :: get_table_name(), $condition);
             
             $tab = HomeDataManager :: get_instance()->retrieve_home_tabs($condition)->next_result();
             

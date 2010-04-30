@@ -126,6 +126,18 @@ ul.tree-menu li div a.home {
 	background-image: url(../images/common/treemenu/home.png);
 }
 
+ul.tree-menu li div a.user {
+	background-image: url(../images/common/treemenu/user.png);
+}
+
+ul.tree-menu li div a.feed {
+	background-image: url(../images/common/treemenu/feed.png);
+}
+
+ul.tree-menu li div a.streaming {
+	background-image: url(../images/common/treemenu/streaming.png);
+}
+
 ul.tree-menu li div a.trash {
 	background-image: url(../images/common/treemenu/trash.png);
 }

@@ -35,18 +35,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         parent :: initialize();
         $this->set_prefix('weblcms_');
-        $aliases = array();
- 		$aliases['course_section'] = 'cs';
- 		$aliases['course_category'] = 'cat';
- 		$aliases['content_object_publication_category'] = 'pub_cat';
- 		$aliases['user_answer'] = 'ans';
-		$aliases['user_assessment'] = 'ass';
-		$aliases['user_question'] = 'uq';
-		$aliases['survey_invitation'] = 'si';
-		$aliases['course_group'] = 'cg';
-		$aliases['course_user_category'] = 'cuc';
-		$aliases['course_user_relations'] = 'cur';
-		$this->set_aliases($aliases);
     }
 
     /**
@@ -1444,7 +1432,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         // Delete publication target users
         $subselect_condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_code);
-        $condition = new SubselectCondition(ContentObjectPublicationUser :: PROPERTY_PUBLICATION, ContentObjectPublication :: PROPERTY_ID, $this->escape_table_name(ContentObjectPublication :: get_table_name()), $subselect_condition);
+        $condition = new SubselectCondition(ContentObjectPublicationUser :: PROPERTY_PUBLICATION, ContentObjectPublication :: PROPERTY_ID, ContentObjectPublication :: get_table_name(), $subselect_condition);
         if (! $this->delete_objects(ContentObjectPublicationUser :: get_table_name(), $condition))
         {
             return false;
@@ -1452,7 +1440,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         
         // Delete publication target course_groups
         $subselect_condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_code);
-        $condition = new SubselectCondition(ContentObjectPublicationCourseGroup :: PROPERTY_PUBLICATION, ContentObjectPublication :: PROPERTY_ID, $this->escape_table_name(ContentObjectPublication :: get_table_name()), $subselect_condition);
+        $condition = new SubselectCondition(ContentObjectPublicationCourseGroup :: PROPERTY_PUBLICATION, ContentObjectPublication :: PROPERTY_ID, ContentObjectPublication :: get_table_name(), $subselect_condition);
         if (! $this->delete_objects(ContentObjectPublicationCourseGroup :: get_table_name(), $condition))
         {
             return false;
@@ -1994,6 +1982,24 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
         return $this->retrieve_objects(CourseType :: get_table_name(), $condition);
     }
+    
+    function retrieve_course_types_by_user_right($user)
+    {
+    	$course_types = array();
+    	$condition = null;
+    	if(!$user->is_platform_admin())
+        	$condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
+        
+        $course_type_objects = $this->retrieve_objects(CourseType :: get_table_name(),$condition);
+        while($course_type = $course_type_objects->next_result())
+        {
+        	//User->is_platform_admin() is checked in the can_user_create function
+        	if($course_type->can_user_create($user))
+        		$course_types[] = $course_type;
+        }
+        
+    	return $course_types;
+    }
 
     function retrieve_course_group_by_name($name)
     {
@@ -2110,7 +2116,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $query .= ' JOIN ' . $this->escape_table_name(CourseGroupUserRelation :: get_table_name()) . ' AS ' . $group_relation_alias . ' ON ' . $this->escape_column_name(CourseGroup :: PROPERTY_ID, $group_alias) . ' = ' . $this->escape_column_name(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $group_relation_alias);
         
         $conditions = array();
-        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user->get_id(), $group_relation_alias);
+        $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user->get_id(), CourseGroupUserRelation :: get_table_name());
         if (! is_null($course))
         {
             $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $course->get_id());

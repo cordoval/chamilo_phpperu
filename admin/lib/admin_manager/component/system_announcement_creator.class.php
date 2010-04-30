@@ -12,7 +12,7 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdministration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('SystemAnnouncements')));
@@ -21,7 +21,7 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager
         
         $publisher = $this->get_publisher_html();
         
-        $this->display_header($trail);
+        $this->display_header();
         echo $publisher;
         echo '<div style="clear: both;"></div>';
         $this->display_footer();

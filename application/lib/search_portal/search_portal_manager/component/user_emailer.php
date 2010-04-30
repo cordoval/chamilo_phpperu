@@ -4,7 +4,7 @@
  * @package application.lib.search_portal.search_portal_manager
  */
 
-class SearchManagerEmailerComponent extends SearchManager
+class SearchManagerEmailerComponent extends SearchPortalManager
 {
 
     /**

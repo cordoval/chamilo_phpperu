@@ -5,13 +5,25 @@
  */
 class BreadcrumbTrail
 {
-    //
+    // Singleton
+    private static $instance;
+	
     private $breadcrumbtrail;
     
     private $help_items;
     
     private $extra_items;
 
+    static function get_instance()
+    {
+    	if(self :: $instance == null)
+    	{
+    		self :: $instance = new BreadcrumbTrail();
+    	}
+    	
+    	return self :: $instance;
+    }
+    
     function BreadcrumbTrail($include_main_index = true)
     {
         $this->breadcrumbtrail = array();

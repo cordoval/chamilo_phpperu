@@ -22,14 +22,14 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManager
         $location = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
         $rights_template = Request :: get(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('RightsTemplates')));
         
         if (! isset($rights_template))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NoUserSelected'));
             $this->display_footer();
             exit();
@@ -80,7 +80,7 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManager
 
         $this->action_bar = $this->get_action_bar();
         
-        $this->display_header($trail);
+        $this->display_header();
         
         $html = array();
         $application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));

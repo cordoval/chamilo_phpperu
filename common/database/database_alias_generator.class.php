@@ -73,6 +73,7 @@ class DatabaseAliasGenerator
 	        }
             
             $this->aliases[self :: TYPE_TABLE][$unique_name] = $possible_name;
+            
             return $possible_name;
         }
     }

@@ -62,78 +62,76 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
         $menu_items = array();
         $browser = array();       
         $browser['title'] = Translation :: get('YoutubeBrowse');
-        $browser['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
+        $browser['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
         $browser['class'] = 'home';
         $menu_items[] = $browser;
         
         $my_videos = array();
         $my_videos['title'] = Translation :: get('MyVideos');
-        $my_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MYVIDEOS), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
+        $my_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MYVIDEOS), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
         $my_videos['class'] = 'user';
         $menu_items[] = $my_videos;
         
         $standard_feeds = array();
         $standard_feeds['title'] = Translation :: get('StandardFeeds');
-        $standard_feeds['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
-        $standard_feeds['class'] = 'user';
+        $standard_feeds['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
+        $standard_feeds['class'] = 'category';
         
         $standard_feed_items = array();
         
         $standard_feed_item = array();
         $standard_feed_item['title'] = Translation :: get('MostViewed');
         $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'most_viewed'), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
-        $standard_feed_item['class'] = 'user';
+        $standard_feed_item['class'] = 'feed';
         $standard_feed_items[] = $standard_feed_item;
         
         $standard_feed_item = array();
         $standard_feed_item['title'] = Translation :: get('TopRated');
         $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'top_rated'), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
-        $standard_feed_item['class'] = 'user';
+        $standard_feed_item['class'] = 'feed';
         $standard_feed_items[] = $standard_feed_item;
         $standard_feeds['sub'] = $standard_feed_items;
         
         $standard_feed_item = array();
         $standard_feed_item['title'] = Translation :: get('RecentlyFeatured');
         $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'recently_featured'), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
-        $standard_feed_item['class'] = 'user';
+        $standard_feed_item['class'] = 'feed';
         $standard_feed_items[] = $standard_feed_item;
         
         $standard_feed_item = array();
         $standard_feed_item['title'] = Translation :: get('WatchOnMobile');
         $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'watch_on_mobile'), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
-        $standard_feed_item['class'] = 'user';
+        $standard_feed_item['class'] = 'feed';
         $standard_feed_items[] = $standard_feed_item;
         
         $standard_feed_item = array();
         $standard_feed_item['title'] = Translation :: get('MostDiscussed');
         $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'most_discussed'), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
-        $standard_feed_item['class'] = 'user';
+        $standard_feed_item['class'] = 'feed';
         $standard_feed_items[] = $standard_feed_item;
         
         $standard_feed_item = array();
         $standard_feed_item['title'] = Translation :: get('TopFavorites');
         $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'top_favorites'), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
-        $standard_feed_item['class'] = 'user';
+        $standard_feed_item['class'] = 'feed';
         $standard_feed_items[] = $standard_feed_item;
         
         $standard_feed_item = array();
         $standard_feed_item['title'] = Translation :: get('MostResponded');
         $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'most_responded'), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
-        $standard_feed_item['class'] = 'user';
+        $standard_feed_item['class'] = 'feed';
         $standard_feed_items[] = $standard_feed_item;
         
         $standard_feed_item = array();
         $standard_feed_item['title'] = Translation :: get('MostRecent');
         $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'most_recent'), array(StreamingMediaSearchForm::PARAM_SIMPLE_SEARCH_QUERY));
-        $standard_feed_item['class'] = 'user';
+        $standard_feed_item['class'] = 'feed';
         $standard_feed_items[] = $standard_feed_item;
         
         $standard_feeds['sub'] = $standard_feed_items;
         
         $menu_items[] = $standard_feeds;
-        
-        
-        
+
         return $menu_items;
     }
 

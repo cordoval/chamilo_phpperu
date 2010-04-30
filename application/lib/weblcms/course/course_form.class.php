@@ -112,24 +112,21 @@ class CourseForm extends CommonForm
         $this->addElement('hidden', Course :: PROPERTY_ID, '', array('class' => 'course_id'));
 
         $wdm = WeblcmsDataManager :: get_instance();
-		$course_type_objects = $wdm->retrieve_active_course_types();
+		$course_type_objects = $wdm->retrieve_course_types_by_user_right($this->user);
         $course_types = array();
         if(empty($this->course_type_id) || $this->allow_no_course_type)
         	$course_types[0] = Translation :: get('NoCourseType');
-        $this->size = $course_type_objects->size();
+        $this->size = count($course_type_objects);
         if($this->size != 0)
         {
         	$count = 0;
-        	while($course_type = $course_type_objects->next_result())
+        	foreach($course_type_objects as $course_type)
         	{
-        		if($course_type->can_user_create($this->user))
+        		$course_types[$course_type->get_id()] = $course_type->get_name();
+        		if(is_null($this->course_type_id) && count == 0 && !$this->allow_no_course_type)
         		{
-	        		$course_types[$course_type->get_id()] = $course_type->get_name();
-	        		if(is_null($this->course_type_id) && count == 0 && !$this->allow_no_course_type)
-	        		{
-	        			$parameters = array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $course_type->get_id());
-	        			$this->parent->simple_redirect($parameters);
-	        		}
+        			$parameters = array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $course_type->get_id());
+        			$this->parent->simple_redirect($parameters);
         		}
         	}
         	$this->addElement('select', Course :: PROPERTY_COURSE_TYPE_ID,  Translation :: get('CourseType'), $course_types, array('class' => 'course_type_selector'));

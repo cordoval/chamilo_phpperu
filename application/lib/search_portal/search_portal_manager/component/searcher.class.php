@@ -3,8 +3,7 @@
  * $Id: search_portal_manager_searcher_component.class.php 222 2009-11-13 14:39:28Z chellee $
  * @package application.search_portal.search_portal_manager.component
  */
-require_once dirname(__FILE__) . '/../../search_source/local_repository_search_source.class.php';
-require_once dirname(__FILE__) . '/../../search_source/web_service_search_source.class.php';
+require_once dirname(__FILE__) . '/../../search_source/search_source.class.php';
 require_once 'Pager/Pager.php';
 
 
@@ -28,7 +27,6 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         if ($query && $query != '')
             $trail->add(new Breadcrumb($this->get_url(array('query' => Request :: get('query'), 'submit' => 'Search')), Translation :: get('SearchResultsFor') . ' ' . Request :: get('query')));
             
-        $supports_remote = WebServiceSearchSource :: is_supported();
         Display :: header($trail);
         Display :: tool_title(Translation :: get('SearchPortal'));
         
@@ -207,21 +205,7 @@ END;
 
     private static function get_search_source($url)
     {
-        if (! empty($url))
-        {
-            try
-            {
-                return new WebServiceSearchSource($url);
-            }
-            catch (Exception $ex)
-            {
-                return $ex;
-            }
-        }
-        else
-        {
-            return new LocalRepositorySearchSource(RepositoryDataManager :: get_instance());
-        }
+        return SearchSource :: factory('local_repository');
     }
 
 }

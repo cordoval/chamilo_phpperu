@@ -74,7 +74,7 @@ class PeerAssessmentPublicationForm extends FormValidator
          	$criteria_scores[] = $object->get_title();
         }
         
-        $this->addElement('select', self :: PARAM_CRITERIA_SCORE, Translation :: get('SelectCriteriaScore'), $criteria_scores);
+        $select = $this->addElement('select', self :: PARAM_CRITERIA_SCORE, Translation :: get('SelectCriteriaScore'), $criteria_scores);
         //$this->addRule(Criteria :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');               
         
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
@@ -124,6 +124,20 @@ class PeerAssessmentPublicationForm extends FormValidator
 
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+        
+    	// Retrieve the criteria's in an array
+    	$criteria_scores = array();
+        $criteria_scores[0] = Translation :: get('SelectCriteriaScore');
+             
+    	$rdm = RepositoryDataManager :: get_instance();
+        $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
+        $objects = $rdm->retrieve_type_content_objects(Criteria :: get_type_name(), $condition);
+        			       	
+    	while ($object = $objects->next_result())
+        {
+         	$criteria_scores[] = $object->get_id();
+        }
+        
 
         $pub = new PeerAssessmentPublication();
         $pub->set_content_object($this->content_object);
@@ -134,6 +148,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $pub->set_hidden($hidden);
         $pub->set_target_users($users);
         $pub->set_target_groups($groups);
+        $pub->set_criteria_content_object_id($criteria_scores[$values['criteria_score']]);
         
     	if (! $pub->create())
         {
@@ -148,7 +163,7 @@ class PeerAssessmentPublicationForm extends FormValidator
 
     function update_content_object()
     {
-        $content_object = $this->content_object;      
+        $content_object = $this->content_object;     
         $content_object->set_content_object($content_object->get_content_object()->get_id());
         
         $values = $this->exportValues();
@@ -168,6 +183,20 @@ class PeerAssessmentPublicationForm extends FormValidator
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
         
+    	// Retrieve the criteria's in an array
+    	$criteria_scores = array();
+        $criteria_scores[0] = Translation :: get('SelectCriteriaScore');
+             
+    	$rdm = RepositoryDataManager :: get_instance();
+        $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
+        $objects = $rdm->retrieve_type_content_objects(Criteria :: get_type_name(), $condition);
+        			       	
+    	while ($object = $objects->next_result())
+        {
+         	$criteria_scores[] = $object->get_id();
+        }
+        
+        
         $content_object->set_hidden($hidden);      
         $content_object->set_target_users($users);
         $content_object->set_target_groups($groups);
@@ -175,6 +204,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $content_object->set_published(time());
         $content_object->set_modified(time());
         $content_object->set_display_order(0);
+        $content_object->set_criteria_content_object_id($criteria_scores[$values['criteria_score']]);
         
         return $content_object->update();
     }

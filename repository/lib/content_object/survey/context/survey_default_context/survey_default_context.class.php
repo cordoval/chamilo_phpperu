@@ -39,7 +39,7 @@ class SurveyDefaultContext extends SurveyContext
         if ($key_type == self :: PROPERTY_DEFAULT_KEY)
         {
             
-            $condition = new EqualityCondition(SurveyContext :: PROPERTY_TYPE, SurveyContext :: class_to_type(self :: CLASS_NAME));
+            $condition = new EqualityCondition(SurveyContext :: PROPERTY_TYPE, SurveyContext :: class_to_type(self :: CLASS_NAME), SurveyContext :: get_table_name() );
             $dm = SurveyContextDataManager :: get_instance();
             $contexts = $dm->retrieve_survey_contexts(self :: get_table_name(), $condition);
             $context = $contexts->next_result();
