@@ -1,11 +1,6 @@
 <?php
-/**
- * $Id: sortable_table.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
- * @package common.html.table
- */
-//$Id: sortable_table.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
-require_once "HTML/Table.php"; //See http://pear.php.net/package/HTML_Table
-require_once "Pager/Pager.php"; //See http://pear.php.net/package/Pager
+require_once "HTML/Table.php";
+require_once "Pager/Pager.php";
 require_once "Pager/Sliding.php";
 require_once 'table_sort.class.php';
 /**
@@ -724,7 +719,7 @@ class SortableTable extends HTML_Table
     /**
      * Sets the table's AJAX status to false
      */
-    function disbale_ajax()
+    function disable_ajax()
     {
         $this->ajax_enabled = false;
     }
