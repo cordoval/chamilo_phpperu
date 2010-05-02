@@ -19,8 +19,8 @@ class SurveyContextTemplateBrowserTableColumnModel extends DefaultSurveyContextT
     {
         parent :: __construct();
         $this->set_default_order_column(1);
-        $this->add_column(new StaticTableColumn(Translation :: get('Locations')));
-        $this->add_column(new StaticTableColumn(Translation :: get('Subcategories')));
+        $this->add_column(new StaticTableColumn(Translation :: get('SurveyPages')));
+        $this->add_column(new StaticTableColumn(Translation :: get('SubContexts')));
         $this->add_column(self :: get_modification_column());
     }
 

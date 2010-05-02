@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="survey_context_template_rel_page">
+	<properties>
+		<property name="survey_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="page_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="template_id" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="page_id" type="primary">
+		<indexproperty name="survey_id" />
+		<indexproperty name="page_id" />
+		<indexproperty name="template_id" />
+	</index>
+	<index name="template_id">
+		<indexproperty name="temlate_id" />
+	</index>
+</object>

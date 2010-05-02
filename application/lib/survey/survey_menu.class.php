@@ -53,18 +53,6 @@ class SurveyMenu extends HTML_Menu
         $trackers = $track->retrieve_tracker_items($condition);
         
         $this->current_participant = $trackers[0];
-               
-        //        if ($current_category == '0' || is_null($current_category))
-        //        {
-        //            $condition = new EqualityCondition(SurveyPublication :: PROPERTY_ID, 0);
-        //            $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
-        //            $this->current_category = $group;
-        //        }
-        //        else
-        //        {
-        //            $this->current_category = GroupDataManager :: get_instance()->retrieve_group($current_category);
-        //        }
-        
 
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
@@ -84,12 +72,6 @@ class SurveyMenu extends HTML_Menu
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
         $participant = $trackers[0];
-        
-              
-//        $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
-//        $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
-//        
-//        $participant = $this->current_participant;
         
         if (! $include_root)
         {

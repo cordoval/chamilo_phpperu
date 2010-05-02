@@ -5,11 +5,11 @@ require_once dirname ( __FILE__ ) . '/context_template_browser/browser_table.cla
 require_once dirname ( __FILE__ ) . '/context_template_menu.class.php';
 
 
-class SurveyBuilderContextTemplateBrowserComponent extends SurveyBuilderComponent 
+class SurveyBuilderContextBrowserComponent extends SurveyBuilderComponent 
 {
 	private $ab;
 	private $template;
-	private $root_template;
+		
 	
 	/**
 	 * Runs this component and displays its output.
@@ -17,11 +17,19 @@ class SurveyBuilderContextTemplateBrowserComponent extends SurveyBuilderComponen
 	function run() 
 	{
 		
-		$this->template = Request::get ( SurveyBuilder :: PARAM_TEMPLATE_ID );
+				
+		$current_template = Request::get ( SurveyBuilder :: PARAM_TEMPLATE_ID );
+
+		if ($current_template == '0' || is_null ( $current_template )) {
+			$template_id =  $this->get_root_lo()->get_context_template_id ();
+			$this->template = $template_id;
+		} else {
+			$this->template = $current_template;
+		}
 		
-		$trail = new BreadcrumbTrail ();
+		$trail = new BreadcrumbTrail (false);
 		
-		$trail->add ( new Breadcrumb ( $this->get_url (), Translation::get ( 'BrowseTemplates' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url (), Translation::get ('BrowseContext') ) );
 		$this->ab = $this->get_action_bar ();
 		
 		$menu = $this->get_menu_html ();
@@ -49,7 +57,7 @@ class SurveyBuilderContextTemplateBrowserComponent extends SurveyBuilderComponen
 	
 	function get_menu_html() 
 	{
-		$template_menu = new SurveyContextTemplateMenu ($this->template);
+		$template_menu = new SurveyContextTemplateMenu ($this->template, $this->get_root_lo()->get_id());
 		$html = array ();
 		$html [] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
 		$html [] = $template_menu->render_as_tree ();
@@ -60,7 +68,7 @@ class SurveyBuilderContextTemplateBrowserComponent extends SurveyBuilderComponen
 		
 	function get_condition() 
 	{
-		$condition = new EqualityCondition ( SurveyContextTemplate::PROPERTY_PARENT_ID, $this->template );
+		$condition = new EqualityCondition ( SurveyContextTemplate::PROPERTY_ID, $this->template );
 		
 		$query = $this->ab->get_query ();
 		if (isset ( $query ) && $query != '') 
@@ -83,7 +91,7 @@ class SurveyBuilderContextTemplateBrowserComponent extends SurveyBuilderComponen
 	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 		
-		$action_bar->set_search_url ( $this->get_url ( array (SurveyBuilder::PARAM_TEMPLATE_ID => $this->template ) ) );
+		$action_bar->set_search_url ( $this->get_url ( array (SurveyBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), SurveyBuilder::PARAM_TEMPLATE_ID => $this->template ) ) );
 		
 //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'Add' ), Theme::get_common_image_path () . 'action_add.png', $this->get_create_category_url ( $this->get_category () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );

@@ -256,7 +256,7 @@ class SurveyManagerViewerComponent extends SurveyManager
     function parse($value)
     {
 
-        $context = $this->survey->get_context_instance();
+		$context = $this->survey->get_context_instance();
         $explode = explode('$V{', $value);
 
         $new_value = array();
@@ -282,13 +282,13 @@ class SurveyManagerViewerComponent extends SurveyManager
         return implode(' ', $new_value);
     }
     
-    function get_total_questions(){
-    	return $this->survey->count_pages();
-    }
-    
-	function get_total_pages(){
-    	return $this->survey->count_pages();
-    }
+//    function get_total_questions(){
+//    	return $this->survey->count_pages();
+//    }
+//    
+//	function get_total_pages(){
+//    	return $this->survey->count_pages();
+//    }
     
 	function get_survey(){
     	return $this->survey;

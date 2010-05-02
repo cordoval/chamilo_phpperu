@@ -18,11 +18,7 @@ class SurveyBuilderComponent extends ComplexBuilderComponent
         return $this->get_parent()->get_configure_context_url($selected_cloi);
     }
 	
-	function get_browse_context_url($selected_cloi)
-    {
-        return $this->get_parent()->get_browse_context_url($selected_cloi);
-    }
-    
+	 
     
     
 }

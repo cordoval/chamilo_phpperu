@@ -20,13 +20,14 @@ class Survey extends ContentObject
     
     const CLASS_NAME = __CLASS__;
 
+    
+    private $context;
+    
     static function get_type_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
     
-    private $context;
-
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_HEADER, self :: PROPERTY_FOOTER, self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_ANONYMOUS,  self :: PROPERTY_CONTEXT_TEMPLATE_ID);
@@ -88,15 +89,15 @@ class Survey extends ContentObject
 //        $this->set_additional_property(self :: PROPERTY_CONTEXT, $value);
 //    }
 
-//    function set_context_instance($context)
-//    {
-//        $this->context = $context;
-//    }
-//
-//    function get_context_instance()
-//    {
-//        return $this->context;
-//    }
+    function set_context_instance($context)
+    {
+        $this->context = $context;
+    }
+
+    function get_context_instance()
+    {
+        return $this->context;
+    }
 
     function get_context_template_id()
     {
