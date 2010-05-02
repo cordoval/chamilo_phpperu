@@ -877,7 +877,7 @@ class Database
         }
         else
         {
-            $children_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT, $node->get_id());
+            $children_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT_ID, $node->get_id());
         }
 
         if ($condition)
@@ -985,7 +985,7 @@ class Database
     {
         $siblings_conditions = array();
 
-        $siblings_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT, $node->get_parent());
+        $siblings_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT_ID, $node->get_parent());
 
         if (! $include_object)
         {
