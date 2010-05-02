@@ -119,9 +119,7 @@ class SurveyPublication extends DataClass
         $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_content_object());
         
         $template = $survey->get_context_template();
-        
         $contexts = $this->create_contexts($user_id, $template, $user_name);
-     
     }
 
     private function create_contexts($user_id, $template, $key, $parent_participant_id = 0)
@@ -151,7 +149,6 @@ class SurveyPublication extends DataClass
                 }
             }
         }
-    
     }
 
     static function get_default_property_names()
