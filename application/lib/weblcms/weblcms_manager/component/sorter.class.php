@@ -21,7 +21,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
     function run()
     {
         $component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
-        
+
         switch ($component_action)
         {
             case 'add' :
@@ -40,7 +40,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
                 $this->edit_course_user_category();
                 break;
             case 'delete' :
-                $this->delete_course_user_category();
+                $this->delete_course_type_user_category();
                 break;
             case 'view' :
                 $this->show_course_list();
@@ -191,7 +191,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category_id);
         $courseusercategory = $this->retrieve_course_user_category($condition);
         
-        $form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id), array(WeblcmsManager :: PARAM_ACTION)), $this);
+        $form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)), $this);
         
         if ($form->validate())
         {
@@ -208,39 +208,18 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         }
     }
 
-    function delete_course_user_category()
+    function delete_course_type_user_category()
     {
         $course_user_category_id = Request :: get(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID);
-        $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category_id);
-        $courseusercategory = $this->retrieve_course_user_category($condition);
+        $course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
 
-        $condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_user_category_id);
-        $course_type_user_category = $this->retrieve_course_type_user_category($condition);
-        
-        $relation_conditions = array();
-        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
-        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_user_category_id);
-        $relation_condition = new AndCondition($relation_conditions);
-        
-        $relations = $this->retrieve_course_user_relations($relation_condition, null, null, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT)));
-        
-        
         $conditions = array();
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
+        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_user_category_id);
+        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
         $condition = new AndCondition($conditions);
+        $course_type_user_category = $this->retrieve_course_type_user_category($condition);
 
-        $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
-
-        while ($relation = $relations->next_result())
-        {
-            $relation->set_sort(++$sort);
-            $relation->update();
-           	
-        }
-        
-       	$success = $courseusercategory->delete();
-       	$success &= $course_type_user_category->delete();
+       	$success = $course_type_user_category->delete();
        	$this->redirect(Translation :: get($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view'));
     }
 
@@ -276,8 +255,21 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
        		if(count($tabs) == 0) $tab_name = null;
 			$tabs[0][0] = $courses_result;
 			$tabs[0][1] = $tab_name;
-       	 }
+       	}
     	
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+        $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
+       	$condition = new AndCondition($conditions);
+       	$courses_result = $this->retrieve_user_courses($condition);
+       	if($courses_result->size() > 0)
+        {
+       		$tab_name = Translation :: get('NoCourseType');
+       		if(count($tabs) == 0) $tab_name = null;
+			$tabs[0][0] = $courses_result;
+			$tabs[0][1] = $tab_name;
+       	}
+       	 
        	if(count($tabs) != 0)
         {
         	$html[] = '<div id="admin_tabs">';
@@ -498,7 +490,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         
         $toolbar_data[] = array('href' => $this->get_course_user_category_edit_url($courseusercategory), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         
-        $toolbar_data[] = array('href' => $this->get_course_user_category_delete_url($courseusercategory), 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        $toolbar_data[] = array('href' => $this->get_course_user_category_delete_url($courseusercategory, $course_type_id), 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         
         return Utilities :: build_toolbar($toolbar_data);
     }
