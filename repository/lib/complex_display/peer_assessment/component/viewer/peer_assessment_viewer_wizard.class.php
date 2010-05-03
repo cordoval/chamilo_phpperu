@@ -53,7 +53,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         $this->total = 0;
 
         // To see the html on the next page
-        //$this->total_pages = 1;
+        //$this->total = 1;
          
         while (($complex_content_object = $complex_content_objects->next_result()))
         {
@@ -68,6 +68,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         if ($this->total == 0)
         {
             $this->addPage(new QuestionsPeerAssessmentViewerWizardPage('question_page_' . $this->total, $this, $total_competences));
+        	//$this->total++;
         }
 
     }
