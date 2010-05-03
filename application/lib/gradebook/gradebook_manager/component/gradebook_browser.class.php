@@ -137,8 +137,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html = array();
         $html[] = '<div id="gradebook_tabs">';
         $html[] = '<ul>';// Render the tabs
-        
-
         $html[] = '<li><a href="#internal">';
         $html[] = '<span class="category">';
         $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_help.png" border="0" style="vertical-align: middle;" alt="internal_publications" title="internal_publications"/>';
@@ -154,16 +152,24 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '</ul>';
         $html[] = '<div id="internal"/>';
         $html[] = $this->get_internal_application_tabs($this->applications);
-        $html[] = '<h2>' . ucfirst($this->application) . ' ' . Translation :: get('Publications') . '</h2>';
-		if ($this->menu)
+        $html[] = '<h2>' . ucfirst($this->application) . '</h2>';
+		if ($this->application == 'weblcms')
+		{
+			$html[] = '<div style="float: left; width: 12%; overflow:auto;">';
 			$html[] = $this->menu->render_as_tree();
-		if ($this->table)
+			$html[] = '</div>';
+			$html[] = '<div style="float: right; width: 85%;">';
 			$html[] = $this->table->as_html($this);
+			$html[] = '</div>';
+		}
+		else
+		{
+			$html[] = $this->table->as_html($this);
+		}
         $html[] = '</div>';
         $html[] = '<div id="external"/>';
         $html[] = $this->get_external_application_tabs();
         $html[] = '</div>';
-
         $html[] = '</div>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/gradebook_tabs.js');
 
