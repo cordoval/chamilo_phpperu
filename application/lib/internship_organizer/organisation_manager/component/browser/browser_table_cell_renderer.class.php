@@ -24,6 +24,20 @@ class InternshipOrganizerOrganisationBrowserTableCellRenderer extends DefaultInt
             return $this->get_modification_links($organisation);
         }
         
+     switch ($column->get_name())
+        {
+            // Exceptions that need post-processing go here ...
+            case InternshipOrganizerRegion :: PROPERTY_NAME :
+                $title = parent :: render_cell($column, $organisation);
+                $title_short = $title;
+                if (strlen($title_short) > 53)
+                {
+                    $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
+                }
+                return '<a href="' . htmlentities($this->browser->get_view_organisation_url($organisation)) . '" title="' . $title . '">' . $title_short . '</a>';
+
+        }
+        
         return parent :: render_cell($column, $organisation);
     }
 
