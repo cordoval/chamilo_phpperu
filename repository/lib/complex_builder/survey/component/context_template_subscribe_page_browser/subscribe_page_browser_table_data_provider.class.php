@@ -7,11 +7,11 @@ class SurveyContextTemplateSubscribePageBrowserTableDataProvider extends ObjectT
 	}
 	
 	function get_objects($offset, $count, $order_property = null) {
-		return InternshipOrganizerDataManager::get_instance ()->retrieve_pages ( $this->get_condition (), $offset, $count, $order_property );
+		return RepositoryDataManager :: get_instance()->retrieve_content_objects($this->get_condition(), $offset, $max_objects, $order_by, SurveyPage :: CLASS_NAME);
 	}
 	
 	function get_object_count() {
-		return InternshipOrganizerDataManager::get_instance ()->count_pages ( $this->get_condition () );
+		return RepositoryDataManager :: get_instance()->count_content_objects($this->get_condition(), $offset, $max_objects, $order_by, SurveyPage :: CLASS_NAME);
 	}
 }
 ?>

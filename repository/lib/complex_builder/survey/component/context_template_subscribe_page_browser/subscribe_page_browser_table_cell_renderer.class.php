@@ -41,7 +41,7 @@ class SurveyContextTemplateSubscribePageBrowserTableCellRenderer extends Default
         $template = $this->browser->get_survey_context_template();
         $toolbar_data = array();
         
-        $subscribe_url = $this->browser->get_survey_context_template_rel_page_subscribing_url($template, $page);
+        $subscribe_url = $this->browser->get_template_suscribe_page_url($template->get_id(), $page->get_id());
         $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
         
         return Utilities :: build_toolbar($toolbar_data);

@@ -22,8 +22,7 @@ class SurveyContextTemplateBrowserTable extends ObjectTable
         parent :: __construct($data_provider, SurveyContextTemplateBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-        
-        $actions[] = new ObjectTableFormAction(SurveyBuilder :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected'));
+                
         $actions[] = new ObjectTableFormAction(SurveyBuilder :: PARAM_TRUNCATE_SELECTED, Translation :: get('TruncateSelected'));
         
         $this->set_form_actions($actions);
