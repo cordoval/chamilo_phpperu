@@ -138,5 +138,10 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
     {
     	return $this->request_type;
     }
+    
+    function get_request_view()
+    {
+    	return $this->request_view;
+    }
 }
 ?>
