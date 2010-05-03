@@ -16,6 +16,7 @@ class SurveyBuilder extends ComplexBuilder
     const PARAM_SURVEY_ID = 'survey';
     const PARAM_TEMPLATE_ID = 'template_id';
     
+    const PARAM_REMOVE_SELECTED = 'remove_selected';
     const PARAM_TRUNCATE_SELECTED = 'truncate';
     const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
 
