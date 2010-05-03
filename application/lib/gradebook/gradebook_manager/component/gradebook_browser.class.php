@@ -163,8 +163,9 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 			$html[] = '</div>';
 		}
 		else
-		{
-			$html[] = $this->table->as_html($this);
+		{	
+			if($this->table)
+				$html[] = $this->table->as_html($this);
 		}
         $html[] = '</div>';
         $html[] = '<div id="external"/>';
