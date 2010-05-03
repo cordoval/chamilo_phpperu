@@ -24,7 +24,8 @@ class InternshipOrganizerUtilities
 		$html[] = '<li class="tool_list_menu" style="font-weight: bold">' . Translation :: get('InternshipOrganizer') . '</li><br />';
 		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_users.png)"><a style="top: -3px; position: relative;" href="'.$browser->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_CATEGORY)) .'">'.Translation :: get('CategoryBrowser').'</a></li>';
 		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_users.png)"><a style="top: -3px; position: relative;" href="'.$browser->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_ORGANISATION)) .'">'.Translation :: get('OrganisationBrowser').'</a></li>';
-
+		//$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_users.png)"><a style="top: -3px; position: relative;" href="'.$browser->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_ORGANISATION)) .'">'.Translation :: get('OrganisationBrowser').'</a></li>';
+		
 		$html[] = '</ul>';
 		$html[] = '</div>';
 

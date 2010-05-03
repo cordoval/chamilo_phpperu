@@ -27,7 +27,7 @@ class InternshipOrganizerRegionBrowserTableCellRenderer extends DefaultInternshi
     {
         if ($column === InternshipOrganizerRegionBrowserTableColumnModel :: get_modification_column())
         {
-            return $this->get_modification_links($region);
+            return $this->get_modification_links($column, $region);
         }
         
         // Add special features here
@@ -58,7 +58,7 @@ class InternshipOrganizerRegionBrowserTableCellRenderer extends DefaultInternshi
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($region)
+    private function get_modification_links($column, $region)
     {
         $toolbar_data = array();
         

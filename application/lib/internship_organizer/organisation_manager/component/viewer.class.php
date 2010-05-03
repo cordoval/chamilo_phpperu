@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname ( __FILE__ ) . '/../organisation_manager.class.php';
-require_once dirname ( __FILE__ ) . '/../organisation_manager_component.class.php';
+//require_once dirname ( __FILE__ ) . '/../organisation_manager_component.class.php';
 
 //require_once dirname ( __FILE__ ) . '/rel_location_browser/rel_location_browser_table.class.php';
 require_once Path :: get_application_path(). 'lib/internship_organizer/organisation_manager/component/location_browser/browser_table.class.php';
