@@ -71,13 +71,13 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		return $menu;
 	}
 	
-	function get_condition($applications_array)
+	function get_condition()
 	{
-		$ids = array_keys($applications_array);
-		$conditions = array();
-		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application);
-		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $ids);
-		$condition = new AndCondition($conditions);
+		
+		//$conditions = array();
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application);
+//		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $applications_array);
+//		$condition = new AndCondition($conditions);
 		return $condition;
 	}
 	
@@ -137,6 +137,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html = array();
         $html[] = '<div id="gradebook_tabs">';
         $html[] = '<ul>';// Render the tabs
+     
         $html[] = '<li><a href="#internal">';
         $html[] = '<span class="category">';
         $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_help.png" border="0" style="vertical-align: middle;" alt="internal_publications" title="internal_publications"/>';
