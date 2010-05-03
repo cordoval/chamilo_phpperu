@@ -85,6 +85,7 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
 	function get_table_html()
 	{
 		$parameters = array();
+		$parameters[WeblcmsManager :: PARAM_APPLICATION] = WeblcmsManager :: APPLICATION_NAME;
 		$parameters[WeblcmsManager :: PARAM_ACTION] = WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER;
 		$parameters[WeblcmsManager :: PARAM_REQUEST_TYPE] = $this->request_type;
 

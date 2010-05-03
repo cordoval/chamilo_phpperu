@@ -1652,7 +1652,7 @@ class WeblcmsManager extends WebApplication
 					Request :: set_get(self :: PARAM_COURSE, $selected_course_ids);
 					break;
 				case self :: PARAM_REMOVE_SELECTED_REQUESTS :
-					$this->set_action(self :: ACTION_COURSE_SUBBSCRIBE_REQUEST_DELETER);
+					$this->set_action(self :: ACTION_COURSE_REQUEST_DELETER);
 					Request :: set_get(self :: PARAM_REQUEST, $selected_request_id);
 					break;
 				case self :: PARAM_ALLOW_SELECTED_REQUESTS : 
