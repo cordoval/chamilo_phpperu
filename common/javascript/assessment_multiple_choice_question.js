@@ -26,7 +26,7 @@ $(function ()
 		{
 			var weightField, weightFieldName, id, appendField;
 		    
-			weightField = $('input[name*="option_weight"]', this);
+			weightField = $('input[name*="score"]', this);
 			weightFieldName = weightField.attr('name');
 		    id = weightFieldName.substr(14, weightFieldName.length - 15);
 		    appendField = deleteField.replace(/\$option_number/g, id);
@@ -51,7 +51,7 @@ $(function ()
 			newLabel = getTranslation('SwitchToRadioButtons', 'repository');
 		}
 		
-		$('.option').each(function ()
+		$('.value').each(function ()
 		{
 			var id, correct, value, newField, parent;
 			
@@ -65,7 +65,7 @@ $(function ()
 				value = counter;
 			}
 			
-			newField = '<input id="' + id + '" class="option" type="' + newType + '" value="' + value + '" name="' + correct + '" />';
+			newField = '<input id="' + id + '" class="value" type="' + newType + '" value="' + value + '" name="' + correct + '" />';
 			parent = $(this).parent();
 			parent.empty();
 			parent.append(newField);
@@ -134,13 +134,13 @@ $(function ()
 		}
 		
 		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
-		editorNameAnswer = 'option[' + numberOfOptions + ']';
-		editorNameComment = 'comment[' + numberOfOptions + ']';
+		editorNameAnswer = 'value[' + numberOfOptions + ']';
+		editorNameComment = 'feedback[' + numberOfOptions + ']';
 		
-		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
+		fieldOption = '<input id="' + id + '" class="value" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
 		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
 		fieldComment = renderHtmlEditor(editorNameComment, parameters);
-		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
+		fieldScore = '<input class="input_numeric" type="text" value="1" name="score[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
