@@ -51,7 +51,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add_help('courses general');
 		
-		if(!$this->is_subscribed($this->get_course(), $this->get_user_id()) || (!$this->get_course()->get_access() && !$this->is_teacher()))
+		if(!$this->is_teacher() && (!$this->is_subscribed($this->get_course(), $this->get_user_id()) || !$this->get_course()->get_access()))
 		{
 			$this->display_header($trail, false, true, false);
 			Display :: error_message(Translation :: get("NotAllowedToView"));
