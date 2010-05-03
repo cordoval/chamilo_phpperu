@@ -36,10 +36,12 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'next'));
         }
         else
+        {*/
+        if(Request :: get('competence') != null)
         {
             $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'));
-        }
-        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);*/
+        	$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+        }      
 
         
         // Add question forms
@@ -64,25 +66,11 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
     }
     
     function get_criteria($criteria_score, $user_id, $form)
-    {
+    {	
 		$form->addElement('select', 'criteria_score_of_user_id_'. $user_id, '', $criteria_score);	
 		//$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive finish'));
 		//$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		return $form;
-    }
-    
-    function get_users($form, $users)
-    {
-		$users_select[0] = Translation :: get('ChooseUser');
-		for($i = 0; $i < sizeof($users); $i++)
-		{
-			$users_select[] = $users[$i];
-		}		
-
-		$form->addElement('select', PeerAssessmentPublication :: PROPERTY_SELECT_USER, Translation :: get('SelectUser'), $users_select, array('class' => 'change_user'));	
-		$form->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/change_user.js'));
-		$form->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
-    	return $form;
     }
     
 	function get_feedback($user_id, $form)
