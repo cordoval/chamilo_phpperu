@@ -22,10 +22,11 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
-
+		$this->applications = $this->retrieve_internal_item_applications();
+		
 //		echo $this->ab->as_html();
 		//$applications = array_merge($this->retrieve_applications_with_evaluations(), $this->retrieve_calculated_applications_with_evaluation());
-		$this->applications = $this->retrieve_filtered_array_internal_evaluated_publication($this->get_user_id());
+		//$this->applications = $this->retrieve_filtered_array_internal_evaluated_publication($this->get_user_id());
 		//$this->applications = $this->retrieve_filtered_array_internal_my_evaluations($this->get_user_id());
 		$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		if($this->application)
@@ -94,7 +95,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
         $html[] = '<div class="application_selecter">';
         
-        foreach ($applications as $key =>$the_application)
+        foreach ($applications as $the_application)
         {
             if (isset($current_application) && $current_application == $the_application)
             {

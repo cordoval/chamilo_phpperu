@@ -331,9 +331,9 @@ class GradebookManager extends WebApplication
 		return GradebookDataManager :: get_instance()->retrieve_evaluation_format($id);
 	}
 // applications
-	function retrieve_applications_with_evaluations()
+	function retrieve_internal_item_applications()
 	{
-		return GradebookDataManager :: get_instance()->retrieve_applications_with_evaluations();
+		return GradebookDataManager :: get_instance()->retrieve_internal_item_applications();
 	}
 	
 //	function retrieve_calculated_applications_with_evaluation($calculated_applications = array())
@@ -358,7 +358,7 @@ class GradebookManager extends WebApplication
 //	}
 
 // filtered views, returns info in array[$internal/external_item_id] = $application
-	function retrieve_filtered_array_internal_my_evaluations($user_id)
+	/*function retrieve_filtered_array_internal_my_evaluations($user_id)
 	{
 		$gdm = GradebookDataManager :: get_instance();
 		$condition = new EqualityCondition(Evaluation :: PROPERTY_EVALUATOR_ID, $user_id);
@@ -366,7 +366,10 @@ class GradebookManager extends WebApplication
 		$objects = $gdm->retrieve_evaluations($condition);
 		while($object = $objects->next_result())
 		{
-			$internal_item_id = $gdm->retrieve_internal_item_instance_by_evaluation($object->get_id())->get_internal_item_id();
+			$internal_item_instance = $gdm->retrieve_internal_item_instance_by_evaluation($object->get_id());
+			dump($internal_item_instance);
+			$internal_item_id = $internal_item_instance->get_internal_item_id();
+			dump($internal_item_id);
 			$filtered_array_no_calc[] = $internal_item_id;
 		}
 		if(!$filtered_array_no_calc)
@@ -465,7 +468,7 @@ class GradebookManager extends WebApplication
 		}
 		return $filtered_array;		
 	}
-	
+	*/
 	
 // content objects
 	function retrieve_content_objects_by_ids($condition, $offset = null, $max_objects = null, $order_by = null)
