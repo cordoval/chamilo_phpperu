@@ -10,6 +10,7 @@ abstract class StreamingMediaManager extends SubManager
 	const ACTION_DOWNLOAD_STREAMING_MEDIA = 'download';
 	const ACTION_UPLOAD_STREAMING_MEDIA = 'upload';
 	const ACTION_SELECT_STREAMING_MEDIA = 'select';
+	const ACTION_EDIT_STREAMING_MEDIA = 'edit';
 	
 	const PARAM_STREAMING_MEDIA_ID = 'streaming_media_id';
 	const PARAM_TYPE = 'type';

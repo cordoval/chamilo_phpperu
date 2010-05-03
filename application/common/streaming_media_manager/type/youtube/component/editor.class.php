@@ -1,12 +1,11 @@
 <?php
 require_once dirname(__FILE__) . '/../forms/youtube_streaming_media_manager_form.class.php';
-require_once dirname(__FILE__) . '/../forms/youtube_streaming_media_manager_upload_form.class.php';
-
-class YoutubeStreamingMediaManagerUploaderComponent extends YoutubeStreamingMediaManager
+class YoutubeStreamingMediaManagerEditorComponent extends YoutubeStreamingMediaManager
 {
 	function run()
 	{
-		$form = new YoutubeStreamingMediaManagerForm(YoutubeStreamingMediaManagerForm :: TYPE_CREATE, $this->get_url(), $this);
+		$form = new YoutubeStreamingMediaManagerForm(YoutubeStreamingMediaManagerForm :: TYPE_EDIT, $this->get_url(), $this);
+		
 		
 		if ($form->validate())
         {
@@ -28,6 +27,9 @@ class YoutubeStreamingMediaManagerUploaderComponent extends YoutubeStreamingMedi
             $form->display();
             $this->display_footer();
         }
+        
+		//$object = $this->retrieve_streaming_media_object($id);
+		//dump($object);
 	}
 }
 ?>
