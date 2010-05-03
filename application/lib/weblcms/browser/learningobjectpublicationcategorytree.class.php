@@ -134,17 +134,36 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
            	$course_group_ids[] = $course_group->get_id();
         }
         
-        $access = array();
+       /* $access = array();
         $access[] = new InCondition('user_id', $user_id, $dm->get_alias('content_object_publication_user'));
         $access[] = new InCondition('course_group_id', $course_group_ids, $dm->get_alias('content_object_publication_course_group'));
         if (! empty($user_id) || ! empty($course_group_ids))
         {
             $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $dm->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_alias('content_object_publication_course_group'))));
         }
+        */
+        
+    	$access = array();
+        if($user_id)
+        {
+    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
+        }
+    	
+    	if(count($course_group_ids) > 0)
+    	{
+        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
+    	}
+        	
+        if (! empty($user_id) || ! empty($course_group_ids))
+        {
+            $access[] = new AndCondition(array(
+            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), 
+            			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+        }
         
         $conditions[] = new OrCondition($access);
         $subselect_condition = new InCondition('type', $this->browser->get_allowed_types());
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition);
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         
         $condition = new AndCondition($conditions);
         

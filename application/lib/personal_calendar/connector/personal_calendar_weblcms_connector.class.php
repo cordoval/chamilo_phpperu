@@ -71,16 +71,16 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
         $user_id = $user->get_id();
         
         $access = array();
-        $access[] = new InCondition('user_id', $user_id, $dm->get_database()->get_alias('content_object_publication_user'));
-        $access[] = new InCondition('course_group_id', $course_groups, $dm->get_database()->get_alias('content_object_publication_course_group'));
+        $access[] = new InCondition('user_id', $user_id, 'content_object_publication_user');
+        $access[] = new InCondition('course_group_id', $course_groups, 'content_object_publication_course_group');
         if (! empty($user_id) || ! empty($course_groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $dm->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_database()->get_alias('content_object_publication_course_group'))));
+            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, 'content_object_publication_user'), new EqualityCondition('course_group_id', null, 'content_object_publication_course_group')));
         }
         
         $conditions[] = new OrCondition($access);
         $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, CalendarEvent :: get_type_name());
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition);
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         
         return new AndCondition($conditions);
     }
