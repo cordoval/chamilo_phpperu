@@ -65,13 +65,29 @@ class QuestionsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizard
     
     function get_criteria($criteria_score, $user_id, $form)
     {
-		$form->addElement('select', 'criteria_score_of_user_id_'. $user_id, null, $criteria_score);	
+		$form->addElement('select', 'criteria_score_of_user_id_'. $user_id, '', $criteria_score);	
+		//$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive finish'));
+		//$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		return $form;
+    }
+    
+    function get_users($form, $users)
+    {
+		$users_select[0] = Translation :: get('ChooseUser');
+		for($i = 0; $i < sizeof($users); $i++)
+		{
+			$users_select[] = $users[$i];
+		}		
+
+		$form->addElement('select', PeerAssessmentPublication :: PROPERTY_SELECT_USER, Translation :: get('SelectUser'), $users_select, array('class' => 'change_user'));	
+		$form->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/change_user.js'));
+		$form->addElement('style_submit_button', 'select_format', Translation :: get('Formatter'), array('class' => 'normal filter'));
+    	return $form;
     }
     
 	function get_feedback($user_id, $form)
     {
-		$form->addElement('textarea', 'feedback_to_user_id_'. $user_id, null);	
+		$form->addElement('textarea', 'feedback_to_user_id_'. $user_id, '');	
 		return $form;
     }
 }
