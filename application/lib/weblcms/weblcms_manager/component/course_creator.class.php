@@ -64,7 +64,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager
         }
         else
         {
-        	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)), Translation :: get('CourseList')));
+        	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER), array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_TOOL)), Translation :: get('CourseList')));
         	$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Update')));
         }
         
