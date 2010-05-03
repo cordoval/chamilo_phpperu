@@ -68,7 +68,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         if ($this->total == 0)
         {
             $this->addPage(new QuestionsPeerAssessmentViewerWizardPage('question_page_' . $this->total, $this, $total_competences));
-        	$this->total++;
+        	//$this->total++;
         }
 
     }
