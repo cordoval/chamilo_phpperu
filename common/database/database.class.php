@@ -105,45 +105,20 @@ class Database
 
     /**
      * Escapes a column name in accordance with the database type.
+     *
      * @param string $name The column name.
-     * @param boolean $prefix_properties Whether or not to
-     *                                                   prefix properties
-     *                                                   to avoid collisions.
+     * @param String $table_alias The alias of the table the coloumn is in
      * @return string The escaped column name.
      */
-    function escape_column_name($name, $storage_unit = null)
+    function escape_column_name($name, $table_alias = null)
     {
-        $column_name = '';
-        if (! is_null($storage_unit))
+        $table = '';
+        if (! is_null($table_alias))
         {
-            $column_name .= $storage_unit . '.';
+            $table .= $table_alias . '.';
         }
 
-        return $column_name . $this->connection->quoteIdentifier($name);
-
-    //        // Check whether the name contains a seperator, avoids notices.
-    //        $contains_table_name = strpos($name, '.');
-    //        if ($contains_table_name === false)
-    //        {
-    //            $table = $name;
-    //            $column = null;
-    //        }
-    //        else
-    //        {
-    //            list($table, $column) = explode('.', $name, 2);
-    //        }
-    //
-    //        $prefix = '';
-    //        if (isset($column))
-    //        {
-    //            $prefix = $table . '.';
-    //            $name = $column;
-    //        }
-    //        elseif ($storage_unit)
-    //        {
-    //            $prefix = $storage_unit . '.';
-    //        }
-    //        return $prefix . $this->connection->quoteIdentifier($name);
+        return $table . $this->connection->quoteIdentifier($name);
     }
 
     /**
@@ -166,8 +141,9 @@ class Database
 
     /**
      * Escapes a table name in accordance with the database type.
-     * @param string $name The table identifier.
-     * @return string The escaped table name.
+     *
+     * @param string $name The table identifier as provided by the data class.
+     * @return string The escaped table name INCLUDING the application prefix.
      */
     function escape_table_name($name)
     {
@@ -331,7 +307,7 @@ class Database
         {
             $props[$this->escape_column_name('id')] = $this->get_better_next_id($object_table, 'id');
         }
-        
+
         $this->connection->loadModule('Extended');
 
         if ($this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_INSERT))
@@ -788,9 +764,17 @@ class Database
         return $record[0];
     }
 
+    /**
+     * Returns the alias of the table name
+     * Please note that this table name should NOT be escaped
+     * using the escape_table_name method of the Database class
+     *
+     * @param String $table_name
+     * @return String the alias
+     */
     function get_alias($table_name)
     {
-		return DatabaseAliasGenerator :: get_instance()->get_table_alias($table_name, $this->get_prefix());
+        return DatabaseAliasGenerator :: get_instance()->get_table_alias($table_name, $this->get_prefix());
 //        if (!array_key_exists($table_name, $this->aliases))
 //        {
 //            $possible_name = substr($table_name, 0, 2) . substr($table_name, - 2);
@@ -851,7 +835,7 @@ class Database
     /**************************************************************************
      * FUNCTIONALITY THAT ENABLES NESTED TREES VIA NESTED_TREE_NODE.CLASS.PHP *
      **************************************************************************/
-    
+
 /**
      * Counts the children of a tree node
      * @param NestedTreeNode $node - the node
@@ -885,7 +869,7 @@ class Database
     private function nested_tree_build_children_condition($node, $recursive = false, $condition = null)
     {
         $children_conditions = array();
-        
+
         if ($recursive)
         {
             $children_conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $node->get_left_value());
@@ -893,14 +877,14 @@ class Database
         }
         else
         {
-            $children_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT, $node->get_id());
+            $children_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT_ID, $node->get_id());
         }
-        
+
         if ($condition)
         {
             $children_conditions[] = $condition;
         }
-        
+
         return new AndCondition($children_conditions);
     }
 
@@ -940,7 +924,7 @@ class Database
     private function nested_tree_build_parents_condition($node, $recursive = false, $include_object = false, $condition = null)
     {
         $parent_conditions = array();
-        
+
         if ($recursive)
         {
             if ($include_object)
@@ -958,12 +942,12 @@ class Database
         {
             $parent_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node->get_parent_id());
         }
-        
+
         if ($condition)
         {
             $parent_conditions[] = $condition;
         }
-        
+
         return new AndCondition($parent_conditions);
     }
 
@@ -1000,19 +984,19 @@ class Database
     private function nested_tree_build_sibblings_condition($node, $include_object = false, $condition = null)
     {
         $siblings_conditions = array();
-        
-        $siblings_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT, $node->get_parent());
-        
+
+        $siblings_conditions[] = new EqualityCondition(NestedTreeNode :: PROPERTY_PARENT_ID, $node->get_parent());
+
         if (! $include_object)
         {
             $siblings_conditions[] = new NotCondition(new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node->get_id()));
         }
-        
+
         if ($condition)
         {
             $siblings_conditions[] = $condition;
         }
-        
+
         return new AndCondition($siblings_conditions);
     }
 
@@ -1030,7 +1014,7 @@ class Database
         }
     	return $this->retrieve_object($node->get_table_name(), $condition, array(), get_class($node));
     }
-	
+
  /**
      * Retrieve a parent node from the database
      * @param String $table_name - the table name
@@ -1040,7 +1024,7 @@ class Database
         $condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node->get_parent_id());
         return $this->retrieve_object($node->get_table_name(), $condition, array(), get_class($node));
     }
-    
+
     /**
      * Change the left/right values in the tree of every node that comes after the given node
      * @param NestedTreeNode $node - the node
@@ -1053,41 +1037,41 @@ class Database
         // Update all necessary left-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
-        
+
         if ($condition)
         {
             $conditions[] = $condition;
         }
-        
+
         $update_condition = new AndCondition($conditions);
-        
+
         $properties = array(NestedTreeNode :: PROPERTY_LEFT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_LEFT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
-        
+
         if (! $res)
         {
             return false;
         }
-        
+
         // Update all necessary right-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
-        
+
         if ($condition)
         {
             $conditions[] = $condition;
         }
-        
+
         $update_condition = new AndCondition($conditions);
-        
+
         $properties = array(NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' + ' . $this->quote($number_of_elements * 2));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
-        
+
         if (! $res)
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -1099,50 +1083,50 @@ class Database
     function nested_tree_delete_nested_values($node, $condition)
     {
         $delta = $node->get_right_value() - $node->get_left_value() + 1;
-        
+
         // Update all necessary nested-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $node->get_left_value());
-        
+
         if ($condition)
         {
             $conditions[] = $condition;
         }
-        
+
         $update_condition = new AndCondition($conditions);
-        
+
         $properties = array();
         $properties[NestedTreeNode :: PROPERTY_LEFT_VALUE] = $this->escape_column_name(NestedTreeNode :: PROPERTY_LEFT_VALUE) . ' - ' . $this->quote($delta);
         $properties[NestedTreeNode :: PROPERTY_RIGHT_VALUE] = $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta);
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
-        
+
         if (! $res)
         {
             return false;
         }
-        
+
         // Update some more nested-values
         $conditions = array();
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $node->get_left_value());
         $conditions[] = new InequalityCondition(NestedTreeNode :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $node->get_right_value());
-        
+
         if ($condition)
         {
             $conditions[] = $condition;
         }
-        
+
         $update_condition = new AndCondition($conditions);
-        
+
         $properties = array(NestedTreeNode :: PROPERTY_RIGHT_VALUE => $this->escape_column_name(NestedTreeNode :: PROPERTY_RIGHT_VALUE) . ' - ' . $this->quote($delta));
         $res = $this->update_objects($node->get_table_name(), $properties, $update_condition);
-        
+
         if (! $res)
         {
             return false;
         }
-        
+
         return true;
     }
-    
+
 }
 ?>

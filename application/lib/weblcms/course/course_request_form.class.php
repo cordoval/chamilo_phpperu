@@ -105,7 +105,7 @@ class CourseRequestForm extends FormValidator
      		$this->addElement('static', 'request', Translation :: get('Course'), $request_name);
      		
      		$request_title = $this->request->get_title();
-     		$this->addElement('static', 'request', Translation :: get('Course'), $request_title);
+     		$this->addElement('static', 'request', Translation :: get('Title'), $request_title);
      		
      		$name_user = UserDataManager::get_instance()->retrieve_user($this->request->get_user_id())->get_fullname();
 			$this->addElement('static', 'request', Translation :: get('User'), $name_user);

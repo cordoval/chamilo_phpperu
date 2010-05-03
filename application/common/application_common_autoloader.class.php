@@ -39,7 +39,6 @@ class ApplicationCommonAutoloader
 					  'repo_viewer' => 'repo_viewer/repo_viewer.class.php',
 					  'reporting_viewer' => 'reporting_viewer/reporting_viewer.class.php',
 				      'streaming_media_manager' => 'streaming_media_manager/streaming_media_manager.class.php',
-		              'streaming_media_launcher' => 'streaming_media_manager/streaming_media_launcher.class.php',
 		              'streaming_media_component' => 'streaming_media_manager/streaming_media_component.class.php',
 				      'dynamic_form_manager' => 'dynamic_form_manager/dynamic_form_manager.class.php',
 				      'rights_editor_manager' => 'rights_editor_manager/rights_editor_manager.class.php',

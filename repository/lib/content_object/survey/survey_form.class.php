@@ -4,7 +4,9 @@
  * @package repository.lib.content_object.survey
  */
 require_once dirname(__FILE__) . '/survey.class.php';
-require_once dirname(__FILE__) . '/survey_context.class.php';
+//require_once dirname(__FILE__) . '/survey_context.class.php';
+require_once dirname(__FILE__) . '/survey_context_template.class.php';
+
 /**
  * This class represents a form to create or update assessment
  */
@@ -20,7 +22,7 @@ class SurveyForm extends ContentObjectForm
             $defaults[Survey :: PROPERTY_HEADER] = $object->get_header();
             $defaults[Survey :: PROPERTY_FOOTER] = $object->get_footer();
             $defaults[Survey :: PROPERTY_FINISH_TEXT] = $object->get_finish_text();
-            $defaults[Survey :: PROPERTY_CONTEXT] = $object->get_context()->get_type();
+            $defaults[Survey :: PROPERTY_CONTEXT_TEMPLATE_ID] = $object->get_context_template_id();
         
         }
         
@@ -39,7 +41,7 @@ class SurveyForm extends ContentObjectForm
         $this->add_html_editor(Survey :: PROPERTY_FOOTER, Translation :: get('SurveyHeaderText'), false, $html_editor_options);
         $this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('SurveyFinishText'), false, $html_editor_options);
         $this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
-        $this->add_select(Survey :: PROPERTY_CONTEXT, Translation :: get('SurveyContext'), $this->get_contexts(), true);
+        $this->add_select(Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, Translation :: get('SurveyContext'), $this->get_contexts(), true);
         $this->addElement('category');
     }
 
@@ -63,12 +65,12 @@ class SurveyForm extends ContentObjectForm
         {
            
         	
-        	$this->addElement('hidden', Survey :: PROPERTY_CONTEXT, $survey->get_context()->get_type());
-        	$this->addElement('static', '', Translation :: get('SurveyContext'), $survey->get_context()->get_display_name());
+        	$this->addElement('hidden', Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, $survey->get_context_template_id());
+        	$this->addElement('static', '', Translation :: get('SurveyContext'), $survey->get_context_template_name());
         	$this->add_warning_message('no_context_update', '', Translation :: get('CanNotUpdateSurveyContextBecauseSurveyIsPublished'));
             
         }else{
-        	$this->add_select(Survey :: PROPERTY_CONTEXT, Translation :: get('SurveyContext'), $this->get_contexts(), true);
+        	$this->add_select(Survey :: PROPERTY_CONTEXT_TEMPLATE_ID, Translation :: get('SurveyContext'), $this->get_contexts(), true);
         }
         
         $this->addElement('category');
@@ -96,7 +98,7 @@ class SurveyForm extends ContentObjectForm
         
         }
         
-        $object->set_context($values[Survey :: PROPERTY_CONTEXT]);
+        $object->set_context_template_id($values[Survey :: PROPERTY_CONTEXT_TEMPLATE_ID]);
         
         $this->set_content_object($object);
         return parent :: create_content_object();
@@ -120,7 +122,7 @@ class SurveyForm extends ContentObjectForm
             $object->set_anonymous(0);
         
         }
-        $object->set_context($values[Survey :: PROPERTY_CONTEXT]);
+        $object->set_context_template_id($values[Survey :: PROPERTY_CONTEXT_TEMPLATE_ID]);
         
         $this->set_content_object($object);
         return parent :: update_content_object();
@@ -128,11 +130,13 @@ class SurveyForm extends ContentObjectForm
 
     public function get_contexts()
     {
-        $contexts = SurveyContext :: get_registered_contexts();
-        $selects = array();
-        foreach ($contexts as $context)
+        
+    	$condition = new EqualityCondition(SurveyContextTemplate::PROPERTY_PARENT_ID, 0, SurveyContextTemplate :: get_table_name());
+    	$templates = SurveyContextDataManager::get_instance()->retrieve_survey_context_templates($condition);
+    	$selects = array();
+        while ($template = $templates->next_result())
         {
-           $selects[$context->get_type()] = $context->get_display_name();
+           $selects[$template->get_id()] = $template->get_name();
         }
         return $selects;
     }

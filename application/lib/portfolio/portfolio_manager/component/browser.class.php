@@ -83,7 +83,7 @@ class PortfolioManagerBrowserComponent extends PortfolioManager
         }
 
         // TODO: find the correct way to add the DISTINCT
-        $conditions[] = new SubselectCondition(User::PROPERTY_ID, PortfolioPublication::PROPERTY_PUBLISHER, PortfolioPublication::get_table_name());
+        $conditions[] = new SubselectCondition(User::PROPERTY_ID, PortfolioPublication::PROPERTY_PUBLISHER, PortfolioPublication::get_table_name(), null, PortfolioDataManager :: get_instance());
 
         $condition = new AndCondition($conditions);
 

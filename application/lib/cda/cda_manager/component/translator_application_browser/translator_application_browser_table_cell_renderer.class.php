@@ -53,7 +53,7 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 				return Translation :: get('UserUnknown');
 			case CdaLanguage :: PROPERTY_ENGLISH_NAME:
 				$alias = CdaDataManager :: get_instance()->get_alias(CdaLanguage :: get_table_name());
-				if($column->get_storage_unit() == $alias)
+				if($column->get_storage_unit_alias() == $alias)
 				{
 					$cda_language = CdaDataManager :: get_instance()->retrieve_cda_language($translator_application->get_source_language_id());
 				}
@@ -61,10 +61,10 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 				{
 					$cda_language = CdaDataManager :: get_instance()->retrieve_cda_language($translator_application->get_destination_language_id());
 				}
-				
+
 				return $cda_language->get_english_name();
 		}
-		
+
 		return parent :: render_cell($column, $translator_application);
 	}
 
@@ -77,9 +77,9 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 	private function get_modification_links($translator_application)
 	{
 		$toolbar_data = array();
-		
+
 		$status = $translator_application->get_status();
-		
+
 		if ($status == TranslatorApplication :: STATUS_ACCEPTED)
 		{
 			$toolbar_data[] = array(

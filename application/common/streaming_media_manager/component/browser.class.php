@@ -25,7 +25,7 @@ class StreamingMediaBrowserComponent extends StreamingMediaComponent
 
     function render_menu()
     {
-        $extra = $this->get_menu_items();
+    	$extra = $this->get_menu_items();
     	if ($this->form->get_query())
         {
             $search_url = '#';

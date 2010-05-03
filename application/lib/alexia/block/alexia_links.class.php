@@ -74,7 +74,7 @@ class AlexiaLinks extends AlexiaBlock
         }
         
         $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Link :: get_type_name());
-        $conditions[] = new SubselectCondition(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition);
+        $conditions[] = new SubselectCondition(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         
         $access = array();
         $access[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());

@@ -56,6 +56,7 @@ class PortfolioPublicationForm extends FormValidator
         $locale1['Error'] = Translation :: get('Error');
         $attributes1['locale'] = $locale1;
         $attributes1['exclude'] = array('user_' . $this->user->get_id());
+        //TODO: also exclude anonymous user
         $attributes1['defaults'] = array();
  //       $pub1 = $this->portfolio_publication;
         $udm1 = UserDataManager :: get_instance();
@@ -137,7 +138,7 @@ class PortfolioPublicationForm extends FormValidator
 //            $defaults['forever'] = 0;
 //        }
 
-            if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
+             if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
             {
                 $pub = $this->portfolio_publication;
                 $rights = PortfolioRights::get_all_publication_rights($pub->get_location());
@@ -148,7 +149,7 @@ class PortfolioPublicationForm extends FormValidator
                 $user_id = Request::get('user_id');
                 $location = PortfolioRights::get_portfolio_location($cid, $type, $user_id);
                 if($location)
-                {
+                { //TODO deze rechten ook op de sessie?
                     $rights = PortfolioRights::get_all_publication_rights($location);
                 }
                 else
@@ -234,7 +235,7 @@ class PortfolioPublicationForm extends FormValidator
         parent :: setDefaults($defaults);
     }
 
-    function update_portfolio_publication()
+    function update_portfolio_publication($type)
     {
         $portfolio_publication = $this->portfolio_publication;
         $values = $this->exportValues();
@@ -261,6 +262,15 @@ class PortfolioPublicationForm extends FormValidator
                 $user_id = Request::get('user_id');
                 $location = PortfolioRights::get_portfolio_location($cid, $type, $user_id);
 
+            }
+
+            if(!isset($location) || $location == false)
+            {
+                //portfolio was created in the repository and then published so no location for the item in the portfolio tree yet
+                $rdm = RepositoryDataManager :: get_instance();
+                $item = $rdm->retrieve_complex_content_object_item($cid);
+                $parent_location = $item->get_parent();
+                PortfolioRights::create_location_in_portfolio_tree('portfolio item', $type, $cid, $parent_location, $user_id, true, false);
             }
 
             return PortfolioRights::implement_update_rights($values, $location);
@@ -292,11 +302,13 @@ class PortfolioPublicationForm extends FormValidator
             if($succes)
             {
                 $location = $portfolio_publication->get_location();
+                if($location)
+                {
+                     $succes &= PortfolioRights::implement_rights($values, $location);
+                }
             }
-            if($location)
-            {
-                PortfolioRights::implement_rights($values, $location);
-            }
+
+
         }
         return $succes;
     }

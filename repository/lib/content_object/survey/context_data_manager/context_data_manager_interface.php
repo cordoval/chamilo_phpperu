@@ -18,6 +18,11 @@ interface SurveyContextDataManagerInterface
     function create_survey_context($survey_context);
 
     function retrieve_additional_survey_context_properties($survey_context);
+	
+    
+    function retrieve_survey_context_templates($condition = null, $offset = null, $count = null, $order_property = null);
 
+    function count_survey_context_templates($condition = null);
+    
 }
 ?>

@@ -65,9 +65,9 @@ class SurveyStudentContext extends SurveyContext
             {
                 $context = new SurveyStudentContext();
                 $context->set_name('student nr: ' . $i);
-                $context->set_firstname($user->get_firstname() . $i);
-                $context->set_lastname($user->get_lastname() . $i);
-                $context->set_email($user->get_email() . $i);
+                $context->set_firstname('test_firstname' . $i);
+                $context->set_lastname('test_lastname'. $i);
+                $context->set_email('test_email' . $i);
                 $context->create();
                 $contexts[] = $context;
             }

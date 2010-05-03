@@ -12,6 +12,7 @@ class InternalItem extends DataClass
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_PUBLICATION_ID = 'publication_id';
     const PROPERTY_CALCULATED = 'calculated';
+    const PROPERTY_CATEGORY = 'category';
     
     /**
      * Get the default properties
@@ -19,7 +20,7 @@ class InternalItem extends DataClass
      */
     static function get_default_property_names()
     {
-    	return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_CALCULATED));
+    	return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_CALCULATED, self :: PROPERTY_CATEGORY));
     }
     
     function get_data_manager()
@@ -57,6 +58,16 @@ class InternalItem extends DataClass
     function set_calculated($calculated)
     {
     	$this->set_default_property(self :: PROPERTY_CALCULATED, $calculated);
+    }
+    
+    function get_category()
+    {
+    	return $this->get_default_property(self :: PROPERTY_CATEGORY);
+    }
+    
+    function set_category($category)
+    {
+    	$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
     }
 
     static function get_table_name()

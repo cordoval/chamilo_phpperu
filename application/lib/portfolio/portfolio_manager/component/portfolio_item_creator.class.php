@@ -73,7 +73,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
                 $wrapper->set_ref($objectID);
                 $wrapper->set_parent($parent);
                 $wrapper->set_user_id($this->get_user_id());
-                $wrapper->set_display_order($rdm->select_next_display_order());
+                $wrapper->set_display_order($rdm->select_next_display_order($parent));
                 $success &= $wrapper->create();
 
                 

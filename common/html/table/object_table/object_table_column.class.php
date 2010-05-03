@@ -15,9 +15,9 @@ class ObjectTableColumn implements TableColumn
      * The title of the column.
      */
     private $title;
-    
-    private $storage_unit;
-    
+
+    private $storage_unit_alias;
+
     private $is_sortable;
 
     /**
@@ -36,12 +36,12 @@ class ObjectTableColumn implements TableColumn
      *                                                   object property, false
      *                                                   otherwise.
      */
-    function ObjectTableColumn($property, $is_sortable = true, $storage_unit = null)
+    function ObjectTableColumn($property, $is_sortable = true, $storage_unit_alias = null)
     {
         $this->property = $property;
         $this->title = Translation :: get(Utilities :: underscores_to_camelcase($this->property));
         $this->is_sortable = $is_sortable;
-        $this->storage_unit = $storage_unit;
+        $this->storage_unit_alias = $storage_unit_alias;
     }
 
     /**
@@ -63,9 +63,9 @@ class ObjectTableColumn implements TableColumn
         return $this->title;
     }
 
-    function get_storage_unit()
+    function get_storage_unit_alias()
     {
-        return $this->storage_unit;
+        return $this->storage_unit_alias;
     }
 
     /**

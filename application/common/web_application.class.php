@@ -4,7 +4,7 @@
  * @package application
  */
 
-abstract class WebApplication extends Application
+abstract class WebApplication extends BasicApplication
 {
 
     /**
@@ -166,9 +166,10 @@ abstract class WebApplication extends Application
      */
     public static function is_application($name)
     {
-        $path = dirname(__FILE__) . '/../lib/';
+        $path = dirname(__FILE__) . '/../lib';
         $application_path = $path . '/' . $name;
         $application_manager_path = $path . '/' . $name . '/' . $name . '_manager' . '/' . $name . '_manager.class.php';
+                
         if (file_exists($application_path) && is_dir($application_path) && file_exists($application_manager_path))
         {
             return true;
@@ -214,7 +215,7 @@ abstract class WebApplication extends Application
         }
     }
 
-    public function get_application_path($application_name)
+    public static function get_application_path($application_name)
     {
         return Path :: get_application_path() . 'lib/' . $application_name . '/';
     }
@@ -227,14 +228,18 @@ abstract class WebApplication extends Application
 
     function factory($application, $user = null)
     {
-        $manager_path = self :: get_application_path($application) . $application . '_manager/' . $application . '_manager.class.php';
-        require_once $manager_path;
+        require_once self :: get_application_manager_path($application);
         return parent :: factory($application, $user);
     }
 
     function get_additional_user_information($user)
     {
     	return null;
+    }
+    
+	static function get_application_manager_path($application_name)
+    {
+    	return self :: get_application_path($application_name) . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
     }
 }
 ?>

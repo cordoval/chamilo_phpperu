@@ -35,7 +35,7 @@ class StreamingMediaMenu extends HTML_Menu
         parent :: __construct($menu_items);
         
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
-        $this->forceCurrentUrl($this->get_url($current_item));
+        $this->forceCurrentUrl($this->get_url());
     }
     
     function get_menu_items()
@@ -48,12 +48,9 @@ class StreamingMediaMenu extends HTML_Menu
     	return count($this->menu_items);
     }
 
-    private function get_url($id)
+    private function get_url()
     {
-        if (! $id)
-            $id = 0;
-        
-        return $this->streaming_manager->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $id));
+        return $this->streaming_manager->get_url();
     }
 
     /**
