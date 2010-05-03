@@ -3,6 +3,7 @@ require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
 require_once dirname (__FILE__) . '/../internal_item.class.php';
 class GradebookInternalItemForm extends FormValidator
 {
+	private $calculated_applications = array('assessment', 'learning_path');
 
     function GradebookInternalItemForm()
     {
@@ -29,13 +30,19 @@ class GradebookInternalItemForm extends FormValidator
 //		}
 	}
 	
-	function create_internal_item($publication_id, $calculated = 0)
+	function create_internal_item($publication_id, $calculated = 0, $category = null)
 	{
 		$internal_item = new InternalItem();
 		$internal_item->set_application(Request :: get('application'));
 		$internal_item->set_publication_id($publication_id);
 		$internal_item->set_calculated($calculated);
+		$internal_item->set_category($category);
 		$internal_item->create();
+	}
+	
+	function is_application_result_calculated($application)
+	{
+		return in_array($this->calculated_applications, $application);
 	}
 }
 ?>

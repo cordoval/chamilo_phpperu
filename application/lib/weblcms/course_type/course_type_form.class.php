@@ -386,6 +386,16 @@ class CourseTypeForm extends CommonForm
 
 		if($course_type_layout->update())
 		{
+			if($course_type->get_active() == 0)
+			{
+		        $condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+		        $course_type_user_categories = $wdm->retrieve_course_type_user_categories($condition);
+		        while($category = $course_type_user_categories->next_result())
+		        {
+		        	if(!$category->delete())
+		            	$failures ++;
+	            }
+			}
 			//update all course related to the coursetype
 			$condition = new EqualityCondition(CourseTypeSettings :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
 			$courses = $wdm->retrieve_courses($condition);

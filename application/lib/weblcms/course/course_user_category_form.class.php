@@ -46,10 +46,6 @@ class CourseUserCategoryForm extends FormValidator
         $this->addElement('text', CourseUserCategory :: PROPERTY_TITLE, Translation :: get('Title'), array("maxlength" => 50, "size" => 50));
         $this->addRule(CourseUserCategory :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $course_types = $this->get_course_types();
-        $this->addElement('select', CourseTypeUserCategory::PROPERTY_COURSE_TYPE_ID, Translation :: get('CourseType'), $course_types);
-        
-        /*
         $attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'application/lib/weblcms/xml_feeds/xml_course_type_feed.php';
         $locale = array();
@@ -68,11 +64,11 @@ class CourseUserCategoryForm extends FormValidator
         $legend->set_items($legend_items);
         $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
         */
-        /*
-        $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
+        
+        $element_finder = $this->createElement('user_group_finder', self :: COURSE_TYPE_TARGET_ELEMENTS ,  Translation :: get('CourseType'), $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
-    	*/
+    	
     }
 
     function build_editing_form()
@@ -107,52 +103,78 @@ class CourseUserCategoryForm extends FormValidator
         
         $courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
         
-        return $courseusercategory->update();
+        if(!$courseusercategory->update())
+        	return false;
+        
+    	$wdm = WeblcmsDataManager::get_instance();
+    	$condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $courseusercategory->get_id());
+		$previous_types = $wdm->retrieve_course_type_user_categories($condition);
+		$course_types = $this->get_selected_course_types();
+
+		while($previous_type = $previous_types->next_result())
+		{
+			$validation = false;
+			foreach($course_types as $index => $type)
+			{
+				if($type->get_course_type_id() == $previous_type->get_course_type_id())
+				{
+					if(!$type->update())
+						return false;
+					unset($course_types[$index]);
+					$validation = true;
+				}
+			}
+			if(!$validation)
+			{
+				if(!$previous_type->delete())
+					return false;
+			}
+		}
+		foreach($course_types as $type)
+		{
+			if(!$type->create())
+				return false;
+		}
+		
+        return true;
     }
 
     function create_course_user_category()
     {
-        $courseusercategory = $this->courseusercategory;
         $values = $this->exportValues();
         
-        $courseusercategory->set_id($values[CourseUserCategory :: PROPERTY_ID]);
-        $courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
+        $this->courseusercategory->set_id($values[CourseUserCategory :: PROPERTY_ID]);
+        $this->courseusercategory->set_title($values[CourseUserCategory :: PROPERTY_TITLE]);
         
-        if(!$courseusercategory->create())
+        if(!$this->courseusercategory->create())
         	return false;
         
-        $coursetypeusercategory = new CourseTypeUserCategory();
-        $coursetypeusercategory->set_course_user_category_id($courseusercategory->get_id());
-        $coursetypeusercategory->set_course_type_id($values[CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID]);
-        $coursetypeusercategory->set_user_id($this->user->get_id());
-        
-        return $coursetypeusercategory->create();
+        $course_types = $this->get_selected_course_types();
+        foreach($course_types as $course_type)
+        {
+        	if(! $course_type->create())
+        		return false;
+        }
+        	
+        return true;
     }
     
-    function get_course_types()
-    {
-    	$course_types = array();
-        $course_active_types = $this->parent->retrieve_active_course_types();
-        while($course_type = $course_active_types->next_result())
-       	{
-       	    $conditions = array();
-       		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->parent->get_user_id(), CourseUserRelation :: get_table_name());
-       		$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
-       		$condition = new AndCondition($conditions);
-       		$courses_count = $this->parent->count_user_courses($condition);
-       	 	if($courses_count > 0)
-				$course_types[$course_type->get_id()] = $course_type->get_name();
-       	}
-       	
-       	$conditions = array();
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->parent->get_user_id(), CourseUserRelation :: get_table_name());
-        $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
-       	$condition = new AndCondition($conditions);
-       	$courses_count= $this->parent->count_user_courses($condition);
-       	if($courses_count > 0)
-			$course_types[0] = Translation :: get('NoCourseType');
-		return $course_types;
-    }
+	function get_selected_course_types()
+	{
+		$values = $this->exportValues();
+		$course_types_array = array();
+
+		foreach($values[self :: COURSE_TYPE_TARGET_ELEMENTS]['coursetype'] as $value)
+		{
+			$coursetypeusercategory = new CourseTypeUserCategory();
+       		$coursetypeusercategory->set_course_user_category_id($this->courseusercategory->get_id());
+        	$coursetypeusercategory->set_course_type_id($value);
+        	$coursetypeusercategory->set_user_id($this->user->get_id());
+			$course_types_array[] = $coursetypeusercategory;
+		}
+				
+		return $course_types_array;
+	}
     
     /**
      * Sets default values. Traditionally, you will want to extend this method
@@ -164,7 +186,50 @@ class CourseUserCategoryForm extends FormValidator
     {
         $courseusercategory = $this->courseusercategory;
         $defaults[CourseUserCategory :: PROPERTY_TITLE] = $courseusercategory->get_title();
+		
+		if(!is_null($courseusercategory->get_id()))
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			
+			$condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $courseusercategory->get_id());
+			$course_types = $wdm->retrieve_course_type_user_categories($condition);
+				
+			while($type = $course_types->next_result())
+			{
+				$selected_course_type = $this->get_course_type_array($type->get_course_type_id(), $wdm);
+		        $defaults[self :: COURSE_TYPE_TARGET_ELEMENTS][$selected_course_type['id']] = $selected_course_type;
+			}
+			
+			
+			if (count($defaults[self :: COURSE_TYPE_TARGET_ELEMENTS]) > 0)
+			{
+	            $active = $this->getElement(self :: COURSE_TYPE_TARGET_ELEMENTS);
+	        	$active->setValue($defaults[self :: COURSE_TYPE_TARGET_ELEMENTS]);
+			}
+			
+		}
+        
         parent :: setDefaults($defaults);
+    }
+    
+    function get_course_type_array($course_type_id, $wdm)
+    {
+    	$selected_course_type = array();
+		$selected_course_type['classes'] = 'type type_course_type';
+    	if($course_type_id != 0)
+    	{
+	    	$course_type = $wdm->retrieve_course_type($course_type_id);
+			$selected_course_type['id'] = 'coursetype_' . $course_type->get_id();
+			$selected_course_type['title'] = $course_type->get_name();
+			$selected_course_type['description'] = $course_type->get_name();
+    	}
+    	else
+    	{
+			$selected_course_type['id'] = 'coursetype_0';
+			$selected_course_type['title'] = Translation :: get('NoCourseType');
+			$selected_course_type['description'] = Translation :: get('NoCourseType');
+    	}
+		return $selected_course_type;
     }
 }
 ?>

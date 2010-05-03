@@ -110,7 +110,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
         
         $subselect_condition = $this->get_condition();
         
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition);
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         
         $parent = $this->parent;
         $category = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);

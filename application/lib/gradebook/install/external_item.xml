@@ -4,5 +4,6 @@
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="title" type="text" length="255" notnull="1" />
 		<property name="description" type="text" length="255" notnull="1" />
+		<property name="category" type="text" length="255" />
 	</properties>
 </object>

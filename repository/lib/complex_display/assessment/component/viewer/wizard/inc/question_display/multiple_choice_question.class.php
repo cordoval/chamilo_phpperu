@@ -12,7 +12,7 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
     {
         $formvalidator = $this->get_formvalidator();
         $clo_question = $this->get_clo_question();
-        $question = $this->get_question();
+        $question = $this->get_question(); 
         $answers = $this->shuffle_with_keys($question->get_options());
         $type = $question->get_answer_type();
         $renderer = $this->get_renderer();
@@ -29,18 +29,18 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
         $formvalidator->addElement('html', implode("\n", $table_header));
         
         $question_id = $clo_question->get_id();
-        
+
         foreach ($answers as $i => $answer)
         {
             $group = array();
-            
-            if ($type == 'radio')
+
+            if ($type == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO)
             {
                 $answer_name = $question_id . '_0';
                 $group[] = $formvalidator->createElement('radio', $answer_name, null, null, $i);
                 $group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
             }
-            elseif ($type == 'checkbox')
+            elseif ($type == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
             {
                 $answer_name = $question_id . '_' . ($i + 1);
                 $group[] = $formvalidator->createElement('checkbox', $answer_name);

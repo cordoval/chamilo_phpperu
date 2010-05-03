@@ -47,14 +47,17 @@ class WeblcmsManagerCourseTypeDeleterComponent extends WeblcmsManager
                 }
                 
                 $condition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
-                $courses = $this->retrieve_courses($condition);
+           		$properties = array(Course :: PROPERTY_COURSE_TYPE_ID => 0);
+              	if(!$wdm->update_courses($properties, $condition))
+                	$failures ++;
                 
-                while($course = $courses->next_result())
-                {
-                	$course->set_course_type_id(0);
-                	if(!$course->update())
-                		return false;
-                }
+               	$condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+               	$course_type_user_categories = $wdm->retrieve_course_type_user_categories($condition);
+               	while($category = $course_type_user_categories->next_result())
+               	{
+               		if(!$category->delete())
+               			$failures ++;
+               	} 
             }
             
             if ($failures)

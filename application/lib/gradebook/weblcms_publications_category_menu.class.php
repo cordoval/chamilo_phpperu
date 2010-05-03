@@ -19,6 +19,7 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
     private $array_renderer;
     
     private $current_category;
+    private $user;
 
     /**
      * Creates a new category navigation menu.
@@ -31,10 +32,11 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function WeblcmsPublicationsCategoryMenu($current_category, $url_format = '?application=gradebook&go=home&publication_type=weblcms&tool=%s')
+    function WeblcmsPublicationsCategoryMenu($current_category, $url_format = '?application=gradebook&go=home&publication_type=weblcms&tool=%s', $user)
     {
     	$this->current_category = $current_category;
     	$this->urlFmt = $url_format;
+    	$this->user = $user;
         
         $menu = $this->get_menu();
         parent :: __construct($menu);
@@ -74,6 +76,24 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
      */
     private function get_menu_items()
     {
+//   	    $conditions = array();
+//        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->user->get_id(), CourseUserRelation :: get_table_name());
+//        $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
+//        $condition = new AndCondition($conditions);
+//       	$order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager::get_instance()->get_alias(CourseUserRelation :: get_table_name()));
+//       	$wlm = new WeblcmsManager();
+//       	$courses_result = $wlm->retrieve_user_courses($condition, null, null, $order_by);
+//       	
+//        $menu = array();
+//        while ($course = $courses_result->next_result())
+//        {
+//            $menu_item = array();
+//            $menu_item['title'] = $course->get_name();
+//            //$menu_item['url'] = $this->get_url($tool);
+//			$menu_item['class'] = 'course';
+//			$menu[] = $menu_item;
+//        }
+        
     	$tools = array();
         $condition = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, 'weblcms');
         $gdm = GradebookDataManager :: get_instance();
@@ -86,6 +106,7 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
         }
         
         $menu = array();
+        $tools = array_unique($tools);
         foreach ($tools as $tool)
         {
             $menu_item = array();
@@ -94,7 +115,6 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
 			$menu_item['class'] = 'tool';
 			$menu[] = $menu_item;
         }
-        
         return $menu;
     }
 

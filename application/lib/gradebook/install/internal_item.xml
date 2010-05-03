@@ -5,5 +5,6 @@
 		<property name="application" type="text" length="255" notnull="1" />
 		<property name="publication_id" type="integer" notnull="1" />
 		<property name="calculated" type="boolean" notnull="1" />
+		<property name="category" type="text" length="255" />
 	</properties>
 </object>

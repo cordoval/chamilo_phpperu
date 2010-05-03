@@ -22,10 +22,11 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
-
+		$this->applications = $this->retrieve_internal_item_applications();
+		
 //		echo $this->ab->as_html();
 		//$applications = array_merge($this->retrieve_applications_with_evaluations(), $this->retrieve_calculated_applications_with_evaluation());
-		$this->applications = $this->retrieve_filtered_array_internal_evaluated_publication($this->get_user_id());
+		//$this->applications = $this->retrieve_filtered_array_internal_evaluated_publication($this->get_user_id());
 		//$this->applications = $this->retrieve_filtered_array_internal_my_evaluations($this->get_user_id());
 		$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		if($this->application)
@@ -48,11 +49,9 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		if(count($this->applications) == 0)
 			echo '<h2>' . Translation :: get('NoEvaluations') . '</h2>';
 		else
-			echo $this->get_application_tabs(array_unique($this->applications));
-		if ($this->menu)
-			echo $this->menu->render_as_tree();
-		if ($this->table)
-			echo $this->table->as_html($this);
+		{
+				echo $this->get_gradebook_tabs();
+		}
 		$this->display_footer();
 	}
 
@@ -68,17 +67,17 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	{
 		$tool = Request :: get('tool');
         $tool = $tool ? $tool : 0;
-		$menu = new WeblcmsPublicationsCategoryMenu($tool);
+		$menu = new WeblcmsPublicationsCategoryMenu($tool, null, $this->get_user());
 		return $menu;
 	}
 	
-	function get_condition($applications_array)
+	function get_condition()
 	{
-		$ids = array_keys($applications_array);
-		$conditions = array();
-		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application);
-		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $ids);
-		$condition = new AndCondition($conditions);
+		
+		//$conditions = array();
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application);
+//		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $applications_array);
+//		$condition = new AndCondition($conditions);
 		return $condition;
 	}
 	
@@ -87,14 +86,14 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		return $this->applications;
 	}
 	
-	function get_application_tabs($applications)
+	function get_internal_application_tabs($applications)
 	{
         $html = array();
         
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
         $html[] = '<div class="application_selecter">';
         
-        foreach ($applications as $key =>$the_application)
+        foreach ($applications as $the_application)
         {
             if (isset($current_application) && $current_application == $the_application)
             {
@@ -118,91 +117,64 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         return implode("\n", $html);
 	}
 	
+	function get_external_application_tabs()
+	{
+        $html[] = '<div class="application_selecter">';
+        $html[] = '<a href="">';
+        $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_weblcms.png);">' . Translation :: get('Courses') . '</div>';
+        $html[] = '</a>';
+        $html[] = '<a href="">';
+        $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_general.png);">' . Translation :: get('General') . '</div>';
+        $html[] = '</a>';
+        $html[] = '</div>';
+        $html[] = '<div style="clear: both;"></div>';
+        
+        return implode("\n", $html);
+	}
+	
 	function get_gradebook_tabs()
 	{
         $html = array();
         $html[] = '<div id="gradebook_tabs">';
         $html[] = '<ul>';// Render the tabs
-        
-        $html[] = '<li><a href="#my-evaluated-publications">';
-        $html[] = '<span class="category">';
-        $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_help.png" border="0" style="vertical-align: middle;" alt="evaluated_publications" title="evaluated_publications"/>';
-        $html[] = '<span class="title">' . Translation :: get('MyEvaluatedPublications') . '</span>';
-		$html[] = '</span>';
-        $html[] = '</a></li>';
-        $html[] = '<li><a href="#my-evaluations">';
-        $html[] = '<span class="category">';
-        $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_home.png" border="0" style="vertical-align: middle;" alt="evaluated_publications" title="evaluated_publications"/>';
-        $html[] = '<span class="title">' . Translation :: get('MyEvaluations') . '</span>';
-		$html[] = '</span>';
-        $html[] = '</a></li>';
-        $html[] = '</ul>';
-        $html[] = '<div id="my-evaluated-publications"/>';
-        $html[] = '<ul>';// Render the tabs
+     
         $html[] = '<li><a href="#internal">';
         $html[] = '<span class="category">';
-        $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_help.png" border="0" style="vertical-align: middle;" alt="evaluated_publications" title="evaluated_publications"/>';
-        $html[] = '<span class="title">' . Translation :: get('Internal') . '</span>';
+        $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_help.png" border="0" style="vertical-align: middle;" alt="internal_publications" title="internal_publications"/>';
+        $html[] = '<span class="title">' . Translation :: get('InternalPublications') . '</span>';
 		$html[] = '</span>';
         $html[] = '</a></li>';
         $html[] = '<li><a href="#external">';
         $html[] = '<span class="category">';
-        $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_home.png" border="0" style="vertical-align: middle;" alt="evaluated_publications" title="evaluated_publications"/>';
-        $html[] = '<span class="title">' . Translation :: get('External') . '</span>';
+        $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_home.png" border="0" style="vertical-align: middle;" alt="evaluated_publications" title="external_publications"/>';
+        $html[] = '<span class="title">' . Translation :: get('ExternalPublications') . '</span>';
 		$html[] = '</span>';
         $html[] = '</a></li>';
         $html[] = '</ul>';
+        $html[] = '<div id="internal"/>';
+        $html[] = $this->get_internal_application_tabs($this->applications);
+        $html[] = '<h2>' . ucfirst($this->application) . '</h2>';
+		if ($this->application == 'weblcms')
+		{
+			$html[] = '<div style="float: left; width: 12%; overflow:auto;">';
+			$html[] = $this->menu->render_as_tree();
+			$html[] = '</div>';
+			$html[] = '<div style="float: right; width: 85%;">';
+			$html[] = $this->table->as_html($this);
+			$html[] = '</div>';
+		}
+		else
+		{	
+			if($this->table)
+				$html[] = $this->table->as_html($this);
+		}
         $html[] = '</div>';
-        $html[] = '<div id="my-evaluations"/>';
-        $html[] = '<ul>';// Render the tabs
-        $html[] = '<li><a href="#internal">';
-        $html[] = '<span class="category">';
-        $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_help.png" border="0" style="vertical-align: middle;" alt="evaluated_publications" title="evaluated_publications"/>';
-        $html[] = '<span class="title">' . Translation :: get('Internal') . '</span>';
-		$html[] = '</span>';
-        $html[] = '</a></li>';
-        $html[] = '<li><a href="#external">';
-        $html[] = '<span class="category">';
-        $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_home.png" border="0" style="vertical-align: middle;" alt="evaluated_publications" title="evaluated_publications"/>';
-        $html[] = '<span class="title">' . Translation :: get('External') . '</span>';
-		$html[] = '</span>';
-        $html[] = '</a></li>';
-        $html[] = '</ul>';
-        $html[] = '</div>';
-        $html[] = '<div id="internal">';
-        $html[] = $this->get_application_tabs($this->applications);
-        $html[] = '</div>';
-        $html[] = '<div id="external">';
-        $html[] = $this->get_application_tabs($this->applications);
+        $html[] = '<div id="external"/>';
+        $html[] = $this->get_external_application_tabs();
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/gradebook_tabs.js');
-//        $index = 0;
-//
-//        $selected_tab = 0;
-//
-//        foreach ($filters as $filter)
-//        {
-////        	if (!count($application_links['links']))
-////            {
-////            	continue;
-////            }
-//
-//        	$index ++;
-//
-//            if(Request :: get('selected') == $application_links['application']['class'])
-//            {
-//            	$selected_tab = $index - 1;
-//            }
-//
-//            $html[] = '<li><a href="#admin_tabs-' . $index . '">';
-//            $html[] = '<span class="category">';
-//            $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
-//            $html[] = '<span class="title">' . $application_links['application']['name'] . '</span>';
-//            $html[] = '</span>';
-//            $html[] = '</a></li>';
-//        }
-//        
+
 
         return implode("\n", $html);
 	}
