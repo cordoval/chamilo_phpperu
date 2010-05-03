@@ -18,9 +18,20 @@ class SurveyBuilderComponent extends ComplexBuilderComponent
         return $this->get_parent()->get_configure_context_url($selected_cloi);
     }
 	
-	 
+	function get_template_viewing_url($template_id)
+    {
+        return $this->get_parent()->get_template_viewing_url($template_id);
+    } 
     
+    function get_template_suscribe_page_browser_url($template_id)
+    {
+        return $this->get_parent()->get_template_suscribe_page_browser_url($template_id);
+    } 
     
+    function get_template_emptying_url($template_id)
+    {
+        return $this->get_parent()->get_template_emptying_url($template_id);
+    } 
 }
 
 ?>

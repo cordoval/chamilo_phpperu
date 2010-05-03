@@ -22,7 +22,14 @@ interface SurveyContextDataManagerInterface
     
     function retrieve_survey_context_templates($condition = null, $offset = null, $count = null, $order_property = null);
 
+    function retrieve_survey_context_template($context_template_id);
+        
     function count_survey_context_templates($condition = null);
+    
+    
+    function retrieve_template_rel_pages($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    function count_template_rel_pages($condition = null);
     
 }
 ?>

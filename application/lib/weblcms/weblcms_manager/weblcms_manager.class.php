@@ -1386,9 +1386,9 @@ class WeblcmsManager extends WebApplication
 	 * @param CourseUserCategory $course_user_category
 	 * @return String
 	 */
-	function get_course_user_category_delete_url($course_user_category)
+	function get_course_user_category_delete_url($course_user_category, $course_type_id)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id(), self :: PARAM_COURSE_TYPE  => $course_type_id));
 	}
 
 	/**

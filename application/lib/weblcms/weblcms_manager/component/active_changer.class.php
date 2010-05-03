@@ -46,6 +46,17 @@ class WeblcmsManagerActiveChangerComponent extends WeblcmsManager
 	            if ($course_type->update())
 	            {
 	                Events :: trigger_event('update', 'course_type', array('target_course_type_id' => $course_type->get_id(), 'action_course_type_id' => $this->get_course_type()->get_id()));
+	                
+	                if($active == 0)
+	                {
+		                $condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+		               	$course_type_user_categories = WeblcmsDataManager::get_instance()->retrieve_course_type_user_categories($condition);
+		               	while($category = $course_type_user_categories->next_result())
+		               	{
+		               		if(!$category->delete())
+		               			$failures ++;
+		               	} 
+	                }
 	            }
 	            else
 	            {

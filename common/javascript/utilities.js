@@ -75,7 +75,7 @@ function doAjax(type, url, parameters)
 	{
 		parameters = new Object();
 	}
-	
+
 	var response = $.ajax({
 		type: type,
 		url: url,
