@@ -18,6 +18,7 @@ class SurveyBuilder extends ComplexBuilder {
 	const ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE = 'unsubscribe_page_from_template';
 	const ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE = 'subscribe_page_to_template';
 	const ACTION_TRUNCATE_TEMPLATE = 'truncate_template';
+	const ACTION_CONFIGURE_COMPONENT = 'configure';
 	
 	const PARAM_SURVEY_PAGE_ID = 'survey_page';
 	const PARAM_SURVEY_ID = 'survey';
@@ -63,7 +64,10 @@ class SurveyBuilder extends ComplexBuilder {
 				break;
 			case SurveyBuilder::ACTION_TRUNCATE_TEMPLATE :
 				$component = SurveyBuilderComponent::factory ( 'ContextTemplateTruncater', $this );
-				break;			
+				break;	
+			case SurveyBuilder::ACTION_CONFIGURE_COMPONENT :
+				$component = SurveyBuilderComponent::factory ( 'Configure', $this );
+				break;					
 		}
 		
 		if (! $component)
@@ -71,6 +75,12 @@ class SurveyBuilder extends ComplexBuilder {
 		else
 			$component->run ();
 	}
+	
+ 	function get_configure_url($selected_cloi)
+    {
+        $cloi_id = ($this->get_cloi()) ? ($this->get_cloi()->get_id()) : null;
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CONFIGURE_COMPONENT, self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), self :: PARAM_CLOI_ID => $cloi_id, self :: PARAM_SELECTED_CLOI_ID => $selected_cloi, 'publish' => Request :: get('publish')));
+    }
 	
 	function get_configure_context_url() {
 		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_BROWSE_CONTEXT, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_TEMPLATE_ID => $this->get_root_lo ()->get_context_template_id ()) );
