@@ -495,6 +495,11 @@ class GradebookManager extends WebApplication
 	{
 		return GradebookDataManager :: get_instance()->count_internal_items_by_application($condition);
 	}
+	
+	function retrieve_categories_by_application($application)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_categories_by_application($application);
+	}
 // evaluations
 	function retrieve_all_evaluations_on_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
 	{

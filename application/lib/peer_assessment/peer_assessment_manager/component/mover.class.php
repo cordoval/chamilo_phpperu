@@ -68,7 +68,7 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
         $form->addElement('select', PeerAssessmentPublication :: PROPERTY_CATEGORY, Translation :: get('SelectCategory'), $this->categories);
         
         $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive finish'));
-        
+
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         return $form;
     }
