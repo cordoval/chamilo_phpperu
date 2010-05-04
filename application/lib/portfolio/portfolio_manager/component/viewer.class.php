@@ -20,6 +20,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     private $portfolio_item;
     private $cid;
     private $pid;
+    private $publisher_user_id ;
 
     const PROPERTY_PID = 'pid';
     const PROPERTY_CID = 'cid';
@@ -34,7 +35,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     function run()
     {
         $publisher_user_id = Request :: get('user_id');
-
+        $this->publisher_user_id = $publisher_user_id;
         $pid = Request :: get(self::PROPERTY_PID);
         $this->pid = $pid;
         $cid = Request :: get(self::PROPERTY_CID);
@@ -240,7 +241,19 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         {
             //display information on the 'root'
             //TODO: Add Date last changed + more information
-            $html[] = Translation :: get('PortfolioIntroduction');
+            //$html[] = Translation :: get('PortfolioIntroduction');
+
+            $dm = PortfolioDataManager :: get_instance();
+            $info = $dm->retrieve_porfolio_information($this->publisher_user_id);
+            if($info)
+                {
+                $html[] = $info->get_portfolio_info_text();
+            }
+            else
+                {
+                $html[] = Translation :: get('PortfolioNotUpdatedYet');
+            }
+
         }
         
         return implode("\n", $html);
