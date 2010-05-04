@@ -18,7 +18,7 @@ class SurveyContextTemplateRelPageBrowserTable extends ObjectTable
         $data_provider = new SurveyContextTemplateRelPageBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, SurveyContextTemplateRelPageBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        
+              
         $actions = array();
         
         $actions[] = new ObjectTableFormAction(SurveyBuilder :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);

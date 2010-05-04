@@ -23,7 +23,7 @@ class SurveyParticipantTracker extends MainTracker
     const PROPERTY_CONTEXT_NAME = 'context_name';
     const PROPERTY_CONTEXT_ID = 'context_id';
     const PROPERTY_PARENT_ID = 'parent_id';
-    
+    const PROPERTY_CONTEXT_TEMPLATE_ID = 'context_template_id';
     const STATUS_STARTED = 'started';
     const STATUS_NOTSTARTED = 'notstarted';
     const STATUS_FINISHED = 'finished';
@@ -46,6 +46,7 @@ class SurveyParticipantTracker extends MainTracker
         $survey = $parameters[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID];
         $progress = $parameters[SurveyParticipantTracker :: PROPERTY_PROGRESS];
         $context = $parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID];
+        $context_template = $parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID];
         $context_name = $parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME];
         $status = $parameters[SurveyParticipantTracker :: PROPERTY_STATUS];
         $parent_id = $parameters[SurveyParticipantTracker :: PROPERTY_PARENT_ID];
@@ -62,6 +63,7 @@ class SurveyParticipantTracker extends MainTracker
         $this->set_date(DatabaseRepositoryDataManager :: to_db_date(time()));
         $this->set_progress($progress);
         $this->set_context_id($context);
+        $this->set_context_template_id($context_template);
         $this->set_context_name($context_name);
         $this->set_parent_id($parent_id);
         
@@ -84,7 +86,7 @@ class SurveyParticipantTracker extends MainTracker
      */
     function get_default_property_names()
     {
-        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_PROGRESS, self :: PROPERTY_STATUS, self :: PROPERTY_PARENT_ID, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_CONTEXT_ID, self :: PROPERTY_CONTEXT_NAME));
+        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_PROGRESS, self :: PROPERTY_STATUS, self :: PROPERTY_PARENT_ID, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_CONTEXT_ID, self::PROPERTY_CONTEXT_TEMPLATE_ID,self :: PROPERTY_CONTEXT_NAME));
     }
 
     function get_user_id()
@@ -140,6 +142,16 @@ class SurveyParticipantTracker extends MainTracker
     function get_context_id()
     {
         return $this->get_property(self :: PROPERTY_CONTEXT_ID);
+    }
+
+    function set_context_template_id($context_template_id)
+    {
+        $this->set_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID, $context_template_id);
+    }
+
+    function get_context_template_id()
+    {
+        return $this->get_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID);
     }
 
     function set_parent_id($parent_id)
@@ -238,13 +250,14 @@ class SurveyParticipantTracker extends MainTracker
         }
         
         //we can't delete context because other trackers may use them !
-//        $dm = SurveyContextDataManager :: get_instance();
-//        $survey_context = $dm->retrieve_survey_context_by_id($this->get_context_id());
-//        if ($survey_context != null)
-//        {
-//          $survey_context->delete();
-//        }
+        //        $dm = SurveyContextDataManager :: get_instance();
+        //        $survey_context = $dm->retrieve_survey_context_by_id($this->get_context_id());
+        //        if ($survey_context != null)
+        //        {
+        //          $survey_context->delete();
+        //        }
         
+
         return $succes;
     }
 

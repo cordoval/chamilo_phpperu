@@ -3,6 +3,8 @@
 require_once (dirname(__FILE__) . '/../context/survey_default_context/survey_default_context.class.php');
 require_once (dirname(__FILE__) . '/../context/survey_student_context/survey_student_context.class.php');
 require_once (dirname(__FILE__) . '/../survey_context_template.class.php');
+require_once (dirname(__FILE__) . '/../survey_context_template_rel_page.class.php');
+
 
 require_once (dirname(__FILE__) . '/context_data_manager_interface.php');
 require_once Path :: get_repository_path() . 'lib/data_manager/database_repository_data_manager.class.php';
@@ -206,26 +208,23 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
     {
         return $this->count_objects(SurveyContextTemplate :: get_table_name(), $condition);
     }
-
-    function retrieve_template_rel_pages($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {    	
-    	$rel_alias = $this->get_alias(SurveyContextTemplateRelPage :: get_table_name());
+	
+    function truncate_survey_context_template($survey_id, $template_id){
+    	
+    	$conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $template_id);
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $survey_id);
+        $condition = new AndCondition($conditions);
         
-        $template_alias = $this->get_alias(SurveyContextTemplate :: get_table_name());
-        $page_alias = $this->get_alias(SurveyPage :: get_table_name());
-        
-        $query = 'SELECT ' .  ' * ';
-        $query .= ' FROM ' . $this->escape_table_name(SurveyContextTemplateRelPage :: get_table_name()) . ' AS ' . $rel_alias;
-        $query .= ' JOIN ' . $this->escape_table_name(SurveyPage :: get_table_name()) . ' AS ' . $page_alias . ' ON ' . $this->escape_column_name(SurveyContextTemplateRelPage :: PROPERTY_PAGE_ID, $rel_alias) . ' = ' . $this->escape_column_name(SurveyPage :: PROPERTY_ID, $page_alias);
-        $query .= ' JOIN ' . $this->escape_table_name(SurveyContextTemplate :: get_table_name()) . ' AS ' . $template_alias . ' ON ' . $this->escape_column_name(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $rel_alias) . ' = ' . $this->escape_column_name(SurveyContextTemplate :: PROPERTY_ID, $template_alias);
-        
-        return $this->retrieve_object_set($query, SurveyContextTemplateRelPage :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyContextTemplateRelPage :: CLASS_NAME);
+        $template_rel_pages = $this->retrieve_template_rel_pages($condition);
+        while ($template_rel_page = $template_rel_pages->next_result()) {
+        	$this->delete_survey_context_template_rel_page($template_rel_page);
+        }
+        return true;
     }
-
-    function count_template_rel_pages($condition = null)
+    
+    function retrieve_template_rel_pages($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-		
-    	$rel_alias = $this->get_alias(SurveyContextTemplateRelPage :: get_table_name());
+        $rel_alias = $this->get_alias(SurveyContextTemplateRelPage :: get_table_name());
         
         $template_alias = $this->get_alias(SurveyContextTemplate :: get_table_name());
         $page_alias = $this->get_alias(SurveyPage :: get_table_name());
@@ -235,8 +234,39 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $query .= ' JOIN ' . $this->escape_table_name(SurveyPage :: get_table_name()) . ' AS ' . $page_alias . ' ON ' . $this->escape_column_name(SurveyContextTemplateRelPage :: PROPERTY_PAGE_ID, $rel_alias) . ' = ' . $this->escape_column_name(SurveyPage :: PROPERTY_ID, $page_alias);
         $query .= ' JOIN ' . $this->escape_table_name(SurveyContextTemplate :: get_table_name()) . ' AS ' . $template_alias . ' ON ' . $this->escape_column_name(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $rel_alias) . ' = ' . $this->escape_column_name(SurveyContextTemplate :: PROPERTY_ID, $template_alias);
         
+        return $this->retrieve_object_set($query, SurveyContextTemplateRelPage :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyContextTemplateRelPage :: CLASS_NAME);
+    }
+
+    function count_template_rel_pages($condition = null)
+    {
+          	
+        $rel_alias = $this->get_alias(SurveyContextTemplateRelPage :: get_table_name());
+        
+        $template_alias = $this->get_alias(SurveyContextTemplate :: get_table_name());
+        $page_alias = $this->get_alias(SurveyPage :: get_table_name());
+        
+        $query = 'SELECT ' . ' COUNT(*) ';
+        $query .= ' FROM ' . $this->escape_table_name(SurveyContextTemplateRelPage :: get_table_name()) . ' AS ' . $rel_alias;
+        $query .= ' JOIN ' . $this->escape_table_name(SurveyPage :: get_table_name()) . ' AS ' . $page_alias . ' ON ' . $this->escape_column_name(SurveyContextTemplateRelPage :: PROPERTY_PAGE_ID, $rel_alias) . ' = ' . $this->escape_column_name(SurveyPage :: PROPERTY_ID, $page_alias);
+        $query .= ' JOIN ' . $this->escape_table_name(SurveyContextTemplate :: get_table_name()) . ' AS ' . $template_alias . ' ON ' . $this->escape_column_name(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $rel_alias) . ' = ' . $this->escape_column_name(SurveyContextTemplate :: PROPERTY_ID, $template_alias);
+               
         return $this->count_result_set($query, SurveyContextTemplateRelPage :: get_table_name(), $condition);
     
     }
+
+    function create_survey_context_template_rel_page($survey_context_template_rel_page)
+    {
+        return $this->create($survey_context_template_rel_page, false);
+    }
+
+    function delete_survey_context_template_rel_page($survey_context_template_rel_page)
+    {
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_PAGE_ID, $survey_context_template_rel_page->get_page_id());
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $survey_context_template_rel_page->get_survey_id());
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $survey_context_template_rel_page->get_template_id());
+        $condition = new AndCondition($conditions);
+        return $this->delete_objects(SurveyContextTemplateRelPage :: get_table_name(), $condition);
+    }
+
 }
 ?>

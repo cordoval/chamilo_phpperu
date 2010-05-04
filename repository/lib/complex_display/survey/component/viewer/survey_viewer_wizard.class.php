@@ -15,17 +15,19 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     
     private $parent;
     private $survey;
+    private $template_id;
     private $total_pages;
     private $total_questions;
     private $pages;
 
-    function SurveyViewerWizard($parent, $survey)
+    function SurveyViewerWizard($parent, $survey, $template_id)
     {
         parent :: HTML_QuickForm_Controller('SurveyViewerWizard_' . $survey->get_id(), true);
         
         $this->parent = $parent;
         $this->survey = $survey;
-        
+        $this->template_id = $template_id;
+                
         $this->add_pages();
         
         $this->addAction('next', new SurveyViewerWizardNext($this));
@@ -37,13 +39,26 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     function add_pages()
     {
         
-        $survey_pages = $this->survey->get_pages();
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->survey->get_id());
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $this->template_id);
+        $condition = new AndCondition($conditions);
+    	$template_rel_pages = SurveyContextDataManager::get_instance()->retrieve_template_rel_pages($condition);
+        $allowed_pages = array();
+    	while ($template_rel_page = $template_rel_pages->next_result()) {
+        	$allowed_pages[] = $template_rel_page->get_page_id();
+        }
+      	
+    	$survey_pages = $this->survey->get_pages();
         $page_nr = 0;
         $question_nr = 0;
         
         foreach ($survey_pages as $survey_page)
         {
-            $page_nr ++;
+            if(! in_array($survey_page->get_id(), $allowed_pages)){
+            	continue;
+            }
+        	
+        	$page_nr ++;
             $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
             $questions = array();
             $page_questions = $survey_page->get_questions();

@@ -42,8 +42,7 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
     function get_html()
     {
         $parameters = $this->get_parameters();
-        
-        $parameters[SurveyBuilder :: PARAM_BUILDER_ACTION] = SurveyBuilder :: ACTION_SUBSCRIBE_PAGE_BROWSER;
+        $parameters[SurveyBuilder :: PARAM_ROOT_LO ] = $this->get_root_lo()->get_id();
         $parameters[SurveyBuilder :: PARAM_TEMPLATE_ID ] = $this->template->get_id();
     	
         $table = new SurveyContextTemplateSubscribePageBrowserTable($this, $parameters, $this->get_condition());
@@ -56,9 +55,10 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
 
     function get_condition()
     {
-        $condition = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, Request :: get(SurveyBuilder :: PARAM_TEMPLATE_ID));
-		$condition = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, Request :: get(SurveyBuilder :: PARAM_ROOT_LO));
-        
+        $root_conditions = array();
+    	$root_conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, Request :: get(SurveyBuilder :: PARAM_TEMPLATE_ID));
+		$root_conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, Request :: get(SurveyBuilder :: PARAM_ROOT_LO));
+        $condition = new AndCondition($root_conditions);
         $template_rel_pages = SurveyContextDataManager::get_instance()->retrieve_template_rel_pages($condition);
 
        
@@ -76,18 +76,13 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
         foreach ($pages as $page) {
         	$survey_pages[] = $page->get_id();
         }
-         
+        
         $not_template_pages = array_diff($survey_pages, $template_pages);
         
         $conditions = array();
 
-        
-         
-        foreach ($not_template_pages as $page_id) {
-        	$conditions[] = new EqualityCondition(SurveyPage :: PROPERTY_ID, $page_id, SurveyPage::get_table_name());
-        	
-        }
-        
+        $conditions[] = new InCondition(SurveyPage :: PROPERTY_ID,$not_template_pages, SurveyPage::get_table_name());
+       
         $query = $this->ab->get_query();
 
         if (isset($query) && $query != '')
@@ -100,11 +95,8 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
         if (count($conditions) == 0){
         	 return null;
         }
-
-       
-		
-        $condition = new AndCondition($conditions);
-		        
+		$condition = new AndCondition($conditions);
+        
         return $condition;
     }
 

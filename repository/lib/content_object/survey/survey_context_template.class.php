@@ -181,10 +181,10 @@ class SurveyContextTemplate extends NestedTreeNode
     //        return count($locations);
     }
 
-    function truncate()
-    {
-        //        return $this->get_data_manager()->truncate_SurveyContextTemplate($this);
-    }
+//    function truncate()
+//    {
+//       return $this->get_data_manager()->truncate_survey_context_template($this);
+//    }
 }
 
 ?>

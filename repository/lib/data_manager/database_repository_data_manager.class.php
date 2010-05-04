@@ -83,7 +83,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $query = 'SELECT * FROM ';
         $query .= $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
         $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
-
+		
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this);

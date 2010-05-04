@@ -137,6 +137,7 @@ class SurveyPublication extends DataClass
         $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
         $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
         $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_participant_id;
+        $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $template->get_id();
         
         foreach ($contexts as $cont)
         {

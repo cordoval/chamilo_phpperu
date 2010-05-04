@@ -11,7 +11,10 @@ require_once dirname(__FILE__) . '/survey_display_component.class.php';
 class SurveyDisplay extends ComplexDisplay
 {
     const ACTION_VIEW_SURVEY = 'view';
-
+	
+    private $template_id;
+    
+    
     /**
      * Inherited.
      */
@@ -61,10 +64,14 @@ class SurveyDisplay extends ComplexDisplay
         return $this->get_parent()->parse($value);
     }
     
-//	function get_survey()
-//    {
-//        return $this->get_parent()->get_survey();
-//    }
+	function get_template_id()
+    {
+        return $this->template_id;
+    }
     
+    function set_template_id($template_id){
+    	$this->template_id = $template_id;
+    }
+    	
 }
 ?>

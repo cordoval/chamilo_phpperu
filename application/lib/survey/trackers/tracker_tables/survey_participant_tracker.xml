@@ -16,6 +16,8 @@
 			notnull="1" />
 		<property name="context_id" type="integer" unsigned="1"
 			notnull="1" />
+		<property name="context_template_id" type="integer" unsigned="1"
+			notnull="1" />	
 		<property name="parent_id" type="integer" unsigned="1"
 			notnull="1" />	
 		<property name="context_name" type="text" length="150" fixed="true"

@@ -59,7 +59,9 @@ class TestcaseManager extends SubManager
 				$component = $this->create_component('ParticipantBrowser');
 				break;
 			case self::ACTION_VIEW_SURVEY_PUBLICATION :
-				$component = $this->create_component('Viewer', $this->get_survey_manager () );
+				dump($this->get_parent());
+				exit;
+				$component = $this->get_parent()->create_component('Viewer', $this->get_parent() );
 				break;
 			case self::ACTION_CHANGE_TEST_TO_PRODUCTION :
 				$component = $this->create_component('Changer');
@@ -79,6 +81,7 @@ class TestcaseManager extends SubManager
 	
 	function get_survey_manager() 
 	{
+		dump($this->get_parent());
 		return $this->get_parent();
 	}
 	

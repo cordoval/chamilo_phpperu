@@ -22,16 +22,16 @@ class DefaultSurveyContextTemplateRelPageTableCellRenderer implements ObjectTabl
             
         $dm = SurveyContextDataManager :: get_instance();
         $page = $dm->retrieve_content_object($templaterelpage->get_page_id());
-        $template = $dm->retieve_survey_context_template($templaterelpage->get_template_id());
+//        $template = $dm->retrieve_survey_context_template($templaterelpage->get_template_id());
         
         switch ($column->get_name())
         {
-            case SurveyContextTemplate :: PROPERTY_NAME :
-                return $template->get_name();
-            case SurveyContextTemplate :: PROPERTY_DESCRIPTION :
-                return $template->get_description();
+//            case SurveyContextTemplate :: PROPERTY_NAME :
+//                return $template->get_name();
+//            case SurveyContextTemplate :: PROPERTY_DESCRIPTION :
+//                return $template->get_description();
             case SurveyPage :: PROPERTY_TITLE :
-                return $page->get_name();
+                return $page->get_title();
             case SurveyPage :: PROPERTY_DESCRIPTION :
                 return $page->get_description();
             default :
