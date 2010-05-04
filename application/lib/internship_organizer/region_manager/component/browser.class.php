@@ -109,7 +109,7 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 		
-		$action_bar->set_search_url ( $this->get_url ( array (InternshipOrganizerRegionManager::PARAM_REGION_ID => $this->get_region () ) ) );
+		//$action_bar->set_search_url ( $this->get_url ( array (InternshipOrganizerRegionManager::PARAM_REGION_ID => $this->get_region () ) ) );
 		
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'Add' ), Theme::get_common_image_path () . 'action_add.png', $this->get_region_create_url ( $this->get_region () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_regions_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );

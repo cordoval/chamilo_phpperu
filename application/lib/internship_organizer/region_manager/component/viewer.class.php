@@ -21,7 +21,7 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
             $this->root_region = $this->retrieve_regions(new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, 0))->next_result();
 
             $region = $this->region;
-
+          
             if (! $this->get_user()->is_platform_admin())
             {
                 Display :: not_allowed();
@@ -85,15 +85,17 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
     function get_action_bar()
     {
         $region = $this->region;
-
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region->get_id())));
 
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path () . 'action_add.png', $this->get_region_create_url($region->get_id()), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_region_viewing_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_region_editing_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
-        if($this->region != $this->root_region)
+		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_create.png', $this->get_region_create_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_region_create_url ($region), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
+		
+		if($this->region != $this->root_region)
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_region_delete_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -116,5 +118,24 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
         return $action_bar;
     }
 
+	function get_region() 
+	{
+		if (! $this->region) 
+		{
+			$region_id = Request::get ( InternshipOrganizerRegionManager::PARAM_REGION_ID );
+			
+			if (! $region_id) 
+			{
+				$this->region = $this->get_root_region()->get_id ();
+			}else
+			{
+				$this->region = $region_id;
+			}
+		
+		}
+		
+		return $this->region;
+	}
+    
 }
 ?>
