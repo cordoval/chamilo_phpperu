@@ -504,16 +504,11 @@ class ContentObjectPublicationForm extends FormValidator
 			if($values['evaluation'] == true)
 			{
 	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
-	        	
-	        	if($tool == 'assessment' || $tool == 'learning_path')
-	        	{
-//		        	if($pub->get_content_object_id()->get_type() == 'survey')
-//			        	$gradebook_internal_item_form->create_internal_item($pub->get_id());
-//			       	else
-			        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
-	        	}
-	        	else
-	        		$gradebook_internal_item_form->create_internal_item($pub->get_id(), false);
+	        	$category = 'C' . $course . '_T' . $tool; 
+	        	$calculated = false;
+	        	if($gradebook_internal_item_form->is_application_result_calculated($tool))
+	        		$calculated = true;
+	        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), $calculated, $category);
 			} 
             if ($this->email_option && $values[self :: PARAM_EMAIL])
             {

@@ -73,7 +73,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
         {
             $score = $values[AssessmentMultipleChoiceQuestionOption :: PROPERTY_SCORE][$option_id];
             $feedback = $values[AssessmentMultipleChoiceQuestionOption :: PROPERTY_FEEDBACK][$option_id];
-            if ($_SESSION['mc_answer_type'] == 'radio')
+            if ($_SESSION['mc_answer_type'] == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO)
             {
                 $correct = $values[AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT] == $option_id;
             }
@@ -111,7 +111,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
         }
         if (! isset($_SESSION['mc_answer_type']))
         {
-            $_SESSION['mc_answer_type'] = 'radio';
+            $_SESSION['mc_answer_type'] = AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO;
         }
         if (isset($_POST['add']))
         {
@@ -124,7 +124,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
         }
         if (isset($_POST['change_answer_type']))
         {
-            $_SESSION['mc_answer_type'] = $_SESSION['mc_answer_type'] == 'radio' ? 'checkbox' : 'radio';
+            $_SESSION['mc_answer_type'] = $_SESSION['mc_answer_type'] == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO ? AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX : AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO;
         }
         $object = $this->get_content_object();
         if (! $this->isSubmitted() && ! is_null($object))
@@ -134,11 +134,11 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
         }
         $number_of_options = intval($_SESSION['mc_number_of_options']);
 
-        if ($_SESSION['mc_answer_type'] == 'radio')
+        if ($_SESSION['mc_answer_type'] == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO)
         {
             $switch_label = Translation :: get('SwitchToCheckboxes');
         }
-        elseif ($_SESSION['mc_answer_type'] == 'checkbox')
+        elseif ($_SESSION['mc_answer_type'] == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
         {
             $switch_label = Translation :: get('SwitchToRadioButtons');
         }
@@ -179,7 +179,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
             {
                 $group = array();
 
-                if ($_SESSION['mc_answer_type'] == 'checkbox')
+                if ($_SESSION['mc_answer_type'] == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
                 {
                     $group[] = & $this->createElement('checkbox', AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']', Translation :: get('Correct'), '', array('class' => MultipleChoiceQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
                 }
@@ -198,7 +198,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
                 }
                 else
                 {
-                    $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img id="remove_' . $option_number . '" class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
 
                 $this->addGroup($group, MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
@@ -224,7 +224,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
     {
         if (! isset($fields[MultipleChoiceQuestionOption :: PROPERTY_CORRECT]))
         {
-            $message = $_SESSION['mc_answer_type'] == 'checkbox' ? Translation :: get('SelectAtLeastOneCorrectAnswer') : Translation :: get('SelectACorrectAnswer');
+            $message = $_SESSION['mc_answer_type'] == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX ? Translation :: get('SelectAtLeastOneCorrectAnswer') : Translation :: get('SelectACorrectAnswer');
             return array('change_answer_type' => $message);
         }
         return true;

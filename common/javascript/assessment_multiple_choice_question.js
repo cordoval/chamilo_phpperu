@@ -15,6 +15,7 @@ $(function ()
 		
 		deleteImage = '<img class="remove_option" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
 		deleteField = '<input id="remove_$option_number" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
+		
 		rows = $('.data_table > tbody > tr');
 		
 		if (rows.size() <= 2)
@@ -26,9 +27,9 @@ $(function ()
 		{
 			var weightField, weightFieldName, id, appendField;
 		    
-			weightField = $('input[name*="option_weight"]', this);
+			weightField = $('input[name*="score"]', this);
 			weightFieldName = weightField.attr('name');
-		    id = weightFieldName.substr(14, weightFieldName.length - 15);
+		    id = weightFieldName.substr(6, weightFieldName.length - 7);
 		    appendField = deleteField.replace(/\$option_number/g, id);
 	
 		    $('.remove_option', this).remove();
@@ -42,30 +43,35 @@ $(function ()
 		
 		var answerType = $('#mc_answer_type').val(),
 			newLabel = getTranslation('SwitchToCheckboxes', 'repository'),
-			newType = 'radio',
+			newType = 1,
 			counter = 0;
 		
-		if (answerType === 'radio')
+		if (answerType == 1)
 		{
-			newType = 'checkbox';
+			newType = 2;
 			newLabel = getTranslation('SwitchToRadioButtons', 'repository');
 		}
 		
-		$('.option').each(function ()
+		$('.value').each(function ()
 		{
-			var id, correct, value, newField, parent;
+			var id, correct, value, newField, parent, type;
 			
 			id = $(this).attr('id');
 			correct = 'correct[' + counter + ']';
 			value = 1;
 			
-			if (newType === 'radio')
+			if (newType == 1)
 			{
 				correct = 'correct';
 				value = counter;
+				type = 'radio';
+			}
+			else
+			{
+				type = 'checkbox';
 			}
 			
-			newField = '<input id="' + id + '" class="option" type="' + newType + '" value="' + value + '" name="' + correct + '" />';
+			newField = '<input id="' + id + '" class="value" type="' + type + '" value="' + value + '" name="' + correct + '" />';
 			parent = $(this).parent();
 			parent.empty();
 			parent.append(newField);
@@ -91,6 +97,8 @@ $(function ()
 			rows;
 		
 		id = id.replace('remove_', '');
+		destroyHtmlEditor('value['+ id +']');
+		destroyHtmlEditor('feedback['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 		
 		rows = $('tr', tableBody);
@@ -121,26 +129,31 @@ $(function ()
 			id = name,
 			value = 1,
 			fieldOption, fieldAnswer, fieldComment, fieldScore, fieldDelete, string,
-			parameters, editorNameAnswer, editorNameComment;
+			parameters, editorNameAnswer, editorNameComment, type;
 		
 		setMemory('mc_number_of_options', newNumber);
 		
 		$('#mc_number_of_options').val(newNumber);
 		
-		if (mcAnswerType === 'radio')
+		if (mcAnswerType == 1)
 		{
 			name = 'correct';
 			value = numberOfOptions;
+			type = 'radio';
+		}
+		else
+		{
+			type = 'checkbox';
 		}
 		
 		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
-		editorNameAnswer = 'option[' + numberOfOptions + ']';
-		editorNameComment = 'comment[' + numberOfOptions + ']';
+		editorNameAnswer = 'value[' + numberOfOptions + ']';
+		editorNameComment = 'feedback[' + numberOfOptions + ']';
 		
-		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
+		fieldOption = '<input id="' + id + '" class="value" type="' + type + '" value="' + value + '" name="' + name + '" />';
 		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
 		fieldComment = renderHtmlEditor(editorNameComment, parameters);
-		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
+		fieldScore = '<input class="input_numeric" type="text" value="1" name="score[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 

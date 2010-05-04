@@ -225,9 +225,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $course_alias = $this->get_alias(Course :: get_table_name());
         $course_settings_alias = $this->get_alias('course_settings');
+        $course_create_alias = $this->get_alias(CourseCreateRequest :: get_table_name());
         
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
         $query .= ' JOIN ' . $this->escape_table_name('course_settings') . ' AS ' . $course_settings_alias . ' ON ' . $course_alias . '.id = ' . $course_settings_alias . '.course_id';
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseCreateRequest :: get_table_name()) . ' AS ' . $course_create_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_create_alias);
         
         return $this->count_result_set($query, Course :: get_table_name(), $condition);
     }
@@ -316,6 +318,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function count_course_user_categories($condition = null)
     {
         return $this->count_objects(CourseUserCategory :: get_table_name(), $condition);
+    }
+    
+    function count_course_type_user_categories($condition = null)
+    {
+        return $this->count_objects(CourseTypeUserCategory :: get_table_name(), $condition);
     }
 
     function retrieve_course_list_of_user_as_course_admin($user_id)
@@ -760,9 +767,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $course_alias = $this->get_alias(Course :: get_table_name());
         $course_settings_alias = $this->get_alias(CourseSettings :: get_table_name());
+        $course_create_alias = $this->get_alias(CourseCreateRequest :: get_table_name());
         
         $query = 'SELECT ' . $course_alias . '.* FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
         $query .= ' JOIN ' . $this->escape_table_name(CourseSettings :: get_table_name()) . ' AS ' . $course_settings_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_settings_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseCreateRequest :: get_table_name()) . ' AS ' . $course_create_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_create_alias);
         
         $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
         
@@ -1200,13 +1209,45 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         
         if ($this->delete_objects(CourseTypeUserCategory :: get_table_name(), $condition))
         {
-            $conditions = array();
+        	$success = true;
+        	
+            $relation_conditions = array();
+	        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
+	        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_type_user_category->get_course_user_category_id());
+	        $relation_condition = new AndCondition($relation_conditions);
+	        
+	        $relations = $this->retrieve_course_user_relations($relation_condition, null, null, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT)));
+	        
+	        $conditions = array();
+	        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
+	        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
+	        $condition = new AndCondition($conditions);
+	
+	        $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
+	
+	        while ($relation = $relations->next_result())
+	        {
+	            $relation->set_sort(++$sort);
+	            $success &= $relation->update();
+			}
+			
+			$conditions = array();
             $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_type_user_category->get_course_user_category_id());
             $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
             $condition = new AndCondition($conditions);
             
             $properties = array(CourseUserRelation :: PROPERTY_CATEGORY => 0);
-            return $this->update_objects(CourseUserRelation :: get_table_name(), $properties, $condition);
+            $success &= $this->update_objects(CourseUserRelation :: get_table_name(), $properties, $condition);
+                    
+            $condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category->get_course_user_category_id());
+        	$count = $this->count_course_type_user_categories($condition);
+        	if($count == 0)
+        	{
+        		$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_type_user_category->get_course_user_category_id());
+        		$course_user_category = $this->retrieve_course_user_category($condition);
+        		$success &= $course_user_category->delete();
+        	}
+        	return $success;
         }
         else
         {
@@ -1256,6 +1297,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(Course :: PROPERTY_ID, $course->get_id());
         return $this->update($course, $condition);
+    }
+    
+    function update_courses($properties, $condition)
+    {
+        return $this->update_objects(CourseUserRelation :: get_table_name(), $properties, $condition);
     }
 
     function update_course_request($request)
@@ -1531,6 +1577,14 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             return false;
         }
+        
+    	$condition = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $course_code);
+        if (! $this->delete_objects(CourseRequest :: get_table_name(), $condition))
+        {
+            return false;
+        }
+        
+        
         
         // Delete course
         $condition = new EqualityCondition(Course :: PROPERTY_ID, $course_code);

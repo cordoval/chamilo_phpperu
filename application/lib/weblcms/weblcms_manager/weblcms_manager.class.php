@@ -1386,9 +1386,9 @@ class WeblcmsManager extends WebApplication
 	 * @param CourseUserCategory $course_user_category
 	 * @return String
 	 */
-	function get_course_user_category_delete_url($course_user_category)
+	function get_course_user_category_delete_url($course_user_category, $course_type_id)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id()));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'delete', self :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category->get_id(), self :: PARAM_COURSE_TYPE  => $course_type_id));
 	}
 
 	/**
@@ -1652,7 +1652,7 @@ class WeblcmsManager extends WebApplication
 					Request :: set_get(self :: PARAM_COURSE, $selected_course_ids);
 					break;
 				case self :: PARAM_REMOVE_SELECTED_REQUESTS :
-					$this->set_action(self :: ACTION_COURSE_SUBBSCRIBE_REQUEST_DELETER);
+					$this->set_action(self :: ACTION_COURSE_REQUEST_DELETER);
 					Request :: set_get(self :: PARAM_REQUEST, $selected_request_id);
 					break;
 				case self :: PARAM_ALLOW_SELECTED_REQUESTS : 

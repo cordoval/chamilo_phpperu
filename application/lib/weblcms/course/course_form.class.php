@@ -46,6 +46,8 @@ class CourseForm extends CommonForm
        	if($right == CourseTypeGroupCreationRight::CREATE_REQUEST && $this->form_type == self::TYPE_CREATE)
        		$this->addElement('html', Display :: normal_message(Translation :: get('CourseTypeRequestFormNeeded'),true));
     	
+       	$this->get_user_options();
+       		
     	$tabs = Array();
     	$tabs[] = new FormValidatorTab('build_general_settings_form','General');
 		$tabs[] = new FormValidatorTab('build_layout_form', 'Layout');
@@ -72,8 +74,10 @@ class CourseForm extends CommonForm
             $this->level --;
         }
     }
+
+    private $user_options;
     
-    function build_general_settings_form()
+    function get_user_options()
     {
         $user_options = array();
 
@@ -98,15 +102,55 @@ class CourseForm extends CommonForm
 	            $user_condition = new AndCondition($user_conditions);
 	
 	            $users = $wdm->retrieve_course_user_relations($user_condition);
-	
-	            while ($user = $users->next_result())
+				
+	            if($users->size() > 0)
 	            {
-	            	$userobject = $udm->retrieve_user($user->get_user());
-	                $user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
+	            	while ($user = $users->next_result())
+	            	{
+	            		$userobject = $udm->retrieve_user($user->get_user());
+	            	    $user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
+	            	}
+	            }
+	            else
+	            {
+	            	$conditions = array();
+	            	$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_COURSE_ID, $this->object->get_id());
+        			$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_DECISION, CommonRequest :: NO_DECISION);
+        			$condition = new AndCondition($conditions);
+        			
+        			$count_pending = $wdm->count_course_create_requests($condition);
+        			
+        			if($count_pending)
+        				$this->addElement('html', Display :: normal_message(Translation :: get('CoursePendingAcception'),true));
+        			else
+        			{
+        				$conditions = array();
+	            		$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_COURSE_ID, $this->object->get_id());
+        				$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_DECISION, CommonRequest :: DENIED_DECISION);
+        				$condition = new AndCondition($conditions);
+        				
+        				$count_denied = $wdm->count_course_create_requests($condition);
+        				
+        				if($count_denied)
+        					$this->addElement('html', Display :: normal_message(Translation :: get('CourseDenied'),true));
+        				else
+        					$this->addElement('html', Display :: normal_message(Translation :: get('NoUsersSubscribed'),true));
+        			}
+        			
+	            	$users = $udm->retrieve_users(new EqualityCondition(User :: PROPERTY_STATUS, 1));
+	           		while ($userobject = $users->next_result())
+	           		{
+		           		$user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
+	           		}
 	            }
 	        }
         }
-
+        
+        $this->user_options = $user_options;
+    }
+    
+    function build_general_settings_form()
+    {
         $this->addElement('category', Translation :: get('CourseSettings'));
 
         $this->addElement('hidden', Course :: PROPERTY_ID, '', array('class' => 'course_id'));
@@ -159,7 +203,7 @@ class CourseForm extends CommonForm
         
         if(!$this->object->get_titular_fixed() || $this->user->is_platform_admin())
         {
-       		$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $user_options);
+       		$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $this->user_options);
         	$this->addRule(Course :: PROPERTY_TITULAR, Translation :: get('ThisFieldIsRequired'), 'required');
         }
         else

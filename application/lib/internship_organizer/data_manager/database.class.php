@@ -149,7 +149,8 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 	
 	function retrieve_full_category_rel_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $rel_alias = $this->get_alias(InternshipOrganizerCategoryRelLocation :: get_table_name());
+        
+    	$rel_alias = $this->get_alias(InternshipOrganizerCategoryRelLocation :: get_table_name());
     	
         $category_alias = $this->get_alias(InternshipOrganizerCategory :: get_table_name());
         $organisation_alias = $this->get_alias(InternshipOrganizerOrganisation :: get_table_name());
@@ -214,43 +215,6 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 		
 		return ! ($this->count_objects ( InternshipOrganizerCategory::get_table_name (), $condition ) == 1);
 	}
-	
-//	function add_internship_organizer_category_nested_values($node, $previous_visited, $number_of_elements = 1, $condition) {
-//		
-//		return $this->add_nested_values ( $node, $previous_visited, $number_of_elements, $condition );
-//	}
-//	
-//	function delete_internship_organizer_category_nested_values($node, $previous_visited, $number_of_elements, $condition) {
-//		return $this->add_nested_values ( $node, $previous_visited, $number_of_elements, $condition );
-//	}
-//	
-//	function move_internship_organizer_category($category, $new_parent_id, $new_previous_id = 0, $condition) {
-//		return $this->move ( $category, $new_parent_id, $new_previous_id, $condition );
-//	}
-//	
-//	function count_internship_organizer_category_children($node, $condition) {
-//		return $this->count_children ( $node, $condition );
-//	}
-//	
-//	function get_internship_organizer_category_children($node, $recursieve, $condition) {
-//		return $this->get_children ( $node, $recursieve, $condition );
-//	}
-//	
-//	function count_internship_organizer_category_siblings($node, $include_object, $condition) {
-//		return $this->count_siblings ( $node, $include_object, $condition );
-//	}
-//	
-//	function get_internship_organizer_category_siblings($node, $include_object, $condition) {
-//		return $this->get_siblings ( $node, $include_object, $condition );
-//	}
-//	
-//	function count_internship_organizer_category_parents($node, $include_object, $condition) {
-//		return $this->count_parents ( $node, $include_object, $condition );
-//	}
-//	
-//	function get_internship_organizer_category_parents($node, $recursieve, $include_object, $condition) {
-//		return $this->get_parents ( $node, $recursieve, $include_object, $condition );
-//	}
 	
 	function retrieve_root_category()
  	{

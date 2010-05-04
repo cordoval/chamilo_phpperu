@@ -30,7 +30,7 @@ class AssessmentMatrixQuestionForm extends MatrixQuestionForm
             {
                 $defaults[MatrixQuestionOption::PROPERTY_VALUE][$index] = $option->get_value();
                 $defaults[AssessmentMatrixQuestionOption::PROPERTY_SCORE][$index] = $option->get_score();
-                $defaults[MatrixQuestionOption::PROPERTY_MATCHES][$index] = $option->get_matches();
+                $defaults['matches_to'][$index] = $option->get_matches();
                 $defaults[AssessmentMatrixQuestionOption::PROPERTY_FEEDBACK][$index] = $option->get_feedback();
             }
             $matches = $object->get_matches();
@@ -73,7 +73,7 @@ class AssessmentMatrixQuestionForm extends MatrixQuestionForm
         foreach ($values[MatrixQuestionOption::PROPERTY_VALUE] as $option_id => $value)
         {
             //Create the option with it corresponding match
-            $options[] = new AssessmentMatrixQuestionOption($value, serialize($_POST[MatrixQuestionOption::PROPERTY_MATCHES][$option_id]), $values[AssessmentMatrixQuestionOption::PROPERTY_SCORE][$option_id], $values[AssessmentMatrixQuestionOption::PROPERTY_FEEDBACK][$option_id]);
+            $options[] = new AssessmentMatrixQuestionOption($value, serialize($_POST['matches_to'][$option_id]), $values[AssessmentMatrixQuestionOption::PROPERTY_SCORE][$option_id], $values[AssessmentMatrixQuestionOption::PROPERTY_FEEDBACK][$option_id]);
         }
 
         foreach ($values['match'] as $match)
@@ -142,7 +142,7 @@ class AssessmentMatrixQuestionForm extends MatrixQuestionForm
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
-        $html_editor_options['show_toolbar'] = false;
+        $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
 
@@ -156,7 +156,8 @@ class AssessmentMatrixQuestionForm extends MatrixQuestionForm
                 $visual_number ++;
                 $group[] = $this->createElement('static', null, null, $visual_number);
                 $group[] = $this->create_html_editor(MatrixQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
-                $group[] = $this->createElement('select', MatrixQuestionOption::PROPERTY_MATCHES . '[' . $option_number . ']', Translation :: get('Matches'), $matches, array('class' => 'option_matches'));
+                
+                $group[] = $this->createElement('select', 'matches_to[' . $option_number . ']', Translation :: get('Matches'), $matches, array('class' => 'option_matches'));
                 $group[2]->setMultiple($multiple);
                 $group[] = $this->create_html_editor(AssessmentMatrixQuestionOption::PROPERTY_FEEDBACK . '[' . $option_number . ']', Translation :: get('Feedback'), $html_editor_options);
                 $group[] = $this->createElement('text', AssessmentMatrixQuestionOption::PROPERTY_SCORE . '[' . $option_number . ']', Translation :: get('Score'), 'size="2"  class="input_numeric"');

@@ -790,6 +790,8 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $condition_owner = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner);
         $types = RepositoryDataManager :: get_registered_types();
+        $co_alias = $this->get_alias(ContentObject :: get_table_name());
+        
         foreach ($types as $index => $type)
         {
             $class = ContentObject :: type_to_class($type);
@@ -809,7 +811,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             }
             if (RepositoryDataManager :: is_extended_type($type))
             {
-                $query = 'SELECT ' . implode('+', $sum) . ' AS disk_space FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE . ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . ' = ' . self :: ALIAS_TYPE_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID);
+                $query = 'SELECT ' . implode('+', $sum) . ' AS disk_space FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . ' = ' . self :: ALIAS_TYPE_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID);
                 $condition = $condition_owner;
             }
             else

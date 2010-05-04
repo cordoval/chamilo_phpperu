@@ -35,19 +35,26 @@ class SubselectCondition implements Condition
      * The table for the name
      */
     private $storage_unit_name;
+    
+    /**
+     * Optional datamanager used when subselect goes through multiple applications
+     * @var DataManager
+     */
+    private $data_manager;
 
     /**
      * Constructor
      * @param string $name
      * @param array $values
      */
-    function SubselectCondition($name, $value, $storage_unit_value, $condition, $storage_unit_name)
+    function SubselectCondition($name, $value, $storage_unit_value, $condition = null, $storage_unit_name = null, $data_manager = null)
     {
         $this->name = $name;
         $this->value = $value;
         $this->storage_unit_value = $storage_unit_value;
         $this->storage_unit_name = $storage_unit_name;
         $this->condition = $condition;
+        $this->data_manager = $data_manager;
     }
 
     /**
@@ -92,6 +99,14 @@ class SubselectCondition implements Condition
     function get_condition()
     {
         return $this->condition;
+    }
+    
+    /**
+     * Gets the data manager for the subselected storage_unit
+     */
+    function get_data_manager()
+    {
+    	return $this->data_manager;
     }
 
     /**

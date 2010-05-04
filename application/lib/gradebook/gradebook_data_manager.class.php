@@ -70,6 +70,8 @@ abstract class GradebookDataManager {
 	
 	abstract function retrieve_internal_item($id);
 	
+	abstract function retrieve_categories_by_application($application);
+	
 	// internal item instance
 	abstract function delete_internal_item_instance($internal_item_instance);
 	
@@ -133,7 +135,7 @@ abstract class GradebookDataManager {
 	
 	abstract function create_grade_evaluation_object_from_data($tracker_score);
 	
-	abstract function retrieve_internal_item_applications_with_evaluations();
+	abstract function retrieve_internal_item_applications();
 	
 	abstract function retrieve_calculated_internal_items();
 	

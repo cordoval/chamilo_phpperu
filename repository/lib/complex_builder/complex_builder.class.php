@@ -76,7 +76,7 @@ abstract class ComplexBuilder
                 $file = dirname(__FILE__) . '/' . $small_type . '/' . $small_type . '_builder.class.php';
                 require_once $file;
                 $class = $type . 'Builder';
-                self :: $instance = new $class($parent);
+             	self :: $instance = new $class($parent);
             }
         }
         

@@ -141,7 +141,7 @@ class DatabaseAssessmentDataManager extends Database implements AssessmentDataMa
         $publication_alias = $this->get_alias(AssessmentPublication :: get_table_name());
         $publication_user_alias = $this->get_alias(AssessmentPublicationUser :: get_table_name());
         $publication_group_alias = $this->get_alias(AssessmentPublicationGroup :: get_table_name());
-        $object_alias = $this->get_alias(ContentObject :: get_table_name());
+        $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
 
         $query = 'SELECT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(AssessmentPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);

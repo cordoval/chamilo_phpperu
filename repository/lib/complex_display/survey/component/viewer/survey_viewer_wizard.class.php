@@ -63,20 +63,6 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
             
             }
             
-//            while ($question = $page_questions->next_result())
-//            {
-//                if ($question->get_type() == SurveyDescription :: get_type_name())
-//                {
-//                    $questions[$question->get_id() . 'description'] = $question;
-//                }
-//                else
-//                {
-//                    $question_nr ++;
-//                    $questions[$question_nr] = $question;
-//                }
-//            
-//            }
-            
             $this->pages[$page_nr] = array(page => $survey_page, questions => $questions);
         
         }
@@ -88,55 +74,8 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         
         $this->total_pages = $page_nr;
         $this->total_questions = $question_nr;
-        
-    //        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->survey->get_id(), ComplexContentObjectItem :: get_table_name()));
-    //        
-    //        $this->total_pages = 0;
-    //        
-    //        while ($complex_content_object = $complex_content_objects->next_result())
-    //        {
-    //            $this->total_pages ++;
-    //            $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $this->total_pages, $this, $this->total_pages));
-    //            
-    //            $survey_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
-    //            $page_questions = $this->get_survey_page_questions($survey_page);
-    //            $this->pages[$this->total_pages] = array(page => $survey_page, questions => $page_questions);
-    //        }
-    //        if ($this->total_pages == 0)
-    //        {
-    //            $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $this->total_pages, $this, $this->total_pages));
-    //        }
-    
-
+   
     }
-
-    //    function get_survey_page_questions($survey_page)
-    //    {
-    //        
-    //        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $survey_page->get_id(), ComplexContentObjectItem :: get_table_name()));
-    //        $questions = array();
-    //        
-    //        while ($complex_content_object = $complex_content_objects->next_result())
-    //        {
-    //            
-    //            $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
-    //            
-    //            if ($question->get_type() == SurveyDescription :: get_type_name())
-    //            {
-    //                $questions[$question->get_id() . 'description'] = $question;
-    //            }
-    //            else
-    //            {
-    //                $this->total_questions ++;
-    //                $questions[$this->total_questions] = $question;
-    //            }
-    //        
-    //        }
-    //        
-    //        return $questions;
-    //    
-    //    }
-    
 
     function get_questions($page_number)
     {

@@ -3,12 +3,6 @@
 interface InternshipOrganizerDataManagerInterface
 {
 
-    function initialize();
-
-//    function create_storage_unit($name, $properties, $indexes);
-//
-//    function get_database();
-
     function create_internship_organizer_location($location);
 
     function update_internship_organizer_location($location);
@@ -59,12 +53,7 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_category_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
 
-//    function add_internship_organizer_category_nested_values($node, $previous_visited, $number_of_elements = 1, $condition);
-//
-//    function delete_internship_organizer_category_nested_values($node, $previous_visited, $number_of_elements, $condition);
-
-//    function move_internship_organizer_category($category, $new_parent_id, $new_previous_id = 0, $condition);
-
+    
     function create_internship_organizer_moment($moment);
 
     function update_internship_organizer_moment($moment);

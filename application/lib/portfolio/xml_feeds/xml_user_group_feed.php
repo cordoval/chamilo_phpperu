@@ -8,6 +8,9 @@ require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_group.class.php';
 
+//TODO: SHOULDN'T THIS BE A COMMON FILE SINCE IT SEEMS TO BE COPY-PASTED FROM THE PERSONAL MESSENGER APP
+
+
 if (Authentication :: is_valid())
 {
     if ($exclude)

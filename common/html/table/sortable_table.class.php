@@ -133,8 +133,9 @@ class SortableTable extends HTML_Table
         $this->default_items_per_page = $default_items_per_page;
         $this->total_number_of_items = - 1;
         $this->get_total_number_function = $get_total_number_function;
-        $this->total_number_of_items = $this->get_total_number_of_items();
+        $this->total_number_of_items = $this->get_total_number_of_items();        
         $this->get_data_function = $get_data_function;
+        
         if ($this->per_page == 'all')
         {
         	$this->per_page = $this->total_number_of_items;

@@ -98,16 +98,17 @@ class AssessmentManagerBrowserComponent extends AssessmentManager
             $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
             $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             $subselect_condition = new OrCondition($search_conditions);
-            $conditions[] = new SubselectCondition(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition);
+            $conditions[] = new SubselectCondition(AssessmentPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         }
 
         $access = array();
         $access[] = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
-        $access[] = new InCondition(AssessmentPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_alias(AssessmentPublicationUser :: get_table_name()));
-        $access[] = new InCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_alias(AssessmentPublicationGroup :: get_table_name()));
+        $access[] = new InCondition(AssessmentPublicationUser :: PROPERTY_USER, $user_id, AssessmentPublicationUser :: get_table_name());
+        $access[] = new InCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, $groups, AssessmentPublicationGroup :: get_table_name());
         if (! empty($user_id) || ! empty($groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition(AssessmentPublicationUser :: PROPERTY_USER, null, $datamanager->get_alias(AssessmentPublicationUser :: get_table_name())), new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_alias(AssessmentPublicationGroup :: get_table_name()))));
+            $access[] = new AndCondition(array(new EqualityCondition(AssessmentPublicationUser :: PROPERTY_USER, null, AssessmentPublicationUser :: get_table_name()), 
+            								   new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, null, AssessmentPublicationGroup :: get_table_name())));
         }
         $conditions[] = new OrCondition($access);
 
