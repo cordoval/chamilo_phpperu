@@ -71,9 +71,9 @@ $(function ()
 		{
 			var weightField, weightFieldName, id, appendField;
 			
-			weightField = $('input[name*="option_weight"]', this);
+			weightField = $('input[name*="score"]', this);
 			weightFieldName = weightField.attr('name');
-			id = weightFieldName.substr(14, weightFieldName.length - 15);
+			id = weightFieldName.substr(6, weightFieldName.length - 7);
 			
 			appendField = deleteField.replace(/\$option_number/g, id);
 			
@@ -121,20 +121,29 @@ $(function ()
 			fieldOption = newNumber,
 			fieldAnswer, fieldMatches, fieldComment, fieldScore, fieldDelete, string,
 			parameters, editorNameAnswer, editorNameComment,
-			counter = 0;
+			counter = 0,
+			type = $('#mq_matrix_type').val(), multiple = '';
 		
 		setMemory('mq_number_of_options', newNumber);
 		
 		$('#mq_number_of_options').val(newNumber);
 		
 		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
-		editorNameAnswer = 'option[' + numberOfOptions + ']';
-		editorNameComment = 'comment[' + numberOfOptions + ']';
+		editorNameAnswer = 'value[' + numberOfOptions + ']';
+		editorNameComment = 'feedback[' + numberOfOptions + ']';
 	
-		fieldMatches =  '<select name="matches_to[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';		
+		if(type == 2)
+		{
+			fieldMatches =  '<select class="option_matches" name="matches_to[' + numberOfOptions + '][]" multiple="multiple">' + getSelectOptions() + '</select>';
+		}
+		else
+		{
+			fieldMatches =  '<select class="option_matches" name="matches_to[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';
+		}
+				
 		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
 		fieldComment = renderHtmlEditor(editorNameComment, parameters);
-		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
+		fieldScore = '<input class="input_numeric" type="text" value="1" name="score[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_option_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[' + numberOfOptions + ']" />';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldMatches + '</td><td>' + 
@@ -226,11 +235,25 @@ $(function ()
 		if(newType === 2)
 		{
 			$('.option_matches').attr('multiple', 'multiple');
+			
+			$('.option_matches').each(function()
+			{
+				var old_name = $(this).attr('name');
+				$(this).attr('name', old_name + '[]');
+			});
+			
 			newLabel = getTranslation('SwitchToSingleMatch', 'repository');
 		}
 		else
 		{
 			$('.option_matches').attr('multiple', null);
+			
+			$('.option_matches').each(function()
+			{
+				var old_name = $(this).attr('name');
+				$(this).attr('name', old_name.substr(0, old_name.length - 2));
+			});
+			
 			newLabel = getTranslation('SwitchToMultipleMatches', 'repository');
 		}
 		

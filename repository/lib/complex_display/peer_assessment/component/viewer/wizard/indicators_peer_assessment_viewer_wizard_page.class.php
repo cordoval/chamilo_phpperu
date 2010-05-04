@@ -17,8 +17,7 @@ class IndicatorsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizar
     {        
         // ********************************		
         // Prints of the list of indicators
-        // ******************************** 
-
+        // ********************************
     	$html[] = '<div class="assessment">';
 	            
         // Peer assessment title en description
@@ -31,6 +30,10 @@ class IndicatorsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizar
             $html[] = '<div class="clear"></div>';
             $html[] = '</div>';
         }
+        
+        //Prints of the peer assessment title and description
+		$html[] = '<br/>';
+		$this->addElement('html', implode("\n", $html));
 
         $publication_id = Request :: get('peer_assessment_publication');
         $competence_id = Request :: get('competence');
@@ -56,8 +59,6 @@ class IndicatorsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizar
         $competence = RepositoryDataManager :: get_instance()->retrieve_content_object($competence_id);
         // Retrieve indicators of the selected competence
 		$indicators = $this->get_parent()->get_peer_assessment_page_indicators_via_competence($this->get_parent()->get_peer_assessment(), $competence);			
-        // Form	
-        //$form = new FormValidator('peer_assessment_publication_mover', 'post');
 	
 
 		// Still got to fix this ...
@@ -73,6 +74,8 @@ class IndicatorsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizar
 		else
 		{
 	        // Header table
+	        $table_header[] = '<div style="overflow: auto;">';
+			
 	        $table_header[] = '<h3>' . Translation :: get('Indicator') . '</h3>';            
 	        $table_header[] = '<table class="data_table">';
 	        $table_header[] = '<thead>';
@@ -94,6 +97,7 @@ class IndicatorsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizar
 	        $table_header[] = '</tr>';
 	        $table_header[] = '</thead>';
 	        $table_header[] = '<tbody>';
+	        // Prints of the table header
 	        $this->addElement('html', implode("\n", $table_header));
 	        
         
@@ -135,9 +139,10 @@ class IndicatorsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizar
 		        	
 		        	foreach($users as $user)
 		        	{
+		        		$indicator_id = $indicator->get_id();
 		        		$user_id = $user->get_user();
 		        						
-						$group[] = $this->createElement('select', 'c['.$competence_id.']i['.$indicator_id.']u['.$user_id.']', '', $criteria_score);	
+						$group[] = $this->createElement('select', 'c'.$competence_id.'[i'.$indicator_id.'u'.$user_id.']', '', $criteria_scores);	
 		        	}
 		        	
 		        }	
@@ -152,24 +157,40 @@ class IndicatorsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizar
             
             $table_footer[] = '</tbody>';
         	$table_footer[] = '</table>';
+        	$table_footer[] = '</div>';
+        
+        	// Prints of the table footer
         	$this->addElement('html', implode("\n", $table_footer));
 		}
+	
         
         
-		$html[] = '</tbody>';
-        $html[] = '</table>';
+         // Overview of the criteria (score and description)
+         $overview[] = '<div style="float: left;">';
+         $overview[] = '<br/>'. Translation :: get('OverviewOfTheCriteria');
+         $overview[] = '<ul>';
+         foreach($criteria_overview as $unserialize)
+         {
+            $criteria_score = $unserialize->get_options();
+            foreach($criteria_score as $score_and_description)
+            {
+            	$overview[] = '<li>'. Translation :: get('CriteriaScore') .': <b>'. $score_and_description->get_score() .'</b> |  '. Translation :: get('CriteriaDescription') .': <b>'. $score_and_description->get_description() .'</b></li>';
+          	}
+       	}
+        $overview[] = '</ul>';
+        $overview[] = '</div>';	       
         
-        $html[] = '<br />';
-        $html[] = '</div>'; 
-		
         
+        // Submit button
+		$button[] = '<div style="float: right; margin-top: 15px">';
+        $button[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'))->toHtml();
+        $button[] = '</div>';
         
-		$html[] = '<div style="float: right;">';
-        $html[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'))->toHtml();
-        $html[] = '</div>';
-        
-		// Echo's the $html array
-        echo implode("\n", $html); 
+
+        // Prints of the overview of the criteria
+		$this->addElement('html', implode("\n", $overview));
+		// Prints of the submit button
+		$this->addElement('html', implode("\n", $button));       
     }
 }
 ?>

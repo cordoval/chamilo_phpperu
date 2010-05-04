@@ -71,9 +71,9 @@ $(function ()
 		{
 			var weightField, weightFieldName, id, appendField;
 			
-			weightField = $('input[name*="option_weight"]', this);
+			weightField = $('input[name*="score"]', this);
 			weightFieldName = weightField.attr('name');
-			id = weightFieldName.substr(14, weightFieldName.length - 15);
+			id = weightFieldName.substr(6, weightFieldName.length - 7);
 			
 			appendField = deleteField.replace(/\$option_number/g, id);
 			
@@ -92,7 +92,7 @@ $(function ()
 		var tableBody = $(this).parent().parent().parent(),
 			id = $(this).attr('id').replace('remove_option_', ''),
 			row = 0, rows;
-		
+
 		destroyHtmlEditor('value['+ id +']');
 		destroyHtmlEditor('feedback['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
@@ -128,13 +128,13 @@ $(function ()
 		$('#mq_number_of_options').val(newNumber);
 		
 		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
-		editorNameAnswer = 'option[' + numberOfOptions + ']';
-		editorNameComment = 'comment[' + numberOfOptions + ']';
+		editorNameAnswer = 'value[' + numberOfOptions + ']';
+		editorNameComment = 'feedback[' + numberOfOptions + ']';
 	
 		fieldMatches =  '<select name="matches_to[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';		
 		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
 		fieldComment = renderHtmlEditor(editorNameComment, parameters);
-		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
+		fieldScore = '<input class="input_numeric" type="text" value="1" name="score[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_option_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[' + numberOfOptions + ']" />';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldMatches + '</td><td>' + 
