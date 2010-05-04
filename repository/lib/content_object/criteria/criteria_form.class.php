@@ -169,11 +169,11 @@ class CriteriaForm extends ContentObjectForm
                 
                 if ($number_of_options - count($_SESSION['criteria_skip_options']) > 2)
                 {
-                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'delete_image remove_option', 'id' => 'remove_' . $option_number));
+                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
                 }
                 else
                 {
-                    $group[] = & $this->createElement('static', null, null, '<img id="remove_' . $option_number . '" class="delete_image" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img id="remove_' . $option_number . '" class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
                 
                 $this->addGroup($group, 'options_' . $option_number, null, '', false);
