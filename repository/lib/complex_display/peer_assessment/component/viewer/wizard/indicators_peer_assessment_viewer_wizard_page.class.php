@@ -10,7 +10,6 @@ class IndicatorsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizar
         parent :: PeerAssessmentViewerWizardPage($name, $parent);
         $this->page_number = $page_number;
         $this->addAction('process', new PeerAssessmentViewerWizardProcess($this));
-
     }
 
     function buildForm()
@@ -142,7 +141,7 @@ class IndicatorsPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizar
 		        		$indicator_id = $indicator->get_id();
 		        		$user_id = $user->get_user();
 		        						
-						$group[] = $this->createElement('select', 'c'.$competence_id.'[i'.$indicator_id.'u'.$user_id.']', '', $criteria_scores);	
+						$group[] = $this->createElement('select', 'select[c'.$competence_id.'i'.$indicator_id.'u'.$user_id.']', '', $criteria_scores);	
 		        	}
 		        	
 		        }	

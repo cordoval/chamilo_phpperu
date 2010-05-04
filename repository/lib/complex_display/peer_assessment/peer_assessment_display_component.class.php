@@ -37,8 +37,7 @@ class PeerAssessmentDisplayComponent extends ComplexDisplayComponent
     function parse($value)
     {
         return $this->get_parent()->parse($value);
-    }
-	 
+    } 
 }
 
 ?>

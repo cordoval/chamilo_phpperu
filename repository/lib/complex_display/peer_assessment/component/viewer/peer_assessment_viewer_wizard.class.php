@@ -28,7 +28,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
 
         $this->add_pages();
 
-        $this->addAction('process', new PeerAssessmentViewerWizardProcess($this));
+        //$this->addAction('process', new PeerAssessmentViewerWizardProcess($this));
         $this->addAction('display', new PeerAssessmentViewerWizardDisplay($this));
 
     }
