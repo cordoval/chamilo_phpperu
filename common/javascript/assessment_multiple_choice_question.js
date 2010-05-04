@@ -6,15 +6,15 @@ $(function ()
 	
     function getDeleteIcon()
     {
-		return $('.data_table > tbody > tr:first td:last .delete_image').attr('src').replace('_na.png', '.png');
+		return $('.data_table > tbody > tr:first td:last .remove_option').attr('src').replace('_na.png', '.png');
     }
     
 	function processOptions()
 	{
 		var deleteImage, deleteField, rows;
 		
-		deleteImage = '<img id="remove_$option_number" class="delete_image" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
-		deleteField = '<input id="remove_$option_number" class="delete_image remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
+		deleteImage = '<img class="remove_option" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
+		deleteField = '<input id="remove_$option_number" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
 		
 		rows = $('.data_table > tbody > tr');
 		
@@ -32,7 +32,7 @@ $(function ()
 		    id = weightFieldName.substr(6, weightFieldName.length - 7);
 		    appendField = deleteField.replace(/\$option_number/g, id);
 	
-		    $('.delete_image', this).remove();
+		    $('.remove_option', this).remove();
 		    $('td:last', this).append(appendField);
 		});
 	}
@@ -154,7 +154,7 @@ $(function ()
 		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
 		fieldComment = renderHtmlEditor(editorNameComment, parameters);
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="score[' + numberOfOptions + ']" size="2" />';
-		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="delete_image remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
+		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
 				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
