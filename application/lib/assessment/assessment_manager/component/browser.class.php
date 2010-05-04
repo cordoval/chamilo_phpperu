@@ -103,11 +103,12 @@ class AssessmentManagerBrowserComponent extends AssessmentManager
 
         $access = array();
         $access[] = new EqualityCondition(AssessmentPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
-        $access[] = new InCondition(AssessmentPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_alias(AssessmentPublicationUser :: get_table_name()));
-        $access[] = new InCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_alias(AssessmentPublicationGroup :: get_table_name()));
+        $access[] = new InCondition(AssessmentPublicationUser :: PROPERTY_USER, $user_id, AssessmentPublicationUser :: get_table_name());
+        $access[] = new InCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, $groups, AssessmentPublicationGroup :: get_table_name());
         if (! empty($user_id) || ! empty($groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition(AssessmentPublicationUser :: PROPERTY_USER, null, $datamanager->get_alias(AssessmentPublicationUser :: get_table_name())), new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_alias(AssessmentPublicationGroup :: get_table_name()))));
+            $access[] = new AndCondition(array(new EqualityCondition(AssessmentPublicationUser :: PROPERTY_USER, null, AssessmentPublicationUser :: get_table_name()), 
+            								   new EqualityCondition(AssessmentPublicationGroup :: PROPERTY_GROUP_ID, null, AssessmentPublicationGroup :: get_table_name())));
         }
         $conditions[] = new OrCondition($access);
 
