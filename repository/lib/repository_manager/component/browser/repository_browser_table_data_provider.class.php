@@ -19,7 +19,7 @@ class RepositoryBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function RepositoryBrowserTableDataProvider($browser, $condition)
     {
-        parent :: __construct($browser, $condition);
+    	parent :: __construct($browser, $condition);
     }
 
     /**

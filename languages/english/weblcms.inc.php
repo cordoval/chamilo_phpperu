@@ -476,7 +476,7 @@ $lang['weblcms']['SubscriptionRequests'] = 'Subscription Requests';
 $lang['weblcms']['CreationRequests'] = 'Creation Requests';
 $lang['weblcms']['Denied'] = 'Denied';
 $lang['weblcms']['Allowed'] = 'Allowed';
-$lang['weblcms']['DecisionDate'] = 'DecisionDate';
+$lang['weblcms']['DecisionDate'] = 'Decision Date';
 $lang['weblcms']['AllowSelected'] = 'Allow Selected';
 $lang['weblcms']['RefuseSelected'] = 'Refuse Selected';
 $lang['weblcms']['Decision'] = 'Decision';
@@ -489,4 +489,5 @@ $lang['weblcms']['CreationOnRequestFor'] = 'Creation On Request For';
 $lang['weblcms']['DirectSubscribe'] = 'Direct Subscribe';
 $lang['weblcms']['RequestSubscribe'] = 'Request Subscribe';
 $lang['weblcms']['CodeSubscribe'] = 'Code Subscribe';
+$lang['weblcms']['NoDecisionYet'] = 'No Decision Yet';
 ?>

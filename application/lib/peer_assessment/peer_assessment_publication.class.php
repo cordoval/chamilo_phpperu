@@ -23,6 +23,8 @@ class PeerAssessmentPublication extends DataClass
     const PROPERTY_DISPLAY_ORDER = 'display_order';
     const PROPERTY_CRITERIA_CONTENT_OBJECT_ID = 'criteria_content_object_id';
     
+    const PROPERTY_SELECT_USER = 'select_user';
+    
     private $target_users;
     private $target_groups;
 

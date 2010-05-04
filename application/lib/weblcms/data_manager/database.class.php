@@ -1574,6 +1574,14 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             return false;
         }
         
+    	$condition = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $course_code);
+        if (! $this->delete_objects(CourseRequest :: get_table_name(), $condition))
+        {
+            return false;
+        }
+        
+        
+        
         // Delete course
         $condition = new EqualityCondition(Course :: PROPERTY_ID, $course_code);
         $bool = $this->delete_objects(Course :: get_table_name(), $condition);
