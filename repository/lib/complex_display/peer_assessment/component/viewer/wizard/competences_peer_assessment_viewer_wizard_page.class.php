@@ -14,6 +14,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 
     function buildForm()
     {
+    	dump($_POST);
         $this->_formBuilt = true;    
         
         // *********************************		
