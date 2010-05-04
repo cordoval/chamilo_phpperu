@@ -92,8 +92,6 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path () . 'action_add.png', $this->get_region_create_url($region->get_id()), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_region_viewing_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_region_editing_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_create.png', $this->get_region_create_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_region_create_url ($region), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		
 		if($this->region != $this->root_region)
         {
