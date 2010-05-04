@@ -19,6 +19,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
     private $lpi_attempt_data;
     private $cloi;
     private $menu;
+    private $navigation;
 
     function run()
     {
@@ -72,7 +73,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
         
         $trail->merge($this->menu->get_breadcrumbs());
         
-        $navigation = $this->get_navigation_menu($this->menu->count_steps(), $step, $object, $this->menu);
+        $this->navigation = $this->get_navigation_menu($this->menu->count_steps(), $step, $object, $this->menu);
         $objects = $this->menu->get_objects();
         
         // Retrieve correct display and show it on screen
@@ -206,8 +207,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
         echo '<div style="width: 17%; overflow: auto; float: left;">';
         echo $this->menu->render_as_tree() . '<br /><br />';
         echo $this->get_progress_bar($this->menu->get_progress());
-        $navigation = $this->get_navigation_menu($this->menu->count_steps(), $step, $object, $this->menu);
-        echo $navigation . '<br /><br />';
+        echo $this->navigation . '<br /><br />';
         echo '</div>';
         echo '<div style="width: 82%; float: right; padding-left: 10px; min-height: 500px;">';
         if (Request :: get('lp_action') == 'view_progress')
