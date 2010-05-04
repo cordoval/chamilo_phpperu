@@ -70,6 +70,8 @@ abstract class GradebookDataManager {
 	
 	abstract function retrieve_internal_item($id);
 	
+	abstract function retrieve_categories_by_application($application);
+	
 	// internal item instance
 	abstract function delete_internal_item_instance($internal_item_instance);
 	
