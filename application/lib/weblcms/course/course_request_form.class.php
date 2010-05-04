@@ -12,6 +12,8 @@ class CourseRequestForm extends FormValidator
 	const TYPE_EDIT = 2;
 	const TYPE_VIEW = 3;
 	
+	const CHOOSE_DATE = 'choose date';
+	
 	private $form_type;
 	private $course;
 	private $parent;
@@ -133,7 +135,11 @@ class CourseRequestForm extends FormValidator
 		}
 		$this->addElement('category');
 	}	
-	
+	function get_selected_date_decision()
+    {
+    	$values = $this->exportValues();
+        return $values[CommonRequest :: PROPERTY_DECISION_DATE];
+    }
 	function create_request()
     {		   	
         $values = $this->exportValues();

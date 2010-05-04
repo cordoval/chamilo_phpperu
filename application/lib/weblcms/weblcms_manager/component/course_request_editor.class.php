@@ -52,7 +52,6 @@ class WeblcmsManagerCourseRequestEditorComponent extends WeblcmsManager
         		
 		$request = $this->$request_method($request_id);
 		$form = new CourseRequestForm(CourseRequestForm :: TYPE_EDIT, $this->get_url(array(WeblcmsManager :: PARAM_REQUEST => $request->get_id(), WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type)), $course, $this, $request, $this->get_user_id());
-		
 		if($form->validate())
 		{
 			$success_request = $form->update_request();
