@@ -504,7 +504,7 @@ class ContentObjectPublicationForm extends FormValidator
 			if($values['evaluation'] == true)
 			{
 	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
-	        	$category = $course . '_' . $tool; 
+	        	$category = 'C' . $course . '_T' . $tool; 
 	        	$calculated = false;
 	        	if($gradebook_internal_item_form->is_application_result_calculated($tool))
 	        		$calculated = true;
