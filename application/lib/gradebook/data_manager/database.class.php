@@ -107,6 +107,12 @@ class DatabaseGradebookDataManager extends GradebookDataManager
 		return $this->database->delete(InternalItem :: get_table_name(), $condition);
 	}
 	
+	function retrieve_categories_by_application($application)
+	{
+		$condition = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application);
+		return $this->database->retrieve_distinct(InternalItem :: get_table_name(), InternalItem :: PROPERTY_CATEGORY, $condition);
+	}
+	
 // internal item instance
 	
 	function delete_internal_item_instance($internal_item_instance)
