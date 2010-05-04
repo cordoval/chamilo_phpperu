@@ -13,6 +13,7 @@ class SurveyDisplay extends ComplexDisplay
     const ACTION_VIEW_SURVEY = 'view';
 	
     private $template_id;
+    private $participant_id;
     
     
     /**
@@ -72,6 +73,14 @@ class SurveyDisplay extends ComplexDisplay
     function set_template_id($template_id){
     	$this->template_id = $template_id;
     }
-    	
+
+	function get_participant_id()
+    {
+        return $this->participant_id;
+    }
+    
+    function set_participant_id($participant_id){
+    	$this->participant_id = $participant_id;
+    }
 }
 ?>
