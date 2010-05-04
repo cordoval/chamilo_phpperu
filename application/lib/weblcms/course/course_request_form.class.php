@@ -153,6 +153,7 @@ class CourseRequestForm extends FormValidator
         $request->set_motivation($values[CommonRequest :: PROPERTY_MOTIVATION]);
         $request->set_creation_date(Utilities :: to_db_date(time()));
         $request->set_decision_date($values[CommonRequest :: PROPERTY_DECISION_DATE]);
+        $request->set_decision(CommonRequest :: NO_DECISION);	
         
     	if(!$request->create())
 			return false;

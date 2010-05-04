@@ -16,7 +16,7 @@ class DefaultSurveyPageTableColumnModel extends ObjectTableColumnModel {
 	private static function get_default_columns() {
 		
 		$columns = array ();
-		$columns [] = new ObjectTableColumn ( SurveyPage::PROPERTY_NAME, true );
+		$columns [] = new ObjectTableColumn ( SurveyPage::PROPERTY_TITLE, true );
 		$columns [] = new ObjectTableColumn ( SurveyPage::PROPERTY_DESCRIPTION, true );
 		return $columns;
 	}

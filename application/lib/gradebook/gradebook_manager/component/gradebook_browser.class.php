@@ -24,10 +24,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
 		$this->applications = $this->retrieve_internal_item_applications();
 		
-//		echo $this->ab->as_html();
-		//$applications = array_merge($this->retrieve_applications_with_evaluations(), $this->retrieve_calculated_applications_with_evaluation());
-		//$this->applications = $this->retrieve_filtered_array_internal_evaluated_publication($this->get_user_id());
-		//$this->applications = $this->retrieve_filtered_array_internal_my_evaluations($this->get_user_id());
 		$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		if($this->application)
 		{	
@@ -43,6 +39,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 			}
 			$this->table = new GradebookPublicationBrowserTable($this, $parameters);
 		}
+		
 		$this->display_header($trail);
 		$this->ab = $this->get_action_bar();
 		
@@ -50,7 +47,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 			echo '<h2>' . Translation :: get('NoEvaluations') . '</h2>';
 		else
 		{
-				echo $this->get_gradebook_tabs();
+			echo $this->get_gradebook_tabs();
 		}
 		$this->display_footer();
 	}
@@ -67,7 +64,8 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	{
 		$tool = Request :: get('tool');
         $tool = $tool ? $tool : 0;
-		$menu = new WeblcmsPublicationsCategoryMenu($tool, null, $this->get_user());
+        $categories = $this->retrieve_categories_by_application($this->application);
+		$menu = new WeblcmsPublicationsCategoryMenu($tool, null, $categories);
 		return $menu;
 	}
 	
@@ -140,18 +138,16 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
      
         $html[] = '<li><a href="#internal">';
         $html[] = '<span class="category">';
-        $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_help.png" border="0" style="vertical-align: middle;" alt="internal_publications" title="internal_publications"/>';
         $html[] = '<span class="title">' . Translation :: get('InternalPublications') . '</span>';
 		$html[] = '</span>';
         $html[] = '</a></li>';
         $html[] = '<li><a href="#external">';
         $html[] = '<span class="category">';
-        $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_home.png" border="0" style="vertical-align: middle;" alt="evaluated_publications" title="external_publications"/>';
         $html[] = '<span class="title">' . Translation :: get('ExternalPublications') . '</span>';
 		$html[] = '</span>';
         $html[] = '</a></li>';
         $html[] = '</ul>';
-        $html[] = '<div id="internal"/>';
+        $html[] = '<div id="internal">';
         $html[] = $this->get_internal_application_tabs($this->applications);
         $html[] = '<h2>' . ucfirst($this->application) . '</h2>';
 		if ($this->application == 'weblcms')

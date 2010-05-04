@@ -6,7 +6,7 @@ $(function ()
     
     function getDeleteIcon()
     {
-		return $('.data_table > tbody > tr:first > td:last .delete_image').attr('src').replace('_na.png', '.png');
+		return $('.data_table > tbody > tr:first > td:last .remove_option').attr('src').replace('_na.png', '.png');
     }
     
     function getSelectOptions()
@@ -18,8 +18,8 @@ $(function ()
     {
     	var deleteImage, deleteField, rows;
     	
-		deleteImage = '<img id="remove_$option_number" class="delete_image" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
-		deleteField = '<input id="remove_$option_number" class="delete_image remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
+		deleteImage = '<img class="remove_option" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
+		deleteField = '<input id="remove_$option_number" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
 		rows = $('.data_table > tbody > tr');
 	
 		if (rows.size() <= 2)
@@ -31,15 +31,14 @@ $(function ()
 		
 		rows.each(function ()
 		{
-			var remove_option, name, id, appendField;
-
-			remove_option = $('.delete_image', this);
-			id = remove_option.attr('id');
-			
-		    id = id.substr(7, id.length);
+		    var weightField, weightFieldName, id, appendField;
+		    
+			weightField = $('input[name*="scores"]', this);
+			weightFieldName = weightField.attr('name');
+		    id = weightFieldName.substr(7, weightFieldName.length - 8);
 		    appendField = deleteField.replace(/\$option_number/g, id);
 	
-		    $('.delete_image', this).remove();
+		    $('.remove_option', this).remove();
 		    $('td:last', this).append(appendField);
 		    $('td:first', this).empty();
 		    $('td:first', this).append(i);
@@ -104,7 +103,7 @@ $(function ()
 	
 		fieldDescription = '<input type="text" name="options[' + numberOfOptions + ']" style="width: 99%;" />';
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="scores[' + numberOfOptions + ']" size="2"/>';
-		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="delete_image remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
+		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		string = '<tr id="options_' + numberOfOptions + '" class="' + rowClass + '"><td>' + visibleNumber + '</td><td>' + fieldDescription + '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
 	
 		$('.data_table > tbody').append(string);

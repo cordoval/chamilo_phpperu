@@ -19,7 +19,9 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
     private $array_renderer;
     
     private $current_category;
+    private $categories;
     private $user;
+    private $category_array = array();
 
     /**
      * Creates a new category navigation menu.
@@ -32,12 +34,14 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function WeblcmsPublicationsCategoryMenu($current_category, $url_format = '?application=gradebook&go=home&publication_type=weblcms&tool=%s', $user)
+    function WeblcmsPublicationsCategoryMenu($current_category, $url_format = '?application=gradebook&go=home&publication_type=weblcms&course=%s&tool=%s', $categories)
     {
     	$this->current_category = $current_category;
     	$this->urlFmt = $url_format;
-    	$this->user = $user;
+    	$this->categories = $categories;
         
+    	$this->category_array = $this->category_strings_to_array();
+    	
         $menu = $this->get_menu();
         parent :: __construct($menu);
         
@@ -50,7 +54,7 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
         $menu = array();
         
         $menu_item = array();
-        $menu_item['title'] = Translation :: get('Tools');// . ' (' . $this->get_publication_count(0) . ')';
+        $menu_item['title'] = Translation :: get('Courses');// . ' (' . $this->get_publication_count(0) . ')';
         $menu_item['url'] = $this->get_url(0);
         $menu_item['id'] = 0;
         $menu_item['class'] = 'home';
@@ -65,6 +69,17 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
         
         return $menu;
     }
+    
+    function category_strings_to_array()
+    {
+    	$menu = array();
+    	foreach($this->categories as $key=>$categories)
+    	{
+    		$split = split('_', $categories);
+    		$menu[$split[0]][] = $split[1];  
+    	}
+    	return $menu;
+    }
 
     /**
      * Returns the menu items.
@@ -76,6 +91,21 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
      */
     private function get_menu_items()
     {
+    	$menu = array();
+    	foreach($this->category_array as $key=>$value)
+    	{
+    		$menu_item = array();
+    		$menu_item['title'] = $key;
+    		$menu_item['class'] = 'course';
+    		$menu_item['url'] = $this->get_url($key);
+    		if(is_array($value))
+    		{
+    			$menu_item['sub'] = $this->get_sub_menu_items($key);
+    		}
+    		$menu[] = $menu_item;
+    	}
+    	return $menu;
+
 //   	    $conditions = array();
 //        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->user->get_id(), CourseUserRelation :: get_table_name());
 //        $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
@@ -94,28 +124,41 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
 //			$menu[] = $menu_item;
 //        }
         
+//    	$tools = array();
+//        $condition = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, 'weblcms');
+//        $gdm = GradebookDataManager :: get_instance();
+//        $internal_items = $gdm->retrieve_internal_items_by_application($condition);
+//        while ($internal_item = $internal_items->next_result())
+//        {
+//        	$wdm = WeblcmsDataManager :: get_instance();
+//        	$content_object_publication = $wdm->retrieve_content_object_publication($internal_item->get_publication_id());
+//        	$tools[] = $content_object_publication->get_tool();
+//        }
+//        
+//        $menu = array();
+//        $tools = array_unique($tools);
+//        foreach ($tools as $tool)
+//        {
+//            $menu_item = array();
+//            $menu_item['title'] = $tool;
+//            $menu_item['url'] = $this->get_url($tool);
+//			$menu_item['class'] = 'tool';
+//			$menu[] = $menu_item;
+//        }
+//        return $menu;
+    }
+    
+    function get_sub_menu_items($key)
+    {
+    	$sub_menus = $this->category_array[$key];
     	$tools = array();
-        $condition = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, 'weblcms');
-        $gdm = GradebookDataManager :: get_instance();
-        $internal_items = $gdm->retrieve_internal_items_by_application($condition);
-        while ($internal_item = $internal_items->next_result())
-        {
-        	$wdm = WeblcmsDataManager :: get_instance();
-        	$content_object_publication = $wdm->retrieve_content_object_publication($internal_item->get_publication_id());
-        	$tools[] = $content_object_publication->get_tool();
-        }
-        
-        $menu = array();
-        $tools = array_unique($tools);
-        foreach ($tools as $tool)
-        {
-            $menu_item = array();
-            $menu_item['title'] = $tool;
-            $menu_item['url'] = $this->get_url($tool);
-			$menu_item['class'] = 'tool';
-			$menu[] = $menu_item;
-        }
-        return $menu;
+    	foreach($sub_menus as $sub_menu)
+    	{
+    		$item = array();
+    		$item['title'] = $sub_menu;
+    		$tools[] = $item;
+    	}
+    	return $tools;
     }
 
     /**
@@ -123,10 +166,10 @@ class WeblcmsPublicationsCategoryMenu extends HTML_Menu
      * @param int $category The id of the category
      * @return string The requested URL
      */
-    function get_url($tool)
+    function get_url($course, $tool = null)
     {
         // TODO: Put another class in charge of the htmlentities() invocation
-        return htmlentities(sprintf($this->urlFmt, $tool));
+        return htmlentities(sprintf($this->urlFmt, $course, $tool));
     }
 
     /**

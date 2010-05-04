@@ -2,6 +2,7 @@
 
 require_once dirname ( __FILE__ ) . '/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey_page/survey_page.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template_rel_page.class.php';
 
 
 class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBuilderComponent
@@ -14,36 +15,38 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
      */
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+            	
+    	$trail = new BreadcrumbTrail(false);
        
         $trail->add(new Breadcrumb($this->get_configure_context_url(), Translation :: get('BrowseContexts')));
         
-        $survey_context_template_id = Request :: get(SurveyBuilder :: PARAM_TEMPLATE_ID);
-        $this->template = SurveyContextDataManager::get_instance()->retrieve_survey_context_template($survey_context_template_id);
+        $template_id = Request :: get(SurveyBuilder :: PARAM_TEMPLATE_ID);
+        $this->template = SurveyContextDataManager::get_instance()->retrieve_survey_context_template($template_id);
            
         
-        $trail->add(new Breadcrumb($this->get_template_viewing_url($this->template), $this->template->get_name()));
+        $trail->add(new Breadcrumb($this->get_template_viewing_url($template_id), $this->template->get_name()));
       
 
-        $trail->add(new Breadcrumb($this->get_template_suscribe_page_browser_url($this->template), Translation :: get('AddLocations')));
-            
+        $trail->add(new Breadcrumb($this->get_template_suscribe_page_browser_url($template_id), Translation :: get('AddPages')));
+		
+        
         $this->ab = $this->get_action_bar();
-        $output = $this->get_page_subscribe_html();
-
+        $output = $this->get_html();
+		
         $this->display_header($trail);
         echo $this->ab->as_html() . '<br />';
         echo $output;
         $this->display_footer();
     }
 
-    function get_page_subscribe_html()
+    function get_html()
     {
         $parameters = $this->get_parameters();
         
         $parameters[SurveyBuilder :: PARAM_BUILDER_ACTION] = SurveyBuilder :: ACTION_SUBSCRIBE_PAGE_BROWSER;
         $parameters[SurveyBuilder :: PARAM_TEMPLATE_ID ] = $this->template->get_id();
     	
-        $table = new SurveyContextTemplateSubscribePageBrowserTable($this, $parameters, $this->get_subscribe_condition());
+        $table = new SurveyContextTemplateSubscribePageBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
         $html[] = $table->as_html();
@@ -51,36 +54,57 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
         return implode($html, "\n");
     }
 
-    function get_subscribe_condition()
+    function get_condition()
     {
-        $condition = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, Request :: get(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID));
+        $condition = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, Request :: get(SurveyBuilder :: PARAM_TEMPLATE_ID));
+		$condition = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, Request :: get(SurveyBuilder :: PARAM_ROOT_LO));
+        
+        $template_rel_pages = SurveyContextDataManager::get_instance()->retrieve_template_rel_pages($condition);
 
-        $survey_context_template_rel_pages = $this->retrieve_survey_context_template_rel_pages($condition);
-
-        $conditions = array();
-        while ($survey_context_template_rel_page = $survey_context_template_rel_pages->next_result())
+       
+        $template_pages= array();
+        while ($template_rel_page = $template_rel_pages->next_result())
         {
-            $conditions[] = new NotCondition(new EqualityCondition(SurveyPage :: PROPERTY_ID, $survey_context_template_rel_page->get_page_id()));
+            $template_pages[] =  $template_rel_page->get_page_id();
         }
+		
+       $survey = RepositoryDataManager::get_instance()->retrieve_content_object(Request :: get(SurveyBuilder :: PARAM_ROOT_LO));
+     
+        
+        $pages = $survey->get_pages();
+        $survey_pages = array();
+        foreach ($pages as $page) {
+        	$survey_pages[] = $page->get_id();
+        }
+         
+        $not_template_pages = array_diff($survey_pages, $template_pages);
+        
+        $conditions = array();
 
+        
+         
+        foreach ($not_template_pages as $page_id) {
+        	$conditions[] = new EqualityCondition(SurveyPage :: PROPERTY_ID, $page_id, SurveyPage::get_table_name());
+        	
+        }
+        
         $query = $this->ab->get_query();
 
         if (isset($query) && $query != '')
         {
             $or_conditions[] = new PatternMatchCondition(SurveyPage :: PROPERTY_NAME, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(SurveyPage :: PROPERTY_CITY, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(SurveyPage :: PROPERTY_STREET, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(SurveyPage :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(SurveyPage :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             $conditions[] = new OrCondition($or_conditions);
         }
 
         if (count($conditions) == 0){
         	 return null;
         }
-           
 
+       
+		
         $condition = new AndCondition($conditions);
-
+		        
         return $condition;
     }
 

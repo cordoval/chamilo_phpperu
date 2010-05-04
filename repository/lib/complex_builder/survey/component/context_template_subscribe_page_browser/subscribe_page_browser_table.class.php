@@ -21,10 +21,10 @@ class SurveyContextTemplateSubscribePageBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(InternshipOrganizerCategoryManager :: PARAM_SUBSCRIBE_SELECTED, Translation :: get('Subscribe'));
+        $actions[] = new ObjectTableFormAction(SurveyBuilder :: PARAM_SUBSCRIBE_SELECTED, Translation :: get('Subscribe'));
         
         $this->set_form_actions($actions);
-        $this->set_default_row_count(20);
+       
     }
 }
 ?>
