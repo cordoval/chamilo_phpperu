@@ -3,11 +3,6 @@ class YoutubeStreamingMediaManagerSelecterComponent extends YoutubeStreamingMedi
 {
 	function run()
 	{
-//		$selecter = StreamingMediaComponent::factory(StreamingMediaComponent::SELECTER_COMPONENT, $this);
-//		
-//		$selecter->run();
-		
-		
 		$id = Request :: get(StreamingMediaManager::PARAM_STREAMING_MEDIA_ID);
 		$object = $this->retrieve_streaming_media_object($id);
 		$this->display_header();

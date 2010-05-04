@@ -80,6 +80,8 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
                 if($success)
                 {
                     $typeObject = $rdm->determine_content_object_type($object);
+                    //TODO if we want other users to be able to create items in the portfolio's this should be changed
+                    //not the current user but the user that owns the portfolio should be used here!
                     $user = $this->get_user_id();
                     $possible_types = array();
                     $possible_types[] = PortfolioRights::TYPE_PORTFOLIO_FOLDER;
@@ -104,8 +106,21 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
                    {
                        $type = PortfolioRights::TYPE_PORTFOLIO_ITEM;
                    }
-                   PortfolioRights::create_location_in_portfolio_tree('portfolio item', $type, $wrapper->get_id(), $parent_location, $user, true, false);
-                   //TODO: add the default rights to the location
+                   $success &= PortfolioRights::create_location_in_portfolio_tree('portfolio item', $type, $wrapper->get_id(), $parent_location, $user, true, false);
+
+                   if($success)
+                    {
+                        $dm = PortfolioDataManager :: get_instance();
+                        $info = $dm->retrieve_porfolio_information($user);
+                        if($info)
+                        {
+                            $info->set_last_updated_date(time());
+                            $info->set_last_updated_item_id($wrapper->get_id());
+                            $info->set_last_updated_item_type($type);
+                            $info->set_last_action(PortfolioInformation::ACTION_PORTFOLIO_ADDED);
+                            $success &= $info->update();
+                        }
+                    }
                 }
             }
             

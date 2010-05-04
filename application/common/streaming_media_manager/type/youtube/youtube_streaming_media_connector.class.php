@@ -1,6 +1,6 @@
 <?php
 require_once 'Zend/Loader.php';
-require_once dirname(__FILE__) . '/../../streaming_media_object.class.php';
+require_once dirname(__FILE__) . '/youtube_streaming_media_object.class.php';
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 
 //YoutubeKey : AI39si4OLUsiI2mK0_k8HxqOtv0ctON-PzekhP_56JDkdph6wZ9tW2XqzDD7iVYY0GXKdMKlPSJyYZotNQGleVfRPDZih41Tug
@@ -28,7 +28,15 @@ class YoutubeStreamingMediaConnector
         {
             if (! isset($_GET['token']))
             {
-                $next_url = PATH :: get(WEB_PATH) . 'application/common/streaming_media_manager/index.php?type=youtube';
+                if ($manager->is_stand_alone())
+                {
+                	$next_url = PATH :: get(WEB_PATH) . 'application/common/launcher/index.php?type=youtube&application=streaming_media';
+                }
+                else
+                {
+                	$next_url = PATH :: get(WEB_PATH) . 'core.php?go=streaming&application=repository&category=0&type=youtube';
+                }
+            	
                 $scope = 'http://gdata.youtube.com';
                 $secure = false;
                 $session = true;
@@ -63,6 +71,19 @@ class YoutubeStreamingMediaConnector
         return array(self :: RELEVANCE, self :: PUBLISHED, self :: VIEW_COUNT, self :: RATING);
     }
 
+    function is_editable($id)
+    {
+    	$videoEntry = $this->get_youtube_video_entry($id);
+    	if ($videoEntry->getEditLink() !== null)
+    	{
+    		return true;
+    	}
+    	else 
+    	{
+    		return false;
+    	}
+    }
+    
     static function translate_search_query($query)
     {
         return $query;
@@ -250,16 +271,33 @@ class YoutubeStreamingMediaConnector
             {
                 $thumbnail = null;
             }
-            
-            $objects[] = new StreamingMediaObject($videoEntry->getVideoId(), $videoEntry->getVideoTitle(), $videoEntry->getVideoDescription(), $videoEntry->getFlashPlayerUrl(), $videoEntry->getVideoDuration(), $thumbnail);
+            $object = new YoutubeStreamingMediaObject($videoEntry->getVideoId(), $videoEntry->getVideoTitle(), $videoEntry->getVideoDescription(), $videoEntry->getFlashPlayerUrl(), $videoEntry->getVideoDuration(), $thumbnail);
+        	$object->set_category($videoEntry->getVideoCategory());
+        	$object->set_tags($videoEntry->getVideoTags());
+            $objects[] = $object;
         }
         return $objects;
     }
 
+    function get_youtube_video_entry($id)
+    {
+    	$parameter = Request :: get(YoutubeStreamingMediaManager::PARAM_FEED_TYPE);
+    	if ($parameter == YoutubeStreamingMediaManager::FEED_TYPE_MYVIDEOS)
+    	{
+    		return $this->youtube->getFullVideoEntry($id);
+    	}
+    	else 
+    	{
+    		return $this->youtube->getVideoEntry($id);
+    	}
+    }
+    
     function get_youtube_video($id)
     {
-        $videoEntry = $this->youtube->getVideoEntry($id);
+        $videoEntry = $this->get_youtube_video_entry($id);
+        
         $video_thumbnails = $videoEntry->getVideoThumbnails();
+        
         if (count($video_thumbnails) > 0)
         {
             $thumbnail = $video_thumbnails[0]['url'];
@@ -268,8 +306,23 @@ class YoutubeStreamingMediaConnector
         {
             $thumbnail = null;
         }
-        return new StreamingMediaObject($videoEntry->getVideoId(), $videoEntry->getVideoTitle(), $videoEntry->getVideoDescription(), $videoEntry->getFlashPlayerUrl(), $videoEntry->getVideoDuration(), $thumbnail);
-        //return $object;
+        $object = new YoutubeStreamingMediaObject($videoEntry->getVideoId(), $videoEntry->getVideoTitle(), $videoEntry->getVideoDescription(), $videoEntry->getFlashPlayerUrl(), $videoEntry->getVideoDuration(), $thumbnail);
+        $object->set_category($videoEntry->getVideoCategory());
+        $object->set_tags($videoEntry->getVideoTags());
+        return $object;
+    }
+    
+    function update_youtube_video($values)
+    {
+    	$video_entry = $this->youtube->getFullVideoEntry($values[StreamingMediaObject::PROPERTY_ID]);
+    	$video_entry->setVideoTitle($values[YoutubeStreamingMediaObject::PROPERTY_TITLE]);
+       	$video_entry->setVideoCategory($values[YoutubeStreamingMediaObject::PROPERTY_CATEGORY]);
+       	$video_entry->setVideoTags($values[YoutubeStreamingMediaObject::PROPERTY_TAGS]);
+       	$video_entry->setVideoDescription($values[YoutubeStreamingMediaObject::PROPERTY_DESCRIPTION]);
+
+       	$edit_link = $video_entry->getEditLink()->getHref();
+       	$this->youtube->updateEntry($video_entry, $edit_link);
+       	return true;
     }
 
     function count_youtube_video($condition)

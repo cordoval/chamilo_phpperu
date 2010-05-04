@@ -176,7 +176,8 @@
 			{				
 				var ul = $('<ul class="tree-menu"></ul>');
 				$.each(originalActivatedElements, function(i, activatedElement){
-					activatedElements.push(activatedElement.id);
+					
+					activatedElements.push(activatedElement);
 					var li = $('<li><div><a href="#" id="' + activatedElement.id + '" class="' + activatedElement.classes + '">' + activatedElement.title + '</a></div></li>');
 					ul.append(li);
 				});
@@ -219,7 +220,7 @@
 			function disableActivatedElements()
 			{
 				$.each(activatedElements, function(i, activatedElement){
-					var currentElements = $('#' + activatedElement, inactiveBox);
+					var currentElements = $('#' + activatedElement.id, inactiveBox);
 					
 					$.each(currentElements, function(i, currentElement){
 						currentElement = $(currentElement);
@@ -269,7 +270,7 @@
 			{
 				for(var i=0; i < activatedElements.length;i++ )
 				{ 
-					if(activatedElements[i] == arrayElement)
+					if(activatedElements[i].id == arrayElement)
 					{
 						activatedElements.splice(i,1);
 					}
@@ -327,7 +328,8 @@
 				var elementParent = $(this).parent().parent();
 				var elementHtml = elementParent.html();
 				
-				activatedElements.push($(this).attr('id'));
+				var elementArray = { id : $(this).attr('id'), classes : $(this).attr('class'), title : $(this).attr('title'), description : $(this).text() };
+				activatedElements.push(elementArray);
 				
 				var li = $('<li></li>');
 				li.append(elementHtml);

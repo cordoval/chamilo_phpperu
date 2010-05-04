@@ -276,41 +276,41 @@ class PortfolioPublicationForm extends FormValidator
             return PortfolioRights::implement_update_rights($values, $location);
     }
 
-    function create_portfolio_publications($objects)
+    function create_portfolio_publications($object_idss)
     {
         $values = $this->exportValues();
-        
-//        if ($values['forever'] == 1)
-//        {
-//            $from = $to = 0;
-//        }
-//        else
-//        {
-//            $from = Utilities :: time_from_datepicker($values['from_date']);
-//           $to = Utilities :: time_from_datepicker($values['to_date']);
-//        }
-        $succes = true;
-        foreach ($objects as $object)
+
+        $success = true;
+
+        foreach ($object_ids as $object_id)
         {
+
             $portfolio_publication = new PortfolioPublication();
-            $portfolio_publication->set_content_object($object);
-            //$portfolio_publication->set_from_date($from);
-            //$portfolio_publication->set_to_date($to);
+            $portfolio_publication->set_content_object($object_id);
             $portfolio_publication->set_publisher($this->user->get_id());
             $portfolio_publication->set_published(time());
-            $succes &= $portfolio_publication->create();
-            if($succes)
+            $success &= $portfolio_publication->create();
+            if($success)
             {
                 $location = $portfolio_publication->get_location();
+                $info = $portfolio_publication->get_info();
                 if($location)
                 {
-                     $succes &= PortfolioRights::implement_rights($values, $location);
+                     $success &= PortfolioRights::implement_rights($values, $location);
+                }
+                if($info)
+                {
+                    $info->set_last_updated_date(time());
+                    $info->set_last_updated_item_id($object_id);
+                    $info->set_last_updated_item_type(PortfolioRights::TYPE_PORTFOLIO_FOLDER);
+                    $info->set_last_action(PortfolioInformation::ACTION_PORTFOLIO_ADDED);
+                    $success &= $info->update();
                 }
             }
 
 
         }
-        return $succes;
+        return $success;
     }
 
 //    /**

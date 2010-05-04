@@ -8,6 +8,7 @@ abstract class StreamingMediaComponent extends SubManager
 	const IMPORTER_COMPONENT = 'importer';
 	const VIEWER_COMPONENT = 'viewer';
 	const SELECTER_COMPONENT = 'selecter';
+	const EDITOR_COMPONENT = 'editor';
 	
 	static function factory($type, $application)
 	{

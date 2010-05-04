@@ -10,6 +10,7 @@ abstract class StreamingMediaManager extends SubManager
 	const ACTION_DOWNLOAD_STREAMING_MEDIA = 'download';
 	const ACTION_UPLOAD_STREAMING_MEDIA = 'upload';
 	const ACTION_SELECT_STREAMING_MEDIA = 'select';
+	const ACTION_EDIT_STREAMING_MEDIA = 'edit';
 	
 	const PARAM_STREAMING_MEDIA_ID = 'streaming_media_id';
 	const PARAM_TYPE = 'type';
@@ -32,6 +33,8 @@ abstract class StreamingMediaManager extends SubManager
 		return is_a($this->get_parent(), LauncherApplication :: CLASS_NAME);
 	}
 	
+	abstract function is_editable($id);
+		
 	static function factory($type, $application)
 	{
 		$file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_streaming_media_manager.class.php';
@@ -77,7 +80,12 @@ abstract class StreamingMediaManager extends SubManager
 		
 		$html = array();
 		$html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-        $streaming_media_actions = $this->get_streaming_medi_actions();
+        $streaming_media_actions = $this->get_streaming_media_actions();
+        
+        if ($action == self :: ACTION_EDIT_STREAMING_MEDIA)
+        {
+        	$streaming_media_actions[] = self :: ACTION_EDIT_STREAMING_MEDIA;
+        }
         
 		if($action == self :: ACTION_VIEW_STREAMING_MEDIA)
         {
@@ -111,7 +119,7 @@ abstract class StreamingMediaManager extends SubManager
         echo implode("\n", $html);
 	}
 	
-	function get_streaming_medi_actions()
+	function get_streaming_media_actions()
 	{
 		return array(self :: ACTION_BROWSE_STREAMING_MEDIA, self :: ACTION_UPLOAD_STREAMING_MEDIA);
 	}

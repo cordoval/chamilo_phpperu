@@ -1,15 +1,54 @@
 <?php
 class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
 {
-    /*private $parent;
+    private $parent;
 
     public function PeerAssessmentViewerWizardProcess($parent)
     {
         $this->parent = $parent->get_parent();
-
+		$this->perform();
     }
 
-    function perform($page, $actionName)
+    function perform()
+    {
+    	/*if(sizeof($_POST[select]) > 0)
+    	{
+        	// Publication id
+    		$publication_id = Request :: get('peer_assessment_publication');
+    		// Competence id
+    		$competence_id = Request :: get('competence');
+    		// Users
+    		$users = $this->parent->get_peer_assessment_publication_users($publication_id)->as_array();
+    		 
+    		
+            // Competence object
+        	$competence = RepositoryDataManager :: get_instance()->retrieve_content_object($competence_id);
+        	// Retrieve indicators of the selected competence
+			$indicators = $this->parent->get_peer_assessment_page_indicators_via_competence($this->parent->get_peer_assessment(), $competence);			
+
+    		foreach($indicators as $indicator)
+    		{
+	    		foreach($users as $user)
+	    		{
+	    			dump($competence->get_id().' '.$indicator->get_id().' '.$user->get_user());
+	    		}  
+    		}*/
+
+    				
+    		/*$results = new PeerAssessmentPublicationResults();
+    		$results->set_publication_id();
+    		$results->set_competence_id();
+    		$results->set_indicator_id();
+    		$results->set_user_id(Session :: get_user_id());
+    		$results->set_graded_user_id();
+    		$results->set_score();
+    		$results->set_finished(1);
+    		
+    		$results->create();*/
+    	/*}*/
+    }
+    
+    /*function perform($page, $actionName)
     {
         $this->parent->get_parent()->display_header();
 

@@ -62,11 +62,11 @@ class PortfolioPublication extends DataClass
 
     /**
      * Sets the content_object of this PortfolioPublication.
-     * @param content_object
+     * @param content_object_id
      */
-    function set_content_object($content_object)
+    function set_content_object($content_object_id)
     {
-        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object);
+        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object_id);
     }
 
     /**
@@ -106,50 +106,6 @@ class PortfolioPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_PARENT_ID, $parent);
     }
 
-//    /**
-//     * Sets the from_date of this PortfolioPublication.
-//     * @param from_date
-//     */
-//    function set_from_date($from_date)
-//    {
-//        $this->set_default_property(self :: PROPERTY_FROM_DATE, $from_date);
-//    }
-//
-//    /**
-//     * Returns the to_date of this PortfolioPublication.
-//     * @return the to_date.
-//     */
-//    function get_to_date()
-//    {
-//        return $this->get_default_property(self :: PROPERTY_TO_DATE);
-//    }
-//
-//    /**
-//     * Sets the to_date of this PortfolioPublication.
-//     * @param to_date
-//     */
-//    function set_to_date($to_date)
-//    {
-//        $this->set_default_property(self :: PROPERTY_TO_DATE, $to_date);
-//    }
-//
-//    /**
-//     * Returns the hidden of this PortfolioPublication.
-//     * @return the hidden.
-//     */
-//    function get_hidden()
-//    {
-//        return $this->get_default_property(self :: PROPERTY_HIDDEN);
-//    }
-//
-//    /**
-//     * Sets the hidden of this PortfolioPublication.
-//     * @param hidden
-//     */
-//    function set_hidden($hidden)
-//    {
-//        $this->set_default_property(self :: PROPERTY_HIDDEN, $hidden);
-//    }
 
     /**
      * Returns the publisher of this PortfolioPublication.
@@ -195,6 +151,7 @@ class PortfolioPublication extends DataClass
      */
     function create_location()
     {
+        //TODO if we want other users to be able to publish in someone's portfolio this needs to be changed as the location tree identifier doesn't need to be the publisher's id
         $user = $this->get_publisher();
         $parent_location = PortfolioRights::get_portfolio_root_id($user);
             if(!$parent_location)
@@ -207,10 +164,6 @@ class PortfolioPublication extends DataClass
             return $this ->location;
     }
 
-//    function is_forever()
-//    {
-//    	return ($this->get_from_date() == 0 && $this->get_to_date() == 0);
-//    }
 
     function create()
     {
@@ -235,6 +188,29 @@ class PortfolioPublication extends DataClass
      static function get_item_owner($cid)
     {
         return PortfolioManager::retrieve_portfolio_item_user($cid);
+    }
+
+    /**
+     *gets the portfolio-info-object of the portfolio's owner (wich contains update-information etc.)
+     * @return portfolioInfo object
+     */
+    function get_portfolio_info()
+    {
+        $dm = PortfolioDataManager :: get_instance();
+        $info = $dm->retrieve_porfolio_information_by_user($this->get_location()->get_tree_identifier());
+        if($info)
+        {
+            $info = new PortfolioInformation();
+            $info->set_last_updated_date(time());
+            $info->set_user_id($this->get_location()->get_tree_identifier());
+            $info->set_last_updated_item_id('0');
+            $info->set_last_updated_item_type(PortfolioRights::TYPE_PORTFOLIO_FOLDER);
+            $info->set_last_action(PortfolioInformation::ACTION_FIRST_PORTFOLIO_CREATED);
+            $dm->create_portfolio_information($info);
+        }
+        
+
+        return $info;
     }
 }
 

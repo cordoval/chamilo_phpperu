@@ -20,6 +20,12 @@ class Redirect
         $link = self :: get_link($application, $parameters, $filter, $encode_entities, $type);
         self :: write_header($link);
     }
+    
+    static function web_link($url, $parameters = array (), $encode_entities = false)
+    {
+    	$link = self :: get_web_link($url, $parameters, $encode_entities);
+    	self :: write_header($link);
+    }
 
     static function get_link($application, $parameters = array (), $filter = array(), $encode_entities = false, $type = self :: TYPE_APPLICATION)
     {
@@ -54,7 +60,7 @@ class Redirect
             $parameters = $url_parameters;
         }
 
-       return self :: web_link($link, $parameters, $encode_entities);
+       return self :: get_web_link($link, $parameters, $encode_entities);
     }
 
     static function url($parameters = array (), $filter = array(), $encode_entities = false)
@@ -80,10 +86,10 @@ class Redirect
             $parameters = $url_parameters;
         }
 
-        return self :: web_link($url, $parameters, $encode_entities);
+        return self :: get_web_link($url, $parameters, $encode_entities);
     }
     
-    static function web_link($url, $parameters = array (), $encode_entities = false)
+    static function get_web_link($url, $parameters = array (), $encode_entities = false)
     {
     	if (count($parameters))
         {

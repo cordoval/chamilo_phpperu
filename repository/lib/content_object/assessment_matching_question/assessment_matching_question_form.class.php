@@ -29,9 +29,9 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
             foreach ($options as $index => $option)
             {
                 $defaults[MatchingQuestionOption::PROPERTY_VALUE][$index] = $option->get_value();
-                $defaults[AssessmentMatchingQuestionOption::PROPERTY_SCORE][$index] = $option->get_weight();
-                $defaults[MatchingQuestionOption::PROPERTY_MATCH][$index] = $option->get_match();
-                $defaults[AssessmentMatchingQuestionOption::PROPERTY_FEEDBACK][$index] = $option->get_comment();
+                $defaults[AssessmentMatchingQuestionOption::PROPERTY_SCORE][$index] = $option->get_score();
+                $defaults['matches_to'][$index] = $option->get_match();
+                $defaults[AssessmentMatchingQuestionOption::PROPERTY_FEEDBACK][$index] = $option->get_feedback();
             }
             $matches = $object->get_matches();
             foreach ($matches as $index => $match)
@@ -75,7 +75,7 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
         foreach ($values[MatchingQuestionOption::PROPERTY_VALUE] as $option_id => $value)
         {
             //Create the option with it corresponding match
-            $options[] = new AssessmentMatchingQuestionOption($value, $matches_indexes[$values[MatchingQuestionOption::PROPERTY_MATCH][$option_id]], $values[AssessmentMatchingQuestionOption::PROPERTY_SCORE][$option_id], $values[AssessmentMatchingQuestionOption::PROPERTY_FEEDBACK][$option_id]);
+            $options[] = new AssessmentMatchingQuestionOption($value, $matches_indexes[$values['matches_to'][$option_id]], $values[AssessmentMatchingQuestionOption::PROPERTY_SCORE][$option_id], $values[AssessmentMatchingQuestionOption::PROPERTY_FEEDBACK][$option_id]);
         }
 
         foreach ($values['match'] as $match)
@@ -147,7 +147,7 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
                 $visual_number ++;
                 $group[] = $this->createElement('static', null, null, $visual_number);
                 $group[] = $this->create_html_editor(MatchingQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
-                $group[] = $this->createElement('select', MatchingQuestionOption::PROPERTY_MATCH . '[' . $option_number . ']', Translation :: get('Matches'), $matches);
+                $group[] = $this->createElement('select','matches_to[' . $option_number . ']', Translation :: get('Matches'), $matches);
                 $group[] = $this->create_html_editor(AssessmentMatchingQuestionOption::PROPERTY_FEEDBACK . '[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
                 $group[] = $this->createElement('text', AssessmentMatchingQuestionOption::PROPERTY_SCORE . '[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
 
