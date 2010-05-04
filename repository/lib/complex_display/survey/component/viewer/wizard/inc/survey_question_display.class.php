@@ -12,8 +12,9 @@ abstract class SurveyQuestionDisplay
     private $renderer;
     private $survey;
     private $page_nr;
+    private $answer;
 
-    function SurveyQuestionDisplay($formvalidator, $clo_question, $question_nr, $question, $survey, $page_nr)
+    function SurveyQuestionDisplay($formvalidator, $clo_question, $question_nr, $question, $survey, $page_nr, $answer)
     {
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
@@ -23,7 +24,8 @@ abstract class SurveyQuestionDisplay
         $this->question = $question;
         $this->survey = $survey;
         $this->page_nr = $page_nr;
-    }
+        $this->answer = $answer;
+     }
 
     function get_clo_question()
     {
@@ -54,7 +56,12 @@ abstract class SurveyQuestionDisplay
     {
         return $this->page_nr;
     }
-
+	
+	function get_answer()
+    {
+        return $this->answer;
+    }
+    
     function display()
     {
         $formvalidator = $this->formvalidator;
