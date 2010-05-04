@@ -225,9 +225,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $course_alias = $this->get_alias(Course :: get_table_name());
         $course_settings_alias = $this->get_alias('course_settings');
+        $course_create_alias = $this->get_alias(CourseCreateRequest :: get_table_name());
         
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
         $query .= ' JOIN ' . $this->escape_table_name('course_settings') . ' AS ' . $course_settings_alias . ' ON ' . $course_alias . '.id = ' . $course_settings_alias . '.course_id';
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseCreateRequest :: get_table_name()) . ' AS ' . $course_create_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_create_alias);
         
         return $this->count_result_set($query, Course :: get_table_name(), $condition);
     }
@@ -765,9 +767,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $course_alias = $this->get_alias(Course :: get_table_name());
         $course_settings_alias = $this->get_alias(CourseSettings :: get_table_name());
+        $course_create_alias = $this->get_alias(CourseCreateRequest :: get_table_name());
         
         $query = 'SELECT ' . $course_alias . '.* FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
         $query .= ' JOIN ' . $this->escape_table_name(CourseSettings :: get_table_name()) . ' AS ' . $course_settings_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_settings_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseCreateRequest :: get_table_name()) . ' AS ' . $course_create_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_create_alias);
         
         $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
         
