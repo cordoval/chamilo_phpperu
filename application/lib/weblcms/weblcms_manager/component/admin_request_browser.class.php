@@ -30,6 +30,11 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
         $this->request_type = Request :: get(WeblcmsManager :: PARAM_REQUEST_TYPE);
         $this->request_view = Request :: get(WeblcmsManager :: PARAM_REQUEST_VIEW);
         
+        if(is_null($this->request_type))
+			$this->request_type = CommonRequest :: CREATION_REQUEST;
+        if(is_null($this->request_view))
+        	$this->request_view = self :: PENDING_REQUEST_VIEW;
+
         $trail = BreadcrumbTrail :: get_instance();
         if ($this->get_user()->is_platform_admin())
         {
@@ -118,7 +123,7 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
         
         switch($this->request_view)
         {
-        	case self :: PENDING_REQUEST_VIEW: $conditions[] = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, NULL);
+        	case self :: PENDING_REQUEST_VIEW: $conditions[] = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, CommonRequest :: NO_DECISION);
         									break;
         	case self :: ALLOWED_REQUEST_VIEW: $conditions[] = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, CommonRequest :: ALLOWED_DECISION);
         									   break;

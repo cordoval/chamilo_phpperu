@@ -103,7 +103,7 @@ class CourseForm extends CommonForm
 	
 	            $users = $wdm->retrieve_course_user_relations($user_condition);
 				
-	            if($user->get_size() > 0)
+	            if($users->size() > 0)
 	            {
 	            	while ($user = $users->next_result())
 	            	{
@@ -115,8 +115,7 @@ class CourseForm extends CommonForm
 	            {
 	            	$conditions = array();
 	            	$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_COURSE_ID, $this->object->get_id());
-        			$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_USER_ID, $this->user->get_id());
-        			$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_DECISION, Common_Request :: NO_DECISION);
+        			$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_DECISION, CommonRequest :: NO_DECISION);
         			$condition = new AndCondition($conditions);
         			
         			$count_pending = $wdm->count_course_create_requests($condition);
@@ -127,7 +126,6 @@ class CourseForm extends CommonForm
         			{
         				$conditions = array();
 	            		$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_COURSE_ID, $this->object->get_id());
-        				$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_USER_ID, $this->user->get_id());
         				$conditions[] = new EqualityCondition(CourseCreateRequest :: PROPERTY_DECISION, CommonRequest :: DENIED_DECISION);
         				$condition = new AndCondition($conditions);
         				
@@ -135,6 +133,8 @@ class CourseForm extends CommonForm
         				
         				if($count_denied)
         					$this->addElement('html', Display :: normal_message(Translation :: get('CourseDenied'),true));
+        				else
+        					$this->addElement('html', Display :: normal_message(Translation :: get('NoUsersSubscribed'),true));
         			}
         			
 	            	$users = $udm->retrieve_users(new EqualityCondition(User :: PROPERTY_STATUS, 1));
