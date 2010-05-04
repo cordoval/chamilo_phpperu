@@ -93,6 +93,8 @@ $(function ()
 			id = $(this).attr('id').replace('remove_option_', ''),
 			row = 0, rows;
 		
+		destroyHtmlEditor('value['+ id +']');
+		destroyHtmlEditor('feedback['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 		doAjaxPost("./common/javascript/ajax/matching_question.php", { action: 'skip_option', value: id });
 		
@@ -152,6 +154,7 @@ $(function ()
 			row = 0, rows,
 			selectBox;
 		
+		destroyHtmlEditor('match['+ id +']');
 		$('tr#match_' + id, tableBody).remove();
 		
 		doAjaxPost("./common/javascript/ajax/matching_question.php", { action: 'skip_match', value: id });
