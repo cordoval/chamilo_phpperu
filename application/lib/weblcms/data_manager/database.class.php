@@ -1301,7 +1301,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     
     function update_courses($properties, $condition)
     {
-        return $this->update_objects(CourseUserRelation :: get_table_name(), $properties, $condition);
+        return $this->update_objects(Course :: get_table_name(), $properties, $condition);
     }
 
     function update_course_request($request)
