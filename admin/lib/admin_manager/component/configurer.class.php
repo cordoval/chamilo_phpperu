@@ -48,7 +48,7 @@ class AdminManagerConfigurerComponent extends AdminManager
         {
             $this->display_header();
             $application_url = $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_WEB_APPLICATION => Application :: PLACEHOLDER_APPLICATION));
-            echo Application :: get_selecter($application_url, $this->application);
+            echo BasicApplication :: get_selecter($application_url, $this->application);
             $form->display();
             echo '<script type="text/javascript">';
             echo '$(document).ready(function() {';

@@ -9,6 +9,11 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
 	const FEED_STANDARD_TYPE = 3;
 	const PARAM_FEED_IDENTIFIER = 'identifier';
 	
+	function YoutubeStreamingMediaManager($application)
+	{
+		parent :: __construct($application);
+		$this->set_parameter(YoutubeStreamingMediaManager::PARAM_FEED_TYPE, Request :: get(YoutubeStreamingMediaManager::PARAM_FEED_TYPE));
+	}
 	
     function get_application_component_path()
     {
@@ -52,9 +57,15 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
     {
 		$parameters = array();
 		$parameters[self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = self :: ACTION_VIEW_STREAMING_MEDIA;
-		$parameters[self :: PARAM_STREAMING_MEDIA_ID] = $object->get_id();		
+		$parameters[self :: PARAM_STREAMING_MEDIA_ID] = $object->get_id();	
 		
 		return $this->get_url($parameters);
+    }
+    
+    function is_editable($id)
+    {
+    	 $connector = YoutubeStreamingMediaConnector :: get_instance($this);
+    	 return $connector->is_editable($id);
     }
 
     function get_menu_items()

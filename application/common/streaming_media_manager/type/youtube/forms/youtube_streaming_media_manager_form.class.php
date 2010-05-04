@@ -20,6 +20,7 @@ class YoutubeStreamingMediaManagerForm extends FormValidator
     private $application;
     private $video_entry;
     private $form_type;
+    private $streaming_media_object;
 
     function YoutubeStreamingMediaManagerForm($form_type, $action, $application)
     {
@@ -41,18 +42,36 @@ class YoutubeStreamingMediaManagerForm extends FormValidator
         $this->setDefaults();
     }
 
+    public function set_streaming_media_object(YoutubeStreamingMediaObject $streaming_media_object)
+    {
+    	$this->streaming_media_object = $streaming_media_object;
+    	$this->addElement('hidden', StreamingMediaObject::PROPERTY_ID);
+    	$defaults[YoutubeStreamingMediaObject::PROPERTY_TITLE] = $streaming_media_object->get_title();
+    	$defaults[YoutubeStreamingMediaObject::PROPERTY_DESCRIPTION] = $streaming_media_object->get_description();
+    	$defaults[YoutubeStreamingMediaObject::PROPERTY_CATEGORY] = $streaming_media_object->get_category();
+    	$defaults[YoutubeStreamingMediaObject::PROPERTY_TAGS] = $this->get_tags();
+    	parent :: setDefaults($defaults);
+    }
+    
+    public function get_tags()
+    {
+    	$streaming_media_object = $this->streaming_media_object;
+    	$tags = $streaming_media_object->get_tags();
+    	return implode(",", $tags);
+    }
+    
     function build_basic_form()
     {    	
-    	$this->addElement('text', self :: VIDEO_TITLE, Translation :: get('Title'), array("size" => "50"));
-        $this->addRule(self :: VIDEO_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+    	$this->addElement('text', YoutubeStreamingMediaObject::PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
+        $this->addRule(YoutubeStreamingMediaObject::PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
         
         
-        $this->addElement('select', self :: VIDEO_CATEGORY, Translation :: get('Category'), $this->get_youtube_categories());
+        $this->addElement('select', YoutubeStreamingMediaObject::PROPERTY_CATEGORY, Translation :: get('Category'), $this->get_youtube_categories());
                 
-        $this->addElement('text', self :: VIDEO_TAGS, Translation :: get('Tags'), array("size" => "50"));
-        $this->addRule(self :: VIDEO_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('textarea', YoutubeStreamingMediaObject::PROPERTY_TAGS, Translation :: get('Tags'), array("rows" => "1", "cols" => "80"));
+        $this->addRule(YoutubeStreamingMediaObject::PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->addElement('textarea', self :: VIDEO_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "110"));
+        $this->addElement('textarea', YoutubeStreamingMediaObject::PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "110"));
     }
     
     function get_youtube_categories()
@@ -85,20 +104,17 @@ class YoutubeStreamingMediaManagerForm extends FormValidator
 
     function update_video_entry()
     {
-        $values = $this->exportValues();
+        $youtube = YoutubeStreamingMediaConnector::get_instance($this->application);
+    	
+    	$values = $this->exportValues();
         
-        $this->video_entry->setVideoTitle($values[self :: VIDEO_TITLE]);
-       	$this->video_entry->setVideoCategory($values[self :: VIDEO_CATEGORY]);
-       	$this->video_entry->setVideoTags($values[self :: VIDEO_TAGS]);
-       	$this->video_entry->setVideoDescription($values[self :: VIDEO_DESCRIPTION]);
-       	
-        $value = $this->video_entry->update();
-               
-        if ($value)
+    	return $youtube->update_youtube_video($values);
+                       
+        /*if ($value)
         {
             Events :: trigger_event('update', 'video_entry', array('video_entry_id' => $this->video_entry->getId()));
         }
-        return $value;
+        return $value;*/
     }
 
     function get_upload_token()
