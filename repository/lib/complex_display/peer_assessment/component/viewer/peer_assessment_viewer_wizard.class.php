@@ -7,7 +7,8 @@ require_once 'HTML/QuickForm/Action/Display.php';
 require_once dirname(__FILE__) . '/wizard/peer_assessment_viewer_wizard_display.class.php';
 require_once dirname(__FILE__) . '/wizard/peer_assessment_viewer_wizard_process.class.php';
 require_once dirname(__FILE__) . '/wizard/peer_assessment_viewer_wizard_page.class.php';
-require_once dirname(__FILE__) . '/wizard/questions_peer_assessment_viewer_wizard_page.class.php';
+require_once dirname(__FILE__) . '/wizard/competences_peer_assessment_viewer_wizard_page.class.php';
+require_once dirname(__FILE__) . '/wizard/indicators_peer_assessment_viewer_wizard_page.class.php';
 
 class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
 {
@@ -33,64 +34,34 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
     }
 
     function add_pages()
-    {
+    {   	
+    	$this->total = 0;
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->peer_assessment->get_id(), ComplexContentObjectItem :: get_table_name()));
         
-        /*$count = $this->total_pages = 2;
-        
-        for($i = 0; $i > $count; $i++)
-        {
-        	while ($complex_content_object = $complex_content_objects->next_result())
-        	{
-				$this->addPage(new QuestionsPeerAssessmentViewerWizardPage('question_page_' . $this->total_pages, $this, $this->total_pages));
-        		  		
-        		$peer_assessment_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
-        		$page_questions = $this->get_peer_assessment_page_questions($peer_assessment_page);
-        		$this->pages[$i + 1] = array(page => $peer_assessment_page, questions => $page_questions);
-        	}
-        }*/
-        
-        $this->total = 0;
-
-        // To see the html on the next page
-        //$this->total = 1;
-         
         while (($complex_content_object = $complex_content_objects->next_result()))
         {
             $this->total ++;
-            $this->addPage(new QuestionsPeerAssessmentViewerWizardPage('question_page_' . $this->total, $this, $this->total));
 
-            $peer_assessment_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
-            $page_questions = $this->get_peer_assessment_page_questions($peer_assessment_page);
-            $this->pages[$this->total] = array(page => $peer_assessment_page, questions => $page_questions);
+            $competence_id = Request :: get('competence');
+            if($competence_id == null)
+            {
+            	$this->addPage(new CompetencesPeerAssessmentViewerWizardPage('competences_page_' . $this->total, $this, $this->total));
+            	$peer_assessment_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());           
+            }
+            else
+            {
+            	$this->addPage(new IndicatorsPeerAssessmentViewerWizardPage('indicators_page_' . $this->total, $this, $this->total));
+            	$peer_assessment_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());           
+            }
+            //$page_competences = $this->get_peer_assessment_page_competences($peer_assessment_page);
+            //$this->pages[$this->total] = array(page => $peer_assessment_page, questions => $page_competences);
         }
         
-        if ($this->total == 0)
+        /*if ($this->total == 0)
         {
-            $this->addPage(new QuestionsPeerAssessmentViewerWizardPage('question_page_' . $this->total, $this, $total_competences));
-        	//$this->total++;
-        }
-
-    }
-
-    function get_peer_assessment_page_questions($peer_assessment_page)
-    {
-
-        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $peer_assessment_page->get_id(), ComplexContentObjectItem :: get_table_name()));
-        $questions = array();
-
-        while ($complex_content_object = $complex_content_objects->next_result())
-        {
-            $this->total_questions ++;
-            $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
-            $questions[$this->total_questions] = $question;
-
-        }
-
-        return $questions;
-
-    }
-    
+            $this->addPage(new CompetencesPeerAssessmentViewerWizardPage('competences_page_' . $this->total, $this, $total_competences));
+        }*/
+    }    
     
     // Competences
 	function get_peer_assessment_page_competences($peer_assessment_page)
@@ -176,32 +147,21 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
         $user = UserDataManager :: get_instance()->retrieve_user($user_id);
         return $user;
     }
-    
-    
-    function get_questions($page_number)
-    {
-        $page = $this->pages[$page_number];
-        $questions = $page['questions'];
-        return $questions;
-    }
 
-    function get_page($page_number)
-    {
-        $page = $this->pages[$page_number];
-        $page_object = $page['page'];
-        return $page_object;
-    }
-
+    
+	// Parent
     function get_parent()
     {
         return $this->parent;
     }
 
+    // Peer assessment
     function get_peer_assessment()
     {
         return $this->peer_assessment;
     }
    
+    // Total pages
     function get_total()
     {
     	return $this->total;
