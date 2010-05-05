@@ -75,7 +75,7 @@ class RequestsTreeRenderer extends HTML_Menu
        		{
        			case 0: $translation = 'Pending';
        					$request_view = WeblcmsManagerAdminRequestBrowserComponent :: PENDING_REQUEST_VIEW;
-       					$condition = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, NULL);
+       					$condition = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, CommonRequest :: NO_DECISION);
        					break;
        			case 1: $translation = 'Allowed';
   						$request_view = WeblcmsManagerAdminRequestBrowserComponent :: ALLOWED_REQUEST_VIEW;

@@ -81,6 +81,7 @@ class RightsTreeRenderer extends HTML_Menu
 		$selected_group['class'] = 'type type_group';
 		$selected_group['title'] = $group->get_name();
 		$selected_group['description'] = $group->get_name();
+		$selected_group['url'] = '#';
 		return $selected_group;
     }
     
