@@ -34,7 +34,7 @@ class ActionBarSearchForm extends FormValidator
         parent :: __construct(self :: FORM_NAME, 'post', $url);
         $this->renderer = clone $this->defaultRenderer();
 
-        $query = Request :: post(self :: PARAM_SIMPLE_SEARCH_QUERY);
+        $query = $this->get_query();
         if ($query)
         {
             $this->setDefaults(array(self :: PARAM_SIMPLE_SEARCH_QUERY => $query));
