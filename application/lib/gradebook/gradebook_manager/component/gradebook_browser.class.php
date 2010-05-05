@@ -3,7 +3,6 @@ require_once dirname(__FILE__).'/gradebook_publication_browser/gradebook_publica
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_application_path() . '/lib/gradebook/gradebook_manager/gradebook_manager.class.php';
-require_once Path :: get_application_path() . '/lib/gradebook/weblcms_publications_category_menu.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_manager/repository_manager.class.php';
 require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu.class.php';
 require_once Path :: get_application_path() . '/lib/gradebook/data_provider/gradebook_tree_menu_data_provider.class.php';
@@ -30,11 +29,10 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		if($this->application)
 		{	
 			$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME, GradebookManager :: PARAM_PUBLICATION_TYPE => $this->application)), Translation :: get('BrowsePublicationsOf') . ' ' . $this->application));
+			$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_TYPE, $this->application);
 			$parameters = $this->get_parameters();
 			$parameters[GradebookManager :: PARAM_ACTION]=  GradebookManager :: ACTION_VIEW_HOME;
-			$parameters[GradebookManager :: PARAM_PUBLICATION_TYPE]=  $this->application;
-			
-			$data_provider = GradebookTreeMenuDataProvider :: factory($this->application);
+			$data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url());
 			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $data_provider);
 			
 //			if($this->application == 'weblcms')
@@ -153,20 +151,16 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '<div id="internal">';
         $html[] = $this->get_internal_application_tabs($this->applications);
         $html[] = '<h2>' . ucfirst($this->application) . '</h2>';
-		if ($this->application == 'weblcms')
-		{
-			$html[] = '<div style="float: left; width: 12%; overflow:auto;">';
-			$html[] = $this->menu->render_as_tree();
-			$html[] = '</div>';
-			$html[] = '<div style="float: right; width: 85%;">';
-			$html[] = $this->table->as_html($this);
-			$html[] = '</div>';
-		}
-		else
-		{	
-			if($this->table)
-				$html[] = $this->table->as_html($this);
-		}
+        if ($this->application)
+        {
+		$html[] = '<div style="float: left; width: 12%; overflow:auto;">';
+		$html[] = $this->menu->render_as_tree();
+		$html[] = '</div>';
+		$html[] = '<div style="float: right; width: 85%;">';
+		$html[] = $this->table->as_html($this);
+		$html[] = '</div>';
+        }
+        $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
         $html[] = '<div id="external"/>';
         $html[] = $this->get_external_application_tabs();
