@@ -1006,7 +1006,27 @@ class Course extends DataClass
 		$rights->set_course_id($this->get_id());
 		if(! $rights->create())
 			return false;
-
+		
+        if (! $this->initialize_course_sections())
+            return false;
+			
+		if(!$this->tools)
+		{
+			$course_type_id = $this->get_course_type_id();
+			if(!empty($course_type_id))
+				$this->tools = CourseModule :: convert_tools($this->get_course_type()->get_tools(), $this->get_id(), true);
+			else
+				$this->tools = CourseModule :: convert_tools(WeblcmsDataManager :: get_tools('basic'), $this->get_id());
+		}
+		else
+		{
+			foreach($this->tools as $tool)
+				$tool->set_course_code($this->get_id());
+		}
+		
+		if(!$wdm->create_course_modules($this->tools, $this->get_id()))
+			return false;
+			
         require_once (dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php');
         $dropbox = new ContentObjectPublicationCategory();
         $dropbox->create_dropbox($this->get_id());
@@ -1031,11 +1051,6 @@ class Course extends DataClass
         }
 
         if (! $location->create())
-        {
-            return false;
-        }
-
-        if (! $this->initialize_course_sections())
         {
             return false;
         }

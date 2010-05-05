@@ -138,6 +138,26 @@ class CourseModule extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+    static function convert_tools($tools, $course_code = null, $course_type_tools = false, $form = null)
+    {
+		$tools_array = array();
+
+		foreach($tools as $index => $tool)
+		{
+			if($course_type_tools)
+				$tool = $tool->get_name();
+			$element_default = $tool . "elementdefault";
+			$course_module = new CourseModule();
+			$course_module->set_course_code($course_code);
+			$course_module->set_name($tool);
+			$course_module->set_visible((!is_null($form)?$form->parse_checkbox_value($form->getSubmitValue($element_default)):1));
+			$course_module->set_section("basic");
+			$course_module->set_sort($index);
+			$tools_array[] = $course_module;
+		}
+		return $tools_array;
+	}
 }
 
 ?>
