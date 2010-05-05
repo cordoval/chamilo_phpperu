@@ -14,6 +14,7 @@ class TestcaseManager extends SubManager
 	const ACTION_DELETE_SURVEY_PUBLICATION = 'delete';
 	const ACTION_UPDATE_SURVEY_PUBLICATION = 'update';
 	const ACTION_BROWSE_SURVEY_PARTICIPANTS = 'browse_participants';
+	const ACTION_BROWSE_SURVEY_EXCLUDED_USERS = 'browse_excluded_users';
 	const ACTION_VIEW_SURVEY_PUBLICATION = 'view_survey_publication';
 	const ACTION_REPORTING = 'reporting';
 	const ACTION_BUILD_SURVEY = 'build';
@@ -58,9 +59,9 @@ class TestcaseManager extends SubManager
 			case self::ACTION_BROWSE_SURVEY_PARTICIPANTS :
 				$component = $this->create_component('ParticipantBrowser');
 				break;
-//			case self::ACTION_VIEW_SURVEY_PUBLICATION :
-//				$component = $this->get_parent()->create_component('Viewer', $this->get_parent() );
-//				break;
+			case self::ACTION_BROWSE_SURVEY_EXCLUDED_USERS :
+				$component = $this->create_component('UserBrowser');
+				break;
 			case self::ACTION_CHANGE_TEST_TO_PRODUCTION :
 				$component = $this->create_component('Changer');
 				break;
@@ -118,6 +119,11 @@ class TestcaseManager extends SubManager
 	function get_browse_survey_participants_url($survey_publication) 
 	{
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_SURVEY_PARTICIPANTS, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
+	}
+	
+	function get_browse_survey_excluded_users_url($survey_publication) 
+	{
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_SURVEY_EXCLUDED_USERS, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
 	}
 	
 	function get_survey_publication_viewer_url($survey_participant) 
