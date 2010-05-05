@@ -85,7 +85,7 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManager
             }
             else
             {
-                if ($this->get_course_unsubscription_url($course))
+                if ($course->can_user_unsubscribe($this->get_user()))
                 {
                     $success = $this->unsubscribe_user_from_course($course, $this->get_user_id());
                     $this->redirect(Translation :: get($success ? 'UserUnsubscribedFromCourse' : 'UserNotUnsubscribedFromCourse'), ($success ? false : true),array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(WeblcmsManager :: PARAM_COURSE));
