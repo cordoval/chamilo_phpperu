@@ -431,24 +431,24 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
 	
 	function update_peer_assessment_publication_results($peer_assessment_publication)
 	{
-		return $this->database->update($peer_assessment_publication);
+		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_PUBLICATION_ID, $peer_assessment_publication->get_publication_id());
+		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_COMPETENCE_ID, $peer_assessment_publication->get_competence_id());
+		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_INDICATOR_ID, $peer_assessment_publication->get_indicator_id());
+		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_USER_ID, $peer_assessment_publication->get_user_id());
+		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_GRADED_USER_ID, $peer_assessment_publication->get_graded_user_id());
+		$condition = new AndCondition($conditions);
+		return $this->database->update($peer_assessment_publication, $condition);
 	}
 	
-	function retrieve_peer_assessment_publication_result($indicator_id)
+	function retrieve_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id)
 	{
-		$condition = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_INDICATOR_ID, $indicator_id);
-        return $this->database->retrieve_object(PeerAssessmentPublicationResults :: get_table_name(), $condition, array(), PeerAssessmentPublicationResults :: CLASS_NAME);
-	}
-	
-	function retrieve_peer_assessment_publication_result_score($publication_id, $indicator_id, $graded_user_id)
-	{
-		$conditions = array();
 		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_PUBLICATION_ID, $publication_id);
+		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_COMPETENCE_ID, $competence_id);
 		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_INDICATOR_ID, $indicator_id);
-        $conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_GRADED_USER_ID, $graded_user_id);        
-        $condition = new AndCondition($conditions);
-        
-		return $this->database->retrieve_object(PeerAssessmentPublicationResults :: get_table_name(), $condition, array(), PeerAssessmentPublicationResults :: CLASS_NAME);
+		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_USER_ID, $user_id);
+		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_GRADED_USER_ID, $graded_user_id);
+		$condition = new AndCondition($conditions);
+        return $this->database->retrieve_object(PeerAssessmentPublicationResults :: get_table_name(), $condition, array(), PeerAssessmentPublicationResults :: CLASS_NAME);
 	}
 
 }

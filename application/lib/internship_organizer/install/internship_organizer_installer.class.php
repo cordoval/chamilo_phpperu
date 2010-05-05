@@ -23,14 +23,18 @@ class InternshipOrganizerInstaller extends Installer
      */
     function install_extra()
     {
-    	$success = false;
-        if ($this->create_root_category())
+    	$success = true;
+        if (!$this->create_root_category())
         {
-            $success = true;
+            $success &= false;
         }
-    	if (! $this->create_root_region() && $success)
+    	if (!$this->create_root_region())
         {
-            $success = true;
+            $success &= false;
+        }
+    	if (!$this->create_root_period())
+        {
+            $success &= false;
         }
         return $success;
     }
@@ -54,6 +58,18 @@ class InternshipOrganizerInstaller extends Installer
         $region->set_name(Translation::get('World'));
         $region->set_parent_id(0);
         $succes = $region->create();
+        
+        return $succes;
+    }
+
+    function create_root_period()
+    {
+        $values = $this->get_form_values();
+        
+        $period = new InternshipOrganizerPeriod();
+        $period->set_name(Translation::get('EhB'));
+        $period->set_parent_id(0);
+        $succes = $period->create();
         
         return $succes;
     }

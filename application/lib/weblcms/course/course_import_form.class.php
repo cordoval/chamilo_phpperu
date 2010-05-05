@@ -75,29 +75,16 @@ class CourseImportForm extends FormValidator
 	            $course->set_name($csvcourse[Course :: PROPERTY_NAME]);
 	            $course->set_category($catid);
 	            $course->set_titular($teacher_info->get_id());
+	            $course->set_language('english');
 	            
 	            if ($course->create())
 	            {
-	                // TODO: Temporary function pending revamped roles&rights system
-	                //add_course_role_right_location_values($course->get_id());
-	                
-	            	$settings = new CourseSettings();
-	            	$settings->set_course_id($course->get_id());
-	            	$settings->set_language('english');
-	            	if($settings->create())
-	            	{
-		                $wdm = WeblcmsDataManager :: get_instance();
-		                if (!$wdm->subscribe_user_to_course($course, '1', '1', $teacher_info->get_id()))
-		                {
-		                	$failures ++;
-		                    $this->failedcsv[] = Translation :: get('SubscriptionFailed') . ':' . implode($csvcourse, ';');
-		                }
-	            	}
-	            	else
-	            	{
-	            		$failures ++;
-	                	$this->failedcsv[] = Translation :: get('CourseSettingsCreationFailed') . ':' . implode($csvcourse, ';');
-	            	}
+	                $wdm = WeblcmsDataManager :: get_instance();
+		            if (!$wdm->subscribe_user_to_course($course, '1', '1', $teacher_info->get_id()))
+		            {
+		              	$failures ++;
+		                $this->failedcsv[] = Translation :: get('SubscriptionFailed') . ':' . implode($csvcourse, ';');
+		            }
 	            }
 	            else
 	            {

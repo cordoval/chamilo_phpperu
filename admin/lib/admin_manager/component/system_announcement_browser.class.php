@@ -42,6 +42,7 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager
     private function get_publications_html()
     {
         $parameters = $this->get_parameters(true);
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         
         $table = new SystemAnnouncementPublicationBrowserTable($this, null, $parameters, $this->get_condition());
         

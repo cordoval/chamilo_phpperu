@@ -47,6 +47,7 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManager
     {
         $condition = $this->get_condition();
         $parameters = $this->get_parameters(true);
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $table = new TemplateBrowserTable($this, $parameters, $condition);
         return $table->as_html();
     }

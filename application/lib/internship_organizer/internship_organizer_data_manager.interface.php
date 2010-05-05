@@ -105,5 +105,22 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_mentors($condition = null, $offset = null, $count = null, $order_property = null);
 
+    function delete_internship_organizer_period($period);
+
+    function update_internship_organizer_period($period);
+
+    function create_internship_organizer_period($period);
+
+    function count_periods($conditions = null);
+
+    function retrieve_internship_organizer_period($id);
+
+    //     function truncate_period($id);
+    
+
+    function retrieve_periods($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function retrieve_root_period();
+    
 }
 ?>

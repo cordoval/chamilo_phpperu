@@ -51,7 +51,11 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager
 
     function get_user_html()
     {
-        $table = new WebserviceBrowserTable($this, array(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID => $this->get_webservice_category()), $this->get_condition());
+        $parameters = $this->get_parameters();
+    	$parameters[WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID] = $this->get_webservice_category();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        
+    	$table = new WebserviceBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
         $html[] = '<div style="float: right; width: 80%;">';

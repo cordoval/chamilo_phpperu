@@ -70,7 +70,9 @@ class LocationManagerBrowserComponent extends LocationManager
         $html[] = $location_menu->render_as_tree();
         $html[] = '</div>';
         
-        $table = new LocationBrowserTable($this, $this->get_parameters(), $this->get_condition($location));
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        $table = new LocationBrowserTable($this, $parameters, $this->get_condition($location));
         
         $html[] = '<div style="float: right; width: 80%;">';
         $html[] = $table->as_html();

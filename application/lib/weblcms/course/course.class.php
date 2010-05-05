@@ -799,6 +799,15 @@ class Course extends DataClass
 
     function can_user_subscribe($user)
     {
+    	$max_members = $this->get_max_number_of_members();
+    	if($max_members != 0)
+    	{
+    		$subscribed_users = $this->has_subscribed_users();
+    		if($subscribed_users >= $max_members)
+    		{
+    			return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;	
+    		}   		
+    	}
     	$current_right = $this->can_group_subscribe(0);
         $group_ids = $user->get_groups(true);
         foreach($group_ids as $group_id)
@@ -808,7 +817,7 @@ class Course extends DataClass
         	if($right > $current_right)
         		$current_right = $right;      		    		
         }        
-        return $current_right;
+    	return $current_right;
     }
     
 	function can_user_unsubscribe($user)
@@ -1077,7 +1086,7 @@ class Course extends DataClass
 
     function has_subscribed_users()
     {
-        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
         return $this->get_data_manager()->count_course_user_relations($relation_condition);
     }
 

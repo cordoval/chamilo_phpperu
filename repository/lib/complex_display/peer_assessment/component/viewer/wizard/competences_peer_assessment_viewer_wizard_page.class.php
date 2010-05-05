@@ -12,7 +12,6 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
     {
         parent :: PeerAssessmentViewerWizardPage($name, $parent);
         $this->page_number = $page_number;
-        $this->addAction('process', new PeerAssessmentViewerWizardProcess($this));
     }
 
     function buildForm()
@@ -148,7 +147,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 		            // Prints of the table header
 	    			$this->addElement('html', implode("\n", $html));
 	    	
-		            $this->take_peer_assessment($users, $indicators);
+		            $this->take_peer_assessment($users, $indicators, $competence);
 		            
 		            $html_end[] = '</div>';
 			        
@@ -168,7 +167,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
     // ****************************************************		
     // Prints of the list of indicators for each competence
     // ****************************************************
-    function take_peer_assessment($users, $indicators)
+    function take_peer_assessment($users, $indicators, $competence)
     {
     	$renderer = $this->defaultRenderer();
 
@@ -225,6 +224,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
         	
         	foreach($users as $user)
         	{
+        		$competence_id = $competence->get_id();
         		$indicator_id = $indicator->get_id();
         		$user_id = $user->get_user();
         						
@@ -289,6 +289,9 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
         
         // Prints of the submit button
 		$this->addElement('html', implode("\n", $button));
+		
+		// Process: create, update, ... the peer assessment
+		$this->addAction('process', new PeerAssessmentViewerWizardProcess($this));
     }
     
 }
