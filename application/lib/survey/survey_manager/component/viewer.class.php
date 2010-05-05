@@ -162,6 +162,7 @@ class SurveyManagerViewerComponent extends SurveyManager
         $display = ComplexDisplay :: factory($this, $this->survey->get_type());
         $display->set_root_lo($this->survey);
         $display->set_template_id($this->active_tracker->get_context_template_id());
+        $display->set_participant_id($this->active_tracker->get_id());
         $display->run();
     }
 
