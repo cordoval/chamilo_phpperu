@@ -8,7 +8,6 @@ require_once dirname(__FILE__) . '/wizard/peer_assessment_viewer_wizard_display.
 require_once dirname(__FILE__) . '/wizard/peer_assessment_viewer_wizard_process.class.php';
 require_once dirname(__FILE__) . '/wizard/peer_assessment_viewer_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/competences_peer_assessment_viewer_wizard_page.class.php';
-require_once dirname(__FILE__) . '/wizard/indicators_peer_assessment_viewer_wizard_page.class.php';
 
 class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
 {
@@ -100,7 +99,7 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
     {
     	$complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $indicator->get_id(), ComplexContentObjectItem :: get_table_name()));
     	$criterias = array();
-
+		
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             $this->total_criterias ++;

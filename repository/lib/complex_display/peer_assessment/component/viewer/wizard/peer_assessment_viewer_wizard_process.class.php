@@ -11,6 +11,7 @@ class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
 
     function perform()
     {
+    	//dump($_POST);
     	/*if(sizeof($_POST[select]) > 0)
     	{
         	// Publication id

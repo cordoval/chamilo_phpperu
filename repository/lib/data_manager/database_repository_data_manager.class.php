@@ -536,7 +536,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         if(!$include_last)
         {
         	$subcond = new EqualityCondition('object_number', $object_number);
-        	$conditions[] = new NotCondition(new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', 'repository_content_object_version', $subcond));
+        	$conditions[] = new NotCondition(new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', 'content_object_version', $subcond));
         }
 
         $condition = new AndCondition($conditions);
