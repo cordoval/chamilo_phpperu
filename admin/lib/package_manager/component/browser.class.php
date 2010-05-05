@@ -33,7 +33,10 @@ class PackageManagerBrowserComponent extends PackageManager
         }
         
         $this->action_bar = $this->get_action_bar();
-        $table = new RegistrationBrowserTable($this, array(Application :: PARAM_APPLICATION => AdminManager :: APPLICATION_NAME, Application :: PARAM_ACTION => AdminManager :: ACTION_MANAGE_PACKAGES), $this->get_condition());
+        
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        $table = new RegistrationBrowserTable($this, $parameters, $this->get_condition());
         
         $this->display_header();
         echo $this->action_bar->as_html();
