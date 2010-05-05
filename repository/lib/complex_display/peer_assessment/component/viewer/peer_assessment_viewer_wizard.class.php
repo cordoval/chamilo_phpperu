@@ -1,5 +1,7 @@
 <?php
-
+/*
+ *	@author Nick Van Loocke
+ */
 require_once 'HTML/QuickForm/Controller.php';
 require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
@@ -11,11 +13,9 @@ require_once dirname(__FILE__) . '/wizard/competences_peer_assessment_viewer_wiz
 
 class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
 {
-
     private $parent;
     private $peer_assessment;
     private $total;
-    private $pages;
 
     function PeerAssessmentViewerWizard($parent, $peer_assessment)
     {
@@ -24,10 +24,8 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
 
         $this->parent = $parent;
         $this->peer_assessment = $peer_assessment;
-
         $this->add_pages();
 
-        //$this->addAction('process', new PeerAssessmentViewerWizardProcess($this));
         $this->addAction('display', new PeerAssessmentViewerWizardDisplay($this));
 
     }
@@ -52,15 +50,18 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
             	$this->addPage(new IndicatorsPeerAssessmentViewerWizardPage('indicators_page_' . $this->total, $this, $this->total));
             	$peer_assessment_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());           
             }
-            //$page_competences = $this->get_peer_assessment_page_competences($peer_assessment_page);
-            //$this->pages[$this->total] = array(page => $peer_assessment_page, questions => $page_competences);
+
         }
-        
-        /*if ($this->total == 0)
-        {
-            $this->addPage(new CompetencesPeerAssessmentViewerWizardPage('competences_page_' . $this->total, $this, $total_competences));
-        }*/
-    }    
+    }  
+
+    
+    // Peer assessment publication
+	function get_peer_assessment_publication($peer_assessment_id)
+    {
+        $peer_assessment_publication = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication($peer_assessment_id);
+        return $peer_assessment_publication;
+    }
+    
     
     // Competences
 	function get_peer_assessment_page_competences($peer_assessment_page)
@@ -110,11 +111,11 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
     }
     
     
-    // Peer assessment publication
-	function get_peer_assessment_publication($peer_assessment_id)
+    // Retrieves one result row
+    function get_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id)
     {
-        $peer_assessment_publication = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication($peer_assessment_id);
-        return $peer_assessment_publication;
+    	$peer_assessment_publication_result = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id);
+        return $peer_assessment_publication_result;
     }
     
     

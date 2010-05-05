@@ -38,8 +38,8 @@ abstract class StreamingMediaObjectDisplay
     function get_properties_table()
     {
     	$html = array();
-    	$html[] = '<table class="data_table">';
-    	$html[] = '<tr><td class="">' . Translation :: get('Description') . '</td><td>' . $this->get_object()->get_description() . '</td></tr>';
+    	$html[] = '<table class="data_table data_table_no_header">';
+    	$html[] = '<tr><td class="header">' . Translation :: get('Description') . '</td><td>' . $this->get_object()->get_description() . '</td></tr>';
     	$html[] = $this->get_additional_properties();
     	$html[] = '</table>';
     	return implode("\n", $html);
