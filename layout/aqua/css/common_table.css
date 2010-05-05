@@ -11,6 +11,10 @@
 	border-spacing: 0px;
 }
 
+.data_table_no_header {
+	border-top: 0px solid #b5cae7;
+}
+
 .data_table th,div.header {
 	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #4171b5;
@@ -21,6 +25,20 @@
 	text-transform: uppercase;
 	text-align: left;
 	padding: 6px 10px 6px 10px;
+	background: #d4e0f1 url(../images/common/background_table_header.png)
+		repeat-x;
+}
+
+.data_table td.header {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #4171b5;
+	border-right: 1px solid #b5cae7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: right;
+	padding: 6px 10px 6px 10px;
+	vertical-align: top;
+	width: 10%;
 	background: #d4e0f1 url(../images/common/background_table_header.png)
 		repeat-x;
 }
@@ -86,7 +104,6 @@
 	padding: 0;
 	margin: 0;
 	border-left: 1px solid #b5cae7;
-	border-top: 1px solid #b5cae7;
 	border-bottom: 1px solid #b5cae7;
 	border-spacing: 0px;
 }
@@ -137,7 +154,7 @@
   	background-color: #fff;
 }
 
-.gallery_table td img
+.gallery_table td img.thumbnail
 {
 	border: 1px solid #000000;
 	margin: 0.25em;

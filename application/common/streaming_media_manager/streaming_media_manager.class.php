@@ -11,6 +11,7 @@ abstract class StreamingMediaManager extends SubManager
 	const ACTION_UPLOAD_STREAMING_MEDIA = 'upload';
 	const ACTION_SELECT_STREAMING_MEDIA = 'select';
 	const ACTION_EDIT_STREAMING_MEDIA = 'edit';
+	const ACTION_DELETE_STREAMING_MEDIA = 'delete';
 	
 	const PARAM_STREAMING_MEDIA_ID = 'streaming_media_id';
 	const PARAM_TYPE = 'type';
@@ -133,7 +134,7 @@ abstract class StreamingMediaManager extends SubManager
 	abstract function count_streaming_media_objects($condition);
 	
 	abstract function retrieve_streaming_media_objects($condition, $order_property, $offset, $count);
-
+	
 	function get_sort_properties()
 	{
 		return StreamingMediaObject::get_sort_properties();
@@ -151,6 +152,8 @@ abstract class StreamingMediaManager extends SubManager
 	abstract function get_streaming_media_object_viewing_url($object);
 	
 	abstract function retrieve_streaming_media_object($id);
+	
+	abstract function delete_streaming_media_object($id);
 	
 	static function retrieve_streaming_media_manager()
 	{
