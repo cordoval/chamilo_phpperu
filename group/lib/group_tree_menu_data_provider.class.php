@@ -56,3 +56,4 @@ class GroupTreeMenuDataProvider extends TreeMenuDataProvider
     	return self :: PARAM_ID;
     }
 }
+?>
