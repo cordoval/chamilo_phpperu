@@ -28,7 +28,7 @@ class PortfolioPublicationRSS extends PublicationRSS
 	function get_url($pub)
 	{
 		$params[Application :: PARAM_ACTION] = PortfolioManager :: ACTION_VIEW_PORTFOLIO;
-		$params[PortfolioManager :: PARAM_USER_ID] = $pub->get_publisher();
+		$params[PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID] = $pub->get_publisher();
 		$params[PortfolioManager :: PARAM_PORTFOLIO_PUBLICATION] = $pub->get_id();
 		return Path :: get(WEB_PATH).Redirect :: get_link(PortfolioManager :: APPLICATION_NAME, $params);
 	}
