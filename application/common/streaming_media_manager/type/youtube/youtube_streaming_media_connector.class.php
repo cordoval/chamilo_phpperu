@@ -340,6 +340,13 @@ class YoutubeStreamingMediaConnector
             return $videoFeed->getTotalResults()->getText();
         }
     }
+    
+    function delete_youtube_video($id)
+    {
+    	$video_entry = $this->youtube->getFullVideoEntry($id);
+    	
+    	return $this->youtube->delete($video_entry);
+    }
 }
 
 ?>

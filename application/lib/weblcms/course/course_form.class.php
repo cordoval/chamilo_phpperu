@@ -501,7 +501,7 @@ class CourseForm extends CommonForm
 	    		$groups = array();
 	    		while($group = $groups_result->next_result())
 	    			$groups[] = $group->get_group_id();
-	    		if(count($groups)>1 || $groups[0] != 1)
+	    		if(count($groups)>0)
 	    		{
 	    			$this->addElement('static', 'static_'.strtolower($type).'_subscribe_for', Translation :: get($type.'SubscribeFor'), Translation :: get('SubscribedGroups'));
 	    			$this->addElement('hidden', $target_option, 1);
@@ -511,7 +511,7 @@ class CourseForm extends CommonForm
 	        		$this->addElement('html', $tree);
 	        		$this->addElement('html', '</div>');
 	    		}
-	    		elseif(count($groups)==1 && $groups[0] == 1)
+	    		elseif(count($groups)==0)
 	    		{
 	    			$this->addElement('static', 'static_'.strtolower($type).'_subscribe_for', Translation :: get($type.'SubscribeFor'), Translation :: get('Everybody'));
 	    			$this->addElement('hidden', $target_option , 0, array('id'=>'receiver_'.$target));
@@ -536,16 +536,16 @@ class CourseForm extends CommonForm
     		$groups = array();
     		while($group = $groups_result->next_result())
     			$groups[] = $group->get_group_id();
-    		if(count($groups)>1 || $groups[0] != 1)
+    		if(count($groups)>0)
     		{
-    			$this->addElement('static', 'static_unsubscribe_for', Translation :: get('UnsubscribeFor'), Translation :: get('SubscribedGroups'));
+    			$this->addElement('static', 'static_unsubscribe_for', Translation :: get('UnsubscribeFor'), Translation :: get('UnsubscribedGroups'));
         		$tree = new RightsTreeRenderer($groups);
         		$tree = $tree->render_as_tree();
         		$this->addElement('html', '<div style="width: 100%; margin-left: 20%">');
         		$this->addElement('html', $tree);
         		$this->addElement('html', '</div>');
     		}
-    		elseif(count($groups)==1 && $groups[0] == 1)
+    		elseif(count($groups)==0)
     			$this->addElement('static', 'static_unsubscribe_for', Translation :: get('UnsubscribeFor'), Translation :: get('Everybody'));
        	}
        	else

@@ -10,7 +10,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  * categories of courses.
  * @author Bart Mollet
  */
-class InternshipOrganizerPeriodMenu extends HTML_Menu
+class InternshipOrganizerRegionMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
     
@@ -32,46 +32,46 @@ class InternshipOrganizerPeriodMenu extends HTML_Menu
     private $hide_current_category;
 
     /**
-     * Creates a new period navigation menu.
-     * @param int $owner The ID of the owner of the periods to provide in
+     * Creates a new region navigation menu.
+     * @param int $owner The ID of the owner of the regions to provide in
      * this menu.
-     * @param int $current_period The ID of the current period in the menu.
-     * @param string $url_format The format to use for the URL of a period.
+     * @param int $current_region The ID of the current region in the menu.
+     * @param string $url_format The format to use for the URL of a region.
      *                           Passed to sprintf(). Defaults to the string
-     *                           "?period=%s".
+     *                           "?region=%s".
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function InternshipOrganizerPeriodMenu($current_period, $url_format = '?application=internship_organizer&go=period&period_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_period = false)
+    function InternshipOrganizerRegionMenu($current_region, $url_format = '?application=internship_organizer&go=region&region_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_region = false)
     {
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;
-        $this->hide_current_period = $hide_current_period;
+        $this->hide_current_region = $hide_current_region;
         
-        if ($current_period == '0' || is_null($current_period))
+        if ($current_region == '0' || is_null($current_region))
         {
-            $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, 0);
-            $group = InternshipOrganizerDataManager :: get_instance()->retrieve_periods($condition, null, 1, new ObjectTableOrder(InternshipOrganizerPeriod :: PROPERTY_NAME))->next_result();
-            $this->current_period = $group;
+            $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, 0);
+            $group = InternshipOrganizerDataManager :: get_instance()->retrieve_regions($condition, null, 1, new ObjectTableOrder(InternshipOrganizerRegion :: PROPERTY_NAME))->next_result();
+            $this->current_region = $group;
         }
         else
         {
-            $this->current_period = InternshipOrganizerDataManager :: get_instance()->retrieve_internship_organizer_period($current_period);
+            $this->current_region = InternshipOrganizerDataManager :: get_instance()->retrieve_internship_organizer_region($current_region);
         }
         
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
-        $this->forceCurrentUrl($this->get_url($this->current_period->get_id()));
+        $this->forceCurrentUrl($this->get_url($this->current_region->get_id()));
     }
 
     function get_menu()
     {
         $include_root = $this->include_root;
         
-        $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, 0);
-        $group = InternshipOrganizerDataManager :: get_instance()->retrieve_periods($condition, null, 1, new ObjectTableOrder(InternshipOrganizerPeriod :: PROPERTY_NAME))->next_result();
+        $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, 0);
+        $group = InternshipOrganizerDataManager :: get_instance()->retrieve_regions($condition, null, 1, new ObjectTableOrder(InternshipOrganizerRegion :: PROPERTY_NAME))->next_result();
         
         if (! $include_root)
         {
@@ -109,25 +109,25 @@ class InternshipOrganizerPeriodMenu extends HTML_Menu
      */
     private function get_menu_items($parent_id = 0)
     {
-        $current_period = $this->current_period;
+        $current_region = $this->current_region;
         
         $show_complete_tree = $this->show_complete_tree;
-        $hide_current_period = $this->hide_current_period;
+        $hide_current_region = $this->hide_current_region;
         
-        $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, $parent_id);
-        $groups = InternshipOrganizerDataManager :: get_instance()->retrieve_periods($condition, null, null, new ObjectTableOrder(InternshipOrganizerPeriod :: PROPERTY_NAME));
+        $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, $parent_id);
+        $groups = InternshipOrganizerDataManager :: get_instance()->retrieve_regions($condition, null, null, new ObjectTableOrder(InternshipOrganizerRegion :: PROPERTY_NAME));
         
         while ($group = $groups->next_result())
         {
             $group_id = $group->get_id();
             
-            if (! ($group_id == $current_period->get_id() && $hide_current_period))
+            if (! ($group_id == $current_region->get_id() && $hide_current_region))
             {
                 $menu_item = array();
                 $menu_item['title'] = $group->get_name();
                 $menu_item['url'] = $this->get_url($group->get_id());
                 
-                if ($group->is_parent_of($current_period) || $group->get_id() == $current_period->get_id() || $show_complete_tree)
+                if ($group->is_parent_of($current_region) || $group->get_id() == $current_region->get_id() || $show_complete_tree)
                 {
                     if ($group->has_children())
                     {
@@ -142,7 +142,7 @@ class InternshipOrganizerPeriodMenu extends HTML_Menu
                     }
                 }
                 
-                $menu_item['class'] = 'period';
+                $menu_item['class'] = 'region';
                 $menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
                 $menu[$group->get_id()] = $menu_item;
             }
@@ -152,8 +152,8 @@ class InternshipOrganizerPeriodMenu extends HTML_Menu
     }
 
     /**
-     * Gets the URL of a given period
-     * @param int $period The id of the period
+     * Gets the URL of a given region
+     * @param int $region The id of the region
      * @return string The requested URL
      */
     function get_url($group)
@@ -162,14 +162,14 @@ class InternshipOrganizerPeriodMenu extends HTML_Menu
         return htmlentities(sprintf($this->urlFmt, $group));
     }
 
-    private function get_home_url($period)
+    private function get_home_url($region)
     {
         // TODO: Put another class in charge of the htmlentities() invocation
-        return htmlentities(str_replace('&period_id=%s', '', $this->urlFmt));
+        return htmlentities(str_replace('&region_id=%s', '', $this->urlFmt));
     }
 
     /**
-     * Get the breadcrumbs which lead to the current period.
+     * Get the breadcrumbs which lead to the current region.
      * @return array The breadcrumbs.
      */
     function get_breadcrumbs()

@@ -5,12 +5,11 @@
  */
 require_once dirname(__FILE__) . '/action_bar_search_form.class.php';
 require_once dirname(__FILE__) . '/condition_property.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_actionbar.class.php';
 /**
  * Class that renders an action bar divided in 3 parts, a left menu for actions, a middle menu for actions
  * and a right menu for a search bar.
  */
-class ActionBarRenderer extends WikiActionbar
+class ActionBarRenderer
 {
     const ACTION_BAR_COMMON = 'common';
     const ACTION_BAR_TOOL = 'tool';
@@ -107,9 +106,6 @@ class ActionBarRenderer extends WikiActionbar
                 break;
             case self :: TYPE_VERTICAL :
                 return $this->render_vertical();
-                break;
-            case self :: TYPE_WIKI :
-                return $this->render_wiki();
                 break;
             default :
                 return $this->render_horizontal();
