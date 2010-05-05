@@ -37,6 +37,12 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
     	$connector = YoutubeStreamingMediaConnector :: get_instance($this);
         return $connector->get_youtube_video($id);
     }
+    
+    function delete_streaming_media_object($id)
+    {
+    	$connector = YoutubeStreamingMediaConnector :: get_instance($this);
+        return $connector->delete_youtube_video($id);
+    }
 
     function get_sort_properties()
     {
@@ -183,6 +189,9 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
                 break;
             case StreamingMediaManager :: ACTION_EDIT_STREAMING_MEDIA :
             	$component = $this->create_component('Editor');
+            	break;
+            case StreamingMediaManager :: ACTION_DELETE_STREAMING_MEDIA :
+            	$component = $this->create_component('Deleter');
             	break;
             default :
                 $component = $this->create_component('Browser', $this);

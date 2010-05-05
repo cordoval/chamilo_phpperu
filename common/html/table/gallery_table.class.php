@@ -328,8 +328,9 @@ class GalleryTable extends HTML_Table
 			$row = $this->filter_data($row);
 			$this->addRow($row);
 		}
+		$col = 100 / count($table_data[0]);
 		$this->altRowAttributes(0, array ('class' => 'row_odd'), array ('class' => 'row_even'), true);
-		$this->altColAttributes(0, array ('class' => 'col_odd'), array ('class' => 'col_even'), true);
+		$this->altColAttributes(0, array ('class' => 'col_odd', 'style' => 'width:' . number_format($col) . '%'), array ('class' => 'col_even', 'style' => 'width:' . number_format($col) . '%'), true);
 		
 		foreach ($this->th_attributes as $column => $attributes)
 		{
