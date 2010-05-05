@@ -270,7 +270,7 @@ class PortfolioPublicationForm extends FormValidator
                 $rdm = RepositoryDataManager :: get_instance();
                 $item = $rdm->retrieve_complex_content_object_item($cid);
                 $parent_location = $item->get_parent();
-                PortfolioRights::create_location_in_portfolio_tree('portfolio item', $type, $cid, $parent_location, $user_id, true, false);
+                PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, $type, $cid, $parent_location, $user_id, true, false);
             }
 
             return PortfolioRights::implement_update_rights($values, $location);

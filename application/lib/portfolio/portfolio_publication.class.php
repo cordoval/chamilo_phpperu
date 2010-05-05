@@ -179,7 +179,7 @@ class PortfolioPublication extends DataClass
                 $parent_location = PortfolioRights::create_portfolio_root($user)->get_id();
             }
         $object = $this->get_id();
-            $this->location = PortfolioRights::create_location_in_portfolio_tree('portfolio', 'portfolio', $object, $parent_location, $user, true, false);
+            $this->location = PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_FOLDER, 'portfolio', $object, $parent_location, $user, true, false);
 
             return $this ->location;
     }
