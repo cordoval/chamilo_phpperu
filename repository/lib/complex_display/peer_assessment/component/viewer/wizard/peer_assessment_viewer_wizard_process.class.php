@@ -43,22 +43,10 @@ class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
 		    			$value = ($_POST[select][c.$competence_id.i.$indicator_id.u.$graded_user_id]);
 
 		    			$publication_result = $this->parent->get_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id);
-						if(sizeof($publication_result > 0))
-						{
-							// Update
-							if($value != $publication_result->get_score())
-							{
-					    		$publication_result->set_score($value);
-					    		if($value != 0)
-					    		{
-					    			$publication_result->set_finished(1);
-					    		}
-					    		$publication_result->update();
-							}
-						}
-						else
-						{	
-			    			// Create
+						
+		    			if($publication_result == null)
+		    			{
+		    				// Create
 			    			$results = new PeerAssessmentPublicationResults();
 				    		$results->set_publication_id($publication_id);
 				    		$results->set_competence_id($competence_id);
@@ -72,7 +60,20 @@ class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
 				    		}
 				    		
 				    		$results->create();
-			    		}
+		    			}
+		    			else
+						{
+							// Update
+							if($value != $publication_result->get_score())
+							{
+					    		$publication_result->set_score($value);
+					    		if($value != 0)
+					    		{
+					    			$publication_result->set_finished(1);
+					    		}
+					    		$publication_result->update();
+							}
+						}
 
 		    		}  
 	    		}
@@ -80,16 +81,14 @@ class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
             
     		if($results)
     		{
-		        $html[] = '<h2>Create done</h2>';
+		        $message = Translation :: get('PeerAssessmentResultsCreated');
     		}
     		elseif($publication_result)
     		{
-    			$html[] = '<h2>Update done</h2>';
+    			$message = Translation :: get('PeerAssessmentResultsUpdated');	
     		}
-    		
-    		
-	        // Echo's the $html array
-        	echo implode("\n", $html);
+    		//$this->parent->get_parent()->redirect($message, true, array(PeerAssessmentPublicationResults :: PROPERTY_PUBLICATION_ID => $publication_result->get_publication_id()));
+    
     	}
     }
 

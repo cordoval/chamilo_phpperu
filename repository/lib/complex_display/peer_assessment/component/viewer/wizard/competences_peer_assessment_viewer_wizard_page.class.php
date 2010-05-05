@@ -2,7 +2,6 @@
 /*
  *	@author Nick Van Loocke
  */
-require_once dirname(__FILE__) . '/../../../../peer_assessment/component/viewer/wizard/inc/peer_assessment_question_display.class.php';
 
 class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizardPage
 {
@@ -68,26 +67,11 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
            		}*/
            	} 
      	}
-		
-		// *********************************		
-        // Prints of the list of competences
-        // *********************************
-    	$html[] = '<div class="assessment">';
-	            
-        // Peer assessment title en description
-        $html[] = '<h2>' . $this->get_parent()->get_peer_assessment()->get_title() . '</h2>';
-            
-        if ($this->get_parent()->get_peer_assessment()->has_description())
-        {
-            $html[] = '<div class="description">';
-            $html[] = $this->get_parent()->get_peer_assessment()->get_description();
-            $html[] = '<div style="float: right; margin-top: -15px;">'.$date_message.'</div>';
-            $html[] = '<div class="clear"></div>';
-            $html[] = '</div>';
-        }
-		
-		
-		if($count_users == 0)
+     	
+     	
+     	
+     	// Error no users in the peer assessment
+    	if($count_users == 0)
         {
             $html[] = '<div class="clear"></div>';
         	$html[] = '<div class="error-message">';
@@ -95,11 +79,29 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
         	$html[] = '<div class="close_message" id="closeMessage"></div>';
         	$html[] = '</div>';
         }
-		else
-		{
+        else
+        {
+			// *********************************		
+        	// Prints of the list of competences
+        	// *********************************
+	    	$html[] = '<div class="assessment">';
+		            
+	        // Peer assessment title en description
+	        $html[] = '<h2>' . $this->get_parent()->get_peer_assessment()->get_title() . '</h2>';
+	            
+	        if ($this->get_parent()->get_peer_assessment()->has_description())
+	        {
+	            $html[] = '<div class="description">';
+	            $html[] = $this->get_parent()->get_peer_assessment()->get_description();
+	            $html[] = '<div style="float: right; margin-top: -15px;">'.$date_message.'</div>';
+	            $html[] = '<div class="clear"></div>';
+	            $html[] = '</div>';
+	        }
+			
+			
 			// Retrieve competences
 	        $competences = $this->get_parent()->get_peer_assessment_page_competences($this->get_parent()->get_peer_assessment());
-	        
+
 	        $count = 0;
 	        
             foreach($competences as $competence)
@@ -155,12 +157,16 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 			        
 			        $this->addElement('html', implode("\n", $html_end));
 
-            	} 	 
+            	} 
             }         
-            $this->criteria_overview($indicators);
+            $this->criteria_overview($competences);	 
 			$this->submit();
 			
-		}	
+			$assessment_div[] = '</div>';
+			$assessment_div[] = '</div>';
+			$this->addElement('html', implode("\n", $assessment_div));
+				
+        }
     }
     
     
@@ -198,7 +204,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
         foreach($indicators as $indicator)
         {
 			unset($group);
-            $group[] = $this->createElement('image', null, Theme :: get_common_image_path() . 'content_object/indicator.png');
+			$group[] = $this->createElement('static', null, null, '<img src="'. Theme :: get_common_image_path() . 'content_object/indicator.png' .'" alt=""/>');
 			$group[] = $this->createElement('static', null, null, $indicator->get_title());
                 		
 
@@ -224,14 +230,24 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
         	
         	foreach($users as $user)
         	{
+        		$publication_id = Request :: get("peer_assessment_publication");
         		$competence_id = $competence->get_id();
         		$indicator_id = $indicator->get_id();
-        		$user_id = $user->get_user();
+        		$user_id = Session :: get_user_id();
+        		$graded_user_id = $user->get_user();
         						
-				$group[] = $this->createElement('select', 'select[c'.$competence_id.'i'.$indicator_id.'u'.$user_id.']', '', $criteria_scores);	
+				$group[] = $select = $this->createElement('select', 'select[c'.$competence_id.'i'.$indicator_id.'u'.$graded_user_id.']', '', $criteria_scores);
+					
+				// Show the values that already has been submitted
+				$publication_result = $this->get_parent()->get_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id);
+
+				if($publication_result != null)
+				{
+					$select->setSelected($publication_result->get_score());
+				}
         	}
 
-                $this->addGroup($group, 'options_', null, '', false);
+            $this->addGroup($group, 'options_', null, '', false);
    		}
  
 	    $renderer->setElementTemplate('<tr id="options_">{element}</tr>', 'options_');
@@ -249,28 +265,42 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
     // *******************************	
     // Prints of the criteria overview
     // *******************************
-    function criteria_overview($indicators)
-    {
-    	foreach($indicators as $indicator)
-        {
-            // Retrieve criteria
-            $criteria_overview = $this->get_parent()->get_peer_assessment_page_criterias_via_indicator($this->get_parent()->get_peer_assessment(), $indicator);
-            
-	    	// Overview of the criteria (score and description)
-	        $overview[] = '<div style="float: left;">';
-	        $overview[] = '<br/>'. Translation :: get('OverviewOfTheCriteria');
-	        $overview[] = '<ul>';
-	        foreach($criteria_overview as $unserialize)
-	        {
-	            $criteria_score = $unserialize->get_options();
-	            foreach($criteria_score as $score_and_description)
-	            {
-	            	$overview[] = '<li>'. Translation :: get('CriteriaScore') .': <b>'. $score_and_description->get_score() .'</b> |  '. Translation :: get('CriteriaDescription') .': <b>'. $score_and_description->get_description() .'</b></li>';
-	          	}
-	       	}
-	        $overview[] = '</ul>';
-	        $overview[] = '</div>';	 
-        }      
+    function criteria_overview($competences)
+    {   	
+    	foreach($competences as $competence)
+    	{
+    		if($only_once_competence == false)
+    		{
+		    	// Retrieve indicators
+		        $indicators = $this->get_parent()->get_peer_assessment_page_indicators_via_competence($this->get_parent()->get_peer_assessment(), $competence);
+				
+		    	foreach($indicators as $indicator)
+		        {
+		        	if($only_once_indicator == false)
+	    			{
+			            // Retrieve criteria
+			            $criteria_overview = $this->get_parent()->get_peer_assessment_page_criterias_via_indicator($this->get_parent()->get_peer_assessment(), $indicator);
+			
+				    	// Overview of the criteria (score and description)
+				        $overview[] = '<div style="float: left;">';
+				        $overview[] = '<br/>'. Translation :: get('OverviewOfTheCriteria');
+				        $overview[] = '<ul>';
+				        foreach($criteria_overview as $unserialize)
+				        {
+				            $criteria_score = $unserialize->get_options();
+				            foreach($criteria_score as $score_and_description)
+				            {
+				            	$overview[] = '<li>'. Translation :: get('CriteriaScore') .': <b>'. $score_and_description->get_score() .'</b> |  '. Translation :: get('CriteriaDescription') .': <b>'. $score_and_description->get_description() .'</b></li>';
+				          	}
+				       	}
+				        $overview[] = '</ul>';
+				        $overview[] = '</div>';	
+				        $only_once_indicator = true;
+	    			} 
+		        }  
+		        $only_once_competence = true;
+    		}   
+    	} 
         
         // Prints of the overview of the criteria
 		$this->addElement('html', implode("\n", $overview));		
