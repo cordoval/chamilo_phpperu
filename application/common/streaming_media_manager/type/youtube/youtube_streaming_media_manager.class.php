@@ -43,6 +43,12 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
     	$connector = YoutubeStreamingMediaConnector :: get_instance($this);
         return $connector->delete_youtube_video($id);
     }
+    
+    function export_streaming_media_object($object)
+    {
+    	$connector = YoutubeStreamingMediaConnector :: get_instance($this);
+        return $connector->export_youtube_video($object);
+    }
 
     function get_sort_properties()
     {
@@ -159,6 +165,11 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
         //        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER);
         return false;
     }
+    
+	function get_streaming_media_actions()
+	{
+		return array(self :: ACTION_BROWSE_STREAMING_MEDIA, self :: ACTION_UPLOAD_STREAMING_MEDIA, self :: ACTION_EXPORT_STREAMING_MEDIA);
+	}
 
     function run()
     {

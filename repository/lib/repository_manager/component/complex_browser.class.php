@@ -96,7 +96,11 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManager
         if ($this->action == 'organise')
         {
             $html[] = '<br /><h3>' . Translation :: get('OrganiseChildren') . '</h3>';
-            $table = new ComplexBrowserTable($this, $this->get_parameters(), $this->get_condition());
+            
+            $parameters = $this->get_parameters();
+            $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+            
+            $table = new ComplexBrowserTable($this, $parameters, $this->get_condition());
             $this->action_bar = $this->get_action_bar();
             $html[] = $table->as_html();
             return implode("\n", $html);
@@ -258,6 +262,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManager
             $types = $clo->get_allowed_types();
 
             $parameters = array_merge(array('types' => $types), $this->get_parameters());
+            $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
 
             $table = new RepositoryBrowserTable($this, $parameters, $this->get_selector_condition($types));
             $html[] = $table->as_html();

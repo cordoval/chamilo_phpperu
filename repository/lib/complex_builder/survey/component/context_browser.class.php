@@ -47,7 +47,7 @@ class SurveyBuilderContextBrowserComponent extends SurveyBuilderComponent
         $parameters = $this->get_parameters();
         $parameters[SurveyBuilder::PARAM_ROOT_LO] = $this->get_root_lo()->get_id();
         $parameters[SurveyBuilder::PARAM_TEMPLATE_ID] = $this->template;
-        
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
         
         $table = new SurveyContextTemplateBrowserTable($this, $parameters, $this->get_condition());
         

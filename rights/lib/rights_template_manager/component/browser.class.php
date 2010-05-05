@@ -43,7 +43,10 @@ class RightsTemplateManagerBrowserComponent extends RightsTemplateManager
 
     function get_user_html()
     {
-        $table = new RightsTemplateBrowserTable($this, array(Application :: PARAM_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES), $this->get_condition());
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        
+    	$table = new RightsTemplateBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
         $html[] = '<div style="float: right; width: 100%;">';

@@ -61,7 +61,8 @@ class MenuManagerSorterComponent extends MenuManager
         $this->action_bar = $this->get_action_bar();
 
         $parameters = $this->get_parameters(true);
-
+		$parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+		
         $table = new NavigationItemBrowserTable($this, $parameters, $this->get_condition());
 
         $trail = BreadcrumbTrail :: get_instance();;

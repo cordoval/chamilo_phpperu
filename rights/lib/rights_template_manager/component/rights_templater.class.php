@@ -21,7 +21,7 @@ class RightsTemplateManagerRightsTemplaterComponent extends RightsTemplateManage
         $location = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
         $rights_template = Request :: get(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID);
         
-        $trail = BreadcrumbTrail :: get_instance();;
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('UserRights')));
@@ -69,7 +69,9 @@ class RightsTemplateManagerRightsTemplaterComponent extends RightsTemplateManage
         $html[] = $location_menu->render_as_tree();
         $html[] = '</div>';
         
-        $table = new LocationRightsTemplateBrowserTable($this, $this->get_parameters(), $this->get_condition());
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        $table = new LocationRightsTemplateBrowserTable($this, $parameters, $this->get_condition());
         
         $html[] = '<div style="float: right; width: 80%;">';
         $html[] = $table->as_html();

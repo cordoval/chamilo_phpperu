@@ -55,6 +55,11 @@ abstract class StreamingMediaComponent extends SubManager
 		return $this->get_parent()->delete_streaming_media_object($id);
 	}
 	
+	function export_streaming_media_object($object)
+	{
+		return $this->get_parent()->export_streaming_media_object($object);
+	}
+	
 	function get_sort_properties()
 	{
 		return $this->get_parent()->get_sort_properties();
