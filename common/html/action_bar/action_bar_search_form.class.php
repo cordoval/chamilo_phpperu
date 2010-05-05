@@ -73,8 +73,12 @@ class ActionBarSearchForm extends FormValidator
      */
     function get_query()
     {
-        //return $this->exportValue(self :: PARAM_SIMPLE_SEARCH_QUERY);
-        return Request :: post(self :: PARAM_SIMPLE_SEARCH_QUERY);
+        $query = Request :: post(self :: PARAM_SIMPLE_SEARCH_QUERY);
+        if(!$query)
+        {
+        	$query = Request :: get(self :: PARAM_SIMPLE_SEARCH_QUERY);
+        }
+        return $query;
     }
 }
 ?>
