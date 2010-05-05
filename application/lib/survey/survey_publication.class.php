@@ -1,17 +1,8 @@
 <?php
-/**
- * $Id: survey_publication.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey
- */
-
 require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
 require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
 
-/**
- * This class describes a SurveyPublication data object
- * @author Sven Vanpoucke
- * @author 
- */
+
 class SurveyPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
@@ -128,7 +119,7 @@ class SurveyPublication extends DataClass
         $key_type = $template->get_key_type();
                
         $context = SurveyContext :: factory($context_type);
-        $contexts = $context->create_contexts_for_user($key, $key_type);
+        $contexts = $context->create_contexts_for_user($user_id, $key, $key_type);
         
 //        dump($contexts);
 //        exit;

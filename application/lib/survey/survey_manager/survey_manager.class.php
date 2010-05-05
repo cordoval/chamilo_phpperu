@@ -20,6 +20,8 @@ class SurveyManager extends WebApplication
     const PARAM_MAIL_PARTICIPANTS = 'mail_participant';
     const PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS = 'delete_selected_survey_publications';
     
+    const PARAM_TESTCASE = 'testcase';
+    
     const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
     const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
@@ -46,7 +48,7 @@ class SurveyManager extends WebApplication
     const ACTION_MAIL_SURVEY_PARTICIPANTS = 'mail_survey_participants';
     
     const ACTION_BUILD_SURVEY = 'build';
-    const ACTION_TESTCASE = 'testcase';
+    const ACTION_TESTCASES = 'testcases';
 
     /**
      * Constructor
@@ -76,7 +78,7 @@ class SurveyManager extends WebApplication
             case self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS :
                 $component = $this->create_component('QuestionBrowser');
                 break;
-            case self :: ACTION_TESTCASE :
+            case self :: ACTION_TESTCASES :
                 $component = $this->create_component('Testcase');
                 break;
             case self :: ACTION_DELETE_SURVEY_PUBLICATION :
@@ -317,7 +319,7 @@ class SurveyManager extends WebApplication
 
     function get_testcase_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TESTCASE), array(TestcaseManager :: PARAM_ACTION, TestcaseManager :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TESTCASES), array(TestcaseManager :: PARAM_ACTION, TestcaseManager :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
     }
 
     function get_survey_publication_viewer_url($survey_publication)
