@@ -5,6 +5,8 @@ require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.c
 require_once Path :: get_application_path() . '/lib/gradebook/gradebook_manager/gradebook_manager.class.php';
 require_once Path :: get_application_path() . '/lib/gradebook/weblcms_publications_category_menu.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_manager/repository_manager.class.php';
+require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu.class.php';
+require_once Path :: get_application_path() . '/lib/gradebook/data_provider/gradebook_tree_menu_data_provider.class.php';
 
 class GradebookManagerGradebookBrowserComponent extends GradebookManager
 {
@@ -23,20 +25,24 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
 		$this->applications = $this->retrieve_internal_item_applications();
-		
 		$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
+		
 		if($this->application)
 		{	
 			$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME, GradebookManager :: PARAM_PUBLICATION_TYPE => $this->application)), Translation :: get('BrowsePublicationsOf') . ' ' . $this->application));
 			$parameters = $this->get_parameters();
 			$parameters[GradebookManager :: PARAM_ACTION]=  GradebookManager :: ACTION_VIEW_HOME;
 			$parameters[GradebookManager :: PARAM_PUBLICATION_TYPE]=  $this->application;
-			if($this->application == 'weblcms')
-			{
-				$this->menu = $this->get_menu();
-				if (Request :: get('tool'))
-					$parameters['tool'] = Request :: get('tool');
-			}
+			
+			$data_provider = GradebookTreeMenuDataProvider :: factory($this->application);
+			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $data_provider);
+			
+//			if($this->application == 'weblcms')
+//			{
+//				$this->menu = new TreeMenu('WeblcmsGradebookTreeMenu', new WeblcmsGradebookTreeMenuDataProvider());;
+//				if (Request :: get('tool'))
+//					$parameters['tool'] = Request :: get('tool');
+//			}
 			$this->table = new GradebookPublicationBrowserTable($this, $parameters);
 		}
 		
@@ -60,14 +66,11 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		return $action_bar;
 	}
 	
-	function get_menu()
-	{
-		$tool = Request :: get('tool');
-        $tool = $tool ? $tool : 0;
-        $categories = $this->retrieve_categories_by_application($this->application);
-		$menu = new WeblcmsPublicationsCategoryMenu($tool, null, $categories);
-		return $menu;
-	}
+//	function get_menu()
+//	{
+//		$menu = new TreeMenu('WeblcmsGradebookTreeMenu',WeblcmsGradebookTreeMenuDataProvider());
+//		
+//	}
 	
 	function get_condition()
 	{
