@@ -12,6 +12,7 @@ require_once dirname ( __FILE__ ) . '/../organisation.class.php';
 require_once dirname ( __FILE__ ) . '/../agreement.class.php';
 require_once dirname ( __FILE__ ) . '/../moment.class.php';
 require_once dirname ( __FILE__ ) . '/../region.class.php';
+require_once dirname ( __FILE__ ) . '/../period.class.php';
 
 require_once 'MDB2.php';
 
@@ -433,5 +434,77 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 		return $this->retrieve_objects ( InternshipOrganizerMentor::get_table_name (), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMentor::CLASS_NAME );
 	}
  	
+	//internship planner periods##
+	
+
+	function update_internship_organizer_period($period) {
+		$condition = new EqualityCondition ( InternshipOrganizerPeriod::PROPERTY_ID, $period->get_id () );
+		return $this->update ( $period, $condition );
+	}
+	
+	function delete_internship_organizer_period($period) {
+		$condition = new EqualityCondition ( InternshipOrganizerPeriod::PROPERTY_ID, $period->get_id () );
+		$bool = $this->delete ( $period->get_table_name (), $condition );
+		
+		$condition_subperiods = new EqualityCondition ( InternshipOrganizerPeriod::PROPERTY_PARENT_ID, $period->get_id () );
+		$periods = $this->retrieve_periods ( $condition_subperiods );
+		while ( $gr = $periods->next_result () ) {
+			$bool = $bool & $this->delete_internship_organizer_period ( $gr );
+			//mag dit? (i.e. recursieve oproep)
+		}
+		
+		return $bool;
+	
+	}
+	function create_internship_organizer_period($period) {
+		return $this->create ( $period );
+	}
+	
+	function count_periods($condition = null) {
+		return $this->count_objects ( InternshipOrganizerPeriod::get_table_name (), $condition );
+	}
+	
+	function retrieve_periods($condition = null, $offset = null, $max_objects = null, $order_by = null) {
+		return $this->retrieve_objects ( InternshipOrganizerPeriod::get_table_name (), $condition, $offset, $max_objects, $order_by , InternshipOrganizerPeriod :: CLASS_NAME);
+	}
+	
+	function retrieve_internship_organizer_period($id) {
+		$condition = new EqualityCondition ( InternshipOrganizerPeriod::PROPERTY_ID, $id );
+		return $this->retrieve_object ( InternshipOrganizerPeriod::get_table_name (), $condition , array() ,InternshipOrganizerPeriod :: CLASS_NAME);
+	}
+
+	function retrieve_period_by_name($name) {
+		$condition = new EqualityCondition ( InternshipOrganizerPeriod::PROPERTY_NAME, $name );
+		return $this->retrieve_object ( InternshipOrganizerPeriod::get_table_name (), $condition );
+	}
+	
+	function is_periodname_available($periodname, $period_id = null) {
+		$condition = new EqualityCondition ( InternshipOrganizerPeriod::PROPERTY_NAME, $periodname );
+		
+		if ($period_id) {
+			$conditions = array ();
+			$conditions [] = new EqualityCondition ( InternshipOrganizerPeriod::PROPERTY_NAME, $periodname );
+			$conditions = new EqualityCondition ( InternshipOrganizerPeriod::PROPERTY_ID, $period_id );
+			$condition = new AndCondition ( $conditions );
+		}
+		
+		return ! ($this->count_objects ( InternshipOrganizerPeriod::get_table_name (), $condition ) == 1);
+	}
+	
+	
+	function retrieve_root_period()
+ 	{
+ 		$condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, 0);
+ 		$root_period = $this->retrieve_periods($condition)->next_result();
+ 		if(! isset($root_period)){
+ 			$root_period = new InternshipOrganizerPeriod();
+ 			$root_period->set_name(Translation::get('EhB'));
+        	$root_period->set_parent_id(0);
+        	$root_period->create();
+ 		}
+ 		return $root_period;
+ 	}
+	
+	
 }
 ?>
