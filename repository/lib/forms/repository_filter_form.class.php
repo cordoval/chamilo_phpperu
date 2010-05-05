@@ -43,7 +43,7 @@ class RepositoryFilterForm extends FormValidator
 
         $filters = array();
 
-        $filters[0] = Translation :: get('ShowAll');
+        $filters[0] = Translation :: get('AllContentObjects');
 
         $condition = new EqualityCondition(UserView :: PROPERTY_USER_ID, $this->manager->get_user_id());
         $userviews = $rdm->retrieve_user_views($condition);
