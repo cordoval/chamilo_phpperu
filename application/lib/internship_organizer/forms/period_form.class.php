@@ -105,8 +105,8 @@ class InternshipOrganizerPeriodForm extends FormValidator
         
         $period->set_name($values[InternshipOrganizerPeriod :: PROPERTY_NAME]);
         $period->set_description($values[InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION]);
-        $period->set_begin($values[InternshipOrganizerPeriod :: PROPERTY_BEGIN]);
-        $period->set_end($values[InternshipOrganizerPeriod :: PROPERTY_END]);
+        $period->set_begin(Utilities :: time_from_datepicker_without_timepicker( $values[InternshipOrganizerPeriod :: PROPERTY_BEGIN]));
+        $period->set_end(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerPeriod :: PROPERTY_END]));
         $period->set_parent_id($values[InternshipOrganizerPeriod :: PROPERTY_PARENT_ID]);
         
         $value = $period->create();
