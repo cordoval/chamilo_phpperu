@@ -7,7 +7,7 @@
  * Class that renders an action bar divided in 3 parts, a left menu for actions, a middle menu for actions
  * and a right menu for a search bar.
  */
-class WikiActionbar
+class WikiActionbar extends ActionBarRenderer
 {
     const ACTION_BAR_NAVIGATION = 'navigation';
     const TYPE_WIKI = 'wiki';
@@ -29,6 +29,11 @@ class WikiActionbar
         return $this->links[self :: ACTION_BAR_NAVIGATION];
     }
 
+    function as_html()
+    {
+    	return $this->render_wiki();
+    }
+    
     function render_wiki()
     {
         $html = array();
