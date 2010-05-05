@@ -25,15 +25,15 @@ class SurveyDefaultContext extends SurveyContext
         $this->set_additional_property(self :: PROPERTY_DESCRIPTION, $description);
     }
 
-    static public function get_display_name()
-    {
-        return Translation :: get('DefaultContext');
-    }
+//    static public function get_display_name()
+//    {
+//        return Translation :: get('DefaultContext');
+//    }
 
     /**
      * @param unknown_type $user_name
      */
-    static public function create_contexts_for_user($key, $key_type = self :: PROPERTY_DEFAULT_KEY)
+    static public function create_contexts_for_user($user_id, $key, $key_type = self :: PROPERTY_DEFAULT_KEY)
     {
         
         if ($key_type == self :: PROPERTY_DEFAULT_KEY)
