@@ -67,6 +67,9 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         {
             $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
         }
+        
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        
         $table = new RepositoryBrowserTable($this, $parameters, $condition);
         return $table->as_html();
     }

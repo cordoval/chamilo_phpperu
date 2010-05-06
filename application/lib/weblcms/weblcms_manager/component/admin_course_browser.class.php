@@ -78,9 +78,11 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
 
     function get_course_html()
     {
-        $table = new AdminCourseBrowserTable($this, null, $this->get_condition());
-        
-        $html = array();
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+    	$table = new AdminCourseBrowserTable($this, $parameters, $this->get_condition());
+
+    	$html = array();
         $html[] = '<div style="float: right; width: 80%;">';
         $html[] = $table->as_html();
         $html[] = '</div>';

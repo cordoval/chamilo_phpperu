@@ -13,12 +13,12 @@ abstract class SurveyContext extends DataClass
     
     private $additionalProperties;
 
-    abstract static public function create_contexts_for_user($key, $key_type = '' );
+    abstract static public function create_contexts_for_user($user_id, $key, $key_type = '' );
     
 	
     abstract static public function get_allowed_keys();
        
-    abstract static public function get_display_name();
+//    abstract static public function get_display_name();
 
     public function SurveyContext($defaultProperties = array (), $additionalProperties = null)
     {

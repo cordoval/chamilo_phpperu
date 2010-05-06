@@ -48,7 +48,11 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManager
 
     function get_user_subscribe_html()
     {
-        $table = new SubscribeUserBrowserTable($this, array(Application :: PARAM_APPLICATION => GroupManager :: APPLICATION_NAME, Application :: PARAM_ACTION => GroupManager :: ACTION_SUBSCRIBE_USER_BROWSER, GroupManager :: PARAM_GROUP_ID => $this->group->get_id()), $this->get_subscribe_condition());
+        $parameters = $this->get_parameters();
+        $parameters[GroupManager :: PARAM_GROUP_ID] = $this->group->get_id();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+        
+    	$table = new SubscribeUserBrowserTable($this, $parameters, $this->get_subscribe_condition());
 
         $html = array();
         $html[] = $table->as_html();

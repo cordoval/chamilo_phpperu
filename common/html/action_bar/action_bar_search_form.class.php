@@ -34,7 +34,7 @@ class ActionBarSearchForm extends FormValidator
         parent :: __construct(self :: FORM_NAME, 'post', $url);
         $this->renderer = clone $this->defaultRenderer();
 
-        $query = Request :: post(self :: PARAM_SIMPLE_SEARCH_QUERY);
+        $query = $this->get_query();
         if ($query)
         {
             $this->setDefaults(array(self :: PARAM_SIMPLE_SEARCH_QUERY => $query));
@@ -73,8 +73,12 @@ class ActionBarSearchForm extends FormValidator
      */
     function get_query()
     {
-        //return $this->exportValue(self :: PARAM_SIMPLE_SEARCH_QUERY);
-        return Request :: post(self :: PARAM_SIMPLE_SEARCH_QUERY);
+        $query = Request :: post(self :: PARAM_SIMPLE_SEARCH_QUERY);
+        if(!$query)
+        {
+        	$query = Request :: get(self :: PARAM_SIMPLE_SEARCH_QUERY);
+        }
+        return $query;
     }
 }
 ?>

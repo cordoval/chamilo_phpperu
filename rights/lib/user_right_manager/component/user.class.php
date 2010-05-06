@@ -70,6 +70,7 @@ class UserRightManagerUserComponent extends UserRightManager
         $html[] = '</div>';
         
         $params = array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id());
+        $params[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $table = new LocationUserBrowserTable($this, array_merge($this->get_parameters(), $params), $this->get_condition());
         
         $html[] = '<div style="float: right; width: 80%;">';

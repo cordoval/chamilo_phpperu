@@ -25,11 +25,11 @@ class InternshipOrganizerCategoryManagerMoverComponent extends InternshipOrganiz
         {
             $success = $form->move_category();
             $parent = $form->get_new_parent();
-            $this->redirect($success ? Translation :: get('CategoryMoved') : Translation :: get('CategoryNotMoved'), $success ? (false) : true, array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $parent));
+            $this->redirect($success ? Translation :: get('InternshipOrganizerCategoryMoved') : Translation :: get('InternshipOrganizerCategoryNotMoved'), $success ? (false) : true, array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $parent));
         }
         else
         {
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('InternshipOrganizerCategoryMove')));
             $this->display_header($trail);
             echo Translation :: get('Category') . ': ' . $category->get_name();
             $form->display();

@@ -43,6 +43,8 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilderComponent
             $parameters = $this->get_parameters();
             $parameters[SurveyBuilder :: PARAM_TEMPLATE_ID ] =  $id;
             $parameters[SurveyBuilder :: PARAM_ROOT_LO] =  $this->get_root_lo()->get_id();
+            $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+            
             $table = new SurveyContextTemplateRelPageBrowserTable($this, $parameters, $this->get_condition());
             echo $table->as_html();
             echo '</div>';

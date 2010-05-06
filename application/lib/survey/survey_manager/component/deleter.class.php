@@ -12,8 +12,8 @@ class SurveyManagerDeleterComponent extends SurveyManager
     {
         
         $testcase = false;
-        $action = Request :: get(SurveyManager :: PARAM_ACTION);
-        if ($action === SurveyManager :: ACTION_TESTCASE)
+        $test_case = Request :: get(SurveyManager :: PARAM_TESTCASE);
+        if ($test_case === 1)
         {
             $testcase = true;
         }

@@ -347,6 +347,28 @@ class YoutubeStreamingMediaConnector
     	
     	return $this->youtube->delete($video_entry);
     }
+    
+    function export_youtube_video($object)
+    {
+    	$video_entry = new Zend_Gdata_YouTube_VideoEntry();
+    	$file_source = $this->youtube->newMediaFileSource($object->get_full_path());
+    	$file_source->setContentType($object->get_mime_type());
+    	$file_source->setSlug($object->get_filename());
+    	$video_entry->setMediaSource($file_source);
+    	$video_entry->setVideoTitle($object->get_title());
+    	$video_entry->setVideoDescription(strip_tags($object->get_description()));
+
+    	$upload_url = 'http://uploads.gdata.youtube.com/feeds/api/users/default/uploads';
+    	try{
+    		$new_entry = $this->youtube->insertEntry($video_entry, $upload_url, 'Zend_Gdata_YouTube_VideoEntry');
+    	} catch(Zend_Gdata_App_HttpException $httpException)
+    	{
+    		echo($httpException->getRawResponseBody());
+    	} catch(Zend_Gdata_App_Exception $e){
+    		echo $e->getMessage();
+    	}
+    	dump($new_entry);
+    }
 }
 
 ?>

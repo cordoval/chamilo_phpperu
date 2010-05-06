@@ -155,6 +155,8 @@ abstract class StreamingMediaManager extends SubManager
 	
 	abstract function delete_streaming_media_object($id);
 	
+	abstract function export_streaming_media_object($id);
+	
 	static function retrieve_streaming_media_manager()
 	{
 		$manager = array();
@@ -162,6 +164,5 @@ abstract class StreamingMediaManager extends SubManager
 		return $manager;
 		
 	}
-	
 }
 ?>

@@ -44,6 +44,7 @@ class UserManagerAdminUserBrowserComponent extends UserManager
     function get_user_html()
     {
         $parameters = $this->get_parameters(true);
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
 
         $table = new AdminUserBrowserTable($this, $parameters, $this->get_condition());
 

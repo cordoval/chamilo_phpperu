@@ -34,9 +34,9 @@ class DefaultInternshipOrganizerPeriodTableCellRenderer implements ObjectTableCe
             case InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION :
                 return $period->get_description();
             case InternshipOrganizerPeriod :: PROPERTY_BEGIN :
-                return $period->get_begin();
+                return $this->get_date($period->get_begin());
             case InternshipOrganizerPeriod :: PROPERTY_END :
-                return $period->get_end();
+                return $this->get_date($period->get_end());
             default :
                 return '&nbsp;';
         }
@@ -45,6 +45,10 @@ class DefaultInternshipOrganizerPeriodTableCellRenderer implements ObjectTableCe
     function render_id_cell($object)
     {
         return $object->get_id();
+    }
+	private function get_date($date)
+    {
+            return date("d-m-Y", $date);
     }
 }
 ?>

@@ -45,7 +45,7 @@ class InternshipOrganizerPeriodBrowserTableCellRenderer extends DefaultInternshi
             case InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION :
                 $description = strip_tags(parent :: render_cell($column, $period));
                 return Utilities :: truncate_string($description);
-            case Translation :: get('Subperiods') :
+            case Translation :: get('InternshipOrganizerSubperiods') :
                 return $period->count_children(true);
         }
         

@@ -12,7 +12,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	private $ab;
 	private $content_object_ids = array();
 	private $application;
-	
+	private $data_provider;
 	private $applications;
 	private $table;
 	private $menu;
@@ -32,8 +32,8 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 			$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_TYPE, $this->application);
 			$parameters = $this->get_parameters();
 			$parameters[GradebookManager :: PARAM_ACTION]=  GradebookManager :: ACTION_VIEW_HOME;
-			$data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url());
-			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $data_provider);
+			$this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url());
+			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $this->data_provider);
 			
 //			if($this->application == 'weblcms')
 //			{
@@ -72,11 +72,13 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	
 	function get_condition()
 	{
-		
-		//$conditions = array();
-		$condition = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application);
-//		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $applications_array);
-//		$condition = new AndCondition($conditions);
+		$category_id = Request :: get($this->data_provider->get_id_param());
+		if(!$category_id)
+			$category_id = 'C0';
+		$conditions = array();
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application);
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_CATEGORY, $category_id);
+		$condition = new AndCondition($conditions);
 		return $condition;
 	}
 	

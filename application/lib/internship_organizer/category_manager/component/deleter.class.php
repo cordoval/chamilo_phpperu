@@ -39,22 +39,22 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedInternshipOrganizerCategoryDeleted';
+                    $message = 'SelectedInternshipOrganizerCategoryNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedInternshipOrganizerCategoryDeleted';
+                    $message = 'SelectedInternshipOrganizerCategoriesNotDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedInternshipOrganizerCategorysDeleted';
+                    $message = 'SelectedInternshipOrganizerCategoryDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedInternshipOrganizerCategorysDeleted';
+                    $message = 'SelectedInternshipOrganizerCategoriesDeleted';
                 }
             }
             

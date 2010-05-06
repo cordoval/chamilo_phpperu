@@ -67,7 +67,11 @@ class GroupManagerViewerComponent extends GroupManager
 
             echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';
             echo '<div class="title">' . Translation :: get('Users') . '</div>';
-            $table = new GroupRelUserBrowserTable($this, array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $id), $this->get_condition());
+            
+            $parameters = $this->get_parameters();
+        	$parameters[GroupManager :: PARAM_GROUP_ID] = $id;
+            $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+            $table = new GroupRelUserBrowserTable($this, $parameters, $this->get_condition());
             echo $table->as_html();
             echo '</div>';
 
