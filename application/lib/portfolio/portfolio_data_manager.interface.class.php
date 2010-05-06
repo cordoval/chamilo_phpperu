@@ -26,7 +26,7 @@ interface PortfolioDataManagerInterface
     function retrieve_portfolio_publication_user($pid);
     function retrieve_portfolio_publication($pid);
      function retrieve_portfolio_item_user($cid);
-    function retrieve_porfolio_information($user_id);
+    function retrieve_portfolio_information_by_user($user_id);
     function retrieve_portfolio_publications($condition = null, $offset = null, $count = null, $order_property = null);
     function create_portfolio_information($portfolio_publication);
     function create_portfolio_publication_group($portfolio_publication_group);
