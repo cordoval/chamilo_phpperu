@@ -92,7 +92,7 @@ class TreeMenuItem
 	
 	public function remove_child($tree_menu_child)
 	{
-		foreach($this->childrean as $key=>$value)
+		foreach($this->children as $key=>$value)
 		{
 			if ($value == $tree_menu_child)
 				unset($this->children[$key]);
