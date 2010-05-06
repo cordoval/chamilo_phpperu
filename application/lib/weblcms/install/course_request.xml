@@ -4,7 +4,7 @@
 		<property name="id" type="integer" notnull="1" autoincrement="true" />
 		<property name="course_id" type="integer" notnull="1" />
 		<property name= "user_id" type="integer" notnull="1" />
-		<property name="title" type="text" length="50"  fixed="true" />
+		<property name="subject" type="text" length="50"  fixed="true" />
 		<property name="motivation" type="text" />
 		<property name="creation_date" type="timestamp" />
 		<property name="decision_date" type="timestamp" />

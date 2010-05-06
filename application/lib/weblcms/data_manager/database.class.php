@@ -1988,13 +1988,13 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function retrieve_requests($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $order_by[] = new ObjectTableOrder(CourseRequest :: PROPERTY_TITLE);
+        $order_by[] = new ObjectTableOrder(CourseRequest :: PROPERTY_SUBJECT);
         return $this->retrieve_objects(CourseRequest :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
     
     function retrieve_course_create_requests($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $order_by[] = new ObjectTableOrder(CourseCreateRequest :: PROPERTY_TITLE);
+        $order_by[] = new ObjectTableOrder(CourseCreateRequest :: PROPERTY_SUBJECT);
         return $this->retrieve_objects(CourseCreateRequest :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }   
 
