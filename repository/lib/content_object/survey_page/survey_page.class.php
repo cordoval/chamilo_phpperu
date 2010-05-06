@@ -62,10 +62,14 @@ class SurveyPage extends ContentObject
     
     }
 
-    function get_questions()
+    function get_questions($complex = false)
     {
         
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+        
+        if($complex){
+        	return $complex_content_objects;
+        }
         
 //        $question_ids = array();
         $questions = array();
