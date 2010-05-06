@@ -47,7 +47,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 
     function create_portfolio_information($portfolio_info)
     {
-        $success = $this->create($portfolio_info);
+        $success = $this->create($portfolio_info, false);
         return $success;
     }
 
@@ -60,7 +60,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 
     function update_portfolio_information($portfolio_information)
     {
-        $condition = new EqualityCondition(PortfolioInformation::PROPERTY_ID, $portfolio_information->get_id());
+        $condition = new EqualityCondition(PortfolioInformation::PROPERTY_USER_ID, $portfolio_information->get_user_id());
         $success = $this->update($portfolio_information, $condition);
         return $success;
     }
@@ -319,22 +319,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
         $item = $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition);
         return $item->get_publisher();
     }
-
-
-    /**
-     * function returns the portfolio information object that contains updat information for a user's portfolio(s)
-     * @param  $id = portfolio information id
-     * @return portfolio information object
-     */
-    public function retrieve_porfolio_information($id)
-    {
-         $condition = new EqualityCondition(PortfolioInformation::PROPERTY_ID, $id);
-        return $this->retrieve_object(PortfolioInformation::get_table_name(), $condition);
-    }
-    
-
-
-    
+  
 
 }
 ?>

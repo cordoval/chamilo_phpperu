@@ -41,7 +41,7 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
             if ($form->validate())
             {
                 $success = $form->create_portfolio_publications($object);
-                $this->redirect($success ? Translation :: get('PortfolioCreated') : Translation :: get('PortfolioNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id()));
+                $this->redirect($success ? Translation :: get('PortfolioCreated') : Translation :: get('PortfolioNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
             }
             else
             {
@@ -69,7 +69,7 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
         }
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
 
          $this->display_header($trail);

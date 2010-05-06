@@ -9,7 +9,7 @@
 			notnull="1" />
 		<property name="action" type="text" length="50" fixed="true"
 			notnull="1" default="create" />
-		<property name="date" type="timestamp" notnull="1" />
+		<property name="date" type="integer" unsigned="1" notnull="1" />
 	</properties>
 	<index name="user_id">
 		<indexproperty name="user_id" />

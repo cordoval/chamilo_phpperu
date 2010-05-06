@@ -5,7 +5,8 @@
 		<property name="user_id" type="integer" unsigned="1" notnull="1" />
 		<property name="assessment_id" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="date" type="timestamp" notnull="1" />
+		<property name="date" type="integer" unsigned="1"
+			notnull="1" />
 		<property name="total_score" type="integer" />
 		<property name="status" type="text" length="50" fixed="true"
 			notnull="1" default="not attempted" />
