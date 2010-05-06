@@ -16,9 +16,10 @@ abstract class SurveyQuestionDisplay
 
     function SurveyQuestionDisplay($formvalidator, $clo_question, $question_nr, $question, $survey, $page_nr, $answer)
     {
+
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
-        
+
         $this->clo_question = $clo_question;
         $this->question_nr = $question_nr;
         $this->question = $question;
@@ -56,12 +57,12 @@ abstract class SurveyQuestionDisplay
     {
         return $this->page_nr;
     }
-	
+
 	function get_answer()
     {
         return $this->answer;
     }
-    
+
     function display()
     {
         $formvalidator = $this->formvalidator;
@@ -71,11 +72,11 @@ abstract class SurveyQuestionDisplay
             $header = array();
             $header[] = $this->get_instruction();
             $header[] = '<div class="with_borders">';
-            
+
             $formvalidator->addElement('html', implode("\n", $header));
         }
         $this->add_question_form();
-        
+
         if ($this->add_borders())
         {
             $footer = array();
@@ -91,8 +92,8 @@ abstract class SurveyQuestionDisplay
     function add_header()
     {
         $formvalidator = $this->formvalidator;
-     
-        $html[] = '<div class="question">';
+
+        $html[] = '<div class="question" id="survey_question_'. $this->question->get_id() .'">';
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
         $html[] = '<div class="bevel">';
@@ -103,25 +104,25 @@ abstract class SurveyQuestionDisplay
         $html[] = '<div class="bevel">';
         $title = $this->question->get_title();
         $html[] = $this->parse($title);
-        
+
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="answer">';
-        
+
         $description = $this->question->get_description();
         if ($this->question->has_description())
         {
             $html[] = '<div class="description">';
-            
+
             $html[] = $this->parse($description);
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div>';
         }
-        
+
         $html[] = '<div class="clear"></div>';
-        
+
         $header = implode("\n", $html);
         $formvalidator->addElement('html', $header);
     }
@@ -129,10 +130,10 @@ abstract class SurveyQuestionDisplay
     function add_footer($formvalidator)
     {
         $formvalidator = $this->formvalidator;
-        
+
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         $footer = implode("\n", $html);
         $formvalidator->addElement('html', $footer);
     }
@@ -148,16 +149,16 @@ abstract class SurveyQuestionDisplay
     {
         $question = $clo_question;
         $type = $question->get_type();
-        
+
         $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
-        
+
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);
         }
-        
+
         require_once $file;
-        
+
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
         $question_display = new $class($formvalidator, $clo_question, $question_nr, $question, $survey, $page_nr);
         return $question_display;
@@ -167,13 +168,13 @@ abstract class SurveyQuestionDisplay
     {
         $context = $this->survey->get_context_instance();
         $explode = explode('$V{', $value);
-        
+
         $new_value = array();
         foreach ($explode as $part)
         {
-            
+
             $vars = explode('}', $part);
-            
+
             if (count($vars) == 1)
             {
                 $new_value[] = $vars[0];
@@ -181,12 +182,12 @@ abstract class SurveyQuestionDisplay
             else
             {
                 $var = $vars[0];
-                
+
                 $replace = $context->get_additional_property($var);
-                
+
                 $new_value[] = $replace . ' ' . $vars[1];
             }
-        
+
         }
         return implode(' ', $new_value);
     }

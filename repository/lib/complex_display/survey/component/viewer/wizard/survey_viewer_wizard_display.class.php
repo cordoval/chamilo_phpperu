@@ -101,6 +101,7 @@ class SurveyViewerWizardDisplay extends HTML_QuickForm_Action_Display
             $html[] = '</div>';
 
             $html[] = '</div>';
+            $html[] = ResourceManager::get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/survey.js');
 
             echo implode("\n", $html);
         }
