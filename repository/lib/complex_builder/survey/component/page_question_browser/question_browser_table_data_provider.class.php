@@ -22,7 +22,8 @@ class SurveyPageQuestionBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
-    	return RepositoryDataManager::get_instance()->retrieve_complex_content_object_items($this->get_condition(), $offset, $count, $order_property);
+    	$order_property = $this->get_order_property($order_property);
+    	return RepositoryDataManager::get_instance()->retrieve_complex_content_object_items($this->get_condition(), $order_property, $offset, $count );
     }
 
     /**
@@ -31,7 +32,7 @@ class SurveyPageQuestionBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-    	return RepositoryDataManager::get_instance()->count_complex_content_object_items($this->get_condition());
+      	return RepositoryDataManager::get_instance()->count_complex_content_object_items($this->get_condition());
     }
 }
 ?>

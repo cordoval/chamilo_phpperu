@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="complex_survey_select_question">
+<object name="complex_survey_description">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="visible" type="integer" unsigned="1" notnull="1" default="1" />
+		<property name="visible" type="boolean" default="true" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />

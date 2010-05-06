@@ -10,12 +10,8 @@ class DefaultSurveyPageQuestionTableCellRenderer implements ObjectTableCellRende
 	function render_cell($column, $complex_item)
 	{
 		
-		$complex_item = $complex_question->get_ref();
-		
-//		dump($complex_item);
-		
+		$question_id = $complex_item->get_ref();
 		$question = RepositoryDataManager::get_instance()->retrieve_content_object($question_id);
-				
 		
 		switch ($column->get_name())
 			{
@@ -25,6 +21,13 @@ class DefaultSurveyPageQuestionTableCellRenderer implements ObjectTableCellRende
 					return $question->get_description();
 				case ContentObject :: PROPERTY_TYPE :
 					return Translation::get($question->get_type());
+				case 'visible':
+					if($complex_item->get_visible() == 1){
+						return Translation :: get('QuestionVisible');
+					}else{
+						return Translation :: get('QuestionInVisible');
+					}
+				
 				
 			}
 		

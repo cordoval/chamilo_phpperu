@@ -6,7 +6,6 @@ require_once dirname ( __FILE__ ) . '/component/context_template_browser/browser
 require_once dirname ( __FILE__ ) . '/component/context_template_rel_page_browser/rel_page_browser_table.class.php';
 require_once dirname ( __FILE__ ) . '/component/context_template_subscribe_page_browser/subscribe_page_browser_table.class.php';
 
-
 class SurveyBuilder extends ComplexBuilder {
 	
 	const ACTION_CREATE_SURVEY = 'create';
@@ -18,12 +17,15 @@ class SurveyBuilder extends ComplexBuilder {
 	const ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE = 'unsubscribe_page_from_template';
 	const ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE = 'subscribe_page_to_template';
 	const ACTION_TRUNCATE_TEMPLATE = 'truncate_template';
-	const ACTION_CONFIGURE_COMPONENT = 'configure';
+	const ACTION_CONFIGURE_PAGE = 'configure_page';
+	const ACTION_CHANGE_QUESTION_VISIBILITY = 'change_question_visibility';
+	const ACTION_CONFIGURE_QUESTION = 'configure_question';
 	
 	const PARAM_SURVEY_PAGE_ID = 'survey_page';
 	const PARAM_SURVEY_ID = 'survey';
 	const PARAM_TEMPLATE_ID = 'template_id';
 	const PARAM_TEMPLATE_REL_PAGE_ID = 'template_rel_page_id';
+	const PARAM_COMPLEX_QUESTION_ITEM = 'complex_question_item';
 	
 	const PARAM_TRUNCATE_SELECTED = 'truncate';
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe';
@@ -64,10 +66,16 @@ class SurveyBuilder extends ComplexBuilder {
 				break;
 			case SurveyBuilder::ACTION_TRUNCATE_TEMPLATE :
 				$component = SurveyBuilderComponent::factory ( 'ContextTemplateTruncater', $this );
-				break;	
-			case SurveyBuilder::ACTION_CONFIGURE_COMPONENT :
+				break;
+			case SurveyBuilder::ACTION_CONFIGURE_PAGE :
 				$component = SurveyBuilderComponent::factory ( 'Configure', $this );
-				break;					
+				break;
+			case self::ACTION_CHANGE_QUESTION_VISIBILITY :
+				$component = SurveyBuilderComponent::factory ( 'VisibilityChanger', $this );
+				break;
+			case self::ACTION_CONFIGURE_QUESTION :
+				$component = SurveyBuilderComponent::factory ( 'ConfigureQuestion', $this );
+				break;	
 		}
 		
 		if (! $component)
@@ -76,13 +84,12 @@ class SurveyBuilder extends ComplexBuilder {
 			$component->run ();
 	}
 	
- 	function get_configure_url($selected_cloi )
-    {
-	   	return $this->get_url(array (self :: PARAM_BUILDER_ACTION => self :: ACTION_CONFIGURE_COMPONENT, self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), self :: PARAM_CLOI_ID => $cloi_id, self :: PARAM_SELECTED_CLOI_ID => $selected_cloi, self :: PARAM_SURVEY_PAGE_ID => $selected_cloi->get_ref()));
-    }
+	function get_configure_url($selected_cloi) {
+		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_CONFIGURE_PAGE, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_CLOI_ID => $cloi_id, self::PARAM_SELECTED_CLOI_ID => $selected_cloi, self::PARAM_SURVEY_PAGE_ID => $selected_cloi->get_ref () ) );
+	}
 	
 	function get_configure_context_url() {
-		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_BROWSE_CONTEXT, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_TEMPLATE_ID => $this->get_root_lo ()->get_context_template_id ()) );
+		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_BROWSE_CONTEXT, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_TEMPLATE_ID => $this->get_root_lo ()->get_context_template_id () ) );
 	}
 	
 	function get_template_viewing_url($template_id) {
@@ -93,12 +100,12 @@ class SurveyBuilder extends ComplexBuilder {
 		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_SUBSCRIBE_PAGE_BROWSER, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_TEMPLATE_ID => $template_id ) );
 	}
 	
-	function get_template_suscribe_page_url($template_id, $page_id){
-		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_TEMPLATE_ID => $template_id, self :: PARAM_SURVEY_PAGE_ID => $page_id ) );
+	function get_template_suscribe_page_url($template_id, $page_id) {
+		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_TEMPLATE_ID => $template_id, self::PARAM_SURVEY_PAGE_ID => $page_id ) );
 	}
 	
-	function get_template_unsubscribing_page_url($template_rel_page){
-		$id = $template_rel_page->get_survey_id().'|'.$template_rel_page->get_template_id().'|'.$template_rel_page->get_page_id();
+	function get_template_unsubscribing_page_url($template_rel_page) {
+		$id = $template_rel_page->get_survey_id () . '|' . $template_rel_page->get_template_id () . '|' . $template_rel_page->get_page_id ();
 		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_TEMPLATE_REL_PAGE_ID => $id ) );
 	}
 	
@@ -106,11 +113,18 @@ class SurveyBuilder extends ComplexBuilder {
 		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_TRUNCATE_TEMPLATE, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_TEMPLATE_ID => $template_id ) );
 	}
 	
+	function get_change_question_visibility_url($complex_question_item) {
+		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_CHANGE_QUESTION_VISIBILITY, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_COMPLEX_QUESTION_ITEM => $complex_question_item->get_id () ) );
+	}
+	
+	function get_configure_question_url($complex_question_item) {
+		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_CONFIGURE_QUESTION, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_COMPLEX_QUESTION_ITEM => $complex_question_item->get_id () ) );
+	}
+	
 	private function parse_input_from_table() {
 		
-				
 		if (isset ( $_POST ['action'] )) {
-						
+			
 			if (isset ( $_POST [SurveyContextTemplateRelPageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) {
 				$selected_ids = $_POST [SurveyContextTemplateRelPageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX];
 			}

@@ -7,7 +7,7 @@ class DefaultSurveyPageQuestionTableColumnModel extends ObjectTableColumnModel
 	 */
 	function DefaultSurveyPageQuestionTableColumnModel()
 	{
-		parent :: __construct(self :: get_default_columns(), 0);
+		parent :: __construct(self :: get_default_columns());
 	}
 	/**
 	 * Gets the default columns for this model
@@ -20,6 +20,7 @@ class DefaultSurveyPageQuestionTableColumnModel extends ObjectTableColumnModel
 		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, true);
 		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION, true);
 		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TYPE, true);
+		$columns[] = new StaticTableColumn('visible');
 		return $columns;
 		
 	}
