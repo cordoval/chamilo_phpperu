@@ -21,15 +21,15 @@ class SurveyPageQuestionBrowserTableCellRenderer extends DefaultSurveyPageQuesti
     }
 
     // Inherited
-    function render_cell($column, $template_rel_page)
+    function render_cell($column, $complex_item)
     {
         if ($column === SurveyPageQuestionBrowserTableColumnModel :: get_modification_column())
         {
-            return $this->get_modification_links($template_rel_page);
+            return $this->get_modification_links($complex_item);
         }
     
   
-        return parent :: render_cell($column, $template_rel_page);
+        return parent :: render_cell($column, $complex_item);
     }
 
     /**
@@ -38,17 +38,17 @@ class SurveyPageQuestionBrowserTableCellRenderer extends DefaultSurveyPageQuesti
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($template_rel_page)
+    private function get_modification_links($complex_item)
     {
         $toolbar_data = array();
         
-        $toolbar_data[] = array('href' => $this->browser->get_template_unsubscribing_page_url($template_rel_page), 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+//        $toolbar_data[] = array('href' => $this->browser->get_template_unsubscribing_page_url($question), 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         
         return Utilities :: build_toolbar($toolbar_data);
     }
     
-    function render_id_cell($template_rel_page){
-    	$id = $template_rel_page->get_survey_id().'|'.$template_rel_page->get_template_id().'|'.$template_rel_page->get_page_id();
+    function render_id_cell($complex_item){
+    	$id = $complex_item->get_id();
     	return $id;
     }
     

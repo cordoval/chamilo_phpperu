@@ -21,9 +21,9 @@ class SurveyPageQuestionBrowserTable extends ObjectTable
               
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(SurveyBuilder :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);
+//        $actions[] = new ObjectTableFormAction(SurveyBuilder :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);
         
-        $this->set_form_actions($actions);
+//        $this->set_form_actions($actions);
     }
  
 }
