@@ -523,6 +523,22 @@ class SurveyPublication extends DataClass
         return count($user_ids);
     
     }
+    
+	function get_excluded_participants()
+    {
+        $dummy = new SurveyParticipantTracker();
+        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
+        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
+        $user_ids = array();
+        while ($tracker = $trackers->next_result())
+        {
+            $user_ids[] = $tracker->get_user_id();
+        }
+        $user_ids = array_unique($user_ids);
+        $user_ids = array_diff($this->get_target_user_ids(), $user_ids);
+        return $user_ids;
+    
+    }
 
 }
 
