@@ -78,9 +78,7 @@ class SurveyBuilder extends ComplexBuilder {
 	
  	function get_configure_url($selected_cloi )
     {
-//       	$cloi_id = ($this->get_cloi()) ? ($this->get_cloi()->get_id()) : null;
-        dump($selected_cloi->get_ref());
-    	return $this->get_url(array (self :: PARAM_BUILDER_ACTION => self :: ACTION_CONFIGURE_COMPONENT, self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), self :: PARAM_CLOI_ID => $cloi_id, self :: PARAM_SELECTED_CLOI_ID => $selected_cloi, self :: PARAM_SURVEY_PAGE_ID => $selected_cloi->get_ref()));
+	   	return $this->get_url(array (self :: PARAM_BUILDER_ACTION => self :: ACTION_CONFIGURE_COMPONENT, self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), self :: PARAM_CLOI_ID => $cloi_id, self :: PARAM_SELECTED_CLOI_ID => $selected_cloi, self :: PARAM_SURVEY_PAGE_ID => $selected_cloi->get_ref()));
     }
 	
 	function get_configure_context_url() {
