@@ -85,6 +85,8 @@ abstract class SurveyDataManager
 
     abstract function retrieve_survey_publication_mails($condition = null, $offset = null, $count = null, $order_property = null);
 
+    abstract function retrieve_survey_page($page_id);
+    
     abstract function count_survey_pages($survey_ids, $conditions = null);
 
     abstract function retrieve_survey_pages($survey_ids, $condition = null, $offset = null, $count = null, $order_property = null);

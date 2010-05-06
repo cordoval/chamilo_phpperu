@@ -21,9 +21,8 @@ class SurveyManagerCreatorComponent extends SurveyManager
             exit();
         }
     	
-    	$action = Request :: get(SurveyManager :: PARAM_ACTION);
-        $testcase = false;
-        if ($action === SurveyManager :: ACTION_TESTCASE)
+    	$test = Request :: get(SurveyManager :: PARAM_TESTCASE);
+         if ($test === 1)
         {
             $testcase = true;
         }
