@@ -111,6 +111,14 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
     }
     
     
+	// Criteria of an peer assessment
+	function get_peer_assessment_page_criteria($peer_assessment_page, $criteria_id)
+    {   	
+        $criteria = RepositoryDataManager :: get_instance()->retrieve_content_object($criteria_id);        
+        return $criteria;
+    }
+    
+    
     // Retrieves one result row
     function get_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id)
     {

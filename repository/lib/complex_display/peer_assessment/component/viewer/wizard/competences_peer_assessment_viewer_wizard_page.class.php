@@ -149,7 +149,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 		            // Prints of the table header
 	    			$this->addElement('html', implode("\n", $html));
 	    	
-		            $this->take_peer_assessment($users, $indicators, $competence);
+		            $this->take_peer_assessment($users, $indicators, $competence, $publication_id);
 		            
 		            $html_end[] = '</div>';
 			        
@@ -159,7 +159,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 
             	} 
             }         
-            $this->criteria_overview($competences);	 
+            $this->criteria_overview($publication_id);	 
 			$this->submit();
 			
 			$assessment_div[] = '</div>';
@@ -173,7 +173,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
     // ****************************************************		
     // Prints of the list of indicators for each competence
     // ****************************************************
-    function take_peer_assessment($users, $indicators, $competence)
+    function take_peer_assessment($users, $indicators, $competence, $publication_id)
     {
     	$renderer = $this->defaultRenderer();
 
@@ -208,20 +208,25 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 			$group[] = $this->createElement('static', null, null, $indicator->get_title());
                 		
 
-            // Retrieve criteria
-            $criteria = $this->get_parent()->get_peer_assessment_page_criterias_via_indicator($this->get_parent()->get_peer_assessment(), $indicator);
-            
-            $criteria_scores = array();
-            $criteria_scores[0] = Translation :: get('SelectScore');		            	
-            
-            foreach($criteria as $unserialize)
-            {
-            	$criteria_score = $unserialize->get_options();
-            	foreach($criteria_score as $score)
-            	{
-            		$criteria_scores[] = $score->get_score();
-            	}
-            }
+			// Retrieve peer assessment_publication
+	       	$peer_assessment_publication = new PeerAssessmentPublication();
+	    	$publication = $peer_assessment_publication->get_data_manager()->retrieve_peer_assessment_publication($publication_id);
+	    	
+	    	// Criteria id
+			$criteria_id = $publication->get_criteria_content_object_id();
+			
+			// Retrieve criteria            
+			$criteria_overview = $this->get_parent()->get_peer_assessment_page_criteria($this->get_parent()->get_peer_assessment(), $criteria_id);
+			
+			
+			$criteria_scores = array();
+            $criteria_scores[0] = Translation :: get('SelectScore');
+			
+	        $criteria_options = $criteria_overview->get_options();
+	        foreach($criteria_options as $score)
+	        {
+	            $criteria_scores[] = $score->get_score();
+	        }
         
 
             // Retrieve results
@@ -265,44 +270,33 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
     // *******************************	
     // Prints of the criteria overview
     // *******************************
-    function criteria_overview($competences)
+    function criteria_overview($publication_id)
     {   	
-    	foreach($competences as $competence)
-    	{
-    		if($only_once_competence == false)
-    		{
-		    	// Retrieve indicators
-		        $indicators = $this->get_parent()->get_peer_assessment_page_indicators_via_competence($this->get_parent()->get_peer_assessment(), $competence);
-				
-		    	foreach($indicators as $indicator)
-		        {
-		        	if($only_once_indicator == false)
-	    			{
-			            // Retrieve criteria
-			            $criteria_overview = $this->get_parent()->get_peer_assessment_page_criterias_via_indicator($this->get_parent()->get_peer_assessment(), $indicator);
-			
-				    	// Overview of the criteria (score and description)
-				        $overview[] = '<div style="float: left;">';
-				        $overview[] = '<br/>'. Translation :: get('OverviewOfTheCriteria');
-				        $overview[] = '<ul>';
-				        foreach($criteria_overview as $unserialize)
-				        {
-				            $criteria_score = $unserialize->get_options();
-				            foreach($criteria_score as $score_and_description)
-				            {
-				            	$overview[] = '<li>'. Translation :: get('CriteriaScore') .': <b>'. $score_and_description->get_score() .'</b> |  '. Translation :: get('CriteriaDescription') .': <b>'. $score_and_description->get_description() .'</b></li>';
-				          	}
-				       	}
-				        $overview[] = '</ul>';
-				        $overview[] = '</div>';	
-				        $only_once_indicator = true;
-	    			} 
-		        }  
-		        $only_once_competence = true;
-    		}   
-    	} 
-        
-        // Prints of the overview of the criteria
+    	// Retrieve peer assessment_publication
+       	$peer_assessment_publication = new PeerAssessmentPublication();
+    	$publication = $peer_assessment_publication->get_data_manager()->retrieve_peer_assessment_publication($publication_id);
+    	
+    	// Criteria id
+		$criteria_id = $publication->get_criteria_content_object_id();
+		
+		// Retrieve criteria            
+		$criteria_overview = $this->get_parent()->get_peer_assessment_page_criteria($this->get_parent()->get_peer_assessment(), $criteria_id);
+		
+		// Overview of the criteria (score and description)
+        $overview[] = '<div style="float: left;">';
+        $overview[] = '<br/>'. Translation :: get('OverviewOfTheCriteria');
+        $overview[] = '<ul>';
+
+        $criteria_options = $criteria_overview->get_options();
+        foreach($criteria_options as $score_and_description)
+        {
+            $overview[] = '<li>'. Translation :: get('CriteriaScore') .': <b>'. $score_and_description->get_score() .'</b> |  '. Translation :: get('CriteriaDescription') .': <b>'. $score_and_description->get_description() .'</b></li>';
+        }
+
+        $overview[] = '</ul>';
+        $overview[] = '</div>';
+		
+    	// Prints of the overview of the criteria
 		$this->addElement('html', implode("\n", $overview));		
     }
     
