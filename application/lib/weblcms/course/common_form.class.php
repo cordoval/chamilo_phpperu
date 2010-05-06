@@ -182,32 +182,38 @@ abstract class CommonForm extends FormValidator
 		$values = $this->exportValues();
 		$groups_array = array();
 		$group_key_check = array();
+		$wdm = WeblcmsDataManager::get_instance();
 		
 		$class = get_class($this->object) . "GroupSubscribeRight";
 		$id_method = "set_" . Utilities :: camelcase_to_underscores(get_class($this->object)) . "_id";
 		
+
 		for($i=0;$i<3;$i++)
 		{
 			$option = null;
 			$target = null;
 			$subscribe = null;
 			$available = null;
+			$fixed = null;
 			switch($i)
 			{
 				case 0: $target = self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS;
 						$option = self :: SUBSCRIBE_DIRECT_TARGET_OPTION;
 						$available = CourseRights::PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE;
 						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_DIRECT;
+						$fixed = "direct_fixed";
 						break;
 				case 1: $target = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS;
 						$option = self :: SUBSCRIBE_REQUEST_TARGET_OPTION;
 						$available = CourseRights::PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE;
 						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_REQUEST;
+						$fixed = "request_fixed";
 						break;
 				case 2: $target = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS;
 						$option = self :: SUBSCRIBE_CODE_TARGET_OPTION;
 						$available = CourseRights::PROPERTY_CODE_SUBSCRIBE_AVAILABLE;
 						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_CODE;
+						$fixed = "code_fixed";
 						break;
 			}
 			if($values[$option] && $values[$available])
@@ -222,6 +228,19 @@ abstract class CommonForm extends FormValidator
 						$course_type_group_rights->set_subscribe($subscribe);
 						$groups_array[] = $course_type_group_rights;
 						$group_key_check[] = $value;
+					}
+				}
+			}
+			elseif($values[$fixed])
+			{
+				$course_type_group_rights = $wdm->retrieve_course_type_group_rights_by_type($this->object->get_course_type_id(), $subscribe);
+				while($group_right = $course_type_group_rights->next_result())
+				{
+					$course_group_right = CourseGroupSubscribeRight :: convert_course_type_right_to_course_right($group_right, $this->object->get_id());
+					if(!in_array($course_group_right->get_group_id(), $group_key_check) && !in_array(0, $group_key_check))
+					{
+						$groups_array[] = $course_group_right;
+						$group_key_check[] = $course_group_right->get_group_id();
 					}
 				}
 			}
@@ -253,7 +272,17 @@ abstract class CommonForm extends FormValidator
 				$groups_array[] = $course_group_rights;
 			}
 		}
-		
+		elseif($values['unsubscribe_fixed'])
+		{
+			$wdm = WeblcmsDataManager::get_instance();
+			$course_type_group_rights = $wdm->retrieve_course_type_group_rights_by_type($this->object->get_course_type_id(), CourseGroupSubscribeRight::UNSUBSCRIBE);
+			while($group_right = $course_type_group_rights->next_result())
+			{
+				$course_group_right = CourseGroupUnsubscribeRight :: convert_course_type_right_to_course_right($group_right, $this->object->get_id());
+				$groups_array[] = $course_group_right;
+				$group_key_check[] = $course_group_right->get_group_id();
+			}
+		}
 		return $groups_array;
 	}
 

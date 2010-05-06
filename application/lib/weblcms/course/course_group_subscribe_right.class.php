@@ -91,4 +91,13 @@ class CourseGroupSubscribeRight extends DataClass
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+	static function convert_course_type_right_to_course_right($course_type_right, $course_id)
+	{
+		$course_right = new CourseGroupSubscribeRight();
+		$course_right->set_course_id($course_id);
+		$course_right->set_group_id($course_type_right->get_group_id());
+		$course_right->set_subscribe($course_type_right->get_subscribe());
+		return $course_right;
+	}
 }

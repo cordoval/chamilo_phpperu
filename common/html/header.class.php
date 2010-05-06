@@ -61,6 +61,7 @@ class Header
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.textarearesizer.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.jsuggest.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.jeditable.mini.js');
+        $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.query.js');
         $this->add_javascript_file_header($this->get_path(WEB_LIB_PATH) . 'javascript/utilities.js');
         $this->add_javascript_file_header($this->get_path(WEB_LIB_PATH) . 'javascript/notifications.js');
         $this->add_javascript_file_header($this->get_path(WEB_LIB_PATH) . 'javascript/help.js');

@@ -77,6 +77,7 @@ class UserToolSubscribeBrowserComponent extends UserToolComponent
         {
             $condition = new AndCondition($condition, $this->get_condition());
         }
+        
         return $condition;
     }
 
