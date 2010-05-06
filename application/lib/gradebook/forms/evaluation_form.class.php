@@ -173,7 +173,7 @@ class EvaluationForm extends FormValidator
 		$evaluation = $this->evaluation;
 		$evaluation->set_evaluator_id($this->user->get_id());
 		$evaluation->set_user_id($this->publisher_id);
-		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
+		$evaluation->set_evaluation_date(time());		
 		$evaluation->set_format_id($export_values['format_id']);
 		if($evaluation->create())
 		{
@@ -210,7 +210,7 @@ class EvaluationForm extends FormValidator
 		$evaluation->set_id($evaluation_id);
 		$evaluation->set_evaluator_id($this->user->get_id());
 		$evaluation->set_user_id($this->publisher_id);
-		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
+		$evaluation->set_evaluation_date(time());		
 		$evaluation->set_format_id($values['format_id']);
 		if(!$evaluation->update())
 		{

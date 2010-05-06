@@ -154,7 +154,7 @@ class TranslatorApplicationForm extends FormValidator
 	   		$application->set_user_id(Session :: get_user_id());
 	   		$application->set_source_language_id($source_language);
 	   		$application->set_destination_language_id($language);
-	   		$application->set_date(Utilities :: to_db_date(time()));
+	   		$application->set_date(time());
 	   		$application->set_status(TranslatorApplication :: STATUS_PENDING);
 
 	   		if (!$application->create())

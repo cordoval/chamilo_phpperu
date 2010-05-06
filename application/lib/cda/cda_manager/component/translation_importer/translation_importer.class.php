@@ -168,7 +168,7 @@ abstract class TranslationImporter
     				{
     					$system_translation->set_translation($translation);
     					$system_translation->set_user_id($this->get_user()->get_id());
-    					$system_translation->set_date(Utilities :: to_db_date(time()));
+    					$system_translation->set_date(time());
     					$system_translation->update();
     				}
     			}	

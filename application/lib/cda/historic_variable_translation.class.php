@@ -168,7 +168,7 @@ class HistoricVariableTranslation extends DataClass
 	{
 	    $variable_translation = $this->get_variable_translation();
 	    $variable_translation->set_translation($this->get_translation());
-	    $variable_translation->set_date(Utilities :: to_db_date(time()));
+	    $variable_translation->set_date(time());
 	    $variable_translation->set_user_id($this->get_user_id());
 	    $variable_translation->set_rating($this->get_rating());
 	    $variable_translation->set_rated($this->get_rated());

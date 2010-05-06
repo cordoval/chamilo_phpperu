@@ -149,7 +149,7 @@ class CdaLanguage extends DataClass
 			$translation->set_user_id(0);
 			$translation->set_language_id($this->get_id());
 			$translation->set_variable_id($variable->get_id());
-			$translation->set_date(Utilities :: to_db_date(time()));
+			$translation->set_date(time());
 			$translation->set_rated(0);
 			$translation->set_rating(0);
 			$translation->set_translation(' ');
