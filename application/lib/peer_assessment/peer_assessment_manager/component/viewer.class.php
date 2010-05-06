@@ -29,16 +29,7 @@ class PeerAssessmentManagerViewerComponent extends PeerAssessmentManager
         $this->cd->run();
         //$this->display_footer();
     }
-    
-	/*function display_header($trail)
-    {
-    	if($trail)
-    	{
-    		$this->trail->merge($trail);
-    	}
-    	
-    	return parent :: display_header($this->trail);
-    }*/
+   
     
 	function get_current_attempt_id()
     {
