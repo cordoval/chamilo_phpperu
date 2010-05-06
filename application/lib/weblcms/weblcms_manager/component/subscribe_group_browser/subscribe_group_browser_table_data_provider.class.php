@@ -33,7 +33,17 @@ class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         
-        return GroupDataManager :: get_instance()->retrieve_groups($this->get_condition(), $offset, $count, $order_property);
+        $groups_result = GroupDataManager :: get_instance()->retrieve_groups($this->get_condition(), $offset, $count, $order_property);
+        $groups = array();
+        $course = parent::get_browser()->get_course();
+        while($group = $groups_result->next_result())
+        {
+        	if($course->can_group_subscribe($group->get_id()) == CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT)
+        	{
+        		$groups[] = $group;
+        	}
+        }
+        return new ArrayResultSet($groups);
     }
 
     /**

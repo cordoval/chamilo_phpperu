@@ -835,8 +835,6 @@ class Course extends DataClass
         return $current_right;
     }
     
-    
-    
     function can_group_subscribe($group_id)
     {
     	$right = $this->get_rights()->can_group_subscribe($group_id);
