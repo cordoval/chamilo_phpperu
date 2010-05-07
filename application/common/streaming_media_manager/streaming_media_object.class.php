@@ -10,9 +10,12 @@ abstract class StreamingMediaObject
 	const PROPERTY_URL = 'url';
 	const PROPERTY_DURATION = 'duration';
 	const PROPERTY_THUMBNAIL = 'thumbnail';
+	const PROPERTY_STATUS = 'status';
+	const STATUS_AVAILABLE = 1;
+	const STATUS_UNAVAILABLE = 2;
 
 
-	function StreamingMediaObject($id, $title,$description, $url, $duration, $thumbnail)
+	function StreamingMediaObject($id, $title,$description, $url, $duration, $thumbnail, $status)
 	{
 		$this->set_id($id);
 		$this->set_title($title);
@@ -20,6 +23,7 @@ abstract class StreamingMediaObject
 		$this->set_url($url);
 		$this->set_duration($duration);
 		$this->set_thumbnail($thumbnail);
+		$this->set_status($status);
 	}
 	
 	/**
@@ -28,6 +32,32 @@ abstract class StreamingMediaObject
      */
     abstract function get_type();
 
+    public function get_status_text()
+    {
+    	switch ($this->get_status())
+    	{
+    		case self :: STATUS_AVAILABLE :
+    			return Translation :: get('Available');
+    			break;
+    		case self :: STATUS_UNAVAILABLE :
+    			return Translation :: get('Unavailable');
+    			break;
+    		default : return Translation :: get('Unknown');
+    	}
+    }
+    
+    function is_usable()
+    {
+    	if ($this->get_status() == self :: STATUS_AVAILABLE)
+    	{
+    		return true;
+    	}
+    	else 
+    	{
+    		return false;
+    	}
+    }
+    
     /**
      * @return the $default_properties
      */
@@ -77,6 +107,7 @@ abstract class StreamingMediaObject
         $extended_property_names[] = self :: PROPERTY_THUMBNAIL;
         $extended_property_names[] = self :: PROPERTY_TITLE;
         $extended_property_names[] = self :: PROPERTY_URL;
+        $extended_porperty_names[] = self :: PROPERTY_STATUS;
         
         return $extended_property_names;
     }
@@ -172,6 +203,11 @@ abstract class StreamingMediaObject
         return $this->get_default_property(self :: PROPERTY_DURATION);
     }
 
+    public function get_status()
+    {
+    	return $this->get_default_property(self :: PROPERTY_STATUS);	
+    }
+    
 	/**
      * @param $title the $title to set
      */
@@ -201,8 +237,13 @@ abstract class StreamingMediaObject
      */
     public function set_url($url)
     {
-		$this->set_default_property(self :: PROPERTY_URL, $url);    }
+		$this->set_default_property(self :: PROPERTY_URL, $url);    
+    }
 
+	public function set_status($status)
+	{
+		$this->set_default_property(self :: PROPERTY_STATUS, $status);
+	}	
 	/**
      * @param $duration the $duration to set
      */

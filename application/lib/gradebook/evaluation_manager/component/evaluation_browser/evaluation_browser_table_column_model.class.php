@@ -26,7 +26,7 @@ class EvaluationBrowserTableColumnModel extends DefaultEvaluationBrowserTableCol
 	{
 		if (!isset(self :: $modification_column))
 		{
-			self :: $modification_column = new StaticTableColumn(Translation :: get('action'));
+			self :: $modification_column = new StaticTableColumn(Translation :: get('Action'));
 		}
 		return self :: $modification_column;
 	}

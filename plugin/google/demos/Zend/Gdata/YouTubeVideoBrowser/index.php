@@ -36,8 +36,6 @@
  * for demonstration purposes.
  */
 
-ini_set('include_path', 'C:/wamp/www/chamilo/plugin/gdata/library');
-
 /**
  * @see Zend_Loader
  */

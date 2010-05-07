@@ -34,10 +34,7 @@ class CourseRequestForm extends FormValidator
         {
             $this->build_creating_form();
         }
-		if ($this->form_type == self :: TYPE_EDIT)
-        {
-            $this->build_editing_form();
-        }
+		
         if ($this->form_type == self :: TYPE_VIEW)
         {
         	$this->build_viewing_form();
@@ -56,16 +53,6 @@ class CourseRequestForm extends FormValidator
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);	
 	}
-	
-	function build_editing_form()
-    {
-        $this->build_request_form();
-
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Allow'), array('class' => 'positive update'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-    }
     
     function build_viewing_form()
     {
@@ -91,13 +78,6 @@ class CourseRequestForm extends FormValidator
 			$this->add_textfield(CommonRequest :: PROPERTY_SUBJECT, Translation :: get('Subject'),true);
 				
 			$this->add_html_editor(CommonRequest :: PROPERTY_MOTIVATION, Translation :: get('Motivation'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));			
-		}
-		
-		if ($this->form_type == self :: TYPE_EDIT)
-		{
-			$this->addElement('category', Translation :: get('SelectDate'));
-			$this->add_datepicker(CommonRequest :: PROPERTY_DECISION_DATE, Translation :: get('Date'));
-			$this->addRule(CommonRequest :: PROPERTY_DECISION_DATE, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
 		
 		if($this->form_type == self :: TYPE_VIEW)
@@ -131,15 +111,10 @@ class CourseRequestForm extends FormValidator
 				default:  $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('NoDecisionYet'));
 						  break;
 			}
-
 		}
 		$this->addElement('category');
 	}	
-	function get_selected_date_decision()
-    {
-    	$values = $this->exportValues();
-        return $values[CommonRequest :: PROPERTY_DECISION_DATE];
-    }
+
 	function create_request()
     {		   	
         $values = $this->exportValues();
