@@ -881,10 +881,10 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function create_course($course)
     {
         $now = time();
-        $course->set_last_visit(self :: to_db_date($now));
-        $course->set_last_edit(self :: to_db_date($now));
-        $course->set_creation_date(self :: to_db_date($now));
-        $course->set_expiration_date(self :: to_db_date($now));
+        $course->set_last_visit($now);
+        $course->set_last_edit($now);
+        $course->set_creation_date($now);
+        $course->set_expiration_date($now);
         
         return $this->create($course);
     }
@@ -2339,11 +2339,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     private static function from_db_date($date)
     {
         return DatabaseRepositoryDataManager :: from_db_date($date);
-    }
-
-    private static function to_db_date($date)
-    {
-        return Utilities :: to_db_date($date);
     }
 
     function delete_category($category)

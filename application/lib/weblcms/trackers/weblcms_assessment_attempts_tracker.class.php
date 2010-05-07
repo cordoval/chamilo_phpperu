@@ -46,7 +46,7 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
         if ($status)
             $this->set_status($status);
         
-        $this->set_date(DatabaseRepositoryDataManager :: to_db_date(time()));
+        $this->set_date(time());
         $this->set_total_score($total_score);
         
         $this->create();
