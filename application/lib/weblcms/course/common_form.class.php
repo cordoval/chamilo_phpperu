@@ -201,19 +201,19 @@ abstract class CommonForm extends FormValidator
 						$option = self :: SUBSCRIBE_DIRECT_TARGET_OPTION;
 						$available = CourseRights::PROPERTY_DIRECT_SUBSCRIBE_AVAILABLE;
 						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_DIRECT;
-						$fixed = "direct_fixed";
+						$fixed = "direct_fixed_check";
 						break;
 				case 1: $target = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS;
 						$option = self :: SUBSCRIBE_REQUEST_TARGET_OPTION;
 						$available = CourseRights::PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE;
 						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_REQUEST;
-						$fixed = "request_fixed";
+						$fixed = "request_fixed_check";
 						break;
 				case 2: $target = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS;
 						$option = self :: SUBSCRIBE_CODE_TARGET_OPTION;
 						$available = CourseRights::PROPERTY_CODE_SUBSCRIBE_AVAILABLE;
 						$subscribe = CourseGroupSubscribeRight::SUBSCRIBE_CODE;
-						$fixed = "code_fixed";
+						$fixed = "code_fixed_check";
 						break;
 			}
 			if($values[$option] && $values[$available])
@@ -257,10 +257,8 @@ abstract class CommonForm extends FormValidator
 	{
 		$values = $this->exportValues();
 		$groups_array = array();
-		
 		$class = get_class($this->object) . "GroupUnsubscribeRight";
 		$id_method = "set_" . Utilities :: camelcase_to_underscores(get_class($this->object)) . "_id";
-		
 		if($values[self :: UNSUBSCRIBE_TARGET_OPTION])
 		{
 			foreach($values[self :: UNSUBSCRIBE_TARGET_ELEMENTS]['group'] as $value)
@@ -272,7 +270,7 @@ abstract class CommonForm extends FormValidator
 				$groups_array[] = $course_group_rights;
 			}
 		}
-		elseif($values['unsubscribe_fixed'])
+		elseif($values['unsubscribe_fixed_check'])
 		{
 			$wdm = WeblcmsDataManager::get_instance();
 			$course_type_group_rights = $wdm->retrieve_course_type_group_rights_by_type($this->object->get_course_type_id(), CourseGroupSubscribeRight::UNSUBSCRIBE);

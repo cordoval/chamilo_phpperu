@@ -156,7 +156,7 @@ class CourseForm extends CommonForm
         $this->addElement('hidden', Course :: PROPERTY_ID, '', array('class' => 'course_id'));
 
         $wdm = WeblcmsDataManager :: get_instance();
-		$course_type_objects = $wdm->retrieve_course_types_by_user_right($this->user);
+		$course_type_objects = $wdm->retrieve_course_types_by_user_right($this->user, CourseTypeGroupCreationRight :: CREATE_DIRECT);
         $course_types = array();
         if(empty($this->course_type_id) || $this->allow_no_course_type)
         	$course_types[0] = Translation :: get('NoCourseType');
@@ -496,7 +496,7 @@ class CourseForm extends CommonForm
 	        	$this->addElement('text', CourseRights :: PROPERTY_CODE, Translation :: get('EnterCode'), array("size" => "50"));
 	       	if($course_subscribe_disabled)
 	       	{
-	       		$this->addElement('hidden', strtolower($type).'_fixed' , 1);
+	       		$this->addElement('hidden', strtolower($type).'_fixed_check' , 1);
 	       		$groups_result = WeblcmsDataManager::get_instance()->retrieve_course_type_group_rights_by_type($this->course_type_id, $constant_right);
 	    		$groups = array();
 	    		while($group = $groups_result->next_result())
@@ -532,7 +532,7 @@ class CourseForm extends CommonForm
         $this->addElement('html', '<div id="unsubscribeBlock">');
         if($course_unsubscribe_disabled)
        	{
-	        $this->addElement('hidden', 'unsubscribe_fixed' , 1);
+	        $this->addElement('hidden', 'unsubscribe_fixed_check' , 1);
        		$groups_result = WeblcmsDataManager::get_instance()->retrieve_course_type_group_rights_by_type($this->course_type_id, CourseGroupSubscribeRight::UNSUBSCRIBE);
     		$groups = array();
     		while($group = $groups_result->next_result())

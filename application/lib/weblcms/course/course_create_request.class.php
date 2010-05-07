@@ -11,12 +11,14 @@ class CourseCreateRequest extends CommonRequest
 {
     const CLASS_NAME = __CLASS__;
     
-    const PROPERTY_COURSE_ID = 'course_id';
+    const PROPERTY_COURSE_NAME = 'course_name';
+    const PROPERTY_COURSE_TYPE_ID = 'course_type_id';
 
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(
-        		  self :: PROPERTY_COURSE_ID));
+        		  self :: PROPERTY_COURSE_NAME,
+        		  self :: PROPERTY_COURSE_TYPE_ID));
     }
 
     function get_data_manager()
@@ -24,14 +26,24 @@ class CourseCreateRequest extends CommonRequest
         return WeblcmsDataManager :: get_instance();
     }
     
-    function get_course_id()
+    function get_course_name()
     {
-        return $this->get_default_property(self :: PROPERTY_COURSE_ID);
-    }    
+        return $this->get_default_property(self :: PROPERTY_COURSE_NAME);
+    }   
+    
+    function get_course_type_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_COURSE_TYPE_ID);
+    }     
 
-    function set_course_id($course_id)
+    function set_course_name($course_name)
     {
-        return $this->set_default_property(self :: PROPERTY_COURSE_ID, $course_id);
+        return $this->set_default_property(self :: PROPERTY_COURSE_NAME, $course_name);
+    }   
+
+    function set_course_type_id($course_type_id)
+    {
+        return $this->set_default_property(self :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
     }
     
 	static function get_table_name()

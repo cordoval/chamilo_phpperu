@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../question_display.class.php';
 
-class MultipleChoiceQuestionDisplay extends QuestionDisplay
+class AssessmentMultipleChoiceQuestionDisplay extends QuestionDisplay
 {
 
     function add_question_form()

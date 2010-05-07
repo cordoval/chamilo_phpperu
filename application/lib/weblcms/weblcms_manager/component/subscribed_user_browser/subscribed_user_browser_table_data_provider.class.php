@@ -12,6 +12,8 @@
 class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
 {
     private $udm;
+    private $object_count;
+    private $preloaded_result_set = null;
 
     /**
      * Constructor
@@ -22,6 +24,7 @@ class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
     {
         parent :: __construct($browser, $condition);
         $this->udm = UserDataManager :: get_instance($browser->get_user_id());
+        $this->get_objects();
     }
 
     /**
@@ -32,10 +35,25 @@ class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
      * @return ResultSet A set of matching learning objects.
      */
     function get_objects($offset, $count, $order_property = null)
-    {
-        $order_property = $this->get_order_property($order_property);
-        
-        return $this->udm->retrieve_users($this->get_condition(), $offset, $count, $order_property);
+    {        
+    	if(is_null($this->preloaded_result_set))
+    	{
+	    	$order_property = $this->get_order_property($order_property);
+	        
+	        $users_result = $this->udm->retrieve_users($this->get_condition(), $offset, $count, $order_property);
+	        $users = array();
+	        $course = parent::get_browser()->get_course();
+	        while($user = $users_result->next_result())
+	        {
+	        	if($course->can_user_subscribe($user) || ($course->is_course_admin($user) && (parent::get_browser()->get_action() == UserTool :: ACTION_UNSUBSCRIBE_USERS || is_null(parent::get_browser()->get_action()))))
+	        	{
+	        		$users[] = $user;
+	        	}
+	        }
+	        $this->object_count = count($users);
+	        $this->preloaded_result_set = new ArrayResultSet($users);
+    	}
+        return $this->preloaded_result_set;
     }
 
     /**
@@ -44,7 +62,7 @@ class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        return $this->udm->count_users($this->get_condition());
+        return $this->object_count;
     }
 }
 ?>
