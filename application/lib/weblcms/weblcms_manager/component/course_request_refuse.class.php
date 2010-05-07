@@ -65,7 +65,7 @@ class WeblcmsManagerCourseRequestRefuseComponent extends WeblcmsManager
                     $message = 'SelectedRequestsDenied';
                 }
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null,WeblcmsManager :: PARAM_REQUEST_TYPE => $this->request_type, WeblcmsManager :: PARAM_REQUEST_VIEW => Request :: get(WeblcmsManager:: PARAM_REQUEST_VIEW)));
 		}
 		else
         {
