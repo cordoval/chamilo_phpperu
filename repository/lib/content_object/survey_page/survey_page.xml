@@ -4,7 +4,7 @@
 		<property name="id" type="integer" unsigned="1" notnull="1" />
 		<property name="intro_text" type="text" notnull="0" />
 		<property name="finish_text" type="text" notnull="0" />
-		<property name="context" type="text" notnull="0" />
+		<property name="config" type="text" notnull="0" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />
