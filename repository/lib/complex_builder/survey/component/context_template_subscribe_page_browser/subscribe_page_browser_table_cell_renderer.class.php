@@ -17,7 +17,7 @@ class SurveyContextTemplateSubscribePageBrowserTableCellRenderer extends Default
     // Inherited
     function render_cell($column, $page)
     {
-        if ($column === SurveyContextTemplateSubscribePageBrowserTableColumnModel :: get_modification_column())
+       	if ($column === SurveyContextTemplateSubscribePageBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($page);
         }

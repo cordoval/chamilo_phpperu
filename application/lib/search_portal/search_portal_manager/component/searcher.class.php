@@ -80,15 +80,6 @@ END;
         Display :: footer();
     }
 
-    /**
-     * Renders the search portal block and returns it.
-     */
-    function render_block($block)
-    {
-        $search_portal_block = SearchPortalBlock :: factory($this, $block);
-        return $search_portal_block->run();
-    }
-
     private static function search($query, $url)
     {
         $search_source = self :: get_search_source($url);

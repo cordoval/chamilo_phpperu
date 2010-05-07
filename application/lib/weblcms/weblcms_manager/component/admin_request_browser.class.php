@@ -112,7 +112,7 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
         {
             $conditions = array();
             $conditions[] = new PatternMatchCondition(CommonRequest :: PROPERTY_MOTIVATION, '*' . $query . '*');            
-            $conditions[] = new PatternMatchCondition(CommonRequest :: PROPERTY_TITLE, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(CommonRequest :: PROPERTY_SUBJECT, '*' . $query . '*');
             //$conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             
            	$search_conditions = new OrCondition($conditions);

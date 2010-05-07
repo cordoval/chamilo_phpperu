@@ -5,6 +5,6 @@
 		<property name="user_id" type="integer" notnull="1" />
 		<property name="evaluator_id" type="integer" notnull="1" />
 		<property name="format_id" type="integer" notnull="1" />
-		<property name="evaluation_date" type="timestamp" notnull="1" />
+		<property name="evaluation_date" type="integer" unsigned="1" notnull="1" />
 	</properties>
 </object>

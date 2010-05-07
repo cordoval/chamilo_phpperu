@@ -27,7 +27,7 @@ class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
         $columns = array();
         $columns[] = new ObjectTableColumn(self :: USER_NAME, false);
         $columns[] = new ObjectTableColumn(self :: COURSE_NAME, false);
-        $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_TITLE);
+        $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_SUBJECT);
 
         return $columns;
     }

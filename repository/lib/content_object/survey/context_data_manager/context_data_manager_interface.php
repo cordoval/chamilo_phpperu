@@ -26,10 +26,15 @@ interface SurveyContextDataManagerInterface
         
     function count_survey_context_templates($condition = null);
     
+    function truncate_survey_context_template($survey_id, $template_id);
     
     function retrieve_template_rel_pages($condition = null, $offset = null, $count = null, $order_property = null);
     
     function count_template_rel_pages($condition = null);
+    
+    function delete_survey_context_template_rel_page($survey_context_template_rel_page);
+   
+    function create_survey_context_template_rel_page($survey_context_template_rel_page);
     
 }
 ?>

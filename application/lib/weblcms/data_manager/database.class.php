@@ -881,10 +881,10 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function create_course($course)
     {
         $now = time();
-        $course->set_last_visit(self :: to_db_date($now));
-        $course->set_last_edit(self :: to_db_date($now));
-        $course->set_creation_date(self :: to_db_date($now));
-        $course->set_expiration_date(self :: to_db_date($now));
+        $course->set_last_visit($now);
+        $course->set_last_edit($now);
+        $course->set_creation_date($now);
+        $course->set_expiration_date($now);
         
         return $this->create($course);
     }
@@ -1301,7 +1301,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     
     function update_courses($properties, $condition)
     {
-        return $this->update_objects(CourseUserRelation :: get_table_name(), $properties, $condition);
+        return $this->update_objects(Course :: get_table_name(), $properties, $condition);
     }
 
     function update_course_request($request)
@@ -1988,13 +1988,13 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function retrieve_requests($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $order_by[] = new ObjectTableOrder(CourseRequest :: PROPERTY_TITLE);
+        $order_by[] = new ObjectTableOrder(CourseRequest :: PROPERTY_SUBJECT);
         return $this->retrieve_objects(CourseRequest :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
     
     function retrieve_course_create_requests($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $order_by[] = new ObjectTableOrder(CourseCreateRequest :: PROPERTY_TITLE);
+        $order_by[] = new ObjectTableOrder(CourseCreateRequest :: PROPERTY_SUBJECT);
         return $this->retrieve_objects(CourseCreateRequest :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }   
 
@@ -2339,11 +2339,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     private static function from_db_date($date)
     {
         return DatabaseRepositoryDataManager :: from_db_date($date);
-    }
-
-    private static function to_db_date($date)
-    {
-        return DatabaseRepositoryDataManager :: to_db_date($date);
     }
 
     function delete_category($category)

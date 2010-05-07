@@ -33,14 +33,19 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilderComponent
             echo $this->ab->as_html() . '<br />';
             
             echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_template.png);">';
-            echo '<div class="title">' . Translation :: get('Details') . '</div>';
+            echo '<div class="title">' . Translation :: get('SurveyContextTemplateDetails') . '</div>';
             echo '<b>' . Translation :: get('Name') . '</b>: ' . $template->get_name();
             echo '<br /><b>' . Translation :: get('Description') . '</b>: ' . $template->get_description();
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
             echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';
-            echo '<div class="title">' . Translation :: get('Pages') . '</div>';
-            $table = new SurveyContextTemplateRelPageBrowserTable($this, array(Application :: PARAM_ACTION => SurveyBuilder :: ACTION_VIEW_CONTEXT, SurveyBuilder :: PARAM_TEMPLATE_ID => $id), $this->get_condition());
+            echo '<div class="title">' . Translation :: get('SurveyPages') . '</div>';
+            $parameters = $this->get_parameters();
+            $parameters[SurveyBuilder :: PARAM_TEMPLATE_ID ] =  $id;
+            $parameters[SurveyBuilder :: PARAM_ROOT_LO] =  $this->get_root_lo()->get_id();
+            $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+            
+            $table = new SurveyContextTemplateRelPageBrowserTable($this, $parameters, $this->get_condition());
             echo $table->as_html();
             echo '</div>';
             
@@ -98,9 +103,9 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilderComponent
         
         $action_bar->set_search_url($this->get_url(array(SurveyBuilder :: PARAM_TEMPLATE_ID => $template->get_id())));
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_template_viewing_url($template), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_template_viewing_url($template->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddPages'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_template_suscribe_page_browser_url($template), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddSurveyPages'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_template_suscribe_page_browser_url($template->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         $condition = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, $template->get_id());
         $pages = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition);
@@ -108,12 +113,10 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilderComponent
         
         if ($visible)
         {
-            $toolbar_data[] = array('href' => $this->get_template_emptying_url($template), 'label' => Translation :: get('Truncate'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $this->get_template_emptying_url($template), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $this->get_template_emptying_url($template->get_id()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('TruncateNA'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_image_path() . 'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         

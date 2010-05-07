@@ -8,6 +8,10 @@ class SurveyBuilderComponent extends ComplexBuilderComponent {
 		return parent::factory ( 'Survey', $component_name, $builder );
 	}
 	
+	function get_configure_url($selected_cloi) {
+		return $this->get_parent ()->get_configure_url ( $selected_cloi );
+	}
+	
 	function get_configure_context_url($selected_cloi) {
 		return $this->get_parent ()->get_configure_context_url ( $selected_cloi );
 	}
@@ -21,12 +25,25 @@ class SurveyBuilderComponent extends ComplexBuilderComponent {
 	}
 	
 	function get_template_suscribe_page_url($template_id, $page_id) {
-		return $this->get_parent ()->get_template_suscribe_page_url ( $template_id , $page_id);
+		return $this->get_parent ()->get_template_suscribe_page_url ( $template_id, $page_id );
+	}
+	
+	function get_template_unsubscribing_page_url($template_rel_page) {
+		return $this->get_parent ()->get_template_unsubscribing_page_url ( $template_rel_page );
 	}
 	
 	function get_template_emptying_url($template_id) {
 		return $this->get_parent ()->get_template_emptying_url ( $template_id );
 	}
+	
+	function get_change_question_visibility_url($complex_question_item) {
+		return $this->get_parent ()->get_change_question_visibility_url ( $complex_question_item );
+	}
+	
+	function get_configure_question_url($complex_question_item) {
+		return $this->get_parent ()->get_configure_question_url ( $complex_question_item );
+	}
+
 }
 
 ?>

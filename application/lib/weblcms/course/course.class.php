@@ -799,6 +799,15 @@ class Course extends DataClass
 
     function can_user_subscribe($user)
     {
+    	$max_members = $this->get_max_number_of_members();
+    	if($max_members != 0)
+    	{
+    		$subscribed_users = $this->has_subscribed_users();
+    		if($subscribed_users >= $max_members)
+    		{
+    			return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;	
+    		}   		
+    	}
     	$current_right = $this->can_group_subscribe(0);
         $group_ids = $user->get_groups(true);
         foreach($group_ids as $group_id)
@@ -808,7 +817,7 @@ class Course extends DataClass
         	if($right > $current_right)
         		$current_right = $right;      		    		
         }        
-        return $current_right;
+    	return $current_right;
     }
     
 	function can_user_unsubscribe($user)
@@ -825,8 +834,6 @@ class Course extends DataClass
         }        
         return $current_right;
     }
-    
-    
     
     function can_group_subscribe($group_id)
     {
@@ -997,7 +1004,27 @@ class Course extends DataClass
 		$rights->set_course_id($this->get_id());
 		if(! $rights->create())
 			return false;
-
+		
+        if (! $this->initialize_course_sections())
+            return false;
+			
+		if(!$this->tools)
+		{
+			$course_type_id = $this->get_course_type_id();
+			if(!empty($course_type_id))
+				$this->tools = CourseModule :: convert_tools($this->get_course_type()->get_tools(), $this->get_id(), true);
+			else
+				$this->tools = CourseModule :: convert_tools(WeblcmsDataManager :: get_tools('basic'), $this->get_id());
+		}
+		else
+		{
+			foreach($this->tools as $tool)
+				$tool->set_course_code($this->get_id());
+		}
+		
+		if(!$wdm->create_course_modules($this->tools, $this->get_id()))
+			return false;
+			
         require_once (dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php');
         $dropbox = new ContentObjectPublicationCategory();
         $dropbox->create_dropbox($this->get_id());
@@ -1022,11 +1049,6 @@ class Course extends DataClass
         }
 
         if (! $location->create())
-        {
-            return false;
-        }
-
-        if (! $this->initialize_course_sections())
         {
             return false;
         }
@@ -1077,7 +1099,7 @@ class Course extends DataClass
 
     function has_subscribed_users()
     {
-        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
         return $this->get_data_manager()->count_course_user_relations($relation_condition);
     }
 

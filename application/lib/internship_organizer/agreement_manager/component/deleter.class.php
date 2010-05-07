@@ -37,7 +37,7 @@ class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrga
 				}
 				else
 				{
-					$message = 'Selected{InternshipOrganizerAgreementsNotDeleted';
+					$message = 'SelectedInternshipOrganizerAgreementsNotDeleted';
 				}
 			}
 			else

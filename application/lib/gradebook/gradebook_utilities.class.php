@@ -5,14 +5,14 @@ require_once dirname(__FILE__).'/connector/gradebook_connector.class.php';
 
 class GradebookUtilities
 {
-	static function check_tracker_for_user($application, $publication_id, $tool = null)
+	/*static function check_tracker_for_user($application, $publication_id, $tool = null)
 	{
 		$connector = GradeBookConnector :: factory($application, $tool);
 		if($tracker_user = $connector->get_tracker_user($publication_id))
 			return $tracker_user;
 		else
 			return false;
-	}
+	}*/
 	static function move_internal_item_to_external_item($application, $publication_id)
 	{
 		if(EvaluationManager :: retrieve_evaluation_ids_by_publication($application, $publication_id))
@@ -62,6 +62,12 @@ class GradebookUtilities
 			return true;
         }
 	}
+	
+	/*static function get_categories($application, $category_array)
+	{
+		$connector = CategoriesConnector :: factory($application);
+		$connector->get_categories($category_array);
+	}*/
 
   	
 //	function get_gradebook_admin_menu($browser)

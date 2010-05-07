@@ -70,6 +70,7 @@ class GroupRightManagerGroupComponent extends GroupRightManager
         $html[] = '</div>';
         
         $params = array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id(), GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP));
+        $params[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $html[] = '<div style="float: left; width: 62%; margin-left: 1%;">';
         $table = new LocationGroupBrowserTable($this, array_merge($this->get_parameters(), $params), $this->get_condition());
         $html[] = $table->as_html();

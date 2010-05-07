@@ -13,9 +13,12 @@ class PortfolioRights {
     const GIVE_FEEDBACK_RIGHT = '4';
     const SET_PERMISSIONS_RIGHT = '5';
 
-    const TYPE_PORTFOLIO_FOLDER = 'portfolio';
-    const TYPE_PORTFOLIO_SUB_FOLDER = 'subportfolio';
-    const TYPE_PORTFOLIO_ITEM = 'portfolio_item';
+//    const TYPE_PORTFOLIO_FOLDER = 'portfolio';
+//    const TYPE_PORTFOLIO_SUB_FOLDER = 'subportfolio';
+//    const TYPE_PORTFOLIO_ITEM = 'portfolio_item';
+    const TYPE_PORTFOLIO_FOLDER = 1;
+    const TYPE_PORTFOLIO_SUB_FOLDER = 2;
+    const TYPE_PORTFOLIO_ITEM = 3;
 
     
     const RADIO_OPTION_SET_SPECIFIC = 'set';
@@ -125,129 +128,136 @@ class PortfolioRights {
      */
     static function get_all_publication_rights($location)
     {
-        $inherits = $location->get_inherit();
-        $publisher = $location->get_tree_identifier();
-        $rights = array();
-        $view_option ='';
-        $edit_option='';
-        $fbv_option ='';
-        $fbg_option ='';
-
-        if(!$inherits)
+        if($location)
         {
-            $rights = self::get_rights_on_location($location->get_id());
-            $user_rights = $rights[self::USER_RIGHTS];
-            if(isset($user_rights))
+            $inherits = $location->get_inherit();
+            $publisher = $location->get_tree_identifier();
+            $rights = array();
+            $view_option ='';
+            $edit_option='';
+            $fbv_option ='';
+            $fbg_option ='';
+
+            if(!$inherits)
             {
-//                $rights[self::VIEW_RIGHT][self::USER_RIGHTS]= array();
-//                $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]= array();
-//                $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]= array();
-//                $rights[self::EDIT_RIGHT][self::USER_RIGHTS]= array();
-                while ($uright = $user_rights->next_result())
+                $rights = self::get_rights_on_location($location->get_id());
+                $user_rights = $rights[self::USER_RIGHTS];
+                if(isset($user_rights))
                 {
-                      $rights[$uright->get_right_id()][self::USER_RIGHTS][]= $uright->get_user_id();
+    //                $rights[self::VIEW_RIGHT][self::USER_RIGHTS]= array();
+    //                $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]= array();
+    //                $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]= array();
+    //                $rights[self::EDIT_RIGHT][self::USER_RIGHTS]= array();
+                    while ($uright = $user_rights->next_result())
+                    {
+                          $rights[$uright->get_right_id()][self::USER_RIGHTS][]= $uright->get_user_id();
 
+                    }
                 }
-            }
 
-            $group_rights = $rights[self::GROUP_RIGHTS];
-            if(isset($group_rights))
-            {
-//                $rights[self::VIEW_RIGHT][self::GROUP_RIGHTS]= array();
-//                $rights[self::VIEW_FEEDBACK_RIGHT][self::GROUP_RIGHTS]= array();
-//                $rights[self::GIVE_FEEDBACK_RIGHT][self::GROUP_RIGHTS]= array();
-//                $rights[self::EDIT_RIGHT][self::GROUP_RIGHTS]= array();
-                while ($gright = $group_rights->next_result())
+                $group_rights = $rights[self::GROUP_RIGHTS];
+                if(isset($group_rights))
                 {
-                      $rights[$gright->get_right_id()][self::GROUP_RIGHTS][]= $gright->get_group_id();
+    //                $rights[self::VIEW_RIGHT][self::GROUP_RIGHTS]= array();
+    //                $rights[self::VIEW_FEEDBACK_RIGHT][self::GROUP_RIGHTS]= array();
+    //                $rights[self::GIVE_FEEDBACK_RIGHT][self::GROUP_RIGHTS]= array();
+    //                $rights[self::EDIT_RIGHT][self::GROUP_RIGHTS]= array();
+                    while ($gright = $group_rights->next_result())
+                    {
+                          $rights[$gright->get_right_id()][self::GROUP_RIGHTS][]= $gright->get_group_id();
 
+                    }
                 }
-            }
 
-            //VIEW RIGHTS
-            if(in_array('1', $rights[self::VIEW_RIGHT][self::USER_RIGHTS]))
-            {
-                $view_option = self::RADIO_OPTION_ANONYMOUS;
-                //right set for anonymous user --> right set for everybody
-            }
-            else if (in_array($publisher, $rights[self::VIEW_RIGHT][self::USER_RIGHTS]))
-            {
-                $view_option = self::RADIO_OPTION_ME;
-                //right set for owner --> right set for nobody else
-            }
-            else if((count($rights[self::VIEW_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
-            {
-                $view_option = self::RADIO_OPTION_GROUPS_USERS;
-                //right set for groups or users
-            }
-            else
-            {
-                $view_option = self::RADIO_OPTION_ALLUSERS;
-                //no rights set --> right set for all platform users
-            }
-            //EDIT RIGHTS
-            if(in_array('1', $rights[self::EDIT_RIGHT][self::USER_RIGHTS]))
-            {
-                $edit_option = self::RADIO_OPTION_ANONYMOUS;
-                //right set for anonymous user --> right set for everybody
-            }
-            else if (in_array($publisher, $rights[self::EDIT_RIGHT][self::USER_RIGHTS]))
-            {
-                $edit_option = self::RADIO_OPTION_ME;
-                //right set for owner --> right set for nobody else
-            }
-            else if((count($rights[self::EDIT_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
-            {
-                $edit_option = self::RADIO_OPTION_GROUPS_USERS;
-                //right set for groups or users
-            }
-            else
-            {
-                $edit_option = self::RADIO_OPTION_ALLUSERS;
-                //no rights set --> right set for all platform users
-            }
-            //FEEDBACK VIEW RIGHTS
-            if(in_array('1', $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]))
-            {
-                $fbv_option = self::RADIO_OPTION_ANONYMOUS;
-            }
-            else if (in_array($location->get_tree_identifier, $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]))
-            {
-                $fbv_option = self::RADIO_OPTION_ME;
-            }
-            else if((count($rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK][self::GROUP_RIGHTS]) >0))
-            {
-                $fbv_option = self::RADIO_OPTION_GROUPS_USERS;
-            }
-            else
-            {
-                $fbv_option = self::RADIO_OPTION_ALLUSERS;
-            }
-            //FEEDBACK GIVE RIGHTS
-            if(in_array('1', $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
-            {
-                $fbg_option = self::RADIO_OPTION_ANONYMOUS;
-            }
-            else if (in_array($publisher, $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
-            {
-                $fbg_option = self::RADIO_OPTION_ME;
-            }
-            else if((count($rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK][self::GROUP_RIGHTS]) >0))
-            {
-                $fbg_option = self::RADIO_OPTION_GROUPS_USERS;
-            }
-            else
-            {
-                $fbg_option = self::RADIO_OPTION_ALLUSERS;
-            }
+                //VIEW RIGHTS
+                if(in_array('1', $rights[self::VIEW_RIGHT][self::USER_RIGHTS]))
+                {
+                    $view_option = self::RADIO_OPTION_ANONYMOUS;
+                    //right set for anonymous user --> right set for everybody
+                }
+                else if (in_array($publisher, $rights[self::VIEW_RIGHT][self::USER_RIGHTS]))
+                {
+                    $view_option = self::RADIO_OPTION_ME;
+                    //right set for owner --> right set for nobody else
+                }
+                else if((count($rights[self::VIEW_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
+                {
+                    $view_option = self::RADIO_OPTION_GROUPS_USERS;
+                    //right set for groups or users
+                }
+                else
+                {
+                    $view_option = self::RADIO_OPTION_ALLUSERS;
+                    //no rights set --> right set for all platform users
+                }
+                //EDIT RIGHTS
+                if(in_array('1', $rights[self::EDIT_RIGHT][self::USER_RIGHTS]))
+                {
+                    $edit_option = self::RADIO_OPTION_ANONYMOUS;
+                    //right set for anonymous user --> right set for everybody
+                }
+                else if (in_array($publisher, $rights[self::EDIT_RIGHT][self::USER_RIGHTS]))
+                {
+                    $edit_option = self::RADIO_OPTION_ME;
+                    //right set for owner --> right set for nobody else
+                }
+                else if((count($rights[self::EDIT_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
+                {
+                    $edit_option = self::RADIO_OPTION_GROUPS_USERS;
+                    //right set for groups or users
+                }
+                else
+                {
+                    $edit_option = self::RADIO_OPTION_ALLUSERS;
+                    //no rights set --> right set for all platform users
+                }
+                //FEEDBACK VIEW RIGHTS
+                if(in_array('1', $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                {
+                    $fbv_option = self::RADIO_OPTION_ANONYMOUS;
+                }
+                else if (in_array($location->get_tree_identifier, $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                {
+                    $fbv_option = self::RADIO_OPTION_ME;
+                }
+                else if((count($rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK][self::GROUP_RIGHTS]) >0))
+                {
+                    $fbv_option = self::RADIO_OPTION_GROUPS_USERS;
+                }
+                else
+                {
+                    $fbv_option = self::RADIO_OPTION_ALLUSERS;
+                }
+                //FEEDBACK GIVE RIGHTS
+                if(in_array('1', $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                {
+                    $fbg_option = self::RADIO_OPTION_ANONYMOUS;
+                }
+                else if (in_array($publisher, $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                {
+                    $fbg_option = self::RADIO_OPTION_ME;
+                }
+                else if((count($rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK][self::GROUP_RIGHTS]) >0))
+                {
+                    $fbg_option = self::RADIO_OPTION_GROUPS_USERS;
+                }
+                else
+                {
+                    $fbg_option = self::RADIO_OPTION_ALLUSERS;
+                }
 
+            }
+            $rights[PortfolioPublicationForm::INHERIT_OR_SET]['option']= $inherits;
+            $rights[PortfolioPublicationForm::RIGHT_EDIT]['option']= $edit_option;
+            $rights[PortfolioPublicationForm::RIGHT_VIEW]['option']= $view_option;
+            $rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK]['option']= $fbv_option;
+            $rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK]['option']= $fbg_option;
+            return $rights;
         }
-        $rights[PortfolioPublicationForm::INHERIT_OR_SET]['option']= $inherits;
-        $rights[PortfolioPublicationForm::RIGHT_EDIT]['option']= $edit_option;
-        $rights[PortfolioPublicationForm::RIGHT_VIEW]['option']= $view_option;
-        $rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK]['option']= $fbv_option;
-        $rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK]['option']= $fbg_option;
-        return $rights;
+        else
+        {
+            return false;
+        }
 
     }
 
@@ -512,7 +522,7 @@ class PortfolioRights {
 
            if(in_array(self::TYPE_PORTFOLIO_FOLDER, $types))
             {
-                //if it is a porfolio on the top level, get the owner from the portfolio_publication table
+                //if it is a portfolio on the top level, get the owner from the portfolio_publication table
                 $owner_id = PortfolioPublication::get_publication_owner($portfolio_identifier);
             }
             else

@@ -1,17 +1,8 @@
 <?php
-/**
- * $Id: survey_publication.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey
- */
-
 require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
 require_once Path :: get_application_path() . 'lib/survey/trackers/survey_participant_tracker.class.php';
 
-/**
- * This class describes a SurveyPublication data object
- * @author Sven Vanpoucke
- * @author 
- */
+
 class SurveyPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
@@ -128,7 +119,7 @@ class SurveyPublication extends DataClass
         $key_type = $template->get_key_type();
                
         $context = SurveyContext :: factory($context_type);
-        $contexts = $context->create_contexts_for_user($key, $key_type);
+        $contexts = $context->create_contexts_for_user($user_id, $key, $key_type);
         
 //        dump($contexts);
 //        exit;
@@ -137,6 +128,7 @@ class SurveyPublication extends DataClass
         $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
         $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
         $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_participant_id;
+        $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $template->get_id();
         
         foreach ($contexts as $cont)
         {
@@ -529,6 +521,22 @@ class SurveyPublication extends DataClass
         $user_ids = array_unique($user_ids);
         $user_ids = array_diff($this->get_target_user_ids(), $user_ids);
         return count($user_ids);
+    
+    }
+    
+	function get_excluded_participants()
+    {
+        $dummy = new SurveyParticipantTracker();
+        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
+        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
+        $user_ids = array();
+        while ($tracker = $trackers->next_result())
+        {
+            $user_ids[] = $tracker->get_user_id();
+        }
+        $user_ids = array_unique($user_ids);
+        $user_ids = array_diff($this->get_target_user_ids(), $user_ids);
+        return $user_ids;
     
     }
 

@@ -46,7 +46,7 @@ class PersonalCalendarEventCalendarEventParser extends PersonalCalendarEventPars
                 $events[] = $event;
             }
         }
-        elseif ($object->get_start_date() >= $from_date && $object->get_start_date() <= $to_date)
+        elseif ($this->is_visible_event($object, $from_date, $to_date))
         {
             $event = new PersonalCalendarEvent();
             $event->set_start_date($object->get_start_date());
@@ -69,6 +69,13 @@ class PersonalCalendarEventCalendarEventParser extends PersonalCalendarEventPars
             $events[] = $event;
         }
         return $events;
+    }
+    
+    private function is_visible_event($event, $from_date, $end_date)
+    {
+    	return ($event->get_start_date() >= $from_date && $event->get_start_date() <= $end_date) ||
+    		   ($event->get_end_date() >= $from_date && $event->get_end_date() <= $end_date) ||
+    		   ($event->get_start_date() < $from_date && $event->get_end_date() > $end_date);
     }
 }
 ?>

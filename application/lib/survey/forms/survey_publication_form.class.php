@@ -22,8 +22,8 @@ class SurveyPublicationForm extends FormValidator
     {
         parent :: __construct('survey_publication_settings', 'post', $action);
 
-        $action = Request :: get(SurveyManager :: PARAM_ACTION);
-        if ($action === SurveyManager :: ACTION_TESTCASE)
+        $testcase = Request :: get(SurveyManager :: PARAM_TESTCASE);
+        if ($testcase === 1)
         {
             $this->testcase = 1;
         }

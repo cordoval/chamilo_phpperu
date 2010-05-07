@@ -35,7 +35,7 @@ class WeblcmsManagerCourseRequestRefuseComponent extends WeblcmsManager
         		}
         		
 				$request = $this->$request_method($request_id);				
-				$request->set_decision_date(Utilities :: to_db_date(time()));
+				$request->set_decision_date(time());
 				$request->set_decision(CommonRequest::DENIED_DECISION);
 							
 				if(!$request->update())

@@ -88,7 +88,7 @@ class CourseRequestForm extends FormValidator
 			$user_name = UserDataManager::get_instance()->retrieve_user($this->user_id)->get_fullname();
 			$this->addElement('static', 'user', Translation :: get('User'), $user_name);
      	
-			$this->add_textfield(CommonRequest :: PROPERTY_TITLE, Translation :: get('Title'),true);
+			$this->add_textfield(CommonRequest :: PROPERTY_SUBJECT, Translation :: get('Subject'),true);
 				
 			$this->add_html_editor(CommonRequest :: PROPERTY_MOTIVATION, Translation :: get('Motivation'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));			
 		}
@@ -106,8 +106,8 @@ class CourseRequestForm extends FormValidator
 			$request_name = $this->parent->retrieve_course($this->request->get_course_id())->get_name();
      		$this->addElement('static', 'request', Translation :: get('Course'), $request_name);
      		
-     		$request_title = $this->request->get_title();
-     		$this->addElement('static', 'request', Translation :: get('Title'), $request_title);
+     		$request_subject = $this->request->get_subject();
+     		$this->addElement('static', 'request', Translation :: get('Subject'), $request_title);
      		
      		$name_user = UserDataManager::get_instance()->retrieve_user($this->request->get_user_id())->get_fullname();
 			$this->addElement('static', 'request', Translation :: get('User'), $name_user);
@@ -149,9 +149,9 @@ class CourseRequestForm extends FormValidator
 		
 		$request->set_course_id($course->get_id());	
 		$request->set_user_id($this->user_id);
-        $request->set_title($values[CommonRequest :: PROPERTY_TITLE]);
+        $request->set_subject($values[CommonRequest :: PROPERTY_SUBJECT]);
         $request->set_motivation($values[CommonRequest :: PROPERTY_MOTIVATION]);
-        $request->set_creation_date(Utilities :: to_db_date(time()));
+        $request->set_creation_date(time());
         $request->set_decision_date($values[CommonRequest :: PROPERTY_DECISION_DATE]);
         $request->set_decision(CommonRequest :: NO_DECISION);	
         
@@ -182,7 +182,7 @@ class CourseRequestForm extends FormValidator
 		
 		$defaults[CourseRequest :: PROPERTY_COURSE_ID] = $request->get_course_id();
 		$defaults[CommonRequest :: PROPERTY_USER_ID] = $request->get_user_id();
-		$defaults[CommonRequest :: PROPERTY_TITLE] = $request->get_title();
+		$defaults[CommonRequest :: PROPERTY_SUBJECT] = $request->get_subject();
 		$defaults[CommonRequest :: PROPERTY_MOTIVATION] = $request->get_motivation();
 		$defaults[CommonRequest :: PROPERTY_CREATION_DATE] = $request->get_creation_date();
 		$defaults[CommonRequest :: PROPERTY_DECISION_DATE] = $request->get_decision_date();

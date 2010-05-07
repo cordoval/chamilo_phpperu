@@ -76,7 +76,7 @@ class SurveyManagerViewerComponent extends SurveyManager
         if ($this->pub->is_test())
         {
             $this->trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-            $this->trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TESTCASE, TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PARTICIPANTS, TestcaseManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('BrowseTestCaseSurveyParticipants')));
+            $this->trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TESTCASES, TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PARTICIPANTS, TestcaseManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('BrowseTestCaseSurveyParticipants')));
 
         }
         else
@@ -108,7 +108,7 @@ class SurveyManagerViewerComponent extends SurveyManager
 
     	parent :: display_header($this->trail);
     	
-        if (count($this->trackers) > 2)
+        if (count($this->trackers) > 1)
         {
             $this->with_menu = true;
         	echo $this->get_menu_html();
@@ -161,6 +161,8 @@ class SurveyManagerViewerComponent extends SurveyManager
     {
         $display = ComplexDisplay :: factory($this, $this->survey->get_type());
         $display->set_root_lo($this->survey);
+        $display->set_template_id($this->active_tracker->get_context_template_id());
+        $display->set_participant_id($this->active_tracker->get_id());
         $display->run();
     }
 
@@ -258,7 +260,8 @@ class SurveyManagerViewerComponent extends SurveyManager
 
 		$context = $this->survey->get_context_instance();
         $explode = explode('$V{', $value);
-
+		      
+        
         $new_value = array();
         foreach ($explode as $part)
         {

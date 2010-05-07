@@ -8,7 +8,7 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="first_page" field="radio" default="0">
+			<setting name="first_page" field="radio" default="1">
 				<options type="static">
 					<option name="browse_portfolio" value="0" />
 					<option name="myportfolio" value="1" />

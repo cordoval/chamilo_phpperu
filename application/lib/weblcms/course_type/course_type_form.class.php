@@ -442,7 +442,7 @@ class CourseTypeForm extends CommonForm
 					if(!$wdm->delete_course_module($tool->course_id, $tool->name))
 						return false;
 				}
-
+				
 				if(!$wdm->create_course_modules($course_modules, $course->get_id()))
 					return false;
 

@@ -64,11 +64,9 @@ class DefaultContentObjectTableCellRenderer implements ObjectTableCellRenderer
             case ContentObject :: PROPERTY_DESCRIPTION :
                 return Utilities :: truncate_string($content_object->get_description(), 50);
             case ContentObject :: PROPERTY_CREATION_DATE :
-                // TODO: i18n
-                return date('Y-m-d, H:i', $content_object->get_creation_date());
+                return DatetimeUtilities :: format_locale_date(null, $content_object->get_creation_date());
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
-                // TODO: i18n
-                return date('Y-m-d, H:i', $content_object->get_creation_date());
+                return DatetimeUtilities :: format_locale_date(null, $content_object->get_modification_date());
             case Translation :: get('Versions') :
                 return $content_object->get_version_count();
             default :

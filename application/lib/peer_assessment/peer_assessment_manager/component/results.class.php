@@ -10,7 +10,7 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManager
 	private $datamanager;
 	private $peer_assessment;
 	private $pid;
-	private $pub;
+	//private $pub;
 	
 	function run()
 	{

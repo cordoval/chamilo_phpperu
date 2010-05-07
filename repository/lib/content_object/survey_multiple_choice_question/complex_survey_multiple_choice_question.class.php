@@ -23,5 +23,10 @@ class ComplexSurveyMultipleChoiceQuestion extends ComplexMultipleChoiceQuestion 
 	function set_visible($value) {
 		$this->set_additional_property ( self::PROPERTY_VISIBLE, $value );
 	}
+	
+	function toggle_visibility() {
+		$this->set_visible ( ! $this->get_visible () );
+	}
+
 }
 ?>

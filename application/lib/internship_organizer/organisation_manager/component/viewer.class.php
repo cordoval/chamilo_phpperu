@@ -20,7 +20,7 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
 		$this->organisation = $this->retrieve_organisation($organisation_id);
 
 		$trail = new BreadcrumbTrail ();
-		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerOrganisationManager::PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION) ), Translation::get ( 'BrowseOrganisations' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerOrganisationManager::PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION) ), Translation::get ( 'BrowseInternshipOrganizerOrganisations' ) ) );
 		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerOrganisationManager::PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id)), $this->organisation->get_name()) );
 
 		$this->action_bar = $this->get_action_bar ();
@@ -50,7 +50,7 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
 	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddLocation'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_location_url($this->organisation), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerLocation'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_location_url($this->organisation), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
 		$action_bar->set_search_url ( $this->get_url (array(InternshipOrganizerOrganisationManager::PARAM_ORGANISATION_ID => $this->organisation->get_id())) );

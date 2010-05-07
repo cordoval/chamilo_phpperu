@@ -77,7 +77,7 @@ class VariableTranslationForm extends FormValidator
     	$values = $this->exportValues();
 
     	$variable_translation->set_translation($values[VariableTranslation :: PROPERTY_TRANSLATION]);
-		$variable_translation->set_date(Utilities :: to_db_date(time()));
+		$variable_translation->set_date(time());
 		$variable_translation->set_user_id($this->user->get_id());
     	
     	return $variable_translation->update();

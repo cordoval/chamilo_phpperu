@@ -357,7 +357,7 @@ class RepositoryDataManager
      */
     public static function count_publication_attributes($user, $object_id, $condition = null)
     {
-        $applications = self :: get_registered_applications();
+    	$applications = self :: get_registered_applications();
         $info = 0;
         foreach ($applications as $index => $application_name)
         {

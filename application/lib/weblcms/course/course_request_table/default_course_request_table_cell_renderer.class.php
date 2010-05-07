@@ -43,8 +43,8 @@ class DefaultCourseRequestTableCellRenderer implements ObjectTableCellRenderer
             case self :: COURSE_NAME :
             	return $this->browser->retrieve_course($request->get_course_id())->get_name();
             	
-            case CommonRequest :: PROPERTY_TITLE :
-                return $request->get_title();
+            case CommonRequest :: PROPERTY_SUBJECT :
+                return $request->get_subject();
                 
             case CommonRequest :: PROPERTY_MOTIVATION :
             	return $request->get_motivation();

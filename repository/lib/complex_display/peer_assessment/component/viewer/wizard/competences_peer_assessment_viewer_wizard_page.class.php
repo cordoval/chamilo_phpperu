@@ -1,5 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/../../../../peer_assessment/component/viewer/wizard/inc/peer_assessment_question_display.class.php';
+/*
+ *	@author Nick Van Loocke
+ */
 
 class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWizardPage
 {
@@ -9,33 +11,14 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
     {
         parent :: PeerAssessmentViewerWizardPage($name, $parent);
         $this->page_number = $page_number;
-        $this->addAction('process', new PeerAssessmentViewerWizardProcess($this));
     }
 
     function buildForm()
     {
-    	dump($_POST);
+    	//dump($_POST);
         $this->_formBuilt = true;    
         
-        // *********************************		
-        // Prints of the list of competences
-        // ********************************* 
-
-    	$html[] = '<div class="assessment">';
-	            
-        // Peer assessment title en description
-        $html[] = '<h2>' . $this->get_parent()->get_peer_assessment()->get_title() . '</h2>';
-            
-        if ($this->get_parent()->get_peer_assessment()->has_description())
-        {
-            $html[] = '<div class="description">';
-            $html[] = $this->get_parent()->get_peer_assessment()->get_description();
-            $html[] = '<div class="clear"></div>';
-            $html[] = '</div>';
-        }
-
         $publication_id = Request :: get('peer_assessment_publication');
-        $competence_id = Request :: get('competence');
         $type = Request :: get('go');
 
         // Content object id
@@ -52,9 +35,43 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 		$users = $this->get_parent()->get_peer_assessment_publication_users($publication_id)->as_array();   
 		$count_users = sizeof($this->get_parent()->get_peer_assessment_publication_users($publication_id)->as_array());
 	    
+    	// From date - To date
+        $from_date = $peer_assessment_publication->get_from_date();
+        $to_date = $peer_assessment_publication->get_to_date();
+            
+        if(($from_date == 0) && ($to_date == 0))
+        {
+            $date_message = Translation :: get('AlwaysOpen');
+        }
+        else
+        {
+            $from_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $from_date);
+            $to_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $to_date);
+          	$date_message = Translation :: get('From') . ' ' .$from_date . ' - ' . Translation :: get('To') . ' ' . $to_date;
+        }
         
-		
-		if($count_users == 0)
+    	// Groups
+        if($count_groups != 0)
+        {
+           	foreach($groups as $group)
+           	{
+           		$group_id = $group->get_group_id();     	
+           		$selected_group = $this->get_parent()->get_group($group_id);
+           		$group_name[] = $selected_group->get_name();
+           			
+           		/*$items++;
+           		if($count_groups > $items)
+           		{
+           			$group_name[] = ','; 
+           			//$html[] = ',';
+           		}*/
+           	} 
+     	}
+     	
+     	
+     	
+     	// Error no users in the peer assessment
+    	if($count_users == 0)
         {
             $html[] = '<div class="clear"></div>';
         	$html[] = '<div class="error-message">';
@@ -62,182 +79,244 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
         	$html[] = '<div class="close_message" id="closeMessage"></div>';
         	$html[] = '</div>';
         }
-		else
-		{
-	        // Header of the table          
-	        $html[] = '<br /><h3>' . Translation :: get('Competence') . '</h3>';
-	        $html[] = '<table class="data_table">';
-	        $html[] = '<thead>';
-	        $html[] = '<tr>';
-	        $html[] = '<th>'. Translation :: get('Type') .'</th>';
-	        $html[] = '<th>' . Translation :: get('Title') . '</th>';
-	        $html[] = '<th>' . Translation :: get('From') . ' - ' . Translation :: get('To') . '</th>';
-	        $html[] = '<th>' . Translation :: get('Groups') . '</th>';
-	        $html[] = '<th>' . Translation :: get('Users') . '</th>';
-	        $html[] = '<th class="numeric">' . Translation :: get('Finished') . '</th>';
-	        $html[] = '<th class="action"></th>';
-	        $html[] = '</tr>';
-	        $html[] = '</thead>';
-	        $html[] = '<tbody>';
-	        
-	        
+        else
+        {
+			// *********************************		
+        	// Prints of the list of competences
+        	// *********************************
+	    	$html[] = '<div class="assessment">';
+		            
+	        // Peer assessment title en description
+	        $html[] = '<h2>' . $this->get_parent()->get_peer_assessment()->get_title() . '</h2>';
+	            
+	        if ($this->get_parent()->get_peer_assessment()->has_description())
+	        {
+	            $html[] = '<div class="description">';
+	            $html[] = $this->get_parent()->get_peer_assessment()->get_description();
+	            $html[] = '<div style="float: right; margin-top: -15px;">'.$date_message.'</div>';
+	            $html[] = '<div class="clear"></div>';
+	            $html[] = '</div>';
+	        }
+			
+			
 			// Retrieve competences
 	        $competences = $this->get_parent()->get_peer_assessment_page_competences($this->get_parent()->get_peer_assessment());
+
+	        $count = 0;
 	        
             foreach($competences as $competence)
             {
-	            	$count = 0;
-	            	
-	            	// Hyperlinks to the list of indicator objects
-	            	$url_indicator_list_take = 'run.php?go=take_publication&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id();
-	            	$url_indicator_list_results = 'run.php?go=view_publication_results&application=peer_assessment&peer_assessment_publication=' . $publication_id . '&competence=' .$competence->get_id();
-	            	  
-	            	//Take peer assessment or view peer assessment results have different url's and images
-	            	if($type == 'take_publication')
-        			{   
-        				// Title link
-	            		$title = '<a href="'. $url_indicator_list_take .'">'.$competence->get_title().'</a>';      
-	            		// Image link	
-	            		$take_peer_assessment = '<a href="'. $url_indicator_list_take .'"><img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/></a>';
-        			}
-        			elseif($type == 'view_publication_results')
-        			{
-        				// Title link
-	            		$title = '<a href="'. $url_indicator_list_results .'">'.$competence->get_title().'</a>';      
-	            		// Image link	
-        				$take_peer_assessment = '<a href="'. $url_indicator_list_results .'"><img src="' . Theme :: get_common_image_path() . 'action_view_results.png' .'" alt=""/></a>';
-        			}            	
-	            	
-	            	// From date - To date
-	            	$from_date = $peer_assessment_publication->get_from_date();
-	            	$to_date = $peer_assessment_publication->get_to_date();
-	            	
-	            	if(($from_date == 0) && ($to_date == 0))
-	            	{
-	            		$date_message = Translation :: get('AlwaysOpen');
-	            	}
-	            	elseif($to_date > time())
-	            	{
-	            		$from_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $from_date);
-	            		$to_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $to_date);
-	            		$date_message = $from_date . ' - ' . $to_date;
-	            	}
-	            	else
-	            	{
-	            		$from_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $from_date);
-	            		$to_date = DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $to_date);
-	            		$date_message = $from_date . ' - ' . $to_date;
-	            		
-	            		            		
-	            		if($type == 'take_publication')
-	            		{
-	            			$title = '<b>'.$competence->get_title().'</b>';
-	            			$take_peer_assessment = '<img src="' . Theme :: get_common_image_path() . 'action_next.png' .'" alt=""/>';		            	
-	            		}
-	            		elseif($type == 'view_publication_results')
-	        			{
-	        				$title = '<a href="'. $url_indicator_list_results .'">'.$competence->get_title().'</a>';      
-	        				$take_peer_assessment = '<a href="'. $url_indicator_list_results .'"><img src="' . Theme :: get_common_image_path() . 'action_view_results.png' .'" alt=""/></a>';
-	        			}
-	            	}
-	            	
-	            	$html[] = '<tr>';
-	            	$html[] = '<td><img src="'. Theme :: get_common_image_path() . 'content_object/competence.png' .'" alt=""/></td>';
-	            	$html[] = '<td>'. $title .'</td>';
-	            	$html[] = '<td>'. $date_message .'</td>';
-	            	$html[] = '<td>';
-            	
-	            	// Groups
-	            	if($count_groups != 0)
-	            	{
-		           		foreach($groups as $group)
-		           		{
-		           			$group_id = $group->get_group_id();     	
-		           			$selected_group = $this->get_parent()->get_group($group_id);
-		           			$group_name = $selected_group->get_name();
-		           			$html[] = $group_name;
-		           			
-		           			$items++;
-		           			if($count_groups > $items)
-		           			{
-		           				$html[] = ',';
-		           			}
-		           		} 
-	            	}
-	            	else
-	            	{
-	            		$html[] = Translation :: get('NoGroups');
-	            	}
-	            	$html[] = '</td>';
-	            	$html[] = '<td>';
-            	
-            	
-	            	// Users			            				            	
-	            	if($count_users != 0)
-	            	{
-	            		$items = 0;
-		            	foreach($users as $user)
-		           		{
-		           			$user_id = $user->get_user();     	
-		           			$selected_user = $this->get_parent()->get_user($user_id);
-		           			$full_user_name = $selected_user->get_firstname() .' '. $selected_user->get_lastname();
-		           			$html[] = $full_user_name;	
-		           			
-		           			$items++;
-		           			if($count_users > $items)
-		           			{
-		           				$html[] = ',';
-		           			}
-		           		}  
-	            	}
- 	            	
-	            	$html[] = '</td>';
-	            	
-	            	
-	            	//if($competence->isFinished())
-	            	//{
-	            	//	  $image = 'button_start';
-	            	//}
-	            	//else
-	            	//{
-	            		$image = 'button_cancel';
-	            	//}
-	            	
-	            		
-	            	$html[] = '<td><img src="' . Theme :: get_common_image_path() . 'buttons/'.$image.'.png' .'" alt="" /></td>';
-	            	$html[] = '<td>'. $take_peer_assessment .'</td>';
-	            	$html[] = '</tr>';	
-            }
-            
-            $html[] = '</tbody>';
-            $html[] = '</table>';
-            
-            $html[] = '<br />';
-            $html[] = '</div>';
-            
-		}
+            	if($count > 0)
+            	{
+            		unset($html);
+            	}
 
-        // Echo's the $html array
-        echo implode("\n", $html);        
-    }
+            	// Retrieve indicators
+            	$indicators = $this->get_parent()->get_peer_assessment_page_indicators_via_competence($this->get_parent()->get_peer_assessment(), $competence);
+            	
+            	if(sizeof($indicators) > 0)
+            	{
+            		$count++;
+            		
+	            	$html[] = '<br/>';
+					$html[] = '<div class="question">';
+			        $html[] = '<div class="title">';
+			        $html[] = '<div class="number">';
+			        $html[] = '<div class="bevel">';
+			        $html[] = $count. '.';
+			        $html[] = '</div>';
+			        $html[] = '</div>';
+			        $html[] = '<div class="text">';
+			        
+			        $html[] = '<div class="bevel" style="float: left; margin-left: -8px;">';
+			        $html[] = '<div style="margin-top: 2px; margin-left: 4px">'.$competence->get_title().'</div>';
+			        $html[] = '</div>';
+			        $html[] = '<div class="bevel" style="text-align: right;">';
+			        $html[] = '<img src="'. Theme :: get_common_image_path() . 'content_object/competence.png' .'" alt=""/>';
+			        $html[] = '<div class="clear"></div>';
+			        $html[] = '</div>';
+			        
+			        $html[] = '</div>';
+			        $html[] = '<div class="clear"></div>';
+			        $html[] = '</div>';
+			        $html[] = '<div class="answer">';
+			        
+		            $html[] = '<div class="description" style="background-color: #fff;">';
+		            $html[] = $competence->get_description();
+		            $html[] = '<div class="clear"></div>';
+		            $html[] = '</div>';
+		            
+		            // Prints of the table header
+	    			$this->addElement('html', implode("\n", $html));
+	    	
+		            $this->take_peer_assessment($users, $indicators, $competence, $publication_id);
+		            
+		            $html_end[] = '</div>';
+			        
+			        $html_end[] = '<div class="clear"></div>';
+			        
+			        $this->addElement('html', implode("\n", $html_end));
 
-    /*function get_page_number()
-    {
-        return $this->page_number;
+            	} 
+            }         
+            $this->criteria_overview($publication_id);	 
+			$this->submit();
+			
+			$assessment_div[] = '</div>';
+			$assessment_div[] = '</div>';
+			$this->addElement('html', implode("\n", $assessment_div));
+				
+        }
     }
     
-    function get_criteria($criteria_score, $user_id, $form)
-    {	
-		$form->addElement('select', 'criteria_score_of_user_id_'. $user_id, '', $criteria_score);	
-		//$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive finish'));
-		//$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-		return $form;
+    
+    // ****************************************************		
+    // Prints of the list of indicators for each competence
+    // ****************************************************
+    function take_peer_assessment($users, $indicators, $competence, $publication_id)
+    {
+    	$renderer = $this->defaultRenderer();
+
+    	
+    	$table_header[] = '<div style="overflow: auto;">';
+    	$table_header[] = '<table class="data_table take_assessment">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th></th>';
+        $table_header[] = '<th></th>';
+        
+        foreach ($users as $user)
+        {
+        	$user_id = $user->get_user();     	
+           	$selected_user = $this->get_parent()->get_user($user_id);
+           	$full_user_name = $selected_user->get_firstname() .' '. $selected_user->get_lastname();
+            $table_header[] = '<th>' . $full_user_name . '</th>';
+        }
+        
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+    	
+    	// Prints of the table header
+    	$this->addElement('html', implode("\n", $table_header));
+    	
+    	// Prints of a table row with properties foreach indicator
+        foreach($indicators as $indicator)
+        {
+			unset($group);
+			$group[] = $this->createElement('static', null, null, '<img src="'. Theme :: get_common_image_path() . 'content_object/indicator.png' .'" alt=""/>');
+			$group[] = $this->createElement('static', null, null, $indicator->get_title());
+                		
+
+			// Retrieve peer assessment_publication
+	       	$peer_assessment_publication = new PeerAssessmentPublication();
+	    	$publication = $peer_assessment_publication->get_data_manager()->retrieve_peer_assessment_publication($publication_id);
+	    	
+	    	// Criteria id
+			$criteria_id = $publication->get_criteria_content_object_id();
+			
+			// Retrieve criteria            
+			$criteria_overview = $this->get_parent()->get_peer_assessment_page_criteria($this->get_parent()->get_peer_assessment(), $criteria_id);
+			
+			
+			$criteria_scores = array();
+            $criteria_scores[0] = Translation :: get('SelectScore');
+			
+	        $criteria_options = $criteria_overview->get_options();
+	        foreach($criteria_options as $score)
+	        {
+	            $criteria_scores[] = $score->get_score();
+	        }
+        
+
+            // Retrieve results
+            $results = new PeerAssessmentPublicationResults();
+        	$result = $results->get_data_manager()->retrieve_peer_assessment_publication_result($indicator->get_id());
+        	
+        	foreach($users as $user)
+        	{
+        		$publication_id = Request :: get("peer_assessment_publication");
+        		$competence_id = $competence->get_id();
+        		$indicator_id = $indicator->get_id();
+        		$user_id = Session :: get_user_id();
+        		$graded_user_id = $user->get_user();
+        						
+				$group[] = $select = $this->createElement('select', 'select[c'.$competence_id.'i'.$indicator_id.'u'.$graded_user_id.']', '', $criteria_scores);
+					
+				// Show the values that already has been submitted
+				$publication_result = $this->get_parent()->get_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id);
+
+				if($publication_result != null)
+				{
+					$select->setSelected($publication_result->get_score());
+				}
+        	}
+
+            $this->addGroup($group, 'options_', null, '', false);
+   		}
+ 
+	    $renderer->setElementTemplate('<tr id="options_">{element}</tr>', 'options_');
+	    $renderer->setGroupElementTemplate('<td>{element}</td>', 'options_');
+            
+        $table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $table_footer[] = '</div>';
+        
+        // Prints of the table footer
+        $this->addElement('html', implode("\n", $table_footer));
     }
     
-	function get_feedback($user_id, $form)
+    
+    // *******************************	
+    // Prints of the criteria overview
+    // *******************************
+    function criteria_overview($publication_id)
+    {   	
+    	// Retrieve peer assessment_publication
+       	$peer_assessment_publication = new PeerAssessmentPublication();
+    	$publication = $peer_assessment_publication->get_data_manager()->retrieve_peer_assessment_publication($publication_id);
+    	
+    	// Criteria id
+		$criteria_id = $publication->get_criteria_content_object_id();
+		
+		// Retrieve criteria            
+		$criteria_overview = $this->get_parent()->get_peer_assessment_page_criteria($this->get_parent()->get_peer_assessment(), $criteria_id);
+		
+		// Overview of the criteria (score and description)
+        $overview[] = '<div style="float: left;">';
+        $overview[] = '<br/>'. Translation :: get('OverviewOfTheCriteria');
+        $overview[] = '<ul>';
+
+        $criteria_options = $criteria_overview->get_options();
+        foreach($criteria_options as $score_and_description)
+        {
+            $overview[] = '<li>'. Translation :: get('CriteriaScore') .': <b>'. $score_and_description->get_score() .'</b> |  '. Translation :: get('CriteriaDescription') .': <b>'. $score_and_description->get_description() .'</b></li>';
+        }
+
+        $overview[] = '</ul>';
+        $overview[] = '</div>';
+		
+    	// Prints of the overview of the criteria
+		$this->addElement('html', implode("\n", $overview));		
+    }
+    
+    
+    // ***************************	
+    // Prints of the submit button
+    // ***************************
+    function submit()
     {
-		$form->addElement('textarea', 'feedback_to_user_id_'. $user_id, '');	
-		return $form;
-    }*/
+    	// Submit button
+		$button[] = '<div style="float: right; margin-top: 15px">';
+        $button[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'))->toHtml();
+        $button[] = '</div>';
+        
+        // Prints of the submit button
+		$this->addElement('html', implode("\n", $button));
+		
+		// Process: create, update, ... the peer assessment
+		$this->addAction('process', new PeerAssessmentViewerWizardProcess($this));
+    }
+    
 }
 ?>

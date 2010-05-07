@@ -10,7 +10,7 @@
 			default="0" />
 		<property name="display_order" type="integer" unsigned="1"
 			notnull="1" default="0" />
-		<property name="add_date" type="timestamp" />
+		<property name="add_date" type="integer" unsigned="1" notnull="1" />
 	</properties>
 	<index name="ref_id">
 		<indexproperty name="ref_id" />

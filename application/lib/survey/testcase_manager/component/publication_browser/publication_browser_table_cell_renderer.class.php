@@ -61,6 +61,9 @@ class TestcaseSurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPub
         
         $toolbar_data[] = array('href' => $this->browser->get_browse_survey_participants_url($survey_publication), 'label' => Translation :: get('Participants'), 'img' => Theme :: get_common_image_path().'action_subscribe.png');
         
+        $toolbar_data[] = array('href' => $this->browser->get_browse_survey_excluded_users_url($survey_publication), 'label' => Translation :: get('ExcludedUsers'), 'img' => Theme :: get_common_image_path().'action_unsubscribe.png');
+        
+        
         //$toolbar_data[] = array('href' => $this->browser->get_survey_results_viewer_url($survey_publication), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
         
 

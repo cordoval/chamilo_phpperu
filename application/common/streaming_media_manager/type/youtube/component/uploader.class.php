@@ -14,17 +14,25 @@ class YoutubeStreamingMediaManagerUploaderComponent extends YoutubeStreamingMedi
 
             if ($upload_token)
             {
-                $platform_url = Redirect :: web_link(PATH :: get(WEB_PATH) . '/application/common/streaming_media_manager/index.php', $this->get_parameters());
-            	$next_url = $upload_token['url'] .'?nexturl=' . $platform_url;
+           		$parameters = $this->get_parameters();
+                $parameters[StreamingMediaManager::PARAM_STREAMING_MEDIA_MANAGER_ACTION] = StreamingMediaManager::ACTION_BROWSE_STREAMING_MEDIA;
+                $parameters[YoutubeStreamingMediaManager::PARAM_FEED_TYPE] = YoutubeStreamingMediaManager::FEED_TYPE_MYVIDEOS;
+                
+            	if ($this->is_stand_alone())
+                {
+                	$platform_url = Redirect :: get_web_link(PATH :: get(WEB_PATH) . 'common/launcher/index.php', $parameters);
+                }
+                else
+                {
+                	$platform_url = Redirect :: get_web_link(PATH :: get(WEB_PATH) . 'core.php', $parameters);
+                }
+
+            	$next_url = $upload_token['url'] .'?nexturl=' . urlencode($platform_url);
             	$form = new YoutubeStreamingMediaManagerUploadForm($next_url, $upload_token['token']);
             	$this->display_header($trail, false);
             	$form->display();
             	$this->display_footer();
             }
-//            else
-//            {
-//                $this->redirect(Translation :: get('GroupNotCreated'), (true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
-//            }
         }
         else
         {

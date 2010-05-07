@@ -188,7 +188,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         $this->addElement('html', '<div class="description"><br />');
             
         $application_name = Utilities :: underscores_to_camelcase($application_name);
-        
+        $application_name = strtolower($application_name);
         $application->add_publication_attributes_elements($this);
             
         foreach ($locations as $id => $location)

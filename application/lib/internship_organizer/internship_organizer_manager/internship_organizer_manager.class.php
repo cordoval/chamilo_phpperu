@@ -16,6 +16,8 @@ require_once Path::get_application_path () . 'lib/internship_organizer/region_ma
 
 require_once Path::get_application_path () . 'lib/internship_organizer/mentor_manager/mentor_manager.class.php';
 
+require_once Path::get_application_path () . 'lib/internship_organizer/period_manager/period_manager.class.php';
+
 class InternshipOrganizerManager extends WebApplication
 {
 	const APPLICATION_NAME = 'internship_organizer';
@@ -26,6 +28,7 @@ class InternshipOrganizerManager extends WebApplication
 	const ACTION_APPLICATION_CHOOSER = 'chooser';
 	const ACTION_REGION = 'region';
 	const ACTION_MENTOR = 'mentor';		
+	const ACTION_PERIOD = 'period';
 	
 	/**
 	 * Constructor
@@ -63,6 +66,9 @@ class InternshipOrganizerManager extends WebApplication
 			case self::ACTION_MENTOR :
 				$component = $this->create_component('Mentor');
 				break;
+			case self::ACTION_PERIOD :
+				$component = $this->create_component('Period');
+				break;
 			default :
 				$this->set_action ( self::ACTION_APPLICATION_CHOOSER );
 				$component = $this->create_component('ApplicationChooser');
@@ -99,6 +105,12 @@ class InternshipOrganizerManager extends WebApplication
 	function get_mentor_application_url() 
 	{
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_MENTOR ) );
+	
+	}
+	
+	function get_period_application_url() 
+	{
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_PERIOD ) );
 	
 	}
 	
