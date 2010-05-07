@@ -87,15 +87,17 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		return $this->applications;
 	}
 	
-	function get_internal_application_tabs($applications)
+	function get_internal_application_tabs($applications, $current_application = null)
 	{
         $html = array();
-        
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
         $html[] = '<div class="application_selecter">';
-        
         foreach ($applications as $the_application)
         {
+       		if(Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE) == $the_application)
+            {
+            	$selected_tab = $index - 1;
+            }
             if (isset($current_application) && $current_application == $the_application)
             {
                 $type = 'application current';
@@ -114,7 +116,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         
         $html[] = '</div>';
         $html[] = '<div style="clear: both;"></div>';
-        
         return implode("\n", $html);
 	}
 	
@@ -151,7 +152,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '</a></li>';
         $html[] = '</ul>';
         $html[] = '<div id="internal">';
-        $html[] = $this->get_internal_application_tabs($this->applications);
+        $html[] = $this->get_internal_application_tabs($this->applications, $this->application);
         $html[] = '<h2>' . ucfirst($this->application) . '</h2>';
         if ($this->application)
         {

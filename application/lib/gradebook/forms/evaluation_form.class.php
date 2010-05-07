@@ -175,6 +175,7 @@ class EvaluationForm extends FormValidator
 		$evaluation->set_user_id($this->publisher_id);
 		$evaluation->set_evaluation_date(time());		
 		$evaluation->set_format_id($export_values['format_id']);
+		
 		if($evaluation->create())
 		{
 			$evaluation_succes = true;
@@ -211,7 +212,10 @@ class EvaluationForm extends FormValidator
 		$evaluation->set_evaluator_id($this->user->get_id());
 		$evaluation->set_user_id($this->publisher_id);
 		$evaluation->set_evaluation_date(time());		
-		$evaluation->set_format_id($values['format_id']);
+		if (PlatformSetting :: get_instance()->get('allow_change_format_on_update', 'gradebook'))
+		{
+			$evaluation->set_format_id($values['format_id']);
+		}
 		if(!$evaluation->update())
 		{
 			return false;
