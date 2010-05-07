@@ -118,4 +118,5 @@ $lang['survey']['Hidden'] = 'Verborgen';
 $lang['survey']['Update'] = 'Wijzigen';
 $lang['survey']['Reset'] = 'Wissen';
 $lang['survey']['SharedContentObjects'] = 'Gedeelde inhoudsobjecten';
+$lang['survey']['SurveyFinishText'] = 'Eindtekst';
 ?>
