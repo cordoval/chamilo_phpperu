@@ -128,7 +128,7 @@ class WeblcmsInstaller extends Installer
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
 		
-		$wdm = WeblcmsDataManager :: get_instance();
+		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
@@ -143,7 +143,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 
-		$succes &= $wdm->create_course_modules($course_modules, 1);
+		$succes &= $wdm->create_course_modules($course_modules, 1);*/
 		
 		//Common course 2
 		$course = new Course();
@@ -174,7 +174,7 @@ class WeblcmsInstaller extends Installer
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
 		
-		$wdm = WeblcmsDataManager :: get_instance();
+		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
@@ -189,7 +189,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 
-		$succes &= $wdm->create_course_modules($course_modules, 2);
+		$succes &= $wdm->create_course_modules($course_modules, 2);*/
 		
 		//Common Course 3
 		$course = new Course();
@@ -220,7 +220,7 @@ class WeblcmsInstaller extends Installer
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
 		
-		$wdm = WeblcmsDataManager :: get_instance();
+		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
@@ -235,7 +235,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 
-		$succes &= $wdm->create_course_modules($course_modules, 3);
+		$succes &= $wdm->create_course_modules($course_modules, 3);*/
 		
 		
 		//Common Course 4
@@ -267,7 +267,7 @@ class WeblcmsInstaller extends Installer
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
 		
-		$wdm = WeblcmsDataManager :: get_instance();
+		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
@@ -282,7 +282,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 
-		$succes &= $wdm->create_course_modules($course_modules, 4);
+		$succes &= $wdm->create_course_modules($course_modules, 4);*/
 		
 		//Common course 5 
 		$course = new Course();
@@ -313,7 +313,7 @@ class WeblcmsInstaller extends Installer
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
 		
-		$wdm = WeblcmsDataManager :: get_instance();
+		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
@@ -328,7 +328,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 
-		$succes &= $wdm->create_course_modules($course_modules, 5);
+		$succes &= $wdm->create_course_modules($course_modules, 5);*/
 
 		//Curricula coursetype course 1
 		$course = new Course();
@@ -358,7 +358,7 @@ class WeblcmsInstaller extends Installer
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
 		
-		$wdm = WeblcmsDataManager :: get_instance();
+		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
@@ -372,7 +372,7 @@ class WeblcmsInstaller extends Installer
 			$course_module->set_sort($index);
 			$course_modules[] = $course_module;
 		}
-		$succes &= $wdm->create_course_modules($course_modules, 6);
+		$succes &= $wdm->create_course_modules($course_modules, 6);*/
 		
 		//Curricula coursetype course 2
 		$course = new Course();
@@ -400,7 +400,7 @@ class WeblcmsInstaller extends Installer
 		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
-		$wdm = WeblcmsDataManager :: get_instance();
+		/*$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
 		
 		$wdm = WeblcmsDataManager :: get_instance();
@@ -417,7 +417,7 @@ class WeblcmsInstaller extends Installer
 			$course_module->set_sort($index);
 			$course_modules[] = $course_module;
 		}
-		$succes &= $wdm->create_course_modules($course_modules, 7);
+		$succes &= $wdm->create_course_modules($course_modules, 7);*/
 		
 		//Curricula coursetype course 3
 		$course = new Course();
@@ -448,7 +448,7 @@ class WeblcmsInstaller extends Installer
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
 		
-		$wdm = WeblcmsDataManager :: get_instance();
+		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
@@ -462,7 +462,7 @@ class WeblcmsInstaller extends Installer
 			$course_module->set_sort($index);
 			$course_modules[] = $course_module;
 		}
-		$succes &= $wdm->create_course_modules($course_modules, 8);
+		$succes &= $wdm->create_course_modules($course_modules, 8);*/
 		
 		//No CourseType
 		$course = new Course();
@@ -493,7 +493,7 @@ class WeblcmsInstaller extends Installer
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
 		
-		$wdm = WeblcmsDataManager :: get_instance();
+		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
@@ -507,7 +507,7 @@ class WeblcmsInstaller extends Installer
 			$course_module->set_sort($index);
 			$course_modules[] = $course_module;
 		}
-		$succes &= $wdm->create_course_modules($course_modules, 9);
+		$succes &= $wdm->create_course_modules($course_modules, 9);*/
 		
 		//No CourseType
 		$course = new Course();
@@ -538,7 +538,7 @@ class WeblcmsInstaller extends Installer
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
 		
-		$wdm = WeblcmsDataManager :: get_instance();
+		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
 
@@ -552,7 +552,7 @@ class WeblcmsInstaller extends Installer
 			$course_module->set_sort($index);
 			$course_modules[] = $course_module;
 		}
-		$succes &= $wdm->create_course_modules($course_modules, 10);
+		$succes &= $wdm->create_course_modules($course_modules, 10);*/
 		
 		return $succes;
 	}
