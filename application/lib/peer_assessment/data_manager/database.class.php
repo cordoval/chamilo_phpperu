@@ -480,6 +480,10 @@ class DatabasePeerAssessmentDataManager extends PeerAssessmentDataManager
         return $this->database->retrieve_object(PeerAssessmentPublicationResults :: get_table_name(), $condition, array(), PeerAssessmentPublicationResults :: CLASS_NAME);
 	}
 	
+	function retrieve_peer_assessment_publication_results($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->database->retrieve_objects(PeerAssessmentPublicationResults :: get_table_name(), $condition, $offset, $max_objects, $order_by, PeerAssessmentPublicationResults :: CLASS_NAME);
+    }
 	
 	
 	// Criteria
