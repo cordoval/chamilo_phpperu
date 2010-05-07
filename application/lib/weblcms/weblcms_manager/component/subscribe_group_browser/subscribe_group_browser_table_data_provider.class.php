@@ -12,6 +12,8 @@
 class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
+    private $object_count;
+    private $preloaded_result_set = null;
     /**
      * Constructor
      * @param RepositoryManagerComponent $browser
@@ -20,6 +22,7 @@ class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
     function SubscribeGroupBrowserTableDataProvider($browser, $condition)
     {
         parent :: __construct($browser, $condition);
+        $this->get_objects();
     }
 
     /**
@@ -31,19 +34,24 @@ class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        $order_property = $this->get_order_property($order_property);
-        
-        $groups_result = GroupDataManager :: get_instance()->retrieve_groups($this->get_condition(), $offset, $count, $order_property);
-        $groups = array();
-        $course = parent::get_browser()->get_course();
-        while($group = $groups_result->next_result())
-        {
-        	if($course->can_group_subscribe($group->get_id()) == CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT)
-        	{
-        		$groups[] = $group;
-        	}
-        }
-        return new ArrayResultSet($groups);
+    	if(is_null($this->preloaded_result_set))
+    	{
+	        $order_property = $this->get_order_property($order_property);
+	        
+	        $groups_result = GroupDataManager :: get_instance()->retrieve_groups($this->get_condition(), $offset, $count, $order_property);
+	        $groups = array();
+	        $course = parent::get_browser()->get_course();
+	        while($group = $groups_result->next_result())
+	        {
+	        	if($course->can_group_subscribe($group->get_id()) == CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT)
+	        	{
+	        		$groups[] = $group;
+	        	}
+	        }
+	        $this->object_count = count($groups);
+	        $this->preloaded_result_set = new ArrayResultSet($groups);
+    	}
+        return $this->preloaded_result_set;
     }
 
     /**
@@ -52,7 +60,7 @@ class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        return GroupDataManager :: get_instance()->count_groups($this->get_condition());
+        return $this->object_count;
     }
 }
 ?>
