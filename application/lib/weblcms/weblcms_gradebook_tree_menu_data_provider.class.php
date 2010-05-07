@@ -4,10 +4,8 @@ require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu_item.cl
 
 require_once dirname(__FILE__) . '/course/course_user_relation.class.php';
 
-class WeblcmsGradebookTreeMenuDataProvider extends TreeMenuDataProvider
+class WeblcmsGradebookTreeMenuDataProvider extends GradebookTreeMenuDataProvider
 {
-	const PARAM_ID = 'category_id';
-	
 	public function get_tree_menu_data()
 	{
 		$menu_item = new TreeMenuItem();
@@ -30,22 +28,20 @@ class WeblcmsGradebookTreeMenuDataProvider extends TreeMenuDataProvider
 			$tools = $course->get_tools();
 			foreach($tools as $tool)
 			{
-				$tool_item = new TreeMenuItem();
-				$tool_item->set_title($tool->name);
-				$tool_item->set_id();
-				$tool_item->set_url($this->format_url('C' . $course->get_id() . '_T'.$tool->name));
-				$tool_item->set_class('tool');
-				$course_item->add_child($tool_item);
+        		if(PlatformSetting :: get_instance()->get('allow_evaluate_' . $tool->name, 'gradebook'))
+        		{
+					$tool_item = new TreeMenuItem();
+					$tool_item->set_title($tool->name);
+					$tool_item->set_id();
+					$tool_item->set_url($this->format_url('C' . $course->get_id() . '_T'.$tool->name));
+					$tool_item->set_class('tool');
+					$course_item->add_child($tool_item);
+        		}
 			}
 			
 			$menu_item->add_child($course_item);
 		}
 		return $menu_item;
 	}
-    
-    public function get_id_param()
-    {
-    	return self :: PARAM_ID;
-    }
 }
 ?>

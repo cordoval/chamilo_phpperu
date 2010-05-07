@@ -12,7 +12,7 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
             $trail = new BreadcrumbTrail();
             $trail->add_help('course_type_active_changer');
             $this->display_header($trail);
-            Display :: error_message(Translation :: get("Not allowed"));
+            Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
         }
@@ -50,9 +50,9 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
 			}
             
 			if($active == 0)
-				$message = $this->get_result($failures, count($course_type_id), 'EvaluationFormatNotDeactivated' , 'EvaluationFormatsNotDeactivated', 'EvaluationFormatDeactivated', 'EvaluationFormatsDeactivated');
+				$message = $this->get_result($failures, count($evaluation_format_id), 'EvaluationFormatNotDeactivated' , 'EvaluationFormatsNotDeactivated', 'EvaluationFormatDeactivated', 'EvaluationFormatsDeactivated');
 			else
-				$message = $this->get_result($failures, count($course_type_id), 'EvaluationFormatNotActivated' , 'EvaluationFormatsNotActivated', 'EvaluationFormatActivated', 'EvaluationFormatsActivated');
+				$message = $this->get_result($failures, count($evaluation_format_id), 'EvaluationFormatNotActivated' , 'EvaluationFormatsNotActivated', 'EvaluationFormatActivated', 'EvaluationFormatsActivated');
 			
             $this->redirect($message, ($failures > 0), array(Application :: PARAM_ACTION => GradebookManager:: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS));
         

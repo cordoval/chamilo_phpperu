@@ -85,7 +85,7 @@ class EvaluationForm extends FormValidator
 	    		}
     		}
             $this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
-    		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('score'));
+    		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('Score'));
             $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ValueShouldBeNumeric'), 'numeric');
 			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('DecimalValueNotAllowed'), $score_rule);
 			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule);
