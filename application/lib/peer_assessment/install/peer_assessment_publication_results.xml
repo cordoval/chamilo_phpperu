@@ -7,9 +7,9 @@
 		<property name="indicator_id" type="integer" unsigned="1" notnull="1" />
 		<property name="user_id" type="integer" unsigned="1" notnull="1" />
 		<property name="graded_user_id" type="integer" unsigned="1" notnull="1" />
-		<property name="score" type="integer" unsigned="1" notnull="1" />
-		<property name="feedback" type="text" length="200" default=""/>
-		<property name="finished" type="boolean" default="0" />
+		<property name="score" type="integer" unsigned="1" notnull="1" default="0" />
+		<property name="feedback" type="text" unsigned="1" length="200" default="null"/>
+		<property name="finished" type="boolean" unsigned="1" default="0" />
 	</properties>
 	<index name="publication_id">
 		<indexproperty name="publication_id" />

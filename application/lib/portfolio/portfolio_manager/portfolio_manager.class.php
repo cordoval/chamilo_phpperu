@@ -12,11 +12,12 @@ require_once dirname(__FILE__) . '/../portfolio_publication.class.php';
  */
 class PortfolioManager extends WebApplication
 {
+
     const APPLICATION_NAME = 'portfolio';
     
     const PARAM_PORTFOLIO_PUBLICATION = 'portfolio_publication';
     const PARAM_PORTFOLIO_ITEM = 'portfolio_item';
-    const PARAM_USER_ID = 'user_id';
+    const PARAM_PORTFOLIO_OWNER_ID = 'poid';
     const PARAM_PARENT = 'parent';
     const PARAM_PARENT_PORTFOLIO = 'parent_portfolio';
     
@@ -73,7 +74,7 @@ class PortfolioManager extends WebApplication
                 {
                     $this->set_action(self :: ACTION_VIEW_PORTFOLIO);
                     $component = $this->create_component('Viewer');
-                    $_GET['user_id'] = $this->get_user_id();
+                    $_GET[self::PARAM_PORTFOLIO_OWNER_ID] = $this->get_user_id();
                 }
         
         }
@@ -98,46 +99,64 @@ class PortfolioManager extends WebApplication
         return PortfolioDataManager :: get_instance()->retrieve_portfolio_publications($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_portfolio_publication($id)
+    static function retrieve_portfolio_publication($id)
     {
         return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication($id);
     }
-
-    function count_portfolio_publication_groups($condition)
+    static function retrieve_portfolio_item($id)
     {
-        return PortfolioDataManager :: get_instance()->count_portfolio_publication_groups($condition);
+        $rdm = RepositoryDataManager :: get_instance();
+        $complex_object = $rdm->retrieve_complex_content_object_item($id);
+        if($complex_object)
+        {
+            $portfolio_item = $rdm->retrieve_content_object($complex_object->get_ref());
+            if ($portfolio_item->get_type() == PortfolioItem :: get_type_name())
+            {
+                     $content = $rdm->retrieve_content_object($portfolio_item->get_reference());
+            }
+        }
+        if(!isset($content))
+        {
+            $content = false;
+        }
+        return $content;
     }
 
-    function retrieve_portfolio_publication_groups($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_groups($condition, $offset, $count, $order_property);
-    }
+//    function count_portfolio_publication_groups($condition)
+//    {
+//        return PortfolioDataManager :: get_instance()->count_portfolio_publication_groups($condition);
+//    }
+//
+//    function retrieve_portfolio_publication_groups($condition = null, $offset = null, $count = null, $order_property = null)
+//    {
+//        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_groups($condition, $offset, $count, $order_property);
+//    }
 
-    function retrieve_portfolio_publication_group($id)
-    {
-        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_group($id);
-    }
+//    function retrieve_portfolio_publication_group($id)
+//    {
+//        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_group($id);
+//    }
+//
+//    function count_portfolio_publication_users($condition)
+//    {
+//        return PortfolioDataManager :: get_instance()->count_portfolio_publication_users($condition);
+//    }
 
-    function count_portfolio_publication_users($condition)
-    {
-        return PortfolioDataManager :: get_instance()->count_portfolio_publication_users($condition);
-    }
-
-    function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition, $offset, $count, $order_property);
-    }
-
+//    function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null)
+//    {
+//        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition, $offset, $count, $order_property);
+//    }
+//
     static function retrieve_portfolio_publication_user($pid)
     {
         return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_user($pid);
     }
-    
+
     static function retrieve_portfolio_item_user($cid)
     {
         return PortfolioDataManager :: get_instance()->retrieve_portfolio_item_user($cid);
     }
-    
+
 
     function get_create_portfolio_publication_url()
     {
@@ -161,7 +180,7 @@ class PortfolioManager extends WebApplication
 
     function get_view_portfolio_url($user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PORTFOLIO, self :: PARAM_USER_ID => $user));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PORTFOLIO, self :: PARAM_PORTFOLIO_OWNER_ID => $user));
     }
 
     function get_browse_url()
@@ -223,15 +242,21 @@ class PortfolioManager extends WebApplication
         return array();
     }
 
-    function publish_content_object($content_object, $location)
+    function publish_content_object($content_object, $location, $owner_id = null)
     {
         $publication = new PortfolioPublication();
         $publication->set_content_object($content_object->get_id());
         $publication->set_publisher(Session :: get_user_id());
+        //TODO change if we want to allow other users to publish in someone's portfolio
+        if($owner_id != null)
+        {
+            $publication->set_owner($owner_id);
+        }
+        else
+        {
+            $publication->set_owner(Session :: get_user_id());
+        }
         $publication->set_published(time());
-//        $publication->set_hidden(0);
-//        $publication->set_from_date(0);
-//        $publication->set_to_date(0);
         $publication->create();
         return Translation :: get('PublicationCreated');
     }

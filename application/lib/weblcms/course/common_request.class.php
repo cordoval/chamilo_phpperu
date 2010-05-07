@@ -18,7 +18,7 @@ class CommonRequest extends DataClass
 	const CREATION_REQUEST = 'creation_request';
     
     const PROPERTY_USER_ID = 'user_id';
-    const PROPERTY_TITLE = 'title';
+    const PROPERTY_SUBJECT = 'subject';
     const PROPERTY_MOTIVATION = 'motivation';
     const PROPERTY_CREATION_DATE = 'creation_date';
     const PROPERTY_DECISION_DATE = 'decision_date';
@@ -29,7 +29,7 @@ class CommonRequest extends DataClass
         return parent :: get_default_property_names(
         	   array_merge($extended_property_names, array(
         		  self :: PROPERTY_USER_ID,
-        		  self :: PROPERTY_TITLE,
+        		  self :: PROPERTY_SUBJECT,
         		  self :: PROPERTY_MOTIVATION,
         		  self :: PROPERTY_CREATION_DATE,
         		  self :: PROPERTY_DECISION_DATE,
@@ -46,9 +46,9 @@ class CommonRequest extends DataClass
     	return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
     
-    function get_title()
+    function get_subject()
     {
-    	return $this->get_default_property(self :: PROPERTY_TITLE);
+    	return $this->get_default_property(self :: PROPERTY_SUBJECT);
     }
     
     function get_motivation()
@@ -76,9 +76,9 @@ class CommonRequest extends DataClass
     	return $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
     }
     
-    function set_title($title)
+    function set_subject($subject)
     {
-    	$this->set_default_property(self :: PROPERTY_TITLE, $title);
+    	$this->set_default_property(self :: PROPERTY_SUBJECT, $subject);
     }
 
     function set_motivation($motivation)

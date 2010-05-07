@@ -26,9 +26,8 @@ class SurveyManagerBuilderComponent extends SurveyManager
     function display_header($trail)
     {
         $new_trail = new BreadcrumbTrail();
-        $action = Request :: get(SurveyManager :: PARAM_ACTION);
-        $testcase = false;
-        if ($action === SurveyManager :: ACTION_TESTCASE)
+        $testcase = Request :: get(SurveyManager :: PARAM_TESTCASE);
+        if ($testcase === 1)
         {
             $testcase = true;
         }

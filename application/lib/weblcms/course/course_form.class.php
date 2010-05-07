@@ -503,7 +503,7 @@ class CourseForm extends CommonForm
 	    			$groups[] = $group->get_group_id();
 	    		if(count($groups)>0)
 	    		{
-	    			$this->addElement('static', 'static_'.strtolower($type).'_subscribe_for', Translation :: get($type.'SubscribeFor'), Translation :: get('SubscribedGroups'));
+	    			$this->addElement('static', 'static_'.strtolower($type).'_subscribe_for', Translation :: get($type.'SubscribeFor'));
 	    			$this->addElement('hidden', $target_option, 1);
 	        		$tree = new RightsTreeRenderer($groups);
 	        		$tree = $tree->render_as_tree();
@@ -532,6 +532,7 @@ class CourseForm extends CommonForm
         $this->addElement('html', '<div id="unsubscribeBlock">');
         if($course_unsubscribe_disabled)
        	{
+	        $this->addElement('hidden', 'unsubscribe_fixed' , 1);
        		$groups_result = WeblcmsDataManager::get_instance()->retrieve_course_type_group_rights_by_type($this->course_type_id, CourseGroupSubscribeRight::UNSUBSCRIBE);
     		$groups = array();
     		while($group = $groups_result->next_result())
@@ -631,18 +632,14 @@ class CourseForm extends CommonForm
 		$course->set_layout($this->fill_layout());
 		$course->set_rights($this->fill_rights());
 		
-		if(!$course->create())
-			return false;
-		
-        $wdm = WeblcmsDataManager :: get_instance();
 		if(!empty($this->course_type_id))
 			$tools = $this->object->get_course_type()->get_tools();
 		else
 			$tools = WeblcmsDataManager :: get_tools('basic');
-
-		$selected_tools = $this->fill_tools($tools);
-
-		if(!$wdm->create_course_modules($selected_tools, $this->object->get_id()))
+			
+		$course->set_tools(CourseModule :: convert_tools($tools, null, !empty($this->course_type_id), $this));
+		
+		if(!$course->create())
 			return false;
 			
 		$course_subscribe_rights = $this->fill_subscribe_rights();
@@ -667,11 +664,13 @@ class CourseForm extends CommonForm
 		$right = $this->can_user_create($this->user);
        	if($right == CourseTypeGroupCreationRight::CREATE_REQUEST && $this->form_type == self::TYPE_CREATE)
        		return $course;
-        elseif ($wdm->subscribe_user_to_course($course, '1', '1', $user_id))
+        elseif (WeblcmsDatamanager::get_instance()->subscribe_user_to_course($course, '1', '1', $user_id))
             return true;
         else
             return false;
     }
+    
+    function fill_tools($tools){}
 
     function fill_general_settings()
     {
@@ -695,26 +694,6 @@ class CourseForm extends CommonForm
         $course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
         return $course;
     }
-
-	function fill_tools($tools)
-	{
-		$tools_array = array();
-
-		foreach($tools as $index => $tool)
-		{
-			if(!empty($this->course_type_id))
-				$tool = $tool->get_name();
-			$element_default = $tool . "elementdefault";
-			$course_module = new CourseModule();
-			$course_module->set_course_code($this->object->get_id());
-			$course_module->set_name($tool);
-			$course_module->set_visible($this->parse_checkbox_value($this->getSubmitValue($element_default)));
-			$course_module->set_section("basic");
-			$course_module->set_sort($index);
-			$tools_array[] = $course_module;
-		}
-		return $tools_array;
-	}
 
     /**
      * Sets default values. Traditionally, you will want to extend this method

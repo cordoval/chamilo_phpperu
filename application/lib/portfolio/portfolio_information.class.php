@@ -35,7 +35,7 @@ class PortfolioInformation extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
+        return parent :: get_default_property_names(array(self::PROPERTY_USER_ID, self::PROPERTY_LAST_UPDATED_DATE, self::PROPERTY_LAST_UPDATED_ITEM, self::PROPERTY_LAS_UPDATED_ITEM_TYPE, self::PROPERTY_LAST_ACTION));
     }
 
     /**
@@ -119,18 +119,73 @@ class PortfolioInformation extends DataClass
     function get_portfolio_info_text()
     {
         //TODO implement text
-        $text = Translation :: get('Introduction');
-        $text .= '</br>';
+        $text = '<div>';
+        $text .= Translation :: get('PortfolioIntroduction');
+        
+        $text .= '</div><div>';
         $text .= Translation :: get('LastChangedDate');
-        $text .= $this->get_last_updated_date();
-        $text .= '</br>';
+        $text .= ' : ';
+        //TODO: formating according to locale & timezone!
+        $text .= date('j/m/Y (H:i)', $this->get_last_updated_date());
+        $text .= '</div><div>';
         $text .= Translation :: get('LastChangedAction');
-        $text .= $this->get_last_action();
-        $text .= $this->get_last_updated_item_type();
-        $text .= '</br>';
+        $text .= ' : ';
+        $action = $this->get_last_action();
+        if($action == self::ACTION_EDITED)
+        {
+            $text .= Translation :: get('PortfolioEdited');
+        }
+        else if($action == self::ACTION_FIRST_PORTFOLIO_CREATED)
+        {
+            $text .= Translation :: get('FirstPortfolioCreated');
+        }
+        else if($action == self::ACTION_ITEM_ADDED)
+        {
+            $text .= Translation :: get('PortfolioItemAdded');
+        }
+        else if($action == self::ACTION_PORTFOLIO_ADDED)
+        {
+            $text .= Translation :: get('PortfolioAdded');
+        }
+        else
+        {
+            $text .= Translation :: get('PortfolioChanged');
+        }
+        $text .= '</div><div>';
         $text .= Translation :: get('LastChangedItem');
-        $text .= $this->get_last_updated_item_id();
-        $text .= '</br>';
+        $text .= ' : ';
+        $type = $this->get_last_updated_item_type();
+        $id = $this->get_last_updated_item_id();
+        if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
+        {
+//            $pub = PortfolioManager::retrieve_portfolio_publication($id);
+            $pub = ContentObject::get_by_id($id);
+            if($pub)
+            {
+                $text .= $pub->get_title();
+            }
+        }
+        else if($type == PortfolioRights::TYPE_PORTFOLIO_ITEM || $type == PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER )
+        {
+            $rdm = RepositoryDataManager :: get_instance();
+            $wrapper = $rdm->retrieve_content_object($id);
+            $item = $rdm->retrieve_content_object($wrapper->get_reference());
+            if($item)
+            {
+                $text .= $item->get_title();
+            }
+        }
+        else
+        {
+            $text.=$type;
+            $text.='  /  ' ;
+            $text.=$id;
+
+        }
+
+        $text .= '</div>';
+
+        return $text;
     }
 
 

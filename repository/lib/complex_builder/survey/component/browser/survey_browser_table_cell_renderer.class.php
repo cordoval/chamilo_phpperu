@@ -63,7 +63,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         {
             $toolbar_data[] = array('label' => Translation :: get('EditNA'), 'img' => Theme :: get_common_image_path() . 'action_edit_na.png');
         }
-        $configure_url = $this->browser->get_configure_url ( $cloi, $this->browser->get_root () );
+        $configure_url = $this->browser->get_configure_url ( $cloi);
         $delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi, $this->browser->get_root());
         $moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
         $movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);

@@ -14,6 +14,7 @@ class TestcaseManager extends SubManager
 	const ACTION_DELETE_SURVEY_PUBLICATION = 'delete';
 	const ACTION_UPDATE_SURVEY_PUBLICATION = 'update';
 	const ACTION_BROWSE_SURVEY_PARTICIPANTS = 'browse_participants';
+	const ACTION_BROWSE_SURVEY_EXCLUDED_USERS = 'browse_excluded_users';
 	const ACTION_VIEW_SURVEY_PUBLICATION = 'view_survey_publication';
 	const ACTION_REPORTING = 'reporting';
 	const ACTION_BUILD_SURVEY = 'build';
@@ -37,31 +38,29 @@ class TestcaseManager extends SubManager
 		
 		switch ($action) 
 		{
-			case self::ACTION_CREATE_SURVEY_PUBLICATION :
-				$component = $this->create_component('Creator', $this->get_survey_manager () );
-				break;
-			case self::ACTION_DELETE_SURVEY_PUBLICATION :
-				$component = $this->create_component('Deleter', $this->get_survey_manager () );
-				break;
-			case self::ACTION_UPDATE_SURVEY_PUBLICATION :
-				$component = $this->create_component('Updater', $this->get_survey_manager () );
-				break;
-			case self::ACTION_REPORTING :
-				$component = $this->create_component('Reporting', $this->get_survey_manager () );
-				break;
-				case self::ACTION_BUILD_SURVEY :
-				$component = $this->create_component('Builder', $this->get_survey_manager () );
-				break;
+//			case self::ACTION_CREATE_SURVEY_PUBLICATION :
+//				$component = $this->create_component('Creator' );
+//				break;
+//			case self::ACTION_DELETE_SURVEY_PUBLICATION :
+//				$component = $this->create_component('Deleter' );
+//				break;
+//			case self::ACTION_UPDATE_SURVEY_PUBLICATION :
+//				$component = $this->create_component('Updater' );
+//				break;
+//			case self::ACTION_REPORTING :
+//				$component = $this->create_component('Reporting');
+//				break;
+//				case self::ACTION_BUILD_SURVEY :
+//				$component = $this->create_component('Builder' );
+//				break;
 			case self::ACTION_BROWSE_SURVEY_PUBLICATIONS :
 				$component = $this->create_component('Browser');
 				break;
 			case self::ACTION_BROWSE_SURVEY_PARTICIPANTS :
 				$component = $this->create_component('ParticipantBrowser');
 				break;
-			case self::ACTION_VIEW_SURVEY_PUBLICATION :
-				dump($this->get_parent());
-				exit;
-				$component = $this->get_parent()->create_component('Viewer', $this->get_parent() );
+			case self::ACTION_BROWSE_SURVEY_EXCLUDED_USERS :
+				$component = $this->create_component('UserBrowser');
 				break;
 			case self::ACTION_CHANGE_TEST_TO_PRODUCTION :
 				$component = $this->create_component('Changer');
@@ -81,7 +80,6 @@ class TestcaseManager extends SubManager
 	
 	function get_survey_manager() 
 	{
-		dump($this->get_parent());
 		return $this->get_parent();
 	}
 	
@@ -90,32 +88,32 @@ class TestcaseManager extends SubManager
 
 	function get_create_survey_publication_url() 
 	{
-		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_CREATE_SURVEY_PUBLICATION ) );
+		return $this->get_url ( array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_CREATE_SURVEY_PUBLICATION, SurveyManager::PARAM_TESTCASE => '1') );
 	}
 	
 	function get_update_survey_publication_url($survey_publication) 
 	{
-		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_UPDATE_SURVEY_PUBLICATION, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
+		return $this->get_url ( array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_EDIT_SURVEY_PUBLICATION, SurveyManager::PARAM_TESTCASE => '1' , SurveyManager::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
 	}
 	
 	function get_delete_survey_publication_url($survey_publication) 
 	{
-		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_DELETE_SURVEY_PUBLICATION, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
+		return $this->get_url ( array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_DELETE_SURVEY_PUBLICATION, SurveyManager::PARAM_TESTCASE => '1' ,SurveyManager::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
 	}
 	
 	function get_reporting_survey_publication_url($survey_publication) 
 	{
-		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_REPORTING, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
+		return $this->get_url ( array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_REPORTING, SurveyManager::PARAM_TESTCASE => '1' , SurveyManager::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
 	}
 	
 	function get_build_survey_url($survey_publication) 
 	{
-		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BUILD_SURVEY, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
+		return $this->get_url ( array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_BUILD_SURVEY, SurveyManager::PARAM_TESTCASE => '1' , SurveyManager::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
 	}
 	
 	function get_browse_survey_publication_url() 
 	{
-		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_SURVEY_PUBLICATIONS ) );
+		return $this->get_url ( array (SurveyManager::PARAM_ACTION => SurveyManager::ACTION_BROWSE_SURVEY_PUBLICATIONS ) );
 	}
 	
 	function get_browse_survey_participants_url($survey_publication) 
@@ -123,9 +121,14 @@ class TestcaseManager extends SubManager
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_SURVEY_PARTICIPANTS, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
 	}
 	
+	function get_browse_survey_excluded_users_url($survey_publication) 
+	{
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_SURVEY_EXCLUDED_USERS, self::PARAM_SURVEY_PUBLICATION => $survey_publication->get_id () ) );
+	}
+	
 	function get_survey_publication_viewer_url($survey_participant) 
 	{
-		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_VIEW_SURVEY_PUBLICATION, self::PARAM_SURVEY_PARTICIPANT => $survey_participant->get_id () ) );
+		return $this->get_url ( array (SurveyManager :: PARAM_ACTION => SurveyManager ::  ACTION_VIEW_SURVEY_PUBLICATION, SurveyManager::PARAM_TESTCASE => '1' , SurveyManager :: PARAM_SURVEY_PARTICIPANT => $survey_participant->get_id () ) );
 	}
 	
 	function get_change_test_to_production_url($survey_publication) 

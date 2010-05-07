@@ -46,12 +46,12 @@ class SurveyStudentContext extends SurveyContext
         $this->set_additional_property(self :: PROPERTY_EMAIL, $email);
     }
 
-    static public function get_display_name()
-    {
-        return Translation :: get('Student');
-    }
+//    static public function get_display_name()
+//    {
+//        return Translation :: get('Student');
+//    }
 
-    static public function create_contexts_for_user($key, $key_type = self :: PROPERTY_USERNAME_KEY)
+    static public function create_contexts_for_user($user_id, $key, $key_type = self :: PROPERTY_USERNAME_KEY)
     {
         
         if ($key_type == self :: PROPERTY_USERNAME_KEY)

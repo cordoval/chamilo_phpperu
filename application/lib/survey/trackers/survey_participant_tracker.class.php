@@ -60,7 +60,7 @@ class SurveyParticipantTracker extends MainTracker
             $this->set_status($status);
         }
         
-        $this->set_date(DatabaseRepositoryDataManager :: to_db_date(time()));
+        $this->set_date(time());
         $this->set_progress($progress);
         $this->set_context_id($context);
         $this->set_context_template_id($context_template);

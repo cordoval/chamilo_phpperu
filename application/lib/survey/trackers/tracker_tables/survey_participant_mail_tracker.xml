@@ -8,7 +8,7 @@
 			unsigned="1" notnull="1" />
 		<property name="survey_publication_mail_id" type="integer"
 			unsigned="1" notnull="1" />	
-		<property name="send_date" type="timestamp" notnull="1" />
+		<property name="send_date" type="integer" unsigned="1" notnull="1" />
 		<property name="status" type="integer" default='0' />
 	</properties>
 	<index name="survey_publication_id">

@@ -36,7 +36,7 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManager
                 
                 foreach ($users as $user_id)
                 {
-                    if ($user_id != $this->get_user_id())
+                    if (!is_null($user_id) && $user_id != $this->get_user_id())
                     {
                         if (! $this->unsubscribe_user_from_course($course, $user_id))
                         {

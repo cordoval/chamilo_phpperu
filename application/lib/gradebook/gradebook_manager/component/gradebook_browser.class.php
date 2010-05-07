@@ -12,7 +12,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	private $ab;
 	private $content_object_ids = array();
 	private $application;
-	
+	private $data_provider;
 	private $applications;
 	private $table;
 	private $menu;
@@ -32,8 +32,8 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 			$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_TYPE, $this->application);
 			$parameters = $this->get_parameters();
 			$parameters[GradebookManager :: PARAM_ACTION]=  GradebookManager :: ACTION_VIEW_HOME;
-			$data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url());
-			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $data_provider);
+			$this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url());
+			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $this->data_provider);
 			
 //			if($this->application == 'weblcms')
 //			{
@@ -72,11 +72,13 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	
 	function get_condition()
 	{
-		
-		//$conditions = array();
-		$condition = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application);
-//		$conditions[] = new InCondition(InternalItem :: PROPERTY_ID, $applications_array);
-//		$condition = new AndCondition($conditions);
+		$category_id = Request :: get($this->data_provider->get_id_param());
+		if(!$category_id)
+			$category_id = 'C0';
+		$conditions = array();
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $this->application);
+		$conditions[] = new EqualityCondition(InternalItem :: PROPERTY_CATEGORY, $category_id);
+		$condition = new AndCondition($conditions);
 		return $condition;
 	}
 	
@@ -85,15 +87,17 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		return $this->applications;
 	}
 	
-	function get_internal_application_tabs($applications)
+	function get_internal_application_tabs($applications, $current_application = null)
 	{
         $html = array();
-        
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
         $html[] = '<div class="application_selecter">';
-        
         foreach ($applications as $the_application)
         {
+       		if(Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE) == $the_application)
+            {
+            	$selected_tab = $index - 1;
+            }
             if (isset($current_application) && $current_application == $the_application)
             {
                 $type = 'application current';
@@ -112,7 +116,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         
         $html[] = '</div>';
         $html[] = '<div style="clear: both;"></div>';
-        
         return implode("\n", $html);
 	}
 	
@@ -149,7 +152,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '</a></li>';
         $html[] = '</ul>';
         $html[] = '<div id="internal">';
-        $html[] = $this->get_internal_application_tabs($this->applications);
+        $html[] = $this->get_internal_application_tabs($this->applications, $this->application);
         $html[] = '<h2>' . ucfirst($this->application) . '</h2>';
         if ($this->application)
         {

@@ -3,7 +3,7 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="user_id" type="integer" unsigned="1" notnull="1" />
-		<property name="date" type="timestamp" notnull="1" />
+		<property name="date" type="integer" unsigned="1" notnull="1" />
 		<property name="publication_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="forum_topic_id" type="integer" unsigned="1"

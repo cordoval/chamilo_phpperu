@@ -103,7 +103,7 @@ class UserToolGroupSubscribeBrowserComponent extends UserToolComponent
     }
 
     function get_condition()
-    {
+    {	
         $conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_group());
 
         $query = $this->action_bar->get_query();

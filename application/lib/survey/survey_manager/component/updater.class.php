@@ -16,8 +16,8 @@ class SurveyManagerUpdaterComponent extends SurveyManager
     function run()
     {
         
-        $action = Request :: get(SurveyManager :: PARAM_ACTION);
-        if ($action === SurveyManager :: ACTION_TESTCASE)
+        $testcase = Request :: get(SurveyManager :: PARAM_TESTCASE);
+        if ($testcase ===1)
         {
             $this->testcase = true;
         }

@@ -1,25 +1,32 @@
 <?php
-abstract class PeerAssessmentQuestionDisplay
+/**
+ * $Id: survey_question_display.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * @package repository.lib.complex_display.survey.component.viewer.wizard.inc
+ */
+abstract class SurveyQuestionDisplay
 {
-    /*private $clo_question;
+    private $clo_question;
     private $question;
     private $question_nr;
     private $formvalidator;
     private $renderer;
-    private $peer_assessment;
+    private $survey;
     private $page_nr;
+    private $answer;
 
-    function PeerAssessmentQuestionDisplay($formvalidator, $clo_question, $question_nr, $question, $peer_assessment, $page_nr)
+    function SurveyQuestionDisplay($formvalidator, $clo_question, $question_nr, $question, $survey, $page_nr, $answer)
     {
+
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
-        
+
         $this->clo_question = $clo_question;
         $this->question_nr = $question_nr;
         $this->question = $question;
-        $this->peer_assessment = $peer_assessment;
+        $this->survey = $survey;
         $this->page_nr = $page_nr;
-    }
+        $this->answer = $answer;
+     }
 
     function get_clo_question()
     {
@@ -41,14 +48,19 @@ abstract class PeerAssessmentQuestionDisplay
         return $this->formvalidator;
     }
 
-    function get_peer_assessment()
+    function get_survey()
     {
-        return $this->peer_assessment;
+        return $this->survey;
     }
 
     function get_page_nr()
     {
         return $this->page_nr;
+    }
+
+	function get_answer()
+    {
+        return $this->answer;
     }
 
     function display()
@@ -60,11 +72,11 @@ abstract class PeerAssessmentQuestionDisplay
             $header = array();
             $header[] = $this->get_instruction();
             $header[] = '<div class="with_borders">';
-            
+
             $formvalidator->addElement('html', implode("\n", $header));
         }
         $this->add_question_form();
-        
+
         if ($this->add_borders())
         {
             $footer = array();
@@ -80,8 +92,8 @@ abstract class PeerAssessmentQuestionDisplay
     function add_header()
     {
         $formvalidator = $this->formvalidator;
-     
-        $html[] = '<div class="question">';
+
+        $html[] = '<div class="question" id="survey_question_'. $this->question->get_id() .'">';
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
         $html[] = '<div class="bevel">';
@@ -91,26 +103,26 @@ abstract class PeerAssessmentQuestionDisplay
         $html[] = '<div class="text">';
         $html[] = '<div class="bevel">';
         $title = $this->question->get_title();
-        $html[] = $this->parse($title);
-        
+        $html[] = $title;
+
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="answer">';
-        
+
         $description = $this->question->get_description();
         if ($this->question->has_description())
         {
             $html[] = '<div class="description">';
-            
-            $html[] = $this->parse($description);
+
+            $html[] = $description;
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div>';
         }
-        
+
         $html[] = '<div class="clear"></div>';
-        
+
         $header = implode("\n", $html);
         $formvalidator->addElement('html', $header);
     }
@@ -118,10 +130,10 @@ abstract class PeerAssessmentQuestionDisplay
     function add_footer($formvalidator)
     {
         $formvalidator = $this->formvalidator;
-        
+
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         $footer = implode("\n", $html);
         $formvalidator->addElement('html', $footer);
     }
@@ -133,52 +145,25 @@ abstract class PeerAssessmentQuestionDisplay
 
     abstract function get_instruction();
 
-    static function factory($formvalidator, $clo_question, $question_nr, $peer_assessment, $page_nr)
+    static function factory($formvalidator, $clo_question, $question_nr, $survey, $page_nr)
     {
         $question = $clo_question;
         $type = $question->get_type();
-        
-        $file = dirname(__FILE__) . '/peer_assessment_question_display/' . $type . '.class.php';
+
+        $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
 
         if (! file_exists($file))
         {
             die('file does not exist: ' . $file);
         }
-        
+
         require_once $file;
-        
+
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
-        $question_display = new $class($formvalidator, $clo_question, $question_nr, $question, $peer_assessment, $page_nr);
+        $question_display = new $class($formvalidator, $clo_question, $question_nr, $question, $survey, $page_nr);
         return $question_display;
     }
-
-    function parse($value)
-    {
-        $context = $this->peer_assessment->get_context_instance();
-        $explode = explode('$V{', $value);
-        
-        $new_value = array();
-        foreach ($explode as $part)
-        {
-            
-            $vars = explode('}', $part);
-            
-            if (count($vars) == 1)
-            {
-                $new_value[] = $vars[0];
-            }
-            else
-            {
-                $var = $vars[0];
-                
-                $replace = $context->get_additional_property($var);
-                
-                $new_value[] = $replace . ' ' . $vars[1];
-            }
-        
-        }
-        return implode(' ', $new_value);
-    }*/
+    
 
 }
 ?>

@@ -41,7 +41,7 @@ class SurveyParticipantMailTracker extends MainTracker
         $this->set_survey_publication_id($publication_id);
         $this->set_survey_publication_mail_id($publication_mail_id);
         $this->set_status($status);
-        $this->set_send_date(DatabaseRepositoryDataManager :: to_db_date(time()));
+        $this->set_send_date(time());
         
         $this->create();
         

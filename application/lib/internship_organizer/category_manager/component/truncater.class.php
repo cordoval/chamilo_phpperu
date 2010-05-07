@@ -45,7 +45,7 @@ class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrg
                 }
                 else
                 {
-                    $message = 'SelectedInternshipOrganizerCategorysNotEmptied';
+                    $message = 'SelectedInternshipOrganizerCategoriesNotEmptied';
                 }
             }
             else
@@ -56,7 +56,7 @@ class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrg
                 }
                 else
                 {
-                    $message = 'SelectedInternshipOrganizerCategorysEmptied';
+                    $message = 'SelectedInternshipOrganizerCategoriesEmptied';
                 }
             
             }
@@ -68,7 +68,7 @@ class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrg
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoInternshipOrganizerCategorySelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoInternshipOrganizerCategoriesSelected')));
         }
     }
 }
