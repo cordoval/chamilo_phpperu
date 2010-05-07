@@ -69,9 +69,9 @@ class Zend_Gdata_App_MediaFileSource extends Zend_Gdata_App_BaseMediaSource
      */
     public function encode()
     {
-    	if ($this->getFilename() !== null &&
+        if ($this->getFilename() !== null &&
             is_readable($this->getFilename())) {
-	
+
             // Retrieves the file, using the include path
             $fileHandle = fopen($this->getFilename(), 'r', true);
             $result = fread($fileHandle, filesize($this->getFilename()));

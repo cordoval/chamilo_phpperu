@@ -35,7 +35,7 @@ abstract class StreamingMediaManager extends SubManager
 	}
 	
 	abstract function is_editable($id);
-		
+
 	static function factory($type, $application)
 	{
 		$file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_streaming_media_manager.class.php';
