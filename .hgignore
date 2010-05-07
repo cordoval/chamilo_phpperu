@@ -34,8 +34,6 @@ syntax: regexp
 syntax: regexp
 ^youtube\.php$
 syntax: regexp
-^plugin/gdata$
-syntax: regexp
 ^layout/ruby/images/common/background_header\.png$
 syntax: regexp
 ^layout/ruby/images/common/background_footer\.png$
