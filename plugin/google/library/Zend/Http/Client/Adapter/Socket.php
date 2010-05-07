@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Socket.php 20947 2010-02-06 17:09:07Z padraic $
+ * @version    $Id: Socket.php 21778 2010-04-06 11:19:35Z shahar $
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -62,11 +62,11 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
 
     /**
      * Stream for storing output
-     *
+     * 
      * @var resource
      */
     protected $out_stream = null;
-
+    
     /**
      * Parameters array
      *
@@ -222,7 +222,7 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
             $flags = STREAM_CLIENT_CONNECT;
             if ($this->config['persistent']) $flags |= STREAM_CLIENT_PERSISTENT;
 
-            $this->socket = stream_socket_client($host . ':' . $port,
+            $this->socket = @stream_socket_client($host . ':' . $port,
                                                   $errno,
                                                   $errstr,
                                                   (int) $this->config['timeout'],
@@ -290,13 +290,13 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
             // Add the request body
             $request .= "\r\n" . $body;
         }
-
+        
         // Send the request
         if (! @fwrite($this->socket, $request)) {
             require_once 'Zend/Http/Client/Adapter/Exception.php';
             throw new Zend_Http_Client_Adapter_Exception('Error writing request to server');
         }
-
+        
         if(is_resource($body)) {
             if(stream_copy_to_stream($body, $this->socket) == 0) {
                 require_once 'Zend/Http/Client/Adapter/Exception.php';
@@ -326,7 +326,7 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
                 if (rtrim($line) === '') break;
             }
         }
-
+        
         $this->_checkSocketReadTimeout();
 
         $statusCode = Zend_Http_Response::extractCode($response);
@@ -353,7 +353,7 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
 
         // If we got a 'transfer-encoding: chunked' header
         if (isset($headers['transfer-encoding'])) {
-
+            
             if (strtolower($headers['transfer-encoding']) == 'chunked') {
 
                 do {
@@ -384,7 +384,7 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
                         if($this->out_stream) {
                             if(stream_copy_to_stream($this->socket, $this->out_stream, $read_to - $current_pos) == 0) {
                               $this->_checkSocketReadTimeout();
-                              break;
+                              break;   
                              }
                         } else {
                             $line = @fread($this->socket, $read_to - $current_pos);
@@ -408,7 +408,7 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
                 throw new Zend_Http_Client_Adapter_Exception('Cannot handle "' .
                     $headers['transfer-encoding'] . '" transfer encoding');
             }
-
+            
             // We automatically decode chunked-messages when writing to a stream
             // this means we have to disallow the Zend_Http_Response to do it again
             if ($this->out_stream) {
@@ -417,17 +417,25 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
         // Else, if we got the content-length header, read this number of bytes
         } elseif (isset($headers['content-length'])) {
 
+            // If we got more than one Content-Length header (see ZF-9404) use
+            // the last value sent
+            if (is_array($headers['content-length'])) {
+                $contentLength = $headers['content-length'][count($headers['content-length']) - 1]; 
+            } else {
+                $contentLength = $headers['content-length'];
+            }
+            
             $current_pos = ftell($this->socket);
             $chunk = '';
 
-            for ($read_to = $current_pos + $headers['content-length'];
+            for ($read_to = $current_pos + $contentLength;
                  $read_to > $current_pos;
                  $current_pos = ftell($this->socket)) {
 
                  if($this->out_stream) {
                      if(@stream_copy_to_stream($this->socket, $this->out_stream, $read_to - $current_pos) == 0) {
                           $this->_checkSocketReadTimeout();
-                          break;
+                          break;   
                      }
                  } else {
                     $chunk = @fread($this->socket, $read_to - $current_pos);
@@ -450,7 +458,7 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
                 if($this->out_stream) {
                     if(@stream_copy_to_stream($this->socket, $this->out_stream) == 0) {
                           $this->_checkSocketReadTimeout();
-                          break;
+                          break;   
                      }
                 }  else {
                     $buff = @fread($this->socket, 8192);
@@ -481,7 +489,7 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
      */
     public function close()
     {
-        if (is_resource($this->socket)) fclose($this->socket);
+        if (is_resource($this->socket)) @fclose($this->socket);
         $this->socket = null;
         $this->connected_to = array(null, null);
     }
@@ -507,19 +515,19 @@ class Zend_Http_Client_Adapter_Socket implements Zend_Http_Client_Adapter_Interf
             }
         }
     }
-
+    
     /**
      * Set output stream for the response
-     *
+     * 
      * @param resource $stream
      * @return Zend_Http_Client_Adapter_Socket
      */
-    public function setOutputStream($stream)
+    public function setOutputStream($stream) 
     {
         $this->out_stream = $stream;
         return $this;
     }
-
+    
     /**
      * Destructor: make sure the socket is disconnected
      *
