@@ -249,11 +249,6 @@ class ConditionTranslator
         {
             $value = $condition->get_value();
 
-            if ($data_manager->is_date_column($name))
-            {
-                $value = self :: to_db_date($value);
-            }
-
             if (is_null($value))
             {
                 return $this->data_manager->escape_column_name($name, $storage_unit) . ' IS NULL';
@@ -264,11 +259,6 @@ class ConditionTranslator
         elseif ($condition instanceof InequalityCondition)
         {
             $value = $condition->get_value();
-
-            if ($data_manager->is_date_column($name))
-            {
-                $value = self :: to_db_date($value);
-            }
 
             switch ($condition->get_operator())
             {
@@ -329,19 +319,5 @@ class ConditionTranslator
         return ' WHERE ' . $this->translate($condition);
     }
 
-    /**
-     * Converts a UNIX timestamp (as returned by time()) to a datetime string
-     * for use in SQL queries.
-     * @param int $date The date as a UNIX timestamp.
-     * @return string The date in datetime format.
-     */
-    static function to_db_date($date)
-    {
-        if (isset($date))
-        {
-            return date('Y-m-d H:i:s', $date);
-        }
-        return null;
-    }
 }
 ?>

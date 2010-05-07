@@ -113,11 +113,11 @@ class UserManagerUserDetailComponent extends UserManager
 			case 'active':
 				return $value ? Translation :: get('True') : Translation :: get('False');
 			case 'activation_date':
-				return $value == 0 ? Translation :: get('Forever') : Utilities :: to_db_date($value);
+				return $value == 0 ? Translation :: get('Forever') : DatetimeUtilities :: format_locale_date(null, $value);
 			case 'expiration_date':
-				return $value == 0 ? Translation :: get('Forever') : Utilities :: to_db_date($value);
+				return $value == 0 ? Translation :: get('Forever') : DatetimeUtilities :: format_locale_date(null, $value);
 			case 'registration_date':
-				return Utilities :: to_db_date($value);
+				return DatetimeUtilities :: format_locale_date(null, $value);
 			default: return $value;
 		}
 	}

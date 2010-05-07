@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../question_display.class.php';
 
-class MatrixQuestionDisplay extends QuestionDisplay
+class AssessmentMatrixQuestionDisplay extends QuestionDisplay
 {
 
     function add_question_form()
