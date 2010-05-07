@@ -108,6 +108,7 @@ $lang['survey']['SelectYourChoice'] = 'Select your choice';
 $lang['survey']['SelectYourChoices'] = 'Select your choices';
 $lang['survey']['ChooseYourRating'] = 'Choose your rating';
 $lang['survey']['ChooseYourOptionMatch'] = 'Choose your option match';
+$lang['survey']['SurveyFinishText'] = 'Survey Finish Text';
 
 $lang['survey']['Logout'] = 'Logout';
 
