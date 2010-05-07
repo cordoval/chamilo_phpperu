@@ -87,12 +87,11 @@ class Zend_Http_Client_Adapter_Proxy extends Zend_Http_Client_Adapter_Socket
      */
     public function connect($host, $port = 80, $secure = false)
     {
-        
-    	// If no proxy is set, fall back to Socket adapter
+        // If no proxy is set, fall back to Socket adapter
         if (! $this->config['proxy_host']) {
             return parent::connect($host, $port, $secure);
         }
-
+        
         /* Url might require stream context even if proxy connection doesn't */
         if ($secure) {
         	$this->config['sslusecontext'] = true;

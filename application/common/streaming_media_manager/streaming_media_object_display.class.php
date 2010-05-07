@@ -41,6 +41,7 @@ abstract class StreamingMediaObjectDisplay
     	$html[] = '<table class="data_table data_table_no_header">';
     	$html[] = '<tr><td class="header">' . Translation :: get('Description') . '</td><td>' . $this->get_object()->get_description() . '</td></tr>';
     	$html[] = $this->get_additional_properties();
+    	$html[] = '<tr><td class="header">' . Translation :: get('Status') . '</td><td>' . $this->get_object()->get_status_text() . '</td></tr>';
     	$html[] = '</table>';
     	return implode("\n", $html);
     }

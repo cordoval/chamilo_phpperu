@@ -18,7 +18,7 @@
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-ini_set('include_path', 'C:/wamp/www/chamilo/plugin/gdata/library');
+
 /* Load the Zend Gdata classes. */
 require_once 'Zend/Loader.php';
 Zend_Loader::loadClass('Zend_Gdata_AuthSub');

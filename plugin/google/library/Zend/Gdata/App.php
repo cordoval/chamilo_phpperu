@@ -504,8 +504,7 @@ class Zend_Gdata_App
                 $finalContentType = 'application/atom+xml';
             }
         } elseif ($data instanceof Zend_Gdata_App_MediaEntry) {
-        	$rawData = $data->encode();
-
+            $rawData = $data->encode();
             if ($data->getMediaSource() !== null) {
                 $finalContentType = $rawData->getContentType();
                 $headers['MIME-version'] = '1.0';
@@ -666,8 +665,7 @@ class Zend_Gdata_App
         }
 
         try {
-        	$response = $this->_httpClient->request($method);
-            
+            $response = $this->_httpClient->request($method);
             // reset adapter
             if ($usingMimeStream) {
                 $this->_httpClient->setAdapter($oldHttpAdapter);
@@ -754,7 +752,6 @@ class Zend_Gdata_App
         $extraHeaders = array())
     {
         $response = $this->get($url, $extraHeaders);
-
         $feedContent = $response->getBody();
         if (!$this->_useObjectMapping) {
             return $feedContent;
@@ -775,6 +772,7 @@ class Zend_Gdata_App
 
         $feed = self::importString($feedContent, $className,
             $majorProtocolVersion, $minorProtocolVersion);
+
         if ($this->getHttpClient() != null) {
             $feed->setHttpClient($this->getHttpClient());
         }
@@ -802,7 +800,7 @@ class Zend_Gdata_App
         $className='Zend_Gdata_App_Feed', $majorProtocolVersion = null,
         $minorProtocolVersion = null)
     {
-        // Load the feed as an XML DOMDocument object
+    	// Load the feed as an XML DOMDocument object
         @ini_set('track_errors', 1);
         $doc = new DOMDocument();
         $success = @$doc->loadXML($string);
@@ -882,7 +880,6 @@ class Zend_Gdata_App
     {
         $requestData = $this->prepareRequest(
             'POST', $uri, $extraHeaders, $data, $contentType);
-
         return $this->performHttpRequest(
                 $requestData['method'], $requestData['url'],
                 $requestData['headers'], $requestData['data'],
@@ -956,7 +953,7 @@ class Zend_Gdata_App
     public function insertEntry($data, $uri, $className='Zend_Gdata_App_Entry',
         $extraHeaders = array())
     {
-    	$response = $this->post($data, $uri, null, null, $extraHeaders);
+        $response = $this->post($data, $uri, null, null, $extraHeaders);
 
         $returnEntry = new $className($response->getBody());
         $returnEntry->setHttpClient(self::getstaticHttpClient());
