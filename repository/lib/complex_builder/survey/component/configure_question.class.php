@@ -7,10 +7,7 @@ require_once dirname ( __FILE__ ) . '/../forms/configure_question_form.class.php
 
 class SurveyBuilderConfigureQuestionComponent extends SurveyBuilderComponent {
 	
-	const VISIBLE_QUESTION_ID = 'visible_question_id';
-	const INVISIBLE_QUESTION_ID = 'invisible_question_id';
-	const ANSWERMATCH = 'answer_match';
-	
+		
 	private $page_id;
 	
 	function run() {
@@ -29,27 +26,14 @@ class SurveyBuilderConfigureQuestionComponent extends SurveyBuilderComponent {
 		$form = new ConfigureQuestionForm ( ConfigureQuestionForm::TYPE_CREATE, $complex_item, $this->get_url ( array (SurveyBuilder::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (),SurveyBuilder::PARAM_SURVEY_PAGE_ID => $this->page_id, SurveyBuilder::PARAM_COMPLEX_QUESTION_ITEM => $complex_item_id ) ), $this->page_id );
 		
 		if ($form->validate ()) {
-			$success = $form->create_config ();
-//			if ($success) {
-//				$config = $form->get_config ();
-//				$this->redirect ( Translation::get ( 'QuestionConfigurationCreated' ), (false), array (SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_CONFIGURE_PAGE, SurveyBuilder::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), SurveyBuilder::PARAM_SURVEY_PAGE_ID => $this->page_id ) );
-//			} else {
-//				$this->redirect ( Translation::get ( 'QuestionConfigurationNotCreated' ), (true), array (SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_CONFIGURE_PAGE, SurveyBuilder::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), SurveyBuilder::PARAM_SURVEY_PAGE_ID => $this->page_id ) );
-//			}
+			$form->create_config ();
+			$this->redirect ( Translation::get ( 'QuestionConfigurationCreated' ), (false), array (SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_CONFIGURE_PAGE, SurveyBuilder::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), SurveyBuilder::PARAM_SURVEY_PAGE_ID => $this->page_id ) );
+
 		} else {
 			$this->display_header ( $trail, false );
 			$form->display ();
 			$this->display_footer ();
 		}
-		
-	//		
-	//		$question_display = $this->get_question_display();
-	//		echo $question_display->display ();
-	//		
-	//		echo $this->get_table ();
-	//		echo '</div>';
-	//		echo '</div>';
-	//		$this->display_footer ();
 	}
 	
 	private function get_table() {

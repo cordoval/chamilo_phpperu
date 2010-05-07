@@ -294,19 +294,6 @@ class DatabaseTrackingDataManager extends Database implements TrackingDataManage
         return $this->create($archive_controller_item);
     }
 
-    /**
-     * Convert unix time to DB date
-     * @param int $date unix time
-     */
-    function to_db_date($date)
-    {
-        if (isset($date))
-        {
-            return date('Y-m-d H:i:s', $date);
-        }
-        return null;
-    }
-
     function delete_events($condition = null)
     {
         return $this->delete_objects(Event :: get_table_name(), $condition);

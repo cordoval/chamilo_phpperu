@@ -60,7 +60,6 @@ class OnlineTracker extends MainTracker
      */
     function empty_tracker_before_date($date)
     {
-        $date = Utilities :: to_db_date($date);
         $condition = new InEqualityCondition(self :: PROPERTY_LAST_ACCESS_DATE, InEqualityCondition :: LESS_THAN_OR_EQUAL, $date);
         return $this->remove($condition);
     }

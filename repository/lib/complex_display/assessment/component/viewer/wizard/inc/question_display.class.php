@@ -128,7 +128,6 @@ abstract class QuestionDisplay
     {
         $question = RepositoryDataManager :: get_instance()->retrieve_content_object($clo_question->get_ref());
         $type = $question->get_type();
-        $type = substr($type, 11);
         
         $file = dirname(__FILE__) . '/question_display/' . $type . '.class.php';
         

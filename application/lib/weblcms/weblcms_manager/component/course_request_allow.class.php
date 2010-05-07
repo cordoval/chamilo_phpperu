@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__). '/admin_request_browser.class.php';
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 
 /**
@@ -91,7 +92,7 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
                     	$message = 'SelectedRequestsAllowed';
                 	}
             	}
-            	$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null,WeblcmsManager :: PARAM_REQUEST_TYPE => $this->request_type, WeblcmsManager :: PARAM_REQUEST_VIEW => Request :: get(WeblcmsManager:: PARAM_REQUEST_VIEW)));
+            	$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null,WeblcmsManager :: PARAM_REQUEST_TYPE => $this->request_type, WeblcmsManager :: PARAM_REQUEST_VIEW => WeblcmsManagerAdminRequestBrowserComponent :: ALLOWED_REQUEST_VIEW));
 			}
 			else
         	{

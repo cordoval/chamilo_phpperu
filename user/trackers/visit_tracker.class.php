@@ -111,7 +111,6 @@ class VisitTracker extends MainTracker
      */
     function set_enter_date($value)
     {
-        //$value = $this->to_db_date($value);
         $this->set_property(self :: PROPERTY_ENTER_DATE, $value);
     }
 
@@ -130,7 +129,6 @@ class VisitTracker extends MainTracker
      */
     function set_leave_date($value)
     {
-        //$value = $this->to_db_date($value);
         $this->set_property(self :: PROPERTY_LEAVE_DATE, $value);
     }
 

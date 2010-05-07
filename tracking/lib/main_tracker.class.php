@@ -196,8 +196,8 @@ abstract class MainTracker
      */
     function export($start_date, $end_date, $optional_conditions = null)
     {
-        $db_start_date = $this->to_db_date($start_date);
-        $db_end_date = $this->to_db_date($end_date);
+        $db_start_date = $start_date;
+        $db_end_date = $end_date;
 
         $conditions = array();
 
@@ -212,12 +212,6 @@ abstract class MainTracker
             $condition = new AndCondition($conditions2);
 
         return $this->retrieve_tracker_items($condition);
-    }
-
-    function to_db_date($date)
-    {
-        $trkdmg = TrackingDataManager :: get_instance();
-        return $trkdmg->to_db_date($date);
     }
 }
 

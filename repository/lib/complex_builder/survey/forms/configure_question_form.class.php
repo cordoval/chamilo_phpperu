@@ -37,8 +37,8 @@ class ConfigureQuestionForm extends FormValidator {
 		//        $this->addRule(SurveyContextTemplate :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 
-		$this->addElement ( 'advmultiselect', 'question_ids', Translation::get ( 'Questions' ), $this->get_questions () , array('style'=> 'width: 250px'));
-		$this->addRule ( 'question_ids', Translation::get ( 'ThisFieldIsRequired' ), 'required' );
+		$this->addElement ( 'advmultiselect', SurveyPage:: TO_VISIBLE_QUESTIONS_IDS, Translation::get ( 'Questions' ), $this->get_questions () , array('style'=> 'width: 250px'));
+		$this->addRule ( SurveyPage:: TO_VISIBLE_QUESTIONS_IDS, Translation::get ( 'ThisFieldIsRequired' ), 'required' );
 	
 	}
 	
@@ -72,13 +72,39 @@ class ConfigureQuestionForm extends FormValidator {
 	
 	function create_config() {
 		
-		       $values = $this->exportValues();
-				dump($values);
-		       exit;
-		       //        
-		
+		     $values = $this->exportValues();
+				
+		     $configs = $this->survey_page->get_config();
 
-		return $value;
+		     $config = array();
+
+			 $config[SurveyPage :: FROM_VISIBLE_QUESTION_ID] = $this->question->get_id();  
+			 $config[SurveyPage::TO_VISIBLE_QUESTIONS_IDS] = $values[SurveyPage::TO_VISIBLE_QUESTIONS_IDS];
+		     $keys = array_keys($values);
+		     $answers = array();
+		     foreach ($keys as $key) {
+		     	$ids = explode( '_', $key);
+		     	if($ids[0]== $this->question->get_id()){
+		     		$answers[$key] = $values[$key];
+		     	}
+		     }
+		     $config[SurveyPage:: ANSWERMATCHES] = $answers;
+		     
+		     $duplicat = false;
+		     
+		     foreach ($configs as $conf){
+		     	$diff = array_diff($config, $conf);
+		     	if(count($diff) == 0){
+		     		$duplicat = true;	
+		     	}
+		     }
+		     
+		     if(!$duplicat){
+		     	$configs[] = $config;
+		     	$this->survey_page->set_config($configs);
+		     	$this->survey_page->update();
+		     }
+    
 	}
 	
 	/**

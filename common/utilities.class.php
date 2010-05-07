@@ -453,15 +453,6 @@ class Utilities
         echo $spaces . ")<br />";
     }
 
-    static function to_db_date($date)
-    {
-        if (isset($date))
-        {
-            return date('Y-m-d H:i:s', $date);
-        }
-        return null;
-    }
-
     static function format_seconds_to_hours($seconds)
     {
         $hours = floor($seconds / 3600);

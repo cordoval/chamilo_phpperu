@@ -1,11 +1,11 @@
 <?php
 /**
- * $Id: select_question.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * $Id: rating_question.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.viewer.wizard.inc.question_display
  */
 require_once dirname(__FILE__) . '/../question_display.class.php';
 
-class SelectQuestionDisplay extends QuestionDisplay
+class AssessmentRatingQuestionDisplay extends QuestionDisplay
 {
 
     function add_question_form()
@@ -15,13 +15,13 @@ class SelectQuestionDisplay extends QuestionDisplay
         $clo_question = $this->get_clo_question();
         $question = $this->get_question();
         
-        $options = $question->get_options();
-        $type = $question->get_answer_type();
-        $question_id = $clo_question->get_id();
+        $min = $question->get_low();
+        $max = $question->get_high();
+        $question_name = $this->get_clo_question()->get_id() . '_0';
         
-        foreach ($options as $option)
+        for($i = $min; $i <= $max; $i ++)
         {
-            $answers[] = $option->get_value();
+            $scores[$i] = $i;
         }
         
         $element_template = array();
@@ -32,21 +32,9 @@ class SelectQuestionDisplay extends QuestionDisplay
         $element_template[] = '</div>';
         $element_template = implode("\n", $element_template);
         
-        $question_name = $question_id . '_0';
-        
-        if ($type == 'checkbox')
-        {
-            $advanced_select = $formvalidator->createElement('advmultiselect', $question_name, '', $answers, array('style' => 'width: 200px;', 'class' => 'advanced_select_question'));
-            $advanced_select->setButtonAttributes('add', 'class="add"');
-            $advanced_select->setButtonAttributes('remove', 'class="remove"');
-            $formvalidator->addElement($advanced_select);
-        }
-        else
-        {
-            $formvalidator->addElement('select', $question_name, '', $answers, 'class="select_question"');
-        }
-        
+        $formvalidator->addElement('select', $question_name, Translation :: get('Rating') . ': ', $scores, 'class="rating_slider"');
         $renderer->setElementTemplate($element_template, $question_name);
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/rating_question.js'));
     }
 
     function add_borders()
@@ -58,18 +46,11 @@ class SelectQuestionDisplay extends QuestionDisplay
     {
         $instruction = array();
         $question = $this->get_question();
-        $type = $question->get_answer_type();
         
-        if ($type == 'radio' && $question->has_description())
+        if ($question->has_description())
         {
             $instruction[] = '<div class="splitter">';
-            $instruction[] = Translation :: get('SelectCorrectAnswer');
-            $instruction[] = '</div>';
-        }
-        elseif ($type == 'checkbox' && $question->has_description())
-        {
-            $instruction[] = '<div class="splitter">';
-            $instruction[] = Translation :: get('SelectCorrectAnswers');
+            $instruction[] = Translation :: get('SelectCorrectRating');
             $instruction[] = '</div>';
         }
         else

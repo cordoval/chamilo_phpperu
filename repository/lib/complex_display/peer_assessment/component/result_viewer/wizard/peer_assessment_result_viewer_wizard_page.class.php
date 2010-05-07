@@ -1,6 +1,6 @@
 <?php
 
-abstract class PeerAssessmentViewerWizardPage extends FormValidatorPage
+abstract class PeerAssessmentResultViewerWizardPage extends FormValidatorPage
 {
     /**
      * The parent in which the wizard runs.
@@ -13,9 +13,9 @@ abstract class PeerAssessmentViewerWizardPage extends FormValidatorPage
      * @param Tool $parent The parent in which the wizard
      * runs.
      */
-    public function PeerAssessmentViewerWizardPage($name, $parent)
+    public function PeerAssessmentResultViewerWizardPage($name, $parent)
     {
-        $this->parent = $parent;;
+        $this->parent = $parent;
         parent :: FormValidatorPage($name, 'post');
         $this->updateAttributes(array('action' => $parent->get_parent()->get_url()));
     }
