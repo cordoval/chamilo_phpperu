@@ -14,8 +14,6 @@ class StreamingMediaExporterComponent extends StreamingMediaComponent
 			{
 				
 			}
-			
-			
 		}
 		else {
 			$this->display_header();
