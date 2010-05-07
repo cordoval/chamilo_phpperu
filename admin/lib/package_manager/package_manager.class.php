@@ -16,7 +16,7 @@ class PackageManager extends SubManager
     const PARAM_PACKAGE = 'package';
     const PARAM_INSTALL_TYPE = 'type';
     const PARAM_SECTION = 'section';
-    
+
     const ACTION_BROWSE_PACKAGES = 'browse';
     const ACTION_ACTIVATE_PACKAGE = 'activate';
     const ACTION_DEACTIVATE_PACKAGE = 'deactivate';
@@ -25,8 +25,9 @@ class PackageManager extends SubManager
     const ACTION_ARCHIVE_PACKAGE = 'archive';
     const ACTION_SYNCHRONISE_REMOTE_PACKAGES = 'synchronise';
     const ACTION_INSTALL_PACKAGE = 'install';
+    const ACTION_UPDATE_PACKAGE = 'update';
     const ACTION_REMOVE_PACKAGE = 'remove';
-    
+
     const INSTALL_REMOTE = 'remote';
     const INSTALL_ARCHIVE = 'archive';
     const INSTALL_LOCAL = 'local';
@@ -34,20 +35,20 @@ class PackageManager extends SubManager
     function PackageManager($admin_manager)
     {
         parent :: __construct($admin_manager);
-        
+
         $package_action = Request :: get(self :: PARAM_PACKAGE_ACTION);
         if ($package_action)
         {
             $this->set_action($package_action);
         }
-        
+
         $this->parse_input_from_table();
     }
 
     function run()
     {
         $package_action = $this->get_action();
-        
+
         switch ($package_action)
         {
             case self :: ACTION_BROWSE_PACKAGES :
@@ -68,6 +69,9 @@ class PackageManager extends SubManager
             case self :: ACTION_INSTALL_PACKAGE :
                 $component = $this->create_component('Installer');
                 break;
+            case self :: ACTION_UPDATE_PACKAGE :
+                $component = $this->create_component('Updater');
+                break;
             case self :: ACTION_LOCAL_PACKAGE :
                 $component = $this->create_component('Local');
                 break;
@@ -78,26 +82,26 @@ class PackageManager extends SubManager
                 $component = $this->create_component('Browser');
                 break;
         }
-        
+
         $component->run();
     }
-    
+
     function set_action($action)
     {
     	$this->set_parameter(self :: PARAM_PACKAGE_ACTION, $action);
     }
-    
+
     function get_action()
     {
     	return $this->get_parameter(self :: PARAM_PACKAGE_ACTION);
     }
-    
+
     function parse_input_from_table()
     {
     	if (isset($_POST['action']))
         {
             $selected_ids = Request :: post(RegistrationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-            
+
             if (empty($selected_ids))
             {
                 $selected_ids = array();
@@ -117,7 +121,7 @@ class PackageManager extends SubManager
                 	Request :: set_get(self :: PARAM_REGISTRATION, $selected_ids);
                     break;
             }
-        
+
         }
     }
 
@@ -144,6 +148,11 @@ class PackageManager extends SubManager
     function get_registration_activation_url($registration)
     {
         return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_ACTIVATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id()));
+    }
+
+    function get_registration_update_url($registration)
+    {
+        return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_UPDATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id()));
     }
 
     function get_registration_deactivation_url($registration)
