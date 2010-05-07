@@ -469,8 +469,7 @@ class WeblcmsManager extends WebApplication
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_REQUEST,
     								self :: PARAM_REQUEST => $request->get_id(),
-    								self :: PARAM_REQUEST_TYPE => $request_type,
-    								self :: PARAM_REQUEST_VIEW => $request_view));
+    								self :: PARAM_REQUEST_TYPE => $request_type));
     }
     
     function get_course_request_refuse_url($request, $request_type, $request_view)
