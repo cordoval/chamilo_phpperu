@@ -456,9 +456,9 @@ class WeblcmsManager extends WebApplication
     								self :: PARAM_REQUEST_TYPE => $request_type));
     }
     
-    function get_course_request_editing_url($request, $request_type)
+    function get_course_request_allowing_url($request, $request_type)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_EDITOR_REQUEST,
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_ALLOWING_REQUEST,
     								self :: PARAM_REQUEST => $request->get_id(),
     								self :: PARAM_REQUEST_TYPE => $request_type));   	 
     }

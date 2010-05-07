@@ -62,7 +62,7 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
         if($check_item == CommonRequest :: NO_DECISION)
         {
         	$toolbar_data[] = array(
-        		'href' => $this->browser->get_course_request_editing_url($request, $this->browser->get_request_type()),
+        		'href' => $this->browser->get_course_request_allowing_url($request, $this->browser->get_request_type()),
         		'label' => Translation :: get('Allow'),
         		'img' => Theme :: get_common_image_path() . 'action_confirm.png');
         	

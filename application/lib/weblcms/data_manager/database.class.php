@@ -238,7 +238,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
     	$conditions = array();					
         $conditions[] = new EqualityCondition(CommonRequest :: PROPERTY_USER_ID, $user_id);
-        $conditions[] = new InequalityCondition(CommonRequest :: PROPERTY_DECISION_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, date('Y-m-d H:i:s'));
+        $conditions[] = new InequalityCondition(CommonRequest :: PROPERTY_DECISION_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
         $conditions[] = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, CommonRequest :: ALLOWED_DECISION);         
         $condition = new AndCondition($conditions);
         

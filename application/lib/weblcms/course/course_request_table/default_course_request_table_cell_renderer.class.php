@@ -50,10 +50,15 @@ class DefaultCourseRequestTableCellRenderer implements ObjectTableCellRenderer
             	return $request->get_motivation();
             	
             case CommonRequest :: PROPERTY_CREATION_DATE :
-            	return $request->get_creation_date();
-            	
+            	return DatetimeUtilities :: format_locale_date(null,$request->get_creation_date());
+            	       
             case CommonRequest :: PROPERTY_DECISION_DATE :
-            	return $request->get_decision_date();
+            	if($request->get_decision_date() != null)
+            	{
+            		return DatetimeUtilities :: format_locale_date(null,$request->get_decision_date());
+            	}
+            	else
+            		return $request->get_decision_date();
             	
             default :
                 return '&nbsp;';

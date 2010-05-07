@@ -877,7 +877,7 @@ class ReportingWeblcms
                     $data[' '][] = '<a href="' . $url . '&cid=' . $cid . '&details=' . $tracker->get_id() . '">' . Theme :: get_common_image('action_view_results') . '</a>';
                 }
 
-                $data[Translation :: get('LastStartTime')][] = DateTimeUtilities :: format_locale_date($tracker->get_start_time());
+                $data[Translation :: get('LastStartTime')][] = DatetimeUtilities :: format_locale_date($tracker->get_start_time());
                 $data[Translation :: get('Status')][] = Translation :: get($tracker->get_status() == 'completed' ? 'Completed' : 'Incomplete');
                 $data[Translation :: get('Score')][] = $tracker->get_score() . '%';
                 $data[Translation :: get('Time')][] = Utilities :: format_seconds_to_hours($tracker->get_total_time());

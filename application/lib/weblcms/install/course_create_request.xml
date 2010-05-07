@@ -8,8 +8,7 @@
 		<property name="motivation" type="text" />
 		<property name="creation_date"  type="integer" unsigned="1"
 			notnull="1"  />
-		<property name="decision_date"  type="integer" unsigned="1"
-			notnull="1"  />
+		<property name="decision_date"  type="integer" unsigned="1" />
 		<property name="decision" type="boolean"/>
 	</properties>
 	<index name="course_id">
