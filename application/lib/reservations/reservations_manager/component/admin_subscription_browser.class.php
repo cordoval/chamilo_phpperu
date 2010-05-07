@@ -75,8 +75,8 @@ class ReservationsManagerAdminSubscriptionBrowserComponent extends ReservationsM
         $html[] = $item->get_description();
         $html[] = '<b>' . Translation :: get('Responsible') . '</b>: ' . $responsible;
         $html[] = '<br /><b>' . Translation :: get('Type') . '</b>: ' . $this->get_type($reservation);
-        $html[] = '<br /><b>' . Translation :: get('Start') . '</b>: ' . $reservation->get_start_date();
-        $html[] = '<br /><b>' . Translation :: get('End') . '</b>: ' . $reservation->get_stop_date();
+        $html[] = '<br /><b>' . Translation :: get('Start') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $reservation->get_start_date());
+        $html[] = '<br /><b>' . Translation :: get('End') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $reservation->get_stop_date());
         $html[] = '</div>';
         $html[] = '</div>';
         echo implode("\n", $html);

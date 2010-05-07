@@ -47,7 +47,9 @@ class SubscriptionForm extends FormValidator
     function build_block_form()
     {
         //Please confirm your reservation from <b>%s</b> untill <b>%s</b> for item <b>%s</b>.
-        $this->addElement('html', sprintf(Translation :: get('ConfirmSubscription'), $this->reservation->get_start_date(), $this->reservation->get_stop_date(), $this->item->get_name()));
+        $this->addElement('html', sprintf(Translation :: get('ConfirmSubscription'), 
+        								  DatetimeUtilities :: format_locale_date(null,$this->reservation->get_start_date()), 
+        				   	              DatetimeUtilities :: format_locale_date(null,$this->reservation->get_stop_date()), $this->item->get_name()));
         
         $start = $this->reservation->get_stop_date();
         $rdm = ReservationsDataManager :: get_instance();
@@ -101,9 +103,6 @@ class SubscriptionForm extends FormValidator
 
     function get_reservation_block($start_time)
     {
-        //$db_start = Utilities :: to_db_date($start_time);
-        
-
         $rdm = ReservationsDataManager :: get_instance();
         
         $conditions[] = new EqualityCondition(Reservation :: PROPERTY_ITEM, $this->item->get_id());
@@ -140,27 +139,26 @@ class SubscriptionForm extends FormValidator
         ksort($times);
         
         $previous_stop = $start_date = $this->reservation->get_start_date();
-        $end_time = Utilities :: time_from_datepicker($this->reservation->get_stop_date());
+        $end_time = $this->reservation->get_stop_date();
         
         foreach ($times as $start => $stop)
         {
-            $previous_stop_time = Utilities :: time_from_datepicker($previous_stop);
-            $start_time = Utilities :: time_from_datepicker($start);
-            //$stop_time = Utilities :: time_from_datepicker($stop);
-            
+            $previous_stop_time = $previous_stop;
+            $start_time = $start;
 
             if ((($start_time - $previous_stop_time)) > $this->reservation->get_timepicker_min() * 60)
             {
-                $this->addElement('html', '<li>' . $previous_stop . ' ' . Translation :: get('and') . ' ' . $start . '</li>');
+                $this->addElement('html', '<li>' . DatetimeUtilities :: format_locale_date(null, $previous_stop) . ' ' . Translation :: get('and') . ' ' . DatetimeUtilities :: format_locale_date(null, $start) . '</li>');
             }
             
             $previous_stop = $stop;
         }
         
-        $previous_stop_time = Utilities :: time_from_datepicker($previous_stop);
+        $previous_stop_time = $previous_stop;
         if ((($end_time - $previous_stop_time)) > $this->reservation->get_timepicker_min() * 60)
         {
-            $this->addElement('html', '<li>' . $previous_stop . ' ' . Translation :: get('and') . ' ' . $this->reservation->get_stop_date() . '</li>');
+            $this->addElement('html', '<li>' . DatetimeUtilities :: format_locale_date(null, $previous_stop) . ' ' . Translation :: get('and') . ' ' . 
+            								   DatetimeUtilities :: format_locale_date(null, $this->reservation->get_stop_date()) . '</li>');
         }
         
         $this->addElement('html', '</ul>');
@@ -169,7 +167,7 @@ class SubscriptionForm extends FormValidator
         
         $defaults = array();
         $defaults['start_time'] = $start_date;
-        $defaults['stop_time'] = date(strtotime('+1 Minute', strtotime($start_date)));
+        $defaults['stop_time'] = strtotime('+1 Minute', $start_date);
         $this->setDefaults($defaults);
     }
 
@@ -226,16 +224,16 @@ class SubscriptionForm extends FormValidator
             
             if ($this->reservation->get_type() == Reservation :: TYPE_TIMEPICKER)
             {
-                $subscription->set_start_time($values[Subscription :: PROPERTY_START_TIME]);
-                $subscription->set_stop_time($values[Subscription :: PROPERTY_STOP_TIME]);
+                $subscription->set_start_time(Utilities :: time_from_datepicker($values[Subscription :: PROPERTY_START_TIME]));
+                $subscription->set_stop_time(Utilities :: time_from_datepicker($values[Subscription :: PROPERTY_STOP_TIME]));
                 
-                $start_stamp = Utilities :: time_from_datepicker($subscription->get_start_time());
-                $stop_stamp = Utilities :: time_from_datepicker($subscription->get_stop_time());
+                $start_stamp = $subscription->get_start_time();
+                $stop_stamp = $subscription->get_stop_time();
             }
             else
             {
-                $start_stamp = Utilities :: time_from_datepicker($this->reservation->get_start_date());
-                $stop_stamp = Utilities :: time_from_datepicker($this->reservation->get_stop_date());
+                $start_stamp = $this->reservation->get_start_date();
+                $stop_stamp = $this->reservation->get_stop_date();
             }
             
             $days = ($stop_stamp - $start_stamp) / 3600;
