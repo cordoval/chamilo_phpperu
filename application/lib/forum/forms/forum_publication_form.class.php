@@ -207,7 +207,7 @@ class ForumPublicationForm extends FormValidator
 		if($values['evaluation'] == true)
 		{
         	$gradebook_internal_item_form = new GradebookInternalItemForm();
-        	$gradebook_internal_item_form->create_internal_item($forum_publication->get_id(), false);
+        	$gradebook_internal_item_form->create_internal_item($wiki_publication->get_id(), false, 'C' . 0);
 		}
         return $succes;
     }
