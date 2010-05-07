@@ -32,10 +32,20 @@ class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
      * @return ResultSet A set of matching learning objects.
      */
     function get_objects($offset, $count, $order_property = null)
-    {
-        $order_property = $this->get_order_property($order_property);
+    {        
+    	$order_property = $this->get_order_property($order_property);
         
-        return $this->udm->retrieve_users($this->get_condition(), $offset, $count, $order_property);
+        $users_result = $this->udm->retrieve_users($this->get_condition(), $offset, $count, $order_property);
+        $users = array();
+        $course = parent::get_browser()->get_course();
+        while($user = $users_result->next_result())
+        {
+        	if($course->can_user_subscribe($user) == CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT)
+        	{
+        		$users[] = $user;
+        	}
+        }
+        return new ArrayResultSet($users);
     }
 
     /**

@@ -44,7 +44,7 @@ class SubscribeGroupMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function GroupMenu($course, $current_category, $url_format = '?application=group&go=browse&group_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
+    function SubscribeGroupMenu($course, $current_category, $url_format = '?application=group&go=browse&group_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
     {
     	$this->course = $course;
         $this->include_root = $include_root;
@@ -76,32 +76,29 @@ class SubscribeGroupMenu extends HTML_Menu
         $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
         $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
         
-        if($this->course->can_group_subscribe($group->get_id()))
+        if (! $include_root)
         {
-	        if (! $include_root)
-	        {
-	            return $this->get_menu_items($group->get_id());
-	        }
-	        else
-	        {
-	            $menu = array();
-	            
-	            $menu_item = array();
-	            $menu_item['title'] = $group->get_name();
-	            //$menu_item['url'] = $this->get_url($group->get_id());
-	            $menu_item['url'] = $this->get_home_url();
-	            
-	            $sub_menu_items = $this->get_menu_items($group->get_id());
-	            if (count($sub_menu_items) > 0)
-	            {
-	                $menu_item['sub'] = $sub_menu_items;
-	            }
-	            
-	            $menu_item['class'] = 'home';
-	            $menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
-	            $menu[$group->get_id()] = $menu_item;
-	            return $menu;
-	        }
+            return $this->get_menu_items($group->get_id());
+        }
+        else
+        {
+            $menu = array();
+            
+            $menu_item = array();
+            $menu_item['title'] = $group->get_name();
+            //$menu_item['url'] = $this->get_url($group->get_id());
+            $menu_item['url'] = $this->get_home_url();
+            
+            $sub_menu_items = $this->get_menu_items($group->get_id());
+            if (count($sub_menu_items) > 0)
+            {
+                $menu_item['sub'] = $sub_menu_items;
+            }
+            
+            $menu_item['class'] = 'home';
+            $menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
+            $menu[$group->get_id()] = $menu_item;
+            return $menu;
         }
     }
 
@@ -126,7 +123,7 @@ class SubscribeGroupMenu extends HTML_Menu
         while ($group = $groups->next_result())
         {
             $group_id = $group->get_id();
-            if (! ($group_id == $current_category->get_id() && $hide_current_category) && $this->course->can_group_subscribe($group_id))
+            if (! ($group_id == $current_category->get_id() && $hide_current_category) && $this->course->can_group_subscribe($group_id) == CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT)
             {
                 $menu_item = array();
                 $menu_item['title'] = $group->get_name();
@@ -195,7 +192,7 @@ class SubscribeGroupMenu extends HTML_Menu
      */
     function render_as_tree()
     {
-        $renderer = new TreeMenuRenderer($this->get_tree_name(), Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_menu_feed.php');
+        $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
