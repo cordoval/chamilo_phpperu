@@ -70,7 +70,7 @@ if (count($question_results) > 0)
     $question_visibility = array();
     foreach($question_selections as $question_id => $question_result)
     {
-        $question_visibility[$question_id] = false;
+        $question_visibility[$question_id] = true;
     }
 
     echo json_encode($question_visibility);

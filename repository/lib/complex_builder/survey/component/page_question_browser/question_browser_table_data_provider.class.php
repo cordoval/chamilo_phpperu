@@ -11,7 +11,6 @@ class SurveyPageQuestionBrowserTableDataProvider extends ObjectTableDataProvider
     function SurveyPageQuestionBrowserTableDataProvider($browser, $condition)
     {
         parent :: __construct($browser, $condition);
-//   dump($this->get_condition());
     }
 
     /**
@@ -23,7 +22,8 @@ class SurveyPageQuestionBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
-    	return SurveyContextDataManager::get_instance()->retrieve_template_rel_pages($this->get_condition(), $offset, $count, $order_property);
+    	$order_property = $this->get_order_property($order_property);
+    	return RepositoryDataManager::get_instance()->retrieve_complex_content_object_items($this->get_condition(), $order_property, $offset, $count );
     }
 
     /**
@@ -32,7 +32,7 @@ class SurveyPageQuestionBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-    	return SurveyContextDataManager::get_instance()->count_template_rel_pages($this->get_condition());
+      	return RepositoryDataManager::get_instance()->count_complex_content_object_items($this->get_condition());
     }
 }
 ?>

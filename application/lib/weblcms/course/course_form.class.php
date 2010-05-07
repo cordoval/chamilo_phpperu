@@ -503,7 +503,7 @@ class CourseForm extends CommonForm
 	    			$groups[] = $group->get_group_id();
 	    		if(count($groups)>0)
 	    		{
-	    			$this->addElement('static', 'static_'.strtolower($type).'_subscribe_for', Translation :: get($type.'SubscribeFor'), Translation :: get('SubscribedGroups'));
+	    			$this->addElement('static', 'static_'.strtolower($type).'_subscribe_for', Translation :: get($type.'SubscribeFor'));
 	    			$this->addElement('hidden', $target_option, 1);
 	        		$tree = new RightsTreeRenderer($groups);
 	        		$tree = $tree->render_as_tree();
@@ -532,6 +532,7 @@ class CourseForm extends CommonForm
         $this->addElement('html', '<div id="unsubscribeBlock">');
         if($course_unsubscribe_disabled)
        	{
+	        $this->addElement('hidden', 'unsubscribe_fixed' , 1);
        		$groups_result = WeblcmsDataManager::get_instance()->retrieve_course_type_group_rights_by_type($this->course_type_id, CourseGroupSubscribeRight::UNSUBSCRIBE);
     		$groups = array();
     		while($group = $groups_result->next_result())
