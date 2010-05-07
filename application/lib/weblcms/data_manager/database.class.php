@@ -2037,7 +2037,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->retrieve_objects(CourseType :: get_table_name(), $condition);
     }
     
-    function retrieve_course_types_by_user_right($user)
+    function retrieve_course_types_by_user_right($user, $right)
     {
     	$course_types = array();
     	$condition = null;
@@ -2048,7 +2048,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         while($course_type = $course_type_objects->next_result())
         {
         	//User->is_platform_admin() is checked in the can_user_create function
-        	if($course_type->can_user_create($user))
+        	if($course_type->can_user_create($user) == $right)
         		$course_types[] = $course_type;
         }
         

@@ -156,7 +156,7 @@ class CourseForm extends CommonForm
         $this->addElement('hidden', Course :: PROPERTY_ID, '', array('class' => 'course_id'));
 
         $wdm = WeblcmsDataManager :: get_instance();
-		$course_type_objects = $wdm->retrieve_course_types_by_user_right($this->user);
+		$course_type_objects = $wdm->retrieve_course_types_by_user_right($this->user, CourseTypeGroupCreationRight :: CREATE_DIRECT);
         $course_types = array();
         if(empty($this->course_type_id) || $this->allow_no_course_type)
         	$course_types[0] = Translation :: get('NoCourseType');

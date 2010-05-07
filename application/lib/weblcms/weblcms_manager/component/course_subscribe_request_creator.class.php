@@ -32,7 +32,7 @@ class WeblcmsManagerCourseSubscribeRequestCreatorComponent extends WeblcmsManage
         */      
         $course = $this->retrieve_course($course_code);
         $request = new CourseRequest();
-        $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)), $course, $this, $request, $this->get_user_id());
+        $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)), $course, $this, $request);
        
         if($form->validate())
         {
