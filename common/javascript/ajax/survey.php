@@ -66,7 +66,11 @@ if (count($question_results) > 0)
      * The example below just loops through all questions
      * with selected answers and hides them
      */
-
+	       
+    $survey_page = RepositoryDataManager::get_instance()->retrieve_content_object($page_index);
+    
+    dump($survey_page);
+    exit;
     $question_visibility = array();
     foreach($question_selections as $question_id => $question_result)
     {

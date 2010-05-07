@@ -96,6 +96,7 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
         
         $condition = new InCondition(PeerAssessmentPublication :: PROPERTY_ID, $pids);
         $publications = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publications($condition);
+
         while ($publication = $publications->next_result())
         {
             $publication->set_category($category);
