@@ -26,15 +26,18 @@ class StreamingMediaViewerComponent extends StreamingMediaComponent
         	$toolbar->add_item($toolbar_item_delete);
         }
         
-        if ($this->get_parent()->is_stand_alone())
+        if ($object->is_usable($id))
         {
-            $toolbar_item_select = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION => StreamingMediaManager :: ACTION_SELECT_STREAMING_MEDIA, StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $id)));
-            $toolbar->add_item($toolbar_item_select);
-        }
-        else
-        {
-            $toolbar_item_select = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION => StreamingMediaManager :: ACTION_IMPORT_STREAMING_MEDIA, StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $id)));
-            $toolbar->add_item($toolbar_item_select);       
+	        if ($this->get_parent()->is_stand_alone())
+	        {
+	            $toolbar_item_select = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION => StreamingMediaManager :: ACTION_SELECT_STREAMING_MEDIA, StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $id)));
+	            $toolbar->add_item($toolbar_item_select);
+	        }
+	        else
+	        {
+	            $toolbar_item_select = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION => StreamingMediaManager :: ACTION_IMPORT_STREAMING_MEDIA, StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $id)));
+	            $toolbar->add_item($toolbar_item_select);       
+	        }
         }
         
         $html[] = '<br/>' . $toolbar->as_html();

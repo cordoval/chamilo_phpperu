@@ -4,6 +4,9 @@ class YoutubeStreamingMediaObject extends StreamingMediaObject
 {
 	const PROPERTY_CATEGORY = 'category';
 	const PROPERTY_TAGS = 'tags';
+	const STATUS_REJECTED = 'rejected';
+	const STATUS_FAILED = 'failed';
+	const STATUS_PROCESSING = 'processing';
 	
 	function get_category()
     {
@@ -33,6 +36,27 @@ class YoutubeStreamingMediaObject extends StreamingMediaObject
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_CATEGORY, self :: PROPERTY_TAGS);
+    }
+    
+    public function get_status_text()
+    {
+		$status = $this->get_status();
+    	switch($status)
+    	{ 		
+    		case self :: STATUS_REJECTED : 
+    			return Translation :: get('Rejected');   			
+    			break;
+    		case self :: STATUS_PROCESSING : 
+    			return Translation :: get('Processing');
+    			break;
+    		case self :: STATUS_FAILED : 
+    			return Translation :: get('Failed');
+    			break;
+    		case self :: STATUS_AVAILABLE :
+    			return Translation :: get('Available');
+    			break; 
+    		default : return Translation :: get('Unknown');
+    	}
     }
 }
 ?>
