@@ -6,7 +6,7 @@
 		<property name="user_id" type="integer" unsigned="1" notnull="1" />
 		<property name="survey_publication_id" type="integer"
 			unsigned="1" notnull="1" />
-		<property name="date" type="timestamp" notnull="1" />
+		<property name="date" type="integer" unsigned="1" notnull="1" />
 		<property name="progress" type="integer" default='0' />
 		<property name="status" type="text" length="50" fixed="true"
 			notnull="1" default="notstarted" />

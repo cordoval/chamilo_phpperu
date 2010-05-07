@@ -4,8 +4,8 @@
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="original_table" type="text" length="50"
 			fixed="true" notnull="1" />
-		<property name="start_date" type="timestamp" notnull="1" />
-		<property name="end_date" type="timestamp" notnull="1" />
+		<property name="start_date" type="integer" unsigned="1" notnull="1" />
+		<property name="end_date" type="integer" unsigned="1" notnull="1" />
 		<property name="table_name" type="text" length="50" fixed="true"
 			notnull="1" />
 	</properties>
