@@ -244,8 +244,8 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         }
         $props[$this->escape_column_name(ContentObject :: PROPERTY_ID)] = $object->get_id();
         $props[$this->escape_column_name(ContentObject :: PROPERTY_TYPE)] = $object->get_type();
-        $props[$this->escape_column_name(ContentObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($object->get_creation_date());
-        $props[$this->escape_column_name(ContentObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($object->get_modification_date());
+        $props[$this->escape_column_name(ContentObject :: PROPERTY_CREATION_DATE)] = $object->get_creation_date();
+        $props[$this->escape_column_name(ContentObject :: PROPERTY_MODIFICATION_DATE)] = $object->get_modification_date();
         $props[$this->escape_column_name(ContentObject :: PROPERTY_ID)] = $this->get_better_next_id('content_object', 'id');
         $this->get_connection()->loadModule('Extended');
         $this->get_connection()->extended->autoExecute($this->get_table_name('content_object'), $props, MDB2_AUTOQUERY_INSERT);
@@ -289,8 +289,8 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-        $props[$this->escape_column_name(ContentObject :: PROPERTY_CREATION_DATE)] = self :: to_db_date($object->get_creation_date());
-        $props[$this->escape_column_name(ContentObject :: PROPERTY_MODIFICATION_DATE)] = self :: to_db_date($object->get_modification_date());
+        $props[$this->escape_column_name(ContentObject :: PROPERTY_CREATION_DATE)] = $object->get_creation_date();
+        $props[$this->escape_column_name(ContentObject :: PROPERTY_MODIFICATION_DATE)] = $object->get_modification_date();
         $this->get_connection()->loadModule('Extended');
         $this->get_connection()->extended->autoExecute($this->get_table_name('content_object'), $props, MDB2_AUTOQUERY_UPDATE, $where);
         if ($object->is_extended())
@@ -682,21 +682,6 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         if (isset($date))
         {
             return strtotime($date);
-        }
-        return null;
-    }
-
-    /**
-     * Converts a UNIX timestamp (as returned by time()) to a datetime string
-     * for use in SQL queries.
-     * @param int $date The date as a UNIX timestamp.
-     * @return string The date in datetime format.
-     */
-    static function to_db_date($date)
-    {
-        if (isset($date))
-        {
-            return date('Y-m-d H:i:s', $date);
         }
         return null;
     }
@@ -1360,7 +1345,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $created = $content_object_metadata->get_creation_date();
         if (is_numeric($created))
         {
-            $content_object_metadata->set_creation_date(self :: to_db_date($content_object_metadata->get_creation_date()));
+            $content_object_metadata->set_creation_date($content_object_metadata->get_creation_date());
         }
 
         return $this->create($content_object_metadata);
@@ -1373,7 +1358,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $date = $content_object_metadata->get_modification_date();
         if (is_numeric($date))
         {
-            $content_object_metadata->set_modification_date(self :: to_db_date($content_object_metadata->get_modification_date()));
+            $content_object_metadata->set_modification_date($content_object_metadata->get_modification_date());
         }
 
         return $this->update($content_object_metadata, $condition);
@@ -1414,7 +1399,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $created = $content_object_metadata_catalog->get_creation_date();
         if (is_numeric($created))
         {
-            $content_object_metadata_catalog->set_creation_date(self :: to_db_date($content_object_metadata_catalog->get_creation_date()));
+            $content_object_metadata_catalog->set_creation_date($content_object_metadata_catalog->get_creation_date());
         }
 
         return $this->create($content_object_metadata_catalog);
@@ -1427,7 +1412,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $date = $content_object_metadata_catalog->get_modification_date();
         if (is_numeric($date))
         {
-            $content_object_metadata_catalog->set_modification_date(self :: to_db_date($content_object_metadata_catalog->get_modification_date()));
+            $content_object_metadata_catalog->set_modification_date($content_object_metadata_catalog->get_modification_date());
         }
 
         return $this->update($content_object_metadata_catalog, $condition);
@@ -1497,7 +1482,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $created = $external_repository_sync_info->get_creation_date();
         if (is_numeric($created))
         {
-            $external_repository_sync_info->set_creation_date(self :: to_db_date($external_repository_sync_info->get_creation_date()));
+            $external_repository_sync_info->set_creation_date($external_repository_sync_info->get_creation_date());
         }
 
         return $this->create($external_repository_sync_info);
@@ -1510,7 +1495,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $date = $external_repository_sync_info->get_modification_date();
         if (is_numeric($date))
         {
-            $external_repository_sync_info->set_modification_date(self :: to_db_date($external_repository_sync_info->get_modification_date()));
+            $external_repository_sync_info->set_modification_date($external_repository_sync_info->get_modification_date());
         }
 
         return $this->update($external_repository_sync_info, $condition);

@@ -2343,7 +2343,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     private static function to_db_date($date)
     {
-        return DatabaseRepositoryDataManager :: to_db_date($date);
+        return Utilities :: to_db_date($date);
     }
 
     function delete_category($category)
