@@ -26,7 +26,7 @@ class SurveyBuilderConfigureQuestionComponent extends SurveyBuilderComponent {
 		$trail->add ( new Breadcrumb ( $this->get_url ( array (SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_CONFIGURE_PAGE, SurveyBuilder::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), SurveyBuilder::PARAM_SURVEY_PAGE_ID => $this->page_id ) ), Translation::get ( 'SurveyPageConfigure' ) ) );
 		$trail->add ( new Breadcrumb ( $this->get_url ( array (SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_CONFIGURE_QUESTION, SurveyBuilder::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), SurveyBuilder::PARAM_COMPLEX_QUESTION_ITEM => $complex_item_id ) ), Translation::get ( 'SurveyQuestionConfigure' ) ) );
 				
-		$form = new ConfigureQuestionForm ( ConfigureQuestionForm::TYPE_CREATE, $complex_item, $this->get_url ( array (SurveyBuilder::PARAM_SURVEY_PAGE_ID => $this->page_id ) ), $this->page_id );
+		$form = new ConfigureQuestionForm ( ConfigureQuestionForm::TYPE_CREATE, $complex_item, $this->get_url ( array (SurveyBuilder::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (),SurveyBuilder::PARAM_SURVEY_PAGE_ID => $this->page_id, SurveyBuilder::PARAM_COMPLEX_QUESTION_ITEM => $complex_item_id ) ), $this->page_id );
 		
 		if ($form->validate ()) {
 			$success = $form->create_config ();

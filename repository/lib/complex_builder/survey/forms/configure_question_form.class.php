@@ -37,7 +37,7 @@ class ConfigureQuestionForm extends FormValidator {
 		//        $this->addRule(SurveyContextTemplate :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 
-		$this->addElement ( 'select', 'question_ids', Translation::get ( 'Questions' ), $this->get_questions () );
+		$this->addElement ( 'advmultiselect', 'question_ids', Translation::get ( 'Questions' ), $this->get_questions () , array('style'=> 'width: 250px'));
 		$this->addRule ( 'question_ids', Translation::get ( 'ThisFieldIsRequired' ), 'required' );
 	
 	}
@@ -99,7 +99,7 @@ class ConfigureQuestionForm extends FormValidator {
 		while ($complex_question_item = $complex_question_items->next_result()) {
 			if($complex_question_item->get_visible()== 0){
 				$question = RepositoryDataManager::get_instance ()->retrieve_content_object ( $complex_question_item->get_ref ());
-				$questions[$question->get_id] = $question->get_title();
+				$questions[$question->get_id()] = Utilities :: truncate_string($question->get_title(), 40);
 			}
 		}
 		return $questions;
