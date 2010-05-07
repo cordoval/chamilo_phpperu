@@ -24,7 +24,7 @@ class WeblcmsGradebookTreeMenuDataProvider extends GradebookTreeMenuDataProvider
 			$course_item->set_id($course->get_id());
 			$course_item->set_class('course');
 			$course_item->set_url($this->get_url());
-			
+			$course_item->set_collapsed(true);
 			$tools = $course->get_tools();
 			foreach($tools as $tool)
 			{

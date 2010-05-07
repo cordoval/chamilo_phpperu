@@ -107,6 +107,7 @@ class TreeMenuItem
 		$array['url'] = $this->get_url();
 		$array['id'] = $this->get_id();
 		$array['class'] = $this->get_class();
+		$array['collapsed'] = $this->get_collapsed();
 		
 		$children = array();
 		if ($this->has_children())
