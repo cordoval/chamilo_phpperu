@@ -97,7 +97,6 @@ class InternshipOrganizerRegionManager extends SubManager
 
 	function get_region_editing_url($region)
 	{
-
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_REGION, self :: PARAM_REGION_ID => $region->get_id()));
 	}
 

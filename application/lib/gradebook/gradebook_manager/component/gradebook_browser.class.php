@@ -14,6 +14,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	private $application;
 	private $data_provider;
 	private $applications;
+	private $category;
 	private $table;
 	private $menu;
 	private $types = array('MyEvaluatedPublications', 'MyEvaluations');
@@ -22,7 +23,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('GradeBook')));
+		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('Gradebook')));
 		$this->applications = $this->retrieve_internal_item_applications();
 		$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		
@@ -35,12 +36,8 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 			$this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url());
 			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $this->data_provider);
 			
-//			if($this->application == 'weblcms')
-//			{
-//				$this->menu = new TreeMenu('WeblcmsGradebookTreeMenu', new WeblcmsGradebookTreeMenuDataProvider());;
-//				if (Request :: get('tool'))
-//					$parameters['tool'] = Request :: get('tool');
-//			}
+			
+
 			$this->table = new GradebookPublicationBrowserTable($this, $parameters);
 		}
 		
@@ -64,11 +61,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		return $action_bar;
 	}
 	
-//	function get_menu()
-//	{
-//		$menu = new TreeMenu('WeblcmsGradebookTreeMenu',WeblcmsGradebookTreeMenuDataProvider());
-//		
-//	}
+
 	
 	function get_condition()
 	{
@@ -156,12 +149,14 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '<h2>' . ucfirst($this->application) . '</h2>';
         if ($this->application)
         {
-		$html[] = '<div style="float: left; width: 12%; overflow:auto;">';
-		$html[] = $this->menu->render_as_tree();
-		$html[] = '</div>';
-		$html[] = '<div style="float: right; width: 85%;">';
-		$html[] = $this->table->as_html($this);
-		$html[] = '</div>';
+			$html[] = '<div style="float: left; width: 12%; overflow:auto;">';
+			$html[] = $this->menu->render_as_tree();
+			$html[] = '</div>';
+			$html[] = '<div style="float: right; width: 85%;">';
+			
+			$html[] = $this->table->as_html($this);
+			
+			$html[] = '</div>';
         }
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
