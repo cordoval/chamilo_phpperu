@@ -19,6 +19,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     private $total_pages;
     private $total_questions;
     private $pages;
+    private $real_pages;
 
     function SurveyViewerWizard($parent, $survey, $template_id)
     {
@@ -52,15 +53,22 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         $page_nr = 0;
         $question_nr = 0;
         
+        $this->real_pages = array();
+        
         foreach ($survey_pages as $survey_page)
         {
             if(! in_array($survey_page->get_id(), $allowed_pages)){
             	continue;
             }
         	
+            
+            
         	$page_nr ++;
+        	$this->real_pages[$page_nr] = $survey_page->get_id();
             $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
             $questions = array();
+          
+            
             $page_questions = $survey_page->get_questions();
             
             foreach ($page_questions as $question)
@@ -115,7 +123,11 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     {
         return $this->survey;
     }
-
+	
+    function get_real_page_id($page_nr){
+      	return $this->real_pages[$page_nr];
+    }
+    
     function get_total_pages()
     {
         return $this->total_pages;

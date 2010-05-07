@@ -60,7 +60,7 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage {
 					$answer = null;
 				}
 
-				$question_display = SurveyQuestionDisplay::factory ( $this, $question, $nr, $this->get_parent ()->get_survey () , $this->page_number, $answer);
+				$question_display = SurveyQuestionDisplay::factory ( $this, $question, $nr, $this->get_parent ()->get_survey () , $this->get_parent()->get_real_page_id($this->page_number), $answer);
 				$question_display->display ();
 			}
 

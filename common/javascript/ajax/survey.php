@@ -5,16 +5,16 @@ require_once Path :: get_application_path() . 'lib/survey/survey_data_manager.cl
 function process_question_results($question_results)
 {
     $question_selections = array();
-
+    
     foreach ($question_results as $question_identifier => $question_value)
     {
         $question_identifier = explode('_', $question_identifier);
         $question_type = $question_identifier[0];
         $question_id = $question_identifier[1];
         $question_name = 'survey_question_' . $question_id;
-
+        
         $contains_matches = (count(array_slice($question_identifier, 2, - 1)) > 1);
-
+        
         if ($question_type == 'radio')
         {
             if ($contains_matches)
@@ -38,7 +38,7 @@ function process_question_results($question_results)
             }
         }
     }
-
+    
     return $question_selections;
 }
 
@@ -51,11 +51,29 @@ $question_results = json_decode($question_results, true);
 
 if (count($question_results) > 0)
 {
-    $question_identifier = explode('_', $question_results[0]);
-    $page_index = end($question_identifier);
-
+    $result;
+    foreach ($question_results as $key => $result)
+    {
+        $result = $key;
+    }
+    $question_identifier = explode('_', $result);
+    
+//    if ($question_identifier[0] == 'radio')
+//    {
+//        if(count($question_identifier)== 5){
+//        	$page_index = $question_identifier[4];
+//        }else{
+//        	$page_index = $question_identifier[1];
+//        }
+//    
+//    }
+//    else
+//    {
+        $page_index = array_pop($question_identifier);
+//    }
+    
     $question_selections = process_question_results($question_results);
-
+    
     /**
      * Verification of question visiblity goes here.
      *
@@ -66,17 +84,57 @@ if (count($question_results) > 0)
      * The example below just loops through all questions
      * with selected answers and hides them
      */
-	       
-    $survey_page = RepositoryDataManager::get_instance()->retrieve_content_object($page_index);
-    
-    dump($survey_page);
-    exit;
+//    	dump($question_results);
+//        dump($page_index);
+//        exit;
+    //    
     $question_visibility = array();
-    foreach($question_selections as $question_id => $question_result)
+    
+    $survey_page = RepositoryDataManager :: get_instance()->retrieve_content_object($page_index);
+    
+    $complex_questions = $survey_page->get_questions(true);
+    while ($complex_question = $complex_questions->next_result())
     {
-        $question_visibility[$question_id] = true;
+        $question_id = $complex_question->get_ref();
+        
+        if ($complex_question->get_visible() == 1)
+        {
+            $question_visibility['survey_question_'.$question_id] = true;
+        }
+        else
+        {
+            $question_visibility['survey_question_'.$question_id] = false;
+        }
+    
     }
+    
+//    dump($question_visibility);
+    
+    
+    //    $configs = $survey_page->get_config();
+    //    
+    
 
+    foreach ($question_selections as $question_id => $question_result)
+    {
+        foreach ($configs as $config)
+        {
+            if ($config[SurveyPage :: FROM_VISIBLE_QUESTION_ID] = $question_id)
+            {
+                $config_answers = $config[SurveyPage :: ANSWERMATCHES];
+                $diff = array_diff();
+                if ($config[SurveyPage :: ANSWERMATCHES])
+                {
+                
+                }
+            }
+        }
+//       $question_visibility[$question_id] = false;
+    }
+    
+//    dump($question_visibility);
+//    exit;
+//    
     echo json_encode($question_visibility);
 }
 else
