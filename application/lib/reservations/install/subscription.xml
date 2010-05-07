@@ -5,8 +5,8 @@
 		<property name="user_id" type="integer" unsigned="1" notnull="1" />
 		<property name="reservation_id" type="integer" unsigned="1"
 			notnull="1" />
-		<property name="start_time" type="timestamp" />
-		<property name="stop_time" type="timestamp" />
+		<property name="start_time" type="integer" unsigned="1" />
+		<property name="stop_time" type="integer" unsigned="1" />
 		<property name="accepted" type="boolean" default="0" />
 		<property name="status" type="integer" unsigned="1" default="0" />
 		<property name="weight" type="decimal" default="0" />

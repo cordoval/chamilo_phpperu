@@ -170,11 +170,11 @@ class Subscription extends DataClass
         }
         else
         {
-            $stamp_sub_start = Utilities :: time_from_datepicker($this->get_start_time());
-            $stamp_sub_end = Utilities :: time_from_datepicker($this->get_stop_time());
+            $stamp_sub_start = $this->get_start_time();
+            $stamp_sub_end = $this->get_stop_time();
             
-            $stamp_res_start = Utilities :: time_from_datepicker($reservation->get_start_date());
-            $stamp_res_end = Utilities :: time_from_datepicker($reservation->get_stop_date());
+            $stamp_res_start = $reservation->get_start_date();
+            $stamp_res_end = $reservation->get_stop_date();
             
             //Chosen time is out of reservation period 
             if (($stamp_sub_start < $stamp_res_start) || ($stamp_sub_end > $stamp_res_end))

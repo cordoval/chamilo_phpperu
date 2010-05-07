@@ -197,33 +197,32 @@ class Reservation extends DataClass
     {
         $rdm = ReservationsDataManager :: get_instance();
 
-        $stamp_start = Utilities :: time_from_datepicker($this->get_start_date());
-        $stamp_end = Utilities :: time_from_datepicker($this->get_stop_date());
-
-        $stamp_start_date = date('Y-m-d', $stamp_start);
-        $stamp_end_date = date('Y-m-d', $stamp_end);
+        $stamp_start = $this->get_start_date();
+        $stamp_end = $this->get_stop_date();
 
         // Reservation date is not free
         if (! $rdm->reservation_date_free($this))
+        {
             return 2;
+        }
 
         // Subscription does not end before start of reservation
         if ($this->get_stop_subscription() != 0)
         {
-            $stamp_until = Utilities :: time_from_datepicker($this->get_stop_subscription());
+            $stamp_until = $this->get_stop_subscription();
             if ($stamp_until > $stamp_start)
+            {
                 return 3;
+            }
         }
 
         //Start date of reservation must be after now
-        if ($this->get_start_date() < (date('Y-m-d H:i:s', time())))
+        if ($this->get_start_date() < time())
+        {
             return 4;
+        }
 
         $timepicker = $this->get_type() == Reservation :: TYPE_TIMEPICKER;
-
-        // The start and end date is not the same when timepicker is chosen
-        /*if (($stamp_start_date != $stamp_end_date) && $timepicker)
-			return 5;*/
 
         if ($timepicker)
         {
@@ -234,13 +233,17 @@ class Reservation extends DataClass
             {
                 // Maximum must be lager then minimum
                 if ($max < $min)
+                {
                     return 6;
+                }
                 else
                 {
                     // The block is to large and can not fit into the given time space
                     $stamp = ($stamp_end - $stamp_start) / 60;
                     if (($stamp / $max) < 1)
+                    {
                         return 7;
+                    }
                 }
             }
         }
@@ -253,29 +256,32 @@ class Reservation extends DataClass
     {
         $rdm = ReservationsDataManager :: get_instance();
 
-        $stamp_start = Utilities :: time_from_datepicker($this->get_start_date());
-        $stamp_end = Utilities :: time_from_datepicker($this->get_stop_date());
-
-        $stamp_start_date = date('Y-m-d', $stamp_start);
-        $stamp_end_date = date('Y-m-d', $stamp_end);
-
+        $stamp_start = $this->get_start_date();
+        $stamp_end = $this->get_stop_date();
+        
         // Reservation date is not free
         if (! $rdm->reservation_date_free($this))
+        {
             return 2;
+        }
 
         // Subscription does not end before start of reservation
         if ($this->get_stop_subscription() != 0)
         {
-            $stamp_until = Utilities :: time_from_datepicker($this->get_stop_subscription());
+            $stamp_until = $this->get_stop_subscription();
             if ($stamp_until > $stamp_start)
+            {
                 return 3;
+            }
         }
 
         $timepicker = $this->get_type() == Reservation :: TYPE_TIMEPICKER;
 
         // The start and end date is not the same when timepicker is chosen
-        if (($stamp_start_date != $stamp_end_date) && $timepicker)
+        if (($stamp_start != $stamp_end) && $timepicker)
+        {
             return 4;
+        }
 
         return 1;
     }

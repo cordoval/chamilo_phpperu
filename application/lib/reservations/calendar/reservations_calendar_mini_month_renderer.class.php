@@ -19,12 +19,12 @@ class ReservationsCalendarMiniMonthRenderer extends ReservationsCalendarRenderer
         $calendar = new MiniMonthCalendar($this->get_time());
         $from_date = strtotime(date('Y-m-1', $this->get_time()));
         $to_date = strtotime('-1 Second', strtotime('Next Month', $from_date));
-        $db_from = Utilities :: to_db_date($from_date);
-        $db_to = Utilities :: to_db_date($to_date);
+        $db_from = $from_date;
+        $db_to = $to_date;
         
         $rdm = ReservationsDataManager :: get_instance();
        
-        $conditions[] = $rdm->get_reservations_condition($db_from, $db_to, $_GET['item_id']);
+        $conditions[] = $rdm->get_reservations_condition($db_from, $db_to, Request :: get('item_id'));
         $conditions[] = new EqualityCondition(Reservation :: PROPERTY_STATUS, Reservation :: STATUS_NORMAL);
         $condition = new AndCondition($conditions);
         
@@ -46,8 +46,8 @@ class ReservationsCalendarMiniMonthRenderer extends ReservationsCalendarRenderer
             {
                 if (! $calendar->contains_events_for_time($table_date))
                 {
-                    $start_date = Utilities :: time_from_datepicker($reservation->get_start_date());
-                    $end_date = Utilities :: time_from_datepicker($reservation->get_stop_date());
+                    $start_date = $reservation->get_start_date();
+                    $end_date = $reservation->get_stop_date();
                     if ($table_date < $start_date && $start_date < $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
                     {
                         

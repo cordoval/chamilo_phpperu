@@ -26,15 +26,15 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
         
         $base = $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_CREATE_SUBSCRIPTION));
         
-        $db_from = Utilities :: to_db_date($from_date);
-        $db_to = Utilities :: to_db_date($to_date);
+        $db_from = $from_date;
+        $db_to = $to_date;
         
         $rdm = ReservationsDataManager :: get_instance();
         $item = $rdm->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $item_id))->next_result();
         
         if ($item->get_blackout() == 1)
         {
-            $times[] = array('start_date' => date("Y-m-d H:i", $from_date), 'stop_date' => date("Y-m-d H:i", $to_date), 'type' => 'Blackout');
+            $times[] = array('start_date' => $from_date, 'stop_date' => $to_date, 'type' => 'Blackout');
         }
         else
         {
@@ -48,10 +48,10 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
             $condition = new AndCondition($conditions);
             
             $reservations = $rdm->retrieve_reservations($condition);
-            //$reservations = $rdm->retrieve_reservations($rdm->get_reservations_condition($db_from, $db_to, $item_id));
+
             while ($reservation = $reservations->next_result())
             {
-                $end_time = Utilities :: time_from_datepicker($reservation->get_stop_date());
+                $end_time = $reservation->get_stop_date();
                 $url = $base . '&reservation_id=' . $reservation->get_id();
                 
                 if ($now > $end_time)
@@ -100,9 +100,8 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
                             
                             foreach ($subs as $start => $stop)
                             {
-                                $previous_stop_time = Utilities :: time_from_datepicker($previous_stop);
-                                $start_time = Utilities :: time_from_datepicker($start);
-                                //							$stop_time = Utilities :: time_from_datepicker($stop);
+                                $previous_stop_time = $previous_stop;
+                                $start_time = $start;
                                 
 
                                 if (($difference = ($start_time - $previous_stop_time)) > 0)
@@ -123,7 +122,7 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
                             
                             }
                             
-                            $previous_stop_time = Utilities :: time_from_datepicker($previous_stop);
+                            $previous_stop_time = $previous_stop;
                             if (($difference = ($end_time - $previous_stop_time)) > 0)
                             {
                                 if ($difference > ($reservation->get_timepicker_min() * 60))
@@ -154,8 +153,8 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
             $blocks = array();
             foreach ($times as $time)
             {
-                $start_date = Utilities :: time_from_datepicker($time['start_date']);
-                $end_date = Utilities :: time_from_datepicker($time['stop_date']);
+                $start_date = $time['start_date'];
+                $end_date = $time['stop_date'];
                 if ($table_date < $start_date && $start_date < $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
                 {
                     $blocks[] = $time;
@@ -184,8 +183,8 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
         
         foreach ($blocks as $block)
         {
-            $start_date = Utilities :: time_from_datepicker($block['start_date']);
-            $end_date = Utilities :: time_from_datepicker($block['stop_date']);
+            $start_date = $block['start_date'];
+            $end_date = $block['stop_date'];
             $difference = $start_date - $prev_stop_date;
             
             $title = date('H:i', $start_date) . '-' . date('H:i', $end_date);

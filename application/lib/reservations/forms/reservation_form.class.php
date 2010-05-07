@@ -165,13 +165,13 @@ class ReservationForm extends FormValidator
                 {
                     $recurrence_subscribe_from = strtotime('+' . ($values['repeat_every'] * $values['repeat_every_select']) . ' Days', $recurrence_subscribe_from);
                     $recurrence_subscribe_until = strtotime('+' . ($values['repeat_every'] * $values['repeat_every_select']) . ' Days', $recurrence_subscribe_until);
-                    $reservation->set_start_subscription(Utilities :: to_db_date($recurrence_subscribe_from));
-                    $reservation->set_stop_subscription(Utilities :: to_db_date($recurrence_subscribe_until));
+                    $reservation->set_start_subscription($recurrence_subscribe_from);
+                    $reservation->set_stop_subscription($recurrence_subscribe_until);
                 }
                 
                 $reservation->set_item($res->get_item());
-                $reservation->set_start_date(Utilities :: to_db_date($recurrence_date_start));
-                $reservation->set_stop_date(Utilities :: to_db_date($recurrence_date_end));
+                $reservation->set_start_date($recurrence_date_start);
+                $reservation->set_stop_date($recurrence_date_end);
                 
                 $status = $this->allow_create_reservation($reservation);
                 
@@ -205,8 +205,8 @@ class ReservationForm extends FormValidator
             
             if ($reservation->get_start_date() == null)
             {
-                $reservation->set_start_date($values[Reservation :: PROPERTY_START_DATE]);
-                $reservation->set_stop_date($values[Reservation :: PROPERTY_STOP_DATE]);
+                $reservation->set_start_date(Utilities :: time_from_datepicker($values[Reservation :: PROPERTY_START_DATE]));
+                $reservation->set_stop_date(Utilities :: time_from_datepicker($values[Reservation :: PROPERTY_STOP_DATE]));
             }
             
             $reservation->set_max_users($values[Reservation :: PROPERTY_MAX_USERS]);
@@ -216,8 +216,8 @@ class ReservationForm extends FormValidator
             
             if ($values['use_subscription'] == 1 && $reservation->get_start_subscription() == null)
             {
-                $reservation->set_start_subscription($values[Reservation :: PROPERTY_START_SUBSCRIPTION]);
-                $reservation->set_stop_subscription($values[Reservation :: PROPERTY_STOP_SUBSCRIPTION]);
+                $reservation->set_start_subscription(Utilities :: time_from_datepicker($values[Reservation :: PROPERTY_START_SUBSCRIPTION]));
+                $reservation->set_stop_subscription(Utilities :: time_from_datepicker($values[Reservation :: PROPERTY_STOP_SUBSCRIPTION]));
             }
             
             if ($values['use_timepicker'] == 1)
@@ -242,16 +242,16 @@ class ReservationForm extends FormValidator
             $reservation = $this->reservation;
             
             $reservation->set_notes($values[Reservation :: PROPERTY_NOTES]);
-            $reservation->set_start_date($values[Reservation :: PROPERTY_START_DATE]);
-            $reservation->set_stop_date($values[Reservation :: PROPERTY_STOP_DATE]);
+            $reservation->set_start_date(Utilities :: time_from_datepicker($values[Reservation :: PROPERTY_START_DATE]));
+            $reservation->set_stop_date(Utilities :: time_from_datepicker($values[Reservation :: PROPERTY_STOP_DATE]));
             $reservation->set_max_users($values[Reservation :: PROPERTY_MAX_USERS]);
             $aa = $values[Reservation :: PROPERTY_AUTO_ACCEPT];
             $reservation->set_auto_accept($aa ? $aa : 0);
             
             if ($values['use_subscription'] == 1)
             {
-                $reservation->set_start_subscription($values[Reservation :: PROPERTY_START_SUBSCRIPTION]);
-                $reservation->set_stop_subscription($values[Reservation :: PROPERTY_STOP_SUBSCRIPTION]);
+                $reservation->set_start_subscription(Utilities :: time_from_datepicker($values[Reservation :: PROPERTY_START_SUBSCRIPTION]));
+                $reservation->set_stop_subscription(Utilities :: time_from_datepicker($values[Reservation :: PROPERTY_STOP_SUBSCRIPTION]));
             }
             else
             {

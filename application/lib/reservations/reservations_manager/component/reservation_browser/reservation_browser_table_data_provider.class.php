@@ -48,8 +48,8 @@ class ReservationBrowserTableDataProvider extends ObjectTableDataProvider
         $from_date = strtotime('Last Monday', strtotime('+1 Day', strtotime(date('Y-m-d', $now))));
         $to_date = strtotime('-1 Second', strtotime('Next Week', $from_date));
         
-        $db_from = Utilities :: to_db_date($from_date);
-        $db_to = Utilities :: to_db_date($to_date);
+        $db_from = $from_date;
+        $db_to = $to_date;
         
         $item = Request :: get('item_id');
         
