@@ -12,6 +12,7 @@ class InternshipOrganizerRegionManager extends SubManager
 	const PARAM_ACTION = 'action';
 
 	const PARAM_REGION_ID = 'region_id';
+	const PARAM_PARENT_REGION_ID = 'parent_id';
 	const PARAM_REMOVE_SELECTED = 'delete';
 	const PARAM_TRUNCATE_SELECTED = 'truncate';
 
@@ -93,6 +94,8 @@ class InternshipOrganizerRegionManager extends SubManager
 	function get_browse_regions_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_REGIONS));
+				
+		//return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_REGIONS));
 	}
 
 	function get_region_editing_url($region)
@@ -117,12 +120,12 @@ class InternshipOrganizerRegionManager extends SubManager
 
 	function get_region_viewing_url($region)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_REGION, self :: PARAM_REGION_ID => $region->get_id()));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_REGION, self :: PARAM_REGION_ID => $region->get_id(), self :: PARAM_PARENT_REGION_ID => $region->get_parent_id()));
 	}
 
 	function get_region_delete_url($region)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_REGION, self :: PARAM_REGION_ID => $region->get_id()));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_REGION, self :: PARAM_REGION_ID => $region->get_id(), self :: PARAM_PARENT_REGION_ID => $region->get_parent_id()));
 	}
 
 	private function parse_input_from_table()
