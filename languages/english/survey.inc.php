@@ -109,8 +109,22 @@ $lang['survey']['SelectYourChoices'] = 'Select your choices';
 $lang['survey']['ChooseYourRating'] = 'Choose your rating';
 $lang['survey']['ChooseYourOptionMatch'] = 'Choose your option match';
 $lang['survey']['SurveyFinishText'] = 'Survey Finish Text';
-
+$lang['survey']['ViewReport'] = 'View Report';
+$lang['survey']['BrowseSurveyPages'] = 'Browse Survey Pages';
+$lang['survey']['BrowseSurveyPageQuestions'] = 'Browse Survey Page Questions';
+$lang['survey']['ViewQuestionResults'] = 'View Question Results';
+$lang['survey']['VieuwQuestionResults'] = 'View Question Results';
+$lang['survey']['SurveyQuestionReportingBlock'] = 'Survey question reporting block';
+$lang['survey']['SurveyQuestionReportingTemplate'] = 'Survey question reporting template';
+$lang['survey']['ExportToPdf'] = 'Export to pdf';
+$lang['survey']['Table'] = 'Table';
+$lang['survey']['Csv'] = 'Csv';
+$lang['survey']['Pdf'] = 'Pdf';
+$lang['survey']['Xml'] = 'Xml';
 $lang['survey']['Logout'] = 'Logout';
-
-
+$lang['survey']['Chart:Pie'] = 'Pie Chart';
+$lang['survey']['Chart:Bar'] = 'Bar Chart';
+$lang['survey']['Chart:Line'] = 'Line Chart';
+$lang['survey']['Chart:FilledCubic'] = 'Filled Cubic Chart';
+$lang['survey']['SavedToRepository'] = 'Saved to repository';
 ?>
