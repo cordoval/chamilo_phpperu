@@ -19,6 +19,8 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     private $total_pages;
     private $total_questions;
     private $pages;
+    private $real_pages;
+    private $question_visibility;
 
     function SurveyViewerWizard($parent, $survey, $template_id)
     {
@@ -51,6 +53,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     	$survey_pages = $this->survey->get_pages();
         $page_nr = 0;
         $question_nr = 0;
+        $this->question_visibility = array();
         
         foreach ($survey_pages as $survey_page)
         {
@@ -59,13 +62,23 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
             }
         	
         	$page_nr ++;
-            $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
+            $this->real_pages[$page_nr] = $survey_page->get_id();
+        	$this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
             $questions = array();
-            $page_questions = $survey_page->get_questions();
+            $questions_items = $survey_page->get_questions(true);
             
-            foreach ($page_questions as $question)
+            while ($question_item =  $questions_items->next_result())
             {
-                
+				$question = RepositoryDataManager::get_instance()->retrieve_content_object($question_item->get_ref());
+            	
+            	if($question_item->get_visible() == 1){
+            		$this->question_visibility[$question->get_id()] = true;
+            	}else{
+            		$this->question_visibility[$question->get_id()] = false;
+            	}
+            	
+            	
+            	           	
             	if ($question->get_type() == SurveyDescription :: get_type_name())
                 {
                     $questions[$question->get_id() . 'description'] = $question;
@@ -105,7 +118,15 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         $page_object = $page['page'];
         return $page_object;
     }
-
+	
+    function get_real_page_nr($page_nr){
+    	return $this->real_pages[$page_nr];
+    }
+    
+    function get_question_visibility($question_id){
+    	return $this->question_visibility[$question_id];
+    }
+    
     function get_parent()
     {
         return $this->parent;

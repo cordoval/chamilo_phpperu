@@ -16,19 +16,21 @@
 		
 		displayResult = doAjaxPost("./common/javascript/ajax/survey.php", {"survey_publication" : surveyPublicationId, "results" : $.json.serialize(checkedQuestionResults)});
 		
-		alert(displayResult);
+//		alert(displayResult);
 		
-//		var questionVisibilities = eval('(' + displayResult + ')');
-//		
-//		$.each(questionVisibilities, function (questionId, questionVisible)
-//		{
-//			if (!questionVisible)
-//			{
-//				$("div#" + questionId).hide();
-//			}
-////			alert(element);
-////			alert(i);
-//		});
+		var questionVisibilities = eval('(' + displayResult + ')');
+		
+		$.each(questionVisibilities, function (questionId, questionVisible)
+		{
+			if (!questionVisible)
+			{
+				$("div#" + questionId).hide();
+			}else{
+				$("div#" + questionId).removeAttr("style");
+			}
+//			alert(element);
+//			alert(i);
+		});
 	}
 	
 	$(document).ready( function() 

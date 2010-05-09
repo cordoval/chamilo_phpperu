@@ -13,19 +13,23 @@ abstract class SurveyQuestionDisplay
     private $survey;
     private $page_nr;
     private $answer;
+    private $visible;
 
-    function SurveyQuestionDisplay($formvalidator, $clo_question, $question_nr, $question, $survey, $page_nr, $answer)
+    function SurveyQuestionDisplay($formvalidator, $visible, $question_nr, $question, $survey, $page_nr, $answer)
     {
 
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
-
-        $this->clo_question = $clo_question;
+		
+//        $this->clo_question = $clo_question;
+//        dump($this->clo_question);
         $this->question_nr = $question_nr;
         $this->question = $question;
+//        dump($this->question);
         $this->survey = $survey;
         $this->page_nr = $page_nr;
         $this->answer = $answer;
+        $this->visible = $visible;
      }
 
     function get_clo_question()
@@ -92,8 +96,16 @@ abstract class SurveyQuestionDisplay
     function add_header()
     {
         $formvalidator = $this->formvalidator;
-
-        $html[] = '<div class="question" id="survey_question_'. $this->question->get_id() .'">';
+     
+        if(!$this->visible){
+        	        $html[] = '<div style="display:none" class="question" id="survey_question_'. $this->question->get_id() .'">';
+        	
+        }else{
+        	        $html[] = '<div  class="question" id="survey_question_'. $this->question->get_id() .'">';
+        	
+        }
+        
+//        style="display:none"
         $html[] = '<div class="title">';
         $html[] = '<div class="number">';
         $html[] = '<div class="bevel">';
@@ -145,9 +157,9 @@ abstract class SurveyQuestionDisplay
 
     abstract function get_instruction();
 
-    static function factory($formvalidator, $clo_question, $question_nr, $survey, $page_nr)
+    static function factory($formvalidator, $question, $visible ,$question_nr, $survey, $page_nr)
     {
-        $question = $clo_question;
+//        $question = $clo_question;
         $type = $question->get_type();
 
         $file = dirname(__FILE__) . '/survey_question_display/' . $type . '.class.php';
@@ -160,7 +172,7 @@ abstract class SurveyQuestionDisplay
         require_once $file;
 
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
-        $question_display = new $class($formvalidator, $clo_question, $question_nr, $question, $survey, $page_nr);
+        $question_display = new $class($formvalidator, $visible, $question_nr, $question, $survey, $page_nr);
         return $question_display;
     }
 
