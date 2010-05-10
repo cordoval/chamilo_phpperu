@@ -41,7 +41,10 @@ class DefaultCourseRequestTableCellRenderer implements ObjectTableCellRenderer
             	return UserDataManager::get_instance()->retrieve_user($request->get_user_id())->get_fullname();
             	
             case self :: COURSE_NAME :
-            	return $this->browser->retrieve_course($request->get_course_id())->get_name();
+            	if(get_class($request) == "CourseRequest")
+            		return $this->browser->retrieve_course($request->get_course_id())->get_name();
+            	else
+            		return $request->get_course_name();
             	
             case CommonRequest :: PROPERTY_SUBJECT :
                 return $request->get_subject();
