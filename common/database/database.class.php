@@ -1006,19 +1006,14 @@ class Database
      * @param String $table_name - the table name
      * @param int $id - the id of the node
      */
-    public function nested_tree_retrieve_node($node, $id = null)
+    public function nested_tree_retrieve_node($node, $id)
     {
-        if ($id != null)
+        if (!isset($id))
         {
-            $condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node);
-        }
-        else
-        {
-            $condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node->get_id());
+            return false;
         }
 
-        dump($condition);
-
+        $condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $id);
         return $this->retrieve_object($node->get_table_name(), $condition, array(), get_class($node));
     }
 

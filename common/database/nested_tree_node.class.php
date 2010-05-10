@@ -378,7 +378,10 @@ abstract class NestedTreeNode extends DataClass
         //if (! $dm->add_nested_values($this, $previous_visited, $number_of_elements, $this->get_nested_tree_node_condition()))
 
 
-        $dm->nested_tree_add_nested_values($this, $new_previous_id);
+        if (!$dm->nested_tree_add_nested_values($this, $previous_visited, $number_of_elements, $this->get_nested_tree_node_condition()))
+        {
+            return false;
+        }
 
 //        $func = 'add_' . $this->get_object_name() . '_nested_values';
 //
@@ -394,7 +397,7 @@ abstract class NestedTreeNode extends DataClass
 
         // Now we can update the actual parent_id
         // Return false if this failed
-        $current_node = $dm->nested_tree_retrieve_node($this);
+        $current_node = $dm->nested_tree_retrieve_node($this, $this->get_id());
 
         $this->set_left_value($current_node->get_left_value());
         $this->set_right_value($current_node->get_right_value());
