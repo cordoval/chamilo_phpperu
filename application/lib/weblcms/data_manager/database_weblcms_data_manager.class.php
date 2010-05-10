@@ -243,7 +243,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $condition = new AndCondition($conditions);
 
         $course_subscribe_requests = $this->retrieve_requests($condition);
-        $course_create_requests = $this->retrieve_course_create_requests($condition);
+//        $course_create_requests = $this->retrieve_course_create_requests($condition);
 
         while($course_request = $course_subscribe_requests->next_result())
         {
@@ -254,14 +254,14 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         	}
         }
 
-        while($course_request = $course_create_requests->next_result())
-        {
-        	$course_id = $course_request->get_course_id();
-        	if(! $this->is_subscribed($course_id, $user_id))
-        	{
-        		$this->subscribe_user_to_course($course_id, '1', '1', $user_id);
-        	}
-        }
+//        while($course_request = $course_create_requests->next_result())
+//        {
+//        	$course_id = $course_request->get_course_id();
+//        	if(! $this->is_subscribed($course_id, $user_id))
+//        	{
+//        		$this->subscribe_user_to_course($course_id, '1', '1', $user_id);
+//        	}
+//        }
     }
 
     function count_course_types($condition = null)
