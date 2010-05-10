@@ -203,7 +203,6 @@ class ForumPublicationForm extends FormValidator
             $forum_publication->set_category_id($values[ForumPublication :: PROPERTY_CATEGORY_ID]);
             /*$forum_publication->set_target_groups($values['target_elements']['group']);
 	    	$forum_publication->set_target_users($values['target_elements']['user']);*/
-            
             $succes &= $forum_publication->create();
         }
     

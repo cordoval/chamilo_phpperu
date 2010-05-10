@@ -405,4 +405,7 @@ $lang['admin']['AllowEvaluateLearningPath'] = 'Allow evaluate learning path';
 $lang['admin']['AllowEvaluateLink'] = 'Allow evaluate link';
 $lang['admin']['AllowEvaluateNote'] = 'Allow evaluate note';
 $lang['admin']['AllowEvaluateWiki'] = 'Allow evaluate wiki';
+$lang['admin']['AllowEvaluateApplicationWiki'] = 'Allow evaluate application wiki';
+$lang['admin']['AllowEvaluateApplicationAssessment'] = 'Allow evaluate application assessment';
+$lang['admin']['AllowEvaluateApplicationForum'] = 'Allow evaluate application forum';
 ?>

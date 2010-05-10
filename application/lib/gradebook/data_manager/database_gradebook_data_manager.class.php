@@ -452,6 +452,7 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
 	function retrieve_gradebook_rel_users($condition = null, $offset = null, $count = null, $order_property = null){
 		return $this->retrieve_objects(GradebookRelUser :: get_table_name(), $condition, $offset, $count, $order_property);
 
+	
 	}*/
 }
 ?>
