@@ -6,33 +6,24 @@
 
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 
-class WeblcmsManagerCourseSubscribeRequestCreatorComponent extends WeblcmsManager
+class UserToolRequestSubscribeUserComponent extends UserToolComponent
 {
 
     /**
      * Runs this component and displays its output.
      */
     function run()
-    {        
-    	$course_code = Request :: get(WeblcmsManager :: PARAM_COURSE);
+    {
         $failures = 0;
                 
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION, WeblcmsManager :: PARAM_COURSE)),Translation :: get('MyCourses')));
-        $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_SUBSCRIBE), array(WeblcmsManager :: PARAM_COURSE)),Translation :: get('CourseSubscribe')));
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)), Translation :: get('SubscribeUsers')));
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_REQUEST_SUBSCRIBE_USER)), Translation :: get('RequestSubscribeUser')));
         $trail->add_help('course request');
-        /*
-        if (! $this->get_user()->is_platform_admin())
-        {
-            $this->display_header($trail);
-            Display :: warning_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        } 
-        */      
-        $course = $this->retrieve_course($course_code);
+           
+        $course = $this->get_course();
         $request = new CourseRequest();
-        $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(array(WeblcmsManager :: PARAM_COURSE => $course_code)), $course, $this, $request, true);
+        $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(), $course, $this, $request);
        
         if($form->validate())
         {

@@ -19,10 +19,12 @@ class CourseRequestForm extends FormValidator
 	private $parent;
 	private $request;
 	private $user_id;
+	private $multiple_users;
 
-	function CourseRequestForm($form_type, $action, $course, $parent, $request)
+	function CourseRequestForm($form_type, $action, $course, $parent, $request, $multiple_users = false)
 	{
 		parent :: __construct('course_request', 'post', $action);
+		$this->multiple_users = $multiple_users;
 		$this->parent = $parent;
 		$this->request = $request;
 		$this->form_type = $form_type;
@@ -71,8 +73,15 @@ class CourseRequestForm extends FormValidator
 		
 			$this->addElement('category', Translation :: get('CourseRequestProperties'));
 			
-			$user_name = UserDataManager::get_instance()->retrieve_user($this->user_id)->get_fullname();
-			$this->addElement('static', 'user', Translation :: get('User'), $user_name);
+			if(!$this->multiple_users)
+			{
+				
+			}
+			else
+			{
+				$user_name = UserDataManager::get_instance()->retrieve_user($this->user_id)->get_fullname();
+				$this->addElement('static', 'user', Translation :: get('User'), $user_name);
+			}
 			
 			if(get_class($this->request) == "CourseCreateRequest")
 			{        
