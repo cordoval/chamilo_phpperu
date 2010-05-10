@@ -98,12 +98,6 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
     }
 
     // Inherited.
-    function create_storage_unit($name, $properties, $indexes)
-    {
-        return $this->create_storage_unit($name, $properties, $indexes);
-    }
-
-    // Inherited.
     function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_properties = null)
     {
         if (isset($type))
