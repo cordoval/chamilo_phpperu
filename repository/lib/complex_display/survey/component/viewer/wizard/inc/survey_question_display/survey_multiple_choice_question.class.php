@@ -29,7 +29,7 @@ class SurveyMultipleChoiceQuestionDisplay extends SurveyQuestionDisplay
         $table_header[] = '<tbody>';
         $formvalidator->addElement('html', implode("\n", $table_header));
 
-        $question_id = $clo_question->get_id();
+        $question_id = $question->get_id();
 
         foreach ($answers as $i => $answer)
         {

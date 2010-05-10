@@ -16,7 +16,7 @@
 		
 		displayResult = doAjaxPost("./common/javascript/ajax/survey.php", {"survey_publication" : surveyPublicationId, "results" : $.json.serialize(checkedQuestionResults)});
 		
-//	alert(displayResult);
+//		alert(displayResult);
 		
 		var questionVisibilities = eval('(' + displayResult + ')');
 		
@@ -25,6 +25,8 @@
 			if (!questionVisible)
 			{
 				$("div#" + questionId).hide();
+			}else{
+				$("div#" + questionId).removeAttr("style");
 			}
 //			alert(element);
 //			alert(i);

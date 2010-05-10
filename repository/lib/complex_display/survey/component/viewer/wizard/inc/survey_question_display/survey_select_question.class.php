@@ -12,12 +12,12 @@ class SurveySelectQuestionDisplay extends SurveyQuestionDisplay
     {
         $formvalidator = $this->get_formvalidator();
         $renderer = $this->get_renderer();
-        $clo_question = $this->get_clo_question();
+//        $clo_question = $this->get_clo_question();
         $question = $this->get_question();
         
         $options = $question->get_options();
         $type = $question->get_answer_type();
-        $question_id = $clo_question->get_id();
+        $question_id = $question->get_id();
         
         foreach ($options as $option)
         {

@@ -27,7 +27,7 @@ class SurveyOpenQuestionDisplay extends SurveyQuestionDisplay
         $table_header[] = '<td>';
         $formvalidator->addElement('html', implode("\n", $table_header));
 
-        $this->add_html_editor($clo_question, $formvalidator);
+        $this->add_html_editor($question, $formvalidator);
 
         $table_footer[] = '</td>';
         $table_footer[] = '</tr>';
@@ -36,7 +36,7 @@ class SurveyOpenQuestionDisplay extends SurveyQuestionDisplay
         $formvalidator->addElement('html', implode("\n", $table_footer));
     }
 
-    function add_html_editor($clo_question, $formvalidator)
+    function add_html_editor($question, $formvalidator)
     {
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
@@ -51,7 +51,7 @@ class SurveyOpenQuestionDisplay extends SurveyQuestionDisplay
         $element_template = implode("\n", $element_template);
         $renderer = $this->get_renderer();
 
-        $name = $clo_question->get_id() . '_0';
+        $name = $question->get_id() . '_0';
         $formvalidator->add_html_editor($name, '', false, $html_editor_options);
         $renderer->setElementTemplate($element_template, $name);
     }
