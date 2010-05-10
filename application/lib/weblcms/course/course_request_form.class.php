@@ -131,7 +131,7 @@ class CourseRequestForm extends FormValidator
 				case CommonRequest :: ALLOWED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Allowed') );
 														$this->addElement('static', 'request', Translation :: get('on'), $decision_date);
 														break;
-				case CommonRequest :: ALLOWED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Denied') );
+				case CommonRequest :: DENIED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Denied') );
 														$this->addElement('static', 'request', Translation :: get('on'), $decision_date);
 														break;
 				default:  $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('NoDecisionYet'));
