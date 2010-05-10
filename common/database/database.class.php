@@ -132,8 +132,8 @@ class Database
     {
         if ($this->is_migration)
         {
-        	$dsn = $this->connection->getDSN('array');
-        	return $dsn['database'] . '.' . $this->prefix . $name;
+            $dsn = $this->connection->getDSN('array');
+            return $dsn['database'] . '.' . $this->prefix . $name;
         }
 
         return $this->prefix . $name;
@@ -147,10 +147,10 @@ class Database
      */
     function escape_table_name($name)
     {
-    	if ($this->is_migration)
+        if ($this->is_migration)
         {
-        	$dsn = $this->connection->getDSN('array');
-        	return $dsn['database'] . '.' . $this->prefix . $name;
+            $dsn = $this->connection->getDSN('array');
+            return $dsn['database'] . '.' . $this->prefix . $name;
         }
 
         return $this->connection->quoteIdentifier($this->prefix . $name);
@@ -175,23 +175,23 @@ class Database
 
         foreach ($object->get_default_property_names() as $property)
         {
-            if(array_key_exists($property, $record))
+            if (array_key_exists($property, $record))
             {
-        		$default_properties[$property] = $record[$property];
-            	unset($record[$property]);
+                $default_properties[$property] = $record[$property];
+                unset($record[$property]);
             }
         }
 
         $object->set_default_properties($default_properties);
 
-        if(count($record) > 0 && is_a($object, DataClass :: CLASS_NAME))
+        if (count($record) > 0 && is_a($object, DataClass :: CLASS_NAME))
         {
-	        foreach($record as $optional_property_name => $optional_property_value)
-	        {
-	        	$optional_properties[$optional_property_name] = $optional_property_value;
-	        }
+            foreach ($record as $optional_property_name => $optional_property_value)
+            {
+                $optional_properties[$optional_property_name] = $optional_property_value;
+            }
 
-	        $object->set_optional_properties($optional_properties);
+            $object->set_optional_properties($optional_properties);
         }
         return $object;
     }
@@ -349,7 +349,7 @@ class Database
     {
         if (count($properties) > 0)
         {
-        	$table_name_alias = $this->get_alias($table_name);
+            $table_name_alias = $this->get_alias($table_name);
 
             $query = 'UPDATE ' . $this->escape_table_name($table_name) . ' AS ' . $table_name_alias . ' SET ';
 
@@ -380,9 +380,9 @@ class Database
 
             foreach ($order_by as $order)
             {
-                if($order)
+                if ($order)
                 {
-            		$orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                    $orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                 }
             }
             if (count($orders))
@@ -404,7 +404,7 @@ class Database
             else
             {
                 $res->free();
-            	return true;
+                return true;
             }
         }
         else
@@ -430,7 +430,7 @@ class Database
         }
         else
         {
-        	$res->free();
+            $res->free();
             return true;
         }
     }
@@ -460,7 +460,7 @@ class Database
         else
         {
             $res->free();
-        	return true;
+            return true;
         }
     }
 
@@ -482,7 +482,7 @@ class Database
         }
         else
         {
-        	return true;
+            return true;
         }
     }
 
@@ -507,8 +507,9 @@ class Database
             $query .= $translator->render_query($condition);
         }
 
-//        dump($query);
-//        exit;
+        //        dump($query);
+        //        exit;
+
 
         $res = $this->query($query);
 
@@ -538,7 +539,7 @@ class Database
     function retrieve_objects($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-//        echo $query . '<br />';
+        //        echo $query . '<br />';
         return $this->retrieve_object_set($query, $table_name, $condition, $offset, $max_objects, $order_by, $class_name);
     }
 
@@ -552,8 +553,9 @@ class Database
 
         $orders = array();
 
-//                dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
-//                dump($order_by);
+        //                dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
+        //                dump($order_by);
+
 
         if (is_null($order_by))
         {
@@ -566,10 +568,10 @@ class Database
 
         foreach ($order_by as $order)
         {
-        	if($order)
-        	{
-            	$orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
-        	}
+            if ($order)
+            {
+                $orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+            }
         }
         if (count($orders))
         {
@@ -615,14 +617,14 @@ class Database
         $res = $this->query($query);
         if ($res->numRows() >= 1)
         {
-        	$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-        	$res->free();
+            $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+            $res->free();
             return $record[0];
         }
         else
         {
             $res->free();
-        	return 0;
+            return 0;
         }
     }
 
@@ -684,9 +686,9 @@ class Database
 
         foreach ($order_by as $order)
         {
-            if($order)
+            if ($order)
             {
-        		$orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                $orders[] = $this->escape_column_name($order->get_property(), ($order->alias_is_set() ? $order->get_alias() : $this->get_alias($table_name))) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
             }
         }
         if (count($orders))
@@ -744,7 +746,7 @@ class Database
         {
             $distinct_elements[] = $record[$column_name];
         }
-		$res->free();
+        $res->free();
         return $distinct_elements;
     }
 
@@ -775,19 +777,19 @@ class Database
     function get_alias($table_name)
     {
         return DatabaseAliasGenerator :: get_instance()->get_table_alias($table_name, $this->get_prefix());
-//        if (!array_key_exists($table_name, $this->aliases))
-//        {
-//            $possible_name = substr($table_name, 0, 2) . substr($table_name, - 2);
-//            $index = 0;
-//            while (array_key_exists($possible_name, $this->aliases))
-//            {
-//                $possible_name = $possible_name . $index;
-//                $index = $index ++;
-//            }
-//            $this->aliases[$table_name] = $possible_name;
-//        }
-//
-//        return $this->aliases[$table_name];
+        //        if (!array_key_exists($table_name, $this->aliases))
+    //        {
+    //            $possible_name = substr($table_name, 0, 2) . substr($table_name, - 2);
+    //            $index = 0;
+    //            while (array_key_exists($possible_name, $this->aliases))
+    //            {
+    //                $possible_name = $possible_name . $index;
+    //                $index = $index ++;
+    //            }
+    //            $this->aliases[$table_name] = $possible_name;
+    //        }
+    //
+    //        return $this->aliases[$table_name];
     }
 
     function get_constraint_name($name)
@@ -836,7 +838,7 @@ class Database
      * FUNCTIONALITY THAT ENABLES NESTED TREES VIA NESTED_TREE_NODE.CLASS.PHP *
      **************************************************************************/
 
-/**
+    /**
      * Counts the children of a tree node
      * @param NestedTreeNode $node - the node
      * @param Condition $condition - additional conditions
@@ -856,8 +858,7 @@ class Database
     function nested_tree_get_children($node, $recursive = false, $condition = null)
     {
         $condition = $this->nested_tree_build_children_condition($node, $recursive, $condition);
-		return $this->retrieve_objects($node->get_table_name(), $condition, null, null, array(), get_class($node))
-        ;
+        return $this->retrieve_objects($node->get_table_name(), $condition, null, null, array(), get_class($node));
     }
 
     /**
@@ -1007,15 +1008,21 @@ class Database
      */
     public function nested_tree_retrieve_node($node, $id = null)
     {
-        if($id != null){
-        	$condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node);
-        }else{
-        	$condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node->get_id());
+        if ($id != null)
+        {
+            $condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node);
         }
-    	return $this->retrieve_object($node->get_table_name(), $condition, array(), get_class($node));
+        else
+        {
+            $condition = new EqualityCondition(NestedTreeNode :: PROPERTY_ID, $node->get_id());
+        }
+
+        dump($condition);
+
+        return $this->retrieve_object($node->get_table_name(), $condition, array(), get_class($node));
     }
 
- /**
+    /**
      * Retrieve a parent node from the database
      * @param String $table_name - the table name
      */

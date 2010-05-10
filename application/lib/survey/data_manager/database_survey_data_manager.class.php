@@ -93,7 +93,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
 
     function count_survey_participant_trackers($condition = null)
     {
-        //$database = TrackingDataManager::get_instance()->get_database();
+        //$database = TrackingDataManager::get_instance();
         $dummy = new SurveyParticipantTracker();
         //$table_name = $dummy->get_table_name();
         return $dummy->count_tracker_items($condition);
@@ -181,7 +181,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
 
     function retrieve_survey_participant_trackers($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        //$database = TrackingDataManager::get_instance()->get_database();
+        //$database = TrackingDataManager::get_instance();
         $dummy = new SurveyParticipantTracker();
         //$table_name = $dummy->get_table_name();
         //$result = $database->retrieve_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
