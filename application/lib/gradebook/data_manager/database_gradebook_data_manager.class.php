@@ -7,7 +7,6 @@ require_once dirname(__FILE__) . '/../grade_evaluation.class.php';
 require_once dirname(__FILE__) . '/../internal_item_instance.class.php';
 require_once dirname(__FILE__) . '/../external_item_instance.class.php';
 require_once Path :: get_library_path() . 'condition/condition_translator.class.php';
-require_once Path :: get_library_path() . 'database/database_gradebook_data_manager.class.php';
 require_once dirname(__FILE__) . '/../gradebook_data_manager_interface.class.php';
 
 class DatabaseGradebookDataManager extends Database implements GradebookDataManagerInterface
