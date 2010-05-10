@@ -7,14 +7,14 @@ require_once dirname(__FILE__) . '/../../evaluation_format/evaluation_format.cla
 class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 {
 	public function count_data()
-	{	
+	{
 		$reporting_data = new ReportingData();
 		$reporting_data->set_rows(array(Translation :: get('EvaluationDate'),Translation :: get('User'), Translation :: get('Evaluator'), Translation :: get('Score'), Translation :: get('Comment')));
 		$application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		$publication_id = Request :: get(GradebookManager :: PARAM_PUBLICATION_ID);
 		$data = GradebookManager :: retrieve_all_evaluations_on_publication($application, $publication_id);
 		$internal_item = EvaluationManager :: retrieve_internal_item_by_publication($application, $publication_id);
-		if(!$internal_item->get_calculated)
+		if($internal_item->get_calculated() == 0)
 		{
 			while($evaluation = $data->next_result())
 			{
@@ -60,7 +60,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 					$date[$i] = $content_date;
 				}
 				$reporting_data->add_category($date[$i]);
-	            $reporting_data->add_data_category_row($date[$i], Translation :: get('EvaluationDate'), $date[$i]);
+	            $reporting_data->add_data_category_row($date[$i], Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $date[$i]));
 	            $reporting_data->add_data_category_row($date[$i], Translation :: get('User'), $username);
 				$reporting_data->add_data_category_row($date[$i], Translation :: get('Evaluator'), $publisher);
 				$reporting_data->add_data_category_row($date[$i], Translation :: get($score_translation), $score[$i] . '%');

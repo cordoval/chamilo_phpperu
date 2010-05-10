@@ -140,9 +140,12 @@ class AssessmentPublicationForm extends FormValidator
         $attributes['defaults'] = array();
     	if(WebApplication :: is_active('gradebook'))
         {
-        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
-        	$gradebook_internal_item_form = new GradebookInternalItemForm();
-        	$gradebook_internal_item_form->build_evaluation_question($this);
+        	if(PlatformSetting :: get_instance()->get('allow_evaluate_application_assessment', 'gradebook'))
+        	{
+	        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
+	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+	        	$gradebook_internal_item_form->build_evaluation_question($this);
+        	}
         }
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
         $this->add_forever_or_timewindow();
@@ -249,7 +252,7 @@ class AssessmentPublicationForm extends FormValidator
 		        if($pub->get_publication_object()->get_type() == 'survey')
 		        	$gradebook_internal_item_form->create_internal_item($pub->get_id());
 		       	else
-		        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
+		        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true, 'C' . 0);
 			}
         }
         return true;

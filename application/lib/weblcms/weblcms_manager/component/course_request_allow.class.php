@@ -65,7 +65,7 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
 			
 				foreach($request_ids as $request_id)
 				{				
-					if(!$this->update_date($request_id))
+					if(!$this->update_request($request_id))
 					{
 						$failures ++;
 					}
@@ -100,8 +100,9 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
         	}
 		}
 		
-	function update_date($request_id)
+	function update_request($request_id)
     {
+
     	$request_method = null;
         
         switch($this->request_type)
@@ -112,6 +113,22 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
    	
         $wdm = WeblcmsDataManager :: get_instance();
         $request = $wdm->$request_method($request_id);
+        
+        if($this->request_type == CommonRequest :: CREATION_REQUEST)
+		{
+			$course = new Course();
+			$course->set_name($request->get_course_name());
+			$course->set_course_type_id($request->get_course_type_id());
+			$course->set_titular($request->get_user_id());
+			$course->set_visual(strtoupper(uniqid()));
+		
+			if(!$course->create())
+				return false;
+			
+	        if(!$this->subscribe_user_to_course($course->get_id(), '1', '1', $request->get_user_id()))
+	        	return false;
+		}
+		
         $request->set_decision_date(time());
         $request->set_decision(CommonRequest :: ALLOWED_DECISION);
         return $request->update($request);

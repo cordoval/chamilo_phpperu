@@ -17,9 +17,9 @@ class DefaultGradebookPublicationTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_CREATION_DATE);
 		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
 		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
+		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_CREATION_DATE);
 		return $columns;
 	}
 }
