@@ -225,11 +225,9 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $course_alias = $this->get_alias(Course :: get_table_name());
         $course_settings_alias = $this->get_alias('course_settings');
-        $course_create_alias = $this->get_alias(CourseCreateRequest :: get_table_name());
 
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
         $query .= ' JOIN ' . $this->escape_table_name('course_settings') . ' AS ' . $course_settings_alias . ' ON ' . $course_alias . '.id = ' . $course_settings_alias . '.course_id';
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseCreateRequest :: get_table_name()) . ' AS ' . $course_create_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_create_alias);
 
         return $this->count_result_set($query, Course :: get_table_name(), $condition);
     }
@@ -243,7 +241,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $condition = new AndCondition($conditions);
 
         $course_subscribe_requests = $this->retrieve_requests($condition);
-//        $course_create_requests = $this->retrieve_course_create_requests($condition);
 
         while($course_request = $course_subscribe_requests->next_result())
         {
@@ -253,15 +250,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         		$this->subscribe_user_to_course($course_id, '5', '0', $user_id);
         	}
         }
-
-//        while($course_request = $course_create_requests->next_result())
-//        {
-//        	$course_id = $course_request->get_course_id();
-//        	if(! $this->is_subscribed($course_id, $user_id))
-//        	{
-//        		$this->subscribe_user_to_course($course_id, '1', '1', $user_id);
-//        	}
-//        }
     }
 
     function count_course_types($condition = null)
@@ -767,11 +755,9 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $course_alias = $this->get_alias(Course :: get_table_name());
         $course_settings_alias = $this->get_alias(CourseSettings :: get_table_name());
-        $course_create_alias = $this->get_alias(CourseCreateRequest :: get_table_name());
 
         $query = 'SELECT ' . $course_alias . '.* FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
         $query .= ' JOIN ' . $this->escape_table_name(CourseSettings :: get_table_name()) . ' AS ' . $course_settings_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_settings_alias);
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseCreateRequest :: get_table_name()) . ' AS ' . $course_create_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_create_alias);
 
         $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
 
