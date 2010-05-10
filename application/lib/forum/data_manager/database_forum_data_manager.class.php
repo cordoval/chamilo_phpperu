@@ -209,19 +209,23 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
         $query = 'SELECT * FROM ' . $this->escape_table_name(ForumPublication :: get_table_name()) . ' WHERE ' . $this->escape_column_name(ForumPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
         $this->set_limit(0, 1);
         $res = $this->query($query);
-
+        if($res->numRows() == 0)
+        {
+        	return null;
+        }
+        
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
         $res->free();
-
+        
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[ForumPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[ForumPublication :: PROPERTY_AUTHOR]);
-        $publication_attr->set_application('alexia');
+        $publication_attr->set_application('forum');
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('Forum'));
-        $publication_attr->set_url('run.php?application=alexia&go=browse');
+        $publication_attr->set_url('run.php?application=forum&go=browse');
         $publication_attr->set_publication_object_id($record[ForumPublication :: PROPERTY_FORUM_ID]);
 
         return $publication_attr;
