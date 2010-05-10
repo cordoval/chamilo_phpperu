@@ -249,7 +249,7 @@ class AssessmentPublicationForm extends FormValidator
 		        if($pub->get_publication_object()->get_type() == 'survey')
 		        	$gradebook_internal_item_form->create_internal_item($pub->get_id());
 		       	else
-		        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true);
+		        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true, 'C' . 0);
 			}
         }
         return true;

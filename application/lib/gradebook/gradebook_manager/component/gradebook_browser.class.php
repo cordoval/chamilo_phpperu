@@ -35,9 +35,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 			$parameters[GradebookManager :: PARAM_ACTION]=  GradebookManager :: ACTION_VIEW_HOME;
 			$this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url());
 			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $this->data_provider);
-			
-			
-
 			$this->table = new GradebookPublicationBrowserTable($this, $parameters);
 		}
 		
@@ -115,10 +112,10 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	function get_external_application_tabs()
 	{
         $html[] = '<div class="application_selecter">';
-        $html[] = '<a href="' . . '">';
+        $html[] = '<a href="' . $this->get_publications_by_type_viewer_url('weblcms') .'">';
         $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_weblcms.png);">' . Translation :: get('Courses') . '</div>';
         $html[] = '</a>';
-        $html[] = '<a href="' . . '">';
+        $html[] = '<a href="' . $this->get_publications_by_type_viewer_url('general') . '">';
         $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_general.png);">' . Translation :: get('General') . '</div>';
         $html[] = '</a>';
         $html[] = '</div>';
