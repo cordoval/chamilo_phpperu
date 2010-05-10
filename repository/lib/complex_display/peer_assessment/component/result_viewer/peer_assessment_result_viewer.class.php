@@ -18,9 +18,7 @@ class PeerAssessmentResultViewerWizard extends HTML_QuickForm_Controller
     private $total;
 	
 	function PeerAssessmentResultViewerWizard($parent, $peer_assessment)
-    {
-    	//$id = $_GET[PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION];
-    	
+    {    	
 		$this->parent = $parent;
         $this->peer_assessment = $peer_assessment;
         $this->add_pages();

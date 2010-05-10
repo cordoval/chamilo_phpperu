@@ -63,7 +63,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         
         // Select criteria score that is already created
         $criteria_scores = array();
-        $criteria_scores[0] = Translation :: get('SelectCriteriaScore');
+        $criteria_scores[0] = Translation :: get('ChooseCriteria');
       
     	$rdm = RepositoryDataManager :: get_instance();
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());

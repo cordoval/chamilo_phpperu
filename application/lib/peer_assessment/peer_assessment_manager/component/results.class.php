@@ -10,7 +10,6 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManager
 	private $datamanager;
 	private $peer_assessment;
 	private $pid;
-	//private $pub;
 	
 	function run()
 	{
@@ -60,6 +59,8 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManager
         	$display->run();
             
             echo $form->toHtml();
+            
+            $this->display_footer();
         }
     }
 

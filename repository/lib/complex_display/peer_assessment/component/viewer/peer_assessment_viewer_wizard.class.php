@@ -19,15 +19,11 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
 
     function PeerAssessmentViewerWizard($parent, $peer_assessment)
     {
-    	$id = $_GET[PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION];
-        //parent :: HTML_QuickForm_Controller('PeerAssessmentViewerWizard_' . $parent->get_current_attempt_id(), true);
-
         $this->parent = $parent;
         $this->peer_assessment = $peer_assessment;
         $this->add_pages();
 
         $this->addAction('display', new PeerAssessmentViewerWizardDisplay($this));
-
     }
 
     function add_pages()
@@ -50,7 +46,6 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
             	$this->addPage(new IndicatorsPeerAssessmentViewerWizardPage('indicators_page_' . $this->total, $this, $this->total));
             	$peer_assessment_page = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());           
             }
-
         }
     }  
 

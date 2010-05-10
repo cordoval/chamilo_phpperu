@@ -18,7 +18,6 @@ class PeerAssessmentManagerCategoryManagerComponent extends PeerAssessmentManage
             Display :: not_allowed();
             return;
         }
-        
         $category_manager = new PeerAssessmentPublicationCategoryManager($this, $trail);
         $category_manager->run();   
     }
