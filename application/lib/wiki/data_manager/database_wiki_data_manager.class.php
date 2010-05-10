@@ -107,12 +107,12 @@ class DatabaseWikiDataManager extends Database implements WikiDataManagerInterfa
             if ($type == 'user')
             {
                 $rdm = RepositoryDataManager :: get_instance();
-                $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
+                $co_alias = $rdm->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->get_alias(WikiPublication :: get_table_name());
 
             	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
                 		 $this->escape_table_name(WikiPublication :: get_table_name()) . ' AS ' . $pub_alias .
-                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
+                		 ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
                 		 ' ON ' . $this->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' .
                 		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 

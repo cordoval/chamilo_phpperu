@@ -2,15 +2,11 @@
 /**
  * $Id: survey_data_manager.class.php 193 2009-11-13 11:53:37Z chellee $
  * @package application.lib.survey
- */
-/**
+ *
  * This is a skeleton for a data manager for the Survey Application.
  * Data managers must extend this class and implement its abstract methods.
- *
- * @author Sven Vanpoucke
- * @author
  */
-abstract class SurveyDataManager
+class SurveyDataManager
 {
     /**
      * Instance of this class for the singleton pattern.
@@ -36,60 +32,12 @@ abstract class SurveyDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '.class.php';
+            require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '_survey_data_manager.class.php';
             $class = $type . 'SurveyDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
     }
-
-    abstract function initialize();
-
-    abstract function create_storage_unit($name, $properties, $indexes);
-
-    abstract function create_survey_publication($survey_publication);
-
-    abstract function update_survey_publication($survey_publication);
-
-    abstract function delete_survey_publication($survey_publication);
-
-    abstract function count_survey_publications($conditions = null);
-
-    abstract function retrieve_survey_publication($id);
-
-    abstract function retrieve_survey_publications($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function create_survey_publication_category($survey_category);
-
-    abstract function update_survey_publication_category($survey_category);
-
-    abstract function delete_survey_publication_category($survey_category);
-
-    abstract function count_survey_publication_categories($conditions = null);
-
-    abstract function retrieve_survey_publication_category($id);
-
-    abstract function retrieve_survey_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function select_next_survey_publication_category_display_order($parent);
-
-    abstract function create_survey_publication_mail($survey_publication_mail);
-
-    abstract function update_survey_publication_mail($survey_publication_mail);
-
-    abstract function delete_survey_publication_mail($survey_publication_mail);
-
-    abstract function count_survey_publication_mails($conditions = null);
-
-    abstract function retrieve_survey_publication_mail($id);
-
-    abstract function retrieve_survey_publication_mails($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function retrieve_survey_page($page_id);
-    
-    abstract function count_survey_pages($survey_ids, $conditions = null);
-
-    abstract function retrieve_survey_pages($survey_ids, $condition = null, $offset = null, $count = null, $order_property = null);
 
 }
 ?>
