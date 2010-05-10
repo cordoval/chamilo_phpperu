@@ -115,10 +115,10 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	function get_external_application_tabs()
 	{
         $html[] = '<div class="application_selecter">';
-        $html[] = '<a href="">';
+        $html[] = '<a href="' . . '">';
         $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_weblcms.png);">' . Translation :: get('Courses') . '</div>';
         $html[] = '</a>';
-        $html[] = '<a href="">';
+        $html[] = '<a href="' . . '">';
         $html[] = '<div class="application" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_general.png);">' . Translation :: get('General') . '</div>';
         $html[] = '</a>';
         $html[] = '</div>';
@@ -149,10 +149,10 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '<h2>' . ucfirst($this->application) . '</h2>';
         if ($this->application)
         {
-			$html[] = '<div style="float: left; width: 12%; overflow:auto;">';
+			$html[] = '<div style="float: left; width: 18%; overflow:auto;">';
 			$html[] = $this->menu->render_as_tree();
 			$html[] = '</div>';
-			$html[] = '<div style="float: right; width: 85%;">';
+			$html[] = '<div style="float: right; width: 79%;">';
 			
 			$html[] = $this->table->as_html($this);
 			

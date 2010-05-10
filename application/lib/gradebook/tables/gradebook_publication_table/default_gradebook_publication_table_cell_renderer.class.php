@@ -30,10 +30,10 @@ class DefaultGradebookPublicationTableCellRenderer implements ObjectTableCellRen
 				return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_creation_date());
 				break;
 			case ContentObject :: PROPERTY_TITLE :
-				return $content_object->get_title();
+                return '<a href="' . $attributes->get_url() . '">' . htmlspecialchars($content_object->get_title()) . '</a>';
 				break;
 			case ContentObject :: PROPERTY_DESCRIPTION :
-				return $content_object->get_description();
+				return Utilities :: truncate_string($content_object->get_description(), 50);
 				break;
 		}
 	}
