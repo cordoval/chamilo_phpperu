@@ -51,21 +51,24 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 			$score = $connector->get_tracker_score($publication_id);
 			$publisher = $udm->retrieve_user($content_object->get_owner_id())->get_fullname();
 			$content_date = ($content_object->get_modification_date());
-			for($i=0;$i<count($user);$i++)
+			if($user)
 			{
-				$score_translation = 'Score';
-				$username = $udm->retrieve_user($user[$i])->get_fullname();
-				if(!$date[$i])
+				for($i=0;$i<count($user);$i++)
 				{
-					$date[$i] = $content_date;
+					$score_translation = 'Score';
+					$username = $udm->retrieve_user($user[$i])->get_fullname();
+					if(!$date[$i])
+					{
+						$date[$i] = $content_date;
+					}
+					$reporting_data->add_category($date[$i]);
+		            $reporting_data->add_data_category_row($date[$i], Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $date[$i]));
+		            $reporting_data->add_data_category_row($date[$i], Translation :: get('User'), $username);
+					$reporting_data->add_data_category_row($date[$i], Translation :: get('Evaluator'), $publisher);
+					$reporting_data->add_data_category_row($date[$i], Translation :: get($score_translation), $score[$i] . '%');
+					$reporting_data->add_data_category_row($date[$i], Translation :: get('Comment'), 'automatic generated result');
+					$reporting_data->hide_categories();
 				}
-				$reporting_data->add_category($date[$i]);
-	            $reporting_data->add_data_category_row($date[$i], Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $date[$i]));
-	            $reporting_data->add_data_category_row($date[$i], Translation :: get('User'), $username);
-				$reporting_data->add_data_category_row($date[$i], Translation :: get('Evaluator'), $publisher);
-				$reporting_data->add_data_category_row($date[$i], Translation :: get($score_translation), $score[$i] . '%');
-				$reporting_data->add_data_category_row($date[$i], Translation :: get('Comment'), 'automatic generated result');
-				$reporting_data->hide_categories();
 			}
 		}
 		return $reporting_data;
