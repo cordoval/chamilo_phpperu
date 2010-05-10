@@ -150,17 +150,5 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         return Pager :: factory($params);
     }
 
-    private function perform_search($query, $search_source)
-    {
-        try
-        {
-            return $search_source->search($query);
-        }
-        catch (Exception $ex)
-        {
-            return $ex;
-        }
-    }
-
 }
 ?>
