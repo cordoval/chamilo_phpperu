@@ -24,7 +24,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         
         if ($query && $query != '')
         {
-            $trail->add(new Breadcrumb($this->get_url(array('query' => Request :: get('query'), 'submit' => 'Search')), Translation :: get('SearchResultsFor') . ' ' . Request :: get('query')));
+            $trail->add(new Breadcrumb($this->get_url(array('query' => Request :: get('query'), 'submit' => 'Search')), Translation :: get('SearchResultsFor') . ' ' . $query));
         }
             
         $this->display_header($trail);
