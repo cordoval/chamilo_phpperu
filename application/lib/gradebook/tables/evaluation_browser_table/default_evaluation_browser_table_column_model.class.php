@@ -19,8 +19,8 @@ class DefaultEvaluationBrowserTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$gdm = GradebookDataManager :: get_instance();
-		$evaluation_alias = $gdm->get_database()->get_alias(Evaluation :: get_table_name());
-		$grade_evaluation_alias = $gdm->get_database()->get_alias(GradeEvaluation :: get_table_name());
+		$evaluation_alias = $gdm->get_alias(Evaluation :: get_table_name());
+		$grade_evaluation_alias = $gdm->get_alias(GradeEvaluation :: get_table_name());
 		$columns = array();
 		$columns[] = new ObjectTableColumn(Evaluation :: PROPERTY_EVALUATION_DATE, true, $evaluation_alias);
 		$columns[] = new ObjectTableColumn('user', false);
