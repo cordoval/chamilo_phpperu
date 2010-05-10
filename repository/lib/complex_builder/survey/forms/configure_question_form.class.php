@@ -132,7 +132,8 @@ class ConfigureQuestionForm extends FormValidator {
 		while ($complex_question_item = $complex_question_items->next_result()) {
 			if($complex_question_item->get_visible()== 0){
 				$question = RepositoryDataManager::get_instance ()->retrieve_content_object ( $complex_question_item->get_ref ());
-				$questions[$question->get_id()] = Utilities :: truncate_string($question->get_title(), 40);
+				$id = $question->get_id();
+				$questions[$question->get_id()] = Utilities :: truncate_string($id.' : '.$question->get_title(), 40);
 			}
 		}
 		return $questions;

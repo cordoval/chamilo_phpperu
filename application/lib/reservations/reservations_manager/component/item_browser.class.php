@@ -37,7 +37,7 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManager
         echo $this->get_user_html();
         echo '</div><div class="clear">&nbsp;</div>';
 
-        $used_quota = ReservationsDataManager :: get_instance()->calculate_used_quota('1', $this->get_category(), $this->get_user_id());
+        $used_quota = ReservationsDataManager :: calculate_used_quota('1', $this->get_category(), $this->get_user_id());
 
         $table = new SimpleTable($used_quota, new UserQuotaCellRenderer(), null, 'user_quota');
         echo '<br /><br /><h3>' . Translation :: get('UsedCredits') . '</h3>' . $table->toHTML();

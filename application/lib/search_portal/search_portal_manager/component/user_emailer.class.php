@@ -4,7 +4,7 @@
  * @package application.lib.search_portal.search_portal_manager
  */
 
-class SearchManagerEmailerComponent extends SearchPortalManager
+class SearchPortalManagerUserEmailerComponent extends SearchPortalManager
 {
 
     /**
@@ -12,7 +12,7 @@ class SearchManagerEmailerComponent extends SearchPortalManager
      */
     function run()
     {
-        $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
+        $ids = Request :: get(SearchPortalManager :: PARAM_USER);
         
 	    if (!($this->get_user()->is_platform_admin()))
         {
@@ -27,17 +27,19 @@ class SearchManagerEmailerComponent extends SearchPortalManager
         	$ids = array($ids);
         } 
         
+        $udm = UserDataManager :: get_instance();
+        
         if (count($ids) > 0)
         {
         	$failures = 0;
         	
 			foreach($ids as $id)
 			{
-	            $users[] = $this->retrieve_user($id);
+	            $users[] = $udm->retrieve_user($id);
 			}
 			
 			$manager = new EmailManager($this, $users);
-			$manager->set_parameter(UserManager :: PARAM_USER_USER_ID, $ids);
+			$manager->set_parameter(SearchPortalManager :: PARAM_USER, $ids);
 			$manager->run();
         
         }
@@ -49,13 +51,13 @@ class SearchManagerEmailerComponent extends SearchPortalManager
     
     function display_header($trail)
     {
-    	$ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
+    	$ids = Request :: get(SearchPortalManager :: PARAM_USER);
         
-    	$this->set_parameter(UserManager :: PARAM_USER_USER_ID, null);
+    	$this->set_parameter(SearchPortalManager :: PARAM_USER, null);
     	
     	$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $ids)), Translation :: get('Emailer')));
+    	$trail->add(new Breadcrumb($this->get_url(array(SearchPortalManager :: PARAM_ACTION => SearchPortalManager :: ACTION_SEARCH)), Translation :: get('SearchPortal')));
+        $trail->add(new Breadcrumb($this->get_url(array(SearchPortalManager :: PARAM_USER => $ids)), Translation :: get('Emailer')));
         $trail->add_help('user general');
         
         return parent :: display_header($trail);
