@@ -109,11 +109,6 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
         return $this->retrieve_next_sort_value(ForumPublication :: get_table_name(), ForumPublication :: PROPERTY_DISPLAY_ORDER, $condition);
     }
 
-    function retrieve_max_sort_value($table_name, $column, $condition)
-    {
-        return $this->retrieve_max_sort_value($table_name, $column, $condition);
-    }
-
 	//Publication attributes
 
 	function content_object_is_published($object_id)
