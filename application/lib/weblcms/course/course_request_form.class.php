@@ -89,7 +89,7 @@ class CourseRequestForm extends FormValidator
 			else
 			{
 				$course_name = $this->course->get_name();
-     			$this->addElement('static', 'course', Translation :: get('Course'), $course_name);
+     			$this->addElement('static', 'course', Translation :: get('CourseName'), $course_name);
 			}
 			
 			$this->add_textfield(CommonRequest :: PROPERTY_SUBJECT, Translation :: get('Subject'),true);
@@ -100,35 +100,38 @@ class CourseRequestForm extends FormValidator
 		
 		if($this->form_type == self :: TYPE_VIEW)
 		{
-			$this->addElement('category', Translation :: get('CourseRequestProperties'));
+			$this->addElement('category', Translation :: get(get_class($this->request)));
      		
      		$name_user = UserDataManager::get_instance()->retrieve_user($this->request->get_user_id())->get_fullname();
 			$this->addElement('static', 'request', Translation :: get('User'), $name_user);
 			
 			if(get_class($this->request) == 'CourseCreateRequest')
-				$request_name = $this->request->get_course_name();		
+			{
+     			$this->addElement('static', 'request', Translation :: get('CourseName'), $this->parent->retrieve_course_type($this->request->get_course_type_id())->get_name());
+				$request_name = $this->request->get_course_name();
+			}		
 			else
 				$request_name = $this->parent->retrieve_course($this->request->get_course_id())->get_name();
      		
-     		$this->addElement('static', 'request', Translation :: get('Course'), $request_name);
+     		$this->addElement('static', 'request', Translation :: get('CourseName'), $request_name);
      		
      		$request_subject = $this->request->get_subject();
-     		$this->addElement('static', 'request', Translation :: get('Subject'), $request_title);
+     		$this->addElement('static', 'request', Translation :: get('Subject'), $request_subject);
 			
 			$motivation = $this->request->get_motivation();
 			$this->addElement('static','request', Translation :: get('Motivation'), $motivation);	
 			
-			$creation_date = $this->request->get_creation_date();
+			$creation_date =  DatetimeUtilities :: format_locale_date(null, $this->request->get_creation_date());
 			$this->addElement('static', 'request', Translation :: get('CreationDate'), $creation_date);
 			
 			$decision = $this->request->get_decision();
-			$decision_date = $this->request->get_decision_date();
+			$decision_date = DatetimeUtilities :: format_locale_date(null, $this->request->get_decision_date());
 			switch($decision)
 			{
 				case CommonRequest :: ALLOWED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Allowed') );
 														$this->addElement('static', 'request', Translation :: get('on'), $decision_date);
 														break;
-				case CommonRequest :: ALLOWED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Denied') );
+				case CommonRequest :: DENIED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Denied') );
 														$this->addElement('static', 'request', Translation :: get('on'), $decision_date);
 														break;
 				default:  $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('NoDecisionYet'));

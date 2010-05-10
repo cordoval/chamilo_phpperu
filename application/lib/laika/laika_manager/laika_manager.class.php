@@ -6,14 +6,14 @@ require_once dirname(__FILE__) . '/component/laika_calculated_result_browser/lai
 class LaikaManager extends WebApplication
 {
     const APPLICATION_NAME = 'laika';
-    
+
     const PARAM_ATTEMPT_ID = 'attempt';
     const PARAM_USER_ID = 'user';
     const PARAM_SCALE_ID = 'scale';
     const PARAM_MAIL_SELECTED = 'mail';
     const PARAM_RECIPIENTS = 'recipient';
     const PARAM_GROUP_ID = 'group';
-    
+
     const ACTION_VIEW_HOME = 'home';
     const ACTION_VIEW_RESULTS = 'view';
     const ACTION_TAKE_TEST = 'take';
@@ -65,75 +65,6 @@ class LaikaManager extends WebApplication
                 break;
         }
         $component->run();
-    }
-
-    /**
-     * @see Application::content_object_is_published()
-     */
-    public function content_object_is_published($object_id)
-    {
-        return false;
-    }
-
-    /**
-     * @see Application::any_content_object_is_published()
-     */
-    public function any_content_object_is_published($object_ids)
-    {
-        return false;
-    }
-
-    /**
-     * @see Application::get_content_object_publication_attributes()
-     */
-    public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
-    {
-        return null;
-    }
-
-    /**
-     * @see Application::get_content_object_publication_attribute()
-     */
-    public function get_content_object_publication_attribute($publication_id)
-    {
-        return null;
-    }
-
-    /**
-     * @see Application::count_publication_attributes()
-     */
-    public function count_publication_attributes($type = null, $condition = null)
-    {
-        return 0;
-    }
-
-    /**
-     * @see Application::delete_content_object_publications()
-     */
-    public function delete_content_object_publications($object_id)
-    {
-        return true;
-    }
-    
-	function delete_content_object_publication($publication_id)
-    {
-    	return true;
-    }
-
-    /**
-     * @see Application::update_content_object_publication_id()
-     */
-    public function update_content_object_publication_id($publication_attr)
-    {
-        return true;
-    }
-
-    /**
-     * Inherited
-     */
-    function get_content_object_publication_locations($content_object)
-    {
-        return array();
     }
 
     function publish_content_object($content_object, $location)

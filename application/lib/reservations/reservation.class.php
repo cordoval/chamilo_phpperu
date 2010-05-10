@@ -195,13 +195,11 @@ class Reservation extends DataClass
 
     function allow_create()
     {
-        $rdm = ReservationsDataManager :: get_instance();
-
         $stamp_start = $this->get_start_date();
         $stamp_end = $this->get_stop_date();
 
         // Reservation date is not free
-        if (! $rdm->reservation_date_free($this))
+        if (! ReservationsDataManager :: reservation_date_free($this))
         {
             return 2;
         }
@@ -254,13 +252,11 @@ class Reservation extends DataClass
 
     function allow_update()
     {
-        $rdm = ReservationsDataManager :: get_instance();
-
         $stamp_start = $this->get_start_date();
         $stamp_end = $this->get_stop_date();
-        
+
         // Reservation date is not free
-        if (! $rdm->reservation_date_free($this))
+        if (! ReservationsDataManager :: reservation_date_free($this))
         {
             return 2;
         }

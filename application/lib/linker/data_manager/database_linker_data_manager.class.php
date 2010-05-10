@@ -1,11 +1,11 @@
 <?php
 /**
- * $Id: database.class.php 199 2009-11-13 12:23:04Z chellee $
+ * $Id: database_linker_data_manager.class.php 199 2009-11-13 12:23:04Z chellee $
  * @package application.lib.linker.data_manager
  */
 
 require_once dirname(__FILE__) . '/../link.class.php';
-require_once 'MDB2.php';
+require_once dirname(__FILE__) . '/../linker_data_manager_interface.class.php';
 
 /**
 ==============================================================================
@@ -16,64 +16,53 @@ require_once 'MDB2.php';
 ==============================================================================
  */
 
-class DatabaseLinkerDataManager extends LinkerDataManager
+class DatabaseLinkerDataManager extends Database implements LinkerDataManagerInterface
 {
-    private $database;
-
     /**
      * Initialize
-     * Create a new database
-     * Define aliases
-     * Define prefixes
-     *
      */
     function initialize()
     {
-        $this->database = new Database();
-        $this->database->set_prefix('link_');
-    }
-
-    function get_database()
-    {
-        return $this->database;
+        parent :: initialize();
+        $this->set_prefix('link_');
     }
 
     function update_link($link)
     {
         $condition = new EqualityCondition(Link :: PROPERTY_ID, $link->get_id());
-        return $this->database->update($link, $condition);
+        return $this->update($link, $condition);
     }
 
     function delete_link($link)
     {
         $condition = new EqualityCondition(Link :: PROPERTY_ID, $link->get_id());
-        return $this->database->delete($link->get_table_name(), $condition);
+        return $this->delete($link->get_table_name(), $condition);
     }
 
     function create_link($link)
     {
-        return $this->database->create($link);
+        return $this->create($link);
     }
 
     function count_links($condition = null)
     {
-        return $this->database->count_objects(Link :: get_table_name(), $condition);
+        return $this->count_objects(Link :: get_table_name(), $condition);
     }
 
     function retrieve_links($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(Link :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(Link :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_link($id)
     {
         $condition = new EqualityCondition(Link :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(Link :: get_table_name(), $condition);
+        return $this->retrieve_object(Link :: get_table_name(), $condition);
     }
 
     function create_storage_unit($name, $properties, $indexes)
     {
-        return $this->database->create_storage_unit($name, $properties, $indexes);
+        return $this->create_storage_unit($name, $properties, $indexes);
     }
 }
 ?>

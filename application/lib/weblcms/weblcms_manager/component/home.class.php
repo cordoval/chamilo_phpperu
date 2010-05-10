@@ -147,8 +147,11 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
             $display_add_course_link = $this->get_user()->is_teacher() && ($_SESSION["studentview"] != "studentenview");
             if ($display_add_course_link)
             {
-                $html[] = '<li class="tool_list_menu" style="font-weight: bold">' . Translation :: get('MenuUser') . '</li><br />';
-                $html[] = $this->display_create_course_link();
+            	if($display = $this->display_create_course_link())
+            	{
+                	$html[] = '<li class="tool_list_menu" style="font-weight: bold">' . Translation :: get('MenuUser') . '</li><br />';
+                	$html[] = $display;
+            	} 
             }
         }
         
@@ -236,9 +239,22 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
     function display_create_course_link()
     {
     	$html = array();
-        $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)) . '">' . Translation :: get('CourseCreate') . '</a></li>';  
-        $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CREATE_REQUEST_CREATOR)) . '">' . Translation :: get('CourseRequest') . '</a></li>';
-        return implode("\n", $html);
+  		$wdm = WeblcmsDataManager::get_instance();
+  		
+  		$count_direct =  count($wdm->retrieve_course_types_by_user_right($this->get_user(), CourseTypeGroupCreationRight :: CREATE_DIRECT));
+  		if(PlatformSetting::get('allow_course_creation_without_coursetype', 'weblcms'))
+  		 $count_direct++;
+    	if($count_direct)
+        	$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)) . '">' . Translation :: get('CourseCreate') . '</a></li>';
+        
+        $count_request = count($wdm->retrieve_course_types_by_user_right($this->get_user(), CourseTypeGroupCreationRight :: CREATE_REQUEST));  
+        if($count_request)
+        	$html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CREATE_REQUEST_CREATOR)) . '">' . Translation :: get('CourseRequest') . '</a></li>';
+        
+        if($count_direct + $count_request)
+        	return implode("\n", $html);
+        else
+        	return false;
     }
 
     function display_edit_course_list_links()
