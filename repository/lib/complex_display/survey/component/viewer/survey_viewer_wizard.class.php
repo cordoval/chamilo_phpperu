@@ -50,17 +50,19 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         	$allowed_pages[] = $template_rel_page->get_page_id();
         }
       	
-    	$survey_pages = $this->survey->get_pages();
+    	$complex_survey_page_items = $this->survey->get_pages(true);
         $page_nr = 0;
         $question_nr = 0;
         $this->question_visibility = array();
         
-        foreach ($survey_pages as $survey_page)
+        while ($survey_page_item = $complex_survey_page_items->next_result())
         {
-            if(! in_array($survey_page->get_id(), $allowed_pages)){
+            if(! in_array($survey_page_item->get_ref(), $allowed_pages)){
             	continue;
             }
         	
+            $survey_page = RepositoryDataManager::get_instance()->retrieve_content_object($survey_page_item->get_ref());
+            
         	$page_nr ++;
             $this->real_pages[$page_nr] = $survey_page->get_id();
         	$this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
@@ -85,8 +87,15 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
                 }
                 else
                 {
-                    $question_nr ++;
+                    if($question_item->get_visible() == 1){
+                    	$question_nr ++;
                     $questions[$question_nr] = $question;
+                    }else{
+//                    	$question_nr ++;
+					$bis_nr = $question_nr.'.1';
+                    $questions[$bis_nr] = $question;
+                    }
+                	
                 }
             
             }

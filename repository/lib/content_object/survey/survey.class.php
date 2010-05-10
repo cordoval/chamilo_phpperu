@@ -140,11 +140,15 @@ class Survey extends ContentObject
         return false;
     }
 
-    function get_pages()
+    function get_pages($complex_items = false)
     {
 
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
 
+        if($complex_items){
+        	return $complex_content_objects;
+        }
+               
         //        $survey_page_ids = array();
         $survey_pages = array();
 
