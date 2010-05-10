@@ -127,7 +127,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         
     	if(PlatformSetting :: get('active_online_email_editor'))
         {
-        	//include email editor here
+        	$html[] = '<div style="float: right;"><a href="' . $this->get_email_user_url($object->get_owner_id()) . '"><img src="' . Theme :: get_common_image_path() . 'action_email.png" title="' . Translation :: get('EmailUser') . '"/></a></div>';
         }
         
         $html[] = '<div class="portal_search_result_date">'. Translation :: get('LastModification') . ': ' . DatetimeUtilities :: format_locale_date(null, $object->get_modification_date()) . '</div>';
