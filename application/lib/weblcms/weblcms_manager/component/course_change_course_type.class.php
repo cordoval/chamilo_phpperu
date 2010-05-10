@@ -113,12 +113,12 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
     }
     
 	function move_course($course_code)
-    	{
-        	$new_course_type = $this->form->get_selected_course_type();       	
-        	$wdm = WeblcmsDataManager :: get_instance();
-        	$course = $wdm->retrieve_course($course_code);
-        	$course->set_course_type_id($new_course_type);
-        	return $course->update($course);
-    	}
+    {
+       	$new_course_type = $this->form->get_selected_course_type();       	
+       	$wdm = WeblcmsDataManager :: get_instance();
+       	$course_type = $wdm->retrieve_course_type($new_course_type);
+       	$course = $wdm->retrieve_course($course_code);
+       	$course->update_by_course_type($course_type);
+    }
 }
 ?>
