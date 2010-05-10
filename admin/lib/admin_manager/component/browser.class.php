@@ -98,6 +98,32 @@ class AdminManagerBrowserComponent extends AdminManager
                     $html[] = '</div>';
                 }
 
+                $condition = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application_links['application']['class']);
+                $application_settings_count = AdminDataManager :: get_instance()->count_settings($condition);
+
+                if($application_settings_count)
+                {
+                    if (!isset($application_links['search']))
+                    {
+                        $html[] = '<div class="vertical_action" style="border-top: none;">';
+                    }
+                    else
+                    {
+                        $html[] = '<div class="vertical_action">';
+                    }
+
+                    $settings_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM, self :: PARAM_WEB_APPLICATION => $application_links['application']['class']));
+
+                    $html[] = '<div class="icon">';
+                    $html[] = '<a href="' . $settings_url . '"><img src="' . Theme :: get_image_path() . 'browse_manage.png" alt="' . Translation :: get('Settings') . '" title="' . Translation :: get('Settings') . '"/></a>';
+                    $html[] = '</div>';
+                    $html[] = '<div class="description">';
+                    $html[] = '<h4><a href="' . $settings_url . '" ' . $onclick . '>' . Translation :: get('Settings') . '</a></h4>';
+                    $html[] = Translation :: get('SettingsDescription');
+                    $html[] = '</div>';
+                    $html[] = '</div>';
+                }
+
                 $count = 1;
 
                 foreach ($application_links['links'] as $link)
@@ -109,7 +135,15 @@ class AdminManagerBrowserComponent extends AdminManager
                         $onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
                     }
 
-                    $html[] = '<div class="vertical_action">';
+                    if (!isset($application_links['search']) && $application_settings_count == 0 && $count == 2)
+                    {
+                        $html[] = '<div class="vertical_action" style="border-top: none;">';
+                    }
+                    else
+                    {
+                        $html[] = '<div class="vertical_action">';
+                    }
+
                     $html[] = '<div class="icon">';
                     $html[] = '<a href="' . $link['url'] . '" ' . $onclick . '><img src="' . Theme :: get_image_path() . 'browse_' . $link['action'] . '.png" alt="' . $link['name'] . '" title="' . $link['name'] . '"/></a>';
                     $html[] = '</div>';
