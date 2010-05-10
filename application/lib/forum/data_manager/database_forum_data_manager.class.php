@@ -1,11 +1,11 @@
 <?php
 /**
- * $Id: database.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
+ * $Id: database_forum_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.lib.forum.data_manager
  */
 require_once dirname(__FILE__) . '/../forum_publication.class.php';
 require_once dirname(__FILE__) . '/../category_manager/forum_publication_category.class.php';
-require_once 'MDB2.php';
+require_once dirname(__FILE__) . '/../forum_data_manager_interface.class.php';
 
 /**
  *	This is a data manager that uses a database for storage. It was written
@@ -14,65 +14,45 @@ require_once 'MDB2.php';
  *  @author Sven Vanpoucke & Michael Kyndt
  */
 
-class DatabaseForumDataManager extends ForumDataManager
+class DatabaseForumDataManager extends Database implements ForumDataManagerInterface
 {
-    /**
-     * Database
-     *
-     * @var Database
-     */
-    private $database;
-
     function initialize()
     {
-        $aliases = array();
-        $aliases[ForumPublication :: get_table_name()] = 'foon';
-
-        $this->database = new Database($aliases);
-        $this->database->set_prefix('forum_');
-    }
-
-    function get_database()
-    {
-        return $this->database;
-    }
-
-    function create_storage_unit($name, $properties, $indexes)
-    {
-        return $this->database->create_storage_unit($name, $properties, $indexes);
+        parent :: initialize();
+        $this->set_prefix('forum_');
     }
 
     function create_forum_publication($forum_publication)
     {
-        return $this->database->create($forum_publication);
+        return $this->create($forum_publication);
     }
 
     function update_forum_publication($forum_publication)
     {
         $condition = new EqualityCondition(ForumPublication :: PROPERTY_ID, $forum_publication->get_id());
-        return $this->database->update($forum_publication, $condition);
+        return $this->update($forum_publication, $condition);
     }
 
     function delete_forum_publication($forum_publication)
     {
         $condition = new EqualityCondition(ForumPublication :: PROPERTY_ID, $forum_publication->get_id());
-        return $this->database->delete($forum_publication->get_table_name(), $condition);
+        return $this->delete($forum_publication->get_table_name(), $condition);
     }
 
     function count_forum_publications($condition = null)
     {
-        return $this->database->count_objects(ForumPublication :: get_table_name(), $condition);
+        return $this->count_objects(ForumPublication :: get_table_name(), $condition);
     }
 
     function retrieve_forum_publication($id)
     {
         $condition = new EqualityCondition(ForumPublication :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(ForumPublication :: get_table_name(), $condition);
+        return $this->retrieve_object(ForumPublication :: get_table_name(), $condition);
     }
 
     function retrieve_forum_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(ForumPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(ForumPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function move_forum_publication($publication, $places)
@@ -98,40 +78,40 @@ class DatabaseForumDataManager extends ForumDataManager
 
     function create_forum_publication_category($forum_publication_category)
     {
-        return $this->database->create($forum_publication_category);
+        return $this->create($forum_publication_category);
     }
 
     function update_forum_publication_category($forum_publication_category)
     {
         $condition = new EqualityCondition(ForumPublicationCategory :: PROPERTY_ID, $forum_publication_category->get_id());
-        return $this->database->update($forum_publication_category, $condition);
+        return $this->update($forum_publication_category, $condition);
     }
 
     function delete_forum_publication_category($forum_publication_category)
     {
         $condition = new EqualityCondition(ForumPublicationCategory :: PROPERTY_ID, $forum_publication_category->get_id());
-        return $this->database->delete($forum_publication_category->get_table_name(), $condition);
+        return $this->delete($forum_publication_category->get_table_name(), $condition);
     }
 
     function count_forum_publication_categories($conditions = null)
     {
-        return $this->database->count_objects(ForumPublicationCategory :: get_table_name(), $conditions);
+        return $this->count_objects(ForumPublicationCategory :: get_table_name(), $conditions);
     }
 
     function retrieve_forum_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->database->retrieve_objects(ForumPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(ForumPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
     }
 
     function get_next_publication_display_order($parent_id)
     {
         $condition = new EqualityCondition(ForumPublication :: PROPERTY_CATEGORY_ID, $parent_id);
-        return $this->database->retrieve_next_sort_value(ForumPublication :: get_table_name(), ForumPublication :: PROPERTY_DISPLAY_ORDER, $condition);
+        return $this->retrieve_next_sort_value(ForumPublication :: get_table_name(), ForumPublication :: PROPERTY_DISPLAY_ORDER, $condition);
     }
 
     function retrieve_max_sort_value($table_name, $column, $condition)
     {
-        return $this->database->retrieve_max_sort_value($table_name, $column, $condition);
+        return $this->retrieve_max_sort_value($table_name, $column, $condition);
     }
 
 	//Publication attributes
@@ -144,7 +124,7 @@ class DatabaseForumDataManager extends ForumDataManager
     function any_content_object_is_published($object_ids)
     {
         $condition = new InCondition(ForumPublication :: PROPERTY_FORUM_ID, $object_ids);
-        return $this->database->count_objects(ForumPublication :: get_table_name(), $condition) >= 1;
+        return $this->count_objects(ForumPublication :: get_table_name(), $condition) >= 1;
     }
 
     function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null)
@@ -155,16 +135,16 @@ class DatabaseForumDataManager extends ForumDataManager
             {
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
-                $pub_alias = $this->database->get_alias(ForumPublication :: get_table_name());
+                $pub_alias = $this->get_alias(ForumPublication :: get_table_name());
 
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
-                		 $this->database->escape_table_name(ForumPublication :: get_table_name()) . ' AS ' . $pub_alias .
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
+                		 $this->escape_table_name(ForumPublication :: get_table_name()) . ' AS ' . $pub_alias .
                 		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
-                		 ' ON ' . $this->database->escape_column_name(ForumPublication :: PROPERTY_FORUM_ID, $pub_alias) . '=' .
-                		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
+                		 ' ON ' . $this->escape_column_name(ForumPublication :: PROPERTY_FORUM_ID, $pub_alias) . '=' .
+                		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 
                 $condition = new EqualityCondition(ForumPublication :: PROPERTY_AUTHOR, Session :: get_user_id());
-                $translator = new ConditionTranslator($this->database);
+                $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
@@ -180,11 +160,11 @@ class DatabaseForumDataManager extends ForumDataManager
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
-                        $order[] = $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = $this->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
                     {
-                        $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = $this->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
 
@@ -195,14 +175,14 @@ class DatabaseForumDataManager extends ForumDataManager
         }
         else
         {
-            $query = 'SELECT * FROM ' . $this->database->escape_table_name(ForumPublication :: get_table_name());
+            $query = 'SELECT * FROM ' . $this->escape_table_name(ForumPublication :: get_table_name());
            	$condition = new EqualityCondition(ForumPublication :: PROPERTY_FORUM_ID, $object_id);
-           	$translator = new ConditionTranslator($this->database);
+           	$translator = new ConditionTranslator($this);
            	$query .= $translator->render_query($condition);
 
         }
 
-        $this->database->set_limit($offset, $count);
+        $this->set_limit($offset, $count);
 		$res = $this->query($query);
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
@@ -218,23 +198,23 @@ class DatabaseForumDataManager extends ForumDataManager
 
             $publication_attr[] = $info;
         }
-        
+
         $res->free();
-        
+
         return $publication_attr;
     }
 
     function get_content_object_publication_attribute($publication_id)
     {
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name(ForumPublication :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(ForumPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
-        $this->database->set_limit(0, 1);
+        $query = 'SELECT * FROM ' . $this->escape_table_name(ForumPublication :: get_table_name()) . ' WHERE ' . $this->escape_column_name(ForumPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
+        $this->set_limit(0, 1);
         $res = $this->query($query);
 
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
         $res->free();
-        
+
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[ForumPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[ForumPublication :: PROPERTY_AUTHOR]);
@@ -257,7 +237,7 @@ class DatabaseForumDataManager extends ForumDataManager
         {
         	$condition = new EqualityCondition(ForumPublication :: PROPERTY_FORUM_ID, $object_id);
         }
-        return $this->database->count_objects(ForumPublication :: get_table_name(), $condition);
+        return $this->count_objects(ForumPublication :: get_table_name(), $condition);
     }
 
     function delete_content_object_publications($object_id)
@@ -277,11 +257,11 @@ class DatabaseForumDataManager extends ForumDataManager
 
     function update_content_object_publication_id($publication_attr)
     {
-        $where = $this->database->escape_column_name(ForumPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
+        $where = $this->escape_column_name(ForumPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->database->escape_column_name(ForumPublication :: PROPERTY_FORUM_ID)] = $publication_attr->get_publication_object_id();
-        $this->database->get_connection()->loadModule('Extended');
-        if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name(ForumPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
+        $props[$this->escape_column_name(ForumPublication :: PROPERTY_FORUM_ID)] = $publication_attr->get_publication_object_id();
+        $this->get_connection()->loadModule('Extended');
+        if ($this->get_connection()->extended->autoExecute($this->get_table_name(ForumPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
         {
             return true;
         }
@@ -289,16 +269,6 @@ class DatabaseForumDataManager extends ForumDataManager
         {
             return false;
         }
-    }
-
-	function quote($value)
-    {
-    	return $this->database->quote($value);
-    }
-
-    function query($query)
-    {
-    	return $this->database->query($query);
     }
 
 }

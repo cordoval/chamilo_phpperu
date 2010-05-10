@@ -6,9 +6,8 @@
  */
 require_once dirname(__FILE__) . '/reservations_data_manager.class.php';
 
-
 /**
- *	@author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 
 class Subscription extends DataClass
@@ -21,10 +20,10 @@ class Subscription extends DataClass
     const PROPERTY_STATUS = 'status';
     const PROPERTY_WEIGHT = 'weight';
     const PROPERTY_QUOTA_BOX = 'quota_box';
-    
+
     const STATUS_NORMAL = 0;
     const STATUS_DELETED = 1;
-    
+
     const CLASS_NAME = __CLASS__;
 
     /**
@@ -134,11 +133,11 @@ class Subscription extends DataClass
         $rdm = ReservationsDataManager :: get_instance();
         $reservation = $rdm->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $this->get_reservation_id()))->next_result();
         $item = $rdm->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $reservation->get_item()))->next_result();
-        
+
         $conditions[] = new EqualityCondition(Subscription :: PROPERTY_RESERVATION_ID, $this->get_reservation_id());
         $conditions[] = new EqualityCondition(Subscription :: PROPERTY_STATUS, Subscription :: STATUS_NORMAL);
         $reservation_condition = new AndCondition($conditions);
-        
+
         if (! $this->get_start_time())
         {
             $start = $reservation->get_start_date();
@@ -149,20 +148,20 @@ class Subscription extends DataClass
             $start = $this->get_start_time();
             $stop = $this->get_stop_time();
         }
-        
-        if (! $rdm->has_enough_credits_for($item, $start, $stop, $user->get_id()))
+
+        if (! ReservationsDataManager :: has_enough_credits_for($item, $start, $stop, $user->get_id()))
             return 8;
-        
+
         if ($reservation->get_type() == Reservation :: TYPE_BLOCK)
         {
             $user_condition = new EqualityCondition(Subscription :: PROPERTY_USER_ID, $user->get_id());
             $cond = new AndCondition(array($user_condition, $reservation_condition));
-            
+
             //User is allready subscribed
             $count = $rdm->count_subscriptions($cond);
             if ($count != 0)
                 return 2;
-                
+
             //Max users is reached
             $count = $rdm->count_subscriptions($reservation_condition);
             if ($count > $reservation->get_max_users())
@@ -172,32 +171,32 @@ class Subscription extends DataClass
         {
             $stamp_sub_start = $this->get_start_time();
             $stamp_sub_end = $this->get_stop_time();
-            
+
             $stamp_res_start = $reservation->get_start_date();
             $stamp_res_end = $reservation->get_stop_date();
-            
-            //Chosen time is out of reservation period 
+
+            //Chosen time is out of reservation period
             if (($stamp_sub_start < $stamp_res_start) || ($stamp_sub_end > $stamp_res_end))
                 return 4;
-                
+
             //Chosen time is smaller than now
             if ($stamp_sub_start < time())
                 return 9;
-                
+
             //Timewindow is not between timepicker min and max values
             $difference = $stamp_sub_end - $stamp_sub_start;
             if ($reservation->get_timepicker_min() > 0)
                 if (($difference < $reservation->get_timepicker_min() * 60) || ($difference > $reservation->get_timepicker_max() * 60))
                     return 5;
-                
+
             //There is allready a subscription that overlaps this period
-            $condition = $rdm->get_subscriptions_condition($this->get_start_time(), $this->get_stop_time(), $this->get_reservation_id());
+            $condition = ReservationsDataManager :: get_subscriptions_condition($this->get_start_time(), $this->get_stop_time(), $this->get_reservation_id());
             $count = $rdm->count_subscriptions($condition);
             if ($count != 0)
                 return 6;
-        
+
         }
-        
+
         //You can not subscribe at this moment because you are not in the subscription period
         $now = time();
         if ($reservation->get_start_subscription())
@@ -205,7 +204,7 @@ class Subscription extends DataClass
             if ($now < $reservation->get_start_subscription() || $now > $reservation->get_stop_subscription())
                 return 7;
         }
-        
+
         //Allow subscription to be added
         return 1;
     }

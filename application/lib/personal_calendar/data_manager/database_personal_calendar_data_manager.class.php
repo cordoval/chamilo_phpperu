@@ -1,60 +1,35 @@
 <?php
 /**
- * $Id: database.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
+ * $Id: database_personal_calendar_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.personal_calendar.data_manager
  */
 require_once dirname(__FILE__) . '/../personal_calendar_data_manager.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_publication.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_publication_user.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_publication_group.class.php';
-require_once 'MDB2.php';
+require_once dirname(__FILE__) . '/../personal_calendar_data_manager_interface.class.php';
 /**
  * This is an implementation of a personal calendar datamanager using the PEAR::
  * MDB2 package as a database abstraction layer.
  */
-class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
+class DatabasePersonalCalendarDatamanager extends Database implements PersonalCalendarDataManagerInterface
 {
-    /**
-     * @var Database
-     */
-    private $database;
-
     function initialize()
     {
-        $this->database = new Database(array());
-        $this->database->set_prefix('personal_calendar_');
-    }
-
-	function quote($value)
-    {
-    	return $this->database->quote($value);
-    }
-
-    function query($query)
-    {
-    	return $this->database->query($query);
-    }
-
-    function get_database()
-    {
-        return $this->database;
-    }
-
-    function create_storage_unit($name, $properties, $indexes)
-    {
-        return $this->database->create_storage_unit($name, $properties, $indexes);
+        parent :: initialize();
+        $this->set_prefix('personal_calendar_');
     }
 
     public function content_object_is_published($object_id)
     {
         $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
-        return $this->database->count_objects(PersonalCalendarPublication :: get_table_name(), $condition) >= 1;
+        return $this->count_objects(PersonalCalendarPublication :: get_table_name(), $condition) >= 1;
     }
 
     public function any_content_object_is_published($object_ids)
     {
         $condition = new InCondition(PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_ids);
-        return $this->database->count_objects(PersonalCalendarPublication :: get_table_name(), $condition) >= 1;
+        return $this->count_objects(PersonalCalendarPublication :: get_table_name(), $condition) >= 1;
     }
 
     /**
@@ -68,16 +43,16 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
             {
             	$rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
-                $pub_alias = $this->database->get_alias(PersonalCalendarPublication :: get_table_name());
+                $pub_alias = $this->get_alias(PersonalCalendarPublication :: get_table_name());
 
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
-                		 $this->database->escape_table_name(PersonalCalendarPublication :: get_table_name()) . ' AS ' . $pub_alias .
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
+                		 $this->escape_table_name(PersonalCalendarPublication :: get_table_name()) . ' AS ' . $pub_alias .
                 		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
-                		 ' ON ' . $this->database->escape_column_name(PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID, $pub_alias) . '=' .
-                		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
+                		 ' ON ' . $this->escape_column_name(PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID, $pub_alias) . '=' .
+                		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 
                 $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
-                $translator = new ConditionTranslator($this->database);
+                $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
@@ -93,11 +68,11 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
-                        $order[] = $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = $this->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
                     {
-                        $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = $this->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
 
@@ -107,13 +82,13 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         }
         else
         {
-            $query = 'SELECT * FROM ' . $this->database->escape_table_name(PersonalCalendarPublication :: get_table_name());
+            $query = 'SELECT * FROM ' . $this->escape_table_name(PersonalCalendarPublication :: get_table_name());
            	$condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
-           	$translator = new ConditionTranslator($this->database);
+           	$translator = new ConditionTranslator($this);
            	$query .= $translator->render_query($condition);
         }
 
-        $this->database->set_limit($offset, $count);
+        $this->set_limit($offset, $count);
 		$res = $this->query($query);
 
         $publication_attr = array();
@@ -167,7 +142,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         {
         	$condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         }
-        return $this->database->count_objects(PersonalCalendarPublication :: get_table_name(), $condition);
+        return $this->count_objects(PersonalCalendarPublication :: get_table_name(), $condition);
     }
 
     /**
@@ -176,13 +151,13 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     public function delete_content_object_publications($object_id)
     {
         $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
-        return $this->database->delete(PersonalCalendarPublication :: get_table_name(), $condition);
+        return $this->delete(PersonalCalendarPublication :: get_table_name(), $condition);
     }
 
 	function delete_content_object_publication($publication_id)
     {
         $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_ID, $publication_id);
-        return $this->database->delete(PersonalCalendarPublication :: get_table_name(), $condition);
+        return $this->delete(PersonalCalendarPublication :: get_table_name(), $condition);
     }
 
     /**
@@ -190,33 +165,33 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
      */
     function update_content_object_publication_id($publication_attr)
     {
-        $where = $this->database->escape_column_name('id') . '=' . $publication_attr->get_id();
+        $where = $this->escape_column_name('id') . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->database->escape_column_name('content_object')] = $publication_attr->get_publication_object_id();
-        $this->database->get_connection()->loadModule('Extended');
-        return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+        $props[$this->escape_column_name('content_object')] = $publication_attr->get_publication_object_id();
+        $this->get_connection()->loadModule('Extended');
+        return $this->get_connection()->extended->autoExecute($this->get_table_name('publication'), $props, MDB2_AUTOQUERY_UPDATE, $where);
     }
 
     //Inherited
     function retrieve_personal_calendar_publication($id)
     {
         $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_ID, $id);
-        return $this->database->retrieve_object(PersonalCalendarPublication :: get_table_name(), $condition, array(), PersonalCalendarPublication :: CLASS_NAME);
+        return $this->retrieve_object(PersonalCalendarPublication :: get_table_name(), $condition, array(), PersonalCalendarPublication :: CLASS_NAME);
     }
 
     //Inherited.
     function retrieve_personal_calendar_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        return $this->database->retrieve_objects(PersonalCalendarPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PersonalCalendarPublication :: CLASS_NAME);
+        return $this->retrieve_objects(PersonalCalendarPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PersonalCalendarPublication :: CLASS_NAME);
     }
 
     function retrieve_shared_personal_calendar_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-        $query = 'SELECT DISTINCT ' . $this->database->get_alias(PersonalCalendarPublication :: get_table_name()) . '.* FROM ' . $this->database->escape_table_name(PersonalCalendarPublication :: get_table_name()) . ' AS ' . $this->database->get_alias(PersonalCalendarPublication :: get_table_name());
-        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_user') . ' AS ' . $this->database->get_alias('publication_user') . ' ON ' . $this->database->get_alias(PersonalCalendarPublication :: get_table_name()) . '.id = ' . $this->database->get_alias('publication_user') . '.publication_id';
-        $query .= ' LEFT JOIN ' . $this->database->escape_table_name('publication_group') . ' AS ' . $this->database->get_alias('publication_group') . ' ON ' . $this->database->get_alias(PersonalCalendarPublication :: get_table_name()) . '.id = ' . $this->database->get_alias('publication_group') . '.publication_id';
+        $query = 'SELECT DISTINCT ' . $this->get_alias(PersonalCalendarPublication :: get_table_name()) . '.* FROM ' . $this->escape_table_name(PersonalCalendarPublication :: get_table_name()) . ' AS ' . $this->get_alias(PersonalCalendarPublication :: get_table_name());
+        $query .= ' LEFT JOIN ' . $this->escape_table_name('publication_user') . ' AS ' . $this->get_alias('publication_user') . ' ON ' . $this->get_alias(PersonalCalendarPublication :: get_table_name()) . '.id = ' . $this->get_alias('publication_user') . '.publication_id';
+        $query .= ' LEFT JOIN ' . $this->escape_table_name('publication_group') . ' AS ' . $this->get_alias('publication_group') . ' ON ' . $this->get_alias(PersonalCalendarPublication :: get_table_name()) . '.id = ' . $this->get_alias('publication_group') . '.publication_id';
 
-        return $this->database->retrieve_object_set($query, PersonalCalendarPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PersonalCalendarPublication :: CLASS_NAME);
+        return $this->retrieve_object_set($query, PersonalCalendarPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, PersonalCalendarPublication :: CLASS_NAME);
     }
 
     //Inherited.
@@ -224,8 +199,8 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     {
         // Delete target users and groups
         $condition = new EqualityCondition('publication_id', $calendar_event_publication->get_id());
-        $this->database->delete_objects(PersonalCalendarPublicationUser :: get_table_name(), $condition);
-        $this->database->delete_objects(PersonalCalendarPublicationGroup :: get_table_name(), $condition);
+        $this->delete_objects(PersonalCalendarPublicationUser :: get_table_name(), $condition);
+        $this->delete_objects(PersonalCalendarPublicationGroup :: get_table_name(), $condition);
 
         // Add updated target users and groups
         if (! $this->create_personal_calendar_publication_users($calendar_event_publication))
@@ -239,31 +214,31 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
         }
 
         $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_ID, $calendar_event_publication->get_id());
-        return $this->database->update($calendar_event_publication, $condition);
+        return $this->update($calendar_event_publication, $condition);
     }
 
     //Inherited
     function delete_personal_calendar_publication($calendar_event_publication)
     {
         $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_ID, $calendar_event_publication->get_id());
-        return $this->database->delete(PersonalCalendarPublication :: get_table_name(), $condition);
+        return $this->delete(PersonalCalendarPublication :: get_table_name(), $condition);
     }
 
     //Inherited.
     function delete_personal_calendar_publications($object_id)
     {
         $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
-        return $this->database->delete_objects(PersonalCalendarPublication :: get_table_name(), $condition);
+        return $this->delete_objects(PersonalCalendarPublication :: get_table_name(), $condition);
     }
 
     //Inherited.
     function update_personal_calendar_publication_id($publication_attr)
     {
-        $where = $this->database->escape_column_name(PersonalCalendarPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
+        $where = $this->escape_column_name(PersonalCalendarPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->database->escape_column_name(PersonalCalendarPublication :: PROPERTY_PROFILE)] = $publication_attr->get_publication_object_id();
-        $this->database->get_connection()->loadModule('Extended');
-        if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name(PersonalCalendarPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
+        $props[$this->escape_column_name(PersonalCalendarPublication :: PROPERTY_PROFILE)] = $publication_attr->get_publication_object_id();
+        $this->get_connection()->loadModule('Extended');
+        if ($this->get_connection()->extended->autoExecute($this->get_table_name(PersonalCalendarPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
         {
             return true;
         }
@@ -275,7 +250,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 
     function create_personal_calendar_publication($publication)
     {
-        if (! $this->database->create($publication))
+        if (! $this->create($publication))
         {
             return false;
         }
@@ -295,7 +270,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 
     function create_personal_calendar_publication_user($publication_user)
     {
-        return $this->database->create($publication_user);
+        return $this->create($publication_user);
     }
 
     function create_personal_calendar_publication_users($publication)
@@ -319,7 +294,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 
     function create_personal_calendar_publication_group($publication_group)
     {
-        return $this->database->create($publication_group);
+        return $this->create($publication_group);
     }
 
     function create_personal_calendar_publication_groups($publication)
@@ -344,7 +319,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     function retrieve_personal_calendar_publication_target_groups($calendar_event_publication)
     {
         $condition = new EqualityCondition(PersonalCalendarPublicationGroup :: PROPERTY_PUBLICATION, $calendar_event_publication->get_id());
-        $groups = $this->database->retrieve_objects(PersonalCalendarPublicationGroup :: get_table_name(), $condition, null, null, array(), PersonalCalendarPublicationGroup :: CLASS_NAME);
+        $groups = $this->retrieve_objects(PersonalCalendarPublicationGroup :: get_table_name(), $condition, null, null, array(), PersonalCalendarPublicationGroup :: CLASS_NAME);
 
         $target_groups = array();
         while ($group = $groups->next_result())
@@ -358,7 +333,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     function retrieve_personal_calendar_publication_target_users($calendar_event_publication)
     {
         $condition = new EqualityCondition(PersonalCalendarPublicationUser :: PROPERTY_PUBLICATION, $calendar_event_publication->get_id());
-        $users = $this->database->retrieve_objects(PersonalCalendarPublicationUser :: get_table_name(), $condition, null, null, array(), PersonalCalendarPublicationUser :: CLASS_NAME);
+        $users = $this->retrieve_objects(PersonalCalendarPublicationUser :: get_table_name(), $condition, null, null, array(), PersonalCalendarPublicationUser :: CLASS_NAME);
 
         $target_users = array();
         while ($user = $users->next_result())

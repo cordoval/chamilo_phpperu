@@ -1,11 +1,11 @@
 <?php
 /**
- * $Id: database.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
+ * $Id: database_wiki_data_manager.class.php 238 2009-11-16 14:10:27Z vanpouckesven $
  * @package application.lib.wiki.data_manager
  */
 require_once dirname(__FILE__) . '/../wiki_publication.class.php';
 require_once dirname(__FILE__) . '/../wiki_pub_feedback.class.php';
-require_once 'MDB2.php';
+require_once dirname(__FILE__) . '/../wiki_data_manager_interface.class.php';
 
 /**
  *	This is a data manager that uses a database for storage. It was written
@@ -14,93 +14,77 @@ require_once 'MDB2.php';
  *  @author Sven Vanpoucke & Stefan Billiet
  */
 
-class DatabaseWikiDataManager extends WikiDataManager
+class DatabaseWikiDataManager extends Database implements WikiDataManagerInterface
 {
-    private $database;
-    
     function initialize()
     {
-        $aliases = array();
-        $aliases[WikiPublication :: get_table_name()] = 'wion';
-        $aliases[WikiPubFeedback :: get_table_name()] = 'wpf';
-
-        $this->database = new Database($aliases);
-        $this->database->set_prefix('wiki_');
-    }
-
-    function get_database()
-    {
-        return $this->database;
-    }
-
-    function create_storage_unit($name, $properties, $indexes)
-    {
-        return $this->database->create_storage_unit($name, $properties, $indexes);
+        parent :: initialize();
+        $this->set_prefix('wiki_');
     }
 
     function create_wiki_publication($wiki_publication)
     {
-        return $this->database->create($wiki_publication);
+        return $this->create($wiki_publication);
     }
 
     function update_wiki_publication($wiki_publication)
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $wiki_publication->get_id());
-        return $this->database->update($wiki_publication, $condition);
+        return $this->update($wiki_publication, $condition);
     }
 
     function delete_wiki_publication($wiki_publication)
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $wiki_publication->get_id());
-        return $this->database->delete($wiki_publication->get_table_name(), $condition);
+        return $this->delete($wiki_publication->get_table_name(), $condition);
     }
 
     function count_wiki_publications($condition = null)
     {
-        return $this->database->count_objects(WikiPublication :: get_table_name(), $condition);
+        return $this->count_objects(WikiPublication :: get_table_name(), $condition);
     }
 
     function retrieve_wiki_publication($id)
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $id);
-        $object = $this->database->retrieve_object(WikiPublication :: get_table_name(), $condition);
+        $object = $this->retrieve_object(WikiPublication :: get_table_name(), $condition);
         $object->set_default_property('content_object_id', RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_default_property('content_object_id')));
         return $object;
     }
 
     function retrieve_wiki_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function retrieve_wiki_pub_feedback($id)
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $id);
-        $object = $this->database->retrieve_object(WikiPubFeedback :: get_table_name(), $condition);
+        $object = $this->retrieve_object(WikiPubFeedback :: get_table_name(), $condition);
 
         return $object;
     }
 
     function retrieve_wiki_pub_feedbacks($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->database->retrieve_objects(WikiPubFeedback :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+        return $this->retrieve_objects(WikiPubFeedback :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function create_wiki_pub_feedback($feedback)
     {
-        return $this->database->create($feedback);
+        return $this->create($feedback);
     }
 
     function update_wiki_pub_feedback($feedback)
     {
         $condition = new EqualityCondition(WikiPubFeedback :: PROPERTY_ID, $feedback->get_id());
-        return $this->database->update($feedback, $condition);
+        return $this->update($feedback, $condition);
     }
 
     function delete_wiki_pub_feedback($feedback)
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $feedback->get_id());
-        return $this->database->delete(WikiPubFeedback :: get_table_name(), $condition);
+        return $this->delete(WikiPubFeedback :: get_table_name(), $condition);
     }
 
 	// Publication attributes
@@ -113,7 +97,7 @@ class DatabaseWikiDataManager extends WikiDataManager
     function any_content_object_is_published($object_ids)
     {
         $condition = new InCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_ids);
-        return $this->database->count_objects(WikiPublication :: get_table_name(), $condition) >= 1;
+        return $this->count_objects(WikiPublication :: get_table_name(), $condition) >= 1;
     }
 
     function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null)
@@ -124,16 +108,16 @@ class DatabaseWikiDataManager extends WikiDataManager
             {
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
-                $pub_alias = $this->database->get_alias(WikiPublication :: get_table_name());
+                $pub_alias = $this->get_alias(WikiPublication :: get_table_name());
 
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->database->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
-                		 $this->database->escape_table_name(WikiPublication :: get_table_name()) . ' AS ' . $pub_alias .
+            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
+                		 $this->escape_table_name(WikiPublication :: get_table_name()) . ' AS ' . $pub_alias .
                 		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
-                		 ' ON ' . $this->database->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' .
-                		 $this->database->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
+                		 ' ON ' . $this->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' .
+                		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 
                 $condition = new EqualityCondition(WikiPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
-                $translator = new ConditionTranslator($this->database);
+                $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
@@ -149,11 +133,11 @@ class DatabaseWikiDataManager extends WikiDataManager
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
-                        $order[] = $this->database->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = $this->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                     else
                     {
-                        $order[] = $this->database->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                        $order[] = $this->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
 
@@ -164,14 +148,14 @@ class DatabaseWikiDataManager extends WikiDataManager
         }
         else
         {
-            $query = 'SELECT * FROM ' . $this->database->escape_table_name(WikiPublication :: get_table_name());
+            $query = 'SELECT * FROM ' . $this->escape_table_name(WikiPublication :: get_table_name());
            	$condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
-           	$translator = new ConditionTranslator($this->database);
+           	$translator = new ConditionTranslator($this);
            	$query .= $translator->render_query($condition);
 
         }
 
-        $this->database->set_limit($offset, $count);
+        $this->set_limit($offset, $count);
 		$res = $this->query($query);
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
@@ -188,16 +172,16 @@ class DatabaseWikiDataManager extends WikiDataManager
 
             $publication_attr[] = $info;
         }
-        
+
         $res->free();
-        
+
         return $publication_attr;
     }
 
     function get_content_object_publication_attribute($publication_id)
     {
-        $query = 'SELECT * FROM ' . $this->database->escape_table_name(WikiPublication :: get_table_name()) . ' WHERE ' . $this->database->escape_column_name(WikiPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
-        $this->database->set_limit(0, 1);
+        $query = 'SELECT * FROM ' . $this->escape_table_name(WikiPublication :: get_table_name()) . ' WHERE ' . $this->escape_column_name(WikiPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
+        $this->set_limit(0, 1);
         $res = $this->query($query);
 
         $publication_attr = array();
@@ -214,7 +198,7 @@ class DatabaseWikiDataManager extends WikiDataManager
         $publication_attr->set_publication_object_id($record[WikiPublication :: PROPERTY_CONTENT_OBJECT]);
 
         $res->free();
-        
+
         return $publication_attr;
     }
 
@@ -228,7 +212,7 @@ class DatabaseWikiDataManager extends WikiDataManager
         {
         	$condition = new EqualityCondition(WikiPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
         }
-        return $this->database->count_objects(WikiPublication :: get_table_name(), $condition);
+        return $this->count_objects(WikiPublication :: get_table_name(), $condition);
     }
 
     function delete_content_object_publications($object_id)
@@ -245,20 +229,20 @@ class DatabaseWikiDataManager extends WikiDataManager
 
         return $succes;
     }
-    
+
 	function delete_content_object_publication($publication_id)
     {
         $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $publication_id);
-        return $this->database->delete(WikiPublication :: get_table_name(), $condition);
+        return $this->delete(WikiPublication :: get_table_name(), $condition);
     }
 
     function update_content_object_publication_id($publication_attr)
     {
-        $where = $this->database->escape_column_name(WikiPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
+        $where = $this->escape_column_name(WikiPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
         $props = array();
-        $props[$this->database->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT)] = $publication_attr->get_publication_object_id();
-        $this->database->get_connection()->loadModule('Extended');
-        if ($this->database->get_connection()->extended->autoExecute($this->database->get_table_name(WikiPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
+        $props[$this->escape_column_name(WikiPublication :: PROPERTY_CONTENT_OBJECT)] = $publication_attr->get_publication_object_id();
+        $this->get_connection()->loadModule('Extended');
+        if ($this->get_connection()->extended->autoExecute($this->get_table_name(WikiPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
         {
             return true;
         }
@@ -267,16 +251,5 @@ class DatabaseWikiDataManager extends WikiDataManager
             return false;
         }
     }
-    
-    function query($query)
-    {
-    	return $this->database->query($query);
-    }
-    
-	function quote($value)
-    {
-    	return $this->database->quote($value);
-    }
-
 }
 ?>
