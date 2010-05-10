@@ -87,6 +87,8 @@ if (count ( $question_results ) > 0) {
 	$resultq;
 	$ranswer;
 	
+//	dump($configs);
+	
 	foreach ( $question_selections as $question_id => $question_result ) {
 		
 		$resultq = $ids = explode ( '_', $question_id );
@@ -105,8 +107,11 @@ if (count ( $question_results ) > 0) {
 					if (count ( $oids ) == 3) {
 						$answers_to_match [] = $oids [1];
 					}elseif (count($oids) == 4){
+//						dump($oids);
 						$option = $oids[1];
-						$answers_to_match [$option] = $oids [2];
+						$answers_to_match [$option] = $value;
+//						$answers_to_match [$option] = $oids [2];
+						
 					}
 				}
 //				dump ( $answers_to_match );

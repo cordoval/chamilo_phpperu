@@ -75,7 +75,7 @@ class ConfigureQuestionForm extends FormValidator {
 		     $values = $this->exportValues();
 				
 		     $configs = $this->survey_page->get_config();
-
+					     
 		     $config = array();
 
 			 $config[SurveyPage :: FROM_VISIBLE_QUESTION_ID] = $this->question->get_id();  
@@ -89,16 +89,23 @@ class ConfigureQuestionForm extends FormValidator {
 		     	}
 		     }
 		     $config[SurveyPage:: ANSWERMATCHES] = $answers;
+					
 		     
 		     $duplicat = false;
 		     
 		     foreach ($configs as $conf){
-		     	$diff = array_diff($config, $conf);
-		     	if(count($diff) == 0){
-		     		$duplicat = true;	
+		     	$answer_diff = array_diff($config[SurveyPage:: ANSWERMATCHES], $conf[SurveyPage:: ANSWERMATCHES]);
+		     	
+		     	$same_from_id = $config[SurveyPage:: FROM_VISIBLE_QUESTION_ID] == $conf[SurveyPage:: FROM_VISIBLE_QUESTION_ID];
+		     	
+		     	$to_ids_diff = array_diff($config[SurveyPage:: TO_VISIBLE_QUESTIONS_IDS], $conf[SurveyPage:: TO_VISIBLE_QUESTIONS_IDS]);
+		     		     	
+		     	if($same_from_id && count($answer_diff) ==0 && count($to_ids_diff) ==0 ){
+		     		$duplicat = true;
 		     	}
+		     		     
 		     }
-		     
+		    		     
 		     if(!$duplicat){
 		     	$configs[] = $config;
 		     	$this->survey_page->set_config($configs);
