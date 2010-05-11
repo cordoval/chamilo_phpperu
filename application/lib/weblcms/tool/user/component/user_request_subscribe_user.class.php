@@ -4,7 +4,7 @@
  * @package applicatie.lib.weblcms.weblcms_manager.component
  */
 
-require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
+require_once dirname(__FILE__) . '/../../../course/course_request_form.class.php';
 
 class UserToolRequestSubscribeUserComponent extends UserToolComponent
 {
@@ -23,19 +23,16 @@ class UserToolRequestSubscribeUserComponent extends UserToolComponent
            
         $course = $this->get_course();
         $request = new CourseRequest();
-        $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(), $course, $this, $request);
+        $form = new CourseRequestForm(CourseRequestForm :: TYPE_CREATE, $this->get_url(), $course, $this, $request, true);
        
         if($form->validate())
         {
 			$success_request = $form->create_request();
-        	$array_type = array();
-	        $array_type['go'] = WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME;
-            $this->redirect(Translation :: get($success_request ? 'RequestCreated' : 'RequestNotCreated'), ($success_request ? false : true), $array_type, array(WeblcmsManager :: PARAM_COURSE)); 	
+            $this->redirect(Translation :: get($success_request ? 'RequestSent' : 'RequestNotSent'), ($success_request ? false : true), array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)); 	
         }
         else
         {
-			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('RequestForm')));
-            $this->display_header();
+            $this->display_header($trail);
             $form->display();
             $this->display_footer();
         }   
