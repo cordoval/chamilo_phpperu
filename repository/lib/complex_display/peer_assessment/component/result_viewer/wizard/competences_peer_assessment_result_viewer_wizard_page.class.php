@@ -180,6 +180,8 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
         
         $table_header[] = '<th>' . Translation :: get('Average') . '</th>';
         $table_header[] = '<th>' . Translation :: get('AverageAfterCorrection') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('PAFactor') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('PAFactorAfterCorrection') . '</th>';
         
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
@@ -222,7 +224,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
             $results = new PeerAssessmentPublicationResults();
         	$result = $results->get_data_manager()->retrieve_peer_assessment_publication_result($indicator->get_id());
         	
-			// 
+			// id's
         	$publication_id = Request :: get("peer_assessment_publication");
         	$competence_id = $competence->get_id();
         	$indicator_id = $indicator->get_id();
@@ -238,6 +240,8 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 			{
 				$average = Translation :: get('NoScore');
 				$average_after_correction = Translation :: get('NoScore');
+				$pa_factor = Translation :: get('NoScore');
+				$pa_factor_after_correction = Translation :: get('NoScore');
 			}
 			else
 			{
@@ -245,10 +249,16 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 				$average = $this->average($users, $indicator, $competence, $publication_id);
 				// Get average after correction
 				$average_after_correction = $this->average_after_correction($users, $indicator, $competence, $publication_id);
+				// Get the peer assessment factor
+				$pa_factor = $this->pa_factor($users, $indicator, $competence, $publication_id);
+				// Get the peer assessment factor after correction
+				$pa_factor_after_correction = $this->pa_factor_after_correction($users, $indicator, $competence, $publication_id);			
 			}
 			
 			$group[] = $this->createElement('static', null, null, $average);
 			$group[] = $this->createElement('static', null, null, $average_after_correction);
+			$group[] = $this->createElement('static', null, null, $pa_factor);
+			$group[] = $this->createElement('static', null, null, $pa_factor_after_correction);
 				
 			// Show the values that already has been submitted
 			//$publication_result = $this->get_parent()->get_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id);
@@ -257,7 +267,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 
             $this->addGroup($group, 'options_', null, '', false);
    		}
- 
+   		
 	    $renderer->setElementTemplate('<tr id="options_">{element}</tr>', 'options_');
 	    $renderer->setGroupElementTemplate('<td>{element}</td>', 'options_');
             
@@ -299,7 +309,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 		    				//Not all criterias are filled in
 		    				$error[] = '<div class="clear"></div>';
 				        	$error[] = '<div class="error-message">';
-				        	$error[] = Translation :: get('NotAllUsersFilledOutTheScoresYet');
+				        	$error[] = Translation :: get('NotAllScoresHaveBeenSubmitted');
 				        	$error[] = '<div class="close_message" id="closeMessage"></div>';
 				        	$error[] = '</div>';
 				        	
@@ -329,7 +339,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 	    				//Not all criterias are filled in
 	    				$error[] = '<div class="clear"></div>';
 			        	$error[] = '<div class="error-message">';
-			        	$error[] = Translation :: get('NotAllUsersFilledOutTheScoresYet');
+			        	$error[] = Translation :: get('NotAllScoresHaveBeenSubmitted');
 			        	$error[] = '<div class="close_message" id="closeMessage"></div>';
 			        	$error[] = '</div>';
 			        	
@@ -346,7 +356,6 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 	    		}
 	    	}
     	}
-
     	
     	if($all_filled_out == sizeof($users))
     	{
@@ -362,7 +371,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 
     		$error[] = '<div class="clear"></div>';
         	$error[] = '<div class="error-message">';
-        	$error[] = Translation :: get('NotAllUsersFilledOutTheScoresYet');
+        	$error[] = Translation :: get('NotAllScoresHaveBeenSubmitted');
         	$error[] = '<div class="close_message" id="closeMessage"></div>';
         	$error[] = '</div>';
         	
@@ -373,13 +382,39 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     }
     
     
+	// ************************************	
+    // Gives back the value of the score id
+    // ************************************
+    function score_value($score_id, $publication_id)
+    {   
+    	// Retrieve peer assessment_publication
+       	$peer_assessment_publication = new PeerAssessmentPublication();
+    	$publication = $peer_assessment_publication->get_data_manager()->retrieve_peer_assessment_publication($publication_id);
+    	
+    	// Criteria id
+		$criteria_id = $publication->get_criteria_content_object_id();
+		
+		// Retrieve criteria            
+		$criteria_overview = $this->get_parent()->get_peer_assessment_page_criteria($this->get_parent()->get_peer_assessment(), $criteria_id);
+		
+		// Criteria options
+        $criteria_options = $criteria_overview->get_options();	
+        if($criteria_options[$score_id - 1] != null)
+        {
+        	$value = $criteria_options[$score_id - 1]->get_score();
+        }
+        
+        return $value;		
+    }
+    
+    
 	// *******	
     // Average
     // *******
     function average($users, $indicator, $competence, $publication_id)
     {
     	$count = 0;
-    	
+
     	foreach($users as $user)
     	{
 	    	if(sizeof($users) > 3)
@@ -399,7 +434,6 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 			        while ($publication = $publications->next_result())
 			        {
 			            $value = $this->score_value($publication->get_score(), $publication_id);
-			            //dump($value);
 			            $count += $value;
 			        }
 	    		}
@@ -414,16 +448,17 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 				$condition = new AndCondition($conditions);
 				
 				$publications = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_results($condition);
-
+				
 		        while ($publication = $publications->next_result())
-		        {
+		        {		        	
 		            $value = $this->score_value($publication->get_score(), $publication_id);
+		            // dump($value) // Gives back all values of a user
 		            $count += $value;
 		        }
 	    	}
     	}
-    	$count = $count / sizeof($users);
-    	return round($count, 2);
+    	$average = round($count / sizeof($users), 2);
+    	return $average;
     }
     
     
@@ -493,12 +528,33 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     	return round($count, 2);
     }
     
+   
+    // **********************	
+    // Peer assessment factor
+    // **********************
     
-	// ************************************	
-    // Gives back the value of the score id
-    // ************************************
-    function score_value($score_id, $publication_id)
-    {   
+    // For example, if a user gets a score of 13/20 then you do 13 * $factor and you get that user his/her score!
+    function pa_factor($users, $indicator, $competence, $publication_id)
+    {
+    	/*$count = 0;
+    	
+    	foreach($users as $user)
+    	{	
+    		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_PUBLICATION_ID, $publication_id);
+			$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_COMPETENCE_ID, $competence->get_id());
+			$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_INDICATOR_ID, $indicator->get_id());
+			$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_USER_ID, $user->get_user());
+			$condition = new AndCondition($conditions);
+			
+			$publications = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_results($condition);
+
+	        while ($publication = $publications->next_result())
+	        {
+	            $value = $this->score_value($user_score->get_score(), $publication_id);		    						
+	    		$count += $value;
+	        }
+    	}
+    	
     	// Retrieve peer assessment_publication
        	$peer_assessment_publication = new PeerAssessmentPublication();
     	$publication = $peer_assessment_publication->get_data_manager()->retrieve_peer_assessment_publication($publication_id);
@@ -510,13 +566,20 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 		$criteria_overview = $this->get_parent()->get_peer_assessment_page_criteria($this->get_parent()->get_peer_assessment(), $criteria_id);
 		
 		// Criteria options
-        $criteria_options = $criteria_overview->get_options();	
+        $criteria_options = $criteria_overview->get_options();
+    	dump($count . '/' . (sizeof($users) * sizeof($criteria_options) * 2));
+        $factor = round($count / (sizeof($users) * sizeof($criteria_options) * 2), 2);
+        //$factor = round($count / (sizeof($users) * 2), 2);
         
-        if($criteria_options[$score_id - 1] != null)
-        {
-        	$value = $criteria_options[$score_id - 1]->get_score();
-        }
-        return $value;		
+    	return $factor;*/
+    }
+    
+    
+	// ***************************************	
+    // Peer assessment factor after correction
+    // ***************************************
+    function pa_factor_after_correction($users, $indicator, $competence, $publication_id)
+    {
     }
     
        
