@@ -92,11 +92,11 @@ class SurveyMenu extends HTML_Menu
             }
             if ($participant->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
             {
-                $menu_item['class'] = 'home';
+                $menu_item['class'] = 'survey_finished';
             }
             else
             {
-                $menu_item['class'] = 'home';
+                $menu_item['class'] = 'survey';
             }
             
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $participant->get_id();
@@ -149,11 +149,11 @@ class SurveyMenu extends HTML_Menu
 
                 if ($participant->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
                 {
-                    $menu_item['class'] = 'category';
+                    $menu_item['class'] = 'survey_finished';
                 }
                 else
                 {
-                    $menu_item['class'] = 'category';
+                    $menu_item['class'] = 'survey';
                 }
                 
                 $menu_item[OptionsMenuRenderer :: KEY_ID] = $participant->get_id();

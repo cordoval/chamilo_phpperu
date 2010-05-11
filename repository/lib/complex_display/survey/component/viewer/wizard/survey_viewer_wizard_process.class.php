@@ -36,6 +36,8 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
         
         $survey_values = $page->controller->exportValues();
         
+//        dump($survey_values);
+        
         $values = array();
         
         foreach ($survey_values as $key => $value)
@@ -67,9 +69,12 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
         }
         
         //$question_numbers = $_SESSION['questions'];
-        
+//        dump($values);
 
         $keys = array_keys($values);
+        
+//        dump($keys);
+        
         $count_questions = 0;
         
          if (count($keys) > 0)
@@ -97,10 +102,22 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
             
             }
         }
+               
+        
         
         $total_questions = $this->parent->get_total_questions();
+        
+//        dump($total_questions);
+//        
+//        dump($count_questions);
+        
         $percent = $count_questions / $total_questions * 100;
+        
+        
         $this->parent->get_parent()->finish_survey($percent);
+        
+//        dump($percent);
+//        exit;
         
         //reset the controller !
         $page->controller->container(true);

@@ -153,7 +153,15 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
 
     function get_total_questions()
     {
-        return $this->total_questions;
+        $count = 0;
+        
+        foreach ($this->question_visibility as $visible) {
+        	if($visible){
+        		$count = $count + 1;
+        	}
+        }
+    	
+        return $count;
     }
 
 }
