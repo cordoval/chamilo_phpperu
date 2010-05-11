@@ -112,9 +112,9 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
         
         $html[] = '</div></div>';
         
-        $back_url = $this->parent->get_parent()->get_go_back_url();
-        
-        $html[] = '<a href="' . $back_url . '">' . Translation :: get('GoBack') . '</a>';
+//        $back_url = $this->parent->get_parent()->get_go_back_url();
+//        
+//        $html[] = '<a href="' . $back_url . '">' . Translation :: get('GoBack') . '</a>';
         
         echo implode("\n", $html);
         

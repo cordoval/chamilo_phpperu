@@ -53,7 +53,7 @@ class SurveyMenu extends HTML_Menu
         $trackers = $track->retrieve_tracker_items($condition);
         
         $this->current_participant = $trackers[0];
-
+        
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
         parent :: __construct($menu);
@@ -90,8 +90,15 @@ class SurveyMenu extends HTML_Menu
             {
                 $menu_item['sub'] = $sub_menu_items;
             }
+            if ($participant->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
+            {
+                $menu_item['class'] = 'home';
+            }
+            else
+            {
+                $menu_item['class'] = 'home';
+            }
             
-            $menu_item['class'] = 'home';
             $menu_item[OptionsMenuRenderer :: KEY_ID] = $participant->get_id();
             $menu[$participant->get_id()] = $menu_item;
             return $menu;
@@ -120,41 +127,35 @@ class SurveyMenu extends HTML_Menu
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
         
+        //        $condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
+        //        $groups = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, new ObjectTableOrder(Group :: PROPERTY_NAME));
         
-//        $condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
-//        $groups = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, new ObjectTableOrder(Group :: PROPERTY_NAME));
-       
+
         foreach ($trackers as $participant)
         {
             $participant_id = $participant->get_id();
-             
+            
             if (! ($participant_id == $current_participant->get_id() && $hide_current_participant))
             {
-  	
+                
                 $menu_item = array();
                 $menu_item['title'] = $participant->get_context_name();
                 $menu_item['url'] = $this->get_url($participant);
                 
-                if($participant->has_children()){
-                	$menu_item['sub'] = $this->get_menu_items($participant->get_id());
+                if ($participant->has_children())
+                {
+                    $menu_item['sub'] = $this->get_menu_items($participant->get_id());
+                }
+
+                if ($participant->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
+                {
+                    $menu_item['class'] = 'category';
+                }
+                else
+                {
+                    $menu_item['class'] = 'category';
                 }
                 
-//                if ($group->is_parent_of($current_category) || $group->get_id() == $current_category->get_id() || $show_complete_tree)
-//                {
-//                    if ($group->has_children())
-//                    {
-//                        $menu_item['sub'] = $this->get_menu_items($group->get_id());
-//                    }
-//                }
-//                else
-//                {
-//                    if ($group->has_children())
-//                    {
-//                        $menu_item['children'] = 'expand';
-//                    }
-//                }
-                
-                $menu_item['class'] = 'category';
                 $menu_item[OptionsMenuRenderer :: KEY_ID] = $participant->get_id();
                 $menu[$participant->get_id()] = $menu_item;
             }
@@ -171,9 +172,9 @@ class SurveyMenu extends HTML_Menu
     function get_url($participant)
     {
         // TODO: Put another class in charge of the htmlentities() invocation
-	  	$survey_publication_id = $participant->get_survey_publication_id();
-	  	$participant_id = $participant->get_id();
-    	return htmlentities(sprintf($this->urlFmt, $survey_publication_id,$participant_id));
+        $survey_publication_id = $participant->get_survey_publication_id();
+        $participant_id = $participant->get_id();
+        return htmlentities(sprintf($this->urlFmt, $survey_publication_id, $participant_id));
     }
 
     private function get_home_url($category)
@@ -202,15 +203,15 @@ class SurveyMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }

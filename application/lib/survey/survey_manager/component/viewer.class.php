@@ -194,6 +194,9 @@ class SurveyManagerViewerComponent extends SurveyManager
 
             Events :: trigger_event('attempt_question', 'survey', $parameters);
         }
+        //test for better tracing of setting status of trackers.
+        
+        
     }
 
     function finish_survey($percent)
