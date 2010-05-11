@@ -24,7 +24,7 @@ class GradebookManager extends WebApplication
 
 	const ACTION_BROWSE_GRADEBOOK = 'browse';
 	
-	const ACTION_CREATE_GRADEBOOK = 'create_gradebook';
+	const ACTION_CREATE_EXTERNAL = 'create_external';
 	const ACTION_EDIT_GRADEBOOK = 'edit_gradebook';
 	const ACTION_DELETE_GRADEBOOK = 'delete_gradebook';
 	const ACTION_MOVE_GRADEBOOK = 'move_gradebook';
@@ -54,7 +54,6 @@ class GradebookManager extends WebApplication
 	const PARAM_PUBLICATION_TYPE = 'publication_type';
 	const PARAM_PUBLICATION_ID = 'publication_id';
 	const PARAM_PUBLICATION_APP = 'publication_app';
-	
 	public function GradebookManager($user)
 	{
 	    parent :: __construct($user);
@@ -71,10 +70,10 @@ class GradebookManager extends WebApplication
 //				$this->set_action(self :: ACTION_BROWSE_GRADEBOOK);
 //				$component = GradebookManagerComponent :: factory('GradebookBrowser', $this);
 //				break;
-//			case self :: ACTION_CREATE_GRADEBOOK :
-//				$this->set_action(self :: ACTION_CREATE_GRADEBOOK);
-//				$component = GradebookManagerComponent :: factory('GradebookCreator', $this);
-//				break;
+			case self :: ACTION_CREATE_EXTERNAL :
+				$this->set_action(self :: ACTION_CREATE_EXTERNAL);
+				$component = $this->create_component('ExternalCreator');
+				break;
 //			case self :: ACTION_DELETE_GRADEBOOK :
 //				$this->set_action(self :: ACTION_DELETE_GRADEBOOK);
 //				$component = GradebookManagerComponent :: factory('GradebookDeleter', $this);
@@ -160,9 +159,9 @@ class GradebookManager extends WebApplication
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_GRADEBOOK, self :: PARAM_GRADEBOOK_ID => $gradebook->get_id()));
 	}
 
-	function get_create_gradebook_url()
+	function get_create_external_url()
 	{
-		return $this->get_url(array ( self :: PARAM_ACTION => self :: ACTION_CREATE_GRADEBOOK));
+		return $this->get_url(array ( self :: PARAM_ACTION => self :: ACTION_CREATE_EXTERNAL));
 	}
 
 	function get_gradebook_emptying_url($gradebook)
@@ -184,7 +183,16 @@ class GradebookManager extends WebApplication
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_GRADEBOOK, self :: PARAM_GRADEBOOK_ID => $gradebook->get_id()));
 	}
-
+	
+	function set_trail($trail)
+    {
+    	$this->trail = $trail;
+    }
+    
+    function get_trail()
+    {
+    	return $this->trail;
+    }
 	//gradebook rel users
 
 	function retrieve_gradebook_rel_users($condition = null, $offset = null, $count = null, $order_property = null)

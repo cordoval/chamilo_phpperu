@@ -86,7 +86,8 @@ class PeerAssessmentPublicationCategoryMenu extends HTML_Menu
             
             $menu_item['title'] = $category->get_name() . ' (' . $this->get_publication_count($category->get_id()) . ')';
             $menu_item['url'] = $this->get_url($category->get_id());
-            $sub_menu_items = $this->get_menu_items($category->get_id());          
+            $sub_menu_items = $this->get_menu_items($category->get_id());   
+
             if (count($sub_menu_items) > 0)
             {
                 $menu_item['sub'] = $sub_menu_items;

@@ -42,6 +42,26 @@ class PeerAssessmentManagerBrowserComponent extends PeerAssessmentManager
         return $table->as_html();
     }
     
+	function get_menu()
+    {
+        $current_category = Request :: get('category');
+        $current_category = $current_category ? $current_category : 0;
+        $menu = new PeerAssessmentPublicationCategoryMenu($current_category);
+        return $menu;
+    }
+
+    function get_action_bar()
+    {
+        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+        $action_bar->set_search_url($this->get_url());
+        
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_CREATE_PEER_ASSESSMENT_PUBLICATION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+     	
+        return $action_bar;
+    }
+    
 	private function get_condition()
     {
     	$category_id = Request :: get('category');
@@ -62,26 +82,6 @@ class PeerAssessmentManagerBrowserComponent extends PeerAssessmentManager
 
         $condition = new AndCondition($conditions);
         return $condition;
-    }
-    
-	function get_menu()
-    {
-        $current_category = Request :: get('category');
-        $current_category = $current_category ? $current_category : 0;
-        $menu = new PeerAssessmentPublicationCategoryMenu($current_category);
-        return $menu;
-    }
-
-    function get_action_bar()
-    {
-        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->set_search_url($this->get_url());
-        
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_CREATE_PEER_ASSESSMENT_PUBLICATION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-     	
-        return $action_bar;
     }
 }
 ?>

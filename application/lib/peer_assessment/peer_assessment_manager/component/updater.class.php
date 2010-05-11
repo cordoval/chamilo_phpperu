@@ -38,7 +38,8 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManager
 			if ($form_main->validate())
 	        {
 	        	// Update the title, description and new version option
-	        	$form_main->update_content_object();       
+	        	$form_main->update_content_object();  
+	        	    
 	            
 	            if (!$form_properties->validate())
 	            {	

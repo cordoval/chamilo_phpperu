@@ -72,10 +72,14 @@ class CourseRequestForm extends FormValidator
 		{
 		
 			$this->addElement('category', Translation :: get('CourseRequestProperties'));
-			
-			if(!$this->multiple_users)
+			$wdm = WeblcmsDataManager::get_instance();
+			if($this->multiple_users)
 			{
-				
+				$users_result = $wdm->retrieve_course_subscribe_users_by_right(CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST, $this->parent->get_course());
+				$users = array();
+				while($user = $users_result->next_result())
+					$users[$user->get_id()] = $user->get_fullname();
+				$this->addElement('select', CommonRequest :: PROPERTY_USER_ID, Translation :: get('User'), $users);
 			}
 			else
 			{
@@ -164,8 +168,13 @@ class CourseRequestForm extends FormValidator
 			$request->set_course_type_id($values[CourseCreateRequest :: PROPERTY_COURSE_TYPE_ID]);
 		}
 		else
-			$request->set_course_id($course->get_id());	
-		$request->set_user_id($this->user_id);
+			$request->set_course_id($course->get_id());
+			
+		if($this->multiple_users)	
+			$request->set_user_id($values[CommonRequest :: PROPERTY_USER_ID]);
+		else
+			$request->set_user_id($this->user_id);
+
         $request->set_subject($values[CommonRequest :: PROPERTY_SUBJECT]);
         $request->set_motivation($values[CommonRequest :: PROPERTY_MOTIVATION]);
         $request->set_creation_date(time());

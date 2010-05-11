@@ -22,4 +22,8 @@ $lang['gradebook']['EvaluationFormatActivated'] = 'Evaluation format activated';
 $lang['gradebook']['EvaluationFormatsActivated'] = 'Evaluation formats activated';
 $lang['gradebook']['NoObjectSelected'] = 'No object selected';
 $lang['gradebook']['Username'] = 'Username';
+$lang['gradebook']['ForumCategories'] = 'Forum Categories';
+$lang['gradebook']['WikiCategories'] = 'Wiki Categories';
+$lang['gradebook']['AssessmentCategories'] = 'Assessment Categories';
+$lang['gradebook']['NoEvaluations'] = 'No Evaluations';
 ?>

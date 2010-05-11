@@ -37,19 +37,8 @@ class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
     	if(is_null($this->preloaded_result_set))
     	{
 	        $order_property = $this->get_order_property($order_property);
-	        
-	        $groups_result = GroupDataManager :: get_instance()->retrieve_groups($this->get_condition(), $offset, $count, $order_property);
-	        $groups = array();
-	        $course = parent::get_browser()->get_course();
-	        while($group = $groups_result->next_result())
-	        {
-	        	if($course->can_group_subscribe($group->get_id()) == CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT)
-	        	{
-	        		$groups[] = $group;
-	        	}
-	        }
-	        $this->object_count = count($groups);
-	        $this->preloaded_result_set = new ArrayResultSet($groups);
+	        $this->preloaded_result_set = WeblcmsDataManager::get_instance()->retrieve_course_subscribe_groups_by_right(CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT, parent::get_browser()->get_course(),$this->get_condition(), $offset, $count, $order_property);
+	        $this->object_count = $this->preloaded_result_set->size();
     	}
         return $this->preloaded_result_set;
     }

@@ -71,112 +71,115 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 		// *********************************		
         // Prints of the list of competences
         // *********************************
-    	$html[] = '<div class="assessment">';
-	            
-        // Peer assessment title en description
-        $html[] = '<h2>' . $this->get_parent()->get_peer_assessment()->get_title() . '</h2>';
-            
-        if ($this->get_parent()->get_peer_assessment()->has_description())
+     	if($count_users > 0)
         {
-            $html[] = '<div class="description">';
-            $html[] = $this->get_parent()->get_peer_assessment()->get_description();
-            $html[] = '<div style="float: right; margin-top: -15px;">'.$date_message.'</div>';
-            $html[] = '<div class="clear"></div>';
-            $html[] = '</div>';
-        }
-		
-		
-		// Retrieve competences
-        $competences = $this->get_parent()->get_peer_assessment_page_competences($this->get_parent()->get_peer_assessment());
-
-        $count = 0;
-        
+	     	$html[] = '<div class="assessment">';
+		            
+	        // Peer assessment title en description
+	        $html[] = '<h2>' . $this->get_parent()->get_peer_assessment()->get_title() . '</h2>';
+	            
 	        
-        foreach($competences as $competence)
-      	{     		
-      		$noInidcators = true;
-      		$countNoIndicators = 0;
-      		
-            if($count > 0)
-            {
-            	unset($html);
-            }
-
-            // Retrieve indicators
-            $indicators = $this->get_parent()->get_peer_assessment_page_indicators_via_competence($this->get_parent()->get_peer_assessment(), $competence);
-            
-            if($indicators == null)
-            {
-            	$countNoIndicators++;
-            }
-            elseif(sizeof($indicators) > 0)
-            {
-            	$count++;
-            	$noIndicators = false;
-            	
-            	$html[] = '<br/>';
-				$html[] = '<div class="question">';
-		        $html[] = '<div class="title">';
-		        $html[] = '<div class="number">';
-		        $html[] = '<div class="bevel">';
-		        $html[] = $count. '.';
-		        $html[] = '</div>';
-		        $html[] = '</div>';
-		        $html[] = '<div class="text">';
-		        
-		        $html[] = '<div class="bevel" style="float: left; margin-left: -8px;">';
-		        $html[] = '<div style="margin-top: 2px; margin-left: 4px">'.$competence->get_title().'</div>';
-		        $html[] = '</div>';
-		        $html[] = '<div class="bevel" style="text-align: right;">';
-		        $html[] = '<img src="'. Theme :: get_common_image_path() . 'content_object/competence.png' .'" alt=""/>';
-		        $html[] = '<div class="clear"></div>';
-		        $html[] = '</div>';
-		        
-		        $html[] = '</div>';
-		        $html[] = '<div class="clear"></div>';
-		        $html[] = '</div>';
-		        $html[] = '<div class="answer">';
-		        
-	            $html[] = '<div class="description" style="background-color: #fff;">';
-	            $html[] = $competence->get_description();
+	        if ($this->get_parent()->get_peer_assessment()->has_description())
+	        {
+	            $html[] = '<div class="description">';
+	            $html[] = $this->get_parent()->get_peer_assessment()->get_description();
+	            $html[] = '<div style="float: right; margin-top: -15px;">'.$date_message.'</div>';
 	            $html[] = '<div class="clear"></div>';
 	            $html[] = '</div>';
-		            
-	            // Prints of the table header
-    			$this->addElement('html', implode("\n", $html));
-    	
-	            $this->take_peer_assessment($users, $indicators, $competence, $publication_id);
-	            
-	            $html_end[] = '</div>';
-		        
-		        $html_end[] = '<div class="clear"></div>';
-		        
-		        $this->addElement('html', implode("\n", $html_end));
-
-            }
-        }      
-          
-        if($countNoIndicators < sizeof($competences))
-        {
-        	$this->criteria_overview($publication_id);	 
-			$this->submit();
-			
-			$assessment_div[] = '</div>';
-        }
-        else
-        {
-        	$error[] = '<div class="clear"></div>';
-        	$error[] = '<div class="error-message">';
-        	$error[] = Translation :: get('NoIndicatorsInThePeerAssessment');
-        	$error[] = '<div class="close_message" id="closeMessage"></div>';
-        	$error[] = '</div>';
-        	
-        	$this->addElement('html', implode("\n", $error));
-        }
-			
+	        }
 		
-		$assessment_div[] = '</div>';
-		$this->addElement('html', implode("\n", $assessment_div));
+		
+			// Retrieve competences
+	        $competences = $this->get_parent()->get_peer_assessment_page_competences($this->get_parent()->get_peer_assessment());
+	
+	        $count = 0;	        
+		        
+	        foreach($competences as $competence)
+	      	{     		
+	      		$no_inidcators = true;
+	      		$count_no_indicators = 0;
+	      		
+	            if($count > 0)
+	            {
+	            	unset($html);
+	            }
+	
+	            // Retrieve indicators
+	            $indicators = $this->get_parent()->get_peer_assessment_page_indicators_via_competence($this->get_parent()->get_peer_assessment(), $competence);
+	            
+	            if($indicators == null)
+	            {
+	            	$count_no_indicators++;
+	            }
+	            elseif(sizeof($indicators) > 0)
+	            {
+	            	
+	            	$count++;
+	            	$no_indicators = false;
+	            	
+	            	$html[] = '<br/>';
+					$html[] = '<div class="question">';
+			        $html[] = '<div class="title">';
+			        $html[] = '<div class="number">';
+			        $html[] = '<div class="bevel">';
+			        $html[] = $count. '.';
+			        $html[] = '</div>';
+			        $html[] = '</div>';
+			        $html[] = '<div class="text">';
+			        
+			        $html[] = '<div class="bevel" style="float: left; margin-left: -8px;">';
+			        $html[] = '<div style="margin-top: 2px; margin-left: 4px">'.$competence->get_title().'</div>';
+			        $html[] = '</div>';
+			        $html[] = '<div class="bevel" style="text-align: right;">';
+			        $html[] = '<img src="'. Theme :: get_common_image_path() . 'content_object/competence.png' .'" alt=""/>';
+			        $html[] = '<div class="clear"></div>';
+			        $html[] = '</div>';
+			        
+			        $html[] = '</div>';
+			        $html[] = '<div class="clear"></div>';
+			        $html[] = '</div>';
+			        $html[] = '<div class="answer">';
+			        
+		            $html[] = '<div class="description" style="background-color: #fff;">';
+		            $html[] = $competence->get_description();
+		            $html[] = '<div class="clear"></div>';
+		            $html[] = '</div>';
+		            
+		            // Prints of the table header
+	    			$this->addElement('html', implode("\n", $html));
+	    	
+		            $this->take_peer_assessment($users, $indicators, $competence, $publication_id);
+		            
+		            $html_end[] = '</div>';
+			        
+			        $html_end[] = '<div class="clear"></div>';
+			        
+			        $this->addElement('html', implode("\n", $html_end));
+	
+	            }
+	        }      
+          
+	        if($count_no_indicators < sizeof($competences))
+	        {
+	        	$this->criteria_overview($publication_id);	 
+				$this->submit();
+				
+				$assessment_div[] = '</div>';
+	        }
+	        else
+	        {
+	        	$error[] = '<div class="clear"></div>';
+	        	$error[] = '<div class="error-message">';
+	        	$error[] = Translation :: get('NoIndicatorsInThePeerAssessment');
+	        	$error[] = '<div class="close_message" id="closeMessage"></div>';
+	        	$error[] = '</div>';
+	        	
+	        	$this->addElement('html', implode("\n", $error));
+	        }
+		
+			$assessment_div[] = '</div>';
+			$this->addElement('html', implode("\n", $assessment_div));
+        }
     }
     
     
