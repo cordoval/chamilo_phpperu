@@ -94,7 +94,7 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
 		$parameters[WeblcmsManager :: PARAM_ACTION] = WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER;
 		$parameters[WeblcmsManager :: PARAM_REQUEST_TYPE] = $this->request_type;
 
-		$table = new AdminRequestBrowserTable($this, $parameters, $this->get_condition());
+		$table = new AdminRequestBrowserTable($this, $parameters, $this->get_condition(), $this->request_type);
 
 		$html = array();
 		$html[] = $table->as_html();

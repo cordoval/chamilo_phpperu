@@ -496,5 +496,13 @@ $lang['weblcms']['CodeSubscribe'] = 'Code Subscribe';
 $lang['weblcms']['NoDecisionYet'] = 'No Decision Yet';
 $lang['weblcms']['SelectedCourseDeleted'] = 'Selected course has succesfully been deleted';
 $lang['weblcms']['ChangeCourseTypeSelected'] = 'Change coursetype selected';
-$lang['weblcms']['CourseCourseTypeNotChanged'] = 'Coursetype has not changed';
+$lang['weblcms']['SelectedCourseCourseTypeNotChanged'] = 'Selected course\'s coursetype has not changed';
+$lang['weblcms']['SelectedCourseCourseTypeChanged'] = 'Selected course\'s coursetype has changed';
+$lang['weblcms']['SelectedCoursesCourseTypeNotChanged'] = 'Selected courses\' coursetype has not changed';
+$lang['weblcms']['SelectedCoursesCourseTypeChanged'] = 'Selected courses\' coursetype has changed';
+$lang['weblcms']['SelectedRequestsDeleted'] = 'Selected requests has deleted';
+$lang['weblcms']['NoCoursesFound'] = 'No courses found';
+$lang['weblcms']['CourseCreateRequestSent'] = 'Course creation request sent';
+$lang['weblcms']['CourseCreateRequestNotSent'] = 'Course creation request not sent';
+$lang['weblcms']['CourseRequest'] = 'Course Request';
 ?>
