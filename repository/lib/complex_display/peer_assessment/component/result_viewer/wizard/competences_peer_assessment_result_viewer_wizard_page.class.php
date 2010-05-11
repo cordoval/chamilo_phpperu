@@ -233,11 +233,21 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
         	$score_user = $this->score_user($users, $indicator, $competence, $publication_id);
 			$group[] = $this->createElement('static', null, null, $score_user);
 			
-			// Get average
-			$average = $this->average($users, $indicator, $competence, $publication_id);
+			
+			if($score_user == 'No score')
+			{
+				$average = Translation :: get('NoScore');
+				$average_after_correction = Translation :: get('NoScore');
+			}
+			else
+			{
+				// Get average
+				$average = $this->average($users, $indicator, $competence, $publication_id);
+				// Get average after correction
+				$average_after_correction = $this->average_after_correction($users, $indicator, $competence, $publication_id);
+			}
+			
 			$group[] = $this->createElement('static', null, null, $average);
-			// Get average after correction
-			$average_after_correction = $this->average_after_correction($users, $indicator, $competence, $publication_id);
 			$group[] = $this->createElement('static', null, null, $average_after_correction);
 				
 			// Show the values that already has been submitted
@@ -265,7 +275,9 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     // **********
     function score_user($users, $indicator, $competence, $publication_id)
     {
-    	$count = 0;
+    	$count = 0;    	
+    	$all_filled_out = 0;
+    	
     	
     	foreach($users as $user)
     	{
@@ -277,23 +289,86 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 	    		{    		
 		    		$peer_assessment_publication = new PeerAssessmentPublication();
 	    			$user_score = $peer_assessment_publication->get_data_manager()->retrieve_peer_assessment_publication_result($publication_id, $competence->get_id(), $indicator->get_id(), $user->get_user(), Session :: get_user_id());
-	    			$value = $this->score_value($user_score->get_score(), $publication_id);	
-	    						
-	    			$count += $value;
+	    			
+	    			if($user_score != null)
+	    			{
+	    				$all_filled_out++;
+	    				
+		    			if($user_score->get_score() == 0)
+		    			{
+		    				//Not all criterias are filled in
+		    				$error[] = '<div class="clear"></div>';
+				        	$error[] = '<div class="error-message">';
+				        	$error[] = Translation :: get('NotAllUsersFilledOutTheScoresYet');
+				        	$error[] = '<div class="close_message" id="closeMessage"></div>';
+				        	$error[] = '</div>';
+				        	
+				        	echo implode("\n", $error);
+				        	$count = Translation :: get('NoScore');
+		    			}
+	    				else
+	    				{
+	    					$value = $this->score_value($user_score->get_score(), $publication_id);		    						
+	    					$count += $value;
+	    				}
+	    			}
 	    		}
 	    	}
 	    	else
 	    	{
 	    		// All scores are used (even the ones you give to yourself)	    		
 	    		$peer_assessment_publication = new PeerAssessmentPublication();
-    			$user_score = $peer_assessment_publication->get_data_manager()->retrieve_peer_assessment_publication_result($publication_id, $competence->get_id(), $indicator->get_id(), $user->get_user(), Session :: get_user_id());
-    			$value = $this->score_value($user_score->get_score(), $publication_id);	
-    				
-    			$count += $value;
+    			$user_score = $peer_assessment_publication->get_data_manager()->retrieve_peer_assessment_publication_result($publication_id, $competence->get_id(), $indicator->get_id(), $user->get_user(), Session :: get_user_id());   			
+    			
+    			if($user_score != null)
+	    		{
+	    			$all_filled_out++;
+	    			
+	    			if($user_score->get_score() == 0)
+	    			{
+	    				//Not all criterias are filled in
+	    				$error[] = '<div class="clear"></div>';
+			        	$error[] = '<div class="error-message">';
+			        	$error[] = Translation :: get('NotAllUsersFilledOutTheScoresYet');
+			        	$error[] = '<div class="close_message" id="closeMessage"></div>';
+			        	$error[] = '</div>';
+			        	
+			        	echo implode("\n", $error);
+			        	$count = Translation :: get('NoScore');
+	    			}
+	    			else
+	    			{
+	    				$value = $this->score_value($user_score->get_score(), $publication_id);	
+	    				$count += $value;
+	    			}
+	    			
+	    			
+	    		}
 	    	}
     	}
-    	$count = $count / sizeof($users);
-    	return round($count, 2);
+
+    	
+    	if($all_filled_out == sizeof($users))
+    	{
+    		if($count != 'No score')
+    		{
+    			$count = $count / sizeof($users);
+    			$count = round($count, 2);
+    		}
+    	}
+    	else
+    	{
+    		$count= Translation :: get('NoScore');
+
+	    		$error[] = '<div class="clear"></div>';
+	        	$error[] = '<div class="error-message">';
+	        	$error[] = Translation :: get('NotAllUsersFilledOutTheScoresYet');
+	        	$error[] = '<div class="close_message" id="closeMessage"></div>';
+	        	$error[] = '</div>';
+	        	
+	        	echo implode("\n", $error);
+    	}
+    	return $count;
     }
     
     
@@ -422,7 +497,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     // Gives back the value of the score id
     // ************************************
     function score_value($score_id, $publication_id)
-    {   	
+    {   
     	// Retrieve peer assessment_publication
        	$peer_assessment_publication = new PeerAssessmentPublication();
     	$publication = $peer_assessment_publication->get_data_manager()->retrieve_peer_assessment_publication($publication_id);
@@ -436,7 +511,11 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 		// Criteria options
         $criteria_options = $criteria_overview->get_options();	
         
-        return $criteria_options[$score_id - 1]->get_score();		
+        if($criteria_options[$score_id - 1] != null)
+        {
+        	$value = $criteria_options[$score_id - 1]->get_score();
+        }
+        return $value;		
     }
     
        

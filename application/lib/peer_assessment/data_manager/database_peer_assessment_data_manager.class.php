@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . '/../peer_assessment_publication.class.php';
 require_once dirname(__FILE__) . '/../peer_assessment_publication_group.class.php';
 require_once dirname(__FILE__) . '/../peer_assessment_publication_user.class.php';
+require_once dirname(__FILE__) . '/../peer_assessment_publication_results.class.php';
 require_once dirname(__FILE__) . '/../category_manager/peer_assessment_publication_category.class.php';
 require_once dirname(__FILE__) . '/../peer_assessment_data_manager_interface.class.php';
 
@@ -21,9 +22,9 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         $this->set_prefix('peer_assessment_');
     }
 
+    
     // Publish
-
-
+    
     function create_peer_assessment_publication($peer_assessment_publication)
     {
         // Create general info
@@ -37,8 +38,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $success;
     }
 
+    
     // Import users in the database for a specific publish
-
 
     private function create_peer_assessment_publication_users($peer_assessment_publication)
     {
@@ -59,8 +60,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return true;
     }
 
+    
     // Import groups in the database for a specific publish
-
 
     private function create_peer_assessment_publication_groups($peer_assessment_publication)
     {
@@ -81,8 +82,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return true;
     }
 
+    
     // Update a publication with all the properties
-
 
     function update_peer_assessment_publication($peer_assessment_publication)
     {
@@ -107,8 +108,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $this->update($peer_assessment_publication, $condition);
     }
 
+    
     // Delete a publication with all the properties
-
 
     function delete_peer_assessment_publication($peer_assessment_publication)
     {
@@ -147,8 +148,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $this->retrieve_objects(PeerAssessmentPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
+    
     // Categories
-
 
     function create_peer_assessment_publication_category($peer_assessment_publication_category)
     {
@@ -182,8 +183,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $this->retrieve_max_sort_value($table_name, $column, $condition);
     }
 
+    
     // Publication attributes
-
 
     function content_object_is_published($object_id)
     {
@@ -344,8 +345,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         }
     }
 
+    
     // Group
-
 
     function create_peer_assessment_publication_group($peer_assessment_publication_group)
     {
@@ -380,8 +381,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $this->retrieve_objects(PeerAssessmentPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, PeerAssessmentPublicationGroup :: CLASS_NAME);
     }
 
+    
     // User
-
 
     function create_peer_assessment_publication_user($peer_assessment_publication_user)
     {
@@ -416,8 +417,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $this->retrieve_objects(PeerAssessmentPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, PeerAssessmentPublicationUser :: CLASS_NAME);
     }
 
+    
     // Results
-
 
     function create_peer_assessment_publication_results($peer_assessment_publication)
     {
@@ -451,8 +452,8 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
         return $this->retrieve_objects(PeerAssessmentPublicationResults :: get_table_name(), $condition, $offset, $max_objects, $order_by, PeerAssessmentPublicationResults :: CLASS_NAME);
     }
 
+    
     // Criteria
-
 
     function retrieve_peer_assessment_publication_criteria($criteria_id)
     {

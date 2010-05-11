@@ -52,15 +52,7 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
      */
     function _renderForm($current_page)
     {   	
-    	// Publication id
-    	$publication_id = Request :: get('peer_assessment_publication');
-    	// Number of users
-		$count_users = sizeof($current_page->get_parent()->get_peer_assessment_publication_users($publication_id)); 
-		
-		if($count_users > 1)
-		{
-			parent :: _renderForm($current_page);
-		}		
+		parent :: _renderForm($current_page);	
     }
 }
 ?>
