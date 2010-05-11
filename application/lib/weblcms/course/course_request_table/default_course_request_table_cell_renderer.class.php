@@ -10,6 +10,7 @@ class DefaultCourseRequestTableCellRenderer implements ObjectTableCellRenderer
 {	
 	const USER_NAME = 'user_name';
 	const COURSE_NAME = 'course_name';
+	const COURSE_TYPE_NAME = 'course_type_name';
 	
 	/**
      * The repository browser component
@@ -45,6 +46,9 @@ class DefaultCourseRequestTableCellRenderer implements ObjectTableCellRenderer
             		return $this->browser->retrieve_course($request->get_course_id())->get_name();
             	else
             		return $request->get_course_name();
+            
+            case self :: COURSE_TYPE_NAME :
+           		return $this->browser->retrieve_course_type($request->get_course_type_id())->get_name();
             	
             case CommonRequest :: PROPERTY_SUBJECT :
                 return $request->get_subject();

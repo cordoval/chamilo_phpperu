@@ -65,8 +65,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
             	}
             
             	foreach ($course_codes as $course_code)
-            	{
-            	       
+            	{  
                 	if (! $this->move_course($course_code))
                 	{
                     	$failures ++;
@@ -96,7 +95,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
               	   }
             	}           	
             	$parent = $this->form->get_new_parent();
-            	$this->redirect(!$failures ? Translation :: get('CourseCourseTypeChanged') : Translation :: get('CourseCourseTypeNotChanged'), !$failures ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent), array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_COURSE_TYPE));    	
+            	$this->redirect(!$failures ? Translation :: get($message) : Translation :: get($message), !$failures ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent), array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_COURSE_TYPE));    	
             }
             else
             {
@@ -118,7 +117,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
        	$wdm = WeblcmsDataManager :: get_instance();
        	$course_type = $wdm->retrieve_course_type($new_course_type);
        	$course = $wdm->retrieve_course($course_code);
-       	$course->update_by_course_type($course_type);
+       	return $course->update_by_course_type($course_type);
     }
 }
 ?>
