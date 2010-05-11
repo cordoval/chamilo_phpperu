@@ -24,8 +24,11 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
             
             $this->parent_region = $this->retrieve_region($parent_id);
             
-            $this->parent_parent_id = $this->parent_region->get_parent_id();            
-            
+            if ($parent_id)
+            {
+            	$this->parent_parent_id = $this->parent_region->get_parent_id();            
+            }
+            	
             $this->root_region = $this->retrieve_regions(new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, 0))->next_result();
             
             $region = $this->region;

@@ -107,7 +107,7 @@ class InternshipOrganizerRegionManager extends SubManager
 	function get_region_create_url($parent_id = null)
 	{
 		if($parent_id != null){
-			return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_REGION, self :: PARAM_REGION_ID => $parent_id));
+			return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_REGION, self :: PARAM_PARENT_REGION_ID => $parent_id));
 		}else{
 			return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_REGION));
 		}

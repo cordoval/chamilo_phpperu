@@ -27,7 +27,7 @@ class InternshipOrganizerRegionManagerEditorComponent extends InternshipOrganize
             {
                 $success = $form->update_region();
                 $region = $form->get_region();
-                $this->redirect(Translation :: get($success ? 'InternshipOrganizerRegionUpdated' : 'InternshipOrganizerRegionNotUpdated'), ($success ? false : true), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_VIEW_REGION, InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region->get_id()));
+                $this->redirect(Translation :: get($success ? 'InternshipOrganizerRegionUpdated' : 'InternshipOrganizerRegionNotUpdated'), ($success ? false : true), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_VIEW_REGION, InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region->get_id(), InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $region->get_parent_id()));
             }
             else
             {
