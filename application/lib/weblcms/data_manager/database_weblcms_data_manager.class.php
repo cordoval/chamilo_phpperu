@@ -316,8 +316,8 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function retrieve_course_list_of_user_as_course_admin($user_id)
     {
         $conditions = array();
-        $conditions = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
-        $conditions = new EqualityCondition(CourseUserRelation :: PROPERTY_STATUS, 1);
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_STATUS, 1);
         $condition = new AndCondition($conditions);
 
         return $this->retrieve_course_user_relations($condition);
@@ -864,6 +864,36 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
+    function retrieve_course_subscribe_groups_by_right($right, $course, $condition=null, $offset=null, $count=null, $order_property=null)
+    {
+    	$groups_result = GroupDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property);
+    	$groups = array();
+	    while($group = $groups_result->next_result())
+	    {
+	     	if($course->can_group_subscribe($group->get_id()) == $right)
+	     	{
+	       		$groups[] = $group;
+	       	}
+	    }
+	    return new ArrayResultSet($groups);
+    }
+
+    function retrieve_course_subscribe_users_by_right($rights, $course, $add_course_admin = false, $condition=null, $offset=null, $count=null, $order_property=null)
+    {
+    	if(!is_array($rights))
+    		$rights = array($rights);
+	    $users_result = UserDataManager::get_instance()->retrieve_users($condition, $offset, $count, $order_property);
+    	$users = array();
+	    while($user = $users_result->next_result())
+	    {
+	      	if(in_array($course->can_user_subscribe($user), $rights) || ($course->is_course_admin($user) && $add_course_admin))
+	      	{
+	      		$users[] = $user;
+	      	}
+	    }
+	    return new ArrayResultSet($users);
+    }
+    
     function create_course($course)
     {
         $now = time();

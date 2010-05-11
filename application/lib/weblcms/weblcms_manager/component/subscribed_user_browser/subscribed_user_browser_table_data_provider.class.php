@@ -39,19 +39,12 @@ class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
     	if(is_null($this->preloaded_result_set))
     	{
 	    	$order_property = $this->get_order_property($order_property);
-	        
-	        $users_result = $this->udm->retrieve_users($this->get_condition(), $offset, $count, $order_property);
-	        $users = array();
-	        $course = parent::get_browser()->get_course();
-	        while($user = $users_result->next_result())
-	        {
-	        	if($course->can_user_subscribe($user) || ($course->is_course_admin($user) && (parent::get_browser()->get_action() == UserTool :: ACTION_UNSUBSCRIBE_USERS || is_null(parent::get_browser()->get_action()))))
-	        	{
-	        		$users[] = $user;
-	        	}
-	        }
-	        $this->object_count = count($users);
-	        $this->preloaded_result_set = new ArrayResultSet($users);
+	        $add_course_admin = (parent::get_browser()->get_action() == UserTool :: ACTION_UNSUBSCRIBE_USERS || is_null(parent::get_browser()->get_action()));
+	        $rights = array(CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT);
+	        if($add_course_admin)
+	        	$rights[] = CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST;
+	        $this->preloaded_result_set = WeblcmsDataManager::get_instance()->retrieve_course_subscribe_users_by_right($rights, parent::get_browser()->get_course(), $add_course_admin, $this->get_condition(), $offset, $count, $order_property);
+	        $this->object_count =  $this->preloaded_result_set->size();
     	}
         return $this->preloaded_result_set;
     }
