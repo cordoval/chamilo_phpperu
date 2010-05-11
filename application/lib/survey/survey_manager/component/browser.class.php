@@ -24,7 +24,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
         echo $menu->render_as_tree();
         echo '</div>';
         echo '<div style="width: 80%; float: right;">';
-        echo '<div >'.Translation :: get('TakeSurveyExplanation');
+        echo '<div >'.Translation :: get('TakeSurveyExplanation').'<br/>';
         echo '</div>';
         echo $this->get_table();
         echo '</div>';

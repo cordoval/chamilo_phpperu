@@ -55,3 +55,5 @@ syntax: regexp
 ^repository/lib/content_object/survey/context/survey_vakken_jaar_context$
 syntax: regexp
 ^layout/aqua/images/survey/Thumbs\.db$
+syntax: regexp
+\.db$
