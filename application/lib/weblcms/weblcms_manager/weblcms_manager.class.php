@@ -1652,6 +1652,9 @@ class WeblcmsManager extends WebApplication
 					break;
 				case self :: PARAM_CHANGE_COURSE_TYPE_SELECTED_COURSES :
 					$this->set_action(self :: ACTION_CHANGE_COURSE_TYPE_FROM_COURSE);
+					Request :: set_get(self :: PARAM_MESSAGE, null);
+					Request :: set_get(self :: PARAM_ERROR_MESSAGE, null);
+					Request :: set_get(self :: PARAM_WARNING_MESSAGE, null);
 					Request :: set_get(self :: PARAM_COURSE, $selected_course_ids);
 					break;
 				case self :: PARAM_REMOVE_SELECTED_REQUESTS :
