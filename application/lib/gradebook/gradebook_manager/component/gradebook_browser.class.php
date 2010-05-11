@@ -10,7 +10,7 @@ require_once Path :: get_application_path() . '/lib/gradebook/data_provider/grad
 
 class GradebookManagerGradebookBrowserComponent extends GradebookManager
 {
-	private $ab;
+	private $action_bar;
 	private $content_object_ids = array();
 	private $data_provider;
 	private $type;
@@ -29,7 +29,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME, GradebookManager :: PARAM_PUBLICATION_APP => $this->application)), Translation :: get('BrowsePublicationsOf') . ' ' . $this->application));
 		$this->type = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		$this->display_header($trail);
-		$this->ab = $this->get_action_bar();
+		$this->action_bar = $this->get_action_bar();
 		
 		if(count($this->applications) == 0)
 			echo '<h2>' . Translation :: get('NoEvaluations') . '</h2>';
@@ -41,8 +41,8 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddExternalEvaluation'), Theme :: get_common_image_path().'action_add.png', $this->get_create_gradebook_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddExternalEvaluation'), Theme :: get_common_image_path().'action_add.png', $this->get_create_external_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
 		return $action_bar;
 	}
 	
@@ -206,7 +206,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 			$width = 79;
         }
 		$html[] = '<div style="float: right; width: ' . $width . '%;">';
-		
+		$html[] = $this->action_bar->as_html();
 		$html[] = $this->table->as_html($this);
 		
 		$html[] = '</div>';
