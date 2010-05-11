@@ -1,5 +1,5 @@
 <?php
-interface LaikaDataManagerInterface
+interface LinkerDataManagerInterface
 {
     function initialize();
 

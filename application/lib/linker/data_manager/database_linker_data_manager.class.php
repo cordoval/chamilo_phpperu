@@ -59,10 +59,5 @@ class DatabaseLinkerDataManager extends Database implements LinkerDataManagerInt
         $condition = new EqualityCondition(Link :: PROPERTY_ID, $id);
         return $this->retrieve_object(Link :: get_table_name(), $condition);
     }
-
-    function create_storage_unit($name, $properties, $indexes)
-    {
-        return $this->create_storage_unit($name, $properties, $indexes);
-    }
 }
 ?>
