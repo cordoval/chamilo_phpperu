@@ -11,6 +11,7 @@ class ExternalItem extends DataClass
      */
     const PROPERTY_TITLE = 'title';
     const PROPERTY_DESCRIPTION = 'description';
+    const PROPERTY_CATEGORY = 'category';
 	/**
      * Get the default properties
      * @return array The property names.
@@ -45,6 +46,21 @@ class ExternalItem extends DataClass
     function set_description($description)
     {
     	$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
+    }
+    
+    function get_category()
+    {
+    	return $this->get_default_property(self :: PROPERTY_CATEGORY);
+    }
+    
+    function set_category($category)
+    {
+    	$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
+    }
+    
+    function get_view_url()
+    {
+    	
     }
 
     static function get_table_name()

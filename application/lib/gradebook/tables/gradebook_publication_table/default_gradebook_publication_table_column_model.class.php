@@ -19,7 +19,6 @@ class DefaultGradebookPublicationTableColumnModel extends ObjectTableColumnModel
 		$columns = array();
 		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE);
 		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION);
-		$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_CREATION_DATE);
 		return $columns;
 	}
 }

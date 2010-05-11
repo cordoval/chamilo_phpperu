@@ -33,6 +33,11 @@ interface GradebookDataManagerInterface
     function retrieve_internal_item($id);
 
     function retrieve_categories_by_application($application);
+    
+    // external items
+    function retrieve_external_items($condition, $offset = null, $max_objects = null, $order_by = null);
+    
+    function count_external_items($condition);
 
     // internal item instance
     function delete_internal_item_instance($internal_item_instance);
@@ -87,7 +92,6 @@ interface GradebookDataManagerInterface
     function retrieve_format_id_by_format_name($format_name);
 
     //gradebook_items rel user
-
 
     //gradebook grade evaluation
     function create_grade_evaluation($grade_evaluation);

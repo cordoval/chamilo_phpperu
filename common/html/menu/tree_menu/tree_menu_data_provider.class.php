@@ -3,10 +3,12 @@ abstract class TreeMenuDataProvider
 {
 	private $selected_tree_menu_item;
 	private $url;
+	private $type;
 	
-	function TreeMenuDataProvider($url)
+	function TreeMenuDataProvider($url, $type = null)
 	{
 		$this->set_url($url);
+		$this->set_type($type);
 	}
 	
 	public function get_selected_tree_menu_item()
@@ -27,6 +29,16 @@ abstract class TreeMenuDataProvider
 	public function set_url($url)
 	{
 		$this->url = $url;
+	}
+	
+	public function get_type()
+	{
+		return $this->url;
+	}
+	
+	public function set_type($type)
+	{
+		$this->type = $type;
 	}
 	
 	public function format_url($id)

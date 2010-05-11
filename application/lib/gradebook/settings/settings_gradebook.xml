@@ -71,7 +71,7 @@
 			</setting>
 		</category>
 		<category name="applications">
-			<setting name="allow_evaluate_application_forum" field="checkbox" default="0">
+			<setting name="allow_evaluate_application_forum" field="checkbox" default="1">
 				<options type="static">
 					<option name="allow_evaluate_application_forum" value="1" />
 				</options>
@@ -81,7 +81,7 @@
 					<option name="allow_evaluate_application_assessment" value="1" />
 				</options>
 			</setting>
-			<setting name="allow_evaluate_application_wiki" field="checkbox" default="0">
+			<setting name="allow_evaluate_application_wiki" field="checkbox" default="1">
 				<options type="static">
 					<option name="allow_evaluate_application_wiki" value="1" />
 				</options>

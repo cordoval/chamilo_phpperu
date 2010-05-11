@@ -10,7 +10,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 	{
 		$reporting_data = new ReportingData();
 		$reporting_data->set_rows(array(Translation :: get('EvaluationDate'),Translation :: get('User'), Translation :: get('Evaluator'), Translation :: get('Score'), Translation :: get('Comment')));
-		$application = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
+		$application = Request :: get(GradebookManager :: PARAM_PUBLICATION_APP);
 		$publication_id = Request :: get(GradebookManager :: PARAM_PUBLICATION_ID);
 		$data = GradebookManager :: retrieve_all_evaluations_on_publication($application, $publication_id);
 		$internal_item = EvaluationManager :: retrieve_internal_item_by_publication($application, $publication_id);

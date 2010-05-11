@@ -326,16 +326,27 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
     //gradebook external item
 
 
-    function create_external_item_by_content_object($content_object_id)
+    function create_external_item_by_content_object($content_object_id, $category)
     {
         $rdm = RepositoryDataManager :: get_instance();
         $content_object = $rdm->retrieve_content_object($content_object_id);
         $external_item = new ExternalItem();
         $external_item->set_title($content_object->get_title());
         $external_item->set_description($content_object->get_description());
+        $external_item->set_category($category);
         if ($this->create($external_item));
         return $external_item;
         return false;
+    }
+    
+    function retrieve_external_items($condition, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(ExternalItem :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
+    
+    function count_external_items($condition)
+    {
+        return $this->count_objects(ExternalItem :: get_table_name(), $condition);
     }
 
     //gradebook external item instance

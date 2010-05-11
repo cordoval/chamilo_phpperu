@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../../tables/gradebook_publication_table/default_gradebook_publication_table_column_model.class.php';
 
-class GradebookPublicationBrowserTableColumnModel extends DefaultGradebookPublicationTableColumnModel
+class GradebookExternalPublicationBrowserTableColumnModel extends DefaultGradebookPublicationTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -11,7 +11,7 @@ class GradebookPublicationBrowserTableColumnModel extends DefaultGradebookPublic
 	/**
 	 * Constructor
 	 */
-	function GradebookPublicationBrowserTableColumnModel($browser)
+	function GradebookExternalPublicationBrowserTableColumnModel($browser)
 	{
 		parent :: __construct();
         $this->set_default_order_column(1);
