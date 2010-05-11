@@ -136,4 +136,5 @@ $lang['survey']['Chart:Bar'] = 'Staafdiagram';
 $lang['survey']['Chart:Line'] = 'Lijndiagram';
 $lang['survey']['Chart:FilledCubic'] = 'Kubusdiagram';
 $lang['survey']['SavedToRepository'] = 'Opgeslagen naar repository';
+$lang['survey']['TakeSurveyExplanation'] = 'Om een enquête af te nemen klikt u op het groene pijltje.';
 ?>
