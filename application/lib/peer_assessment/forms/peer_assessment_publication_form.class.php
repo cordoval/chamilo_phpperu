@@ -76,17 +76,20 @@ class PeerAssessmentPublicationForm extends FormValidator
         
         $select = $this->addElement('select', self :: PARAM_CRITERIA_SCORE, Translation :: get('SelectCriteriaScore'), $criteria_scores);
    		        
-		/*$publication_criteria_id = $this->get_parent()->get_peer_assessment_publication_result($publication_id, $competence_id, $indicator_id, $user_id, $graded_user_id);
-
+        // Update: set the criteria that is in the database
+        /*$publication_criteria_id = '';
+        
 		if($publication_criteria_id != null)
 		{
 			$criteria_content_object_id = $publication_criteria_id->get_criteria_content_object_id();
 			$select->setSelected();
 		}*/
         
-        //$this->addRule(Criteria :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');               
-        
+        // Add rule doesn't work with criteria
+        //$this->addRule(Criteria :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');               
+
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
+        //$this->add_indicators(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
 
         $this->add_forever_or_timewindow();
         $this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));    
