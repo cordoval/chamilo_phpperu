@@ -24,12 +24,10 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('Gradebook')));
-		
 		$this->applications = $this->retrieve_internal_item_applications();
 		$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_APP);
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME, GradebookManager :: PARAM_PUBLICATION_APP => $this->application)), Translation :: get('BrowsePublicationsOf') . ' ' . $this->application));
 		$this->type = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
-		
 		$this->display_header($trail);
 		$this->ab = $this->get_action_bar();
 		
@@ -176,8 +174,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	function show_filtered_publications()
 	{
 		$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_APP, $this->application);
-		
-		if ($this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url()))
+		if ($this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url(), $this->type))
 		{
 			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $this->data_provider);
 		}

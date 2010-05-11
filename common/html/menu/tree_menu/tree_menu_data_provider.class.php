@@ -33,7 +33,7 @@ abstract class TreeMenuDataProvider
 	
 	public function get_type()
 	{
-		return $this->url;
+		return $this->type;
 	}
 	
 	public function set_type($type)
