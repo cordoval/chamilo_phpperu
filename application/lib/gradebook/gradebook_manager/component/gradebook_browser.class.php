@@ -63,7 +63,24 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	
 	function get_external_condition()
 	{
-		
+		if($this->application == 'weblcms')
+		{
+			$category_id = Request :: get($this->data_provider->get_id_param());
+			if (!$category_id)
+			{
+				$category_id = 'C0';
+			}
+			else
+			{
+				
+			}
+			$condition = new EqualityCondition(ExternalItem :: PROPERTY_CATEGORY, $category_id);
+			return $condition;
+		}
+		else
+		{
+			return new EqualityCondition(ExternalItem :: PROPERTY_CATEGORY, null);
+		}	
 	}
 	
 	function get_applications()
@@ -149,16 +166,16 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		$this->table = new GradebookInternalPublicationBrowserTable($this, $this->get_parameters());
 		if($this->application)
 		{	
-			$html[] = $this->show_filtered_publications();
+			$html[] = $this->show_filtered_publications('internal');
 		}
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
         $html[] = '<div id="external"/>';
         $html[] = $this->get_external_application_tabs();
 		$this->table = new GradebookExternalPublicationBrowserTable($this, $this->get_parameters());
-		if($this->application)
+		if($this->application && ($this->application == 'weblcms' || $this->application == 'general'))
 		{	
-			$html[] = $this->show_filtered_publications();
+			$html[] = $this->show_filtered_publications('external');
 		}
         $html[] = '<div style="clear: both;"></div>';
         $html[] = '</div>';
@@ -171,15 +188,14 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         return implode("\n", $html);
 	}
 	
-	function show_filtered_publications()
+	function show_filtered_publications($type)
 	{
 		$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_APP, $this->application);
-		if ($this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url(), $this->type))
+		if ($this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url(), $type))
 		{
+			$this->data_provider->set_type($type);
 			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $this->data_provider);
 		}
-		
-        $html[] = '<h2>' . ucfirst($this->application) . '</h2>';
         
         $width = 100;
         if ($this->menu)

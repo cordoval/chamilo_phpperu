@@ -23,11 +23,18 @@ class WeblcmsGradebookTreeMenuDataProvider extends GradebookTreeMenuDataProvider
 			$course_item->set_title($course->get_name());
 			$course_item->set_id($course->get_id());
 			$course_item->set_class('course');
-			$course_item->set_url($this->get_url());
+			if($this->get_type() == 'external')
+			{
+				$course_item->set_url($this->format_url('C' . $course->get_id()));
+			}
+			else
+			{
+				$course_item->set_url($this->get_url());
+			}
 			$course_item->set_collapsed(true);
-			$tools = $course->get_tools();
 			if($this->get_type() == 'internal')
 			{
+				$tools = $course->get_tools();
 				foreach($tools as $tool)
 				{
 	        		if(PlatformSetting :: get_instance()->get('allow_evaluate_' . $tool->name, 'gradebook'))
