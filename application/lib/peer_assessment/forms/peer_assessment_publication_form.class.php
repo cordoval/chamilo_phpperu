@@ -190,15 +190,18 @@ class PeerAssessmentPublicationForm extends FormValidator
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
         
-             
+
+        $criterias = $values[self :: PARAM_CRITERIA_SCORE];
+        
     	$rdm = RepositoryDataManager :: get_instance();
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
         $objects = $rdm->retrieve_type_content_objects(Criteria :: get_type_name(), $condition);
-        			       	
+
     	while ($object = $objects->next_result())
         {
-         	$criteria = $object->get_id();
+         	$all_criterias[] = $object->get_id();
         }
+        $criteria = $all_criterias[$criterias - 1];
         
         
         $content_object->set_hidden($hidden);      
@@ -210,7 +213,7 @@ class PeerAssessmentPublicationForm extends FormValidator
         $content_object->set_display_order(0);
         $content_object->set_criteria_content_object_id($criteria);
         
-        return $content_object->update();
+        return $content_object->update();       
     }
     
  	

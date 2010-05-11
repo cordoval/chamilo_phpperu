@@ -191,7 +191,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     	
     	// Prints of a table row with properties foreach indicator
         foreach($indicators as $indicator)
-        {
+        {      	
 			unset($group);
 			$group[] = $this->createElement('static', null, null, '<img src="'. Theme :: get_common_image_path() . 'content_object/indicator.png' .'" alt=""/>');
 			$group[] = $this->createElement('static', null, null, $indicator->get_title());
@@ -273,7 +273,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     // **********	
     // Score user
     // **********
-    function score_user($users, $indicator, $competence, $publication_id)
+    function score_user($users, $indicator, $competence, $publication_id, $count_indicators)
     {
     	$count = 0;    	
     	$all_filled_out = 0;
@@ -360,14 +360,15 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     	{
     		$count= Translation :: get('NoScore');
 
-	    		$error[] = '<div class="clear"></div>';
-	        	$error[] = '<div class="error-message">';
-	        	$error[] = Translation :: get('NotAllUsersFilledOutTheScoresYet');
-	        	$error[] = '<div class="close_message" id="closeMessage"></div>';
-	        	$error[] = '</div>';
-	        	
-	        	echo implode("\n", $error);
+    		$error[] = '<div class="clear"></div>';
+        	$error[] = '<div class="error-message">';
+        	$error[] = Translation :: get('NotAllUsersFilledOutTheScoresYet');
+        	$error[] = '<div class="close_message" id="closeMessage"></div>';
+        	$error[] = '</div>';
+        	
+        	echo implode("\n", $error);
     	}
+    	
     	return $count;
     }
     
