@@ -3,10 +3,6 @@
  *	@author Nick Van Loocke
  */
 
-// COMMENT: average and average after correction isn't right yet! 
-// 3 users and each has 3 values for each indicator so 9 values => for each indicator and of that value you can calculate 
-// the average and the average after correction.
-
 class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResultViewerWizardPage
 {	
 	private $page_number;
