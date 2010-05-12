@@ -36,14 +36,40 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
     // Inherited
     function render_cell($column, $survey_publication)
     {
-        if ($column === SurveyPublicationBrowserTableColumnModel :: get_modification_column())
+        
+    	 
+    	
+    	if ($column === SurveyPublicationBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($survey_publication);
         }
         
+       switch ($column->get_name())
+        {
+            case ContentObject :: PROPERTY_TITLE :
+             	$content_object = $survey_publication->get_publication_object();
+            	$user = $this->browser->get_user();
+            	$title = $content_object->get_title();
+        		if ($survey_publication->is_visible_for_target_user($user, true))
+        		{
+            		$url = '<a href="' . htmlentities($this->browser->get_survey_publication_viewer_url($survey_publication)) . '" title="' . $title . '">' . $title . '</a>';
+        		}else{
+        			$url = $title;
+        		}
+            	          	
+            	
+            	if ($survey_publication->get_hidden())
+                {
+                    return '<span style="color: #999999;">' . $url . '</span>';
+                }
+                
+                return $url;   
+        }   	
+        
+        
         return parent :: render_cell($column, $survey_publication);
+   
     }
-
     /**
      * Gets the action links to display
      * @param SurveyPublication $survey_publication The learning object for which the
@@ -103,4 +129,5 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         return Utilities :: build_toolbar($toolbar_data);
     }
 }
+
 ?>
