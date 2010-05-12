@@ -9,7 +9,7 @@ class GlobalTestSuite extends TestSuite
 	function __construct()
 	{
 		parent :: __construct('All test cases');
-		$dir = dirname(__FILE__) . '/test_cases/';
+		/*$dir = dirname(__FILE__) . '/test_cases/';
 		$files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES, false);
 		foreach($files as $file)
 		{
@@ -17,7 +17,7 @@ class GlobalTestSuite extends TestSuite
 			{
 				$this->addFile($dir . $file);
 			}
-		}
+		}*/
 		$this->addFile(dirname(__FILE__).'/common/utilities.class.test.php');
 	}
 }
