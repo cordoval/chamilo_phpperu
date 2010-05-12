@@ -22,7 +22,7 @@ class GradebookUtilities
 			$gdm = GradebookDataManager :: get_instance();
 			$internal_item = $gdm->retrieve_internal_item_by_publication($application, $publication_id);
 			$category = $internal_item->get_category();
-			$category = split('_',$category);
+			$category = split('_', $category);
 			if($internal_item->get_calculated() == 1)
 			{
 				$connector = GradeBookConnector :: factory($application);
@@ -32,7 +32,7 @@ class GradebookUtilities
 					return false;
 				}
 				
-				if(!$application == 'weblcms')
+				if($application != 'weblcms')
 				{
 					$category = null;
 				}
@@ -60,7 +60,7 @@ class GradebookUtilities
 				$evaluations_id = $gdm->retrieve_evaluation_ids_by_internal_item_id($internal_item->get_id())->as_array();
 				if(!$evaluations_id)
 					return false;
-				if(!$application == 'weblcms')
+				if($application != 'weblcms')
 				{
 					$category = null;
 				}

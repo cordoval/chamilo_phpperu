@@ -28,6 +28,8 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_APP);
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME, GradebookManager :: PARAM_PUBLICATION_APP => $this->application)), Translation :: get('BrowsePublicationsOf') . ' ' . $this->application));
 		$this->type = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
+		$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_APP, $this->application);
+		$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_TYPE, $this->type);
 		$this->display_header($trail);
 		$this->action_bar = $this->get_action_bar();
 		
@@ -69,10 +71,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 			if (!$category_id)
 			{
 				$category_id = 'C0';
-			}
-			else
-			{
-				
 			}
 			$condition = new EqualityCondition(ExternalItem :: PROPERTY_CATEGORY, $category_id);
 			return $condition;
@@ -136,6 +134,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '</div>';
         $html[] = '<div style="clear: both;"></div>';
         
+        
         return implode("\n", $html);
 	}
 	
@@ -176,6 +175,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		$this->table = new GradebookExternalPublicationBrowserTable($this, $this->get_parameters());
 		if($this->application && ($this->application == 'weblcms' || $this->application == 'general'))
 		{	
+			$html[] = $this->action_bar->as_html();
 			$html[] = $this->show_filtered_publications('external');
 		}
         $html[] = '<div style="clear: both;"></div>';
@@ -191,7 +191,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	
 	function show_filtered_publications($type)
 	{
-		$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_APP, $this->application);
 		if ($this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url()))
 		{
 			$this->data_provider->set_type($type);
@@ -207,7 +206,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 			$width = 79;
         }
 		$html[] = '<div style="float: right; width: ' . $width . '%;">';
-		$html[] = $this->action_bar->as_html();
 		$html[] = $this->table->as_html($this);
 		
 		$html[] = '</div>';
