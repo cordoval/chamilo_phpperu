@@ -35,14 +35,25 @@ class DefaultSurveyPublicationTableCellRenderer implements ObjectTableCellRender
         
         switch ($column->get_name())
         {
-            case ContentObject :: PROPERTY_TITLE :
-                
-                if ($survey_publication->get_hidden())
-                {
-                    return '<span style="color: #999999;">' . $content_object->get_title() . '</span>';
-                }
-                
-                return $content_object->get_title();
+//            case ContentObject :: PROPERTY_TITLE :
+//                
+//                
+//            	
+//            	$title = $content_object->get_title();
+//        if ($survey_publication->is_visible_for_target_user($user, true))
+//        {
+//            $toolbar_data[] = array('href' => $this->browser->get_survey_publication_viewer_url($survey_publication), 'label' => Translation :: get('TakeSurvey'), 'img' => Theme :: get_common_image_path() . 'action_next.png');
+//        }
+//            	
+//            	
+//            	$url = '<a href="' . htmlentities($this->browser->get_tracker_viewing_url($tracker->get_id(), $this->type_of_tracker_id)) . '" title="' . $title . '">' . $title . '</a>';
+//            	
+//            	if ($survey_publication->get_hidden())
+//                {
+//                    return '<span style="color: #999999;">' . $content_object->get_title() . '</span>';
+//                }
+//                
+//                return $content_object->get_title();
             case ContentObject :: PROPERTY_DESCRIPTION :
                 $description = Utilities :: truncate_string($content_object->get_description(), 200);
                 
