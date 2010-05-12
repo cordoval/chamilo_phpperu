@@ -44,6 +44,17 @@ class UtilitiesUnitTestCase extends UnitTestCase{
 		$s = Utilities::format_seconds_to_minutes('60');
 		$this->assertNotNull($s === '01:00');
 	}
+	
+	public function test_truncate_string()
+	{
+	    $s = Utilities :: truncate_string('Testing the utilities functions', 10);
+	    $this->assertTrue($s === 'Testing&hellip;');
+	}
+	
+	public function test_is_html_document()
+	{
+	    $s = Utilities :: is_html_document('index.html');
+	    $this->assertTrue($s === true);
+	}
 }
 ?>
-
