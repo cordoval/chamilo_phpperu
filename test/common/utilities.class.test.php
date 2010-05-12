@@ -12,6 +12,53 @@ class UtilitiesUnitTestCase extends UnitTestCase
 		$this->assertTrue($s === 'AbcDef');
 	}
 
+	public function test_underscores_to_camelcase_strcmp() 
+	{
+		$s = Utilities::underscores_to_camelcase('abc_def');
+		$this->assertTrue(strcmp($s,'AbcDef')===0);
+	}
+	
+	public function test_format_seconds_to_hours_normal()
+	{
+		$s = Utilities::format_seconds_to_hours('3600');
+		$this->assertTrue($s === '1:00:00');
+	}
+	
+	public function test_format_seconds_to_minutes_normal()
+	{
+		$s = Utilities::format_seconds_to_minutes('60');
+		$this->assertTrue($s === '01:00');
+	}
+	
+	//null unit test cases
+	public function test_format_seconds_to_hours_null()
+	{
+		//$variable = null;
+		$s = Utilities::format_seconds_to_hours($variable);
+		$this->assertNull($s);
+	}
+	
+	public function test_format_seconds_to_minutes_null()
+	{
+		//$variable = null;
+		$s = Utilities::format_seconds_to_minutes($variable);
+		$this->assertNull($s);
+		
+	}
+	
+	//isnotnull unit test cases
+	public function test_format_seconds_to_hours_not_null()
+	{
+		$s = Utilities::format_seconds_to_hours('3600');
+		$this->assertNotNull($s === '1:00:00');
+	}
+	
+	public function test_format_seconds_to_minutes_not_null()
+	{
+		$s = Utilities::format_seconds_to_minutes('60');
+		$this->assertNotNull($s === '01:00');
+	}
+	
 	public function test_camelcase_to_underscores_normal()
 	{
 		$s = Utilities :: camelcase_to_underscores('AbcDef');
