@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../external_item.class.php';
 require_once dirname(__FILE__) . '/../evaluation_format/evaluation_format.class.php';
 require_once dirname(__FILE__) . '/../../weblcms/course/course_user_relation.class.php';
 require_once dirname(__FILE__) . '/../../weblcms/weblcms_manager/weblcms_manager.class.php';
+require_once dirname(__FILE__) . '/../data_provider/gradebook_tree_menu_data_provider.class.php';
 
 class CreateExternalItemForm extends FormValidator
 {
@@ -18,7 +19,7 @@ class CreateExternalItemForm extends FormValidator
     private $user;
     private $users;
     
-    function CreateExternalItemForm($form_type, $action, $category = 'C6', $user)
+    function CreateExternalItemForm($form_type, $action, $category, $user)
     {
     	parent :: __construct('external_item_publication_settings', 'post', $action);
         $this->form_type = $form_type;
@@ -48,7 +49,7 @@ class CreateExternalItemForm extends FormValidator
     	return $this->allow_creation;
     }
     
-    function build_basic_form()
+    function build_basic_form($users_ids = null)
     {
     	$counter = 0;
     	$this->addElement('category', Translation :: get('GradeProperties'));
@@ -65,10 +66,20 @@ class CreateExternalItemForm extends FormValidator
     		$this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
     	}
     	$this->addElement('static', null, null, '<em>Score - Comment</em>');
-    	while($user = $users_relations->next_result())
+    	if($users_ids)
     	{
-    		$username = $udm->retrieve_user($user->get_user())->get_fullname();
-    		$this->users[] = $user->get_user();
+    		$this->users = $users_ids;
+    	}
+    	else
+    	{
+	    	while($user = $users_relations->next_result())
+	    	{
+	    		$this->users[] = $user->get_user();
+	    	}
+    	}
+    	foreach($this->users as $user)
+    	{
+    		$username = $udm->retrieve_user($user)->get_fullname();
     		$group = array();
 	    	if (!$this->evaluation_format->get_score_set())
 	    	{
@@ -120,6 +131,22 @@ class CreateExternalItemForm extends FormValidator
 		{
 			$formats_array[$format->get_id()] = ucfirst($format->get_title());
 		}
+   		if(!Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID))
+    	{
+	       	$attributes = array();
+	        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+	        $locale = array();
+	        $locale['Display'] = Translation :: get('SelectRecipients');
+	        $locale['Searching'] = Translation :: get('Searching');
+	        $locale['NoResults'] = Translation :: get('NoResults');
+	        $locale['Error'] = Translation :: get('Error');
+	        $attributes['locale'] = $locale;
+	        $attributes['exclude'] = array('user_' . $this->user->get_id());
+	        $attributes['defaults'] = array();
+	        $this->add_receivers('target', Translation :: get('SelectUsers'), $attributes);
+	        $this->addElement('style_button', 'refresh', Translation :: get('RefreshGradeProperties'));
+    	}
+		
 		if (Request :: get(EvaluationManager :: PARAM_EVALUATION_ACTION) == EvaluationManager :: ACTION_UPDATE)
 		{
 			if (PlatformSetting :: get_instance()->get('allow_change_format_on_update', 'gradebook'))
@@ -143,15 +170,20 @@ class CreateExternalItemForm extends FormValidator
     {
 	    $this->build_evaluation_format_element();
     	$values = $this->getSubmitValues();
+    	
 		if($values['format_id'] > 0)
 		{
-			$this->build_creation_form();
+			foreach(unserialize($values['target_elements_active_hidden']) as $users_array)
+			{
+				$users_ids[] = preg_replace("/[^0-9]/", '', $users_array['id']);
+			}
+			$this->build_creation_form($users_ids);
 		}
     }
     
-    function build_editing_form()
+    function build_editing_form($users_ids = null)
     {
-        $this->build_basic_form();
+        $this->build_basic_form($users_ids);
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -159,9 +191,9 @@ class CreateExternalItemForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
-    function build_creation_form()
+    function build_creation_form($users_ids = null)
     {
-		$this->build_basic_form();
+		$this->build_basic_form($users_ids);
 		
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -177,16 +209,18 @@ class CreateExternalItemForm extends FormValidator
 	function create_evaluation()
 	{
 		$export_values = $this->exportValues();
-		
 		$external_item = new ExternalItem();
 		$external_item->set_title($export_values['title']);
 		$external_item->set_description($export_values['description']);
-		$external_item->set_category('C' . $this->course_id);
+		if(!$this->course_id)
+			$external_item->set_category(null);
+		else
+			$external_item->set_category('C' . $this->course_id);
 		if(!$external_item->create())
 		{
 			return false;
 		}
-		for($i=1;$i<=(count($export_values)-4)/2;$i++)
+		for($i=0;$i<(count($export_values)-5)/2;$i++)
 		{
 			if(!$export_values[$this->evaluation_format->get_evaluation_field_name() . $i] == 'no_evaluation' || !$export_values[$this->evaluation_format->get_evaluation_field_name() . $i] == null)
 			{

@@ -4,7 +4,7 @@ require_once Path :: get_library_path() . 'utilities.class.php';
 require_once Path :: get_application_path() . 'lib/gradebook/gradebook_rights.class.php';
 
 require_once dirname(__FILE__) . '/../gradebook_utilities.class.php';
-
+require_once dirname(__FILE__) . '/../data_provider/gradebook_tree_menu_data_provider.class.php';
 require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
 
 require_once dirname(__FILE__) . '/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
@@ -161,7 +161,7 @@ class GradebookManager extends WebApplication
 
 	function get_create_external_url()
 	{
-		return $this->get_url(array ( self :: PARAM_ACTION => self :: ACTION_CREATE_EXTERNAL));
+		return $this->get_url(array ( self :: PARAM_ACTION => self :: ACTION_CREATE_EXTERNAL, GradebookTreeMenuDataProvider :: PARAM_ID => Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID)));
 	}
 
 	function get_gradebook_emptying_url($gradebook)
