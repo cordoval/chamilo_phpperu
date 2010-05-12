@@ -128,4 +128,7 @@ $lang['survey']['Chart:Line'] = 'Line Chart';
 $lang['survey']['Chart:FilledCubic'] = 'Filled Cubic Chart';
 $lang['survey']['SavedToRepository'] = 'Saved to repository';
 $lang['survey']['TakeSurveyExplanation'] = 'To Take a survey click on the green triagle shaped button.';
+$lang['survey']['SurveyFromEmailAddressName'] = 'From name';
+$lang['survey']['SurveyReplyEmailAddressName'] = 'Reply name';
+
 ?>

@@ -239,16 +239,16 @@ class SurveyManagerViewerComponent extends SurveyManager
 //
 //        }
 //
-//        foreach ($trackers as $tracker)
-//        {
-//            $status = $tracker->get_status();
-//            if ($status === SurveyParticipantTracker :: STATUS_NOTSTARTED)
-//            {
-//                $tracker->set_status(SurveyParticipantTracker :: STATUS_STARTED);
-//                $tracker->update();
-//            }
-//
-//        }
+        foreach ($trackers as $tracker)
+        {
+            $status = $tracker->get_status();
+            if ($status === SurveyParticipantTracker :: STATUS_NOTSTARTED)
+            {
+                $tracker->set_status(SurveyParticipantTracker :: STATUS_STARTED);
+                $tracker->update();
+            }
+
+        }
 
     }
 
