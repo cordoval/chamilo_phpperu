@@ -354,7 +354,11 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
     }
 
     //gradebook external item instance
-
+    
+	function create_external_item_instance($external_item_intance)
+	{
+		return $this->create($external_item_intance);
+	}
 
     function create_external_item_instance_by_moving($external_item, $evaluations_id)
     {

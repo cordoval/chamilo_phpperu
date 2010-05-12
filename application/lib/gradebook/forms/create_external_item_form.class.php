@@ -206,7 +206,7 @@ class CreateExternalItemForm extends FormValidator
 					return false;
 				}
 		    	
-				$grade_evaluation = $this->grade_evaluation;
+				$grade_evaluation = new GradeEvaluation();
 				$grade_evaluation->set_score($export_values[$this->evaluation_format->get_evaluation_field_name() . $i]);
 				$grade_evaluation->set_comment($export_values['comment' . $i]);
 				$grade_evaluation->set_id($evaluation->get_id());
