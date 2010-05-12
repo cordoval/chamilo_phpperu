@@ -40,33 +40,9 @@ class HtmlReporter extends SimpleReporter {
      */
     function paintHeader($test_name) {
         $this->sendNoCacheHeaders();
-        print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
-        echo '<html style="height:100%;">';
-        echo '<head>';
-        echo '<title>Test Suite</title>';
-        echo '</head>';
-       	echo '<body style="padding:0px;margin:0px;height:100%;">';
-       	echo '<div id="wrapper" style="width:90%;padding-left:5%;padding-bottom:10%;">';//wrapper
-       	echo '<div id="header1">';//header1
-        echo '<div id="header3" style="min-height:100px;background:url(img/header-logo.png) no-repeat left;"><br/>';//header3
-        echo '<div id="header4" style="float:right;font-size:25px;color:#01933E;"><br/>';//header4
-        echo ''. date('Y - m - d').'';
-        echo '</div>';//fin header 4
-        echo '</div><br/>';//fin header 3
-        echo '</div>';//fin header 1
-        echo '<div id="header2" style="width:100%;border:2px solid #DDDDDD;">';//header2     
-        echo '<div id="content2" style="background-image:url(img/bg-header4.png);background-repeat:repeat-x";>
-			<h2><div style="font-size:18px;font-family:Tahoma,Geneva,sans-serif;color:#01933E;text-decoration:none;">These results showing how many functions have been tested in the code of chamilo 1.8.6.2</div></h2><br/>         		    
-				<div style="font-size:12px;font-family:Tahoma,Geneva,sans-serif;color:#01933E;">
-				<p>This page showing the different types results than have been tested and showing the lines the problems.</p>  
-				<ol><li>This results show the amount of the tests than have been tested.</li>
-				<li>This results show the amount of the tests than have passed.</li>
-				<li>This results show the amount of the tests than have failed.</li>
-				<li>This results show the amount of exceptions in the tests.</li></ol>
-				<p>You can always find more information about simpletest on the website: http://www.lastcraft.com </p>
-				<p>"Only a well software like Chamilo, is perfect when has been tested by excellent Testing Engineers".</p>
-				</div></div>';//content2    			
-		echo '</div><br/>';//fin header2
+        BreadcrumbTrail :: get_instance()->add(new Breadcrumb('#', 'Test Suite'));
+        BreadcrumbTrail :: get_instance()->add(new Breadcrumb('#', $test_name));
+        Display :: header(BreadcrumbTrail :: get_instance());
 		//flush();
     }
     
@@ -106,22 +82,41 @@ class HtmlReporter extends SimpleReporter {
      *    @access public
      */
     function paintFooter($test_name) {
-        $colour = ($this->getFailCount() + $this->getExceptionCount() > 0 ? "red" : "green");
-        echo '<div id="header5" style="background-color: '.$colour.';color: white;font-weight:bold;">';//header 5
-        print "<style type=\"text/css\">\n";
-        print $this->_getCss() . "\n";
-        print "</style>\n";
-        echo ' Test cases complete: ';
-        echo $this->getTestCaseProgress() . '/' . $this->getTestCaseCount().'<br/><br/>';
-        echo  'Passes: ' . $this->getPassCount() . '  ';
-        echo  'Fails: ' . $this->getFailCount() . '  ';
-        echo  'Exceptions: ' . $this->getExceptionCount() . ' ';
- 		echo '</div>';//fin header5
- 		echo '</div>';//fin wrapper
- 		echo '<div id="footer1" style= "height:6em;background-image:url(img/bg-footer.gif);background-repeat:repeat-x ">';
-        echo '</div>';//fin footer 1
-        echo '</body>';
-        echo '</html>';		        
+        if ($this->getFailCount() + $this->getExceptionCount() > 0)
+        {
+            echo '<div class="error-message">';
+        }
+        else
+        {
+            echo '<div class="normal-message">';
+        }
+        
+        echo 'Test cases complete: ';
+        echo $this->getTestCaseProgress() . '/' . $this->getTestCaseCount() . '<br/><br/>';
+        
+        echo '</div>';
+        
+        echo '<table class="data_table">';
+        echo '<thead>';
+        echo '<tr>';
+        echo '<th>Type</th>';
+        echo '<th>Count</th>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+        echo '<tr>';
+        echo '<td>Passes</td><td>' . $this->getPassCount() . '</td>';
+        echo '</tr>';
+        echo '<tr class="row_odd">';
+        echo '<td>Fails</td><td>' . $this->getFailCount() . '</td>';
+        echo '</tr>';
+        echo '<tr>';
+        echo '<td>Exceptions</td><td>' . $this->getExceptionCount() . '</td>';
+        echo '</tr>';
+        echo '</tbody>';
+        echo '</table>';
+        
+        Display :: footer();    
     }
 	
 	
@@ -136,11 +131,12 @@ class HtmlReporter extends SimpleReporter {
      */
     function paintFail($message) {
         parent::paintFail($message);
-        print "<span class=\"fail\">Fail</span>: ";
+        print "<div class=\"error-message\"><span class=\"fail\">Fail</span>: ";
         $breadcrumb = $this->getTestList();
         array_shift($breadcrumb);
-        print implode(" -&gt; ", $breadcrumb);
-        print " -&gt; " . $this->_htmlEntities($message) . "<br />\n";
+        print implode("<br />- ", $breadcrumb);
+        print '<br />';
+        print "- " . $this->_htmlEntities($message) . "<br /></div>\n";
     }
 
     /**
