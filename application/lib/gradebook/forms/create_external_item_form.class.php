@@ -81,7 +81,7 @@ class CreateExternalItemForm extends FormValidator
 //		    			$this->grade_evaluation->set_score(null);
 //		    		}
 //	    		}
-				$counter++;
+				$rule = array();
 	    		$group[] = $this->createElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name() . $counter, false,  array('size' => '4'));
 	            $group[] = $this->createElement('text', GradeEvaluation :: PROPERTY_COMMENT . $counter, Translation :: get('Comment'), false);
 	            $this->addGroup($group, 'grades', $username, null, false);
@@ -89,16 +89,18 @@ class CreateExternalItemForm extends FormValidator
 	            $rule[$this->evaluation_format->get_evaluation_field_name() . $counter][] = array(Translation :: get('DecimalValueNotAllowed'), $score_rule);
 	            $rule[$this->evaluation_format->get_evaluation_field_name() . $counter][] = array(Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule);
 	            $this->addGroupRule('grades', $rule);
+	            $counter++;
 				//$this->addRule($this->evaluation_format->get_evaluation_field_name() . $counter, Translation :: get('ThisFieldIsRequired'), 'required');
 	    	}
 	    	else
 	    	{
-	    		$counter++;
+	    		
 	    		$score_set = $this->evaluation_format->get_score_set();
 	    		$score_set['no_evaluation'] = Translation :: get('NoEvaluation');
 	    		$group[] = $this->createElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(). $counter, null, $score_set);
 	    		$group[] = $this->createElement('text', GradeEvaluation :: PROPERTY_COMMENT . $counter, Translation :: get('Comment'), false);
 	    		$this->addGroup($group, 'grades', $username, null, false);
+	    		$counter++;
 	    		//$this->addRule($this->evaluation_format->get_evaluation_field_name() . $counter, Translation :: get('ThisFieldIsRequired'), 'required');
 	    	}
     	}
@@ -190,7 +192,7 @@ class CreateExternalItemForm extends FormValidator
 			{
 				$evaluation = new Evaluation();
 				$evaluation->set_evaluator_id($this->user->get_id());
-				$evaluation->set_user_id($this->users[$i-1]);
+				$evaluation->set_user_id($this->users[$i]);
 				$evaluation->set_evaluation_date(time());		
 				$evaluation->set_format_id($export_values['format_id']);
 				if(!$evaluation->create())

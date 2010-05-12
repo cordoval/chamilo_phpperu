@@ -9,12 +9,12 @@ class GradebookManagerExternalCreatorComponent extends GradebookManager
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL)), Translation :: get('CreatingExternal')));
 	
-		$form = new CreateExternalItemForm(CreateExternalItemForm :: TYPE_CREATE, $this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL)), 'C6'/*Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID)*/,$this->get_user());
+		$form = new CreateExternalItemForm(CreateExternalItemForm :: TYPE_CREATE, $this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL)), Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID),$this->get_user());
     
     	if($form->validate())
     	{
     		$success = $form->create_evaluation();
-            $this->redirect($success ? Translation :: get('ExternalGradesCreated') : Translation :: get('ExternalGradesNotCreated'), ! $success, array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE));
+            $this->redirect($success ? Translation :: get('ExternalGradesCreated') : Translation :: get('ExternalGradesNotCreated'), ! $success, array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK));
     	}
     	else
     	{
