@@ -153,9 +153,9 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 		// Get the peer assessment factor
 		$pa_factor = $this->pa_factor($competences, $users, $publication_id);
 		// Get the peer assessment factor after correction
-		$pa_factor_after_correction = $this->pa_factor_after_correction($users, $indicator, $competence, $publication_id);			
+		$pa_factor_after_correction = $this->pa_factor_after_correction($competences, $users, $publication_id);			
+
 		
-        
         $this->result_peer_assessment_level($pa_factor, $pa_factor_after_correction);
         
         
@@ -469,12 +469,13 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     }
     
    
+    
     // **********************	
     // Peer assessment factor
     // **********************
     function pa_factor($competences, $users, $publication_id)
     {
-    	// All the values give to one user
+    	// All the values given to one user
     	foreach($users as $user)
 		{		
     		if($user->get_user() == Session :: get_user_id())
@@ -520,9 +521,84 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 	// ***************************************	
     // Peer assessment factor after correction
     // ***************************************
-    function pa_factor_after_correction($users, $indicator, $competence, $publication_id)
+    function pa_factor_after_correction($competences, $users, $publication_id)
     {
+		foreach($competences as $competence)
+		{
+			$indicators = $this->get_parent()->get_peer_assessment_page_indicators_via_competence($this->get_parent()->get_peer_assessment(), $competence);
+    		$number_of_indicators = sizeof($indicators);
+    		$number_of_all_indicators = $number_of_all_indicators + $number_of_indicators;
+    		
+			foreach($indicators as $indicator)
+			{
+				foreach($users as $user)
+				{
+					$number_of_users = sizeof($users);
+					if($number_of_users > 2)
+			    	{
+			    		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_PUBLICATION_ID, $publication_id);
+			    		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_GRADED_USER_ID, $user->get_user());
+						$condition = new AndCondition($conditions);
+			    		
+		    			$publications = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_results($condition);
+		
+			    		while ($publication = $publications->next_result())
+				        {					        	
+				        	$value = $this->score_value($publication->get_score(), $publication_id);
+				        	$all_scores[] = $value; 
+				        } 		
+			    	}
+				}
+			}
+		}
+		//Split the objects in an array also in arrays
+		$chunks[] = array_chunk($all_scores, $number_of_all_indicators);
+		
+		foreach($chunks as $chunk)
+		{
+			for($i = 0; $i < $number_of_all_indicators; $i++)
+			{
+				$array = $chunk[$i];
+				
+				for($j = 0; $j < $number_of_all_indicators; $j++)
+				{
+					$count_same = 0;
+					foreach($array as $array_value)
+					{
+						if($array[$j] == $array_value)
+						{
+							$count_same++;
+						}
+					}
+					
+					if($count_same != 1)
+					{
+						// New array with the deleted values, those that only once is given to a user for each indicator are deleted
+						$new_values[] = $array[$j];
+					}
+				}
+			}
+		}
+		
+		foreach($new_values as $new_value)
+		{
+			$count = $count + $new_value;
+		}
+		
+    	// Number of criteria
+       	$criteria_id = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication($publication_id)->get_criteria_content_object_id();        
+		$criterias = $this->get_parent()->get_peer_assessment_page_criteria($this->get_parent()->get_peer_assessment(), $criteria_id)->get_options();
+
+        foreach($criterias as $score_and_description)
+        {
+            $number_of_criteria++;
+        }
+		
+		$pa_factor_after_correction = round(($count / ((($number_of_users * $number_of_all_indicators) * $number_of_criteria) * 2)), 2);
+    	return $pa_factor_after_correction;
+
     }
+    
     
 	// ********************************	
     // Results on peer assessment level
@@ -591,6 +667,8 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 	  	$this->addElement('html', implode("\n", $html_end));
     }
        
+    
+    
 	// *******************************	
     // Prints of the criteria overview
     // *******************************
