@@ -7,6 +7,10 @@ class UtilitiesUnitTestCase extends UnitTestCase{
 		$s = Utilities::underscores_to_camelcase('abc_def');
 		$this->assertTrue($s === 'AbcDef');
 	}
+	public function test_underscores_to_camelcase_strcmp() {
+		$s = Utilities::underscores_to_camelcase('abc_def');
+		$this->assertTrue(strcmp($s,'AbcDef')===0);
+	}
 }
 ?>
 
