@@ -37,6 +37,8 @@ interface GradebookDataManagerInterface
     // external items
     function retrieve_external_items($condition, $offset = null, $max_objects = null, $order_by = null);
     
+    function retrieve_all_evaluations_on_external_publication($condition);
+    
     function count_external_items($condition);
 
     // internal item instance
