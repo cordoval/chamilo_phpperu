@@ -17,8 +17,8 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	private $applications;
 	private $application;
 	private $category;
+	
 	private $table;
-	private $menu;
 
 	function run()
 	{
@@ -161,6 +161,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 		$html[] = '</span>';
         $html[] = '</a></li>';
         $html[] = '</ul>';
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/tree_menu.js');
         $html[] = '<div id="internal">';
         $html[] = $this->get_internal_application_tabs($this->applications, $this->application);
 		$this->table = new GradebookInternalPublicationBrowserTable($this, $this->get_parameters());
@@ -191,17 +192,17 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	function show_filtered_publications($type)
 	{
 		$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_APP, $this->application);
-		if ($this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url(), $type))
+		if ($this->data_provider = GradebookTreeMenuDataProvider :: factory($this->application, $this->get_url()))
 		{
 			$this->data_provider->set_type($type);
-			$this->menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $this->data_provider);
+			$menu = new TreeMenu(ucfirst($this->application) . 'GradebookTreeMenu', $this->data_provider);
 		}
         
         $width = 100;
-        if ($this->menu)
+        if ($menu)
         {
 			$html[] = '<div style="float: left; width: 18%; overflow:auto;">';
-			$html[] = $this->menu->render_as_tree();
+			$html[] = $menu->render_as_tree();
 			$html[] = '</div>';
 			$width = 79;
         }

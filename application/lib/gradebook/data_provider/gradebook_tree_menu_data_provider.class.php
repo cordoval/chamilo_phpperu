@@ -13,14 +13,7 @@ abstract class GradebookTreeMenuDataProvider extends TreeMenuDataProvider
 		{
 			require_once $file;
 			$class_name = ucfirst($application) . 'GradebookTreeMenuDataProvider';
-			if($type)
-			{
-				return new $class_name($url, $type);
-			}
-			else
-			{
-				return new $class_name($url);
-			}
+			return new $class_name($url);
 		}
 	}
 	

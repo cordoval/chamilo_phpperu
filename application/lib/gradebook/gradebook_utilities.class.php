@@ -22,6 +22,7 @@ class GradebookUtilities
 			$gdm = GradebookDataManager :: get_instance();
 			$internal_item = $gdm->retrieve_internal_item_by_publication($application, $publication_id);
 			$category = $internal_item->get_category();
+			$category = split('_',$category);
 			if($internal_item->get_calculated() == 1)
 			{
 				$connector = GradeBookConnector :: factory($application);
@@ -35,7 +36,7 @@ class GradebookUtilities
 				{
 					$category = null;
 				}
-				$external_item = $gdm->create_external_item_by_content_object($content_object_publication->get_publication_object_id(), $category);
+				$external_item = $gdm->create_external_item_by_content_object($content_object_publication->get_publication_object_id(), $category[0]);
 				foreach($connector->get_tracker_user($publication_id) as $connector_user)
 				{
 					$evaluation = $gdm->create_evaluation_object_from_data($content_object_publication, $connector_user, $connector->get_tracker_date($publication_id));
@@ -63,7 +64,7 @@ class GradebookUtilities
 				{
 					$category = null;
 				}
-				$external_item = $gdm->create_external_item_by_content_object($content_object_publication->get_publication_object_id(), $category);
+				$external_item = $gdm->create_external_item_by_content_object($content_object_publication->get_publication_object_id(), $category[0]);
 				$ext_item_inst = $gdm->create_external_item_instance_by_moving($external_item, $evaluations_id);
 				$del_internal_item = $gdm->delete_internal_item($internal_item);
 			}
