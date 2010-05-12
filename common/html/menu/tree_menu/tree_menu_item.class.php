@@ -7,7 +7,7 @@ class TreeMenuItem
 	private $class;
 	private $children = array();
 	private $collapsed;
-	
+
 	public function TreeMenuItem($title = null, $url = null, $id = null, $class = 'category', $collapsed = false)
 	{
 		$this->set_title($title);
@@ -17,79 +17,81 @@ class TreeMenuItem
 		$this->set_children(array());
 		$this->set_collapsed($collapsed);
 	}
-	
+
 	public function set_title($title)
 	{
 		$this->title = $title;
 	}
-	
+
 	public function get_title()
 	{
 		return $this->title;
 	}
-	
+
 	public function set_url($url)
 	{
 		$this->url = $url;
 	}
-	
+
 	public function get_url()
 	{
 		return $this->url;
 	}
-	
+
 	public function set_id($id)
 	{
 		$this->id = $id;
 	}
-	
+
 	public function get_id()
 	{
 		return $this->id;
 	}
-	
+
 	public function set_class($class)
 	{
 		$this->class = $class;
 	}
-	
+
 	public function get_class()
 	{
 		return $this->class;
 	}
-	
+
 	public function get_children()
 	{
 		return $this->children;
 	}
-	
+
 	public function set_children($children)
 	{
 		$this->children = $children;
 	}
-	
+
 	public function get_collapsed()
 	{
 		return $this->collapsed;
 	}
-	
+
 	public function set_collapsed($collapsed)
 	{
 		$this->collapsed = $collapsed;
 	}
-	
+
 	public function has_children()
 	{
 		if ($this->get_children())
+		{
 			return true;
+		}
 		return false;
 	}
-	
+
 	public function add_child($tree_menu_child)
 	{
 		$this->children[] = $tree_menu_child;
 	}
-	
+
 	public function remove_child($tree_menu_child)
 	{
 		foreach($this->children as $key=>$value)
@@ -99,7 +101,7 @@ class TreeMenuItem
 		}
 		$this->children = array_values($this->children);
 	}
-	
+
 	public function to_array()
 	{
 		$array = array();
@@ -108,7 +110,7 @@ class TreeMenuItem
 		$array['id'] = $this->get_id();
 		$array['class'] = $this->get_class();
 		$array['collapsed'] = $this->get_collapsed();
-		
+
 		$children = array();
 		if ($this->has_children())
 		{
