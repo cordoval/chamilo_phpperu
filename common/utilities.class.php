@@ -297,7 +297,7 @@ class Utilities
      * @param ContentObject $content_object_2
      * @return int
      */
-    private static function by_title($content_object_1, $content_object_2)
+    static function by_title($content_object_1, $content_object_2)
     {
         return strcasecmp($content_object_1->get_title(), $content_object_2->get_title());
     }
