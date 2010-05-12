@@ -520,9 +520,9 @@ class GradebookManager extends WebApplication
 		return GradebookDataManager :: get_instance()->count_external_items($condition);
 	}
 // evaluations
-	function retrieve_all_evaluations_on_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
+	function retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication($application, $publication_id, $offset, $max_objects, $order_by);
+		return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset, $max_objects, $order_by);
 	}
 // URL creation
 //***************
@@ -553,7 +553,7 @@ class GradebookManager extends WebApplication
 	
 	function get_external_evaluations_on_publications_viewer_url($external_item)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
 	}
 	
 	function get_publications_by_type_viewer_url($type, $the_application)

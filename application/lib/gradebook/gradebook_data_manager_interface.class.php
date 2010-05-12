@@ -58,7 +58,7 @@ interface GradebookDataManagerInterface
 
     function update_evaluation($evaluation);
 
-    function retrieve_all_evaluations_on_publication($application, $publication_id, $offset = null, $count = null, $order_property = null);
+    function retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset = null, $count = null, $order_property = null);
 
     function count_all_evaluations_on_publication($publication_id);
 

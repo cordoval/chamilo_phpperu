@@ -134,7 +134,7 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
         return $this->create($evaluation);
     }
 
-    function retrieve_all_evaluations_on_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
+    function retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
     {
         $gdm = GradebookDataManager :: get_instance();
         $udm = UserDataManager :: get_instance();
