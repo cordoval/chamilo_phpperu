@@ -15,6 +15,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 		$type = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		if($type == 'internal')
 		{
+			$reporting_data->set_rows(array(Translation :: get('EvaluationDate'),Translation :: get('User'), Translation :: get('Evaluator'), Translation :: get('Score'), Translation :: get('Comment')));
 			$data = GradebookManager :: retrieve_all_evaluations_on_internal_publication($application, $publication_id);
 			$internal_item = EvaluationManager :: retrieve_internal_item_by_publication($application, $publication_id);
 			if($internal_item->get_calculated() == 0)
@@ -76,8 +77,26 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 			}
 		}
 		else
-		{
+		{ 
+			$reporting_data->set_rows(array(Translation :: get('EvaluationDate'), Translation :: get('Evaluator'), Translation :: get('Score'), Translation :: get('Comment')));
+			require_once dirname(__FILE__) . '/../../external_item.class.php';
+			$condition = new EqualityCondition(ExternalItem :: PROPERTY_ID, $publication_id, ExternalItem :: get_table_name());
+			$data = GradebookManager :: retrieve_all_evaluations_on_external_publication($condition);
 			
+			while($evaluation = $data->next_result())
+			{
+				$optional_properties = $evaluation->get_optional_properties();
+				$format = GradebookManager :: retrieve_evaluation_format($evaluation->get_format_id());
+				$evaluation_format = EvaluationFormat :: factory($format->get_title());
+				$evaluation_format->set_score($optional_properties['score']);
+					
+				$reporting_data->add_category($evaluation->get_id());
+	            $reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('EvaluationDate'), DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $evaluation->get_evaluation_date()));
+				$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Evaluator'), $optional_properties['evaluator']);
+				$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Score'), $evaluation_format->get_formatted_score());
+				$reporting_data->add_data_category_row($evaluation->get_id(), Translation :: get('Comment'), $optional_properties['comment']);
+				$reporting_data->hide_categories();
+			}
 		}
 		return $reporting_data;
 	}	
@@ -91,5 +110,12 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 	{
 		return GradebookManager::APPLICATION_NAME;
 	}
+	
+	public function get_available_displaymodes()
+    {
+        $modes = array();
+        $modes[ReportingFormatter ::DISPLAY_TABLE] = Translation :: get('Table');
+        return $modes;
+    }
 }
 ?>

@@ -136,7 +136,6 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
 
     function retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
     {
-        $gdm = GradebookDataManager :: get_instance();
         $udm = UserDataManager :: get_instance();
 
         $gradebook_evaluation_alias = $this->get_alias(Evaluation :: get_table_name());
@@ -165,6 +164,33 @@ class DatabaseGradebookDataManager extends Database implements GradebookDataMana
         $conditions[] = new EqualityCondition(InternalItem :: PROPERTY_PUBLICATION_ID, $publication_id, InternalItem :: get_table_name());
         $conditions[] = new EqualityCondition(InternalItem :: PROPERTY_APPLICATION, $application, InternalItem :: get_table_name());
         $condition = new AndCondition($conditions);
+        return $this->retrieve_object_set($query, Evaluation :: get_table_name(), $condition, $offset, $max_objects, $order_by, Evaluation :: CLASS_NAME);
+    }
+    
+    function retrieve_all_evaluations_on_external_publication($condition, $offset = null, $max_objects = null, $order_by = null)
+    {
+        $udm = UserDataManager :: get_instance();
+        
+        $gradebook_evaluation_alias = $this->get_alias(Evaluation :: get_table_name());
+        $gradebook_external_item_alias = $this->get_alias(ExternalItem :: get_table_name());
+        $gradebook_external_item_instance_alias = $this->get_alias(ExternalItemInstance :: get_table_name());
+        $gradebook_grade_evaluation_alias = $this->get_alias(GradeEvaluation :: get_table_name());
+        $evaluator_alias = $this->get_alias(User :: get_table_name());
+        $user_alias = $this->get_alias(User :: get_table_name());
+        $gradebook_format_alias = $this->get_alias(Format :: get_table_name());
+        
+    	$query = 'SELECT ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_ID) . ', ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_EVALUATION_DATE) . ', ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_EVALUATOR_ID) . ', ' . $gradebook_evaluation_alias . '.' . $this->escape_column_name(Evaluation :: PROPERTY_FORMAT_ID);
+    	$query .= ', CONCAT(' . $user_alias . '.' . $this->escape_column_name(User :: PROPERTY_LASTNAME) . ', " ",' . $user_alias . '.' . $this->escape_column_name(User :: PROPERTY_FIRSTNAME) . ') AS evaluator';
+        $query .= ', ' . $gradebook_grade_evaluation_alias . '.' . $this->escape_column_name(GradeEvaluation :: PROPERTY_SCORE);
+        $query .= ', ' . $gradebook_grade_evaluation_alias . '.' . $this->escape_column_name(GradeEvaluation :: PROPERTY_COMMENT);
+        $query .= ', ' . $gradebook_format_alias . '.' . $this->escape_column_name(Format :: PROPERTY_TITLE);
+        $query .= ' FROM ' . $this->escape_table_name(ExternalItem :: get_table_name()) . ' AS ' . $gradebook_external_item_alias;
+        $query .= ' JOIN ' . $this->escape_table_name(ExternalItemInstance :: get_table_name()) . ' AS ' . $gradebook_external_item_instance_alias . ' ON ' . $this->escape_column_name(ExternalItem :: PROPERTY_ID, $gradebook_external_item_alias) . ' = ' . $this->escape_column_name(ExternalItemInstance :: PROPERTY_EXTERNAL_ITEM_ID, $gradebook_external_item_instance_alias);
+        $query .= ' JOIN ' . $this->escape_table_name(Evaluation :: get_table_name()) . ' AS ' . $gradebook_evaluation_alias . ' ON ' . $this->escape_column_name(Evaluation :: PROPERTY_ID, $gradebook_evaluation_alias) . ' = ' . $this->escape_column_name(ExternalItemInstance :: PROPERTY_EVALUATION_ID, $gradebook_external_item_instance_alias);
+        $query .= ' JOIN ' . $this->escape_table_name(GradeEvaluation :: get_table_name()) . ' AS ' . $gradebook_grade_evaluation_alias . ' ON ' . $this->escape_column_name(GradeEvaluation :: PROPERTY_ID, $gradebook_grade_evaluation_alias) . ' = ' . $this->escape_column_name(Evaluation :: PROPERTY_ID, $gradebook_evaluation_alias);
+        $query .= ' JOIN ' . $udm->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $udm->escape_column_name(User :: PROPERTY_ID, $user_alias) . ' = ' . $this->escape_column_name(Evaluation :: PROPERTY_USER_ID, $gradebook_evaluation_alias);
+        $query .= ' JOIN ' . $this->escape_table_name(Format :: get_table_name()) . ' AS ' . $gradebook_format_alias . ' ON ' . $this->escape_column_name(Format :: PROPERTY_ID, $gradebook_format_alias) . ' = ' . $this->escape_column_name(Evaluation :: PROPERTY_FORMAT_ID, $gradebook_evaluation_alias);
+        
         return $this->retrieve_object_set($query, Evaluation :: get_table_name(), $condition, $offset, $max_objects, $order_by, Evaluation :: CLASS_NAME);
     }
 
