@@ -4,7 +4,7 @@
  * @package application.portfolio.forms
  */
 require_once dirname(__FILE__) . '/../portfolio_publication.class.php';
-require_once dirname(__FILE__) . '/../portfolio_rights.class.php';
+require_once dirname(__FILE__) . '/../rights/portfolio_rights.class.php';
 
 /**
  * This class describes the form for a PortfolioPublication object.

@@ -4,7 +4,7 @@
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../../portfolio_rights.class.php';
+require_once dirname(__FILE__) . '/../../rights/portfolio_rights.class.php';
 
 /**
  * Component to delete portfolio_publications objects
