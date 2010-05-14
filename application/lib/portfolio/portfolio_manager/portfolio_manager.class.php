@@ -94,7 +94,7 @@ class PortfolioManager extends WebApplication
         return PortfolioDataManager :: get_instance()->count_portfolio_publications($condition);
     }
 
-    function retrieve_portfolio_publications($condition = null, $offset = null, $count = null, $order_property = null)
+    static function retrieve_portfolio_publications($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return PortfolioDataManager :: get_instance()->retrieve_portfolio_publications($condition, $offset, $count, $order_property);
     }
@@ -147,14 +147,22 @@ class PortfolioManager extends WebApplication
 //        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition, $offset, $count, $order_property);
 //    }
 //
-    static function retrieve_portfolio_publication_user($pid)
+    static function retrieve_portfolio_publication_publisher($pid)
     {
-        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_user($pid);
+        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_publisher($pid);
+    }
+    static function retrieve_portfolio_publication_owner($pid)
+    {
+        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_owner($pid);
     }
 
-    static function retrieve_portfolio_item_user($cid)
+    static function retrieve_portfolio_item_publisher($cid)
     {
-        return PortfolioDataManager :: get_instance()->retrieve_portfolio_item_user($cid);
+        return PortfolioDataManager :: get_instance()->retrieve_portfolio_item_publisher($cid);
+    }
+    static function retrieve_portfolio_item_owner($cid)
+    {
+        return PortfolioDataManager :: get_instance()->retrieve_portfolio_item_owner($cid);
     }
 
 
@@ -243,11 +251,12 @@ class PortfolioManager extends WebApplication
     }
 
     function publish_content_object($content_object, $location, $owner_id = null)
-    {
+    {//HIER KOMT DE REPOSITORY PUBLISHER TERECHT DUS HIER MOET OOK DE LOCATIONS GEZET WORDEN
+        $success = true;
         $publication = new PortfolioPublication();
         $publication->set_content_object($content_object->get_id());
         $publication->set_publisher(Session :: get_user_id());
-        //TODO change if we want to allow other users to publish in someone's portfolio
+        
         if($owner_id != null)
         {
             $publication->set_owner($owner_id);
@@ -257,8 +266,32 @@ class PortfolioManager extends WebApplication
             $publication->set_owner(Session :: get_user_id());
         }
         $publication->set_published(time());
-        $publication->create();
-        return Translation :: get('PublicationCreated');
+        $success &= $publication->create();
+        $pub_location = $publication->get_location();
+        if($pub_location)
+        {
+            $parent_location_id = $pub_location->get_id();
+            $children_set = $publication->get_children();
+            if($children_set != false)
+            {
+                $pdm = PortfolioDataManager::get_instance();
+                $success &= $pdm->create_locations_for_children($children_set, $parent_location_id, $publication->get_owner());
+            }
+        }
+        else
+        {
+            $success &= false;
+        }
+        $success &= $publication->update_portfolio_info();
+
+        if($success)
+        {
+            return Translation :: get('PublicationCreated');
+        }
+        else
+        {
+            return Translation :: get('ProblemWithPublicationCreation');
+        }
     }
 }
 ?>

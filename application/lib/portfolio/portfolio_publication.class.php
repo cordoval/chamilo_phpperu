@@ -3,7 +3,7 @@
  * $Id: portfolio_publication.class.php 206 2009-11-13 13:08:01Z chellee $
  * @package application.portfolio.portfolio_manager.component
  */
-require_once dirname(__FILE__) . '/portfolio_rights.class.php';
+require_once dirname(__FILE__) . '/rights/portfolio_rights.class.php';
 /**
  * This class describes a PortfolioPublication data object
  *
@@ -171,15 +171,19 @@ class PortfolioPublication extends DataClass
      */
     function create_location()
     {
-        //TODO if we want other users to be able to publish in someone's portfolio this needs to be changed as the location tree identifier doesn't need to be the publisher's id
-        $user = $this->get_publisher();
-        $parent_location = PortfolioRights::get_portfolio_root_id($user);
+       
+        $user_id = $this->get_owner();
+        $parent_location = PortfolioRights::get_portfolio_root_id($user_id);
             if(!$parent_location)
             {
-                $parent_location = PortfolioRights::create_portfolio_root($user)->get_id();
-            }
-        $object = $this->get_id();
-            $this->location = PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_FOLDER, 'portfolio', $object, $parent_location, $user, true, false);
+                $root = PortfolioRights::create_portfolio_root($user_id);
+                if($root)
+                {
+                    $parent_location = PortfolioRights::get_portfolio_root_id($user_id);
+                }
+             }
+        $object_id = $this->get_id();
+            $this->location = PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_FOLDER, PortfolioRights::TYPE_PORTFOLIO_FOLDER, $object_id, $parent_location, $user_id, true, false);
 
             return $this ->location;
     }
@@ -202,12 +206,12 @@ class PortfolioPublication extends DataClass
 
     static function get_publication_owner($pid)
     {
-        return PortfolioManager::retrieve_portfolio_publication_user($pid);
+        return PortfolioManager::retrieve_portfolio_publication_owner($pid);
     }
 
      static function get_item_owner($cid)
     {
-        return PortfolioManager::retrieve_portfolio_item_user($cid);
+        return PortfolioManager::retrieve_portfolio_item_owner($cid);
     }
 
     /**
@@ -232,6 +236,35 @@ class PortfolioPublication extends DataClass
         
 
         return $info;
+    }
+
+
+    function get_children()
+    {
+        
+        $content_object_id = $this->get_content_object();
+
+        $pdm = PortfolioDataManager::get_instance();
+        $children_set = $pdm->get_portfolio_children($content_object_id);
+        return $children_set;
+        
+
+
+
+    }
+    
+
+    function update_portfolio_info()
+    {
+        $success = true;
+        $info = $this->get_portfolio_info();
+        $info->set_last_updated_date(time());
+        $info->set_last_updated_item_id($this->get_content_object());
+        $info->set_last_updated_item_type(PortfolioRights::TYPE_PORTFOLIO_FOLDER);
+        $info->set_last_action(PortfolioInformation::ACTION_PORTFOLIO_ADDED);
+        $success &= $info->update();
+
+        return $success;
     }
 }
 
