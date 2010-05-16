@@ -28,15 +28,11 @@
 		<property name="currency" type="text" length="50" />
 		<property name="synopsis" type="text" />
 		<property name="review" type="text" />
-		<property name="path" type="text" length="255" fixed="true" notnull="1" />
-		<property name="filename" type="text" length="255" fixed="true" notnull="1" />
-		<property name="filesize" type="integer" unsigned="1" notnull="1" />
-		<property name="hash" type="text" length="50" fixed="true" notnull="1" />
+		<property name="covers" type="text" />
+		<property name="covers" type="text" />
+		<property name="tags" type="text" notnull="1" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="id" />
-	</index>
-	<index name="hash">
-		<indexproperty name="hash" />
 	</index>
 </object>
