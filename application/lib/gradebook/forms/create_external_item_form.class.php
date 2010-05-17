@@ -220,7 +220,7 @@ class CreateExternalItemForm extends FormValidator
 		{
 			return false;
 		}
-		for($i=0;$i<(count($export_values)-5)/2;$i++)
+		for($i=0;$i<(count($export_values)-6)/2;$i++)
 		{
 			if(!$export_values[$this->evaluation_format->get_evaluation_field_name() . $i] == 'no_evaluation' || !$export_values[$this->evaluation_format->get_evaluation_field_name() . $i] == null)
 			{
