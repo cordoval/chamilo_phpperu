@@ -63,3 +63,9 @@ syntax: regexp
 ^repository/lib/content_object/survey/context/survey_opleiding_engels_context$
 syntax: regexp
 ^repository/lib/content_object/survey/context/survey_vakken_engels_context$
+syntax: regexp
+^application/lib/sts$
+syntax: regexp
+^layout/aqua/css/sts\.css$
+syntax: regexp
+^layout/aqua/images/sts$
