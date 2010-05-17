@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../gradebook_manager_component.class.php';
 
 class GradebookManagerAdminEditEvaluationFormatComponent extends GradebookManager
 {

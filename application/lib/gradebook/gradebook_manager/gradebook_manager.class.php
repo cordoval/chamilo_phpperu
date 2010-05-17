@@ -43,6 +43,8 @@ class GradebookManager extends WebApplication
 	const ACTION_EDIT_EVALUATION_FORMAT = 'edit_evaluation_format';
 	const ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY = 'change_evaluation_format_active_property';
 	const ACTION_VIEW_EVALUATIONS_ON_PUBLICATION = 'view_evaluations_on_publication';
+	const ACTION_EDIT_EXTERNAL_EVALUATION = 'edit_external_evaluation';
+	const ACTION_DELETE_EXTERNAL_EVALUATION = 'delete_external_evaluation';
 	/*
 	 * Gradebook parameters
 	 */
@@ -113,6 +115,12 @@ class GradebookManager extends WebApplication
 				break;		
 			case self :: ACTION_VIEW_HOME :
 				$component = $this->create_component('GradebookBrowser');
+				break;
+			case self :: ACTION_EDIT_EXTERNAL_EVALUATION :
+				$component = $this->create_component('EditExternalEvaluation');
+				break;
+			case self :: ACTION_DELETE_EXTERNAL_EVALUATION :
+				$component = $this->create_component('DeleteExternalEvaluation');
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_HOME);
@@ -509,10 +517,15 @@ class GradebookManager extends WebApplication
 	{
 		return GradebookDataManager :: get_instance()->retrieve_categories_by_application($application);
 	}
-// retrieve external items
+// external items
 	function retrieve_external_items($condition, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_external_items($condition, $offset, $max_objects, $order_by);
+	}
+	
+	function retrieve_external_item($id)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_external_item($id);
 	}
 	
 	function count_external_items($condition)
@@ -524,6 +537,7 @@ class GradebookManager extends WebApplication
 	{
 		return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_external_publication($condition);
 	}
+	
 // evaluations
 	function retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
 	{
@@ -559,6 +573,16 @@ class GradebookManager extends WebApplication
 	function get_external_evaluations_on_publications_viewer_url($external_item)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
+	}
+	
+	function get_edit_external_evaluation_url($external_item)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_EXTERNAL_EVALUATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
+	}
+	
+	function get_delete_external_evaluation_url($external_item)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_EXTERNAL_EVALUATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
 	}
 	
 	function get_publications_by_type_viewer_url($type, $the_application)
