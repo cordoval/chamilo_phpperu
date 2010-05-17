@@ -56,11 +56,11 @@
         
         if (is_onstate)
         {
-        	elem.attr('checked', "true");
+        	elem.attr('checked', true);
         }
         else
         {
-        	elem.removeAttr('checked');
+        	elem.attr('checked', false);
         }
         
         return false;

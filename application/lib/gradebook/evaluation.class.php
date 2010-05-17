@@ -99,6 +99,43 @@ class Evaluation extends DataClass
     		return false;
     	return true;
     }
+    
+    function delete()
+    {	
+    	$dm = $this->get_data_manager();
+    	
+    	// check wether there's an internal or an external instance
+    	// First we check if the evaluation has an internal instance. If not it must have an external instance.
+    	$condition = new EqualityCondition(InternalItemInstance :: PROPERTY_EVALUATION_ID, $this->get_id());
+    	$count = $dm->count_internal_item_instance($condition);
+    	if($count > 0)
+    	{
+    		$internal_item_instance = $dm->retrieve_internal_item_instance($condition);
+    
+			if(!$internal_item_instance->delete())
+			{
+				return false;
+			}	
+    	}
+    	else
+    	{
+    		$external_item_instance = $dm->retrieve_external_item_instance($condition);
+			if(!$external_item_instance->delete())
+			{
+				return false;
+			}	
+    	}
+    	
+		$condition = new EqualityCondition(GradeEvaluation :: PROPERTY_ID, $this->get_id());
+		$grade_evaluation = $dm->retrieve_grade_evaluation($condition);
+		
+		if(!$grade_evaluation->delete())
+		{
+			return false;
+		}
+		
+    	parent :: delete();
+    }
 
     static function get_table_name()
     {
