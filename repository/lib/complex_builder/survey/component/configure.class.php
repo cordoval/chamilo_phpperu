@@ -80,7 +80,7 @@ class SurveyBuilderConfigureComponent extends SurveyBuilderComponent {
 	function get_action_bar() {
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 		$parameters = $this->get_parameters ();
-		$action_bar->set_search_url ( $this->get_url ( $parameters ) );
+//		$action_bar->set_search_url ( $this->get_url ( $parameters ) );
 		return $action_bar;
 	}
 

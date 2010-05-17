@@ -12,12 +12,12 @@ class SurveyRatingQuestionDisplay extends SurveyQuestionDisplay
     {
         $formvalidator = $this->get_formvalidator();
         $renderer = $this->get_renderer();
-        $clo_question = $this->get_clo_question();
+//        $clo_question = $this->get_clo_question();
         $question = $this->get_question();
         
         $min = $question->get_low();
         $max = $question->get_high();
-        $question_name = $this->get_clo_question()->get_id() . '_0'.'_'.$this->get_page_nr();
+        $question_name = $this->get_question()->get_id() . '_0'.'_'.$this->get_page_nr();
         
         for($i = $min; $i <= $max; $i ++)
         {

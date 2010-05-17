@@ -84,14 +84,10 @@ class UserManagerExporterComponent extends UserManager
         $user_array[$phone_title] = $user->get_phone();
                 
         $act_date = $user->get_activation_date();
-        if ($act_date != 0)
-            $act_date = Utilities :: to_db_date($act_date);
                 
         $user_array[$activation_date_title] = $act_date;
                
         $exp_date = $user->get_expiration_date();
-        if ($exp_date != 0)
-            $exp_date = Utilities :: to_db_date($exp_date);
               
         $user_array[$expiration_date_title] = $exp_date;
                 
@@ -114,14 +110,10 @@ class UserManagerExporterComponent extends UserManager
         $user_array[User :: PROPERTY_PHONE] = $user->get_phone();
                 
         $act_date = $user->get_activation_date();
-        if ($act_date != 0)
-            $act_date = Utilities :: to_db_date($act_date);
                 
         $user_array[User :: PROPERTY_ACTIVATION_DATE] = $act_date;
                
         $exp_date = $user->get_expiration_date();
-        if ($exp_date != 0)
-            $exp_date = Utilities :: to_db_date($exp_date);
               
         $user_array[User :: PROPERTY_EXPIRATION_DATE] = $exp_date;
                 

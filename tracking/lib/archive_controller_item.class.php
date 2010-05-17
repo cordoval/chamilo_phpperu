@@ -119,16 +119,6 @@ class ArchiveControllerItem extends DataClass
         return $trkdmg->create_archive_controller_item($this);
     }
 
-    /**
-     * Auxillary function to convert to unix timestamp to db date
-     * @param int $date unix timestamp
-     */
-    function to_db_date($date)
-    {
-        $trkdmg = TrackingDataManager :: get_instance();
-        return $trkdmg->to_db_date($date);
-    }
-
 }
 
 ?>

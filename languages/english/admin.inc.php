@@ -393,6 +393,7 @@ $lang['admin']['EvaluationFormatTypeList'] = 'Evaluation format type list';
 $lang['admin']['EvaluationFormatTypeListDescription'] = 'Evaluation format type list description';
 $lang['admin']['Evaluations'] = 'Evaluations';
 $lang['admin']['AllowChangeFormatOnUpdate'] = 'Allow change format on update';
+$lang['admin']['AllowMultipleEvaluationsOnAPublication'] = 'Allow multiple evaluations on a publication';
 $lang['admin']['AllowEvaluateAnnouncement'] = 'Allow evaluate announcement';
 $lang['admin']['AllowEvaluateAssessment'] = 'Allow evaluate assessment';
 $lang['admin']['AllowEvaluateBlog'] = 'Allow evaluate blog';
@@ -405,4 +406,7 @@ $lang['admin']['AllowEvaluateLearningPath'] = 'Allow evaluate learning path';
 $lang['admin']['AllowEvaluateLink'] = 'Allow evaluate link';
 $lang['admin']['AllowEvaluateNote'] = 'Allow evaluate note';
 $lang['admin']['AllowEvaluateWiki'] = 'Allow evaluate wiki';
+$lang['admin']['AllowEvaluateApplicationWiki'] = 'Allow evaluate application wiki';
+$lang['admin']['AllowEvaluateApplicationAssessment'] = 'Allow evaluate application assessment';
+$lang['admin']['AllowEvaluateApplicationForum'] = 'Allow evaluate application forum';
 ?>

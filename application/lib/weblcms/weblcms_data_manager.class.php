@@ -5,10 +5,10 @@
  */
 /**
 ==============================================================================
- *	This is a skeleton for a data manager for the Weblcms application. Data
- *	managers must extend this class.
+ * This is a skeleton for a data manager for the Weblcms application. Data
+ * managers must extend this class.
  *
- *	@author Tim De Pauw
+ * @author Tim De Pauw
 ==============================================================================
  */
 
@@ -37,52 +37,52 @@ class WeblcmsDataManager implements DataManagerInterface
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '.class.php';
+            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_weblcms_data_manager.class.php';
             $class = $type . 'WeblcmsDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
     }
 
-	/*
+    /*
 	 * Gets the tool of a section
 	 */
-	static function get_tools($requested_section = 'all')
-	{
-		$course_modules = Array();
-		$tool_dir = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'tool'));
-		if ($handle = opendir($tool_dir))
-		{
-			while (false !== ($file = readdir($handle)))
-			{
-				if (substr($file, 0, 1) != '.' && $file != 'component')
-				{
-					$file_path = $tool_dir . DIRECTORY_SEPARATOR . $file;
-					if (is_dir($file_path))
-					{
-						// TODO: Move to an XML format for tool properties, instead of .hidden, .section and whatnot
-						$section_file = $file_path . DIRECTORY_SEPARATOR . '.section';
-						if (file_exists($section_file))
-						{
-							$contents = file($section_file);
-							$section = rtrim($contents[0]);
-						}
-						else
-						{
-							$section = 'basic';
-						}
+    static function get_tools($requested_section = 'all')
+    {
+        $course_modules = Array();
+        $tool_dir = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'tool'));
+        if ($handle = opendir($tool_dir))
+        {
+            while (false !== ($file = readdir($handle)))
+            {
+                if (substr($file, 0, 1) != '.' && $file != 'component')
+                {
+                    $file_path = $tool_dir . DIRECTORY_SEPARATOR . $file;
+                    if (is_dir($file_path))
+                    {
+                        // TODO: Move to an XML format for tool properties, instead of .hidden, .section and whatnot
+                        $section_file = $file_path . DIRECTORY_SEPARATOR . '.section';
+                        if (file_exists($section_file))
+                        {
+                            $contents = file($section_file);
+                            $section = rtrim($contents[0]);
+                        }
+                        else
+                        {
+                            $section = 'basic';
+                        }
 
-						if($section == $requested_section || $requested_section == 'all')
-							$course_modules[] = $file;
-					}
-				}
-			}
-			closedir($handle);
-		}
-		return $course_modules;
-	}
+                        if ($section == $requested_section || $requested_section == 'all')
+                            $course_modules[] = $file;
+                    }
+                }
+            }
+            closedir($handle);
+        }
+        return $course_modules;
+    }
 
-     /**
+    /**
      * Checks whether subscription to a specific course is allowed.
      * @param Course $course
      * @param int $user_id
@@ -128,7 +128,6 @@ class WeblcmsDataManager implements DataManagerInterface
             return false;
         }
     }
- 
 
     static function get_user_course_groups($user, $course = null)
     {
@@ -136,22 +135,22 @@ class WeblcmsDataManager implements DataManagerInterface
 
         $course_groups_recursive = array();
 
-        foreach($course_groups as $course_group)
+        foreach ($course_groups as $course_group)
         {
-        	if(!array_key_exists($course_group->get_id(), $course_groups_recursive))
-        	{
-        		$course_groups_recursive[$course_group->get_id()] = $course_group;
-        	}
+            if (! array_key_exists($course_group->get_id(), $course_groups_recursive))
+            {
+                $course_groups_recursive[$course_group->get_id()] = $course_group;
+            }
 
-        	$parents = $course_group->get_parents(false);
+            $parents = $course_group->get_parents(false);
 
-        	foreach($parents as $parent)
-        	{
-	        	if(!array_key_exists($parent->get_id(), $course_groups_recursive))
-	        	{
-	        		$course_groups_recursive[$parent->get_id()] = $parent;
-	        	}
-        	}
+            foreach ($parents as $parent)
+            {
+                if (! array_key_exists($parent->get_id(), $course_groups_recursive))
+                {
+                    $course_groups_recursive[$parent->get_id()] = $parent;
+                }
+            }
         }
 
         return $course_groups_recursive;

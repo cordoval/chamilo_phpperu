@@ -80,9 +80,12 @@ class ForumPublicationForm extends FormValidator
     
         if(WebApplication :: is_active('gradebook'))
         {
-        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
-        	$gradebook_internal_item_form = new GradebookInternalItemForm();
-        	$gradebook_internal_item_form->build_evaluation_question($this);
+        	if(PlatformSetting :: get_instance()->get('allow_evaluate_application_forum', 'gradebook'))
+        	{
+	        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
+	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+	        	$gradebook_internal_item_form->build_evaluation_question($this);
+        	}
         }
         
         $this->add_select(ForumPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category'), $this->get_forum_publication_categories(), true);
@@ -200,14 +203,13 @@ class ForumPublicationForm extends FormValidator
             $forum_publication->set_category_id($values[ForumPublication :: PROPERTY_CATEGORY_ID]);
             /*$forum_publication->set_target_groups($values['target_elements']['group']);
 	    	$forum_publication->set_target_users($values['target_elements']['user']);*/
-            
             $succes &= $forum_publication->create();
         }
     
 		if($values['evaluation'] == true)
 		{
         	$gradebook_internal_item_form = new GradebookInternalItemForm();
-        	$gradebook_internal_item_form->create_internal_item($wiki_publication->get_id(), false, 'C' . 0);
+        	$gradebook_internal_item_form->create_internal_item($forum_publication->get_id(), false, 'C' . 0);
 		}
         return $succes;
     }

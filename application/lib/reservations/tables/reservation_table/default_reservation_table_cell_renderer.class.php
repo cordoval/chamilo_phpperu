@@ -40,9 +40,9 @@ class DefaultReservationTableCellRenderer implements ObjectTableCellRenderer
                             return Translation :: get('Block');
                     }
                 case Reservation :: PROPERTY_START_DATE :
-                    return $reservation->get_start_date();
+                    return DatetimeUtilities :: format_locale_date(null, $reservation->get_start_date());
                 case Reservation :: PROPERTY_STOP_DATE :
-                    return $reservation->get_stop_date();
+                    return DatetimeUtilities :: format_locale_date(null, $reservation->get_stop_date());
                 case Reservation :: PROPERTY_NOTES :
                     $notes = strip_tags($reservation->get_notes());
                     if (strlen($notes) > 175)
@@ -51,16 +51,22 @@ class DefaultReservationTableCellRenderer implements ObjectTableCellRenderer
                     }
                     return '<div style="word-wrap: break-word; max-width: 250px;" >' . $notes . '</div>';
                 case Reservation :: PROPERTY_START_SUBSCRIPTION :
-                    return $reservation->get_start_subscription();
+                	if($reservation->get_start_subscription() > 0)
+                	{
+                    	return DatetimeUtilities :: format_locale_date(null, $reservation->get_start_subscription());
+                	}
+                	return;
                 case Reservation :: PROPERTY_STOP_SUBSCRIPTION :
-                    return $reservation->get_stop_subscription();
+                	if($reservation->get_stop_subscription() > 0)
+                	{
+                    	return DatetimeUtilities :: format_locale_date(null, $reservation->get_stop_subscription());
+                	}
+                	return;
                 case Reservation :: PROPERTY_MAX_USERS :
                     return $reservation->get_max_users();
             }
         
         }
-        
-        return '&nbsp;';
     }
 
     function render_id_cell($reservation)

@@ -41,5 +41,10 @@ class Letters extends EvaluationFormat
 	{
 		return $this->get_score();
 	}
+	
+	function get_score_information()
+	{
+		return null;
+	}
 }
 ?>

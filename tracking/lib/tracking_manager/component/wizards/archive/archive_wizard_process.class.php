@@ -141,7 +141,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
         }
         
         $adm = AdminDataManager :: get_instance();
-        $time = $this->tdm->to_db_date(time());
+        $time = time();
         $setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracking');
         $setting->set_value($time);
         $setting->update();

@@ -13,9 +13,9 @@ class CourseTypeForm extends CommonForm
    	const CREATION_ELEMENTS = 'creation_groups_elements';
    	const CREATION_OPTION = 'creation_groups_option';
 
-   	const CREATION_ON_REQUEST_TARGET = 'creation_on_request_groups';
-   	const CREATION_ON_REQUEST_ELEMENTS = 'creation_on_request_groups_elements';
-   	const CREATION_ON_REQUEST_OPTION = 'creation_on_request_groups_option';
+   	const CREATION_ON_REQUEST_TARGET = 'creationrequest_groups';
+   	const CREATION_ON_REQUEST_ELEMENTS = 'creationrequest_groups_elements';
+   	const CREATION_ON_REQUEST_OPTION = 'creationrequest_groups_option';
    	
 	function CourseTypeForm($form_type, $course_type, $action, $parent)
 	{
@@ -292,8 +292,8 @@ class CourseTypeForm extends CommonForm
 			return false;
 		}
 
-		$course_type_rights = $this->fill_rights();
-		if (!$course_type_rights->update())
+		$course_type->set_rights($this->fill_rights());
+		if (!$course_type->get_rights()->update())
 		{
 			return false;
 		}
@@ -344,9 +344,9 @@ class CourseTypeForm extends CommonForm
 			}
 		}
 		
-		$course_type_settings = $this->fill_settings();
+		$course_type->set_settings($this->fill_settings());
 
-		if (!$course_type_settings->update())
+		if (!$course_type->get_settings()->update())
 		{
 			return false;
 		}
@@ -382,9 +382,9 @@ class CourseTypeForm extends CommonForm
 			return false;
 		}
 
-		$course_type_layout = $this->fill_layout();
+		$course_type->set_layout_settings($this->fill_layout());
 
-		if($course_type_layout->update())
+		if($course_type->get_layout_settings()->update())
 		{
 			if($course_type->get_active() == 0)
 			{
@@ -402,50 +402,8 @@ class CourseTypeForm extends CommonForm
 			while($course = $courses->next_result())
 			{
 				$course = $wdm->retrieve_course($course->get_id());
-
-				$course_settings = $this->fill_course_settings($course);
-				if(!$course_settings->update())
+				if(!$course->update_by_course_type($course_type))
 					return false;
-				$course_layout = $this->fill_course_layout($course);
-				if(!$course_layout->update())
-					return false;
-
-				$selected_tools = $this->fill_tools($tools);
-				$course_tools = $course->get_tools();
-				$course_modules = array();
-
-				foreach($selected_tools as $tool)
-				{
-					$sub_validation = false;
-					foreach($course_tools as $index => $course_tool)
-					{
-						if($tool->get_name() == $course_tool->name)
-						{
-							$sub_validation = true;
-							unset($course_tools[$index]);
-							break;
-						}
-					}
-					if(!$sub_validation)
-					{
-						$course_module = new CourseModule();
-						$course_module->set_course_code($course->get_id());
-						$course_module->set_name($tool->get_name());
-						$course_module->set_visible($tool->get_visible_default());
-						$course_module->set_section("basic");
-						$course_modules[] = $course_module;
-					}
-				}
-
-				foreach($course_tools as $tool)
-				{
-					if(!$wdm->delete_course_module($tool->course_id, $tool->name))
-						return false;
-				}
-				
-				if(!$wdm->create_course_modules($course_modules, $course->get_id()))
-					return false;
-
 			}
 			// TODO: Temporary function pending revamped roles&rights system
 			//add_course_role_right_location_values($course_type->get_id());
@@ -654,52 +612,7 @@ class CourseTypeForm extends CommonForm
 		}
 		return $groups_array;
 	}
-		
-	function fill_course_settings($course)
-	{
-		$values = $this->exportValues();
-		$course->get_settings()->set_course_id($course->get_id());
-		if($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_LANGUAGE_FIXED]))
-			$course->set_language($values[CourseTypeSettings :: PROPERTY_LANGUAGE]);
-		if($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY_FIXED]))
-			$course->set_visibility($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_VISIBILITY]));
-		if($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS_FIXED]))
-			$course->set_access($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_ACCESS]));
-		if($values[self::UNLIMITED_MEMBERS])
-			$members = 0;
-		else
-			$members = $values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS];
-		if($this->parse_checkbox_value($values[CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS_FIXED]))
-			$course->set_max_number_of_members($members);
-		return $course->get_settings();
-	}
 
-	function fill_course_layout($course)
-	{
-		$values = $this->exportValues();
-		$course->get_layout_settings()->set_course_id($course->get_id());
-		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_INTRO_TEXT_FIXED]))
-			$course->set_intro_text($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_INTRO_TEXT]));
-		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_STUDENT_VIEW_FIXED]))
-			$course->set_student_view($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_STUDENT_VIEW]));
-		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_LAYOUT_FIXED]))
-			$course->set_layout($values[CourseLayout :: PROPERTY_LAYOUT]);
-		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_TOOL_SHORTCUT_FIXED]))
-			$course->set_tool_shortcut($values[CourseLayout :: PROPERTY_TOOL_SHORTCUT]);
-		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_MENU_FIXED]))
-			$course->set_menu($values[CourseLayout :: PROPERTY_MENU]);
-		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_BREADCRUMB_FIXED]))
-			$course->set_breadcrumb($values[CourseLayout :: PROPERTY_BREADCRUMB]);
-		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_FEEDBACK_FIXED]))
-			$course->set_feedback($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_FEEDBACK]));
-		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_CODE_VISIBLE_FIXED]))
-			$course->set_course_code_visible($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_COURSE_CODE_VISIBLE]));
-		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE_FIXED]))
-			$course->set_course_manager_name_visible($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_COURSE_MANAGER_NAME_VISIBLE]));
-		if($this->parse_checkbox_value($values[CourseTypeLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE_FIXED]))
-			$course->set_course_languages_visible($this->parse_checkbox_value($values[CourseLayout :: PROPERTY_COURSE_LANGUAGES_VISIBLE]));
-		return $course->get_layout_settings();
-	}
 	/**
 	 * Sets default values. Traditionally, you will want to extend this method
 	 * so it sets default for your learning object type's additional

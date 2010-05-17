@@ -46,7 +46,7 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
         {
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowsePeerAssessmentPublications')));
-            $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pid)), Translation :: get('MovePeerAssessmentPublications')));
+            $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_MOVE_PEER_ASSESSMENT_PUBLICATION, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pid)), Translation :: get('MovePeerAssessmentPublication')));
             
             $this->display_header($trail, true);
             
@@ -96,6 +96,7 @@ class PeerAssessmentManagerMoverComponent extends PeerAssessmentManager
         
         $condition = new InCondition(PeerAssessmentPublication :: PROPERTY_ID, $pids);
         $publications = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publications($condition);
+
         while ($publication = $publications->next_result())
         {
             $publication->set_category($category);

@@ -35,7 +35,7 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
         $table_header[] = '<tbody>';
         $formvalidator->addElement('html', implode("\n", $table_header));
 
-        $question_id = $clo_question->get_id();
+        $question_id = $question->get_id();
 		
         $answer = $this->get_answer();
                 
@@ -51,9 +51,9 @@ class SurveyMatrixQuestionDisplay extends SurveyQuestionDisplay
                 {
                     $answer_name = $question_id . '_' . $i . '_0_'.$this->get_page_nr();
                     $radio = $formvalidator->createElement('radio', $answer_name, null, null, $j);
-					if($answer[$i][0]==$j){
-						$radio->setChecked(true);
-					}	
+//					if($answer[$i][0]==$j){
+//						$radio->setChecked(true);
+//					}	
                     $group[] = $radio;
                 }
                 elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)

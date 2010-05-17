@@ -15,7 +15,6 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 
     function buildForm()
     {
-    	//dump($_POST);
         $this->_formBuilt = true;    
         
         $publication_id = Request :: get('peer_assessment_publication');
@@ -68,27 +67,18 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
            	} 
      	}
      	
-     	
-     	
-     	// Error no users in the peer assessment
-    	if($count_users == 0)
+ 
+		// *********************************		
+        // Prints of the list of competences
+        // *********************************
+     	if($count_users > 0)
         {
-            $html[] = '<div class="clear"></div>';
-        	$html[] = '<div class="error-message">';
-        	$html[] = Translation :: get('NoUsersInThePeerAssessment');
-        	$html[] = '<div class="close_message" id="closeMessage"></div>';
-        	$html[] = '</div>';
-        }
-        else
-        {
-			// *********************************		
-        	// Prints of the list of competences
-        	// *********************************
-	    	$html[] = '<div class="assessment">';
+	     	$html[] = '<div class="assessment">';
 		            
 	        // Peer assessment title en description
 	        $html[] = '<h2>' . $this->get_parent()->get_peer_assessment()->get_title() . '</h2>';
 	            
+	        
 	        if ($this->get_parent()->get_peer_assessment()->has_description())
 	        {
 	            $html[] = '<div class="description">';
@@ -97,27 +87,36 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 	            $html[] = '<div class="clear"></div>';
 	            $html[] = '</div>';
 	        }
-			
-			
+		
+		
 			// Retrieve competences
 	        $competences = $this->get_parent()->get_peer_assessment_page_competences($this->get_parent()->get_peer_assessment());
-
-	        $count = 0;
-	        
-            foreach($competences as $competence)
-            {
-            	if($count > 0)
-            	{
-            		unset($html);
-            	}
-
-            	// Retrieve indicators
-            	$indicators = $this->get_parent()->get_peer_assessment_page_indicators_via_competence($this->get_parent()->get_peer_assessment(), $competence);
-            	
-            	if(sizeof($indicators) > 0)
-            	{
-            		$count++;
-            		
+	
+	        $count = 0;	        
+		        
+	        foreach($competences as $competence)
+	      	{     		
+	      		$no_inidcators = true;
+	      		$count_no_indicators = 0;
+	      		
+	            if($count > 0)
+	            {
+	            	unset($html);
+	            }
+	
+	            // Retrieve indicators
+	            $indicators = $this->get_parent()->get_peer_assessment_page_indicators_via_competence($this->get_parent()->get_peer_assessment(), $competence);
+	            
+	            if($indicators == null)
+	            {
+	            	$count_no_indicators++;
+	            }
+	            elseif(sizeof($indicators) > 0)
+	            {
+	            	
+	            	$count++;
+	            	$no_indicators = false;
+	            	
 	            	$html[] = '<br/>';
 					$html[] = '<div class="question">';
 			        $html[] = '<div class="title">';
@@ -156,16 +155,30 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 			        $html_end[] = '<div class="clear"></div>';
 			        
 			        $this->addElement('html', implode("\n", $html_end));
-
-            	} 
-            }         
-            $this->criteria_overview($publication_id);	 
-			$this->submit();
-			
-			$assessment_div[] = '</div>';
+	
+	            }
+	        }      
+          
+	        if($count_no_indicators < sizeof($competences))
+	        {
+	        	$this->criteria_overview($publication_id);	 
+				$this->submit();
+				
+				$assessment_div[] = '</div>';
+	        }
+	        else
+	        {
+	        	$error[] = '<div class="clear"></div>';
+	        	$error[] = '<div class="error-message">';
+	        	$error[] = Translation :: get('NoIndicatorsInThePeerAssessment');
+	        	$error[] = '<div class="close_message" id="closeMessage"></div>';
+	        	$error[] = '</div>';
+	        	
+	        	$this->addElement('html', implode("\n", $error));
+	        }
+		
 			$assessment_div[] = '</div>';
 			$this->addElement('html', implode("\n", $assessment_div));
-				
         }
     }
     
@@ -176,14 +189,13 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
     function take_peer_assessment($users, $indicators, $competence, $publication_id)
     {
     	$renderer = $this->defaultRenderer();
-
     	
     	$table_header[] = '<div style="overflow: auto;">';
     	$table_header[] = '<table class="data_table take_assessment">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        $table_header[] = '<th></th>';
-        $table_header[] = '<th></th>';
+        $table_header[] = '<th style="width: 20px;"></th>';
+        $table_header[] = '<th style="width: 180px;"></th>';
         
         foreach ($users as $user)
         {
@@ -225,7 +237,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 	        $criteria_options = $criteria_overview->get_options();
 	        foreach($criteria_options as $score)
 	        {
-	            $criteria_scores[] = $score->get_score();
+	            $criteria_scores[] = $score->get_description();
 	        }
         
 

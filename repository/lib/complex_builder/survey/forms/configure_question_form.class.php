@@ -37,8 +37,8 @@ class ConfigureQuestionForm extends FormValidator {
 		//        $this->addRule(SurveyContextTemplate :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 
-		$this->addElement ( 'advmultiselect', 'question_ids', Translation::get ( 'Questions' ), $this->get_questions () , array('style'=> 'width: 250px'));
-		$this->addRule ( 'question_ids', Translation::get ( 'ThisFieldIsRequired' ), 'required' );
+		$this->addElement ( 'advmultiselect', SurveyPage:: TO_VISIBLE_QUESTIONS_IDS, Translation::get ( 'Questions' ), $this->get_questions () , array('style'=> 'width: 250px'));
+		$this->addRule ( SurveyPage:: TO_VISIBLE_QUESTIONS_IDS, Translation::get ( 'ThisFieldIsRequired' ), 'required' );
 	
 	}
 	
@@ -72,13 +72,46 @@ class ConfigureQuestionForm extends FormValidator {
 	
 	function create_config() {
 		
-		       $values = $this->exportValues();
-				dump($values);
-		       exit;
-		       //        
-		
+		     $values = $this->exportValues();
+				
+		     $configs = $this->survey_page->get_config();
+					     
+		     $config = array();
 
-		return $value;
+			 $config[SurveyPage :: FROM_VISIBLE_QUESTION_ID] = $this->question->get_id();  
+			 $config[SurveyPage::TO_VISIBLE_QUESTIONS_IDS] = $values[SurveyPage::TO_VISIBLE_QUESTIONS_IDS];
+		     $keys = array_keys($values);
+		     $answers = array();
+		     foreach ($keys as $key) {
+		     	$ids = explode( '_', $key);
+		     	if($ids[0]== $this->question->get_id()){
+		     		$answers[$key] = $values[$key];
+		     	}
+		     }
+		     $config[SurveyPage:: ANSWERMATCHES] = $answers;
+					
+		     
+		     $duplicat = false;
+		     
+		     foreach ($configs as $conf){
+		     	$answer_diff = array_diff($config[SurveyPage:: ANSWERMATCHES], $conf[SurveyPage:: ANSWERMATCHES]);
+		     	
+		     	$same_from_id = $config[SurveyPage:: FROM_VISIBLE_QUESTION_ID] == $conf[SurveyPage:: FROM_VISIBLE_QUESTION_ID];
+		     	
+		     	$to_ids_diff = array_diff($config[SurveyPage:: TO_VISIBLE_QUESTIONS_IDS], $conf[SurveyPage:: TO_VISIBLE_QUESTIONS_IDS]);
+		     		     	
+		     	if($same_from_id && count($answer_diff) ==0 && count($to_ids_diff) ==0 ){
+		     		$duplicat = true;
+		     	}
+		     		     
+		     }
+		    		     
+		     if(!$duplicat){
+		     	$configs[] = $config;
+		     	$this->survey_page->set_config($configs);
+		     	$this->survey_page->update();
+		     }
+    
 	}
 	
 	/**
@@ -99,7 +132,8 @@ class ConfigureQuestionForm extends FormValidator {
 		while ($complex_question_item = $complex_question_items->next_result()) {
 			if($complex_question_item->get_visible()== 0){
 				$question = RepositoryDataManager::get_instance ()->retrieve_content_object ( $complex_question_item->get_ref ());
-				$questions[$question->get_id()] = Utilities :: truncate_string($question->get_title(), 40);
+				$id = $question->get_id();
+				$questions[$question->get_id()] = Utilities :: truncate_string($id.' : '.$question->get_title(), 40);
 			}
 		}
 		return $questions;

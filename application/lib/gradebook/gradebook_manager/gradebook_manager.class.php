@@ -4,7 +4,7 @@ require_once Path :: get_library_path() . 'utilities.class.php';
 require_once Path :: get_application_path() . 'lib/gradebook/gradebook_rights.class.php';
 
 require_once dirname(__FILE__) . '/../gradebook_utilities.class.php';
-
+require_once dirname(__FILE__) . '/../data_provider/gradebook_tree_menu_data_provider.class.php';
 require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
 
 require_once dirname(__FILE__) . '/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
@@ -24,7 +24,7 @@ class GradebookManager extends WebApplication
 
 	const ACTION_BROWSE_GRADEBOOK = 'browse';
 	
-	const ACTION_CREATE_GRADEBOOK = 'create_gradebook';
+	const ACTION_CREATE_EXTERNAL = 'create_external';
 	const ACTION_EDIT_GRADEBOOK = 'edit_gradebook';
 	const ACTION_DELETE_GRADEBOOK = 'delete_gradebook';
 	const ACTION_MOVE_GRADEBOOK = 'move_gradebook';
@@ -53,7 +53,7 @@ class GradebookManager extends WebApplication
 	const PARAM_ACTIVE = 'active';
 	const PARAM_PUBLICATION_TYPE = 'publication_type';
 	const PARAM_PUBLICATION_ID = 'publication_id';
-	
+	const PARAM_PUBLICATION_APP = 'publication_app';
 	public function GradebookManager($user)
 	{
 	    parent :: __construct($user);
@@ -70,10 +70,10 @@ class GradebookManager extends WebApplication
 //				$this->set_action(self :: ACTION_BROWSE_GRADEBOOK);
 //				$component = GradebookManagerComponent :: factory('GradebookBrowser', $this);
 //				break;
-//			case self :: ACTION_CREATE_GRADEBOOK :
-//				$this->set_action(self :: ACTION_CREATE_GRADEBOOK);
-//				$component = GradebookManagerComponent :: factory('GradebookCreator', $this);
-//				break;
+			case self :: ACTION_CREATE_EXTERNAL :
+				$this->set_action(self :: ACTION_CREATE_EXTERNAL);
+				$component = $this->create_component('ExternalCreator');
+				break;
 //			case self :: ACTION_DELETE_GRADEBOOK :
 //				$this->set_action(self :: ACTION_DELETE_GRADEBOOK);
 //				$component = GradebookManagerComponent :: factory('GradebookDeleter', $this);
@@ -159,9 +159,9 @@ class GradebookManager extends WebApplication
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_GRADEBOOK, self :: PARAM_GRADEBOOK_ID => $gradebook->get_id()));
 	}
 
-	function get_create_gradebook_url()
+	function get_create_external_url()
 	{
-		return $this->get_url(array ( self :: PARAM_ACTION => self :: ACTION_CREATE_GRADEBOOK));
+		return $this->get_url(array ( self :: PARAM_ACTION => self :: ACTION_CREATE_EXTERNAL, GradebookTreeMenuDataProvider :: PARAM_ID => Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID)));
 	}
 
 	function get_gradebook_emptying_url($gradebook)
@@ -183,7 +183,16 @@ class GradebookManager extends WebApplication
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_GRADEBOOK, self :: PARAM_GRADEBOOK_ID => $gradebook->get_id()));
 	}
-
+	
+	function set_trail($trail)
+    {
+    	$this->trail = $trail;
+    }
+    
+    function get_trail()
+    {
+    	return $this->trail;
+    }
 	//gradebook rel users
 
 	function retrieve_gradebook_rel_users($condition = null, $offset = null, $count = null, $order_property = null)
@@ -500,10 +509,25 @@ class GradebookManager extends WebApplication
 	{
 		return GradebookDataManager :: get_instance()->retrieve_categories_by_application($application);
 	}
-// evaluations
-	function retrieve_all_evaluations_on_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
+// retrieve external items
+	function retrieve_external_items($condition, $offset = null, $max_objects = null, $order_by = null)
 	{
-		return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication($application, $publication_id, $offset, $max_objects, $order_by);
+		return GradebookDataManager :: get_instance()->retrieve_external_items($condition, $offset, $max_objects, $order_by);
+	}
+	
+	function count_external_items($condition)
+	{
+		return GradebookDataManager :: get_instance()->count_external_items($condition);
+	}
+	
+	function retrieve_all_evaluations_on_external_publication($condition)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_external_publication($condition);
+	}
+// evaluations
+	function retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset, $max_objects, $order_by);
 	}
 // URL creation
 //***************
@@ -527,14 +551,19 @@ class GradebookManager extends WebApplication
 		return $this->get_url();
 	}
 	
-	function get_evaluations_on_publications_viewer_url($internal_item)
+	function get_internal_evaluations_on_publications_viewer_url($internal_item)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_TYPE => $internal_item->get_application(), self :: PARAM_PUBLICATION_ID => $internal_item->get_publication_id()));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_APP => $internal_item->get_application(), self :: PARAM_PUBLICATION_ID => $internal_item->get_publication_id()));
 	}
 	
-	function get_publications_by_type_viewer_url($the_application)
+	function get_external_evaluations_on_publications_viewer_url($external_item)
 	{
-		return $this->get_url(array(GradebookManager :: PARAM_PUBLICATION_TYPE => $the_application));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
+	}
+	
+	function get_publications_by_type_viewer_url($type, $the_application)
+	{
+		return $this->get_url(array(self :: PARAM_PUBLICATION_TYPE => $type, self :: PARAM_PUBLICATION_APP => $the_application));
 	}
 
     function get_export_publication_url($publication_id)

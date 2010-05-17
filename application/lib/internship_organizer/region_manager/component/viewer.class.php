@@ -6,6 +6,7 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
     private $ab;
     private $root_region;
     private $parent_region;
+    private $parent_parent_id;
 
     /**
      * Runs this component and displays its output.
@@ -15,17 +16,26 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
         $trail = new BreadcrumbTrail();
 
         $id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
+        $parent_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID);       
+        
         if ($id)
         {
             $this->region = $this->retrieve_region($id);
-
+            
+            $this->parent_region = $this->retrieve_region($parent_id);
+            
+            if ($parent_id)
+            {
+            	$this->parent_parent_id = $this->parent_region->get_parent_id();            
+            }
+            	
             $this->root_region = $this->retrieve_regions(new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, 0))->next_result();
             
-            $parent_region = $this->get_parent_id();
-            
-            echo '<p>parentid: ' .$parent_region. '</p>';
-
             $region = $this->region;
+            
+            $parent_region = $this->parent_region;
+            
+            $parent_parent_id = $this->parent_parent_id;
             
             if (! $this->get_user()->is_platform_admin())
             {
@@ -33,8 +43,13 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
             }
            
             $trail->add(new Breadcrumb($this->get_browse_regions_url(), Translation :: get('BrowseInternshipOrganizerRegions')));
-            //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $parent_id)), $parent_region->get_name()));
-            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $id)), $region->get_name()));
+            
+            if ($parent_id && $parent_parent_id)
+            {
+            	$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $parent_id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_parent_id)), $parent_region->get_name()));
+            }
+            
+            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_id)), $region->get_name()));
             $trail->add_help('region general');
 
             $this->display_header($trail);

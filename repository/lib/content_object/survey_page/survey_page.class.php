@@ -10,7 +10,11 @@ class SurveyPage extends ContentObject
 {
     const PROPERTY_FINISH_TEXT = 'finish_text';
     const PROPERTY_INTRODUCTION_TEXT = 'intro_text';
-    const PROPERTY_CONFIG = 'config';    
+    const PROPERTY_CONFIG = 'config';
+    
+    const FROM_VISIBLE_QUESTION_ID = 'from_visible_question_id';
+	const TO_VISIBLE_QUESTIONS_IDS = 'to_visible_question_ids';
+	const ANSWERMATCHES = 'answer_matches';
     
     const CLASS_NAME = __CLASS__;
 
@@ -21,7 +25,7 @@ class SurveyPage extends ContentObject
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_INTRODUCTION_TEXT);
+        return array(self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_INTRODUCTION_TEXT, self :: PROPERTY_CONFIG);
     }
 
     function get_introduction_text()
@@ -42,6 +46,20 @@ class SurveyPage extends ContentObject
     function set_finish_text($value)
     {
         $this->set_additional_property(self :: PROPERTY_FINISH_TEXT, $value);
+    }
+
+    function get_config()
+    {
+        if ($result = unserialize($this->get_additional_property(self :: PROPERTY_CONFIG)))
+        {
+            return $result;
+        }
+        return array();
+    }
+
+    function set_config($value)
+    {
+        $this->set_additional_property(self :: PROPERTY_CONFIG, serialize($value));
     }
 
     function get_allowed_types()
@@ -69,33 +87,36 @@ class SurveyPage extends ContentObject
         
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
         
-        if($complex){
-        	return $complex_content_objects;
+        if ($complex)
+        {
+            return $complex_content_objects;
         }
         
-//        $question_ids = array();
+        //        $question_ids = array();
         $questions = array();
         
-//        dump($this->get_id());
+        //        dump($this->get_id());
         
+
         while ($complex_content_object = $complex_content_objects->next_result())
         {
             
-//        	$question_ids[] = $complex_content_object->get_ref();
-        	$questions[] = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
+            //        	$question_ids[] = $complex_content_object->get_ref();
+            $questions[] = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
         }
         
-//        if (count($question_ids) == 0)
-//        {
-//            $question_ids[] = 0;
-//        }
+        //        if (count($question_ids) == 0)
+        //        {
+        //            $question_ids[] = 0;
+        //        }
         
+
         return $questions;
         
-//        $conditions = array();
-//        $condition = new InCondition(ContentObject :: PROPERTY_ID, $question_ids, ContentObject :: get_table_name());
-        //        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'survey_description', ContentObject :: get_table_name()));
-//        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
+    //        $conditions = array();
+    //        $condition = new InCondition(ContentObject :: PROPERTY_ID, $question_ids, ContentObject :: get_table_name());
+    //        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'survey_description', ContentObject :: get_table_name()));
+    //        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
     }
 
     function count_questions()

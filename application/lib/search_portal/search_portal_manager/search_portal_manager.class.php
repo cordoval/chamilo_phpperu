@@ -32,7 +32,7 @@ class SearchPortalManager extends WebApplication
                 $component = $this->create_component('Searcher');
                 break;
             case self :: ACTION_EMAIL_USER :
-            	$component = $this->create_component('Emailer');
+            	$component = $this->create_component('UserEmailer');
             	break;
             default :
                 $this->set_action(self :: ACTION_SEARCH);

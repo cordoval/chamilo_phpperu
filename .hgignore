@@ -49,3 +49,17 @@ syntax: regexp
 ^repository/lib/content_object/survey/context/survey_opleiding_context$
 syntax: regexp
 ^repository/lib/content_object/survey/context/survey_docenten_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_opleiding_jaar_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_vakken_jaar_context$
+syntax: regexp
+^layout/aqua/images/survey/Thumbs\.db$
+syntax: regexp
+\.db$
+syntax: regexp
+^repository/lib/content_object/survey/context/Copy of survey_opleiding_engels_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_opleiding_engels_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_vakken_engels_context$

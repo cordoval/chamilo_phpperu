@@ -14,6 +14,7 @@ class GradebookManagerViewEvaluationsOnPublicationComponent extends GradebookMan
         $rtv->set_breadcrumb_trail($trail);
         $rtv->set_parameter(GradebookManager :: PARAM_PUBLICATION_TYPE, Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE));
         $rtv->set_parameter(GradebookManager :: PARAM_PUBLICATION_ID, Request :: get(GradebookManager :: PARAM_PUBLICATION_ID));
+        $rtv->set_parameter(GradebookManager :: PARAM_PUBLICATION_APP, Request :: get(GradebookManager :: PARAM_PUBLICATION_APP));
         $rtv->show_all_blocks();
         
         $rtv->run();

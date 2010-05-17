@@ -47,6 +47,9 @@ class InternshipOrganizerManager extends WebApplication
 	{
 		$action = $this->get_action ();
 		$component = null;
+		$trail = new BreadcrumbTrail ();
+		$trail->add ( new Breadcrumb ( $this->get_url ( array (self::PARAM_APPLICATION => self::APPLICATION_NAME, Translation::get ( self::APPLICATION_NAME ) ) )));
+				
 		switch ($action) {
 			case self::ACTION_ORGANISATION :
 				$component = $this->create_component('Organisation');
@@ -71,8 +74,10 @@ class InternshipOrganizerManager extends WebApplication
 				break;
 			default :
 				$this->set_action ( self::ACTION_APPLICATION_CHOOSER );
+				$trail = new BreadcrumbTrail ();
+				$trail->add ( new Breadcrumb ( $this->get_url ( array (self::PARAM_APPLICATION => self::APPLICATION_NAME, Translation::get ( self::APPLICATION_NAME ) ) )));
 				$component = $this->create_component('ApplicationChooser');
-		
+								
 		}
 		
 		$component->run ();
@@ -93,6 +98,12 @@ class InternshipOrganizerManager extends WebApplication
 	function get_category_application_url() 
 	{
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_CATEGORY ) );
+	
+	}
+	
+	function get_application_chooser_url() 
+	{
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_APPLICATION_CHOOSER ) );
 	
 	}
 	

@@ -105,6 +105,11 @@ class CourseType extends DataClass
      */
     function get_tools()
     {
+    	if(is_null($this->tools))
+    	{
+    		$condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
+        	$this->set_tools($this->get_data_manager()->retrieve_all_course_type_tools($condition));
+    	}
         return $this->tools;
     }
     

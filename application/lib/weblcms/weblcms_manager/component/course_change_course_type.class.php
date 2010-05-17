@@ -65,8 +65,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
             	}
             
             	foreach ($course_codes as $course_code)
-            	{
-            	       
+            	{  
                 	if (! $this->move_course($course_code))
                 	{
                     	$failures ++;
@@ -96,7 +95,7 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
               	   }
             	}           	
             	$parent = $this->form->get_new_parent();
-            	$this->redirect(!$failures ? Translation :: get('CourseCourseTypeChanged') : Translation :: get('CourseCourseTypeNotChanged'), !$failures ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent), array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_COURSE_TYPE));    	
+            	$this->redirect(!$failures ? Translation :: get($message) : Translation :: get($message), !$failures ? (false) : true, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE_TYPE => $parent), array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_COURSE_TYPE));    	
             }
             else
             {
@@ -113,12 +112,12 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
     }
     
 	function move_course($course_code)
-    	{
-        	$new_course_type = $this->form->get_selected_course_type();       	
-        	$wdm = WeblcmsDataManager :: get_instance();
-        	$course = $wdm->retrieve_course($course_code);
-        	$course->set_course_type_id($new_course_type);
-        	return $course->update($course);
-    	}
+    {
+       	$new_course_type = $this->form->get_selected_course_type();       	
+       	$wdm = WeblcmsDataManager :: get_instance();
+       	$course_type = $wdm->retrieve_course_type($new_course_type);
+       	$course = $wdm->retrieve_course($course_code);
+       	return $course->update_by_course_type($course_type);
+    }
 }
 ?>

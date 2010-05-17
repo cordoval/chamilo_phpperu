@@ -19,15 +19,17 @@ class CourseRequestForm extends FormValidator
 	private $parent;
 	private $request;
 	private $user_id;
+	private $multiple_users;
 
-	function CourseRequestForm($form_type, $action, $course, $parent, $request, $user_id)
+	function CourseRequestForm($form_type, $action, $course, $parent, $request, $multiple_users = false)
 	{
 		parent :: __construct('course_request', 'post', $action);
+		$this->multiple_users = $multiple_users;
 		$this->parent = $parent;
 		$this->request = $request;
 		$this->form_type = $form_type;
 		$this->course = $course;
-		$this->user_id = $user_id;
+		$this->user_id = $parent->get_user_id();
         $wdm = WeblcmsDataManager :: get_instance();
         
 		if ($this->form_type == self :: TYPE_CREATE)
@@ -68,44 +70,81 @@ class CourseRequestForm extends FormValidator
 		$this->addElement('html', '<div class="clear">&nbsp;</div><br/>');
 		if ($this->form_type == self :: TYPE_CREATE)
 		{
-			$this->addElement('category', Translation :: get('CourseRequestProperties'));
-			$course_name = $this->course->get_name();
-     		$this->addElement('static', 'course', Translation :: get('Course'), $course_name);
 		
-			$user_name = UserDataManager::get_instance()->retrieve_user($this->user_id)->get_fullname();
-			$this->addElement('static', 'user', Translation :: get('User'), $user_name);
-     	
+			$this->addElement('category', Translation :: get('CourseRequestProperties'));
+			$wdm = WeblcmsDataManager::get_instance();
+			if($this->multiple_users)
+			{
+				$users_result = $wdm->retrieve_course_subscribe_users_by_right(CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST, $this->parent->get_course());
+				$users = array();
+				while($user = $users_result->next_result())
+					$users[$user->get_id()] = $user->get_fullname();
+				$this->addElement('select', CommonRequest :: PROPERTY_USER_ID, Translation :: get('User'), $users);
+			}
+			else
+			{
+				$user_name = UserDataManager::get_instance()->retrieve_user($this->user_id)->get_fullname();
+				$this->addElement('static', 'user', Translation :: get('User'), $user_name);
+			}
+			
+			if(get_class($this->request) == "CourseCreateRequest")
+			{        
+				$wdm = WeblcmsDataManager :: get_instance();
+				$course_type_objects = $wdm->retrieve_course_types_by_user_right($this->parent->get_user(), CourseTypeGroupCreationRight :: CREATE_REQUEST);
+		        $course_types = array();
+		        foreach($course_type_objects as $course_type)
+		        	$course_types[$course_type->get_id()] = $course_type->get_name();
+        		$this->addElement('select', CourseCreateRequest :: PROPERTY_COURSE_TYPE_ID,  Translation :: get('CourseType'), $course_types, array('class' => 'course_type_selector'));
+        		$this->addRule(CourseCreateRequest :: PROPERTY_COURSE_TYPE_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+				$this->add_textfield(CourseCreateRequest :: PROPERTY_COURSE_NAME, Translation :: get('CourseName'),true);
+				$this->addRule(CourseCreateRequest :: PROPERTY_COURSE_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+			}			
+			else
+			{
+				$course_name = $this->course->get_name();
+     			$this->addElement('static', 'course', Translation :: get('CourseName'), $course_name);
+			}
+			
 			$this->add_textfield(CommonRequest :: PROPERTY_SUBJECT, Translation :: get('Subject'),true);
 				
-			$this->add_html_editor(CommonRequest :: PROPERTY_MOTIVATION, Translation :: get('Motivation'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));			
+			$this->add_html_editor(CommonRequest :: PROPERTY_MOTIVATION, Translation :: get('Motivation'), true, array(FormValidatorHtmlEditorOptions :: OPTION_TOOLBAR => 'BasicMarkup'));
+						
 		}
 		
 		if($this->form_type == self :: TYPE_VIEW)
 		{
-			$this->addElement('category', Translation :: get('CourseRequestProperties'));
-			$request_name = $this->parent->retrieve_course($this->request->get_course_id())->get_name();
-     		$this->addElement('static', 'request', Translation :: get('Course'), $request_name);
-     		
-     		$request_subject = $this->request->get_subject();
-     		$this->addElement('static', 'request', Translation :: get('Subject'), $request_title);
+			$this->addElement('category', Translation :: get(get_class($this->request)));
      		
      		$name_user = UserDataManager::get_instance()->retrieve_user($this->request->get_user_id())->get_fullname();
 			$this->addElement('static', 'request', Translation :: get('User'), $name_user);
 			
+			if(get_class($this->request) == 'CourseCreateRequest')
+			{
+     			$this->addElement('static', 'request', Translation :: get('CourseName'), $this->parent->retrieve_course_type($this->request->get_course_type_id())->get_name());
+				$request_name = $this->request->get_course_name();
+			}		
+			else
+				$request_name = $this->parent->retrieve_course($this->request->get_course_id())->get_name();
+     		
+     		$this->addElement('static', 'request', Translation :: get('CourseName'), $request_name);
+     		
+     		$request_subject = $this->request->get_subject();
+     		$this->addElement('static', 'request', Translation :: get('Subject'), $request_subject);
+			
 			$motivation = $this->request->get_motivation();
 			$this->addElement('static','request', Translation :: get('Motivation'), $motivation);	
 			
-			$creation_date = $this->request->get_creation_date();
+			$creation_date =  DatetimeUtilities :: format_locale_date(null, $this->request->get_creation_date());
 			$this->addElement('static', 'request', Translation :: get('CreationDate'), $creation_date);
 			
 			$decision = $this->request->get_decision();
-			$decision_date = $this->request->get_decision_date();
+			$decision_date = DatetimeUtilities :: format_locale_date(null, $this->request->get_decision_date());
 			switch($decision)
 			{
 				case CommonRequest :: ALLOWED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Allowed') );
 														$this->addElement('static', 'request', Translation :: get('on'), $decision_date);
 														break;
-				case CommonRequest :: ALLOWED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Denied') );
+				case CommonRequest :: DENIED_DECISION: $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('Denied') );
 														$this->addElement('static', 'request', Translation :: get('on'), $decision_date);
 														break;
 				default:  $this->addElement('static', 'request', Translation :: get('Decision'), Translation :: get('NoDecisionYet'));
@@ -122,8 +161,20 @@ class CourseRequestForm extends FormValidator
 		$course = $this->course;
 		$request = $this->request;
 		
-		$request->set_course_id($course->get_id());	
-		$request->set_user_id($this->user_id);
+		
+		if(get_class($this->request) == "CourseCreateRequest")
+		{
+			$request->set_course_name($values[CourseCreateRequest :: PROPERTY_COURSE_NAME]);
+			$request->set_course_type_id($values[CourseCreateRequest :: PROPERTY_COURSE_TYPE_ID]);
+		}
+		else
+			$request->set_course_id($course->get_id());
+			
+		if($this->multiple_users)	
+			$request->set_user_id($values[CommonRequest :: PROPERTY_USER_ID]);
+		else
+			$request->set_user_id($this->user_id);
+
         $request->set_subject($values[CommonRequest :: PROPERTY_SUBJECT]);
         $request->set_motivation($values[CommonRequest :: PROPERTY_MOTIVATION]);
         $request->set_creation_date(time());
@@ -135,19 +186,6 @@ class CourseRequestForm extends FormValidator
 
 		return true;
     }
-    
-	function update_request($request_id)
-	{
-		$values = $this->exportValues();
-		$request = $this->request;
-        $request->set_decision_date($values[CommonRequest :: PROPERTY_DECISION_DATE]);
-        $request->set_decision(CommonRequest :: ALLOWED_DECISION);	      
-        if(!$request->update())
-		{
-			return false;
-		}
-		return true;		
-	}
 
 	function setDefaults($defaults = array ())
 	{
@@ -155,7 +193,10 @@ class CourseRequestForm extends FormValidator
 		$request = $this->request;
 		$user = $this->user;
 		
-		$defaults[CourseRequest :: PROPERTY_COURSE_ID] = $request->get_course_id();
+		if(get_class($this->request) == "CourseCreateRequest")
+			$defaults[CourseCreateRequest :: PROPERTY_COURSE_NAME] = $request->get_course_name();
+		else
+			$defaults[CourseRequest :: PROPERTY_COURSE_ID] = $request->get_course_id();
 		$defaults[CommonRequest :: PROPERTY_USER_ID] = $request->get_user_id();
 		$defaults[CommonRequest :: PROPERTY_SUBJECT] = $request->get_subject();
 		$defaults[CommonRequest :: PROPERTY_MOTIVATION] = $request->get_motivation();

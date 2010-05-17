@@ -4,6 +4,7 @@ require_once Path :: get_common_path() . '/html/menu/tree_menu/tree_menu_data_pr
 abstract class GradebookTreeMenuDataProvider extends TreeMenuDataProvider
 {
 	const PARAM_ID = 'category_id';
+	private $type;
 	
 	public static function factory($application, $url)
 	{
@@ -14,6 +15,16 @@ abstract class GradebookTreeMenuDataProvider extends TreeMenuDataProvider
 			$class_name = ucfirst($application) . 'GradebookTreeMenuDataProvider';
 			return new $class_name($url);
 		}
+	}
+	
+	public function get_type()
+	{
+		return $this->type;
+	}
+	
+	public function set_type($type)
+	{
+		$this->type = $type;
 	}
     
     public function get_id_param()

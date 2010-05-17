@@ -19,6 +19,8 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     private $total_pages;
     private $total_questions;
     private $pages;
+    private $real_pages;
+    private $question_visibility;
 
     function SurveyViewerWizard($parent, $survey, $template_id)
     {
@@ -48,32 +50,52 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         	$allowed_pages[] = $template_rel_page->get_page_id();
         }
       	
-    	$survey_pages = $this->survey->get_pages();
+    	$complex_survey_page_items = $this->survey->get_pages(true);
         $page_nr = 0;
         $question_nr = 0;
+        $this->question_visibility = array();
         
-        foreach ($survey_pages as $survey_page)
+        while ($survey_page_item = $complex_survey_page_items->next_result())
         {
-            if(! in_array($survey_page->get_id(), $allowed_pages)){
+            if(! in_array($survey_page_item->get_ref(), $allowed_pages)){
             	continue;
             }
         	
-        	$page_nr ++;
-            $this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
-            $questions = array();
-            $page_questions = $survey_page->get_questions();
+            $survey_page = RepositoryDataManager::get_instance()->retrieve_content_object($survey_page_item->get_ref());
             
-            foreach ($page_questions as $question)
+        	$page_nr ++;
+            $this->real_pages[$page_nr] = $survey_page->get_id();
+        	$this->addPage(new QuestionsSurveyViewerWizardPage('question_page_' . $page_nr, $this, $page_nr));
+            $questions = array();
+            $questions_items = $survey_page->get_questions(true);
+            
+            while ($question_item =  $questions_items->next_result())
             {
-                
+				$question = RepositoryDataManager::get_instance()->retrieve_content_object($question_item->get_ref());
+            	
+            	if($question_item->get_visible() == 1){
+            		$this->question_visibility[$question->get_id()] = true;
+            	}else{
+            		$this->question_visibility[$question->get_id()] = false;
+            	}
+            	
+            	
+            	           	
             	if ($question->get_type() == SurveyDescription :: get_type_name())
                 {
                     $questions[$question->get_id() . 'description'] = $question;
                 }
                 else
                 {
-                    $question_nr ++;
+                    if($question_item->get_visible() == 1){
+                    	$question_nr ++;
                     $questions[$question_nr] = $question;
+                    }else{
+//                    	$question_nr ++;
+					$bis_nr = $question_nr.'.1';
+                    $questions[$bis_nr] = $question;
+                    }
+                	
                 }
             
             }
@@ -105,7 +127,15 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         $page_object = $page['page'];
         return $page_object;
     }
-
+	
+    function get_real_page_nr($page_nr){
+    	return $this->real_pages[$page_nr];
+    }
+    
+    function get_question_visibility($question_id){
+    	return $this->question_visibility[$question_id];
+    }
+    
     function get_parent()
     {
         return $this->parent;
@@ -123,7 +153,15 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
 
     function get_total_questions()
     {
-        return $this->total_questions;
+        $count = 0;
+        
+        foreach ($this->question_visibility as $visible) {
+        	if($visible){
+        		$count = $count + 1;
+        	}
+        }
+    	
+        return $count;
     }
 
 }
