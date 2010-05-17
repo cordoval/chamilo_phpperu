@@ -127,12 +127,12 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
             if ($type == 'user')
             {
                 $rdm = RepositoryDataManager :: get_instance();
-                $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
+                $co_alias = $rdm->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->get_alias(ProfilePublication :: get_table_name());
 
             	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
                 		 $this->escape_table_name(ProfilePublication :: get_table_name()) . ' AS ' . $pub_alias .
-                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
+                		 ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
                 		 ' ON ' . $this->escape_column_name(ProfilePublication :: PROPERTY_PROFILE, $pub_alias) . '=' .
                 		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 

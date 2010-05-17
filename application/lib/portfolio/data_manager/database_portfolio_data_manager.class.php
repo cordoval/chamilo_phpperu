@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * @package application.portfolio.data_manager
  */
 
@@ -10,39 +10,27 @@ require_once dirname(__FILE__) . '/../portfolio_information.class.php';
 
 //require_once 'MDB2.php';
 
+
 /**
- *	This is a data manager that uses a database for storage. It was written
- *	for MySQL, but should be compatible with most SQL flavors.
+ * This is a data manager that uses a database for storage. It was written
+ * for MySQL, but should be compatible with most SQL flavors.
  *
- *  @author Sven Vanpoucke
+ * @author Sven Vanpoucke
  */
 
 class DatabasePortfolioDataManager extends Database implements PortfolioDataManagerInterface
 {
-    private $database;
 
     function initialize()
     {
-        $aliases = array();
-        $aliases[PortfolioPublication :: get_table_name()] = 'poon';
-        
-
-//        $this->database = new Database($aliases);
-//        $this->database->set_prefix('portfolio_');
-
         parent :: initialize();
         $this->set_prefix('portfolio_');
     }
 
-
-
-
- 
-
     function create_portfolio_publication($portfolio_publication)
     {
         $success = $this->create($portfolio_publication);
-         return $success;
+        return $success;
     }
 
     function create_portfolio_information($portfolio_info)
@@ -60,7 +48,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 
     function update_portfolio_information($portfolio_information)
     {
-        $condition = new EqualityCondition(PortfolioInformation::PROPERTY_USER_ID, $portfolio_information->get_user_id());
+        $condition = new EqualityCondition(PortfolioInformation :: PROPERTY_USER_ID, $portfolio_information->get_user_id());
         $success = $this->update($portfolio_information, $condition);
         return $success;
     }
@@ -92,8 +80,8 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 
     function retrieve_portfolio_information_by_user($user_id)
     {
-        $condition = new EqualityCondition(PortfolioInformation::PROPERTY_USER_ID, $user_id);
-        return $this->retrieve_object(PortfolioInformation::get_table_name(), $condition);
+        $condition = new EqualityCondition(PortfolioInformation :: PROPERTY_USER_ID, $user_id);
+        return $this->retrieve_object(PortfolioInformation :: get_table_name(), $condition);
     }
 
     function retrieve_portfolio_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -161,21 +149,17 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
             if ($type == 'user')
             {
                 $rdm = RepositoryDataManager :: get_instance();
-                $co_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
+                $co_alias = $rdm->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->get_alias(PortfolioPublication :: get_table_name());
 
-            	$query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' .
-                		 $this->escape_table_name(PortfolioPublication :: get_table_name()) . ' AS ' . $pub_alias .
-                		 ' JOIN ' . $rdm->get_database()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias .
-                		 ' ON ' . $this->escape_column_name(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' .
-                		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
+                $query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . $this->escape_table_name(PortfolioPublication :: get_table_name()) . ' AS ' . $pub_alias . ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . ' ON ' . $this->escape_column_name(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $pub_alias) . '=' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 
                 $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
                 $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
 
                 $order = array();
-                foreach($order_properties as $order_property)
+                foreach ($order_properties as $order_property)
                 {
                     if ($order_property->get_property() == 'application')
                     {
@@ -195,21 +179,21 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
                     }
                 }
 
-                if(count($order) > 0)
-                	$query .= ' ORDER BY ' . implode(', ', $order);
+                if (count($order) > 0)
+                    $query .= ' ORDER BY ' . implode(', ', $order);
             }
         }
         else
         {
             $query = 'SELECT * FROM ' . $this->escape_table_name(PortfolioPublication :: get_table_name());
-           	$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
-           	$translator = new ConditionTranslator($this);
-           	$query .= $translator->render_query($condition);
+            $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+            $translator = new ConditionTranslator($this);
+            $query .= $translator->render_query($condition);
 
         }
 
         $this->set_limit($offset, $count);
-		$res = $this->query($query);
+        $res = $this->query($query);
 
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
@@ -226,9 +210,9 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 
             $publication_attr[] = $info;
         }
-        
+
         $res->free();
-        
+
         return $publication_attr;
     }
 
@@ -242,7 +226,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 
         $res->free();
-        
+
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[PortfolioPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[PortfolioPublication :: PROPERTY_PUBLISHER]);
@@ -256,15 +240,15 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
         return $publication_attr;
     }
 
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
+    function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        if(!$object_id)
+        if (! $object_id)
         {
-    		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_PUBLISHER, $user->get_id());
+            $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_PUBLISHER, $user->get_id());
         }
         else
         {
-        	$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+            $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
         }
         return $this->count_objects(PortfolioPublication :: get_table_name(), $condition);
     }
@@ -272,10 +256,10 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
     function delete_content_object_publications($object_id)
     {
         $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
-         return $this->delete(PortfolioPublication :: get_table_name(), $condition);
+        return $this->delete(PortfolioPublication :: get_table_name(), $condition);
     }
-    
-	function delete_content_object_publication($publication_id)
+
+    function delete_content_object_publication($publication_id)
     {
         $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $publication_id);
         return $this->delete(PortfolioPublication :: get_table_name(), $condition);
@@ -304,22 +288,22 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
      */
     public function retrieve_portfolio_item_user($cid)
     {
-        $condition = new EqualityCondition(ComplexContentObjectItem::PROPERTY_ID, $cid);
-        $item = RepositoryManager::retrieve_complex_content_object_item($cid);
+        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $cid);
+        $item = RepositoryManager :: retrieve_complex_content_object_item($cid);
         return $item->get_user_id();
     }
-     /**
+
+    /**
      * returns the publisher (owner) of a portfolio publication
      * @param pid: id of the portfolio publication
      * @return: user_id of publisher
      */
-     function retrieve_portfolio_publication_user($pid)
+    function retrieve_portfolio_publication_user($pid)
     {
         $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $pid);
         $item = $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition);
         return $item->get_publisher();
     }
-  
 
 }
 ?>
