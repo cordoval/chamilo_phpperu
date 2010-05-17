@@ -1,12 +1,7 @@
 <?php
-require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_dependency.class.php';
+require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_dependency.class.php';
 
-/**
- * $Id: server.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
- * @package admin.lib.package_installer.dependency
- */
-
-class PackageInstallerServerDependency extends PackageInstallerDependency
+class PackageUpdaterServerDependency extends PackageUpdaterDependency
 {
 
     function check($dependency)

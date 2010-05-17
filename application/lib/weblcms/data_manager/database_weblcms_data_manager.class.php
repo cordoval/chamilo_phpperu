@@ -1761,8 +1761,10 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function set_module_id_visible($module_id, $visible)
     {
+        $condition = new EqualityCondition(CourseModule :: PROPERTY_VISIBLE, $visible);
+        $sort = $this->retrieve_max_sort_value(CourseModule :: get_table_name(), CourseModule :: PROPERTY_SORT, $condition);
         $condition = new EqualityCondition(CourseModule :: PROPERTY_ID, $module_id);
-        $properties = array(CourseModule :: PROPERTY_VISIBLE => $visible);
+        $properties = array(CourseModule :: PROPERTY_VISIBLE => $visible, CourseModule :: PROPERTY_SORT => $sort + 1);
         return $this->update_objects(CourseModule :: get_table_name(), $properties, $condition);
     }
 
