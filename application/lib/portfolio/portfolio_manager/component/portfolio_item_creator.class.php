@@ -4,7 +4,7 @@
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../../portfolio_rights.class.php';
+require_once dirname(__FILE__) . '/../../rights/portfolio_rights.class.php';
 /**
  * Component to create a new portfolio_publication object
  * @author Sven Vanpoucke
@@ -82,17 +82,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
                     $possible_types[] = PortfolioRights::TYPE_PORTFOLIO_FOLDER;
                     $possible_types[] = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
                     $parent_location = PortfolioRights::get_location_id_by_identifier_from_portfolio_subtree($possible_types, $pp, $user);
-                    if(!$parent_location)
-                    {
-                        //if a location for the parent is not found, the location will be put under the root of the portfolio-tree TODO: remove this code
-                        $parent_location = PortfolioRights::get_portfolio_root_id($user);
-                        if(!parent_location)
-                        {
-                            PortfolioRights::create_portfolio_root($user);
-                            $parent_location = PortfolioRights::get_portfolio_root_id($user);
-
-                        }
-                    }
+                    
                    if($typeObject == Portfolio :: get_type_name())
                    {
                        $type = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
@@ -101,7 +91,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
                    {
                        $type = PortfolioRights::TYPE_PORTFOLIO_ITEM;
                    }
-                   $success &= PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, $type, $wrapper->get_id(), $parent_location, $user, true, false);
+                   $success &= PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, $type, $wrapper->get_id(), $parent_location, $user, true, false, true);
 
                    if($success)
                     {

@@ -21,6 +21,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     private $cid;
     private $pid;
     private $owner_user_id ;
+    private $viewing_right = true;
 
     const PROPERTY_PID = 'pid';
     const PROPERTY_CID = 'cid';
@@ -69,17 +70,19 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         {
             $rights = PortfolioRights::get_rights($current_user_id, $portfolio_identifier, $possible_types);
         }
-        $viewing_right = $rights[PortfolioRights::VIEW_RIGHT];
-        $editing_right = $rights[PortfolioRights::EDIT_RIGHT];
-        $feedback_viewing_right = $rights[PortfolioRights::VIEW_FEEDBACK_RIGHT];
-        $feedback_giving_right = $rights[PortfolioRights::GIVE_FEEDBACK_RIGHT];
-        $permission_setting_right = $rights[PortfolioRights::SET_PERMISSIONS_RIGHT];
+            $viewing_right = $rights[PortfolioRights::VIEW_RIGHT];
+            $this->viewing_right =$viewing_right;
+            $editing_right = $rights[PortfolioRights::EDIT_RIGHT];
+            $feedback_viewing_right = $rights[PortfolioRights::VIEW_FEEDBACK_RIGHT];
+            $feedback_giving_right = $rights[PortfolioRights::GIVE_FEEDBACK_RIGHT];
+            $permission_setting_right = $rights[PortfolioRights::SET_PERMISSIONS_RIGHT];
+        
         $actions = array();
 
         if($portfolio_identifier == self::PROPERTY_ROOT)
         {
             //root can be seen by everybody
-             $viewing_right = true;
+             $this->viewing_right = true;
         }
         if($viewing_right)
         {
@@ -239,6 +242,11 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             //display information on the portfolio publication
             $display = ContentObjectDisplay :: factory($this->selected_object);
             $html[] = $display->get_full_html();
+        }
+        else if ($this->viewing_right == false)
+        {
+            //display a warning that the user does not have viewing rights on the item
+            $html[] = Translation :: get('NoPermissionToViewItem');
         }
         else
         {

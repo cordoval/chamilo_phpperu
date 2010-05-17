@@ -2,7 +2,7 @@
 /**
  * @package application.lib.portfolio
  */
-require_once dirname(__FILE__) . '/portfolio_rights.class.php';
+require_once dirname(__FILE__) . '/rights/portfolio_rights.class.php';
 /**
  * This class describes information on the status of a user's portfolio publications
  *

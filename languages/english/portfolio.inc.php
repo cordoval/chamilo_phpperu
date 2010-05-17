@@ -43,7 +43,7 @@ $lang['portfolio']['PortfolioItemAdded'] = 'Portfolio Item was added';
 $lang['portfolio']['PortfolioAdded'] = 'Portfolio was added';
 $lang['portfolio']['FirstPortfolioCreated'] = 'A first portfolio was created';
 $lang['portfolio']['PortfolioEdited'] = 'A Portfolio or item was edited';
-
+$lang['portfolio']['PortfolioNotUpdatedYet'] = 'No content was published by this student';
 
 
 ?>
