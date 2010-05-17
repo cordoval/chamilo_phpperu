@@ -170,13 +170,13 @@ $(function ()
 	
 	function add_events(elem)
 	{
-		parent = elem.parent();
+		var parent = elem.parent();
 		while(parent.attr("class") != "inactive_elements" && parent.attr("class") != "active_elements")
 		{
 			parent = parent.parent();
 		}
-		name_array = parent.attr("id").split('_').slice(0,-1);
-		name = "";
+		var name_array = parent.attr("id").split('_').slice(0,-1);
+		var name = "";
 		$.each(name_array, function(index, name_array_elem) 
 				{ 
 					if(index != 0)
@@ -186,31 +186,32 @@ $(function ()
 		var parent_element = $("#"+name+"_active");
 		var sub_elements = $("a", parent_element);
 		$.each(sub_elements, function(i, sub_element){
-			elem = $(sub_element);
-			elem.click(function(){ toggle_other_groups(elem); });
+			var sub_elem = $(sub_element);
+			sub_elem.unbind("click");
+			sub_elem.click(function(){ toggle_other_groups(sub_elem); });
 		});
 	}
 	
 	function toggle_other_groups(elem)
 	{
-		var id = elem.attr("id");
-		parent = elem.parent();
+		var id = elem.attr("id"),
+			parent = elem.parent();
 		while(parent.attr("class") != "inactive_elements" && parent.attr("class") != "active_elements")
 		{
 			parent = parent.parent();
 		}
-		elem_type_id = parent.attr("id").split('_')[1];
-		$(".type").each(function()
+		var elem_type_id = parent.attr("id").split('_')[1];
+		$("[id|="+id+"]").each(function()
 				{
 					var elem_type = $(this);
 					if(elem_type.attr("id") == id && elem_type[0] != elem[0])
 					{
-						parent_type = elem_type.parent();
+						var parent_type = elem_type.parent();
 						while(parent_type.attr("class") != "inactive_elements" && parent_type.attr("class") != "active_elements")
 						{
 							parent_type = parent_type.parent();
 						}
-						type_id = parent_type.attr("id").split('_')[1];
+						var type_id = parent_type.attr("id").split('_')[1];
 						if(((elem_type_id == "request" || elem_type_id == "direct" || elem_type_id == "code") &&
 						    (type_id == "request" || type_id == "direct" || type_id == "code")) || 
 						   ((elem_type_id == "creation" || elem_type_id == "creationrequest") &&
