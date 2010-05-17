@@ -69,3 +69,7 @@ syntax: regexp
 ^layout/aqua/css/sts\.css$
 syntax: regexp
 ^layout/aqua/images/sts$
+syntax: regexp
+^languages/dutch/sts\.inc\.php$
+syntax: regexp
+^languages/english/sts\.inc\.php$
