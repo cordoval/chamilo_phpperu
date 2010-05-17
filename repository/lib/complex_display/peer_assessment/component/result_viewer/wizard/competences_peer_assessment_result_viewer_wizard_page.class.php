@@ -81,7 +81,14 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
         {
             $html[] = '<div class="description">';
             $html[] = $this->get_parent()->get_peer_assessment()->get_description();
-            $html[] = '<div style="float: right; margin-top: -15px;">'.$date_message.'</div>';
+            if($date_message == 'Always open')
+            {
+            	$html[] = '<div style="float: right; margin-top: -30px;">'.$date_message.'</div>';
+            }
+            else
+            {
+            	$html[] = '<div style="float: right; margin-top: -15px;">'.$date_message.'</div>';
+            }
             $html[] = '<div class="clear"></div>';
             $html[] = '</div>';
         }
@@ -107,6 +114,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
             	$count++;
             		
             	$html[] = '<br/>';
+            	$html[] = '</div>';
 				$html[] = '<div class="question">';
 		        $html[] = '<div class="title">';
 		        $html[] = '<div class="number">';
@@ -137,26 +145,42 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 		        // Prints of the table header
 	    		$this->addElement('html', implode("\n", $html));
 	    	
-	    		$this->result_peer_assessment($users, $indicators, $competence, $publication_id);
-		            
-		        $html_end[] = '</div>';
+				$this->result_peer_assessment($users, $indicators, $competence, $publication_id);
+ 				$result_competence = $this->result($users, $indicators, $competence, $publication_id);
+				$total_result += $result_competence;
+				$number_of_indicators += sizeof($indicators);
 			        
 			    $html_end[] = '<div class="clear"></div>';
 			        
 			  	$this->addElement('html', implode("\n", $html_end));
             } 
         } 
-		// Get the peer assessment factor
-		$pa_factor = $this->pa_factor($competences, $users, $publication_id);
-		// Get the peer assessment factor after correction
-		$pa_factor_after_correction = $this->pa_factor_after_correction($competences, $users, $publication_id);			
+        if($total_result == 0)
+        {
+	        $result = Translation :: get('NoScore');
+			$pa_factor = Translation :: get('NoScore');
+			$pa_factor_after_correction = Translation :: get('NoScore');
+        }
+        else
+        {
+	        // Total
+	        $result = round($total_result / $number_of_indicators, 2);
+			// Get the peer assessment factor
+			$pa_factor = $this->pa_factor($competences, $users, $publication_id);
+			// Get the peer assessment factor after correction
+			$pa_factor_after_correction = $this->pa_factor_after_correction($competences, $users, $publication_id);	
+        }	
 
 		
-        $this->result_peer_assessment_level($pa_factor, $pa_factor_after_correction);
+		// Total results
+        $this->result_peer_assessment_level($result, $pa_factor, $pa_factor_after_correction, $competences);
         
         
+        // Criteria overview
         $this->criteria_overview($publication_id);	 
 			
+        
+		$assessment_div[] = '</div>';
 		$assessment_div[] = '</div>';
 		$assessment_div[] = '</div>';
 		$this->addElement('html', implode("\n", $assessment_div));
@@ -261,7 +285,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 		
 			$this->addGroup($group, 'options_', null, '', false);
    		}
-   		
+
 	    $renderer->setElementTemplate('<tr id="options_">{element}</tr>', 'options_');
 	    $renderer->setGroupElementTemplate('<td>{element}</td>', 'options_');
             
@@ -271,6 +295,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
         
         // Prints of the table footer
         $this->addElement('html', implode("\n", $table_footer));
+        
     }
     
     
@@ -361,15 +386,15 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     	}
     	else
     	{
-    		$count= Translation :: get('NoScore');
+    		$count = Translation :: get('NoScore');
 
-    		$error[] = '<div class="clear"></div>';
+    		/*$error[] = '<div class="clear"></div>';
         	$error[] = '<div class="error-message">';
         	$error[] = Translation :: get('NotAllScoresHaveBeenSubmitted');
         	$error[] = '<div class="close_message" id="closeMessage"></div>';
         	$error[] = '</div>';
         	
-        	echo implode("\n", $error);
+        	echo implode("\n", $error);*/
     	}
     	
     	return $count;
@@ -479,8 +504,30 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 			            $scores[] = $value;
 			        }   			
 	    	}
-			
-	    	dump($scores);
+	    	/*dump($scores);
+	    	
+	    	for($i = 0; $i < $number_of_all_indicators; $i++)
+			{
+				$array = $chunk[$i];
+				
+				for($j = 0; $j < $number_of_all_indicators; $j++)
+				{
+					$count_same = 0;
+					foreach($array as $array_value)
+					{
+						if($array[$j] == $array_value)
+						{
+							$count_same++;
+						}
+					}
+					
+					if($count_same != 1)
+					{
+						// New array with the deleted values, those that only once is given to a user for each indicator are deleted
+						$new_values[] = $array[$j];
+					}
+				}
+			}*/
 	    	
 			/*for($j = 0; $j < $number_of_all_indicators; $j++)
 			{
@@ -514,10 +561,24 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     	}
     	
     }
-    
    
     
     
+    
+    // ************	
+    // Total result
+    // ************
+    function result($users, $indicators, $competence, $publication_id)
+    {
+		foreach($indicators as $indicator)
+        {      					
+        	$score_user = $this->score_user($users, $indicator, $competence, $publication_id);
+        	$result += $score_user; 
+   		}
+   		return $result;
+    }
+    
+      
     // **********************	
     // Peer assessment factor
     // **********************
@@ -662,22 +723,33 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 	// ********************************	
     // Results on peer assessment level
     // ********************************
-    function result_peer_assessment_level($pa_factor, $pa_factor_after_correction)
+    function result_peer_assessment_level($result, $pa_factor, $pa_factor_after_correction, $competences)
     {
     	$html[] = '<br/>';
-		$html[] = '<div class="question">';
-        $html[] = '<div class="title">';      
-        $html[] = '<div class="text">';	        
+    	$html[] = '<div style="margin-left: -50px;">';
+    	//$html[] = '<div style="float: left; width: 100%;">';
+		//$html[] = '<div class="question">';
+        $html[] = '<div class="title">';
+        $html[] = '<div class="text">';
+	        
         $html[] = '<div class="bevel" style="float: left; margin-left: -8px;">';
-        $html[] = '<div style="margin-top: 2px; margin-left: 4px"></div>';
+        $html[] = '<div style="margin-top: 2px; margin-left: 4px">'.Translation :: get('Result').'</div>';
         $html[] = '</div>';
         $html[] = '<div class="bevel" style="text-align: right;">';
-        $html[] = '</div>';        
+        $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
+	        
+        
         $html[] = '</div>';
-        $html[] = '<div class="answer">';        
-       	//$html[] = '<div class="description" style="background-color: #fff;">';
-        //$html[] = '</div>';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '</div>';
+        $html[] = '<div class="answer">';
+        
+        $html[] = '<div class="description" style="background-color: #fff;">';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '</div>';
+    	
+    
             
         // Prints of the beginning of the table
     	$this->addElement('html', implode("\n", $html));
@@ -689,7 +761,12 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
         $table_header[] = '<th style="width: 20px;"></th>';
         $table_header[] = '<th style="width: 180px;"></th>';
         
-        $table_header[] = '<th style="width: 250px;">' . Translation :: get('Result') . '</th>';     
+        // Prints of the user name
+        $user_id = Session :: get_user_id();    	
+        $selected_user = $this->get_parent()->get_user($user_id);
+        $full_user_name = $selected_user->get_firstname() .' '. $selected_user->get_lastname();
+        
+        $table_header[] = '<th style="width: 250px;">' . $full_user_name . '</th>';     
         $table_header[] = '<th style="width: 250px;">' . Translation :: get('PAFactor') . '</th>';
         $table_header[] = '<th>' . Translation :: get('PAFactorAfterCorrection') . '</th>';
         
@@ -703,7 +780,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     	$table_values[] = '<tr>';
     	$table_values[] = '<td></td>';
     	$table_values[] = '<td></td>';
-    	$table_values[] = '<td></td>';
+    	$table_values[] = '<td>'.$result.'</td>';
     	$table_values[] = '<td>'.$pa_factor.'</td>';
     	$table_values[] = '<td>'.$pa_factor_after_correction.'</td>';
     	$table_values[] = '<tr>';
@@ -717,15 +794,19 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
         
         // Prints of the table footer
         $this->addElement('html', implode("\n", $table_footer));
-        
-        $html_end[] = '</div>';
-		$html_end[] = '</div>';	        
+
+        $new_number_of_competences = (sizeof($competences) - 1);
+		for($i = 0; $i < $new_number_of_competences; $i++)
+		{
+			$html_end[] = '</div>';	
+		}
+		      
 	    $html_end[] = '<div class="clear"></div>';
 	        
 	    // Prints of the ending of the table
 	  	$this->addElement('html', implode("\n", $html_end));
     }
-       
+
     
     
     
