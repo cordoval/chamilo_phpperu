@@ -269,7 +269,8 @@ $(function ()
 							return false;
 					});
 				
-				//change_block(elem);
+				if(elem.attr("class").split(' ').slice(-1) == "disabled")
+					toggle_other_groups(elem);
 			});
 	}
 	
