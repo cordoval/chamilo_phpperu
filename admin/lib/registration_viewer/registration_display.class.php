@@ -1,34 +1,35 @@
 <?php
-require_once Path::get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
+require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
 require_once dirname(__FILE__) . '/../package_updater/package_updater_dependency.class.php';
+
 class RegistrationDisplay
 {
 	private $object;
-	
+
 	function RegistrationDisplay($object)
 	{
 		$this->object = $object;
 	}
-    
+
 	function get_object()
     {
     	return $this->object;
     }
-    
+
     function as_html()
     {
     	$object = $this->object;
     	$package_info = PackageInfo::factory($object->get_type(), $object->get_name());
     	$package_info = $package_info->get_package();
-    	
+
     	$html = array();
-        $html[] = $this->get_properties_table($package_info);        
+        $html[] = $this->get_properties_table($package_info);
         $html[] = $this->get_dependencies_table($package_info);
         $html[] = $this->get_update_problems();
-        
+
         return implode("\n", $html);
     }
-    
+
     function get_dependencies_table($package_info)
     {
     	$html[] = '<h3>' . Translation::get('Dependencies') .  '</h3>';
@@ -49,8 +50,8 @@ class RegistrationDisplay
 	    		{
 	    			$html[] = '<td></td>';
 	    		}
-    			$html[] = '<td>' . $package_dependency->as_html() . '</td>'; 
-	    		
+    			$html[] = '<td>' . $package_dependency->as_html() . '</td>';
+
 	    		$html[] = '</tr>';
 	    		$count ++;
     		}
@@ -58,7 +59,7 @@ class RegistrationDisplay
     	$html[] = '</table>';
     	return implode("\n", $html);
     }
-    
+
     function get_update_problems()
     {
     	$html = array();
@@ -68,8 +69,8 @@ class RegistrationDisplay
     	$html[] = '</table>';
     	return implode("\n", $html);
     }
-    
-    
+
+
 	function get_properties_table($package_info)
     {
     	$html = array();
@@ -84,11 +85,11 @@ class RegistrationDisplay
     		}
     	}
     	$html[] = '</table><br/>';
-    	
-    	
+
+
     	return implode("\n", $html);
     }
-	
+
 
 }
 ?>

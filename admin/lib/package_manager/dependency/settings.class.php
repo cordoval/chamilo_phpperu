@@ -8,15 +8,15 @@
 class SettingsPackageDependency extends PackageDependency
 {
 	const PROPERTY_VALUE = 'value';
-	
+
 	private $value;
 
 	function SettingsPackageDependency($dependency)
 	{
-		parent :: __construct($dependency); 
-		$this->set_value($dependency['value']);	
+		parent :: __construct($dependency);
+		$this->set_value($dependency['value']);
 	}
-	
+
     /**
      * @return the $value
      */
@@ -38,10 +38,10 @@ class SettingsPackageDependency extends PackageDependency
         $setting = ini_get($this->get_id());
         $message = Translation :: get('DependencyCheckSetting') . ': ' . $this->as_html() . ' ' . Translation :: get('Found') . ': ' . $setting;
         $value = $this->get_value();
-        $this->add_message($message);
+        $this->get_message_logger()->add_message($message);
         return $this->compare($value['type'], $value['_content'], $setting);
     }
-    
+
     function as_html()
     {
     	$value = $this->get_value();

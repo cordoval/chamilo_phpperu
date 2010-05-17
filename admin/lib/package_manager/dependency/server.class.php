@@ -7,15 +7,15 @@
 class ServerPackageDependency extends PackageDependency
 {
 	const PROPERTY_VERSION = 'version';
-	
+
 	private $version;
-	
+
 	function ServerPackageDependency($dependency)
 	{
-		parent :: __construct($dependency); 
-		$this->set_version($dependency['version']);	
+		parent :: __construct($dependency);
+		$this->set_version($dependency['version']);
 	}
-	
+
     /**
      * @return the $version
      */
@@ -31,24 +31,24 @@ class ServerPackageDependency extends PackageDependency
     {
         $this->version = $version;
     }
-    
+
     function check()
     {
     	$version = $this->get_version();
         $message = Translation :: get('DependencyCheckServer') . ': ' . $this->as_html() . ' ' . Translation :: get('Found') . ': ';
-        
+
         switch ($this->get_id())
         {
             case 'php' :
                 $message .= phpversion();
-                $this->add_message($message);
+                $this->get_message_logger()->add_message($message);
                 return $this->version_compare($version['type'], $version['_content'], phpversion());
                 break;
             default :
                 return true;
         }
     }
-    
+
     function as_html()
     {
     	$version = $this->get_version();
