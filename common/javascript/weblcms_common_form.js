@@ -114,6 +114,119 @@ $(function ()
 		}
 	}
 	
+	function disable_element_style(theElement)
+	{
+		if(theElement.css("background-image"))
+		{
+			if (!theElement.hasClass('disabled'))
+			{
+				theElement.addClass('disabled');
+				theElement.css("background-image", theElement.css("background-image").replace(".png", "_na.png"));
+			}
+		}
+	}
+	
+	function enable_element_style(theElement)
+	{
+		if (typeof theElement.css("background-image") !== 'undefined')
+		{
+			theElement.removeClass('disabled');
+			theElement.css("background-image", theElement.css("background-image").replace("_na.png", ".png"));
+		}
+	}
+	
+	function disable_element(currentElement)
+	{	
+		var currentElementParent = currentElement.parent().parent();
+			
+		disable_element_style(currentElement);
+			
+		var subElements = $('ul:first div a', currentElementParent);
+			
+		$.each(subElements, function(i, subElement){
+			subElementObject = $(subElement);
+				
+			// Remove the child-elements in case they were previously activated
+			//removeActivatedElement(subElementObject.attr('id'));
+			//var currentSubElement = $('#' + subElementObject.attr('id'), activeBox);
+			//currentSubElement.parent().parent().remove();
+				
+			// Disabled the child-elements in the inactive tree box
+			disable_element_style(subElementObject);
+		});
+	}
+	
+	function enable_element(currentElement)
+	{
+		var currentElementParent = currentElement.parent().parent();
+		
+		enable_element_style(currentElement);
+		
+		var subElements = $('ul:first div a', currentElementParent);
+		$.each(subElements, function(i, subElement){
+			enable_element_style($(subElement));
+		});
+	}
+	
+	function add_events(elem)
+	{
+		parent = elem.parent();
+		while(parent.attr("class") != "inactive_elements" && parent.attr("class") != "active_elements")
+		{
+			parent = parent.parent();
+		}
+		name_array = parent.attr("id").split('_').slice(0,-1);
+		name = "";
+		$.each(name_array, function(index, name_array_elem) 
+				{ 
+					if(index != 0)
+						name += "_";
+					name += name_array_elem; 
+				});
+		var parent_element = $("#"+name+"_active");
+		var sub_elements = $("a", parent_element);
+		$.each(sub_elements, function(i, sub_element){
+			elem = $(sub_element);
+			elem.click(function(){ toggle_other_groups(elem); });
+		});
+	}
+	
+	function toggle_other_groups(elem)
+	{
+		var id = elem.attr("id");
+		parent = elem.parent();
+		while(parent.attr("class") != "inactive_elements" && parent.attr("class") != "active_elements")
+		{
+			parent = parent.parent();
+		}
+		elem_type_id = parent.attr("id").split('_')[1];
+		$(".type").each(function()
+				{
+					var elem_type = $(this);
+					if(elem_type.attr("id") == id && elem_type[0] != elem[0])
+					{
+						parent_type = elem_type.parent();
+						while(parent_type.attr("class") != "inactive_elements" && parent_type.attr("class") != "active_elements")
+						{
+							parent_type = parent_type.parent();
+						}
+						type_id = parent_type.attr("id").split('_')[1];
+						if(((elem_type_id == "request" || elem_type_id == "direct" || elem_type_id == "code") &&
+						    (type_id == "request" || type_id == "direct" || type_id == "code")) || 
+						   ((elem_type_id == "creation" || elem_type_id == "creationrequest") &&
+						    (type_id == "creation" || type_id == "creationrequest")))
+						{
+							if(parent_type.attr("class") == "inactive_elements" && parent.attr("class") == "inactive_elements") 
+								disable_element(elem_type);
+							else if(parent_type.attr("class") == "inactive_elements" && parent.attr("class") == "active_elements") 
+								enable_element(elem_type);
+						}
+					}
+				});
+		if(parent.attr("class") == "inactive_elements")
+			setTimeout(function () { add_events(elem); }, 50);
+	}
+	
 	$.fn.init_everybody = function ()
 	{
 		var elem = $(this);
@@ -141,10 +254,29 @@ $(function ()
 			});
 	}
 	
+	$.fn.init_disable_other_groups = function ()
+	{
+		return this.each(function()
+			{
+				var elem = $(this);
+				
+				elem.click(function()
+					{
+						if(elem.attr("class").split(' ').slice(-1) != "disabled")
+							toggle_other_groups(elem);
+						else
+							return false;
+					});
+				
+				//change_block(elem);
+			});
+	}
+	
 	$(document).ready(function ()
 	{
 		$('.available').init_available_checkbox();
 		$("input[name=direct_target_groups_option]").init_everybody();
 		$("input[name=request_target_groups_option]").init_everybody();
+		$("a.type").init_disable_other_groups();
 	});
 });
