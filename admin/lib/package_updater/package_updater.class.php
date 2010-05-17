@@ -1,11 +1,8 @@
 <?php
-require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_source.class.php';
-require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
-/**
- * $Id: package_installer.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
- * @package admin.lib.package_installer
- */
-class PackageInstaller
+require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_source.class.php';
+require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_type.class.php';
+
+class PackageUpdater
 {
     const TYPE_NORMAL = '1';
     const TYPE_CONFIRM = '2';
@@ -16,40 +13,40 @@ class PackageInstaller
     private $message;
     private $html;
 
-    function PackageInstaller()
+    function PackageUpdater()
     {
-        $this->source = Request :: get(PackageManager :: PARAM_INSTALL_TYPE);
+    	$this->source = Request :: get(PackageManager :: PARAM_INSTALL_TYPE);
         $this->message = array();
         $this->html = array();
     }
 
     function run()
     {
-    	$installer_source = PackageInstallerSource :: factory($this, $this->source);
-        if (! $installer_source->process())
+    	$updater_source = PackageUpdaterSource :: factory($this, $this->source);
+        if (! $updater_source->process())
         {
-            return $this->installation_failed('source', Translation :: get('PackageRetrievalFailed'));
+            return $this->update_failed('source', Translation :: get('PackageRetrievalFailed'));
         }
         else
         {
-        	$is_registered = AdminDataManager :: is_registered($installer_source->get_attributes()->get_code(), $installer_source->get_attributes()->get_section());
+            $is_registered = AdminDataManager :: is_registered($updater_source->get_attributes()->get_name(), $updater_source->get_attributes()->get_section());
             if($is_registered)
             {
-           		return $this->installation_failed('source', Translation :: get('PackageIsAlreadyRegistered'));
+           		return $this->update_failed('source', Translation :: get('PackageIsAlreadyRegistered'));
             }
 
         	$this->process_result('Source');
 
-            $attributes = $installer_source->get_attributes();
-            $package = PackageInstallerType :: factory($this, $attributes->get_section(), $installer_source);
-            if (! $package->install())
+            $attributes = $updater_source->get_attributes();
+            $package = PackageUpdaterType :: factory($this, $attributes->get_section(), $updater_source);
+            if (! $package->update())
             {
-                return false /*$this->installation_failed('settings', Translation :: get('PackageProcessingFailed'))*/;
+                return $this->update_failed('settings', Translation :: get('PackageProcessingFailed'));
             }
             else
             {
-                $this->installation_successful('settings', Translation :: get('ApplicationSettingsDone'));
-                return $this->installation_successful('finished', Translation :: get('PackageCompletelyInstalled'));
+                $this->update_successful('settings', Translation :: get('ApplicationSettingsDone'));
+                return $this->update_successful('finished', Translation :: get('PackageCompletelyUpdated'));
             }
         }
     }
@@ -103,18 +100,18 @@ class PackageInstaller
         return $message;
     }
 
-    function installation_failed($type, $error_message = null)
+    function update_failed($type, $error_message = null)
     {
         if ($error_message)
         {
             $this->add_message($error_message, self :: TYPE_ERROR);
         }
-        $this->add_message(Translation :: get('PackageInstallFailed'), self :: TYPE_ERROR);
+        $this->add_message(Translation :: get('PackageUpdateFailed'), self :: TYPE_ERROR);
         $this->process_result($type);
         return false;
     }
 
-    function installation_successful($type, $message = null)
+    function update_successful($type, $message = null)
     {
         if ($message)
         {

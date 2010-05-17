@@ -1,11 +1,6 @@
 <?php
 
-/**
- * $Id: package_installer_dependency.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
- * @package admin.lib.package_installer
- */
-
-abstract class PackageInstallerDependency
+abstract class PackageUpdaterDependency
 {
     const FAILURE_CRITICAL = 1;
     const FAILURE_HIGH = 2;
@@ -23,7 +18,7 @@ abstract class PackageInstallerDependency
     private $dependencies;
     private $parent;
 
-    function PackageInstallerDependency($parent, $dependencies)
+    function PackageUpdaterDependency($parent, $dependencies)
     {
         $this->parent = $parent;
         $this->dependencies = $dependencies;
@@ -39,19 +34,19 @@ abstract class PackageInstallerDependency
         return $this->parent;
     }
 
-    function add_message($message, $type = PackageInstaller :: TYPE_NORMAL)
+    function add_message($message, $type = PackageUpdater :: TYPE_NORMAL)
     {
         $this->get_parent()->add_message($message, $type);
     }
 
-    function installation_failed($error_message)
+    function update_failed($error_message)
     {
-        $this->get_parent()->installation_failed($error_message);
+        $this->get_parent()->update_failed($error_message);
     }
 
-    function installation_successful($type)
+    function update_successful($type)
     {
-        $this->get_parent()->installation_succesful($type);
+        $this->get_parent()->update_succesful($type);
     }
 
     function process_result($type)
@@ -162,7 +157,7 @@ abstract class PackageInstallerDependency
      */
     static function factory($parent, $type, $dependencies)
     {
-        $class = 'PackageInstaller' . Utilities :: underscores_to_camelcase($type) . 'Dependency';
+        $class = 'PackageUpdater' . Utilities :: underscores_to_camelcase($type) . 'Dependency';
         require_once dirname(__FILE__) . '/dependency/' . $type . '.class.php';
         return new $class($parent, $dependencies);
     }

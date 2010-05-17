@@ -1,23 +1,18 @@
 <?php
-require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
+require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_type.class.php';
 
-/**
- * $Id: language.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
- * @package admin.lib.package_installer.type
- */
-
-class PackageInstallerLanguageType extends PackageInstallerType
+class PackageUpdaterLanguageType extends PackageUpdaterType
 {
 
-    function install()
+    function update()
     {
         if ($this->verify_dependencies())
         {
-            $this->get_parent()->installation_successful('dependencies', Translation :: get('LanguageDependenciesVerified'));
+            $this->get_parent()->update_successful('dependencies', Translation :: get('LanguageDependenciesVerified'));
             
             if (! $this->add_registration())
             {
-                $this->get_parent()->add_message(Translation :: get('LanguageRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
+                $this->get_parent()->add_message(Translation :: get('LanguageRegistrationNotAdded'), PackageUpdater :: TYPE_WARNING);
             }
             else
             {
@@ -26,7 +21,7 @@ class PackageInstallerLanguageType extends PackageInstallerType
         }
         else
         {
-            return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
+            return $this->get_parent()->update_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
         
         //$this->cleanup();
@@ -35,11 +30,6 @@ class PackageInstallerLanguageType extends PackageInstallerType
         $this->get_source()->cleanup();
         
         return true;
-    }
-    
-    static function get_path($language_name)
-    {
-    	return Path :: get_language_path() . $language_name . '/';
     }
 
     function add_registration()

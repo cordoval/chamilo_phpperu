@@ -1,15 +1,10 @@
 <?php
-require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
+require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_type.class.php';
 
-/**
- * $Id: application.class.php 179 2009-11-12 13:51:39Z vanpouckesven $
- * @package admin.lib.package_installer.type
- */
-
-class PackageInstallerApplicationType extends PackageInstallerType
+class PackageUpdaterApplicationType extends PackageUpdaterType
 {
 
-    function install()
+    function update()
     {
         $source = $this->get_source();
         $attributes = $source->get_attributes();
@@ -17,33 +12,34 @@ class PackageInstallerApplicationType extends PackageInstallerType
         
         if ($this->verify_dependencies())
         {
-            $this->get_parent()->installation_successful('dependencies', Translation :: get('ApplicationDependenciesVerified'));
-            $installer = Installer :: factory($application_name, array());
-            if (! $installer->install())
+            $this->get_parent()->update_successful('dependencies', Translation :: get('ApplicationDependenciesVerified'));
+            $updater = Updater :: factory($application_name, array());
+            
+            if (! $updater->update())
             {
-                return $this->get_parent()->installation_failed('initilization', Translation :: get('ApplicationInitilizationFailed'));
+                return $this->get_parent()->update_failed('initilization', Translation :: get('ApplicationInitilizationFailed'));
             }
             else
             {
-            	$this->add_message($installer->retrieve_message());
-                $this->installation_successful('initilization');
+                $this->add_message($updater->retrieve_message());
+                $this->update_successful('initilization');
             }
             
-            $installer->set_message(array());
+            $updater->set_message(array());
             
-            if (! $installer->post_process())
+            if (! $updater->post_process())
             {
-                return $this->get_parent()->installation_failed('processing', Translation :: get('ApplicationPostProcessingFailed'));
+                return $this->get_parent()->update_failed('processing', Translation :: get('ApplicationPostProcessingFailed'));
             }
             else
             {
-                $this->add_message($installer->retrieve_message());
-                $this->installation_successful('processing');
+                $this->add_message($updater->retrieve_message());
+                $this->update_successful('processing');
             }
             
             if (! $this->set_version())
             {
-                $this->get_parent()->add_message(Translation :: get('ApplicationVersionNotSet'), PackageInstaller :: TYPE_WARNING);
+                $this->get_parent()->add_message(Translation :: get('ApplicationVersionNotSet'), PackageUpdater :: TYPE_WARNING);
             }
             else
             {
@@ -52,7 +48,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
             
             if (! $this->add_navigation_item())
             {
-                $this->get_parent()->add_message(Translation :: get('ApplicationMenuItemNotAdded'), PackageInstaller :: TYPE_WARNING);
+                $this->get_parent()->add_message(Translation :: get('ApplicationMenuItemNotAdded'), PackageUpdater :: TYPE_WARNING);
             }
             else
             {
@@ -61,7 +57,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
         }
         else
         {
-            return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
+            return $this->get_parent()->update_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
         
         $source->cleanup();
@@ -69,11 +65,6 @@ class PackageInstallerApplicationType extends PackageInstallerType
         return true;
     }
 
-    static function get_path($application_name)
-    {
-    	return BasicApplication::get_application_path($application_name);
-    }
-    
     function set_version()
     {
         

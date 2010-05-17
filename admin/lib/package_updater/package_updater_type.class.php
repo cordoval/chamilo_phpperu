@@ -1,17 +1,12 @@
 <?php
-require_once Path :: get_admin_path() . 'lib/package_installer/package_dependency_verifier.class.php';
+require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_dependency.class.php';
 
-/**
- * $Id: package_installer_type.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
- * @package admin.lib.package_installer
- */
-
-abstract class PackageInstallerType
+abstract class PackageUpdaterType
 {
     private $parent;
     private $source;
 
-    function PackageInstallerType($parent, $source)
+    function PackageUpdaterType($parent, $source)
     {
         $this->set_parent($parent);
         $this->source = $source;
@@ -32,19 +27,19 @@ abstract class PackageInstallerType
         $this->parent = $parent;
     }
 
-    function add_message($message, $type = PackageInstaller :: TYPE_NORMAL)
+    function add_message($message, $type = PackageUpdater :: TYPE_NORMAL)
     {
         $this->get_parent()->add_message($message, $type);
     }
 
-    function installation_failed($error_message)
+    function update_failed($error_message)
     {
-        $this->get_parent()->installation_failed($error_message);
+        $this->get_parent()->update_failed($error_message);
     }
 
-    function installation_successful($type)
+    function update_successful($type)
     {
-        $this->get_parent()->installation_successful($type);
+        $this->get_parent()->update_successful($type);
     }
 
     function process_result($type)
@@ -59,10 +54,14 @@ abstract class PackageInstallerType
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $dependency = unserialize($attributes->get_dependencies());
-        $verifier = new PackageDependencyVerifier($this, $dependency);
-        if (! $verifier->verify())
+        
+        foreach ($dependency as $type => $dependencies)
         {
-            return false/*$this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependencyFailed'))*/;
+            $verifier = PackageUpdaterDependency :: factory($this, $type, $dependencies['dependency']);
+            if (! $verifier->verify())
+            {
+                return $this->get_parent()->update_failed('dependencies', Translation :: get('PackageDependencyFailed'));
+            }
         }
         
         return true;
@@ -74,7 +73,7 @@ abstract class PackageInstallerType
      */
     static function factory($parent, $type, $source)
     {
-        $class = 'PackageInstaller' . Utilities :: underscores_to_camelcase($type) . 'Type';
+        $class = 'PackageUpdater' . Utilities :: underscores_to_camelcase($type) . 'Type';
         require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
         return new $class($parent, $source);
     }

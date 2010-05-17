@@ -1,15 +1,10 @@
 <?php
-require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
+require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_type.class.php';
 
-/**
- * $Id: content_object.class.php 168 2009-11-12 11:53:23Z vanpouckesven $
- * @package admin.lib.package_installer.type
- */
-
-class PackageInstallerContentObjectType extends PackageInstallerType
+class PackageUpdaterContentObjectType extends PackageUpdaterType
 {
 
-    function install()
+    function update()
     {
         $source = $this->get_source();
         $attributes = $source->get_attributes();
@@ -18,7 +13,7 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         
         if ($this->verify_dependencies())
         {
-            $this->get_parent()->installation_successful('dependencies', Translation :: get('ContentObjectDependenciesVerified'));
+            $this->get_parent()->update_successful('dependencies', Translation :: get('ContentObjectDependenciesVerified'));
             
             /**********************************************
              * Do the actual install of the objects here. *
@@ -38,14 +33,14 @@ class PackageInstallerContentObjectType extends PackageInstallerType
                     }
                     else
                     {
-                        $this->get_parent()->installation_successful('initilization', Translation :: get('ContentObjectStorageUnitsSuccessfullyCreated'));
+                        $this->get_parent()->update_successful('initilization', Translation :: get('ContentObjectStorageUnitsSuccessfullyCreated'));
                     }
                 }
             }
             
             if (! $this->add_registration())
             {
-                $this->get_parent()->add_message(Translation :: get('ContentObjectRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
+                $this->get_parent()->add_message(Translation :: get('ContentObjectRegistrationNotAdded'), PackageUpdater :: TYPE_WARNING);
             }
             else
             {
@@ -54,17 +49,12 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         }
         else
         {
-            return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
+            return $this->get_parent()->update_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
         
         $source->cleanup();
         
         return true;
-    }
-    
-	static function get_path($content_object_name)
-    {
-    	return Path :: get_repository_path() . 'lib/content_object/' . $content_object_name . '/';
     }
 
     function add_registration()
@@ -89,7 +79,7 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         $this->get_parent()->add_message(Translation :: get('StorageUnitCreation') . ': <em>' . $storage_unit_info['name'] . '</em>');
         if (! $rdm->create_storage_unit($storage_unit_info['name'], $storage_unit_info['properties'], $storage_unit_info['indexes']))
         {
-            return $this->get_parent()->installation_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
+            return $this->get_parent()->update_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
         }
         else
         {

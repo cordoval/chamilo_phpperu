@@ -1,14 +1,8 @@
 <?php
-require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_dependency.class.php';
+require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_dependency.class.php';
 
-/**
- * $Id: content_objects.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
- * @package admin.lib.package_installer.dependency
- */
-
-class PackageInstallerContentObjectsDependency extends PackageInstallerDependency
+class PackageUpdaterContentObjectsDependency extends PackageUpdaterDependency
 {
-
     function check($dependency)
     {
         $message = Translation :: get('DependencyCheckContentObject') . ': ' . Translation :: get(Utilities :: underscores_to_camelcase($dependency['id']) . 'TypeName') . ', ' . Translation :: get('Version') . ': ' . $dependency['version']['_content'] . ' ' . Translation :: get('Found') . ': ';
@@ -35,7 +29,7 @@ class PackageInstallerContentObjectsDependency extends PackageInstallerDependenc
             {
                 $message .= '--' . Translation :: get('WrongVersion') . '--';
                 $this->add_message($message);
-                $this->add_message(Translation :: get('DependencyObjectWrongVersion'), PackageInstaller :: TYPE_WARNING);
+                $this->add_message(Translation :: get('DependencyObjectWrongVersion'), PackageUpdater :: TYPE_WARNING);
                 return false;
             }
             else
@@ -44,7 +38,7 @@ class PackageInstallerContentObjectsDependency extends PackageInstallerDependenc
                 {
                     $message .= '--' . Translation :: get('InactiveObject') . '--';
                     $this->add_message($message);
-                    $this->add_message(Translation :: get('DependencyActivateObjectWarning'), PackageInstaller :: TYPE_WARNING);
+                    $this->add_message(Translation :: get('DependencyActivateObjectWarning'), PackageUpdater :: TYPE_WARNING);
                 }
                 else
                 {
