@@ -52,7 +52,6 @@ class PackageManagerSynchroniserComponent extends PackageManager
 
     function get_remote_packages_data()
     {
-    	echo(Path :: get(WEB_PATH) . 'packages.xml');
         $xml_data = file_get_contents(Path :: get(WEB_PATH) . 'packages.xml');
         
         if ($xml_data)

@@ -50,7 +50,7 @@ class PackageUpdater
             }
         }
     }
-
+    
     function add_message($message, $type = self :: TYPE_NORMAL)
     {
         switch ($type)
