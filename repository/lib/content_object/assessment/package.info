@@ -25,12 +25,12 @@
 			</server>
 			<content_objects>
 				<dependency>
-		  			<id>rating_question</id>
+		  			<id>assessment_rating_question</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
-		  			<id>open_question</id>
+		  			<id>assessment_open_question</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
@@ -45,22 +45,22 @@
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
-		  			<id>multiple_choice_question</id>
+		  			<id>assessment_multiple_choice_question</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
-		  			<id>matching_question</id>
+		  			<id>assessment_matching_question</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
-		  			<id>select_question</id>
+		  			<id>assessment_select_question</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>
 				<dependency>
-		  			<id>matrix_question</id>
+		  			<id>assessment_matrix_question</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
 				</dependency>

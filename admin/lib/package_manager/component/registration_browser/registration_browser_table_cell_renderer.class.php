@@ -45,7 +45,9 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
     private function get_modification_links($registration)
     {
         $toolbar_data = array();
-
+		
+        $toolbar_data[] = array('href' => $this->browser->get_registration_view_url($registration), 'label' => Translation :: get('ViewRegistration'), 'img' => Theme :: get_common_image_path() . 'action_details.png');
+        
         if (! $registration->is_up_to_date())
         {
             $toolbar_data[] = array('href' => $this->browser->get_registration_update_url($registration), 'label' => Translation :: get('UpdatePackage'), 'img' => Theme :: get_common_image_path() . 'action_update.png');

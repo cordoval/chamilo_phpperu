@@ -53,7 +53,7 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
             $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowsePeerAssessmentPublications')));
             $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_TAKE_PEER_ASSESSMENT_PUBLICATION, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $pid)), Translation :: get('TakePeerAssessment')));
             
-			$this->display_header($trail, true);
+    		$this->display_header($trail, true);
 
             $display = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
         	$display->set_root_lo($this->peer_assessment);

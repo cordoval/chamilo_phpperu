@@ -1,4 +1,5 @@
 <?php
+require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
 /**
  * $Id: repository_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
@@ -59,6 +60,9 @@ class RepositoryInstaller extends Installer
             $content_object_registration->set_type(Registration :: TYPE_CONTENT_OBJECT);
             $content_object_registration->set_name($folder);
             $content_object_registration->set_status(Registration :: STATUS_ACTIVE);
+            
+            $package_info = PackageInfo::factory(Registration :: TYPE_CONTENT_OBJECT, $folder);
+            $content_object_registration->set_version($package_info->get_package()->get_version());
             
             if (! $content_object_registration->create())
             {

@@ -36,6 +36,11 @@ class PackageInstallerLanguageType extends PackageInstallerType
         
         return true;
     }
+    
+    static function get_path($language_name)
+    {
+    	return Path :: get_language_path() . $language_name . '/';
+    }
 
     function add_registration()
     {

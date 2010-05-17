@@ -308,5 +308,10 @@ class Path
     {
         return self :: get(SYS_CACHE_PATH);
     }
+    
+    public static function get_layout_path()
+    {
+    	return self :: get(SYS_LAYOUT_PATH);
+    }
 }
 ?>

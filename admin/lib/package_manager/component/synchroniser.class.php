@@ -75,6 +75,10 @@ class PackageManagerSynchroniserComponent extends PackageManager
                 return $unserializer->getUnserializedData();
             }
         }
+        else
+        {
+        	return false;
+        }
     }
 
     function parse_remote_packages_data($data)
