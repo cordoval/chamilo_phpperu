@@ -13,9 +13,9 @@ class CourseTypeForm extends CommonForm
    	const CREATION_ELEMENTS = 'creation_groups_elements';
    	const CREATION_OPTION = 'creation_groups_option';
 
-   	const CREATION_ON_REQUEST_TARGET = 'creation_on_request_groups';
-   	const CREATION_ON_REQUEST_ELEMENTS = 'creation_on_request_groups_elements';
-   	const CREATION_ON_REQUEST_OPTION = 'creation_on_request_groups_option';
+   	const CREATION_ON_REQUEST_TARGET = 'creationrequest_groups';
+   	const CREATION_ON_REQUEST_ELEMENTS = 'creationrequest_groups_elements';
+   	const CREATION_ON_REQUEST_OPTION = 'creationrequest_groups_option';
    	
 	function CourseTypeForm($form_type, $course_type, $action, $parent)
 	{
