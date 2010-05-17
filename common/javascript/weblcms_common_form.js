@@ -228,16 +228,25 @@ $(function ()
 			setTimeout(function () { add_events(elem); }, 50);
 	}
 	
+	function check_disabled_before_toggle()
+	{
+		var elem = $(this);
+		if(elem.attr("class").split(' ').slice(-1) != "disabled")
+			toggle_other_groups(elem);
+		else
+			return false;
+	}
+	
 	$.fn.init_everybody = function ()
 	{
 		var elem = $(this);
-		
-		elem.click(function()
-		{
-			toggle_others(elem);
-		});
-
 		toggle_others(elem);
+	}
+	
+	$.fn.bind_everybody = function ()
+	{
+		var elem = $(this);
+		elem.click(function(){toggle_others(elem);});
 	}
 	
 	$.fn.init_available_checkbox = function ()
@@ -245,40 +254,42 @@ $(function ()
 		return this.each(function()
 			{
 				var elem = $(this);
-				
-				elem.click(function()
-					{
-						change_block(elem);
-					});
-				
 				change_block(elem);
 			});
 	}
 	
-	$.fn.init_disable_other_groups = function ()
+	$.fn.init_disable_other_groups = function()
 	{
 		return this.each(function()
 			{
-				var elem = $(this);
-				
-				elem.click(function()
-					{
-						if(elem.attr("class").split(' ').slice(-1) != "disabled")
-							toggle_other_groups(elem);
-						else
-							return false;
-					});
-				
+				var elem = $(this);				
 				if(elem.attr("class").split(' ').slice(-1) == "disabled")
 					toggle_other_groups(elem);
 			});
 	}
 	
+	function reset(evt,ui)
+	{
+		setTimeout(
+			function()
+			{
+				$('.available').init_available_checkbox();
+				$("input[name=direct_target_groups_option]").init_everybody();
+				$("input[name=request_target_groups_option]").init_everybody()
+				$("a.type").init_disable_other_groups();
+			},30);	
+	}
+	
 	$(document).ready(function ()
 	{
+		$('.available').live('click', function(){change_block($(this))});
 		$('.available').init_available_checkbox();
+		$("input[name=direct_target_groups_option]").bind_everybody()
+		$("input[name=request_target_groups_option]").bind_everybody()
 		$("input[name=direct_target_groups_option]").init_everybody();
 		$("input[name=request_target_groups_option]").init_everybody();
+		$("a.type").click(check_disabled_before_toggle);
 		$("a.type").init_disable_other_groups();
+		$(':reset').live('click', reset);
 	});
 });

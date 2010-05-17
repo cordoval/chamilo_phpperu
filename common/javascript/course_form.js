@@ -44,7 +44,7 @@ $(function ()
 	{
 		$('.viewablecheckbox').viewableStyle();
 		$('.viewablecheckbox').setViewableStyle();
-		$('.empty').live('click', reset);
+		$(':reset').live('click', reset);
 		$('.course_type_selector').live('click',reload_form);
 	});
 
