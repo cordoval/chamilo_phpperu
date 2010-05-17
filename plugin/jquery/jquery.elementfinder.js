@@ -340,6 +340,7 @@
 				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 				disableActivatedElements();
 				processFinderTree();
+				return false;
 			}
 			
 			function resetElementFinder(e)
@@ -395,7 +396,7 @@
 				}
 				
 				$("a", activeBox).live("click", deactivateElement);
-				
+
 				if (settings.nodesSelectable)
 				{
 					$("a:not(.disabled)", inactiveBox).live("click", activateElement);
