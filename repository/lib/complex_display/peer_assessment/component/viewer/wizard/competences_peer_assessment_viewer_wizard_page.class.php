@@ -242,7 +242,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 			
 			
 			$criteria_scores = array();
-            $criteria_scores[0] = Translation :: get('SelectScore');
+            $criteria_scores[0] = Translation :: get('SelectCriteriaScore');
 			
 	        $criteria_options = $criteria_overview->get_options();
 	        foreach($criteria_options as $score)
@@ -291,6 +291,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
         // Prints of the table footer
         $this->addElement('html', implode("\n", $table_footer));
     }
+
     
     
     // *******************************	
