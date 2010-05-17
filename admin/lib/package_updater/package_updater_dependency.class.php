@@ -1,20 +1,7 @@
 <?php
 
-abstract class PackageUpdaterDependency
+class PackageUpdaterDependency
 {
-    const FAILURE_CRITICAL = 1;
-    const FAILURE_HIGH = 2;
-    const FAILURE_MEDIUM = 3;
-    const FAILURE_LOW = 4;
-    const FAILURE_VERY_LOW = 5;
-    
-    const COMPARE_EQUAL = 1;
-    const COMPARE_NOT_EQUAL = 2;
-    const COMPARE_GREATER_THEN = 3;
-    const COMPARE_GREATER_THEN_OR_EQUAL = 4;
-    const COMPARE_LESS_THEN = 5;
-    const COMPARE_LESS_THEN_OR_EQUAL = 6;
-    
     private $dependencies;
     private $parent;
 
@@ -54,59 +41,65 @@ abstract class PackageUpdaterDependency
         $this->get_parent()->process_result($type);
     }
 
-    function compare($type, $reference, $value)
+    static function check_other_packages($package)
     {
-        switch ($type)
+        $adm = AdminDataManager :: get_instance();
+        
+        $condition = new NotCondition(new EqualityCondition(Registration :: PROPERTY_ID, $package->get_id()));
+        $registrations = $adm->retrieve_registrations($condition);
+        
+        $failures = 0;
+        $messages = array();
+        while ($registration = $registrations->next_result())
         {
-            case self :: COMPARE_EQUAL :
-                return ($reference == $value);
-                break;
-            case self :: COMPARE_NOT_EQUAL :
-                return ($reference != $value);
-                break;
-            case self :: COMPARE_GREATER_THEN :
-                return ($value > $reference);
-                break;
-            case self :: COMPARE_GREATER_THEN_OR_EQUAL :
-                return ($value >= $reference);
-                break;
-            case self :: COMPARE_LESS_THEN :
-                return ($value < $reference);
-                break;
-            case self :: COMPARE_LESS_THEN_OR_EQUAL :
-                return ($value <= $reference);
-                break;
-            default :
-                return false;
-                break;
-        }
-    }
+            $package_data = PackageInfo :: factory($registration->get_type(), $registration->get_name());
+            
+            $package_data = $package_data->get_package_info();
+            
+            if ($package_data)
+            {
+                $type = $package->get_type();
 
-    function version_compare($type, $reference, $value)
-    {
-        switch ($type)
+                switch ($type)
+                {
+                    case Registration :: TYPE_APPLICATION :
+                        $dependency_type = 'applications';
+                        break;
+                    case Registration :: TYPE_CONTENT_OBJECT :
+                        $dependency_type = 'content_objects';
+                        break;
+                }
+                
+                
+                
+                //foreach ($package_data['package'] as $package)
+               // {
+                    $dependencies = $package_data['package']['dependencies'];
+                    
+                    if (isset($dependencies[$dependency_type]))
+                    {
+                        foreach ($dependencies[$dependency_type]['dependency'] as $dependency)
+                        {
+                        	if ($dependency['id'] === $package->get_name())
+                            {
+                                $message = Translation :: get('PackageDependency') . ': <em>' . $package_data['package']['name'] . ' (' . $package_data['package']['code'] . ')</em>';
+                                
+                                $messages[] = $message;
+                                $failures ++;
+                            }
+                        }
+                    }
+                //}
+            }
+        }
+        
+        if ($failures > 0)
         {
-            case self :: COMPARE_EQUAL :
-                return version_compare($reference, $value, '==');
-                break;
-            case self :: COMPARE_NOT_EQUAL :
-                return version_compare($reference, $value, '!=');
-                break;
-            case self :: COMPARE_GREATER_THEN :
-                return version_compare($value, $reference, '>');
-                break;
-            case self :: COMPARE_GREATER_THEN_OR_EQUAL :
-                return version_compare($value, $reference, '>=');
-                break;
-            case self :: COMPARE_LESS_THEN :
-                return version_compare($value, $reference, '<');
-                break;
-            case self :: COMPARE_LESS_THEN_OR_EQUAL :
-                return version_compare($value, $reference, '<=');
-                break;
-            default :
-                return false;
-                break;
+            return $messages;
+        }
+        else
+        {
+            return true;
         }
     }
 
@@ -114,52 +107,31 @@ abstract class PackageUpdaterDependency
     {
         $dependencies = $this->get_dependencies();
         
-        foreach ($dependencies as $dependency)
+        foreach ($dependencies as $type => $dependency)
         {
-            if (! $this->check($dependency))
+            foreach ($dependency['dependency'] as $detail)
             {
-                switch ($dependency['severity'])
+                $package_dependency = PackageDependency :: factory($type, $detail);
+                if (! $package_dependency->check())
                 {
-                    case self :: FAILURE_CRITICAL :
-                        return false;
-                        break;
-                    case self :: FAILURE_HIGH :
-                        return false;
-                        break;
-                    case self :: FAILURE_MEDIUM :
-                        return true;
-                        break;
-                    case self :: FAILURE_LOW :
-                        return true;
-                        break;
-                    case self :: FAILURE_VERY_LOW :
-                        return true;
-                        break;
-                    default :
-                        return false;
-                        break;
+                    $messages = $package_dependency->get_messages();
+                    foreach ($messages as $message)
+                    {
+                        $this->add_message($message);
+                    }
+                    return false;
+                }
+                else
+                {
+                    $messages = $package_dependency->get_messages();
+                    foreach ($messages as $message)
+                    {
+                        $this->add_message($message);
+                    }
                 }
             }
-            else
-            {
-                return true;
-            }
         }
-        
         return true;
-    }
-
-    abstract function check($dependency);
-
-    /**
-     * Invokes the constructor of the class that corresponds to the specified
-     * type of package installer type.
-     */
-    static function factory($parent, $type, $dependencies)
-    {
-        $class = 'PackageUpdater' . Utilities :: underscores_to_camelcase($type) . 'Dependency';
-        require_once dirname(__FILE__) . '/dependency/' . $type . '.class.php';
-        return new $class($parent, $dependencies);
     }
 }
 ?>

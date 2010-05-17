@@ -1,5 +1,6 @@
 <?php
 require_once Path::get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
+require_once dirname(__FILE__) . '/../package_updater/package_updater_dependency.class.php';
 class RegistrationDisplay
 {
 	private $object;
@@ -23,6 +24,7 @@ class RegistrationDisplay
     	$html = array();
         $html[] = $this->get_properties_table($package_info);        
         $html[] = $this->get_dependencies_table($package_info);
+        $html[] = $this->get_update_problems();
         
         return implode("\n", $html);
     }
@@ -56,6 +58,17 @@ class RegistrationDisplay
     	$html[] = '</table>';
     	return implode("\n", $html);
     }
+    
+    function get_update_problems()
+    {
+    	$html = array();
+    	$html[] = '<table class="data_table data_table_no_header">';
+    	var_dump(PackageUpdaterDependency::check_other_packages($this->get_object()));
+    	$html[] = implode('<br/>', PackageUpdaterDependency::check_other_packages($this->get_object()));
+    	$html[] = '</table>';
+    	return implode("\n", $html);
+    }
+    
     
 	function get_properties_table($package_info)
     {
