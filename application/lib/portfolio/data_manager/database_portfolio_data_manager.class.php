@@ -464,70 +464,24 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 
 
 
-    public function get_portfolio_children($portfolio_id)
-    {
-        $condition = new EqualityCondition(ComplexContentObjectItem::PROPERTY_PARENT, $portfolio_id);
-        $rdm = RepositoryDataManager::get_instance();
-        $object_set = $rdm->retrieve_objects(ComplexContentObjectItem::get_table_name(), $condition);
-        return $object_set;
 
-    }
-
-    public function get_portfolio_complex_item_children($portfolio_complex_item)
+    public function retrieve_portfolio_children($content_object_id)
     {
-        $content_object_id = $this->get_co_id_from_complex_wrapper($portfolio_complex_item);
         $condition = new EqualityCondition(ComplexContentObjectItem::PROPERTY_PARENT, $content_object_id);
-        $rdm = RepositoryDataManager::get_instance();
-        $object_set = $rdm->retrieve_objects(ComplexContentObjectItem::get_table_name(), $condition);
+        $object_set = $this->retrieve_objects(ComplexContentObjectItem::get_table_name(), $condition);
         return $object_set;
         
 
     }
-
-
-    public function get_co_id_from_complex_wrapper($complex_item_object)
-    {
-//        $condition = new EqualityCondition(ContentObject::PROPERTY_ID,  $complex_item_object->get_ref());
-        $rdm = RepositoryDataManager::get_instance();
-        $portfolio_item = $rdm->retrieve_content_object($complex_item_object->get_ref());
-        if($portfolio_item)
-        {
-            $content_object_id = $portfolio_item->get_reference();
-        }
-        else
-        {
-            $content_object_id = false;
-
-        }
-        return $content_object_id;
-
-
-
-
+    
+    public function get_portfolio_children($portfolio_id) {
     }
 
 
-    function create_locations_for_children($children_set, $parent_location_id, $owner)
-    {
-        $success = true;
-        while($child = $children_set->next_result())
-        {
-            
-            $object_id = $child->get_id();
-            $grand_children = $this->get_portfolio_complex_item_children($child);
-            $child_location= PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, PortfolioRights::TYPE_PORTFOLIO_ITEM, $object_id, $parent_location_id, $owner, true, false);
-            if($child_location && $grand-children)
-            {
-                $success &= $this->create_locations_for_children($grand_children, $child_location->get_id(), $owner);
-            }
-            if($child_location == false)
-            {
-                $success = false;
-            }
-        }
-        return $success;
-    }
+   
 
+
+    
 
 
 //    

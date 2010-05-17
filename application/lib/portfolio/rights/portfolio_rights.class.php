@@ -88,18 +88,7 @@ class PortfolioRights {
         $location_id=$location->get_id();
 
         //1. delete current user-right-locations and group-right-locations
-        $rdm = PortfolioDataManager::get_instance();
-        $condition_u = array();
-        $condition_u[] = new EqualityCondition(PortfolioUserRightLocation::PROPERTY_LOCATION_ID, $location_id);
-        $condition_u[] = new EqualityCondition(PortfolioUserRightLocation::PROPERTY_RIGHT_ID, $rightType);
-        $condition_user = new AndCondition($condition_u);
-        $success &= $rdm->delete(PortfolioUserRightLocation :: get_table_name(), $condition_user);
-
-        $condition_g = array();
-        $condition_g[] = new EqualityCondition(PortfolioGroupRightLocation::PROPERTY_LOCATION_ID, $location_id);
-        $condition_g[] = new EqualityCondition(PortfolioGroupRightLocation::PROPERTY_RIGHT_ID, $rightType);
-        $condition_group = new AndCondition($condition_g);
-        $success &= $rdm->delete(PortfolioGroupRightLocation::get_table_name(), $condition_group);
+        $success &= self::delete_rights_on_location($location_id, $rightType);
 
        //2. add required rights
        if ($chosenoption == self::RADIO_OPTION_ALLUSERS)
@@ -109,7 +98,7 @@ class PortfolioRights {
             $purl = new PortfolioUserRightLocation();
             $purl->set_location_id($location_id);
             $purl->set_right_id($rightType);
-            $purl->set_user_id(1);
+            $purl->set_user_id(self::ALL_USERS_ID);
             $success &= $rdm->create_user_right_location($purl);
         }
         elseif ($chosenoption == self::RADIO_OPTION_ANONYMOUS)
@@ -119,7 +108,7 @@ class PortfolioRights {
             $purl = new PortfolioUserRightLocation();
             $purl->set_location_id($location_id);
             $purl->set_right_id($rightType);
-            $purl->set_user_id(1);
+            $purl->set_user_id(self::ANONYMOUS_USERS_ID);
             $success &= $rdm->create_user_right_location($purl);
         }
         elseif ($chosenoption == self::RADIO_OPTION_ME)
@@ -209,7 +198,7 @@ class PortfolioRights {
                     $view_option = self::RADIO_OPTION_ALLUSERS;
                     //right set for all users (0) --> right set for everybody logged in
                 }
-                else if((count($rights[self::VIEW_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
+                else if((count($rights[self::VIEW_RIGHT][self::USER_RIGHTS]) >0) || (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
                 {
                     $view_option = self::RADIO_OPTION_GROUPS_USERS;
                     //right set for groups or users
@@ -230,7 +219,7 @@ class PortfolioRights {
                     $edit_option = self::RADIO_OPTION_ALLUSERS;
                     //right set for all users (0) --> right set for everybody logged in
                 }
-                else if((count($rights[self::EDIT_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
+                else if((count($rights[self::EDIT_RIGHT][self::USER_RIGHTS]) >0) || (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
                 {
                     $edit_option = self::RADIO_OPTION_GROUPS_USERS;
                     //right set for groups or users
@@ -250,7 +239,7 @@ class PortfolioRights {
                     $fbv_option = self::RADIO_OPTION_ALLUSERS;
                     //right set for all users (0) --> right set for everybody logged in
                 }
-                else if((count($rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK][self::GROUP_RIGHTS]) >0))
+                else if((count($rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) || (count($rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK][self::GROUP_RIGHTS]) >0))
                 {
                     $fbv_option = self::RADIO_OPTION_GROUPS_USERS;
                 }
@@ -260,6 +249,7 @@ class PortfolioRights {
                     //no rights set --> right set for owner but nobody else
                 }
                 //FEEDBACK GIVE RIGHTS
+                $nr_fbg = count($rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]);
                 if(in_array(self::ANONYMOUS_USERS_ID, $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
                 {
                     $fbg_option = self::RADIO_OPTION_ANONYMOUS;
@@ -269,7 +259,7 @@ class PortfolioRights {
                     $fbg_option = self::RADIO_OPTION_ALLUSERS;
                     //right set for all users (0) --> right set for everybody logged in
                 }
-                else if((count($rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) && (count($rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK][self::GROUP_RIGHTS]) >0))
+                else if(($nr_fbg >0) || (count($rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK][self::GROUP_RIGHTS]) >0))
                 {
                     $fbg_option = self::RADIO_OPTION_GROUPS_USERS;
                 }
@@ -300,11 +290,12 @@ class PortfolioRights {
     */
     static function implement_update_rights($values, $location)
     {
+        //for the moment updating the rights is the same as implementing them as old rights are deleted
         return self::implement_rights($values, $location);
     }
 
     /**
-     *
+     * delete a location
      * @param <type> $id = identifier
      * @param <type> $user_id = tree_identifier
      * @param <type> $object_type = object type
@@ -314,7 +305,6 @@ class PortfolioRights {
     {
         $success = true;
         $rdm = RepositoryDataManager :: get_instance();
-        
         $location_id = self::get_location_id_by_identifier_from_portfolio_subtree($object_type, $id, $user_id);
         if($location_id)
         {
@@ -335,15 +325,34 @@ class PortfolioRights {
         return $success;
     }
 
-    static function delete_rights_on_location($location_id)
+    /**
+     * delete all the rights for a specific location.
+     * @param <type> $location_id
+     * @param <type> $right_type optional. if null: delete all rights
+     * @return <type> $success
+     */
+    static function delete_rights_on_location($location_id, $right_type = null)
     {
         $success = true;
         $rdm = PortfolioDataManager::get_instance();
 
         $condition_u = new EqualityCondition(PortfolioUserRightLocation::PROPERTY_LOCATION_ID, $location_id);
+        if($right_type != null)
+        {
+            $conditions[] = $condition_u;
+            $conditions[] =  new EqualityCondition(PortfolioUserRightLocation::PROPERTY_RIGHT_ID, $right_type);
+            $condition_u = new AndCondition($conditions);
+        }
+
         $success &= $rdm->delete(PortfolioUserRightLocation :: get_table_name(), $condition_u);
 
         $condition_g = new EqualityCondition(PortfolioGroupRightLocation::PROPERTY_LOCATION_ID, $location_id);
+        if($right_type != null)
+        {
+            $conditions[] = $condition_g;
+            $conditions[] =  new EqualityCondition(PortfolioGroupRightLocation::PROPERTY_RIGHT_ID, $right_type);
+            $condition_g = new AndCondition($conditions);
+        }
         $success &= $rdm->delete(PortfolioGroupRightLocation::get_table_name(), $condition_g);
 
         return $success;
@@ -501,11 +510,14 @@ class PortfolioRights {
      *@param $parent: parent of the location
      * @param $inherit: true or false --> does the location inherit rights from it's parents
      * @param $locked: true of false --> can children override rights set for this location?
+     * @param children: this item may contain children that need locations to (import from portfolio from repository)
      * @return location when location has been created or false
+     *
      */
-    static function create_location_in_portfolio_tree($name, $type, $identifier, $parent, $user_id, $inherit, $locked)
+    static function create_location_in_portfolio_tree($name, $type, $identifier, $parent, $user_id, $inherit, $locked, $children)
     {
-    	return self::create_location($type, $identifier, $inherit, $parent, $locked, $user_id, true);
+    	return self::create_location($type, $identifier, $inherit, $parent, $locked, $user_id, true, $children);
+        
     }
 
 
@@ -813,34 +825,217 @@ class PortfolioRights {
         return $location;
     }
 
+    /**
+     * this function returns all the rights for a given location
+     * @param location_id: the id of the location to check
+     * @return array with arrays of group rights [group] and user rights [user]
+     */
+    static function get_rights_on_location($location_id)
+    {
+
+        $rights = array();
+        $condition = new EqualityCondition(PortfolioUserRightLocation::PROPERTY_LOCATION_ID, $location_id);
+        $user_rights_set = self::retrieve_user_right_locations($condition, $offset = null, $max_objects = null, $order_by = null);
+        $group_rights_set = self::retrieve_group_right_locations($condition, $offset = null, $max_objects = null, $order_by = null);
+
+        $rights[self::GROUP_RIGHTS] = $group_rights_set;
+        $rights[self::USER_RIGHTS] = $user_rights_set;
+
+        return $rights;
+
+    }
+
+
         /**
-         * this function returns all the rights for a given location
-         * @param location_id: the id of the location to check
-         * @return array with arrays of group rights [group] and user rights [user]
+         * retrieve the location by it's id
+         * @param <type> $location_id
+         * @return <type> portfolio location
          */
-        static function get_rights_on_location($location_id)
+        static function retrieve_location($location_id)
         {
-//            $group_rights = array();
-//            $user_rights = array();
-            $rights = array();
-            $condition = new EqualityCondition(PortfolioUserRightLocation::PROPERTY_LOCATION_ID, $location_id);
-            $user_rights_set = self::retrieve_user_right_locations($condition, $offset = null, $max_objects = null, $order_by = null);
-            $group_rights_set = self::retrieve_group_right_locations($condition, $offset = null, $max_objects = null, $order_by = null);
+            $pdm = PortfolioDataManager::get_instance();
+            $condition = new EqualityCondition(PortfolioLocation :: PROPERTY_ID, $location_id);
+            return $pdm->retrieve_object(PortfolioLocation :: get_table_name(), $condition, array(), PortfolioLocation :: CLASS_NAME);
+        }
+  
 
-            $rights[self::GROUP_RIGHTS] = $group_rights_set;
-            $rights[self::USER_RIGHTS] = $user_rights_set;
+        
+        /**
+         * get the root of the portfolio location tree for this user
+         * @param <type> $user_id
+         * @return <type> id of the root portfolio location
+         */
+        static function get_root_id($user_id)
+        {
+            $root = self :: get_root($user_id);
+            if($root)
+            {
+                return $root->get_id();
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-            return $rights;
+
+        /**
+         * get the portfolio location object for the root of this user's portfolio locations tree
+         * @param <type> $user_id
+         * @return <type>
+         */
+        static function get_root($user_id)
+        {
+            $root_conditions = array();
+            $root_conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_PARENT, 0);
+            $root_conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TREE_IDENTIFIER, $user_id);
+
+            $root_condition = new AndCondition($root_conditions);
+
+            $pdm = PortfolioDataManager::get_instance();
+            $roots = $pdm->retrieve_locations($root_condition, null, 1);
+
+            if (isset($roots) && $roots->size() > 0)
+            {
+                return $roots->next_result();
+            }
+            else
+            {
+                //TODO: differentiate between No root and more then one roots --> both are a problem!!!
+                return false;
+            }
+        }
+
+        /**
+         * create the given location in the database
+         * @param <type> $location
+         * @return <type>
+         */
+        static function location_create($location)
+        {
+            //TODO: move to datamanager?!
+            $pdm = PortfolioDataManager::get_instance();
+            $succes = $pdm->create_location($location);
+
+                if($return_location && $succes)
+                {
+                        return $location;
+                }
+                else
+                {
+                        return $succes;
+                }
+        }
+
+
+        /**
+         *
+         * @param <integer> $type = portfolio type
+         * @param <integer> $identifier = complex content object or portfolio publication id
+         * @param <bool> $inherit
+         * @param <integer> $parent = id of the parent location. can be null, then the location is put under the root
+         * @param <bool> $locked
+         * @param <type> $user_id = user_id to identify the portfolio tree (owner of the portfolio's)
+         * @param <bool> $return_location = return location (true) or only id (false)
+         * @param <bool> $children: create location for child-objects too
+         * @return <PortfolioLocation> location or success (true or false)
+         */
+        static function create_location($type, $identifier, $inherit, $parent, $locked, $user_id, $return_location, $children)
+        {
+            $success = true;
+            if($parent == null)
+            {
+                //if no parent is set, location is created under tree root
+                $parent = PortfolioRights::get_portfolio_root_id($user_id);
+                if(!$parent)
+                {
+                    //if no root for this user exists, the root is created
+                    $root = PortfolioRights::create_portfolio_root($user_id);
+                    if($root)
+                    {
+                        $parent = PortfolioRights::get_portfolio_root_id($user_id);
+                    }
+                }
+
+            }
+
+            $location = new PortfolioLocation();
+            $location->set_parent($parent);
+            $location->set_type($type);
+            $location->set_identifier($identifier);
+            $location->set_inherit($inherit);
+            $location->set_locked($locked);
+            $location->set_tree_identifier($user_id);
+            $succes &= $location->create();
+
+            if($children)
+            {
+                //the publication may be a portfolio with sub-items
+                if($type == self::TYPE_PORTFOLIO_FOLDER)
+                {
+                    $children_set = PortfolioManager::get_portfolio_children($identifier, true, false);
+                }
+                else
+                {
+                    $children_set = PortfolioManager::get_portfolio_children($identifier, false, true);
+
+                }
+               
+                if($children_set)
+                {
+                    $pdm = PortfolioDataManager::get_instance();
+                    $success &= $pdm->create_locations_for_children($children_set, $parent_location_id, $publication->get_owner());
+                }
+            }
+
+
+            if($return_location && $succes)
+            {
+                    return $location;
+            }
+            else
+            {
+                    return $success;
+            }
 
         }
 
 
-        static function retrieve_group($parent)
+        /**
+         * retrieve locations
+         * @param <type> $condition
+         * @param <type> $offset
+         * @param <type> $max_objects
+         * @param <type> $order_by
+         * @return <type>
+         */
+         static function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
         {
+             //TODO: Move to datamanager?
+             $pdm = PortfolioDataManager::get_instance();
+            return $pdm->retrieve_objects(PortfolioLocation::get_table_name(), $condition, $offset, $max_objects, $order_by, PortfolioLocation::CLASS_NAME);
+
+        }
+
+
+        static function retrieve_user_right_locations($condition, $offset , $max_objects , $order_by)
+        {
+            //TODO: move to data manager?
+            $pdm = PortfolioDataManager::get_instance();
+            return $pdm->retrieve_user_right_locations($condition, $offset, $max_objects , $order_by);
+        }
+
+        static function retrieve_group_right_locations($condition, $offset , $max_objects , $order_by)
+        {
+             //TODO: move to data manager?
+            $pdm = PortfolioDataManager::get_instance();
+            return $pdm->retrieve_group_right_locations($condition, $offset, $max_objects , $order_by);
         }
 
 
 
+
+        //TODO: check if these functions are needed
         static function count_locations($children_condition)
         {
              $pdm = PortfolioDataManager::get_instance();
@@ -848,11 +1043,61 @@ class PortfolioRights {
 
         }
 
+    static function add_nested_values($location, $previous_visited, $number_of_elements = 1)
+        {
+            $pdm = PortfolioDataManager::get_instance();
+            // Update all necessary left-values
+            $conditions = array();
+            $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TREE_IDENTIFIER, $location->get_tree_identifier());
+            $conditions[] = new InequalityCondition(PortfolioLocation :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
+            $condition = new AndCondition($conditions);
+
+            $properties = array(PortfolioLocation :: PROPERTY_LEFT_VALUE => $pdm->escape_column_name(PortfolioLocation :: PROPERTY_LEFT_VALUE) . ' + ' . $pdm->quote($number_of_elements * 2));
+            $res = $pdm->update_objects(PortfolioLocation :: get_table_name(), $properties, $condition);
+
+            if (!$res)
+            {
+                return false;
+            }
+
+            // Update all necessary right-values
+            $conditions = array();
+            $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TREE_IDENTIFIER, $location->get_tree_identifier());
+            $conditions[] = new InequalityCondition(PortfolioLocation :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
+            $condition = new AndCondition($conditions);
+
+            $properties = array(PortfolioLocation :: PROPERTY_RIGHT_VALUE => $pdm->escape_column_name(PortfolioLocation :: PROPERTY_RIGHT_VALUE) . ' + ' . $pdm->quote($number_of_elements * 2));
+            $res = $pdm->update_objects(PortfolioLocation :: get_table_name(), $properties, $condition);
+
+            if (!$res)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
 
-        
 
-       
+
+    /**
+     * @return True if creation is successfull or false
+     */
+        static function create_subtree_root_location($user_id)
+        {
+            $location = new PortfolioLocation();
+            $location->set_type(self::TYPE_ROOT);
+            $location->set_identifier(0);
+            $location->set_inherit(false);
+            $location->set_tree_identifier($user_id);
+            $location->set_locked(false);
+            $location->set_parent(0);
+            $pdm = PortfolioDataManager::get_instance();
+            return $pdm->create_location($location);
+        }
+
+
+
 
         static function delete_location_nodes($location)
         {
@@ -906,161 +1151,10 @@ class PortfolioRights {
 
         }
 
-        static function retrieve_location($location_id)
-        {
-            $pdm = PortfolioDataManager::get_instance();
-            $condition = new EqualityCondition(PortfolioLocation :: PROPERTY_ID, $location_id);
-            return $pdm->retrieve_object(PortfolioLocation :: get_table_name(), $condition, array(), PortfolioLocation :: CLASS_NAME);
-        }
-  
+        //        static function retrieve_group($parent)
+//        {
+//        }
 
-        static function add_nested_values($location, $previous_visited, $number_of_elements = 1)
-        {
-            $pdm = PortfolioDataManager::get_instance();
-            // Update all necessary left-values
-            $conditions = array();
-            $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TREE_IDENTIFIER, $location->get_tree_identifier());
-            $conditions[] = new InequalityCondition(PortfolioLocation :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
-            $condition = new AndCondition($conditions);
-
-            $properties = array(PortfolioLocation :: PROPERTY_LEFT_VALUE => $pdm->escape_column_name(PortfolioLocation :: PROPERTY_LEFT_VALUE) . ' + ' . $pdm->quote($number_of_elements * 2));
-            $res = $pdm->update_objects(PortfolioLocation :: get_table_name(), $properties, $condition);
-
-            if (!$res)
-            {
-                return false;
-            }
-
-            // Update all necessary right-values
-            $conditions = array();
-            $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TREE_IDENTIFIER, $location->get_tree_identifier());
-            $conditions[] = new InequalityCondition(PortfolioLocation :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
-            $condition = new AndCondition($conditions);
-
-            $properties = array(PortfolioLocation :: PROPERTY_RIGHT_VALUE => $pdm->escape_column_name(PortfolioLocation :: PROPERTY_RIGHT_VALUE) . ' + ' . $pdm->quote($number_of_elements * 2));
-            $res = $pdm->update_objects(PortfolioLocation :: get_table_name(), $properties, $condition);
-
-            if (!$res)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-      
-
-
-    /**
-     * @return True if creation is successfull or false
-     */
-        static function create_subtree_root_location($user_id)
-        {
-            $location = new PortfolioLocation();
-            $location->set_type(self::TYPE_ROOT);
-            $location->set_identifier(0);
-            $location->set_inherit(false);
-            $location->set_tree_identifier($user_id);
-            $location->set_locked(false);
-            $location->set_parent(0);
-            $pdm = PortfolioDataManager::get_instance();
-            return $pdm->create_location($location);
-        }
-
-
-        static function get_root_id($user_id)
-        {
-            $root = self :: get_root($user_id);
-            if($root)
-            {
-                return $root->get_id();
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        static function get_root($user_id)
-        {
-            $root_conditions = array();
-            $root_conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_PARENT, 0);
-            $root_conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TREE_IDENTIFIER, $user_id);
-
-            $root_condition = new AndCondition($root_conditions);
-
-            $pdm = PortfolioDataManager::get_instance();
-            $roots = $pdm->retrieve_locations($root_condition, null, 1);
-
-            if (isset($roots) && $roots->size() > 0)
-            {
-                return $roots->next_result();
-            }
-            else
-            {
-                //TODO: differentiate between No root and more then one roots --> both are a problem!!!
-                return false;
-            }
-        }
-
-        static function location_create($location)
-        {
-            $pdm = PortfolioDataManager::get_instance();
-            $succes = $pdm->create_location($location);
-
-                if($return_location && $succes)
-                {
-                        return $location;
-                }
-                else
-                {
-                        return $succes;
-                }
-        }
-
-        static function create_location($type, $identifier, $inherit, $parent, $locked, $user_id, $return_location)
-        {
-                $location = new PortfolioLocation();
-                $location->set_parent($parent);
-                $location->set_type($type);
-                $location->set_identifier($identifier);
-                $location->set_inherit($inherit);
-                $location->set_locked($locked);
-                $location->set_tree_identifier($user_id);
-
-
-                $succes = $location->create();
-
-                if($return_location && $succes)
-                {
-                        return $location;
-                }
-                else
-                {
-                        return $succes;
-                }
-
-        }
-
-     
-         static function retrieve_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
-        {
-             $pdm = PortfolioDataManager::get_instance();
-            return $pdm->retrieve_objects(PortfolioLocation::get_table_name(), $condition, $offset, $max_objects, $order_by, PortfolioLocation::CLASS_NAME);
-
-        }
-
-
-        static function retrieve_user_right_locations($condition, $offset , $max_objects , $order_by)
-        {
-            $pdm = PortfolioDataManager::get_instance();
-            return $pdm->retrieve_user_right_locations($condition, $offset, $max_objects , $order_by);
-        }
-        static function retrieve_group_right_locations($condition, $offset , $max_objects , $order_by)
-        {
-            $pdm = PortfolioDataManager::get_instance();
-            return $pdm->retrieve_group_right_locations($condition, $offset, $max_objects , $order_by);
-        }
 
         
 

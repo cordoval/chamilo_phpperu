@@ -271,7 +271,8 @@ class PortfolioManager extends WebApplication
         if($pub_location)
         {
             $parent_location_id = $pub_location->get_id();
-            $children_set = $publication->get_children();
+            
+            $children_set = PortfolioManager::get_portfolio_children($publication->get_content_object(), false, false);
             if($children_set != false)
             {
                 $pdm = PortfolioDataManager::get_instance();
@@ -293,5 +294,163 @@ class PortfolioManager extends WebApplication
             return Translation :: get('ProblemWithPublicationCreation');
         }
     }
+
+
+    /**
+     *
+     * @param <integer> $content_object_id
+     * @param <bool> $pid: is the content object id a portfolio publication id
+     * @param <bool> $cid: is the content object id  a complex content object item id
+     * @return <result-set>  returen the set of children if there are any, false if there aren't any
+     */
+    static function get_portfolio_children($content_object_id, $pid = true, $cid = false)
+    {
+
+        if($pid)
+        {
+            $object_id = self::get_co_id_from_portfolio_publication_wrapper($content_object_id);
+        }
+        if($cid)
+        {
+            $object_id = self::get_co_id_from_complex_wrapper($content_object_id);
+        }
+        else
+        {
+            $object_id = $content_object_id;
+        }
+
+        if($object_id)
+        {
+            $pdm = PortfolioDataManager::get_instance();
+            $children_set = $pdm->get_portfolio_children($object_id);
+            return $children_set;
+        }
+        else
+        {
+            return false;
+        }
+  
+    }
+
+
+
+
+     
+
+
+   
+
+    /**
+     * get the portfolio content object a portfolio publication holds a reference to
+     * @param <integer> $pid id of the portfolio publication
+     * @param <object> $portfolio_publication : the actual object
+     * @return <integer> the id of the portfolio content object
+     */
+    static function get_co_id_from_portfolio_publication_wrapper($pid, $portfolio_publication = null)
+    {
+        $pdm = PortfolioDataManager::get_instance();
+        if($portfolio_publication == null)
+        {
+            $portfolio_publication = $pdm->retrieve_portfolio_publication($pid);
+        }
+
+        return $portfolio_publication->get_content_object();
+    }
+
+
+    /**
+     *
+     * @param <item> $complex_item_object Id
+     * @param <object> $complex_item_object: the actual wrapper object
+     * @return <type>
+     */
+     static function get_co_id_from_complex_wrapper($cid, $complex_item_object = null)
+    {
+        $rdm = RepositoryDataManager::get_instance();
+        if($complex_item_object == null)
+        {
+            $rdm = RepositoryDataManager::get_instance();
+            $complex_item_object = $rdm->retrieve_complex_content_object_item($cid);
+        }
+
+        $portfolio_item = $rdm->retrieve_content_object($complex_item_object->get_ref());
+        if($portfolio_item)
+        {
+            $content_object_id = $portfolio_item->get_reference();
+        }
+        else
+        {
+            $content_object_id = false;
+        }
+        return $content_object_id;
+    }
+
+     /**
+     *gets the portfolio-info-object of the portfolio's owner (wich contains update-information etc.)
+     * @return portfolioInfo object
+     */
+    static function get_portfolio_info($user_id)
+    {
+        $dm = PortfolioDataManager :: get_instance();
+        $info = $dm->retrieve_portfolio_information_by_user($user_id);
+        if(!$info)
+        {
+            $info = new PortfolioInformation();
+            $info->set_last_updated_date(time());
+            $info->set_user_id($user_id);
+            $info->set_last_updated_item_id('0');
+            $info->set_last_updated_item_type(PortfolioRights::TYPE_PORTFOLIO_FOLDER);
+            $info->set_last_action(PortfolioInformation::ACTION_FIRST_PORTFOLIO_CREATED);
+            $dm->create_portfolio_information($info);
+        }
+        return $info;
+    }
+
+
+    static function update_portfolio_info($content_object_id, $type, $action, $user_id)
+    {
+        $success = true;
+        $info = self::get_portfolio_info($user_id);
+       
+        $info->set_last_updated_date(time());
+        $info->set_last_updated_item_id($content_object_id);
+        $info->set_last_updated_item_type($type);
+        $info->set_last_action($action);
+        $success &= $info->update();
+        
+
+        return $success;
+    }
+
+     
+    /**
+     *create locations for the sub-items of a published portfolio
+     * @param <reulst_set> $children_set: set of children of this portfolio
+     * @param <integer> $parent_location_id: location id of the parent portfolio
+     * @param <integer> $owner: owner of the portfolio_tree
+     * @return <bool> $success
+     */
+    static function create_locations_for_children($children_set, $parent_location_id, $owner)
+    {
+        $success = true;
+        while($child = $children_set->next_result())
+        {
+            $object_id = $child->get_id();
+            $grand_children = self::get_portfolio_children($object_id, false, true);
+            $child_location= PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, PortfolioRights::TYPE_PORTFOLIO_ITEM, $object_id, $parent_location_id, $owner, true, false);
+            if($child_location && $grand-children)
+            {
+                $success &= self::create_locations_for_children($grand_children, $child_location->get_id(), $owner);
+            }
+            if($child_location == false)
+            {
+                $success = false;
+            }
+        }
+        return $success;
+    }
+
+  
+
 }
 ?>
