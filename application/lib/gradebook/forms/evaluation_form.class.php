@@ -85,7 +85,7 @@ class EvaluationForm extends FormValidator
 	    		}
     		}
             $this->addElement('static', null, null, '<em>' . $this->evaluation_format->get_score_information() . '</em>');
-    		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('score'));
+    		$this->addElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name(), Translation :: get('Score'));
             $this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ValueShouldBeNumeric'), 'numeric');
 			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('DecimalValueNotAllowed'), $score_rule);
 			$this->addRule($this->evaluation_format->get_evaluation_field_name(), Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule);
@@ -173,8 +173,9 @@ class EvaluationForm extends FormValidator
 		$evaluation = $this->evaluation;
 		$evaluation->set_evaluator_id($this->user->get_id());
 		$evaluation->set_user_id($this->publisher_id);
-		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
+		$evaluation->set_evaluation_date(time());		
 		$evaluation->set_format_id($export_values['format_id']);
+		
 		if($evaluation->create())
 		{
 			$evaluation_succes = true;
@@ -210,8 +211,11 @@ class EvaluationForm extends FormValidator
 		$evaluation->set_id($evaluation_id);
 		$evaluation->set_evaluator_id($this->user->get_id());
 		$evaluation->set_user_id($this->publisher_id);
-		$evaluation->set_evaluation_date(Utilities :: to_db_date(time()));		
-		$evaluation->set_format_id($values['format_id']);
+		$evaluation->set_evaluation_date(time());		
+		if (PlatformSetting :: get_instance()->get('allow_change_format_on_update', 'gradebook'))
+		{
+			$evaluation->set_format_id($values['format_id']);
+		}
 		if(!$evaluation->update())
 		{
 			return false;

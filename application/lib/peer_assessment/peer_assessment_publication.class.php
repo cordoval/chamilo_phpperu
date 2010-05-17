@@ -243,7 +243,7 @@ class PeerAssessmentPublication extends DataClass
      */
     function get_criteria_content_object_id()
     {
-        return $this->get_default_property(self :: PROPERTY_CRITERIA_CONTENT_OBJECT_ID);
+        return $this->get_optional_property(self :: PROPERTY_CRITERIA_CONTENT_OBJECT_ID);
     }
 
     /**

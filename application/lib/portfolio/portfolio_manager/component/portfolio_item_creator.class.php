@@ -17,11 +17,6 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
      */
     function run()
     {
-//        $trail = new BreadcrumbTrail();
-//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
-//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
-//
         $parent = Request :: get('parent');
         //TODO: HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
         $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), 
@@ -41,7 +36,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
 
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
            
             $this->display_header($trail);
@@ -80,6 +75,8 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
                 if($success)
                 {
                     $typeObject = $rdm->determine_content_object_type($object);
+                    //TODO if we want other users to be able to create items in the portfolio's this should be changed
+                    //not the current user but the user that owns the portfolio should be used here!
                     $user = $this->get_user_id();
                     $possible_types = array();
                     $possible_types[] = PortfolioRights::TYPE_PORTFOLIO_FOLDER;
@@ -104,12 +101,35 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
                    {
                        $type = PortfolioRights::TYPE_PORTFOLIO_ITEM;
                    }
-                   PortfolioRights::create_location_in_portfolio_tree('portfolio item', $type, $wrapper->get_id(), $parent_location, $user, true, false);
-                   //TODO: add the default rights to the location
+                   $success &= PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, $type, $wrapper->get_id(), $parent_location, $user, true, false);
+
+                   if($success)
+                    {
+                        $dm = PortfolioDataManager :: get_instance();
+                        $info = $dm->retrieve_portfolio_information_by_user($user);
+                        if($info)
+                        {
+                            $info->set_last_updated_date(time());
+                            $info->set_last_updated_item_id($objectID);
+                            $info->set_last_updated_item_type($type);
+                            $info->set_last_action(PortfolioInformation::ACTION_ITEM_ADDED);
+                            $success &= $info->update();
+                        }
+                        else
+                        {
+                            $info = new PortfolioInformation();
+                            $info->set_user_id($user);
+                            $info->set_last_updated_date(time());
+                            $info->set_last_updated_item_id($objectID);
+                            $info->set_last_updated_item_type($type);
+                            $info->set_last_action(PortfolioInformation::ACTION_ITEM_ADDED);
+                            $success &= $info->create();
+                        }
+                    }
                 }
             }
             
-            $this->redirect($success ? Translation :: get('PortfolioItemCreated') : Translation :: get('PortfolioItemNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id()));
+            $this->redirect($success ? Translation :: get('PortfolioItemCreated') : Translation :: get('PortfolioItemNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
         }
     }
 }

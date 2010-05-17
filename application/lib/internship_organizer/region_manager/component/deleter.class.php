@@ -58,7 +58,8 @@ class InternshipOrganizerRegionManagerDeleterComponent extends InternshipOrganiz
                     $message = 'SelectedInternshipOrganizerRegionsDeleted';
                 }
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS));
+            //$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $region->get_parent_id()));
         }
         else
         {

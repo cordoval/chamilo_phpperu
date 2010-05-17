@@ -95,7 +95,9 @@ class GroupRightManagerBrowserComponent extends GroupRightManager
         $html[] = $location_menu->render_as_tree();
         $html[] = '</div>';
         
-        $table = new GroupLocationBrowserTable($this, $this->get_parameters(), $this->get_condition($location));
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        $table = new GroupLocationBrowserTable($this, $parameters, $this->get_condition($location));
         
         $html[] = '<div style="float: right; width: 80%;">';
         $html[] = $table->as_html();

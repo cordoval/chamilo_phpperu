@@ -33,30 +33,30 @@ class ReservationBrowserTableDataProvider extends ObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         $condition = $this->create_condition();
-        
+
         return $this->get_browser()->retrieve_reservations($condition, $offset, $count, $order_property);
     }
 
     function create_condition()
     {
         $condition = $this->get_condition();
-        
+
         $now = Request :: get('time');
         if (! $now)
             $now = time();
-        
+
         $from_date = strtotime('Last Monday', strtotime('+1 Day', strtotime(date('Y-m-d', $now))));
         $to_date = strtotime('-1 Second', strtotime('Next Week', $from_date));
-        
-        $db_from = Utilities :: to_db_date($from_date);
-        $db_to = Utilities :: to_db_date($to_date);
-        
+
+        $db_from = $from_date;
+        $db_to = $to_date;
+
         $item = Request :: get('item_id');
-        
+
         $conditions[] = $condition;
-        $conditions[] = ReservationsDataManager :: get_instance()->get_reservations_condition($db_from, $db_to, $item);
+        $conditions[] = ReservationsDataManager :: get_reservations_condition($db_from, $db_to, $item);
         $condition = new AndCondition($conditions);
-        
+
         return $condition;
     }
 

@@ -32,7 +32,7 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
         {
             return $this->get_modification_links($registration);
         }
-        
+
         return parent :: render_cell($column, $registration);
     }
 
@@ -45,12 +45,23 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
     private function get_modification_links($registration)
     {
         $toolbar_data = array();
+		
+        $toolbar_data[] = array('href' => $this->browser->get_registration_view_url($registration), 'label' => Translation :: get('ViewRegistration'), 'img' => Theme :: get_common_image_path() . 'action_details.png');
         
-        if($registration->get_type() == Registration :: TYPE_LANGUAGE && Utilities :: camelcase_to_underscores($registration->get_name()) == PlatformSetting :: get('platform_language'))
+        if (! $registration->is_up_to_date())
         {
-        	return;
+            $toolbar_data[] = array('href' => $this->browser->get_registration_update_url($registration), 'label' => Translation :: get('UpdatePackage'), 'img' => Theme :: get_common_image_path() . 'action_update.png');
         }
-        
+        else
+        {
+            $toolbar_data[] = array('label' => Translation :: get('PackageIsAlreadyUpToDate'), 'img' => Theme :: get_common_image_path() . 'action_update_na.png');
+        }
+
+        if ($registration->get_type() == Registration :: TYPE_LANGUAGE && Utilities :: camelcase_to_underscores($registration->get_name()) == PlatformSetting :: get('platform_language'))
+        {
+            return;
+        }
+
         if ($registration->is_active())
         {
             $toolbar_data[] = array('href' => $this->browser->get_registration_deactivation_url($registration), 'label' => Translation :: get('Deactivate'), 'img' => Theme :: get_common_image_path() . 'action_deactivate.png');
@@ -59,9 +70,9 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
         {
             $toolbar_data[] = array('href' => $this->browser->get_registration_activation_url($registration), 'label' => Translation :: get('Activate'), 'img' => Theme :: get_common_image_path() . 'action_activate.png');
         }
-        
+
         $toolbar_data[] = array('href' => $this->browser->get_registration_removal_url($registration), 'label' => Translation :: get('Deinstall'), 'img' => Theme :: get_common_image_path() . 'action_deinstall.png', 'confirm' => true);
-        
+
         return Utilities :: build_toolbar($toolbar_data);
     }
 }

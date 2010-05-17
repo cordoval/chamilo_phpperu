@@ -191,6 +191,7 @@ class InternshipOrganizerRegionMenu extends HTML_Menu
 	function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
+        $treename = $this->get_tree_name();
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }

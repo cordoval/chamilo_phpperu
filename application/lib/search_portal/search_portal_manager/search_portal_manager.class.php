@@ -32,7 +32,7 @@ class SearchPortalManager extends WebApplication
                 $component = $this->create_component('Searcher');
                 break;
             case self :: ACTION_EMAIL_USER :
-            	$component = $this->create_component('Emailer');
+            	$component = $this->create_component('UserEmailer');
             	break;
             default :
                 $this->set_action(self :: ACTION_SEARCH);
@@ -50,6 +50,15 @@ class SearchPortalManager extends WebApplication
 	{
 		return self :: APPLICATION_NAME;
 	}
+	
+    /**
+     * Renders the search portal block and returns it.
+     */
+    function render_block($block)
+    {
+        $search_portal_block = SearchPortalBlock :: factory($this, $block);
+        return $search_portal_block->run();
+    }
 
 }
 ?>

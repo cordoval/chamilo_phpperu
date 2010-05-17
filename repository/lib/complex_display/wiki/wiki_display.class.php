@@ -5,6 +5,7 @@
  */
 
 require_once dirname(__FILE__) . '/wiki_display_component.class.php';
+require_once dirname(__FILE__) . '/wiki_actionbar.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/tool/wiki/wiki_tool_component.class.php';
 /**
  * This tool allows a user to publish wikis in his or her course.
@@ -127,7 +128,7 @@ class WikiDisplay extends ComplexDisplay
     public function get_toolbar($parent, $pid, $lo, $selected_cloi)
     {
         
-        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_WIKI);
+        $action_bar = new WikiActionBar(WikiActionBar :: TYPE_WIKI);
         
         $action_bar->set_search_url($parent->get_url());
         

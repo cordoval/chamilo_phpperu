@@ -30,7 +30,12 @@ class ForumManagerDeleterComponent extends ForumManager
             foreach ($ids as $id)
             {
                 $forum_publication = $this->retrieve_forum_publication($id);
-                
+            	if(WebApplication :: is_active('gradebook'))
+       			{
+       				require_once dirname(__FILE__) . '/../../../gradebook/gradebook_utilities.class.php';
+			    	if(!GradebookUtilities :: move_internal_item_to_external_item(ForumManager :: APPLICATION_NAME, $forum_publication->get_id()))
+			    		$message = 'failed to move internal evaluation to external evaluation';
+       			}
                 if (! $forum_publication->delete())
                 {
                     $failures ++;

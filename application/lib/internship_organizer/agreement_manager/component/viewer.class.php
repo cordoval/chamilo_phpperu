@@ -18,7 +18,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
 		$this->agreement = $this->retrieve_agreement($agreement_id);
 
 		$trail = new BreadcrumbTrail ();
-		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerAgreementManager::PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT) ), Translation::get ( 'BrowseAgreements' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerAgreementManager::PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT) ), Translation::get ( 'BrowseInternshipOrganizerAgreements' ) ) );
 		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerAgreementManager::PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id)), $this->agreement->get_name()) );
 
 		$this->action_bar = $this->get_action_bar ();
@@ -48,7 +48,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
 	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddMoment'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_moment_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerMoment'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_moment_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
 		$action_bar->set_search_url ( $this->get_url (array(InternshipOrganizerAgreementManager::PARAM_AGREEMENT_ID => $this->agreement->get_id())) );

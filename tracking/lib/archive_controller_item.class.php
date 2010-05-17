@@ -71,7 +71,7 @@ class ArchiveControllerItem extends DataClass
      */
     function set_start_date($start_date)
     {
-        $this->set_default_property(self :: PROPERTY_START_DATE, $this->to_db_date($start_date));
+        $this->set_default_property(self :: PROPERTY_START_DATE, $start_date);
     }
 
     /**
@@ -89,7 +89,7 @@ class ArchiveControllerItem extends DataClass
      */
     function set_end_date($end_date)
     {
-        $this->set_default_property(self :: PROPERTY_END_DATE, $this->to_db_date($end_date));
+        $this->set_default_property(self :: PROPERTY_END_DATE, $end_date);
     }
 
     /**
@@ -117,16 +117,6 @@ class ArchiveControllerItem extends DataClass
     {
         $trkdmg = TrackingDataManager :: get_instance();
         return $trkdmg->create_archive_controller_item($this);
-    }
-
-    /**
-     * Auxillary function to convert to unix timestamp to db date
-     * @param int $date unix timestamp
-     */
-    function to_db_date($date)
-    {
-        $trkdmg = TrackingDataManager :: get_instance();
-        return $trkdmg->to_db_date($date);
     }
 
 }

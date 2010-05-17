@@ -16,7 +16,8 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 		
 		$trail = new BreadcrumbTrail ();
 		
-		$trail->add ( new Breadcrumb ( $this->get_url (), Translation::get ( 'BrowseCategories' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url ( array (InternshipOrganizerManager::PARAM_ACTION => InternshipOrganizerManager::ACTION_APPLICATION_CHOOSER) ), Translation::get ( 'InternshipOrganizer' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url (), Translation::get ( 'BrowseInternshipOrganizerCategories' ) ) );
 		$trail->add_help ( 'category general' );
 		
 		$this->ab = $this->get_action_bar ();
@@ -108,7 +109,7 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 		
 		$action_bar->set_search_url ( $this->get_url ( array (InternshipOrganizerCategoryManager::PARAM_CATEGORY_ID => $this->get_category () ) ) );
 		
-		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'Add' ), Theme::get_common_image_path () . 'action_add.png', $this->get_create_category_url ( $this->get_category () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
+		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'CreateInternshipOrganizerCategory' ), Theme::get_common_image_path () . 'action_add.png', $this->get_create_category_url ( $this->get_category () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ShowAll' ), Theme::get_common_image_path () . 'action_browser.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		

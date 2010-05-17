@@ -8,6 +8,8 @@ abstract class StreamingMediaComponent extends SubManager
 	const IMPORTER_COMPONENT = 'importer';
 	const VIEWER_COMPONENT = 'viewer';
 	const SELECTER_COMPONENT = 'selecter';
+	const EDITOR_COMPONENT = 'editor';
+	const DELETER_COMPONENT = 'deleter';
 	
 	static function factory($type, $application)
 	{
@@ -46,6 +48,16 @@ abstract class StreamingMediaComponent extends SubManager
 	function retrieve_streaming_media_object($id)
 	{
 		return $this->get_parent()->retrieve_streaming_media_object($id);
+	}
+	
+	function delete_streaming_media_object($id)
+	{
+		return $this->get_parent()->delete_streaming_media_object($id);
+	}
+	
+	function export_streaming_media_object($object)
+	{
+		return $this->get_parent()->export_streaming_media_object($object);
 	}
 	
 	function get_sort_properties()

@@ -9,25 +9,28 @@ class DefaultCourseRequestTableColumnModel extends ObjectTableColumnModel
 {
 	const USER_NAME = 'user_name';
 	const COURSE_NAME = 'course_name';
+	const COURSE_TYPE_NAME = 'course_type_name';
 
     /**
      * Constructor
      */
-    function DefaultCourseRequestTableColumnModel()
+    function DefaultCourseRequestTableColumnModel($request_type)
     {
-        parent :: __construct(self :: get_default_columns(), 1);
+        parent :: __construct(self :: get_default_columns($request_type), 1);
     }
 
     /**
      * Gets the default columns for this model
      * @return CourseSectionTableColumn[]
      */
-    private static function get_default_columns()
+    private static function get_default_columns($request_type)
     {
         $columns = array();
         $columns[] = new ObjectTableColumn(self :: USER_NAME, false);
         $columns[] = new ObjectTableColumn(self :: COURSE_NAME, false);
-        $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_TITLE);
+        if($request_type == CommonRequest :: CREATION_REQUEST)
+        	$columns[] = new ObjectTableColumn(self :: COURSE_TYPE_NAME, false);
+        $columns[] = new ObjectTableColumn(CourseRequest :: PROPERTY_SUBJECT);
 
         return $columns;
     }

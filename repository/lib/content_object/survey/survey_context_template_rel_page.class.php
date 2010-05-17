@@ -12,7 +12,7 @@ class SurveyContextTemplateRelPage extends DataClass
 	const PROPERTY_PAGE_ID = 'page_id';
 	const PROPERTY_TEMPLATE_ID = 'template_id';
 
-	
+		
 	static function get_default_property_names()
 	{
 		return array (self :: PROPERTY_SURVEY_ID ,self :: PROPERTY_PAGE_ID, self :: PROPERTY_TEMPLATE_ID);

@@ -1,41 +1,41 @@
-var timer;
-
-function handle_timer()
-{
-	var value = $('#start_time').val();
-	value = parseInt(value);
-	value++;
-	$('#start_time').val(value);
-	
-	var max_time = $('#max_time').val();
-	max_time = parseInt(max_time);
-	
-	var text = max_time - value;
-	
-	if(max_time - value < 10)
-		text = '<span style="color: red;">' + text + '</span>';
-		
-	$('.time').html(text);
-	
-	if(max_time == 0)
-		return;
-	
-	if(value >= max_time)
-	{
-		alert(getTranslation('TimesUp', 'repository'));
-		$(".process").click();
-	}
-	else
-	{
-		timer = setTimeout('handle_timer()', 1000);
-	}
-}
-	
 ( function($) 
 {
+	function processAnswers(e, ui)
+	{
+		var surveyPublicationId, checkedQuestions, checkedQuestionResults, displayResult;
+		
+		surveyPublicationId = $.query.get('survey_publication');
+		
+		checkedQuestions = $(".question input:checked");
+		checkedQuestionResults = {};
+		
+		checkedQuestions.each(function (i)
+		{
+			checkedQuestionResults[$(this).attr('type') +  '_' + $(this).attr('name')] = $(this).val();
+		});
+		
+		displayResult = doAjaxPost("./common/javascript/ajax/survey.php", {"survey_publication" : surveyPublicationId, "results" : $.json.serialize(checkedQuestionResults)});
+		
+//		alert(displayResult);
+		
+		var questionVisibilities = eval('(' + displayResult + ')');
+		
+		$.each(questionVisibilities, function (questionId, questionVisible)
+		{
+			if (!questionVisible)
+			{
+				$("div#" + questionId).hide();
+			}else{
+				$("div#" + questionId).removeAttr("style");
+			}
+//			alert(element);
+//			alert(i);
+		});
+	}
+	
 	$(document).ready( function() 
 	{
-		handle_timer();
+		$(".question input").live('click', processAnswers);
 	});
 	
 })(jQuery);

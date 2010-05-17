@@ -799,6 +799,15 @@ class Course extends DataClass
 
     function can_user_subscribe($user)
     {
+    	$max_members = $this->get_max_number_of_members();
+    	if($max_members != 0)
+    	{
+    		$subscribed_users = $this->has_subscribed_users();
+    		if($subscribed_users >= $max_members)
+    		{
+    			return CourseGroupSubscribeRight :: SUBSCRIBE_NONE;	
+    		}   		
+    	}
     	$current_right = $this->can_group_subscribe(0);
         $group_ids = $user->get_groups(true);
         foreach($group_ids as $group_id)
@@ -808,7 +817,7 @@ class Course extends DataClass
         	if($right > $current_right)
         		$current_right = $right;      		    		
         }        
-        return $current_right;
+    	return $current_right;
     }
     
 	function can_user_unsubscribe($user)
@@ -825,8 +834,6 @@ class Course extends DataClass
         }        
         return $current_right;
     }
-    
-    
     
     function can_group_subscribe($group_id)
     {
@@ -997,7 +1004,27 @@ class Course extends DataClass
 		$rights->set_course_id($this->get_id());
 		if(! $rights->create())
 			return false;
-
+		
+        if (! $this->initialize_course_sections())
+            return false;
+			
+		if(!$this->tools)
+		{
+			$course_type_id = $this->get_course_type_id();
+			if(!empty($course_type_id))
+				$this->tools = CourseModule :: convert_tools($this->get_course_type()->get_tools(), $this->get_id(), true);
+			else
+				$this->tools = CourseModule :: convert_tools(WeblcmsDataManager :: get_tools('basic'), $this->get_id());
+		}
+		else
+		{
+			foreach($this->tools as $tool)
+				$tool->set_course_code($this->get_id());
+		}
+		
+		if(!$wdm->create_course_modules($this->tools, $this->get_id()))
+			return false;
+			
         require_once (dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php');
         $dropbox = new ContentObjectPublicationCategory();
         $dropbox->create_dropbox($this->get_id());
@@ -1022,11 +1049,6 @@ class Course extends DataClass
         }
 
         if (! $location->create())
-        {
-            return false;
-        }
-
-        if (! $this->initialize_course_sections())
         {
             return false;
         }
@@ -1077,7 +1099,7 @@ class Course extends DataClass
 
     function has_subscribed_users()
     {
-        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_ID, $this->get_id());
+        $relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
         return $this->get_data_manager()->count_course_user_relations($relation_condition);
     }
 
@@ -1155,5 +1177,111 @@ class Course extends DataClass
     	$group->set_name($this->get_name());
     	return $group->create();
     }
+    
+    function update_by_course_type($course_type)
+    {
+    	if(is_numeric($course_type))
+    		$course_type = $this->get_data_manager()->retrieve_course_type($course_type);
+		$this->course_type = $course_type;
+    	
+    	$this->set_course_type_id($course_type->get_id());
+		if(!$this->update())
+			return false;
+		$this->fill_settings($course_type);
+		if(!$this->get_settings()->update())
+			return false;
+		$this->fill_layout_settings($course_type);
+		if(!$this->get_layout_settings()->update())
+			return false;
+		$this->fill_rights($course_type);
+		if(!$this->get_rights()->update())
+			return false;
+			
+		$selected_tools = $course_type->get_tools();
+		$course_tools = $this->get_tools();
+		$course_modules = array();
+
+		foreach($selected_tools as $tool)
+		{
+			$sub_validation = false;
+			foreach($course_tools as $index => $course_tool)
+			{
+				if($tool->get_name() == $course_tool->name)
+				{
+					$sub_validation = true;
+					unset($course_tools[$index]);
+					break;
+				}
+			}
+			if(!$sub_validation)
+			{
+				$course_module = new CourseModule();
+				$course_module->set_course_code($this->get_id());
+				$course_module->set_name($tool->get_name());
+				$course_module->set_visible($tool->get_visible_default());
+				$course_module->set_section("basic");
+				$course_modules[] = $course_module;
+			}
+		}
+
+		foreach($course_tools as $tool)
+		{
+			if(!$this->get_data_manager()->delete_course_module($tool->course_id, $tool->name))
+				return false;
+		}
+			
+		if(!$this->get_data_manager()->create_course_modules($course_modules, $this->get_id()))
+			return false;
+			
+		return true;
+    }
+    
+	private function fill_settings($course_type)
+	{
+		if($course_type->get_settings()->get_language_fixed())
+			$this->get_settings()->set_language($course_type->get_settings()->get_language());
+		if($course_type->get_settings()->get_visibility_fixed())
+			$this->get_settings()->set_visibility($course_type->get_settings()->get_visibility());
+		if($course_type->get_settings()->get_access_fixed())
+			$this->get_settings()->set_access($course_type->get_settings()->get_access());
+		if($course_type->get_settings()->get_max_number_of_members_fixed())
+			$this->get_settings()->set_max_number_of_members($course_type->get_settings()->get_max_number_of_members());
+	}
+
+	private function fill_layout_settings($course_type)
+	{
+		if($course_type->get_layout_settings()->get_intro_text_fixed())
+			$this->get_layout_settings()->set_intro_text($course_type->get_layout_settings()->get_intro_text());
+		if($course_type->get_layout_settings()->get_student_view_fixed())
+			$this->get_layout_settings()->set_student_view($course_type->get_layout_settings()->get_student_view());
+		if($course_type->get_layout_settings()->get_layout_fixed())
+			$this->get_layout_settings()->set_layout($course_type->get_layout_settings()->get_layout());
+		if($course_type->get_layout_settings()->get_tool_shortcut_fixed())
+			$this->get_layout_settings()->set_tool_shortcut($course_type->get_layout_settings()->get_tool_shortcut());
+		if($course_type->get_layout_settings()->get_menu_fixed())
+			$this->get_layout_settings()->set_menu($course_type->get_layout_settings()->get_menu());
+		if($course_type->get_layout_settings()->get_breadcrumb_fixed())
+			$this->get_layout_settings()->set_breadcrumb($course_type->get_layout_settings()->get_breadcrumb());
+		if($course_type->get_layout_settings()->get_feedback_fixed())
+			$this->get_layout_settings()->set_feedback($course_type->get_layout_settings()->get_feedback());
+		if($course_type->get_layout_settings()->get_course_code_visible_fixed())
+			$this->get_layout_settings()->set_course_code_visible($course_type->get_layout_settings()->get_course_code_visible());
+		if($course_type->get_layout_settings()->get_course_manager_name_visible_fixed())
+			$this->get_layout_settings()->set_course_manager_name_visible($course_type->get_layout_settings()->get_course_manager_name_visible());
+		if($course_type->get_layout_settings()->get_course_languages_visible_fixed())
+			$this->get_layout_settings()->set_course_languages_visible($course_type->get_layout_settings()->get_course_languages_visible());
+	}
+	
+	private function fill_rights($course_type)
+	{
+		if($course_type->get_rights()->get_direct_subscribe_fixed())
+			$this->get_rights()->set_direct_subscribe($course_type->get_rights()->get_direct_subscribe());
+		if($course_type->get_rights()->get_request_subscribe_fixed())
+			$this->get_rights()->set_request_subscribe($course_type->get_request_subscribe());
+		if($course_type->get_rights()->get_code_subscribe_fixed())
+			$this->get_rights()->set_code_subscribe($course_type->get_rights()->get_code_subscribe());
+		if($course_type->get_rights()->get_unsubscribe_fixed())
+			$this->get_rights()->set_unsubscribe($course_type->get_rights()->get_unsubscribe());
+	}
 }
 ?>

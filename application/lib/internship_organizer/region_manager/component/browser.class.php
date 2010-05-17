@@ -6,6 +6,7 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 {
 	private $ab;
 	private $region;
+	private $parent_region;
 	private $root_region;
 	
 	/**
@@ -16,7 +17,8 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 		
 		$trail = new BreadcrumbTrail ();
 		
-		$trail->add ( new Breadcrumb ( $this->get_url (), Translation::get ( 'BrowseRegions' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url ( array (InternshipOrganizerManager::PARAM_ACTION => InternshipOrganizerManager::ACTION_APPLICATION_CHOOSER) ), Translation::get ( 'InternshipOrganizer' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url (), Translation::get ( 'BrowseInternshipOrganizerRegions' ) ) );
 		$trail->add_help ( 'region general' );
 		
 		$this->ab = $this->get_action_bar ();
@@ -60,13 +62,23 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 		if (! $this->region) 
 		{
 			$region_id = Request::get ( InternshipOrganizerRegionManager::PARAM_REGION_ID );
+			$region_parent_id = Request::get ( InternshipOrganizerRegionManager::PARAM_PARENT_REGION_ID);		
+
 			
-			if (! $region_id) 
+		if (! $region_id && ! $region_parent_id) 
 			{
 				$this->region = $this->get_root_region()->get_id ();
-			}else
+			}
+		else
 			{
-				$this->region = $region_id;
+				if ($region_parent_id)
+				{
+					$this->region = $region_parent_id;
+				}
+				else
+				{
+					$this->region = $region_id;
+				}
 			}
 		
 		}
@@ -111,7 +123,7 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 		
 		$action_bar->set_search_url ( $this->get_url ( array (InternshipOrganizerRegionManager::PARAM_REGION_ID => $this->get_region () ) ) );
 		
-		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'Add' ), Theme::get_common_image_path () . 'action_add.png', $this->get_region_create_url ( $this->get_region () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
+		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'CreateInternshipOrganizerRegion' ), Theme::get_common_image_path () . 'action_add.png', $this->get_region_create_url ( $this->get_region () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_regions_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ShowAll' ), Theme::get_common_image_path () . 'action_browser.png', $this->get_browse_regions_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		

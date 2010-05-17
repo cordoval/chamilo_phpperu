@@ -3,7 +3,6 @@
  * $Id: wiki_pub_feedback.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki
  */
-require_once Path :: get_application_path() . 'lib/wiki/data_manager/database.class.php';
 
 class WikiPubFeedback extends ContentObject
 {
@@ -122,7 +121,7 @@ class WikiPubFeedback extends ContentObject
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
+
     static function get_type_name()
     {
     	return self :: get_table_name();

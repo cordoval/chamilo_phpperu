@@ -10,6 +10,7 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
 	function run() 
 	{
 		$trail = new BreadcrumbTrail ();
+		$trail->add ( new Breadcrumb ( $this->get_url ( array (InternshipOrganizerManager::PARAM_ACTION => InternshipOrganizerManager::ACTION_APPLICATION_CHOOSER) ), Translation::get ( 'InternshipOrganizer' ) ) );
 		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerAgreementManager::PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT) ), Translation::get ( 'BrowseAgreements' ) ) );
 
 		$this->action_bar = $this->get_action_bar ();
@@ -38,7 +39,7 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
 	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddAgreement'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_agreement_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerAgreement'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_agreement_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
 		$action_bar->set_search_url ( $this->get_url () );

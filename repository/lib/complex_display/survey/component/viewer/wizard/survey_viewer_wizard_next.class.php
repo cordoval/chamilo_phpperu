@@ -98,7 +98,7 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
             
             $total_questions = $this->parent->get_total_questions();
             $percent = $count_questions / $total_questions * 100;
-            $this->parent->get_parent()->finish_survey($percent);
+//            $this->parent->get_parent()->finish_survey($percent);
             
             $next = & $page->controller->getPage($nextName);
             return $next->handle('jump');

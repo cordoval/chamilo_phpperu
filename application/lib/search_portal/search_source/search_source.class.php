@@ -4,8 +4,11 @@ abstract class SearchSource
 {
 	private static $instance;
 	
-	abstract function search($query);
-	
+	/**
+	 * Singleton
+	 * @param String $type
+	 * @return SearchSource the selected source
+	 */
 	static function factory($type)
 	{
 		if(!self :: $instance)
@@ -26,4 +29,7 @@ abstract class SearchSource
 		
 		return self :: $instance;
 	}
+	
+	abstract function retrieve_search_results($query, $offset = 0, $max_objects = -1);
+	abstract function count_search_results($query);	
 }

@@ -42,7 +42,7 @@ class GradebookInternalItemForm extends FormValidator
 	
 	function is_application_result_calculated($application)
 	{
-		return in_array($this->calculated_applications, $application);
+		return in_array($application, $this->calculated_applications);
 	}
 }
 ?>

@@ -6,7 +6,7 @@ $lang['portfolio']['PortfolioItemCreated'] = 'Portfolio item created';
 $lang['portfolio']['PortfolioItemNotCreated'] = 'Portfolio item not created';
 $lang['portfolio']['PublishNewPortfolio'] = 'Publish';
 $lang['portfolio']['AddNewItemToPortfolio'] = 'Add new item to portfolio';
-$lang['portfolio']['PortfolioIntroduction'] = 'Welcome to your personal portfolio';
+$lang['portfolio']['PortfolioIntroduction'] = 'Welcome to this personal portfolio';
 $lang['portfolio']['PortfolioUpdated'] = 'Portfolio updated';
 $lang['portfolio']['PortfolioNotUpdated'] = 'Portfolio not updated';
 $lang['portfolio']['PortfolioPropertiesUpdated'] = 'Portfolio properties updated';
@@ -35,6 +35,14 @@ $lang['portfolio']['view'] = 'viewing the content';
 $lang['portfolio']['viewFeedback'] = 'viewing the feedback';
 $lang['portfolio']['giveFeedback'] = 'giving feedback';
 $lang['portfolio']['edit'] = 'editing';
+
+$lang['portfolio']['LastChangedDate'] = 'Portfolios last changed on';
+$lang['portfolio']['LastChangedAction'] = 'Last action';
+$lang['portfolio']['LastChangedItem'] = 'Last item changed';
+$lang['portfolio']['PortfolioItemAdded'] = 'Portfolio Item was added';
+$lang['portfolio']['PortfolioAdded'] = 'Portfolio was added';
+$lang['portfolio']['FirstPortfolioCreated'] = 'A first portfolio was created';
+$lang['portfolio']['PortfolioEdited'] = 'A Portfolio or item was edited';
 
 
 

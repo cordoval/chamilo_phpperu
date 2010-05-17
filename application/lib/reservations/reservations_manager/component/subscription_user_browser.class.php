@@ -99,8 +99,8 @@ class ReservationsManagerSubscriptionUserBrowserComponent extends ReservationsMa
         $html[] = $item->get_description();
         $html[] = '<b>' . Translation :: get('Responsible') . '</b>: ' . $responsible;
         $html[] = '<br /><b>' . Translation :: get('Type') . '</b>: ' . $this->get_type($reservation);
-        $html[] = '<br /><b>' . Translation :: get('Start') . '</b>: ' . $start;
-        $html[] = '<br /><b>' . Translation :: get('End') . '</b>: ' . $stop;
+        $html[] = '<br /><b>' . Translation :: get('Start') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $start);
+        $html[] = '<br /><b>' . Translation :: get('End') . '</b>: ' . DatetimeUtilities :: format_locale_date(null, $stop);
         $html[] = '<br /><b>' . Translation :: get('Reservator') . '</b>: ' . $sub_user;
         $html[] = '</div>';
         $html[] = '</div>';

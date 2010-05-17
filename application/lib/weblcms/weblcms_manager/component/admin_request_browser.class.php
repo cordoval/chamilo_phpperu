@@ -94,7 +94,7 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
 		$parameters[WeblcmsManager :: PARAM_ACTION] = WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER;
 		$parameters[WeblcmsManager :: PARAM_REQUEST_TYPE] = $this->request_type;
 
-		$table = new AdminRequestBrowserTable($this, $parameters, $this->get_condition());
+		$table = new AdminRequestBrowserTable($this, $parameters, $this->get_condition(), $this->request_type);
 
 		$html = array();
 		$html[] = $table->as_html();
@@ -112,7 +112,7 @@ class WeblcmsManagerAdminRequestBrowserComponent extends WeblcmsManager
         {
             $conditions = array();
             $conditions[] = new PatternMatchCondition(CommonRequest :: PROPERTY_MOTIVATION, '*' . $query . '*');            
-            $conditions[] = new PatternMatchCondition(CommonRequest :: PROPERTY_TITLE, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(CommonRequest :: PROPERTY_SUBJECT, '*' . $query . '*');
             //$conditions[] = new PatternMatchCondition(CourseType :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             
            	$search_conditions = new OrCondition($conditions);

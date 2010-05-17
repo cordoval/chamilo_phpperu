@@ -40,7 +40,7 @@ class LinkBrowserTableDataProvider extends ObjectTableDataProvider
 		if($this->type == LinkBrowserTable :: TYPE_PUBLICATIONS)
 		{
     		$order_property = $this->get_order_property($order_property);
-        	$publication_attributes = $this->get_browser()->get_content_object_publication_attributes($this->get_browser()->get_user_id(), $this->get_browser()->get_object()->get_id(), null, $offset, $count, $order_property);
+        	$publication_attributes = $this->get_browser()->get_content_object_publication_attributes($this->get_browser()->get_user(), $this->get_browser()->get_object()->get_id(), null, $offset, $count, $order_property);
         	return $publication_attributes = array_splice($publication_attributes, $offset, $count);
 		}
 		
@@ -85,7 +85,7 @@ class LinkBrowserTableDataProvider extends ObjectTableDataProvider
     {
     	if($this->type == LinkBrowserTable :: TYPE_PUBLICATIONS)
 		{ 
-    		return $this->get_browser()->count_publication_attributes($this->get_browser()->get_user_id(), $this->get_browser()->get_object()->get_id(), $this->get_condition());
+    		return $this->get_browser()->count_publication_attributes($this->get_browser()->get_user(), $this->get_browser()->get_object()->get_id(), $this->get_condition());
 		}
 		
     	if($this->type == LinkBrowserTable :: TYPE_PARENTS)

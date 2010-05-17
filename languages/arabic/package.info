@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packages>
+	<package>
+		<name>Arabic</name>
+		<code>arabic</code>
+		<section>language</section>
+		<category>language</category>
+		<author>Sven Vanpoucke &amp; Hans De Bisschop</author>
+		<version>1.0.0</version>
+		<filename>pool/main/applications/a/survey/survey-1.0.0.zip</filename>
+		<size></size>
+		<md5></md5>
+		<sha1></sha1>
+		<sha256></sha256>
+		<sha512></sha512>
+		<tagline>Surveying made easy</tagline>
+		<description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin orci enim, auctor sit amet porttitor vel, sollicitudin vel augue. Etiam metus dui, facilisis ac fermentum lobortis, sollicitudin nec sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi a nisl erat. Nulla pretium ipsum non neque tempor venenatis. Nulla risus leo, eleifend nec auctor sed, ullamcorper quis ligula. Nam tempus placerat mauris sed condimentum. Praesent vehicula fermentum dolor et luctus. Nulla adipiscing vestibulum convallis. Aliquam aliquet gravida vulputate viverra fusce. </description>
+		<homepage></homepage>
+		<dependencies>
+			
+		</dependencies>
+	</package>
+</packages>

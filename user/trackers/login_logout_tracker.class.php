@@ -97,7 +97,6 @@ class LoginLogoutTracker extends DefaultTracker
      */
     function set_date($date)
     {
-        $date = $this->to_db_date($date);
         $this->set_property(self :: PROPERTY_DATE, $date);
     }
 

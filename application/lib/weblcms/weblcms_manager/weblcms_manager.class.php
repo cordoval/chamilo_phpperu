@@ -449,32 +449,35 @@ class WeblcmsManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_COURSE_TYPE_CREATOR, self :: PARAM_COURSE_TYPE => $course_type->get_id(), self :: PARAM_TOOL => 'course_type_settings', 'previous' => 'admin'));
     }
     
-	function get_course_request_deleting_url($request, $request_type)
+	function get_course_request_deleting_url($request, $request_type, $request_view)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_REQUEST_DELETER,
     								self :: PARAM_REQUEST => $request->get_id(),
-    								self :: PARAM_REQUEST_TYPE => $request_type));
+    								self :: PARAM_REQUEST_TYPE => $request_type,
+    								self :: PARAM_REQUEST_VIEW => $request_view));
     }
     
-    function get_course_request_editing_url($request, $request_type)
+    function get_course_request_allowing_url($request, $request_type, $request_view)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_EDITOR_REQUEST,
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_ALLOWING_REQUEST,
     								self :: PARAM_REQUEST => $request->get_id(),
-    								self :: PARAM_REQUEST_TYPE => $request_type));   	 
+    								self :: PARAM_REQUEST_TYPE => $request_type,
+    								self :: PARAM_REQUEST_VIEW => $request_view));  	 
     }
     
-    function get_course_request_viewing_url($request, $request_type)
+    function get_course_request_viewing_url($request, $request_type, $request_view)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_REQUEST,
     								self :: PARAM_REQUEST => $request->get_id(),
     								self :: PARAM_REQUEST_TYPE => $request_type));
     }
     
-    function get_course_request_refuse_url($request, $request_type)
+    function get_course_request_refuse_url($request, $request_type, $request_view)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_REFUSE_REQUEST, 
     								self :: PARAM_REQUEST => $request->get_id(),
-    								self :: PARAM_REQUEST_TYPE => $request_type));
+    								self :: PARAM_REQUEST_TYPE => $request_type,
+    								self :: PARAM_REQUEST_VIEW => $request_view));
     }
 
 	function get_course_type_maintenance_url($course_type)
@@ -1649,6 +1652,9 @@ class WeblcmsManager extends WebApplication
 					break;
 				case self :: PARAM_CHANGE_COURSE_TYPE_SELECTED_COURSES :
 					$this->set_action(self :: ACTION_CHANGE_COURSE_TYPE_FROM_COURSE);
+					Request :: set_get(self :: PARAM_MESSAGE, null);
+					Request :: set_get(self :: PARAM_ERROR_MESSAGE, null);
+					Request :: set_get(self :: PARAM_WARNING_MESSAGE, null);
 					Request :: set_get(self :: PARAM_COURSE, $selected_course_ids);
 					break;
 				case self :: PARAM_REMOVE_SELECTED_REQUESTS :

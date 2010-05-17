@@ -96,9 +96,9 @@ class EvaluationManager extends SubManager
     }
     
     // database
-    function retrieve_all_evaluations_on_publication($offset = null, $count = null, $order_property = null)
+    function retrieve_all_evaluations_on_internal_publication($offset = null, $count = null, $order_property = null)
     {
-        return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_publication(Request :: get('application'), $this->get_publication_id(), $offset, $count, $order_property);
+        return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_internal_publication(Request :: get('application'), $this->get_publication_id(), $offset, $count, $order_property);
     }
 
     function count_all_evaluations_on_publication()

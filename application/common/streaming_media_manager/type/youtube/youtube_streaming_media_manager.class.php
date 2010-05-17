@@ -9,6 +9,11 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
 	const FEED_STANDARD_TYPE = 3;
 	const PARAM_FEED_IDENTIFIER = 'identifier';
 	
+	function YoutubeStreamingMediaManager($application)
+	{
+		parent :: __construct($application);
+		$this->set_parameter(YoutubeStreamingMediaManager::PARAM_FEED_TYPE, Request :: get(YoutubeStreamingMediaManager::PARAM_FEED_TYPE));
+	}
 	
     function get_application_component_path()
     {
@@ -32,6 +37,18 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
     	$connector = YoutubeStreamingMediaConnector :: get_instance($this);
         return $connector->get_youtube_video($id);
     }
+    
+    function delete_streaming_media_object($id)
+    {
+    	$connector = YoutubeStreamingMediaConnector :: get_instance($this);
+        return $connector->delete_youtube_video($id);
+    }
+    
+    function export_streaming_media_object($object)
+    {
+    	$connector = YoutubeStreamingMediaConnector :: get_instance($this);
+        return $connector->export_youtube_video($object);
+    }
 
     function get_sort_properties()
     {
@@ -52,9 +69,15 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
     {
 		$parameters = array();
 		$parameters[self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = self :: ACTION_VIEW_STREAMING_MEDIA;
-		$parameters[self :: PARAM_STREAMING_MEDIA_ID] = $object->get_id();		
+		$parameters[self :: PARAM_STREAMING_MEDIA_ID] = $object->get_id();	
 		
 		return $this->get_url($parameters);
+    }
+    
+    function is_editable($id)
+    {
+    	 $connector = YoutubeStreamingMediaConnector :: get_instance($this);
+    	 return $connector->is_editable($id);
     }
 
     function get_menu_items()
@@ -142,6 +165,11 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
         //        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER);
         return false;
     }
+    
+	function get_streaming_media_actions()
+	{
+		return array(self :: ACTION_BROWSE_STREAMING_MEDIA, self :: ACTION_UPLOAD_STREAMING_MEDIA, self :: ACTION_EXPORT_STREAMING_MEDIA);
+	}
 
     function run()
     {
@@ -167,9 +195,15 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
             case StreamingMediaManager :: ACTION_UPLOAD_STREAMING_MEDIA :
                 $component = $this->create_component('Uploader');
                 break;
-           case StreamingMediaManager :: ACTION_SELECT_STREAMING_MEDIA :
+            case StreamingMediaManager :: ACTION_SELECT_STREAMING_MEDIA :
                 $component = $this->create_component('Selecter');
                 break;
+            case StreamingMediaManager :: ACTION_EDIT_STREAMING_MEDIA :
+            	$component = $this->create_component('Editor');
+            	break;
+            case StreamingMediaManager :: ACTION_DELETE_STREAMING_MEDIA :
+            	$component = $this->create_component('Deleter');
+            	break;
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION, StreamingMediaManager :: ACTION_BROWSE_STREAMING_MEDIA);

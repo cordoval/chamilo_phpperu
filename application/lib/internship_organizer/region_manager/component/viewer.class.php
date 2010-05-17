@@ -5,6 +5,8 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
     private $region;
     private $ab;
     private $root_region;
+    private $parent_region;
+    private $parent_parent_id;
 
     /**
      * Runs this component and displays its output.
@@ -14,21 +16,40 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
         $trail = new BreadcrumbTrail();
 
         $id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
+        $parent_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID);       
+        
         if ($id)
         {
             $this->region = $this->retrieve_region($id);
-
+            
+            $this->parent_region = $this->retrieve_region($parent_id);
+            
+            if ($parent_id)
+            {
+            	$this->parent_parent_id = $this->parent_region->get_parent_id();            
+            }
+            	
             $this->root_region = $this->retrieve_regions(new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, 0))->next_result();
-
+            
             $region = $this->region;
-
+            
+            $parent_region = $this->parent_region;
+            
+            $parent_parent_id = $this->parent_parent_id;
+            
             if (! $this->get_user()->is_platform_admin())
             {
                 Display :: not_allowed();
             }
            
             $trail->add(new Breadcrumb($this->get_browse_regions_url(), Translation :: get('BrowseInternshipOrganizerRegions')));
-            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $id)), $region->get_name()));
+            
+            if ($parent_id && $parent_parent_id)
+            {
+            	$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $parent_id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_parent_id)), $parent_region->get_name()));
+            }
+            
+            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_id)), $region->get_name()));
             $trail->add_help('region general');
 
             $this->display_header($trail);
@@ -85,15 +106,15 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
     function get_action_bar()
     {
         $region = $this->region;
-
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region->get_id())));
 
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path () . 'action_add.png', $this->get_region_create_url($region->get_id()), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_region_viewing_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_region_editing_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
-        if($this->region != $this->root_region)
+		
+		if($this->region != $this->root_region)
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_region_delete_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -116,5 +137,24 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
         return $action_bar;
     }
 
+	function get_region() 
+	{
+		if (! $this->region) 
+		{
+			$region_id = Request::get ( InternshipOrganizerRegionManager::PARAM_REGION_ID );
+			
+			if (! $region_id) 
+			{
+				$this->region = $this->get_root_region()->get_id ();
+			}else
+			{
+				$this->region = $region_id;
+			}
+		
+		}
+		
+		return $this->region;
+	}
+    
 }
 ?>

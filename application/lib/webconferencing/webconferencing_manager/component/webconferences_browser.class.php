@@ -85,11 +85,11 @@ class WebconferencingManagerWebconferencesBrowserComponent extends Webconferenci
 
         $access = array();
         $access[] = new EqualityCondition(Webconference :: PROPERTY_USER_ID, $user_id = $user->get_id());
-        $access[] = new InCondition(WebconferenceUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(WebconferenceUser :: get_table_name()));
-        $access[] = new InCondition(WebconferenceGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(WebconferenceGroup :: get_table_name()));
+        $access[] = new InCondition(WebconferenceUser :: PROPERTY_USER, $user_id, WebconferenceUser :: get_table_name());
+        $access[] = new InCondition(WebconferenceGroup :: PROPERTY_GROUP_ID, $groups, WebconferenceGroup :: get_table_name());
         if (! empty($user_id) || ! empty($groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition(WebconferenceUser :: PROPERTY_USER, null, $datamanager->get_database()->get_alias(WebconferenceUser :: get_table_name())), new EqualityCondition(WebconferenceGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_database()->get_alias(WebconferenceGroup :: get_table_name()))));
+            $access[] = new AndCondition(array(new EqualityCondition(WebconferenceUser :: PROPERTY_USER, null, WebconferenceUser :: get_table_name()), new EqualityCondition(WebconferenceGroup :: PROPERTY_GROUP_ID, null, WebconferenceGroup :: get_table_name())));
         }
         $conditions[] = new OrCondition($access);
 

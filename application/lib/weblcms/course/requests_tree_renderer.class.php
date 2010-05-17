@@ -75,7 +75,7 @@ class RequestsTreeRenderer extends HTML_Menu
        		{
        			case 0: $translation = 'Pending';
        					$request_view = WeblcmsManagerAdminRequestBrowserComponent :: PENDING_REQUEST_VIEW;
-       					$condition = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, NULL);
+       					$condition = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, CommonRequest :: NO_DECISION);
        					break;
        			case 1: $translation = 'Allowed';
   						$request_view = WeblcmsManagerAdminRequestBrowserComponent :: ALLOWED_REQUEST_VIEW;
@@ -88,18 +88,16 @@ class RequestsTreeRenderer extends HTML_Menu
        		}
        		
        		$count =  $this->parent->$request_database_method($condition);
-       		if($i==0 || $count!=0)
-       		{
-	    		$menu_item = array();
-				$menu_item['class'] = 'type type_request';
-				$menu_item['title'] = Translation :: get($translation) . ' (' . $count . ')';
-				$menu_item['description'] = Translation :: get($translation);
-				$menu_item['url'] = $this->parent->get_url(
-				Array(WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, 
-				      WeblcmsManager :: PARAM_REQUEST_VIEW => $request_view));
-				$this->check_selected_item($menu_item, $request_type, $request_view);
-				$sub_menu[] = $menu_item;
-       		}
+       	
+	    	$menu_item = array();
+			$menu_item['class'] = 'type type_request';
+			$menu_item['title'] = Translation :: get($translation) . ' (' . $count . ')';
+			$menu_item['description'] = Translation :: get($translation);
+			$menu_item['url'] = $this->parent->get_url(
+			Array(WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, 
+			      WeblcmsManager :: PARAM_REQUEST_VIEW => $request_view));
+			$this->check_selected_item($menu_item, $request_type, $request_view);
+			$sub_menu[] = $menu_item;
        	}
 		return $sub_menu;
     }

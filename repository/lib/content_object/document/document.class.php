@@ -501,15 +501,18 @@ class Document extends ContentObject
         $video_types[] = 'avi';
         $video_types[] = 'wmv';
         $video_types[] = 'mov';
-        $video_types[] = 'asf';
+        $video_types[] = '3gp';
+        $video_types[] = 'flv';
+        $video_types[] = 'mkv';
         $video_types[] = 'MPG';
         $video_types[] = 'MPEG';
         $video_types[] = 'MP4';
         $video_types[] = 'AVI';
         $video_types[] = 'WMV';
         $video_types[] = 'MOV';
-        $video_types[] = 'ASF';
-
+        $video_types[] = '3GP';
+        $video_types[] = 'FLV';
+        $video_types[] = 'MKV';
 
         return $video_types;
     }

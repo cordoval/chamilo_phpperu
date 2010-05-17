@@ -1,6 +1,6 @@
 <?php
 require_once 'Zend/Loader.php';
-require_once dirname(__FILE__) . '/../../streaming_media_object.class.php';
+require_once dirname(__FILE__) . '/youtube_streaming_media_object.class.php';
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 
 //YoutubeKey : AI39si4OLUsiI2mK0_k8HxqOtv0ctON-PzekhP_56JDkdph6wZ9tW2XqzDD7iVYY0GXKdMKlPSJyYZotNQGleVfRPDZih41Tug
@@ -28,7 +28,15 @@ class YoutubeStreamingMediaConnector
         {
             if (! isset($_GET['token']))
             {
-                $next_url = PATH :: get(WEB_PATH) . 'application/common/streaming_media_manager/index.php?type=youtube';
+                if ($manager->is_stand_alone())
+                {
+                	$next_url = PATH :: get(WEB_PATH) . 'application/common/launcher/index.php?type=youtube&application=streaming_media';
+                }
+                else
+                {
+                	$next_url = PATH :: get(WEB_PATH) . 'core.php?go=streaming&application=repository&category=0&type=youtube';
+                }
+            	
                 $scope = 'http://gdata.youtube.com';
                 $secure = false;
                 $session = true;
@@ -46,9 +54,9 @@ class YoutubeStreamingMediaConnector
             }
         }
         
-        $config = array('adapter' => 'Zend_Http_Client_Adapter_Proxy', 'proxy_host' => '192.168.0.202', 'proxy_port' => 8080);
+        //$config = array('adapter' => 'Zend_Http_Client_Adapter_Proxy', 'proxy_host' => '192.168.0.202', 'proxy_port' => 8080);
         $httpClient = Zend_Gdata_AuthSub :: getHttpClient($session_token);
-        $httpClient->setConfig($config);
+        //$httpClient->setConfig($config);
         
         $client = '';
         $application = PlatformSetting :: get('site_name');
@@ -63,6 +71,19 @@ class YoutubeStreamingMediaConnector
         return array(self :: RELEVANCE, self :: PUBLISHED, self :: VIEW_COUNT, self :: RATING);
     }
 
+    function is_editable($id)
+    {
+    	$videoEntry = $this->get_youtube_video_entry($id);
+    	if ($videoEntry->getEditLink() !== null)
+    	{
+    		return true;
+    	}
+    	else 
+    	{
+    		return false;
+    	}
+    }
+    
     static function translate_search_query($query)
     {
         return $query;
@@ -105,7 +126,7 @@ class YoutubeStreamingMediaConnector
         
         //$options[] = array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => array('atom:category'));
         //$array = Utilities :: extract_xml_file(Zend_Gdata_YouTube_VideoEntry::YOUTUBE_CATEGORY_SCHEMA, $options);
-        $array = Utilities :: extract_xml_file(PATH :: get_plugin_path() . 'gdata/categories.cat');
+        $array = Utilities :: extract_xml_file(PATH :: get_plugin_path() . 'google/categories.cat');
         
         $categories = array();
         foreach ($array['atom:category'] as $category)
@@ -169,7 +190,7 @@ class YoutubeStreamingMediaConnector
                 return @ $this->youtube->getVideoFeed($query->getQueryUrl(2));
                 break;
             case YoutubeStreamingMediaManager :: FEED_TYPE_MYVIDEOS :
-                return $this->youtube->getuserUploads('default', $query->getQueryUrl(2));
+                return $this->youtube->getUserUploads('default', $query->getQueryUrl(2));
                 break;
             case YoutubeStreamingMediaManager:: FEED_STANDARD_TYPE : 
             	$identifier = Request :: get(YoutubeStreamingMediaManager::PARAM_FEED_IDENTIFIER);
@@ -241,7 +262,7 @@ class YoutubeStreamingMediaConnector
         $objects = array();
         foreach ($videoFeed as $videoEntry)
         {
-            $video_thumbnails = $videoEntry->getVideoThumbnails();
+        	$video_thumbnails = $videoEntry->getVideoThumbnails();
             if (count($video_thumbnails) > 0)
             {
                 $thumbnail = $video_thumbnails[0]['url'];
@@ -250,16 +271,43 @@ class YoutubeStreamingMediaConnector
             {
                 $thumbnail = null;
             }
-            
-            $objects[] = new StreamingMediaObject($videoEntry->getVideoId(), $videoEntry->getVideoTitle(), $videoEntry->getVideoDescription(), $videoEntry->getFlashPlayerUrl(), $videoEntry->getVideoDuration(), $thumbnail);
+            $object = new YoutubeStreamingMediaObject($videoEntry->getVideoId(), $videoEntry->getVideoTitle(), $videoEntry->getVideoDescription(), $videoEntry->getFlashPlayerUrl(), $videoEntry->getVideoDuration(), $thumbnail);
+        	$object->set_category($videoEntry->getVideoCategory());
+        	$object->set_tags($videoEntry->getVideoTags());
+        	
+        	$control = $videoEntry->getControl();
+	    	if (isset($control))
+	    	{
+	    		$object->set_status($control->getState()->getName());
+	    	}
+	    	else
+	    	{
+	    		$object->set_status(YoutubeStreamingMediaObject::STATUS_AVAILABLE);
+	    	}
+            $objects[] = $object;
         }
         return $objects;
     }
 
+    function get_youtube_video_entry($id)
+    {
+    	$parameter = Request :: get(YoutubeStreamingMediaManager::PARAM_FEED_TYPE);
+    	if ($parameter == YoutubeStreamingMediaManager::FEED_TYPE_MYVIDEOS)
+    	{
+    		return $this->youtube->getFullVideoEntry($id);
+    	}
+    	else 
+    	{
+    		return $this->youtube->getVideoEntry($id);
+    	}
+    }
+    
     function get_youtube_video($id)
     {
-        $videoEntry = $this->youtube->getVideoEntry($id);
+        $videoEntry = $this->get_youtube_video_entry($id);
+        
         $video_thumbnails = $videoEntry->getVideoThumbnails();
+
         if (count($video_thumbnails) > 0)
         {
             $thumbnail = $video_thumbnails[0]['url'];
@@ -268,8 +316,33 @@ class YoutubeStreamingMediaConnector
         {
             $thumbnail = null;
         }
-        return new StreamingMediaObject($videoEntry->getVideoId(), $videoEntry->getVideoTitle(), $videoEntry->getVideoDescription(), $videoEntry->getFlashPlayerUrl(), $videoEntry->getVideoDuration(), $thumbnail);
-        //return $object;
+        $object = new YoutubeStreamingMediaObject($videoEntry->getVideoId(), $videoEntry->getVideoTitle(), $videoEntry->getVideoDescription(), $videoEntry->getFlashPlayerUrl(), $videoEntry->getVideoDuration(), $thumbnail);
+        $object->set_category($videoEntry->getVideoCategory());
+        $object->set_tags($videoEntry->getVideoTags());
+    	
+        $control = $videoEntry->getControl();
+    	if (isset($control))
+    	{
+    		$object->set_status($control->getState()->getName());
+    	}
+    	else
+    	{
+    		$object->set_status(YoutubeStreamingMediaObject::STATUS_AVAILABLE);
+    	}
+        return $object;
+    }
+    
+    function update_youtube_video($values)
+    {
+    	$video_entry = $this->youtube->getFullVideoEntry($values[StreamingMediaObject::PROPERTY_ID]);
+    	$video_entry->setVideoTitle($values[YoutubeStreamingMediaObject::PROPERTY_TITLE]);
+       	$video_entry->setVideoCategory($values[YoutubeStreamingMediaObject::PROPERTY_CATEGORY]);
+       	$video_entry->setVideoTags($values[YoutubeStreamingMediaObject::PROPERTY_TAGS]);
+       	$video_entry->setVideoDescription($values[YoutubeStreamingMediaObject::PROPERTY_DESCRIPTION]);
+
+       	$edit_link = $video_entry->getEditLink()->getHref();
+       	$this->youtube->updateEntry($video_entry, $edit_link);
+       	return true;
     }
 
     function count_youtube_video($condition)
@@ -286,6 +359,50 @@ class YoutubeStreamingMediaConnector
         {
             return $videoFeed->getTotalResults()->getText();
         }
+    }
+    
+    function delete_youtube_video($id)
+    {
+    	$video_entry = $this->youtube->getFullVideoEntry($id);
+    	
+    	return $this->youtube->delete($video_entry);
+    }
+    
+    function is_usable($id)
+    {
+    	$video_entry = $this->get_youtube_video_entry($id);
+    	$control = $video_entry->getControl();
+    	if (isset($control))
+    	{
+    		return false;
+    	}
+    	else
+    	{
+    		return true;
+    	}
+    }
+    
+    function export_youtube_video($object)
+    {
+    	$video_entry = new Zend_Gdata_YouTube_VideoEntry();
+    	$file_source = $this->youtube->newMediaFileSource($object->get_full_path());
+    	$file_source->setContentType($object->get_mime_type());
+    	$file_source->setSlug($object->get_filename());
+    	$video_entry->setMediaSource($file_source);
+    	$video_entry->setVideoTitle($object->get_title());
+    	$video_entry->setVideoDescription(strip_tags($object->get_description()));
+    	$video_entry->setVideoCategory('Education');
+
+    	$upload_url = 'http://uploads.gdata.youtube.com/feeds/api/users/default/uploads';
+    	try{
+    		$new_entry = $this->youtube->insertEntry($video_entry, $upload_url, 'Zend_Gdata_YouTube_VideoEntry');
+    	} catch(Zend_Gdata_App_HttpException $httpException)
+    	{
+    		echo($httpException->getRawResponseBody());
+    	} catch(Zend_Gdata_App_Exception $e){
+    		echo $e->getMessage();
+    	}
+    	return true;
     }
 }
 

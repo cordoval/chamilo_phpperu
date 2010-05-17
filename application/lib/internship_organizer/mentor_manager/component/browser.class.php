@@ -10,7 +10,8 @@ class InternshipOrganizerMentorManagerBrowserComponent extends InternshipOrganiz
 	function run() 
 	{
 		$trail = new BreadcrumbTrail ();
-		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerMentorManager::PARAM_ACTION => InternshipOrganizerMentorManager :: ACTION_BROWSE_MENTOR) ), Translation::get ( 'BrowseMentors' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url ( array (InternshipOrganizerManager::PARAM_ACTION => InternshipOrganizerManager::ACTION_APPLICATION_CHOOSER) ), Translation :: get('InternshipOrganizer') ) );
+		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerMentorManager::PARAM_ACTION => InternshipOrganizerMentorManager :: ACTION_BROWSE_MENTOR) ), Translation::get ( 'BrowseInternshipOrganizerMentors' ) ) );
 
 		$this->action_bar = $this->get_action_bar ();
 
@@ -38,7 +39,7 @@ class InternshipOrganizerMentorManagerBrowserComponent extends InternshipOrganiz
 	{
 		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('AddMentor'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_mentor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerMentor'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_mentor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
 		$action_bar->set_search_url ( $this->get_url () );

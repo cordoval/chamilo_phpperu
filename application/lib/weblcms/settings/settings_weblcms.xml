@@ -7,7 +7,7 @@
 					<option name="show_subscribe_button_on_course_home" value="1" />
 				</options>
 			</setting>
-			<setting name="allow_course_creation_without_coursetype" field="checkbox" default="1">
+			<setting name="allow_course_creation_without_coursetype" field="checkbox" default="0">
 				<options type="static">
 					<option name="allow_course_creation_without_coursetype" value="1" />
 				</options>

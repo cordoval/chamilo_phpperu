@@ -20,6 +20,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     private $portfolio_item;
     private $cid;
     private $pid;
+    private $owner_user_id ;
 
     const PROPERTY_PID = 'pid';
     const PROPERTY_CID = 'cid';
@@ -33,8 +34,8 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
     function run()
     {
-        $publisher_user_id = Request :: get('user_id');
-
+        $owner_user_id = Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID);
+        $this->owner_user_id = $owner_user_id;
         $pid = Request :: get(self::PROPERTY_PID);
         $this->pid = $pid;
         $cid = Request :: get(self::PROPERTY_CID);
@@ -102,10 +103,13 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             //get the object
             if ($pid && $cid)
             {
+                //get complex_conten_object
                 $wrapper = $rdm->retrieve_complex_content_object_item($cid);
+                //get portfolio_item
                 $this->selected_object = $rdm->retrieve_content_object($wrapper->get_ref());
-                if ($this->selected_object->get_type() == PortfolioRights::TYPE_PORTFOLIO_ITEM)
+                if ($this->selected_object->get_type() == PortfolioItem :: get_type_name())
                 {
+                    //get content opbject
                     $this->portfolio_item = $this->selected_object;
                     $this->selected_object = $rdm->retrieve_content_object($this->selected_object->get_reference());
                 }
@@ -125,9 +129,9 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         
 //        $trail = new BreadcrumbTrail();
 //        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
-//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_USER_ID => $publisher_user_id)), Translation :: get('ViewPortfolio')));
+//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $publisher_user_id)), Translation :: get('ViewPortfolio')));
              
-        if ($publisher_user_id == $this->get_user_id())
+        if ($owner_user_id == $this->get_user_id())
         {
             
             $this->action_bar = $this->get_action_bar();
@@ -140,13 +144,13 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         
         if (PlatformSetting :: get('display_user_picture', 'portfolio'))
         {
-            $user = UserDataManager :: get_instance()->retrieve_user($publisher_user_id);
+            $user = UserDataManager :: get_instance()->retrieve_user($owner_user_id);
             
             $html[] = '<div style="text-align: center;">';
             $html[] = '<img src="' . $user->get_full_picture_url() . '" />';
             $html[] = '</div><br />';
         }
-        $menu = new PortfolioMenu($this->get_user(), 'run.php?go=view_portfolio&application=portfolio&user_id=' . $publisher_user_id . '&pid=%s&cid=%s', $pid, $cid, $publisher_user_id);
+        $menu = new PortfolioMenu($this->get_user(), 'run.php?go=view_portfolio&application=portfolio&'. PortfolioManager::PARAM_PORTFOLIO_OWNER_ID.'=' . $owner_user_id . '&pid=%s&cid=%s', $pid, $cid, $owner_user_id);
         $html[] = $menu->render_as_tree();
         $html[] = '</div>';
         
@@ -161,7 +165,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
                 $html[] = ' class="current"';
             }
             
-            $html[] = ' href="' . $this->get_url(array('pid' => $pid, 'cid' => $cid, 'user_id' => $publisher_user_id, 'action' => $action)) . '">' . htmlentities(Translation :: get(ucfirst($action) . 'Title'));
+            $html[] = ' href="' . $this->get_url(array('pid' => $pid, 'cid' => $cid, PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $owner_user_id, 'action' => $action)) . '">' . htmlentities(Translation :: get(ucfirst($action) . 'Title'));
             if ($action == 'feedback')
             {
                 $html[] = '[' . AdminDataManager :: get_instance()->count_feedback_publications($pid, $cid, PortfolioManager :: APPLICATION_NAME) . ']';
@@ -176,7 +180,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $html[] = '</div>';
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_USER_ID => $user_id)), Translation :: get('ViewPortfolio')));
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $user_id)), Translation :: get('ViewPortfolio')));
         
         $this->display_header($trail);
         echo implode("\n", $html);
@@ -240,7 +244,19 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         {
             //display information on the 'root'
             //TODO: Add Date last changed + more information
-            $html[] = Translation :: get('PortfolioIntroduction');
+            //$html[] = Translation :: get('PortfolioIntroduction');
+
+            $dm = PortfolioDataManager :: get_instance();
+            $info = $dm->retrieve_portfolio_information_by_user($this->owner_user_id);
+            if($info)
+            {
+                $html[] = $info->get_portfolio_info_text();
+            }
+            else
+                {
+                $html[] = Translation :: get('PortfolioNotUpdatedYet');
+            }
+
         }
         
         return implode("\n", $html);
@@ -249,7 +265,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     function display_feedback_page()
     {
         $this->set_parameter('action', Request :: get('action'));
-        $this->set_parameter('user_id', Request :: get('user_id'));
+        $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
         $html = array();
         $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
         $html[] = $fbm->as_html();
@@ -273,7 +289,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         
         $allow_new_version = ($this->selected_object->get_type() != Portfolio :: get_type_name());
         
-        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
+        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
         
         if ($form->validate())
         {
@@ -294,7 +310,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
                 }
             }
             
-            $this->redirect($success ? Translation :: get('PortfolioUpdated') : Translation :: get('PortfolioNotUpdated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid));
+            $this->redirect($success ? Translation :: get('PortfolioUpdated') : Translation :: get('PortfolioNotUpdated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid));
         }
         else
         {
@@ -324,12 +340,12 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             $type = PortfolioRights::TYPE_PORTFOLIO_FOLDER;
         }
        //TODO CHECK FOR ITEM --> NO NEED TO MAKE PERMISSIONS TAB
-       $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_EDIT, $this->publication, $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'properties')), $this->get_user(), $type);
+       $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_EDIT, $this->publication, $this->get_url(array(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'properties')), $this->get_user(), $type);
 
         if ($form->validate())
         {
             $success = $form->update_portfolio_publication($type);
-            $this->redirect($success ? Translation :: get('PortfolioPropertiesUpdated') : Translation :: get('PortfolioPropertiesNotUpdated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid));
+            $this->redirect($success ? Translation :: get('PortfolioPropertiesUpdated') : Translation :: get('PortfolioPropertiesNotUpdated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid));
         }
         else
         {

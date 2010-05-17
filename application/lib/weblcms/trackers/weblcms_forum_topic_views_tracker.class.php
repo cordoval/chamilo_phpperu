@@ -36,7 +36,7 @@ class WeblcmsForumTopicViewsTracker extends MainTracker
         $this->set_user_id($user);
         $this->set_publication_id($publication);
         $this->set_forum_topic_id($forum_topic);
-        $this->set_date(DatabaseRepositoryDataManager :: to_db_date(time()));
+        $this->set_date(time());
         
         $this->create();
         

@@ -124,7 +124,11 @@ class ReportingManagerBrowserComponent extends ReportingManager
      */
     function get_template_html()
     {
-        $table = new ReportingTemplateRegistrationBrowserTable($this, array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $this->application), $this->get_condition());
+        $parameters = $this->get_parameters();
+        $parameters[ReportingManager :: PARAM_APPLICATION] = $this->application;
+    	$parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+    	
+    	$table = new ReportingTemplateRegistrationBrowserTable($this, $parameters, $this->get_condition());
         $html = array();
         $html[] = '<div style="float: right; width: 100%;">';
         $html[] = $table->as_html();

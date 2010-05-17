@@ -179,6 +179,14 @@ ul.tree-menu li div a.category {
 	background-image: url(../images/common/treemenu/tree-folder-closed.png);
 }
 
+ul.tree-menu li div a.survey {
+	background-image: url(../images/common/treemenu/survey.png);
+}
+
+ul.tree-menu li div a.survey_finished {
+	background-image: url(../images/common/treemenu/survey_finished.png);
+}
+
 ul.tree-menu li div a.divider {
 	background-repeat: repeat-x;
 	background-image: url(../images/common/treemenu/tree-divider.png);

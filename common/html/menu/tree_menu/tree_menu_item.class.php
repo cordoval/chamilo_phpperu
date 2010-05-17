@@ -92,7 +92,7 @@ class TreeMenuItem
 	
 	public function remove_child($tree_menu_child)
 	{
-		foreach($this->childrean as $key=>$value)
+		foreach($this->children as $key=>$value)
 		{
 			if ($value == $tree_menu_child)
 				unset($this->children[$key]);
@@ -107,6 +107,7 @@ class TreeMenuItem
 		$array['url'] = $this->get_url();
 		$array['id'] = $this->get_id();
 		$array['class'] = $this->get_class();
+		$array['collapsed'] = $this->get_collapsed();
 		
 		$children = array();
 		if ($this->has_children())

@@ -34,7 +34,18 @@ class TestcaseSurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPub
         
         switch ($column->get_name())
         {
-            case Translation :: get(TestcaseSurveyPublicationBrowserTableColumnModel :: COLUMN_NOT_PARTICIPANTS) :
+            
+         case ContentObject :: PROPERTY_TITLE :
+             $content_object = $survey_publication->get_publication_object();        
+                         	
+            	if ($survey_publication->get_hidden())
+                {
+                    return '<span style="color: #999999;">' . $content_object->get_title() . '</span>';
+                }
+                
+                return $content_object->get_title();
+        	
+        	case Translation :: get(TestcaseSurveyPublicationBrowserTableColumnModel :: COLUMN_NOT_PARTICIPANTS) :
                 return $survey_publication->count_excluded_participants();
             
             case Translation :: get(TestcaseSurveyPublicationBrowserTableColumnModel :: COLUMN_PARTICIPANTS) :
@@ -60,6 +71,9 @@ class TestcaseSurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPub
         $user = $this->browser->get_user();
         
         $toolbar_data[] = array('href' => $this->browser->get_browse_survey_participants_url($survey_publication), 'label' => Translation :: get('Participants'), 'img' => Theme :: get_common_image_path().'action_subscribe.png');
+        
+        $toolbar_data[] = array('href' => $this->browser->get_browse_survey_excluded_users_url($survey_publication), 'label' => Translation :: get('ExcludedUsers'), 'img' => Theme :: get_common_image_path().'action_unsubscribe.png');
+        
         
         //$toolbar_data[] = array('href' => $this->browser->get_survey_results_viewer_url($survey_publication), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
         

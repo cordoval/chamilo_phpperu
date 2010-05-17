@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__). '/admin_request_browser.class.php';
 require_once dirname(__FILE__) . '/../../course/course_request_form.class.php';
 
 /**
@@ -35,7 +36,7 @@ class WeblcmsManagerCourseRequestRefuseComponent extends WeblcmsManager
         		}
         		
 				$request = $this->$request_method($request_id);				
-				$request->set_decision_date(Utilities :: to_db_date(time()));
+				$request->set_decision_date(time());
 				$request->set_decision(CommonRequest::DENIED_DECISION);
 							
 				if(!$request->update())
@@ -65,7 +66,7 @@ class WeblcmsManagerCourseRequestRefuseComponent extends WeblcmsManager
                     $message = 'SelectedRequestsDenied';
                 }
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER, WeblcmsManager :: PARAM_REQUEST => null,WeblcmsManager :: PARAM_REQUEST_TYPE => $request_type, WeblcmsManager :: PARAM_REQUEST_VIEW => WeblcmsManagerAdminRequestBrowserComponent :: DENIED_REQUEST_VIEW));
 		}
 		else
         {
