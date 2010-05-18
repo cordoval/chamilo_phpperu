@@ -26,6 +26,7 @@ class GradebookManager extends WebApplication
 	const ACTION_BROWSE_GRADEBOOK = 'browse';
 	
 	const ACTION_CREATE_EXTERNAL = 'create_external';
+	const ACTION_CREATE_EXTERNAL_GRADE = 'create_external_grade';
 	const ACTION_EDIT_GRADEBOOK = 'edit_gradebook';
 	const ACTION_DELETE_GRADEBOOK = 'delete_gradebook';
 	const ACTION_MOVE_GRADEBOOK = 'move_gradebook';
