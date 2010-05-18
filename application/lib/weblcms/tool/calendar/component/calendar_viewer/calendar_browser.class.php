@@ -127,11 +127,11 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'calendar');
         
         $access = array();
-        $access[] = new InCondition('user_id', $user_id, 'content_object_publication_user');
-        $access[] = new InCondition('course_group_id', $course_group_ids, 'content_object_publication_course_group');
+        $access[] = new InCondition('user_id', $user_id, ContentObjectPublicationUser :: get_table_name());
+        $access[] = new InCondition('course_group_id', $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
         if (! empty($user_id) || ! empty($course_group_ids))
         {
-            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, 'content_object_publication_user'), new EqualityCondition('course_group_id', null, 'content_object_publication_course_group')));
+            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition('course_group_id', null,  ContentObjectPublicationCourseGroup :: get_table_name())));
         }
         $conditions[] = new OrCondition($access);
         
