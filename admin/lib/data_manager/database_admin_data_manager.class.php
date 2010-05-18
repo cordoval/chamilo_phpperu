@@ -217,7 +217,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         $users = array();
         while ($target_user = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $users[] = $target_user['user'];
+            $users[] = $target_user['user_id'];
         }
 
         $res->free();

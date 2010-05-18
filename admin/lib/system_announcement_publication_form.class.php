@@ -201,7 +201,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
             
             $selected_group = array();
             $selected_group['id'] = 'group_' . $group->get_id();
-            $selected_group['class'] = 'type type_group';
+            $selected_group['classes'] = 'type type_group';
             $selected_group['title'] = $group->get_name();
             $selected_group['description'] = $group->get_description();
             
@@ -213,7 +213,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
             
             $selected_user = array();
             $selected_user['id'] = 'user_' . $user->get_id();
-            $selected_user['class'] = 'type type_user';
+            $selected_user['classes'] = 'type type_user';
             $selected_user['title'] = $user->get_fullname();
             $selected_user['description'] = $user->get_username();
             
