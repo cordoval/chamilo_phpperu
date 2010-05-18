@@ -44,7 +44,7 @@ class FeedbackManagerDeleterComponent extends FeedbackManager
 	        {
 	        	$FeedbackPublication = $this->retrieve_feedback_publication($id);
 	        
-		        if ($FeedbackPublication->delete())
+		        if (!$FeedbackPublication->delete())
 		        {
 		        	$failures++;
 		        }
@@ -52,7 +52,7 @@ class FeedbackManagerDeleterComponent extends FeedbackManager
 	       
 	        $message = $this->get_result($failures, count($ids), 'FeedbackPublicationNotDeleted', 'FeedbackPublicationsNotDeleted', 'FeedbackPublicationDeleted', 'FeedbackPublicationsDeleted');
 	        
-	        $this->redirect(Translation :: get($message), ($failures > 0) ? false : true, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_BROWSE_FEEDBACK));
+	        $this->redirect($message, ($failures > 0) ? false : true, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_BROWSE_FEEDBACK));
         }
         else
         {
