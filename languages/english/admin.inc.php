@@ -409,4 +409,12 @@ $lang['admin']['AllowEvaluateWiki'] = 'Allow evaluate wiki';
 $lang['admin']['AllowEvaluateApplicationWiki'] = 'Allow evaluate application wiki';
 $lang['admin']['AllowEvaluateApplicationAssessment'] = 'Allow evaluate application assessment';
 $lang['admin']['AllowEvaluateApplicationForum'] = 'Allow evaluate application forum';
+$lang['admin']['Applications'] = 'Applications';
+$lang['admin']['personal_calendar'] = 'Personal calendar';
+$lang['admin']['UpdatePackage'] = 'Update package';
+$lang['admin']['Filename'] = 'Filename';
+$lang['admin']['Dependencies'] = 'Dependencies';
+$lang['admin']['ContentObjects'] = 'Content objects';
+$lang['admin']['Server'] = 'Server';
+$lang['admin']['PlatformAdministration'] = 'Platform administration';
 ?>

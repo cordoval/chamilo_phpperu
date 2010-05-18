@@ -64,7 +64,6 @@ class RegistrationDisplay
     {
     	$html = array();
     	$html[] = '<table class="data_table data_table_no_header">';
-    	var_dump(PackageUpdaterDependency::check_other_packages($this->get_object()));
     	$html[] = implode('<br/>', PackageUpdaterDependency::check_other_packages($this->get_object()));
     	$html[] = '</table>';
     	return implode("\n", $html);
