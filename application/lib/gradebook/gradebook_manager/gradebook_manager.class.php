@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . '/../data_provider/gradebook_tree_menu_data_pro
 require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
 
 require_once dirname(__FILE__) . '/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
+require_once dirname(__FILE__) . '/component/gradebook_external_publication_browser/gradebook_external_publication_browser_table.class.php';
 
 class GradebookManager extends WebApplication
 {
@@ -50,6 +51,7 @@ class GradebookManager extends WebApplication
 	 */
 	const PARAM_ACTIVATE_SELECTED_EVALUATION_FORMAT = 'activate_selected_evaluation_format';
 	const PARAM_DEACTIVATE_SELECTED_EVALUATION_FORMAT = 'deactivate_selected_evaluation_format';
+	const PARAM_DELETE_SELECTED_EXTERNAL_EVALUATION = 'delete_selected_external_evaluation';
 	const PARAM_EVALUATION_FORMAT = 'evaluation_format';
 	const PARAM_EVALUATION_FORMAT_ID = 'evaluation_format';
 	const PARAM_ACTIVE = 'active';
@@ -295,6 +297,8 @@ class GradebookManager extends WebApplication
 	}
 
 	
+	
+//--------------------------------------END IGNORE------------------------------------------------------------
 	/**
 	 * Parse the input from the sortable tables and process input accordingly
 	 */
@@ -305,7 +309,9 @@ class GradebookManager extends WebApplication
 			if(isset($_POST[EvaluationFormatsBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){ 
 				$selected_ids = $_POST[EvaluationFormatsBrowserTable  :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			}
-			
+			if(isset($_POST[GradebookExternalPublicationBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){ 
+				$selected_ids = $_POST[GradebookExternalPublicationBrowserTable  :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			}
 			if (empty ($selected_ids))
 			{
 				$selected_ids = array ();
@@ -326,10 +332,13 @@ class GradebookManager extends WebApplication
 					Request :: set_get(self :: PARAM_EVALUATION_FORMAT_ID, $selected_ids);
 					Request :: set_get(self :: PARAM_ACTIVE, 1);
 					break;
+				case self :: PARAM_DELETE_SELECTED_EXTERNAL_EVALUATION : 
+					$this->set_action(self :: ACTION_DELETE_EXTERNAL_EVALUATION);
+					Request :: set_get(self :: PARAM_PUBLICATION_ID, $selected_ids);
+					break;
 			}
 		}
 	}
-//--------------------------------------END IGNORE-------------------------------------------------------------
 // Data retrieval
 // **************
 // evaluation formats
