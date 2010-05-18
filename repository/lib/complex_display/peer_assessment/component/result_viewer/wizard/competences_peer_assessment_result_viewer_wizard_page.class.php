@@ -15,6 +15,9 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 	
 	function buildForm()
     {
+    	//*******
+    	// Values
+    	//*******
         $this->_formBuilt = true;    
         
         $publication_id = Request :: get('peer_assessment_publication');
@@ -69,6 +72,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
      	
      	
      
+     	
 		// *********************************		
         // Prints of the list of competences
         // *********************************
@@ -145,7 +149,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 		        // Prints of the table header
 	    		$this->addElement('html', implode("\n", $html));
 	    	
-				$this->result_peer_assessment($users, $indicators, $competence, $publication_id);
+				$this->result_peer_assessment($users, $indicators, $competence, $publication_id, $competences);
  				$result_competence = $this->result($users, $indicators, $competence, $publication_id);
 				$total_result += $result_competence;
 				$number_of_indicators += sizeof($indicators);
@@ -190,7 +194,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
     // ********************************
     // Prints of the result of one user
     // ********************************
-    function result_peer_assessment($users, $indicators, $competence, $publication_id)
+    function result_peer_assessment($users, $indicators, $competence, $publication_id, $competences)
     {  	
     	$renderer = $this->defaultRenderer();
     	
@@ -273,7 +277,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 				// Get average
 				$average = $this->average($users, $indicator, $competence, $publication_id);
 				// Get average after correction
-				$average_after_correction = $this->average_after_correction($users, $indicator, $competence, $publication_id);
+				$average_after_correction = $this->average_after_correction($users, $indicator, $competence, $publication_id, $competences);
 			}
 			
 			$group[] = $this->createElement('static', null, null, $average);
@@ -483,83 +487,68 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 	// ************************	
     // Average after correction
     // ************************
-    function average_after_correction($users, $indicator, $competence, $publication_id)
+    function average_after_correction($users, $indicator, $competence, $publication_id, $competences)
     {
  		$number_of_users = sizeof($users);
+ 		
     	if($number_of_users > 2)
 	    {
 	    	foreach($users as $user)
 	    	{		    	
-		    		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_PUBLICATION_ID, $publication_id);
-					$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_COMPETENCE_ID, $competence->get_id());
-					$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_INDICATOR_ID, $indicator->get_id());
-					$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_USER_ID, $user->get_user());
-					$condition = new AndCondition($conditions);
-		    		
-	    			$publications = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_results($condition);
-	
-		    		while ($publication = $publications->next_result())
-			        {
-			            $value = $this->score_value($publication->get_score(), $publication_id);
-			            $scores[] = $value;
-			        }   			
+	    		$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_PUBLICATION_ID, $publication_id);
+				$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_COMPETENCE_ID, $competence->get_id());
+				$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_INDICATOR_ID, $indicator->get_id());
+				$conditions[] = new EqualityCondition(PeerAssessmentPublicationResults :: PROPERTY_USER_ID, $user->get_user());
+				$condition = new AndCondition($conditions);
+	    		
+    			$publications = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication_results($condition);
+
+	    		while ($publication = $publications->next_result())
+		        {
+		            $value = $this->score_value($publication->get_score(), $publication_id);
+		           	$scores[] = $value;  
+		        } 
+		        	
 	    	}
-	    	/*dump($scores);
 	    	
-	    	for($i = 0; $i < $number_of_all_indicators; $i++)
+     		foreach($competences as $competence)
+ 			{
+ 				$indicators = $this->get_parent()->get_peer_assessment_page_indicators_via_competence($this->get_parent()->get_peer_assessment(), $competence);
+	    		$number_of_indicators = sizeof($indicators);
+	    		$number_of_all_indicators = $number_of_all_indicators + $number_of_indicators;
+ 			}
+	    	
+			for($i = 0; $i < $number_of_all_indicators; $i++)
 			{
-				$array = $chunk[$i];
+				$count_same = 0;
+				$array = $scores[$i];
 				
 				for($j = 0; $j < $number_of_all_indicators; $j++)
 				{
-					$count_same = 0;
-					foreach($array as $array_value)
-					{
-						if($array[$j] == $array_value)
-						{
-							$count_same++;
-						}
-					}
-					
-					if($count_same != 1)
-					{
-						// New array with the deleted values, those that only once is given to a user for each indicator are deleted
-						$new_values[] = $array[$j];
-					}
-				}
-			}*/
-	    	
-			/*for($j = 0; $j < $number_of_all_indicators; $j++)
-			{
-				
-				$count_same = 0;
-				foreach($scores as $score)
-				{
-					dump($score);
-					exit();
-					if($array[$j] == $array_value)
+					if($scores[$i] == $scores[$j])
 					{
 						$count_same++;
-					}
+					}					
 				}
-				
+			
 				if($count_same != 1)
 				{
 					// New array with the deleted values, those that only once is given to a user for each indicator are deleted
-					$new_values[] = $array[$j];
+					$new_values[] = $scores[$i];
 				}
 			}
 			
 			foreach($new_values as $new_value)
 			{
-				$count = $count + $new_value;
-			}*/
+				$count += $new_value;
+			}
+			$count = round($count/sizeof($users), 2);
 	    }
     	else
     	{
     		$count += $this->average($users, $indicator, $competence, $publication_id);
     	}
-    	
+    	return $count;
     }
    
     

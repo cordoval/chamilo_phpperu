@@ -72,7 +72,7 @@ class CourseGroupSubscriptionsForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
 
-        $elem = $this->addElement('element_finder', 'users', Translation :: get('SubscribeUsers'), $url, $locale, $current, array('load_elements' => true));
+        $elem = $this->addElement('user_group_finder', 'users', Translation :: get('SubscribeUsers'), $url, $locale, $current, array('load_elements' => true));
 		$elem->setDefaults($defaults);
 
 
@@ -99,18 +99,14 @@ class CourseGroupSubscriptionsForm extends FormValidator
         {
             $current_members[] = $current_member->get_id();
         }
-
         $updated_members = array();
 
-        foreach ($values['users'] as $value)
-        {
-            $user = explode('_', $value);
-            $updated_members[] = $user[1];
-        }
-
+        foreach ($values['users']['user'] as $value)
+            $updated_members[] = $value;
+        
         $members_to_delete = array_diff($current_members, $updated_members);
         $members_to_add = array_diff($updated_members, $current_members);
-
+        
         if (($this->course_group->get_max_number_of_members() > 0) && (count($values['users']) > $this->course_group->get_max_number_of_members()))
         {
             return false;
@@ -127,7 +123,6 @@ class CourseGroupSubscriptionsForm extends FormValidator
         {
             $succes &= $this->course_group->subscribe_users($members_to_add);
         }
-
         return $succes;
     }
 }
