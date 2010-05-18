@@ -31,7 +31,7 @@ class DefaultInternshipOrganizerCategoryRelLocationTableCellRenderer implements 
         $columns[] = new ObjectTableColumn(InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION, true, $organisation_alias);
         $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_NAME, true, $location_alias);
         $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_CITY, true, $location_alias);
-        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_STREET, true, $location_alias);
+       // $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_STREET, true, $location_alias);
         
         $location_id = $categoryrellocation->get_location_id();
         $location = InternshipOrganizerDataManager :: get_instance()->retrieve_location($location_id);
@@ -47,8 +47,8 @@ class DefaultInternshipOrganizerCategoryRelLocationTableCellRenderer implements 
                 return $location->get_name();
             case InternshipOrganizerLocation :: PROPERTY_CITY :
                 return $location->get_city();
-            case InternshipOrganizerLocation :: PROPERTY_STREET :
-                return $location->get_street();
+           // case InternshipOrganizerLocation :: PROPERTY_STREET :
+           //     return $location->get_street();
             default :
                 return '&nbsp;';
         }

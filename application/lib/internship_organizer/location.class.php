@@ -13,6 +13,7 @@ class InternshipOrganizerLocation extends DataClass {
 	const PROPERTY_ORGANISATION_ID = 'organisation_id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_ADDRESS = 'address';
+	const PROPERTY_REGION_ID = 'region_id';
 	const PROPERTY_POSTCODE = 'postcode';
 	const PROPERTY_CITY = 'city';
 	const PROPERTY_TELEPHONE = 'telephone';
@@ -29,8 +30,9 @@ class InternshipOrganizerLocation extends DataClass {
 						self::PROPERTY_ORGANISATION_ID, 
 						self::PROPERTY_NAME, 
 						self::PROPERTY_ADDRESS, 
-						self::PROPERTY_POSTCODE, 
-						self::PROPERTY_CITY,
+						self::PROPERTY_REGION_ID,
+//						self::PROPERTY_POSTCODE, 
+//						self::PROPERTY_CITY,
 						self::PROPERTY_TELEPHONE,
 						self::PROPERTY_FAX,
 						self::PROPERTY_EMAIL,
@@ -105,6 +107,24 @@ class InternshipOrganizerLocation extends DataClass {
 	function set_address($address) {
 		$this->set_default_property ( self::PROPERTY_ADDRESS, $address );
 	}
+	
+		
+	/**
+	 * Returns the id of this InternshipOrganizerRegion.
+	 * @return the id.
+	 */
+	function get_region_id() {
+		return $this->get_default_property ( self::PROPERTY_REGION_ID );
+	}
+	
+	/**
+	 * Sets the id of this InternshipOrganizerLocation.
+	 * @param id
+	 */
+	function set_region_id($region_id) {
+		$this->set_default_property ( self::PROPERTY_REGION_ID, $region_id );
+	}
+	
 	
 	/**
 	 * Returns the postcode of this InternshipOrganizerLocation.

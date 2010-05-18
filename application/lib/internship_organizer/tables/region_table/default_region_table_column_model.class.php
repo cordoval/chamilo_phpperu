@@ -26,6 +26,7 @@ class DefaultInternshipOrganizerRegionTableColumnModel extends ObjectTableColumn
     {
         $columns = array();
         $columns[] = new ObjectTableColumn(InternshipOrganizerRegion :: PROPERTY_NAME);
+        $columns[] = new ObjectTableColumn(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE);
         $columns[] = new ObjectTableColumn(InternshipOrganizerRegion :: PROPERTY_DESCRIPTION);
         return $columns;
     }
