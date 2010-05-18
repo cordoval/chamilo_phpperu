@@ -26,4 +26,8 @@ $lang['gradebook']['ForumCategories'] = 'Forum Categories';
 $lang['gradebook']['WikiCategories'] = 'Wiki Categories';
 $lang['gradebook']['AssessmentCategories'] = 'Assessment Categories';
 $lang['gradebook']['NoEvaluations'] = 'No Evaluations';
+$lang['gradebook']['AddExternalEvaluation'] = 'Add external evaluation';
+$lang['gradebook']['ExternalItemProperties'] = 'External item properties';
+$lang['gradebook']['RefreshScoreProperties'] = 'Refresh score properties';
+$lang['gradebook']['ScoreProperties'] = 'Score properties';
 ?>
