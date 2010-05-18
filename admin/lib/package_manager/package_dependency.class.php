@@ -92,22 +92,22 @@ abstract class PackageDependency
         switch ($this->get_severity())
         {
             case self :: FAILURE_CRITICAL :
-                return false;
+                return true;
                 break;
             case self :: FAILURE_HIGH :
-                return false;
+                return true;
                 break;
             case self :: FAILURE_MEDIUM :
-                return true;
+                return false;
                 break;
             case self :: FAILURE_LOW :
-                return true;
+                return false;
                 break;
             case self :: FAILURE_VERY_LOW :
-                return true;
+                return false;
                 break;
             default :
-                return false;
+                return true;
                 break;
         }
     }

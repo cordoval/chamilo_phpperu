@@ -21,4 +21,5 @@ $lang['peer_assessment']['TakePeerAssessment'] = 'Take peer assessment';
 $lang['peer_assessment']['AlwaysOpen'] = 'Always open';
 $lang['peer_assessment']['NotAllScoresHaveBeenSubmitted'] = 'Not all scores have been submitted';
 $lang['peer_assessment']['Result'] = 'Result';
+$lang['peer_assessment']['SelectCriteriaScore'] = 'Select criteria score';
 ?>

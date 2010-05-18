@@ -6,8 +6,9 @@ $(function ()
 		setTimeout(
 			function()
 			{
-				$('.iphone').setIphoneCourseType();
+				$('.iphone').setiPhoneCourseType();
 				$('.viewablecheckbox').setViewableStyle();
+				$("input[name=creation_groups_option]").init_everybody();
 			},30);	
 	}
 	
@@ -17,7 +18,8 @@ $(function ()
 		$('.iphone').setiPhoneCourseType();
 		$('.viewablecheckbox').viewableStyle();
 		$('.viewablecheckbox').setViewableStyle();
-		$('.empty').live('click', reset);
+		$(':reset').live('click', reset);
+		$("input[name=creation_groups_option]").bind_everybody();
 		$("input[name=creation_groups_option]").init_everybody();
 	});
 
@@ -61,13 +63,11 @@ $(function ()
 
 	  	  		if (is_onstate)
 	  	  		{
-	  	  			elem.attr('checked', true);
 	  	  			image.attr('src', imagesrc);
 	  	  			defaultimage.css('display','inline');
 	  	  		}
 	  	  		else
 	  	  		{
-	  	  			elem.attr('checked', false);
 	  	  			image.attr('src', imagesrcdisabled);
 	  	  			defaultimage.css('display','none');
 	  	  		}

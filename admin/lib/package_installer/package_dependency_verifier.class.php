@@ -7,8 +7,6 @@ require_once dirname (__FILE__) . '/../package_manager/package_dependency.class.
 
 class PackageDependencyVerifier
 {
-    
-      
     private $dependencies;
     private $parent;
 
@@ -57,7 +55,7 @@ class PackageDependencyVerifier
             foreach($dependency['dependency'] as $detail)
             {
             	$package_dependency = PackageDependency::factory($type, $detail);
-	        	if (! $package_dependency->check())
+	        	if (! $package_dependency->check() && $package_dependency->is_severe())
 	            {
 					$messages = $package_dependency->get_messages();
 					foreach($messages as $message)

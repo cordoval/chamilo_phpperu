@@ -4,13 +4,13 @@
  * @package admin.lib.package_installer.dependency
  */
 
-class ApplicationPackageDependency extends PackageDependency
+class ApplicationsPackageDependency extends PackageDependency
 {
 	const PROPERTY_VERSION = 'version';
 	
 	private $version;
 	
-	function ApplicationPackageDependency($dependency)
+	function ApplicationsPackageDependency($dependency)
 	{
 		parent :: __construct($dependency); 
 		$this->set_version($dependency['version']);	

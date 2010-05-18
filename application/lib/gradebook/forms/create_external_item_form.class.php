@@ -52,7 +52,7 @@ class CreateExternalItemForm extends FormValidator
     function build_basic_form($users_ids = null)
     {
     	$counter = 0;
-    	$this->addElement('category', Translation :: get('GradeProperties'));
+    	$this->addElement('category', Translation :: get('ScoreProperties'));
     	$values = $this->getSubmitValues();
     	$format = EvaluationManager :: retrieve_evaluation_format($values['format_id']);
     	if(!$format)
@@ -120,7 +120,7 @@ class CreateExternalItemForm extends FormValidator
     
     function build_evaluation_format_element()
     {
-    	$this->addElement('category', Translation :: get('ExternalProperties'));
+    	$this->addElement('category', Translation :: get('ExternalItemProperties'));
     	$this->addElement('html', '<div id="message"></div>');
         $this->add_textfield(ExternalItem :: PROPERTY_TITLE, Translation :: get('Title'), true, array('size' => '100', 'id' => 'title', 'style' => 'width: 95%'));
         $this->add_html_editor(ExternalItem :: PROPERTY_DESCRIPTION, Translation :: get('Description'), $required);
@@ -144,7 +144,7 @@ class CreateExternalItemForm extends FormValidator
 	        $attributes['exclude'] = array('user_' . $this->user->get_id());
 	        $attributes['defaults'] = array();
 	        $this->add_receivers('target', Translation :: get('SelectUsers'), $attributes);
-	        $this->addElement('style_button', 'refresh', Translation :: get('RefreshGradeProperties'));
+	        $this->addElement('style_button', 'refresh', Translation :: get('RefreshScoreProperties'));
     	}
 		
 		if (Request :: get(EvaluationManager :: PARAM_EVALUATION_ACTION) == EvaluationManager :: ACTION_UPDATE)

@@ -2317,7 +2317,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             $course_group_user_relation = new CourseGroupUserRelation();
             $course_group_user_relation->set_course_group($course_group->get_id());
             $course_group_user_relation->set_user($user);
-
             if (! $course_group_user_relation->create())
             {
                 return false;
@@ -2330,7 +2329,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     // Inherited
     function unsubscribe_users_from_course_groups($users, $course_group)
     {
-        if (! is_array($users))
+        if (!is_array($users))
         {
             $users = array($users);
         }

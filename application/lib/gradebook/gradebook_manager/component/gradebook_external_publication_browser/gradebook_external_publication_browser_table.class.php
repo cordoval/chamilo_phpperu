@@ -18,6 +18,9 @@ class GradebookExternalPublicationBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		
+        $actions[] = new ObjectTableFormAction(GradebookManager :: PARAM_DELETE_SELECTED_EXTERNAL_EVALUATION, Translation :: get('DeleteSelected'), false);
+		
+		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
 }
