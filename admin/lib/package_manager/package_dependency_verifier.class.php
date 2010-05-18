@@ -71,9 +71,31 @@ class PackageDependencyVerifier
 
             if ($package_data)
             {
-                if (! $this->parse_packages_info($package_data))
+                switch ($this->get_package()->get_section())
                 {
-                    $failures ++;
+                    case Registration :: TYPE_APPLICATION :
+                        $dependency_type = PackageDependency :: TYPE_APPLICATIONS;
+                        break;
+                    case Registration :: TYPE_CONTENT_OBJECT :
+                        $dependency_type = PackageDependency :: TYPE_CONTENT_OBJECTS;
+                        break;
+                    default :
+                        return true;
+                }
+
+                $dependencies = unserialize($package_data->get_dependencies());
+
+                if (isset($dependencies[$dependency_type]))
+                {
+                    foreach ($dependencies[$dependency_type]['dependency'] as $dependency)
+                    {
+                        if ($dependency['id'] === $this->get_package()->get_code())
+                        {
+                            $message = Translation :: get('PackageDependency') . ': <em>' . $package_data->get_name() . ' (' . $package_data->get_code() . ')</em>';
+                            $this->get_message_logger()->add_message($message);
+                            $failures ++;
+                        }
+                    }
                 }
             }
         }
@@ -87,40 +109,5 @@ class PackageDependencyVerifier
             return true;
         }
     }
-
-    function parse_packages_info($package)
-    {
-        $type = $this->get_package()->get_section();
-
-        switch ($type)
-        {
-            case Registration :: TYPE_APPLICATION :
-                $dependency_type = PackageDependency :: TYPE_APPLICATIONS;
-                break;
-            case Registration :: TYPE_CONTENT_OBJECT :
-                $dependency_type = PackageDependency :: TYPE_CONTENT_OBJECTS;
-                break;
-            default :
-                return true;
-        }
-
-        $dependencies = unserialize($package->get_dependencies());
-
-        if (isset($dependencies[$dependency_type]))
-        {
-            foreach ($dependencies[$dependency_type]['dependency'] as $dependency)
-            {
-                if ($dependency['id'] === $this->get_package()->get_code())
-                {
-                    $message = Translation :: get('PackageDependency') . ': <em>' . $package->get_name() . ' (' . $package->get_code() . ')</em>';
-                    $this->get_message_logger()->add_message($message);
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
 }
 ?>
