@@ -95,11 +95,13 @@ class PackageDependencyVerifier
         switch ($type)
         {
             case Registration :: TYPE_APPLICATION :
-                $dependency_type = 'applications';
+                $dependency_type = PackageDependency :: TYPE_APPLICATIONS;
                 break;
             case Registration :: TYPE_CONTENT_OBJECT :
-                $dependency_type = 'content_objects';
+                $dependency_type = PackageDependency :: TYPE_CONTENT_OBJECTS;
                 break;
+            default :
+                return true;
         }
 
         $dependencies = unserialize($package->get_dependencies());

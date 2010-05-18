@@ -17,6 +17,12 @@ abstract class PackageDependency
     const FAILURE_LOW = 4;
     const FAILURE_VERY_LOW = 5;
 
+    const TYPE_APPLICATIONS = 'applications';
+    const TYPE_CONTENT_OBJECTS = 'content_objects';
+    const TYPE_EXTENSIONS = 'extensions';
+    const TYPE_SERVER = 'server';
+    const TYPE_SETTINGS = 'settings';
+
     private $id;
     private $severity;
     private $message_logger;
@@ -30,9 +36,9 @@ abstract class PackageDependency
 
     function PackageDependency($dependency)
     {
-    	$this->set_id($dependency['id']);
-    	$this->set_severity($dependency['severity']);
-    	$this->message_logger = new MessageLogger();
+        $this->set_id($dependency['id']);
+        $this->set_severity($dependency['severity']);
+        $this->message_logger = new MessageLogger();
     }
 
     function get_message_logger()

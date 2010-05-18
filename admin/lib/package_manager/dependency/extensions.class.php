@@ -17,7 +17,7 @@ class ExtensionsPackageDependency extends PackageDependency
 
     function as_html()
     {
-    	return  $this->get_id();
+        return $this->get_id();
     }
 }
 ?>

@@ -6,15 +6,16 @@
 
 class ApplicationsPackageDependency extends PackageDependency
 {
-	const PROPERTY_VERSION = 'version';
+    const PROPERTY_VERSION = 'version';
 
-	private $version;
+    private $version;
 
-	function ApplicationsPackageDependency($dependency)
-	{
-		parent :: __construct($dependency);
-		$this->set_version($dependency['version']);
-	}
+    function ApplicationsPackageDependency($dependency)
+    {
+        parent :: __construct($dependency);
+        $this->set_version($dependency['version']);
+    }
+
     /**
      * @return the $version
      */
@@ -23,7 +24,7 @@ class ApplicationsPackageDependency extends PackageDependency
         return $this->version;
     }
 
-	/**
+    /**
      * @param $version the $version to set
      */
     public function set_version($version)
@@ -33,13 +34,13 @@ class ApplicationsPackageDependency extends PackageDependency
 
     function as_html()
     {
-    	$version = $this->get_version();
-    	return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id())) . ', ' . Translation :: get('Version') . ': ' . $version['_content'];
+        $version = $this->get_version();
+        return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id())) . ', ' . Translation :: get('Version') . ': ' . $version['_content'];
     }
 
-	function check()
+    function check()
     {
-    	$version = $this->get_version();
+        $version = $this->get_version();
         $message = Translation :: get('DependencyCheckApplication') . ': ' . $this->as_html() . ' ' . Translation :: get('Found') . ': ';
 
         $conditions = array();
