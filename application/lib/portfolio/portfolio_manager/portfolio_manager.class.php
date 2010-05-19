@@ -226,49 +226,56 @@ class PortfolioManager extends WebApplication
         return array();
     }
 
-//    function publish_content_object($content_object, $location, $owner_id = null)
-//    {
-//        $success = true;
-//        $publication = new PortfolioPublication();
-//        $publication->set_content_object($content_object->get_id());
-//        $publication->set_publisher(Session :: get_user_id());
-//
-//        if($owner_id == null)
+    /**
+     * this method is used to publish a portfolio item with the wizard from the repository
+     * @param <type> $content_object
+     * @param <type> $location
+     * @param <type> $owner_id
+     * @return <type>
+     */
+    function publish_content_object($content_object, $location, $owner_id = null)
+    {
+        $success = true;
+        $publication = new PortfolioPublication();
+        $publication->set_content_object($content_object->get_id());
+        $publication->set_publisher(Session :: get_user_id());
+
+        if($owner_id == null)
+        {
+            $owner_id = Session :: get_user_id();
+        }
+
+        $publication->set_owner($owner_id);
+        $publication->set_published(time());
+        $success &= $publication->create();
+//        $pub_location = $publication->get_location();
+//        if($pub_location)
 //        {
-//            $owner_id = Session :: get_user_id();
-//        }
+//            $parent_location_id = $pub_location->get_id();
 //
-//        $publication->set_owner($owner_id);
-//        $publication->set_published(time());
-////        $success &= $publication->create();
-////        $pub_location = $publication->get_location();
-////        if($pub_location)
-////        {
-////            $parent_location_id = $pub_location->get_id();
-////
-////            $children_set = PortfolioManager::get_portfolio_children($publication->get_content_object(), false, false);
-////            if($children_set != false)
-////            {
-////                $pdm = PortfolioDataManager::get_instance();
-////                $success &= $pdm->create_locations_for_children($children_set, $parent_location_id, $owner_id);
-////            }
-////        }
-////        else
-////        {
-////            $success &= false;
-////        }
-//
-//        $success &= self::update_portfolio_info($publication->get_id(), PortfolioRights::TYPE_PORTFOLIO_FOLDER, PortfolioInformation::ACTION_PORTFOLIO_ADDED, $owner_id);
-//
-//        if($success)
-//        {
-//            return Translation :: get('PublicationCreated');
+//            $children_set = PortfolioManager::get_portfolio_children($publication->get_content_object(), false, false);
+//            if($children_set != false)
+//            {
+//                $pdm = PortfolioDataManager::get_instance();
+//                $success &= $pdm->create_locations_for_children($children_set, $parent_location_id, $owner_id);
+//            }
 //        }
 //        else
 //        {
-//            return Translation :: get('ProblemWithPublicationCreation');
+//            $success &= false;
 //        }
-//    }
+
+        $success &= self::update_portfolio_info($publication->get_id(), PortfolioRights::TYPE_PORTFOLIO_FOLDER, PortfolioInformation::ACTION_PORTFOLIO_ADDED, $owner_id);
+
+        if($success)
+        {
+            return Translation :: get('PublicationCreated');
+        }
+        else
+        {
+            return Translation :: get('ProblemWithPublicationCreation');
+        }
+    }
 
 
     /**
