@@ -5,6 +5,12 @@
 			autoincrement="true" />
 		<property name="name" type="text" length="255" notnull="1"
 			default="" />
+		<property name="description" type="text" length="255" default="" />
+	</properties>
+
+</object>
+
+<!--
 		<property name="address" type="text" length="255" notnull="1"
 			default="" />
 		<property name="postcode" type="text" length="20" notnull="1"
@@ -14,7 +20,4 @@
 		<property name="telephone" type="text" length="50" default="" />
 		<property name="fax" type="text" length="50" default="" />
 		<property name="email" type="text" length="255" default="" />
-		<property name="description" type="text" length="255" default="" />
-	</properties>
-
-</object>
+-->

@@ -32,7 +32,7 @@ class PackageInstaller
         }
         else
         {
-            $is_registered = AdminDataManager :: is_registered($installer_source->get_attributes()->get_name(), $installer_source->get_attributes()->get_section());
+        	$is_registered = AdminDataManager :: is_registered($installer_source->get_attributes()->get_code(), $installer_source->get_attributes()->get_section());
             if($is_registered)
             {
            		return $this->installation_failed('source', Translation :: get('PackageIsAlreadyRegistered'));
@@ -44,7 +44,7 @@ class PackageInstaller
             $package = PackageInstallerType :: factory($this, $attributes->get_section(), $installer_source);
             if (! $package->install())
             {
-                return $this->installation_failed('settings', Translation :: get('PackageProcessingFailed'));
+                return false /*$this->installation_failed('settings', Translation :: get('PackageProcessingFailed'))*/;
             }
             else
             {

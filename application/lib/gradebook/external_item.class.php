@@ -62,6 +62,22 @@ class ExternalItem extends DataClass
     {
     	
     }
+    
+    function delete()
+    {
+    	$dm = $this->get_data_manager();
+    	
+		$condition = new EqualityCondition(ExternalItemInstance :: PROPERTY_EXTERNAL_ITEM_ID, $this->get_id());
+		$instances = $dm->retrieve_external_item_instances($condition);
+		
+		while ($instance = $instances->next_result())
+		{
+			$evaluation = $dm->retrieve_evaluation($instance->get_evaluation_id());
+			$evaluation->delete();
+		}
+		
+    	parent :: delete();
+    }
 
     static function get_table_name()
     {

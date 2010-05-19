@@ -17,6 +17,7 @@ class InternshipOrganizerRegion extends NestedTreeNode
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_NAME = 'name';
+    const PROPERTY_ZIP_CODE = 'zip_code';
     const PROPERTY_DESCRIPTION = 'description';
 
     /**
@@ -25,7 +26,11 @@ class InternshipOrganizerRegion extends NestedTreeNode
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION));
+        return parent :: get_default_property_names(array(
+        						self :: PROPERTY_ID, 
+        						self :: PROPERTY_NAME, 
+        						self :: PROPERTY_ZIP_CODE,
+        						self :: PROPERTY_DESCRIPTION));
     }
 
     /**
@@ -64,6 +69,25 @@ class InternshipOrganizerRegion extends NestedTreeNode
         $this->set_default_property(self :: PROPERTY_NAME, $name);
     }
 
+    /**
+     * Returns the zip code of this Region.
+     * @return the zip_code.
+     */
+    function get_zip_code()
+    {
+        return $this->get_default_property(self :: PROPERTY_ZIP_CODE);
+    }
+
+    /**
+     * Sets the zip code of this Region.
+     * @param zip_code
+     */
+    function set_zip_code($zip_code)
+    {
+        $this->set_default_property(self :: PROPERTY_ZIP_CODE, $zip_code);
+    }
+    
+    
     /**
      * Returns the description of this Region.
      * @return the description.

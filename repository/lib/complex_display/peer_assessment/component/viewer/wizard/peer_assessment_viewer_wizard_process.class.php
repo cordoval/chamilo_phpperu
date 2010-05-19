@@ -88,7 +88,7 @@ class PeerAssessmentViewerWizardProcess extends HTML_QuickForm_Action
     			$message = Translation :: get('PeerAssessmentResultsUpdated');	
     		}
     		
-    		$this->parent->get_parent()->redirect($message, false, array(PeerAssessmentPublicationResults :: PROPERTY_PUBLICATION_ID => $publication_result->get_publication_id()));
+    		$this->parent->get_parent()->redirect($message, false, array('run.php?application=peer_assessment'));
     
     	}
     }

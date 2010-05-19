@@ -22,8 +22,8 @@ class DefaultInternshipOrganizerLocationTableColumnModel extends ObjectTableColu
 		$columns = array ();
 		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_NAME, true );
 		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_ADDRESS, true );
-		/*$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_POSTCODE, true );*/
 		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_CITY, true );
+		//$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_CITY, true );
 		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_DESCRIPTION, true );
 		
 		return $columns;

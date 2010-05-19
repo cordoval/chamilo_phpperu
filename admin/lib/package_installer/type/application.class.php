@@ -19,14 +19,13 @@ class PackageInstallerApplicationType extends PackageInstallerType
         {
             $this->get_parent()->installation_successful('dependencies', Translation :: get('ApplicationDependenciesVerified'));
             $installer = Installer :: factory($application_name, array());
-            
             if (! $installer->install())
             {
                 return $this->get_parent()->installation_failed('initilization', Translation :: get('ApplicationInitilizationFailed'));
             }
             else
             {
-                $this->add_message($installer->retrieve_message());
+            	$this->add_message($installer->retrieve_message());
                 $this->installation_successful('initilization');
             }
             
@@ -70,6 +69,11 @@ class PackageInstallerApplicationType extends PackageInstallerType
         return true;
     }
 
+    static function get_path($application_name)
+    {
+    	return BasicApplication::get_application_path($application_name);
+    }
+    
     function set_version()
     {
         

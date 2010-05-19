@@ -23,6 +23,13 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
+		   <applications>
+				<dependency>
+		  			<id>personal_calendar</id>
+		  			<version type="1">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</applications>
 		</dependencies>
 	</package>
 </packages>

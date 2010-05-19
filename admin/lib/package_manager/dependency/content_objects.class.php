@@ -1,20 +1,50 @@
 <?php
-require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_dependency.class.php';
-
 /**
  * $Id: content_objects.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
  * @package admin.lib.package_installer.dependency
  */
 
-class PackageInstallerContentObjectsDependency extends PackageInstallerDependency
+class ContentObjectsPackageDependency extends PackageDependency
 {
-
-    function check($dependency)
+	const PROPERTY_VERSION = 'version';
+	
+	private $version;
+	
+	function ContentObjectsPackageDependency($dependency)
+	{
+		parent :: __construct($dependency); 
+		$this->set_version($dependency['version']);	
+	}
+	
+    /**
+     * @return the $version
+     */
+    public function get_version()
     {
-        $message = Translation :: get('DependencyCheckContentObject') . ': ' . Translation :: get(Utilities :: underscores_to_camelcase($dependency['id']) . 'TypeName') . ', ' . Translation :: get('Version') . ': ' . $dependency['version']['_content'] . ' ' . Translation :: get('Found') . ': ';
+        return $this->version;
+    }
+
+	/**
+     * @param $version the $version to set
+     */
+    public function set_version($version)
+    {
+        $this->version = $version;
+    }
+    
+    function as_html()
+    {
+    	$version = $this->get_version();
+    	return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id()) . 'TypeName') . ', ' . Translation :: get('Version') . ': ' . $version['_content'];
+    }
+    
+    function check()
+    {
+        $version = $this->get_version();
+    	$message = Translation :: get('DependencyCheckContentObject') . ': ' . $this->as_html() . ' ' . Translation :: get('Found') . ': ';
         
         $conditions = array();
-        $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $dependency['id']);
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $this->get_id());
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
         $condition = new AndCondition($conditions);
         
@@ -30,12 +60,12 @@ class PackageInstallerContentObjectsDependency extends PackageInstallerDependenc
         {
             $registration = $registrations->next_result();
             
-            $content_object_version = $this->version_compare($dependency['version']['type'], $dependency['version']['_content'], $registration->get_version());
+            $content_object_version = $this->version_compare($version['type'], $version['_content'], $registration->get_version());
             if (! $content_object_version)
             {
                 $message .= '--' . Translation :: get('WrongVersion') . '--';
                 $this->add_message($message);
-                $this->add_message(Translation :: get('DependencyObjectWrongVersion'), PackageInstaller :: TYPE_WARNING);
+                $this->add_message(Translation :: get('DependencyObjectWrongVersion')/*, PackageInstaller :: TYPE_WARNING*/);
                 return false;
             }
             else
@@ -44,7 +74,7 @@ class PackageInstallerContentObjectsDependency extends PackageInstallerDependenc
                 {
                     $message .= '--' . Translation :: get('InactiveObject') . '--';
                     $this->add_message($message);
-                    $this->add_message(Translation :: get('DependencyActivateObjectWarning'), PackageInstaller :: TYPE_WARNING);
+                    $this->add_message(Translation :: get('DependencyActivateObjectWarning')/*, PackageInstaller :: TYPE_WARNING*/);
                 }
                 else
                 {

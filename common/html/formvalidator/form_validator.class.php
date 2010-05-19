@@ -383,8 +383,8 @@ EOT;
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
-					var expiration = document.getElementById('receiver_".$elementName."');
-					if (expiration.checked)
+					var expiration_".$elementName." = document.getElementById('receiver_".$elementName."');
+					if (expiration_".$elementName.".checked)
 					{
 						receivers_hide('receivers_window_".$elementName."');
 					}
@@ -396,6 +396,21 @@ EOT;
 						el = document.getElementById(item);
 						el.style.display='none';
 					}
+					function reset_receivers_".$elementName."()
+					{
+						setTimeout(
+							function()
+							{
+								if (expiration_".$elementName.".checked)
+									receivers_hide('receivers_window_".$elementName."');
+								else
+									receivers_show('receivers_window_".$elementName."');
+							},30);	
+    				}
+    				$(document).ready(function ()
+					{
+						$(':reset').live('click', reset_receivers_".$elementName.");
+					});
 					/* ]]> */
 					</script>\n");
     }
@@ -423,11 +438,11 @@ EOT;
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
-					var expiration_1 = document.getElementById('". $elementName ."receiver_1');
-					var expiration_2 = document.getElementById('". $elementName ."receiver_2');
-					var expiration_3 = document.getElementById('". $elementName ."receiver_3');
+					var expiration_".$elementName."_1 = document.getElementById('". $elementName ."receiver_1');
+					var expiration_".$elementName."_2 = document.getElementById('". $elementName ."receiver_2');
+					var expiration_".$elementName."_3 = document.getElementById('". $elementName ."receiver_3');
 					
-					if (expiration_1.checked || expiration_3.checked || expiration_2.checked)
+					if (expiration_".$elementName."_1.checked || expiration_".$elementName."_3.checked || expiration_".$elementName."_2.checked)
 					{
 						receivers_hide('". $elementName ."receivers_window');
 					}
@@ -439,6 +454,21 @@ EOT;
 						el = document.getElementById(item);
 						el.style.display='none';
 					}
+					function reset_receivers_".$elementName."()
+					{
+						setTimeout(
+							function()
+							{
+								if (expiration_".$elementName."_1.checked || expiration_".$elementName."_3.checked || expiration_".$elementName."_2.checked)
+									receivers_hide('receivers_window_".$elementName."');
+								else
+									receivers_show('receivers_window_".$elementName."');
+							},30);	
+    				}
+    				$(document).ready(function ()
+					{
+						$(':reset').live('click', reset_receivers_".$elementName.");
+					});
 					/* ]]> */
 					</script>\n");
     }
@@ -470,15 +500,15 @@ EOT;
 
             $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
-					var expiration = document.getElementById('$idGroup');
-					if (expiration.checked)
+					var expiration_".$elementName." = document.getElementById('$idGroup');
+					if (expiration_".$elementName.".checked)
 					{
 						receivers_show('$nameWindow');
 					}
-                                        else
-                                        {
-                                                receivers_hide('$nameWindow')
-                                        }
+                    else
+                    {
+                        receivers_hide('$nameWindow');
+                    }
 					function receivers_show(item) {
 						el = document.getElementById(item);
 						el.style.display='';
@@ -487,6 +517,21 @@ EOT;
 						el = document.getElementById(item);
 						el.style.display='none';
 					}
+					function reset_receivers_".$elementName."()
+					{
+						setTimeout(
+							function()
+							{
+								if (expiration_".$elementName.".checked)
+									receivers_show('$nameWindow');
+								else
+									receivers_hide('$nameWindow');
+							},30);	
+    				}
+    				$(document).ready(function ()
+					{
+						$(':reset').live('click', reset_receivers_".$elementName.");
+					});
 					/* ]]> */
 					</script>\n");
 

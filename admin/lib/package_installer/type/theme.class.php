@@ -24,5 +24,10 @@ class PackageInstallerThemeType extends PackageInstallerType
         
         return true;
     }
+    
+    static function get_path($theme_name)
+    {
+    	return Path :: get_layout_path() . $theme_name . '/';
+    }
 }
 ?>

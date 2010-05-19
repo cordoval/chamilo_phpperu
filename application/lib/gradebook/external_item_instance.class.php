@@ -29,7 +29,7 @@ class ExternalItemInstance extends DataClass
     
     function get_external_item_id()
     {
-    	$this->get_default_property(self :: PROPERTY_EXTERNAL_ITEM_ID);
+    	return $this->get_default_property(self :: PROPERTY_EXTERNAL_ITEM_ID);
     }
     
     function set_external_item_id($external_item_id)
@@ -39,7 +39,7 @@ class ExternalItemInstance extends DataClass
     
     function get_evaluation_id()
     {
-    	$this->get_default_property(self :: PROPERTY_EVALUATION_ID);
+    	return $this->get_default_property(self :: PROPERTY_EVALUATION_ID);
     }
     
     function set_evaluation_id($evaluation_id)

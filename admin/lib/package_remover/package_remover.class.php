@@ -227,7 +227,7 @@ abstract class PackageRemover
 
     function parse_packages_info($registration, $data)
     {
-        $type = $registration->get_type();
+    	$type = $registration->get_type();
         
         switch ($type)
         {

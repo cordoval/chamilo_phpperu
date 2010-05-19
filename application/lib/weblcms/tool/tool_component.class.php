@@ -59,6 +59,11 @@ abstract class ToolComponent
     {
         $this->tool->display_error_message($message);
     }
+    
+    function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
+    {
+        return $this->tool->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
+    }
 
     function get_action()
     {

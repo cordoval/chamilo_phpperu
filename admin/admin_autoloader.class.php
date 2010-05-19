@@ -69,6 +69,7 @@ class AdminAutoloader
 					  'system_announcer_multipublisher' => 'announcer/system_announcement_multipublisher.class.php',
 					  'admin_category_manager' => 'category_manager/admin_category_manager.class.php',
 					  'package_installer' => 'package_installer/package_installer.class.php',
+					  'package_updater' => 'package_updater/package_updater.class.php',
 					  'package_manager' => 'package_manager/package_manager.class.php',
 					  'package_remover' => 'package_remover/package_remover.class.php');
 

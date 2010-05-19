@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . '/../data_provider/gradebook_tree_menu_data_pro
 require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
 
 require_once dirname(__FILE__) . '/component/evaluation_formats_browser/evaluation_formats_browser_table.class.php';
+require_once dirname(__FILE__) . '/component/gradebook_external_publication_browser/gradebook_external_publication_browser_table.class.php';
 
 class GradebookManager extends WebApplication
 {
@@ -25,6 +26,7 @@ class GradebookManager extends WebApplication
 	const ACTION_BROWSE_GRADEBOOK = 'browse';
 	
 	const ACTION_CREATE_EXTERNAL = 'create_external';
+	const ACTION_CREATE_EXTERNAL_GRADE = 'create_external_grade';
 	const ACTION_EDIT_GRADEBOOK = 'edit_gradebook';
 	const ACTION_DELETE_GRADEBOOK = 'delete_gradebook';
 	const ACTION_MOVE_GRADEBOOK = 'move_gradebook';
@@ -43,11 +45,14 @@ class GradebookManager extends WebApplication
 	const ACTION_EDIT_EVALUATION_FORMAT = 'edit_evaluation_format';
 	const ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY = 'change_evaluation_format_active_property';
 	const ACTION_VIEW_EVALUATIONS_ON_PUBLICATION = 'view_evaluations_on_publication';
+	const ACTION_EDIT_EXTERNAL_EVALUATION = 'edit_external_evaluation';
+	const ACTION_DELETE_EXTERNAL_EVALUATION = 'delete_external_evaluation';
 	/*
 	 * Gradebook parameters
 	 */
 	const PARAM_ACTIVATE_SELECTED_EVALUATION_FORMAT = 'activate_selected_evaluation_format';
 	const PARAM_DEACTIVATE_SELECTED_EVALUATION_FORMAT = 'deactivate_selected_evaluation_format';
+	const PARAM_DELETE_SELECTED_EXTERNAL_EVALUATION = 'delete_selected_external_evaluation';
 	const PARAM_EVALUATION_FORMAT = 'evaluation_format';
 	const PARAM_EVALUATION_FORMAT_ID = 'evaluation_format';
 	const PARAM_ACTIVE = 'active';
@@ -113,6 +118,12 @@ class GradebookManager extends WebApplication
 				break;		
 			case self :: ACTION_VIEW_HOME :
 				$component = $this->create_component('GradebookBrowser');
+				break;
+			case self :: ACTION_EDIT_EXTERNAL_EVALUATION :
+				$component = $this->create_component('EditExternalEvaluation');
+				break;
+			case self :: ACTION_DELETE_EXTERNAL_EVALUATION :
+				$component = $this->create_component('DeleteExternalEvaluation');
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_HOME);
@@ -287,6 +298,8 @@ class GradebookManager extends WebApplication
 	}
 
 	
+	
+//--------------------------------------END IGNORE------------------------------------------------------------
 	/**
 	 * Parse the input from the sortable tables and process input accordingly
 	 */
@@ -297,7 +310,9 @@ class GradebookManager extends WebApplication
 			if(isset($_POST[EvaluationFormatsBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){ 
 				$selected_ids = $_POST[EvaluationFormatsBrowserTable  :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			}
-			
+			if(isset($_POST[GradebookExternalPublicationBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){ 
+				$selected_ids = $_POST[GradebookExternalPublicationBrowserTable  :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			}
 			if (empty ($selected_ids))
 			{
 				$selected_ids = array ();
@@ -318,10 +333,13 @@ class GradebookManager extends WebApplication
 					Request :: set_get(self :: PARAM_EVALUATION_FORMAT_ID, $selected_ids);
 					Request :: set_get(self :: PARAM_ACTIVE, 1);
 					break;
+				case self :: PARAM_DELETE_SELECTED_EXTERNAL_EVALUATION : 
+					$this->set_action(self :: ACTION_DELETE_EXTERNAL_EVALUATION);
+					Request :: set_get(self :: PARAM_PUBLICATION_ID, $selected_ids);
+					break;
 			}
 		}
 	}
-//--------------------------------------END IGNORE-------------------------------------------------------------
 // Data retrieval
 // **************
 // evaluation formats
@@ -509,10 +527,15 @@ class GradebookManager extends WebApplication
 	{
 		return GradebookDataManager :: get_instance()->retrieve_categories_by_application($application);
 	}
-// retrieve external items
+// external items
 	function retrieve_external_items($condition, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_external_items($condition, $offset, $max_objects, $order_by);
+	}
+	
+	function retrieve_external_item($id)
+	{
+		return GradebookDataManager :: get_instance()->retrieve_external_item($id);
 	}
 	
 	function count_external_items($condition)
@@ -524,6 +547,7 @@ class GradebookManager extends WebApplication
 	{
 		return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_external_publication($condition);
 	}
+	
 // evaluations
 	function retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
 	{
@@ -559,6 +583,16 @@ class GradebookManager extends WebApplication
 	function get_external_evaluations_on_publications_viewer_url($external_item)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
+	}
+	
+	function get_edit_external_evaluation_url($external_item)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_EXTERNAL_EVALUATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
+	}
+	
+	function get_delete_external_evaluation_url($external_item)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_EXTERNAL_EVALUATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
 	}
 	
 	function get_publications_by_type_viewer_url($type, $the_application)

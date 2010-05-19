@@ -61,6 +61,11 @@ class PackageInstallerContentObjectType extends PackageInstallerType
         
         return true;
     }
+    
+	static function get_path($content_object_name)
+    {
+    	return Path :: get_repository_path() . 'lib/content_object/' . $content_object_name . '/';
+    }
 
     function add_registration()
     {

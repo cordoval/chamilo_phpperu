@@ -83,7 +83,14 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 	        {
 	            $html[] = '<div class="description">';
 	            $html[] = $this->get_parent()->get_peer_assessment()->get_description();
-	            $html[] = '<div style="float: right; margin-top: -15px;">'.$date_message.'</div>';
+	            if($date_message == 'Always open')
+	            {
+	            	$html[] = '<div style="float: right; margin-top: -30px;">'.$date_message.'</div>';	
+	            }
+	            else
+	            {
+	            	$html[] = '<div style="float: right; margin-top: -15px;">'.$date_message.'</div>';
+	            }
 	            $html[] = '<div class="clear"></div>';
 	            $html[] = '</div>';
 	        }
@@ -135,7 +142,10 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 			        $html[] = '<div class="clear"></div>';
 			        $html[] = '</div>';
 			        
-			        $html[] = '</div>';
+			        if(sizeof($competences) < 4)
+			        {
+			        	$html[] = '</div>';
+			        }
 			        $html[] = '<div class="clear"></div>';
 			        $html[] = '</div>';
 			        $html[] = '<div class="answer">';
@@ -232,12 +242,16 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
 			
 			
 			$criteria_scores = array();
-            $criteria_scores[0] = Translation :: get('SelectScore');
+            $criteria_scores[0] = Translation :: get('SelectCriteriaScore');
 			
 	        $criteria_options = $criteria_overview->get_options();
 	        foreach($criteria_options as $score)
 	        {
-	            $criteria_scores[] = $score->get_description();
+	        	// Description
+	            //$criteria_scores[] = $score->get_description();
+	            
+	            // Score
+	            $criteria_scores[] = $score->get_score();
 	        }
         
 
@@ -277,6 +291,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
         // Prints of the table footer
         $this->addElement('html', implode("\n", $table_footer));
     }
+
     
     
     // *******************************	
