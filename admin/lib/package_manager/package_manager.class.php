@@ -23,6 +23,7 @@ class PackageManager extends SubManager
     const ACTION_REMOTE_PACKAGE = 'remote';
     const ACTION_LOCAL_PACKAGE = 'local';
     const ACTION_ARCHIVE_PACKAGE = 'archive';
+    const ACTION_UPDATE_PACKAGE_ARCHIVE= 'update_archive';
     const ACTION_SYNCHRONISE_REMOTE_PACKAGES = 'synchronise';
     const ACTION_INSTALL_PACKAGE = 'install';
     const ACTION_UPDATE_PACKAGE = 'update';
@@ -145,6 +146,7 @@ class PackageManager extends SubManager
         return $this->get_parent()->retrieve_registrations($condition, $order_by, $offset, $max_objects);
     }
 
+    
     function count_registrations($condition = null)
     {
         return $this->get_parent()->count_registrations($condition);
@@ -155,9 +157,14 @@ class PackageManager extends SubManager
         return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_ACTIVATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id()));
     }
 
+    function get_registration_update_archive_url()
+    {
+    	return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_UPDATE_PACKAGE_ARCHIVE, self :: PARAM_REGISTRATION => $registration->get_id()));
+    }
+    
     function get_registration_update_url($registration)
     {
-        return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_UPDATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id()));
+        return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_UPDATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id(), self :: PARAM_INSTALL_TYPE => self :: INSTALL_REMOTE));
     }
 
     function get_registration_view_url($registration)

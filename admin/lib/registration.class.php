@@ -116,6 +116,16 @@ class Registration extends DataClass
     {
         return $this->get_status();
     }
+    
+    function activate()
+    {
+    	$this->set_status(true);
+    }
+    
+    function deactivate()
+    {
+    	$this->set_status(false);
+    }
 
     function toggle_status()
     {

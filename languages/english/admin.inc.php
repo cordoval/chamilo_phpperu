@@ -417,4 +417,14 @@ $lang['admin']['Dependencies'] = 'Dependencies';
 $lang['admin']['ContentObjects'] = 'Content objects';
 $lang['admin']['Server'] = 'Server';
 $lang['admin']['PlatformAdministration'] = 'Platform administration';
+$lang['admin']['UpdateToVersion'] = 'Update to version';
+$lang['admin']['DependenciesResultVerification'] = 'Dependencies result verification';
+$lang['admin']['Equal'] = 'Equal';
+$lang['admin']['NotEqual'] = 'Not equal';
+$lang['admin'][''] = '';
+$lang['admin'][''] = '';
+$lang['admin'][''] = '';
+$lang['admin'][''] = '';
+$lang['admin']['VerificationFailed'] = 'Verification failed';
+$lang['admin']['VerificationSuccess'] = 'Verification success';
 ?>

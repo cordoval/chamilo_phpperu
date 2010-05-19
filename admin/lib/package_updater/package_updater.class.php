@@ -9,32 +9,147 @@ class PackageUpdater
     const TYPE_WARNING = '3';
     const TYPE_ERROR = '4';
 
-    private $source;
     private $message;
     private $html;
+    private $registration;
+    private $source;
 
-    function PackageUpdater()
+    /**
+     * @return the $registration
+     */
+    public function get_registration()
     {
-    	$this->source = Request :: get(PackageManager :: PARAM_INSTALL_TYPE);
-        $this->message = array();
-        $this->html = array();
+        return $this->registration;
     }
 
-    function run()
+	/**
+     * @param $registration the $registration to set
+     */
+    public function set_registration($registration)
     {
-    	$updater_source = PackageUpdaterSource :: factory($this, $this->source);
-        if (! $updater_source->process())
+        $this->registration = $registration;
+    }
+
+	function PackageUpdater()
+    {
+    	$this->registration = AdminDataManager::get_instance()->retrieve_registration(Request :: get(PackageManager::PARAM_REGISTRATION));
+        $this->message = array();
+        $this->html = array();
+        $this->source = Request :: get(PackageManager :: PARAM_INSTALL_TYPE);
+    }
+
+    function deactivate_package()
+    {
+    	$this->registration->deactivate();
+    	return $this->registration->update();
+    }
+    
+    function backup_package()
+    {
+    	$this->add_message(Translation :: get('!!!!!!!!!!ToBeImplemented !!!!!!!'), self :: TYPE_WARNING);
+    	return true;
+    }
+    
+    function get_remote_package()
+    {
+    	$id = Request :: get(PackageManager::PARAM_REGISTRATION);
+		$registration = AdminDataManager::get_instance()->retrieve_registration($id);
+      
+        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $registration->get_name());
+        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $registration->get_type());
+        $condition = new AndCondition($conditions);
+        
+        $admin = AdminDataManager::get_instance();
+        $order_by = new ObjectTableOrder(RemotePackage :: PROPERTY_VERSION, SORT_DESC);
+        
+        $package_remote = $admin->retrieve_remote_packages($condition, $order_by, null, 1);
+        if ($package_remote->size() == 1)
         {
-            return $this->update_failed('source', Translation :: get('PackageRetrievalFailed'));
+        	return $package_remote->next_result();
         }
         else
         {
-            $is_registered = AdminDataManager :: is_registered($updater_source->get_attributes()->get_name(), $updater_source->get_attributes()->get_section());
-            if($is_registered)
-            {
-           		return $this->update_failed('source', Translation :: get('PackageIsAlreadyRegistered'));
-            }
+        	return false;
+        }
+    }
+    
+	function verify_dependencies()
+    {
+		$registration = $this->get_registration();
+    	
+		$conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $registration->get_name());
+        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $registration->get_type());
+        $condition = new AndCondition($conditions);
+        
+        $admin = AdminDataManager::get_instance();
+        $order_by = new ObjectTableOrder(RemotePackage :: PROPERTY_VERSION, SORT_DESC);
+        
+        $package_remote = $admin->retrieve_remote_packages($condition, $order_by, null, 1);
+        if ($package_remote->size() == 1)
+        {
+        	$package_remote = $package_remote->next_result();
 
+	        $package_update_dependency = new PackageDependencyVerifier($package_remote);
+	        $success_update = $package_update_dependency->is_updatable();
+			$this->add_message($package_update_dependency->get_message_logger()->render());
+			
+			if (! $success_update)
+			{
+				return $this->update_failed('reliabilities', Translation :: get('ReliabilitiesFailed'));
+			}
+			else
+			{
+				$this->process_result('Reliabilities');
+			}
+
+	        $success_install = $package_update_dependency->is_installable();
+	        $this->add_message($package_update_dependency->get_message_logger()->render());
+			if (! $success_install)
+			{
+				return $this->update_failed('dependencies', Translation :: get('DependenciesFailed'));
+			}
+        	else
+			{
+				$this->process_result('Dependencies');
+			}
+        }
+        return true;
+    }
+    
+    function run()
+    {
+		if ($this->deactivate_package())
+		{
+			$this->add_message(Translation :: get('PackageDeactivated'), self :: TYPE_CONFIRM);
+			$this->process_result('Status');
+		}
+		else
+		{
+			return $this->update_failed('status', Translation :: get('PackageDeactivationFailed'));
+		}
+		
+    	if ($this->backup_package())
+		{
+			$this->add_message(Translation :: get('BackupPackageSuccess'), self :: TYPE_CONFIRM);
+			$this->process_result('Backup');
+		}
+		else
+		{
+			return $this->update_failed('backup', Translation :: get('BackupPackageFailed'));
+		}
+		
+		if (! $this->verify_dependencies())
+		{
+			return false;			
+		}
+    			
+    	$updater_source = PackageUpdaterSource :: factory($this, $this->source);
+        if (! $updater_source->process())
+        {
+        	return $this->update_failed('source', Translation :: get('PackageRetrieveFailed'));
+        }
+        else
+        {      	
         	$this->process_result('Source');
 
             $attributes = $updater_source->get_attributes();
@@ -49,6 +164,7 @@ class PackageUpdater
                 return $this->update_successful('finished', Translation :: get('PackageCompletelyUpdated'));
             }
         }
+        
     }
     
     function add_message($message, $type = self :: TYPE_NORMAL)

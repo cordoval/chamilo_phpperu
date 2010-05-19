@@ -63,6 +63,31 @@ abstract class PackageDependency
         return $this->severity;
     }
 
+    public function get_operator_name($operator)
+    {
+    	switch ($operator)
+        {
+            case self :: COMPARE_EQUAL :
+                return Translation :: get('Equal');
+                break;
+            case self :: COMPARE_NOT_EQUAL :
+                return Translation :: get('NotEqual');
+                break;
+            case self :: COMPARE_GREATER_THEN :
+                return Translation :: get('Greater');
+                break;
+            case self :: COMPARE_GREATER_THEN_OR_EQUAL :
+                return Translation :: get('GreaterThenOrEqual');
+                break;
+            case self :: COMPARE_LESS_THEN :
+                return Translation :: get('LessThen');
+                break;
+            case self :: COMPARE_LESS_THEN_OR_EQUAL :
+                return Translation :: get('LessThenOrEqual');
+                break;
+        }
+    }
+    
     /**
      * @param $id the $id to set
      */
@@ -132,7 +157,7 @@ abstract class PackageDependency
         }
     }
 
-    function version_compare($type, $reference, $value)
+    static function version_compare($type, $reference, $value)
     {
         switch ($type)
         {

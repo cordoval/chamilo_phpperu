@@ -24,6 +24,15 @@ class ContentObjectsPackageDependency extends PackageDependency
         return $this->version;
     }
 
+	public function get_operator()
+    {
+    	return $this->version['type'];
+    }
+    
+    public function get_version_number()
+    {
+    	return $this->version['_content'];
+    }
     /**
      * @param $version the $version to set
      */

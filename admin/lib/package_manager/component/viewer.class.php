@@ -37,6 +37,8 @@ class PackageManagerViewerComponent extends PackageManager
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PackageIsAlreadyUpToDate'), Theme :: get_common_image_path() . 'action_update_na.png',null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
+        
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdatePackageFromArchive'), Theme :: get_image_path() . 'action_update_archive.png', $this->get_registration_update_archive_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 //        if ($registration->get_type() == Registration :: TYPE_LANGUAGE && Utilities :: camelcase_to_underscores($registration->get_name()) == PlatformSetting :: get('platform_language'))
 //        {
