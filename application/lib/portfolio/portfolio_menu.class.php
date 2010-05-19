@@ -77,7 +77,7 @@ class PortfolioMenu extends HTML_Menu
         $menu = array();
         
         $users = array();
-        //Changed so the root of the portfolio displays the user's full name
+        
         $udm = UserDataManager :: get_instance();
         $users['title'] = Translation :: get('PersonalPortfolio') . " - " . $udm->retrieve_user($this->view_user)->get_fullname();
         $users['url'] = $this->get_root_url();
