@@ -278,7 +278,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database);
+            $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
 
