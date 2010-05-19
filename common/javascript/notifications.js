@@ -29,7 +29,7 @@ $(function() {
 		$(".normal-message, .warning_message, .error_message").bind('mouseleave', function(e) {
 			$("#closeMessage", this).attr('class', 'close_message');
 		});
-		$("#closeMessage").bind('click', function(e) {
+		$("[id|=closeMessage]").bind('click', function(e) {
 			$(this).parent().fadeOut(500);
 		});
 	}
