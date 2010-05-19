@@ -111,6 +111,11 @@ abstract class SubManager
     {
         $this->get_parent()->display_popup_form($form_html);
     }
+    
+    function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
+    {
+        return $this->get_parent()->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
+    }
 
     function not_allowed()
     {

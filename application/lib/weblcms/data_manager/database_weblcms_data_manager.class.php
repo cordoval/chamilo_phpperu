@@ -196,7 +196,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $publication_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
         $publication_user_alias = $this->get_alias('content_object_publication_user');
         $publication_group_alias = $this->get_alias('content_object_publication_course_group');
-        $lo_table_alias = RepositoryDataManager :: get_instance()->get_alias('content_object');
+        $lo_table_alias = $this->get_alias('content_object');
 
         $query = 'SELECT DISTINCT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' LEFT JOIN ' . $this->escape_table_name('content_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
@@ -211,7 +211,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $publication_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
         $publication_user_alias = $this->get_alias('content_object_publication_user');
         $publication_group_alias = $this->get_alias('content_object_publication_course_group');
-        $lo_table_alias = RepositoryDataManager :: get_instance()->get_alias('content_object');
+        $lo_table_alias = $this->get_alias('content_object');
 
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' LEFT JOIN ' . $this->escape_table_name('content_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
