@@ -3,7 +3,7 @@
  * $Id: portfolio_publication.class.php 206 2009-11-13 13:08:01Z chellee $
  * @package application.portfolio.portfolio_manager.component
  */
-require_once dirname(__FILE__) . '/portfolio_rights.class.php';
+require_once dirname(__FILE__) . '/rights/portfolio_rights.class.php';
 /**
  * This class describes a PortfolioPublication data object
  *
@@ -30,7 +30,7 @@ class PortfolioPublication extends DataClass
 
 
     //id of the parent portfolio-item if there is any???
-    const PROPERTY_PARENT_ID = 'parent_id';
+    //const PROPERTY_PARENT_ID = 'parent_id';
 
 
 
@@ -54,7 +54,7 @@ class PortfolioPublication extends DataClass
     }
 
     /**
-     * Returns the content_object of this PortfolioPublication.
+     * Returns the id of the content_object of this PortfolioPublication.
      * @return the content_object.
      */
     function get_content_object()
@@ -71,14 +71,7 @@ class PortfolioPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object_id);
     }
 
-//    /**
-//     * Returns the from_date of this PortfolioPublication.
-//     * @return the from_date.
-//     */
-//    function get_from_date()
-//    {
-//        return $this->get_default_property(self :: PROPERTY_FROM_DATE);
-//    }
+
 
     function get_location()
     {
@@ -89,24 +82,7 @@ class PortfolioPublication extends DataClass
         return $this->location;
     }
 
-//    /**
-//     * Returns the numeric identifier of the learning object's parent learning
-//     * object.
-//     * @return int The identifier.
-//     */
-//    function get_parent_id()
-//    {
-//        return $this->get_default_property(self :: PROPERTY_PARENT_ID);
-//    }
-//
-//    /**
-//     * Sets the ID of this learning object's parent learning object.
-//     * @param int $parent The ID.
-//     */
-//    function set_parent_id($parent)
-//    {
-//        $this->set_default_property(self :: PROPERTY_PARENT_ID, $parent);
-//    }
+
 
 
     /**
@@ -171,17 +147,11 @@ class PortfolioPublication extends DataClass
      */
     function create_location()
     {
-        //TODO if we want other users to be able to publish in someone's portfolio this needs to be changed as the location tree identifier doesn't need to be the publisher's id
-        $user = $this->get_publisher();
-        $parent_location = PortfolioRights::get_portfolio_root_id($user);
-            if(!$parent_location)
-            {
-                $parent_location = PortfolioRights::create_portfolio_root($user)->get_id();
-            }
-        $object = $this->get_id();
-            $this->location = PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_FOLDER, 'portfolio', $object, $parent_location, $user, true, false);
-
-            return $this ->location;
+        $user_id = $this->get_owner();
+        $parent_location = null;
+        $object_id = $this->get_id();
+        $this->location = PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_FOLDER, PortfolioRights::TYPE_PORTFOLIO_FOLDER, $object_id, $parent_location, $user_id, true, false, true);
+        return $this ->location;
     }
 
 
@@ -189,10 +159,19 @@ class PortfolioPublication extends DataClass
     {
         $dm = PortfolioDataManager :: get_instance();
         $pub = $dm->create_portfolio_publication($this);
-
         $this->create_location();
-
+        $this->update_information(PortfolioInformation::ACTION_PORTFOLIO_ADDED);
         return $pub;
+    }
+
+    /**
+     * update the portfolio information for the action performed on this publication
+     * @param <type> $action
+     * @return <bool> $success
+     */
+    function update_information($action)
+    {
+        return PortfolioManager::update_portfolio_info($this->get_id, PortfolioRights::TYPE_PORTFOLIO_FOLDER, $action, $this->get_owner());
     }
 
     static function get_table_name()
@@ -202,37 +181,15 @@ class PortfolioPublication extends DataClass
 
     static function get_publication_owner($pid)
     {
-        return PortfolioManager::retrieve_portfolio_publication_user($pid);
+        return PortfolioManager::retrieve_portfolio_publication_owner($pid);
     }
 
      static function get_item_owner($cid)
     {
-        return PortfolioManager::retrieve_portfolio_item_user($cid);
+        return PortfolioManager::retrieve_portfolio_item_owner($cid);
     }
 
-    /**
-     *gets the portfolio-info-object of the portfolio's owner (wich contains update-information etc.)
-     * @return portfolioInfo object
-     */
-    function get_portfolio_info()
-    {
-        $dm = PortfolioDataManager :: get_instance();
-        $info = $dm->retrieve_portfolio_information_by_user($this->get_location()->get_tree_identifier());
-        if(!$info)
-        {
-            $info = new PortfolioInformation();
-            $info->set_last_updated_date(time());
-            $info->set_user_id($this->get_location()->get_tree_identifier());
-            $info->set_last_updated_item_id('0');
-            $info->set_last_updated_item_type(PortfolioRights::TYPE_PORTFOLIO_FOLDER);
-            $info->set_last_action(PortfolioInformation::ACTION_FIRST_PORTFOLIO_CREATED);
-            $dm->create_portfolio_information($info);
-        }
-        
-        
-
-        return $info;
-    }
+   
 }
 
 ?>

@@ -11,7 +11,8 @@ class EvaluationManagerUpdaterComponent extends EvaluationManager
 	    $publisher_id = $this->get_publisher_id();
 		$evaluation_id = Request :: get(EvaluationManager :: PARAM_EVALUATION_ID);
         $evaluation = $this->retrieve_evaluation($evaluation_id);
-        $grade_evaluation = $this->retrieve_grade_evaluation($evaluation_id);
+        $condition = new EqualityCondition(GradeEvaluation :: PROPERTY_ID, $evaluation_id);
+        $grade_evaluation = $this->retrieve_grade_evaluation($condition);
         //$form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $evaluation->get_content_object(), 'edit', 'post', $this->get_url(array(EvaluationManager :: PARAM_EVALUATION => $evaluation->get_id())));
         //if ($form->validate() || Request :: get('validated'))
         //{

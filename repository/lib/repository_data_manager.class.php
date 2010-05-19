@@ -217,7 +217,7 @@ class RepositoryDataManager
      * @param ContentObject $object
      * @return boolean True if the given learning object can be deleted
      */
-    public static function content_object_deletion_allowed($object, $type = null, $user)
+    public static function content_object_deletion_allowed($object, $type = null)
     {
         if ($object->get_owner_id() == 0)
             return true;

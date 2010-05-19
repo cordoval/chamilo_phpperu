@@ -15,7 +15,7 @@ interface PortfolioDataManagerInterface
     function initialize();
    
     function create_storage_unit($name, $properties, $indexes);
-
+    function any_content_object_is_published($object_ids);
     function create_portfolio_publication($portfolio_publication);
 
     function update_portfolio_publication($portfolio_publication);
@@ -23,11 +23,12 @@ interface PortfolioDataManagerInterface
     function delete_portfolio_publication($portfolio_publication);
 
     function count_portfolio_publications($conditions = null);
-    function retrieve_portfolio_publication_user($pid);
-    function retrieve_portfolio_publication($pid);
-     function retrieve_portfolio_item_user($cid);
+    
+   
+     
     function retrieve_portfolio_information_by_user($user_id);
-    function retrieve_portfolio_publications($condition = null, $offset = null, $count = null, $order_property = null);
+    function retrieve_portfolio_publication($id);
+  
     function create_portfolio_information($portfolio_publication);
     function create_portfolio_publication_group($portfolio_publication_group);
 
@@ -47,7 +48,7 @@ interface PortfolioDataManagerInterface
 
     function content_object_is_published($object_id);
 
-    function any_content_object_is_published($object_ids);
+
 
     function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null);
 
@@ -58,6 +59,9 @@ interface PortfolioDataManagerInterface
     function delete_content_object_publications($object_id);
 
     function update_content_object_publication_id($publication_attr);
+    function get_portfolio_children($portfolio_id);
+
+
 
 }
 ?>

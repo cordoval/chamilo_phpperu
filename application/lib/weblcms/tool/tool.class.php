@@ -361,6 +361,11 @@ abstract class Tool
     {
         $this->parent->display_error_message($message);
     }
+    
+    function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
+    {
+        return $this->parent->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
+    }
 
     /**
      * Informs the user that access to the page was denied.

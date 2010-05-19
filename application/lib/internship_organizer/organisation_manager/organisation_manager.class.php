@@ -11,6 +11,7 @@ class InternshipOrganizerOrganisationManager extends SubManager
 	const PARAM_DELETE_SELECTED_ORGANISATIONS = 'delete_organisations';
 	
 	const PARAM_LOCATION_ID = 'location_id';
+	const PARAM_REGION_ID = 'region_id';
 	const PARAM_DELETE_SELECTED_LOCATIONS = 'delete_locations';
 	
 	const ACTION_CREATE_ORGANISATION = 'create';
@@ -23,6 +24,7 @@ class InternshipOrganizerOrganisationManager extends SubManager
 	const ACTION_BROWSE_LOCATIONS = 'browse_locations';
 	const ACTION_EDIT_LOCATION = 'edit_location';
 	const ACTION_DELETE_LOCATION = 'delete_location';
+	const ACTION_VIEW_LOCATION = 'view_location';
 	
 	function InternshipOrganizerOrganisationManager($internship_manager) 
 	{
@@ -65,6 +67,9 @@ class InternshipOrganizerOrganisationManager extends SubManager
 			case self::ACTION_CREATE_LOCATION :
 				$component = $this->create_component('LocationCreator');
 				break;
+			case self::ACTION_VIEW_LOCATION :
+				$component = $this->create_component('LocationViewer');
+				break;	
 			case self::ACTION_BROWSE_LOCATIONS :
 				$component = $this->create_component('LocationBrowser');
 				break;
@@ -115,6 +120,11 @@ class InternshipOrganizerOrganisationManager extends SubManager
 		return InternshipOrganizerDataManager::get_instance ()->retrieve_location ( $id );
 	}
 	
+	function retrieve_internship_organizer_region($region_id)
+	{
+		return InternshipOrganizerDataManager::get_instance ()->retrieve_internship_organizer_region($region_id);
+	}
+	
 	//url creation
 	function get_create_organisation_url() 
 	{
@@ -144,6 +154,11 @@ class InternshipOrganizerOrganisationManager extends SubManager
 	function get_create_location_url($organisation) 
 	{
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_CREATE_LOCATION, self::PARAM_ORGANISATION_ID => $organisation->get_id () ) );
+	}
+	
+	function get_view_location_url($location) 
+	{
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_VIEW_LOCATION, self::PARAM_LOCATION_ID => $location->get_id (), self::PARAM_REGION_ID => $location->get_region_id (), self::PARAM_ORGANISATION_ID => $location->get_organisation_id () ) );
 	}
 	
 	function get_update_location_url($location) 
