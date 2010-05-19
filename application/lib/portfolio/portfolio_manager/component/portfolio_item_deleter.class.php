@@ -19,7 +19,7 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManager
     function run()
     {
         $ids = $_GET[PortfolioManager :: PARAM_PORTFOLIO_ITEM];
-        $failures = 0;
+        $success = true;
         
         if (! empty($ids))
         {
@@ -34,22 +34,23 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManager
             {
                 $item = $rdm->retrieve_complex_content_object_item($cid);
                 $ref = $rdm->retrieve_content_object($item->get_ref());
-                
-                if (! $item->delete())
-                {
-                    $failures ++;
-                }
-                else if(!PortfolioRights::delete_location($cid))
-                {
-                    $failures ++;
-                }
+                //DELETE COMPLEX CONTENT OBJECT WRAPPER
+                $success &= $item->delete();
+                $types = array();
+                $types[] = PortfolioRights::TYPE_PORTFOLIO_ITEM;
+                $types[] = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
+                //DELETE LOCATION
+                $success &=  PortfolioRights::delete_location($cid, $this->get_user_id(), $types );
+               
                 if ($ref->get_type() == PortfolioItem :: get_type_name())
                 {
-                    $ref->delete();
+                    $object_id = $ref->get_reference();
+                    //DELETE PORTFOLIO ITEM WRAPPER
+                    $success &= $ref->delete();
                 }
             }
             
-            if ($failures)
+            if ($success)
             {
                 if (count($ids) == 1)
                 {
@@ -59,6 +60,8 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManager
                 {
                     $message = 'SelectedPortfolioItemsDeleted';
                 }
+                //UPDATE INFORMATION
+                $success = PortfolioManager::update_portfolio_info($object_id, PortfolioRights::TYPE_PORTFOLIO_ITEM, PortfolioInformation::ACTION_DELETED, $item->get_user_id());
             }
             else
             {
@@ -72,7 +75,7 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManager
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
+            $this->redirect(Translation :: get($message), ($success ? false : true), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
         }
         else
         {

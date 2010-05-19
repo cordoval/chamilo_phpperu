@@ -41,7 +41,6 @@ class PortfolioPublicationForm extends FormValidator
             $this->build_creation_form($type);
         }
       
-        //$this->setDefaults();
     }
 
     function build_basic_form($type)
@@ -56,30 +55,9 @@ class PortfolioPublicationForm extends FormValidator
         $locale1['Error'] = Translation :: get('Error');
         $attributes1['locale'] = $locale1;
         $attributes1['exclude'] = array('user_' . $this->user->get_id());
-        //TODO: also exclude anonymous user
+        
         $attributes1['defaults'] = array();
- //       $pub1 = $this->portfolio_publication;
-//        $udm1 = UserDataManager :: get_instance();
-//        $gdm1 = GroupDataManager :: get_instance();
-        //TODO:SET CURRENT PERMISSION FOR LOCATION IN FORM
-//        foreach ($pub1->get_target_users() as $user_id) {
-//            $user = $udm1->retrieve_user($user_id);
-//            $default = array();
-//            $default['id'] = 'user_' . $user_id;
-//            $default['classes'] = 'type type_user';
-//            $default['title'] = $user->get_fullname();
-//            $default['description'] = $user->get_fullname();
-//            $attributes1['defaults'][] = $default;
-//        }
-//        foreach ($pub1->get_target_groups() as $group_id) {
-//            $group = $gdm1->retrieve_group($group_id);
-//            $default = array();
-//            $default['id'] = 'group_' . $group_id;
-//            $default['classes'] = 'type type_group';
-//            $default['title'] = $group->get_name();
-//            $default['description'] = $group->get_name();
-//            $attributes1['defaults'][] = $default;
-//        }
+
 
         $radioOptions = array();
         $i = 0;
@@ -113,7 +91,6 @@ class PortfolioPublicationForm extends FormValidator
 
         $this->add_inherit_set_option($rights_array, $inherit_default, $radioOptions, $attributes1, $defaultSelected);
 
-        // $this->add_forever_or_timewindow();
        
     }
 
@@ -128,15 +105,7 @@ class PortfolioPublicationForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
         $defaults = array();
-        
-//        if ($pub->get_from_date() == 0 && $pub->get_to_date() == 0)
-//        {
-//            $defaults['forever'] = 1;
-//        }
-//        else
-//        {
-//            $defaults['forever'] = 0;
-//        }
+
 
              if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
             {
@@ -201,7 +170,7 @@ class PortfolioPublicationForm extends FormValidator
                         
                         if($defaults[self::RIGHT_GIVE_FEEDBACK. '_option'] == PortfolioRights::RADIO_OPTION_GROUPS_USERS)
                         {
-                            //set groups and users as defaults
+                            //TODO: set groups and users as defaults
                             $groups_locations = $rights['group'];
                             $users_locations = $rights['user'];
                             
@@ -219,23 +188,13 @@ class PortfolioPublicationForm extends FormValidator
                             $defaults[self::RIGHT_GIVE_FEEDBACK. 'group'] = $users_array;
                             
                         }
-//
-//        foreach ($pub1->get_target_groups() as $group_id) {
-//            $group = $gdm1->retrieve_group($group_id);
-//            $default = array();
-//            $default['id'] = 'group_' . $group_id;
-//            $default['classes'] = 'type type_group';
-//            $default['title'] = $group->get_name();
-//            $default['description'] = $group->get_name();
-//            $attributes1['defaults'][] = $default;
-
 
                     }
                     else
                     {
                         $defaults[self::RIGHT_GIVE_FEEDBACK. '_option'] = PortfolioRights::RADIO_OPTION_INHERIT;
                     }
-                    //TODO: set users and groups when specific rights are set
+                    
                 }
             }
           
@@ -262,8 +221,7 @@ class PortfolioPublicationForm extends FormValidator
         }
 
         $defaults['inherit_set_option'] = $inherit_default ;
-
-        //$defaults['forever'] = 1;
+     
         parent :: setDefaults($defaults);
     }
 
@@ -283,16 +241,6 @@ class PortfolioPublicationForm extends FormValidator
                 $location = PortfolioRights::get_portfolio_location($cid, $type, $user_id);
 
             }
-
-//            if(!isset($location) || $location == false)
-//            {
-//                //portfolio was created in the repository and then published so no location for the item in the portfolio tree yet
-//                $rdm = RepositoryDataManager :: get_instance();
-//                $item = $rdm->retrieve_complex_content_object_item($cid);
-//                //TODO: IS FOUT VOLGENS MIJ
-//                $parent_location = $item->get_parent();
-//                PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, $type, $cid, $parent_location, $user_id, true, false);
-//            }
 
             return PortfolioRights::implement_update_rights($values, $location);
     }
@@ -352,20 +300,7 @@ class PortfolioPublicationForm extends FormValidator
         return $success;
     }
 
-//    /**
-//     * Sets default values.
-//     * @param array $defaults Default values for this form's parameters.
-//     */
-//    function setDefaults($defaults = array ())
-//    {
-//        $portfolio_publication = $this->portfolio_publication;
-//
-//        //$defaults[PortfolioPublication :: PROPERTY_FROM_DATE] = $portfolio_publication->get_from_date();
-//        //$defaults[PortfolioPublication :: PROPERTY_TO_DATE] = $portfolio_publication->get_to_date();
-//        //$defaults[PortfolioPublication :: PROPERTY_HIDDEN] = $portfolio_publication->get_hidden();
-//
-//        parent :: setDefaults($defaults);
-//    }
+
 
     function add_inherit_set_option($rightsarray, $inherit_default, $radio_options, $attributes, $defaultSelected)
     {
@@ -408,7 +343,6 @@ class PortfolioPublicationForm extends FormValidator
                                     /* ]]> */
                                     </script>\n"
                         );
-
     }
 
 

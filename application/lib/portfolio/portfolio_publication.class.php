@@ -30,7 +30,7 @@ class PortfolioPublication extends DataClass
 
 
     //id of the parent portfolio-item if there is any???
-    const PROPERTY_PARENT_ID = 'parent_id';
+    //const PROPERTY_PARENT_ID = 'parent_id';
 
 
 
@@ -54,7 +54,7 @@ class PortfolioPublication extends DataClass
     }
 
     /**
-     * Returns the content_object of this PortfolioPublication.
+     * Returns the id of the content_object of this PortfolioPublication.
      * @return the content_object.
      */
     function get_content_object()

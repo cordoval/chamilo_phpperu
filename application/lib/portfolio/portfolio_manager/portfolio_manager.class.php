@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../portfolio_data_manager.class.php';
 require_once dirname(__FILE__) . '/../portfolio_publication.class.php';
+require_once dirname(__FILE__) . '/../portfolio_information.class.php';
 
 /**
  * A portfolio manager
@@ -122,31 +123,6 @@ class PortfolioManager extends WebApplication
         return $content;
     }
 
-//    function count_portfolio_publication_groups($condition)
-//    {
-//        return PortfolioDataManager :: get_instance()->count_portfolio_publication_groups($condition);
-//    }
-//
-//    function retrieve_portfolio_publication_groups($condition = null, $offset = null, $count = null, $order_property = null)
-//    {
-//        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_groups($condition, $offset, $count, $order_property);
-//    }
-
-//    function retrieve_portfolio_publication_group($id)
-//    {
-//        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_group($id);
-//    }
-//
-//    function count_portfolio_publication_users($condition)
-//    {
-//        return PortfolioDataManager :: get_instance()->count_portfolio_publication_users($condition);
-//    }
-
-//    function retrieve_portfolio_publication_users($condition = null, $offset = null, $count = null, $order_property = null)
-//    {
-//        return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition, $offset, $count, $order_property);
-//    }
-//
     static function retrieve_portfolio_publication_publisher($pid)
     {
         return PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_publisher($pid);
@@ -250,50 +226,49 @@ class PortfolioManager extends WebApplication
         return array();
     }
 
-    function publish_content_object($content_object, $location, $owner_id = null)
-    {//HIER KOMT DE REPOSITORY PUBLISHER TERECHT DUS HIER MOET OOK DE LOCATIONS GEZET WORDEN
-        $success = true;
-        $publication = new PortfolioPublication();
-        $publication->set_content_object($content_object->get_id());
-        $publication->set_publisher(Session :: get_user_id());
-        
-        if($owner_id != null)
-        {
-            $publication->set_owner($owner_id);
-        }
-        else
-        {
-            $publication->set_owner(Session :: get_user_id());
-        }
-        $publication->set_published(time());
-        $success &= $publication->create();
-        $pub_location = $publication->get_location();
-        if($pub_location)
-        {
-            $parent_location_id = $pub_location->get_id();
-            
-            $children_set = PortfolioManager::get_portfolio_children($publication->get_content_object(), false, false);
-            if($children_set != false)
-            {
-                $pdm = PortfolioDataManager::get_instance();
-                $success &= $pdm->create_locations_for_children($children_set, $parent_location_id, $publication->get_owner());
-            }
-        }
-        else
-        {
-            $success &= false;
-        }
-        $success &= $publication->update_portfolio_info();
-
-        if($success)
-        {
-            return Translation :: get('PublicationCreated');
-        }
-        else
-        {
-            return Translation :: get('ProblemWithPublicationCreation');
-        }
-    }
+//    function publish_content_object($content_object, $location, $owner_id = null)
+//    {
+//        $success = true;
+//        $publication = new PortfolioPublication();
+//        $publication->set_content_object($content_object->get_id());
+//        $publication->set_publisher(Session :: get_user_id());
+//
+//        if($owner_id == null)
+//        {
+//            $owner_id = Session :: get_user_id();
+//        }
+//
+//        $publication->set_owner($owner_id);
+//        $publication->set_published(time());
+////        $success &= $publication->create();
+////        $pub_location = $publication->get_location();
+////        if($pub_location)
+////        {
+////            $parent_location_id = $pub_location->get_id();
+////
+////            $children_set = PortfolioManager::get_portfolio_children($publication->get_content_object(), false, false);
+////            if($children_set != false)
+////            {
+////                $pdm = PortfolioDataManager::get_instance();
+////                $success &= $pdm->create_locations_for_children($children_set, $parent_location_id, $owner_id);
+////            }
+////        }
+////        else
+////        {
+////            $success &= false;
+////        }
+//
+//        $success &= self::update_portfolio_info($publication->get_id(), PortfolioRights::TYPE_PORTFOLIO_FOLDER, PortfolioInformation::ACTION_PORTFOLIO_ADDED, $owner_id);
+//
+//        if($success)
+//        {
+//            return Translation :: get('PublicationCreated');
+//        }
+//        else
+//        {
+//            return Translation :: get('ProblemWithPublicationCreation');
+//        }
+//    }
 
 
     /**
@@ -310,7 +285,7 @@ class PortfolioManager extends WebApplication
         {
             $object_id = self::get_co_id_from_portfolio_publication_wrapper($content_object_id);
         }
-        if($cid)
+        else if($cid)
         {
             $object_id = self::get_co_id_from_complex_wrapper($content_object_id);
         }
@@ -322,7 +297,7 @@ class PortfolioManager extends WebApplication
         if($object_id)
         {
             $pdm = PortfolioDataManager::get_instance();
-            $children_set = $pdm->get_portfolio_children($object_id);
+            $children_set = $pdm->retrieve_portfolio_children($object_id);
             return $children_set;
         }
         else
@@ -362,7 +337,7 @@ class PortfolioManager extends WebApplication
      *
      * @param <item> $complex_item_object Id
      * @param <object> $complex_item_object: the actual wrapper object
-     * @return <type>
+     * @return <type> content object id
      */
      static function get_co_id_from_complex_wrapper($cid, $complex_item_object = null)
     {
@@ -374,9 +349,23 @@ class PortfolioManager extends WebApplication
         }
 
         $portfolio_item = $rdm->retrieve_content_object($complex_item_object->get_ref());
+
         if($portfolio_item)
         {
-            $content_object_id = $portfolio_item->get_reference();
+            $type = $portfolio_item->get_type();
+            if($type == PortfolioItem::get_type_name())
+            {
+                $content_object_id = $portfolio_item->get_reference();
+            }
+            else if($type == Portfolio::get_type_name())
+                {
+                 $content_object_id = $portfolio_item->get_id();
+            }
+            else
+               {
+                $content_object_id = false;
+            }
+            
         }
         else
         {
@@ -437,7 +426,7 @@ class PortfolioManager extends WebApplication
         {
             $object_id = $child->get_id();
             $grand_children = self::get_portfolio_children($object_id, false, true);
-            $child_location= PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, PortfolioRights::TYPE_PORTFOLIO_ITEM, $object_id, $parent_location_id, $owner, true, false);
+            $child_location= PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, PortfolioRights::TYPE_PORTFOLIO_ITEM, $object_id, $parent_location_id, $owner, true, false, true);
             if($child_location && $grand-children)
             {
                 $success &= self::create_locations_for_children($grand_children, $child_location->get_id(), $owner);

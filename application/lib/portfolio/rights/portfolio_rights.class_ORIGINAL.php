@@ -2,6 +2,9 @@
 
 /**
  * class to handle the different rights in the portfolio application
+ * this is the class that uses the general rights for the platform. for the time being the portfolio application
+ * uses it's own classes and tables so changes/refactoring in the rights system will not influence the working of the portfolio
+ *
  *
  * @author nblocry
  */

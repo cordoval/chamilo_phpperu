@@ -43,7 +43,9 @@ $lang['portfolio']['PortfolioItemAdded'] = 'Portfolio Item was added';
 $lang['portfolio']['PortfolioAdded'] = 'Portfolio was added';
 $lang['portfolio']['FirstPortfolioCreated'] = 'A first portfolio was created';
 $lang['portfolio']['PortfolioEdited'] = 'A Portfolio or item was edited';
+$lang['portfolio']['PortfolioChanged'] = 'A change was made to the portfolio';
+$lang['portfolio']['PortfolioDeleted'] = 'A Portfolio or item was deleted';
 $lang['portfolio']['PortfolioNotUpdatedYet'] = 'No content was published by this student';
-
+$lang['portfolio']['SelectedPortfolioItemDeleted'] = 'The selected portfolio item was deleted';
 
 ?>

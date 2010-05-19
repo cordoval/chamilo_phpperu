@@ -179,9 +179,7 @@ class PortfolioLocation extends DataClass
     {
         $children_conditions = array();
         $children_conditions[] = new EqualityCondition(self :: PROPERTY_PARENT, $this->get_id());
-        $children_conditions[] = new EqualityCondition(self :: PROPERTY_APPLICATION, $this->get_application());
-        $siblings_conditions[] = new EqualityCondition(self :: PROPERTY_TREE_TYPE, $this->get_tree_type());
-        $siblings_conditions[] = new EqualityCondition(self :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
+        $children_conditions[] = new EqualityCondition(self :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
 
         $children_condition = new AndCondition($children_conditions);
 
@@ -192,9 +190,7 @@ class PortfolioLocation extends DataClass
     {
         $children_conditions = array();
         $children_conditions[] = new EqualityCondition(self :: PROPERTY_PARENT, $this->get_id());
-        $children_conditions[] = new EqualityCondition(self :: PROPERTY_APPLICATION, $this->get_application());
-        $siblings_conditions[] = new EqualityCondition(self :: PROPERTY_TREE_TYPE, $this->get_tree_type());
-        $siblings_conditions[] = new EqualityCondition(self :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
+        $children_conditions = new EqualityCondition(self :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
 
         $children_condition = new AndCondition($children_conditions);
 
@@ -217,8 +213,6 @@ class PortfolioLocation extends DataClass
             $parent_conditions[] = new InequalityCondition(self :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $this->get_left_value());
             $parent_conditions[] = new InequalityCondition(self :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_right_value());
         }
-        $parent_conditions[] = new EqualityCondition(self :: PROPERTY_APPLICATION, $this->get_application());
-        $parent_conditions[] = new EqualityCondition(self :: PROPERTY_TREE_TYPE, $this->get_tree_type());
         $parent_conditions[] = new EqualityCondition(self :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
 
         $parent_condition = new AndCondition($parent_conditions);
@@ -237,8 +231,6 @@ class PortfolioLocation extends DataClass
         $locked_parent_conditions = array();
         $locked_parent_conditions[] = new InequalityCondition(self :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $this->get_left_value());
         $locked_parent_conditions[] = new InequalityCondition(self :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_right_value());
-        $locked_parent_conditions[] = new EqualityCondition(self :: PROPERTY_APPLICATION, $this->get_application());
-        $locked_parent_conditions[] = new EqualityCondition(self :: PROPERTY_TREE_TYPE, $this->get_tree_type());
         $locked_parent_conditions[] = new EqualityCondition(self :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
         $locked_parent_conditions[] = new EqualityCondition(self :: PROPERTY_LOCKED, true);
 
