@@ -196,6 +196,23 @@ class Database
         return $object;
     }
 
+    function storage_unit_exist($name)
+    {
+    	$name = $this->get_table_name($name);
+        $this->connection->loadModule('Manager');
+        $manager = $this->connection->manager;
+        $table_fields = $manager->listTableFields($name);
+        
+        if (! MDB2 :: isError($table_fields))
+        {
+        	return true;
+        }
+        else
+        {
+        	return false;
+        }
+    }
+    
     /**
      * Creates a storage unit in the system
      * @param String $name the table name

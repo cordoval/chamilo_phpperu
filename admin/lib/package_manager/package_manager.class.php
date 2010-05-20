@@ -157,7 +157,7 @@ class PackageManager extends SubManager
         return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_ACTIVATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id()));
     }
 
-    function get_registration_update_archive_url()
+    function get_registration_update_archive_url($registration)
     {
     	return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_UPDATE_PACKAGE_ARCHIVE, self :: PARAM_REGISTRATION => $registration->get_id()));
     }

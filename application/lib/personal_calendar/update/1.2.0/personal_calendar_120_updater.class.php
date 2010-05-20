@@ -14,14 +14,19 @@ class PersonalCalendar120Updater extends Updater
     /**
      * Constructor
      */
-    function PersonalCalendar120Updater()
+    function PersonalCalendar120Updater($application)
     {
-        parent :: __construct(PersonalCalendarDataManager :: get_instance());
+        parent :: __construct($application, PersonalCalendarDataManager :: get_instance());
     }
-
+    
+    function get_install_path()
+    {
+        return dirname(__FILE__) . '/../../install/';
+    }
+    
     function get_path()
     {
-        return dirname(__FILE__);
+    	return dirname(__FILE__) . '/';
     }
 }
 ?>

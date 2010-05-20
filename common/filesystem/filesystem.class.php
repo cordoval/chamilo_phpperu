@@ -215,7 +215,7 @@ class Filesystem
         //Change encoding
         $safe_name = mb_convert_encoding($desired_name, "ISO-8859-1", "UTF-8");
         //Replace .php by .phps
-        $safe_name = eregi_replace("\.(php.?|phtml)$", ".phps", $safe_name);
+        //$safe_name = eregi_replace("\.(php.?|phtml)$", ".phps", $safe_name);
         //If first letter is . add something before
         $safe_name = eregi_replace("^\.", "0.", $safe_name);
         //Replace accented characters

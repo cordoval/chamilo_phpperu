@@ -43,17 +43,17 @@ class PackageUpdaterApplicationType extends PackageUpdaterType
 	            $this->update_successful('initilization');
 	        }
 	        
-//	        $updater->set_message(array());
-//	        
-//	        if (! $updater->post_process())
-//	        {
-//	            return $this->get_parent()->update_failed('processing', Translation :: get('ApplicationPostProcessingFailed'));
-//	        }
-//	        else
-//	        {
-//	            $this->add_message($updater->retrieve_message());
-//	            $this->update_successful('processing');
-//	        }
+	        $updater->set_message(array());
+	        
+	        if (! $updater->post_process())
+	        {
+	            return $this->get_parent()->update_failed('processing', Translation :: get('ApplicationPostProcessingFailed'));
+	        }
+	        else
+	        {
+	            $this->add_message($updater->retrieve_message());
+	            $this->update_successful('processing');
+	        }
 //	        
 //	        if (! $this->set_version())
 //	        {
