@@ -469,7 +469,7 @@ EOT;
         {
             foreach ($values['attachments'] as $aid)
             {
-                $aid = str_replace('lo_', '', $aid['id']);
+                $aid = str_replace('lo_', '', $aid);
                 $object->attach_content_object($aid);
             }
         }
@@ -561,7 +561,7 @@ EOT;
             
             foreach ($values['attachments'] as $aid)
             {
-                $aid = str_replace('lo_', '', $aid['id']);
+                $aid = str_replace('lo_', '', $aid);
                 $object->attach_content_object($aid);
             }
         }
