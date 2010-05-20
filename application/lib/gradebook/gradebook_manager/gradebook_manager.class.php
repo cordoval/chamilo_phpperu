@@ -18,7 +18,7 @@ class GradebookManager extends WebApplication
 	/*
 	 * Gradebook administration actions
 	 */
-	const ACTION_VIEW_HOME = 'home';
+	const ACTION_BROWSE_GRADEBOOK = 'browse_gradebook';
 	const ACTION_ADMIN_BROWSE_EVALUATION_FORMATS = 'admin_browse_evaluation_formats';
 	const ACTION_EDIT_EVALUATION_FORMAT = 'edit_evaluation_format';
 	const ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY = 'change_evaluation_format_active_property';
@@ -69,7 +69,7 @@ class GradebookManager extends WebApplication
 			case self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION :
 				$component = $this->create_component('ViewEvaluationsOnPublication');
 				break;		
-			case self :: ACTION_VIEW_HOME :
+			case self :: ACTION_BROWSE_GRADEBOOK :
 				$component = $this->create_component('GradebookBrowser');
 				break;
 			case self :: ACTION_EDIT_EXTERNAL_EVALUATION :
@@ -78,8 +78,11 @@ class GradebookManager extends WebApplication
 			case self :: ACTION_DELETE_EXTERNAL_EVALUATION :
 				$component = $this->create_component('DeleteExternalEvaluation');
 				break;
+			case self :: ACTION_CREATE_EXTERNAL_GRADE :
+				$component = $this->create_component('ExternalGradeEvaluationInput');
+				break;
 			default :
-				$this->set_action(self :: ACTION_VIEW_HOME);
+				$this->set_action(self :: ACTION_BROWSE_GRADEBOOK);
 				$component = $this->create_component('GradebookBrowser');
 				break;
 		}
