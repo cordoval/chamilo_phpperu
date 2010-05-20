@@ -4,7 +4,7 @@
  * @package application.portfolio.forms
  */
 require_once dirname(__FILE__) . '/../portfolio_publication.class.php';
-require_once dirname(__FILE__) . '/../portfolio_rights.class.php';
+require_once dirname(__FILE__) . '/../rights/portfolio_rights.class.php';
 
 /**
  * This class describes the form for a PortfolioPublication object.
@@ -41,7 +41,6 @@ class PortfolioPublicationForm extends FormValidator
             $this->build_creation_form($type);
         }
       
-        //$this->setDefaults();
     }
 
     function build_basic_form($type)
@@ -56,30 +55,9 @@ class PortfolioPublicationForm extends FormValidator
         $locale1['Error'] = Translation :: get('Error');
         $attributes1['locale'] = $locale1;
         $attributes1['exclude'] = array('user_' . $this->user->get_id());
-        //TODO: also exclude anonymous user
+        
         $attributes1['defaults'] = array();
- //       $pub1 = $this->portfolio_publication;
-        $udm1 = UserDataManager :: get_instance();
-        $gdm1 = GroupDataManager :: get_instance();
-        //TODO:SET CURRENT PERMISSION FOR LOCATION IN FORM
-//        foreach ($pub1->get_target_users() as $user_id) {
-//            $user = $udm1->retrieve_user($user_id);
-//            $default = array();
-//            $default['id'] = 'user_' . $user_id;
-//            $default['classes'] = 'type type_user';
-//            $default['title'] = $user->get_fullname();
-//            $default['description'] = $user->get_fullname();
-//            $attributes1['defaults'][] = $default;
-//        }
-//        foreach ($pub1->get_target_groups() as $group_id) {
-//            $group = $gdm1->retrieve_group($group_id);
-//            $default = array();
-//            $default['id'] = 'group_' . $group_id;
-//            $default['classes'] = 'type type_group';
-//            $default['title'] = $group->get_name();
-//            $default['description'] = $group->get_name();
-//            $attributes1['defaults'][] = $default;
-//        }
+
 
         $radioOptions = array();
         $i = 0;
@@ -113,7 +91,6 @@ class PortfolioPublicationForm extends FormValidator
 
         $this->add_inherit_set_option($rights_array, $inherit_default, $radioOptions, $attributes1, $defaultSelected);
 
-        // $this->add_forever_or_timewindow();
        
     }
 
@@ -128,15 +105,7 @@ class PortfolioPublicationForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
         $defaults = array();
-        
-//        if ($pub->get_from_date() == 0 && $pub->get_to_date() == 0)
-//        {
-//            $defaults['forever'] = 1;
-//        }
-//        else
-//        {
-//            $defaults['forever'] = 0;
-//        }
+
 
              if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
             {
@@ -198,12 +167,34 @@ class PortfolioPublicationForm extends FormValidator
                     if(isset($rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK]['option']))
                     {
                         $defaults[self::RIGHT_GIVE_FEEDBACK. '_option'] = $rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK]['option'];
+                        
+                        if($defaults[self::RIGHT_GIVE_FEEDBACK. '_option'] == PortfolioRights::RADIO_OPTION_GROUPS_USERS)
+                        {
+                            //TODO: set groups and users as defaults
+                            $groups_locations = $rights['group'];
+                            $users_locations = $rights['user'];
+                            
+                            $users_array= array();
+                            $udm = UserDataManager::get_instance();
+                            while($purl = $users_locations->next_result())
+                            {
+                                $id = $purl->get_user_id();
+                                $user = $udm1->retrieve_user($id);
+                                $users_array['id'] = 'user_'.$id;
+                                $users_array['classes'] = 'type type_user';
+                                $users_array['title'] = $user->get_fullname();
+                                $users_array['description'] = $user->get_fullname();
+                            }
+                            $defaults[self::RIGHT_GIVE_FEEDBACK. 'group'] = $users_array;
+                            
+                        }
+
                     }
                     else
                     {
                         $defaults[self::RIGHT_GIVE_FEEDBACK. '_option'] = PortfolioRights::RADIO_OPTION_INHERIT;
                     }
-                    //TODO: set users and groups when specific rights are set
+                    
                 }
             }
           
@@ -230,8 +221,7 @@ class PortfolioPublicationForm extends FormValidator
         }
 
         $defaults['inherit_set_option'] = $inherit_default ;
-
-        //$defaults['forever'] = 1;
+     
         parent :: setDefaults($defaults);
     }
 
@@ -239,18 +229,6 @@ class PortfolioPublicationForm extends FormValidator
     {
         $portfolio_publication = $this->portfolio_publication;
         $values = $this->exportValues();
-//        if ($values['forever'] == 1)
-//        {
-//            $from = $to = 0;
-//        }
-//        else
-//        {
-//            $from = Utilities :: time_from_datepicker($values['from_date']);
-//            $to = Utilities :: time_from_datepicker($values['to_date']);
-//        }
-//        $portfolio_publication->set_from_date($from);
-//        $portfolio_publication->set_to_date($to);
-//        $portfolio_publication->set_hidden($values[PortfolioPublication :: PROPERTY_HIDDEN]);
 
         if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
             {
@@ -262,15 +240,6 @@ class PortfolioPublicationForm extends FormValidator
                 $user_id = Request::get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID);
                 $location = PortfolioRights::get_portfolio_location($cid, $type, $user_id);
 
-            }
-
-            if(!isset($location) || $location == false)
-            {
-                //portfolio was created in the repository and then published so no location for the item in the portfolio tree yet
-                $rdm = RepositoryDataManager :: get_instance();
-                $item = $rdm->retrieve_complex_content_object_item($cid);
-                $parent_location = $item->get_parent();
-                PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, $type, $cid, $parent_location, $user_id, true, false);
             }
 
             return PortfolioRights::implement_update_rights($values, $location);
@@ -288,21 +257,20 @@ class PortfolioPublicationForm extends FormValidator
             $portfolio_publication = new PortfolioPublication();
             $portfolio_publication->set_content_object($object_id);
             $portfolio_publication->set_publisher($this->user->get_id());
-            //TODO CHANGE IF WE WANT TO ALLOW OTHER PEOPLE TO PUBLISH IN PORTFOLIO
-            if($owner_id != null)
+            
+            if($owner_id == null)
             {
-                $portfolio_publication->set_owner($owner_id);
+                //owner is  the same user as publisher
+               $owner_id =  $this->user->get_id();
             }
-            else
-            {
-                $portfolio_publication->set_owner($this->user->get_id());
-            }
+            
+            $portfolio_publication->set_owner($owner_id);
             $portfolio_publication->set_published(time());
             $success &= $portfolio_publication->create();
             if($success)
             {
                 $location = $portfolio_publication->get_location();
-                $info = $portfolio_publication->get_portfolio_info();
+                $info = PortfolioManager::get_portfolio_info($owner_id);
                 if($location)
                 {
                      $success &= PortfolioRights::implement_rights($values, $location);
@@ -318,12 +286,11 @@ class PortfolioPublicationForm extends FormValidator
                 else
                 {
                     $info = new PortfolioInformation();
-                    //TODO CHANGE IF WE WANT OTHERS TO BE ABLE TO PUBLISH IN PORTFOLIO
-                    $info->set_user_id($this->user->get_id());
+                    $info->set_user_id($owner_id);
                     $info->set_last_updated_date(time());
                     $info->set_last_updated_item_id($object_id);
                     $info->set_last_updated_item_type(PortfolioRights::TYPE_PORTFOLIO_FOLDER);
-                    $info->set_last_action(PortfolioInformation::ACTION_PORTFOLIO_ADDED);
+                    $info->set_last_action(PortfolioInformation::ACTION_FIRST_PORTFOLIO_CREATED);
                     $success &= $info->create();
                 }
             }
@@ -333,20 +300,7 @@ class PortfolioPublicationForm extends FormValidator
         return $success;
     }
 
-//    /**
-//     * Sets default values.
-//     * @param array $defaults Default values for this form's parameters.
-//     */
-//    function setDefaults($defaults = array ())
-//    {
-//        $portfolio_publication = $this->portfolio_publication;
-//
-//        //$defaults[PortfolioPublication :: PROPERTY_FROM_DATE] = $portfolio_publication->get_from_date();
-//        //$defaults[PortfolioPublication :: PROPERTY_TO_DATE] = $portfolio_publication->get_to_date();
-//        //$defaults[PortfolioPublication :: PROPERTY_HIDDEN] = $portfolio_publication->get_hidden();
-//
-//        parent :: setDefaults($defaults);
-//    }
+
 
     function add_inherit_set_option($rightsarray, $inherit_default, $radio_options, $attributes, $defaultSelected)
     {
@@ -389,7 +343,6 @@ class PortfolioPublicationForm extends FormValidator
                                     /* ]]> */
                                     </script>\n"
                         );
-
     }
 
 

@@ -2,10 +2,13 @@
 
 /**
  * class to handle the different rights in the portfolio application
+ * this is the class that uses the general rights for the platform. for the time being the portfolio application
+ * uses it's own classes and tables so changes/refactoring in the rights system will not influence the working of the portfolio
+ *
  *
  * @author nblocry
  */
-class PortfolioRights {
+class PortfolioRightsORIGINAL {
 
     const VIEW_RIGHT = '1';
     const EDIT_RIGHT = '2';
@@ -282,8 +285,8 @@ class PortfolioRights {
 
 
         $rdm = RightsDataManager::get_instance();
-        $condition = new EqualityCondition(Location::PROPERTY_ID, $location_id);
-        $success &= $rdm->delete(Location :: get_table_name(), $condition);
+        $condition = new EqualityCondition(PortfolioLocation::PROPERTY_ID, $location_id);
+        $success &= $rdm->delete(PortfolioLocation :: get_table_name(), $condition);
 
         return $success;
 
@@ -749,10 +752,10 @@ class PortfolioRights {
     static function get_portfolio_location($portfolio_identifier, $type, $user_id)
     {
         $conditions = array();
-        $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, PortfolioManager::APPLICATION_NAME);
-        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, self::PORTFOLIO_TREE_TYPE_NAME);
-        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $user_id);
-        $conditions[] = new EqualityCondition(Location :: PROPERTY_IDENTIFIER, $portfolio_identifier);
+        $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_APPLICATION, PortfolioManager::APPLICATION_NAME);
+        $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TREE_TYPE, self::PORTFOLIO_TREE_TYPE_NAME);
+        $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TREE_IDENTIFIER, $user_id);
+        $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_IDENTIFIER, $portfolio_identifier);
         if($type!=null)
         {
             if(is_array($type))
@@ -765,7 +768,7 @@ class PortfolioRights {
             }
             foreach ($types as $value)
             {
-                $typeconditions[] = new EqualityCondition(Location :: PROPERTY_TYPE, $value);
+                $typeconditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TYPE, $value);
             }
             if(count($typeconditions) > 1)
             {
@@ -820,6 +823,7 @@ class PortfolioRights {
             return $rights;
 
         }
+
 
 }
 ?>

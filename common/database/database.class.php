@@ -291,7 +291,7 @@ class Database
     }
 
     /**
-     *
+     * @return True if creation is successfull or false
      */
     function create($object, $auto_id = true)
     {
