@@ -39,11 +39,7 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
 				}
 	            
 	            $evaluation_format->set_active($active);
-	            if ($evaluation_format->update())
-	            {
-	                //Events :: trigger_event('update', 'evaluation_format', array('target_evaluation_format_id' => $evaluation_format->get_id(), 'action_evaluation_format_id' => $this->get_evaluation_format()->get_id()));
-	            }
-	            else
+	            if (!$evaluation_format->update())
 	            {
 	            	$failures++;
 	            }

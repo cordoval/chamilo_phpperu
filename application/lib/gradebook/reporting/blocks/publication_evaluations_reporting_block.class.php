@@ -42,8 +42,7 @@ class PublicationEvaluationsReportingBlock extends EvaluationsReportingBlock
 	        	$attributes = $application_manager->get_content_object_publication_attribute($publication_id);
 	        	$rdm = RepositoryDataManager :: get_instance();
 				$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
-	//			$gdm = GradebookDataManager :: get_instance();
-	//			$internal_items = $gdm->retrieve_internal_item_by_publication($application, $publication_id);
+				
 				if(!($content_object->get_type() == $application))
 				{
 					$tool = $content_object->get_type();

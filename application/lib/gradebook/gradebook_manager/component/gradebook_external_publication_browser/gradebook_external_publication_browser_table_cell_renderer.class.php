@@ -25,10 +25,6 @@ class GradebookExternalPublicationBrowserTableCellRenderer extends DefaultGradeb
 		{
 			return $this->get_modification_links($external_item);
 		}
-//		$application_manager = WebApplication :: factory($internal_item->get_application());
-//		$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
-//		$rdm = RepositoryDataManager :: get_instance();
-//		$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
 
 		return parent :: render_cell($column, $external_item);
 	}
