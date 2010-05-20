@@ -20,7 +20,8 @@ class HotspotQuestionDisplay extends ContentObjectDisplay
         
         $html[] = parent :: get_description();
         
-        $html[] = '<img class="hotspot_image_display" src="' . $image->get_url() . '" alt="' . $image->get_title() . '" title="' . $image->get_title() . '" />';
+        if(!is_null($image))
+        	$html[] = '<img class="hotspot_image_display" src="' . $image->get_url() . '" alt="' . $image->get_title() . '" title="' . $image->get_title() . '" />';
         $html[] = '';
         
         $html[] = '<table class="data_table">';
