@@ -78,6 +78,9 @@ class GradebookManager extends WebApplication
 			case self :: ACTION_DELETE_EXTERNAL_EVALUATION :
 				$component = $this->create_component('DeleteExternalEvaluation');
 				break;
+			case self :: ACTION_CREATE_EXTERNAL_GRADE :
+				$component = $this->create_component('ExternalGradeEvaluationInput');
+				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_HOME);
 				$component = $this->create_component('GradebookBrowser');
