@@ -345,9 +345,6 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 		return self::retrieve_portfolio_children($portfolio_id);
 	}
 
-	public function content_object_is_published($object_id) {
-	}
-
 
 }
 ?>
