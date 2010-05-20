@@ -212,11 +212,11 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 		return $this->retrieve_objects(PortfolioPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by);
 	}
 
-//    function content_object_is_published($object_id)
-//    {
-//        return $this->any_content_object_is_published(array($object_id));
-//    }
-//
+    function content_object_is_published($object_id)
+    {
+        return $this->any_content_object_is_published(array($object_id));
+    }
+
 	function any_content_object_is_published($object_ids)
 	{
 		$condition = new InCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_ids);
@@ -334,11 +334,11 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 		return $this->count_objects(PortfolioPublication :: get_table_name(), $condition);
 	}
 
-//    function delete_content_object_publications($object_id)
-//    {
-//        $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
-//         return $this->delete(PortfolioPublication :: get_table_name(), $condition);
-//    }
+    function delete_content_object_publications($object_id)
+    {
+        $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_CONTENT_OBJECT, $object_id);
+         return $this->delete(PortfolioPublication :: get_table_name(), $condition);
+    }
     
 	function delete_content_object_publication($publication_id)
 	{
@@ -348,21 +348,21 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
         //TODO: delete location & update info
 	}
 
-//    function update_content_object_publication_id($publication_attr)
-//    {
-//        $where = $this->escape_column_name(PortfolioPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
-//        $props = array();
-//        $props[$this->escape_column_name(PortfolioPublication :: PROPERTY_CONTENT_OBJECT)] = $publication_attr->get_publication_object_id();
-//        $this->get_connection()->loadModule('Extended');
-//        if ($this->get_connection()->extended->autoExecute($this->get_table_name('portfolio_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
-//        {
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
+    function update_content_object_publication_id($publication_attr)
+    {
+        $where = $this->escape_column_name(PortfolioPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
+        $props = array();
+        $props[$this->escape_column_name(PortfolioPublication :: PROPERTY_CONTENT_OBJECT)] = $publication_attr->get_publication_object_id();
+        $this->get_connection()->loadModule('Extended');
+        if ($this->get_connection()->extended->autoExecute($this->get_table_name('portfolio_publication'), $props, MDB2_AUTOQUERY_UPDATE, $where))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 	/**
      * returns the publisher of a portfolio item
@@ -383,7 +383,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 	public function retrieve_portfolio_item_owner($cid)
 	{
 		//TODO: maybe easier via the location?!
-	}
+	
         $parent = false;
         $item = true;
         while(!$parent && $item)
@@ -453,46 +453,18 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 		$rdm = RepositoryDataManager::get_instance();
 		$object_set = $rdm->retrieve_objects(ComplexContentObjectItem::get_table_name(), $condition);
 		return $object_set;
+        }
 
-
-
-
-    public function retrieve_portfolio_children($content_object_id)
-    {
-        $condition = new EqualityCondition(ComplexContentObjectItem::PROPERTY_PARENT, $content_object_id);
-        $rdm = RepositoryDataManager::get_instance();
-        $object_set = $rdm->retrieve_objects(ComplexContentObjectItem::get_table_name(), $condition);
-        return $object_set;
-        
-
-	}
 
     public function get_portfolio_children($portfolio_id)
     {
 		return self::retrieve_portfolio_children($portfolio_id);
-	}
-    public function content_object_is_published($object_id) 
-    {
-        if(true)
-            {
 
-        }
-    }
+     }
+  
 
-    public function delete_content_object_publications($object_id) 
-    {
-        if(true)
-            {
-            
-        }
-    }
-    public function update_content_object_publication_id($publication_attr)
-    {
-        if(true)
-            {
+ 
 
-        }
-    }
 
 
 
@@ -500,10 +472,7 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
    
 
 
-    
-
-
-//    
+       
 
 }
 ?>
