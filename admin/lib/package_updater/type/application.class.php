@@ -54,38 +54,27 @@ class PackageUpdaterApplicationType extends PackageUpdaterType
 	            $this->add_message($updater->retrieve_message());
 	            $this->update_successful('processing');
 	        }
-//	        
-//	        if (! $this->set_version())
-//	        {
-//	            $this->get_parent()->add_message(Translation :: get('ApplicationVersionNotSet'), PackageUpdater :: TYPE_WARNING);
-//	        }
-//	        else
-//	        {
-//	            $this->get_parent()->add_message(Translation :: get('ApplicationVersionSet'));
-//	        }
-//	        
-//	       
-//	        $source->cleanup();
 	        
+	        if (! $this->set_version())
+	        {
+	            $this->get_parent()->add_message(Translation :: get('ApplicationVersionNotSet'), PackageUpdater :: TYPE_WARNING);
+	        }
+	        else
+	        {
+	            $this->get_parent()->add_message(Translation :: get('ApplicationVersionSet'));
+	        }
 	        
+	       
+	        $source->cleanup();	        
         }
         return true;
     }
 
     function set_version()
-    {
-        
+    {  
         $source = $this->get_source();
         $attributes = $source->get_attributes();
-        $application_name = $attributes->get_code();
-        
-        $conditions = array();
-        $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $application_name);
-        $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
-        $condition = new AndCondition($conditions);
-        
-        $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition, array(), 0, 1);
-        $registration = $registrations->next_result();
+        $registration = $this->get_parent()->get_registration();
         $registration->set_version($attributes->get_version());
         return $registration->update();
     }
