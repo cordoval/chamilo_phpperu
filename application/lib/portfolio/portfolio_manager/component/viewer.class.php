@@ -22,6 +22,8 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     private $pid;
     private $owner_user_id ;
     private $viewing_right = true;
+    private $feedback_giving_right = false;
+    private $feedback_viewing_right = false;
 
     const PROPERTY_PID = 'pid';
     const PROPERTY_CID = 'cid';
@@ -74,7 +76,9 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             $this->viewing_right =$viewing_right;
             $editing_right = $rights[PortfolioRights::EDIT_RIGHT];
             $feedback_viewing_right = $rights[PortfolioRights::VIEW_FEEDBACK_RIGHT];
+            $this->feedback_viewing_right = $feedback_viewing_right;
             $feedback_giving_right = $rights[PortfolioRights::GIVE_FEEDBACK_RIGHT];
+            $this->feedback_giving_right = $feedback_giving_right;
             $permission_setting_right = $rights[PortfolioRights::SET_PERMISSIONS_RIGHT];
         
         $actions = array();
@@ -262,11 +266,24 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
     function display_feedback_page()
     {
-        $this->set_parameter('action', Request :: get('action'));
-        $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
-        $html = array();
-        $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
-        $html[] = $fbm->as_html();
+//        $this->set_parameter('action', Request :: get('action'));
+        if($this->feedback_viewing_right)
+        {
+            $this->set_parameter(FeedbackManager::PARAM_ACTION,  FeedbackManager::ACTION_BROWSE_FEEDBACK);
+            $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
+            $html = array();
+            $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
+            $html[] = $fbm->as_html();
+        }
+         if($this->feedback_giving_right)
+        {
+            $this->set_parameter(FeedbackManager::PARAM_ACTION,  FeedbackManager::ACTION_CREATE_FEEDBACK);
+            $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
+            $html = array();
+            $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
+            $html[] = $fbm->as_html();
+        }
+        
         
         return implode("\n", $html);
     }
