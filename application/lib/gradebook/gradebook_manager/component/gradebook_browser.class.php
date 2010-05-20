@@ -16,7 +16,6 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	private $type;
 	private $applications;
 	private $application;
-	private $category;
 	
 	private $table;
 
@@ -177,9 +176,16 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '<div id="external"/>';
         $html[] = $this->get_external_application_tabs();
 		$this->table = new GradebookExternalPublicationBrowserTable($this, $this->get_parameters());
-		if($this->application && ($this->application == 'weblcms' || $this->application == 'general'))
+		if(Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE) ==  'external')
 		{	
-			$html[] = $this->action_bar->as_html();
+			if(Request :: get(GradebookManager :: PARAM_PUBLICATION_APP) == 'weblcms')
+			{
+				$view_table = Request :: get($this->data_provider->get_id_param());
+			}
+			if ($view_table || Request :: get(GradebookManager :: PARAM_PUBLICATION_APP) == 'general')
+			{
+				$html[] = $this->action_bar->as_html();
+			}
 			$html[] = $this->show_filtered_publications('external');
 		}
         $html[] = '<div style="clear: both;"></div>';

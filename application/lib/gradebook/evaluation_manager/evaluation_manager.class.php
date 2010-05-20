@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/evaluation_manager_component.class.php';
 require_once dirname(__FILE__) . '/../gradebook_data_manager.class.php';
 
 class EvaluationManager extends SubManager
