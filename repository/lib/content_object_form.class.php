@@ -469,7 +469,7 @@ EOT;
         {
             foreach ($values['attachments'] as $aid)
             {
-                $aid = str_replace('lo_', '', $aid);
+                $aid = str_replace('lo_', '', $aid['id']);
                 $object->attach_content_object($aid);
             }
         }
@@ -495,7 +495,7 @@ EOT;
     {
         $object = $this->content_object;
         $values = $this->exportValues();
-
+        
         $object->set_title($values[ContentObject :: PROPERTY_TITLE]);
 
         $desc = $values[ContentObject :: PROPERTY_DESCRIPTION] ? $values[ContentObject :: PROPERTY_DESCRIPTION] : '';
@@ -558,9 +558,10 @@ EOT;
             {
                 $object->detach_content_object($o->get_id());
             }
+            
             foreach ($values['attachments'] as $aid)
             {
-                $aid = str_replace('lo_', '', $aid);
+                $aid = str_replace('lo_', '', $aid['id']);
                 $object->attach_content_object($aid);
             }
         }
