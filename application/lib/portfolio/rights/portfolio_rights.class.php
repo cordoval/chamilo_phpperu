@@ -647,27 +647,27 @@ class PortfolioRights {
                         //RESULT3: YES --> a check is done untill no inheriting parent is found then TO CHECK4
                         $parents_set = $location->get_parents();
                         $found = false;
-                        if($parents_set->size() > 0)
-                        {
+                       
 
-                            while($found = false && $location = $parents_set->next_result())
+                            while($found == false && $location = $parents_set->next_result())
                             {
-                                if(!$location->inherits())
+                                if($location->inherits())
                                 {
-                                   $found = true;
+                                   $found = false;
+                                }
+                                else
+                                {
+                                    $found = true;
                                 }
                              }
-                        }
+                        
 
                         //CHECK3b: IS LOCATION THE TREE's ROOT
                         if($location->get_parent() == 0)
                         {
                             //RESULT3b: YES: default rights apply
                             //TODO: IMPLEMENT THIS!!!!!!!!!!!!
-                            $view = true;
-                            $edit = true;
-                            $view_feedback=true;
-                            $give_feedback=true;
+                            //FOR THE MOMENT DEFAULT RIGHTS = RIGHTS ONLY FOR USER
                         }
 
 
@@ -774,7 +774,7 @@ class PortfolioRights {
 
                     }
 
-                }//end location check
+                }
                 else
                 {
                     //TODO error handling
@@ -1162,8 +1162,9 @@ class PortfolioRights {
             $location->set_tree_identifier($user_id);
             $location->set_locked(false);
             $location->set_parent(0);
-            $pdm = PortfolioDataManager::get_instance();
-            return $pdm->create_location($location);
+//            $pdm = PortfolioDataManager::get_instance();
+//            return $pdm->create_location($location);
+            return $location->create();
         }
 
 
