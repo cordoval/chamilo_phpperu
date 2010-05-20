@@ -23,6 +23,10 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 
     function initialize()
     {
+
+
+        $aliases = array();
+        $aliases[PortfolioPublication :: get_table_name()] = 'poon';
         parent :: initialize();
         $this->set_prefix('portfolio_');
     }
@@ -293,6 +297,16 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
         return $item->get_user_id();
     }
 
+
+    /**
+     * returns the owner of a portfolio item
+     * @param cid: id of the portfolio item (= complex content object item)
+     * @return: user_id of owner
+     */
+    public function retrieve_portfolio_item_owner($cid)
+    {
+        //TODO: maybe easier via the location?!
+
     /**
      * returns the publisher (owner) of a portfolio publication
      * @param pid: id of the portfolio publication
@@ -304,6 +318,38 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
         $item = $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition);
         return $item->get_publisher();
     }
+
+    /**
+     * returns the owner  of a portfolio publication
+     * @param pid: id of the portfolio publication
+     * @return: user_id of owner
+     */
+     function retrieve_portfolio_publication_owner($pid)
+    {
+        $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $pid);
+        $item = $this->retrieve_object(PortfolioPublication :: get_table_name(), $condition);
+        return $item->get_owner();
+    }
+
+
+
+
+    public function retrieve_portfolio_children($content_object_id)
+    {
+        $condition = new EqualityCondition(ComplexContentObjectItem::PROPERTY_PARENT, $content_object_id);
+        $rdm = RepositoryDataManager::get_instance();
+        $object_set = $rdm->retrieve_objects(ComplexContentObjectItem::get_table_name(), $condition);
+        return $object_set;
+        
+
+    }
+    
+    public function get_portfolio_children($portfolio_id) {
+        return self::retrieve_portfolio_children($portfolio_id);
+    }
+    public function content_object_is_published($object_id) {
+    }
+
 
 }
 ?>

@@ -56,18 +56,7 @@ class EvaluationForm extends FormValidator
     }
     
     function build_basic_form()
-    {
-        /*$attributes = array();
-        $locale = array();
-        $locale['Display'] = Translation :: get('SelectRecipients');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
-        $attributes['locale'] = $locale;
-        $attributes['exclude'] = array('user_' . $this->user->get_id());
-        $attributes['defaults'] = array();*/
-//	    $select->setSelected($this->evaluation->get_format_id());
-    	
+    {	
     	$values = $this->getSubmitValues();
     	$format = EvaluationManager :: retrieve_evaluation_format($values['format_id']);
     	if(!$format)
