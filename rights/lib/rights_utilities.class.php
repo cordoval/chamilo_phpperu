@@ -376,7 +376,7 @@ class RightsUtilities
         }
     }
 
-    function get_location_by_identifier($application, $type, $identifier, $tree_identifier = '0', $tree_type = 'root')
+    static function get_location_by_identifier($application, $type, $identifier, $tree_identifier = '0', $tree_type = 'root')
     {
         $rdm = RightsDataManager :: get_instance();
 

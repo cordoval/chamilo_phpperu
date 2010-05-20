@@ -277,6 +277,25 @@ abstract class Updater
         return $result;
     }
 
+	function parse_application_rights($file)
+    {
+        $doc = new DOMDocument();
+        
+        $doc->load($file);
+        $object = $doc->getElementsByTagname('application')->item(0);
+        
+        // Get events
+        $events = $doc->getElementsByTagname('right');
+        $rights = array();
+        
+        foreach ($events as $index => $event)
+        {
+            $rights[$event->getAttribute('name')] = array('identifier' => $event->getAttribute('identifier'), 'tree_identifier' => $event->getAttribute('tree_identifier'), 'type' => $event->getAttribute('type'), 'tree_type' => $event->getAttribute('tree_type'), 'update_type' => $event->getAttribute('update_type'), 'parent_identifier' => $event->getAttribute('parent_identifier'), 'parent_tree_identifier' => $event->getAttribute('parent_tree_identifier'), 'parent_type' => $event->getAttribute('parent_type'), 'parent_tree_type' => $event->getAttribute('parent_tree_type'));
+        }
+        
+        return $rights;
+    }
+    
     function parse_application_settings($file)
     {
         $doc = new DOMDocument();
@@ -320,6 +339,24 @@ abstract class Updater
         }
         
         return $reporting;
+    }
+
+    function parse_application_webservices($file)
+    {
+        $doc = new DOMDocument();
+        
+        $doc->load($file);
+        $object = $doc->getElementsByTagname('application')->item(0);
+        
+        // Get events
+        $events = $doc->getElementsByTagname('webservice');
+        $webservice = array();
+        
+        foreach ($events as $index => $event)
+        {
+            $webservice[$event->getAttribute('name')] = array('type' => $event->getAttribute('type'), 'category' => $event->getAttribute('category'));
+        }
+        return $webservice;
     }
 
     /**
@@ -380,13 +417,13 @@ abstract class Updater
         if (file_exists($reporting_file))
         {
             $xml = $this->parse_application_reporting($reporting_file);
-
+            
             foreach ($xml['block'] as $name => $parameters)
             {
                 $type = $parameters['type'];
                 if ($type == 1)
                 {
-                	$props = array();
+                    $props = array();
                     $props[ReportingBlockRegistration :: PROPERTY_APPLICATION] = $application;
                     $props[ReportingBlockRegistration :: PROPERTY_BLOCK] = $name;
                     if ($this->register_reporting_block($props))
@@ -432,7 +469,7 @@ abstract class Updater
                 }
                 else
                 {
-                	$conditions = array();
+                    $conditions = array();
                     $conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, $application);
                     $conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_TEMPLATE, $name);
                     $condition = new AndCondition($conditions);
@@ -453,85 +490,7 @@ abstract class Updater
      */
     function register_trackers()
     {
-        $application = $this->get_application();
-        
-        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
-        
-        $dir = $base_path . $application . '/trackers/tracker_tables/';
-        $files = array();
-        
-        if (is_dir($dir))
-        {
-            $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
-            
-            if (count($files) > 0)
-            {
-                foreach ($files as $file)
-                {
-                    if ((substr($file, - 3) == 'xml'))
-                    {
-                        $this->create_tracking_storage_unit($file);
-                    }
-                }
-            }
-        }
-        
-        $path = (WebApplication :: is_application($application) ? 'application/lib/' : '') . $application . '/trackers/';
-        
-        $trackers_file = $base_path . $application . '/trackers/trackers_' . $application . '.xml';
-        
-        if (file_exists($trackers_file))
-        {
-            $xml = $this->parse_application_events($trackers_file);
-            
-            if (isset($xml['events']))
-            {
-                $registered_trackers = array();
-                
-                foreach ($xml['events'] as $event_name => $event_properties)
-                {
-                    $the_event = Events :: create_event($event_properties['name'], $xml['name']);
-                    if (! $the_event)
-                    {
-                        $this->update_failed(Translation :: get('EventCreationFailed') . ': <em>' . $event_properties['name'] . '</em>');
-                    }
-                    
-                    foreach ($event_properties['trackers'] as $tracker_name => $tracker_properties)
-                    {
-                        if (! array_key_exists($tracker_properties['name'], $registered_trackers))
-                        {
-                            $the_tracker = $this->register_tracker($path, $tracker_properties['name'] . '_tracker');
-                            if (! $the_tracker)
-                            {
-                                $this->update_failed(Translation :: get('TrackerRegistrationFailed') . ': <em>' . $tracker_properties['name'] . '</em>');
-                            }
-                            $registered_trackers[$tracker_properties['name']] = $the_tracker;
-                        }
-                        
-                        $success = $this->register_tracker_to_event($registered_trackers[$tracker_properties['name']], $the_event);
-                        if ($success)
-                        {
-                            $this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegisteredToEvent') . ': <em>' . $event_properties['name'] . ' + ' . $tracker_properties['name'] . '</em>');
-                        }
-                        else
-                        {
-                            $this->update_failed(Translation :: get('TrackerRegistrationToEventFailed') . ': <em>' . $event_properties['name'] . '</em>');
-                        }
-                    }
-                }
-            }
-            elseif (count($files) > 0)
-            {
-                $warning_message = Translation :: get('UnlinkedTrackers') . ': <em>' . Translation :: get('Check') . ' ' . $path . '</em>';
-                $this->add_message(self :: TYPE_WARNING, $warning_message);
-            }
-        }
-        elseif (count($files) > 0)
-        {
-            $warning_message = Translation :: get('UnlinkedTrackers') . ': <em>' . Translation :: get('Check') . ' ' . $path . '</em>';
-            $this->add_message(self :: TYPE_WARNING, $warning_message);
-        }
-        
+        $this->add_message(self :: TYPE_WARNING, 'Implement when tracking is refactored');
         return true;
     }
 
@@ -624,116 +583,103 @@ abstract class Updater
     {
         $application = $this->get_application();
         
-        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
-        
-        $path = $base_path . '/' . $application . '/webservices/';
-        
-        $webservice_file = $path . 'webservice_' . $application . '.xml';
+        $webservice_file = $this->get_path() . 'webservices.xml';
         
         if (file_exists($webservice_file))
         {
-            $xml = $this->extract_xml_file($webservice_file); //contains a list of webservices for this application
-            $this->parse_webservices($xml, 0);
-        }
-        else
-        {
-            //$this->add_message(self :: TYPE_NORMAL, Translation :: get('NoWebservices') . '</em>');
-            return true;
-        }
-        return true;
-    
-    }
-
-    function parse_webservices($root, $parent)
-    {
-        if (array_key_exists('category', $root))
-            $categories = $root['category']; //contain categories
-        else
-            $categories = array();
-        
-        if (array_key_exists('webservice', $root))
-            $webservices = $root['webservice']; //contains webservices
-        else
-            $webservices = array();
-        
-        if (array_key_exists('name', $categories) && $categories['name'] != '') //category has a name
-        {
-            //register webservice_category
-            $webserviceCategory = new WebserviceCategory();
-            $webserviceCategory->set_name($categories['name']);
-            $webserviceCategory->set_parent($parent);
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation') . ' : <em>' . $categories['name'] . '</em>');
-            if (! $webserviceCategory->create())
+            $webservices = $this->parse_application_webservices($webservice_file); //contains a list of webservices for this application
+            foreach ($webservices as $name => $parameters)
             {
-                return $this->update_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>' . $categories['name'] . '</em>');
-            }
-            $catparent = $webserviceCategory->get_id();
-            $this->parse_webservices($categories, $catparent);
-        
-        }
-        else //category doesn't have a name,loop
-        {
-            if (is_array($categories))
-            {
-                foreach ($categories as $element)
+                $condition = new EqualityCondition(WebserviceCategory :: PROPERTY_NAME, $parameters['category']);
+                
+                $categories = WebserviceDataManager :: get_instance()->retrieve_webservice_categories($condition, null, 1);
+                $type = $parameters['type'];
+                if ($categories->size() == 0 && $type == 1)
                 {
-                    //register webservice_category
-                    $webserviceCategory = new WebserviceCategory();
-                    $webserviceCategory->set_name($element['name']);
-                    $webserviceCategory->set_parent($parent);
-                    $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation') . ' : <em>' . $element['name'] . '</em>');
-                    if (! $webserviceCategory->create())
+                    $webservice_category = new WebserviceCategory();
+                    $webservice_category->set_name($parameters['category']);
+                    $webservice_category->set_parent(0);
+                    $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation') . ' : <em>' . $parameters['category'] . '</em>');
+                    if (! $webservice_category->create())
                     {
-                        return $this->update_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>' . $element['name'] . '</em>');
+                        return $this->update_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>' . $parameters['category'] . '</em>');
                     }
-                    $catparent = $webserviceCategory->get_id();
-                    $this->parse_webservices($element, $catparent);
                 }
-            }
-        
-        }
-        
-        if (array_key_exists('name', $webservices) && $webservices['name'] != '') //webservice has a name
-        {
-            //register webservice
-            $webservice = new WebserviceRegistration();
-            $webservice->set_name($webservices['name']);
-            $webservice->set_description($webservices['description']);
-            $webservice->set_active(1);
-            $webservice->set_parent($parent);
-            $webservice->set_application('webservice');
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>' . $webservices['name'] . '</em>');
-            if (! $webservice->create())
-            {
-                return $this->update_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>' . $webservices['name'] . '</em>');
-            }
-            $this->parse_webservices($webservices, $parent);
-        
-        }
-        else //webservice doesn't have a name, loop
-        {
-            if (is_array($webservices))
-            {
-                foreach ($webservices as $element)
+                else
                 {
-                    //register webservice
+                    $webservice_category = $categories->next_result();
+                }
+                
+                if ($type == 1)
+                {
                     $webservice = new WebserviceRegistration();
-                    $webservice->set_name($element['name']);
-                    $webservice->set_description($element['description']);
+                    $webservice->set_name($name);
+                    $webservice->set_description($name);
                     $webservice->set_active(1);
-                    $webservice->set_parent($parent);
-                    $webservice->set_application('webservice');
-                    $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>' . $element['name'] . '</em>');
+                    $webservice->set_parent($webservice_category->get_id());
+                    $webservice->set_application($application);
+                    $this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>' . $name . '</em>');
                     if (! $webservice->create())
                     {
-                        return $this->update_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>' . $element['name'] . '</em>');
+                        return $this->update_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>' . $name . '</em>');
                     }
-                    $this->parse_webservices($element, $parent);
+                }
+                else
+                {
+                	$conditions[] = new EqualityCondition(WebserviceRegistration::PROPERTY_APPLICATION, $application);
+                	$conditions[] = new EqualityCondition(WebserviceRegistration::PROPERTY_NAME, $name);
+                	$condition = new AndCondition($conditions);
+                	
+                	if (! WebserviceDataManager::get_instance()->delete_webservices($condition))
+                	{
+                		return $this->update_failed(Translation :: get('DeleteWebserviceRegistrationFailed') . ' : <em>' . $name . '</em>');
+                	}
                 }
             }
-        
         }
+        return true;    
+    }
     
+    function register_location()
+    {
+    	$application = $this->get_application();
+        
+        $rights_file = $this->get_path() . 'rights_locations.xml';
+        
+        if (file_exists($rights_file))
+        {
+            $xml = $this->parse_application_rights($rights_file);
+            
+            foreach ($xml as $name => $parameters)
+            {
+                $type = $parameters['update_type'];
+                if ($type == 1)
+                {
+                	$location = new Location();
+                    $location->set_application($application);
+                    $location->set_location($name);
+                    $location->set_identifier($parameters['identifier']);
+                    $location->set_tree_identifier($parameters['tree_identifier']);
+                    $location->set_type($parameters['type']);
+                    $location->set_tree_type($parameters['tree_type']);
+                    
+                    $parent = RightsUtilities::get_location_by_identifier($application, $parameters['parent_type'], $parameters['parent_identifier'], $parameters['parent_tree_identifier'], $parameters['parent_tree_type']);
+				 	$location->set_parent($parent->get_id()); 
+
+                   	if (! $location->create())
+                    {
+                        $message = Translation :: get('ApplicationConfigurationFailed');
+                        $this->update_failed($message);
+                    }
+                }
+                else
+                {                  
+                    $location = RightsUtilities::get_location_by_identifier($application, $parameters['type'], $parameters['identifier'], $parameters['tree_identifier'], $parameters['tree_type']);
+                    $location->delete();
+                }
+            }
+        }
+        return true;
     }
 
     function post_process()
@@ -742,7 +688,7 @@ abstract class Updater
         
         // Parse the Locations XML of the application
         $this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">' . Translation :: get('Rights') . '</span>');
-        if (! RightsUtilities :: create_application_root_location($application))
+        if (! $this->register_location())
         {
             return $this->update_failed(Translation :: get('LocationsFailed'));
         }

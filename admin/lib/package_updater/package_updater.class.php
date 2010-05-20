@@ -44,6 +44,12 @@ class PackageUpdater
     	return $this->registration->update();
     }
     
+	function activate_package()
+    {
+    	$this->registration->activate();
+    	return $this->registration->update();
+    }
+    
     function backup_package()
     {
     	$this->add_message(Translation :: get('!!!!!!!!!!ToBeImplemented !!!!!!!'), self :: TYPE_WARNING);
@@ -161,10 +167,20 @@ class PackageUpdater
             else
             {
                 $this->update_successful('settings', Translation :: get('ApplicationSettingsDone'));
-                return $this->update_successful('finished', Translation :: get('PackageCompletelyUpdated'));
+                
             }
         }
         
+    	if ($this->activate_package())
+		{
+			$this->add_message(Translation :: get('PackageActivated'), self :: TYPE_CONFIRM);
+			$this->process_result('Status');
+			return $this->update_successful('finished', Translation :: get('PackageCompletelyUpdated'));
+		}
+		else
+		{
+			return $this->update_failed('status', Translation :: get('PackageActivationFailed'));
+		}
         
     }
     
