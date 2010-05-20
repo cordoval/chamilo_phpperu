@@ -643,7 +643,7 @@ class PortfolioRights {
                     }
                     //CHECK3: LOCATION INHERITS
                     if($location->inherits())
-                    {//maybe problem here
+                    {
                         //RESULT3: YES --> a check is done untill no inheriting parent is found then TO CHECK4
                         $parents_set = $location->get_parents();
                         $found = false;
@@ -658,7 +658,20 @@ class PortfolioRights {
                                 }
                              }
                         }
-                    }//maybe problem here
+
+                        //CHECK3b: IS LOCATION THE TREE's ROOT
+                        if($location->get_parent() == 0)
+                        {
+                            //RESULT3b: YES: default rights apply
+                            //TODO: IMPLEMENT THIS!!!!!!!!!!!!
+                            $view = true;
+                            $edit = true;
+                            $view_feedback=true;
+                            $give_feedback=true;
+                        }
+
+
+                    }
                     //CHECK4: ARE THERE ANY RIGHTS DEFINED FOR THIS LOCATION FOR ANYBODY
                     $rights = self::get_rights_on_location($location->get_id());
                     $group_rights_set = $rights[self::GROUP_RIGHTS];
@@ -673,6 +686,7 @@ class PortfolioRights {
                         $user_editing_rights = array();
                         $user_feedback_giving_rights = array();
                         $user_feedback_viewing_rights = array();
+
 
                         //5a:check if this user has been given a specific right individually
                         while ($right = $user_rights_set->next_result())
@@ -701,14 +715,13 @@ class PortfolioRights {
                                 }
                             }
 
-                          }//
-
-                       
+                          }
+                      
 
                         //5b: check if any of the groups a user belongs to has been given a specific right
                         if($view && ($edit || in_array(self::TYPE_PORTFOLIO_FOLDER, $types)) && $view_feedback && $give_feedback )
                         {
-                           //user has already all rights so does not need to be checked again
+                           //user has already all rights so group rights do not need to be checked
                         }
                         else if($group_rights_set->size() > 0)
                         {
@@ -749,15 +762,15 @@ class PortfolioRights {
                                  }
                             }
                         }
-                        //5bend
+                        
                     }
                     else
                     {
-                        //RESULT4: NO --> there were no rights defined for this location: every user (logged in) has the viewing & feedback rights
-                        $view = true;
-                        $edit = false; //editing right can only be given to specific groups or users, not to everybody. if no rights are defined, nobody has the rights
-                        $view_feedback=true;
-                        $give_feedback=true;
+                        //RESULT4: NO --> there were no rights defined for this location: only the owner has any rights
+                        $view = false;
+                        $edit = false; 
+                        $view_feedback=false;
+                        $give_feedback=false;
 
                     }
 
@@ -767,7 +780,7 @@ class PortfolioRights {
                     //TODO error handling
                     echo 'no object';
                 }
-            }//END CHECK 1
+            }
 
             $rights_array[self::VIEW_RIGHT] = $view;
             $rights_array[self::EDIT_RIGHT] = $edit;
