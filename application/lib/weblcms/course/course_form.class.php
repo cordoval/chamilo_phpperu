@@ -272,7 +272,7 @@ class CourseForm extends CommonForm
 	        $this->addGroup($choices, 'choices', Translation :: get('MaximumNumberOfMembers'), '<br />', false);
 	        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . self :: UNLIMITED_MEMBERS . '_window">');
 	        $this->add_textfield(CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS, null, false);
-	        $this->registerRule('max_members', null, 'HTML_QuickForm_Rule_Max_Members', dirname(__FILE__) .'/../course_type/max_members.rule.class.php');
+	        $this->registerRule('max_members', null, 'HTML_QuickForm_Rule_Max_Members', dirname(__FILE__) .'/../course_type/max_members_rule.class.php');
         	$this->addRule(Array('choices',CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS), Translation :: get('IncorrectNumber'), 'max_members');
 	        $this->addElement('html', '</div>');
 		}
