@@ -1,11 +1,11 @@
 <?php
 /**
- * $Id: matching_question_result_display.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * $Id: assessment_matching_question_result_display.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component.result_viewer.question_result_display
  */
 require_once dirname(__FILE__) . '/../question_result_display.class.php';
 
-class MatchingQuestionResultDisplay extends QuestionResultDisplay
+class AssessmentMatchingQuestionResultDisplay extends QuestionResultDisplay
 {
 
     function display_question_result()
@@ -19,7 +19,7 @@ class MatchingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-        
+
         $label = 'A';
         $matches = $this->get_question()->get_matches();
         foreach ($matches as $i => $match)
@@ -30,10 +30,10 @@ class MatchingQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '</tr>';
             $label ++;
         }
-        
+
         $html[] = '</tbody>';
         $html[] = '</table>';
-        
+
         $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
@@ -43,9 +43,9 @@ class MatchingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-        
+
         $answers = $this->get_answers();
-        
+
         $options = $this->get_question()->get_options();
         foreach ($options as $i => $option)
         {
@@ -55,10 +55,10 @@ class MatchingQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '<td>' . $option->get_value() . '</td>';
             $html[] = '</tr>';
         }
-        
+
         $html[] = '</tbody>';
         $html[] = '</table>';
-        
+
         return implode("\n", $html);
     }
 }
